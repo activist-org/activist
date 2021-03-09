@@ -1,3 +1,7 @@
+# OS files
+##########
+.DS_Store
+
 # Display files
 ###############
 *_preview.png
