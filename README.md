@@ -11,13 +11,9 @@
 
 **activist.org** is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter to them most. It serves as a hub for posting and finding activities related to countless social causes, and seeks to eventually provide tools and resources to enact change as efficiently and effectively as possible.
 
-activist does not have a political orientation, has no motivations in and of itself, and further is not affiliated with any corporation, political party, government or non-government organization. Its purpose is to empower people to make a difference in the world for the benefit of themselves and others. Activities on activist are limited only in that those that explicitly attack the social or economic rights of a person are not allowed. What this means is:
+activist does not have a political orientation, has no motivations in and of itself, and further is not directly affiliated with any corporations, political parties, governments or non-government organizations. Its purpose is to empower people to make a difference in the world for the benefit of themselves and others.
 
-### Socially
-
-### Economically
-
-Put simply, activist is not externality blind. Economic agendas on activist cannot disregard the negative effects that they could lead to. activist is not against capitalism, materialism or consumerism, but does not allow for activities that support these concepts while at the same time denying their inherent externalities.
+activist is intersectionally inclusive and not blind to economic externalities. These two concepts are the guiding principles of what is and is not allowed, with their interpretation falling to and growing with the community itself.
 
 # **Contents**<a id="contents"></a>
  <!-- no toc -->
