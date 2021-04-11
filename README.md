@@ -9,11 +9,11 @@
 
 ### Open source, nonprofit activist network
 
-**activist.org** is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter to them most. It serves as a hub for posting and finding activities related to socioeconomic causes, and seeks to eventually provide tools and resources to enact change as efficiently and effectively as possible.
+[**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. It serves as a hub for posting and finding activities related to socioeconomic causes, and has the overarching goal of facilitating change as efficiently and effectively as possible.
 
-activist has no motivations in and of itself, and further is not directly affiliated with any corporations, political parties, governments or non-government organizations. Its purpose is to empower people to make a difference in the world for the benefit of themselves and others.
+activist is intersectionally inclusive and not blind to economic externalities - what happens on activist must account for the social and economic effects on others. These two concepts are the guiding principles of what is and is not allowed, with their interpretation falling to and growing with the community itself.
 
-activist is intersectionally inclusive and not blind to economic externalities. These two concepts are the guiding principles of what is and is not allowed, with their interpretation falling to and growing with the community itself.
+Welcome!
 
 # **Contents**<a id="contents"></a>
  <!-- no toc -->
@@ -38,3 +38,7 @@ activist is intersectionally inclusive and not blind to economic externalities. 
 Please see the [contribution guidelines](https://github.com/andrewtavis/activist/blob/main/.github/CONTRIBUTING.md) if you are interested in contributing to this project. Work that is in progress or could be implemented includes:
 
 -
+
+# Disclosure
+
+activist is not directly affiliated with any corporations, political parties, governments or non-government organizations.
