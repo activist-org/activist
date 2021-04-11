@@ -11,7 +11,7 @@
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. It serves as a hub for posting and finding activities related to socioeconomic causes, and has the overarching goal of facilitating change as efficiently and effectively as possible.
 
-activist is intersectionally inclusive and not blind to economic externalities - activities on activist must account for the social and economic effects on others. These two concepts are the guiding principles of what is and is not allowed, with their interpretation falling to and growing with the community itself.
+activist is intersectionally inclusive and not blind to economic externalities - activities on activist must account for their social and economic effects. These two concepts are the guiding principles of what is and is not allowed, with their interpretation falling to and growing with the community itself.
 
 Welcome!
 
