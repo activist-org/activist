@@ -37,6 +37,6 @@ Please see the [contribution guidelines](https://github.com/andrewtavis/activist
 
 # Disclosure
 
-activist is intersectionally inclusive and not blind to economic externalities - activities on activist must account for their social and economic effects. These two concepts are the guiding principles of what is and is not allowed, with their interpretation falling to and growing with the community itself.
+activist is intersectionally inclusive and not blind to economic externalities - activities on activist must be willing to account for their social and economic effects. These two concepts are the guiding principles of what is and is not allowed, with their interpretation falling to and growing with the community itself.
 
 activist is not directly affiliated with any corporations, political parties, governments or non-government organizations.
