@@ -18,10 +18,10 @@
 - [To-Do](#to-do)
 
 # Built With
-- Rust
-- Actix
-- Diesel
-- Templates
+- [Rust](https://www.rust-lang.org/)
+- [Actix](https://actix.rs/)
+- [Diesel](https://diesel.rs/)
+- [Askama Templates](https://github.com/djc/askama)
 
 # Overview [`↩`](#contents) <a id="overview"></a>
 
