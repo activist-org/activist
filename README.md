@@ -71,7 +71,7 @@ activist includes a broad selection of activism focuses that are further granula
 
 ### Levels of Action
 
-Levels of action are defined by the activist spectrum: cooler colors for learning about issues and organization; warmer colors for direct action to make a difference. The spectrum is circular in nature, meaning lessons learned from protests and volunteering should educate new activists and reeducate those already active.
+Levels of action are defined and represented by the activist spectrum: cooler colors for learning about issues and organization; warmer colors for direct action to make a difference. The spectrum is circular in nature, meaning lessons learned from protests and volunteering should educate new activists and reeducate those already active.
 
 # Features [`↩`](#contents) <a id="features"></a>
 
