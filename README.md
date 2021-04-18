@@ -25,9 +25,41 @@
 
 # Overview [`↩`](#contents) <a id="overview"></a>
 
+activist uses coloration and universal icons to make finding activities of a certain focus and level of action as intuitive as possible.
+
+### Activism Focuses
+
+activist includes a broad selection of activism focuses that are further granulated by tags. The current activism focuses are:
+
+- Environment
+- Animal Rights
+- Racial Justice
+- Women's Rights
+- LGBTQIA+
+- Family
+- Education
+- Democracy
+- Institutional Accountability
+- Worker's Rights
+- Refugees and Migration
+- Housing and Community
+- Health
+- Digital Rights
+- Ideas and Beliefs
+- Accessibility
+- Emergency Relief
+- Nutrition
+- Press Freedom
+- Peace
+- Drug Legalization
+
+### Levels of Action
+
+Levels of action are defined by the activist spectrum: cooler colors for learning about issues and organization; warmer colors for direct action to make a difference. The activist spectrum is circular in nature, meaning lessons learned from protests and volunteering should educate new activists and reeducate those already active.
 
 # Features [`↩`](#contents) <a id="features"></a>
 
+Activities can be displayed in list, calendar, and map views. They further can be filtered by focus, tags, level, date, and location. Future filters at greater scale will include friend involvement and affiliated organizations.
 
 # To-Do [`↩`](#contents) <a id="to-do"></a>
 
