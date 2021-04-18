@@ -41,7 +41,7 @@
 
 # Overview [`↩`](#contents) <a id="overview"></a>
 
-activist uses coloration and universal icons to make finding activities of a certain focus and level of action as intuitive as possible.
+activist uses universal icons and coloration to make finding activities of a certain focus and level of action as intuitive as possible.
 
 ### Activism Focuses
 
