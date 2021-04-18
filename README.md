@@ -17,11 +17,26 @@
 - [Features](#features)
 - [To-Do](#to-do)
 
-# Built With
+# Tech Stack
+
+<details><summary><strong>Back End</strong></summary>
+<p>
+
 - [Rust](https://www.rust-lang.org/)
 - [Actix](https://actix.rs/)
 - [Diesel](https://diesel.rs/)
 - [Askama Templates](https://github.com/djc/askama)
+
+</p>
+</details>
+
+<details><summary><strong>Analytics</strong></summary>
+<p>
+
+- [motomo](https://matomo.org/)
+
+</p>
+</details>
 
 # Overview [`↩`](#contents) <a id="overview"></a>
 
