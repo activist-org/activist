@@ -26,7 +26,15 @@
 - [Rust](https://www.rust-lang.org/)
 - [Actix](https://actix.rs/)
 - [Diesel](https://diesel.rs/)
-- [Askama Templates](https://github.com/djc/askama)
+
+</p>
+</details>
+
+<details><summary><strong>Front End</strong></summary>
+<p>
+
+- [Inferno](https://infernojs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
 
 </p>
 </details>
