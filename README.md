@@ -35,7 +35,7 @@
 
 - [Askama Templates](https://github.com/djc/askama)
 - [WASM](https://webassembly.org/)
-- [Scss](https://sass-lang.com/)
+- [SCSS](https://sass-lang.com/)
 
 </p>
 </details>
