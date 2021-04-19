@@ -33,8 +33,9 @@
 <details><summary><strong>Front End</strong></summary>
 <p>
 
-- [Inferno](https://infernojs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
+- [Askama Templates](https://github.com/djc/askama)
+- [WASM](https://webassembly.org/)
+- [Scss](https://sass-lang.com/)
 
 </p>
 </details>
