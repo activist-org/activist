@@ -43,7 +43,8 @@
 <details><summary><strong>Analytics</strong></summary>
 <p>
 
-- [motomo](https://matomo.org/)
+- [Matomo](https://matomo.org/)
+- [Python](https://www.python.org/)
 
 </p>
 </details>
