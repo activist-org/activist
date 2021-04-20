@@ -85,13 +85,14 @@ activist includes a broad selection of focuses that are further granulated by ta
 
 Levels of action are defined and represented by the activist spectrum: cooler colors are for learning about issues; and warmer colors are for direct action to make a difference. The spectrum is circular in nature, meaning lessons learned from protests and volunteering should educate new activists and reeducate those already active.
 
-- Purple: Panel Discussions
-- Blue: Seminars
-- Green: Community Meetings
-- Yellow: Employment
-- Orange: Petitioning
-- Red: Protesting
 - Pink: Volunteering
+- Red: Protesting
+- Orange: Petitioning
+- Yellow: Employment
+- Green: Community Meetings
+- Blue: Seminars
+- Indigo: Panel Discussions
+- Purple: Other
 
 # Features [`↩`](#contents) <a id="features"></a>
 
