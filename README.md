@@ -83,7 +83,7 @@ activist includes a broad selection of focuses that are further granulated by ta
 
 ### Levels of Action
 
-Levels of action are defined and represented by the activist spectrum: cooler colors for learning about issues and organization; warmer colors for direct action to make a difference. The spectrum is circular in nature, meaning lessons learned from protests and volunteering should educate new activists and reeducate those already active.
+Levels of action are defined and represented by the activist spectrum: cooler colors are for learning about issues; and warmer colors are for direct action to make a difference. The spectrum is circular in nature, meaning lessons learned from protests and volunteering should educate new activists and reeducate those already active.
 
 - Purple: Panel Discussions
 - Blue: Seminars
@@ -95,7 +95,7 @@ Levels of action are defined and represented by the activist spectrum: cooler co
 
 # Features [`↩`](#contents) <a id="features"></a>
 
-Activities can be displayed in list, calendar, and map views. They further can be filtered by focus, tags, level, date, and location. Future filters at greater scale will include friend involvement and affiliated organizations.
+Activities can be displayed in list, calendar, and map views. They further can be filtered by focus, tags, level, date, and location. Future filters at greater scale will include friend involvement and affiliated organizations. Activities will also eventually be able to be related to one another, meaning one activity could be a sub, pre, or post activity for a main one.
 
 # To-Do [`↩`](#contents) <a id="to-do"></a>
 
