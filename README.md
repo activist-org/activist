@@ -2,7 +2,7 @@
   <a href="https://github.com/andrewtavis/activist"><img src="https://github.com/andrewtavis/activist/blob/main/resources/activist_logo.png" width=250 height=250></a>
 </div>
 
---------------------------------------
+---
 
 [![license](https://img.shields.io/github/license/andrewtavis/activist.svg)](https://github.com/andrewtavis/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
@@ -12,7 +12,9 @@
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. It serves as a hub for posting and finding activities related to socioeconomic causes, and has the overarching goal of facilitating change as efficiently and effectively as possible.
 
 # **Contents**<a id="contents"></a>
+
  <!-- no toc -->
+
 - [Tech Stack](#tech-stack)
 - [Overview](#overview)
 - [Features](#features)
@@ -33,9 +35,7 @@
 <details><summary><strong>Front End</strong></summary>
 <p>
 
-- [Askama Templates](https://github.com/djc/askama)
-- [WASM](https://webassembly.org/)
-- [SCSS](https://sass-lang.com/)
+- [Vue](https://vuejs.org/)
 
 </p>
 </details>
