@@ -7,13 +7,30 @@
 [![license](https://img.shields.io/github/license/andrewtavis/activist.svg)](https://github.com/andrewtavis/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
+<details><summary><strong>Select language</strong></summary>
+<p>
+
+- English
+- [العربية](https://github.com/andrewtavis/activist/blob/main/readmes/README.ar.md)
+- [Deutsch](https://github.com/andrewtavis/activist/blob/main/readmes/README.de.md)
+- [Español](https://github.com/andrewtavis/activist/blob/main/readmes/README.es.md)
+- [Français](https://github.com/andrewtavis/activist/blob/main/readmes/README.fr.md)
+- [हिन्दी भाषा](https://github.com/andrewtavis/activist/blob/main/readmes/README.hi.md)
+- [日本語](https://github.com/andrewtavis/activist/blob/main/readmes/README.ja.md)
+- [Português](https://github.com/andrewtavis/activist/blob/main/readmes/README.pt.md)
+- [Русский](https://github.com/andrewtavis/activist/blob/main/readmes/README.ru.md)
+- [Türkçe](https://github.com/andrewtavis/activist/blob/main/readmes/README.tr.md)
+- [中文 (简体)](https://github.com/andrewtavis/activist/blob/main/readmes/README.zh-cn.md)
+- [中文 (繁體)](https://github.com/andrewtavis/activist/blob/main/readmes/README.zh-tw.md)
+
+</p>
+</details>
+
 ### Open source, nonprofit activist network
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. It serves as a hub for posting and finding activities related to socioeconomic causes, and has the overarching goal of facilitating change as efficiently and effectively as possible.
 
 # **Contents**<a id="contents"></a>
-
- <!-- no toc -->
 
 - [Tech Stack](#tech-stack)
 - [Overview](#overview)
