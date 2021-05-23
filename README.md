@@ -68,11 +68,9 @@
 
 # Overview [`↩`](#contents) <a id="overview"></a>
 
-activist uses universal icons and coloration to make finding activities of a certain focus and level of action as intuitive as possible.
+### Focuses
 
-### Activism Focuses
-
-activist includes a broad selection of focuses that are further granulated by tags. The current activism focuses are:
+activist includes a broad selection of focuses that are further granulated by tags:
 
 - Environment
 - Animal Rights
@@ -90,7 +88,8 @@ activist includes a broad selection of focuses that are further granulated by ta
 - Health
 - Technology and Privacy
 - Accessibility and Inclusion
-- Trade and Development
+- Trade and Finance
+- Development and Infrastructure
 - Emergency Relief
 - Nutrition
 - Freedom of Expression
@@ -98,18 +97,15 @@ activist includes a broad selection of focuses that are further granulated by ta
 - Drug Legalization
 - Other
 
-### Levels of Action
+### Categories
 
-Levels of action are defined and represented by the activist spectrum: cooler colors are for learning about issues; and warmer colors are for direct action to make a difference. The spectrum is circular in nature, meaning lessons learned from protests and volunteering should educate new activists and reeducate those already active.
+Activism categories define the kind of involvement for an activity, with each being a necessary component to progress within a given focus:
 
-- Pink: Volunteering
-- Red: Protesting
-- Orange: Petitioning
-- Yellow: Employment
-- Green: Community Meetings
-- Blue: Seminars
-- Indigo: Panel Discussions
-- Purple: Other
+- Learning
+- Engagement
+- Advocacy
+
+Coloration is used to easily delineate the category of a particular activity.
 
 # Features [`↩`](#contents) <a id="features"></a>
 
