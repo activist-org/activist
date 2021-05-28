@@ -9,3 +9,7 @@
 # Display files
 ###############
 *_preview.png
+
+# Local Build Files
+###################
+target
