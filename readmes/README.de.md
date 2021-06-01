@@ -7,7 +7,7 @@
 [![license](https://img.shields.io/github/license/andrewtavis/activist.svg)](https://github.com/andrewtavis/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
-<details><summary><strong>Select language</strong></summary>
+<details><summary><strong>Sprache auswählen</strong></summary>
 <p>
 
 - [English](https://github.com/andrewtavis/activist/blob/main/README.md)
