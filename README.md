@@ -81,6 +81,7 @@ activist includes a broad selection of focuses that are further granulated by ta
 - Elder Rights
 - Education
 - Democracy
+- Native Rights
 - Institutional Accountability
 - Worker's Rights
 - Refugees and Migration
