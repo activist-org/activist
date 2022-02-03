@@ -4,7 +4,7 @@
 
 ---
 
-[![platforms](https://img.shields.io/badge/platforms-web-999999.svg)](https://github.com/activist-org/activist)
+[![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
 ### Open-source, nonprofit activist network
@@ -16,7 +16,7 @@
 - [Tech Stack](#tech-stack)
 - [Overview](#overview)
 - [Features](#features)
-- [To-Do](#to-do)
+- [Contributing](#contributing)
 
 # Tech Stack [`↩`](#contents) <a id="tech-stack"></a>
 
@@ -93,7 +93,7 @@ Coloration is used to easily delineate the category of a particular activity.
 
 Activities can be displayed in list, calendar, and map views. They further can be filtered by focus, tags, level, date, and location. Future filters at greater scale will include friend involvement and affiliated organizations. Activities will also eventually be able to be related to one another, meaning one activity could be a sub, pre, or post activity for a main one.
 
-# To-Do [`↩`](#contents) <a id="to-do"></a>
+# Contributing [`↩`](#contents) <a id="contributing"></a>
 
 Please see the [contribution guidelines](https://github.com/andrewtavis/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to this project.
 
