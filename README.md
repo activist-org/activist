@@ -1,32 +1,20 @@
 <div align="center">
-  <a href="https://github.com/andrewtavis/activist"><img src="https://github.com/andrewtavis/activist/blob/main/resources/activist_logo.png" width=250 height=250></a>
+  <a href="https://github.com/activist-org/activist"><img src="https://github.com/activist-org/activist/blob/main/resources/activist_logo.png" width=250 height=250></a>
 </div>
 
 ---
 
-[![license](https://img.shields.io/github/license/andrewtavis/activist.svg)](https://github.com/andrewtavis/activist/blob/main/LICENSE.txt)
+<!---
+[![ci](https://img.shields.io/github/workflow/status/activist-org/activist/CI?logo=github)](https://github.com/activist-org/activist/actions?query=workflow%3ACI)
+--->
+
+[![platforms](https://img.shields.io/badge/platforms-web-999999.svg)](https://github.com/activist-org/activist)
+
+<!-- [![license](https://img.shields.io/github/license/andrewtavis/activist.svg)](https://github.com/andrewtavis/activist/blob/main/LICENSE.txt) -->
+
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
-<details><summary><strong>Select language</strong></summary>
-<p>
-
-- English
-- [العربية](https://github.com/andrewtavis/activist/blob/main/readmes/README.ar.md)
-- [Deutsch](https://github.com/andrewtavis/activist/blob/main/readmes/README.de.md)
-- [Español](https://github.com/andrewtavis/activist/blob/main/readmes/README.es.md)
-- [Français](https://github.com/andrewtavis/activist/blob/main/readmes/README.fr.md)
-- [हिन्दी भाषा](https://github.com/andrewtavis/activist/blob/main/readmes/README.hi.md)
-- [日本語](https://github.com/andrewtavis/activist/blob/main/readmes/README.ja.md)
-- [Português](https://github.com/andrewtavis/activist/blob/main/readmes/README.pt.md)
-- [Русский](https://github.com/andrewtavis/activist/blob/main/readmes/README.ru.md)
-- [Türkçe](https://github.com/andrewtavis/activist/blob/main/readmes/README.tr.md)
-- [中文 (简体)](https://github.com/andrewtavis/activist/blob/main/readmes/README.zh-cn.md)
-- [中文 (繁體)](https://github.com/andrewtavis/activist/blob/main/readmes/README.zh-tw.md)
-
-</p>
-</details>
-
-### Open source, nonprofit activist network
+### Open-source, nonprofit activist network
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. It serves as a hub for posting and finding activities related to socioeconomic causes, and has the overarching goal of facilitating change as efficiently and effectively as possible.
 
@@ -114,9 +102,7 @@ Activities can be displayed in list, calendar, and map views. They further can b
 
 # To-Do [`↩`](#contents) <a id="to-do"></a>
 
-Please see the [contribution guidelines](https://github.com/andrewtavis/activist/blob/main/.github/CONTRIBUTING.md) if you are interested in contributing to this project. Work that is in progress or could be implemented includes:
-
--
+Please see the [contribution guidelines](https://github.com/andrewtavis/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to this project.
 
 # Disclosure
 
