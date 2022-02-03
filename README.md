@@ -7,7 +7,7 @@
 [![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
-### activist.org: an open-source, nonprofit activist network
+### An open-source, nonprofit activist network
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. It serves as a hub for posting and finding activities related to socioeconomic causes, and has the overarching goal of facilitating change as efficiently and effectively as possible.
 
