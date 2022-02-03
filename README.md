@@ -4,14 +4,7 @@
 
 ---
 
-<!---
-[![ci](https://img.shields.io/github/workflow/status/activist-org/activist/CI?logo=github)](https://github.com/activist-org/activist/actions?query=workflow%3ACI)
---->
-
 [![platforms](https://img.shields.io/badge/platforms-web-999999.svg)](https://github.com/activist-org/activist)
-
-<!-- [![license](https://img.shields.io/github/license/andrewtavis/activist.svg)](https://github.com/andrewtavis/activist/blob/main/LICENSE.txt) -->
-
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
 ### Open-source, nonprofit activist network
