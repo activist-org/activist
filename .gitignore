@@ -1,0 +1,15 @@
+# Editor files
+##############
+.vscode/
+
+# OS files
+##########
+.DS_Store
+
+# Display files
+###############
+*_preview.png
+
+# Local Build Files
+###################
+target
