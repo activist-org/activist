@@ -23,7 +23,7 @@
 # Tech Stack [`↩`](#contents) <a id="tech-stack"></a>
 
 - Front end: [Vue.js](https://vuejs.org/)
-- Back end: [Django](https://www.djangoproject.com/)
+- Back end: TBD
 - Analytics: [Matomo](https://matomo.org/)
 
 # Overview [`↩`](#contents) <a id="overview"></a>
