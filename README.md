@@ -1,59 +1,36 @@
-<div align="center">
-  <a href="https://github.com/activist-org/activist"><img src="https://github.com/activist-org/activist/blob/main/resources/activist_logo.png" width=250 height=250></a>
+<!-- <div align="center">
+  <a href="https://github.com/activist-org/activist"><img src="https://github.com/activist-org/Organization/blob/main/resources/" width=250 height=250></a>
 </div>
 
----
+--- -->
 
 [![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist)](https://github.com/activist-org/activist/issues)
+[![issues](https://img.shields.io/github/discussions/activist-org/activist)](https://github.com/activist-org/activist/discussions)
 [![license](https://img.shields.io/github/license/activist-org/activist.svg)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
 ### An open-source, nonprofit activist network
 
-[**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. It serves as a hub for posting and finding activities related to socioeconomic causes, and has the overarching goal of facilitating change as efficiently and effectively as possible.
+[**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations
 
 # **Contents**<a id="contents"></a>
 
 - [Tech Stack](#tech-stack)
 - [Overview](#overview)
-- [Features](#features)
 - [Contributing](#contributing)
 
 # Tech Stack [`↩`](#contents) <a id="tech-stack"></a>
 
-<details><summary><strong>Back End</strong></summary>
-<p>
-
-- [Rust](https://www.rust-lang.org/)
-- [Actix](https://actix.rs/)
-- [Diesel](https://diesel.rs/)
-
-</p>
-</details>
-
-<details><summary><strong>Front End</strong></summary>
-<p>
-
-- [Vue](https://vuejs.org/)
-
-</p>
-</details>
-
-<details><summary><strong>Analytics</strong></summary>
-<p>
-
-- [Matomo](https://matomo.org/)
-- [Python](https://www.python.org/)
-
-</p>
-</details>
+Front end: [Vue.js](https://vuejs.org/)
+Back end: [Django](https://www.djangoproject.com/)
+Analytics: [Matomo](https://matomo.org/)
 
 # Overview [`↩`](#contents) <a id="overview"></a>
 
-### Focuses
+### Issues
 
-activist includes a broad selection of focuses that are further granulated by tags:
+activist includes a broad selection of issues:
 
 - Environment
 - Animal Rights
@@ -81,26 +58,20 @@ activist includes a broad selection of focuses that are further granulated by ta
 - Drug Legalization
 - Other
 
-### Categories
+### Levels
 
-Activism categories define the kind of involvement for an activity, with each being a necessary component to progress within a given focus:
+Activism levels are the kind of involvement for the event, with each being a necessary component to progress within a given issue:
 
-- Learning
-- Engagement
-- Advocacy
+- Learn
+- Support
+- Act
 
-Coloration is used to easily delineate the category of a particular activity.
-
-# Features [`↩`](#contents) <a id="features"></a>
-
-Activities can be displayed in list, calendar, and map views. They further can be filtered by focus, tags, level, date, and location. Future filters at greater scale will include friend involvement and affiliated organizations. Activities will also eventually be able to be related to one another, meaning one activity could be a sub, pre, or post activity for a main one.
+Coloration is used to easily delineate the level of a particular event.
 
 # Contributing [`↩`](#contents) <a id="contributing"></a>
 
 Please see the [contribution guidelines](https://github.com/andrewtavis/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to this project.
 
 # Disclosure
-
-activist is intersectionally inclusive and not blind to economic externalities - activities on activist must be willing to account for their social and economic effects. These two concepts are the guiding principles of what is and is not allowed, with their interpretation falling to and growing with the community itself.
 
 activist is not directly affiliated with any corporations, political parties, governments or non-government organizations.
