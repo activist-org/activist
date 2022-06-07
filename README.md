@@ -22,9 +22,9 @@
 
 # Tech Stack [`↩`](#contents) <a id="tech-stack"></a>
 
-- Front end: [Vue.js](https://vuejs.org/)
-- Back end: [Django](https://www.djangoproject.com/)
-- Analytics: [Matomo](https://matomo.org/)
+- [Frontend](https://github.com/activist-org/activist/tree/main/src): [Vue.js](https://vuejs.org/)
+- [Backend](https://github.com/activist-org/activist/tree/main/backend): [Django](https://www.djangoproject.com/)
+<!-- - Analytics: [Matomo](https://matomo.org/) -->
 
 # Overview [`↩`](#contents) <a id="overview"></a>
 
