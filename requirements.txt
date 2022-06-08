@@ -11,6 +11,8 @@ mypy-extensions==0.4.3
 pathspec==0.9.0
 platformdirs==2.5.2
 pylint==2.14.1
+pylint-django==2.5.3
+pylint-plugin-utils==0.7
 sqlparse==0.4.2
 tomli==2.0.1
 tomlkit==0.11.0
