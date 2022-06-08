@@ -1,0 +1,17 @@
+asgiref==3.5.2
+astroid==2.11.5
+black==22.3.0
+click==8.1.3
+dill==0.3.5.1
+Django==4.0.5
+isort==5.10.1
+lazy-object-proxy==1.7.1
+mccabe==0.7.0
+mypy-extensions==0.4.3
+pathspec==0.9.0
+platformdirs==2.5.2
+pylint==2.14.1
+sqlparse==0.4.2
+tomli==2.0.1
+tomlkit==0.11.0
+wrapt==1.14.1
