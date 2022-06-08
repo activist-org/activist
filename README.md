@@ -70,8 +70,23 @@ Coloration is used to easily delineate the level of a particular event.
 
 # Contributing [`↩`](#contents) <a id="contributing"></a>
 
+See the readmes for the [frontend](https://github.com/activist-org/activist/tree/main/src) (Vue) and [backend](https://github.com/activist-org/activist/tree/main/backend) (Django) for in-depth information on how to get started contributing to each.
+
 Work that is in progress or could be implemented is tracked in the [Issues](https://github.com/activist-org/activist/issues) and [Projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to `activist.org`. Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [Issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
 # Disclosure
 
 activist is not directly affiliated with any corporations, political parties, governments or non-government organizations.
+
+# References
+
+<details><summary><strong>List of code references</strong></summary>
+<p>
+
+- https://github.com/mutoe/vue3-realworld-example-app
+  - License: https://github.com/mutoe/vue3-realworld-example-app/blob/master/LICENSE
+- https://github.com/danjac/realworld
+  - License: https://github.com/danjac/realworld/blob/main/LICENSE
+
+</p>
+</details>
