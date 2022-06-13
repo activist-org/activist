@@ -6,7 +6,9 @@
 
 [![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist)](https://github.com/activist-org/activist/issues)
-[![issues](https://img.shields.io/github/discussions/activist-org/activist)](https://github.com/activist-org/activist/discussions)
+[![discussions](https://img.shields.io/github/discussions/activist-org/activist)](https://github.com/activist-org/activist/discussions)
+[![vue](https://img.shields.io/badge/Vue-3-41B883.svg?logo=vue.js&logoColor=ffffff)](https://github.com/activist-org/activist/tree/main/src)
+[![django](https://img.shields.io/badge/Django-4-092E20.svg?logo=django&logoColor=ffffff)](https://github.com/activist-org/activist/tree/main/backend)
 [![license](https://img.shields.io/github/license/activist-org/activist.svg)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
