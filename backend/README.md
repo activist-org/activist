@@ -2,7 +2,7 @@
 [![djangoformatter](https://img.shields.io/badge/django%20formatter-unibeautify-000000.svg)](https://github.com/Unibeautify/unibeautify)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
-### backend
+# backend
 
 This directory contains the source code for the backend of activist.org. For the frontend please visit [activist/src](https://github.com/activist-org/activist/tree/main/src).
 
