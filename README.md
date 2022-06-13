@@ -22,6 +22,8 @@
 
 # Tech Stack [`↩`](#contents) <a id="tech-stack"></a>
 
+See the readmes for each subdirectory below for information on how to set up development environments, and the [Contributing](#contributing) section for how to contribute in general.
+
 - [Frontend](https://github.com/activist-org/activist/tree/main/src): [Vue.js](https://vuejs.org/)
 - [Backend](https://github.com/activist-org/activist/tree/main/backend): [Django](https://www.djangoproject.com/)
 <!-- - Analytics: [Matomo](https://matomo.org/) -->
