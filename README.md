@@ -20,7 +20,7 @@
 - [Overview](#overview)
 - [Contributing](#contributing)
 
-# Tech Stack [`↩`](#contents) <a id="tech-stack"></a>
+# Tech Stack [`⇧`](#contents) <a id="tech-stack"></a>
 
 See the readmes for each subdirectory below for information on how to set up development environments, and the [Contributing](#contributing) section for how to contribute in general.
 
@@ -28,7 +28,7 @@ See the readmes for each subdirectory below for information on how to set up dev
 - [Backend](https://github.com/activist-org/activist/tree/main/backend): [Django](https://www.djangoproject.com/)
 <!-- - Analytics: [Matomo](https://matomo.org/) -->
 
-# Overview [`↩`](#contents) <a id="overview"></a>
+# Overview [`⇧`](#contents) <a id="overview"></a>
 
 ### Issues
 
@@ -70,7 +70,7 @@ Activism levels are the kind of involvement for the event, with each being a nec
 
 Coloration is used to easily delineate the level of a particular event.
 
-# Contributing [`↩`](#contents) <a id="contributing"></a>
+# Contributing [`⇧`](#contents) <a id="contributing"></a>
 
 See the readmes for the [frontend](https://github.com/activist-org/activist/tree/main/src) (Vue) and [backend](https://github.com/activist-org/activist/tree/main/backend) (Django) for in-depth information on how to get started contributing to each.
 
