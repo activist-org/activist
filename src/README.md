@@ -8,13 +8,12 @@ This directory contains the source code for the frontend of activist.org. For th
 # **Contents**<a id="contents"></a>
 
 - [Setup](#setup)
-- [References](#references)
 
 # Setup [`⇧`](#contents) <a id="setup"></a>
 
 Directions on setting up a development environment are forthcoming.
 
-# References [`⇧`](#contents) <a id="references"></a>
+# References
 
 <details><summary><strong>List of referenced codes</strong></summary>
 <p>

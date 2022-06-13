@@ -84,7 +84,7 @@ activist is not directly affiliated with any corporations, political parties, go
 
 # References
 
-<details><summary><strong>List of code references</strong></summary>
+<details><summary><strong>List of referenced codes</strong></summary>
 <p>
 
 - https://github.com/mutoe/vue3-realworld-example-app
