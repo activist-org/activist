@@ -1,5 +1,4 @@
-[![pythoncodestyle](https://img.shields.io/badge/python%20code%20style-black-000000.svg)](https://github.com/psf/black)
-[![djangoformatter](https://img.shields.io/badge/django%20formatter-unibeautify-000000.svg)](https://github.com/Unibeautify/unibeautify)
+[![codestyle](https://img.shields.io/badge/style-black-000000.svg)](https://github.com/psf/black)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/andrewtavis/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
 # backend
