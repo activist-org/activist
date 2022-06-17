@@ -1,8 +1,8 @@
 <!-- <div align="center">
   <a href="https://github.com/activist-org/activist"><img src="https://github.com/activist-org/Organization/blob/main/resources/" width=250 height=250></a>
-</div>
+</div> -->
 
---- -->
+---
 
 [![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist)](https://github.com/activist-org/activist/issues)
@@ -16,13 +16,17 @@
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations
 
-# **Contents**<a id="contents"></a>
+<a id="contents"></a>
+
+# **Contents**
 
 - [Tech Stack](#tech-stack)
 - [Overview](#overview)
 - [Contributing](#contributing)
 
-# Tech Stack [`⇧`](#contents) <a id="tech-stack"></a>
+<a id="tech-stack"></a>
+
+# Tech Stack [`⇧`](#contents)
 
 See the readmes for each subdirectory below for information on how to set up development environments, and the [Contributing](#contributing) section for how to contribute in general.
 
@@ -30,7 +34,9 @@ See the readmes for each subdirectory below for information on how to set up dev
 - [Backend](https://github.com/activist-org/activist/tree/main/backend): [Django](https://www.djangoproject.com/)
 <!-- - Analytics: [Matomo](https://matomo.org/) -->
 
-# Overview [`⇧`](#contents) <a id="overview"></a>
+<a id="overview"></a>
+
+# Overview [`⇧`](#contents)
 
 ### Issues
 
@@ -72,7 +78,9 @@ Activism levels are the kind of involvement for the event, with each being a nec
 
 Coloration is used to easily delineate the level of a particular event.
 
-# Contributing [`⇧`](#contents) <a id="contributing"></a>
+<a id="contributing"></a>
+
+# Contributing [`⇧`](#contents)
 
 See the readmes for the [frontend](https://github.com/activist-org/activist/tree/main/src) (Vue) and [backend](https://github.com/activist-org/activist/tree/main/backend) (Django) for in-depth information on how to get started contributing to each.
 
