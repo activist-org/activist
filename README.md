@@ -1,8 +1,4 @@
-<!-- <div align="center">
-  <a href="https://github.com/activist-org/activist"><img src="https://github.com/activist-org/Organization/blob/main/resources/" width=250 height=250></a>
-</div> -->
-
----
+# activist
 
 [![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist)](https://github.com/activist-org/activist/issues)
