@@ -168,7 +168,7 @@ activist has received support from the following organizations as a participant 
 
 <div align="center">
   <br>
-    <a href="https://www.wikimedia.de/"><img height="120"src="./resources/github/images/wikimedia_deutschland_logo.png" alt="Wikimedia Deutschland"></a>
+    <a href="https://www.wikimedia.de/"><img height="130"src="./resources/github/images/wikimedia_deutschland_logo.png" alt="Wikimedia Deutschland"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="https://wikimedia.rs/"><img height="120" src="./resources/github/images/wikimedia_serbia_logo.png" alt="Wikimedia Serbia"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
