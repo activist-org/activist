@@ -150,7 +150,7 @@ Resources at the start will aggregate links to files that organizations want to 
 
 ## Votes [`⇧`](#contents)
 
-Another forthcoming feature, the Votes section would allow events to be made in relation to elections and legislation. Whether or not this section would be integrated into Events is yet to be decided.
+Another forthcoming feature, the Votes section would allow events to be made in relation to elections and legislation. Whether or not this section would be integrated into Events is yet to be decided. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activist operates.
 
 <a id="contributing"></a>
 
