@@ -21,6 +21,7 @@
 # **Contents**
 
 - [Tech Stack](#tech-stack)
+- [Designs](#designs)
 - [Overview](#overview)
   - [Organizations](#organizations)
   - [Activists](#activists)
@@ -42,6 +43,12 @@ See the readmes for each subdirectory below for information on how to set up dev
 - [Frontend](https://github.com/activist-org/activist/tree/main/src): [Vue.js](https://vuejs.org/)
 - [Backend](https://github.com/activist-org/activist/tree/main/backend): [Django](https://www.djangoproject.com/)
 <!-- - Analytics: [Matomo](https://matomo.org/) -->
+
+<a id="designs"></a>
+
+# Designs [`⇧`](#contents)
+
+The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those interest can use the [discussions](https://github.com/activist-org/activist/discussions) to make suggestions for improvements.
 
 <a id="overview"></a>
 
