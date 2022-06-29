@@ -94,31 +94,18 @@ Events are where things happen on activist. They are organized by [issue](#issue
 
 activist includes a broad selection of issues:
 
-- Environment
-- Animal Rights
-- Racial Justice
-- Women's Rights
-- LGBTQIA+
-- Children’s Rights
-- Elder Rights
-- Education
-- Democracy
-- Native Rights
-- Institutional Accountability
-- Worker's Rights
-- Refugees and Migration
-- Housing and Community
-- Health
-- Technology and Privacy
-- Accessibility and Inclusion
-- Trade and Finance
-- Development and Infrastructure
-- Emergency Relief
-- Nutrition
-- Freedom of Expression
-- Peace and Resolution
-- Drug Legalization
-- Other
+|                   |                              |                                |
+| :---------------- | :--------------------------- | :----------------------------- |
+| Environment       | Democracy                    | Accessibility and Inclusion    |
+| Animal Rights     | Native Rights                | Trade and Finance              |
+| Racial Justice    | Institutional Accountability | Development and Infrastructure |
+| Women's Rights    | Worker's Rights              | Emergency Relief               |
+| LGBTQIA+          | Refugees and Migration       | Nutrition                      |
+| Children’s Rights | Housing and Community        | Freedom of Expression          |
+| Elder Rights      | Health                       | Peace and Resolution           |
+| Education         | Technology and Privacy       | Drug Legalization              |
+
+Beyond these general issues, tags will also be used to draw community attention to more specific issues.
 
 <a id="levels"></a>
 
