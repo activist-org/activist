@@ -18,8 +18,7 @@ Directions on setting up a development environment are forthcoming.
 <details><summary><strong>List of referenced codes</strong></summary>
 <p>
 
-- https://github.com/mutoe/vue3-realworld-example-app
-  - License: https://github.com/mutoe/vue3-realworld-example-app/blob/master/LICENSE
+- [vue3-realworld-example-app](https://github.com/mutoe/vue3-realworld-example-app) by [mutoe](https://github.com/mutoe) ([License](https://github.com/mutoe/vue3-realworld-example-app/blob/master/LICENSE))
 
 </p>
 </details>

@@ -19,8 +19,7 @@ Directions on setting up a development environment are forthcoming.
 <details><summary><strong>List of referenced codes</strong></summary>
 <p>
 
-- https://github.com/danjac/realworld
-  - License: https://github.com/danjac/realworld/blob/main/LICENSE
+- [realworld](https://github.com/danjac/realworld) by [danjac](https://github.com/danjac) ([License](https://github.com/danjac/realworld/blob/main/LICENSE))
 
 </p>
 </details>

@@ -95,10 +95,8 @@ activist is not directly affiliated with any corporations, political parties, go
 <details><summary><strong>List of referenced codes</strong></summary>
 <p>
 
-- https://github.com/mutoe/vue3-realworld-example-app
-  - License: https://github.com/mutoe/vue3-realworld-example-app/blob/master/LICENSE
-- https://github.com/danjac/realworld
-  - License: https://github.com/danjac/realworld/blob/main/LICENSE
+- [vue3-realworld-example-app](https://github.com/mutoe/vue3-realworld-example-app) by [mutoe](https://github.com/mutoe) ([License](https://github.com/mutoe/vue3-realworld-example-app/blob/master/LICENSE))
+- [realworld](https://github.com/danjac/realworld) by [danjac](https://github.com/danjac) ([License](https://github.com/danjac/realworld/blob/main/LICENSE))
 
 </p>
 </details>
