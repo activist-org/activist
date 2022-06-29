@@ -59,7 +59,7 @@ Organizations will eventually have the following features:
 
 ### Application
 
-Organizations **MUST** apply to join activist. The application process is the way that the community transparently expands, with the support for applications from organizations already on the platform serving to verify those who want to join.
+All organizations have to apply to join activist. The application process is the way that the community transparently expands, with the support for applications from organizations already on the platform serving to verify those who want to join.
 
 ### Working Groups
 
