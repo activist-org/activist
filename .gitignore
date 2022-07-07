@@ -76,3 +76,4 @@ media/
 
 # Venv
 venv
+.env
