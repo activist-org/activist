@@ -14,7 +14,9 @@ This directory contains the source code for the frontend of activist.org. For th
 
 # Contributing [`⇧`](#contents)
 
-To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/). Then clone this repository with the following command:
+To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
+
+Then clone this repository with the following command:
 
 ```bash
 git clone https://github.com/activist-org/activist.git
