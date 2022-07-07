@@ -35,13 +35,13 @@
 
 To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
-Then clone this repository with the following command:
+Then clone this repository with the below command:
 
 ```bash
 git clone https://github.com/activist-org/activist.git
 ```
 
-Enter the created directory and start your virtual machines with the following commands:
+Enter the created directory and start your virtual machines with the following:
 
 ```bash
 cd activist
