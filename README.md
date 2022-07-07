@@ -16,6 +16,8 @@
 
 # **Contents**
 
+<!-- - [Preview Video](#preview-video) -->
+
 - [Contributing](#contributing)
 - [Designs](#designs)
 - [Overview](#overview)
@@ -28,6 +30,10 @@
   - [Resources](#resources)
   - [Votes](#votes)
 - [Supported By](#supported-by)
+
+<!-- <a id="preview-video"></a>
+
+# Preview Video [`⇧`](#contents) -->
 
 <a id="contributing"></a>
 
