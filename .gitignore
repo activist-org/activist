@@ -1,10 +1,10 @@
-### OSX ###
+# OSX
 .DS_Store
 .AppleDouble
 .LSOverride
 
-### SublimeText ###
-# cache files for sublime text
+# SublimeText
+# Cache files for sublime text.
 *.tmlanguage.cache
 *.tmPreferences.cache
 *.stTheme.cache
@@ -27,7 +27,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Unit test / coverage reports
+# Unit test and coverage reports
 .coverage
 .tox
 nosetests.xml
@@ -74,6 +74,6 @@ media/
 .vscode
 .pythonconfig
 
-# Venv
+# Venv and .env
 venv
 .env

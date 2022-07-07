@@ -33,9 +33,16 @@
 
 # Contributing [`⇧`](#contents)
 
-Install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/). Start your virtual machines with the following shell command:
+To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/). Then clone this repository with the following command:
 
 ```bash
+git clone https://github.com/activist-org/activist.git
+```
+
+Enter the created directory and start your virtual machines with the following commands:
+
+```bash
+cd activist
 docker-compose up --build
 ```
 
