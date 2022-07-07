@@ -17,7 +17,7 @@ services:
     env_file: .env
 
   frontend:
-    image: node:10-alpine
+    image: node:14-alpine
     command: npm run serve
     volumes:
       - ./.env:/app/.env:ro
