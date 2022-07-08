@@ -42,8 +42,8 @@
 ### [Backend](https://github.com/activist-org/activist/tree/main/backend):
 
 - [Django](https://www.djangoproject.com/)
-  - _[gunicorn](https://gunicorn.org/)_ for an app server in both development and production
-  - _[whitenoise](https://github.com/evansd/whitenoise)_ for serving static files
+  - [gunicorn](https://gunicorn.org/)
+  - [whitenoise](https://github.com/evansd/whitenoise)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Redis](https://redis.io/)
 - [Celery](https://github.com/celery/celery)
