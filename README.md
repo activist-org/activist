@@ -194,7 +194,7 @@ activist is not directly affiliated with any corporations, political parties, go
 <details><summary><strong>List of referenced codes</strong></summary>
 <p>
 
-- [cookiecutter-django-vue](https://github.com/vchaptsev/cookiecutter-django-vue) by [vchaptsev](https://github.com/vchaptsev) ([License](https://github.com/vchaptsev/cookiecutter-django-vue/blob/master/LICENSE))
+- [docker-django-example](https://github.com/nickjj/docker-django-example) by [nickjj](https://github.com/nickjj) ([License](https://github.com/nickjj/docker-django-example/blob/main/LICENSE))
 
 </p>
 </details>
