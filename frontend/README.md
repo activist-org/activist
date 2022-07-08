@@ -22,18 +22,16 @@ Then clone this repository with the below command:
 git clone https://github.com/activist-org/activist.git
 ```
 
-Enter the created directory and start your virtual machines with the following:
+Enter the created directory and start your docker images with the following:
 
 ```bash
 cd activist
 docker-compose up --build
+# Run the following in a second terminal screen to setup the initial database.
+./run manage migrate
 ```
 
-If all works well, you should be able to create an admin account with:
-
-```bash
-docker-compose run backend python manage.py createsuperuser
-```
+You can visit <http://localhost:8000> to see the development build once the container is up and running.
 
 <a id="setup"></a>
 

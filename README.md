@@ -39,6 +39,21 @@
 
 # Contributing [`⇧`](#contents)
 
+### [Backend](https://github.com/activist-org/activist/tree/main/backend):
+
+- [Django](https://www.djangoproject.com/)
+  - _[gunicorn](https://gunicorn.org/)_ for an app server in both development and production
+  - _[whitenoise](https://github.com/evansd/whitenoise)_ for serving static files
+- [PostgreSQL](https://www.postgresql.org/)
+- [Redis](https://redis.io/)
+- [Celery](https://github.com/celery/celery)
+
+### [Frontend](https://github.com/activist-org/activist/tree/main/frontend):
+
+- [Vue.js](https://vuejs.org/) (planned)
+- [esbuild](https://esbuild.github.io/)
+- [TailwindCSS](https://tailwindcss.com/)
+
 To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
 Then clone this repository with the below command:
@@ -47,18 +62,16 @@ Then clone this repository with the below command:
 git clone https://github.com/activist-org/activist.git
 ```
 
-Enter the created directory and start your virtual machines with the following:
+Enter the created directory and start your docker images with the following:
 
 ```bash
 cd activist
 docker-compose up --build
+# Run the following in a second terminal screen to setup the initial database.
+./run manage migrate
 ```
 
-If all works well, you should be able to create an admin account with:
-
-```bash
-docker-compose run backend python manage.py createsuperuser
-```
+You can visit <http://localhost:8000> to see the development build once the container is up and running.
 
 See the readmes for the [frontend](https://github.com/activist-org/activist/tree/main/frontend) (Vue) and [backend](https://github.com/activist-org/activist/tree/main/backend) (Django) for in-depth information on how to get started contributing to each.
 
@@ -174,11 +187,11 @@ activist has received support from the following organizations as a participant 
 
 <div align="center">
   <br>
-    <a href="https://www.wikimedia.de/"><img height="130"src="./resources/github/images/wikimedia_deutschland_logo.png" alt="Wikimedia Deutschland"></a>
+    <a href="https://www.wikimedia.de/"><img height="130"src=".github/resources/images/wikimedia_deutschland_logo.png" alt="Wikimedia Deutschland"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://wikimedia.rs/"><img height="120" src="./resources/github/images/wikimedia_serbia_logo.png" alt="Wikimedia Serbia"></a>
+    <a href="https://wikimedia.rs/"><img height="120" src=".github/resources/images/wikimedia_serbia_logo.png" alt="Wikimedia Serbia"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://belgrade.impacthub.net/"><img height="120" src="./resources/github/images/impact_hub_belgrade_logo.png" alt="Impact Hub Belgrade"></a>
+    <a href="https://belgrade.impacthub.net/"><img height="120" src=".github/resources/images/impact_hub_belgrade_logo.png" alt="Impact Hub Belgrade"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <br>
 </div>

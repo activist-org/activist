@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Always keep this here as it ensures your latest built assets make their way
+# into your volume persisted public directory.
+cp -r /public_collected /app
+
+exec "$@"
