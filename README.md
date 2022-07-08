@@ -3,8 +3,8 @@
 [![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist)](https://github.com/activist-org/activist/issues)
 [![discussions](https://img.shields.io/github/discussions/activist-org/activist)](https://github.com/activist-org/activist/discussions)
-[![vue](https://img.shields.io/badge/Vue-3-41B883.svg?logo=vue.js&logoColor=ffffff)](https://github.com/activist-org/activist/tree/main/frontend)
-[![django](https://img.shields.io/badge/Django-4-092E20.svg?logo=django&logoColor=ffffff)](https://github.com/activist-org/activist/tree/main/backend)
+[![vue](https://img.shields.io/badge/Vue-3-41B883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
+[![django](https://img.shields.io/badge/Django-4-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
 [![license](https://img.shields.io/github/license/activist-org/activist.svg)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
@@ -19,6 +19,8 @@
 <!-- - [Preview Video](#preview-video) -->
 
 - [Contributing](#contributing)
+  - [Tech Stack](#tech-stack)
+  - [Setup](#setup)
 - [Designs](#designs)
 - [Overview](#overview)
   - [Organizations](#organizations)
@@ -39,7 +41,13 @@
 
 # Contributing [`⇧`](#contents)
 
-### [Backend](https://github.com/activist-org/activist/tree/main/backend):
+Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist. Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
+
+<a id="tech-stack"></a>
+
+## Tech Stack [`⇧`](#contents)
+
+### Backend
 
 - [Django](https://www.djangoproject.com/)
   - [gunicorn](https://gunicorn.org/)
@@ -48,11 +56,15 @@
 - [Redis](https://redis.io/)
 - [Celery](https://github.com/celery/celery)
 
-### [Frontend](https://github.com/activist-org/activist/tree/main/frontend):
+### Frontend
 
 - [Vue.js](https://vuejs.org/) (planned)
 - [esbuild](https://esbuild.github.io/)
 - [TailwindCSS](https://tailwindcss.com/)
+
+<a id="setup"></a>
+
+## Setup [`⇧`](#contents)
 
 To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
@@ -72,10 +84,6 @@ docker-compose up --build
 ```
 
 You can visit <http://localhost:8000> to see the development build once the container is up and running.
-
-See the readmes for the [frontend](https://github.com/activist-org/activist/tree/main/frontend) (Vue) and [backend](https://github.com/activist-org/activist/tree/main/backend) (Django) for in-depth information on how to get started contributing to each.
-
-Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist. Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
 <a id="designs"></a>
 
