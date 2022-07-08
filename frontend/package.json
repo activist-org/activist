@@ -5,29 +5,39 @@
   "scripts": {
     "serve": "npm i && vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.2",
+    "npm": "^8.13.2",
     "register-service-worker": "^1.5.2",
-    "vue": "^2.5.17",
+    "ts-loader": "~8.2.0",
+    "vue": "^3.0.0-beta.1",
+    "vue-class-component": "^8.0.0-0",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^4.0.0-alpha.1"
   },
   "devDependencies": {
+    "@types/jest": "^23.1.4",
     "@vue/cli-plugin-babel": "^3.0.1",
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-plugin-pwa": "^3.0.1",
+    "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-unit-jest": "^3.0.1",
     "@vue/cli-service": "^3.0.1",
+    "@vue/compiler-sfc": "^3.2.37",
     "@vue/eslint-config-standard": "^3.0.1",
-    "@vue/test-utils": "^1.0.0-beta.24",
-    "babel-core": "^6.26.3",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "@vue/test-utils": "^2.0.0-alpha.1",
+    "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.4.2",
-    "node-sass": "^4.9.3",
+    "eslint-plugin-vue": "^7.0.0-alpha.0",
+    "node-sass": "^7.0.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.17"
+    "ts-jest": "^23.0.0",
+    "typescript": "~4.5.5",
+    "vue-cli-plugin-vue-next": "~0.1.4"
   },
   "eslintConfig": {
     "root": true,
@@ -35,12 +45,13 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
+      "plugin:vue/vue3-essential",
+      "@vue/standard",
+      "@vue/typescript"
     ],
     "rules": {},
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "@typescript-eslint/parser"
     }
   },
   "postcss": {
@@ -58,12 +69,15 @@
       "js",
       "jsx",
       "json",
-      "vue"
+      "vue",
+      "ts",
+      "tsx"
     ],
     "transform": {
       "^.+\\.vue$": "vue-jest",
       ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
-      "^.+\\.jsx?$": "babel-jest"
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
     },
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
@@ -73,6 +87,11 @@
     ],
     "testMatch": [
       "<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))"
-    ]
+    ],
+    "globals": {
+      "ts-jest": {
+        "babelConfig": true
+      }
+    }
   }
 }

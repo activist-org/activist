@@ -1,9 +1,6 @@
-import Vue from "vue";
 import Vuex from "vuex";
 
-Vue.use(Vuex);
-
-const store = new Vuex.Store({
+const store = Vuex.createStore({
   strict: true,
   state: {},
   mutations: {},
