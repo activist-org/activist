@@ -21,10 +21,10 @@
   "devDependencies": {
     "@types/jest": "^23.1.4",
     "@vue/cli-plugin-babel": "^5.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
+    "@vue/cli-plugin-eslint": "^5.0.0",
     "@vue/cli-plugin-pwa": "^5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
-    "@vue/cli-plugin-unit-jest": "^4.0.0",
+    "@vue/cli-plugin-unit-jest": "^5.0.0",
     "@vue/cli-service": "^5.0.1",
     "@vue/compiler-sfc": "^3.2.37",
     "@vue/eslint-config-standard": "^3.0.1",
