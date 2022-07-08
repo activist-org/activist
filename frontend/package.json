@@ -12,7 +12,7 @@
     "axios": "^0.21.2",
     "npm": "^8.13.2",
     "register-service-worker": "^1.5.2",
-    "ts-loader": "~8.2.0",
+    "ts-loader": "~8.3.0",
     "vue": "^3.0.0-beta.1",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^3.0.1",
@@ -31,13 +31,12 @@
     "@vue/eslint-config-typescript": "^4.0.0",
     "@vue/test-utils": "^2.0.0-alpha.1",
     "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.4.2",
+    "babel-jest": "^27.0.0",
     "eslint-plugin-vue": "^7.0.0-alpha.0",
     "node-sass": "^7.0.0",
     "sass-loader": "^7.1.0",
-    "ts-jest": "^23.0.0",
-    "typescript": "~4.5.5",
-    "vue-cli-plugin-vue-next": "~0.1.4"
+    "ts-jest": "^26.0.0",
+    "typescript": "~4.5.5"
   },
   "eslintConfig": {
     "root": true,
