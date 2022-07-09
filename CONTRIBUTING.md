@@ -23,9 +23,26 @@ Following these guidelines helps to communicate that you respect the time of the
 
 # Development environment [`⇧`](#contents)
 
-The frontend of activist is written in [Vue.js](https://vuejs.org/), and the backend is written in [Django](https://www.djangoproject.com/). Please see the readmes for [activist/src](https://github.com/activist-org/activist/tree/main/src) for frontend development environment setup instructions and [activist/backend](https://github.com/activist-org/activist/tree/main/backend) for backend instructions.
+To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
-Those new to either of these frameworks or wanting to work on their skills are more than welcome to contribute!
+Then clone this repository with the below command:
+
+```bash
+git clone https://github.com/activist-org/activist.git
+```
+
+Enter the created directory and start your docker images with the following:
+
+```bash
+cd activist
+docker-compose up --build
+# Run the following in a second terminal screen to setup the initial database.
+./run manage migrate
+```
+
+You can visit <http://localhost:8000> to see the development build once the container is up and running.
+
+Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
 <a id="issues-projects"></a>
 
@@ -135,6 +152,6 @@ Documentation is an invaluable way to contribute to coding projects as it allows
 
 # Design [`⇧`](#contents)
 
-Those interested in helping with activist's design are also welcome to share their ideas. Currently designs for activist are done in Figma, with access to this file being available on request. Issues that relate to design are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
+The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those interest can use the [discussions](https://github.com/activist-org/activist/discussions) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
 All branding elements such as logos, icons, colors and fonts should follow those that are set out in [activist-org/Organization](https://github.com/activist-org/Organization). As the project is fully open source, these elements are also open for discussion. Your efforts in making activist products professional with a distinct and cohesive identity are much appreciated.
