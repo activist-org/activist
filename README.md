@@ -3,8 +3,9 @@
 [![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist)](https://github.com/activist-org/activist/issues)
 [![discussions](https://img.shields.io/github/discussions/activist-org/activist)](https://github.com/activist-org/activist/discussions)
-[![vue](https://img.shields.io/badge/Vue-3-41B883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![django](https://img.shields.io/badge/Django-4-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
+[![vue](https://img.shields.io/badge/Vue-3-41B883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
+[![tailwind](https://img.shields.io/badge/Tailwind-3-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
 [![license](https://img.shields.io/github/license/activist-org/activist.svg)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
@@ -51,10 +52,10 @@ Work that is in progress or could be implemented is tracked in the [issues](http
 
 - [Django](https://www.djangoproject.com/)
   - [gunicorn](https://gunicorn.org/)
-  - [whitenoise](https://github.com/evansd/whitenoise)
+  - [whitenoise](http://whitenoise.evans.io/en/stable/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Redis](https://redis.io/)
-- [Celery](https://github.com/celery/celery)
+- [Celery](https://docs.celeryq.dev/en/stable/)
 
 ### Frontend
 
