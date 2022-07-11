@@ -1,4 +1,4 @@
-x-assets: &default-frontend
+x-assets: &default-assets
   build:
     context: "."
     target: "frontend"
@@ -14,9 +14,9 @@ x-assets: &default-frontend
 
 services:
   js:
-    <<: *default-frontend
+    <<: *default-assets
     command: "../run yarn:build:js"
 
   css:
-    <<: *default-frontend
+    <<: *default-assets
     command: "../run yarn:build:css"
