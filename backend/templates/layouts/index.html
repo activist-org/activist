@@ -15,28 +15,29 @@
     <link rel="stylesheet" href="{% static 'css/app.css' %}" />
     <script defer src="{% static 'js/app.js' %}"></script>
 
-    {# Generated with: https://realfavicongenerator.net/ #}
+    {# Created in the icon section of the Figma design files for activist. #}
     <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="{% static 'apple-touch-icon.png' %}"
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'icons_light_mode/favicon-32x32.png' %}"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="{% static 'favicon-32x32.png' %}"
+      href="{% static 'icons_dark_mode/favicon-32x32-dark-mode.png' %}"
+      media="(prefers-color-scheme: dark)"
     />
     <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{% static 'favicon-16x16.png' %}"
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'icons_light_mode/apple-touch-icon-180x180.png' %}"
     />
     <link rel="manifest" href="{% static 'site.webmanifest' %}" />
     <link
       rel="mask-icon"
-      href="{% static 'safari-pinned-tab.svg' %}"
+      href="{% static 'icons_light_mode/safari-pinned-tab.svg' %}"
       color="#61b9d2"
     />
     <meta name="msapplication-TileColor" content="#da532c" />
