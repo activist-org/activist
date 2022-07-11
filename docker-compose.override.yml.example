@@ -1,7 +1,7 @@
-x-assets: &default-assets
+x-assets: &default-frontend
   build:
     context: "."
-    target: "assets"
+    target: "frontend"
     args:
       - "NODE_ENV=${NODE_ENV:-production}"
   env_file:
@@ -14,9 +14,9 @@ x-assets: &default-assets
 
 services:
   js:
-    <<: *default-assets
+    <<: *default-frontend
     command: "../run yarn:build:js"
 
   css:
-    <<: *default-assets
+    <<: *default-frontend
     command: "../run yarn:build:css"

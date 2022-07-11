@@ -102,13 +102,13 @@ function yarn:outdated {
 }
 
 function yarn:build:js {
-  # Build JS assets, this is meant to be run from within the assets container
+  # Build JS assets, this is meant to be run from within the frontend container.
   mkdir -p ../public/js
   node esbuild.config.js
 }
 
 function yarn:build:css {
-  # Build CSS assets, this is meant to be run from within the assets container
+  # Build CSS assets, this is meant to be run from within the frontend container.
   local args=()
 
   if [ "${NODE_ENV}" == "production" ]; then

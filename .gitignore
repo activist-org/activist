@@ -90,7 +90,7 @@ dmypy.json
 ### Node ######################################################################
 
 # Dependency directories
-assets/node_modules/
+frontend/node_modules/
 
 # Optional eslint cache
 .eslintcache

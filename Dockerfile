@@ -1,7 +1,7 @@
 FROM node:16.15.1-bullseye-slim AS assets
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
-WORKDIR /app/assets
+WORKDIR /app/frontend
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends build-essential \
@@ -11,7 +11,7 @@ RUN apt-get update \
 
 USER node
 
-COPY --chown=node:node assets/package.json assets/*yarn* ./
+COPY --chown=node:node frontend/package.json frontend/*yarn* ./
 
 RUN yarn install && yarn cache clean
 
@@ -59,7 +59,7 @@ ENV DEBUG="${DEBUG}" \
 COPY --chown=python:python --from=assets /app/public /public
 COPY --chown=python:python . .
 
-WORKDIR /app/src
+WORKDIR /app/backend
 
 RUN if [ "${DEBUG}" = "false" ]; then \
     SECRET_KEY=dummyvalue python3 manage.py collectstatic --no-input; \

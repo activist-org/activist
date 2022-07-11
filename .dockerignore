@@ -1,7 +1,7 @@
 .git/
 .pytest_cache/
 __pycache__/
-assets/node_modules/
+frontend/node_modules/
 public/
 public_collected/
 
