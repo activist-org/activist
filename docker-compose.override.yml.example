@@ -1,7 +1,7 @@
 x-assets: &default-assets
   build:
     context: "."
-    target: "frontend"
+    target: "assets"
     args:
       - "NODE_ENV=${NODE_ENV:-production}"
   env_file:
