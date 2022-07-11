@@ -59,10 +59,6 @@ pytestdebug.log
 *.mo
 *.pot
 
-# Flask stuff
-instance/
-.webassets-cache
-
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
