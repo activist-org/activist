@@ -1,5 +1,5 @@
 FROM node:16.15.1-bullseye-slim AS assets
-LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
+LABEL maintainer="Andrew Tavis McAllister <andrew@activist.org>"
 
 WORKDIR /app/frontend
 
@@ -30,7 +30,7 @@ CMD ["bash"]
 ###############################################################################
 
 FROM python:3.10.5-slim-bullseye AS app
-LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
+LABEL maintainer="Andrew Tavis McAllister <andrew@activist.org>"
 
 WORKDIR /app
 
