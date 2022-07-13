@@ -9,6 +9,9 @@
 [![license](https://img.shields.io/github/license/activist-org/activist.svg)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 
+<!-- [![twitter](https://img.shields.io/badge/Twitter-activist__org-1DA1F2.svg?logo=twitter&logoColor=ffffff)](https://twitter.com/activist_org)
+[![instagram](https://img.shields.io/badge/Instagram-activist__org-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org) -->
+
 ### Open-source, nonprofit activist network
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
@@ -17,8 +20,7 @@
 
 # **Contents**
 
-<!-- - [Preview Video](#preview-video) -->
-
+- [Preview](#preview)
 - [Contributing](#contributing)
   - [Tech Stack](#tech-stack)
   - [Setup](#setup)
@@ -34,9 +36,17 @@
   - [Votes](#votes)
 - [Supported By](#supported-by)
 
-<!-- <a id="preview-video"></a>
+<a id="preview"></a>
 
-# Preview Video [`⇧`](#contents) -->
+# Preview [`⇧`](#contents)
+
+The following is a screenshot to show the current progress of the development:
+
+<div align="center">
+  <br>
+  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/activist_preview.png"><img height="350" src=".github/resources/images/activist_preview.png" alt="activist Preview"></a>
+  <br>
+</div>
 
 <a id="contributing"></a>
 
@@ -92,7 +102,7 @@ You can visit <http://localhost:8000> to see the development build once the cont
 
 <a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src=".github/resources/images/figma_logo.png" width="10%" alt="Public Figma Designs" align="right"></a>
 
-The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those interest can use the [discussions](https://github.com/activist-org/activist/discussions) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
+The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those with interest can use the [discussions](https://github.com/activist-org/activist/discussions) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
 Note that the linked Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub and via other means. We'd love to see a sample of your work, and if everything looks good we'll schedule a time to get connected!
 
