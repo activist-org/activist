@@ -12,6 +12,8 @@
 <!-- [![twitter](https://img.shields.io/badge/Twitter-activist__org-1DA1F2.svg?logo=twitter&logoColor=ffffff)](https://twitter.com/activist_org)
 [![instagram](https://img.shields.io/badge/Instagram-activist__org-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org) -->
 
+<!-- Also available on [Android](https://github.com/activist-org/activist-Android) (planned) and [iOS](https://github.com/activist-org/activist-iOS) (planned). -->
+
 ### An open-source, nonprofit activist network
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
@@ -55,6 +57,14 @@ The following is a screenshot to show the current progress of the development:
 
 Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist. Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
+### Ways to Help
+
+- Join us in the [discussions](https://github.com/activist-org/activist/discussions) 👋
+- [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found
+- Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature)
+- [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform
+- [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion
+
 <a id="tech-stack"></a>
 
 ## Tech Stack [`⇧`](#contents)
@@ -73,6 +83,10 @@ Work that is in progress or could be implemented is tracked in the [issues](http
 - [Vue.js](https://vuejs.org/) (planned)
 - [esbuild](https://esbuild.github.io/)
 - [TailwindCSS](https://tailwindcss.com/)
+
+<!-- ### Analytics
+
+- [matomo](https://matomo.org/) -->
 
 <a id="setup"></a>
 
