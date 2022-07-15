@@ -43,9 +43,12 @@
 The following is a screenshot to show the current progress of the development:
 
 <div align="center">
-  <br>
-  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/activist_preview.png"><img height=25% src=".github/resources/images/landing_page_preview.png" alt="Landing Page Preview"></a>
-  <br>
+  <kbd #gh-dark-mode-only>
+  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/dark_landing_page_preview.png"><img height=25% src=".github/resources/images/dark_landing_page_preview.png" alt="Landing Page Preview"></a>
+  </kbd>
+  <kbd #gh-light-mode-only>
+  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/light_landing_page_preview.png"><img height=25% src=".github/resources/images/light_landing_page_preview.png" alt="Landing Page Preview"></a>
+  </kbd>
 </div>
 
 <a id="contributing"></a>
