@@ -12,7 +12,7 @@
 <!-- [![twitter](https://img.shields.io/badge/Twitter-activist__org-1DA1F2.svg?logo=twitter&logoColor=ffffff)](https://twitter.com/activist_org)
 [![instagram](https://img.shields.io/badge/Instagram-activist__org-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org) -->
 
-### Open-source, nonprofit activist network
+### An open-source, nonprofit activist network
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
 
@@ -44,7 +44,7 @@ The following is a screenshot to show the current progress of the development:
 
 <div align="center">
   <br>
-  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/activist_preview.png"><img height="350" src=".github/resources/images/activist_preview.png" alt="activist Preview"></a>
+  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/activist_preview.png"><img height=25% src=".github/resources/images/landing_page_preview.png" alt="Landing Page Preview"></a>
   <br>
 </div>
 
