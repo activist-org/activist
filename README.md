@@ -72,8 +72,6 @@ Work that is in progress or could be implemented is tracked in the [issues](http
 ### Backend
 
 - [Django](https://www.djangoproject.com/)
-  - [gunicorn](https://gunicorn.org/)
-  - [whitenoise](http://whitenoise.evans.io/en/stable/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Redis](https://redis.io/)
 - [Celery](https://docs.celeryq.dev/en/stable/)
@@ -86,7 +84,7 @@ Work that is in progress or could be implemented is tracked in the [issues](http
 
 <!-- ### Analytics
 
-- [matomo](https://matomo.org/) -->
+- [Matomo](https://matomo.org/) -->
 
 <a id="setup"></a>
 

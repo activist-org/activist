@@ -5,6 +5,11 @@ module.exports = {
     "/app/backend/**/*.html",
   ],
   theme: {
+    fontFamily: {
+      sans: ["SF Compact Text", "sans-serif"],
+      // mono: ["Red Hat Text", "mono"],
+      serif: ["Georgia", "serif"],
+    },
     colors: {
       transparent: "transparent",
       current: "currentColor",

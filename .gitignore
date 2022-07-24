@@ -1,6 +1,7 @@
-# Mostly created by https://www.gitignore.io
-
 ### App #######################################################################
+
+# WIP
+vue-frontend/
 
 public/*
 !public/.keep
@@ -10,6 +11,25 @@ public_collected/*
 .env*
 !.env.example
 docker-compose.override.yml
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor directories and files
+.vscode
+*.code-workspace
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 ### Python ####################################################################
 
@@ -90,7 +110,8 @@ dmypy.json
 ### Node ######################################################################
 
 # Dependency directories
-frontend/node_modules/
+node_modules/
+*.local
 
 # Optional eslint cache
 .eslintcache
@@ -145,11 +166,6 @@ tags
 # Persistent undo
 [._]*.un~
 
-### VSCode ####################################################################
-
-.vscode
-*.code-workspace
-
 ### Emacs #####################################################################
 
 # -*- mode: gitignore; -*-
@@ -173,30 +189,31 @@ tramp
 /eshell/history
 /eshell/lastdir
 
-# elpa packages
+# Elpa packages
 /elpa/
 
-# reftex files
+# Reftex files
 *.rel
 
 # AUCTeX auto folder
 /auto/
 
-# cask packages
+# Cask packages
 .cask/
 dist/
+dist-ssr
 
 # Flycheck
 flycheck_*.el
 
-# server auth directory
+# Server auth directory
 /server/
 
-# projectiles files
+# Projectiles files
 .projectile
 
-# directory configuration
+# Directory configuration
 .dir-locals.el
 
-# network security
+# Network security
 /network-security.data
