@@ -7,7 +7,6 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: ["SF Compact Text", "sans-serif"],
-      // mono: ["Red Hat Text", "mono"],
       serif: ["Georgia", "serif"],
     },
     colors: {
