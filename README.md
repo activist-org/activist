@@ -4,7 +4,6 @@
 
 [![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist)](https://github.com/activist-org/activist/issues)
-[![discussions](https://img.shields.io/github/discussions/activist-org/activist)](https://github.com/activist-org/activist/discussions)
 [![django](https://img.shields.io/badge/Django-4-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
 [![vue](https://img.shields.io/badge/Vue-3-41B883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind-3-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
@@ -61,7 +60,6 @@ Work that is in progress or could be implemented is tracked in the [issues](http
 
 ### Ways to Help
 
-- Join us in the [discussions](https://github.com/activist-org/activist/discussions) 👋
 - [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
 - Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
 - [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
