@@ -23,6 +23,8 @@
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
 
+**What does the activist `a` mean?** The center of the letter represents an arrow that points towards left-center from the top - that we want to work with the left and center of the political spectrum and value a democratic movement of power down to the people.
+
 <a id="contents"></a>
 
 # **Contents**
@@ -69,22 +71,34 @@ The activist road map can be followed in the organization's [project board](http
 
 ## Tech Stack [`⇧`](#contents)
 
-### Backend
+<details><summary><strong>Backend tools</strong></summary>
+<p>
 
 - [Django](https://www.djangoproject.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Redis](https://redis.io/)
 - [Celery](https://docs.celeryq.dev/en/stable/)
 
-### Frontend
+</p>
+</details>
+
+<details><summary><strong>Frontend tools</strong></summary>
+<p>
 
 - [React](https://reactjs.org/) (planned)
 - [esbuild](https://esbuild.github.io/)
 - [TailwindCSS](https://tailwindcss.com/)
 
-<!-- ### Analytics
+</p>
+</details>
 
-- [Matomo](https://matomo.org/) -->
+<details><summary><strong>Analytics tools</strong></summary>
+<p>
+
+- [Matomo](https://matomo.org/) (planned)
+
+</p>
+</details>
 
 ## Environment Setup [`⇧`](#contents)
 
