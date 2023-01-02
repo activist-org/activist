@@ -219,11 +219,9 @@ activist has received support from the following organizations as a participant 
 
 <div align="center">
   <br>
-    <a href="https://www.wikimedia.de/"><img height="130"src=".github/resources/images/wikimedia_deutschland_logo_dark.png#gh-dark-mode-only" alt="Wikimedia Deutschland"></a>
-    <a href="https://www.wikimedia.de/"><img height="130"src=".github/resources/images/wikimedia_deutschland_logo_light.png#gh-light-mode-only" alt="Wikimedia Deutschland"></a>
+    <a href="https://www.wikimedia.de/"><img height="130"src=".github/resources/images/wikimedia_deutschland_logo.png" alt="Wikimedia Deutschland"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://wikimedia.rs/"><img height="120" src=".github/resources/images/wikimedia_serbia_logo_dark.png#gh-dark-mode-only" alt="Wikimedia Serbia"></a>
-    <a href="https://wikimedia.rs/"><img height="120" src=".github/resources/images/wikimedia_serbia_logo_light.png#gh-light-mode-only" alt="Wikimedia Serbia"></a>
+    <a href="https://wikimedia.rs/"><img height="120" src=".github/resources/images/wikimedia_serbia_logo.png" alt="Wikimedia Serbia"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="https://belgrade.impacthub.net/"><img height="120" src=".github/resources/images/impact_hub_logo.png" alt="Impact Hub Belgrade"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
