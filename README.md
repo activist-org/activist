@@ -21,7 +21,7 @@
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
 
-**What does the activist `a` mean?** The center of the letter represents an arrow that points towards left-center from the top - that we want to work with the left and center of the political spectrum and value a democratic movement of power down to the people.
+**What does the activist `a` mean?** The center of the letter represents an arrow that points left-center from the top. This symbolizes our community and direction: that we want to work with the left and center of the political spectrum and value a democratic movement of power down to the people.
 
 <a id="contents"></a>
 
