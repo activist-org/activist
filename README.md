@@ -161,7 +161,7 @@ Tasks are all the things that organizations need to do, which will be able to be
 
 Events are where things happen on activist. They are organized by movements and levels, with the former being the focus of the event, and the latter being the kind of participation that people attending should expect (see below).
 
-## Movements [`⇧`](#contents)
+### Movements
 
 activist includes a broad selection of movements:
 
