@@ -1,8 +1,6 @@
-<!-- <div align="center">
-  <a href="https://github.com/activist-org/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/logo/activistGitHubOrgBanner.png" width=1024 alt="activist Logo"></a>
-</div> -->
-
-# activist
+<div align="center">
+  <a href="https://github.com/activist-org/activist"><img src=".github/resources/images/activist_github_org_banner.png" width=1024 alt="activist Logo"></a>
+</div>
 
 [![web](https://img.shields.io/badge/Web-999999.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
@@ -159,7 +157,7 @@ Tasks are all the things that organizations need to do, which will be able to be
 
 ## Events [`⇧`](#contents)
 
-Events are where things happen on activist. They are organized by movements and levels, with the former being the focus of the event, and the latter being the kind of participation that people attending should expect (see below).
+Events are where things happen on activist. They are organized by movements, levels and formats: the the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
 
 ### Movements
 
@@ -176,11 +174,21 @@ activist includes a broad selection of movements:
 | Education              | Freedom of Expression       | Institutional Transparency |
 | Substance Legalization | Peace and Resolution        | Other                      |
 
-Beyond these general issues, tags will also be used to draw community attention to more specific issues.
+<br/>
+Beyond these general movements, tags will also be used to draw community attention to more specific issues.
 
 ### Levels
 
 Activism levels are the kind of involvement for the event, with each being a necessary component to progress within a given issue. `Act` and `Learn` are the two levels of an event on activist, with coloration being used to easily delineate the level of a particular event (red is for act and blue is for learn).
+
+### Formats
+
+Levels are further broken down into specific formats. The available formats currently include:
+
+- Act: protest, volunteering, organizing, fundraising.
+- Learn: seminar, webinar, meeting, panel discussion.
+
+Formats are not required for events like movements and levels, but add an optional level of granularity to help people find what they're looking for.
 
 ## Resources [`⇧`](#contents)
 
@@ -211,11 +219,13 @@ activist has received support from the following organizations as a participant 
 
 <div align="center">
   <br>
-    <a href="https://www.wikimedia.de/"><img height="130"src=".github/resources/images/wikimedia_deutschland_logo.png" alt="Wikimedia Deutschland"></a>
+    <a href="https://www.wikimedia.de/"><img height="130"src=".github/resources/images/wikimedia_deutschland_logo_dark.png#gh-dark-mode-only" alt="Wikimedia Deutschland"></a>
+    <a href="https://www.wikimedia.de/"><img height="130"src=".github/resources/images/wikimedia_deutschland_logo_light.png#gh-light-mode-only" alt="Wikimedia Deutschland"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://wikimedia.rs/"><img height="120" src=".github/resources/images/wikimedia_serbia_logo.png" alt="Wikimedia Serbia"></a>
+    <a href="https://wikimedia.rs/"><img height="120" src=".github/resources/images/wikimedia_serbia_logo_dark.png#gh-dark-mode-only" alt="Wikimedia Serbia"></a>
+    <a href="https://wikimedia.rs/"><img height="120" src=".github/resources/images/wikimedia_serbia_logo_light.png#gh-light-mode-only" alt="Wikimedia Serbia"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://belgrade.impacthub.net/"><img height="120" src=".github/resources/images/impact_hub_belgrade_logo.png" alt="Impact Hub Belgrade"></a>
+    <a href="https://belgrade.impacthub.net/"><img height="120" src=".github/resources/images/impact_hub_logo.png" alt="Impact Hub Belgrade"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <br>
 </div>
