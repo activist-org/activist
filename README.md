@@ -69,34 +69,17 @@ The activist road map can be followed in the organization's [project board](http
 
 ## Tech Stack [`⇧`](#contents)
 
-<details><summary><strong>Backend tools</strong></summary>
-<p>
+### Backend
 
-- [Django](https://www.djangoproject.com/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Redis](https://redis.io/)
-- [Celery](https://docs.celeryq.dev/en/stable/)
+- [Django](https://www.djangoproject.com/) • [PostgreSQL](https://www.postgresql.org/) • [Redis](https://redis.io/) • [Celery](https://docs.celeryq.dev/en/stable/)
 
-</p>
-</details>
+### Frontend
 
-<details><summary><strong>Frontend tools</strong></summary>
-<p>
+- [React](https://reactjs.org/) (planned) • [TailwindCSS](https://tailwindcss.com/) • [esbuild](https://esbuild.github.io/)
 
-- [React](https://reactjs.org/) (planned)
-- [esbuild](https://esbuild.github.io/)
-- [TailwindCSS](https://tailwindcss.com/)
-
-</p>
-</details>
-
-<details><summary><strong>Analytics tools</strong></summary>
-<p>
+### Analytics
 
 - [Matomo](https://matomo.org/) (planned)
-
-</p>
-</details>
 
 ## Environment Setup [`⇧`](#contents)
 
