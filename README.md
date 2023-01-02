@@ -141,34 +141,25 @@ activist is first and foremost about organizations, with the design of the platf
 
 Organizations will eventually have the following features:
 
-### Application
+### Apply to join
 
-All organizations have to apply to join activist. The application process is the way that the community transparently expands, with the support for applications from organizations already on the platform serving to verify those who want to join.
+All organizations have to apply to join activist. The application process is the way that the community transparently expands, with the support from organizations already on the platform serving to verify those who want to join.
 
 ### Working Groups
 
-Working groups allow organizations to organize themselves into smaller teams for specific purposes.
-
-### Tasks
-
-Tasks are all the things that organizations need to do, which will be able to be organized in lists and kanban boards. Tasks can themselves be [events](#events).
+Working groups will allow organizations to organize themselves into smaller teams for specific purposes.
 
 ### Communications
 
 Organizations will be able to send out communications to their members (announcements) and supporters (statements).
 
+### Tasks
+
+Tasks are all the things that organizations need to do, which will be able to be organized in lists and kanban boards. Tasks can themselves be events (see below).
+
 ## Events [`⇧`](#contents)
 
-Events are where things happen on activist. They are organized by [issue](#issues) and [level](#levels), with the former being the focus of the event, and the latter being the kind of participation that people attending should expect.
-
-### Levels
-
-Activism levels are the kind of involvement for the event, with each being a necessary component to progress within a given issue:
-
-- Act
-- Learn
-
-Coloration is used to easily delineate the level of a particular event, with blue being for learning, green being for supporting, and red being for acting.
+Events are where things happen on activist. They are organized by movements and levels, with the former being the focus of the event, and the latter being the kind of participation that people attending should expect (see below).
 
 ## Movements [`⇧`](#contents)
 
@@ -187,17 +178,21 @@ activist includes a broad selection of movements:
 
 Beyond these general issues, tags will also be used to draw community attention to more specific issues.
 
+### Levels
+
+Activism levels are the kind of involvement for the event, with each being a necessary component to progress within a given issue. `Act` and `Learn` are the two levels of an event on activist, with coloration being used to easily delineate the level of a particular event (red is for act and blue is for learn).
+
 ## Resources [`⇧`](#contents)
 
 Resources at the start will aggregate links to files that organizations want to organize and present to their members and the general public (if made open). Later the goal is to allow for the creation of unique hosted resources such as maps that indicate areas of interest and presentations of statistical findings from researchers.
 
 ## Activists [`⇧`](#contents)
 
-Activists, user accounts, will not be included in the MVP beyond what's needed for organizations. The main goal for this component at the start is to derive technical specifications that assure that privacy at the highest level can be provided to those users who want it, while at the same time allowing for those who want to work in the open to do so. Activism is a dangerous job for many, and the platform will respect the needs of those who do dangerous work and still want to participate. Hidden accounts is the current working idea, but it should be noted that such accounts may not be fully featured.
+Activists, user accounts, will not be included in the MVP beyond what's needed for organizations. The main goal for this component at the start is to derive technical specifications that assure that privacy at the highest level can be provided to those users who want it, while at the same time allowing for those who want to work in the open to do so. Activism is a dangerous job for many, and the platform will respect the needs of those who need anonymity in their work and still want to participate.
 
 ## Affiliations [`⇧`](#contents)
 
-activist has various kinds of relationships between between organizations and activists that are collectively known as affiliations. The possible affiliations include:
+activist has various kinds of relationships between organizations and activists that are collectively known as affiliations. The possible affiliations include:
 
 - Supporter: an organization or activist that supports another
 - Ally: the relationship of mutual support
@@ -206,7 +201,7 @@ What kind of affiliate an organization or activist is will determine their notif
 
 ## Votes [`⇧`](#contents)
 
-Another forthcoming feature, the Votes section would allow events to be made in relation to elections and legislation. Whether or not this section would be integrated into Events is yet to be decided. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activist operates.
+Another forthcoming feature, the Votes section would allow events to be made in relation to elections and legislation. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activists operate.
 
 <a id="supported-by"></a>
 
