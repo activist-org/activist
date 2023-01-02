@@ -1,14 +1,18 @@
-<ol></ol>
+<!-- <div align="center">
+  <a href="https://github.com/activist-org/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/logo/activistGitHubOrgBanner.png" width=1024 alt="activist Logo"></a>
+</div> -->
 
 # activist
 
-[![platform](https://img.shields.io/badge/platform-web-999999.svg)](https://github.com/activist-org/activist)
-[![issues](https://img.shields.io/github/issues/activist-org/activist)](https://github.com/activist-org/activist/issues)
-[![django](https://img.shields.io/badge/Django-4-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
-[![vue](https://img.shields.io/badge/Vue-3-41B883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
-[![tailwind](https://img.shields.io/badge/Tailwind-3-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
-[![license](https://img.shields.io/github/license/activist-org/activist.svg)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
-[![coc](https://img.shields.io/badge/coc-Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
+[![web](https://img.shields.io/badge/Web-999999.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
+[![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
+[![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
+[![react](https://img.shields.io/badge/React%2018-61DBFB.svg?logo=react&logoColor=2A2D2E)](#tech-stack)
+[![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
+[![license](https://img.shields.io/github/license/activist-org/activist-iOS.svg?label=%20)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
+[![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
+[![instagram](https://img.shields.io/badge/Instagram-8A3AB9.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
+[![twitter](https://img.shields.io/badge/Twitter-1DA1F2.svg?logo=twitter&logoColor=ffffff)](https://twitter.com/activist_org)
 
 <!-- [![twitter](https://img.shields.io/badge/Twitter-activist__org-1DA1F2.svg?logo=twitter&logoColor=ffffff)](https://twitter.com/activist_org)
 [![instagram](https://img.shields.io/badge/Instagram-activist__org-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org) -->
@@ -23,20 +27,9 @@
 
 # **Contents**
 
-- [Preview](#preview)
+- [Preview Images](#preview)
 - [Contributing](#contributing)
-  - [Tech Stack](#tech-stack)
-  - [Setup](#setup)
-- [Designs](#designs)
-- [Overview](#overview)
-  - [Organizations](#organizations)
-  - [Activists](#activists)
-  - [Events](#events)
-  - [Issues](#issues)
-  - [Levels](#levels)
-  - [Affiliates](#affiliates)
-  - [Resources](#resources)
-  - [Votes](#votes)
+- [Platform Overview](#overview)
 - [Supported By](#supported-by)
 
 <a id="preview"></a>
@@ -58,12 +51,19 @@ The following is a screenshot to show the current progress of the development:
 
 Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist. Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
-### Ways to Help
+After your first few pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
+
+## Ways to Help [`⇧`](#contents)
 
 - [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
 - Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
 - [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
 - [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
+<!-- - [Sharing activist.org](https://github.com/activist-org/activist/issues/181) with others! 🚀 -->
+
+### Road Map
+
+The activist road map can be followed in the organization's [project board](https://github.com/orgs/activist-org/projects/1) where we list the most important issues along with their priority, status and an indication of which sub projects they're included in (if applicable).
 
 <a id="tech-stack"></a>
 
@@ -78,7 +78,7 @@ Work that is in progress or could be implemented is tracked in the [issues](http
 
 ### Frontend
 
-- [Vue.js](https://vuejs.org/) (planned)
+- [React](https://reactjs.org/) (planned)
 - [esbuild](https://esbuild.github.io/)
 - [TailwindCSS](https://tailwindcss.com/)
 
@@ -86,9 +86,7 @@ Work that is in progress or could be implemented is tracked in the [issues](http
 
 - [Matomo](https://matomo.org/) -->
 
-<a id="setup"></a>
-
-## Setup [`⇧`](#contents)
+## Environment Setup [`⇧`](#contents)
 
 To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
@@ -109,23 +107,19 @@ docker-compose up --build
 
 You can visit <http://localhost:8000> to see the development build once the container is up and running.
 
-<a id="designs"></a>
+## Designs [`⇧`](#contents)
 
-# Designs [`⇧`](#contents)
-
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src=".github/resources/images/figma_logo.png" width="10%" alt="Public Figma Designs" align="right"></a>
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src=".github/resources/images/figma_logo.png" height="50" alt="Public Figma Designs" align="right"></a>
 
 The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those with interest can use the [discussions](https://github.com/activist-org/activist/discussions) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
-Note that the linked Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub and via other means. We'd love to see a sample of your work, and if everything looks good we'll schedule a time to get connected!
+Note that the linked Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or via the email on the public designs welcome page. We'd love to see a sample of your work, and if everything looks good we'll schedule a time to get connected!
 
 <a id="overview"></a>
 
-# Overview [`⇧`](#contents)
+# Platform Overview [`⇧`](#contents)
 
-The following sections give a general overview of the various aspects of activist.
-
-<a id="organizations"></a>
+The following sections give a general overview of the various aspects of [activist.org](http://activist.org/).
 
 ## Organizations [`⇧`](#contents)
 
@@ -149,52 +143,45 @@ Tasks are all the things that organizations need to do, which will be able to be
 
 Organizations will be able to send out communications to their members (announcements) and supporters (statements).
 
-<a id="activists"></a>
+## Events [`⇧`](#contents)
+
+Events are where things happen on activist. They are organized by [issue](#issues) and [level](#levels), with the former being the focus of the event, and the latter being the kind of participation that people attending should expect.
+
+### Levels
+
+Activism levels are the kind of involvement for the event, with each being a necessary component to progress within a given issue:
+
+- Act
+- Learn
+
+Coloration is used to easily delineate the level of a particular event, with blue being for learning, green being for supporting, and red being for acting.
+
+## Movements [`⇧`](#contents)
+
+activist includes a broad selection of movements:
+
+|                        |                             |                            |
+| :--------------------- | :-------------------------- | :------------------------- |
+| Environment            | Animal Rights               | Democracy                  |
+| LGTBQIA+               | Human Rights                | Women’s Rights             |
+| Children’s Rights      | Elder Rights                | Racial Justice             |
+| Health                 | Housing and Community       | Refugees and Migration     |
+| Worker’s Rights        | Technology and Privacy      | Trade and Development      |
+| Nutrition              | Accessibility and Inclusion | Emergency Relief           |
+| Education              | Freedom of Expression       | Institutional Transparency |
+| Substance Legalization | Peace and Resolution        | Other                      |
+
+Beyond these general issues, tags will also be used to draw community attention to more specific issues.
+
+## Resources [`⇧`](#contents)
+
+Resources at the start will aggregate links to files that organizations want to organize and present to their members and the general public (if made open). Later the goal is to allow for the creation of unique hosted resources such as maps that indicate areas of interest and presentations of statistical findings from researchers.
 
 ## Activists [`⇧`](#contents)
 
 Activists, user accounts, will not be included in the MVP beyond what's needed for organizations. The main goal for this component at the start is to derive technical specifications that assure that privacy at the highest level can be provided to those users who want it, while at the same time allowing for those who want to work in the open to do so. Activism is a dangerous job for many, and the platform will respect the needs of those who do dangerous work and still want to participate. Hidden accounts is the current working idea, but it should be noted that such accounts may not be fully featured.
 
-<a id="events"></a>
-
-## Events [`⇧`](#contents)
-
-Events are where things happen on activist. They are organized by [issue](#issues) and [level](#levels), with the former being the focus of the event, and the latter being the kind of participation that people attending should expect.
-
-<a id="issues"></a>
-
-## Issues [`⇧`](#contents)
-
-activist includes a broad selection of issues:
-
-|                   |                            |                             |
-| :---------------- | :------------------------- | :-------------------------- |
-| Environment       | Democracy                  | Accessibility and Inclusion |
-| Animal Rights     | Native Rights              | Trade and Development       |
-| Racial Justice    | Institutional Transparency | Emergency Relief            |
-| Women's Rights    | Worker's Rights            | Nutrition                   |
-| LGBTQIA+          | Refugees and Migration     | Freedom of Expression       |
-| Children’s Rights | Housing and Community      | Peace and Resolution        |
-| Elder Rights      | Health                     | Substance Legalization      |
-| Education         | Technology and Privacy     | Other                       |
-
-Beyond these general issues, tags will also be used to draw community attention to more specific issues.
-
-<a id="levels"></a>
-
-## Levels [`⇧`](#contents)
-
-Activism levels are the kind of involvement for the event, with each being a necessary component to progress within a given issue:
-
-- Learn
-- Support
-- Act
-
-Coloration is used to easily delineate the level of a particular event, with blue being for learning, green being for supporting, and red being for acting.
-
-<a id="affiliates"></a>
-
-## Affiliates [`⇧`](#contents)
+## Affiliations [`⇧`](#contents)
 
 activist has various kinds of relationships between between organizations and activists that are collectively known as affiliations. The possible affiliations include:
 
@@ -202,14 +189,6 @@ activist has various kinds of relationships between between organizations and ac
 - Ally: the relationship of mutual support
 
 What kind of affiliate an organization or activist is will determine their notifications and degrees of access to private content.
-
-<a id="resources"></a>
-
-## Resources [`⇧`](#contents)
-
-Resources at the start will aggregate links to files that organizations want to organize and present to their members and the general public (if made open). Later the goal is to allow for the creation of unique hosted resources such as maps that indicate areas of interest and presentations of statistical findings from researchers.
-
-<a id="votes"></a>
 
 ## Votes [`⇧`](#contents)
 
@@ -234,16 +213,26 @@ activist has received support from the following organizations as a participant 
 
 <a id="disclosure"></a>
 
-# Disclosure
+# Powered By
 
-activist is not directly affiliated with any corporations, political parties, governments or non-government organizations.
+### Contributors
 
-# References
+Many thanks to all the [activist.org contributors](https://github.com/activist-org/activist/graphs/contributors)! 🚀
 
-<details><summary><strong>List of referenced codes</strong></summary>
+<!-- <a href="https://github.com/activist-org/activist/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=activist-org/activist" />
+</a> -->
+
+### Code
+
+<details><summary><strong>List of referenced code</strong></summary>
 <p>
 
 - [docker-django-example](https://github.com/nickjj/docker-django-example) by [nickjj](https://github.com/nickjj) ([License](https://github.com/nickjj/docker-django-example/blob/main/LICENSE))
 
 </p>
 </details>
+
+# Disclosure
+
+activist is not directly affiliated with any corporations, political parties, governments or non-government organizations. Our goal is to make activism easier for our community and partner organizations.
