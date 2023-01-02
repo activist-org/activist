@@ -185,8 +185,8 @@ Activism levels are the kind of involvement for the event, with each being a nec
 
 Levels are further broken down into specific formats. The available formats currently include:
 
-- Act: protest, volunteering, organizing, fundraising.
-- Learn: seminar, webinar, meeting, panel discussion.
+- Act: protest, volunteering, organizing, fundraising
+- Learn: seminar, webinar, meeting, panel discussion
 
 Formats are not required for events like movements and levels, but add an optional level of granularity to help people find what they're looking for.
 
