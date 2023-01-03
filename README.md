@@ -122,9 +122,9 @@ activist is first and foremost about organizations, with the design of the platf
 
 Organizations will eventually have the following features:
 
-### Apply to join
+### Applying to join
 
-All organizations have to apply to join activist. The application process is the way that the community transparently expands, with the support from organizations already on the platform serving to verify those who want to join.
+All organizations have to apply to join activist. The application process is the way that the community transparently expands, with the support from organizations already on the platform serving to verify those who want to join. Interactions on the platform will also in some cases be limited to members of organizations. In this way we create important links of trust from organizations to other organizations, and each organization to its individual members.
 
 ### Working Groups
 
@@ -136,39 +136,46 @@ Organizations will be able to send out communications to their members (announce
 
 ### Tasks
 
-Tasks are all the things that organizations need to do, which will be able to be organized in lists and kanban boards. Tasks can themselves be events (see below).
+Tasks are all the things that organizations need to do, which will be able to be organized in lists and kanban boards. Tasks can themselves be events or actions needed to make sure the event is a success (see below).
+
+<a id="events"></a>
 
 ## Events [`⇧`](#contents)
 
-Events are where things happen on activist. They are organized by movements, levels and formats: the the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
+Events are where things happen on activist. They are organized by [movements](#movements), [levels](#levels) and [formats](#formats): the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
+
+<a id="movements"></a>
 
 ### Movements
 
-activist includes a broad selection of movements:
+activist will eventually include a broad selection of movements. From the start the platform will focus on a select few: `Environment`, `Housing and Community`, and `Refugees and Migration`. Further movements will be added later as interest from organizations and the community grows. The following are the working movements that activist could include:
 
 |                        |                             |                            |
 | :--------------------- | :-------------------------- | :------------------------- |
 | Environment            | Animal Rights               | Democracy                  |
-| LGTBQIA+               | Human Rights                | Women’s Rights             |
-| Children’s Rights      | Elder Rights                | Racial Justice             |
+| LGTBQIA+               | Racial Justice              | Women’s Rights             |
+| Children’s Rights      | Elder Rights                | Education                  |
 | Health                 | Housing and Community       | Refugees and Migration     |
-| Worker’s Rights        | Technology and Privacy      | Trade and Development      |
-| Nutrition              | Accessibility and Inclusion | Emergency Relief           |
-| Education              | Freedom of Expression       | Institutional Transparency |
-| Substance Legalization | Peace and Resolution        | Other                      |
+| Labor Rights           | Technology and Privacy      | Peace and Resolution       |
+| Nutrition              | Accessibility and Inclusion | Institutional Transparency |
+| Substance Legalization | Freedom of Expression       | Other                      |
 
 <br/>
 Beyond these general movements, tags will also be used to draw community attention to more specific issues.
+
+<a id="levels"></a>
 
 ### Levels
 
 Activism levels are the kind of involvement for the event, with each being a necessary component to progress within a given issue. `Act` and `Learn` are the two levels of an event on activist, with coloration being used to easily delineate the level of a particular event (red is for act and blue is for learn).
 
+<a id="formats"></a>
+
 ### Formats
 
 Levels are further broken down into specific formats. The available formats currently include:
 
-- Act: protest, volunteering, organizing, fundraising
+- Act: protest, volunteer, organize, fundraising
 - Learn: seminar, webinar, meeting, panel discussion
 
 Formats are not required for events like movements and levels, but add an optional level of granularity to help people find what they're looking for.
@@ -179,7 +186,7 @@ Resources at the start will aggregate links to files that organizations want to 
 
 ## Activists [`⇧`](#contents)
 
-Activists, user accounts, will not be included in the MVP beyond what's needed for organizations. The main goal for this component at the start is to derive technical specifications that assure that privacy at the highest level can be provided to those users who want it, while at the same time allowing for those who want to work in the open to do so. Activism is a dangerous job for many, and the platform will respect the needs of those who need anonymity in their work and still want to participate.
+Activists, user accounts, will not be included in the MVP beyond what's needed for organization management. The main goal for this component at the start is to derive technical specifications that assure that privacy at the highest level can be provided to those users who want it, while at the same time balancing features needed by the community. Activism is a dangerous job for many, and the platform will respect the needs of those who need anonymity in their work and still want to participate.
 
 ## Affiliations [`⇧`](#contents)
 
@@ -192,7 +199,7 @@ What kind of affiliate an organization or activist is will determine their notif
 
 ## Votes [`⇧`](#contents)
 
-Another forthcoming feature, the Votes section would allow events to be made in relation to elections and legislation. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activists operate.
+Another forthcoming feature, the votes section would allow events to be made in relation to elections and legislation. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activists operate.
 
 <a id="supported-by"></a>
 
