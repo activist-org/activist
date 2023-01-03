@@ -27,22 +27,18 @@
 
 # **Contents**
 
-- [Preview Images](#preview)
+- [Preview Video](#preview)
 - [Contributing](#contributing)
 - [Platform Overview](#overview)
 - [Supported By](#supported-by)
 
 <a id="preview"></a>
 
-# Preview [`⇧`](#contents)
+# Preview Video [`⇧`](#contents)
 
-The following is a screenshot to show the current progress of the development:
+The following is a recording of the [event creation and joining prototype](https://www.figma.com/proto/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=1998%3A2577&scaling=contain&page-id=1986%3A1046&starting-point-node-id=1998%3A2577) found on [Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231):
 
-<div align="center">
-  <kbd>
-  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/landing_page_preview.png"><img height=25% src=".github/resources/images/landing_page_preview.png" alt="Landing Page Preview"></a>
-  </kbd>
-</div>
+Further prototypes and designs are available in the [designs for activist](#designs). Feedback and ideas are welcome!
 
 <a id="contributing"></a>
 
@@ -100,6 +96,8 @@ docker-compose up --build
 ```
 
 You can visit <http://localhost:8000> to see the development build once the container is up and running.
+
+<a id="designs"></a>
 
 ## Designs [`⇧`](#contents)
 
