@@ -38,7 +38,7 @@
 
 The following is a recording of the [event creation and joining prototype](https://www.figma.com/proto/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=1998%3A2577&scaling=contain&page-id=1986%3A1046&starting-point-node-id=1998%3A2577) found on [Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231):
 
-Further prototypes and designs are available in the [designs for activist](#designs). Feedback and ideas are welcome!
+Further prototypes and designs are available in the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Feedback and ideas are welcome!
 
 <a id="contributing"></a>
 
