@@ -18,7 +18,7 @@
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
 
-**What does the activist `a` mean?** The center of the letter represents an arrow that points left-center from the top. This symbolizes our community and direction: that we want to work with the left and center of the political spectrum and value a democratic movement of power down to the people.
+**What does the activist `a` mean?** The center of the letter represents an arrow that points left-center from the top. This symbolizes our community and direction: that we want to work with the left and center of the political spectrum and value a democratic movement of power down to the people. Other meanings are welcome :D
 
 <a id="contents"></a>
 
@@ -35,7 +35,7 @@
 
 The following is a recording of the [Creating and Joining Events prototype](https://www.figma.com/proto/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=1998%3A2577&scaling=contain&page-id=1986%3A1046&starting-point-node-id=1998%3A2577) found on [Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231):
 
-Further prototypes and designs are available in the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Feedback and ideas are welcome!
+Further prototypes and designs are available in the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Feedback and ideas can be submitted via a [design issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=design&template=design_improvement.yml).
 
 <a id="contributing"></a>
 
@@ -51,7 +51,7 @@ After your first few pull requests organization members would be happy to discus
 - Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
 - [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
 - [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
-<!-- - [Sharing activist.org](https://github.com/activist-org/activist/issues/181) with others! 🚀 -->
+- [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
 
 ### Road Map
 

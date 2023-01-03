@@ -1,6 +1,5 @@
 name: ❓ Questions and everything else
 description: We'd love to hear from you!
-labels: ["question"]
 body:
   - type: checkboxes
     id: terms
