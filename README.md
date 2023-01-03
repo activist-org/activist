@@ -154,7 +154,7 @@ activist will eventually include a broad selection of movements. From the start 
 | Environment            | Animal Rights               | Democracy                  |
 | LGTBQIA+               | Racial Justice              | Women’s Rights             |
 | Children’s Rights      | Elder Rights                | Education                  |
-| Health                 | Housing and Community       | Refugees and Migration     |
+| Health and Wellbeing   | Housing and Community       | Refugees and Migration     |
 | Labor Rights           | Technology and Privacy      | Peace and Resolution       |
 | Nutrition              | Accessibility and Inclusion | Institutional Transparency |
 | Substance Legalization | Freedom of Expression       | Emergency Relief           |
