@@ -40,8 +40,7 @@ The following is a screenshot to show the current progress of the development:
 
 <div align="center">
   <kbd>
-  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/dark_landing_page_preview.png#gh-dark-mode-only"><img height=25% src=".github/resources/images/dark_landing_page_preview.png" alt="Landing Page Preview"></a>
-  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/light_landing_page_preview.png#gh-light-mode-only"><img height=25% src=".github/resources/images/light_landing_page_preview.png" alt="Landing Page Preview"></a>
+  <a href="https://github.com/activist-org/activist/blob/main/.github/resources/images/landing_page_preview.png"><img height=25% src=".github/resources/images/landing_page_preview.png" alt="Landing Page Preview"></a>
   </kbd>
 </div>
 
