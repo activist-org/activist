@@ -2,7 +2,7 @@
   <a href="https://github.com/activist-org/activist"><img src=".github/resources/images/activist_github_org_banner.png" width=1024 alt="activist Logo"></a>
 </div>
 
-[![web](https://img.shields.io/badge/Web-999999.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
+[![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
 [![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
 [![react](https://img.shields.io/badge/React%2018-61DBFB.svg?logo=react&logoColor=333333)](#tech-stack)
