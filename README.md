@@ -5,7 +5,8 @@
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
 [![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
-[![react](https://img.shields.io/badge/React%2018-61DBFB.svg?logo=react&logoColor=333333)](#tech-stack)
+[![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
+[![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
 [![license](https://img.shields.io/github/license/activist-org/activist-iOS.svg?label=%20)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
@@ -83,7 +84,7 @@ The activist road map can be followed in the organization's [project board](http
 
 ### Frontend
 
-- [React](https://reactjs.org/) (planned) • [TailwindCSS](https://tailwindcss.com/) • [esbuild](https://esbuild.github.io/)
+- [Vue](https://vuejs.org/) • [Nuxt](https://nuxt.com/) • [Tailwind CSS](https://tailwindcss.com/) • [esbuild](https://esbuild.github.io/)
 
 ### Analytics
 
