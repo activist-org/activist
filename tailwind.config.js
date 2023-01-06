@@ -1,0 +1,37 @@
+export default {
+  content: [
+    `${srcDir}/components/**/*.{vue,js,ts}`,
+    `${srcDir}/layouts/**/*.vue`,
+    `${srcDir}/pages/**/*.vue`,
+    `${srcDir}/composables/**/*.{js,ts}`,
+    `${srcDir}/plugins/**/*.{js,ts}`,
+    `${srcDir}/App.{js,ts,vue}`,
+    `${srcDir}/app.{js,ts,vue}`,
+    `${srcDir}/Error.{js,ts,vue}`,
+    `${srcDir}/error.{js,ts,vue}`,
+  ],
+  plugins: [],
+  theme: {
+    colors: {
+      "light-header-bg": "rgba(240, 240, 235, 1)",
+      "light-content-bg": "rgba(255, 255, 255, 1)",
+      "light-distinct-bg": "rgba(246, 248, 250, 1)",
+      "light-section-div": "rgba(216, 222, 228, 1)",
+      "light-text": "rgba(0, 0, 0, 0.85)",
+      "light-special-text": "rgba(115, 111, 114, 0.9)",
+      "light-link-text": "rgba(0, 106, 214, 0.9)",
+      "light-highlight": "rgba(115, 111, 114, 0.25)",
+      "light-placeholder": "rgba(115, 111, 114, 0.9)",
+
+      "dark-header-bg": "rgba(22, 27, 34, 1)",
+      "dark-content-bg": "rgba(1, 4, 9, 1)",
+      "dark-distinct-bg": "rgba(13, 17, 23, 1)",
+      "dark-section-div": "rgba(33, 38, 45, 1)",
+      "dark-text": "rgba(255, 255, 255, 0.80)",
+      "dark-special-text": "rgba(140, 140, 140, 0.9)",
+      "dark-link-text": "rgba(86, 167, 252, 0.9)",
+      "dark-highlight": "rgba(140, 140, 140, 0.25)",
+      "dark-placeholder": "rgba(140, 140, 140, 0.9)",
+    },
+  },
+};

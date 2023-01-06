@@ -80,11 +80,15 @@ The activist road map can be followed in the organization's [project board](http
 
 ### Backend
 
-- [Django](https://www.djangoproject.com/) • [PostgreSQL](https://www.postgresql.org/) • [Redis](https://redis.io/) • [Celery](https://docs.celeryq.dev/en/stable/)
+- [Django](https://www.djangoproject.com/) ([Python](https://www.python.org/)) • [PostgreSQL](https://www.postgresql.org/) • [Redis](https://redis.io/) • [Celery](https://docs.celeryq.dev/en/stable/)
 
 ### Frontend
 
-- [Vue](https://vuejs.org/) • [Nuxt](https://nuxt.com/) • [Tailwind CSS](https://tailwindcss.com/) • [esbuild](https://esbuild.github.io/)
+- [Nuxt.js](https://nuxt.com/) ([Vue.js](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)) • [Tailwind CSS](https://tailwindcss.com/) • [esbuild](https://esbuild.github.io/)
+
+### Deployment
+
+- [Docker](https://www.docker.com/)
 
 ### Analytics
 
