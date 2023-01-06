@@ -6,7 +6,7 @@
 .vscode/*
 !.vscode/extensions.json
 
-# Django
+# Django and Python
 __pycache__
 
 # Nuxt dev/build outputs
