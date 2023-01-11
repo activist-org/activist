@@ -233,8 +233,6 @@ activist has received support from the following organizations as a participant 
   <br>
 </div>
 
-<a id="disclosure"></a>
-
 # Powered By
 
 ### Contributors
@@ -244,16 +242,6 @@ Many thanks to all the [activist.org contributors](https://github.com/activist-o
 <!-- <a href="https://github.com/activist-org/activist/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=activist-org/activist" />
 </a> -->
-
-### Code
-
-<details><summary><strong>List of referenced code</strong></summary>
-<p>
-
-- [docker-django-example](https://github.com/nickjj/docker-django-example) by [nickjj](https://github.com/nickjj) ([License](https://github.com/nickjj/docker-django-example/blob/main/LICENSE))
-
-</p>
-</details>
 
 # Disclosure
 
