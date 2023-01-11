@@ -1,7 +1,3 @@
-<script setup>
-const title = ref("Finances");
-</script>
-
 <template>
   <div class="p-4">
     <Head>
@@ -10,3 +6,7 @@ const title = ref("Finances");
     <h1>This is a finances landing</h1>
   </div>
 </template>
+
+<script setup>
+const title = ref("Finances");
+</script>

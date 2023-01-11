@@ -1,7 +1,3 @@
-<script setup>
-const title = ref("Impress");
-</script>
-
 <template>
   <div class="p-4">
     <Head>
@@ -10,3 +6,7 @@ const title = ref("Impress");
     <h1>This is a website impress page</h1>
   </div>
 </template>
+
+<script setup>
+const title = ref("Impress");
+</script>

@@ -1,7 +1,3 @@
-<script setup>
-const title = ref("Get Active");
-</script>
-
 <template>
   <div class="p-4">
     <Head>
@@ -10,3 +6,7 @@ const title = ref("Get Active");
     <h1>This is a page about getting active</h1>
   </div>
 </template>
+
+<script setup>
+const title = ref("Get Active");
+</script>

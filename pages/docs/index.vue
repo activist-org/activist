@@ -1,7 +1,3 @@
-<script setup>
-const title = ref("Documentation");
-</script>
-
 <template>
   <div class="p-4">
     <Head>
@@ -10,3 +6,7 @@ const title = ref("Documentation");
     <h1>This is a documentation landing page</h1>
   </div>
 </template>
+
+<script setup>
+const title = ref("Documentation");
+</script>

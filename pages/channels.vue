@@ -1,7 +1,3 @@
-<script setup>
-const title = ref("Channels");
-</script>
-
 <template>
   <div class="p-4">
     <Head>
@@ -10,3 +6,7 @@ const title = ref("Channels");
     <h1>This is a page about activist channels</h1>
   </div>
 </template>
+
+<script setup>
+const title = ref("Channels");
+</script>

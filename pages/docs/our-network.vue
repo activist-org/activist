@@ -1,7 +1,3 @@
-<script setup>
-const title = ref("Our Network");
-</script>
-
 <template>
   <div class="p-4">
     <Head>
@@ -10,3 +6,7 @@ const title = ref("Our Network");
     <h1>This is a page about our partner organizations</h1>
   </div>
 </template>
+
+<script setup>
+const title = ref("Our Network");
+</script>
