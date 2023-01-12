@@ -80,11 +80,11 @@ The activist road map can be followed in the organization's [project board](http
 
 ### Backend
 
-- [Django](https://www.djangoproject.com/) ([Python](https://www.python.org/)) • [PostgreSQL](https://www.postgresql.org/) • [Redis](https://redis.io/) • [Celery](https://docs.celeryq.dev/en/stable/)
+- [Django](https://www.djangoproject.com/) ([Python](https://www.python.org/)) • [PostgreSQL](https://www.postgresql.org/) • [Redis](https://redis.io/) (planned) • [Celery](https://docs.celeryq.dev/en/stable/) (planned)
 
 ### Frontend
 
-- [Nuxt.js](https://nuxt.com/) ([Vue.js](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)) • [Tailwind CSS](https://tailwindcss.com/) • [esbuild](https://esbuild.github.io/)
+- [Nuxt.js](https://nuxt.com/) ([Vue.js](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)) • [Tailwind CSS](https://tailwindcss.com/) • [Vite.js](https://vitejs.dev/)
 
 ### Deployment
 
@@ -108,12 +108,10 @@ Enter the created directory and start your docker images with the following:
 
 ```bash
 cd activist
-docker-compose up --build
-# Run the following in a second terminal screen to setup the initial database.
-./run manage migrate
+docker-compose up
 ```
 
-You can visit <http://localhost:8000> to see the development build once the container is up and running.
+You can visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
 <a id="designs"></a>
 

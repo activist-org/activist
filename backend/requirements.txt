@@ -1,0 +1,4 @@
+black==22.12.0
+Django==4.1.5
+psycopg==2-2.9.5
+pylint-django==2.5.3
