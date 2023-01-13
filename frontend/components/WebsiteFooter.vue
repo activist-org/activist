@@ -1,33 +1,25 @@
 <template>
   <footer
-    class="px-12 py-3 pb-10 mx-auto bg-light-header-bg dark:bg-dark-header-bg"
+    class="px-12 py-3 pb-10 mx-auto bg-light-header-bg dark:bg-dark-header-bg text-light-text dark:text-dark-text"
   >
-    <div class="flex justify-end mt-5">
+    <div class="flex mt-5">
       <div class="flex-1">
         <ActivistLogo />
-        <p class="max-w-md mt-3 text-med text-light-text dark:text-dark-text">
+        <p class="max-w-md mt-3 text-med">
           Free, open-source activism network.
         </p>
-        <div
-          class="flex space-x-2 max-w-md mt-5 text-med text-light-text dark:text-dark-text"
-        >
-          <div class="hover:font-semibold">
+        <div class="grid grid-cols-11 max-w-xs mt-5 text-med">
+          <div class="col-span-5 hover:font-semibold">
             <NuxtLink to="/legal/trademark-policy"> Trademark Policy </NuxtLink>
           </div>
-          <div>•</div>
-          <div class="hover:font-semibold">
+          <div class="col-span-1">•</div>
+          <div class="col-span-5 hover:font-semibold">
             <NuxtLink to="/legal/privacy-policy"> Privacy Policy </NuxtLink>
           </div>
-          <div>•</div>
-          <div class="hover:font-semibold">
-            <NuxtLink to="/legal/cookies"> Cookies </NuxtLink>
-          </div>
         </div>
-        <p class="max-w-md mt-2 text-med text-light-text dark:text-dark-text">
-          Copyright © 2023 activist.
-        </p>
+        <p class="max-w-md mt-2 text-med">Copyright © 2023 activist.</p>
       </div>
-      <div class="flex space-x-20 text-light-text dark:text-dark-text">
+      <div class="grid grid-cols-3 gap-24 max-w-lg">
         <div>
           <p class="text-xl">Connect</p>
           <p class="mt-3 text-med hover:font-semibold">
