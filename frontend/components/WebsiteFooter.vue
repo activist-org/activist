@@ -1,10 +1,13 @@
 <template>
+  <div class="h-px mx-auto bg-light-section-div dark:bg-dark-section-div"></div>
   <footer
-    class="px-12 py-3 pb-10 mx-auto bg-light-header-bg dark:bg-dark-header-bg text-light-text dark:text-dark-text"
+    class="px-14 py-12 mx-auto bg-light-header-bg dark:bg-dark-header-bg text-light-text dark:text-dark-text"
   >
-    <div class="flex mt-5">
+    <div class="flex flex-row">
       <div class="flex-1">
-        <ActivistLogo />
+        <div class="flex h-8">
+          <ActivistLogo />
+        </div>
         <p class="max-w-md mt-3 text-med">
           Free, open-source activism network.
         </p>
@@ -12,8 +15,8 @@
           <div class="col-span-5 hover:font-semibold">
             <NuxtLink to="/legal/trademark-policy"> Trademark Policy </NuxtLink>
           </div>
-          <div class="col-span-1">•</div>
-          <div class="col-span-5 hover:font-semibold">
+          <div class="col-span-1 ml-[-16px]">•</div>
+          <div class="col-span-5 hover:font-semibold ml-[-28px]">
             <NuxtLink to="/legal/privacy-policy"> Privacy Policy </NuxtLink>
           </div>
         </div>

@@ -1,0 +1,88 @@
+<template>
+  <div
+    v-if="contentPosition === 'left'"
+    class="inline-flex items-center space-x-36 text-light-text dark:text-dark-text"
+  >
+    <div class="flex flex-col items-start max-w-md space-y-4">
+      <p class="text-4xl">{{ header }}</p>
+      <p
+        class="text-xl text-transform: uppercase text-light-special-text dark:text-dark-special-text"
+      >
+        {{ tagline }}
+      </p>
+      <p class="text-md">
+        {{ text }}
+      </p>
+      <NuxtLink :to="`${btnURL1}`"
+        ><LabeledBtn cta :label="`${btnText1}`" class="mt-4"
+      /></NuxtLink>
+    </div>
+    <div
+      class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
+    ></div>
+  </div>
+  <div
+    v-else-if="contentPosition === 'right'"
+    class="inline-flex items-center space-x-36 text-light-text dark:text-dark-text"
+  >
+    <div
+      class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
+    ></div>
+    <div class="flex flex-col items-start max-w-md space-y-4">
+      <p class="text-4xl">{{ header }}</p>
+      <p
+        class="text-xl text-transform: uppercase text-light-special-text dark:text-dark-special-text"
+      >
+        {{ tagline }}
+      </p>
+      <p class="text-md">
+        {{ text }}
+      </p>
+      <NuxtLink :to="`${btnURL1}`"
+        ><LabeledBtn cta :label="`${btnText1}`" class="mt-4"
+      /></NuxtLink>
+    </div>
+  </div>
+  <div
+    v-else-if="contentPosition === 'top'"
+    class="text-light-text dark:text-dark-text"
+  >
+    <div class="flex flex-col items-center max-w-2xl space-y-4">
+      <p class="text-4xl text-center">{{ header }}</p>
+      <p
+        class="text-xl text-transform: uppercase text-center text-light-special-text dark:text-dark-special-text"
+      >
+        {{ tagline }}
+      </p>
+      <p class="text-center text-md">
+        {{ text }}
+      </p>
+      <div class="flex flex-row space-x-12">
+        <NuxtLink :to="`${btnURL1}`"
+          ><LabeledBtn cta :label="`${btnText1}`" class="mt-4"
+        /></NuxtLink>
+        <NuxtLink :to="`${btnURL2}`"
+          ><LabeledBtn cta :label="`${btnText2}`" class="mt-4"
+        /></NuxtLink>
+      </div>
+      <div>
+        <div
+          class="w-[1000px] h-[450px] rounded-xl mt-8 bg-light-placeholder dark:bg-dark-placeholder"
+        ></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  contentPosition?: string;
+  header?: string;
+  tagline?: string;
+  text?: string;
+  btnText1?: string;
+  btnURL1?: string;
+  btnText2?: string;
+  btnURL2?: string;
+}>();
+</script>

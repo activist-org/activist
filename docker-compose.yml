@@ -7,11 +7,11 @@ services:
       context: .
       dockerfile: ./backend/Dockerfile
     container_name: django_backend
-    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend/:/app
     ports:
       - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
 
   frontend:
     build:
@@ -19,9 +19,9 @@ services:
       dockerfile: ./frontend/Dockerfile
     image: nuxt_dev
     container_name: nuxt_frontend
-    command: npm run dev
     volumes:
       - ./frontend/:/app
       - /app/node_modules
     ports:
       - "3000:3000"
+    command: npm run dev

@@ -2,8 +2,8 @@
   <NuxtLink to="/">
     <svg
       class="fill-light-text dark:fill-dark-text"
-      width="167"
-      height="36"
+      width="{{width}}"
+      height="{{width / 167 * 36}}"
       viewBox="0 0 3000 647"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -13,3 +13,9 @@
     </svg>
   </NuxtLink>
 </template>
+
+<script setup lang="ts">
+defineProps<{
+  width?: Number;
+}>();
+</script>

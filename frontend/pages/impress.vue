@@ -1,9 +1,9 @@
 <template>
-  <div class="p-4">
+  <div>
     <Head>
       <Title>{{ title }}</Title>
     </Head>
-    <h1 class="text-light-text dark:text-dark-text">
+    <h1 class="p-4 text-light-text dark:text-dark-text">
       This is a website impress page
     </h1>
   </div>
