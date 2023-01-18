@@ -66,9 +66,7 @@
         /></NuxtLink>
       </div>
       <div>
-        <div
-          class="w-[1000px] h-[450px] rounded-xl mt-8 bg-light-placeholder dark:bg-dark-placeholder"
-        ></div>
+        <LandingPageImageGrid class="mt-8"/>
       </div>
     </div>
   </div>
@@ -84,5 +82,6 @@ defineProps<{
   btnURL1?: string;
   btnText2?: string;
   btnURL2?: string;
+  imageURL?: string;
 }>();
 </script>

@@ -25,8 +25,8 @@ export default {
         "light-pending-yellow": "rgba(241, 194, 50, 1)",
 
         "dark-header-bg": "rgba(22, 27, 34, 1)",
-        "dark-content-bg": "rgba(18, 18, 18, 1)",
-        "dark-distinct-bg": "rgba(21, 21, 19, 1)",
+        "dark-content-bg": "rgba(6, 8, 15, 1)",
+        "dark-distinct-bg": "rgba(19, 19, 22, 1)",
         "dark-section-div": "rgba(43, 50, 59, 1)",
         "dark-text": "rgba(255, 255, 255, 0.80)",
         "dark-special-text": "rgba(140, 140, 140, 0.9)",

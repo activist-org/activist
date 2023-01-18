@@ -5,7 +5,7 @@
     <div class="flex flex-row">
       <div class="flex-1">
         <div class="flex h-8">
-          <ActivistLogo />
+          <LogosActivist />
         </div>
         <p class="max-w-md mt-3 text-med">
           Free, open-source activism network.

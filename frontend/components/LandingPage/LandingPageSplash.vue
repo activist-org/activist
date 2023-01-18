@@ -1,6 +1,6 @@
 <template>
   <div
-    class="py-28 w-full flex flex-col space-y-8 bg-light-distinct-bg dark:bg-dark-distinct-bg text-light-text dark:text-dark-text"
+    class="py-32 w-full flex flex-col space-y-8 bg-light-distinct-bg dark:bg-dark-distinct-bg text-light-text dark:text-dark-text"
   >
     <p class="text-center text-5xl">The platform for activism</p>
     <div class="flex justify-center">
