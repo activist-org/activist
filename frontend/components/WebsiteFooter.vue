@@ -1,5 +1,4 @@
 <template>
-  <div class="h-px mx-auto bg-light-section-div dark:bg-dark-section-div"></div>
   <footer
     class="px-14 py-12 mx-auto bg-light-header-bg dark:bg-dark-header-bg text-light-text dark:text-dark-text"
   >

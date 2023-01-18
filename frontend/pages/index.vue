@@ -4,7 +4,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <LandingPageSplash />
-    <div class="flex flex-col px-20 my-36 space-y-36 items-center">
+    <div class="flex flex-col my-24">
       <LandingPageContent
         contentPosition="left"
         header="Get Active"

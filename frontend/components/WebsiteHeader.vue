@@ -13,8 +13,5 @@
         </div>
       </div>
     </div>
-    <div
-      class="h-px mx-auto bg-light-section-div dark:bg-dark-section-div"
-    ></div>
   </header>
 </template>

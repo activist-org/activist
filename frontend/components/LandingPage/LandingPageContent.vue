@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="inline-flex items-center space-x-36 text-light-text dark:text-dark-text"
+    class="flex items-center justify-center space-x-36 py-24 text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col items-start max-w-md space-y-4">
       <p class="text-4xl font-semibold">{{ header }}</p>
@@ -23,7 +23,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="inline-flex items-center space-x-36 text-light-text dark:text-dark-text"
+    class="flex items-center justify-center space-x-36 py-20 text-light-text dark:text-dark-text bg-light-header-bg dark:bg-dark-header-bg"
   >
     <div
       class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
@@ -45,7 +45,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'top'"
-    class="text-light-text dark:text-dark-text"
+    class="flex items-center justify-center text-light-text dark:text-dark-text py-24"
   >
     <div class="flex flex-col items-center max-w-2xl space-y-4">
       <p class="text-4xl text-center font-semibold">{{ header }}</p>
