@@ -8,8 +8,8 @@
         </div>
         <div>
           <NuxtLink to="/help/contact"
-            ><LabeledBtn cta label="Get in touch"
-          /></NuxtLink>
+            ><CTABtn label="Get in touch" fontSize="base"/>
+          </NuxtLink>
         </div>
       </div>
     </div>

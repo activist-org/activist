@@ -1,8 +1,6 @@
-import type { Config } from "tailwindcss";
 // const colors = require("tailwindcss/colors"); // note: colors.slate["900"]
 
-export default <Partial<Config>>{
-  content: ["./app.vue"],
+export default {
   darkMode: "class",
   theme: {
     extend: {

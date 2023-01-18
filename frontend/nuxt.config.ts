@@ -3,8 +3,8 @@ export default defineNuxtConfig({
   modules: [
     "@nuxt/content",
     "@nuxtjs/tailwindcss",
-    "@nuxtjs/i18n",
     "@nuxtjs/color-mode",
+    "nuxt-icon",
   ],
   colorMode: {
     classSuffix: "",
@@ -17,12 +17,6 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     },
-  },
-  content: {
-    // https://content.nuxtjs.org/api/configuration
-  },
-  i18n: {
-    // https://v8.i18n.nuxtjs.org/getting-started/setup
   },
   app: {
     head: {

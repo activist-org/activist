@@ -11,7 +11,7 @@
       </p>
     </div>
     <div class="flex justify-center rounded-md">
-      <NuxtLink to="/about"><LabeledBtn cta label="Learn more" /></NuxtLink>
+      <NuxtLink to="/about"><CTABtn label="Learn more" fontSize="xl"/></NuxtLink>
     </div>
   </div>
   <div class="h-px mx-auto bg-light-section-div dark:bg-dark-section-div"></div>

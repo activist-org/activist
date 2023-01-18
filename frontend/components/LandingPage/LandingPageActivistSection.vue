@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="inline-flex items-center space-x-36 text-light-text dark:text-dark-text"
+    class="inline-flex items-center space-x-40 text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col items-start max-w-md space-y-4">
       <ActivistLogo class="h-16" />
@@ -18,7 +18,7 @@
         <li>You take it from there</li>
       </ul>
       <NuxtLink :to="`${btnURL1}`">
-        <LabeledBtn cta :label="`${btnText1}`" class="mt-4" />
+        <CTABtn :label="`${btnText1}`" fontSize="xl" class="mt-4" />
       </NuxtLink>
     </div>
     <div
@@ -47,7 +47,7 @@
         <li>You take it from there</li>
       </ul>
       <NuxtLink :to="`${btnURL1}`">
-        <LabeledBtn cta :label="`${btnText1}`" class="mt-4" />
+        <CTABtn :label="`${btnText1}`" fontSize="xl" class="mt-4" />
       </NuxtLink>
     </div>
   </div>
