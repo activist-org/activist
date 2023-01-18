@@ -4,7 +4,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <h1 class="p-4 text-light-text dark:text-dark-text">
-      This is a finances landing
+      This will be a finances landing page
     </h1>
   </div>
 </template>

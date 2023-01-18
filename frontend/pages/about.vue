@@ -4,7 +4,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <h1 class="p-4 text-light-text dark:text-dark-text">
-      This is an about page
+      This will be an about page
     </h1>
   </div>
 </template>

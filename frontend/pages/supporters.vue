@@ -4,7 +4,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <h1 class="p-4 text-light-text dark:text-dark-text">
-      This is a supporters page
+      This will be a supporters page
     </h1>
   </div>
 </template>
