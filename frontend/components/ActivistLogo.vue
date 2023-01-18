@@ -3,7 +3,7 @@
     <svg
       class="fill-light-text dark:fill-dark-text"
       width="{{width}}"
-      height="{{width / 167 * 36}}"
+      height="{{width / 3000 * 647}}"
       viewBox="0 0 3000 647"
       xmlns="http://www.w3.org/2000/svg"
     >

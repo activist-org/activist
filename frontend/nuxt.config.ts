@@ -32,15 +32,8 @@ export default defineNuxtConfig({
       link: [
         {
           rel: "icon",
-          type: "image/x-icon",
-          href: "/frontend/public/icons/light/favicon.ico",
-          id: "light-scheme-icon",
-        },
-        {
-          rel: "icon",
-          type: "image/x-icon",
-          href: "/frontend/public/icons/dark/favicon.ico",
-          id: "dark-scheme-icon",
+          type: "image/svg+xml",
+          href: "/favicon.svg",
         },
       ],
       meta: [

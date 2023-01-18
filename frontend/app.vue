@@ -1,11 +1,3 @@
-<script setup lang="ts">
-useHead({
-  titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} • activist` : "activist";
-  },
-});
-</script>
-
 <template>
   <div>
     <NuxtLayout>
@@ -13,3 +5,11 @@ useHead({
     </NuxtLayout>
   </div>
 </template>
+
+<script setup lang="ts">
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} • activist` : "activist";
+  },
+});
+</script>

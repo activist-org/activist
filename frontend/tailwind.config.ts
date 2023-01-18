@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+// const colors = require("tailwindcss/colors"); // note: colors.slate["900"]
 
 export default <Partial<Config>>{
   content: ["./app.vue"],
@@ -19,19 +20,11 @@ export default <Partial<Config>>{
         "light-highlight": "rgba(50, 50, 50, 0.25)",
 
         "light-cta-orange": "rgba(241, 153, 61, 1)",
-        "light-cta-orange-70": "rgba(241, 153, 61, 0.7)",
-        "light-cta-orange-40": "rgba(241, 153, 61, 0.4)",
         "light-cta-orange-hover": "rgba(253, 183, 110, 1)",
-        "light-cta-orange-hover-70": "rgba(253, 183, 110, 0.7)",
-        "light-cta-orange-hover-40": "rgba(253, 183, 110, 0.4)",
         "light-act-red": "rgba(153, 3, 30, 1)",
-        "light-act-red-20": "rgba(153, 3, 30, 0.2)",
         "light-learn-blue": "rgba(0, 109, 170, 1)",
-        "light-learn-blue-20": "rgba(0, 109, 170, 0.2)",
         "light-accepted-green": "rgba(106, 168, 79, 1)",
-        "light-accepted-green-40": "rgba(106, 168, 79, 0.4)",
         "light-pending-yellow": "rgba(241, 194, 50, 1)",
-        "light-pending-yellow-40": "rgba(241, 194, 50, 0.4)",
 
         "dark-header-bg": "rgba(22, 27, 34, 1)",
         "dark-content-bg": "rgba(18, 18, 18, 1)",
@@ -46,19 +39,11 @@ export default <Partial<Config>>{
         "dark-highlight": "rgba(140, 140, 140, 0.3)",
 
         "dark-cta-orange": "rgba(228, 155, 44, 1)",
-        "dark-cta-orange-75": "rgba(228, 155, 44, 0.75)",
-        "dark-cta-orange-50": "rgba(228, 155, 44, 0.5)",
         "dark-cta-orange-hover": "rgba(231, 180, 104, 1)",
-        "dark-cta-orange-hover-75": "rgba(231, 180, 104, 0.75)",
-        "dark-cta-orange-hover-50": "rgba(231, 180, 104, 0.5)",
         "dark-act-red": "rgba(221, 126, 107, 1)",
-        "dark-act-red-40": "rgba(221, 126, 107, 0.4)",
         "dark-learn-blue": "rgba(109, 158, 235, 1)",
-        "dark-learn-blue-40": "rgba(109, 158, 235, 0.4)",
         "dark-accepted-green": "rgba(182, 215, 168, 1)",
-        "dark-accepted-green-50": "rgba(182, 215, 168, 0.5)",
         "dark-pending-yellow": "rgba(255, 217, 102, 1)",
-        "dark-pending-yellow-50": "rgba(255, 217, 102, 0.5)",
       },
     },
   },
