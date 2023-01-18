@@ -11,7 +11,7 @@
         About us and our goals
       </p>
       <ul class="mx-5 text-md list-disc">
-        <li>Not aligned with any government or organization</li>
+        <li>Open-source and community driven</li>
         <li>Transparent finances and decision making</li>
         <li>A Berlin based non-profit with global affiliates</li>
         <li>Our position is to make activism easier and more effective</li>
@@ -40,7 +40,7 @@
         About us and our goals
       </p>
       <ul class="mx-5 text-md list-disc">
-        <li>Not aligned with any government or organization</li>
+        <li>Open-source and community driven</li>
         <li>Transparent finances and decision making</li>
         <li>A Berlin based non-profit with global affiliates</li>
         <li>Our position is to make activism easier and more effective</li>

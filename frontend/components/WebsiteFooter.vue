@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="px-14 py-12 mx-auto bg-light-header-bg dark:bg-dark-header-bg text-light-text dark:text-dark-text"
+    class="px-14 py-16 mx-auto bg-light-header-bg dark:bg-dark-header-bg text-light-text dark:text-dark-text"
   >
     <div class="flex flex-row">
       <div class="flex-1">
