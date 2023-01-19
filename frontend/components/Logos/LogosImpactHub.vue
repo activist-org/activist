@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="fill-black/90 dark:fill-white/90"
+    class="fill-black/30 dark:fill-white/30"
     width="{{width}}"
     height="{{width / 80 * 80}}"
     viewBox="0 0 80 80"

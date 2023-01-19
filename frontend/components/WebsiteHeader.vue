@@ -4,7 +4,7 @@
       <div class="flex flex-wrap items-center justify-between px-14">
         <div class="flex items-center space-x-8">
           <LogosActivist class="h-8" />
-          <NuxtLink to="/docs/roadmap"><VersionLabel label="alpha" /></NuxtLink>
+          <NuxtLink to="/docs/roadmap"><VersionLabel label="alpha v0.0.1" /></NuxtLink>
         </div>
         <div>
           <NuxtLink to="/help/contact"
