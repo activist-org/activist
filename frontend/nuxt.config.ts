@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: true,
   modules: [
     "@nuxt/content",
     "@nuxtjs/tailwindcss",
@@ -8,15 +9,13 @@ export default defineNuxtConfig({
   ],
   colorMode: {
     classSuffix: "",
-    preference: "system",
-    fallback: "light",
   },
-  css: ["/assets/css/main.css"],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
+  tailwindcss: {
+    cssPath: "~/assets/css/main.css",
+    configPath: "tailwind.config.ts",
+    exposeConfig: false,
+    injectPosition: 0,
+    viewer: true,
   },
   app: {
     head: {

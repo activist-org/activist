@@ -43,6 +43,7 @@
         btnURL1="/help/support-activist"
         btnText2="View all supporters"
         btnURL2="/supporters"
+        underText="Support does not equal influence. activist is fully independent and community driven."
       />
     </div>
   </div>

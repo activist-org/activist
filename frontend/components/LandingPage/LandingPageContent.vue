@@ -68,6 +68,7 @@
       <div>
         <LandingPageImageGrid class="mt-8"/>
       </div>
+      <p class="pt-12 text-light-special-text dark:text-dark-special-text">{{ underText }}</p>
     </div>
   </div>
 </template>
@@ -83,5 +84,6 @@ defineProps<{
   btnText2?: string;
   btnURL2?: string;
   imageURL?: string;
+  underText?: string;
 }>();
 </script>

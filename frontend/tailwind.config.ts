@@ -1,7 +1,15 @@
 // const colors = require("tailwindcss/colors"); // note: colors.slate["900"]
 
-export default {
+module.exports = {
+  content: [
+    "./components/**/*.{js,vue,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./nuxt.config.{js,ts}",
+    "./app.vue",
+  ],
   darkMode: "class",
+  plugins: [],
   theme: {
     extend: {
       colors: {
