@@ -58,7 +58,7 @@ Further prototypes and designs are available in the [designs for activist](https
 
 # Contributing [`⇧`](#contents)
 
-Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist. Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
+Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist, and feel free to reach out to us in the [discussions](https://github.com/activist-org/activist/discussions). Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
 After your first few pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
 
@@ -80,7 +80,7 @@ The activist road map can be followed in the organization's [project board](http
 
 ### Backend
 
-- [Django](https://www.djangoproject.com/) ([Python](https://www.python.org/)) • [PostgreSQL](https://www.postgresql.org/) • [Redis](https://redis.io/) (planned) • [Celery](https://docs.celeryq.dev/en/stable/) (planned)
+- [Django](https://www.djangoproject.com/) ([Python](https://www.python.org/)) • [PostgreSQL](https://www.postgresql.org/) (planned) • [Redis](https://redis.io/) (planned) • [Celery](https://docs.celeryq.dev/en/stable/) (planned)
 
 ### Frontend
 
