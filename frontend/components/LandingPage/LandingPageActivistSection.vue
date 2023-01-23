@@ -1,25 +1,23 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="flex items-center justify-center space-x-36 py-20 text-light-text dark:text-dark-text"
+    class="flex items-center justify-center py-20 space-x-36 text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col items-start max-w-md space-y-4">
       <LogosActivist class="h-16" />
       <p
-        class="text-xl text-transform: uppercase text-light-special-text dark:text-dark-special-text"
+        class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
       >
         About us and our goals
       </p>
-      <ul class="mx-5 text-md list-disc">
+      <ul class="mx-5 list-disc text-md">
         <li>Open-source and community driven</li>
         <li>Transparent finances and decision making</li>
         <li>A Berlin based non-profit with global affiliates</li>
         <li>Our position is to make activism easier and more effective</li>
         <li>You take it from there ✊</li>
       </ul>
-      <NuxtLink :to="`${btnURL1}`">
-        <CTABtn :label="`${btnText1}`" fontSize="xl" class="mt-4" />
-      </NuxtLink>
+      <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize="xl" class="mt-4" />
     </div>
     <div
       class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
@@ -27,7 +25,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="flex items-center justify-center space-x-36 py-20 text-light-text dark:text-dark-text bg-light-header-bg dark:bg-dark-header-bg"
+    class="flex items-center justify-center py-20 space-x-36 text-light-text dark:text-dark-text bg-light-header-bg dark:bg-dark-header-bg"
   >
     <div
       class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
@@ -35,20 +33,18 @@
     <div class="flex flex-col items-start max-w-md space-y-4">
       <LogosActivist class="h-16 mb-2" />
       <p
-        class="text-xl text-transform: uppercase text-light-special-text dark:text-dark-special-text"
+        class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
       >
         About us and our goals
       </p>
-      <ul class="mx-5 text-md list-disc">
+      <ul class="mx-5 list-disc text-md">
         <li>Open-source and community driven</li>
         <li>Transparent finances and decision making</li>
         <li>A Berlin based non-profit with global affiliates</li>
         <li>Our position is to make activism easier and more effective</li>
         <li>You take it from there ✊</li>
       </ul>
-      <NuxtLink :to="`${btnURL1}`">
-        <CTABtn :label="`${btnText1}`" fontSize="xl" class="mt-4" />
-      </NuxtLink>
+      <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize="xl" class="mt-4" />
     </div>
   </div>
 </template>

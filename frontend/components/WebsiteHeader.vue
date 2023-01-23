@@ -4,12 +4,13 @@
       <div class="flex flex-wrap items-center justify-between px-14">
         <div class="flex items-center space-x-8">
           <LogosActivist class="h-8" />
-          <NuxtLink to="/docs/roadmap"><VersionLabel label="alpha v0.0.1" /></NuxtLink>
+          <VersionLabel label="alpha v0.0.1" linkTo="/docs/roadmap"/>
         </div>
         <div>
-          <NuxtLink to="/help/contact"
-            ><CTABtn label="Get in touch" fontSize="base"/>
-          </NuxtLink>
+          <div class="flex items-center space-x-8">
+            <LanguageSelector />
+            <CTABtn label="Get in touch" linkTo="/help/contact" fontSize="base" />
+          </div>
         </div>
       </div>
     </div>

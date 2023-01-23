@@ -1,9 +1,9 @@
 <template>
   <button
-    class="mx-5"
+    class="mx-5 text-light-text dark:text-dark-text"
     @click="$colorMode.preference == 'dark' ? 'light' : 'dark'"
   >
-    <div class="fill-dark-text dark:fill-light-text">
+    <div>
       <Icon v-if="$colorMode.value == 'dark'" name="bi:sun" size="2em" />
       <Icon v-else name="bi:moon" size="2em" />
     </div>

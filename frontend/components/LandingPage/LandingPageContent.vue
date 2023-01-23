@@ -1,21 +1,19 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="flex items-center justify-center space-x-36 py-24 text-light-text dark:text-dark-text"
+    class="flex items-center justify-center py-24 space-x-36 text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col items-start max-w-md space-y-4">
       <p class="text-4xl font-semibold">{{ header }}</p>
       <p
-        class="text-xl text-transform: uppercase text-light-special-text dark:text-dark-special-text"
+        class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
       >
         {{ tagline }}
       </p>
       <p class="text-md">
         {{ text }}
       </p>
-      <NuxtLink :to="`${btnURL1}`">
-        <CTABtn :label="`${btnText1}`" fontSize='xl' class="mt-4" />
-      </NuxtLink>
+      <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize='xl' class="mt-4" />
     </div>
     <div
       class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
@@ -23,7 +21,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="flex items-center justify-center space-x-36 py-20 text-light-text dark:text-dark-text bg-light-header-bg dark:bg-dark-header-bg"
+    class="flex items-center justify-center py-20 space-x-36 text-light-text dark:text-dark-text bg-light-header-bg dark:bg-dark-header-bg"
   >
     <div
       class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
@@ -31,26 +29,24 @@
     <div class="flex flex-col items-start max-w-md space-y-4">
       <p class="text-4xl font-semibold">{{ header }}</p>
       <p
-        class="text-xl text-transform: uppercase text-light-special-text dark:text-dark-special-text"
+        class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
       >
         {{ tagline }}
       </p>
       <p class="text-md">
         {{ text }}
       </p>
-      <NuxtLink :to="`${btnURL1}`">
-        <CTABtn :label="`${btnText1}`" fontSize='xl' class="mt-4" />
-      </NuxtLink>
+      <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize='xl' class="mt-4" />
     </div>
   </div>
   <div
     v-else-if="contentPosition === 'top'"
-    class="flex items-center justify-center text-light-text dark:text-dark-text py-24"
+    class="flex items-center justify-center pt-24 text-light-text dark:text-dark-text pb-18"
   >
     <div class="flex flex-col items-center max-w-2xl space-y-4">
-      <p class="text-4xl text-center font-semibold">{{ header }}</p>
+      <p class="text-4xl font-semibold text-center">{{ header }}</p>
       <p
-        class="text-xl text-transform: uppercase text-center text-light-special-text dark:text-dark-special-text"
+        class="text-xl text-center uppercase text-transform: text-light-special-text dark:text-dark-special-text"
       >
         {{ tagline }}
       </p>
@@ -58,12 +54,8 @@
         {{ text }}
       </p>
       <div class="flex flex-row space-x-12">
-        <NuxtLink :to="`${btnURL1}`"
-          ><CTABtn :label="`${btnText1}`" fontSize='xl' class="mt-4"
-        /></NuxtLink>
-        <NuxtLink :to="`${btnURL2}`"
-          ><CTABtn :label="`${btnText2}`" fontSize='xl' class="mt-4"
-        /></NuxtLink>
+        <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize='xl' class="mt-4" />
+        <CTABtn :label="`${btnText2}`" :linkTo="`${btnURL2}`" fontSize='xl' class="mt-4" />
       </div>
       <div>
         <LandingPageImageGrid class="mt-8"/>

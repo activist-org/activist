@@ -1,17 +1,21 @@
 <template>
   <div
-    class="py-32 w-full flex flex-col space-y-8 bg-light-distinct-bg dark:bg-dark-distinct-bg text-light-text dark:text-dark-text"
+    class="flex flex-col w-full py-32 space-y-8 bg-light-distinct-bg dark:bg-dark-distinct-bg text-light-text dark:text-dark-text"
   >
-    <p class="text-center text-5xl">The platform for activism</p>
+    <p class="text-5xl text-center">{{ $t('landing-header') }}</p>
     <div class="flex justify-center">
-      <p class="max-w-xl text-center text-2xl">
+      <p class="max-w-xl text-2xl text-center">
         We're building a place for people the world over to collaborate on the
         issues that mater most. We're open-source, community driven and would
         love your feedback! Join our newsletter and we'll be in touch ✊
       </p>
     </div>
     <div class="flex justify-center rounded-md">
-      <NuxtLink to="/about"><CTABtn label="Learn more" fontSize="xl"/></NuxtLink>
+      <CTABtn label="Learn more" linkTo="/about" fontSize="xl"/>
     </div>
   </div>
 </template>
+
+<script setup>
+const localePath = useLocalePath()
+</script>

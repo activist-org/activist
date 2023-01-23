@@ -1,6 +1,7 @@
+import type { Config } from "tailwindcss";
 // const colors = require("tailwindcss/colors"); // note: colors.slate["900"]
 
-module.exports = {
+export default <Partial<Config>>{
   content: [
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
@@ -17,7 +18,7 @@ module.exports = {
         "light-content-bg": "rgba(255, 255, 255, 1)",
         "light-distinct-bg": "rgba(246, 248, 250, 1)",
         "light-section-div": "rgba(216, 222, 228, 1)",
-        "light-text": "rgba(0, 0, 0, 0.85)",
+        "light-text": "rgba(0, 0, 0, 0.8)",
         "light-special-text": "rgba(115, 111, 114, 0.9)",
         "light-link-text": "rgba(0, 106, 214, 0.9)",
         "light-menu-selection": "rgba(50, 50, 50, 1)",
@@ -36,7 +37,7 @@ module.exports = {
         "dark-content-bg": "rgba(6, 8, 15, 1)",
         "dark-distinct-bg": "rgba(19, 19, 22, 1)",
         "dark-section-div": "rgba(43, 50, 59, 1)",
-        "dark-text": "rgba(255, 255, 255, 0.80)",
+        "dark-text": "rgba(255, 255, 255, 0.8)",
         "dark-special-text": "rgba(140, 140, 140, 0.9)",
         "dark-link-text": "rgba(86, 167, 252, 0.9)",
         "dark-menu-selection": "rgba(200, 200, 200, 1)",

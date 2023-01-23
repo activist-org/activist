@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink to="/">
+  <NuxtLink :to="localePath('/')">
     <svg
       class="fill-light-text dark:fill-dark-text"
       width="{{width}}"
@@ -18,4 +18,5 @@
 defineProps<{
   width?: Number;
 }>();
+const localePath = useLocalePath()
 </script>

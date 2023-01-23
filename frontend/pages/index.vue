@@ -40,7 +40,7 @@
         tagline="Sponsors and backers of our work"
         text="activist is free and open-source software developed by a non-profit community. Public support directly sustains development of the platform."
         btnText1="Become a supporter"
-        btnURL1="/help/support-activist"
+        btnURL1="/supporters/join"
         btnText2="View all supporters"
         btnURL2="/supporters"
         underText="Support does not equal influence. activist is fully independent and community driven."
