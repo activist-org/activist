@@ -8,6 +8,7 @@
         </div>
         <div>
           <div class="flex items-center space-x-8">
+            <!-- <ThemeSelector /> -->
             <LanguageSelector />
             <CTABtn label="Get in touch" linkTo="/help/contact" fontSize="base" />
           </div>

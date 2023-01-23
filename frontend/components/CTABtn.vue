@@ -1,7 +1,3 @@
-<!--
-v-if:width>0 "py-2 border rounded-md" and set the width
-v-else:class="px-4 py-2 border rounded-md"
--->
 <template>
   <NuxtLink :to="localePath(`${linkTo}`)">
     <button
