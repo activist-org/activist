@@ -4,10 +4,11 @@
       <Title>{{ title }}</Title>
     </Head>
     <LandingPageSplash />
+    <LandingPageCommunityBanner />
     <div class="flex flex-col my-24">
       <LandingPageContent
         contentPosition="left"
-        header="Get Active"
+        header="get-active-header"
         tagline="Join organizations near you"
         text="Based on your skills, location and the issues you care about most, find the organizations that are working to create lasting change. Support your cause in any way you can, learn from experienced organizers, and stay informed on relevant developments. You are not alone in trying to make a difference."
         btnText1="Learn more"
@@ -51,4 +52,5 @@
 
 <script setup>
 const title = ref("Welcome!");
+const localePath = useLocalePath();
 </script>

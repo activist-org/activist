@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col w-full py-32 space-y-8 bg-light-distinct-bg dark:bg-dark-distinct-bg text-light-text dark:text-dark-text"
+    class="flex flex-col w-full pt-32 pb-16 space-y-8 bg-light-distinct-bg dark:bg-dark-distinct-bg text-light-text dark:text-dark-text"
   >
     <p class="text-5xl text-center">{{ $t('landing-header') }}</p>
     <div class="flex justify-center">

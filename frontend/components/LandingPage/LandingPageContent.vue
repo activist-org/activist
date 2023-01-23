@@ -4,14 +4,14 @@
     class="flex items-center justify-center py-24 space-x-36 text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col items-start max-w-md space-y-4">
-      <p class="text-4xl font-semibold">{{ header }}</p>
+      <p class="text-4xl font-semibold">{{ $t(header) }}</p>
       <p
         class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
       >
-        {{ tagline }}
+        {{ $t(tagline) }}
       </p>
       <p class="text-md">
-        {{ text }}
+        {{ $t(text) }}
       </p>
       <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize='xl' class="mt-4" />
     </div>
@@ -27,14 +27,14 @@
       class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
     ></div>
     <div class="flex flex-col items-start max-w-md space-y-4">
-      <p class="text-4xl font-semibold">{{ header }}</p>
+      <p class="text-4xl font-semibold">{{ $t(header) }}</p>
       <p
         class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
       >
-        {{ tagline }}
+        {{ $t(tagline) }}
       </p>
       <p class="text-md">
-        {{ text }}
+        {{ $t(text) }}
       </p>
       <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize='xl' class="mt-4" />
     </div>
@@ -44,14 +44,14 @@
     class="flex items-center justify-center pt-24 text-light-text dark:text-dark-text pb-18"
   >
     <div class="flex flex-col items-center max-w-2xl space-y-4">
-      <p class="text-4xl font-semibold text-center">{{ header }}</p>
+      <p class="text-4xl font-semibold text-center">{{ $t(header) }}</p>
       <p
         class="text-xl text-center uppercase text-transform: text-light-special-text dark:text-dark-special-text"
       >
-        {{ tagline }}
+        {{ $t(tagline) }}
       </p>
       <p class="text-center text-md">
-        {{ text }}
+        {{ $t(text) }}
       </p>
       <div class="flex flex-row space-x-12">
         <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize='xl' class="mt-4" />
@@ -78,4 +78,5 @@ defineProps<{
   imageURL?: string;
   underText?: string;
 }>();
+const localePath = useLocalePath()
 </script>
