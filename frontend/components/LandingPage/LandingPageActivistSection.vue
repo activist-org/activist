@@ -6,7 +6,7 @@
     <div class="flex flex-col items-start max-w-md space-y-4">
       <LogosActivist class="h-16" />
       <p
-        class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
+        class="text-xl uppercase tracking-wider text-transform: text-light-special-text dark:text-dark-special-text"
       >
         About us and our goals
       </p>

@@ -6,7 +6,7 @@
     <div class="flex flex-col items-start max-w-md space-y-4">
       <p class="text-4xl font-semibold">{{ $t(header) }}</p>
       <p
-        class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
+        class="text-xl uppercase tracking-wider text-transform: text-light-special-text dark:text-dark-special-text"
       >
         {{ $t(tagline) }}
       </p>
@@ -29,7 +29,7 @@
     <div class="flex flex-col items-start max-w-md space-y-4">
       <p class="text-4xl font-semibold">{{ $t(header) }}</p>
       <p
-        class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
+        class="text-xl uppercase tracking-wider text-transform: text-light-special-text dark:text-dark-special-text"
       >
         {{ $t(tagline) }}
       </p>
@@ -46,7 +46,7 @@
     <div class="flex flex-col items-center max-w-2xl space-y-4">
       <p class="text-4xl font-semibold text-center">{{ $t(header) }}</p>
       <p
-        class="text-xl text-center uppercase text-transform: text-light-special-text dark:text-dark-special-text"
+        class="text-xl text-center uppercase tracking-wider text-transform: text-light-special-text dark:text-dark-special-text"
       >
         {{ $t(tagline) }}
       </p>

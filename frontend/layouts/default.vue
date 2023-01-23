@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <WebsiteHeader />
-    <slot />
-    <WebsiteFooter />
-  </div>
+  <WebsiteHeader />
+  <slot />
+  <WebsiteFooter />
 </template>

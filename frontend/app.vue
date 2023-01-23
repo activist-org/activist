@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <body class="bg-light-content-bg dark:bg-dark-content-bg">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </div>
+  </body>
 </template>
 
 <script setup lang="ts">
