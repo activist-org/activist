@@ -45,10 +45,10 @@ export default defineNuxtConfig({
     defaultLocale: "en",
     customRoutes: "config",
     pages: {
-      about: {
-        de: "/ueber-uns",
-        fr: "/a-propos",
-      },
+      // about: {
+      //   de: "/ueber-uns",
+      //   fr: "/a-propos",
+      // },
     },
     vueI18n: {
       legacy: false,
