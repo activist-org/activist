@@ -13,7 +13,13 @@
       <p class="text-md">
         {{ $t(text) }}
       </p>
-      <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize='xl' class="mt-4" />
+      <LabeledBtn
+        :cta="true"
+        :label="`${btnText1}`"
+        :linkTo="`${btnURL1}`"
+        fontSize="xl"
+        class="mt-4"
+      />
     </div>
     <div
       class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
@@ -36,7 +42,13 @@
       <p class="text-md">
         {{ $t(text) }}
       </p>
-      <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize='xl' class="mt-4" />
+      <LabeledBtn
+        :cta="true"
+        :label="`${btnText1}`"
+        :linkTo="`${btnURL1}`"
+        fontSize="xl"
+        class="mt-4"
+      />
     </div>
   </div>
   <div
@@ -54,29 +66,43 @@
         {{ $t(text) }}
       </p>
       <div class="flex flex-row space-x-12">
-        <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize='xl' class="mt-4" />
-        <CTABtn :label="`${btnText2}`" :linkTo="`${btnURL2}`" fontSize='xl' class="mt-4" />
+        <LabeledBtn
+          :cta="true"
+          :label="`${btnText1}`"
+          :linkTo="`${btnURL1}`"
+          fontSize="xl"
+          class="mt-4"
+        />
+        <LabeledBtn
+          :cta="false"
+          :label="`${btnText2}`"
+          :linkTo="`${btnURL2}`"
+          fontSize="xl"
+          class="mt-4"
+        />
       </div>
       <div>
-        <LandingPageImageGrid class="mt-8"/>
+        <LandingPageImageGrid class="mt-8" />
       </div>
-      <p class="pt-12 text-light-special-text dark:text-dark-special-text">{{ underText }}</p>
+      <p class="pt-12 text-light-special-text dark:text-dark-special-text">
+        {{ underText }}
+      </p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  contentPosition?: string;
-  header?: string;
-  tagline?: string;
-  text?: string;
-  btnText1?: string;
-  btnURL1?: string;
+  contentPosition: string;
+  header: string;
+  tagline: string;
+  text: string;
+  btnText1: string;
+  btnURL1: string;
   btnText2?: string;
   btnURL2?: string;
   imageURL?: string;
   underText?: string;
 }>();
-const localePath = useLocalePath()
+const localePath = useLocalePath();
 </script>

@@ -17,7 +17,13 @@
         <li>Our position is to make activism easier and more effective</li>
         <li>You take it from there ✊</li>
       </ul>
-      <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize="xl" class="mt-4" />
+      <LabeledBtn
+        :cta="true"
+        :label="`${btnText1}`"
+        :linkTo="`${btnURL1}`"
+        fontSize="xl"
+        class="mt-4"
+      />
     </div>
     <div
       class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
@@ -44,7 +50,13 @@
         <li>Our position is to make activism easier and more effective</li>
         <li>You take it from there ✊</li>
       </ul>
-      <CTABtn :label="`${btnText1}`" :linkTo="`${btnURL1}`" fontSize="xl" class="mt-4" />
+      <LabeledBtn
+        :cta="true"
+        :label="`${btnText1}`"
+        :linkTo="`${btnURL1}`"
+        fontSize="xl"
+        class="mt-4"
+      />
     </div>
   </div>
 </template>

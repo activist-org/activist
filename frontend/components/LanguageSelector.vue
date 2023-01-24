@@ -9,9 +9,7 @@
         <Icon name="bi:chevron-down" size="1em" />
       </div>
     </button>
-    <div
-      class="invisible duration-200 -translate-y-1 peer-focus:visible"
-    >
+    <div class="invisible duration-200 -translate-y-1 peer-focus:visible">
       <div
         class="absolute right-0 mt-3 overflow-hidden border rounded-md text-light-text dark:text-dark-text bg-light-content-bg dark:bg-dark-content-bg border-light-text dark:border-dark-text"
       >

@@ -15,5 +15,5 @@ defineProps<{
   label: string;
   linkTo: string;
 }>();
-const localePath = useLocalePath()
+const localePath = useLocalePath();
 </script>

@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  width?: Number;
+  width?: number;
 }>();
-const localePath = useLocalePath()
+const localePath = useLocalePath();
 </script>
