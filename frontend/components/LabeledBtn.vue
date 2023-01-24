@@ -1,11 +1,11 @@
 <template>
   <NuxtLink :to="localePath(`${linkTo}`)">
     <button
-      class="px-4 py-2 font-medium border rounded-md select-none text-light-distinct-bg border-light-distinct-bg dark:text-dark-distinct-bg dark:border-dark-distinct-bg"
+      class="px-4 py-2 font-medium border rounded-md select-none text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct"
       :class="{
-        'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
+        'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange':
           cta == true,
-        'bg-gray-500 dark:bg-gray-400 hover:bg-gray-400 active:bg-gray-500 dark:hover:bg-gray-300 dark:active:bg-gray-400 ':
+        'bg-neutral-500 dark:bg-gray-400 hover:bg-neutral-400 active:bg-neutral-500 dark:hover:bg-gray-300 dark:active:bg-gray-400 ':
           cta == false,
         'text-base': fontSize == 'base',
         'text-lg': fontSize == 'lg',

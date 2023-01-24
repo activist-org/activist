@@ -2,7 +2,7 @@
   <div
     class="flex flex-col w-full pt-32 pb-16 space-y-8 sm:bg-red-300 md:bg-orange-300 lg:bg-yellow-300 xl:bg-green-300 2xl:bg-blue-300"
   >
-    <!--  bg-light-distinct-bg dark:bg-dark-distinct-bg text-light-text dark:text-dark-text -->
+    <!--  bg-light-distinct dark:bg-dark-distinct text-light-text dark:text-dark-text -->
     <p class="text-5xl text-center">{{ $t("landing-header") }}</p>
     <div class="flex justify-center">
       <p class="max-w-xl text-2xl text-center">

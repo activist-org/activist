@@ -27,7 +27,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="flex items-center justify-center py-20 space-x-36 text-light-text dark:text-dark-text bg-light-header-bg dark:bg-dark-header-bg"
+    class="flex items-center justify-center py-20 space-x-36 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header"
   >
     <div
       class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
