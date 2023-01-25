@@ -25,8 +25,10 @@ export default <Partial<Config>>{
         "light-interactive": "rgba(75, 75, 67, 1)",
         "light-highlight": "rgba(50, 50, 50, 0.25)",
 
-        "light-cta-orange": "rgba(241, 153, 61, 1)",
-        "light-cta-orange-light": "rgba(244, 173, 99, 1)",
+        "light-cta-orange": {
+          DEFAULT: "rgba(241, 153, 61, 1)",
+          light: "rgba(244, 173, 99, 1)",
+        },
         "light-act-red": "rgba(153, 3, 30, 1)",
         "light-learn-blue": "rgba(0, 109, 170, 1)",
         "light-accepted-green": "rgba(106, 168, 79, 1)",
@@ -44,8 +46,10 @@ export default <Partial<Config>>{
         "dark-interactive": "rgba(133, 126, 123, 1)",
         "dark-highlight": "rgba(140, 140, 140, 0.3)",
 
-        "dark-cta-orange": "rgba(228, 155, 44, 1)",
-        "dark-cta-orange-light": "rgba(233, 172, 80, 1)",
+        "dark-cta-orange": {
+          DEFAULT: "rgba(228, 155, 44, 1)",
+          light: "rgba(233, 172, 80, 1)",
+        },
         "dark-act-red": "rgba(221, 126, 107, 1)",
         "dark-learn-blue": "rgba(109, 158, 235, 1)",
         "dark-accepted-green": "rgba(182, 215, 168, 1)",

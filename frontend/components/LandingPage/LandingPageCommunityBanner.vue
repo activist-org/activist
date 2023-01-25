@@ -2,7 +2,7 @@
   <div
     class="flex flex-col w-full py-6 space-y-4 bg-light-highlight dark:bg-dark-highlight text-light-text dark:text-dark-text"
   >
-    <p class="text-xl font-semibold text-center">Join our community!</p>
+    <p class="text-xl font-semibold text-center">{{ $t("join-our-community") }}</p>
     <div class="flex text-xl justify-center space-x-12 text-med">
       <a
         href="https://github.com/activist-org/activist"
@@ -28,3 +28,7 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const localePath = useLocalePath();
+</script>

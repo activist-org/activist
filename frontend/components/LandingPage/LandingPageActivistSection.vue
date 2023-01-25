@@ -8,14 +8,14 @@
       <p
         class="text-xl uppercase tracking-wider text-transform: text-light-special-text dark:text-dark-special-text"
       >
-        About us and our goals
+        {{ $t("about-our-goals") }}
       </p>
       <ul class="mx-5 list-disc text-md">
-        <li>Open-source and community driven</li>
-        <li>Transparent finances and decision making</li>
-        <li>A Berlin based non-profit with global affiliates</li>
-        <li>Our position is to make activism easier and more effective</li>
-        <li>You take it from there ✊</li>
+        <li>{{ $t("activist-goals-1") }}</li>
+        <li>{{ $t("activist-goals-2") }}</li>
+        <li>{{ $t("activist-goals-3") }}</li>
+        <li>{{ $t("activist-goals-4") }}</li>
+        <li>{{ $t("activist-goals-5") }}</li>
       </ul>
       <LabeledBtn
         :cta="true"
@@ -41,14 +41,14 @@
       <p
         class="text-xl uppercase text-transform: text-light-special-text dark:text-dark-special-text"
       >
-        About us and our goals
+        {{ $t("about-our-goals") }}
       </p>
       <ul class="mx-5 list-disc text-md">
-        <li>Open-source and community driven</li>
-        <li>Transparent finances and decision making</li>
-        <li>A Berlin based non-profit with global affiliates</li>
-        <li>Our position is to make activism easier and more effective</li>
-        <li>You take it from there ✊</li>
+        <li>{{ $t("activist-goals-1") }}</li>
+        <li>{{ $t("activist-goals-2") }}</li>
+        <li>{{ $t("activist-goals-3") }}</li>
+        <li>{{ $t("activist-goals-4") }}</li>
+        <li>{{ $t("activist-goals-5") }}</li>
       </ul>
       <LabeledBtn
         :cta="true"
@@ -67,4 +67,5 @@ defineProps<{
   btnText1?: string;
   btnURL1?: string;
 }>();
+const localePath = useLocalePath();
 </script>

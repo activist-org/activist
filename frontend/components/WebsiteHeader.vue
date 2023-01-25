@@ -12,7 +12,7 @@
             <LanguageSelector />
             <LabeledBtn
               :cta="true"
-              label="Get in touch"
+              label="get-in-touch"
               linkTo="/help/contact"
               fontSize="base"
             />

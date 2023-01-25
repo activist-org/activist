@@ -85,7 +85,7 @@
         <LandingPageImageGrid class="mt-8" />
       </div>
       <p class="pt-12 text-light-special-text dark:text-dark-special-text">
-        {{ underText }}
+        {{ $t(subText) }}
       </p>
     </div>
   </div>
@@ -102,7 +102,7 @@ defineProps<{
   btnText2?: string;
   btnURL2?: string;
   imageURL?: string;
-  underText?: string;
+  subText?: string;
 }>();
 const localePath = useLocalePath();
 </script>

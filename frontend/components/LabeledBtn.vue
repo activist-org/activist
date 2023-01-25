@@ -14,7 +14,7 @@
         'text-3xl px-6 py-3': fontSize == '3xl',
       }"
     >
-      {{ label }}
+      {{ $t(label) }}
     </button>
   </NuxtLink>
 </template>
