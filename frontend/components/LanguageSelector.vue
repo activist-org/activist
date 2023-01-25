@@ -1,12 +1,12 @@
 <template>
   <div>
     <button
-      class="px-4 py-2 font-medium border rounded-md peer text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content border-light-text dark:border-dark-text focus:border-light-cta-orange dark:focus:border-dark-cta-orange hover:bg-light-highlight dark:hover:bg-dark-highlight focus:hover:bg-light-content dark:focus:hover:bg-dark-content"
+      class="px-3 py-2 font-medium border rounded-md peer text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content border-light-text dark:border-dark-text focus:border-light-cta-orange dark:focus:border-dark-cta-orange hover:bg-light-highlight dark:hover:bg-dark-highlight focus:hover:bg-light-content dark:focus:hover:bg-dark-content"
     >
-      <div class="flex items-center">
-        <Icon name="bi:globe" size="1em" />
-        <p class="pl-2 pr-4 uppercase">{{ $i18n.locale }}</p>
-        <Icon name="bi:chevron-down" size="1em" />
+      <div class="flex items-center text-sm">
+        <Icon name="bi:globe"/>
+        <p class="px-2 uppercase">{{ $i18n.locale }}</p>
+        <Icon name="bi:chevron-down"/>
       </div>
     </button>
     <div class="invisible duration-200 -translate-y-1 peer-focus:visible">

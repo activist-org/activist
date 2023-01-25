@@ -17,7 +17,7 @@ export default <Partial<Config>>{
         "light-content": "rgba(255, 255, 255, 1)",
         "light-distinct": "rgba(246, 248, 250, 1)",
         "light-section-div": "rgba(216, 222, 228, 1)",
-        "light-text": "rgba(0, 0, 0, 0.8)",
+        "light-text": "rgba(0, 0, 0, 0.85)",
         "light-special-text": "rgba(115, 111, 114, 0.9)",
         "light-link-text": "rgba(0, 106, 214, 0.9)",
         "light-menu-selection": "rgba(50, 50, 50, 1)",

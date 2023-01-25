@@ -1,25 +1,14 @@
 <template>
   <div>
     <button
-      class="px-4 py-2 font-medium border rounded-md peer text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content border-light-text dark:border-dark-text focus:border-light-cta-orange dark:focus:border-dark-cta-orange hover:bg-light-highlight dark:hover:bg-dark-highlight focus:hover:bg-light-content dark:focus:hover:bg-dark-content"
+      class="px-3 py-2 font-medium border rounded-md peer text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content border-light-text dark:border-dark-text focus:border-light-cta-orange dark:focus:border-dark-cta-orange hover:bg-light-highlight dark:hover:bg-dark-highlight focus:hover:bg-light-content dark:focus:hover:bg-dark-content"
     >
-      <div class="flex items-center">
-        <Icon
-          v-if="$colorMode.value == 'system'"
-          name="bi:circle-half"
-          size="1em"
-        />
-        <Icon
-          v-else-if="$colorMode.value == 'light'"
-          name="bi:sun"
-          size="1em"
-        />
-        <Icon
-          v-else-if="$colorMode.value == 'dark'"
-          name="bi:moon"
-          size="1em"
-        />
-        <p class="pl-2">Theme</p>
+      <div class="flex items-center text-sm">
+        <Icon v-if="$colorMode.value == 'system'" name="bi:circle-half" />
+        <Icon v-else-if="$colorMode.value == 'light'" name="bi:sun" />
+        <Icon v-else-if="$colorMode.value == 'dark'" name="bi:moon" />
+        <p class="px-2">Theme</p>
+        <Icon name="bi:chevron-down" />
       </div>
     </button>
     <div class="invisible duration-200 -translate-y-1 peer-focus:visible">
