@@ -19,23 +19,7 @@
 
 [**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
 
-<details><summary><strong>Frequently Asked Questions</strong></summary>
-<p>
-
-**Q: What does the activist `a` mean?**
-
-The center of the letter represents an arrow that points left-center from the top. This symbolizes our community and direction: that we want to work with the left and center of the political spectrum and value a democratic movement of power down to the people. Other meanings are welcome :D
-
-**Q: How does activist plan to prevent abuse?**
-
-The big focus of activist is organizations. We will start with a select few organizations based in Berlin where the core team is located, with further organizations being added through applications that need approval from the community. Users themselves will have a limited scope of interaction if they're not in an organization. When we get to a point where public discussions are happening, a user will only be able to participate if they're a member of an organization.
-
-**Q: What about privacy?**
-
-Thank you for asking! Privacy is a major concern for the team as we understand that activism can be very dangerous. Working in the open allows our code to be checked for vulnerabilities, and we welcome feedback in this regard. Between functionality and privacy we will always choose the latter. This means that some features of activist will take longer to make sure that they're created in a way that keeps people safe.
-
-</p>
-</details>
+[**Frequently Asked Questions**](http://activist.org/docs/faq)
 
 <a id="contents"></a>
 
