@@ -1,5 +1,5 @@
 <template>
   <WebsiteHeader />
   <slot />
-  <WebsiteFooter />
+  <LazyWebsiteFooter />
 </template>

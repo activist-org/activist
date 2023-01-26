@@ -60,6 +60,12 @@ export default defineNuxtConfig({
       redirectOn: "root",
     },
   },
+  components: [
+    {
+      path: "~/components",
+      global: true,
+    },
+  ],
   app: {
     head: {
       charset: "utf-8",

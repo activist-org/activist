@@ -1,16 +1,35 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="flex items-center justify-center py-24 space-x-36 text-light-text dark:text-dark-text"
+    class="flex items-center justify-center pb-16 sm:pt-16 xl:py-24 lg:space-x-16 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text"
   >
-    <div class="flex flex-col items-start max-w-md space-y-4">
-      <p class="text-4xl font-semibold">{{ $t(header) }}</p>
+    <div
+      class="flex flex-col items-center w-full lg:items-start sm:w-10/12 lg:max-w-sm xl:max-w-md space-y-3 xl:space-y-4"
+    >
+      <div
+        class="relative z-0 lg:hidden mb-4 w-full h-[180px] sm:h-[300px] sm:rounded-xl"
+        :class="{
+          'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
+          'mt-6 sm:mt-0': imageURL != '',
+        }"
+      >
+        <div class="absolute inset-0 flex items-center justify-center z-1 overflow-clip">
+          <component :is="imageURL" class="fill-light-text dark:fill-dark-text"/>
+        </div>
+      </div>
       <p
-        class="text-xl uppercase tracking-wider text-transform: text-light-special-text dark:text-dark-special-text"
+        class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full xl:text-4xl sm:text-left"
+      >
+        {{ $t(header) }}
+      </p>
+      <p
+        class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full sm:text-left xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
       >
         {{ $t(tagline) }}
       </p>
-      <p class="text-md">
+      <p
+        class="w-10/12 text-sm text-center sm:text-base sm:w-full sm:text-left"
+      >
         {{ $t(text) }}
       </p>
       <LabeledBtn
@@ -18,28 +37,60 @@
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
         fontSize="xl"
-        class="mt-4"
       />
     </div>
     <div
-      class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
-    ></div>
+      class="relative z-0 hidden lg:block w-[360px] h-[464px] xl:w-[450px] xl:h-[580px] rounded-xl"
+      :class="{
+        'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
+      }"
+      >
+      <div class="absolute inset-0 flex items-center justify-center z-1 overflow-clip">
+        <component :is="imageURL" class="fill-light-text dark:fill-dark-text" />
+      </div>
+    </div>
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="flex items-center justify-center py-20 space-x-36 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header"
+    class="flex items-center justify-center pb-16 sm:pt-16 xl:py-24 lg:space-x-16 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header"
   >
     <div
-      class="w-[450px] h-[580px] rounded-xl bg-light-placeholder dark:bg-dark-placeholder"
-    ></div>
-    <div class="flex flex-col items-start max-w-md space-y-4">
-      <p class="text-4xl font-semibold">{{ $t(header) }}</p>
+      class="relative z-0 hidden lg:block w-[360px] h-[464px] xl:w-[450px] xl:h-[580px] rounded-xl"
+      :class="{
+        'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
+      }"
+    >
+      <div class="absolute inset-0 flex items-center justify-center z-1 overflow-clip">
+        <component :is="imageURL" class="fill-light-text dark:fill-dark-text" />
+      </div>
+    </div>
+    <div
+      class="flex flex-col items-center w-full lg:items-start sm:w-10/12 lg:max-w-sm xl:max-w-md space-y-3 xl:space-y-4"
+    >
+      <div
+        class="relative z-0 lg:hidden mb-4 w-full h-[180px] sm:h-[300px] sm:rounded-xl"
+        :class="{
+          'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
+          'mt-6 sm:mt-0': imageURL != '',
+        }"
+      >
+        <div class="absolute inset-0 flex items-center justify-center z-1 overflow-clip">
+          <component :is="imageURL" class="fill-light-text dark:fill-dark-text" />
+        </div>
+      </div>
       <p
-        class="text-xl uppercase tracking-wider text-transform: text-light-special-text dark:text-dark-special-text"
+        class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full sm:text-left xl:text-4xl"
+      >
+        {{ $t(header) }}
+      </p>
+      <p
+        class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full sm:text-left xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
       >
         {{ $t(tagline) }}
       </p>
-      <p class="text-md">
+      <p
+        class="w-10/12 text-sm text-center sm:text-base sm:w-full sm:text-left"
+      >
         {{ $t(text) }}
       </p>
       <LabeledBtn
@@ -47,44 +98,51 @@
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
         fontSize="xl"
-        class="mt-4"
       />
     </div>
   </div>
   <div
     v-else-if="contentPosition === 'top'"
-    class="flex items-center justify-center pt-24 text-light-text dark:text-dark-text pb-18"
+    class="flex items-center justify-center pt-16 pb-10 sm:pb-16 md:pb-20 xl:py-24 text-light-text dark:text-dark-text"
   >
-    <div class="flex flex-col items-center max-w-2xl space-y-4">
-      <p class="text-4xl font-semibold text-center">{{ $t(header) }}</p>
+    <div class="flex flex-col items-center space-y-3 xl:space-y-4">
       <p
-        class="text-xl text-center uppercase tracking-wider text-transform: text-light-special-text dark:text-dark-special-text"
+        class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full xl:text-4xl"
+      >
+        {{ $t(header) }}
+      </p>
+      <p
+        class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
       >
         {{ $t(tagline) }}
       </p>
-      <p class="text-center text-md">
+      <p
+        class="w-10/12 mx-12 text-sm text-center sm:text-base md:w-full md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+      >
         {{ $t(text) }}
       </p>
-      <div class="flex flex-row space-x-12">
+      <div
+        class="flex flex-col space-y-4 sm:flex-row sm:space-x-8 xl:space-x-12 sm:space-y-0"
+      >
         <LabeledBtn
           :cta="true"
           :label="`${btnText1}`"
           :linkTo="`${btnURL1}`"
           fontSize="xl"
-          class="mt-4"
         />
         <LabeledBtn
           :cta="false"
           :label="`${btnText2}`"
           :linkTo="`${btnURL2}`"
           fontSize="xl"
-          class="mt-4"
         />
       </div>
       <div>
-        <LandingPageImageGrid class="mt-8" />
+        <SupportersGrid class="mt-6 xl:mt-8" />
       </div>
-      <p class="pt-12 text-light-special-text dark:text-dark-special-text">
+      <p
+        class="pt-8 mx-12 md:max-w-lg lg:max-w-2xl xl:pt-12 text-light-special-text dark:text-dark-special-text"
+      >
         {{ $t(subText) }}
       </p>
     </div>
@@ -97,11 +155,11 @@ defineProps<{
   header: string;
   tagline: string;
   text: string;
+  imageURL?: string;
   btnText1: string;
   btnURL1: string;
   btnText2?: string;
   btnURL2?: string;
-  imageURL?: string;
   subText?: string;
 }>();
 const localePath = useLocalePath();
