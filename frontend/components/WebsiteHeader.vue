@@ -13,13 +13,12 @@ import RoadMapBtn from './RoadMapBtn.vue';
     </div>
     <div class="hidden py-3 mx-auto sm:block">
       <div class="flex items-center justify-between px-8 md:px-6 lg:px-10 xl:px-14">
-        <div class="flex items-center space-x-6 xl:space-x-8">
+        <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <LogosActivist class="h-8" />
-          <RoadMapBtn class="hidden lg:block" label="Roadmap" linkTo="/docs/roadmap" />
-          <RoadMapBtn class="hidden md:block lg:hidden" label="Roadmap" linkTo="/docs/roadmap" />
+          <RoadMapBtn class="hidden md:block" label="Roadmap" linkTo="/docs/roadmap" />
         </div>
         <div>
-          <div class="flex items-center space-x-4 xl:space-x-6">
+          <div class="flex items-center space-x-2 lg:space-x-4 xl:space-x-6">
             <ThemeSelector />
             <LanguageSelector />
             <LabeledBtn

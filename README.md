@@ -65,13 +65,15 @@ The activist road map can be followed in the organization's [project board](http
 
 ## Tech Stack [`⇧`](#contents)
 
-### Backend
-
-- [Django](https://www.djangoproject.com/) ([Python](https://www.python.org/) - planned) • [PostgreSQL](https://www.postgresql.org/) (planned) • [Redis](https://redis.io/) (planned) • [Celery](https://docs.celeryq.dev/en/stable/) (planned)
+The following is the current and planned technologies for activist.org.
 
 ### Frontend
 
 - [Nuxt.js](https://nuxt.com/) ([Vue.js](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)) • [Tailwind CSS](https://tailwindcss.com/) • [Vite.js](https://vitejs.dev/)
+
+### Backend
+
+- [Django](https://www.djangoproject.com/) ([Python](https://www.python.org/) - planned) • [PostgreSQL](https://www.postgresql.org/) (planned) • [Redis](https://redis.io/) (planned) • [Celery](https://docs.celeryq.dev/en/stable/) (planned)
 
 ### Deployment
 
