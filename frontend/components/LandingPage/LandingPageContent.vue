@@ -13,8 +13,13 @@
           'mt-6 sm:mt-0': imageURL != '',
         }"
       >
-        <div class="absolute inset-0 flex items-center justify-center z-1 overflow-clip">
-          <component :is="imageURL" class="fill-light-text dark:fill-dark-text"/>
+        <div
+          class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+        >
+          <component
+            :is="imageURL"
+            class="fill-light-text dark:fill-dark-text"
+          />
         </div>
       </div>
       <p
@@ -44,9 +49,17 @@
       :class="{
         'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
       }"
+    >
+      <div
+        class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
       >
-      <div class="absolute inset-0 flex items-center justify-center z-1 overflow-clip">
-        <component :is="imageURL" class="fill-light-text dark:fill-dark-text" />
+        <component
+          :is="imageURL"
+          class="fill-light-text dark:fill-dark-text"
+          :class="{
+            'scale-90': imageURL == 'IconsActivist',
+          }"
+        />
       </div>
     </div>
   </div>
@@ -60,8 +73,16 @@
         'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
       }"
     >
-      <div class="absolute inset-0 flex items-center justify-center z-1 overflow-clip">
-        <component :is="imageURL" class="fill-light-text dark:fill-dark-text" />
+      <div
+        class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+      >
+        <component
+          :is="imageURL"
+          class="fill-light-text dark:fill-dark-text"
+          :class="{
+            'scale-90': imageURL == 'IconsActivist',
+          }"
+        />
       </div>
     </div>
     <div
@@ -74,8 +95,13 @@
           'mt-6 sm:mt-0': imageURL != '',
         }"
       >
-        <div class="absolute inset-0 flex items-center justify-center z-1 overflow-clip">
-          <component :is="imageURL" class="fill-light-text dark:fill-dark-text" />
+        <div
+          class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+        >
+          <component
+            :is="imageURL"
+            class="fill-light-text dark:fill-dark-text"
+          />
         </div>
       </div>
       <p
