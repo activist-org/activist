@@ -207,6 +207,17 @@ Another forthcoming feature, the votes section would allow events to be made in 
 
 # Supported By [`⇧`](#contents)
 
+<details><summary><strong>activist Featured on the Web</strong></summary>
+<p>
+
+<strong>2022</strong>
+
+- [Presentation](https://www.youtube.com/watch?v=PdUZ8zFWnCk&list=PLduaHBu_3ejMxN1xipMDCOTb0wx6wxWnZ) for the [2022 Wikimedia UNLOCK accelerator](https://www.wikimedia.de/unlock/)
+- activist on the [Wikimedia UNLOCK accelerator website](https://www.wikimedia.de/unlock/unlock-projects/activist-org/)
+
+</p>
+</details>
+
 activist has received support from the following organizations as a participant in the [UNLOCK accelerator](https://www.wikimedia.de/unlock/):
 
 <div align="center">
