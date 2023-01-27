@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/activist-org/activist"><img src=".github/resources/images/activist_github_org_banner.png" width=1024 alt="activist Logo"></a>
+  <a href="https://github.com/activist-org/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/logo/activistGitHubOrgBanner.png" width=1024 alt="activist Logo"></a>
 </div>
 
 <!-- [![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack) -->
