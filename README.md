@@ -36,6 +36,10 @@
 
 The following is a recording of the [Creating and Joining Events prototype](https://www.figma.com/proto/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=1998%3A2577&scaling=contain&page-id=1986%3A1046&starting-point-node-id=1998%3A2577) found on [Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231):
 
+
+https://user-images.githubusercontent.com/24387426/215117858-96b0d3ac-4d11-449e-bcc0-2b7ec330a6e1.mp4
+
+
 Further prototypes and designs are available in the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Feedback and ideas can be submitted via a [design issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=design&template=design_improvement.yml).
 
 <a id="contributing"></a>
