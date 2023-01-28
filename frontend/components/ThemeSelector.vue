@@ -4,8 +4,8 @@
       class="px-3 py-2 font-medium border rounded-md peer text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content border-light-text dark:border-dark-text focus:border-light-cta-orange dark:focus:border-dark-cta-orange hover:bg-light-highlight dark:hover:bg-dark-highlight focus:hover:bg-light-content dark:focus:hover:bg-dark-content"
     >
       <div class="flex items-center text-sm space-x-2">
-        <Icon v-if="$colorMode.value == 'system'" name="bi:circle-half" />
-        <Icon v-else-if="$colorMode.value == 'light'" name="bi:sun" />
+        <!-- <Icon v-if="$colorMode.value == 'system'" name="bi:circle-half" /> -->
+        <Icon v-if="$colorMode.value == 'light'" name="bi:sun" />
         <Icon v-else-if="$colorMode.value == 'dark'" name="bi:moon" />
         <p class="hidden lg:block">Theme</p>
         <p></p>
@@ -17,7 +17,7 @@
         class="absolute right-0 mt-3 overflow-hidden text-sm border rounded-md xl:text-base text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content border-light-text dark:border-dark-text"
       >
         <ul>
-          <li
+          <!-- <li
             class="w-24 p-1 pl-2 border-l-4 border-transparent xl:w-28 xl:p-2 xl:pl-4 hover:border-light-cta-orange dark:hover:border-dark-cta-orange hover:bg-light-distinct dark:hover:bg-dark-distinct"
           >
             <button
@@ -27,7 +27,7 @@
               <Icon name="bi:circle-half" size="1em" />
               <p class="pl-2 pr-4">System</p>
             </button>
-          </li>
+          </li> -->
           <li
             class="w-24 p-1 pl-2 border-l-4 border-transparent xl:w-28 xl:p-2 xl:pl-4 hover:border-light-cta-orange dark:hover:border-dark-cta-orange hover:bg-light-distinct dark:hover:bg-dark-distinct"
           >
