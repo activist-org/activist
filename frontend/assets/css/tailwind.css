@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  body {
+    @apply bg-light-content dark:bg-dark-content;
+  }
 }
 
 @layer components {

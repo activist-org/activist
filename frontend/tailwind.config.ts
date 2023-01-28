@@ -23,7 +23,7 @@ export default <Partial<Config>>{
         "light-menu-selection": "rgba(50, 50, 50, 1)",
         "light-placeholder": "rgba(137, 134, 136, 1)",
         "light-interactive": "rgba(75, 75, 67, 1)",
-        "light-highlight": "rgba(50, 50, 50, 0.25)",
+        "light-highlight": "rgba(140, 140, 140, 0.20)",
 
         "light-cta-orange": {
           DEFAULT: "rgba(241, 153, 61, 1)",
@@ -44,7 +44,7 @@ export default <Partial<Config>>{
         "dark-menu-selection": "rgba(200, 200, 200, 1)",
         "dark-placeholder": "rgba(138, 138, 138, 1)",
         "dark-interactive": "rgba(133, 126, 123, 1)",
-        "dark-highlight": "rgba(140, 140, 140, 0.3)",
+        "dark-highlight": "rgba(90, 90, 90, 0.25)",
 
         "dark-cta-orange": {
           DEFAULT: "rgba(228, 155, 44, 1)",
