@@ -102,8 +102,10 @@
       <div
         class="mt-6 md:mt-4 grid grid-rows-5 lg:mt-0 justify-items-center lg:justify-items-start lg:w-[60%]"
       >
-        <div class="h-8">
-          <LogosActivist />
+        <div class="relative z-0 h-10 w-36">
+          <LogosActivist
+            class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+          />
         </div>
         <p class="mt-3 text-base">
           {{ $t("activist-tagline") }}
@@ -134,7 +136,7 @@
             </NuxtLink>
           </div>
         </div>
-        <div class="-mt-1">{{ $t("website-copyright") }}</div>
+        <div>{{ $t("website-copyright") }}</div>
       </div>
 
       <!-- Note: Content Sections Right -->
