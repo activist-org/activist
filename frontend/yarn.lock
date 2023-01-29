@@ -509,6 +509,11 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.17.3.tgz#2f69ea6b37031b0d1715dd2da832a8ae5eb36e74"
   integrity sha512-FdVl64OIuiKjgXBjwZaJLKp0eaEckifbhn10dXWhysMJkWblg3OEEGKSIyhiD5RSgAya8WzP3DNkngtIg3Nt7g==
 
+"@headlessui/vue@^1.7.8":
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-1.7.8.tgz#57dd6bb388b8d54ca13e2f4795e716dde3257fa0"
+  integrity sha512-J83kAz3drFjndXz/AOoxmgzVo/MtSNFFn/K9qhSSJ8EGhmRfwdJLhZ0W4NSrw6A10JxhXDlkjoV0UxOiBLr5iQ==
+
 "@iconify/types@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@iconify/types/-/types-2.0.0.tgz#ab0e9ea681d6c8a1214f30cd741fe3a20cc57f57"

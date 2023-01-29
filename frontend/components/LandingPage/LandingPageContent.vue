@@ -19,6 +19,9 @@
           <component
             :is="imageURL"
             class="fill-light-text dark:fill-dark-text"
+            :class="{
+              'scale-[0.25] sm:scale-[0.35]': imageURL == 'IconsActivist',
+            }"
           />
         </div>
       </div>
@@ -57,7 +60,7 @@
           :is="imageURL"
           class="fill-light-text dark:fill-dark-text"
           :class="{
-            'scale-90': imageURL == 'IconsActivist',
+            'scale-[0.9]': imageURL == 'IconsActivist',
           }"
         />
       </div>
@@ -80,7 +83,7 @@
           :is="imageURL"
           class="fill-light-text dark:fill-dark-text"
           :class="{
-            'scale-90': imageURL == 'IconsActivist',
+            'scale-[0.9]': imageURL == 'IconsActivist',
           }"
         />
       </div>
@@ -101,6 +104,9 @@
           <component
             :is="imageURL"
             class="fill-light-text dark:fill-dark-text"
+            :class="{
+              'scale-[0.25] sm:scale-[0.35]': imageURL == 'IconsActivist',
+            }"
           />
         </div>
       </div>

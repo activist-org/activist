@@ -1,8 +1,8 @@
 <template>
   <svg
-    class="fill-black/30 dark:fill-white/30"
-    width="{{width}}"
-    height="{{width / 80 * 80}}"
+    class="fill-light-special-text dark:fill-dark-special-text"
+    width="80"
+    height="80"
     viewBox="0 0 80 80"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -30,9 +30,3 @@
     </defs>
   </svg>
 </template>
-
-<script setup lang="ts">
-defineProps<{
-  width?: Number;
-}>();
-</script>

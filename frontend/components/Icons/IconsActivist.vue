@@ -1,8 +1,8 @@
 <template>
   <svg
     class="fill-light-text dark:fill-dark-text"
-    width="{{width}}"
-    height="{{width}}"
+    width="814"
+    height="814"
     viewBox="0 0 814 814"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -23,10 +23,3 @@
     </defs>
   </svg>
 </template>
-
-<script setup lang="ts">
-defineProps<{
-  width?: number;
-}>();
-const localePath = useLocalePath();
-</script>

@@ -2,8 +2,8 @@
   <NuxtLink :to="localePath('/')">
     <svg
       class="fill-light-text dark:fill-dark-text"
-      width="{{width}}"
-      height="{{width / 3000 * 647}}"
+      width="3000"
+      height="647"
       viewBox="0 0 3000 647"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -15,8 +15,5 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  width?: number;
-}>();
 const localePath = useLocalePath();
 </script>

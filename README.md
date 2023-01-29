@@ -18,9 +18,9 @@
 
 ### An open-source, nonprofit activism network
 
-[**activist.org**](http://activist.org/) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
+[**activist.org**](https://activist.org) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
 
-<!-- [**Frequently Asked Questions**](http://activist.org/docs/faq) -->
+[**Frequently Asked Questions**](https://activist.org/docs/faq)
 
 <a id="contents"></a>
 
@@ -116,7 +116,7 @@ Note that the linked Figma file above is the [public facing designs](https://www
 
 # Platform Overview [`⇧`](#contents)
 
-The following sections give a general overview of the various aspects of [activist.org](http://activist.org/).
+The following sections give a general overview of the various aspects of [activist.org](https://activist.org).
 
 ## Organizations [`⇧`](#contents)
 

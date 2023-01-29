@@ -1,38 +1,41 @@
 <template>
-  <div>
-    <button
-      class="px-3 py-2 font-medium border rounded-md peer text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content border-light-text dark:border-dark-text focus:border-light-cta-orange dark:focus:border-dark-cta-orange hover:bg-light-highlight dark:hover:bg-dark-highlight focus:hover:bg-light-content dark:focus:hover:bg-dark-content"
-    >
-      <div class="flex items-center text-sm space-x-2">
-        <Icon name="bi:globe"/>
-        <p class="hidden uppercase lg:block">{{ $i18n.locale }}</p>
-        <p></p>
-        <Icon name="bi:chevron-down"/>
-      </div>
-    </button>
-    <div class="invisible duration-200 -translate-y-1 peer-focus:visible">
-      <div
-        class="absolute right-0 mt-3 overflow-hidden text-sm border rounded-md xl:text-base text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content border-light-text dark:border-dark-text"
-      >
-        <ul>
-          <NuxtLink
-            v-for="locale in availableLocales"
-            :key="locale.code"
-            :to="switchLocalePath(locale.code)"
-          >
-            <li
-              class="p-1 pl-2 border-l-4 border-transparent w-28 xl:w-32 xl:p-2 xl:pl-4 hover:border-light-cta-orange dark:hover:border-dark-cta-orange hover:bg-light-distinct dark:hover:bg-dark-distinct"
-            >
+  <Menu as="div" class="relative inline-block text-left">
+    <div>
+      <MenuButton
+        class="inline-flex w-full justify-center rounded-md px-4 py-2 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight">
+        <div class="flex items-center text-sm space-x-2">
+          <Icon name="bi:globe" />
+          <p class="hidden uppercase lg:block">{{ $i18n.locale }}</p>
+          <p></p>
+          <Icon name="bi:chevron-down" />
+        </div>
+      </MenuButton>
+    </div>
+
+    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+      enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in"
+      leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+      <MenuItems
+        class="absolute right-0 mt-2 origin-top-right divide-y border rounded-md bg-light-content dark:bg-dark-content shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text">
+        <ul class="px-2 py-2">
+          <NuxtLink v-for="locale in availableLocales" :key="locale.code" :to="switchLocalePath(locale.code)">
+            <MenuItem v-slot="{ active }">
+            <li :class="[
+              active ? 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content' : 'text-light-text dark:text-dark-text',
+              'w-28 group flex items-center rounded-md pl-4 pr-2 py-2 text-sm',
+            ]">
               {{ locale.name }}
             </li>
+            </MenuItem>
           </NuxtLink>
         </ul>
-      </div>
-    </div>
-  </div>
+      </MenuItems>
+    </transition>
+  </Menu>
 </template>
 
 <script setup>
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 const availableLocales = computed(() => {

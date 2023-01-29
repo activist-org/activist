@@ -9,7 +9,4 @@
 
 <script setup>
 const title = ref("Home");
-definePageMeta({
-  colorMode: "light",
-});
 </script>
