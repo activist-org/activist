@@ -6,6 +6,7 @@
 
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
+[![crowdin](https://img.shields.io/badge/Localization-30660f.svg?logo=crowdin&logoColor=ffffff)](https://crowdin.com/project/activist)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
@@ -54,6 +55,7 @@ After your first few pull requests organization members would be happy to discus
 - [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
 - Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
 - [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
+  - You can also find our public localization project [on Crowdin](https://crowdin.com/project/activist)!
 - [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
 - [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
 
@@ -69,23 +71,27 @@ The following is the current and planned technologies for [activist.org](https:/
 
 ### Frontend
 
-- [Nuxt.js](https://nuxt.com/) ([Vue.js](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)) • [Tailwind CSS](https://tailwindcss.com/) • [Headless UI](https://headlessui.com/)
+- [Nuxt.js](https://nuxt.com) ([Vue.js](https://vuejs.org) + [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com)
 
 ### Backend
 
-- [Django](https://www.djangoproject.com/) ([Python](https://www.python.org/) - planned) • [PostgreSQL](https://www.postgresql.org/) (planned) • [Redis](https://redis.io/) (planned) • [Celery](https://docs.celeryq.dev/en/stable/) (planned)
+- [Django](https://www.djangoproject.com) ([Python](https://www.python.org) - planned) • [PostgreSQL](https://www.postgresql.org) (planned) • [Redis](https://redis.io) (planned) • [Celery](https://docs.celeryq.dev/en/stable) (planned)
 
 ### Deployment
 
-- [Docker](https://www.docker.com/)
+- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com)
+
+### Localization
+
+- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Crowdin](https://crowdin.com)
 
 <!-- ### Analytics
 
-- [Matomo](https://matomo.org/) (planned) -->
+- [Matomo](https://matomo.org) (planned) -->
 
 ## Environment Setup [`⇧`](#contents)
 
-To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
+To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
 
 Then clone this repository with the below command:
 
@@ -201,7 +207,7 @@ What kind of affiliate an organization or activist is will determine their notif
 
 ## Votes [`⇧`](#contents)
 
-Another forthcoming feature, the votes section would allow events to be made in relation to elections and legislation. This would allow users to filter by votes to have an impact on the legislative process. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activists operate.
+Another forthcoming feature, the votes section would allow events to be made in relation to elections and legislation. This would allow users to filter by votes to find events that have an impact on the legislative process. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activist operates.
 
 <a id="supported-by"></a>
 
@@ -212,13 +218,13 @@ Another forthcoming feature, the votes section would allow events to be made in 
 
 <strong>2022</strong>
 
-- [Presentation](https://www.youtube.com/watch?v=PdUZ8zFWnCk&list=PLduaHBu_3ejMxN1xipMDCOTb0wx6wxWnZ) for the [2022 Wikimedia UNLOCK accelerator](https://www.wikimedia.de/unlock/)
-- activist on the [Wikimedia UNLOCK accelerator website](https://www.wikimedia.de/unlock/unlock-projects/activist-org/)
+- [Presentation](https://www.youtube.com/watch?v=PdUZ8zFWnCk&list=PLduaHBu_3ejMxN1xipMDCOTb0wx6wxWnZ) for the [2022 Wikimedia UNLOCK accelerator](https://www.wikimedia.de/unlock)
+- activist on the [Wikimedia UNLOCK accelerator website](https://www.wikimedia.de/unlock/unlock-projects/activist-org)
 
 </p>
 </details>
 
-activist has received support from the following organizations as a participant in the [UNLOCK accelerator](https://www.wikimedia.de/unlock/):
+activist has received support from the following organizations as a participant in the [UNLOCK accelerator](https://www.wikimedia.de/unlock):
 
 <div align="center">
   <br>

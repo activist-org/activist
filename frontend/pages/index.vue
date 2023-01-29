@@ -58,5 +58,5 @@
 </template>
 
 <script setup>
-const title = ref("Welcome!");
+const title = ref("Welcome");
 </script>
