@@ -18,7 +18,7 @@
 
 ### An open-source, nonprofit activism network
 
-[**activist.org**](https://activist.org) is a network for sociopolitical action that allows people the world over to coordinate and collaborate on the issues that matter most. The current goal is the creation of a central platform to find and discover political events and organizations.
+[**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.
 
 [**Frequently Asked Questions**](https://activist.org/docs/faq)
 
@@ -45,7 +45,7 @@ Further prototypes and designs are available in the [designs for activist](https
 
 # Contributing [`⇧`](#contents)
 
-Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist, and feel free to reach out to us in the [discussions](https://github.com/activist-org/activist/discussions). Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
+Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist - and feel free to reach out to us in the [discussions](https://github.com/activist-org/activist/discussions)! Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
 After your first few pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
 
@@ -65,11 +65,11 @@ The activist road map can be followed in the organization's [project board](http
 
 ## Tech Stack [`⇧`](#contents)
 
-The following is the current and planned technologies for activist.org.
+The following is the current and planned technologies for [activist.org](https://activist.org).
 
 ### Frontend
 
-- [Nuxt.js](https://nuxt.com/) ([Vue.js](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)) • [Tailwind CSS](https://tailwindcss.com/) • [Vite.js](https://vitejs.dev/)
+- [Nuxt.js](https://nuxt.com/) ([Vue.js](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)) • [Tailwind CSS](https://tailwindcss.com/) • [Headless UI](https://headlessui.com/)
 
 ### Backend
 
@@ -79,9 +79,9 @@ The following is the current and planned technologies for activist.org.
 
 - [Docker](https://www.docker.com/)
 
-### Analytics
+<!-- ### Analytics
 
-- [Matomo](https://matomo.org/) (planned)
+- [Matomo](https://matomo.org/) (planned) -->
 
 ## Environment Setup [`⇧`](#contents)
 
@@ -110,23 +110,23 @@ You can visit <http://localhost:3000> to see the development frontend build once
 
 The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those with interest can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
-Note that the linked Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or via the email on the public designs welcome page. We'd love to see a sample of your work, and if everything looks good we'll schedule a time to get connected!
+Note that the Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or via the email on the public designs welcome page. We'd love to see a sample of your work and if everything looks good we'll schedule a time to get connected!
 
 <a id="overview"></a>
 
 # Platform Overview [`⇧`](#contents)
 
-The following sections give a general overview of the various aspects of [activist.org](https://activist.org).
+The following sections give a general overview of the various features of [activist.org](https://activist.org).
 
 ## Organizations [`⇧`](#contents)
 
-activist is first and foremost about organizations, with the design of the platform being tailored to their needs rather than those of individuals. The main function of organizations on activist is organizing and hosting [events](#events), but future features aim to help them achieve their goals and scale more effectively.
+activist is first and foremost about organizations, with the design of the platform being tailored to their needs. The main function of organizations on activist is organizing and hosting [events](#events), but future features aim to help them achieve their goals and scale more effectively.
 
 Organizations will eventually have the following features:
 
 ### Applying to join
 
-All organizations have to apply to join activist. The application process is the way that the community transparently expands, with the support from organizations already on the platform serving to verify those who want to join. Interactions on the platform will also in some cases be limited to members of organizations. In this way we create important links of trust from organizations to other organizations, and each organization to its individual members.
+All organizations have to apply to join activist. The application process is the way that the community transparently expands, with the support from organizations already on the platform serving to verify those who want to join. Interactions on the platform will also in some cases be limited to members of organizations. In this way we create important links of trust from organizations to other organizations and each organization to its individual members.
 
 ### Working Groups
 
@@ -138,7 +138,7 @@ Organizations will be able to send out communications to their members (announce
 
 ### Tasks
 
-Tasks are all the things that organizations need to do, which will be able to be organized in lists and kanban boards. Tasks can themselves be events or actions needed to make sure the event is a success (see below).
+Tasks are all the things that organizations need to do, which will be able to be organized in lists and kanban boards.
 
 <a id="events"></a>
 
@@ -150,26 +150,26 @@ Events are where things happen on activist. They are organized by [movements](#m
 
 ### Movements
 
-activist will eventually include a broad selection of movements. From the start the platform will focus on a select few: `Environment`, `Housing and Community`, and `Refugees and Migration`. Further movements will be added later as interest from organizations and the community grows. The following are the working movements that activist could include:
+activist will eventually include a broad selection of movements. From the start the platform will focus on a select few: `Environment`, `Housing` and `Refugees and Migration`. Further movements will be added later as interest from organizations and the community grows. The following are the working movements that activist could include:
 
-|                        |                             |                            |
-| :--------------------- | :-------------------------- | :------------------------- |
-| Environment            | Housing and Community       | Refugees and Migration     |
-| LGTBQIA+               | Racial Justice              | Women's Rights             |
-| Children's Rights      | Elder Rights                | Education                  |
-| Health and Wellbeing   | Animal Rights               | Democracy                  |
-| Labor Rights           | Technology and Privacy      | Peace and Resolution       |
-| Nutrition              | Accessibility and Inclusion | Institutional Transparency |
-| Substance Legalization | Freedom of Expression       | Emergency Relief           |
+|                      |                             |                            |
+| :------------------- | :-------------------------- | :------------------------- |
+| Environment          | Housing                     | Refugees and Migration     |
+| LGTBQIA+             | Racial Justice              | Women's Rights             |
+| Children's Rights    | Elder Rights                | Education                  |
+| Health and Wellbeing | Animal Rights               | Democracy                  |
+| Labor Rights         | Technology and Privacy      | Peace and Resolution       |
+| Nutrition            | Accessibility and Inclusion | Institutional Transparency |
+| Infrastructure       | Freedom of Expression       | Emergency Relief           |
 
 <br/>
-Beyond these general movements, tags will also be used to draw community attention to more specific issues.
+Beyond clustering by movements, tags will also be used to draw community attention to more specific issues.
 
 <a id="levels"></a>
 
 ### Levels
 
-Activism levels are the kind of involvement for the event, with each being a necessary component to progress within a given issue. `Act` and `Learn` are the two levels of an event on activist, with coloration being used to easily delineate the level of a particular event (red is for act and blue is for learn).
+`Act` and `Learn` are the two levels of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for act and 🔵 blue is for learn).
 
 <a id="formats"></a>
 
@@ -184,24 +184,24 @@ Formats are not required for events like movements and levels, but add an option
 
 ## Resources [`⇧`](#contents)
 
-Resources at the start will aggregate links to files that organizations want to organize and present to their members and the general public (if made open). Later the goal is to allow for the creation of unique hosted resources such as maps that indicate areas of interest and presentations of statistical findings from researchers.
+Resources at the start will aggregate links to files that organizations want to present to their members and the general public (if made open). Later the goal is to allow for the creation of unique hosted resources such as maps that indicate areas of interest, findings from researchers, news articles and any other kind of information that they would like to share.
 
 ## Activists [`⇧`](#contents)
 
-Activists, user accounts, will not be included in the MVP beyond what's needed for organization management. The main goal for this component at the start is to derive technical specifications that assure that privacy at the highest level can be provided to those users who want it, while at the same time balancing features needed by the community. Activism is a dangerous job for many, and the platform will respect the needs of those who need anonymity in their work and still want to participate.
+Activists, user accounts, will not be included in the MVP beyond what's needed for organization management. The main goal at the start is to derive technical specifications that assure that privacy at the highest level can be provided to those users who want it, while at the same time balancing features needed by the community. Activism is dangerous work for many and the platform will respect the needs of those who need anonymity in their work and still want to participate.
 
 ## Affiliations [`⇧`](#contents)
 
-activist has various kinds of relationships between organizations and activists that are collectively known as affiliations. The possible affiliations include:
+activist will have various kinds of relationships between organizations and activists that are collectively known as affiliations. The possible affiliations include:
 
-- Supporter: an organization or activist that supports another
-- Ally: the relationship of mutual support
+- Supporter: an organization or activist that supports another ➡️
+- Ally: the relationship of mutual support ↔️
 
 What kind of affiliate an organization or activist is will determine their notifications and degrees of access to private content.
 
 ## Votes [`⇧`](#contents)
 
-Another forthcoming feature, the votes section would allow events to be made in relation to elections and legislation. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activists operate.
+Another forthcoming feature, the votes section would allow events to be made in relation to elections and legislation. This would allow users to filter by votes to have an impact on the legislative process. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activists operate.
 
 <a id="supported-by"></a>
 
@@ -237,10 +237,10 @@ activist has received support from the following organizations as a participant 
 
 Many thanks to all the [activist.org contributors](https://github.com/activist-org/activist/graphs/contributors)! 🚀
 
-<!-- <a href="https://github.com/activist-org/activist/graphs/contributors">
+<a href="https://github.com/activist-org/activist/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=activist-org/activist" />
-</a> -->
+</a>
 
 # Disclosure
 
-activist is not directly affiliated with any corporations, political parties, governments or non-government organizations. Our goal is to make activism easier for our community and partner organizations.
+activist is not directly affiliated with any corporations, political parties or governments. Our goal is to make activism easier for our community and partner organizations.
