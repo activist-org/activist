@@ -5,21 +5,21 @@
     <div class="flex justify-center text-lg space-x-12 sm:space-x-8 xl:space-x-12 xl:text-xl">
       <a
         href="https://github.com/activist-org/activist"
-        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text"
+        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
         <Icon name="bi:github" size="1em" />
         <p class="hidden sm:block">GitHub</p>
       </a>
       <a
         href="https://twitter.com/activist_org"
-        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text"
+        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
         <Icon name="bi:twitter" size="1em" />
         <p class="hidden sm:block">Twitter</p>
       </a>
       <a
         href="https://instagram.com/activist_org"
-        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text"
+        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
         <Icon name="bi:instagram" size="1em" />
         <p class="hidden sm:block">Instagram</p>

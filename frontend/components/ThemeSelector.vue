@@ -2,7 +2,7 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
-        class="inline-flex w-full justify-center rounded-md px-4 py-2 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight">
+        class="inline-flex w-full justify-center rounded-md select-none px-4 py-2 font-medium text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand">
         <div class="flex items-center text-sm space-x-2">
           <Icon v-if="$colorMode.preference == 'system'" name="bi:circle-half" />
           <Icon v-if="$colorMode.preference == 'light'" name="bi:sun" />

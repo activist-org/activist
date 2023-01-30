@@ -9,4 +9,7 @@
 }
 
 @layer components {
+  .focus-brand {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75;
+  }
 }
