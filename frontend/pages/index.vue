@@ -22,7 +22,7 @@
         text="grow-organization-text"
         imageURL=""
         btnText1="learn-more"
-        btnURL1="/docs/grow-organizations"
+        btnURL1="/docs/grow-organization"
       />
       <LandingPageContent
         contentPosition="left"
