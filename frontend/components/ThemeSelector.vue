@@ -7,7 +7,7 @@
           <Icon v-if="$colorMode.preference == 'system'" name="bi:circle-half" />
           <Icon v-if="$colorMode.preference == 'light'" name="bi:sun" />
           <Icon v-else-if="$colorMode.preference == 'dark'" name="bi:moon" />
-          <p class="hidden lg:block">Theme</p>
+          <p class="sr-only lg:not-sr-only">Theme</p>
           <p></p>
           <Icon name="bi:chevron-down" />
         </div>

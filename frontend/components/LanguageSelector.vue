@@ -5,7 +5,7 @@
         class="inline-flex w-full justify-center rounded-md select-none px-4 py-2 font-medium text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand">
         <div class="flex items-center text-sm space-x-2">
           <Icon name="bi:globe" />
-          <p class="hidden uppercase lg:block">{{ $i18n.locale }}</p>
+          <p class="uppercase sr-only lg:not-sr-only">{{ $i18n.locale }}</p>
           <p></p>
           <Icon name="bi:chevron-down" />
         </div>

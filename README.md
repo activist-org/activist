@@ -80,7 +80,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Deployment
 
-- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com)
+- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/) (planned)
 
 ### Localization
 

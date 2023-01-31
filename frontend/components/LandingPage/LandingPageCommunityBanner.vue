@@ -8,21 +8,21 @@
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
         <Icon name="bi:github" size="1em" />
-        <p class="hidden sm:block">GitHub</p>
+        <p class="sr-only sm:not-sr-only">GitHub</p>
       </a>
       <a
         href="https://twitter.com/activist_org"
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
         <Icon name="bi:twitter" size="1em" />
-        <p class="hidden sm:block">Twitter</p>
+        <p class="sr-only sm:not-sr-only">Twitter</p>
       </a>
       <a
         href="https://instagram.com/activist_org"
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
         <Icon name="bi:instagram" size="1em" />
-        <p class="hidden sm:block">Instagram</p>
+        <p class="sr-only sm:not-sr-only">Instagram</p>
       </a>
     </div>
   </div>
