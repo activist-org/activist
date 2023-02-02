@@ -44,7 +44,7 @@
           <p
             class="mt-3 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath('/docs/faq')" class="focus-brand"> {{ $t("faq") }} </NuxtLink>
+            <NuxtLink :to="localePath('/help/faq')" class="focus-brand"> {{ $t("faq") }} </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
@@ -174,7 +174,7 @@
           <p
             class="mt-3 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath('/docs/faq')" class="focus-brand"> {{ $t("faq") }} </NuxtLink>
+            <NuxtLink :to="localePath('/help/faq')" class="focus-brand"> {{ $t("faq") }} </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"

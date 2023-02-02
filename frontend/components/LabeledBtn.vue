@@ -7,6 +7,7 @@
         cta == true,
       'bg-neutral-500 dark:bg-gray-400 hover:bg-neutral-400 active:bg-neutral-500 dark:hover:bg-gray-300 dark:active:bg-gray-400 ':
         cta == false,
+      'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
       'text-base': fontSize == 'base',
       'text-lg': fontSize == 'lg',

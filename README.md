@@ -22,7 +22,7 @@
 
 [**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.
 
-[**Frequently Asked Questions**](https://activist.org/docs/faq)
+[**Frequently Asked Questions**](https://activist.org/help/faq)
 
 <a id="contents"></a>
 
