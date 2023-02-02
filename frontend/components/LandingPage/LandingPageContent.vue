@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="flex items-center justify-center pb-16 sm:pt-16 xl:py-24 lg:space-x-16 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text"
+    class="flex items-center justify-center py-12 md:py-16 xl:py-20 lg:space-x-16 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text"
   >
     <div
       class="flex flex-col items-center w-full lg:items-start sm:w-10/12 lg:max-w-sm xl:max-w-md space-y-3 xl:space-y-4"
@@ -68,7 +68,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="flex items-center justify-center pb-16 sm:pt-16 xl:py-24 lg:space-x-16 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header"
+    class="flex items-center justify-center py-12 md:py-16 xl:py-20 lg:space-x-16 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header"
   >
     <div
       class="relative z-0 hidden lg:block w-[360px] h-[464px] xl:w-[450px] xl:h-[580px] rounded-xl"

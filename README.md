@@ -5,14 +5,16 @@
 <!-- [![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack) -->
 
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
+[![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org/deploys)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
-[![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
+[![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
 [![license](https://img.shields.io/github/license/activist-org/activist-iOS.svg?label=%20)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 [![twitter](https://img.shields.io/badge/Twitter-1DA1F2.svg?logo=twitter&logoColor=ffffff)](https://twitter.com/activist_org)
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
+[![crowdin](https://img.shields.io/badge/Crowdin-30660f.svg?logo=crowdin&logoColor=ffffff)](https://crowdin.com/project/activist)
 
 <!-- Also available on [Android](https://github.com/activist-org/activist-Android) (planned) and [iOS](https://github.com/activist-org/activist-iOS) (planned). -->
 
@@ -20,7 +22,7 @@
 
 [**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.
 
-[**Frequently Asked Questions**](https://activist.org/docs/faq)
+[**Frequently Asked Questions**](https://activist.org/help/faq)
 
 <a id="contents"></a>
 
@@ -47,13 +49,14 @@ Further prototypes and designs are available in the [designs for activist](https
 
 Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist - and feel free to reach out to us in the [discussions](https://github.com/activist-org/activist/discussions)! Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
-After your first few pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
+After your first pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
 
 ## Ways to Help [`⇧`](#contents)
 
 - [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
 - Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
 - [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
+  - You can also find our public localization project [on Crowdin](https://crowdin.com/project/activist)!
 - [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
 - [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
 
@@ -65,27 +68,31 @@ The activist road map can be followed in the organization's [project board](http
 
 ## Tech Stack [`⇧`](#contents)
 
-The following is the current and planned technologies for [activist.org](https://activist.org).
+The following are the current and planned technologies for [activist.org](https://activist.org):
 
 ### Frontend
 
-- [Nuxt.js](https://nuxt.com/) ([Vue.js](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)) • [Tailwind CSS](https://tailwindcss.com/) • [Headless UI](https://headlessui.com/)
+- [Nuxt.js](https://nuxt.com) • [Vue.js](https://vuejs.org) • [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com)
 
 ### Backend
 
-- [Django](https://www.djangoproject.com/) ([Python](https://www.python.org/) - planned) • [PostgreSQL](https://www.postgresql.org/) (planned) • [Redis](https://redis.io/) (planned) • [Celery](https://docs.celeryq.dev/en/stable/) (planned)
+- [Django](https://www.djangoproject.com) (planned) • [PostgreSQL](https://www.postgresql.org) (planned) • [Redis](https://redis.io) (planned) • [Celery](https://docs.celeryq.dev/en/stable) (planned)
 
 ### Deployment
 
-- [Docker](https://www.docker.com/)
+- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/) (planned)
+
+### Localization
+
+- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Crowdin](https://crowdin.com) ([activist on Crowdin](https://crowdin.com/project/activist))
 
 <!-- ### Analytics
 
-- [Matomo](https://matomo.org/) (planned) -->
+- [Matomo](https://matomo.org) (planned) -->
 
 ## Environment Setup [`⇧`](#contents)
 
-To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
+To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
 
 Then clone this repository with the below command:
 
@@ -201,7 +208,7 @@ What kind of affiliate an organization or activist is will determine their notif
 
 ## Votes [`⇧`](#contents)
 
-Another forthcoming feature, the votes section would allow events to be made in relation to elections and legislation. This would allow users to filter by votes to have an impact on the legislative process. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activists operate.
+Another forthcoming feature, the votes section would allow events to be made in relation to elections and legislation. This would allow users to filter by votes to find events that have an impact on the legislative process. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activist operates.
 
 <a id="supported-by"></a>
 
@@ -212,13 +219,13 @@ Another forthcoming feature, the votes section would allow events to be made in 
 
 <strong>2022</strong>
 
-- [Presentation](https://www.youtube.com/watch?v=PdUZ8zFWnCk&list=PLduaHBu_3ejMxN1xipMDCOTb0wx6wxWnZ) for the [2022 Wikimedia UNLOCK accelerator](https://www.wikimedia.de/unlock/)
-- activist on the [Wikimedia UNLOCK accelerator website](https://www.wikimedia.de/unlock/unlock-projects/activist-org/)
+- [Presentation](https://www.youtube.com/watch?v=PdUZ8zFWnCk&list=PLduaHBu_3ejMxN1xipMDCOTb0wx6wxWnZ) for the [2022 Wikimedia UNLOCK accelerator](https://www.wikimedia.de/unlock)
+- activist on the [Wikimedia UNLOCK accelerator website](https://www.wikimedia.de/unlock/unlock-projects/activist-org)
 
 </p>
 </details>
 
-activist has received support from the following organizations as a participant in the [UNLOCK accelerator](https://www.wikimedia.de/unlock/):
+activist has received support from the following organizations as a participant in the [UNLOCK accelerator](https://www.wikimedia.de/unlock):
 
 <div align="center">
   <br>

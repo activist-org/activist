@@ -15,21 +15,21 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text"
+            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:github" size="1em" />
             <p>@activist-org</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:twitter" size="1em" />
             <p>@activist_org</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:instagram" size="1em" />
             <p>@activist_org</p>
@@ -44,26 +44,26 @@
           <p
             class="mt-3 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath('/docs/faq')"> FAQ </NuxtLink>
+            <NuxtLink :to="localePath('/help/faq')" class="focus-brand"> {{ $t("faq") }} </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'help' })">
+            <NuxtLink :to="localePath({ name: 'help' })" class="focus-brand">
               {{ $t("help") }}
             </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'docs' })">
+            <NuxtLink :to="localePath({ name: 'docs' })" class="focus-brand">
               {{ $t("documentation") }}
             </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath('/help/contact')">
+            <NuxtLink :to="localePath('/help/contact')" class="focus-brand">
               {{ $t("contact") }}
             </NuxtLink>
           </p>
@@ -77,21 +77,21 @@
           <p
             class="mt-3 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'about' })">
+            <NuxtLink :to="localePath({ name: 'about' })" class="focus-brand">
               {{ $t("about") }}
             </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'supporters' })">
+            <NuxtLink :to="localePath({ name: 'supporters' })" class="focus-brand">
               {{ $t("supporters") }}
             </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'impress' })">
+            <NuxtLink :to="localePath({ name: 'impress' })" class="focus-brand">
               {{ $t("impress") }}
             </NuxtLink>
           </p>
@@ -112,26 +112,26 @@
         </p>
         <div class="flex mt-3 xl:mt-5">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink :to="localePath('/legal/trademark-policy')">
+            <NuxtLink :to="localePath('/legal/trademark-policy')" class="focus-brand">
               {{ $t("trademark-policy") }}
             </NuxtLink>
           </div>
           <div>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink :to="localePath('/legal/privacy-policy')">
+            <NuxtLink :to="localePath('/legal/privacy-policy')" class="focus-brand">
               {{ $t("privacy-policy") }}
             </NuxtLink>
           </div>
         </div>
         <div class="flex mt-2">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <a href="https://github.com/activist-org/activist/releases">
+            <a href="https://github.com/activist-org/activist/releases" class="focus-brand">
               v0.0.1
             </a>
           </div>
           <div>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink :to="localePath('/docs/roadmap')">
+            <NuxtLink :to="localePath('/docs/roadmap')" class="focus-brand">
               {{ $t("roadmap") }}
             </NuxtLink>
           </div>
@@ -147,21 +147,21 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text"
+            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:github" size="1em" />
             <p>@activist-org</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:twitter" size="1em" />
             <p>@activist_org</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:instagram" size="1em" />
             <p>@activist_org</p>
@@ -174,26 +174,26 @@
           <p
             class="mt-3 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath('/docs/faq')"> {{ $t("faq") }} </NuxtLink>
+            <NuxtLink :to="localePath('/help/faq')" class="focus-brand"> {{ $t("faq") }} </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'help' })">
+            <NuxtLink :to="localePath({ name: 'help' })" class="focus-brand">
               {{ $t("help") }}
             </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'docs' })">
+            <NuxtLink :to="localePath({ name: 'docs' })" class="focus-brand">
               {{ $t("documentation") }}
             </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath('/help/contact')">
+            <NuxtLink :to="localePath('/help/contact')" class="focus-brand">
               {{ $t("contact") }}
             </NuxtLink>
           </p>
@@ -205,21 +205,21 @@
           <p
             class="mt-3 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'about' })">
+            <NuxtLink :to="localePath({ name: 'about' })" class="focus-brand">
               {{ $t("about") }}
             </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'supporters' })">
+            <NuxtLink :to="localePath({ name: 'supporters' })" class="focus-brand">
               {{ $t("supporters") }}
             </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'impress' })">
+            <NuxtLink :to="localePath({ name: 'impress' })" class="focus-brand">
               {{ $t("impress") }}
             </NuxtLink>
           </p>

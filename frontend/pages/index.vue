@@ -17,21 +17,21 @@
       />
       <LandingPageContent
         contentPosition="right"
+        header="get-organized-header"
+        tagline="get-organized-tagline"
+        text="get-organized-text"
+        imageURL=""
+        btnText1="learn-more"
+        btnURL1="/docs/get-organized"
+      />
+      <LandingPageContent
+        contentPosition="left"
         header="grow-organization-header"
         tagline="grow-organization-tagline"
         text="grow-organization-text"
         imageURL=""
         btnText1="learn-more"
-        btnURL1="/docs/grow-organizations"
-      />
-      <LandingPageContent
-        contentPosition="left"
-        header="coordinate-collaborate-header"
-        tagline="coordinate-collaborate-tagline"
-        text="coordinate-collaborate-text"
-        imageURL=""
-        btnText1="learn-more"
-        btnURL1="/docs/coordinate"
+        btnURL1="/docs/grow-organization"
       />
       <LandingPageContent
         contentPosition="right"
@@ -58,5 +58,5 @@
 </template>
 
 <script setup>
-const title = ref("Welcome!");
+const title = ref("Welcome");
 </script>

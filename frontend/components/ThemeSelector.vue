@@ -1,24 +1,24 @@
 <template>
   <Menu as="div" class="relative inline-block text-left">
     <div>
-      <MenuButton
-        class="inline-flex w-full justify-center rounded-md px-4 py-2 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight">
+      <MenuButton v-slot="{ open }"
+        class="inline-flex justify-center w-full px-4 py-2 font-medium select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand">
         <div class="flex items-center text-sm space-x-2">
           <Icon v-if="$colorMode.preference == 'system'" name="bi:circle-half" />
           <Icon v-if="$colorMode.preference == 'light'" name="bi:sun" />
           <Icon v-else-if="$colorMode.preference == 'dark'" name="bi:moon" />
-          <p class="hidden lg:block">Theme</p>
+          <p class="sr-only lg:not-sr-only">{{ $t("theme") }}</p>
           <p></p>
-          <Icon name="bi:chevron-down" />
+          <Icon name="bi:chevron-down" :class="open ? 'rotate-180 transform' : ''"/>
         </div>
       </MenuButton>
     </div>
 
-    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in"
-      leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="opacity-0 transform scale-95"
+      enter-to-class="opacity-100 transform scale-100" leave-active-class="transition duration-75 ease-in"
+      leave-from-class="opacity-100 transform scale-100" leave-to-class="opacity-0 transform scale-95">
       <MenuItems
-        class="absolute right-0 mt-2 origin-top-right divide-y border rounded-md bg-light-content dark:bg-dark-content shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text">
+        class="absolute right-0 mt-2 border shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text">
         <div class="px-2 py-2">
           <MenuItem v-slot="{ active }">
           <button :class="[

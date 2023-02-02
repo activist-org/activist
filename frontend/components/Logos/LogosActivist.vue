@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="localePath('/')">
+  <NuxtLink :to="localePath('/')" class="focus-brand">
     <svg
       class="fill-light-text dark:fill-dark-text"
       width="3000"
