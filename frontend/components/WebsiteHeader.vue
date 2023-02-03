@@ -1,6 +1,10 @@
 <template>
   <header
+    ref="header"
     class="sticky top-0 z-10 bg-light-header dark:bg-dark-header drop-shadow-md"
+    :style="{
+      opacity: headerOpacity,
+    }"
   >
     <div class="flex py-2 md:hidden">
       <div class="z-0 flex justify-center mx-auto">
@@ -50,3 +54,28 @@
     </div>
   </header>
 </template>
+
+<script>
+export default {
+  setup() {
+    const headerOpacity = ref(1);
+
+    onMounted(() => {
+      window.addEventListener("scroll", handleScroll);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener("scroll", handleScroll);
+    });
+
+    function handleScroll() {
+      if (window.pageYOffset > 50) {
+        headerOpacity.value = Math.max(0, 1 - window.pageYOffset / 2000);
+      } else {
+        headerOpacity.value = 1;
+      }
+    }
+    return { headerOpacity };
+  },
+};
+</script>
