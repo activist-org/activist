@@ -2,12 +2,46 @@
   <footer
     class="px-6 py-8 sm:py-12 lg:px-10 xl:py-16 xl:px-14 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
   >
-    <div
-      class="justify-center flex-1 sm:grid sm:grid-rows-2 lg:flex lg:justify-start"
-    >
-      <!-- Note: Content Sections Top -->
+    <!-- Note: Content Sections Top -->
+    <div class="flex flex-col justify-center items-center space-y-5 lg:hidden">
+      <div class="flex flex-col justify-center items-center space-y-2">
+        <div class="relative z-0 h-10 w-36">
+          <LogosActivist
+            class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+          />
+        </div>
+        <p class="text-light-text dark:text-dark-text">
+          {{ $t("activist-tagline") }}
+        </p>
+        <div class="flex">
+          <div class="hover:text-light-text dark:hover:text-dark-text">
+            <a
+              href="https://github.com/activist-org/activist/releases"
+              class="focus-brand"
+            >
+              v0.0.1
+            </a>
+          </div>
+          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="hover:text-light-text dark:hover:text-dark-text">
+            <a
+              href="https://github.com/activist-org/activist"
+              class="focus-brand"
+            >
+              {{ $t("source-code") }}
+            </a>
+          </div>
+          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="hover:text-light-text dark:hover:text-dark-text">
+            <NuxtLink :to="localePath('/docs/roadmap')" class="focus-brand">
+              {{ $t("roadmap") }}
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
+
       <div
-        class="max-w-xl text-center sm:text-left lg:hidden grid sm:grid-cols-3 gap-0 sm:gap-12 md:gap-16 justify-items-center"
+        class="grid max-w-xl gap-0 text-center sm:text-left sm:grid-cols-3 sm:gap-12 md:gap-16 justify-items-center lg:hidden"
       >
         <div>
           <p class="text-xl font-medium text-light-text dark:text-dark-text">
@@ -15,21 +49,21 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:github" size="1em" />
             <p>@activist-org</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:twitter" size="1em" />
             <p>@activist_org</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:instagram" size="1em" />
             <p>@activist_org</p>
@@ -44,7 +78,9 @@
           <p
             class="mt-3 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath('/help/faq')" class="focus-brand"> {{ $t("faq") }} </NuxtLink>
+            <NuxtLink :to="localePath('/help/faq')" class="focus-brand">
+              {{ $t("faq") }}
+            </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
@@ -84,7 +120,10 @@
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'supporters' })" class="focus-brand">
+            <NuxtLink
+              :to="localePath({ name: 'supporters' })"
+              class="focus-brand"
+            >
               {{ $t("supporters") }}
             </NuxtLink>
           </p>
@@ -98,45 +137,88 @@
         </div>
       </div>
 
-      <!-- Note: Content Sections Bottom or Left -->
-      <div
-        class="mt-6 md:mt-4 grid grid-rows-5 lg:mt-0 justify-items-center lg:justify-items-start lg:w-[60%]"
-      >
+      <div class="flex flex-col justify-center items-center">
+        <div class="flex">
+          <div class="hover:text-light-text dark:hover:text-dark-text">
+            <NuxtLink
+              :to="localePath('/legal/trademark-policy')"
+              class="focus-brand"
+            >
+              {{ $t("trademark-policy") }}
+            </NuxtLink>
+          </div>
+          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="hover:text-light-text dark:hover:text-dark-text">
+            <NuxtLink
+              :to="localePath('/legal/privacy-policy')"
+              class="focus-brand"
+            >
+              {{ $t("privacy-policy") }}
+            </NuxtLink>
+          </div>
+        </div>
+        <div class="mt-2">{{ $t("website-copyright") }}</div>
+      </div>
+    </div>
+
+    <!-- Note: Content Sections Left and Right -->
+    <div class="flex flex-col justify-center lg:flex-row lg:justify-start">
+      <!-- Note: Content Sections Left -->
+      <div class="mt-0 justify-items-start w-[70%] hidden lg:flex lg:flex-col">
         <div class="relative z-0 h-10 w-36">
           <LogosActivist
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
           />
         </div>
-        <p class="mt-3 text-base">
+        <p class="mt-3 text-light-text dark:text-dark-text lg:block">
           {{ $t("activist-tagline") }}
         </p>
-        <div class="flex mt-3 xl:mt-5">
+        <div class="flex mt-2  justify-start">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink :to="localePath('/legal/trademark-policy')" class="focus-brand">
-              {{ $t("trademark-policy") }}
-            </NuxtLink>
-          </div>
-          <div>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</div>
-          <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink :to="localePath('/legal/privacy-policy')" class="focus-brand">
-              {{ $t("privacy-policy") }}
-            </NuxtLink>
-          </div>
-        </div>
-        <div class="flex mt-2">
-          <div class="hover:text-light-text dark:hover:text-dark-text">
-            <a href="https://github.com/activist-org/activist/releases" class="focus-brand">
+            <a
+              href="https://github.com/activist-org/activist/releases"
+              class="focus-brand"
+            >
               v0.0.1
             </a>
           </div>
-          <div>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</div>
+          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="hover:text-light-text dark:hover:text-dark-text">
+            <a
+              href="https://github.com/activist-org/activist"
+              class="focus-brand"
+            >
+              {{ $t("source-code") }}
+            </a>
+          </div>
+          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink :to="localePath('/docs/roadmap')" class="focus-brand">
               {{ $t("roadmap") }}
             </NuxtLink>
           </div>
         </div>
-        <div>{{ $t("website-copyright") }}</div>
+
+        <div class="flex mt-5">
+          <div class="hover:text-light-text dark:hover:text-dark-text">
+            <NuxtLink
+              :to="localePath('/legal/trademark-policy')"
+              class="focus-brand"
+            >
+              {{ $t("trademark-policy") }}
+            </NuxtLink>
+          </div>
+          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="hover:text-light-text dark:hover:text-dark-text">
+            <NuxtLink
+              :to="localePath('/legal/privacy-policy')"
+              class="focus-brand"
+            >
+              {{ $t("privacy-policy") }}
+            </NuxtLink>
+          </div>
+        </div>
+        <div class="mt-2">{{ $t("website-copyright") }}</div>
       </div>
 
       <!-- Note: Content Sections Right -->
@@ -147,21 +229,21 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:github" size="1em" />
             <p>@activist-org</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:twitter" size="1em" />
             <p>@activist_org</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:instagram" size="1em" />
             <p>@activist_org</p>
@@ -174,7 +256,9 @@
           <p
             class="mt-3 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath('/help/faq')" class="focus-brand"> {{ $t("faq") }} </NuxtLink>
+            <NuxtLink :to="localePath('/help/faq')" class="focus-brand">
+              {{ $t("faq") }}
+            </NuxtLink>
           </p>
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
@@ -212,7 +296,10 @@
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'supporters' })" class="focus-brand">
+            <NuxtLink
+              :to="localePath({ name: 'supporters' })"
+              class="focus-brand"
+            >
               {{ $t("supporters") }}
             </NuxtLink>
           </p>

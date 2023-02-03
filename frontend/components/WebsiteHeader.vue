@@ -4,7 +4,7 @@
   >
     <div class="flex py-2 md:hidden">
       <div class="z-0 flex justify-center mx-auto">
-        <div class="relative z-0 w-20 h-6">
+        <div class="relative z-0 w-24 h-6">
           <LogosActivist
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
           />
