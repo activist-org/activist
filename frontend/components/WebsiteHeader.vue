@@ -61,7 +61,7 @@ import { Ref } from "vue";
 export default {
   setup() {
     const headerOpacity: Ref<number> = ref(1);
-    const prevYOffset: Ref<number> = ref(0);
+    const prevScrollY: Ref<number> = ref(0);
 
     onMounted(() => {
       window.addEventListener("scroll", handleScroll);
@@ -72,17 +72,18 @@ export default {
     });
 
     function handleScroll(): void {
-      if (window.pageYOffset > 0) {
-        if (window.pageYOffset > prevYOffset.value) {
+      const scrollY: number = window.scrollY;
+
+      if (scrollY > 0) {
+        if (scrollY > prevScrollY.value) {
           headerOpacity.value = 0;
-        } else if (window.pageYOffset < prevYOffset.value) {
-          headerOpacity.value = 0.5;
-        } else headerOpacity.value = 0;
+        } else headerOpacity.value = 0.5;
       } else {
         headerOpacity.value = 1;
       }
-      prevYOffset.value = window.pageYOffset;
+      prevScrollY.value = scrollY;
     }
+
     return { headerOpacity };
   },
 };
