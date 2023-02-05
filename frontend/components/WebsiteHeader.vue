@@ -1,6 +1,10 @@
 <template>
   <header
-    class="sticky top-0 z-10 bg-light-header dark:bg-dark-header drop-shadow-md"
+    ref="header"
+    class="header-container sticky top-0 z-10 drop-shadow-md"
+    :style="{
+      'background-color': `rgba(22, 27, 34,${headerOpacity})`,
+    }"
   >
     <div class="flex py-2 md:hidden">
       <div class="z-0 flex justify-center mx-auto">
@@ -50,3 +54,43 @@
     </div>
   </header>
 </template>
+
+<script lang="ts">
+import { Ref } from "vue";
+
+export default {
+  setup() {
+    const headerOpacity: Ref<number> = ref(1);
+    const prevScrollY: Ref<number> = ref(0);
+
+    onMounted(() => {
+      window.addEventListener("scroll", handleScroll);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener("scroll", handleScroll);
+    });
+
+    function handleScroll(): void {
+      const scrollY: number = window.scrollY;
+
+      if (scrollY > 0) {
+        if (scrollY > prevScrollY.value) {
+          headerOpacity.value = 0;
+        } else headerOpacity.value = 0.5;
+      } else {
+        headerOpacity.value = 1;
+      }
+      prevScrollY.value = scrollY;
+    }
+
+    return { headerOpacity };
+  },
+};
+</script>
+
+<style scoped>
+.header-container {
+  transition: 1s;
+}
+</style>
