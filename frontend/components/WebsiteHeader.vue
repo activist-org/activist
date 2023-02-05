@@ -1,9 +1,11 @@
 <template>
   <header
     ref="header"
-    class="header-container sticky top-0 z-10 drop-shadow-md"
-    :style="{
-      'background-color': `rgba(22, 27, 34,${headerOpacity})`,
+    class="sticky top-0 z-10 duration-500 drop-shadow-md"
+    :class="{
+      'bg-light-header dark:bg-dark-header': headerOpacity == 1,
+      'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
+      'invisible opacity-0': headerOpacity == 0,
     }"
   >
     <div class="flex py-2 md:hidden">
@@ -74,10 +76,10 @@ export default {
     function handleScroll(): void {
       const scrollY: number = window.scrollY;
 
-      if (scrollY > 0) {
+      if (scrollY > document.getElementsByTagName("header")[0].clientHeight) {
         if (scrollY > prevScrollY.value) {
           headerOpacity.value = 0;
-        } else headerOpacity.value = 0.5;
+        } else headerOpacity.value = 0.8;
       } else {
         headerOpacity.value = 1;
       }
@@ -88,9 +90,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.header-container {
-  transition: 1s;
-}
-</style>
