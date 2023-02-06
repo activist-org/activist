@@ -1,5 +1,5 @@
 <template>
   <Sidebar />
   <slot />
-  <WebsiteFooter />
+  <!-- <WebsiteFooter /> -->
 </template>
