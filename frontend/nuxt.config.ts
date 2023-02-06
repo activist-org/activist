@@ -16,6 +16,12 @@ export default defineNuxtConfig({
     cssPath: "~/assets/css/tailwind.css",
     configPath: "tailwind.config.ts",
   },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
   i18n: {
     strategy: "prefix",
     lazy: true,
