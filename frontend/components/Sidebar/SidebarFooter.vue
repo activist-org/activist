@@ -9,7 +9,7 @@
           ]"
         >
           <div
-            class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
+            class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-medium text-left space-x-2"
           >
             <Icon name="bi:plus-circle" size="1.25em" />
             <p>{{ $t("Create") }}</p>
@@ -52,7 +52,7 @@
           ]"
         >
           <div
-            class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
+            class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-medium text-left space-x-2"
           >
             <Icon name="bi:info-circle" size="1.25em" />
             <p>{{ $t("Info") }}</p>
@@ -89,7 +89,7 @@
           ]"
         >
           <div
-            class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
+            class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-medium text-left space-x-2"
           >
             <Icon name="bi:person-circle" size="1.25em" />
             <p class="font-bold">{{ $t("Username") }}</p>

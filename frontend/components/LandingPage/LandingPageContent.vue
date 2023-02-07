@@ -1,30 +1,24 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="flex items-center justify-center py-12 md:py-16 xl:py-20 lg:space-x-16 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text"
+    class="flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-24 xl:py-28 lg:space-x-20 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text"
   >
     <div
-      class="flex flex-col items-center w-full lg:items-start sm:w-10/12 lg:max-w-sm xl:max-w-md space-y-3 xl:space-y-4"
+      class="flex flex-col items-center w-full space-y-3 lg:items-start sm:w-10/12 lg:max-w-sm xl:max-w-md xl:space-y-4"
     >
-      <div
-        class="relative z-0 lg:hidden mb-4 w-full h-[180px] sm:h-[300px] sm:rounded-xl"
-        :class="{
-          'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
-          'mt-6 sm:mt-0': imageURL != '',
-        }"
-      >
-        <div
-          class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
-        >
-          <component
-            :is="imageURL"
-            class="fill-light-text dark:fill-dark-text"
-            :class="{
-              'scale-[0.25] sm:scale-[0.35]': imageURL == 'IconsActivist',
-            }"
-          />
-        </div>
-      </div>
+      <!-- Note: image on top of content. -->
+      <img
+        v-if="$colorMode.value == 'light'"
+        :src="imageURL + '_light.png'"
+        :alt="altText"
+        class="mb-4 lg:hidden h-36 sm:h-44"
+      />
+      <img
+        v-else-if="$colorMode.value == 'dark'"
+        :src="imageURL + '_dark.png'"
+        :alt="altText"
+        class="mb-4 lg:hidden h-36 sm:h-44"
+      />
       <p
         class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full xl:text-4xl sm:text-left"
       >
@@ -47,69 +41,53 @@
         fontSize="xl"
       />
     </div>
-    <div
-      class="relative z-0 hidden lg:block w-[360px] h-[464px] xl:w-[450px] xl:h-[580px] rounded-xl"
-      :class="{
-        'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
-      }"
-    >
-      <div
-        class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
-      >
-        <component
-          :is="imageURL"
-          class="fill-light-text dark:fill-dark-text"
-          :class="{
-            'scale-[0.9]': imageURL == 'IconsActivist',
-          }"
-        />
-      </div>
+    <!-- Note: image right of content. -->
+    <div class="hidden lg:block w-60 h-60 xl:w-72 xl:h-72">
+      <img
+        v-if="$colorMode.value == 'light'"
+        :src="imageURL + '_light.png'"
+        :alt="altText"
+      />
+      <img
+        v-else-if="$colorMode.value == 'dark'"
+        :src="imageURL + '_dark.png'"
+        :alt="altText"
+      />
     </div>
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="flex items-center justify-center py-12 md:py-16 xl:py-20 lg:space-x-16 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header"
+    class="flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-24 xl:py-28 lg:space-x-20 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header"
   >
-    <div
-      class="relative z-0 hidden lg:block w-[360px] h-[464px] xl:w-[450px] xl:h-[580px] rounded-xl"
-      :class="{
-        'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
-      }"
-    >
-      <div
-        class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
-      >
-        <component
-          :is="imageURL"
-          class="fill-light-text dark:fill-dark-text"
-          :class="{
-            'scale-[0.9]': imageURL == 'IconsActivist',
-          }"
-        />
-      </div>
+    <!-- Note: image left of content. -->
+    <div class="hidden lg:block w-60 h-60 xl:w-72 xl:h-72">
+      <img
+        v-if="$colorMode.value == 'light'"
+        :src="imageURL + '_light.png'"
+        :alt="altText"
+      />
+      <img
+        v-else-if="$colorMode.value == 'dark'"
+        :src="imageURL + '_dark.png'"
+        :alt="altText"
+      />
     </div>
     <div
-      class="flex flex-col items-center w-full lg:items-start sm:w-10/12 lg:max-w-sm xl:max-w-md space-y-3 xl:space-y-4"
+      class="flex flex-col items-center w-full space-y-3 lg:items-start sm:w-10/12 lg:max-w-sm xl:max-w-md xl:space-y-4"
     >
-      <div
-        class="relative z-0 lg:hidden mb-4 w-full h-[180px] sm:h-[300px] sm:rounded-xl"
-        :class="{
-          'bg-light-placeholder dark:bg-dark-placeholder': imageURL == '',
-          'mt-6 sm:mt-0': imageURL != '',
-        }"
-      >
-        <div
-          class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
-        >
-          <component
-            :is="imageURL"
-            class="fill-light-text dark:fill-dark-text"
-            :class="{
-              'scale-[0.25] sm:scale-[0.35]': imageURL == 'IconsActivist',
-            }"
-          />
-        </div>
-      </div>
+      <!-- Note: image on top of content. -->
+      <img
+        v-if="$colorMode.value == 'light'"
+        :src="imageURL + '_light.png'"
+        :alt="altText"
+        class="mb-4 lg:hidden h-36 sm:h-44"
+      />
+      <img
+        v-else-if="$colorMode.value == 'dark'"
+        :src="imageURL + '_dark.png'"
+        :alt="altText"
+        class="mb-4 lg:hidden h-36 sm:h-44"
+      />
       <p
         class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full sm:text-left xl:text-4xl"
       >
@@ -187,7 +165,8 @@ defineProps<{
   header: string;
   tagline: string;
   text: string;
-  imageURL?: string;
+  imageURL: string;
+  altText: string;
   btnText1: string;
   btnURL1: string;
   btnText2?: string;

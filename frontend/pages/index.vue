@@ -5,13 +5,15 @@
     </Head>
     <LandingPageSplash />
     <LandingPageCommunityBanner />
-    <div class="flex flex-col mt-10 mb-4 xl:mt-16 xl:mb-8 2xl:mt-24 2xl:mb-12">
+    <div
+      class="flex flex-col mt-4 mb-2 sm:mb-4 sm:mt-10 xl:mt-16 xl:mb-8 2xl:mt-24 2xl:mb-12"
+    >
       <LandingPageContent
         contentPosition="left"
         header="get-active-header"
         tagline="get-active-tagline"
         text="get-active-text"
-        imageURL=""
+        imageURL="images/landing_page/1_get_active"
         btnText1="learn-more"
         btnURL1="/docs/get-active"
       />
@@ -20,7 +22,7 @@
         header="get-organized-header"
         tagline="get-organized-tagline"
         text="get-organized-text"
-        imageURL=""
+        imageURL="images/landing_page/2_get_organized"
         btnText1="learn-more"
         btnURL1="/docs/get-organized"
       />
@@ -29,7 +31,7 @@
         header="grow-organization-header"
         tagline="grow-organization-tagline"
         text="grow-organization-text"
-        imageURL=""
+        imageURL="images/landing_page/3_grow_your_organization"
         btnText1="learn-more"
         btnURL1="/docs/grow-organization"
       />
@@ -38,7 +40,7 @@
         header="activist-section-header"
         tagline="activist-section-tagline"
         text="activist-section-text"
-        imageURL="IconsActivist"
+        imageURL="images/landing_page/4_activist_icon"
         btnText1="get-in-touch"
         btnURL1="/help/contact"
       />

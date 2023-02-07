@@ -3,8 +3,8 @@
     class="px-6 py-8 sm:py-12 lg:px-10 xl:py-16 xl:px-14 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
   >
     <!-- Note: Content Sections Top -->
-    <div class="flex flex-col justify-center items-center space-y-5 lg:hidden">
-      <div class="flex flex-col justify-center items-center space-y-2">
+    <div class="flex flex-col items-center justify-center space-y-5 lg:hidden">
+      <div class="flex flex-col items-center justify-center space-y-2">
         <div class="relative z-0 h-10 w-36">
           <LogosActivist
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
@@ -41,7 +41,7 @@
       </div>
 
       <div
-        class="grid max-w-xl gap-0 text-center sm:text-left sm:grid-cols-3 sm:gap-12 md:gap-16 justify-items-center lg:hidden"
+        class="max-w-xl text-center grid gap-0 sm:text-left sm:grid-cols-3 sm:gap-12 md:gap-16 justify-items-center lg:hidden"
       >
         <div>
           <p class="text-xl font-medium text-light-text dark:text-dark-text">
@@ -49,21 +49,21 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:github" size="1em" />
             <p>@activist-org</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:twitter" size="1em" />
             <p>@activist_org</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:instagram" size="1em" />
             <p>@activist_org</p>
@@ -137,7 +137,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col justify-center items-center">
+      <div class="flex flex-col items-center justify-center">
         <div class="flex">
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink
@@ -173,7 +173,7 @@
         <p class="mt-3 text-light-text dark:text-dark-text lg:block">
           {{ $t("activist-tagline") }}
         </p>
-        <div class="flex mt-2  justify-start">
+        <div class="flex justify-start mt-2">
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <a
               href="https://github.com/activist-org/activist/releases"
@@ -229,21 +229,21 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:github" size="1em" />
             <p>@activist-org</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:twitter" size="1em" />
             <p>@activist_org</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:instagram" size="1em" />
             <p>@activist_org</p>
