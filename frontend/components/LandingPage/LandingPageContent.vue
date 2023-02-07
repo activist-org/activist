@@ -151,7 +151,7 @@
         <SupportersGrid class="mt-6 xl:mt-8" />
       </div>
       <p
-        class="pt-8 mx-12 md:max-w-lg lg:max-w-2xl xl:pt-12 text-light-special-text dark:text-dark-special-text"
+        class="pt-8 mx-12 text-center md:max-w-lg lg:max-w-2xl xl:pt-12 text-light-special-text dark:text-dark-special-text"
       >
         {{ $t(subText) }}
       </p>
