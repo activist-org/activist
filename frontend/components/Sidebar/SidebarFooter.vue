@@ -1,12 +1,14 @@
 <template>
   <footer class="absolute bottom-0 w-48 bg-light-header dark:bg-dark-header">
     <div class="flex flex-col px-2 py-3 space-y-2">
-      <Disclosure v-slot="{ open }">
+      <Disclosure v-slot="{ open, close }">
         <DisclosureButton
+          :ref="(el) => (disclosure[0] = close)"
           :class="[
             open ? '' : '',
             'flex w-full rounded-md items-center pr-6 bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight',
           ]"
+          @click="hideOther(0)"
         >
           <div
             class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
@@ -44,12 +46,14 @@
           ></MenuSelector>
         </DisclosurePanel>
       </Disclosure>
-      <Disclosure v-slot="{ open }">
+      <Disclosure v-slot="{ open, close }">
         <DisclosureButton
+          :ref="(el) => (disclosure[1] = close)"
           :class="[
             open ? '' : '',
             'flex w-full rounded-md items-center pr-6 bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight',
           ]"
+          @click="hideOther(1)"
         >
           <div
             class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
@@ -81,12 +85,14 @@
           ></MenuSelector>
         </DisclosurePanel>
       </Disclosure>
-      <Disclosure v-slot="{ open }">
+      <Disclosure v-slot="{ open, close }">
         <DisclosureButton
+          :ref="(el) => (disclosure[2] = close)"
           :class="[
             open ? '' : '',
             'flex w-full rounded-md items-center pr-6 bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight',
           ]"
+          @click="hideOther(2)"
         >
           <div
             class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
@@ -149,4 +155,9 @@
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 const { locale, locales } = useI18n();
+
+const disclosure = ref([]);
+const hideOther = (id) => {
+  disclosure.value.filter((d, i) => i !== id).forEach((c) => c());
+};
 </script>
