@@ -75,13 +75,13 @@
             :selected="false"
             iconURL="bi:question-circle"
             btnText="Help"
-            btnURL="/"
+            btnURL="/help"
           ></MenuSelector>
           <MenuSelector
             :selected="false"
             iconURL="bi:layout-text-sidebar-reverse"
             btnText="Documentation"
-            btnURL="/"
+            btnURL="/docs"
           ></MenuSelector>
         </DisclosurePanel>
       </Disclosure>
