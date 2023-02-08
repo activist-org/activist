@@ -41,7 +41,7 @@
       </div>
 
       <div
-        class="max-w-xl text-center grid gap-0 sm:text-left sm:grid-cols-3 sm:gap-12 md:gap-16 justify-items-center lg:hidden"
+        class="grid max-w-xl gap-0 text-center sm:text-left sm:grid-cols-3 sm:gap-12 md:gap-16 justify-items-center lg:hidden"
       >
         <div>
           <p class="text-xl font-medium text-light-text dark:text-dark-text">
@@ -49,21 +49,21 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:github" size="1em" />
             <p>@activist-org</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:twitter" size="1em" />
             <p>@activist_org</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:instagram" size="1em" />
             <p>@activist_org</p>
@@ -229,21 +229,21 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:github" size="1em" />
             <p>@activist-org</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:twitter" size="1em" />
             <p>@activist_org</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="bi:instagram" size="1em" />
             <p>@activist_org</p>

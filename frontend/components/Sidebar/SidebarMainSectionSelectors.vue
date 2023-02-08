@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col p-2 mx-2 space-y-1 bg-light-header dark:bg-dark-header rounded-md"
+    class="flex flex-col p-2 mx-2 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
   >
     <MenuSelector
       :selected="false"
