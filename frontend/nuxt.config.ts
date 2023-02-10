@@ -6,9 +6,14 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
-    "nuxt-icon",
     "@nuxtjs/i18n",
+    "@pinia/nuxt",
+    "@vueuse/nuxt",
+    "nuxt-icon",
   ],
+  imports: {
+    dirs: ["./stores"],
+  },
   colorMode: {
     classSuffix: "",
   },

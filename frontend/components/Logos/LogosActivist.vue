@@ -1,7 +1,7 @@
 <template>
   <NuxtLink :to="localePath('/')" class="focus-brand">
     <svg
-      class="fill-light-text dark:fill-dark-text"
+      class="transition duration-100 fill-light-text dark:fill-dark-text hover:fill-light-special-text hover:dark:fill-dark-special-text"
       width="3000"
       height="647"
       viewBox="0 0 3000 647"
