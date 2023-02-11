@@ -23,9 +23,16 @@
         /
       </div>
       <div
+        v-if="$device.isMacOS"
         class="h-5 text-sm text-center rounded-md w-7 bg-light-special-text dark:bg-dark-special-text text-light-header dark:text-dark-header"
       >
         ⌘k
+      </div>
+      <div
+        v-else
+        class="h-5 text-sm text-center rounded-md w-7 bg-light-special-text dark:bg-dark-special-text text-light-header dark:text-dark-header"
+      >
+        ⌃k
       </div>
     </div>
   </div>

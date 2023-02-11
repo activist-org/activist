@@ -3,10 +3,11 @@ export default defineNuxtConfig({
   ssr: false,
   plugins: [],
   modules: [
-    "@nuxt/content",
-    "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
+    "@nuxt/content",
+    "@nuxtjs/device",
     "@nuxtjs/i18n",
+    "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "nuxt-icon",
