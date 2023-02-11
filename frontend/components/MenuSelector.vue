@@ -9,7 +9,12 @@
     }"
   >
     <Icon :name="iconURL" size="1.25em" />
-    <p v-if="sidebar.collapsed == false" class="px-1">{{ $t(btnText) }}</p>
+    <p
+      v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+      class="px-1"
+    >
+      {{ $t(btnText) }}
+    </p>
   </NuxtLink>
 </template>
 
