@@ -25,7 +25,8 @@
           class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />
       </div>
-      <div class="absolute -right-3">
+      <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
+      <div class="absolute -right-3" @mouseover.stop>
         <button
           class="items-center justify-center transition duration-100 border-2 rounded-full w-7 h-7 bg-light-interactive dark:bg-dark-interactive border-light-content dark:border-dark-content hover:bg-light-distinct dark:hover:bg-dark-distinct active:bg-light-interactive dark:active:bg-dark-interactive text-light-content dark:text-dark-content hover:text-light-special-text dark:hover:text-dark-special-text hover:border-light-special-text dark:hover:border-dark-special-text"
           @click="sidebar.toggleCollapsedSwitch()"
