@@ -8,6 +8,7 @@
       'invisible opacity-0': headerOpacity == 0,
     }"
   >
+    <!-- Note: mobile header -->
     <div class="flex py-2 md:hidden">
       <div class="z-0 flex justify-center mx-auto">
         <div class="relative z-0 w-24 h-6">
@@ -20,10 +21,9 @@
         <MeatballMenu />
       </div>
     </div>
+    <!-- Note: desktop header -->
     <div class="hidden py-3 mx-auto md:block">
-      <div
-        class="flex items-center justify-between px-8 md:px-6 lg:px-10 xl:px-14"
-      >
+      <div class="flex items-center justify-between px-6 lg:px-10 xl:px-14">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
             <LogosActivist

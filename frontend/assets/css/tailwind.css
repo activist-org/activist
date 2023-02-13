@@ -12,4 +12,8 @@
   .focus-brand {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75;
   }
+
+  .main-header {
+    @apply text-2xl font-semibold sm:text-3xl md:text-4xl xl:text-5xl;
+  }
 }

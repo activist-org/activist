@@ -5,7 +5,6 @@
       'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
-    @mouseleave="closeOtherMenus()"
   >
     <div
       class="flex flex-col pt-2 pb-3 space-y-2"
@@ -52,6 +51,12 @@
             :selected="false"
             iconURL="bi:person-square"
             btnText="New organization"
+            btnURL="/"
+          ></MenuSelector>
+          <MenuSelector
+            :selected="false"
+            iconURL="bi:people-fill"
+            btnText="New group"
             btnURL="/"
           ></MenuSelector>
           <MenuSelector
