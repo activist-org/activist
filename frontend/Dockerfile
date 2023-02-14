@@ -5,7 +5,7 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Install dependencies
-COPY ./package*.json /app
+COPY ./frontend/package*.json /app
 RUN yarn install && yarn cache clean
 
 # Copy code from context to image
