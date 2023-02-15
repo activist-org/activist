@@ -20,7 +20,7 @@
       <LabeledBtn
         :cta="true"
         :label="`${btnText1}`"
-        linkTo="/about"
+        linkTo="https://tally.so/r/nprxbq"
         fontSize="xl"
       />
     </div>
@@ -29,5 +29,5 @@
 
 <script setup>
 const localePath = useLocalePath();
-const btnText1 = "learn-more";
+const btnText1 = "Request access";
 </script>
