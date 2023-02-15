@@ -14,8 +14,8 @@
         tagline="get-active-tagline"
         text="get-active-text"
         imageURL="images/landing_page/1_get_active"
-        btnText1="learn-more"
-        btnURL1="/docs/get-active"
+        btnText1="Request access"
+        btnURL1="https://tally.so/r/nprxbq"
       />
       <LandingPageContent
         contentPosition="right"
@@ -23,8 +23,8 @@
         tagline="get-organized-tagline"
         text="get-organized-text"
         imageURL="images/landing_page/2_get_organized"
-        btnText1="learn-more"
-        btnURL1="/docs/get-organized"
+        btnText1="Request access"
+        btnURL1="https://tally.so/r/nprxbq"
       />
       <LandingPageContent
         contentPosition="left"
@@ -32,8 +32,8 @@
         tagline="grow-organization-tagline"
         text="grow-organization-text"
         imageURL="images/landing_page/3_grow_your_organization"
-        btnText1="learn-more"
-        btnURL1="/docs/grow-organization"
+        btnText1="Request access"
+        btnURL1="https://tally.so/r/nprxbq"
       />
       <LandingPageContent
         contentPosition="right"
@@ -41,8 +41,8 @@
         tagline="activist-section-tagline"
         text="activist-section-text"
         imageURL="images/landing_page/4_activist_icon"
-        btnText1="get-in-touch"
-        btnURL1="/help/contact"
+        btnText1="Request access"
+        btnURL1="https://tally.so/r/nprxbq"
       />
       <LandingPageContent
         contentPosition="top"
