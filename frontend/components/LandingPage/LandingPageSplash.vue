@@ -4,7 +4,7 @@
   >
     <div class="flex justify-center">
       <p
-        class="w-10/12 text-2xl font-semibold leading-snug text-center lg:font-bold sm:text-3xl md:text-4xl xl:text-5xl md:max-w-lg xl:max-w-2xl sm:leading-snug md:leading-snug xl:leading-snug"
+        class="w-10/12 text-3xl font-semibold leading-snug text-center lg:font-bold sm:text-4xl md:text-5xl xl:text-6xl md:max-w-lg xl:max-w-2xl sm:leading-snug md:leading-snug xl:leading-snug"
       >
         {{ $t("landing-header") }}
       </p>
