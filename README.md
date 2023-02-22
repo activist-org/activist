@@ -18,6 +18,14 @@
 
 <!-- Also available on [Android](https://github.com/activist-org/activist-Android) (planned) and [iOS](https://github.com/activist-org/activist-iOS) (planned). -->
 
+<details><summary>🌐 Language</summary>
+<p>
+
+- [Open a localization issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) to start working on a new readme language
+
+</p>
+</details>
+
 ### Open-source, nonprofit activism platform
 
 [**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.
