@@ -21,6 +21,7 @@ services:
     container_name: nuxt_frontend
     volumes:
       - ./frontend/:/app
+      - ./frontend/:/node_modules
     ports:
       - "3000:3000"
     command: sh -c "npm rebuild esbuild && yarn dev"

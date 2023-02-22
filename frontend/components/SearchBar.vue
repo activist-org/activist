@@ -18,19 +18,19 @@
       class="flex pl-1 space-x-1"
     >
       <div
-        class="w-5 h-5 text-sm text-center rounded-md bg-light-special-text dark:bg-dark-special-text text-light-header dark:text-dark-header"
+        class="w-5 h-5 text-sm text-center rounded-md border border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
       >
         /
       </div>
       <div
         v-if="$device.isMacOS"
-        class="h-5 text-sm text-center rounded-md w-7 bg-light-special-text dark:bg-dark-special-text text-light-header dark:text-dark-header"
+        class="h-5 text-sm text-center rounded-md w-7 border border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
       >
         ⌘k
       </div>
       <div
         v-else
-        class="h-5 text-sm text-center rounded-md w-7 bg-light-special-text dark:bg-dark-special-text text-light-header dark:text-dark-header"
+        class="h-5 text-sm text-center rounded-md w-7 border border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
       >
         ⌃k
       </div>
