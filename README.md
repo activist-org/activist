@@ -21,7 +21,7 @@
 <details><summary>🌐 Language</summary>
 <p>
 
-- [Open a localization issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) to start working on a new readme language
+- [Open a localization issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) to add a new readme to the [README](https://github.com/activist-org/activist/tree/main/README) directory
 
 </p>
 </details>
