@@ -4,24 +4,14 @@ services:
 
   backend:
     build:
-      context: .
-      dockerfile: ./backend/Dockerfile
+      context: ./backend
     container_name: django_backend
-    volumes:
-      - ./backend/:/app
     ports:
       - "8000:8000"
-    command: python manage.py runserver 0.0.0.0:8000
 
   frontend:
     build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
-    image: nuxt_dev
+      context: ./frontend
     container_name: nuxt_frontend
-    volumes:
-      - ./frontend/:/app
-      - ./frontend/:/node_modules
     ports:
       - "3000:3000"
-    command: sh -c "npm rebuild esbuild && yarn dev"
