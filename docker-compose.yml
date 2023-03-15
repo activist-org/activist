@@ -13,5 +13,7 @@ services:
     build:
       context: ./frontend
     container_name: nuxt_frontend
+    volumes:
+      - ./frontend:/app
     ports:
       - "3000:3000"
