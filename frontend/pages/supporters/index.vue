@@ -25,12 +25,18 @@
       <p>
         The following organizations have supported activist via the 2022 edition
         of the
-        <a href="https://www.wikimedia.de/unlock"
-   class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand items-center">
-  Wikimedia UNLOCK accelerator
-  <Icon name="bi:box-arrow-up-right" size="1em" style="vertical-align: baseline;" />
-</a>
-. UNLOCK supports open-source software projects and non- technical
+        <a
+          href="https://www.wikimedia.de/unlock"
+          class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand items-center"
+        >
+          Wikimedia UNLOCK accelerator
+          <Icon
+            name="bi:box-arrow-up-right"
+            size="1em"
+            style="vertical-align: baseline"
+          />
+        </a>
+        . UNLOCK supports open-source software projects and non- technical
         projects under free licenses. The UNLOCK Accelerator is committed to
         promoting solutions that make the world's knowledge more diverse, more
         accessible and inclusive for everyone.

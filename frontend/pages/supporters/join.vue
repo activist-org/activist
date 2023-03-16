@@ -28,7 +28,11 @@
         <a
           href="https://www.wikimedia.de/unlock"
           class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
-          >source code on GitHub <Icon name="bi:box-arrow-up-right" size="1em" style="vertical-align: baseline;"
+          >source code on GitHub
+          <Icon
+            name="bi:box-arrow-up-right"
+            size="1em"
+            style="vertical-align: baseline"
         /></a>
         to get involved!
       </p>
@@ -42,7 +46,11 @@
         <a
           href=""
           class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
-          >page on elinor <Icon name="bi:box-arrow-up-right" size="1em" style="vertical-align: baseline;"
+          >page on elinor
+          <Icon
+            name="bi:box-arrow-up-right"
+            size="1em"
+            style="vertical-align: baseline"
         /></a>
         to donate today. Thank you for your support!
       </p>
@@ -85,7 +93,11 @@
         <a
           href=""
           class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
-          >Crowdin <Icon name="bi:box-arrow-up-right" size="1em" style="vertical-align: baseline;"
+          >Crowdin
+          <Icon
+            name="bi:box-arrow-up-right"
+            size="1em"
+            style="vertical-align: baseline"
         /></a>
         page to help today.
       </p>

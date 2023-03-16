@@ -24,6 +24,25 @@
     <p
       class="pt-2 text-lg font-semibold md:pt-4 sm:text-xl text-light-special-text dark:text-dark-special-text"
     >
+      Q: What's the best way to get in touch?
+    </p>
+    <p class="sm:text-lg">
+      activist uses Matrix for communications. You're welcome to
+      <a
+        href="https://matrix.to/#/#activist_community:matrix.org"
+        class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+        >join us in our public chat rooms
+        <Icon
+          name="bi:box-arrow-up-right"
+          size="1em"
+          style="vertical-align: baseline"
+      /></a>
+      to share ideas, ask questions, find ways to help the platform grow, or
+      just to say hi :)
+    </p>
+    <p
+      class="pt-2 text-lg font-semibold md:pt-4 sm:text-xl text-light-special-text dark:text-dark-special-text"
+    >
       Q: How does activist plan to prevent abuse?
     </p>
     <p class="sm:text-lg">
