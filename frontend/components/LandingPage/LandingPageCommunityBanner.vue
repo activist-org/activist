@@ -9,21 +9,28 @@
         href="https://github.com/activist-org/activist"
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
-        <Icon name="bi:github" size="1em" />
+        <Icon name="cib:github" size="1em" />
         <p class="sr-only sm:not-sr-only">GitHub</p>
+      </a>
+      <a
+        href="https://matrix.to/#/#activist_community:matrix.org"
+        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
+      >
+        <Icon name="cib:matrix" size="1em" />
+        <p class="sr-only sm:not-sr-only">Matrix</p>
       </a>
       <a
         href="https://twitter.com/activist_org"
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
-        <Icon name="bi:twitter" size="1em" />
+        <Icon name="cib:twitter" size="1em" />
         <p class="sr-only sm:not-sr-only">Twitter</p>
       </a>
       <a
         href="https://instagram.com/activist_org"
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
-        <Icon name="bi:instagram" size="1em" />
+        <Icon name="cib:instagram" size="1em" />
         <p class="sr-only sm:not-sr-only">Instagram</p>
       </a>
     </div>
