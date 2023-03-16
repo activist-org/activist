@@ -38,8 +38,8 @@
           style="vertical-align: baseline"
         />
       </a>
-      to share ideas, ask questions, find ways to help the platform grow, or
-      just to say hi :)
+      to share ideas, ask questions, find ways to help the platform grow or to
+      just say hi :)
     </p>
     <p
       class="pt-2 text-lg font-semibold md:pt-4 sm:text-xl text-light-special-text dark:text-dark-special-text"
