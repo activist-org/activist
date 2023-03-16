@@ -33,7 +33,8 @@
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
-        /></a>
+          />
+        </a>
         to get involved!
       </p>
       <h2
@@ -51,7 +52,8 @@
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
-        /></a>
+          />
+        </a>
         to donate today. Thank you for your support!
       </p>
       <h2
@@ -98,7 +100,8 @@
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
-        /></a>
+          />
+        </a>
         page to help today.
       </p>
     </div>

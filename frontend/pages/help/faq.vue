@@ -36,7 +36,8 @@
           name="bi:box-arrow-up-right"
           size="1em"
           style="vertical-align: baseline"
-      /></a>
+        />
+      </a>
       to share ideas, ask questions, find ways to help the platform grow, or
       just to say hi :)
     </p>
