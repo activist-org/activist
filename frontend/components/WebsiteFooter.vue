@@ -41,7 +41,7 @@
       </div>
 
       <div
-        class="grid max-w-xl gap-0 text-center sm:text-left sm:grid-cols-3 sm:gap-12 md:gap-16 justify-items-center lg:hidden"
+        class="grid max-w-xl gap-0 text-center sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16 lg:hidden"
       >
         <div>
           <p class="text-xl font-medium text-light-text dark:text-dark-text">
@@ -51,22 +51,29 @@
             href="https://github.com/activist-org/activist"
             class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
-            <Icon name="bi:github" size="1em" />
-            <p>@activist-org</p>
+            <Icon name="cib:github" size="1em" />
+            <p>GitHub</p>
+          </a>
+          <a
+            href="https://matrix.to/#/#activist_community:matrix.org"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+          >
+            <Icon name="cib:matrix" size="1em" />
+            <p>Matrix</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
             class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
-            <Icon name="bi:twitter" size="1em" />
-            <p>@activist_org</p>
+            <Icon name="cib:twitter" size="1em" />
+            <p>Twitter</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
             class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
-            <Icon name="bi:instagram" size="1em" />
-            <p>@activist_org</p>
+            <Icon name="cib:instagram" size="1em" />
+            <p>Instagram</p>
           </a>
         </div>
         <div>
@@ -231,22 +238,29 @@
             href="https://github.com/activist-org/activist"
             class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
-            <Icon name="bi:github" size="1em" />
-            <p>@activist-org</p>
+            <Icon name="cib:github" size="1em" />
+            <p>GitHub</p>
+          </a>
+          <a
+            href="https://matrix.to/#/#activist_community:matrix.org"
+            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+          >
+            <Icon name="cib:matrix" size="1em" />
+            <p>Matrix</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
             class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
-            <Icon name="bi:twitter" size="1em" />
-            <p>@activist_org</p>
+            <Icon name="cib:twitter" size="1em" />
+            <p>Twitter</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
             class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
-            <Icon name="bi:instagram" size="1em" />
-            <p>@activist_org</p>
+            <Icon name="cib:instagram" size="1em" />
+            <p>Instagram</p>
           </a>
         </div>
         <div>
