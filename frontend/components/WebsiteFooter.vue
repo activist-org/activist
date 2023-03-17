@@ -164,7 +164,9 @@
             </NuxtLink>
           </div>
         </div>
-        <div class="mt-2">{{ $t("website-copyright") }}</div>
+        <div class="mt-2 text-light-text dark:text-dark-text">
+          {{ $t("website-copyright") }}
+        </div>
       </div>
     </div>
 
@@ -225,7 +227,9 @@
             </NuxtLink>
           </div>
         </div>
-        <div class="mt-2">{{ $t("website-copyright") }}</div>
+        <div class="mt-2 text-light-text dark:text-dark-text">
+          {{ $t("website-copyright") }}
+        </div>
       </div>
 
       <!-- Note: Content Sections Right -->
