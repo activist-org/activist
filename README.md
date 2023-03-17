@@ -56,7 +56,7 @@ Further prototypes and designs are available in the [designs for activist](https
 
 # Contributing [`⇧`](#contents)
 
-<a href="https://matrix.to/#/#activist_community:matrix.org"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/matrix_logo_grey.png" height="50" alt="Public Matrix Chat" align="right"></a>
+<a href="https://matrix.to/#/#activist_community:matrix.org"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/MatrixLogoGrey.png" height="50" alt="Public Matrix Chat" align="right"></a>
 
 activist uses [Matrix](https://matrix.org/) for communications. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi :)
 
@@ -126,7 +126,7 @@ You can visit <http://localhost:3000> to see the development frontend build once
 
 ## Designs [`⇧`](#contents)
 
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/figma_logo.png" height="50" alt="Public Figma Designs" align="right"></a>
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
 
 The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those with interest can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
@@ -242,11 +242,11 @@ activist has received support from the following organizations as a participant 
 
 <div align="center">
   <br>
-    <a href="https://www.wikimedia.de/"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/wikimedia_deutschland_logo.png" alt="Wikimedia Deutschland"></a>
+    <a href="https://www.wikimedia.de/"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://wikimedia.rs/"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/wikimedia_serbia_logo.png" alt="Wikimedia Serbia"></a>
+    <a href="https://wikimedia.rs/"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://belgrade.impacthub.net/"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/impact_hub_logo.png" alt="Impact Hub Belgrade"></a>
+    <a href="https://belgrade.impacthub.net/"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <br>
 </div>
