@@ -4,7 +4,9 @@ Thank you for your consideration in contributing to activist!
 
 Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
-Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, and in accordance with this project's [code of conduct](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md), other contributors will reciprocate that respect in addressing your issue or assessing patches and features.
+Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open-source project. In return, and in accordance with this project's [code of conduct](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md), other contributors will reciprocate that respect in addressing your issue or assessing patches and features.
+
+If you have questions or would like to communicate with the team, please [join us in our public Matrix chat rooms](https://matrix.to/#/#activist_community:matrix.org). We'd be happy to hear from you!
 
 <a id="contents"></a>
 
@@ -35,12 +37,10 @@ Enter the created directory and start your docker images with the following:
 
 ```bash
 cd activist
-docker-compose up --build
-# Run the following in a second terminal screen to setup the initial database.
-./run manage migrate
+docker-compose up
 ```
 
-You can visit <http://localhost:8000> to see the development build once the container is up and running.
+You can visit <http://localhost:3000/> to see the development build once the container is up and running.
 
 Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
@@ -56,7 +56,7 @@ Be sure to check the [`-next release-`](https://github.com/activist-org/activist
 
 # Bug reports [`⇧`](#contents)
 
-A bug is a _demonstrable problem_ that is caused by the code in the repository. Good bug reports are extremely helpful - thank you!
+A bug is a _demonstrable problem_ that is caused by the code in the repository. Good bug reports are extremely helpful — thank you!
 
 Guidelines for bug reports:
 
@@ -88,7 +88,7 @@ Feature requests are more than welcome! Please take a moment to find out whether
 
 # Pull requests [`⇧`](#contents)
 
-Good pull requests - patches, improvements and new features - are a fantastic help. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license](https://github.com/activist-org/activist/blob/main/LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
+Good pull requests — patches, improvements and new features — are a fantastic help. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license](https://github.com/activist-org/activist/blob/main/LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
 
 **Please ask first** before embarking on any significant pull request (implementing features, refactoring code, etc), otherwise you risk spending a lot of time working on something that the developers might not want to merge into the project. With that being said, major additions are very appreciated!
 
