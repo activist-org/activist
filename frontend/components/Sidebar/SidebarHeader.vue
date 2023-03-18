@@ -18,11 +18,11 @@
       >
         <IconsActivist
           v-if="sidebar.collapsed == true && sidebar.collapsedSwitch == true"
-          class="absolute inset-0 flex items-center justify-center -ml-1 z-1"
+          class="absolute inset-0 flex items-center justify-center -ml-1 z-1 overflow-clip"
         />
         <LogosActivist
           v-else
-          class="absolute inset-0 flex items-center justify-center z-1"
+          class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />
       </div>
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
