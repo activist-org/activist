@@ -13,9 +13,8 @@ services:
     build:
       context: ./frontend
     container_name: nuxt_frontend
-    # This section allows for hot reloading for some contributors but is a breaking change for others
-    # See: https://github.com/activist-org/activist/issues/55
-    # volumes:
-    #   - ./frontend:/app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     ports:
       - "3000:3000"
