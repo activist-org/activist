@@ -9,14 +9,14 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
-        src="../../images/content_pages/activist_icon_light.png"
-        alt="Drawing of a fist raised."
+        src="/images/content_pages/activist_icon_light.png"
+        alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        src="../../images/content_pages/activist_icon_dark.png"
-        alt="Drawing of a fist raised."
+        src="/images/content_pages/activist_icon_dark.png"
+        alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
@@ -26,14 +26,14 @@
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="../../images/content_pages/activist_icon_light.png"
-            alt="Drawing of a fist raised."
+            src="/images/content_pages/activist_icon_light.png"
+            alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="../../images/content_pages/activist_icon_dark.png"
-            alt="Drawing of a fist raised."
+            src="/images/content_pages/activist_icon_dark.png"
+            alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <h1
@@ -144,14 +144,14 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="../../images/content_pages/activist_icon_light.png"
-            alt="Drawing of a fist raised."
+            src="/images/content_pages/activist_icon_light.png"
+            alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
             class="hidden 2xl:block h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="../../images/content_pages/activist_icon_dark.png"
-            alt="Drawing of a fist raised."
+            src="/images/content_pages/activist_icon_dark.png"
+            alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
             class="hidden 2xl:block h-72"
           />
         </div>
