@@ -11,6 +11,18 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
     "nuxt-icon",
+    [
+      "nuxt-mail",
+      {
+        message: {
+          to: "team@activist.org",
+        },
+        smtp: {
+          host: "smtp.activist.org",
+          port: 587,
+        },
+      },
+    ],
   ],
   imports: {
     dirs: ["./stores"],
