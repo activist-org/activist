@@ -242,11 +242,11 @@ activist has received support from the following organizations as a participant 
 
 <div align="center">
   <br>
-    <a href="https://www.wikimedia.de" target="_blank"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
+    <a href="https://www.wikimedia.de"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://wikimedia.rs" target="_blank"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
+    <a href="https://wikimedia.rs"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://belgrade.impacthub.net" target="_blank"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
+    <a href="https://belgrade.impacthub.net"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <br>
 </div>
