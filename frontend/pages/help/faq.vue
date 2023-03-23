@@ -3,7 +3,7 @@
     <Title>{{ title }}</Title>
   </Head>
   <h1
-    class="p-8 text-3xl md:p-6 lg:p-10 xl:p-14 sm:text-3xl lg:text-4xl text-light-text dark:text-dark-text"
+    class="px-8 py-6 text-3xl font-semibold md:px-6 lg:px-10 md:py-8 xl:py-10 xl:px-14 sm:text-3xl lg:text-4xl text-light-text dark:text-dark-text"
   >
     Frequently Asked Questions
   </h1>

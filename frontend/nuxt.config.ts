@@ -109,7 +109,7 @@ export default defineNuxtConfig({
         {
           hid: "og:image",
           property: "og:image",
-          content: "/images/activistOGImage.png",
+          content: "/images/activistOpenGraphImage.png",
         },
         { property: "og:image:width", content: "1200" },
         { property: "og:image:height", content: "630" },
@@ -134,7 +134,7 @@ export default defineNuxtConfig({
         {
           hid: "twitter:image",
           name: "twitter:image",
-          content: "/images/activistTwitterOGImage.png",
+          content: "/images/activistTwitterOpenGraphImage.png",
         },
       ],
       link: [
