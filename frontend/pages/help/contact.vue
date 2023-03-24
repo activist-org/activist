@@ -3,7 +3,9 @@
     <Head>
       <Title>{{ title }}</Title>
     </Head>
-    <div class="container mx-auto w-10/12 md:w-[1200px]">
+    <div
+      class="container w-10/12 mx-auto md:w-full md:max-w-2xl lg:max-w-3xl xl:max-w-4xl"
+    >
       <div
         v-if="!emailSent"
         class="container flex justify-center py-4 mx-auto max-md:flex-col md:py-8"
@@ -18,7 +20,6 @@
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
-              target="_blank"
             >
               public Matrix chat rooms
               <Icon
@@ -33,7 +34,6 @@
             <a
               href="https://github.com/activist-org/activist"
               class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
-              target="_blank"
             >
               on GitHub
               <Icon
