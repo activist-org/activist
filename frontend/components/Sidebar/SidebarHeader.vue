@@ -1,6 +1,6 @@
 <template>
   <header
-    class="sticky top-0 pl-1 bg-light-header dark:bg-dark-header"
+    class="sticky top-0 pl-1 bg-light-header dark:bg-dark-header transition-all duration-700"
     :class="{
       'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -8,11 +8,11 @@
   >
     <div class="flex items-center pt-4 pb-2 pl-4 pr-6">
       <div
-        class="relative z-0"
+        class="relative z-0 h-8"
         :class="{
-          'w-32 h-8':
+          'w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'w-8 h-8':
+          'w-8':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
@@ -28,7 +28,7 @@
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
       <div class="absolute -right-3" @mouseover.stop>
         <button
-          class="items-center justify-center transition duration-100 border-2 rounded-full w-7 h-7 bg-light-interactive dark:bg-dark-interactive border-light-content dark:border-dark-content hover:bg-light-distinct dark:hover:bg-dark-distinct active:bg-light-interactive dark:active:bg-dark-interactive text-light-content dark:text-dark-content hover:text-light-special-text dark:hover:text-dark-special-text hover:border-light-special-text dark:hover:border-dark-special-text"
+          class="flex items-center justify-center transition duration-100 border-2 rounded-full w-7 h-7 bg-light-interactive dark:bg-dark-interactive border-light-content dark:border-dark-content hover:bg-light-distinct dark:hover:bg-dark-distinct active:bg-light-interactive dark:active:bg-dark-interactive text-light-content dark:text-dark-content hover:text-light-special-text dark:hover:text-dark-special-text hover:border-light-special-text dark:hover:border-dark-special-text"
           @click="sidebar.toggleCollapsedSwitch()"
         >
           <div

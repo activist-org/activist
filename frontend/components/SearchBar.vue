@@ -13,7 +13,8 @@
       type="text"
       placeholder="Search"
     />
-    <div
+    <Transition>
+      <div
       v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
       class="flex pl-1 space-x-1"
     >
@@ -35,9 +36,21 @@
         ⌃k
       </div>
     </div>
+    </Transition>
   </div>
 </template>
+<style>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+</style>
 <script setup lang="ts">
 const sidebar = useSidebar();
 </script>
