@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="absolute flex-col h-full bg-light-distinct dark:bg-dark-distinct sm:flex transition-all duration-700"
+    class="absolute flex-col h-full bg-light-distinct dark:bg-dark-distinct sm:flex transition-all duration-500"
     :class="{
       'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -18,4 +18,3 @@
 <script setup lang="ts">
 const sidebar = useSidebar();
 </script>
-
