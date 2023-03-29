@@ -1,6 +1,6 @@
 <template>
   <header
-    class="sticky top-0 pl-1 bg-light-header dark:bg-dark-header transition-all duration-700"
+    class="sticky top-0 pl-1 bg-light-header dark:bg-dark-header transition-all duration-500"
     :class="{
       'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,

@@ -23,7 +23,7 @@
     </div>
     <!-- Note: desktop header -->
     <div class="hidden py-3 mx-auto md:block">
-      <div class="flex items-center justify-between px-6 lg:px-10 xl:px-14">
+      <div class="flex items-center justify-between responsive-px-4">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
             <LogosActivist
