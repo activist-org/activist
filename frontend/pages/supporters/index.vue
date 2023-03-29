@@ -27,7 +27,8 @@
         of the
         <a
           href="https://www.wikimedia.de/unlock"
-          class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand items-center"
+          class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+          target="_blank"
         >
           Wikimedia UNLOCK accelerator
           <Icon

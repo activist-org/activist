@@ -12,8 +12,7 @@
         :class="{
           'w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'w-8':
-            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+          'w-8': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
         <IconsActivist

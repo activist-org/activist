@@ -45,3 +45,18 @@ defineProps<{
 const localePath = useLocalePath();
 const sidebar = useSidebar();
 </script>
+
+<style>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+.v-enter-from .inner {
+  transition-delay: 0.25s;
+}
+</style>

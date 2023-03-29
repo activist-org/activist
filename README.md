@@ -5,7 +5,7 @@
 <!-- [![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack) -->
 
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
-[![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org/deploys)
+[![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
 [![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
@@ -117,7 +117,7 @@ Enter the created directory and start your docker images with the following:
 
 ```bash
 cd activist
-docker-compose up --build
+docker-compose up
 ```
 
 You can visit <http://localhost:3000> to see the development frontend build once the container is up and running.
@@ -164,7 +164,7 @@ Tasks are all the things that organizations need to do, which will be able to be
 
 ## Events [`⇧`](#contents)
 
-Events are where things happen on activist. They are organized by [movements](#movements), [levels](#levels) and [formats](#formats): the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
+Events are where things happen on activist. They are organized by [movements](#movements), [types](#types) and [formats](#formats): the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
 
 <a id="movements"></a>
 
@@ -185,22 +185,22 @@ activist will eventually include a broad selection of movements. From the start 
 <br/>
 Beyond clustering by movements, tags will also be used to draw community attention to more specific issues.
 
-<a id="levels"></a>
+<a id="types"></a>
 
-### Levels
+### Types
 
-`Act` and `Learn` are the two levels of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for act and 🔵 blue is for learn).
+`Act` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for act and 🔵 blue is for learn).
 
 <a id="formats"></a>
 
 ### Formats
 
-Levels are further broken down into specific formats. The available formats currently include:
+Types are further broken down into specific formats. The available formats currently include:
 
 - Act: protests, volunteering, organizing, fundraising
 - Learn: seminars, webinars, meetings, panel discussions
 
-Formats are not required for events like movements and levels, but add an optional granularity to help people find what they're looking for.
+Formats are not required for events like movements and types, but add an optional granularity to help people find what they're looking for.
 
 ## Resources [`⇧`](#contents)
 
@@ -242,11 +242,11 @@ activist has received support from the following organizations as a participant 
 
 <div align="center">
   <br>
-    <a href="https://www.wikimedia.de/"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
+    <a href="https://www.wikimedia.de"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://wikimedia.rs/"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
+    <a href="https://wikimedia.rs"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://belgrade.impacthub.net/"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
+    <a href="https://belgrade.impacthub.net"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <br>
 </div>

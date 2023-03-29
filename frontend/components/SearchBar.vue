@@ -15,30 +15,35 @@
     />
     <Transition>
       <div
-      v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-      class="flex pl-1 space-x-1"
-    >
-      <div
-        class="w-5 h-5 text-sm text-center rounded-md bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
+        v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+        class="flex pl-1 space-x-1"
       >
-        /
+        <div
+          class="w-5 h-5 text-sm text-center rounded-md bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
+        >
+          /
+        </div>
+        <div
+          v-if="$device.isMacOS"
+          class="h-5 text-sm text-center rounded-md w-7 bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
+        >
+          ⌘k
+        </div>
+        <div
+          v-else
+          class="h-5 text-sm text-center rounded-md w-7 border border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+        >
+          ⌃k
+        </div>
       </div>
-      <div
-        v-if="$device.isMacOS"
-        class="h-5 text-sm text-center rounded-md w-7 bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
-      >
-        ⌘k
-      </div>
-      <div
-        v-else
-        class="h-5 text-sm text-center rounded-md w-7 border border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
-      >
-        ⌃k
-      </div>
-    </div>
     </Transition>
   </div>
 </template>
+
+<script setup lang="ts">
+const sidebar = useSidebar();
+</script>
+
 <style>
 .v-enter-active,
 .v-leave-active {
@@ -49,8 +54,4 @@
 .v-leave-to {
   opacity: 0;
 }
-
 </style>
-<script setup lang="ts">
-const sidebar = useSidebar();
-</script>

@@ -2,7 +2,7 @@
   <a
     v-if="linkTo.includes('http')"
     :href="linkTo"
-    class="px-4 py-2 font-medium text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand"
+    class="px-4 py-2 font-medium text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
     :class="{
       'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange':
         cta == true,

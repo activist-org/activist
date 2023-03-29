@@ -28,6 +28,7 @@
         <a
           href="https://www.wikimedia.de/unlock"
           class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+          target="_blank"
           >source code on GitHub
           <Icon
             name="bi:box-arrow-up-right"
@@ -47,6 +48,7 @@
         <a
           href=""
           class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+          target="_blank"
           >page on elinor
           <Icon
             name="bi:box-arrow-up-right"
@@ -95,6 +97,7 @@
         <a
           href=""
           class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+          target="_blank"
           >Crowdin
           <Icon
             name="bi:box-arrow-up-right"
