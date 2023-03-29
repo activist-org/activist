@@ -4,7 +4,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <div
-      class="flex flex-col  responsive-py-4 responsive-x-paddings  text-light-text dark:text-dark-text"
+      class="flex flex-col  responsive-py-4 responsive-px-4  text-light-text dark:text-dark-text"
     >
       <h1 class="main-header">Become a supporter</h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
