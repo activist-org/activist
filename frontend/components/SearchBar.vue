@@ -6,7 +6,7 @@
       'pl-1': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
   >
-    <Icon name="bi:search" size="1em" />
+    <Icon name="bi:search" size="1em" class="my-1" />
     <input
       v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
       class="w-16 bg-transparent outline-none"
