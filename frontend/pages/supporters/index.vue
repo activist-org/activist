@@ -18,7 +18,7 @@
         >.
       </p>
       <h2
-        class="py-2 lg:py-4 xl:py-6 text-xl sm:text-2xl md:text-3xl xl:text-4xl "
+        class="responsive-h2"
       >
         UNLOCK Accelerator
       </h2>
@@ -46,12 +46,12 @@
         <SupportersGrid class="mt-6 xl:mt-8" />
       </div>
       <h2
-        class="py-1 mt-6 text-xl sm:text-2xl md:text-3xl xl:text-4xl lg:py-2 xl:py-3 xl:mt-8"
+        class="responsive-h2"
       >
         Contributors
       </h2>
       <h3
-        class="py-1 text-lg sm:text-xl md:text-2xl xl:text-3xl lg:py-2 xl:py-4"
+        class="responsive-h3"
       >
         Design
       </h3>

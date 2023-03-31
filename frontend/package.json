@@ -23,7 +23,8 @@
     "nuxt-icon": "^0.2.6"
   },
   "dependencies": {
-    "nuxt-mail": "^3.1.21",
-    "pinia": "^2.0.30"
+    "nuxt-mail": "^3.1.23",
+    "pinia": "^2.0.30",
+    "vue-i18n": "^9.2.2"
   }
 }
