@@ -4,7 +4,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <div
-      class="flex flex-col px-6 py-4 lg:px-10 xl:px-14 lg:py-6 xl:py-8 text-light-text dark:text-dark-text"
+      class="flex flex-col responsive-py-4 responsive-px-4  text-light-text dark:text-dark-text"
     >
       <h1 class="main-header">Supporters</h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
@@ -18,7 +18,7 @@
         >.
       </p>
       <h2
-        class="py-2 text-xl sm:text-2xl md:text-3xl xl:text-4xl lg:py-4 xl:py-6"
+        class="responsive-h2"
       >
         UNLOCK Accelerator
       </h2>
@@ -46,12 +46,12 @@
         <SupportersGrid class="mt-6 xl:mt-8" />
       </div>
       <h2
-        class="py-1 mt-6 text-xl sm:text-2xl md:text-3xl xl:text-4xl lg:py-2 xl:py-3 xl:mt-8"
+        class="responsive-h2"
       >
         Contributors
       </h2>
       <h3
-        class="py-1 text-lg sm:text-xl md:text-2xl xl:text-3xl lg:py-2 xl:py-4"
+        class="responsive-h3"
       >
         Design
       </h3>

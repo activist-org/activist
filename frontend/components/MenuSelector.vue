@@ -20,6 +20,21 @@
   </NuxtLink>
 </template>
 
+<style>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+.v-enter-from .inner {
+  transition-delay: 0.25s;
+}
+</style>
+
 <script setup lang="ts">
 defineProps<{
   selected?: boolean;

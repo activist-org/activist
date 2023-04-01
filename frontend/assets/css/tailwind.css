@@ -16,4 +16,26 @@
   .main-header {
     @apply text-2xl font-semibold sm:text-3xl md:text-4xl xl:text-5xl;
   }
+  .responsive-px-2 {
+    @apply px-6 lg:px-8 xl:px-10
+  }
+  .responsive-px-4 {
+    @apply px-6 lg:px-10 xl:px-14
+  }
+  .responsive-py-2 {
+    @apply py-6 lg:py-8 xl:py-10
+  }
+  .responsive-py-4 {
+    @apply py-6 lg:py-10 xl:py-14
+  }
+  .responsive-h1 {
+    @apply py-2 lg:py-4 xl:py-6 text-2xl sm:text-3xl md:text-4xl xl:text-5xl
+  }
+  .responsive-h2 {
+    @apply py-2 lg:py-4 xl:py-6 text-xl sm:text-2xl md:text-3xl xl:text-4xl
+  }
+  .responsive-h3 {
+    @apply py-1 lg:py-2 xl:py-4 text-lg sm:text-xl md:text-2xl xl:text-3xl 
+  }
 }
+/* responsive-py-1 */
