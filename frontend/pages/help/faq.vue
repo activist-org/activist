@@ -30,7 +30,7 @@
       activist uses Matrix for communications. You're welcome to
       <a
         href="https://matrix.to/#/#activist_community:matrix.org"
-        class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+        class="link-text"
         >join us in our public chat rooms
         <Icon
           name="bi:box-arrow-up-right"
