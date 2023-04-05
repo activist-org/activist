@@ -104,7 +104,7 @@
             our
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
-              class="focus-brand link-text"
+              class="items-center focus-brand link-text"
               target="_blank"
             >
               public Matrix chat rooms
