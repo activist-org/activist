@@ -6,7 +6,7 @@ https://matrix.to/#/#activist_community:matrix.org
 
 It'd be great to have you!
 
-If you're new to open source, check also that the email you use for GitHub (https://github.com/settings/emails) is the same the one you have for git. You can see your git email by typing git `config user.email` and set it with `git config --global user.email "your_email@email.com"`.
+Also uf you're new to open source, check that the email you use for GitHub (https://github.com/settings/emails) is the same the one you have for git. You can see your git email by typing `git config user.email` and set it with `git config --global user.email "your_email@email.com"`.
 -->
 
 ### Contributor checklist
