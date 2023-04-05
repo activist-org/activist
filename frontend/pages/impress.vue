@@ -45,7 +45,7 @@
             <Icon
               name="bi:info-circle-fill"
               size="1.25em"
-              class="text-light-cta-orange dark:text-dark-cta-orange"
+              class="text-light-link-text dark:text-dark-link-text"
             />
             &nbsp; Please use the
             <a href="/help/contact" class="items-center focus-brand link-text">

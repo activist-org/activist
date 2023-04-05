@@ -45,7 +45,7 @@
             <Icon
               name="bi:info-circle-fill"
               size="1.25em"
-              class="text-light-cta-orange dark:text-dark-cta-orange"
+              class="text-light-link-text dark:text-dark-link-text"
             />
             &nbsp; See the
             <a
