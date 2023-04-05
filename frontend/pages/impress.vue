@@ -48,10 +48,7 @@
               class="text-light-cta-orange dark:text-dark-cta-orange"
             />
             &nbsp; Please use the
-            <a
-              href="/help/contact"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
-            >
+            <a href="/help/contact" class="items-center focus-brand link-text">
               contact page
               <Icon
                 name="bi:box-arrow-up-right"
@@ -75,9 +72,7 @@
           <ul>
             <li><strong>All inquiries:</strong></li>
             <li>
-              <a
-                href="mailto:team@activist.org"
-                class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              <a href="mailto:team@activist.org" class="focus-brand link-text"
                 >team@activist.org</a
               >
             </li>
