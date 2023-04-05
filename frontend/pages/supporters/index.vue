@@ -4,7 +4,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <div
-      class="flex flex-col responsive-py-4 responsive-px-4  text-light-text dark:text-dark-text"
+      class="flex flex-col responsive-py-4 responsive-px-4 text-light-text dark:text-dark-text"
     >
       <h1 class="main-header">Supporters</h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
@@ -13,21 +13,17 @@
         support can read more about how they can help
         <NuxtLink
           :to="localePath('/supporters/join')"
-          class="focus-brand text-light-cta-orange dark:text-dark-cta-orange hover:underline"
+          class="focus-brand link-text"
           >here</NuxtLink
         >.
       </p>
-      <h2
-        class="responsive-h2"
-      >
-        UNLOCK Accelerator
-      </h2>
+      <h2 class="responsive-h2">UNLOCK Accelerator</h2>
       <p>
         The following organizations have supported activist via the 2022 edition
         of the
         <a
           href="https://www.wikimedia.de/unlock"
-          class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+          class="items-center focus-brand link-text"
           target="_blank"
         >
           Wikimedia UNLOCK accelerator
@@ -45,16 +41,8 @@
       <div class="flex items-center justify-center">
         <SupportersGrid class="mt-6 xl:mt-8" />
       </div>
-      <h2
-        class="responsive-h2"
-      >
-        Contributors
-      </h2>
-      <h3
-        class="responsive-h3"
-      >
-        Design
-      </h3>
+      <h2 class="responsive-h2">Contributors</h2>
+      <h3 class="responsive-h3">Design</h3>
       <p>activist has received design support from many individuals.</p>
       <ul class="py-4 pl-4 space-y-2"></ul>
       <p class="text-light-special-text dark:text-dark-special-text">

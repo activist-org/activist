@@ -4,7 +4,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <div
-      class="flex flex-col  responsive-py-4 responsive-px-4  text-light-text dark:text-dark-text"
+      class="flex flex-col responsive-py-4 responsive-px-4 text-light-text dark:text-dark-text"
     >
       <h1 class="main-header">Become a supporter</h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
@@ -12,9 +12,7 @@
         following details how organizations and individuals can help the team
         develop the platform to empower activists to have as much impact as
         possible. A full list of activist's current supporters can be found
-        <NuxtLink
-          :to="localePath('/supporters')"
-          class="focus-brand text-light-cta-orange dark:text-dark-cta-orange hover:underline"
+        <NuxtLink :to="localePath('/supporters')" class="focus-brand link-text"
           >here</NuxtLink
         >.
       </p>
@@ -27,7 +25,7 @@
         Visit the
         <a
           href="https://www.wikimedia.de/unlock"
-          class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+          class="focus-brand link-text"
           target="_blank"
           >source code on GitHub
           <Icon
@@ -45,10 +43,7 @@
       </h2>
       <p>
         Visit our
-        <a
-          href=""
-          class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
-          target="_blank"
+        <a href="" class="focus-brand link-text" target="_blank"
           >page on elinor
           <Icon
             name="bi:box-arrow-up-right"
@@ -67,7 +62,7 @@
         Please contact the team afterwards via our
         <NuxtLink
           :to="localePath('/help/contact')"
-          class="focus-brand text-light-cta-orange dark:text-dark-cta-orange hover:underline"
+          class="focus-brand link-text"
           >contact page</NuxtLink
         >
         so that we're aware and can help spread the word!
@@ -81,9 +76,7 @@
         Be it artistic contributions or legal consulting, we'd love to discuss
         how we could work together. We'd be happy to give credit in the
         Contributors section of our
-        <NuxtLink
-          :to="localePath('/supporters')"
-          class="focus-brand text-light-cta-orange dark:text-dark-cta-orange hover:underline"
+        <NuxtLink :to="localePath('/supporters')" class="focus-brand link-text"
           >supporters page</NuxtLink
         >.
       </p>
@@ -94,10 +87,7 @@
       </h2>
       <p>
         Visit our
-        <a
-          href=""
-          class="text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
-          target="_blank"
+        <a href="" class="focus-brand link-text" target="_blank"
           >Crowdin
           <Icon
             name="bi:box-arrow-up-right"

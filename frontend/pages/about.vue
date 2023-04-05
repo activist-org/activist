@@ -50,7 +50,7 @@
             &nbsp; See the
             <a
               href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=805%3A231&t=vNWHCPdiq5EbPaO9-1"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              class="items-center focus-brand link-text"
               target="_blank"
             >
               designs on Figma
@@ -94,7 +94,7 @@
             Interested in helping? Please visit us
             <a
               href="https://github.com/orgs/activist-org"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              class="items-center focus-brand link-text"
               target="_blank"
             >
               on GitHub
@@ -108,7 +108,7 @@
             You're also welcome to join us in our
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              class="items-center focus-brand link-text"
               target="_blank"
             >
               public Matrix chat rooms

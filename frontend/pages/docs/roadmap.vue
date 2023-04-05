@@ -50,7 +50,7 @@
             &nbsp; See the
             <a
               href="https://github.com/activist-org/activist"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              class="items-center focus-brand link-text"
               target="_blank"
             >
               source code on GitHub
@@ -71,7 +71,7 @@
             Please visit us at our
             <a
               href="https://github.com/orgs/activist-org/projects/1"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              class="items-center focus-brand link-text"
               target="_blank"
             >
               GitHub project space
@@ -85,7 +85,7 @@
             on. You're also welcome to join us in our public
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              class="items-center focus-brand link-text"
               target="_blank"
             >
               Matrix chat rooms

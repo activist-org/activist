@@ -19,7 +19,7 @@
             Please consider joining the
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              class="items-center focus-brand link-text"
             >
               public Matrix chat rooms
               <Icon
@@ -33,7 +33,7 @@
             also be sent via our open-source codebase
             <a
               href="https://github.com/activist-org/activist"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              class="items-center focus-brand link-text"
             >
               on GitHub
               <Icon
@@ -50,7 +50,7 @@
             using this form we ask that you respect our
             <a
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
-              class="items-center text-light-cta-orange dark:text-dark-cta-orange hover:underline focus-brand"
+              class="items-center focus-brand link-text"
               target="_blank"
             >
               community code of conduct
