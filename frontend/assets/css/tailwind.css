@@ -37,5 +37,9 @@
   .responsive-h3 {
     @apply py-1 lg:py-2 xl:py-4 text-lg sm:text-xl md:text-2xl xl:text-3xl 
   }
+
+  .link-text {
+    @apply font-bold text-light-special-text dark:text-dark-special-text hover:text-light-text dark:hover:text-dark-text;
+}
 }
 /* responsive-py-1 */
