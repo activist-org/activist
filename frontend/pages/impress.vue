@@ -41,13 +41,14 @@
           >
             Impress
           </h1>
-          <p class="py-2">
+          <p class="py-2 flex flex-row space-x-3">
             <Icon
               name="bi:info-circle-fill"
               size="1.25em"
-              class="text-light-link-text dark:text-dark-link-text"
+              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
-            &nbsp; Please use the
+            <p>
+              Please use the
             <a href="/help/contact" class="items-center focus-brand link-text">
               contact page
               <Icon
@@ -57,6 +58,7 @@
               />
             </a>
             for inquiries
+            </p>
           </p>
           <p>
             activist.org is a network for political action that allows people to

@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="responsive-px-4 responsive-py-4  bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
+    class="responsive-px-4 responsive-py-4 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
   >
     <!-- Note: Content Sections Top -->
     <div class="flex flex-col items-center justify-center space-y-5 lg:hidden">
@@ -22,7 +22,7 @@
               v0.0.1
             </a>
           </div>
-          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="px-2">•</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <a
               href="https://github.com/activist-org/activist"
@@ -31,7 +31,7 @@
               {{ $t("source-code") }}
             </a>
           </div>
-          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="px-2">•</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink :to="localePath('/docs/roadmap')" class="focus-brand">
               {{ $t("roadmap") }}
@@ -154,7 +154,7 @@
               {{ $t("trademark-policy") }}
             </NuxtLink>
           </div>
-          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="px-2">•</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink
               :to="localePath('/legal/privacy-policy')"
@@ -191,7 +191,7 @@
               v0.0.1
             </a>
           </div>
-          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="px-2">•</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <a
               href="https://github.com/activist-org/activist"
@@ -200,7 +200,7 @@
               {{ $t("source-code") }}
             </a>
           </div>
-          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="px-2">•</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink :to="localePath('/docs/roadmap')" class="focus-brand">
               {{ $t("roadmap") }}
@@ -217,7 +217,7 @@
               {{ $t("trademark-policy") }}
             </NuxtLink>
           </div>
-          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <div class="px-2">•</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink
               :to="localePath('/legal/privacy-policy')"

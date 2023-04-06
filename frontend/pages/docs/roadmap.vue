@@ -41,13 +41,14 @@
           >
             Roadmap
           </h1>
-          <p class="py-2">
+          <p class="py-2 flex flex-row space-x-3">
             <Icon
               name="bi:info-circle-fill"
               size="1.25em"
-              class="text-light-link-text dark:text-dark-link-text"
+              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
-            &nbsp; See the
+            <p>
+              See the
             <a
               href="https://github.com/activist-org/activist"
               class="items-center focus-brand link-text"
@@ -61,6 +62,7 @@
               />
             </a>
             to learn more
+            </p>
           </p>
           <p>
             activist.org is open-source software. Our goal is to build in as
