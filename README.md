@@ -31,6 +31,8 @@
 
 [**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.
 
+> **Note**: The [contributing](#contributing) section has information for those interested, with the articles and presentations in [supported by](#supported-by) also being good resources for learning more about activist.
+
 [**Frequently Asked Questions**](https://activist.org/help/faq)
 
 <a id="contents"></a>
@@ -227,7 +229,7 @@ Another forthcoming feature, the votes section would allow events to be made in 
 
 # Supported By [`⇧`](#contents)
 
-<details><summary><strong>activist Featured on the Web</strong></summary>
+<details open><summary><strong>activist Featured on the Web</strong></summary>
 <p>
 
 <strong>2022</strong>
