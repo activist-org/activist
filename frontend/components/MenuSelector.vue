@@ -1,14 +1,14 @@
 <template>
   <NuxtLink
     :to="localePath(`${btnURL}`)"
-    class="flex items-center w-full px-3 py-2 space-x-2 text-sm text-left transition duration-200 rounded-md font-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight"
+    class="flex items-center w-full h-10 px-3 py-1 space-x-2 text-sm text-left transition duration-200 rounded-md font-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight"
     :class="{
       'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct':
         selected == true,
       'text-light-text dark:text-dark-text': selected == false,
     }"
   >
-    <Icon :name="iconURL" size="1.25em" />
+    <Icon :name="iconURL" class="flex-shrink-0 w-5 h-5"/>
     <Transition>
       <p
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
@@ -21,7 +21,10 @@
 </template>
 
 <style>
-.v-enter-active,
+.v-enter-active {
+  transition: opacity 0.25s ease;
+  transition-delay: .125s;
+}
 .v-leave-active {
   transition: opacity 0.25s ease;
 }
@@ -45,18 +48,3 @@ defineProps<{
 const localePath = useLocalePath();
 const sidebar = useSidebar();
 </script>
-
-<style>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.25s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-.v-enter-from .inner {
-  transition-delay: 0.25s;
-}
-</style>

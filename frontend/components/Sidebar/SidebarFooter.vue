@@ -7,11 +7,7 @@
     }"
   >
     <div
-      class="flex flex-col pt-2 pb-3 space-y-2"
-      :class="{
-        'px-2': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-        'px-3': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
-      }"
+      class="flex flex-col pt-2 pb-3 space-y-2 px-2"
     >
       <Disclosure v-slot="{ open, close }">
         <DisclosureButton
@@ -22,16 +18,19 @@
           <div
             class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
           >
-            <Icon name="bi:plus-circle" size="1.25em" />
-            <p
-              v-if="
-                sidebar.collapsed == false || sidebar.collapsedSwitch == false
-              "
-            >
-              {{ $t("Create") }}
-            </p>
+            <Icon name="bi:plus-circle" size="1.25em" class="flex-shrink-0 w-5 h-5"/>
+            <Transition name="text">
+              <p
+                v-if="
+                  sidebar.collapsed == false || sidebar.collapsedSwitch == false
+                "
+              >
+                {{ $t("Create") }}
+              </p>
+            </Transition>
           </div>
-          <Icon
+          <Transition name="askdjfsad">
+            <Icon
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
@@ -39,6 +38,7 @@
             class="absolute right-0 mr-6"
             :class="open ? 'rotate-180 transform' : ''"
           />
+          </Transition>
         </DisclosureButton>
         <DisclosurePanel class="space-y-1">
           <MenuSelector
@@ -76,16 +76,19 @@
           <div
             class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
           >
-            <Icon name="bi:info-circle" size="1.25em" />
-            <p
-              v-if="
-                sidebar.collapsed == false || sidebar.collapsedSwitch == false
-              "
-            >
-              {{ $t("Info") }}
-            </p>
+            <Icon name="bi:info-circle" size="1.25em" class="flex-shrink-0 w-5 h-5"/>
+            <Transition name="text">
+              <p
+                v-if="
+                  sidebar.collapsed == false || sidebar.collapsedSwitch == false
+                "
+              >
+                {{ $t("Info") }}
+              </p>
+            </Transition>
           </div>
-          <Icon
+          <Transition name="askdjfsad">
+            <Icon
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
@@ -93,6 +96,7 @@
             class="absolute right-0 mr-6"
             :class="open ? 'rotate-180 transform' : ''"
           />
+          </Transition>
         </DisclosureButton>
         <DisclosurePanel class="space-y-1">
           <MenuSelector
@@ -118,17 +122,20 @@
           <div
             class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
           >
-            <Icon name="bi:person-circle" size="1.25em" />
-            <p
-              v-if="
-                sidebar.collapsed == false || sidebar.collapsedSwitch == false
-              "
-              class="font-bold"
-            >
-              {{ $t("Username") }}
-            </p>
+            <Icon name="bi:person-circle" size="1.25em" class="flex-shrink-0 w-5 h-5"/>
+            <Transition name="text">
+              <p
+                v-if="
+                  sidebar.collapsed == false || sidebar.collapsedSwitch == false
+                "
+                class="font-bold"
+              >
+                {{ $t("Username") }}
+              </p>
+            </Transition>
           </div>
-          <Icon
+          <Transition name="askdjfsad">
+            <Icon
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
@@ -136,6 +143,7 @@
             class="absolute right-0 mr-6"
             :class="open ? 'rotate-180 transform' : ''"
           />
+          </Transition>
         </DisclosureButton>
         <DisclosurePanel class="space-y-1">
           <MenuSelector
@@ -190,3 +198,35 @@ const closeOtherMenus = (id) => {
 };
 const sidebar = useSidebar();
 </script>
+
+<style>
+.text-enter-active {
+  transition: opacity 0.25s ease;
+  transition-delay: .125s;
+}
+.text-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.text-enter-from,
+.text-leave-to {
+  opacity: 0;
+}
+.text-enter-from {
+  transition-delay: 0.25s;
+}
+
+.askdjfsad-enter-active {
+  transition: opacity .25s ease;
+  transition-delay: .25s;
+}
+.askdjfsad-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.askdjfsad-enter-from,
+.askdjfsad-leave-to {
+  opacity: 0;
+}
+
+</style>
