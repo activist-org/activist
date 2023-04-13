@@ -41,7 +41,7 @@
       </div>
 
       <div
-        class="grid max-w-xl gap-0 text-center sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16 lg:hidden"
+        class="max-w-xl text-center grid gap-0 sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16 lg:hidden"
       >
         <div>
           <p class="text-xl font-medium text-light-text dark:text-dark-text">
@@ -49,28 +49,28 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:github" size="1em" />
             <p>GitHub</p>
           </a>
           <a
             href="https://matrix.to/#/#activist_community:matrix.org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:matrix" size="1em" />
             <p>Matrix</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:twitter" size="1em" />
             <p>Twitter</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:instagram" size="1em" />
             <p>Instagram</p>
@@ -240,28 +240,28 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
-            class="flex items-center mt-3 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:github" size="1em" />
             <p>GitHub</p>
           </a>
           <a
             href="https://matrix.to/#/#activist_community:matrix.org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:matrix" size="1em" />
             <p>Matrix</p>
           </a>
           <a
             href="https://twitter.com/activist_org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:twitter" size="1em" />
             <p>Twitter</p>
           </a>
           <a
             href="https://instagram.com/activist_org"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:instagram" size="1em" />
             <p>Instagram</p>

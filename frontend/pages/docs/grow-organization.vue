@@ -19,9 +19,9 @@
         alt="Drawing of a fist raised."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
-      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div
-          class="items-center space-y-2 text-left md:space-y-4 md:items-start"
+          class="items-center text-left space-y-2 md:space-y-4 md:items-start"
         >
           <!-- Note: image floating right of content. -->
           <img
@@ -41,7 +41,7 @@
           >
             Expand your movement
           </h1>
-          <p class="py-2 flex flex-row space-x-3">
+          <p class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"
               size="1.25em"

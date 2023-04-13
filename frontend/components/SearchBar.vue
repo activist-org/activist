@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-center py-1 pr-1 mx-3 space-x-2 border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+    class="flex items-center justify-center py-1 pr-1 mx-3 border select-none space-x-2 rounded-md bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
     :class="{
       'pl-2': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'pl-1': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -31,7 +31,7 @@
         </div>
         <div
           v-else
-          class="h-5 text-sm text-center rounded-md w-7 border border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+          class="h-5 text-sm text-center border rounded-md w-7 border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
         >
           ⌃k
         </div>

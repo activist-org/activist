@@ -8,7 +8,7 @@
       'text-light-text dark:text-dark-text': selected == false,
     }"
   >
-    <Icon :name="iconURL" class="flex-shrink-0 w-5 h-5"/>
+    <Icon :name="iconURL" class="flex-shrink-0 w-5 h-5" />
     <Transition>
       <p
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
@@ -23,7 +23,7 @@
 <style>
 .v-enter-active {
   transition: opacity 0.25s ease;
-  transition-delay: .125s;
+  transition-delay: 0.125s;
 }
 .v-leave-active {
   transition: opacity 0.25s ease;

@@ -3,9 +3,9 @@
     <div>
       <MenuButton
         v-slot="{ open }"
-        class="inline-flex justify-center w-full px-4 py-2 font-medium rounded-md select-none text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
+        class="inline-flex justify-center w-full px-4 py-2 font-medium select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
       >
-        <div class="flex items-center space-x-2 text-sm">
+        <div class="flex items-center text-sm space-x-2">
           <Icon name="bi:globe" />
           <p class="uppercase sr-only lg:not-sr-only">{{ $i18n.locale }}</p>
           <p></p>
@@ -19,14 +19,14 @@
 
     <transition
       enter-active-class="transition duration-100 ease-out"
-      enter-from-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100"
+      enter-from-class="opacity-0 transform scale-95"
+      enter-to-class="opacity-100 transform scale-100"
       leave-active-class="transition duration-75 ease-in"
-      leave-from-class="transform scale-100 opacity-100"
-      leave-to-class="transform scale-95 opacity-0"
+      leave-from-class="opacity-100 transform scale-100"
+      leave-to-class="opacity-0 transform scale-95"
     >
       <MenuItems
-        class="absolute right-0 mt-2 origin-top-right border divide-y rounded-md shadow-lg bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text"
+        class="absolute right-0 mt-2 border shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text"
       >
         <ul class="px-2 py-2">
           <NuxtLink

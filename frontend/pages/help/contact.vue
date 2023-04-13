@@ -134,14 +134,14 @@
               "
               rows="6"
               placeholder="Hey activist team..."
-              class="p-2 rounded-md resize-none placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
+              class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               autocomplete="off"
               spellcheck="false"
             ></textarea>
 
             <button
               type="submit"
-              class="px-4 py-2 mr-auto font-medium text-center border rounded-md select-none xl:rounded-lg focus-brand bg-light-cta-orange dark:bg-dark-cta-orange text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct"
+              class="px-4 py-2 mr-auto font-medium text-center border select-none rounded-md xl:rounded-lg focus-brand bg-light-cta-orange dark:bg-dark-cta-orange text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct"
               :class="
                 !buttonDisabled
                   ? 'hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange  '
@@ -156,7 +156,7 @@
       </div>
       <div
         v-else
-        class="flex flex-col items-center justify-center w-10/12 py-8 mx-auto space-y-6 text-center sm:max-w-sm lg:max-w-md xl:max-w-xl md:py-16 md:space-y-12"
+        class="flex flex-col items-center justify-center w-10/12 py-8 mx-auto text-center space-y-6 sm:max-w-sm lg:max-w-md xl:max-w-xl md:py-16 md:space-y-12"
       >
         <h1 class="text-2xl font-semibold md:text-3xl lg:text-4xl">
           Thank you for contacting the activist team!

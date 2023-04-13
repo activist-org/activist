@@ -1,14 +1,12 @@
 <template>
   <footer
-    class="absolute bottom-0 bg-light-header dark:bg-dark-header transition-all duration-500"
+    class="absolute bottom-0 transition-all duration-500 bg-light-header dark:bg-dark-header"
     :class="{
       'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
   >
-    <div
-      class="flex flex-col pt-2 pb-3 space-y-2 px-2"
-    >
+    <div class="flex flex-col px-2 pt-2 pb-3 space-y-2">
       <Disclosure v-slot="{ open, close }">
         <DisclosureButton
           :ref="(el) => (disclosure[0] = close)"
@@ -18,7 +16,11 @@
           <div
             class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
           >
-            <Icon name="bi:plus-circle" size="1.25em" class="flex-shrink-0 w-5 h-5"/>
+            <Icon
+              name="bi:plus-circle"
+              size="1.25em"
+              class="flex-shrink-0 w-5 h-5"
+            />
             <Transition name="text">
               <p
                 v-if="
@@ -29,15 +31,15 @@
               </p>
             </Transition>
           </div>
-          <Transition name="askdjfsad">
+          <Transition name="chevron">
             <Icon
-            v-if="
-              sidebar.collapsed == false || sidebar.collapsedSwitch == false
-            "
-            name="bi:chevron-up"
-            class="absolute right-0 mr-6"
-            :class="open ? 'rotate-180 transform' : ''"
-          />
+              v-if="
+                sidebar.collapsed == false || sidebar.collapsedSwitch == false
+              "
+              name="bi:chevron-up"
+              class="absolute right-0 mr-6"
+              :class="open ? 'rotate-180 transform' : ''"
+            />
           </Transition>
         </DisclosureButton>
         <DisclosurePanel class="space-y-1">
@@ -76,7 +78,11 @@
           <div
             class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
           >
-            <Icon name="bi:info-circle" size="1.25em" class="flex-shrink-0 w-5 h-5"/>
+            <Icon
+              name="bi:info-circle"
+              size="1.25em"
+              class="flex-shrink-0 w-5 h-5"
+            />
             <Transition name="text">
               <p
                 v-if="
@@ -87,15 +93,15 @@
               </p>
             </Transition>
           </div>
-          <Transition name="askdjfsad">
+          <Transition name="chevron">
             <Icon
-            v-if="
-              sidebar.collapsed == false || sidebar.collapsedSwitch == false
-            "
-            name="bi:chevron-up"
-            class="absolute right-0 mr-6"
-            :class="open ? 'rotate-180 transform' : ''"
-          />
+              v-if="
+                sidebar.collapsed == false || sidebar.collapsedSwitch == false
+              "
+              name="bi:chevron-up"
+              class="absolute right-0 mr-6"
+              :class="open ? 'rotate-180 transform' : ''"
+            />
           </Transition>
         </DisclosureButton>
         <DisclosurePanel class="space-y-1">
@@ -122,7 +128,11 @@
           <div
             class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
           >
-            <Icon name="bi:person-circle" size="1.25em" class="flex-shrink-0 w-5 h-5"/>
+            <Icon
+              name="bi:person-circle"
+              size="1.25em"
+              class="flex-shrink-0 w-5 h-5"
+            />
             <Transition name="text">
               <p
                 v-if="
@@ -134,15 +144,15 @@
               </p>
             </Transition>
           </div>
-          <Transition name="askdjfsad">
+          <Transition name="chevron">
             <Icon
-            v-if="
-              sidebar.collapsed == false || sidebar.collapsedSwitch == false
-            "
-            name="bi:chevron-up"
-            class="absolute right-0 mr-6"
-            :class="open ? 'rotate-180 transform' : ''"
-          />
+              v-if="
+                sidebar.collapsed == false || sidebar.collapsedSwitch == false
+              "
+              name="bi:chevron-up"
+              class="absolute right-0 mr-6"
+              :class="open ? 'rotate-180 transform' : ''"
+            />
           </Transition>
         </DisclosureButton>
         <DisclosurePanel class="space-y-1">
@@ -202,7 +212,7 @@ const sidebar = useSidebar();
 <style>
 .text-enter-active {
   transition: opacity 0.25s ease;
-  transition-delay: .125s;
+  transition-delay: 0.125s;
 }
 .text-leave-active {
   transition: opacity 0.25s ease;
@@ -216,17 +226,16 @@ const sidebar = useSidebar();
   transition-delay: 0.25s;
 }
 
-.askdjfsad-enter-active {
-  transition: opacity .25s ease;
-  transition-delay: .25s;
+.chevron-enter-active {
+  transition: opacity 0.25s ease;
+  transition-delay: 0.25s;
 }
-.askdjfsad-leave-active {
+.chevron-leave-active {
   transition: opacity 0.25s ease;
 }
 
-.askdjfsad-enter-from,
-.askdjfsad-leave-to {
+.chevron-enter-from,
+.chevron-leave-to {
   opacity: 0;
 }
-
 </style>
