@@ -9,6 +9,7 @@
     <Icon name="bi:search" size="1em" class="my-1" />
     <input
       v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+      ref="input"
       class="w-16 bg-transparent outline-none"
       type="text"
       placeholder="Search"
@@ -41,7 +42,20 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import { useMagicKeys, whenever } from "@vueuse/core";
 const sidebar = useSidebar();
+const input = ref();
+const keys = useMagicKeys();
+
+whenever(keys.slash, () => {
+  input.value.focus();
+  setTimeout(() => {
+    if (input.value.value.startsWith("/")) {
+      input.value.value = "";
+    }
+  }, 0);
+});
 </script>
 
 <style>
