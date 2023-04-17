@@ -6,7 +6,7 @@
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
   >
-    <div class="flex items-center pt-4 pb-2 pl-4 pr-6 border">
+    <div class="flex items-center pt-4 pb-2 pl-4 pr-6">
       <div
         class="relative z-0 h-8"
         :class="{
@@ -16,12 +16,12 @@
         }"
       >
         <IconsActivist
-          class="absolute inset-0 flex flex-shrink-0 items-center justify-center z-1 pt-2 h-8 w-6 overflow-clip border"
+          class="absolute inset-0 flex flex-shrink-0 items-center justify-center z-1 pt-2 h-8 w-6 overflow-clip"
         />
         <Transition>
           <LogosActivist
             v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-            class="absolute inset-0 flex flex-shrink-0 items-center justify-center z-1 h-8 w-32 overflow-clip border"
+            class="absolute inset-0 flex flex-shrink-0 items-center justify-center z-1 h-8 w-32 overflow-clip"
         />
         </Transition>
       </div>
