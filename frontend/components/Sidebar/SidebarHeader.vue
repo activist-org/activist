@@ -6,23 +6,24 @@
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
   >
-    <div class="flex items-center pt-4 pb-2 pl-4 pr-6">
+    <div class="flex items-center pt-4 pb-2 pl-4 pr-6 border">
       <div
         class="relative z-0 h-8"
         :class="{
           'w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'w-8': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+          'w-6': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
         <IconsActivist
-          v-if="sidebar.collapsed == true && sidebar.collapsedSwitch == true"
-          class="absolute inset-0 flex items-center justify-center -ml-1 z-1 overflow-clip"
+          class="absolute inset-0 flex flex-shrink-0 items-center justify-center z-1 pt-2 h-8 w-6 overflow-clip border"
         />
-        <LogosActivist
-          v-else
-          class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+        <Transition>
+          <LogosActivist
+            v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+            class="absolute inset-0 flex flex-shrink-0 items-center justify-center z-1 h-8 w-32 overflow-clip border"
         />
+        </Transition>
       </div>
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
       <div class="absolute -right-3" @mouseover.stop>
@@ -57,3 +58,21 @@
 <script setup lang="ts">
 const sidebar = useSidebar();
 </script>
+
+<style>
+.v-enter-active {
+  transition: opacity 0.25s ease;
+  transition-delay: 0.125s;
+}
+.v-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+.v-enter-from .inner {
+  transition-delay: 0.25s;
+}
+</style>

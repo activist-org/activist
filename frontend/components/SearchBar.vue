@@ -1,22 +1,20 @@
 <template>
   <div
-    class="flex items-center justify-center py-1 pr-1 mx-3 border select-none space-x-2 rounded-md bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
-    :class="{
-      'pl-2': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-      'pl-1': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
-    }"
+    class="flex items-center text-left transition duration-200 py-1 px-3 pr-1 mx-3 border select-none space-x-2 rounded-md bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
   >
-    <Icon name="bi:search" size="1em" class="my-1" />
-    <input
-      v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-      class="w-16 bg-transparent outline-none"
-      type="text"
-      placeholder="Search"
-    />
-    <Transition>
+    <Icon name="bi:search" size="1em" class="my-1 flex-shrink-0 w-5 h-5 border" />
+    <Transition name="search">
+      <input
+        v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+        class="w-16 bg-transparent outline-none h-5"
+        type="text"
+        placeholder="Search"
+      />
+    </Transition>
+    <Transition name="shortcuts">
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-        class="flex pl-1 space-x-1"
+        class="flex space-x-1"
       >
         <div
           class="w-5 h-5 text-sm text-center rounded-md bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
@@ -45,13 +43,32 @@ const sidebar = useSidebar();
 </script>
 
 <style>
-.v-enter-active,
-.v-leave-active {
+.search-enter-active {
+  transition: opacity 0.25s ease;
+  transition-delay: 0.125s;
+}
+.search-leave-active {
   transition: opacity 0.25s ease;
 }
 
-.v-enter-from,
-.v-leave-to {
+.search-enter-from,
+.search-leave-to {
+  opacity: 0;
+}
+.search-enter-from {
+  transition-delay: 0.25s;
+}
+
+.shortcuts-enter-active {
+  transition: opacity 0.25s ease;
+  transition-delay: 0.375s;
+}
+.shortcuts-leave-active {
+  transition: opacity 0.125s ease;
+}
+
+.shortcuts-enter-from,
+.shortcuts-leave-to {
   opacity: 0;
 }
 </style>
