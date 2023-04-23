@@ -9,14 +9,14 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
-        src="/images/content_pages/activist_icon_light.png"
-        alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+        src="/images/content_pages/bootstrap_icons_shield_check_light.png"
+        alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        src="/images/content_pages/activist_icon_dark.png"
-        alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+        src="/images/content_pages/bootstrap_icons_shield_check_dark.png"
+        alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
@@ -26,14 +26,14 @@
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/activist_icon_light.png"
-            alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+            src="/images/content_pages/bootstrap_icons_shield_check_light.png"
+            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/activist_icon_dark.png"
-            alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+            src="/images/content_pages/bootstrap_icons_shield_check_dark.png"
+            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <h1
@@ -59,8 +59,8 @@
             activist.org does not collect any personal information from our
             users. We do not collect data such as names, email addresses, phone
             numbers, or any other information that can be used to identify you
-            personally. Our platform is designed to provide a safe and private
-            environment for activism and collaboration.
+            personally at this time. Our platform is designed to provide a safe
+            and private environment for activism and collaboration.
           </p>
           <p>
             As an open-source platform, we prioritize transparency and user
@@ -206,14 +206,14 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/activist_icon_light.png"
-            alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+            src="/images/content_pages/bootstrap_icons_shield_check_light.png"
+            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden 2xl:block h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/activist_icon_dark.png"
-            alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+            src="/images/content_pages/bootstrap_icons_shield_check_dark.png"
+            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden 2xl:block h-72"
           />
         </div>
