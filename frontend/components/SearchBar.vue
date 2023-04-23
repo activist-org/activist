@@ -2,7 +2,7 @@
   <div
     class="flex items-center text-left transition duration-200 py-1 px-3 pr-1 mx-3 border select-none space-x-2 rounded-md bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
   >
-    <Icon name="bi:search" size="1em" class="my-1 flex-shrink-0 w-5 h-5 border" />
+    <Icon name="bi:search" size="1em" class="my-1 flex-shrink-0 w-5 h-5" />
     <Transition name="search">
       <input
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
