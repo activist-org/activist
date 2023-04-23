@@ -21,16 +21,16 @@
       >
         <div
           class="w-5 h-5 text-sm text-center rounded-md bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
-          v-bind:title="$device.isMacOS ? 'Search:/\nJump to: ⌘ + K' : 'Search: /\nJump to: Ctrl + K'"
+          v-bind:title="device.isMacOs ? 'Search:/\nJump to: ⌘ + K' : 'Search: /\nJump to: Ctrl + K'"
         >
           <span class="font-semibold"></span> /
         </div>
         <div
-          v-bind:title="$device.isMacOS ? 'Search: /\nJump to: ⌘ + K' : 'Search: /\nJump to: Ctrl + K'"
+          v-bind:title="device.ios ? 'Search: /\nJump to: ⌘ + K' : 'Search: /\nJump to: Ctrl + K'"
           class="w-5 h-5 text-sm text-center rounded-md bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
           <span class="font-semibold"></span> 
-          <span v-if="$device.isMacOS">⌘k</span>
+          <span v-if="device.ios">⌘k</span>
           <span v-else>⌃k</span>
         </div>
       </div>
@@ -39,9 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useMagicKeys, whenever } from "@vueuse/core";
 const sidebar = useSidebar();
+const device = useDevice();
+
 const input = ref();
 const keys = useMagicKeys();
 
