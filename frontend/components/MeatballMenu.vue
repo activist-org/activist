@@ -55,27 +55,27 @@
               />
             </DisclosureButton>
             <DisclosurePanel class="px-3 py-2">
-              <MenuButton
+              <button
                 class="flex items-center w-full px-2 py-2 text-sm rounded-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight"
                 @click="$colorMode.preference = 'system'"
               >
                 <Icon name="bi:circle-half" size="1em" />
                 <p class="px-1">System</p>
-              </MenuButton>
-              <MenuButton
+              </button>
+              <button
                 class="flex items-center w-full px-2 py-2 text-sm rounded-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight"
                 @click="$colorMode.preference = 'light'"
               >
                 <Icon name="bi:sun" size="1em" />
                 <p class="px-1">Light</p>
-              </MenuButton>
-              <MenuButton
+              </button>
+              <button
                 class="flex items-center w-full px-2 py-2 text-sm rounded-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight"
                 @click="$colorMode.preference = 'dark'"
               >
                 <Icon name="bi:moon" size="1em" />
                 <p class="px-1">Dark</p>
-              </MenuButton>
+              </button>
             </DisclosurePanel>
           </Disclosure>
           <Disclosure v-slot="{ open }">
@@ -109,13 +109,11 @@
                   :key="locale.code"
                   :to="switchLocalePath(locale.code)"
                 >
-                  <MenuButton>
-                    <li
-                      class="flex w-24 px-1 py-2 text-sm rounded-md group items-left text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight"
-                    >
-                      {{ locale.name }}
-                    </li>
-                  </MenuButton>
+                  <li
+                    class="flex w-24 px-1 py-2 text-sm rounded-md group items-left text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight"
+                  >
+                    {{ locale.name }}
+                  </li>
                 </NuxtLink>
               </ul>
             </DisclosurePanel>
