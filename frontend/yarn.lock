@@ -4869,10 +4869,10 @@ nuxt-icon@^0.2.6:
     "@nuxt/kit" "^3.0.0"
     nuxt-config-schema "^0.4.2"
 
-nuxt-mail@^3.1.21:
-  version "3.1.21"
-  resolved "https://registry.yarnpkg.com/nuxt-mail/-/nuxt-mail-3.1.21.tgz#c4a6908796e911d65b8b6b15911fba0bb055f2bf"
-  integrity sha512-Sl5beQtuiAPK/6MTW6Rdurmw7rbeWmZYwMjCLRSUW/tJ2+2NMB+2RTOh11H3Da1NtCTnKlU+jYdosjq7wqQpxA==
+nuxt-mail@^3.1.23:
+  version "3.1.35"
+  resolved "https://registry.yarnpkg.com/nuxt-mail/-/nuxt-mail-3.1.35.tgz#0bc32b5f22f281d7c668bffdf9c66ebbba17dbd3"
+  integrity sha512-Tv7uEK3hPUlje6MJWUT7cFLHXk/axvoJ3CwBlT5bHgU6nND2uS9zoyfr02qGXZkyVUbDYHpbCJbxaTHIGn9x1g==
   dependencies:
     "@dword-design/functions" "^4.0.0"
     "@nuxt/kit" "^3.0.0"
