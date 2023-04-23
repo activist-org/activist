@@ -39,7 +39,17 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import { useMagicKeys, whenever } from "@vueuse/core";
 const sidebar = useSidebar();
+const input = ref();
+const keys = useMagicKeys();
+
+whenever(keys.slash, () => {
+  setTimeout(() => {
+    input.value.focus();
+  }, 0);
+});
 </script>
 
 <style>
