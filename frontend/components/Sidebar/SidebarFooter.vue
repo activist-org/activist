@@ -6,11 +6,11 @@
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
   >
-    <div class="flex flex-col px-2 pt-2 pb-3 space-y-2">
+    <div class="flex flex-col px-2 pt-2 pb-3 space-y-1">
       <Disclosure v-slot="{ open, close }">
         <DisclosureButton
           :ref="(el) => (disclosure[0] = close)"
-          class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text"
+          class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
           @click="closeOtherMenus(0)"
         >
           <div
@@ -18,7 +18,7 @@
           >
             <Icon
               name="bi:plus-circle"
-              size="1.25em"
+              size="1em"
               class="flex-shrink-0 w-5 h-5"
             />
             <Transition name="text">
@@ -72,7 +72,7 @@
       <Disclosure v-slot="{ open, close }">
         <DisclosureButton
           :ref="(el) => (disclosure[1] = close)"
-          class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text"
+          class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
           @click="closeOtherMenus(1)"
         >
           <div
@@ -80,7 +80,7 @@
           >
             <Icon
               name="bi:info-circle"
-              size="1.25em"
+              size="1em"
               class="flex-shrink-0 w-5 h-5"
             />
             <Transition name="text">
@@ -122,7 +122,7 @@
       <Disclosure v-slot="{ open, close }">
         <DisclosureButton
           :ref="(el) => (disclosure[2] = close)"
-          class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text"
+          class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
           @click="closeOtherMenus(2)"
         >
           <div
@@ -130,7 +130,7 @@
           >
             <Icon
               name="bi:person-circle"
-              size="1.25em"
+              size="1em"
               class="flex-shrink-0 w-5 h-5"
             />
             <Transition name="text">

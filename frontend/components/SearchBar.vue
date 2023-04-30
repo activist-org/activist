@@ -2,10 +2,11 @@
   <div
     class="flex items-center text-left transition duration-200 py-1 px-3 pr-1 mx-3 border select-none space-x-2 rounded-md bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
   >
-    <Icon name="bi:search" size="1em" class="my-1 flex-shrink-0 w-5 h-5" />
+    <Icon name="bi:search" size="1em" class="my-1 flex-shrink-0 w-4 h-4" />
     <Transition name="search">
       <input
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+        ref="input"
         class="w-16 bg-transparent outline-none h-5"
         type="text"
         placeholder="Search"
@@ -39,8 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { ref } from "vue";
 const sidebar = useSidebar();
 const input = ref();
 const keys = useMagicKeys();
@@ -49,6 +50,10 @@ whenever(keys.slash, () => {
   setTimeout(() => {
     input.value.focus();
   }, 0);
+  if (sidebar.collapsed == true && sidebar.collapsedSwitch == true) {
+    sidebar.collapsed = false;
+    sidebar.collapsedSwitch = false;
+  }
 });
 </script>
 
