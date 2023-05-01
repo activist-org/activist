@@ -78,7 +78,7 @@
             <a href="mailto:team@activist.org" class="focus-brand link-text"
               >team@activist.org</a
             >. In the event that we do not approve such use of the activist name
-            and logos within ten (14) business days, your request shall be
+            and logos within fourteen (14) business days, your request shall be
             deemed denied.
           </p>
           <h2 class="mb-4 text-2xl font-semibold">General guidelines</h2>
