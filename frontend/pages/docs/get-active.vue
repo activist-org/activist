@@ -27,6 +27,7 @@
           <img
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/get_active_light.png"
+            
             alt="Drawing of a fist raised."
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
           />
