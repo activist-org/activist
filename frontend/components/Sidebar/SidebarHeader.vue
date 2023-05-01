@@ -42,7 +42,6 @@
         }"
       >
         <IconsActivist
-          v-if="sidebar.collapsed == true && sidebar.collapsedSwitch == true"
           class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-5 h-8 z-1 overflow-clip"
         />
         <Transition>
@@ -50,7 +49,7 @@
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
-            class="absolute inset-0 flex items-center justify-center flex-shrink-0 h-8 z-1 overflow-clip"
+            class="absolute inset-0 flex items-center justify-center flex-shrink-0 h-8 w-32 z-1 overflow-clip"
           />
         </Transition>
       </div>
