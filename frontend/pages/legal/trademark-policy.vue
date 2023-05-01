@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-light-text dark:text-dark-text">
     <Head>
       <Title>{{ title }}</Title>
     </Head>
