@@ -19,9 +19,9 @@
         alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div
-          class="items-center text-left space-y-2 md:space-y-4 md:items-start"
+          class="items-center space-y-2 text-left md:space-y-4 md:items-start"
         >
           <!-- Note: image floating right of content. -->
           <img
@@ -145,8 +145,8 @@
           </p>
           <h2 class="mb-4 text-2xl font-semibold">Contact Us</h2>
           <p>
-            If you have any questions, comments, or concerns about this Privacy
-            Policy or our practices, please contact us. We welcome feedback from
+            Please contact us if you have any questions, comments, or concerns
+            about this Privacy Policy or our practices. We welcome feedback from
             our users and are always looking for ways to improve our platform
             and better serve our community.
           </p>
@@ -186,10 +186,7 @@
                 style="vertical-align: baseline"
               />
             </a>
-            to share ideas, ask questions or just say hi :) For activists
-            already involved in an organization, please use the form in the
-            <strong>Request access</strong> button below to get in contact with
-            us. We'll be in touch soon after!
+            to share ideas, ask questions or just say hi :)
           </p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
