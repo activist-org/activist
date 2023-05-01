@@ -19,9 +19,9 @@
         alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
-      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div
-          class="items-center space-y-2 text-left md:space-y-4 md:items-start"
+          class="items-center text-left space-y-2 md:space-y-4 md:items-start"
         >
           <!-- Note: image floating right of content. -->
           <img
