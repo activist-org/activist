@@ -32,7 +32,7 @@
         </div>
       </button>
     </div>
-    <div class="flex items-center pt-4 pb-2 pl-4 pr-6">
+    <div class="flex items-center pt-3 pb-2 pl-4 pr-6">
       <div
         class="relative z-0 h-8"
         :class="{
@@ -43,14 +43,14 @@
       >
         <IconsActivist
           v-if="sidebar.collapsed == true && sidebar.collapsedSwitch == true"
-          class="absolute inset-0 flex flex-shrink-0 items-center justify-center z-1 h-8 w-5 overflow-clip"
+          class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-5 h-8 z-1 overflow-clip"
         />
         <Transition>
           <LogosActivist
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
-            class="absolute inset-0 flex flex-shrink-0 items-center justify-center z-1 h-8 overflow-clip"
+            class="absolute inset-0 flex items-center justify-center flex-shrink-0 h-8 z-1 overflow-clip"
           />
         </Transition>
       </div>

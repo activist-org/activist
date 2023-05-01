@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="localePath(`${btnURL}`)"
-    class="flex items-center w-full h-9 px-3 space-x-2 text-sm text-left transition duration-200 rounded-md font-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
+    class="flex items-center w-full px-3 text-sm text-left h-9 space-x-2 transition duration-200 rounded-md font-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
     :class="{
       'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct':
         selected == true,
