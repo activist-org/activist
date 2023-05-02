@@ -11,7 +11,7 @@
         class="container flex justify-center py-4 mx-auto max-md:flex-col md:py-8"
       >
         <div class="flex flex-col p-4 space-y-4 md:w-1/2 lg:space-y-6">
-          <h1 class="text-2xl text-center md:text-3xl lg:text-4xl md:text-left">
+          <h1 class="text-center md:text-left responsive-text-3">
             We'd love to hear from you!
           </h1>
           <p>

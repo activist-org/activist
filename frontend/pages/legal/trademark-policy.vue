@@ -4,45 +4,39 @@
       <Title>{{ title }}</Title>
     </Head>
     <div
-      class="flex flex-col items-center w-full px-6 py-6 md:py-10 lg:py-12 xl:py-16 lg:px-10 xl:px-14"
+      class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
     >
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
         src="/images/content_pages/bootstrap_icons_trademark_light.png"
-        alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+        alt="The trademark symbol - tm within a square.."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         src="/images/content_pages/bootstrap_icons_trademark_dark.png"
-        alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+        alt="The trademark symbol - tm within a square.."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div
-          class="items-center text-left space-y-2 md:space-y-4 md:items-start"
-        >
+        <div class="items-center text-left space-y-4 md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/bootstrap_icons_trademark_light.png"
-            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+            alt="The trademark symbol - tm within a square.."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/bootstrap_icons_trademark_dark.png"
-            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+            alt="The trademark symbol - tm within a square.."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1
-            class="pb-2 text-2xl font-semibold sm:text-3xl md:text-4xl sm:w-full xl:text-5xl"
-          >
-            Trademark Policy
-          </h1>
+          <h1 class="pb-2 font-semibold responsive-text-4">Trademark Policy</h1>
           <p
-            class="py-2 text-lg text-light-special-text dark:text-dark-special-text"
+            class="responsive-text-1 text-light-special-text dark:text-dark-special-text"
           >
             Last updated May 1st, 2023
           </p>
@@ -81,7 +75,7 @@
             and logos within fourteen (14) business days, your request shall be
             deemed denied.
           </p>
-          <h2 class="mb-4 text-2xl font-semibold">General guidelines</h2>
+          <h2 class="font-semibold responsive-text-2">General guidelines</h2>
           <ul class="ml-6 list-disc">
             <li>
               Only use the activist marks to accurately identify those goods or
@@ -121,7 +115,7 @@
               benefit of, activist.org.
             </li>
           </ul>
-          <h2 class="mb-4 text-2xl font-semibold">
+          <h2 class="font-semibold responsive-text-2">
             Open source project guidelines
           </h2>
           <p>
@@ -143,14 +137,16 @@
               activist.org".
             </li>
           </ul>
-          <h2 class="mb-4 text-2xl font-semibold">Social media guidelines</h2>
+          <h2 class="font-semibold responsive-text-2">
+            Social media guidelines
+          </h2>
           <ul class="ml-6 list-disc">
             <li>
               In addition, activist logos cannot be used in a way that might
               suggest affiliation with or endorsement by activist.
             </li>
           </ul>
-          <h2 class="mb-4 text-2xl font-semibold">Contact Us</h2>
+          <h2 class="font-semibold responsive-text-2">Contact Us</h2>
           <p>
             Please contact us if you have any questions, comments, or concerns
             about this Trademark Policy. We welcome feedback from our users and
@@ -203,13 +199,13 @@
           <img
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/bootstrap_icons_trademark_light.png"
-            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+            alt="The trademark symbol - tm within a square.."
             class="hidden 2xl:block h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/bootstrap_icons_trademark_dark.png"
-            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+            alt="The trademark symbol - tm within a square.."
             class="hidden 2xl:block h-72"
           />
         </div>

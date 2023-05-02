@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  color: string;
+  color?: string;
 }>();
 const localePath = useLocalePath();
 </script>

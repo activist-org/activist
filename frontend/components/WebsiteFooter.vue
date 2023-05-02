@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="responsive-px-4 responsive-py-4 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
+    class="responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
   >
     <!-- Note: Content Sections Top -->
     <div class="flex flex-col items-center justify-center space-y-5 lg:hidden">

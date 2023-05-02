@@ -13,31 +13,6 @@
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75;
   }
 
-  .main-header {
-    @apply text-2xl font-semibold sm:text-3xl md:text-4xl xl:text-5xl;
-  }
-  .responsive-px-2 {
-    @apply px-6 lg:px-8 xl:px-10;
-  }
-  .responsive-px-4 {
-    @apply px-6 lg:px-10 xl:px-14;
-  }
-  .responsive-py-2 {
-    @apply py-6 lg:py-8 xl:py-10;
-  }
-  .responsive-py-4 {
-    @apply py-6 lg:py-10 xl:py-14;
-  }
-  .responsive-h1 {
-    @apply py-2 lg:py-4 xl:py-6 text-2xl sm:text-3xl md:text-4xl xl:text-5xl;
-  }
-  .responsive-h2 {
-    @apply py-2 lg:py-4 xl:py-6 text-xl sm:text-2xl md:text-3xl xl:text-4xl;
-  }
-  .responsive-h3 {
-    @apply py-1 lg:py-2 xl:py-4 text-lg sm:text-xl md:text-2xl xl:text-3xl;
-  }
-
   .link-text {
     @apply text-light-link-text dark:text-dark-link-text hover:text-light-link-text-hover dark:hover:text-dark-link-text-hover;
   }
@@ -49,5 +24,61 @@
   .has-tooltip:hover .tooltip {
     @apply visible z-50;
   }
+
+  /* Note: for these styles the higher indexes indicate higher style parameters to match Tailwind naming criteria. */
+  .responsive-text-1 {
+    @apply text-base sm:text-lg md:text-xl xl:text-2xl;
+  }
+
+  .responsive-text-2 {
+    @apply text-lg sm:text-xl md:text-2xl xl:text-3xl;
+  }
+
+  .responsive-text-3 {
+    @apply text-xl sm:text-2xl md:text-3xl xl:text-4xl;
+  }
+
+  .responsive-text-4 {
+    @apply text-2xl sm:text-3xl md:text-4xl xl:text-5xl;
+  }
+
+  .responsive-px-1 {
+    @apply px-1 sm:px-2;
+  }
+
+  .responsive-px-2 {
+    @apply px-2 lg:px-4 xl:px-6;
+  }
+
+  .responsive-px-3 {
+    @apply px-4 lg:px-6 xl:px-8;
+  }
+
+  .responsive-px-4 {
+    @apply px-6 lg:px-8 xl:px-10;
+  }
+
+  .responsive-px-5 {
+    @apply px-6 lg:px-10 xl:px-14;
+  }
+
+  .responsive-py-1 {
+    @apply py-1 sm:py-2;
+  }
+
+  .responsive-py-2 {
+    @apply py-2 lg:py-4 xl:py-6;
+  }
+
+  .responsive-py-3 {
+    @apply py-4 lg:py-6 xl:py-8;
+  }
+
+  .responsive-py-4 {
+    @apply py-6 lg:py-8 xl:py-10;
+  }
+
+  .responsive-py-5 {
+    @apply py-6 lg:py-10 xl:py-14;
+  }
 }
-/* responsive-py-1 */

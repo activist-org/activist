@@ -4,20 +4,22 @@
       <Title>{{ title }}</Title>
     </Head>
     <div
-      class="flex flex-col responsive-py-4 responsive-px-4 text-light-text dark:text-dark-text"
+      class="flex flex-col space-y-4 responsive-py-4 responsive-px-5 text-light-text dark:text-dark-text"
     >
-      <h1 class="main-header">Supporters</h1>
+      <h1 class="font-semibold responsive-text-4">Supporters</h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
         The following is an overview of organizations and individuals that have
         supported the development of activist. Those interested in providing
-        support can read more about how they can help
+        support can read more about how they can help on the
         <NuxtLink
           :to="localePath('/supporters/join')"
           class="focus-brand link-text"
-          >here</NuxtLink
+          >become a supporter page</NuxtLink
         >.
       </p>
-      <h2 class="responsive-h2">UNLOCK Accelerator</h2>
+      <h2 class="font-semibold responsive-py-1 responsive-text-2">
+        UNLOCK Accelerator
+      </h2>
       <p>
         The following organizations have supported activist via the 2022 edition
         of the
@@ -41,10 +43,32 @@
       <div class="flex items-center justify-center">
         <SupportersGrid class="mt-6 xl:mt-8" />
       </div>
-      <h2 class="responsive-h2">Contributors</h2>
-      <h3 class="responsive-h3">Design</h3>
+      <h2 class="font-semibold responsive-py-1 responsive-text-2">
+        Contributors
+      </h2>
+      <h3 class="font-semibold responsive-text-1">Development</h3>
+      <p>
+        activist has proudly developed in the open from its inception. This
+        project would not be what it is without the support of our open-source
+        community. Thank you to all our
+        <a
+          href="https://github.com/activist-org/activist/graphs/contributors"
+          class="focus-brand link-text"
+          target="_blank"
+          >contributors on GitHub
+          <Icon
+            name="bi:box-arrow-up-right"
+            size="1em"
+            style="vertical-align: baseline"
+          /> </a
+        >! ❤
+      </p>
+      <a href="https://github.com/activist-org/activist/graphs/contributors">
+        <img src="https://contrib.rocks/image?repo=activist-org/activist" />
+      </a>
+      <h3 class="pt-4 font-semibold responsive-text-1">Design</h3>
       <p>activist has received design support from many individuals.</p>
-      <ul class="py-4 pl-4 space-y-2"></ul>
+      <!-- <ul class="py-4 pl-4 space-y-2"></ul> -->
       <p class="text-light-special-text dark:text-dark-special-text">
         Thanks to our anonymous contributors!
       </p>
