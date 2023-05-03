@@ -9,13 +9,13 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
-        src="/images/content_pages/arcticons_bike_location_light.png"
+        src="/images/content_pages/icons/arcticons_bike_location_light.png"
         alt="Drawing of a fist raised."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        src="/images/content_pages/arcticons_bike_location_dark.png"
+        src="/images/content_pages/icons/arcticons_bike_location_dark.png"
         alt="Drawing of a fist raised."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
@@ -24,13 +24,13 @@
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/arcticons_bike_location_light.png"
+            src="/images/content_pages/icons/arcticons_bike_location_light.png"
             alt="Drawing of a fist raised."
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/arcticons_bike_location_dark.png"
+            src="/images/content_pages/icons/arcticons_bike_location_dark.png"
             alt="Drawing of a fist raised."
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
           />
@@ -114,13 +114,13 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/arcticons_bike_location_light.png"
+            src="/images/content_pages/icons/arcticons_bike_location_light.png"
             alt="Drawing of a fist raised."
             class="hidden 2xl:block h-80"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/arcticons_bike_location_dark.png"
+            src="/images/content_pages/icons/arcticons_bike_location_dark.png"
             alt="Drawing of a fist raised."
             class="hidden 2xl:block h-80"
           />

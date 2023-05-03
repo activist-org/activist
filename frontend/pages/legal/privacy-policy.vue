@@ -9,13 +9,13 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
-        src="/images/content_pages/bootstrap_icons_shield_check_light.png"
+        src="/images/content_pages/icons/bootstrap_shield_check_light.png"
         alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        src="/images/content_pages/bootstrap_icons_shield_check_dark.png"
+        src="/images/content_pages/icons/bootstrap_shield_check_dark.png"
         alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
@@ -24,13 +24,13 @@
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/bootstrap_icons_shield_check_light.png"
+            src="/images/content_pages/icons/bootstrap_shield_check_light.png"
             alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/bootstrap_icons_shield_check_dark.png"
+            src="/images/content_pages/icons/bootstrap_shield_check_dark.png"
             alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
@@ -208,13 +208,13 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/bootstrap_icons_shield_check_light.png"
+            src="/images/content_pages/icons/bootstrap_shield_check_light.png"
             alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden 2xl:block h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/bootstrap_icons_shield_check_dark.png"
+            src="/images/content_pages/icons/bootstrap_shield_check_dark.png"
             alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden 2xl:block h-72"
           />

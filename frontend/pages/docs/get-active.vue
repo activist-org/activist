@@ -9,30 +9,30 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
-        src="/images/content_pages/get_active_light.png"
-        alt="Drawing of a fist raised."
-        class="h-40 mb-4 md:hidden sm:h-52"
+        src="/images/content_pages/mockups/get_active_light.png"
+        alt="Mockups that show mobile organization search and web event search on a map."
+        class="object-contain -my-20 md:hidden h-1/6"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        src="/images/content_pages/get_active_dark.png"
-        alt="Drawing of a fist raised."
-        class="h-40 mb-4 md:hidden sm:h-52"
+        src="/images/content_pages/mockups/get_active_dark.png"
+        alt="Mockups that show mobile organization search and web event search on a map."
+        class="object-contain -my-20 md:hidden h-1/6"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center text-left space-y-4 md:items-start">
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/get_active_light.png"
-            alt="Drawing of a fist raised."
-            class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
+            src="/images/content_pages/mockups/get_active_light.png"
+            alt="Mockups that show mobile organization search and web event search on a map."
+            class="hidden float-right object-contain p-4 md:block 2xl:hidden h-1/4 lg:h-2/6"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/get_active_dark.png"
-            alt="Drawing of a fist raised."
-            class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
+            src="/images/content_pages/mockups/get_active_dark.png"
+            alt="Mockups that show mobile organization search and web event search on a map."
+            class="hidden float-right object-contain p-4 md:block 2xl:hidden h-1/4 lg:h-2/6"
           />
           <h1 class="pb-2 font-semibold responsive-text-4">
             Discover and get involved
@@ -135,15 +135,15 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/get_active_light.png"
-            alt="Drawing of a fist raised."
-            class="hidden 2xl:block h-80"
+            src="/images/content_pages/mockups/get_active_light.png"
+            alt="Mockups that show mobile organization search and web event search on a map."
+            class="hidden object-contain 2xl:block h-3/4"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/get_active_dark.png"
-            alt="Drawing of a fist raised."
-            class="hidden 2xl:block h-80"
+            src="/images/content_pages/mockups/get_active_dark.png"
+            alt="Mockups that show mobile organization search and web event search on a map."
+            class="hidden object-contain 2xl:block h-3/4"
           />
         </div>
       </div>
