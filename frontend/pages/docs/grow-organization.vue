@@ -11,13 +11,13 @@
         v-if="$colorMode.value == 'light'"
         src="/images/content_pages/mockups/grow_organization_light.png"
         alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
-        class="object-contain -my-20 md:hidden h-1/6"
+        class="object-contain md:hidden h-1/6"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         src="/images/content_pages/mockups/grow_organization_dark.png"
         alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
-        class="object-contain -my-20 md:hidden h-1/6"
+        class="object-contain md:hidden h-1/6"
       />
       <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div class="items-center space-y-4 text-left md:items-start">
@@ -26,13 +26,13 @@
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/mockups/grow_organization_light.png"
             alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
-            class="hidden float-right object-contain p-4 md:block 2xl:hidden h-1/4 lg:h-2/6"
+            class="hidden float-right object-contain p-4 md:block 2xl:hidden h-1/5 lg:h-1/4"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/mockups/grow_organization_dark.png"
             alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
-            class="hidden float-right object-contain p-4 md:block 2xl:hidden h-1/4 lg:h-2/6"
+            class="hidden float-right object-contain p-4 md:block 2xl:hidden h-1/5 g:h-1/4"
           />
           <h1 class="pb-2 font-semibold responsive-text-4">
             Expand your movement
