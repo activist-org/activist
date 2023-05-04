@@ -20,6 +20,7 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 - Color mode switching
 - Localization switching with routing applied to links
 - Landing page elements are reactive to screen sizes
+- Image popup to get a better view of the images
 
 ### 🎨 Design
 
