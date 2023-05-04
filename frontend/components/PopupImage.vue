@@ -1,7 +1,7 @@
 <template>
     <div
     id="popup" 
-    class="fixed hidden flex flex-col top-0 items-center w-full h-screen z-10 overflow-hidden bg-white/85 dark:bg-black/85">
+    class="fixed hidden flex flex-col top-0 items-center w-full h-screen z-10 overflow-hidden bg-light-popup dark:bg-dark-popup">
         <div id="popup-header" class="flex flex-row items-end w-full justify-end">
         </div>
         <div class="w-4/5 flex p-4 flex-col justify-center items-center">
