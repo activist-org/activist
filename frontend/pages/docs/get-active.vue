@@ -27,14 +27,14 @@
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/mockups/get_active_light.png"
             alt="Mockups that show mobile organization search and web event search on a map."
-            class="hidden float-right object-contain p-4 aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
+            class="hidden float-right object-contain p-4 aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4 cursor-pointer"
             v-on:click="togglePopup"
             />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/mockups/get_active_dark.png"
             alt="Mockups that show mobile organization search and web event search on a map."
-            class="hidden float-right object-contain p-4 aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
+            class="hidden float-right object-contain p-4 aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4 cursor-pointer"
             v-on:click="togglePopup"
             />
           <h1 class="pb-2 font-semibold responsive-text-4">
@@ -140,14 +140,14 @@
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/mockups/get_active_light.png"
             alt="Mockups that show mobile organization search and web event search on a map."
-            class="hidden object-contain 2xl:block h-3/4"
+            class="hidden object-contain 2xl:block h-3/4 cursor-pointer"
             v-on:click="togglePopup"
             />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/mockups/get_active_dark.png"
             alt="Mockups that show mobile organization search and web event search on a map."
-            class="hidden object-contain 2xl:block h-3/4"
+            class="hidden object-contain 2xl:block h-3/4 cursor-pointer"
             v-on:click="togglePopup"
             />
         </div>
