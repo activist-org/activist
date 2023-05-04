@@ -6,6 +6,7 @@
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
     >
+    <PopupImage v-on:click="togglePopup"/>
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
@@ -27,12 +28,14 @@
             src="/images/content_pages/mockups/get_organized_light.png"
             alt="Mockups that show mobile resource search and web event task organization."
             class="hidden float-right object-contain p-4 aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
+            v-on:click="togglePopup"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/mockups/get_organized_dark.png"
             alt="Mockups that show mobile resource search and web event task organization."
             class="hidden float-right object-contain p-4 aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
+            v-on:click="togglePopup"
           />
           <h1 class="pb-2 font-semibold responsive-text-4">
             Tools for organizers
@@ -126,12 +129,14 @@
             src="/images/content_pages/mockups/get_organized_light.png"
             alt="Mockups that show mobile resource search and web event task organization."
             class="hidden object-contain 2xl:block h-3/4"
+            v-on:click="togglePopup"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/mockups/get_organized_dark.png"
             alt="Mockups that show mobile resource search and web event task organization."
             class="hidden object-contain 2xl:block h-3/4"
+            v-on:click="togglePopup"
           />
         </div>
       </div>
@@ -141,4 +146,44 @@
 
 <script setup>
 const title = ref("Get Organized");
+</script>
+
+<script popup_image>
+import PopupImage from '../../components/PopupImage'
+
+export default {
+  name: 'PopupImage',
+  components: {
+    PopupImage,
+  }
+}
+
+function togglePopup(event) {
+  // Style image container
+  let popup_container = document.getElementById("popup");
+
+  if (!popup_container.classList.contains("bg-set")) {
+    // Popup style light theme
+    if (localStorage.getItem("nuxt-color-mode") == "light") {
+      popup_container.classList.add("bg-set")
+      popup_container.classList.add("bg-white")
+      popup_container.classList.add("border-2")
+      popup_container.classList.add("border-light-special-text")
+    } 
+    // Popup style dark theme 
+    else {
+      popup_container.classList.add("bg-set")
+      popup_container.classList.add("bg-black")
+      popup_container.classList.add("border-2")
+      popup_container.classList.add("border-dark-special-text")
+    }
+  }
+  // Handle image
+  let image = document.getElementById("popup-image");
+  image.src = `${event.target.src}`;
+  console.log(image);
+
+  // Toggle visibility
+  popup_container.classList.toggle("hidden");
+}
 </script>
