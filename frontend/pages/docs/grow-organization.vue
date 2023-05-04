@@ -170,7 +170,6 @@ function togglePopup(event) {
   // Handle image
   let image = document.getElementById("popup-image");
   image.src = `${event.target.src}`;
-  console.log(image);
 
   // Toggle visibility
   popup_container.classList.toggle("hidden");
