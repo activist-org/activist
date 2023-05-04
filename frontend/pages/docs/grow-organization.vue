@@ -167,22 +167,6 @@ function togglePopup(event) {
   // Style image container
   let popup_container = document.getElementById("popup");
 
-  if (!popup_container.classList.contains("bg-set")) {
-    // Popup style light theme
-    if (localStorage.getItem("nuxt-color-mode") == "light") {
-      popup_container.classList.add("bg-set")
-      popup_container.classList.add("bg-white")
-      popup_container.classList.add("border-2")
-      popup_container.classList.add("border-light-special-text")
-    } 
-    // Popup style dark theme 
-    else {
-      popup_container.classList.add("bg-set")
-      popup_container.classList.add("bg-black")
-      popup_container.classList.add("border-2")
-      popup_container.classList.add("border-dark-special-text")
-    }
-  }
   // Handle image
   let image = document.getElementById("popup-image");
   image.src = `${event.target.src}`;

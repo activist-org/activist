@@ -1,5 +1,7 @@
 <template>
-    <div id="popup" class="fixed hidden flex flex-col top-10 items-center p-4 w-4/5 lg:w-3/5 z-10 rounded-lg overflow-hidden">
+    <div
+    id="popup" 
+    class="fixed hidden flex flex-col top-10 items-center p-4 w-4/5 lg:w-3/5 z-10 rounded-lg overflow-hidden bg-white dark:bg-black border-2 border-light-special-text dark:border-dark-special-text">
         <img 
         id="popup-image"
         src=""
