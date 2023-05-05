@@ -12,13 +12,13 @@
             class="relative z-0 flex items-center w-full text-sm font-medium text-left space-x-2"
           >
     <span
-      class="width-1/6 border border-red-400"
+      class="width-1/6"
       ><Icon :name="iconURL" class="flex-shrink-0 w-5 h-5"
     /></span>
     <Transition>
       <p
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-        class="width-5/6 whitespace-nowrap border border-red-400"
+        class="width-5/6 whitespace-nowrap"   
       >
         {{ $t(btnText) }}
       </p>
