@@ -6,7 +6,7 @@
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
   >
-    <div class="flex flex-col px-2 pt-2 pb-3 space-y-1">
+    <div class="flex justify-center flex-col px-2 pt-2 pb-3 space-y-1">
       <Disclosure v-slot="{ open, close }">
         <DisclosureButton
           :ref="(el) => (disclosure[0] = close)"
@@ -19,7 +19,7 @@
             <Icon
               name="bi:plus-circle"
               size="1em"
-              class="flex-shrink-0 w-5 h-5"
+              class="flex-shrink-0 w-5 h-5 text-center"
             />
             <Transition name="text">
               <p
@@ -42,31 +42,33 @@
             />
           </Transition>
         </DisclosureButton>
-        <DisclosurePanel class="space-y-1">
-          <MenuSelector
-            :selected="false"
-            iconURL="bi:calendar-check"
-            btnText="New event"
-            btnURL="/"
-          ></MenuSelector>
-          <MenuSelector
-            :selected="false"
-            iconURL="bi:person-square"
-            btnText="New organization"
-            btnURL="/"
-          ></MenuSelector>
-          <MenuSelector
-            :selected="false"
-            iconURL="bi:people-fill"
-            btnText="New group"
-            btnURL="/"
-          ></MenuSelector>
-          <MenuSelector
-            :selected="false"
-            iconURL="bi:pencil"
-            btnText="New resource"
-            btnURL="/"
-          ></MenuSelector>
+        <DisclosurePanel class="flex flex-col">
+          <div class="space-y-1 bg-light-header rounded-md p-1 dark:bg-dark-header">
+            <MenuSelector
+              :selected="false"
+              iconURL="bi:calendar-check"
+              btnText="New event"
+              btnURL="/"
+            ></MenuSelector>
+            <MenuSelector
+              :selected="false"
+              iconURL="bi:person-square"
+              btnText="New organization"
+              btnURL="/"
+            ></MenuSelector>
+            <MenuSelector
+              :selected="false"
+              iconURL="bi:people-fill"
+              btnText="New group"
+              btnURL="/"
+            ></MenuSelector>
+            <MenuSelector
+              :selected="false"
+              iconURL="bi:pencil"
+              btnText="New resource"
+              btnURL="/"
+            ></MenuSelector>
+          </div>
         </DisclosurePanel>
       </Disclosure>
       <Disclosure v-slot="{ open, close }">
@@ -104,7 +106,8 @@
             />
           </Transition>
         </DisclosureButton>
-        <DisclosurePanel class="space-y-1">
+        <DisclosurePanel class="flex flex-col">
+          <div class="space-y-1 bg-light-header rounded-md p-1 dark:bg-dark-header">
           <MenuSelector
             :selected="false"
             iconURL="bi:question-circle"
@@ -117,6 +120,7 @@
             btnText="Documentation"
             btnURL="/docs"
           ></MenuSelector>
+          </div>
         </DisclosurePanel>
       </Disclosure>
       <Disclosure v-slot="{ open, close }">
@@ -155,7 +159,8 @@
             />
           </Transition>
         </DisclosureButton>
-        <DisclosurePanel class="space-y-1">
+        <DisclosurePanel class="flex flex-col">
+          <div class="space-y-1 bg-light-header rounded-md p-1 dark:bg-dark-header">
           <MenuSelector
             :selected="false"
             iconURL="bi:person-circle"
@@ -192,6 +197,7 @@
             btnText="Sign out"
             btnURL="/"
           ></MenuSelector>
+          </div>
         </DisclosurePanel>
       </Disclosure>
     </div>

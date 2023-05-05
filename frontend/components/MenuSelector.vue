@@ -1,22 +1,29 @@
 <template>
   <NuxtLink
     :to="localePath(`${btnURL}`)"
-    class="flex items-center w-full px-3 text-sm text-left h-9 space-x-2 transition duration-200 rounded-md font-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
+    class="relative basis-full p-2 flex justify-center items-center gap-1 w-full text-sm text-left transition duration-200 rounded-md font-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
     :class="{
       'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct':
         selected == true,
       'text-light-text dark:text-dark-text': selected == false,
     }"
   >
-    <Icon :name="iconURL" class="flex-shrink-0 w-5 h-5" />
+  <div
+            class="relative z-0 flex items-center w-full text-sm font-medium text-left space-x-2"
+          >
+    <span
+      class="basis-1/6"
+      ><Icon :name="iconURL" class="flex-shrink-0 w-5 h-5"
+    /></span>
     <Transition>
       <p
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-        class="px-1"
+        class="basis-5/6 whitespace-nowrap"
       >
         {{ $t(btnText) }}
       </p>
     </Transition>
+    </div>
   </NuxtLink>
 </template>
 
