@@ -28,7 +28,7 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 ### Description
 - to ensure all icons on `Sidebar` are centered introduced css classes `basis-full justify-center gap-1` to `menuSelector`
 - wrapped the `menuSelector` icon in a span and also wrapped both the `menuSelector` icon and text in a div similar to `sidebaFooter` -> `DisclosureButton`
-- applied a basis to both the icon and text in `menuSelector`
+- applied a width to both the icon and text in `menuSelector`
 - applied similar styles to `sidebaFooter` as those in `menuSelector` list 
 
 ### Related issue
