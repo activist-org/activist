@@ -1,0 +1,23 @@
+name: ❓ Questions and everything else
+description: We'd love to hear from you!
+body:
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Terms
+      options:
+        - label: I have searched [open and closed issues](https://github.com/activist-org/activist/issues?q=is%3Aissue)
+          required: true
+        - label: I agree to follow activist's [Code of Conduct](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
+          required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Issue
+      placeholder: Ask a question, start a discussion, create an issue...
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your contribution!

@@ -1,0 +1,22 @@
+# System files
+*.log
+.DS_Store
+
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+
+# Django and Python
+__pycache__
+
+# Nuxt dev/build outputs
+.output
+.nuxt
+*.log*
+.nitro
+.cache
+.env
+dist
+
+# Node dependencies
+node_modules
