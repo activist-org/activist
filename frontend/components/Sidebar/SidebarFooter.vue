@@ -27,7 +27,7 @@
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
               >
-                {{ $t("Create test") }}
+                {{ $t("Create") }}
               </p>
             </Transition>
           </div>
