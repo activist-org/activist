@@ -1,9 +1,0 @@
-{
-  "recommendations": [
-    "Vue.volar",
-    "Vue.vscode-typescript-vue-plugin",
-    "batisteo.vscode-django",
-    "bradlc.vscode-tailwindcss",
-    "heybourn.headwind"
-  ]
-}
