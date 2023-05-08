@@ -13,13 +13,13 @@
           btnText="Organizations"
           btnURL="/"
         ></MenuSelector>
-        
-      </div>
-    </div>
-    <BigDocSelector>
+        <BigDocSelector>
           :selected="false"
           iconURL="bi:layout-text-sidebar-reverse"
           btnText="Documentation"
           btnURL="/docs"
         ></BigDocSelector>
+      </div>
+    </div>
+    
 </template>
