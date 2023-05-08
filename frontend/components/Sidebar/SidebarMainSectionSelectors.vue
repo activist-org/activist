@@ -13,12 +13,13 @@
           btnText="Organizations"
           btnURL="/"
         ></MenuSelector>
-        <MenuSelector
+        
+      </div>
+    </div>
+    <MenuSelector
           :selected="false"
           iconURL="bi:layout-text-sidebar-reverse"
           btnText="Documentation"
           btnURL="/docs"
         ></MenuSelector>
-      </div>
-    </div>
 </template>
