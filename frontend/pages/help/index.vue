@@ -10,7 +10,7 @@
         <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <h1 class="pb-2 font-semibold responsive-text-4">
-            Get help here
+            Get help
           </h1>
           <p>Frequently asked questions 
           <a href="https://activist.org/en/help/faq/" style="color:##0000EE;"><u>here</u></a> <br>
