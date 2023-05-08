@@ -15,7 +15,7 @@
           <p>
           Get active <a href="https://activist.org/en/docs/get-active/" style="color:##0000EE;"><u>here</u></a> <br>
           Get organized <a href="https://activist.org/en/docs/get-organized/" style="color:##0000EE;"><u>here</u></a> <br>
-          Grow your organization <a href="https://activist.org/en/docs/organization/" style="color:##0000EE;"><u>here</u></a> <br>
+          Grow your organization <a href="https://activist.org/en/docs/grow-organization/" style="color:##0000EE;"><u>here</u></a> <br>
           Check out our network <a href="https://activist.org/en/docs/our-network/" style="color:##0000EE;"><u>here</u></a> <br>
           See our roadmap <a href="https://activist.org/en/docs/roadmap/" style="color:##0000EE;"><u>here</u></a> <br>
           </p>
