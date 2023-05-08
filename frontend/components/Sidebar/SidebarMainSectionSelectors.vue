@@ -16,10 +16,10 @@
         
       </div>
     </div>
-    <MenuSelector
+    <BigDocSelector>
           :selected="false"
           iconURL="bi:layout-text-sidebar-reverse"
           btnText="Documentation"
           btnURL="/docs"
-        ></MenuSelector>
+        ></BigDocSelector>
 </template>
