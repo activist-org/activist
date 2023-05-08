@@ -24,7 +24,7 @@
       'text-light-text dark:text-dark-text': selected == false,
     }">
           
-          <Icon :name="bi:layout-text-sidebar-reverse" class ="flex-shrink-0 w-5 h-5">
+          <Icon :name="bi:layout-text-sidebar-reverse">
           <a href ="https://activist.org/en/docs/" style ="color:#FFFFFF">Documentation</a>
         </div>
     
