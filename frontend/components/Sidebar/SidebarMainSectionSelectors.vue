@@ -24,8 +24,8 @@
       'text-light-text dark:text-dark-text': selected == false,
     }">
           
-          <img src="bi:layout-text-sidebar-reverse" alt="Documentation">;
-          <a href ="https://activist.org/en/docs/" style ="color:#0000EE;">Documentation</a>
+          <Icon :name="bi:layout-text-sidebar-reverse" class ="flex-shrink-0 w-5 h-5">
+          <a href ="https://activist.org/en/docs/" style ="color:#FFFFFF">Documentation</a>
         </div>
     
 </template>
