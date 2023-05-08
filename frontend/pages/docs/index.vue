@@ -1,7 +1,7 @@
 <template>
   <div class="text-light-text dark:text-dark-text">
     <Head>
-      <Title>{{ help }}</Title>
+      <Title>{{ docs }}</Title>
     </Head>
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
@@ -12,8 +12,7 @@
           <h1 class="pb-2 font-semibold responsive-text-4">
             Documentation links
           </h1>
-          <p>Frequently asked questions 
-          <a href="https://activist.org/en/help/faq/" style="color:##0000EE;"><u>here</u></a> <br>
+          <p>
           Get active <a href="https://activist.org/en/docs/get-active/" style="color:##0000EE;"><u>here</u></a> <br>
           Get organized <a href="https://activist.org/en/docs/get-organized/" style="color:##0000EE;"><u>here</u></a> <br>
           Grow your organization <a href="https://activist.org/en/docs/organization/" style="color:##0000EE;"><u>here</u></a> <br>
