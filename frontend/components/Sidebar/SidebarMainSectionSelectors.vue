@@ -23,10 +23,9 @@
         selected == true,
       'text-light-text dark:text-dark-text': selected == false,
     }">
-          :selected="false"
-          iconURL="bi:layout-text-sidebar-reverse"
-          btnText="Documentation"
-          btnURL="/docs"
+          
+          <img src="bi:layout-text-sidebar-reverse" alt="Documentation">;
+          <a href ="https://activist.org/en/docs/" style ="color:#0000EE;">Documentation</a>
         </div>
     
 </template>
