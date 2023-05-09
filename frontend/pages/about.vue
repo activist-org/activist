@@ -19,8 +19,8 @@
         alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center text-left space-y-4 md:items-start">
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
@@ -34,9 +34,7 @@
             alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1 class="pb-2 font-semibold responsive-text-4">
-            About activist.org
-          </h1>
+          <h1 class="pb-2 font-bold responsive-text-4">About activist.org</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"

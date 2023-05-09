@@ -6,7 +6,7 @@
     <div
       class="flex flex-col space-y-4 responsive-py-4 responsive-px-5 text-light-text dark:text-dark-text"
     >
-      <h1 class="font-semibold responsive-text-4">Become a supporter</h1>
+      <h1 class="font-bold responsive-text-4">Become a supporter</h1>
       <p>
         activist needs support from our community in countless ways. The
         following details how organizations and individuals can help the team
@@ -16,7 +16,7 @@
           >here</NuxtLink
         >.
       </p>
-      <h2 class="font-semibold responsive-text-1">Contribute on GitHub</h2>
+      <h2 class="font-bold responsive-text-1">Contribute on GitHub</h2>
       <p>
         Visit the
         <a
@@ -32,7 +32,7 @@
         </a>
         to get involved!
       </p>
-      <h2 class="font-semibold responsive-text-1">
+      <h2 class="font-bold responsive-text-1">
         Sponsor activist's development
       </h2>
       <p>
@@ -47,7 +47,7 @@
         </a>
         to donate today. Thank you for your support!
       </p>
-      <h2 class="font-semibold responsive-text-1">
+      <h2 class="font-bold responsive-text-1">
         Share activist in your network
       </h2>
       <p>
@@ -59,7 +59,7 @@
         >
         so that we're aware and can help spread the word!
       </p>
-      <h2 class="font-semibold responsive-text-1">
+      <h2 class="font-bold responsive-text-1">
         Help activist with your skills
       </h2>
       <p>
@@ -70,7 +70,7 @@
           >supporters page</NuxtLink
         >.
       </p>
-      <h2 class="font-semibold responsive-text-1">Localization</h2>
+      <h2 class="font-bold responsive-text-1">Localization</h2>
       <p>
         Visit our
         <a href="" class="focus-brand link-text" target="_blank"

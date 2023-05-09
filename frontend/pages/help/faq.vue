@@ -19,8 +19,8 @@
         alt="A question mark within a square."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center text-left space-y-4 md:items-start">
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
@@ -34,7 +34,7 @@
             alt="A question mark within a square."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1 class="pb-2 font-semibold responsive-text-4">
+          <h1 class="pb-2 font-bold responsive-text-4">
             Frequently Asked Questions
           </h1>
           <div class="flex flex-row py-2 space-x-3">
@@ -60,7 +60,7 @@
               !
             </p>
           </div>
-          <p class="font-semibold responsive-text-1">
+          <p class="font-bold responsive-text-1">
             Q: What does the activist "a" mean?
           </p>
           <p class="sm:text-lg">
@@ -70,7 +70,7 @@
             value a democratic movement of power down to the people. Other
             meanings are welcome :D
           </p>
-          <p class="font-semibold responsive-text-1">
+          <p class="font-bold responsive-text-1">
             Q: How does activist plan to prevent abuse?
           </p>
           <p class="sm:text-lg">
@@ -83,7 +83,7 @@
             will only be able to participate if they're a member of an
             organization.
           </p>
-          <p class="font-semibold responsive-text-1">Q: What about privacy?</p>
+          <p class="font-bold responsive-text-1">Q: What about privacy?</p>
           <p class="sm:text-lg">
             Thank you for asking! Privacy is a major concern for the team as we
             understand that activism can be very dangerous. Working in the open
@@ -93,7 +93,7 @@
             will take longer to make sure that they're created in a way that
             keeps people safe.
           </p>
-          <p class="font-semibold responsive-text-1">
+          <p class="font-bold responsive-text-1">
             Q: What's the best way to get in touch?
           </p>
           <p class="sm:text-lg">

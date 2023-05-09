@@ -19,8 +19,8 @@
         alt="Drawing of a fist raised."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center text-left space-y-4 md:items-start">
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
@@ -34,7 +34,7 @@
             alt="Drawing of a fist raised."
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
           />
-          <h1 class="pb-2 font-semibold responsive-text-4">Roadmap</h1>
+          <h1 class="pb-2 font-bold responsive-text-4">Roadmap</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"

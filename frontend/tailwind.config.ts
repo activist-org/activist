@@ -13,6 +13,10 @@ export default <Partial<Config>>{
   plugins: [],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Red Hat Text"],
+        display: ["Red Hat Display"],
+      },
       colors: {
         "light-header": "rgba(240, 240, 235, 1)",
         "light-content": "rgba(255, 255, 255, 1)",
