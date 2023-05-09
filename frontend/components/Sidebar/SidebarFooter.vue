@@ -16,7 +16,7 @@
           @click="closeOtherMenus(0)"
         >
           <div
-            class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
+            class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-medium text-left space-x-2"
           >
             <Icon
               name="bi:plus-circle"
@@ -82,7 +82,7 @@
           @click="closeOtherMenus(1)"
         >
           <div
-            class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
+            class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-medium text-left space-x-2"
           >
             <Icon
               name="bi:info-circle"
@@ -136,7 +136,7 @@
           @click="closeOtherMenus(2)"
         >
           <div
-            class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left"
+            class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-medium text-left space-x-2"
           >
             <Icon
               name="bi:person-circle"

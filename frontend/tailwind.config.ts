@@ -37,7 +37,7 @@ export default <Partial<Config>>{
         "light-learn-blue": "rgba(0, 109, 170, 1)",
         "light-accepted-green": "rgba(106, 168, 79, 1)",
         "light-pending-yellow": "rgba(241, 194, 50, 1)",
-        "light-popup": "rgba(255, 255, 255, 0.85)",
+        "light-popup": "rgba(255, 255, 255, 0.90)",
 
         "dark-header": "rgba(22, 27, 34, 1)",
         "dark-content": "rgba(6, 8, 15, 1)",
@@ -62,7 +62,7 @@ export default <Partial<Config>>{
         "dark-learn-blue": "rgba(109, 158, 235, 1)",
         "dark-accepted-green": "rgba(182, 215, 168, 1)",
         "dark-pending-yellow": "rgba(255, 217, 102, 1)",
-        "dark-popup": "rgba(0, 0, 0, 0.85)",
+        "dark-popup": "rgba(6, 8, 15, 0.90)",
       },
     },
   },
