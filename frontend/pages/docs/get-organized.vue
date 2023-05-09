@@ -20,21 +20,21 @@
         alt="Mockups that show mobile resource search and web event task organization."
         class="w-full md:hidden h-1/6"
       />
-      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center space-y-4 text-left md:items-start">
+      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center text-left space-y-4 md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/mockups/get_organized_light.png"
             alt="Mockups that show mobile resource search and web event task organization."
-            class="hidden float-right object-contain p-4 aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4 cursor-pointer"
+            class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
             v-on:click="togglePopup"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/mockups/get_organized_dark.png"
             alt="Mockups that show mobile resource search and web event task organization."
-            class="hidden float-right object-contain p-4 aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4 cursor-pointer"
+            class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
             v-on:click="togglePopup"
           />
           <h1 class="pb-2 font-semibold responsive-text-4">
@@ -128,14 +128,14 @@
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/mockups/get_organized_light.png"
             alt="Mockups that show mobile resource search and web event task organization."
-            class="hidden object-contain 2xl:block h-3/4 cursor-pointer"
+            class="hidden object-contain cursor-pointer 2xl:block h-3/4"
             v-on:click="togglePopup"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/mockups/get_organized_dark.png"
             alt="Mockups that show mobile resource search and web event task organization."
-            class="hidden object-contain 2xl:block h-3/4 cursor-pointer"
+            class="hidden object-contain cursor-pointer 2xl:block h-3/4"
             v-on:click="togglePopup"
           />
         </div>

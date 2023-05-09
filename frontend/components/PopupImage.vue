@@ -1,10 +1,10 @@
 <template>
     <div
     id="popup" 
-    class="fixed hidden flex flex-col top-0 items-center w-full h-screen z-10 overflow-hidden bg-light-popup dark:bg-dark-popup cursor-pointer">
-        <div id="popup-header" class="flex flex-row items-end w-full justify-end">
+    class="fixed top-0 z-10 flex flex-col items-center hidden w-full h-screen overflow-hidden cursor-pointer bg-light-popup dark:bg-dark-popup">
+        <div id="popup-header" class="flex flex-row items-end justify-end w-full">
         </div>
-        <div class="w-4/5 flex p-4 flex-col justify-center items-center">
+        <div class="flex flex-col items-center justify-center w-4/5 p-4">
             
             <Icon 
             name="bi:x-circle-fill" 
@@ -13,7 +13,7 @@
             id="popup-image"
             src=""
             alt="Mockups that show mobile organization search and web event search on a map." 
-            class="p-4 object-contain"
+            class="object-contain p-4"
             />
         </div>
     </div>
