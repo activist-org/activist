@@ -7,14 +7,17 @@
       <input
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="input"
-        class="w-16 h-5 bg-transparent outline-none"
+        class="w-16 focus:w-5/6 h-5 bg-transparent outline-none"
         type="text"
         placeholder="Search"
+        @focus="onFocus"
+        @blur="onFocusLost"
       />
     </Transition>
     <Transition name="shortcuts">
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+        ref="hotkeyIndicators"
         class="flex space-x-1"
       >
         <div
@@ -57,6 +60,7 @@ import { useMagicKeys, whenever } from "@vueuse/core";
 import { ref } from "vue";
 const sidebar = useSidebar();
 const input = ref();
+const hotkeyIndicators = ref();
 const keys = useMagicKeys();
 
 whenever(keys.slash, () => {
@@ -68,6 +72,13 @@ whenever(keys.slash, () => {
     sidebar.collapsedSwitch = false;
   }
 });
+
+const onFocus = () => {
+  hotkeyIndicators.value.classList.add("hide");
+};
+const onFocusLost = () => {
+  hotkeyIndicators.value.classList.remove("hide");
+};
 </script>
 
 <style>
@@ -98,5 +109,9 @@ whenever(keys.slash, () => {
 .shortcuts-enter-from,
 .shortcuts-leave-to {
   opacity: 0;
+}
+
+.hide {
+  display: none;
 }
 </style>
