@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden">
+  <div class="overflow-hidden bg-light-content dark:bg-dark-content">
     <Head>
       <Title>{{ title }}</Title>
     </Head>

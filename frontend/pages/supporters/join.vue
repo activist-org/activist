@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div
+    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+  >
     <Head>
       <Title>{{ title }}</Title>
     </Head>
-    <div
-      class="flex flex-col space-y-4 responsive-py-4 responsive-px-5 text-light-text dark:text-dark-text"
-    >
+    <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
       <h1 class="font-bold responsive-text-4">Become a supporter</h1>
       <p>
         activist needs support from our community in countless ways. The

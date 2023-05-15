@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div
+    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+  >
     <Head>
       <Title>{{ title }}</Title>
     </Head>
-    <div
-      class="flex flex-col space-y-4 responsive-py-4 responsive-px-5 text-light-text dark:text-dark-text"
-    >
+    <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
       <h1 class="font-bold responsive-text-4">Supporters</h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
         The following is an overview of organizations and individuals that have
