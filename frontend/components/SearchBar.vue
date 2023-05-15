@@ -7,7 +7,7 @@
       <input
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="input"
-        class="w-16 focus:w-5/6 h-5 bg-transparent outline-none"
+        class="w-16 h-5 bg-transparent outline-none focus:w-5/6"
         type="text"
         placeholder="Search"
         @focus="onFocus"

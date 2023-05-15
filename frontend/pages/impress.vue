@@ -19,8 +19,8 @@
         alt="Drawing of a fist raised."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
-      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center space-y-4 text-left md:items-start">
+      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center text-left space-y-4 md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"

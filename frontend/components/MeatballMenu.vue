@@ -5,7 +5,7 @@
     v-slot="{ open, close }"
   >
     <MenuButton
-      class="justify-center rounded-md select-none text-light-text dark:text-dark-text active:text-light-cta-orange active:dark:text-dark-cta-orange focus-brand"
+      class="justify-center select-none rounded-md text-light-text dark:text-dark-text active:text-light-cta-orange active:dark:text-dark-cta-orange focus-brand"
     >
       <div>
         <Icon name="bi:three-dots-vertical" size="1.5em" />
@@ -14,16 +14,16 @@
 
     <transition
       enter-active-class="transition duration-100 ease-out"
-      enter-from-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100"
+      enter-from-class="opacity-0 transform scale-95"
+      enter-to-class="opacity-100 transform scale-100"
       leave-active-class="transition duration-75 ease-in"
-      leave-from-class="transform scale-100 opacity-100"
-      leave-to-class="transform scale-95 opacity-0"
+      leave-from-class="opacity-100 transform scale-100"
+      leave-to-class="opacity-0 transform scale-95"
     >
       <MenuItems
-        class="absolute right-0 mt-2 origin-top-right border rounded-md shadow-lg bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text overflow-clip"
+        class="absolute right-0 mt-2 border shadow-lg origin-top-right rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text overflow-clip"
       >
-        <div class="grid w-full mx-auto divide-y grid-row-2">
+        <div class="w-full mx-auto grid divide-y grid-row-2">
           <button
             @click="toggleThemeVisible"
             :class="[
@@ -34,7 +34,7 @@
             ]"
           >
             <div
-              class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-semibold text-left"
+              class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-semibold text-left space-x-2"
             >
               <Icon
                 v-if="$colorMode.preference == 'system'"
@@ -107,7 +107,7 @@
             ]"
           >
             <div
-              class="relative z-0 flex items-center w-full px-3 py-2 space-x-2 text-sm font-semibold text-left"
+              class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-semibold text-left space-x-2"
             >
               <Icon name="bi:globe" />
               <p class="uppercase">{{ $i18n.locale }}</p>
