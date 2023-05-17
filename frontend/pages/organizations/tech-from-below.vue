@@ -6,21 +6,26 @@
       <Title>{{ title }}</Title>
     </Head>
     <h1
-      class="p-4 pl-56 transition-all duration-500 text-light-text dark:text-dark-text"
+      class="p-4 pl-56 transition-all duration-500 responsive-text-4 text-light-text dark:text-dark-text"
       :class="{
         'pl-56': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
-      This will be a home page
+      tech from below
     </h1>
     <div
-      class="pr-2 sm:pr-8"
+      class="pr-2 space-y-2 sm:pr-8"
       :class="{
         'pl-56': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
+      <CardsAbout
+        name="tech from below"
+        description="We're a Berlin based social tech meetup..."
+        aboutType="organization"
+      ></CardsAbout>
       <CardsSearchResult
         name="Search result"
         description="Description of the search result"
