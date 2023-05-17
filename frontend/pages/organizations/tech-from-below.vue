@@ -32,6 +32,13 @@
         searchResultType="organization"
         :private="false"
       ></CardsSearchResult>
+      <CardsConnect
+        twitter="tfb@twitter"
+        email="tfb@email"
+        facebook="tfb@fb"
+        instagram="tfb@instagram"
+        :showAddMoreBtn="true"
+      ></CardsConnect>
     </div>
   </div>
 </template>
