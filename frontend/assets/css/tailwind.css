@@ -28,7 +28,7 @@
   }
 
   .card-style {
-    @apply p-1 sm:p-2 bg-light-content dark:bg-dark-content border-light-section-div dark:border-dark-section-div rounded-sm sm:rounded-md;
+    @apply p-1 sm:p-2 bg-light-content dark:bg-dark-content border-[1px] border-light-section-div dark:border-dark-section-div rounded-sm sm:rounded-2xl;
   }
 
   /* Note: for these styles the higher indexes indicate higher style parameters to match Tailwind naming criteria. */
