@@ -14,6 +14,7 @@
     >
       This will be a home page
     </h1>
+    
   </div>
 </template>
 
