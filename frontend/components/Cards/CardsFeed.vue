@@ -1,7 +1,7 @@
 <template>
-  <div class="rounded-md bg-light-header w-1/4">
+  <div class="rounded-md bg-light-header">
     <div class="px-2 py-2 sm:px-5 sm:py-5">
-      <div class="flex items-center justify-start gap-1 w-full border mb-3">
+      <div class="flex items-center justify-start gap-1 w-full mb-3">
         <Icon v-if="iconName" :name="iconName" />
         <h1 class="text-xl font-bold">{{ title }}</h1>
       </div>

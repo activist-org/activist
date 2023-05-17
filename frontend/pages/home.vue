@@ -33,6 +33,7 @@
       iconName="bi:globe"
       >
       </CardsFeed>
+      <CardsGetInvolved/>
     </div>
   </div>
 </template>
