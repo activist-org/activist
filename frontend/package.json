@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "nuxt-mail": "^3.1.23",
-    "pinia": "^2.0.30"
+    "pinia": "^2.0.30",
+    "swiper": "^9.3.2",
+    "vue-awesome-swiper": "^5.0.1"
   }
 }

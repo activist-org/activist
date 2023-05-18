@@ -43,6 +43,9 @@
       ></CardsConnect>
     </div>
   </div>
+  <div class="w-2/5 float-right m-10">
+  <Carousel></Carousel>
+</div>
 </template>
 
 <script setup lang="ts">
