@@ -35,11 +35,13 @@
         :organization="organization"
       ></CardsSearchResult>
       <CardsConnect
-        twitter="tfb@twitter"
-        email="tfb@email"
-        facebook="tfb@fb"
-        instagram="tfb@instagram"
-        :showAddMoreBtn="true"
+        :socialLinks="[
+          'tfb@twitter',
+          'tfb@email',
+          'tfb@facebook',
+          'tfb@instagram',
+        ]"
+        :userIsAdmin="true"
       ></CardsConnect>
     </div>
   </div>

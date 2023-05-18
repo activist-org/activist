@@ -41,12 +41,12 @@
           'w-6': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <IconsActivist
+        <IconActivist
           class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-[1.3em] h-8 z-1 overflow-clip"
           color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-special-text-over-header hover:dark:fill-dark-special-text-over-header"
         />
         <Transition>
-          <LogosActivist
+          <LogoActivist
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "

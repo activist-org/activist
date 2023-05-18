@@ -128,7 +128,6 @@
                 :key="locale.code"
                 :to="switchLocalePath(locale.code)"
               >
-                <!-- <button @click="close"> -->
                 <li
                   @click="
                     toggleLocaleVisible();
@@ -138,7 +137,6 @@
                 >
                   {{ locale.name }}
                 </li>
-                <!-- </button> -->
               </NuxtLink>
             </ul>
           </MenuItem>

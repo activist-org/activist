@@ -67,6 +67,12 @@ export default <Partial<Config>>{
         "dark-accepted-green": "rgba(182, 215, 168, 1)",
         "dark-pending-yellow": "rgba(255, 217, 102, 1)",
         "dark-popup": "rgba(6, 8, 15, 0.90)",
+
+        "social-email": "rgba(219, 68, 55, 1)",
+        "social-mastodon": "rgba(68, 58, 204, 1)",
+        "social-twitter": "rgba(29, 161, 242, 1)",
+        "social-facebook": "rgba(66, 103, 178, 1)",
+        "social-instagram": "rgba(129, 52, 175, 1)",
       },
     },
   },
