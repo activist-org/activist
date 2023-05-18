@@ -27,6 +27,12 @@
         searchResultType="organization"
         :private="false"
       ></CardsSearchResult>
+      <CardsFeed
+        title="Group Name"
+        description="Lorem ipsum dolor sit, amet consectetur adipisicing elit."
+        iconName="bi:globe"
+      ></CardsFeed>
+      <CardsGetInvolved/>
       <div class="w-24 h-24">
         <IconEvent eventType="learn"></IconEvent>
       </div>
