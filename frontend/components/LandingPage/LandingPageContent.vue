@@ -148,7 +148,7 @@
         />
       </div>
       <div>
-        <SupportersGrid class="mt-6 xl:mt-8" />
+        <GridSupporters class="mt-6 xl:mt-8" />
       </div>
       <p
         class="pt-8 mx-12 text-center md:max-w-md lg:max-w-lg xl:pt-12 text-light-special-text dark:text-dark-special-text"

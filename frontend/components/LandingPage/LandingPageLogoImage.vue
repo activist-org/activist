@@ -7,17 +7,17 @@
         class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
       >
         <div v-if="imageName == 'WikimediaDE'">
-          <LogosWikimediaDE
+          <LogoWikimediaDE
             class="scale-[0.24] lg:scale-[0.3] group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
         </div>
         <div v-if="imageName == 'WikimediaRS'">
-          <LogosWikimediaRS
+          <LogoWikimediaRS
             class="scale-[0.36] lg:scale-[0.45] group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
         </div>
         <div v-if="imageName == 'ImpactHub'">
-          <LogosImpactHub
+          <LogoImpactHub
             class="rounded-md lg:rounded-lg scale-[1.68] lg:scale-[2.1] group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
         </div>
