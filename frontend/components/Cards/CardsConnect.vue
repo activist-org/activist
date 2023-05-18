@@ -1,74 +1,97 @@
 <template>
   <div class="py-5 card-style px-7">
     <div class="flex items-center gap-5">
-      <div class="text-[38px] font-bold text-left font-display">Connect</div>
+      <div class="responsive-text-2 text-left font-display">Connect</div>
       <div
         class="p-1 break-all transition-all rounded-lg cursor-pointer hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
       >
-        <Icon name="bi:pencil-square" size="1.2em" />
+        <Icon
+          v-if="userIsAdmin && !editModeEnabled"
+          @click="toggleEditMode"
+          name="bi:pencil-square"
+          size="1.2em"
+        />
+        <Icon
+          v-else-if="userIsAdmin && editModeEnabled"
+          @click="toggleEditMode"
+          name="bi:x-lg"
+          size="1.2em"
+        />
       </div>
     </div>
-    <div
+    <ul
       class="flex flex-col items-start gap-2 my-3 md:flex-row md:items-center md:gap-6"
     >
-      <div
-        v-if="twitter"
-        class="flex items-center gap-3 break-all transition-all cursor-pointer hover:text-blue-400"
-      >
-        <Icon name="bi:twitter" size="1.2em" />
-        <div class="font-semibold">
-          {{ twitter }}
+      <li v-for="link in socialLinks">
+        <div
+          class="flex items-center gap-3 break-all transition-all cursor-pointer"
+          :class="{
+            'hover:text-social-email': link.includes('email'),
+            'hover:text-social-mastodon': link.includes('mastodon'),
+            'hover:text-social-twitter': link.includes('twitter'),
+            'hover:text-social-facebook': link.includes('facebook'),
+            'hover:text-social-instagram': link.includes('instagram'),
+          }"
+        >
+          <Icon
+            v-if="editModeEnabled"
+            @click="removeLinksEntry"
+            name="bi:x-lg"
+            size="1em"
+          />
+          <Icon v-if="link.includes('email')" name="bi:envelope" size="1.2em" />
+          <Icon
+            v-if="link.includes('mastodon')"
+            name="bi:mastodon"
+            size="1.2em"
+          />
+          <Icon
+            v-if="link.includes('twitter')"
+            name="bi:twitter"
+            size="1.2em"
+          />
+          <Icon
+            v-if="link.includes('facebook')"
+            name="bi:facebook"
+            size="1.2em"
+          />
+          <Icon
+            v-if="link.includes('instagram')"
+            name="bi:instagram"
+            size="1.2em"
+          />
+          <div class="font-semibold">
+            {{ link }}
+          </div>
         </div>
-      </div>
-      <div
-        v-if="facebook"
-        class="flex items-center gap-3 break-all transition-all cursor-pointer hover:text-blue-600"
-      >
-        <Icon name="bi:facebook" size="1.2em" />
-        <div class="font-semibold">
-          {{ facebook }}
-        </div>
-      </div>
-      <div
-        v-if="email"
-        class="flex items-center gap-3 break-all transition-all cursor-pointer hover:text-red-500"
-      >
-        <Icon name="bi:envelope" size="1.2em" />
-        <div class="font-semibold">
-          {{ email }}
-        </div>
-      </div>
-      <div
-        v-if="instagram"
-        class="flex items-center gap-3 break-all transition-all cursor-pointer hover:text-purple-500"
-      >
-        <Icon name="bi:instagram" size="1.2em" />
-        <div class="font-semibold">
-          {{ instagram }}
-        </div>
-      </div>
-      <div v-if="showAddMoreBtn">
+      </li>
+      <div v-if="editModeEnabled">
         <!--TODO: Update this to use the LabeledBtn component once it supports prepended icons.-->
         <div
           @click="emit('on-new-account')"
-          class="flex items-center gap-1 px-4 py-1 font-semibold text-white break-all rounded-md cursor-pointer text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange"
+          class="flex items-center gap-1 px-4 py-1 font-semibold text-white break-all rounded-md cursor-pointer text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange select-none focus-brand"
         >
           <Icon name="bi:plus" size="1.5em" />
           New account
         </div>
       </div>
-    </div>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  twitter?: string;
-  email?: string;
-  facebook?: string;
-  instagram?: string;
-  showAddMoreBtn?: boolean;
+const props = defineProps<{
+  socialLinks: Array<string>;
+  userIsAdmin?: boolean;
 }>();
+
+const editModeEnabled = ref(false);
+
+const toggleEditMode = () => {
+  editModeEnabled.value = !editModeEnabled.value;
+};
+
+const removeLinksEntry = (link: string) => {};
 
 const emit = defineEmits(["on-new-account"]);
 </script>

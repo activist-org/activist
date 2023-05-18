@@ -12,7 +12,7 @@
     <div class="flex py-2 md:hidden">
       <div class="z-0 flex justify-center mx-auto">
         <div class="relative z-0 w-24 h-6">
-          <LogosActivist
+          <LogoActivist
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
           />
         </div>
@@ -26,7 +26,7 @@
       <div class="flex items-center justify-between responsive-px-5">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
-            <LogosActivist
+            <LogoActivist
               class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
             />
           </div>
