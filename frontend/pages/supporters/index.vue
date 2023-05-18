@@ -41,7 +41,7 @@
         accessible and inclusive for everyone.
       </p>
       <div class="flex items-center justify-center">
-        <SupportersGrid class="mt-6 xl:mt-8" />
+        <GridSupporters class="mt-6 xl:mt-8" />
       </div>
       <h2 class="font-bold responsive-py-1 responsive-text-2">Contributors</h2>
       <h3 class="font-bold responsive-text-1">Development</h3>
