@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 pt-2 pb-3 space-y-2 shadow-md card-style bg-light-header dark:bg-dark-header w-fit shadow-zinc-700"
+    class="flex flex-col px-4 pt-2 pb-3 shadow-md space-y-2 card-style bg-light-header dark:bg-dark-header w-fit shadow-zinc-700"
   >
     <div class="relative flex">
       <p class="pl-1 responsive-text-0">{{ title }}</p>
@@ -25,7 +25,7 @@
       class="p-1 bg-transparent border rounded-sm resize-none border-light-text dark:border-dark-text focus-brand min-w-[75%] min-h-[50%]"
     ></textarea>
     <div
-      class="flex items-center gap-1 px-4 py-1 font-semibold text-white break-all rounded-md cursor-pointer select-none text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange focus-brand w-fit"
+      class="flex items-center px-4 py-1 font-semibold text-white break-all cursor-pointer select-none gap-1 rounded-md text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange focus-brand w-fit"
     >
       <Icon name="bi:plus" size="1.5em" />
       {{ ctaBtnLabel }}
