@@ -9,7 +9,7 @@
         {{ description }}
       </p>
       <div class="w-full bg-light-section-div dark:bg-dark-section-div h-40 rounded-md">
-        <img src="#" alt="" class="" />
+        <img :src="imgUrl" alt="" class="" />
       </div>
     </div>
   </div>
@@ -20,6 +20,7 @@ defineProps<{
   iconName?: string;
   title?: string;
   description?: string;
+  imgUrl?: string;
 }>();
 </script>
 

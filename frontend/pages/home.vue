@@ -32,7 +32,7 @@
         description="Lorem ipsum dolor sit, amet consectetur adipisicing elit."
         iconName="bi:globe"
       ></CardsFeed>
-      <CardsGetInvolved/>
+      <CardsGetInvolved :feeds="getInvolvedFeed" />
       <div class="w-24 h-24">
         <IconEvent eventType="learn"></IconEvent>
       </div>
@@ -42,6 +42,24 @@
 
 <script setup lang="ts">
 const title = ref("Home");
+const getInvolvedFeed = [
+  {
+    title: "Group One",
+    description: "Lorem ipsum dolor sit amet, consectetur adip",
+  },
+  {
+    title: "Group Two",
+    description: "Lorem ipsum dolor sit amet, consectetur adip",
+  },
+  {
+    title: "Group Three",
+    description: "Lorem ipsum dolor sit amet, consectetur adip",
+  },
+  {
+    title: "Group Four",
+    description: "Lorem ipsum dolor sit amet, consectetur adip",
+  },
+];
 definePageMeta({
   layout: "sidebar",
 });
