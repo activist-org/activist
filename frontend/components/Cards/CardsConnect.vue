@@ -1,9 +1,9 @@
 <template>
   <div class="py-5 card-style px-7">
     <div class="flex items-center gap-5">
-      <div class="responsive-text-2 text-left font-display">Connect</div>
+      <div class="text-left responsive-text-2 font-display">Connect</div>
       <div
-        class="p-1 break-all transition-all rounded-lg cursor-pointer hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
+        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"
@@ -20,11 +20,11 @@
       </div>
     </div>
     <ul
-      class="flex flex-col items-start gap-2 my-3 md:flex-row md:items-center md:gap-6"
+      class="flex flex-col items-start my-3 gap-2 md:flex-row md:items-center md:gap-6"
     >
       <li v-for="link in socialLinks">
         <div
-          class="flex items-center gap-3 break-all transition-all cursor-pointer"
+          class="flex items-center break-all cursor-pointer gap-3 transition-all"
           :class="{
             'hover:text-social-email': link.includes('email'),
             'hover:text-social-mastodon': link.includes('mastodon'),
@@ -69,7 +69,7 @@
         <!--TODO: Update this to use the LabeledBtn component once it supports prepended icons.-->
         <div
           @click="emit('on-new-account')"
-          class="flex items-center gap-1 px-4 py-1 font-semibold text-white break-all rounded-md cursor-pointer text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange select-none focus-brand"
+          class="flex items-center px-4 py-1 font-semibold text-white break-all cursor-pointer select-none gap-1 rounded-md text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange focus-brand"
         >
           <Icon name="bi:plus" size="1.5em" />
           New account

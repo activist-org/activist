@@ -1,13 +1,13 @@
 <template>
   <div
-    class="topic-marker w-fit h-7 p-2 py-3 flex justify-between items-center rounded-full border bg-light-cta-orange/40 text-light-cta-orange border-light-cta-orange dark:bg-dark-cta-orange/50 dark:border-dark-cta-orange dark:text-dark-cta-orange"
+    class="flex items-center justify-between p-2 py-3 border rounded-full topic-marker w-fit h-7 bg-light-cta-orange/40 text-light-cta-orange border-light-cta-orange dark:bg-dark-cta-orange/50 dark:border-dark-cta-orange dark:text-dark-cta-orange"
   >
     <Icon
       name="bi:globe"
       size="1em"
       class="flex-shrink-0 w-5 h-5 my-1 rounded-full"
     />
-    <p class="text-base text-center pl-2 font-bold">{{ topic }}</p>
+    <p class="pl-2 text-base font-bold text-center">{{ topic }}</p>
   </div>
 </template>
 
