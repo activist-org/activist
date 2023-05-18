@@ -1,6 +1,6 @@
 <template>
   <div class="rounded-md bg-light-header dark:bg-dark-header">
-    <div class="px-2 py-2 sm:px-5 sm:py-5">
+    <div class="responsive-px-2 responsive-py-2">
       <div class="flex items-center justify-start gap-1 w-full mb-3">
         <Icon v-if="iconName" :name="iconName" />
         <h1 class="responsive-text-1 font-bold">{{ title }}</h1>
