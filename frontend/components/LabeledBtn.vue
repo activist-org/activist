@@ -1,3 +1,4 @@
+
 <template>
   <a
     v-if="linkTo.includes('http')"
@@ -17,7 +18,7 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
   >
-    {{ $t(label) }}
+    {{ buttonText }}
   </a>
   <NuxtLink
     v-else
@@ -37,7 +38,7 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
   >
-    {{ $t(label) }}
+    {{ buttonText }}
   </NuxtLink>
 </template>
 
@@ -47,6 +48,10 @@ defineProps<{
   label: string;
   fontSize: string;
   linkTo: string;
+  alternateText: string; // New prop for alternate text
 }>();
 const localePath = useLocalePath();
+
+// Computed property for button text
+const buttonText = computed(() => alternateText || $t(label));
 </script>
