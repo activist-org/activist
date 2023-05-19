@@ -32,6 +32,10 @@
   }
 
   /* Note: for these styles the higher indexes indicate higher style parameters to match Tailwind naming criteria. */
+  .responsive-text-0 {
+    @apply font-display text-base md:text-lg xl:text-xl;
+  }
+
   .responsive-text-1 {
     @apply font-display text-base sm:text-lg md:text-xl xl:text-2xl;
   }

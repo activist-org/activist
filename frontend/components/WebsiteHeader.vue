@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="absolute right-0 mr-5">
-        <MeatballMenu />
+        <MenuMeatball />
       </div>
     </div>
     <!-- Note: desktop header -->
@@ -30,12 +30,12 @@
               class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
             />
           </div>
-          <RoadMapBtn label="Roadmap" linkTo="/docs/roadmap" />
+          <BtnRoadMap label="Roadmap" linkTo="/docs/roadmap" />
         </div>
         <div>
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
-            <ThemeSelector />
-            <LanguageSelector />
+            <SelectorTheme />
+            <SelectorLanguage />
             <LabeledBtn
               :cta="true"
               label="get-in-touch"
