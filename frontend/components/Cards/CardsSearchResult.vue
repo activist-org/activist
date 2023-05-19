@@ -4,10 +4,10 @@
   >
     <div class="px-1 py-1 sm:px-2 sm:py-2 flex">
       <img class="search-result-image" src="/images/tech-from-below.svg" alt="This is the alt text, please translate"/>
-      <div class="py-5 px-8">
-        <h2 class="font-bold text-3xl mb-5">{{ name }}</h2>
+      <div class="py-5 px-8 font-semibold">
+        <h2 class="font-bold responsive-text-2 mb-5">{{ name }}</h2>
         <TopicMarker class="mb-5" :topic="organization.topic"></TopicMarker>
-        <div class="flex gap-4 mb-4 text-xl" v-if="organization">
+        <div class="flex gap-4 mb-4 responsive-text-1" v-if="organization">
           <div>
             <Icon name="bi:map" class="mr-1" />
             {{  organization.location }}</div>
@@ -20,7 +20,7 @@
             {{  organization.supporters }} {{ $t('supporters') }}
           </div>
         </div>
-        <div class="text-xl">
+        <div class="responsive-text-1">
           {{ organization.description }}
         </div>
       </div>
