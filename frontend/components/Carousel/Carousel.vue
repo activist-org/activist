@@ -42,6 +42,7 @@
   height: 300px;
   justify-content: center;
   align-items: center;
+  border-radius:20px;
   font-size: 24px;
   font-weight: 700;
 }
