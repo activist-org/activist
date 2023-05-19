@@ -1,15 +1,37 @@
 <template>
-    <swiper :slides-per-view="1" :navigation="true">
+  
+    <swiper :slides-per-view="1" :navigation="false" :pagination="true">
       <swiper-slide v-for="n in 7" :key="n"> {{ n }} </swiper-slide>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+      
     </swiper>
   </template>
   
   <style scoped>
+
+  .swiper-button-prev{
+    position: absolute;
+  top: 50%;
+  left: 27%;
+}
+
+.swiper-button-next {
+  position: absolute;
+  top: 50%;
+  right: 27%;
+}
+.swiper-container {
+
+  position: relative;
+}
+
   .swiper-slide {
     display: flex;
     height: 300px;
     justify-content: center;
     align-items: center;
+    border-radius: 20px;
     width: 50% !important;
     margin: 0 25%;
     font-size: 24px;
@@ -41,11 +63,14 @@
   // Import Swiper Vue.js components
   import { Swiper } from "swiper/vue";
   import { SwiperSlide } from "swiper/vue";
-  import SwiperCore, { Navigation } from "swiper";
+  import SwiperCore, { Navigation, Pagination } from "swiper";
   // Import Swiper styles
   import "swiper/css";
   import "swiper/css/navigation";
-  SwiperCore.use([Navigation]);
+  import "swiper/css/pagination";
+
+  navigation:{}
+  SwiperCore.use([Navigation , Pagination]);
   export default {
     components: {
       Swiper,
