@@ -62,9 +62,30 @@ Further prototypes and designs are available in the [designs for activist](https
 
 activist uses [Matrix](https://matrix.org/) for communications. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi :)
 
-Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
+Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) and [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) if you are interested in contributing to activist. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
 After your first pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
+
+## Environment Setup [`⇧`](#contents)
+
+To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
+
+> **Note:** If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
+
+Then clone this repository with the below command:
+
+```bash
+git clone https://github.com/activist-org/activist.git
+```
+
+Enter the created directory and start your docker images with the following:
+
+```bash
+cd activist
+docker-compose up
+```
+
+You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
 ## Ways to Help [`⇧`](#contents)
 
@@ -89,6 +110,14 @@ The following are the current and planned technologies for [activist.org](https:
 
 - [Nuxt.js](https://nuxt.com) • [Vue.js](https://vuejs.org) • [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com)
 
+<details><summary>Frontend extensions</summary>
+<p>
+
+- Countless [Nuxt modules](https://nuxt.com/modules)
+
+</p>
+</details>
+
 ### Backend
 
 - [Django](https://www.djangoproject.com) (planned) • [PostgreSQL](https://www.postgresql.org) (planned) • [Redis](https://redis.io) (planned) • [Celery](https://docs.celeryq.dev/en/stable) (planned)
@@ -103,28 +132,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 <!-- ### Analytics
 
-- [Matomo](https://matomo.org) (planned) -->
-
-## Environment Setup [`⇧`](#contents)
-
-To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
-
-> **Note:** If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
-
-Then clone this repository with the below command:
-
-```bash
-git clone https://github.com/activist-org/activist.git
-```
-
-Enter the created directory and start your docker images with the following:
-
-```bash
-cd activist
-docker-compose up
-```
-
-You can visit <http://localhost:3000> to see the development frontend build once the container is up and running.
+- [Plausible](https://plausible.io/) (planned) -->
 
 <a id="designs"></a>
 

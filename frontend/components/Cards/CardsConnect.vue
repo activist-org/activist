@@ -69,7 +69,7 @@
         <!--TODO: Update this to use the LabeledBtn component once it supports prepended icons.-->
         <div
           @click="emit('on-new-account')"
-          class="flex items-center px-4 py-1 font-semibold text-white break-all cursor-pointer select-none gap-1 rounded-md text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange focus-brand"
+          class="flex items-center px-4 py-1 font-semibold text-white break-all cursor-pointer select-none gap-1 rounded-md text-md bg-light-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange focus-brand"
         >
           <Icon name="bi:plus" size="1.5em" />
           New account
