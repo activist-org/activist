@@ -45,13 +45,34 @@ activist uses [Tailwind CSS](https://tailwindcss.com/) for CSS styling and [Head
 
 Please note that as activist uses Tailwind, this means that `<style>` blocks are often times not used within Vue Single-File Components. `<style>` blocks should only be used in cases where including the styles within the `<template>` block would be overly complex or if Tailwind does not support a certain style parameter. The team understands that Tailwind at times can lead to very long style classes, but because of this we make use of the custom classes below to combine commonly used elements into consistent, responsive drop-in attributes.
 
-<a id="colors"></a>
-
 <a id="formatting"></a>
 
 ## Formatting [`⇧`](#contents)
 
 activist uses [Prettier](https://prettier.io/) to format the code and [Headwind](https://github.com/heybourn/headwind) to sort Tailwind CSS classes. We'll eventually set it up so that code is autoformatted within the PR flow, and generally the team isn't worried about formatting as it's done on save locally as we work.
+
+<a id="common-styles"></a>
+
+## Common styles [`⇧`](#contents)
+
+The following are custom Tailwind classes from [frontend/assets/css/tailwind.css](https://github.com/activist-org/activist/blob/main/frontend/assets/css/tailwind.css) that are consistently used within the activist frontend codes:
+
+- `focus-brand`
+
+  - Creates a custom brand styled orange ring around an element when it is focussed for both light and dark mode
+  - Should be used on all elements that the user can focus (buttons, links, dropdowns, menu items, etc)
+
+- `link-text`
+
+  - Color and hover color are defined for links for both light and dark mode
+
+- `card-style`
+
+  - Applies styles for consistent cards across activist's pages
+  - Colors are defined for light and dark mode with border width and radius also being applied
+  - Used in cases like about page sections, search results, etc
+
+<a id="colors"></a>
 
 ## Colors [`⇧`](#contents)
 
@@ -88,24 +109,3 @@ Custom responsive header classes are generally larger than their equivalents for
 ## Padding [`⇧`](#contents)
 
 There are a few custom padding classes that can be used for `px` and `py` styling as defined in [frontend/assets/css/tailwind.css](https://github.com/activist-org/activist/blob/main/frontend/assets/css/tailwind.css). Please use consistent custom padding classes to assure that elements move together at different breakpoints.
-
-<a id="common-styles"></a>
-
-## Common styles [`⇧`](#contents)
-
-The following are custom Tailwind classes from [frontend/assets/css/tailwind.css](https://github.com/activist-org/activist/blob/main/frontend/assets/css/tailwind.css) that are consistently used within the activist frontend codes:
-
-- `focus-brand`
-
-  - Creates a custom brand styled orange ring around an element when it is focussed for both light and dark mode
-  - Should be used on all elements that the user can focus (buttons, links, dropdowns, menu items, etc)
-
-- `link-text`
-
-  - Color and hover color are defined for links for both light and dark mode
-
-- `card-style`
-
-  - Applies styles for consistent cards across activist's pages
-  - Colors are defined for light and dark mode with border width and radius also being applied
-  - Used in cases like about page sections, search results, etc
