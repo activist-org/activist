@@ -31,7 +31,7 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 - `<template>` blocks should come first, `<script>` second and `<style>` last
 - [TypeScript](https://www.typescriptlang.org/) should be used where ever possible within `<script>` blocks
-  - This will be more seriously enforced as the project matures
+  - This will be more strictly enforced as the project matures
 
 <!-- <a id="typescript"></a>
 
