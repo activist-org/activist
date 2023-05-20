@@ -73,8 +73,11 @@
       <h2 class="font-bold responsive-text-1">Localization</h2>
       <p>
         Visit our
-        <a href="" class="focus-brand link-text" target="_blank"
-          >Crowdin
+        <a
+          href="https://explore.transifex.com/activist-org/activist"
+          class="focus-brand link-text"
+          target="_blank"
+          >Transifex
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"

@@ -14,7 +14,6 @@
 [![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 [![twitter](https://img.shields.io/badge/Twitter-1DA1F2.svg?logo=twitter&logoColor=ffffff)](https://twitter.com/activist_org)
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
-[![crowdin](https://img.shields.io/badge/Crowdin-30660f.svg?logo=crowdin&logoColor=ffffff)](https://crowdin.com/project/activist)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
 
 <!-- Also available on [Android](https://github.com/activist-org/activist-Android) (planned) and [iOS](https://github.com/activist-org/activist-iOS) (planned). -->
@@ -92,7 +91,7 @@ You can then visit <http://localhost:3000> to see the development frontend build
 - [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
 - Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
 - [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
-  - You can also find our public localization project [on Crowdin](https://crowdin.com/project/activist)!
+  - Please join our public localization project [on Transifex](https://explore.transifex.com/activist-org/activist)!
 - [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
 - [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
 
@@ -128,7 +127,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Localization
 
-- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Crowdin](https://crowdin.com) ([activist on Crowdin](https://crowdin.com/project/activist))
+- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Transifex](https://www.transifex.com/) ([activist on Transifex](https://explore.transifex.com/activist-org/activist))
 
 <!-- ### Analytics
 
