@@ -8,9 +8,12 @@ export default <Partial<Config>>{
     "./plugins/**/*.{js,ts}",
     "./nuxt.config.{js,ts}",
     "./app.vue",
+    "./node_modules/flowbite.{js,ts}"
   ],
   darkMode: "class",
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
   theme: {
     extend: {
       fontFamily: {

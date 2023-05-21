@@ -23,6 +23,7 @@
     "nuxt-icon": "^0.2.6"
   },
   "dependencies": {
+    "flowbite": "^1.6.5",
     "nuxt-mail": "^3.1.23",
     "pinia": "^2.0.30"
   }

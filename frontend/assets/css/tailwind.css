@@ -20,7 +20,7 @@
   }
 
   .tooltip {
-    @apply invisible absolute;
+    @apply absolute;
   }
 
   .has-tooltip:hover .tooltip {

@@ -33,14 +33,10 @@
         :private="false"
       ></CardsSearchResult>
       <CardsConnect
-        :socialLinks="[
-          'tfb@twitter',
-          'tfb@email',
-          'tfb@facebook',
-          'tfb@instagram',
-        ]"
+        :socialLinks="socialLinks"
         :userIsAdmin="true"
-      ></CardsConnect>
+        @on-new-account="account => onNewAccount(account)">
+      </CardsConnect>
     </div>
   </div>
 </template>
@@ -51,4 +47,15 @@ definePageMeta({
   layout: "sidebar",
 });
 const sidebar = useSidebar();
+const socialLinks = ref([
+          'tfb@twitter',
+          'tfb@email',
+          'tfb@facebook',
+          'tfb@instagram',
+        ]);
+
+const onNewAccount = (account: string) => {
+  socialLinks.value.push(account);
+};
+
 </script>
