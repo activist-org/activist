@@ -27,11 +27,10 @@
         aboutType="organization"
       ></CardsAbout>
       <CardsSearchResult
-        name="Search result"
+        name="tech from below"
         description="Description of the search result"
         searchResultType="organization"
         :private="false"
-        mode="organization"
         :organization="organization"
       ></CardsSearchResult>
       <CardsConnect
@@ -48,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { Organization } from '~~/types/organization';
+import { Organization } from "~~/types/organization";
 
 const title = ref("Home");
 definePageMeta({
@@ -60,18 +59,20 @@ const sidebar = useSidebar();
 
 <script lang="ts">
 const organization: Organization = {
-  members: 2,
-  supporters: 2,
-  description: 'This is the description of tech from below',
-  location: 'Berlin',
-  topic: 'Tech'
-}
+  name: "tech from below",
+  location: "Berlin",
+  description: "This is the description of tech from below",
+  topic: "Technology and Privacy",
+  members: 3,
+  supporters: 30,
+  imageURL: "/images/tech-from-below.svg",
+};
 
 export default defineComponent({
   data() {
     return {
-      organization
-    }
-  }
-})
+      organization,
+    };
+  },
+});
 </script>

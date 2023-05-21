@@ -45,7 +45,7 @@
 defineProps<{
   cta: boolean;
   label: string;
-  fontSize: string;
+  fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   linkTo: string;
 }>();
 const localePath = useLocalePath();

@@ -161,7 +161,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  contentPosition: string;
+  contentPosition: "left" | "right" | "top";
   header: string;
   tagline: string;
   text: string;

@@ -26,6 +26,17 @@
   </NuxtLink>
 </template>
 
+<script setup lang="ts">
+defineProps<{
+  selected?: boolean;
+  iconURL?: string;
+  btnText: string;
+  btnURL: string;
+}>();
+const localePath = useLocalePath();
+const sidebar = useSidebar();
+</script>
+
 <style>
 .v-enter-active {
   transition: opacity 0.25s ease;
@@ -43,14 +54,3 @@
   transition-delay: 0.25s;
 }
 </style>
-
-<script setup lang="ts">
-defineProps<{
-  selected?: boolean;
-  iconURL?: string;
-  btnText: string;
-  btnURL: string;
-}>();
-const localePath = useLocalePath();
-const sidebar = useSidebar();
-</script>
