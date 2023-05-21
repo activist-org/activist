@@ -31,6 +31,8 @@
         description="Description of the search result"
         searchResultType="organization"
         :private="false"
+        mode="organization"
+        :organization="organization"
       ></CardsSearchResult>
       <CardsConnect
         :socialLinks="[
@@ -46,9 +48,30 @@
 </template>
 
 <script setup lang="ts">
+import { Organization } from '~~/types/organization';
+
 const title = ref("Home");
 definePageMeta({
   layout: "sidebar",
 });
+
 const sidebar = useSidebar();
+</script>
+
+<script lang="ts">
+const organization: Organization = {
+  members: 2,
+  supporters: 2,
+  description: 'This is the description of tech from below',
+  location: 'Berlin',
+  topic: 'Tech'
+}
+
+export default defineComponent({
+  data() {
+    return {
+      organization
+    }
+  }
+})
 </script>
