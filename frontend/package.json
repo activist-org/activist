@@ -23,7 +23,13 @@
     "nuxt-icon": "^0.2.6"
   },
   "dependencies": {
+    "@coreui/vue": "^4.8.1",
+    "bootstrap": "^5.2.3",
+    "core.ui": "^0.0.4",
     "nuxt-mail": "^3.1.23",
-    "pinia": "^2.0.30"
+    "pinia": "^2.0.30",
+    "sass": "^1.62.1",
+    "swiper": "^9.3.2",
+    "vue-awesome-swiper": "^5.0.1"
   }
 }
