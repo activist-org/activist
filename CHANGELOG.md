@@ -26,3 +26,8 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 ### 🎨 Design
 
 - Light and dark mode colors defined and applied
+### Description
+
+- added card feed component
+
+#142
