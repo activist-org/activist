@@ -5,17 +5,17 @@
     <LandingPageLogoImage
       imageName="WikimediaDE"
       imageLink="https://www.wikimedia.de"
-      aria-label="$t(wikimedia-de-logo-label)"
+      :aria-label="$t(wikimedia-de-logo-label)"
     />
     <LandingPageLogoImage
       imageName="WikimediaRS"
       imageLink="https://wikimedia.rs"
-      aria-label="$t(wikimedia-rs-logo-label)"
+      :aria-label="$t(wikimedia-rs-logo-label)"
     />
     <LandingPageLogoImage
       imageName="ImpactHub"
       imageLink="https://belgrade.impacthub.net"
-      aria-label="$t(impacthub-belgrade-logo-label)"
+      :aria-label="$t(impacthub-belgrade-logo-label)"
     />
   </div>
 </template>
