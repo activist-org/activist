@@ -42,6 +42,8 @@ Enter the created directory and start your docker images with the following:
 ```bash
 cd activist
 docker-compose up
+# Or with new dependencies:
+# docker-compose up --build
 ```
 
 You can visit <http://localhost:3000/> to see the development build once the container is up and running.
