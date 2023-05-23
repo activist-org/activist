@@ -45,8 +45,8 @@
     </div>
   </div>
   <div class="w-2/5 float-right m-10">
-  <Carousel></Carousel>
-</div>
+    <MediaImageCarousel></MediaImageCarousel>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -58,9 +58,7 @@ definePageMeta({
 });
 
 const sidebar = useSidebar();
-</script>
 
-<script lang="ts">
 const organization: Organization = {
   name: "tech from below",
   location: "Berlin",
@@ -71,11 +69,11 @@ const organization: Organization = {
   imageURL: "/images/tech-from-below.svg",
 };
 
-export default defineComponent({
-  data() {
-    return {
-      organization,
-    };
-  },
-});
+// export default defineComponent({
+//   data() {
+//     return {
+//       organization,
+//     };
+//   },
+// });
 </script>
