@@ -1,10 +1,12 @@
 <template>
-  <div class="flex w-96 h-96 rounded-lg map border p-0 m-auto">
+  <div
+    class="w-96 h-96 map border border-light-section-div dark:border-dark-section-div rounded-sm sm:rounded-md p-0"
+  >
     <div
       id="map-div"
-      class="w-full h-full z-0 rounded-lg"
+      class="w-full h-full z-0 rounded-sm sm:rounded-md"
       ref="map"
-      alt="Map displaying a pin at the location of this organisation or event."
+      alt="Map displaying a pin at the location of this event."
     ></div>
 
     <p
@@ -23,9 +25,9 @@
 
 <script setup lang="ts">
 import { onMounted } from "@vue/runtime-core";
-import { ref } from "vue";
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { ref } from "vue";
 
 const props = defineProps<{
   addresses: Array<string>;
@@ -76,7 +78,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
 }
 
 /*
-    NOTE: Below is an exmaple of the code to use when the backend code 
+    NOTE: Below is an example of the code to use when the backend code
     is up and running, removing most of the logic from the frontend.
 
     const props = defineProps<{
@@ -119,7 +121,8 @@ onMounted(() => {
         averageLon += +longitude;
 
         if (index == props.addresses.length - 1) {
-          averageLat /= props.addresses.length; // calculate  averages for centerpoint of map
+          // Calculate  averages for centerpoint of map.
+          averageLat /= props.addresses.length;
           averageLon /= props.addresses.length;
           drawMap(averageLat, averageLon, markers);
         }

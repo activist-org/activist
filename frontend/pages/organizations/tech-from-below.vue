@@ -22,7 +22,6 @@
       }"
     >
       <CardsAbout
-        name="tech from below"
         description="We're a Berlin based social tech meetup..."
         aboutType="organization"
       ></CardsAbout>
@@ -52,11 +51,11 @@
 <script setup lang="ts">
 import { Organization } from "~~/types/organization";
 
-const title = ref("Home");
+const title = ref("tech from below");
+
 definePageMeta({
   layout: "sidebar",
 });
-
 const sidebar = useSidebar();
 
 const organization: Organization = {
