@@ -13,11 +13,12 @@ If you have questions or would like to communicate with the team, please [join u
 - [Vue and Nuxt](#vue-and-nuxt)
 - [Tailwind](#tailwind)
 - [Formatting](#formatting)
+- [Common styles](#common-styles)
 - [Colors](#colors)
 - [Font](#font)
 - [Text size](#text-size)
+- [Icons](#icons)
 - [Padding](#padding)
-- [Common styles](#common-styles)
 
 <a id="vue-and-nuxt"></a>
 
@@ -95,14 +96,18 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 
 ## Text size [`⇧`](#contents)
 
-[frontend/assets/css/tailwind.css](https://github.com/activist-org/activist/blob/main/frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind text and header sizes. The naming criteria for text classes follows Tailwind's text sizes and includes `responsive-text-xs`, `s`, `base`, `md`, `lg`, `xl`, and `2xl`.
-
-Custom responsive header classes are generally larger than their equivalents for text and further all have `font-display` applied to them. The naming criteria of responsive headers follows that of HTML headers so that the team remembers that when a `responsive-h#` tag is used that it should be applied to a coinciding `<h#>` tag for accessibility. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
+[frontend/assets/css/tailwind.css](https://github.com/activist-org/activist/blob/main/frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them. The naming criteria of these headers follows that of HTML headers so that the team remembers that when a `responsive-h#` tag is used that it should be applied to a coinciding `<h#>` tag for accessibility. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
 
 ```html
 <!-- The size and weight styles for page headers. -->
 <h1 class="font-bold responsive-h1">Page Header</h1>
 ```
+
+<a id="icons"></a>
+
+## Icons [`⇧`](#contents)
+
+activist uses [nuxt-icon](https://github.com/nuxt-modules/icon) for all icons. Icons are defined via `<Icon name="ICON_NAME">` components, with [Icônes](https://icones.js.org/) being a good place to look for [Iconify](https://iconify.design/) based files to import.
 
 <a id="padding"></a>
 
