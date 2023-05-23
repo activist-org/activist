@@ -109,7 +109,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Frontend
 
-- [Nuxt.js](https://nuxt.com) • [Vue.js](https://vuejs.org) • [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com)
+- [Nuxt.js](https://nuxt.com) • [Vue.js](https://vuejs.org) • [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com) • [OpenStreetMap](https://www.openstreetmap.org) and [Leaflet](https://leafletjs.com/)
 
 <details><summary>Frontend extensions</summary>
 <p>
