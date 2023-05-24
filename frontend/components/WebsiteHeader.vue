@@ -13,6 +13,7 @@
       <div class="z-0 flex justify-center mx-auto">
         <div class="relative z-0 w-24 h-6">
           <LogoActivist
+            :is-mobile="true"
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
           />
         </div>
