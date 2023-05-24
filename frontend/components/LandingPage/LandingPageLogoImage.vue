@@ -8,17 +8,17 @@
       >
         <div v-if="imageName == 'WikimediaDE'">
           <LogoWikimediaDE
-            class="scale-[0.24] lg:scale-[0.3] group-hover:fill-light-text dark:group-hover:fill-dark-text"
+            class="w-[200px] h-[200px] lg:w-[250px] lg:h-[250px] group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
         </div>
         <div v-if="imageName == 'WikimediaRS'">
           <LogoWikimediaRS
-            class="scale-[0.36] lg:scale-[0.45] group-hover:fill-light-text dark:group-hover:fill-dark-text"
+            class="w-[200px] h-[200px] scale-[0.7] lg:w-[250px] lg:h-[250px] group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
         </div>
         <div v-if="imageName == 'ImpactHub'">
           <LogoImpactHub
-            class="rounded-md lg:rounded-lg scale-[1.68] lg:scale-[2.1] group-hover:fill-light-text dark:group-hover:fill-dark-text"
+            class="w-[200px] h-[200px] scale-[0.7] lg:w-[250px] lg:h-[250px] rounded-md lg:rounded-lg group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
         </div>
       </div>
