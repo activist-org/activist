@@ -25,7 +25,7 @@
         description="Let's gather at Brandenburg Gate..."
         aboutType="event"
       ></CardsAbout>
-      <MediaMap :addresses="['Brandenburg Gate, Berlin']" />
+      <MediaMap :addresses="['Brandenburg Gate, Berlin']" type="act" />
     </div>
   </div>
 </template>
