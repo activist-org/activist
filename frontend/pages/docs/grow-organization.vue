@@ -39,7 +39,7 @@
             class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
             v-on:click="togglePopup"
           />
-          <h1 class="pb-2 font-bold responsive-text-4">Expand your movement</h1>
+          <h1 class="pb-2 font-bold responsive-h1">Expand your movement</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"

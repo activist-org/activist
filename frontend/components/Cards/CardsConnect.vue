@@ -1,7 +1,7 @@
 <template>
   <div class="py-5 card-style px-7">
     <div class="flex items-center gap-5">
-      <div class="text-left responsive-text-2 font-display">Connect</div>
+      <div class="text-left responsive-h3 font-display">Connect</div>
       <div
         class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
       >

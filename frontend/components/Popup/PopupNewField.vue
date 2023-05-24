@@ -3,7 +3,7 @@
     class="flex flex-col px-4 pt-2 pb-3 shadow-md space-y-2 card-style bg-light-header dark:bg-dark-header w-fit shadow-zinc-700"
   >
     <div class="relative flex">
-      <p class="pl-1 responsive-text-0">{{ title }}</p>
+      <p class="pl-1 responsive-h5">{{ title }}</p>
       <div
         class="absolute right-0 mr-1 text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text"
       >

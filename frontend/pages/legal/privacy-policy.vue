@@ -36,9 +36,9 @@
             alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1 class="pb-2 font-bold responsive-text-4">Privacy Policy</h1>
+          <h1 class="pb-2 font-bold responsive-h1">Privacy Policy</h1>
           <p
-            class="responsive-text-1 text-light-special-text dark:text-dark-special-text"
+            class="responsive-h4 text-light-special-text dark:text-dark-special-text"
           >
             Last updated May 1st, 2023
           </p>
@@ -55,7 +55,7 @@
             implemented various measures to ensure the privacy and security of
             our users. If you have any questions or concerns, please contact us.
           </p>
-          <h2 class="font-bold responsive-text-2">Information We Collect</h2>
+          <h2 class="font-bold responsive-h3">Information We Collect</h2>
           <p>
             activist.org does not collect any personal information from our
             users. We do not collect data such as names, email addresses, phone
@@ -70,7 +70,7 @@
             platform that fosters inclusivity and support for all users,
             regardless of their background.
           </p>
-          <h2 class="font-bold responsive-text-2">How We Use Information</h2>
+          <h2 class="font-bold responsive-h3">How We Use Information</h2>
           <p>
             As we do not collect personal information, we do not use any such
             information for any purpose. Our goal is to provide a platform that
@@ -84,7 +84,7 @@
             enable users to learn about and engage with important social,
             political, and environmental issues.
           </p>
-          <h2 class="font-bold responsive-text-2">
+          <h2 class="font-bold responsive-h3">
             Data Sharing and Third-Party Services
           </h2>
           <p>
@@ -100,9 +100,7 @@
             reach of activist.org while maintaining our commitment to user
             privacy and security.
           </p>
-          <h2 class="font-bold responsive-text-2">
-            Data Security and Breaches
-          </h2>
+          <h2 class="font-bold responsive-h3">Data Security and Breaches</h2>
           <p>
             We are committed to protecting the security of our platform and the
             information of our users. In the event of a data breach, we will
@@ -116,7 +114,7 @@
             security habits, such as using strong passwords and enabling
             two-factor authentication when available.
           </p>
-          <h2 class="font-bold responsive-text-2">Your Rights</h2>
+          <h2 class="font-bold responsive-h3">Your Rights</h2>
           <p>
             As we do not collect personal information, you do not need to worry
             about exercising any rights related to your personal data. However,
@@ -131,7 +129,7 @@
             and ensure that it remains a safe, inclusive, and empowering
             platform for all.
           </p>
-          <h2 class="font-bold responsive-text-2">Changes to This Policy</h2>
+          <h2 class="font-bold responsive-h3">Changes to This Policy</h2>
           <p>
             We may update this Privacy Policy from time to time. If we make
             significant changes, we will notify you through the platform or by
@@ -144,7 +142,7 @@
             Your continued use of activist.org constitutes your acceptance of
             any updates to our Privacy Policy.
           </p>
-          <h2 class="font-bold responsive-text-2">Contact Us</h2>
+          <h2 class="font-bold responsive-h3">Contact Us</h2>
           <p>
             Please contact us if you have any questions, comments, or concerns
             about this Privacy Policy or our practices. We welcome feedback from

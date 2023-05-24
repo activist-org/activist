@@ -6,7 +6,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <h1
-      class="p-4 pl-56 transition-all duration-500 responsive-text-4 text-light-text dark:text-dark-text"
+      class="p-4 pl-56 transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
       :class="{
         'pl-56': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
