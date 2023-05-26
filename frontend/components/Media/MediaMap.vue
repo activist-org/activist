@@ -64,6 +64,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
   let mapOptions = {
     center: [avgLat, avgLon],
     zoom: 13,
+    attributionControl: false,
   };
 
   let leafletMap: L.map = new L.map("map-div", mapOptions);
