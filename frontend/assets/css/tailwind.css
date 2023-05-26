@@ -20,7 +20,7 @@
   }
 
   .card-style {
-    @apply bg-light-distinct dark:bg-dark-distinct border border-light-section-div dark:border-dark-section-div rounded-sm sm:rounded-md;
+    @apply bg-light-distinct dark:bg-dark-distinct border border-light-section-div dark:border-dark-section-div rounded-md sm:rounded-lg;
   }
 
   .tooltip {

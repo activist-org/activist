@@ -58,8 +58,9 @@
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
-          /> </a
-        >! ❤
+          />
+        </a>
+        ❤
       </p>
       <a href="https://github.com/activist-org/activist/graphs/contributors">
         <img src="https://contrib.rocks/image?repo=activist-org/activist" />
