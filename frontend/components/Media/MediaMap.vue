@@ -31,6 +31,7 @@ import { ref } from "vue";
 
 const props = defineProps<{
   addresses: Array<string>;
+  type: string;
 }>();
 const localePath = useLocalePath();
 
@@ -68,12 +69,18 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
   let leafletMap: L.map = new L.map("map-div", mapOptions);
 
   let layer = new L.TileLayer(
-    "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   );
   leafletMap.addLayer(layer);
+
   markers.map((marker: Marker) => {
-    let pin = L.marker([marker.lat, marker.lon], { title: marker.address }); // add location pin to map
-    pin.addTo(leafletMap);
+    let pin = L.marker([marker.lat, marker.lon], {
+      title: marker.address,
+    });
+    pin.addTo(leafletMap); // add location pin to map
+
+    // if event type is 'act' change marker color to red using hue-rotate
+    if (props.type === "act") pin._icon.style.filter = "hue-rotate(145deg)";
   });
 }
 
@@ -101,7 +108,7 @@ onMounted(() => {
     const formattedAddress = address.replace(/ /g, "+"); // replace spaces with +
 
     const osmURL =
-      "http://nominatim.openstreetmap.org/search?q=" +
+      "https://nominatim.openstreetmap.org/search?q=" +
       formattedAddress +
       "&format=json";
 

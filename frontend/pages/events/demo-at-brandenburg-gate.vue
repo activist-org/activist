@@ -47,6 +47,7 @@
       <MediaMap
         v-if="event.inPersonLocation"
         :addresses="[event.inPersonLocation]"
+        type="act" 
       />
       <CardsGetInvolved :event="event"></CardsGetInvolved>
     </div>
