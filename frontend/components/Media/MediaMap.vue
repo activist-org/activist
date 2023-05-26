@@ -73,14 +73,42 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
   );
   leafletMap.addLayer(layer);
 
-  markers.map((marker: Marker) => {
-    let pin = L.marker([marker.lat, marker.lon], {
-      title: marker.address,
-    });
-    pin.addTo(leafletMap); // add location pin to map
+  let eventColor = "";
+  if (props.type === "act") {
+    eventColor = "#9A031E";
+  } else {
+    eventColor = "#006DAA";
+  }
 
-    // if event type is 'act' change marker color to red using hue-rotate
-    if (props.type === "act") pin._icon.style.filter = "hue-rotate(145deg)";
+  const markerHTMLStyles = `
+  background-color: ${eventColor};
+  width: 2rem;
+  height: 2rem;
+  display: block;
+  left: -1rem;
+  top: -1.5rem;
+  position: relative;
+  border-radius: 2rem 2rem 0;
+  transform: rotate(45deg);
+  border: 1px solid #D8DEE4`;
+
+  const mapIcon = L.divIcon({
+    className: "my-custom-pin",
+    iconAnchor: [0, 24],
+    labelAnchor: [-6, 0],
+    popupAnchor: [0, -36],
+    html: `<span style="${markerHTMLStyles}" />`,
+  });
+
+  markers.map((marker: Marker) => {
+    let pin = L.marker(
+      [marker.lat, marker.lon],
+      { icon: mapIcon },
+      {
+        title: marker.address,
+      }
+    );
+    pin.addTo(leafletMap); // add location pin to map
   });
 }
 

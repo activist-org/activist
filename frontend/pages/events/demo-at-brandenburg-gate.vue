@@ -47,7 +47,7 @@
       <MediaMap
         v-if="event.inPersonLocation"
         :addresses="[event.inPersonLocation]"
-        type="act" 
+        :type="event.topic"
       />
       <CardsGetInvolved :event="event"></CardsGetInvolved>
     </div>
@@ -61,7 +61,7 @@ const event: Event = {
   name: "Climate Demo at Brandenburg Gate",
   tagline: "There is no Planet B",
   organizer: "",
-  topic: "",
+  topic: "act",
   description: "",
   getInvolvedDescription:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lectus felis, faucibus cursus tincidunt ut, eleifend gravida enim. Integer sed ex nec sem fringilla elementum quis eu diam.",
