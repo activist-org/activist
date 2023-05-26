@@ -10,19 +10,20 @@
   },
   "devDependencies": {
     "@headlessui/vue": "^1.7.8",
-    "nuxt": "npm:nuxt3@latest",
     "@nuxt/content": "^2.3.0",
     "@nuxtjs/color-mode": "^3.2.0",
     "@nuxtjs/device": "^3.1.0",
     "@nuxtjs/i18n": "^8.0.0-beta.7",
-    "nuxt-icon": "^0.2.6",
     "@nuxtjs/tailwindcss": "^6.2.0",
     "@pinia/nuxt": "^0.4.6",
     "@types/node": "^18.11.18",
     "@vueuse/core": "^9.12.0",
-    "@vueuse/nuxt": "^9.12.0"
+    "@vueuse/nuxt": "^9.12.0",
+    "nuxt": "npm:nuxt3@latest",
+    "nuxt-icon": "^0.2.6"
   },
   "dependencies": {
+    "@nuxtjs/plausible": "^0.2.1",
     "@types/leaflet": "^1.9.3",
     "@vue-leaflet/vue-leaflet": "^0.9.0",
     "leaflet": "^1.9.4",
