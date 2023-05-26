@@ -2,25 +2,29 @@
   <div
     class="flex flex-col items-center w-full h-min card-style sm:items-start"
   >
-    <div class="px-1 py-1 sm:px-2 sm:py-2 flex">
-      <img
-        v-if="organization.imageURL"
-        class="search-result-image"
-        :src="organization.imageURL"
-        alt="This is the alt text, please translate"
-      />
+    <div class="p-2 sm:px-5 sm:py-3 flex items-center">
       <div
-        v-else
-        class="flex w-full justify-center items-center text-light-text dark:text-dark-text"
+        class="border h-[90%] border-light-section-div dark:border-dark-section-div rounded-lg bg-light-content"
       >
-        <Icon name="bi:people" class="w-[75%] h-[75%]" />
+        <img
+          v-if="organization.imageURL"
+          class="w-[200px] h-[200px]"
+          :src="organization.imageURL"
+          :alt="'The organization logo of ' + organization.name"
+        />
+        <div
+          v-else
+          class="flex w-full justify-center items-center text-light-text dark:text-dark-text"
+        >
+          <Icon name="bi:people" class="w-[75%] h-[75%]" />
+        </div>
       </div>
-      <div class="py-5 px-8 font-semibold">
-        <h2 class="font-bold responsive-h3 mb-5">
+      <div class="pb-1 px-6 space-y-4">
+        <h2 class="font-bold responsive-h3">
           {{ organization.name }}
         </h2>
-        <TopicMarker class="mb-5" :topic="organization.topic"></TopicMarker>
-        <div class="flex gap-4 mb-4 responsive-h4" v-if="organization">
+        <TopicMarker :topic="organization.topic"></TopicMarker>
+        <div class="flex gap-4" v-if="organization">
           <div>
             <Icon name="bi:map" class="mr-1" />
             {{ organization.location }}
@@ -34,7 +38,7 @@
             {{ organization.supporters }} {{ $t("supporters") }}
           </div>
         </div>
-        <div class="responsive-h4">
+        <div>
           {{ organization.description }}
         </div>
       </div>
@@ -51,10 +55,3 @@ defineProps<{
   organization: Organization;
 }>();
 </script>
-
-<style scoped>
-.search-result-image {
-  height: 250px;
-  width: 250px;
-}
-</style>

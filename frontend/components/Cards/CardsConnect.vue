@@ -1,7 +1,7 @@
 <template>
-  <div class="py-5 card-style px-7">
+  <div class="py-5 card-style px-6">
     <div class="flex items-center gap-5">
-      <div class="text-left responsive-h3 font-display">Connect</div>
+      <h3 class="text-left responsive-h3 font-display">Connect</h3>
       <div
         class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
       >
@@ -20,7 +20,7 @@
       </div>
     </div>
     <ul
-      class="flex flex-col items-start my-3 gap-2 md:flex-row md:items-center md:gap-6"
+      class="flex flex-col items-start mt-3 gap-2 md:flex-row md:items-center md:gap-6"
     >
       <li v-for="link in socialLinks">
         <div
@@ -41,25 +41,26 @@
           />
           <Icon v-if="link.includes('email')" name="bi:envelope" size="1.2em" />
           <Icon
-            v-if="link.includes('mastodon')"
+            v-else-if="link.includes('mastodon')"
             name="bi:mastodon"
             size="1.2em"
           />
           <Icon
-            v-if="link.includes('twitter')"
+            v-else-if="link.includes('twitter')"
             name="bi:twitter"
             size="1.2em"
           />
           <Icon
-            v-if="link.includes('facebook')"
+            v-else-if="link.includes('facebook')"
             name="bi:facebook"
             size="1.2em"
           />
           <Icon
-            v-if="link.includes('instagram')"
+            v-else-if="link.includes('instagram')"
             name="bi:instagram"
             size="1.2em"
           />
+          <Icon v-else name="bi:link-45deg" size="1.2em" />
           <div class="font-semibold">
             {{ link }}
           </div>
