@@ -47,6 +47,8 @@ defineProps<{
   label: string;
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   linkTo: string;
+  leftIcon?: string;
+  rightIcon?: string
 }>();
 const localePath = useLocalePath();
 </script>
