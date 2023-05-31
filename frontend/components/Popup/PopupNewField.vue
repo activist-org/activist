@@ -6,6 +6,7 @@
       <p class="pl-1 responsive-text-0">{{ title }}</p>
       <div
         class="absolute right-0 mr-1 text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text"
+        @click="emit('on-close-clicked')"
       >
         <Icon name="bi:x-circle-fill" class="w-6 h-6" />
       </div>
@@ -45,5 +46,5 @@ defineProps<{
 
 const inputValue = ref();
 
-const emit = defineEmits(["on-cta-clicked"]);
+const emit = defineEmits(["on-cta-clicked", "on-close-clicked"]);
 </script>

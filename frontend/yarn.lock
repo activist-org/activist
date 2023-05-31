@@ -1127,11 +1127,6 @@
     "@nuxt/kit" "^3.0.0"
     pinia ">=2.0.27"
 
-"@popperjs/core@^2.9.3":
-  version "2.11.7"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.7.tgz#ccab5c8f7dc557a52ca3288c10075c9ccd37fff7"
-  integrity sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==
-
 "@rollup/plugin-alias@^4.0.2":
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-4.0.3.tgz#571f6fb26387df91d0363905a7fd835757727ae2"
@@ -2984,14 +2979,6 @@ flat@^5.0.2:
   resolved "https://registry.yarnpkg.com/flat/-/flat-5.0.2.tgz#8ca6fe332069ffa9d324c327198c598259ceb241"
   integrity sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==
 
-flowbite@^1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/flowbite/-/flowbite-1.6.5.tgz#a0eb2f3f0cf5098f802004df635e2717efc52bbc"
-  integrity sha512-eI4h3pIRI9d7grlYq14r0A01KUtw7189sPLLx/O2i7JyPEWpbleScfYuEc48XTeNjk1xxm/JHgZkD9kjyOWAlA==
-  dependencies:
-    "@popperjs/core" "^2.9.3"
-    mini-svg-data-uri "^1.4.3"
-
 follow-redirects@^1.0.0:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
@@ -4568,11 +4555,6 @@ mimic-fn@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-4.0.0.tgz#60a90550d5cb0b239cca65d893b1a53b29871ecc"
   integrity sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==
-
-mini-svg-data-uri@^1.4.3:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/mini-svg-data-uri/-/mini-svg-data-uri-1.4.4.tgz#8ab0aabcdf8c29ad5693ca595af19dd2ead09939"
-  integrity sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==
 
 minimatch@^3.0.4, minimatch@^3.1.1:
   version "3.1.2"

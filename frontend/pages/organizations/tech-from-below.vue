@@ -35,7 +35,8 @@
       <CardsConnect
         :socialLinks="socialLinks"
         :userIsAdmin="true"
-        @on-new-account="account => onNewAccount(account)">
+        @on-new-account="account => onNewAccount(account)"
+        @on-account-removed="account => onAccountRemoved(account)">
       </CardsConnect>
     </div>
   </div>
@@ -56,6 +57,10 @@ const socialLinks = ref([
 
 const onNewAccount = (account: string) => {
   socialLinks.value.push(account);
+};
+
+const onAccountRemoved = (account: string) => {
+  socialLinks.value = socialLinks.value.filter(val => val !== account);
 };
 
 </script>
