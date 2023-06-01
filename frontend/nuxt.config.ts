@@ -2,6 +2,10 @@
 import { resolve } from 'path'
 export default defineNuxtConfig({
   ssr: false,
+  typescript: {
+    // strict: true,
+    // typeCheck: true,
+  },
   plugins: [],
   alias: {
     "@": resolve(__dirname, "./"),
