@@ -1,6 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
+  typescript: {
+    strict: true,
+    typeCheck: true,
+  },
   plugins: [],
   modules: [
     "@nuxt/content",
