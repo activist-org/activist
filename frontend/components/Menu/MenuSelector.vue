@@ -13,7 +13,7 @@
       class="relative z-0 flex items-center w-full pl-[2.25px] space-x-2 text-sm font-medium text-left"
     >
       <span class="width-1/6"
-        ><Icon :name="iconURL" class="flex-shrink-0 w-5 h-5"
+        ><Icon v-if="iconURL" :name="iconURL" class="flex-shrink-0 w-5 h-5"
       /></span>
       <Transition>
         <p
@@ -26,6 +26,18 @@
     </div>
   </NuxtLink>
 </template>
+
+<script setup lang="ts">
+defineProps<{
+  selected?: boolean;
+  iconURL?: string;
+  btnText: string;
+  btnURL: string;
+  active?: boolean;
+}>();
+const localePath = useLocalePath();
+const sidebar = useSidebar();
+</script>
 
 <style>
 .v-enter-active {
@@ -44,16 +56,3 @@
   transition-delay: 0.25s;
 }
 </style>
-
-<script setup lang="ts">
-defineProps<{
-  selected?: boolean;
-  iconURL?: string;
-  btnText: string;
-  btnURL: string;
-  active?: boolean;
-}>();
-const localePath = useLocalePath();
-const sidebar = useSidebar();
-const { locale, locales } = useI18n();
-</script>

@@ -35,6 +35,7 @@
   "contact": "Contact",
   "organization": "Organization",
   "about": "About",
+  "members": "Members",
   "supporters": "Supporters",
   "impress": "Impress",
   "theme": "Theme",
@@ -49,5 +50,9 @@
     "tasks": "Tasks",
     "discussions": "Discussions",
     "team": "Team"
-  }
+  },
+  "wikimedia-de-logo-label": "Link to the website of Wikimedia Deutschland.",
+  "wikimedia-rs-logo-label": "Link to the website of Wikimedia Serbia.",
+  "impacthub-belgrade-logo-label": "Link to the website of Impact Hub Belgrade."
+
 }

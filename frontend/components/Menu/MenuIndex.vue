@@ -3,7 +3,7 @@
     <img :src="logoUrl" :alt="name">
     <p class="text-2xl font-bold text-center">{{ name }}</p>
     <ul class="flex flex-col w-full overflow-auto">
-      <li v-if="menuType === 'organizations'" v-for="button in organizationButtons">
+      <li v-if="menuType === 'organization'" v-for="button in organizationButtons">
         <MenuSelector 
           :btn-text="button.btnText"
           :icon-u-r-l="button.iconURL"
@@ -11,7 +11,7 @@
           :active="button.active"
         ></MenuSelector>
       </li>
-      <li v-if="menuType === 'events'" v-for="button in eventButtons">
+      <li v-if="menuType === 'event'" v-for="button in eventButtons">
         <MenuSelector 
           :btn-text="button.btnText"
           :icon-u-r-l="button.iconURL"
@@ -129,7 +129,7 @@ const eventButtons: MenuSelectorType[] = [
 
 defineProps<{
   name?: string;
-  menuType?: string; // `organization`, `event`, etc
+  menuType?: "organization" | "event";
   logoUrl?: string;
 }>();
 </script>

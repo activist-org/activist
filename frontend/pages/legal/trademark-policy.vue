@@ -36,9 +36,9 @@
             alt="The trademark symbol - tm within a square.."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1 class="pb-2 font-bold responsive-text-4">Trademark Policy</h1>
+          <h1 class="pb-2 font-bold responsive-h1">Trademark Policy</h1>
           <p
-            class="responsive-text-1 text-light-special-text dark:text-dark-special-text"
+            class="responsive-h4 text-light-special-text dark:text-dark-special-text"
           >
             Last updated May 1st, 2023
           </p>
@@ -77,7 +77,7 @@
             and logos within fourteen (14) business days, your request shall be
             deemed denied.
           </p>
-          <h2 class="font-bold responsive-text-2">General guidelines</h2>
+          <h2 class="font-bold responsive-h3">General guidelines</h2>
           <ul class="ml-6 list-disc">
             <li>
               Only use the activist marks to accurately identify those goods or
@@ -117,7 +117,7 @@
               benefit of, activist.org.
             </li>
           </ul>
-          <h2 class="font-bold responsive-text-2">
+          <h2 class="font-bold responsive-h3">
             Open source project guidelines
           </h2>
           <p>
@@ -139,14 +139,14 @@
               activist.org".
             </li>
           </ul>
-          <h2 class="font-bold responsive-text-2">Social media guidelines</h2>
+          <h2 class="font-bold responsive-h3">Social media guidelines</h2>
           <ul class="ml-6 list-disc">
             <li>
               In addition, activist logos cannot be used in a way that might
               suggest affiliation with or endorsement by activist.
             </li>
           </ul>
-          <h2 class="font-bold responsive-text-2">Contact Us</h2>
+          <h2 class="font-bold responsive-h3">Contact Us</h2>
           <p>
             Please contact us if you have any questions, comments, or concerns
             about this Trademark Policy. We welcome feedback from our users and

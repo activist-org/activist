@@ -12,13 +12,14 @@
     <div class="flex py-2 md:hidden">
       <div class="z-0 flex justify-center mx-auto">
         <div class="relative z-0 w-24 h-6">
-          <LogosActivist
+          <LogoActivist
+            :is-mobile="true"
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
           />
         </div>
       </div>
       <div class="absolute right-0 mr-5">
-        <MeatballMenu />
+        <MenuMeatball />
       </div>
     </div>
     <!-- Note: desktop header -->
@@ -26,16 +27,16 @@
       <div class="flex items-center justify-between responsive-px-5">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
-            <LogosActivist
+            <LogoActivist
               class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
             />
           </div>
-          <RoadMapBtn label="Roadmap" linkTo="/docs/roadmap" />
+          <BtnRoadMap label="Roadmap" linkTo="/docs/roadmap" />
         </div>
         <div>
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
-            <ThemeSelector />
-            <LanguageSelector />
+            <SelectorTheme />
+            <SelectorLanguage />
             <LabeledBtn
               :cta="true"
               label="get-in-touch"

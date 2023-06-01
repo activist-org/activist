@@ -1,6 +1,6 @@
 # Contributing to activist.org
 
-Thank you for your consideration in contributing to activist!
+Thank you for contributing to activist!
 
 Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
@@ -10,9 +10,11 @@ If you have questions or would like to communicate with the team, please [join u
 
 <a id="contents"></a>
 
-# **Contents**
+## **Contents**
 
 - [Development environment](#dev-env)
+- [Style guide](#style-guide)
+- [Linting](#linting)
 - [Issues and projects](#issues-projects)
 - [Bug reports](#bug-reports)
 - [Feature requests](#feature-requests)
@@ -23,7 +25,7 @@ If you have questions or would like to communicate with the team, please [join u
 
 <a id="dev-env"></a>
 
-# Development environment [`⇧`](#contents)
+## Development environment [`⇧`](#contents)
 
 To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
@@ -40,15 +42,29 @@ Enter the created directory and start your docker images with the following:
 ```bash
 cd activist
 docker-compose up
+# Or with new dependencies:
+# docker-compose up --build
 ```
 
 You can visit <http://localhost:3000/> to see the development build once the container is up and running.
 
 Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
+<a id="style-guide"></a>
+
+## Style guide [`⇧`](#contents)
+
+Please see the [activist style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
+
+<a id="linting"></a>
+
+## Linting [`⇧`](#contents)
+
+For the backend [pylint-django](https://github.com/PyCQA/pylint-django) is installed via the required packages to assure that errors are reported correctly within a Django development environment.
+
 <a id="issues-projects"></a>
 
-# Issues and projects [`⇧`](#contents)
+## Issues and projects [`⇧`](#contents)
 
 The [issue tracker for activist](https://github.com/activist-org/activist/issues) is the preferred channel for [bug reports](#bug-reports), [features requests](#feature-requests) and [submitting pull requests](#pull-requests). activist also organizes related issues into [projects](https://github.com/activist-org/activist/projects).
 
@@ -56,7 +72,7 @@ Be sure to check the [`-next release-`](https://github.com/activist-org/activist
 
 <a name="bug-reports"></a>
 
-# Bug reports [`⇧`](#contents)
+## Bug reports [`⇧`](#contents)
 
 A bug is a _demonstrable problem_ that is caused by the code in the repository. Good bug reports are extremely helpful — thank you!
 
@@ -82,13 +98,13 @@ Again, thank you for your time in reporting issues!
 
 <a name="feature-requests"></a>
 
-# Feature requests [`⇧`](#contents)
+## Feature requests [`⇧`](#contents)
 
 Feature requests are more than welcome! Please take a moment to find out whether your idea fits with the scope and aims of the project. When making a suggestion, provide as much detail and context as possible, and further make clear the degree to which you would like to contribute in its development. Feature requests are marked with the [`feature`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Afeature) label in the [issues](https://github.com/activist-org/activist/issues).
 
 <a name="pull-requests"></a>
 
-# Pull requests [`⇧`](#contents)
+## Pull requests [`⇧`](#contents)
 
 Good pull requests — patches, improvements and new features — are a fantastic help. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license](https://github.com/activist-org/activist/blob/main/LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
 
@@ -140,19 +156,19 @@ Thank you in advance for your contributions!
 
 <a id="localization"></a>
 
-# Localization [`⇧`](#contents)
+## Localization [`⇧`](#contents)
 
 Those interested in contributing to localization for the app are welcome to check related issues using the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues).
 
 <a id="documentation"></a>
 
-# Documentation [`⇧`](#contents)
+## Documentation [`⇧`](#contents)
 
 Documentation is an invaluable way to contribute to coding projects as it allows others to more easily understand the project structure and contribute. Issues related to documentation are marked with the [`documentation`](https://github.com/activist-org/activist/labels/documentation) label in the [issues](https://github.com/activist-org/activist/issues).
 
 <a id="design"></a>
 
-# Design [`⇧`](#contents)
+## Design [`⇧`](#contents)
 
 The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those interest can use the [discussions](https://github.com/activist-org/activist/discussions) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 

@@ -7,18 +7,19 @@
       <input
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="input"
-        class="w-16 h-5 bg-transparent outline-none focus:w-5/6"
+        class="w-16 h-5 bg-transparent outline-none"
         type="text"
         placeholder="Search"
         @focus="onFocus"
         @blur="onFocusLost"
+        :class="{'focus:w-5/6': isInputFocused }"
       />
     </Transition>
     <Transition name="shortcuts">
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="hotkeyIndicators"
-        class="flex space-x-1"
+        class="flex space-x-1 transition-opacity transition-duration-200"
       >
         <div
           class="w-5 h-5 text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
@@ -61,6 +62,7 @@ import { ref } from "vue";
 const sidebar = useSidebar();
 const input = ref();
 const hotkeyIndicators = ref();
+const isInputFocused = ref(false)
 const keys = useMagicKeys();
 
 whenever(keys.slash, () => {
@@ -75,9 +77,17 @@ whenever(keys.slash, () => {
 
 const onFocus = () => {
   hotkeyIndicators.value.classList.add("hide");
+  setTimeout(() => {
+    isInputFocused.value = true;
+    hotkeyIndicators.value.classList.add("hidden");
+  }, 200)
 };
 const onFocusLost = () => {
-  hotkeyIndicators.value.classList.remove("hide");
+  hotkeyIndicators.value.classList.remove("hidden");
+  isInputFocused.value = false;
+  setTimeout(() => {
+    hotkeyIndicators.value.classList.remove("hide");
+  }, 200)
 };
 </script>
 
@@ -112,6 +122,6 @@ const onFocusLost = () => {
 }
 
 .hide {
-  display: none;
+  opacity: 0;
 }
 </style>

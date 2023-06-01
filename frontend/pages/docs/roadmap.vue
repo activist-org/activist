@@ -36,7 +36,7 @@
             alt="Drawing of a fist raised."
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
           />
-          <h1 class="pb-2 font-bold responsive-text-4">Roadmap</h1>
+          <h1 class="pb-2 font-bold responsive-h1">Roadmap</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"

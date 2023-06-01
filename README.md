@@ -14,7 +14,6 @@
 [![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 [![twitter](https://img.shields.io/badge/Twitter-1DA1F2.svg?logo=twitter&logoColor=ffffff)](https://twitter.com/activist_org)
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
-[![crowdin](https://img.shields.io/badge/Crowdin-30660f.svg?logo=crowdin&logoColor=ffffff)](https://crowdin.com/project/activist)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
 
 <!-- Also available on [Android](https://github.com/activist-org/activist-Android) (planned) and [iOS](https://github.com/activist-org/activist-iOS) (planned). -->
@@ -62,48 +61,9 @@ Further prototypes and designs are available in the [designs for activist](https
 
 activist uses [Matrix](https://matrix.org/) for communications. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi :)
 
-Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) if you are interested in contributing to activist. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
+Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) and [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) if you are interested in contributing to activist. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
 After your first pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
-
-## Ways to Help [`⇧`](#contents)
-
-- [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
-- Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
-- [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
-  - You can also find our public localization project [on Crowdin](https://crowdin.com/project/activist)!
-- [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
-- [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
-
-### Road Map
-
-The activist road map can be followed in the organization's [project board](https://github.com/orgs/activist-org/projects/1) where we list the most important issues along with their priority, status and an indication of which sub projects they're included in (if applicable).
-
-<a id="tech-stack"></a>
-
-## Tech Stack [`⇧`](#contents)
-
-The following are the current and planned technologies for [activist.org](https://activist.org):
-
-### Frontend
-
-- [Nuxt.js](https://nuxt.com) • [Vue.js](https://vuejs.org) • [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com)
-
-### Backend
-
-- [Django](https://www.djangoproject.com) (planned) • [PostgreSQL](https://www.postgresql.org) (planned) • [Redis](https://redis.io) (planned) • [Celery](https://docs.celeryq.dev/en/stable) (planned)
-
-### Deployment
-
-- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/) (planned)
-
-### Localization
-
-- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Crowdin](https://crowdin.com) ([activist on Crowdin](https://crowdin.com/project/activist))
-
-<!-- ### Analytics
-
-- [Matomo](https://matomo.org) (planned) -->
 
 ## Environment Setup [`⇧`](#contents)
 
@@ -122,9 +82,60 @@ Enter the created directory and start your docker images with the following:
 ```bash
 cd activist
 docker-compose up
+# Or with new dependencies:
+# docker-compose up --build
 ```
 
-You can visit <http://localhost:3000> to see the development frontend build once the container is up and running.
+You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
+
+## Ways to Help [`⇧`](#contents)
+
+- [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
+- Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
+- [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
+  - Please join our public localization project [on Transifex](https://explore.transifex.com/activist-org/activist)!
+- [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
+- [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
+
+### Road Map
+
+The activist road map can be followed in the organization's [project board](https://github.com/orgs/activist-org/projects/1) where we list the most important issues along with their priority, status and an indication of which sub projects they're included in (if applicable).
+
+<a id="tech-stack"></a>
+
+## Tech Stack [`⇧`](#contents)
+
+The following are the current and planned technologies for [activist.org](https://activist.org):
+
+### Frontend
+
+- [Nuxt.js](https://nuxt.com) • [Vue.js](https://vuejs.org) • [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com)
+
+<details><summary>Frontend tools</summary>
+<p>
+
+- Countless [Nuxt modules](https://nuxt.com/modules)
+- [OpenStreetMap](https://www.openstreetmap.org)
+- [Leaflet](https://leafletjs.com/)
+
+</p>
+</details>
+
+### Backend
+
+- [Django](https://www.djangoproject.com) (planned) • [PostgreSQL](https://www.postgresql.org) (planned) • [Redis](https://redis.io) (planned) • [Celery](https://docs.celeryq.dev/en/stable) (planned)
+
+### Deployment
+
+- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/) (planned)
+
+### Localization
+
+- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Transifex](https://www.transifex.com/) ([activist on Transifex](https://explore.transifex.com/activist-org/activist))
+
+<!-- ### Analytics
+
+- [Plausible](https://plausible.io/) (planned) -->
 
 <a id="designs"></a>
 
@@ -233,6 +244,10 @@ Another forthcoming feature, the votes section would allow events to be made in 
 
 <details open><summary><strong>activist Featured on the Web</strong></summary>
 <p>
+
+<strong>2023</strong>
+
+- [Presentation](https://docs.google.com/presentation/d/1MMCi8UoGZgDOLovEsE-jHNsPQcoQD5pQxLCI1E9Qt0Q/edit?usp=sharing) of activist at the Berlin [tech from below meetup](https://techfrombelow.de/2023-05-11/)
 
 <strong>2022</strong>
 

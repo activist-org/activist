@@ -22,8 +22,8 @@
         alt="Mockups that show mobile resource search and web event task organization."
         class="w-full md:hidden h-1/6"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center text-left space-y-4 md:items-start">
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
@@ -39,7 +39,7 @@
             class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
             v-on:click="togglePopup"
           />
-          <h1 class="pb-2 font-bold responsive-text-4">Tools for organizers</h1>
+          <h1 class="pb-2 font-bold responsive-h1">Tools for organizers</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"
@@ -149,7 +149,7 @@ const title = ref("Get Organized");
 </script>
 
 <script popup_image>
-import PopupImage from "../../components/PopupImage";
+import PopupImage from "../../components/Popup/PopupImage";
 
 export default {
   name: "PopupImage",

@@ -23,7 +23,11 @@
     "nuxt-icon": "^0.2.6"
   },
   "dependencies": {
+    "@nuxtjs/plausible": "^0.2.1",
+    "@types/leaflet": "^1.9.3",
+    "@vue-leaflet/vue-leaflet": "^0.9.0",
+    "leaflet": "^1.9.4",
     "nuxt-mail": "^3.1.23",
-    "pinia": "^2.0.30"
+    "swiper": "^9.3.2"
   }
 }

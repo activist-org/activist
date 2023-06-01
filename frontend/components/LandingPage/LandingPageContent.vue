@@ -19,11 +19,11 @@
         :alt="altText"
         class="mb-4 lg:hidden h-36 sm:h-44"
       />
-      <p
+      <h2
         class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full xl:text-4xl sm:text-left"
       >
         {{ $t(header) }}
-      </p>
+      </h2>
       <p
         class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full sm:text-left xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
       >
@@ -88,11 +88,11 @@
         :alt="altText"
         class="mb-4 lg:hidden h-36 sm:h-44"
       />
-      <p
+      <h2
         class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full sm:text-left xl:text-4xl"
       >
         {{ $t(header) }}
-      </p>
+      </h2>
       <p
         class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full sm:text-left xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
       >
@@ -116,11 +116,11 @@
     class="flex items-center justify-center pt-16 pb-10 sm:pb-16 md:pb-20 xl:py-24 text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col items-center space-y-3 xl:space-y-4">
-      <p
+      <h2
         class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full xl:text-4xl"
       >
         {{ $t(header) }}
-      </p>
+      </h2>
       <p
         class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
       >
@@ -148,7 +148,7 @@
         />
       </div>
       <div>
-        <SupportersGrid class="mt-6 xl:mt-8" />
+        <GridSupporters class="mt-6 xl:mt-8" />
       </div>
       <p
         class="pt-8 mx-12 text-center md:max-w-md lg:max-w-lg xl:pt-12 text-light-special-text dark:text-dark-special-text"
@@ -161,7 +161,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  contentPosition: string;
+  contentPosition: "left" | "right" | "top";
   header: string;
   tagline: string;
   text: string;
