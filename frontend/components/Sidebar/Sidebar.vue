@@ -9,13 +9,27 @@
     @mouseleave="sidebar.collapsed = true"
   >
     <SidebarHeader />
-    <SearchBar class="mt-2" />
-    <SidebarMainSectionSelectors class="mt-2" />
-    <MenuIndex class="mt-2" />
+    <div>
+      <SearchBar class="mt-2" />
+      <SidebarMainSectionSelectors class="mt-2" />
+      <MenuIndex
+        :menuType="route.path.includes('organizations') ? 'organizations' : 'events'"
+        :name="placeholderName"
+        :logoUrl="placeholderLogo"
+        class="mt-2"
+      />
+    </div>
     <SidebarFooter />
   </aside>
 </template>
 
 <script setup lang="ts">
 const sidebar = useSidebar();
+const route = useRoute();
+defineProps<{
+  name?: string;
+}>();
+// TODO use real name of organization / event when available from backend
+const placeholderName = "Tech from below";
+const placeholderLogo = "~/assets/tech_from_below_logo.svg";
 </script>

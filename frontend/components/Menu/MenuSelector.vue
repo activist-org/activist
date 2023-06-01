@@ -7,6 +7,7 @@
         selected == true,
       'text-light-text dark:text-dark-text': selected == false,
     }"
+    :event="active ? '' : 'click'"
   >
     <div
       class="relative z-0 flex items-center w-full pl-[2.25px] space-x-2 text-sm font-medium text-left"
@@ -17,7 +18,7 @@
       <Transition>
         <p
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          class="width-5/6 whitespace-nowrap"
+          class="width-5/6 whitespace-nowrap hover:light-menu-selection"
         >
           {{ $t(btnText) }}
         </p>
@@ -50,7 +51,9 @@ defineProps<{
   iconURL?: string;
   btnText: string;
   btnURL: string;
+  active?: boolean;
 }>();
 const localePath = useLocalePath();
 const sidebar = useSidebar();
+const { locale, locales } = useI18n();
 </script>

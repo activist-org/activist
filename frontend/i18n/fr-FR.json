@@ -1,4 +1,16 @@
 {
   "landing-header": "Où nous commençons.",
-  "get-active-header": "Soit actif"
+  "get-active-header": "Soit actif",
+  "sidebar": {
+    "about": "A propos de",
+    "events": "Evénements",
+    "groups": "Groupes",
+    "resources": "Ressources",
+    "faq": "FAQ",
+    "settings": "Paramètres",
+    "affiliates": "Affiliés",
+    "tasks": "Tâches",
+    "discussions": "Discussions",
+    "team": "L'équipe"
+  }
 }

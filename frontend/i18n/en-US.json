@@ -37,5 +37,17 @@
   "about": "About",
   "supporters": "Supporters",
   "impress": "Impress",
-  "theme": "Theme"
+  "theme": "Theme",
+  "sidebar": {
+    "about": "About",
+    "events": "Events",
+    "groups": "Groups",
+    "resources": "Resources",
+    "faq": "FAQ",
+    "settings": "Settings",
+    "affiliates": "Affiliates",
+    "tasks": "Tasks",
+    "discussions": "Discussions",
+    "team": "Team"
+  }
 }
