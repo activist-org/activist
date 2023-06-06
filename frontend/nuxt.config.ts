@@ -3,13 +3,7 @@ export default defineNuxtConfig({
   ssr: false,
   plugins: [],
   modules: [
-    "@nuxtjs/color-mode",
     "@nuxt/content",
-    "@nuxtjs/device",
-    "@nuxtjs/i18n",
-    "@nuxtjs/tailwindcss",
-    "@pinia/nuxt",
-    "@vueuse/nuxt",
     "nuxt-icon",
     [
       "nuxt-mail",
@@ -23,6 +17,13 @@ export default defineNuxtConfig({
         },
       },
     ],
+    "@nuxtjs/color-mode",
+    "@nuxtjs/device",
+    "@nuxtjs/i18n",
+    "@nuxtjs/plausible",
+    "@nuxtjs/tailwindcss",
+    "@pinia/nuxt",
+    "@vueuse/nuxt",
   ],
   imports: {
     dirs: ["./stores"],

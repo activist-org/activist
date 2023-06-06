@@ -1,47 +1,46 @@
 <template>
-  <div class="text-light-text dark:text-dark-text">
+  <div
+    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+  >
     <Head>
       <Title>{{ title }}</Title>
     </Head>
     <div
-      class="flex flex-col items-center w-full px-6 py-8 md:py-10 lg:py-12 xl:py-16 lg:px-10 xl:px-14"
+      class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
     >
+      <PopupImage v-on:click="togglePopup" />
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
-        src="/images/content_pages/grow_organization_light.png"
-        alt="Drawing of a fist raised."
-        class="h-40 mb-4 md:hidden sm:h-52"
+        src="/images/content_pages/mockups/grow_organization_light.png"
+        alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
+        class="w-full md:hidden h-1/6"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        src="/images/content_pages/grow_organization_dark.png"
-        alt="Drawing of a fist raised."
-        class="h-40 mb-4 md:hidden sm:h-52"
+        src="/images/content_pages/mockups/grow_organization_dark.png"
+        alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
+        class="w-full md:hidden h-1/6"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div
-          class="items-center text-left space-y-2 md:space-y-4 md:items-start"
-        >
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/grow_organization_light.png"
-            alt="Drawing of a fist raised."
-            class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
+            src="/images/content_pages/mockups/grow_organization_light.png"
+            alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
+            class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
+            v-on:click="togglePopup"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/grow_organization_dark.png"
-            alt="Drawing of a fist raised."
-            class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
+            src="/images/content_pages/mockups/grow_organization_dark.png"
+            alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
+            class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
+            v-on:click="togglePopup"
           />
-          <h1
-            class="pb-2 text-2xl font-semibold sm:text-3xl md:text-4xl sm:w-full xl:text-5xl"
-          >
-            Expand your movement
-          </h1>
-          <p class="flex flex-row py-2 space-x-3">
+          <h1 class="pb-2 font-bold responsive-h1">Expand your movement</h1>
+          <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"
               size="1.25em"
@@ -49,21 +48,21 @@
             />
             <p>
               See the
-            <a
-              href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=517%3A4852&t=ytDrcE8K3RrfCxM6-1"
-              class="items-center focus-brand link-text"
-              target="_blank"
-            >
-              organization designs on Figma
-              <Icon
-                name="bi:box-arrow-up-right"
-                size="1em"
-                style="vertical-align: baseline"
-              />
-            </a>
-            to learn more
+              <a
+                href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=517%3A4852&t=ytDrcE8K3RrfCxM6-1"
+                class="items-center focus-brand link-text"
+                target="_blank"
+              >
+                organization designs on Figma
+                <Icon
+                  name="bi:box-arrow-up-right"
+                  size="1em"
+                  style="vertical-align: baseline"
+                />
+              </a>
+              to learn more
             </p>
-          </p>
+          </div>
           <p>
             activist is first and foremost about
             <strong>organizations</strong>, with the design of the platform
@@ -134,15 +133,17 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/grow_organization_light.png"
-            alt="Drawing of a fist raised."
-            class="hidden 2xl:block h-80"
+            src="/images/content_pages/mockups/grow_organization_light.png"
+            alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
+            class="hidden object-contain cursor-pointer 2xl:block h-3/4"
+            v-on:click="togglePopup"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/grow_organization_dark.png"
-            alt="Drawing of a fist raised."
-            class="hidden 2xl:block h-80"
+            src="/images/content_pages/mockups/grow_organization_dark.png"
+            alt="Mockups that show mobile event join flow interests selection and web organization affiliates page."
+            class="hidden object-contain cursor-pointer 2xl:block h-3/4"
+            v-on:click="togglePopup"
           />
         </div>
       </div>
@@ -152,4 +153,27 @@
 
 <script setup>
 const title = ref("Grow Organization");
+</script>
+
+<script popup_image>
+import PopupImage from "../../components/Popup/PopupImage";
+
+export default {
+  name: "PopupImage",
+  components: {
+    PopupImage,
+  },
+};
+
+function togglePopup(event) {
+  // Style image container
+  let popup_container = document.getElementById("popup");
+
+  // Handle image
+  let image = document.getElementById("popup-image");
+  image.src = `${event.target.src}`;
+
+  // Toggle visibility
+  popup_container.classList.toggle("hidden");
+}
 </script>

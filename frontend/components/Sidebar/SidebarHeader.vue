@@ -1,6 +1,6 @@
 <template>
   <header
-    class="sticky top-0 pl-1 bg-light-header dark:bg-dark-header transition-all duration-500"
+    class="sticky top-0 pl-1 transition-all duration-500 bg-light-header dark:bg-dark-header"
     :class="{
       'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -41,16 +41,17 @@
           'w-6': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <IconsActivist
-          v-if="sidebar.collapsed == true && sidebar.collapsedSwitch == true"
-          class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-5 h-8 z-1 overflow-clip"
+        <IconActivist
+          class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-[1.3em] h-8 z-1 overflow-clip"
+          color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-special-text-over-header hover:dark:fill-dark-special-text-over-header"
         />
         <Transition>
-          <LogosActivist
+          <LogoActivist
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
-            class="absolute inset-0 flex items-center justify-center flex-shrink-0 h-8 z-1 overflow-clip"
+            class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-32 h-8 z-1 overflow-clip"
+            color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-special-text-over-header hover:dark:fill-dark-special-text-over-header"
           />
         </Transition>
       </div>

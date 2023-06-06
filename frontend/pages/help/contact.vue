@@ -1,5 +1,7 @@
 <template>
-  <div class="text-light-text dark:text-dark-text">
+  <div
+    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+  >
     <Head>
       <Title>{{ title }}</Title>
     </Head>
@@ -11,7 +13,7 @@
         class="container flex justify-center py-4 mx-auto max-md:flex-col md:py-8"
       >
         <div class="flex flex-col p-4 space-y-4 md:w-1/2 lg:space-y-6">
-          <h1 class="text-2xl text-center md:text-3xl lg:text-4xl md:text-left">
+          <h1 class="text-center md:text-left responsive-h2">
             We'd love to hear from you!
           </h1>
           <p>
@@ -144,7 +146,7 @@
               class="px-4 py-2 mr-auto font-medium text-center border select-none rounded-md xl:rounded-lg focus-brand bg-light-cta-orange dark:bg-dark-cta-orange text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct"
               :class="
                 !buttonDisabled
-                  ? 'hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange  '
+                  ? 'hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange  '
                   : 'cursor-not-allowed'
               "
               :disabled="buttonDisabled"

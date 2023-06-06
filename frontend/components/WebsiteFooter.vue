@@ -1,12 +1,12 @@
 <template>
   <footer
-    class="responsive-px-4 responsive-py-4 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
+    class="responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
   >
     <!-- Note: Content Sections Top -->
     <div class="flex flex-col items-center justify-center space-y-5 lg:hidden">
       <div class="flex flex-col items-center justify-center space-y-2">
         <div class="relative z-0 h-10 w-36">
-          <LogosActivist
+          <LogoActivist
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
           />
         </div>
@@ -175,7 +175,7 @@
       <!-- Note: Content Sections Left -->
       <div class="mt-0 justify-items-start w-[70%] hidden lg:flex lg:flex-col">
         <div class="relative z-0 h-10 w-36">
-          <LogosActivist
+          <LogoActivist
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
           />
         </div>

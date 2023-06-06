@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div
+    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+  >
     <Head>
       <Title>{{ title }}</Title>
     </Head>
-    <div
-      class="flex flex-col responsive-py-4 responsive-px-4 text-light-text dark:text-dark-text"
-    >
-      <h1 class="main-header">Become a supporter</h1>
-      <p class="pt-2 lg:pt-4 xl:pt-6">
+    <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
+      <h1 class="font-bold responsive-h1">Become a supporter</h1>
+      <p>
         activist needs support from our community in countless ways. The
         following details how organizations and individuals can help the team
         develop the platform to empower activists to have as much impact as
@@ -16,11 +16,7 @@
           >here</NuxtLink
         >.
       </p>
-      <h2
-        class="py-2 text-xl sm:text-2xl md:text-3xl xl:text-4xl lg:py-4 xl:py-6"
-      >
-        Contribute on GitHub
-      </h2>
+      <h2 class="font-bold responsive-h4">Contribute on GitHub</h2>
       <p>
         Visit the
         <a
@@ -36,11 +32,7 @@
         </a>
         to get involved!
       </p>
-      <h2
-        class="py-2 text-xl sm:text-2xl md:text-3xl xl:text-4xl lg:py-4 xl:py-6"
-      >
-        Sponsor activist's development
-      </h2>
+      <h2 class="font-bold responsive-h4">Sponsor activist's development</h2>
       <p>
         Visit our
         <a href="" class="focus-brand link-text" target="_blank"
@@ -53,11 +45,7 @@
         </a>
         to donate today. Thank you for your support!
       </p>
-      <h2
-        class="py-2 text-xl sm:text-2xl md:text-3xl xl:text-4xl lg:py-4 xl:py-6"
-      >
-        Share activist in your network
-      </h2>
+      <h2 class="font-bold responsive-h4">Share activist in your network</h2>
       <p>
         Please contact the team afterwards via our
         <NuxtLink
@@ -67,11 +55,7 @@
         >
         so that we're aware and can help spread the word!
       </p>
-      <h2
-        class="py-2 text-xl sm:text-2xl md:text-3xl xl:text-4xl lg:py-4 xl:py-6"
-      >
-        Help activist with your skills
-      </h2>
+      <h2 class="font-bold responsive-h4">Help activist with your skills</h2>
       <p>
         Be it artistic contributions or legal consulting, we'd love to discuss
         how we could work together. We'd be happy to give credit in the
@@ -80,15 +64,14 @@
           >supporters page</NuxtLink
         >.
       </p>
-      <h2
-        class="py-2 text-xl sm:text-2xl md:text-3xl xl:text-4xl lg:py-4 xl:py-6"
-      >
-        Localization
-      </h2>
+      <h2 class="font-bold responsive-h4">Localization</h2>
       <p>
         Visit our
-        <a href="" class="focus-brand link-text" target="_blank"
-          >Crowdin
+        <a
+          href="https://explore.transifex.com/activist-org/activist"
+          class="focus-brand link-text"
+          target="_blank"
+          >Transifex
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"

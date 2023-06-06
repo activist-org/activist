@@ -34,7 +34,7 @@
             ]"
           >
             <div
-              class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-medium text-left space-x-2"
+              class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-semibold text-left space-x-2"
             >
               <Icon
                 v-if="$colorMode.preference == 'system'"
@@ -107,7 +107,7 @@
             ]"
           >
             <div
-              class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-medium text-left space-x-2"
+              class="relative z-0 flex items-center w-full px-3 py-2 text-sm font-semibold text-left space-x-2"
             >
               <Icon name="bi:globe" />
               <p class="uppercase">{{ $i18n.locale }}</p>
@@ -128,7 +128,6 @@
                 :key="locale.code"
                 :to="switchLocalePath(locale.code)"
               >
-                <!-- <button @click="close"> -->
                 <li
                   @click="
                     toggleLocaleVisible();
@@ -138,7 +137,6 @@
                 >
                   {{ locale.name }}
                 </li>
-                <!-- </button> -->
               </NuxtLink>
             </ul>
           </MenuItem>

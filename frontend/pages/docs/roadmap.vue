@@ -1,47 +1,43 @@
 <template>
-  <div class="text-light-text dark:text-dark-text">
+  <div
+    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+  >
     <Head>
       <Title>{{ title }}</Title>
     </Head>
     <div
-      class="flex flex-col items-center w-full px-6 py-6 md:py-10 lg:py-12 xl:py-16 lg:px-10 xl:px-14"
+      class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
     >
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
-        src="/images/content_pages/arcticons_bike_location_light.png"
+        src="/images/content_pages/icons/arcticons_bike_location_light.png"
         alt="Drawing of a fist raised."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        src="/images/content_pages/arcticons_bike_location_dark.png"
+        src="/images/content_pages/icons/arcticons_bike_location_dark.png"
         alt="Drawing of a fist raised."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div
-          class="items-center text-left space-y-2 md:space-y-4 md:items-start"
-        >
+        <div class="items-center text-left space-y-4 md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/arcticons_bike_location_light.png"
+            src="/images/content_pages/icons/arcticons_bike_location_light.png"
             alt="Drawing of a fist raised."
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/arcticons_bike_location_dark.png"
+            src="/images/content_pages/icons/arcticons_bike_location_dark.png"
             alt="Drawing of a fist raised."
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
           />
-          <h1
-            class="pb-2 text-2xl font-semibold sm:text-3xl md:text-4xl sm:w-full xl:text-5xl"
-          >
-            Roadmap
-          </h1>
-          <p class="flex flex-row py-2 space-x-3">
+          <h1 class="pb-2 font-bold responsive-h1">Roadmap</h1>
+          <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"
               size="1.25em"
@@ -49,21 +45,21 @@
             />
             <p>
               See the
-            <a
-              href="https://github.com/activist-org/activist"
-              class="items-center focus-brand link-text"
-              target="_blank"
-            >
-              source code on GitHub
-              <Icon
-                name="bi:box-arrow-up-right"
-                size="1em"
-                style="vertical-align: baseline"
-              />
-            </a>
-            to learn more
+              <a
+                href="https://github.com/activist-org/activist"
+                class="items-center focus-brand link-text"
+                target="_blank"
+              >
+                source code on GitHub
+                <Icon
+                  name="bi:box-arrow-up-right"
+                  size="1em"
+                  style="vertical-align: baseline"
+                />
+              </a>
+              to learn more
             </p>
-          </p>
+          </div>
           <p>
             activist.org is open-source software. Our goal is to build in as
             transparent a manner as possible so that partner organizations and
@@ -120,13 +116,13 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/arcticons_bike_location_light.png"
+            src="/images/content_pages/icons/arcticons_bike_location_light.png"
             alt="Drawing of a fist raised."
             class="hidden 2xl:block h-80"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/arcticons_bike_location_dark.png"
+            src="/images/content_pages/icons/arcticons_bike_location_dark.png"
             alt="Drawing of a fist raised."
             class="hidden 2xl:block h-80"
           />

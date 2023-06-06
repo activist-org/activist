@@ -11,6 +11,7 @@
     <SidebarHeader />
     <SearchBar class="mt-2" />
     <SidebarMainSectionSelectors class="mt-2" />
+    <MenuIndex class="mt-2" />
     <SidebarFooter />
   </aside>
 </template>

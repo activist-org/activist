@@ -1,6 +1,7 @@
 <template>
   <NuxtLink :to="localePath('/')" class="focus-brand">
     <svg
+      :class="[isMobile ? 'w-24 h-6' : '', color]"
       class="transition duration-100 fill-light-text dark:fill-dark-text hover:fill-light-special-text hover:dark:fill-dark-special-text"
       width="3000"
       height="647"
@@ -15,5 +16,9 @@
 </template>
 
 <script setup lang="ts">
+defineProps<{
+  color?: string;
+  isMobile?: boolean;
+}>();
 const localePath = useLocalePath();
 </script>

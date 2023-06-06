@@ -3,7 +3,7 @@
     <div>
       <MenuButton
         v-slot="{ open }"
-        class="inline-flex justify-center w-full px-4 py-2 font-medium select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
+        class="inline-flex justify-center w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
       >
         <div class="flex items-center text-sm space-x-2">
           <Icon name="bi:globe" />
