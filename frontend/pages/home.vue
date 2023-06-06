@@ -26,12 +26,18 @@
         :isPrivate="false"
         :organization="organization"
       ></CardsSearchResult>
+      <CardsSearchResult
+        searchResultType="event"
+        :isPrivate="false"
+        :event="event"
+      ></CardsSearchResult>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Organization } from "~~/types/organization";
+import { Event } from "~~/types/event"
 const title = ref("Home");
 
 definePageMeta({
@@ -48,4 +54,16 @@ const organization: Organization = {
   supporters: 30,
   imageURL: "/images/tech-from-below.svg",
 };
+
+const event: Event = {
+  name: "Test Event",
+  tagline: "We love to test!",
+  organizer: "Testers LLC",
+  topic: "Testing and Designing",
+  description: "This is a test event for testers.",
+  getInvolvedDescription: "Wanna help test?",
+  onlineLocation: "Zoom Test Room",
+  date: new Date(),
+  supporters: 10,
+}
 </script>
