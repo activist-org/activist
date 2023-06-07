@@ -21,6 +21,7 @@
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
+      <GridHomeMetrics></GridHomeMetrics>
       <CardsSearchResult
         searchResultType="organization"
         :isPrivate="false"
@@ -36,8 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { Event } from "~~/types/event";
 import { Organization } from "~~/types/organization";
-import { Event } from "~~/types/event"
 const title = ref("Home");
 
 definePageMeta({
@@ -65,5 +66,5 @@ const event: Event = {
   onlineLocation: "Zoom Test Room",
   date: new Date(),
   supporters: 10,
-}
+};
 </script>
