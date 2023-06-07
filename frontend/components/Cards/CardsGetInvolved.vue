@@ -1,6 +1,6 @@
 <template>
-  <div class="py-5 card-style px-6">
-    <div class="flex relative items-center gap-5">
+  <div class="px-6 py-5 card-style">
+    <div class="relative flex items-center gap-5">
       <h3 class="text-left responsive-h3 font-display">Get involved</h3>
       <Icon name="bi:pencil-square" size="1.2em" />
       <div class="absolute right-0 space-x-2">
@@ -35,7 +35,7 @@
         </p>
       </div>
     </div>
-    <div v-else-if="event" class="space-y-3 pt-3">
+    <div v-else-if="event" class="pt-3 space-y-3">
       <p>
         {{ event.getInvolvedDescription }}
       </p>

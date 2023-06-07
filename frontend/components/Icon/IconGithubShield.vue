@@ -1,22 +1,19 @@
 <template>
   <a
     :href="href"
-    class="card-style focus-brand text-black border border-black p-2 flex"
+    class="flex items-center px-3 py-2 border space-x-2 card-style focus-brand text-light-text dark:text-dark-text border-light-text dark:border-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight"
   >
     <slot></slot>
-    <div
-      v-if="text"
-      class="place-self-center font-semibold text-2xl leading-4 ml-2"
-    >
+    <div v-if="text" class="text-xl font-semibold md:text-2xl">
       {{ text }}
     </div>
     <div
       v-if="loading"
-      class="animate-pulse place-self-center font-semibold text-2xl bg-slate-300 ml-2 rounded-full p-4"
+      class="p-4 text-xl font-semibold rounded-full md:text-2xl animate-pulse bg-light-highlight dark:bg-dark-highlight"
     ></div>
     <div
       v-if="count"
-      class="place-self-center font-semibold text-2xl bg-slate-300 ml-2 rounded-full p-1"
+      class="flex items-center justify-center w-10 h-10 p-1 text-xl font-semibold rounded-full md:text-2xl md:h-11 md:w-11 bg-light-highlight dark:bg-dark-highlight"
     >
       {{ count }}
     </div>

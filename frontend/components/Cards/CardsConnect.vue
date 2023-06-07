@@ -1,5 +1,5 @@
 <template>
-  <div class="py-5 card-style px-6">
+  <div class="px-6 py-5 card-style">
     <div class="flex items-center gap-5">
       <h3 class="text-left responsive-h3 font-display">Connect</h3>
       <div

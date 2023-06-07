@@ -1,6 +1,6 @@
 <template>
   <swiper
-    class="swiper rounded-sm sm:rounded-md"
+    class="rounded-sm swiper sm:rounded-md"
     :modules="modules"
     :slides-per-view="1"
     :space-between="30"

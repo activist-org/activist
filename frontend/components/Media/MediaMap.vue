@@ -1,16 +1,16 @@
 <template>
   <div
-    class="w-96 h-96 map border border-light-section-div dark:border-dark-section-div rounded-sm sm:rounded-md p-0"
+    class="p-0 border rounded-sm w-96 h-96 map border-light-section-div dark:border-dark-section-div sm:rounded-md"
   >
     <div
       id="map-div"
-      class="w-full h-full z-0 rounded-sm sm:rounded-md"
+      class="z-0 w-full h-full rounded-sm sm:rounded-md"
       ref="map"
       alt="Map displaying a pin at the location of this event."
     ></div>
 
     <p
-      class="text-2xl text-center z-10 m-auto align-middle p-5 text-light-cta-orange dark:text-dark-cta-orange"
+      class="z-10 p-5 m-auto text-2xl text-center align-middle text-light-cta-orange dark:text-dark-cta-orange"
       :class="{
         absolute: !errorOccurred,
       }"

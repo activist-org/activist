@@ -14,7 +14,7 @@
     >
       {{ organization.name }}
     </h1>
-    <flex class="flex items-center relative py-6"
+    <flex class="relative flex items-center py-6"
       ><h2
         class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
         :class="{

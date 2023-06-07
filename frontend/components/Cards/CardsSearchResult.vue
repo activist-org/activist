@@ -2,7 +2,7 @@
   <div
     class="flex items-center w-full h-min card-style sm:items-start"
   >
-    <div v-if="searchResultType === 'organization'" class="p-2 sm:px-5 sm:py-3 flex items-center">
+    <div v-if="searchResultType === 'organization'" class="flex items-center p-2 sm:px-5 sm:py-3">
       <div
         class="border h-[90%] border-light-section-div dark:border-dark-section-div rounded-lg bg-light-content"
       >
@@ -19,7 +19,7 @@
           <Icon name="bi:people" color="black" class="w-[75%] h-[75%]" />
         </div>
       </div>
-      <div class="pb-1 px-6 space-y-4">
+      <div class="px-6 pb-1 space-y-4">
         <h2 class="font-bold responsive-h3">
           {{ organization.name }}
         </h2>
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div v-if="searchResultType === 'event'" class="grow p-2 sm:px-5 sm:py-3 flex items-center">
+    <div v-if="searchResultType === 'event'" class="flex items-center p-2 grow sm:px-5 sm:py-3">
       <div
         class="border h-[90%] border-light-section-div dark:border-dark-section-div rounded-lg bg-light-content"
       >
@@ -60,12 +60,12 @@
           <Icon name="bi:calendar" color="black" class="w-[75%] h-[75%]" />
         </div>
       </div>
-      <div class="grow pb-1 px-6 space-y-4">
+      <div class="px-6 pb-1 grow space-y-4">
         <div class="flex justify-between">
           <h2 class="font-bold responsive-h3">
             {{ event.name }}
           </h2>
-          <div class="flex gap-4 items-center">
+          <div class="flex items-center gap-4">
             <div v-if="event?.inPersonLocation">
               <Icon name="bi:pin-map" class="mr-1" />
               {{ event?.inPersonLocation }}
