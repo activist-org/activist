@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-start w-full mt-3 space-x-3">
     <div v-for="url in feedItemURLs">
-      <CardsFeedItem :url="url"></CardsFeedItem>
+      <CardFeedItem :url="url"></CardFeedItem>
     </div>
   </div>
 </template>

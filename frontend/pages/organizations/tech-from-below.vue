@@ -40,18 +40,19 @@
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
-      <CardsAbout
+      <CardAbout
         description="We're a Berlin based social tech meetup..."
         aboutType="organization"
-      ></CardsAbout>
+      ></CardAbout>
       <MediaImageCarousel></MediaImageCarousel>
-      <CardsGetInvolved :organization="organization"></CardsGetInvolved>
-      <CardsConnect
+      <CardGetInvolved :organization="organization"></CardGetInvolved>
+      <CardConnect
         :socialLinks="socialLinks"
         :userIsAdmin="true"
-        @on-new-account="account => onNewAccount(account)"
-        @on-account-removed="account => onAccountRemoved(account)">
-      </CardsConnect>
+        @on-new-account="(account) => onNewAccount(account)"
+        @on-account-removed="(account) => onAccountRemoved(account)"
+      >
+      </CardConnect>
     </div>
   </div>
 </template>
@@ -90,17 +91,17 @@ const title = ref(organization.name);
 // });
 
 const socialLinks = ref([
-          'tfb@twitter',
-          'tfb@email',
-          'tfb@facebook',
-          'tfb@instagram',
-        ]);
+  "tfb@twitter",
+  "tfb@email",
+  "tfb@facebook",
+  "tfb@instagram",
+]);
 
 const onNewAccount = (account: string) => {
   socialLinks.value.push(account);
 };
 
 const onAccountRemoved = (account: string) => {
-  socialLinks.value = socialLinks.value.filter(val => val !== account);
+  socialLinks.value = socialLinks.value.filter((val) => val !== account);
 };
 </script>

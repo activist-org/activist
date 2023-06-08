@@ -26,7 +26,7 @@
           The following are working groups within
           {{ organization.name }}:
         </p>
-        <CardsFeed :feedItemURLs="organization.workingGroupURLs"></CardsFeed>
+        <CardFeed :feedItemURLs="organization.workingGroupURLs"></CardFeed>
       </div>
       <div v-else>
         <p>
@@ -43,7 +43,7 @@
         Please read the legal disclaimer below for more information on your
         rights during this event!
       </p>
-      <CardsLegalDisclaimer></CardsLegalDisclaimer>
+      <CardLegalDisclaimer></CardLegalDisclaimer>
       <div class="pt-2">
         <LabeledBtn
           :cta="true"

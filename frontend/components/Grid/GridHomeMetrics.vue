@@ -1,8 +1,8 @@
 <template>
   <div
-    class="grid gap-6 grid-cols-1 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4"
+    class="grid grid-cols-1 gap-6 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4"
   >
-    <CardsMetrics
+    <CardMetric
       text="New Organizations"
       number="10"
       textColor="text-light-header dark:text-dark-header"
@@ -10,7 +10,7 @@
       backgroundColor="bg-light-menu-selection dark:bg-dark-menu-selection"
     />
 
-    <CardsMetrics
+    <CardMetric
       text="Events"
       number="123"
       textColor="text-light-text dark:text-dark-text"
@@ -18,7 +18,7 @@
       backgroundColor="bg-light-distinct dark:bg-dark-distinct"
     />
 
-    <CardsMetrics
+    <CardMetric
       text="Act events"
       number="100"
       textColor="text-light-act-red dark:text-dark-act-red"
@@ -26,7 +26,7 @@
       backgroundColor="bg-light-act-red/20 dark:bg-dark-act-red/40"
     />
 
-    <CardsMetrics
+    <CardMetric
       text="Learn events"
       number="23"
       textColor="text-light-learn-blue dark:text-dark-learn-blue"
@@ -36,6 +36,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import CardsMetrics from "../Cards/CardsMetric.vue";
-</script>
+<script setup lang="ts"></script>

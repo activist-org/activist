@@ -40,16 +40,16 @@
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
-      <CardsAbout
+      <CardAbout
         description="Let's gather at Brandenburg Gate..."
         aboutType="event"
-      ></CardsAbout>
+      ></CardAbout>
       <MediaMap
         v-if="event.inPersonLocation"
         :addresses="[event.inPersonLocation]"
         :type="event.topic"
       />
-      <CardsGetInvolved :event="event"></CardsGetInvolved>
+      <CardGetInvolved :event="event"></CardGetInvolved>
     </div>
   </div>
 </template>

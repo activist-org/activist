@@ -22,16 +22,16 @@
       }"
     >
       <GridHomeMetrics></GridHomeMetrics>
-      <CardsSearchResult
+      <CardSearchResult
         searchResultType="organization"
         :isPrivate="false"
         :organization="organization"
-      ></CardsSearchResult>
-      <CardsSearchResult
+      ></CardSearchResult>
+      <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
         :event="event"
-      ></CardsSearchResult>
+      ></CardSearchResult>
     </div>
   </div>
 </template>
