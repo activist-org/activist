@@ -47,14 +47,11 @@
       <MediaImageCarousel></MediaImageCarousel>
       <CardsGetInvolved :organization="organization"></CardsGetInvolved>
       <CardsConnect
-        :socialLinks="[
-          'tfb@twitter',
-          'tfb@email',
-          'tfb@facebook',
-          'tfb@instagram',
-        ]"
+        :socialLinks="socialLinks"
         :userIsAdmin="true"
-      ></CardsConnect>
+        @on-new-account="account => onNewAccount(account)"
+        @on-account-removed="account => onAccountRemoved(account)">
+      </CardsConnect>
     </div>
   </div>
 </template>
@@ -91,4 +88,19 @@ const title = ref(organization.name);
 //     };
 //   },
 // });
+
+const socialLinks = ref([
+          'tfb@twitter',
+          'tfb@email',
+          'tfb@facebook',
+          'tfb@instagram',
+        ]);
+
+const onNewAccount = (account: string) => {
+  socialLinks.value.push(account);
+};
+
+const onAccountRemoved = (account: string) => {
+  socialLinks.value = socialLinks.value.filter(val => val !== account);
+};
 </script>

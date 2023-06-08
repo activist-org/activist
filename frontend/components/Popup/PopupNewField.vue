@@ -6,6 +6,7 @@
       <p class="pl-1 responsive-h5">{{ title }}</p>
       <div
         class="absolute right-0 mr-1 text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text"
+        @click="emit('on-close-clicked')"
       >
         <Icon name="bi:x-circle-fill" class="w-6 h-6" />
       </div>
@@ -14,6 +15,7 @@
       ref="input"
       type="text"
       :placeholder="fieldNamePrompt"
+      v-model="inputValue"
       class="h-8 p-1 bg-transparent border rounded-sm w-52 border-light-text dark:border-dark-text focus-brand"
     />
     <textarea
@@ -25,7 +27,8 @@
       class="p-1 bg-transparent border rounded-sm resize-none border-light-text dark:border-dark-text focus-brand min-w-[75%] min-h-[50%]"
     ></textarea>
     <div
-      class="flex items-center px-4 py-1 font-semibold text-white break-all cursor-pointer select-none gap-1 rounded-md text-md bg-light-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange focus-brand w-fit"
+      class="flex items-center px-4 py-1 font-semibold text-white break-all cursor-pointer select-none gap-1 rounded-md text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange focus-brand w-fit"
+      @click="emit('on-cta-clicked', inputValue)"
     >
       <Icon name="bi:plus" size="1.5em" />
       {{ ctaBtnLabel }}
@@ -40,4 +43,8 @@ defineProps<{
   descriptionPrompt?: string;
   ctaBtnLabel: string;
 }>();
+
+const inputValue = ref();
+
+const emit = defineEmits(["on-cta-clicked", "on-close-clicked"]);
 </script>
