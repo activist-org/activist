@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  eventType: string;
+  eventType: "act" | "learn";
   imgURL?: string;
 }>();
 </script>

@@ -36,7 +36,7 @@
             alt="Drawing of a fist raised."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1 class="pb-2 font-bold responsive-text-4">Impress</h1>
+          <h1 class="pb-2 font-bold responsive-h1">Impress</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"

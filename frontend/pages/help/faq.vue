@@ -36,7 +36,7 @@
             alt="A question mark within a square."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1 class="pb-2 font-bold responsive-text-4">
+          <h1 class="pb-2 font-bold responsive-h1">
             Frequently Asked Questions
           </h1>
           <div class="flex flex-row py-2 space-x-3">
@@ -62,7 +62,7 @@
               !
             </p>
           </div>
-          <p class="font-bold responsive-text-1">
+          <p class="font-bold responsive-h4">
             Q: What does the activist "a" mean?
           </p>
           <p class="sm:text-lg">
@@ -72,7 +72,7 @@
             value a democratic movement of power down to the people. Other
             meanings are welcome :D
           </p>
-          <p class="font-bold responsive-text-1">
+          <p class="font-bold responsive-h4">
             Q: How does activist plan to prevent abuse?
           </p>
           <p class="sm:text-lg">
@@ -85,7 +85,7 @@
             will only be able to participate if they're a member of an
             organization.
           </p>
-          <p class="font-bold responsive-text-1">Q: What about privacy?</p>
+          <p class="font-bold responsive-h4">Q: What about privacy?</p>
           <p class="sm:text-lg">
             Thank you for asking! Privacy is a major concern for the team as we
             understand that activism can be very dangerous. Working in the open
@@ -95,7 +95,7 @@
             will take longer to make sure that they're created in a way that
             keeps people safe.
           </p>
-          <p class="font-bold responsive-text-1">
+          <p class="font-bold responsive-h4">
             Q: What's the best way to get in touch?
           </p>
           <p class="sm:text-lg">

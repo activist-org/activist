@@ -11,6 +11,6 @@
 <script setup lang="ts">
 defineProps<{
   name?: string;
-  menuType?: string; // `organization`, `event`, etc
+  menuType?: "organization" | "event";
 }>();
 </script>

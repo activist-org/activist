@@ -38,6 +38,7 @@
         btnText1="Learn more"
         btnURL1="/docs/grow-organization"
       />
+      <LandingPageTechBanner></LandingPageTechBanner>
       <LandingPageContent
         contentPosition="right"
         header="activist-section-header"

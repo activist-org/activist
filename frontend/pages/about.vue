@@ -36,7 +36,7 @@
             alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1 class="pb-2 font-bold responsive-text-4">About activist.org</h1>
+          <h1 class="pb-2 font-bold responsive-h1">About activist.org</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"

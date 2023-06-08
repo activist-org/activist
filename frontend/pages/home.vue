@@ -21,23 +21,50 @@
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
+      <GridHomeMetrics></GridHomeMetrics>
       <CardsSearchResult
-        name="Search result"
-        description="Description of the search result"
         searchResultType="organization"
-        :private="false"
+        :isPrivate="false"
+        :organization="organization"
       ></CardsSearchResult>
-      <div class="w-24 h-24">
-        <IconEvent eventType="learn"></IconEvent>
-      </div>
+      <CardsSearchResult
+        searchResultType="event"
+        :isPrivate="false"
+        :event="event"
+      ></CardsSearchResult>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Event } from "~~/types/event";
+import { Organization } from "~~/types/organization";
 const title = ref("Home");
+
 definePageMeta({
   layout: "sidebar",
 });
 const sidebar = useSidebar();
+
+const organization: Organization = {
+  name: "tech from below",
+  location: "Berlin",
+  description: "This is the description of tech from below",
+  topic: "Technology and Privacy",
+  members: 3,
+  supporters: 30,
+  imageURL: "/images/tech-from-below.svg",
+};
+
+const event: Event = {
+  name: "Test Event",
+  tagline: "We love to test!",
+  organizer: "Testers LLC",
+  topic: "Testing and Designing",
+  description: "This is a test event for testers.",
+  getInvolvedDescription: "Wanna help test?",
+  onlineLocation: "Zoom Test Room",
+  date: new Date(),
+  supporters: 10,
+};
 </script>

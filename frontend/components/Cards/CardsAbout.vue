@@ -13,6 +13,6 @@
 <script setup lang="ts">
 defineProps<{
   description: string;
-  aboutType: string; // `organization`, `event`, etc
+  aboutType: "organization" | "event";
 }>();
 </script>

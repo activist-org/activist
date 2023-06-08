@@ -35,7 +35,14 @@
   "contact": "Contact",
   "organization": "Organization",
   "about": "About",
+  "members": "Members",
   "supporters": "Supporters",
   "impress": "Impress",
-  "theme": "Theme"
+  "theme": "Theme",
+  "wikimedia-de-logo-label": "Link to the website of Wikimedia Deutschland.",
+  "wikimedia-rs-logo-label": "Link to the website of Wikimedia Serbia.",
+  "impacthub-belgrade-logo-label": "Link to the website of Impact Hub Belgrade.",
+  "landing-page-github-header": "Open-Source APIs",
+  "landing-page-github-tagline": "Trust through Transparency",
+  "landing-page-github-text": "We're dedicated to working in the open to build trust with out partner organizations and fellow activists. Building the place for activism the world over takes a lot of effort, so please come join us!"
 }

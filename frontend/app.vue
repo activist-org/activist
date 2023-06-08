@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 useHead({
-  titleTemplate: (titleChunk) => {
+  titleTemplate: (titleChunk: any) => {
     return titleChunk ? `${titleChunk} • activist` : "activist";
   },
 });
