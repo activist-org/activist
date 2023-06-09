@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-light-content dark:bg-dark-content;
+    @apply bg-light-header dark:bg-dark-header;
   }
 }
 
