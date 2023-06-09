@@ -102,6 +102,18 @@ export default defineNuxtConfig({
           name: "description",
           content: "Open-source, nonprofit activism platform.",
         },
+        {
+          hid: "theme",
+          name: "theme-color",
+          content: "#f0f0eb",
+          media: "(prefers-color-scheme: light)"
+        },
+        {
+          hid: "theme",
+          name: "theme-color",
+          content: "#161b22",
+          media: "(prefers-color-scheme: dark)"
+        },
         { property: "og:site_name", content: "activist" },
         { hid: "og:type", property: "og:type", content: "website" },
         {
