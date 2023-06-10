@@ -9,7 +9,11 @@
           'bg-light-learn-blue dark:bg-dark-learn-blue': eventType == 'learn',
         }"
       ></div>
-      <img v-if="imgURL" class="object-cover" :src="imgURL" />
+      <img
+        v-if="imgURL"
+        class="object-cover border-light-section-div dark:border-dark-section-div"
+        :src="imgURL"
+      />
       <!-- Note: Placeholder image for if no image is provided. -->
       <div
         v-else

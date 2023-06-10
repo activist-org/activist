@@ -34,7 +34,7 @@
       ></LabeledBtn>
     </flex>
     <div
-      class="pr-2 space-y-2 sm:pr-8"
+      class="pb-4 pr-2 space-y-4 sm:pr-8"
       :class="{
         'pl-56': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,

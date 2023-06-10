@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-0 border rounded-sm w-96 h-96 map border-light-section-div dark:border-dark-section-div sm:rounded-md"
+    class="w-full h-full border rounded-sm bg-clip-content map border-light-section-div dark:border-dark-section-div sm:rounded-md"
   >
     <div
       id="map-div"

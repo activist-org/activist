@@ -3,7 +3,7 @@
     <div class="flex items-center gap-5">
       <h3 class="text-left responsive-h3 font-display">Connect</h3>
       <div
-        class="p-1 break-all transition-all rounded-lg cursor-pointer hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
+        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"
@@ -20,11 +20,11 @@
       </div>
     </div>
     <ul
-      class="flex flex-col items-start gap-2 mt-3 md:flex-row md:items-center md:gap-6"
+      class="flex flex-col items-start mt-3 gap-2 md:flex-row md:items-center md:gap-6"
     >
       <li v-for="link in socialLinksRef">
         <div
-          class="flex items-center gap-3 break-all transition-all cursor-pointer"
+          class="flex items-center break-all cursor-pointer gap-3 transition-all"
           :class="{
             'hover:text-social-email': link.includes('email'),
             'hover:text-social-mastodon': link.includes('mastodon'),
@@ -77,18 +77,18 @@
         <Popover class="relative" v-slot="{ close }">
           <PopoverButton
             as="div"
-            class="flex items-center gap-1 px-4 py-1 font-semibold text-white break-all rounded-md cursor-pointer select-none text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange focus-brand"
+            class="flex items-center px-4 py-1 font-semibold text-white break-all cursor-pointer select-none gap-1 rounded-md text-md bg-light-cta-orange hover:bg-light-cta-orange-light active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-light dark:active:bg-dark-cta-orange focus-brand"
           >
             <Icon name="bi:plus" size="1.5em" />
             New account
           </PopoverButton>
           <transition
             enter-active-class="transition duration-100 ease-out"
-            enter-from-class="translate-y-1 opacity-0"
-            enter-to-class="translate-y-0 opacity-100"
+            enter-from-class="opacity-0 translate-y-1"
+            enter-to-class="opacity-100 translate-y-0"
             leave-active-class="transition duration-100 ease-in"
-            leave-from-class="translate-y-0 opacity-100"
-            leave-to-class="translate-y-1 opacity-0"
+            leave-from-class="opacity-100 translate-y-0"
+            leave-to-class="opacity-0 translate-y-1"
           >
             <PopoverPanel class="absolute bottom-0 mb-12">
               <PopupNewField

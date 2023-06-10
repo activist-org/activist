@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center pl-[14px] pr-[10px] py-1 mx-3 space-x-2 text-left transition duration-200 border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+    class="flex items-center pl-[12px] pr-[10px] py-1 mx-2 space-x-2 text-left transition duration-200 border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
   >
     <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
     <Transition name="search">
@@ -12,7 +12,7 @@
         placeholder="Search"
         @focus="onFocus"
         @blur="onFocusLost"
-        :class="{'focus:w-5/6': isInputFocused }"
+        :class="{ 'focus:w-5/6': isInputFocused }"
       />
     </Transition>
     <Transition name="shortcuts">
@@ -25,7 +25,7 @@
           class="w-5 h-5 text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
           <span
-            class="p-1 px-2 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip invisible"
+            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
             >Press "/" to search</span
           >
           /
@@ -36,7 +36,7 @@
           class="h-5 text-sm text-center rounded-md has-tooltip w-7 bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
           <span
-            class="p-1 px-2 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip invisible"
+            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
             >Press "⌘ + k" to jump to a page</span
           >
           ⌘k
@@ -46,7 +46,7 @@
           class="h-5 text-sm text-center border rounded-md has-tooltip w-7 border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
         >
           <span
-            class="p-1 px-2 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip invisible"
+            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
             >Press "^ + k" to jump to a page</span
           >
           ⌃k
@@ -62,7 +62,7 @@ import { ref } from "vue";
 const sidebar = useSidebar();
 const input = ref();
 const hotkeyIndicators = ref();
-const isInputFocused = ref(false)
+const isInputFocused = ref(false);
 const keys = useMagicKeys();
 
 whenever(keys.slash, () => {
@@ -80,14 +80,14 @@ const onFocus = () => {
   setTimeout(() => {
     isInputFocused.value = true;
     hotkeyIndicators.value.classList.add("hidden");
-  }, 200)
+  }, 200);
 };
 const onFocusLost = () => {
   hotkeyIndicators.value.classList.remove("hidden");
   isInputFocused.value = false;
   setTimeout(() => {
     hotkeyIndicators.value.classList.remove("hide");
-  }, 200)
+  }, 200);
 };
 </script>
 

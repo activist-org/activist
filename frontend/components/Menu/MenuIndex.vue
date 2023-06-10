@@ -1,33 +1,95 @@
 <template>
-  <div class="flex flex-col items-center text-light-text dark:text-dark-text mx-2 md:h-4/6">
-    <img :src="logoUrl" :alt="name">
-    <p class="text-2xl font-bold text-center">{{ name }}</p>
-    <ul class="flex flex-col w-full overflow-auto">
-      <li v-if="menuType === 'organization'" v-for="button in organizationButtons">
-        <MenuSelector 
-          :btn-text="button.btnText"
-          :icon-u-r-l="button.iconURL"
-          :btnURL="button.btnURL"
-          :active="button.active"
-        ></MenuSelector>
-      </li>
-      <li v-if="menuType === 'event'" v-for="button in eventButtons">
-        <MenuSelector 
-          :btn-text="button.btnText"
-          :icon-u-r-l="button.iconURL"
-          :btnURL="button.btnURL"
-          :active="button.active"
-        ></MenuSelector>
-      </li>
-    </ul>
+  <div
+    class="mx-1 transition-all duration-500 text-light-text dark:text-dark-text"
+  >
+    <div
+      v-if="menuType === 'organization' || menuType === 'event'"
+      class="flex flex-col items-center"
+    >
+      <div
+        v-if="menuType === 'organization'"
+        :class="{
+          'w-32 h-32':
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          'w-10 h-10':
+            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        }"
+        :alt="name + ' logo'"
+      >
+        <IconOrganization :imgURL="logoUrl"> </IconOrganization>
+      </div>
+      <div
+        v-else="menuType === 'event'"
+        :class="{
+          'w-32 h-32':
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          'w-10 h-10':
+            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        }"
+        :alt="name + ' logo'"
+      >
+        <IconEvent eventType="act"></IconEvent>
+      </div>
+      <p
+        v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+        class="mt-1 text-xl font-bold text-center"
+      >
+        {{ name }}
+      </p>
+      <p
+        v-if="sidebar.collapsed == true && sidebar.collapsedSwitch == true"
+        class="mt-1 text-lg font-bold text-center"
+      >
+        {{ nameAbbreviation }}
+      </p>
+      <ul class="flex flex-col w-full px-1 mb-1">
+        <li
+          v-if="menuType === 'organization'"
+          v-for="button in organizationButtons"
+        >
+          <MenuSelector
+            :btn-text="button.btnText"
+            :icon-u-r-l="button.iconURL"
+            :btnURL="button.btnURL"
+            :selected="button.selected"
+            :active="button.active"
+          ></MenuSelector>
+        </li>
+        <li v-if="menuType === 'event'" v-for="button in eventButtons">
+          <MenuSelector
+            :btn-text="button.btnText"
+            :icon-u-r-l="button.iconURL"
+            :btnURL="button.btnURL"
+            :selected="button.selected"
+            :active="button.active"
+          ></MenuSelector>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const sidebar = useSidebar();
+
+const props = defineProps<{
+  name: string;
+  menuType: "organization" | "event";
+  logoUrl?: string;
+}>();
+
+const nameAbbreviation = props.name
+  .split(" ")
+  .map(function (item) {
+    return item[0];
+  })
+  .join("");
+
 interface MenuSelectorType {
-  btnText: string
+  btnText: string;
   btnURL: string;
-  iconURL?: string;
+  iconURL: string;
+  selected: boolean;
   active: boolean;
 }
 
@@ -36,100 +98,109 @@ const organizationButtons: MenuSelectorType[] = [
     btnText: "sidebar.about",
     btnURL: "/",
     iconURL: "bi:card-text",
+    selected: false,
     active: true,
   },
   {
     btnText: "sidebar.events",
     btnURL: "/",
     iconURL: "bi:calendar-check",
+    selected: false,
     active: true,
   },
   {
     btnText: "sidebar.groups",
     btnURL: "/",
     iconURL: "bi:collection",
+    selected: false,
     active: true,
   },
   {
     btnText: "sidebar.resources",
     btnURL: "/",
-    iconURL: "bi:megaphone",
+    iconURL: "bi:pencil",
+    selected: false,
     active: true,
   },
   {
     btnText: "sidebar.faq",
     btnURL: "/",
     iconURL: "bi:chat-left",
+    selected: false,
     active: true,
   },
   {
     btnText: "sidebar.settings",
     btnURL: "/",
     iconURL: "bi:gear",
+    selected: false,
     active: true,
   },
   {
     btnText: "sidebar.affiliates",
     btnURL: "/",
     iconURL: "bi:emoji-smile",
+    selected: false,
     active: false,
   },
   {
     btnText: "sidebar.tasks",
     btnURL: "/",
     iconURL: "bi:check-square",
+    selected: false,
     active: false,
   },
   {
     btnText: "sidebar.discussions",
     btnURL: "/",
-    iconURL: "bi:chat-left-dots",
+    iconURL: "bi:chat-left-text",
+    selected: false,
     active: false,
   },
-]
+];
 
 const eventButtons: MenuSelectorType[] = [
   {
     btnText: "sidebar.about",
     btnURL: "/",
-    iconURL: "string",
+    iconURL: "bi:card-text",
+    selected: false,
     active: true,
   },
   {
     btnText: "sidebar.team",
     btnURL: "/",
-    iconURL: "string",
+    iconURL: "bi:people",
+    selected: false,
     active: true,
   },
   {
     btnText: "sidebar.resources",
     btnURL: "/",
-    iconURL: "string",
+    iconURL: "bi:pencil",
+    selected: false,
     active: true,
   },
   {
     btnText: "sidebar.settings",
     btnURL: "/",
-    iconURL: "string",
+    iconURL: "bi:gear",
+    selected: false,
     active: true,
   },
   {
-    btnText: "sidebar.task",
+    btnText: "sidebar.tasks",
     btnURL: "/",
-    iconURL: "string",
+    iconURL: "bi:check-square",
+    selected: false,
     active: false,
   },
   {
-    btnText: "sidebar.discussion",
+    btnText: "sidebar.discussions",
     btnURL: "/",
-    iconURL: "string",
+    iconURL: "bi:chat-left-text",
+    selected: false,
     active: false,
   },
-]
-
-defineProps<{
-  name?: string;
-  menuType?: "organization" | "event";
-  logoUrl?: string;
-}>();
+];
 </script>

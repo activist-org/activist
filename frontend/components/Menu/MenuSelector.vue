@@ -1,16 +1,18 @@
 <template>
   <NuxtLink
     :to="localePath(`${btnURL}`)"
-    class="relative flex items-center justify-center w-full p-2 text-sm text-left transition duration-200 rounded-md basis-full font-md group text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
+    class="relative flex items-center justify-center w-full p-2 text-sm text-left transition duration-200 rounded-md basis-full font-md group focus-brand"
     :class="{
-      'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct':
+      'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct hover:bg-light-highlight dark:hover:bg-dark-highlight':
         selected == true,
-      'text-light-text dark:text-dark-text': selected == false,
+      'text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight':
+        selected == false && active == true,
+      'text-black/20 dark:text-white/40': selected == false && active == false,
     }"
     :event="active ? '' : 'click'"
   >
     <div
-      class="relative z-0 flex items-center w-full pl-[2.25px] space-x-2 text-sm font-medium text-left"
+      class="relative z-0 flex items-center w-full text-sm font-medium text-left space-x-2"
     >
       <span class="width-1/6"
         ><Icon v-if="iconURL" :name="iconURL" class="flex-shrink-0 w-5 h-5"
@@ -18,7 +20,7 @@
       <Transition>
         <p
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          class="width-5/6 whitespace-nowrap hover:light-menu-selection"
+          class="select-none width-5/6 whitespace-nowrap hover:light-menu-selection"
         >
           {{ $t(btnText) }}
         </p>
@@ -29,11 +31,11 @@
 
 <script setup lang="ts">
 defineProps<{
-  selected?: boolean;
-  iconURL?: string;
+  iconURL: string;
   btnText: string;
   btnURL: string;
-  active?: boolean;
+  selected: boolean;
+  active: boolean;
 }>();
 const localePath = useLocalePath();
 const sidebar = useSidebar();

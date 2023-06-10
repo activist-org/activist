@@ -34,7 +34,7 @@
       ></LabeledBtn>
     </flex>
     <div
-      class="pr-2 space-y-2 sm:pr-8"
+      class="pb-4 pr-2 space-y-4 sm:pr-8"
       :class="{
         'pl-56': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -44,12 +44,21 @@
         description="Let's gather at Brandenburg Gate..."
         aboutType="event"
       ></CardAbout>
-      <MediaMap
-        v-if="event.inPersonLocation"
-        :addresses="[event.inPersonLocation]"
-        :type="event.topic"
-      />
+      <div class="w-72 h-72">
+        <MediaMap
+          v-if="event.inPersonLocation"
+          :addresses="[event.inPersonLocation]"
+          :type="event.topic"
+        />
+      </div>
       <CardGetInvolved :event="event"></CardGetInvolved>
+      <CardConnect
+        :socialLinks="socialLinks"
+        :userIsAdmin="true"
+        @on-new-account="(account) => onNewAccount(account)"
+        @on-account-removed="(account) => onAccountRemoved(account)"
+      >
+      </CardConnect>
     </div>
   </div>
 </template>
@@ -58,7 +67,7 @@
 import { Event } from "~~/types/event";
 
 const event: Event = {
-  name: "Climate Demo at Brandenburg Gate",
+  name: "Brandenburg Gate Climate Demo",
   tagline: "There is no Planet B",
   organizer: "",
   topic: "act",
@@ -76,4 +85,19 @@ definePageMeta({
   layout: "sidebar",
 });
 const sidebar = useSidebar();
+
+const socialLinks = ref([
+  "bgcd@twitter",
+  "bgcd@email",
+  "bgcd@facebook",
+  "bgcd@instagram",
+]);
+
+const onNewAccount = (account: string) => {
+  socialLinks.value.push(account);
+};
+
+const onAccountRemoved = (account: string) => {
+  socialLinks.value = socialLinks.value.filter((val) => val !== account);
+};
 </script>

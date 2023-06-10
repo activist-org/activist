@@ -1,6 +1,6 @@
 <template>
   <header
-    class="sticky top-0 pl-1 transition-all duration-500 bg-light-header dark:bg-dark-header"
+    class="pl-1 border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
     :class="{
       'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -32,7 +32,7 @@
         </div>
       </button>
     </div>
-    <div class="flex items-center pt-3 pb-2 pl-4 pr-6">
+    <div class="flex items-center pt-3 pb-2 pl-[0.625rem] pr-6">
       <div
         class="relative z-0 h-8"
         :class="{
@@ -44,6 +44,10 @@
         <IconActivist
           class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-[1.3em] h-8 z-1 overflow-clip"
           color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-special-text-over-header hover:dark:fill-dark-special-text-over-header"
+          :class="{
+            hidden:
+              sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          }"
         />
         <Transition>
           <LogoActivist
