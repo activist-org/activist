@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="absolute z-10 flex-col h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct sm:flex border-light-section-div dark:border-dark-section-div"
+    class="absolute z-10 flex-col h-full transition-all duration-500 border-r bg-light-distinct dark:bg-dark-distinct sm:flex border-light-section-div dark:border-dark-section-div"
     :class="{
       'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -41,6 +41,6 @@ if (route.path.includes("organizations")) {
 }
 
 // TODO use real name of organization / event when available from backend
-const placeholderName = route.path.split("/").at(-1).replaceAll("-", " ");
+const placeholderName = route.path.split("/").at(-2).replaceAll("-", " ");
 const placeholderLogo = "/images/tech-from-below.svg";
 </script>
