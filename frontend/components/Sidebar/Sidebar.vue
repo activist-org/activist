@@ -13,7 +13,9 @@
       <SearchBar class="mt-2" />
       <SidebarMainSectionSelectors class="mt-2" />
       <MenuIndex
-        :menuType="route.path.includes('organizations') ? 'organizations' : 'events'"
+        :menuType="
+          route.path.includes('organizations') ? 'organizations' : 'events'
+        "
         :name="placeholderName"
         :logoUrl="placeholderLogo"
         class="mt-2"
@@ -30,6 +32,6 @@ defineProps<{
   name?: string;
 }>();
 // TODO use real name of organization / event when available from backend
-const placeholderName = "Tech from below";
+const placeholderName = "tech from below";
 const placeholderLogo = "~/assets/tech_from_below_logo.svg";
 </script>

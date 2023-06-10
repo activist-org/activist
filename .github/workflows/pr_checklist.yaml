@@ -1,0 +1,14 @@
+name: pr_checklist
+
+on: [pull_request]
+
+jobs:
+  checklist:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-message: "## Thank you for the pull request!\nThe following is a checklist for maintainers to make sure this process goes well. Feel free to address the points below yourself in further commits if you realize that actions are needed :)\n- [ ] The commit messages for the remote branch should be checked to make sure the contributor's email is set up correctly to be added to the contributors graph (name and icon should be the same in remote commits)"
