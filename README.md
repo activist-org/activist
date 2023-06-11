@@ -26,7 +26,7 @@
 </p>
 </details>
 
-### Open-source, nonprofit activism platform (test)
+### Open-source, nonprofit activism platform (test, test, test)
 
 [**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.
 
