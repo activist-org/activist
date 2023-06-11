@@ -1,4 +1,4 @@
-name: pr_checklist
+name: pr_maintainer_checklist
 on:
   pull_request:
     branches:
@@ -9,7 +9,7 @@ on:
 jobs:
   add_pr_checklist:
     runs-on: ubuntu-latest
-    name: Add PR Checklist
+    name: Add PR Maintainer Checklist
     permissions:
       pull-requests: write
     steps:
@@ -24,6 +24,6 @@ jobs:
 
             The activist team will do our best to address your contribution as soon as we can. The following is a checklist for maintainers to make sure this process goes well. Feel free to address the points below yourself in further commits if you realize that actions are needed :)
 
-            ### PR Checklist
+            ### Maintainer Checklist
 
-            - [ ] The commit messages for the remote branch should be checked to make sure the contributor's email is set up correctly to be added to the contributors graph (name and icon should be the same in remote commits)
+            - [ ] The commit messages for the remote branch should be checked to make sure the contributor's email is set up correctly so that they receive credit for their contribution (name and icon should be the same in remote commits)
