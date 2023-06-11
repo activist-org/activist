@@ -1,29 +1,29 @@
-name: pr_maintainer_checklist
-on:
-  pull_request:
-    branches:
-      - main
-    types:
-      - opened
+# name: pr_maintainer_checklist
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#     types:
+#       - opened
 
-jobs:
-  add_pr_checklist:
-    runs-on: ubuntu-latest
-    name: Add PR Maintainer Checklist
-    permissions:
-      pull-requests: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+# jobs:
+#   add_pr_checklist:
+#     runs-on: ubuntu-latest
+#     name: Add PR Maintainer Checklist
+#     permissions:
+#       pull-requests: write
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
 
-      - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          message: |
-            ## Thank you for the pull request!
+#       - name: Comment PR
+#         uses: thollander/actions-comment-pull-request@v2
+#         with:
+#           message: |
+#             ## Thank you for the pull request!
 
-            The activist team will do our best to address your contribution as soon as we can. The following is a checklist for maintainers to make sure this process goes well. Feel free to address the points below yourself in further commits if you realize that actions are needed :)
+#             The activist team will do our best to address your contribution as soon as we can. The following is a checklist for maintainers to make sure this process goes well. Feel free to address the points below yourself in further commits if you realize that actions are needed :)
 
-            ### Maintainer Checklist
+#             ### Maintainer Checklist
 
-            - [ ] The commit messages for the remote branch should be checked to make sure the contributor's email is set up correctly so that they receive credit for their contribution (name and icon should be the same in remote commits)
+#             - [ ] The commit messages for the remote branch should be checked to make sure the contributor's email is set up correctly so that they receive credit for their contribution (name and icon should be the same in remote commits)
