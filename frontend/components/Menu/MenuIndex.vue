@@ -16,7 +16,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <IconOrganization :imgURL="logoUrl"> </IconOrganization>
+        <ImageOrganization :imgURL="logoUrl"> </ImageOrganization>
       </div>
       <div
         v-else="menuType === 'event'"
@@ -28,7 +28,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <IconEvent eventType="act"></IconEvent>
+        <ImageEvent eventType="act"></ImageEvent>
       </div>
       <p
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
@@ -111,21 +111,21 @@ const organizationButtons: MenuSelectorType[] = [
   {
     btnText: "sidebar.groups",
     btnURL: "/",
-    iconURL: "bi:collection",
+    iconURL: "IconGroup",
     selected: false,
     active: true,
   },
   {
     btnText: "sidebar.resources",
     btnURL: "/",
-    iconURL: "bi:pencil",
+    iconURL: "IconResource",
     selected: false,
     active: true,
   },
   {
     btnText: "sidebar.faq",
     btnURL: "/",
-    iconURL: "bi:chat-left",
+    iconURL: "IconFAQ",
     selected: false,
     active: true,
   },
@@ -139,7 +139,7 @@ const organizationButtons: MenuSelectorType[] = [
   {
     btnText: "sidebar.affiliates",
     btnURL: "/",
-    iconURL: "bi:emoji-smile",
+    iconURL: "IconAffiliate",
     selected: false,
     active: false,
   },
@@ -153,7 +153,7 @@ const organizationButtons: MenuSelectorType[] = [
   {
     btnText: "sidebar.discussions",
     btnURL: "/",
-    iconURL: "bi:chat-left-text",
+    iconURL: "IconDiscussion",
     selected: false,
     active: false,
   },
@@ -177,7 +177,7 @@ const eventButtons: MenuSelectorType[] = [
   {
     btnText: "sidebar.resources",
     btnURL: "/",
-    iconURL: "bi:pencil",
+    iconURL: "IconResource",
     selected: false,
     active: true,
   },
@@ -198,7 +198,7 @@ const eventButtons: MenuSelectorType[] = [
   {
     btnText: "sidebar.discussions",
     btnURL: "/",
-    iconURL: "bi:chat-left-text",
+    iconURL: "IconDiscussion",
     selected: false,
     active: false,
   },

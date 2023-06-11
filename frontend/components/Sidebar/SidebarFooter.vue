@@ -66,21 +66,21 @@
                 :active="true"
               ></MenuSelector>
               <MenuSelector
-                iconURL="bi:person-square"
+                iconURL="IconOrganization"
                 btnText="New organization"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               ></MenuSelector>
               <MenuSelector
-                iconURL="bi:people-fill"
+                iconURL="IconGroup"
                 btnText="New group"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               ></MenuSelector>
               <MenuSelector
-                iconURL="bi:pencil"
+                iconURL="IconResource"
                 btnText="New resource"
                 btnURL="/"
                 :selected="false"
@@ -202,7 +202,7 @@
                 :active="true"
               ></MenuSelector>
               <MenuSelector
-                iconURL="bi:person-square"
+                iconURL="IconOrganization"
                 btnText="Your orgs"
                 btnURL="/"
                 :selected="false"

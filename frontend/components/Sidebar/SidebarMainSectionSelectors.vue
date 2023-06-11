@@ -9,7 +9,7 @@
         :active="true"
       ></MenuSelector>
       <MenuSelector
-        iconURL="bi:person-square"
+        iconURL="IconOrganization"
         btnText="Organizations"
         btnURL="/"
         :selected="isOrg"
