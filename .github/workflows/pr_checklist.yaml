@@ -1,14 +1,21 @@
 name: pr_checklist
-
-on: [pull_request]
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  checklist:
+  add_pr_checklist:
     runs-on: ubuntu-latest
+    name: Add PR Checklist
     permissions:
       pull-requests: write
     steps:
-      - uses: actions
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          pr-message: "## Thank you for the pull request!\nThe following is a checklist for maintainers to make sure this process goes well. Feel free to address the points below yourself in further commits if you realize that actions are needed :)\n- [ ] The commit messages for the remote branch should be checked to make sure the contributor's email is set up correctly to be added to the contributors graph (name and icon should be the same in remote commits)"
+          message: |
+            ## Thank you for the pull request!\nThe following is a checklist for maintainers to make sure this process goes well. Feel free to address the points below yourself in further commits if you realize that actions are needed :)\n- [ ] The commit messages for the remote branch should be checked to make sure the contributor's email is set up correctly to be added to the contributors graph (name and icon should be the same in remote commits)
