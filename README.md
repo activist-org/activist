@@ -1,3 +1,5 @@
+Hi andrew, let's hope it works!
+
 <div align="center">
   <a href="https://github.com/activist-org/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/logos/activistGitHubOrgBanner.png" width=1024 alt="activist Logo"></a>
 </div>
