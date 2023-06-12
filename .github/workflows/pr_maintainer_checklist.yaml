@@ -1,6 +1,6 @@
 name: pr_maintainer_checklist
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main
     types:
