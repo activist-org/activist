@@ -52,7 +52,7 @@ function handleMapError(error: Error) {
   console.error(error);
   errorOccurred = true;
 
-  // TODO: More helpful and better looking error messages
+  // TODO: More helpful and better looking error messages.
   errorMessage = "There was a problem with the map service.";
   sorryMessage = "Sorry about that!";
   rerenderKey.value += 1; // rerender the error div

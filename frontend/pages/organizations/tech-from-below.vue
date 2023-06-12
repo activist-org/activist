@@ -26,11 +26,12 @@
         {{ organization.tagline }}
       </h2>
       <LabeledBtn
-        class="absolute right-7"
         :cta="true"
-        label="Share organization"
         linkTo="/"
+        label="Share organization"
         fontSize="base"
+        leftIcon="bi:box-arrow-up"
+        class="absolute right-7"
       ></LabeledBtn>
     </flex>
     <div

@@ -26,11 +26,12 @@
         {{ event.tagline }}
       </h2>
       <LabeledBtn
-        class="absolute right-7"
         :cta="true"
-        label="Share event"
         linkTo="/"
+        label="Share event"
         fontSize="base"
+        leftIcon="bi:box-arrow-up"
+        class="absolute right-7"
       ></LabeledBtn>
     </flex>
     <div
