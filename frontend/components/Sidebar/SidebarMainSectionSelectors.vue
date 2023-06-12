@@ -7,14 +7,14 @@
         btnURL="/"
         :selected="isEvent"
         :active="true"
-      ></MenuSelector>
+      />
       <MenuSelector
         iconURL="IconOrganization"
         btnText="Organizations"
         btnURL="/"
         :selected="isOrg"
         :active="true"
-      ></MenuSelector>
+      />
     </div>
   </div>
 </template>

@@ -98,13 +98,13 @@
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
           >
-            <LabeledBtn
+            <BtnLabeled
               :cta="true"
               label="Suggest a feature"
               linkTo="https://github.com/activist-org/activist/issues"
               fontSize="lg"
             />
-            <LabeledBtn
+            <BtnLabeled
               :cta="false"
               label="Return home"
               linkTo="/"

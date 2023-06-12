@@ -17,6 +17,6 @@
     >
       {{ $t("landing-page-github-text") }}
     </p>
-    <GridGithubShields></GridGithubShields>
+    <GridGithubShields />
   </div>
 </template>

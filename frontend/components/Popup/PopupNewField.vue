@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 pt-2 pb-3 space-y-2 shadow-md card-style bg-light-header dark:bg-dark-header w-fit shadow-zinc-700"
+    class="flex flex-col px-4 pt-2 pb-3 shadow-md space-y-2 card-style bg-light-header dark:bg-dark-header w-fit shadow-zinc-700"
   >
     <div class="relative flex">
       <p class="pl-1 responsive-h5">{{ title }}</p>
@@ -27,13 +27,13 @@
       class="p-1 bg-transparent border rounded-sm resize-none border-light-text dark:border-dark-text focus-brand min-w-[75%] min-h-[50%]"
     ></textarea>
     <div @click="emit('on-cta-clicked', inputValue)" class="mt-1">
-      <LabeledBtn
+      <BtnLabeled
         :cta="true"
         linkTo="placeholder-link"
         :label="ctaBtnLabel"
         fontSize="base"
         leftIcon="bi:plus-lg"
-      ></LabeledBtn>
+      />
     </div>
   </div>
 </template>

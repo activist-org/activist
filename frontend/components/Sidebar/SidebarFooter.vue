@@ -64,28 +64,28 @@
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
               <MenuSelector
                 iconURL="IconOrganization"
                 btnText="New organization"
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
               <MenuSelector
                 iconURL="IconGroup"
                 btnText="New group"
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
               <MenuSelector
                 iconURL="IconResource"
                 btnText="New resource"
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
             </div>
           </DisclosurePanel>
         </Disclosure>
@@ -135,14 +135,14 @@
                 btnURL="/help"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
               <MenuSelector
                 iconURL="bi:layout-text-sidebar-reverse"
                 btnText="Documentation"
                 btnURL="/docs"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
             </div>
           </DisclosurePanel>
         </Disclosure>
@@ -193,42 +193,42 @@
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
               <MenuSelector
                 iconURL="bi:calendar-check"
                 btnText="Your events"
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
               <MenuSelector
                 iconURL="IconOrganization"
                 btnText="Your orgs"
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
               <MenuSelector
                 iconURL="bi:bell"
                 btnText="Notifications"
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
               <MenuSelector
                 iconURL="bi:gear"
                 btnText="Settings"
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
               <MenuSelector
                 iconURL="bi:box-arrow-left"
                 btnText="Sign out"
                 btnURL="/"
                 :selected="false"
                 :active="true"
-              ></MenuSelector>
+              />
             </div>
           </DisclosurePanel>
         </Disclosure>

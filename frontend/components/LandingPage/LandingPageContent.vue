@@ -34,7 +34,7 @@
       >
         {{ $t(text) }}
       </p>
-      <LabeledBtn
+      <BtnLabeled
         :cta="true"
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
@@ -103,7 +103,7 @@
       >
         {{ $t(text) }}
       </p>
-      <LabeledBtn
+      <BtnLabeled
         :cta="true"
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
@@ -134,13 +134,13 @@
       <div
         class="flex flex-col space-y-4 sm:flex-row sm:space-x-8 xl:space-x-12 sm:space-y-0"
       >
-        <LabeledBtn
+        <BtnLabeled
           :cta="true"
           :label="`${btnText1}`"
           :linkTo="`${btnURL1}`"
           fontSize="xl"
         />
-        <LabeledBtn
+        <BtnLabeled
           :cta="false"
           :label="`${btnText2}`"
           :linkTo="`${btnURL2}`"

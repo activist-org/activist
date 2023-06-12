@@ -16,7 +16,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <ImageOrganization :imgURL="logoUrl"> </ImageOrganization>
+        <ImageOrganization :imgURL="logoUrl" />
       </div>
       <div
         v-else="menuType === 'event'"
@@ -28,7 +28,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <ImageEvent eventType="act"></ImageEvent>
+        <ImageEvent eventType="act" />
       </div>
       <p
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
@@ -53,7 +53,7 @@
             :btnURL="button.btnURL"
             :selected="button.selected"
             :active="button.active"
-          ></MenuSelector>
+          />
         </li>
         <li v-if="menuType === 'event'" v-for="button in eventButtons">
           <MenuSelector
@@ -62,7 +62,7 @@
             :btnURL="button.btnURL"
             :selected="button.selected"
             :active="button.active"
-          ></MenuSelector>
+          />
         </li>
       </ul>
     </div>

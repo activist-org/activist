@@ -4,20 +4,20 @@
       <h3 class="text-left responsive-h3 font-display">Get involved</h3>
       <Icon name="bi:pencil-square" size="1.2em" />
       <div class="absolute right-0 space-x-2">
-        <LabeledBtn
+        <BtnLabeled
           v-if="organization && organization.workingGroupURLs"
           :cta="true"
           label="View all groups"
           linkTo="/"
           fontSize="base"
-        ></LabeledBtn>
-        <LabeledBtn
+        />
+        <BtnLabeled
           v-if="organization"
           :cta="true"
           label="Join organization"
           linkTo="/"
           fontSize="base"
-        ></LabeledBtn>
+        />
       </div>
     </div>
     <div v-if="organization" class="mt-4">
@@ -26,7 +26,7 @@
           The following are working groups within
           {{ organization.name }}:
         </p>
-        <CardFeed :feedItemURLs="organization.workingGroupURLs"></CardFeed>
+        <CardFeed :feedItemURLs="organization.workingGroupURLs" />
       </div>
       <div v-else>
         <p>
@@ -43,14 +43,14 @@
         Please read the legal disclaimer below for more information on your
         rights during this event!
       </p>
-      <CardLegalDisclaimer></CardLegalDisclaimer>
+      <CardLegalDisclaimer />
       <div class="pt-2">
-        <LabeledBtn
+        <BtnLabeled
           :cta="true"
           label="Offer to help"
           linkTo="/"
           fontSize="base"
-        ></LabeledBtn>
+        />
       </div>
     </div>
   </div>

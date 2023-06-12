@@ -33,6 +33,9 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 - `<template>` blocks should come first, `<script>` second and `<style>` last
 - [TypeScript](https://www.typescriptlang.org/) should be used where ever possible within `<script>` blocks
   - This will be more strictly enforced as the project matures
+- Self-closing components (`<Component />`) should be used for any component that doesn't have content
+  - This style is [strongly recommended in Vue](https://vuejs.org/guide/essentials/component-basics.html#dom-template-parsing-caveats)
+  - Generally if a component has a `<slot>` then this would imply that it would normally have content and thus require a closing tag
 
 <!-- <a id="typescript"></a>
 

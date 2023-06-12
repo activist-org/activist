@@ -25,14 +25,14 @@
       >
         {{ event.tagline }}
       </h2>
-      <LabeledBtn
+      <BtnLabeled
         :cta="true"
         linkTo="/"
         label="Share event"
         fontSize="base"
         leftIcon="bi:box-arrow-up"
         class="absolute right-7"
-      ></LabeledBtn>
+      />
     </flex>
     <div
       class="pb-4 pr-2 space-y-4 sm:pr-8"
@@ -44,7 +44,7 @@
       <CardAbout
         description="Let's gather at Brandenburg Gate..."
         aboutType="event"
-      ></CardAbout>
+      />
       <div class="w-72 h-72">
         <MediaMap
           v-if="event.inPersonLocation"
@@ -52,14 +52,13 @@
           :type="event.topic"
         />
       </div>
-      <CardGetInvolved :event="event"></CardGetInvolved>
+      <CardGetInvolved :event="event" />
       <CardConnect
         :socialLinks="socialLinks"
         :userIsAdmin="true"
         @on-new-account="(account) => onNewAccount(account)"
         @on-account-removed="(account) => onAccountRemoved(account)"
-      >
-      </CardConnect>
+      />
     </div>
   </div>
 </template>

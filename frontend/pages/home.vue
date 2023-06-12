@@ -25,10 +25,7 @@
       >
         Your topics at a glance
       </h2>
-      <TopicMarker
-        topic="My topics dropdown"
-        class="absolute right-7"
-      ></TopicMarker>
+      <TopicMarker topic="My topics dropdown" class="absolute right-7" />
     </flex>
     <div
       class="pb-4 pr-2 space-y-4 sm:pr-8"
@@ -37,17 +34,17 @@
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
-      <GridHomeMetrics></GridHomeMetrics>
+      <GridHomeMetrics />
       <CardSearchResult
         searchResultType="organization"
         :isPrivate="false"
         :organization="organization"
-      ></CardSearchResult>
+      />
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
         :event="event"
-      ></CardSearchResult>
+      />
     </div>
   </div>
 </template>
