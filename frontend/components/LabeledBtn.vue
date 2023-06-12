@@ -1,4 +1,9 @@
 <template>
+  <div class="flex items-center">
+    <Icon 
+      v-if="leftIcon" 
+      :name="leftIcon"
+  />
   <a
     v-if="linkTo.includes('http')"
     :href="linkTo"
@@ -39,6 +44,12 @@
   >
     {{ $t(label) }}
   </NuxtLink>
+  <Icon 
+      v-if="rightIcon" 
+      :name="rightIcon"
+  />
+  </div>
+  
 </template>
 
 <script setup lang="ts">
