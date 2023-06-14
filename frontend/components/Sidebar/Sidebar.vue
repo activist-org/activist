@@ -9,7 +9,7 @@
     @mouseleave="sidebar.collapsed = true"
   >
     <SidebarHeader />
-    <div class="overflow-x-hidden overflow-y-scroll">
+    <div class="overflow-x-hidden overflow-y-scroll h-full">
       <SearchBar class="mt-2" />
       <SidebarMainSectionSelectors class="mt-2" />
       <MenuIndex
