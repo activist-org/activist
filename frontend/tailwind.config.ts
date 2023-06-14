@@ -10,7 +10,9 @@ export default <Partial<Config>>{
     "./app.vue",
   ],
   darkMode: "class",
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')({ nocompatible: true }),
+  ],
   theme: {
     extend: {
       fontFamily: {

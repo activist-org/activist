@@ -1,12 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text&display=swap");
 @tailwind base;
+
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
     @apply bg-light-header dark:bg-dark-header;
+  }
+  * {
+    @apply scrollbar scrollbar-w-2.5 scrollbar-thumb-light-interactive dark:scrollbar-thumb-dark-interactive scrollbar-track-light-highlight dark:scrollbar-track-dark-highlight scrollbar-thumb-rounded-md;
   }
 }
 
