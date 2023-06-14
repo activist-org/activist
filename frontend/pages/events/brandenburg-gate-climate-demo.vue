@@ -50,6 +50,7 @@
           v-if="event.inPersonLocation"
           :addresses="[event.inPersonLocation]"
           :type="event.topic"
+          :title="event.name"
         />
       </div>
       <CardGetInvolved :event="event" />

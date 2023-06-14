@@ -25,12 +25,13 @@
 
 <script setup lang="ts">
 import { onMounted } from "@vue/runtime-core";
-import L from "leaflet";
+import L, { MapOptions } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { ref } from "vue";
 
 const props = defineProps<{
   addresses: Array<string>;
+  title: string;
   type: string;
 }>();
 const localePath = useLocalePath();
@@ -61,13 +62,13 @@ function handleMapError(error: Error) {
 }
 
 function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
-  let mapOptions = {
+  let mapOptions: MapOptions = {
     center: [avgLat, avgLon],
     zoom: 13,
     attributionControl: false,
   };
 
-  let leafletMap: L.map = new L.map("map-div", mapOptions);
+  let leafletMap = L.map("map-div", mapOptions);
 
   let layer = new L.TileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -105,7 +106,6 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
   const mapIcon = L.divIcon({
     className: "my-custom-pin",
     iconAnchor: [0, 24],
-    labelAnchor: [-6, 0],
     popupAnchor: [0, -36],
     html: `<span style="${markerHTMLStyles}" />`,
   });
@@ -114,11 +114,25 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
     let pin = L.marker(
       [marker.lat, marker.lon],
       { icon: mapIcon },
-      {
-        title: marker.address,
-      }
     );
     pin.addTo(leafletMap); // add location pin to map
+    pin.on("click", function(){
+      L.popup().setLatLng(pin.getLatLng())
+      .setContent(`
+          <div class="flex w-full m-0  bg-[#F6F8FA] rounded-md">
+            <div class="w-2/3  p-4 rounded-md">
+              <p class="text-xs py-1 font-semibold">${props.title}</p>
+              <p class="text-xs py-1 font-semibold">Date and time</p>
+              <p class="text-xs py-1 font-semibold mb-3">${marker.address}</p>
+              <a href="/home" class="py-[0.5rem] px-[1.125rem] bg-[#F1993D] text-[#F6F8FA] font-medium">Attend</a>
+            </div>
+            <div class="w-1/3 border-l-[28px] border-[#9A031E] bg-[#898688] rounded-r-md">
+              <img src=""/>
+            </div>
+          </div>
+      `)
+      .openOn(leafletMap);
+    })
   });
 }
 
@@ -178,3 +192,26 @@ onMounted(() => {
   });
 });
 </script>
+
+<style>
+.leaflet-container a {
+  color: #F6F8FA;
+}
+.leaflet-container a.leaflet-popup-close-button{
+  color: #F6F8FA;
+}
+.leaflet-container p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 5px;
+}
+
+.leaflet-popup-content {
+  margin: 0rem;
+  width: 450px;
+  height: 100%;
+}
+
+</style>
