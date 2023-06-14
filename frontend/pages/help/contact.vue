@@ -167,7 +167,7 @@
           We appreciate you taking the time to reach out. We'll do our best to
           get back to you as quickly as possible. Thank you for your patience!
         </p>
-        <LabeledBtn :cta="false" label="Return home" linkTo="/" fontSize="lg" />
+        <BtnLabeled :cta="false" label="Return home" linkTo="/" fontSize="lg" />
       </div>
     </div>
   </div>

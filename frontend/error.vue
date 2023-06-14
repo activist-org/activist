@@ -1,6 +1,6 @@
 <template>
   <WebsiteHeader />
-  <div>
+  <div class="flex h-full bg-light-content dark:bg-dark-content">
     <Head>
       <Title>{{ title }}</Title>
     </Head>
@@ -28,12 +28,7 @@
         >
           {{ error.message }}
         </div>
-        <LabeledBtn
-          :cta="true"
-          label="Go to home"
-          linkTo="/"
-          fontSize="lg"
-        ></LabeledBtn>
+        <BtnLabeled :cta="true" label="Go to home" linkTo="/" fontSize="lg" />
       </div>
     </div>
   </div>

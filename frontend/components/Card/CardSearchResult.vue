@@ -1,8 +1,9 @@
 <template>
-  <div
-    class="flex items-center w-full h-min card-style sm:items-start"
-  >
-    <div v-if="searchResultType === 'organization'" class="flex items-center p-2 sm:px-5 sm:py-3">
+  <div class="flex items-center w-full h-min card-style sm:items-start">
+    <div
+      v-if="searchResultType === 'organization'"
+      class="flex items-center p-2 sm:px-5 sm:py-3"
+    >
       <div
         class="border h-[90%] border-light-section-div dark:border-dark-section-div rounded-lg bg-light-content"
       >
@@ -23,7 +24,7 @@
         <h2 class="font-bold responsive-h3">
           {{ organization.name }}
         </h2>
-        <TopicMarker :topic="organization.topic"></TopicMarker>
+        <TopicMarker :topic="organization.topic" />
         <div class="flex gap-4" v-if="organization">
           <div>
             <Icon name="bi:map" class="mr-1" />
@@ -43,7 +44,10 @@
         </div>
       </div>
     </div>
-    <div v-if="searchResultType === 'event'" class="flex items-center p-2 grow sm:px-5 sm:py-3">
+    <div
+      v-if="searchResultType === 'event'"
+      class="flex items-center p-2 grow sm:px-5 sm:py-3"
+    >
       <div
         class="border h-[90%] border-light-section-div dark:border-dark-section-div rounded-lg bg-light-content"
       >
@@ -60,7 +64,7 @@
           <Icon name="bi:calendar" color="black" class="w-[75%] h-[75%]" />
         </div>
       </div>
-      <div class="px-6 pb-1 grow space-y-4">
+      <div class="px-6 pb-1 space-y-4 grow">
         <div class="flex justify-between">
           <h2 class="font-bold responsive-h3">
             {{ event.name }}
@@ -71,7 +75,11 @@
               {{ event?.inPersonLocation }}
             </div>
             <div v-if="event?.onlineLocation">
-              <Icon v-if="event?.onlineLocation" name="bi:pc-display-horizontal" class="mr-1"/>
+              <Icon
+                v-if="event?.onlineLocation"
+                name="bi:pc-display-horizontal"
+                class="mr-1"
+              />
               {{ event?.onlineLocation }}
             </div>
             <div>
@@ -80,7 +88,7 @@
             </div>
           </div>
         </div>
-        <TopicMarker :topic="event.topic"></TopicMarker>
+        <TopicMarker :topic="event.topic" />
         <div class="flex gap-4" v-if="event">
           <div>
             <Icon name="bi:people" class="mr-1" />
@@ -100,8 +108,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Event } from "../../types/event";
 import type { Organization } from "../../types/organization";
-import type { Event } from "../../types/event"
 
 const props = defineProps<{
   searchResultType: "organization" | "event" | "resource";
@@ -109,5 +117,4 @@ const props = defineProps<{
   organization?: Organization;
   event?: Event;
 }>();
-
 </script>

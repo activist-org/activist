@@ -113,14 +113,14 @@
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
           >
-            <LabeledBtn
+            <BtnLabeled
               :cta="true"
               label="Request access"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
               class="w-52"
             />
-            <LabeledBtn
+            <BtnLabeled
               :cta="false"
               label="Return home"
               linkTo="/"

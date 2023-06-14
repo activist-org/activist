@@ -39,6 +39,18 @@
   "supporters": "Supporters",
   "impress": "Impress",
   "theme": "Theme",
+  "sidebar": {
+    "about": "About",
+    "events": "Events",
+    "groups": "Groups",
+    "resources": "Resources",
+    "faq": "FAQ",
+    "settings": "Settings",
+    "affiliates": "Affiliates",
+    "tasks": "Tasks",
+    "discussions": "Discussions",
+    "team": "Team"
+  },
   "wikimedia-de-logo-label": "Link to the website of Wikimedia Deutschland.",
   "wikimedia-rs-logo-label": "Link to the website of Wikimedia Serbia.",
   "impacthub-belgrade-logo-label": "Link to the website of Impact Hub Belgrade.",

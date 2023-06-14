@@ -1,10 +1,10 @@
 <template>
   <div
-    class="p-0 border rounded-sm w-96 h-96 map border-light-section-div dark:border-dark-section-div sm:rounded-md"
+    class="w-full h-full border rounded-sm bg-clip-content map border-light-section-div dark:border-dark-section-div sm:rounded-md"
   >
     <div
       id="map-div"
-      class="z-0 w-full h-full rounded-sm sm:rounded-md"
+      class="z-0 w-full h-full rounded-sm select-none sm:rounded-md saturate-[1.15] dark:hue-rotate-180 dark:invert"
       ref="map"
       alt="Map displaying a pin at the location of this event."
     ></div>
@@ -53,7 +53,7 @@ function handleMapError(error: Error) {
   console.error(error);
   errorOccurred = true;
 
-  // TODO: More helpful and better looking error messages
+  // TODO: More helpful and better looking error messages.
   errorMessage = "There was a problem with the map service.";
   sorryMessage = "Sorry about that!";
   rerenderKey.value += 1; // rerender the error div
@@ -75,11 +75,20 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
   );
   leafletMap.addLayer(layer);
 
+  const colorMode = useColorMode();
   let eventColor = "";
   if (props.type === "act") {
-    eventColor = "#9A031E";
+    if (colorMode.value == "dark") {
+      eventColor = "#DD7E6B";
+    } else {
+      eventColor = "#9A031E";
+    }
   } else {
-    eventColor = "#006DAA";
+    if (colorMode.value == "dark") {
+      eventColor = "#6D9EEB";
+    } else {
+      eventColor = "#006DAA";
+    }
   }
 
   const markerHTMLStyles = `

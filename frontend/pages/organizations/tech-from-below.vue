@@ -25,16 +25,17 @@
       >
         {{ organization.tagline }}
       </h2>
-      <LabeledBtn
-        class="absolute right-7"
+      <BtnLabeled
         :cta="true"
-        label="Share organization"
         linkTo="/"
+        label="Share organization"
         fontSize="base"
-      ></LabeledBtn>
+        leftIcon="bi:box-arrow-up"
+        class="absolute right-7"
+      />
     </flex>
     <div
-      class="pr-2 space-y-2 sm:pr-8"
+      class="pb-4 pr-2 space-y-4 sm:pr-8"
       :class="{
         'pl-56': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -43,16 +44,15 @@
       <CardAbout
         description="We're a Berlin based social tech meetup..."
         aboutType="organization"
-      ></CardAbout>
-      <MediaImageCarousel></MediaImageCarousel>
-      <CardGetInvolved :organization="organization"></CardGetInvolved>
+      />
+      <MediaImageCarousel />
+      <CardGetInvolved :organization="organization" />
       <CardConnect
         :socialLinks="socialLinks"
         :userIsAdmin="true"
         @on-new-account="(account) => onNewAccount(account)"
         @on-account-removed="(account) => onAccountRemoved(account)"
-      >
-      </CardConnect>
+      />
     </div>
   </div>
 </template>

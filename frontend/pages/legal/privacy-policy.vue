@@ -190,7 +190,7 @@
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
           >
-            <LabeledBtn
+            <BtnLabeled
               :cta="false"
               label="Return home"
               linkTo="/"

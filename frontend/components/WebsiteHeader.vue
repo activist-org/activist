@@ -37,14 +37,14 @@
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
             <SelectorTheme />
             <SelectorLanguage />
-            <LabeledBtn
+            <BtnLabeled
               :cta="true"
               label="get-in-touch"
               linkTo="/help/contact"
               fontSize="sm"
               class="hidden lg:block"
             />
-            <LabeledBtn
+            <BtnLabeled
               :cta="true"
               label="get-in-touch"
               linkTo="/help/contact"
