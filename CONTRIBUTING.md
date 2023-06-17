@@ -43,6 +43,7 @@ activist is very open to contributions from people in the early stages of their 
 <p>
 
 - [Vue.js 3 docs](https://vuejs.org/guide/introduction.html)
+- [Vue docs on MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_getting_started)
 - [Nuxt.js 3 docs](https://nuxt.com/docs/getting-started/introduction)
 - [TypeScript docs](https://www.typescriptlang.org/docs/)
 - [Tailwind CSS docs](https://tailwindcss.com/docs/installation)
@@ -54,6 +55,7 @@ activist is very open to contributions from people in the early stages of their 
 <details><summary>Backend tech docs</summary>
 <p>
 
+- [Django docs](https://docs.djangoproject.com/)
 - [Django docs on MDN](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django)
 
 </p>
