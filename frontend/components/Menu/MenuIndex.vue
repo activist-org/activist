@@ -139,7 +139,7 @@ const organizationButtons: MenuSelectorType[] = [
   {
     btnText: "sidebar.affiliates",
     btnURL: "/",
-    iconURL: "IconAffiliate",
+    iconURL: "IconSupport",
     selected: false,
     active: false,
   },

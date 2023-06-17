@@ -27,7 +27,7 @@
         <TopicMarker :topic="organization.topic" />
         <div class="flex gap-4" v-if="organization">
           <div>
-            <Icon name="bi:map" class="mr-1" />
+            <Icon name="bi:pin-map" class="mr-1" />
             {{ organization.location }}
           </div>
           <div>
@@ -35,7 +35,7 @@
             {{ organization.members }} {{ $t("members") }}
           </div>
           <div>
-            <Icon name="bi:balloon-heart" class="mr-1" />
+            <Icon name="IconSupporter" class="mr-1" />
             {{ organization.supporters }} {{ $t("supporters") }}
           </div>
         </div>
@@ -77,7 +77,7 @@
             <div v-if="event?.onlineLocation">
               <Icon
                 v-if="event?.onlineLocation"
-                name="bi:pc-display-horizontal"
+                name="bi:camera-video"
                 class="mr-1"
               />
               {{ event?.onlineLocation }}
@@ -91,7 +91,7 @@
         <TopicMarker :topic="event.topic" />
         <div class="flex gap-4" v-if="event">
           <div>
-            <Icon name="bi:people" class="mr-1" />
+            <Icon name="IconOrganization" class="mr-1" />
             {{ event.organizer }}
           </div>
           <div>

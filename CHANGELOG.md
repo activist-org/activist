@@ -10,24 +10,45 @@ activist tries to follow [semantic versioning](https://semver.org/), a MAJOR.MIN
 
 Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 
-# activist 0.0.1
+<!--
+### ✨ New Features
+### 🎨 Design Changes
+### 🐞 Bug Fixes
+### ♻️ Code Refactoring
+-->
+
+# [Upcoming] activist 0.1.0
 
 ### ✨ Features
 
-- Content to describe the goal of activist
-- Links to supporter websites
-- Links to activist GitHub and socials
-- Color mode switching
-- Localization switching with routing applied to links
-- Landing page elements are reactive to screen sizes
-- Image popup to get a better view of the images
+- Content to describe the goal of activist.
+- Search results for events and organizations.
+- Metric cards display new organizations and events to the user.
+- Links to activist GitHub and socials as well as supporter websites.
+- Landing page elements are reactive to screen sizes.
+- Image popup to get a better view of the images.
 - A sidebar component has been made to house all the navigation for the platform.
+  - The sidebar has collapsed and expanded states to provide more room to work.
+  - The collapsed state transitions directly to expanded upon hovering.
 
 ### 🎨 Design
 
-- Light and dark mode colors defined and applied
-### Description
+- Light and dark mode with color mode preferences.
+- Brand colors have been defined for light and dark mode.
+- Card components to compartmentalize platform functionality.
+- Custom icons have been implemented for the platform to better describe certain interactions.
 
-- added card feed component
+### 🌐 Localization
 
-#142
+- Localization switching with routing applied to links.
+
+### ⚖️ Legal
+
+- Baseline trademark policy for the activist brand.
+- A privacy policy that details a focus on user data protection and keeping users safe.
+
+### 📝 Documentation
+
+- Contributing guidelines detail resources to learn the tech stack, Git processes and where to ask for help.
+- Development environment setup documented in the project readme and contributing guidelines.
+- A style guide was made to direct development using agreed to methods.
