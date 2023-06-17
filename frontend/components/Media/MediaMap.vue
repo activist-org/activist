@@ -124,7 +124,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
               <p class="text-sm font-bold">${props.title}</p>
               <p class="text-xs font-semibold">Date and time</p>
               <p class="text-xs font-semibold">${marker.address}</p>
-              <a class="attend-btn py-[0.5rem] px-[1.125rem] bg-[#F1993D] text-[#F6F8FA] font-medium rounded-md w-fit">
+              <a href="/home" class="attend-btn py-[0.5rem] px-[1.125rem] bg-[#F1993D] text-[#F6F8FA] font-medium rounded-md w-fit">
                 Attend
               </a>
             </div>
