@@ -28,4 +28,6 @@ jobs:
 
             ### Maintainer checklist
 
-            - [ ] The commit messages for the remote branch should be checked to make sure the contributor's email is set up correctly so that they receive credit for their contribution (name and icon should be the same in remote commits)
+            - [ ] The commit messages for the remote branch should be checked to make sure the contributor's email is set up correctly so that they receive credit for their contribution
+              - The contributor's name and icon in remote commits should be the same as what appears in the PR
+              - If there's a mismatch, the contributor needs to make sure that the [email they use for GitHub](https://github.com/settings/emails) matches what they have for `git config user.email` in their local activist repo
