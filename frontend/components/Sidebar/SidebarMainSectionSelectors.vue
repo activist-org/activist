@@ -4,14 +4,14 @@
       <MenuSelector
         iconURL="bi:calendar-check"
         btnText="Events"
-        btnURL="/"
+        btnURL="/home/events"
         :selected="isEvent"
         :active="true"
       />
       <MenuSelector
         iconURL="IconOrganization"
         btnText="Organizations"
-        btnURL="/"
+        btnURL="/home/organizations"
         :selected="isOrg"
         :active="true"
       />
