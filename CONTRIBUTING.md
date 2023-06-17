@@ -12,6 +12,7 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
+- [Learning the tech stack](#learning-the-tech)
 - [Development environment](#dev-env)
 - [Style guide](#style-guide)
 - [Linting](#linting)
@@ -22,6 +23,49 @@ If you have questions or would like to communicate with the team, please [join u
 - [Localization](#localization)
 - [Documentation](#documentation)
 - [Design](#design)
+
+<a id="learning-the-tech"></a>
+
+## Learning the tech stack [`⇧`](#contents)
+
+activist is very open to contributions from people in the early stages of their coding journey! The following is a select list of documentation pages to help you understand the technologies we use.
+
+<details><summary>Docs for those new to programming</summary>
+<p>
+
+- [Mozilla Developer Network Learning Area](https://developer.mozilla.org/en-US/docs/Learn)
+  - Doing MDN sections for HTML, CSS and JavaScript is the best ways to get into web development!
+
+</p>
+</details>
+
+<details><summary>Frontend tech docs</summary>
+<p>
+
+- [Vue.js 3 docs](https://vuejs.org/guide/introduction.html)
+- [Nuxt.js 3 docs](https://nuxt.com/docs/getting-started/introduction)
+- [TypeScript docs](https://www.typescriptlang.org/docs/)
+- [Tailwind CSS docs](https://tailwindcss.com/docs/installation)
+- [Headless UI docs](https://headlessui.com/)
+
+</p>
+</details>
+
+<details><summary>Backend tech docs</summary>
+<p>
+
+- [Django docs on MDN](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django)
+
+</p>
+</details>
+
+<details><summary>Deployment tech docs</summary>
+<p>
+
+- [Docker docs](https://docs.docker.com/get-started/)
+
+</p>
+</details>
 
 <a id="dev-env"></a>
 
