@@ -12,9 +12,9 @@
       <div
         class="flex flex-col justify-center px-[0.375rem] pt-2 pb-3 space-y-1"
         :class="{
-          'w-[11.25rem]':
+          'w-[11.4rem]':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'w-[3.25rem]':
+          'w-[3.4rem]':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
@@ -234,7 +234,7 @@
         </Disclosure>
       </div>
       <div
-        class="flex w-[0.75rem] bg-light-section-div dark:bg-dark-section-div"
+        class="flex right-0 w-[0.6rem] bg-light-section-div dark:bg-dark-section-div"
       ></div>
     </div>
   </footer>
