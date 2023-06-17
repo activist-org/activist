@@ -35,7 +35,7 @@
             {{ organization.members }} {{ $t("members") }}
           </div>
           <div>
-            <Icon name="IconSupporter" class="mr-1" />
+            <Icon name="IconSupport" class="mr-1" />
             {{ organization.supporters }} {{ $t("supporters") }}
           </div>
         </div>
