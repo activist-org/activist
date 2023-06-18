@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="absolute z-10 flex-col h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct sm:flex border-light-section-div dark:border-dark-section-div"
+    class="hidden absolute z-10 flex-col h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct sm:flex border-light-section-div dark:border-dark-section-div"
     :class="{
       'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,

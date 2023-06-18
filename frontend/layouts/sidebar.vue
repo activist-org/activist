@@ -16,6 +16,5 @@
 </template>
 
 <script setup lang="ts">
-
 const sidebar = useSidebar();
 </script>

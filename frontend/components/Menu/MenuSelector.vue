@@ -1,9 +1,5 @@
 <template>
-  <MenuLinkWrapper
-        :to="btnURL"
-        :active="active"
-        :selected="selected"
-    >
+  <MenuLinkWrapper :to="btnURL" :active="active" :selected="selected">
     <div
       class="relative z-0 flex items-center w-full text-sm font-medium text-left space-x-2"
     >

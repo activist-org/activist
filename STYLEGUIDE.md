@@ -17,6 +17,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Colors](#colors)
 - [Font](#font)
 - [Text size](#text-size)
+- [Tab size](#tab-size)
 - [Icons](#icons)
 - [Padding](#padding)
 
@@ -53,7 +54,7 @@ Please note that as activist uses Tailwind, this means that `<style>` blocks are
 
 ## Formatting [`⇧`](#contents)
 
-activist uses [Prettier](https://prettier.io/) to format the code and [Headwind](https://github.com/heybourn/headwind) to sort Tailwind CSS classes. We'll eventually set it up so that code is autoformatted within the PR flow, and generally the team isn't worried about formatting as it's done on save locally as we work.
+For the frontend activist uses [Prettier](https://prettier.io/) to format the code and [Headwind](https://github.com/heybourn/headwind) to sort Tailwind CSS classes. We'll eventually set it up so that code is autoformatted within the PR flow, and generally the team isn't worried about formatting as it's done on save locally as we work. Backend code written in Python should be formatted using [black](https://github.com/psf/black).
 
 <a id="common-styles"></a>
 
@@ -105,6 +106,12 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 <!-- The size and weight styles for page headers. -->
 <h1 class="font-bold responsive-h1">Page Header</h1>
 ```
+
+<a id="tab-size"></a>
+
+## Tab size [`⇧`](#contents)
+
+Codes on the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), TypeScript, CSS and other related files should use two spaces for tabs. For the backend four spaces should be used for Python files.
 
 <a id="icons"></a>
 
