@@ -11,9 +11,11 @@
         }"
       />
     </div>
+    <MenuMobileNavBar />
   </div>
 </template>
 
 <script setup lang="ts">
+
 const sidebar = useSidebar();
 </script>

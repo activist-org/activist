@@ -2,27 +2,23 @@
   <div class="flex flex-col justify-center mx-1 transition-all duration-500">
     <div class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header">
       <MenuSelector
-        iconURL="bi:calendar-check"
-        btnText="Events"
-        btnURL="/home/events"
-        :selected="isEvent"
-        :active="true"
-      />
-      <MenuSelector
-        iconURL="IconOrganization"
-        btnText="Organizations"
-        btnURL="/home/organizations"
-        :selected="isOrg"
-        :active="true"
+        v-for="(item, index) in menuItems" :key="index"
+          :iconURL="item.iconURL"
+          :btnText="item.btnText"
+          :btnURL="item.btnURL"
+          :selected="isActive(item.btnURL)"
+          :active="true"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const route = useRoute();
+import { menuItems } from "@/utils/navMenuItems";
+import { isRouteActive } from "@/utils/routeUtils";
 
-const isEvent = route.path.includes("events") ? true : false;
-const isOrg = route.path.includes("organizations") ? true : false;
-// isVote = route.path.includes("votes") ? true : false;
+const isActive = (btnURL: string) => {
+  return isRouteActive(btnURL);
+};
+
 </script>
