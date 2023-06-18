@@ -70,11 +70,11 @@
             {{ event.name }}
           </h2>
           <div class="flex items-center gap-4">
-            <div v-if="event?.inPersonLocation">
+            <div class="flex gap-1 items-center" v-if="event?.inPersonLocation">
               <Icon name="bi:pin-map" class="mr-1" />
               {{ event?.inPersonLocation }}
             </div>
-            <div v-if="event?.onlineLocation">
+            <div class="flex gap-1 items-center" v-if="event?.onlineLocation">
               <Icon
                 v-if="event?.onlineLocation"
                 name="bi:pc-display-horizontal"
@@ -82,7 +82,7 @@
               />
               {{ event?.onlineLocation }}
             </div>
-            <div>
+            <div class="flex gap-1 items-center">
               <Icon name="bi:calendar2-plus" class="mr-1" />
               {{ event?.date.toLocaleDateString() }}
             </div>
