@@ -61,7 +61,7 @@
   >
     <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
     <input v-if="expanded" type="text" placeholder="Search" />
-    <MenuMeatball v-if="expanded" />
+    <Icon name="bi:filter" />
   </div>
 </template>
 
