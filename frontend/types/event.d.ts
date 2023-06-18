@@ -1,5 +1,6 @@
 export interface Event {
   name: string;
+  type: string = "act" | "learn";
   tagline: string;
   organizer: string;
   topic: string;

@@ -74,7 +74,7 @@ const resource: Resource = {
   relatedLocation: "Berlin",
   creationDate: new Date(),
   stars: 5,
-}
+};
 
 const organization: Organization = {
   name: "tech from below",
@@ -88,6 +88,7 @@ const organization: Organization = {
 
 const event: Event = {
   name: "Test Event",
+  type: "act",
   tagline: "We love to test!",
   organizer: "Testers LLC",
   topic: "Testing and Designing",

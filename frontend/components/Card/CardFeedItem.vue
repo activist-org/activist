@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FeedItem } from "../../types/feedItem";
+import type { FeedItem } from "~~/types/feedItem";
 
 const props = defineProps<{
   url: string;

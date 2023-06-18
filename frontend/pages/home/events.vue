@@ -54,6 +54,7 @@ const sidebar = useSidebar();
 
 const event: Event = {
   name: "Test Event",
+  type: "act",
   tagline: "We love to test!",
   organizer: "Testers LLC",
   topic: "Testing and Designing",
