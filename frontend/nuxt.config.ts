@@ -28,6 +28,13 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["./stores"],
   },
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+      },
+    },
+  },
   colorMode: {
     classSuffix: "",
   },
