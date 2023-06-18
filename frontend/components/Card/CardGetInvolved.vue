@@ -17,6 +17,8 @@
           label="Join organization"
           linkTo="/"
           fontSize="base"
+          rightIcon="bi:arrow-right"
+          iconSize="1.25em"
         />
       </div>
     </div>
@@ -50,6 +52,8 @@
           label="Offer to help"
           linkTo="/"
           fontSize="base"
+          rightIcon="bi:arrow-right"
+          iconSize="1.25em"
         />
       </div>
     </div>

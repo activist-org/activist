@@ -16,9 +16,14 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
   >
-    <Icon v-if="leftIcon" :name="leftIcon" class="mb-1 mr-2" />
+    <Icon v-if="leftIcon" :name="leftIcon" class="mb-1 mr-2" :size="iconSize" />
     {{ $t(label) }}
-    <Icon v-if="rightIcon" :name="rightIcon" class="mb-1 ml-2" />
+    <Icon
+      v-if="rightIcon"
+      :name="rightIcon"
+      class="mb-1 ml-2"
+      :size="iconSize"
+    />
   </div>
   <a
     v-else-if="linkTo.includes('http')"
@@ -38,9 +43,14 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
   >
-    <Icon v-if="leftIcon" :name="leftIcon" class="mb-1 mr-2" />
+    <Icon v-if="leftIcon" :name="leftIcon" class="mb-1 mr-2" :size="iconSize" />
     {{ $t(label) }}
-    <Icon v-if="rightIcon" :name="rightIcon" class="mb-1 ml-2" />
+    <Icon
+      v-if="rightIcon"
+      :name="rightIcon"
+      class="mb-1 ml-2"
+      :size="iconSize"
+    />
   </a>
   <NuxtLink
     v-else
@@ -60,9 +70,14 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
   >
-    <Icon v-if="leftIcon" :name="leftIcon" class="mb-1 mr-2" />
+    <Icon v-if="leftIcon" :name="leftIcon" class="mb-1 mr-2" :size="iconSize" />
     {{ $t(label) }}
-    <Icon v-if="rightIcon" :name="rightIcon" class="mb-1 ml-2" />
+    <Icon
+      v-if="rightIcon"
+      :name="rightIcon"
+      class="mb-1 ml-2"
+      :size="iconSize"
+    />
   </NuxtLink>
 </template>
 
@@ -74,6 +89,11 @@ defineProps<{
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   leftIcon?: string;
   rightIcon?: string;
+  iconSize: {
+    default: "1em";
+    type: string;
+    required: false;
+  };
 }>();
 const localePath = useLocalePath();
 </script>
