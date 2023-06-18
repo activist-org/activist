@@ -22,7 +22,7 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 ### ✨ Features
 
 - Content to describe the goal of activist.
-- Search results for events and organizations.
+- Search results for events, organizations, and resources.
 - Metric cards display new organizations and events to the user.
 - Links to activist GitHub and socials as well as supporter websites.
 - Landing page elements are reactive to screen sizes.
