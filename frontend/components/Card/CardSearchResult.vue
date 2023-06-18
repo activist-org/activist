@@ -26,15 +26,15 @@
         </h2>
         <TopicMarker :topic="organization.topic" />
         <div class="flex gap-4" v-if="organization">
-          <div>
+          <div class="flex gap-1 items-center">
             <Icon name="bi:map" class="mr-1" />
             {{ organization.location }}
           </div>
-          <div>
+          <div class="flex gap-1 items-center">
             <Icon name="bi:people" class="mr-1" />
             {{ organization.members }} {{ $t("members") }}
           </div>
-          <div>
+          <div class="flex gap-1 items-center">
             <Icon name="bi:balloon-heart" class="mr-1" />
             {{ organization.supporters }} {{ $t("supporters") }}
           </div>
@@ -90,11 +90,11 @@
         </div>
         <TopicMarker :topic="event.topic" />
         <div class="flex gap-4" v-if="event">
-          <div>
+          <div class="flex gap-1 items-center">
             <Icon name="bi:people" class="mr-1" />
             {{ event.organizer }}
           </div>
-          <div>
+          <div class="flex gap-1 items-center">
             <Icon name="bi:person-fill-check" class="mr-1" />
             {{ event.supporters }} {{ $t("attending") }}
           </div>
@@ -104,17 +104,70 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="searchResultType === 'resource'"
+      class="flex items-center p-2 grow sm:px-5 sm:py-3"
+    >
+      <div
+        class="border h-[90%] border-light-section-div dark:border-dark-section-div rounded-lg bg-light-content"
+      >
+        <img
+          v-if="resource.imageURL"
+          class="w-[200px] h-[200px]"
+          :src="resource.imageURL"
+          :alt="'The event logo of ' + resource.name"
+        />
+        <div
+          v-else
+          class="w-[200px] h-[200px] flex w-full justify-center items-center text-light-text dark:text-dark-text"
+        >
+          <!-- <Icon name="bi:tools" color="black" class="w-[75%] h-[75%]" /> -->
+          <Icon name="IconResource" class="w-[75%] h-[75%]"/>
+        </div>
+      </div>
+      <div class="px-6 pb-1 space-y-4 grow">
+        <div class="flex justify-between">
+          <h2 class="font-bold responsive-h3">
+            {{ resource.name }}
+          </h2>
+        </div>
+        <TopicMarker :topic="resource.topic" />
+        <div class="flex gap-4" v-if="resource">
+          <div class="flex gap-1 items-center">
+            <Icon name="bi:people" class="mr-1" />
+            {{ resource.organizer }}
+          </div>
+          <div class="flex gap-1 items-center">
+            <Icon name="bi:star" class="mr-1" />
+            {{ resource.stars }}
+          </div>
+          <div class="flex gap-1 items-center" v-if="resource.relatedLocation">
+            <Icon name="bi:pin-map" class="mr-1" />
+            {{  resource.relatedLocation }}
+          </div>
+          <div class="flex gap-1 items-center">
+            <Icon name="bi:calendar-plus" class="mr-1" />
+            {{ resource.creationDate.toLocaleDateString() }}
+          </div>
+        </div>
+        <div>
+          {{ resource.description }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Event } from "../../types/event";
 import type { Organization } from "../../types/organization";
+import { Resource } from "~~/types/resource";
 
 const props = defineProps<{
   searchResultType: "organization" | "event" | "resource";
   isPrivate?: boolean;
   organization?: Organization;
   event?: Event;
+  resource?: Resource;
 }>();
 </script>

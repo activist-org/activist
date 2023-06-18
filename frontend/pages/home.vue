@@ -45,6 +45,11 @@
         :isPrivate="false"
         :event="event"
       />
+      <CardSearchResult
+        searchResultType="resource"
+        :isPrivate="false"
+        :resource="resource"
+      />
     </div>
   </div>
 </template>
@@ -52,12 +57,24 @@
 <script setup lang="ts">
 import { Event } from "~~/types/event";
 import { Organization } from "~~/types/organization";
+import { Resource } from "~~/types/resource";
 const title = ref("Home");
 
 definePageMeta({
   layout: "sidebar",
 });
 const sidebar = useSidebar();
+
+const resource: Resource = {
+  name: "Test Resource",
+  organizer: "Testers LLC",
+  resourceURL: "www.test.com",
+  description: "Test resource :D",
+  topic: "Tools",
+  relatedLocation: "Berlin",
+  creationDate: new Date(),
+  stars: 5,
+}
 
 const organization: Organization = {
   name: "tech from below",
