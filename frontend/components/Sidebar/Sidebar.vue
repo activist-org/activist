@@ -10,7 +10,7 @@
   >
     <SidebarHeader />
     <div class="overflow-x-hidden overflow-y-scroll h-full">
-      <SearchBar class="mt-2" />
+      <SearchBar location="sidebar" class="mt-2" />
       <SidebarMainSectionSelectors class="mt-2" />
       <MenuIndex
         :menuType="menuTypeToDisplay"

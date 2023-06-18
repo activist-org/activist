@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="location == 'sidebar'"
     class="flex items-center pl-[12px] pr-[10px] py-1 mx-2 space-x-2 text-left transition duration-200 border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
   >
     <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
@@ -54,6 +55,14 @@
       </div>
     </Transition>
   </div>
+  <div
+    v-else
+    class="flex items-center pl-[12px] pr-[10px] py-1 mx-2 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+  >
+    <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
+    <input v-if="expanded" type="text" placeholder="Search" />
+    <MenuMeatball v-if="expanded" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -64,6 +73,15 @@ const input = ref();
 const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
 const keys = useMagicKeys();
+
+defineProps<{
+  location: "sidebar" | "header";
+  expanded: {
+    default: false;
+    type: boolean;
+    required: false;
+  };
+}>();
 
 whenever(keys.slash, () => {
   setTimeout(() => {
