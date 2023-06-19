@@ -12,8 +12,8 @@
     <div class="overflow-x-hidden overflow-y-scroll h-full">
       <SearchBar location="sidebar" class="mt-2" />
       <SidebarMainSectionSelectors class="mt-2" />
-      <MenuIndex
-        :menuType="menuTypeToDisplay"
+      <SidebarIndex
+        :pageType="pageTypeToDisplay"
         :name="placeholderName"
         :logoUrl="placeholderLogo"
         class="mt-2"
@@ -31,13 +31,13 @@ defineProps<{
 const sidebar = useSidebar();
 const route = useRoute();
 
-let menuTypeToDisplay = "";
+let pageTypeToDisplay = "";
 if (route.path.includes("organizations")) {
-  menuTypeToDisplay = "organization";
+  pageTypeToDisplay = "organization";
 } else if (route.path.includes("events")) {
-  menuTypeToDisplay = "event";
+  pageTypeToDisplay = "event";
 } else {
-  menuTypeToDisplay = "misc"; // TODO: assign this based on other options
+  pageTypeToDisplay = "misc"; // TODO: assign this based on other options
 }
 
 // TODO use real name of organization / event when available from backend.

@@ -3,11 +3,11 @@
     class="mx-1 transition-all duration-500 text-light-text dark:text-dark-text"
   >
     <div
-      v-if="menuType === 'organization' || menuType === 'event'"
+      v-if="pageType === 'organization' || pageType === 'event'"
       class="flex flex-col items-center"
     >
       <div
-        v-if="menuType === 'organization'"
+        v-if="pageType === 'organization'"
         :class="{
           'w-32 h-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -19,7 +19,7 @@
         <ImageOrganization :imgURL="logoUrl" />
       </div>
       <div
-        v-else="menuType === 'event'"
+        v-else="pageType === 'event'"
         :class="{
           'w-32 h-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -44,10 +44,10 @@
       </p>
       <ul class="flex flex-col w-full px-1 mb-1">
         <li
-          v-if="menuType === 'organization'"
+          v-if="pageType === 'organization'"
           v-for="button in organizationButtons"
         >
-          <MenuSelector
+          <SidebarSelector
             :btn-text="button.btnText"
             :icon-u-r-l="button.iconURL"
             :btnURL="button.btnURL"
@@ -55,8 +55,8 @@
             :active="button.active"
           />
         </li>
-        <li v-if="menuType === 'event'" v-for="button in eventButtons">
-          <MenuSelector
+        <li v-if="pageType === 'event'" v-for="button in eventButtons">
+          <SidebarSelector
             :btn-text="button.btnText"
             :icon-u-r-l="button.iconURL"
             :btnURL="button.btnURL"
@@ -74,7 +74,7 @@ const sidebar = useSidebar();
 
 const props = defineProps<{
   name: string;
-  menuType: "organization" | "event";
+  pageType: "organization" | "event";
   logoUrl?: string;
 }>();
 
@@ -85,7 +85,7 @@ const nameAbbreviation = props.name
   })
   .join("");
 
-interface MenuSelectorType {
+interface SidebarSelectorType {
   btnText: string;
   btnURL: string;
   iconURL: string;
@@ -93,7 +93,7 @@ interface MenuSelectorType {
   active: boolean;
 }
 
-const organizationButtons: MenuSelectorType[] = [
+const organizationButtons: SidebarSelectorType[] = [
   {
     btnText: "sidebar.about",
     btnURL: "/",
@@ -159,7 +159,7 @@ const organizationButtons: MenuSelectorType[] = [
   },
 ];
 
-const eventButtons: MenuSelectorType[] = [
+const eventButtons: SidebarSelectorType[] = [
   {
     btnText: "sidebar.about",
     btnURL: "/",
