@@ -45,7 +45,7 @@
       </div>
       <h2 class="font-bold responsive-py-1 responsive-h3">Contributors</h2>
       <h3 class="font-bold responsive-h4">Development</h3>
-      <p>
+      <p class="space-x-1">
         activist has proudly developed in the open from its inception. This
         project would not be what it is without the support of our open-source
         community. Thank you to all our
@@ -60,7 +60,11 @@
             style="vertical-align: baseline"
           />
         </a>
-        ❤
+        <Icon
+          name="bi:heart-fill"
+          size="1em"
+          style="vertical-align: baseline"
+        />
       </p>
       <a href="https://github.com/activist-org/activist/graphs/contributors">
         <img src="https://contrib.rocks/image?repo=activist-org/activist" />

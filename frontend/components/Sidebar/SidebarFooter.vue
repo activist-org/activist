@@ -143,6 +143,13 @@
                 :selected="false"
                 :active="true"
               />
+              <SidebarSelector
+                iconURL="IconLegal"
+                btnText="Legal"
+                btnURL="/legal"
+                :selected="false"
+                :active="true"
+              />
             </div>
           </DisclosurePanel>
         </Disclosure>

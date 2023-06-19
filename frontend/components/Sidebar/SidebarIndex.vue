@@ -203,4 +203,121 @@ const eventButtons: SidebarSelectorType[] = [
     active: false,
   },
 ];
+
+const AboutIndexButtons: SidebarSelectorType[] = [
+  {
+    btnText: "sidebar.about-index.about-activist",
+    btnURL: "/about",
+    iconURL: "bi:card-text",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.about-index.activism-network",
+    btnURL: "/about/activism-network",
+    iconURL: "bi:card-text",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.about-index.connect",
+    btnURL: "/about/connect",
+    iconURL: "bi:people",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.about-index.roadmap",
+    btnURL: "/about/roadmap",
+    iconURL: "bi:people",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.about-index.impress",
+    btnURL: "/about/impress",
+    iconURL: "bi:people",
+    selected: false,
+    active: true,
+  },
+];
+
+const LegalIndexButtons: SidebarSelectorType[] = [
+  {
+    btnText: "sidebar.legal-index.legal-support",
+    btnURL: "/legal/legal-support",
+    iconURL: "bi:card-text",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.legal-index.privacy-policy",
+    btnURL: "/legal/privacy-policy",
+    iconURL: "bi:card-text",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.legal-index.trademark-policy",
+    btnURL: "/legal/trademark-policy",
+    iconURL: "bi:people",
+    selected: false,
+    active: true,
+  },
+];
+
+const HelpIndexButtons: SidebarSelectorType[] = [
+  {
+    btnText: "sidebar.help-index.faq",
+    btnURL: "/help/faq",
+    iconURL: "bi:people",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.help-index.contact",
+    btnURL: "/help/contact",
+    iconURL: "bi:card-text",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.help-index.press",
+    btnURL: "/help/press",
+    iconURL: "bi:card-text",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.help-index.status",
+    btnURL: "/help/status",
+    iconURL: "bi:card-text",
+    selected: false,
+    active: true,
+  },
+];
+
+const DocsIndexButtons: SidebarSelectorType[] = [
+  {
+    btnText: "sidebar.docs-index.get-active",
+    btnURL: "/docs/get-active",
+    iconURL: "bi:card-text",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.docs-index.get-organized",
+    btnURL: "/docs/get-organized",
+    iconURL: "bi:people",
+    selected: false,
+    active: true,
+  },
+  {
+    btnText: "sidebar.docs-index.grow-organization",
+    btnURL: "/docs/grow-organization",
+    iconURL: "bi:people",
+    selected: false,
+    active: true,
+  },
+];
 </script>

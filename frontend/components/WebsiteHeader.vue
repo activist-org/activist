@@ -31,7 +31,7 @@
               class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
             />
           </div>
-          <BtnRoadMap label="Roadmap" linkTo="/docs/roadmap" />
+          <BtnRoadMap label="Roadmap" linkTo="/about/roadmap" />
         </div>
         <div>
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">

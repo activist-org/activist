@@ -49,7 +49,30 @@
     "affiliates": "Affiliates",
     "tasks": "Tasks",
     "discussions": "Discussions",
-    "team": "Team"
+    "team": "Team",
+    "about-index": {
+      "about-activist": "About activist",
+      "activism-network": "Activism Network",
+      "connect": "Connect",
+      "impress": "Impress",
+      "roadmap": "Roadmap"
+    },
+    "legal-index": {
+      "legal-support": "Legal Support",
+      "privacy-policy": "Privacy Policy",
+      "trademark-policy": "Trademark Policy"
+    },
+    "help-index": {
+      "faq": "FAQ",
+      "contact": "Contact",
+      "press": "Press",
+      "status": "Status"
+    },
+    "docs-index": {
+      "get-active": "Get Active",
+      "get-organized": "Get Organized",
+      "grow-organization": "Grow Organization"
+    }
   },
   "wikimedia-de-logo-label": "Link to the website of Wikimedia Deutschland.",
   "wikimedia-rs-logo-label": "Link to the website of Wikimedia Serbia.",

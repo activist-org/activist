@@ -33,7 +33,7 @@
           </div>
           <div class="px-2">•</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink :to="localePath('/docs/roadmap')" class="focus-brand">
+            <NuxtLink :to="localePath('/about/roadmap')" class="focus-brand">
               {{ $t("roadmap") }}
             </NuxtLink>
           </div>
@@ -137,7 +137,7 @@
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'impress' })" class="focus-brand">
+            <NuxtLink :to="localePath('/about/impress')" class="focus-brand">
               {{ $t("impress") }}
             </NuxtLink>
           </p>
@@ -202,7 +202,7 @@
           </div>
           <div class="px-2">•</div>
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink :to="localePath('/docs/roadmap')" class="focus-brand">
+            <NuxtLink :to="localePath('/about/roadmap')" class="focus-brand">
               {{ $t("roadmap") }}
             </NuxtLink>
           </div>
@@ -324,7 +324,7 @@
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
           >
-            <NuxtLink :to="localePath({ name: 'impress' })" class="focus-brand">
+            <NuxtLink :to="localePath('/about/impress')" class="focus-brand">
               {{ $t("impress") }}
             </NuxtLink>
           </p>
