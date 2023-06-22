@@ -1,6 +1,6 @@
 <template>
   <div
-    class="md:hidden fixed top:0 w-full bg-light-header dark:bg-dark-header z-20"
+    class="sm:hidden fixed top:0 w-full bg-light-header dark:bg-dark-header z-20"
   >
     <nav>
       <ul class="flex items-center py-2 px-6">
