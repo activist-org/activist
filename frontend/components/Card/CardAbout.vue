@@ -8,12 +8,7 @@
         <h3 class="text-left responsive-h3 font-display">About</h3>
         <Icon name="bi:pencil-square" size="1.2em" />
       </div>
-      <button
-        class="px-2 py-1 border-2 border-light-cta-orange bg-[#F1993D4D] text-light-cta-orange rounded-2xl flex items-center gap-2 mb-3"
-      >
-        <Icon name="bi:globe" size="1.2em" />
-        Housing and Community
-      </button>
+      <TopicMarker topic="Housing Community" class="mb-3" />
       <div class="flex items-center gap-3 mb-3">
         <div class="bg-slate-400 w-6 h-6 rounded-md"><img src="#" alt=""></div>
         <p class="font-semibold">Berliner Obdachlosenhilfe</p>
