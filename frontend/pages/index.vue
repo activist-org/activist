@@ -17,6 +17,7 @@
         altText="Drawing of a fist raised."
         btnText1="Learn more"
         btnURL1="/docs/get-active"
+        btnAlternateText1="get-active-btn-alt-text"
       />
       <LandingPageContent
         contentPosition="right"
@@ -27,6 +28,7 @@
         altText="Drawing of fists in a circle pointed at the center."
         btnText1="Learn more"
         btnURL1="/docs/get-organized"
+        btnAlternateText1="get-organized-btn-alt-text"
       />
       <LandingPageContent
         contentPosition="left"
@@ -37,6 +39,7 @@
         altText="Drawing of fists raised in a group."
         btnText1="Learn more"
         btnURL1="/docs/grow-organization"
+        btnAlternateText1="grow-organization-btn-alt-text"
       />
       <LandingPageTechBanner />
       <LandingPageContent
@@ -48,6 +51,7 @@
         altText="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
         btnText1="Learn more"
         btnURL1="/about"
+        btnAlternateText1="activist-section-btn-alt-text"
       />
       <LandingPageContent
         contentPosition="top"
