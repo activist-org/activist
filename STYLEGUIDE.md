@@ -48,48 +48,51 @@ Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are
 
 > In the future, once all TS errors are resolved, activist will be enabling these strict checks. This was done to allow building the app outside `Docker`. Local and Netlify builds proceed despite TS errors with strict checks disabled.
 
-VSCode: Install these extensions (recommended) to enable in-editor type-checking.
- - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
- - [Volar TS](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+VSCode: it is recommended to install these extensions to enable in-editor type-checking.
 
+- [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [Volar TS](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 
 **Regarding SFC (Single File Components) ie. each Vue files (.vue)**
 
-Create general frontend types in `frontend/types`
+Create general frontend types in the [frontend/types](https://github.com/activist-org/activist/tree/main/frontend/types) directory. See [Vue and TypeScript docs](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) for more information about typing component props.
 
-See [Vue and TypeScript docs](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) for more information about typing component props.
+<details><summary>With script setup lang="ts" (preferred)</summary>
 
-  <details><summary>With script setup lang="ts" (preferred)</summary>
+- When using `<script setup lang="ts">` use `defineProps` with the generic type argument.
 
-  - When using `<script setup lang="ts">` use `defineProps` with the generic type argument.
-    ```typescript
-    const props = defineProps<{
-      foo: string
-      bar?: number
-    }>()
-    ```
-  </details>
-  <details><summary>Without script setup lang="ts"</summary>
-
-  - It is necessary to use `defineComponent`
   ```typescript
-  import { defineComponent } from 'vue'
-
-  export default defineComponent({
-    props: {
-      message: String
-    },
-    setup(props) {
-      props.message // <-- type: string
-    }
-  })
+  const props = defineProps<{
+    foo: string;
+    bar?: number;
+  }>();
   ```
-  </details>
-There is a limited set of package types that are available in the global scope.
 
-The current list can be found in `frontend/tsconfig.json` under `"compilerOptions.types"`, with this list being modified as the project matures.
+</details>
+
+<details><summary>Without script setup lang="ts"</summary>
+
+- It is necessary to use `defineComponent`
+
+```typescript
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  props: {
+    message: String,
+  },
+  setup(props) {
+    props.message; // <-- type: string
+  },
+});
+```
+
+</details>
+
+There is a limited set of package types that are available in the global scope. The current list can be found in `frontend/tsconfig.json` under `"compilerOptions.types"`, with this list being modified as the project matures.
 
 Before opening a new PR, it is recommended to run the command `yarn nuxi typecheck` from within the `frontend` directory. Within VSCode TS errors are visible, however, running this command will tell Nuxt to manually check types. This will help to ensure the new code does not introduce unintended TS errors at build time. Existing TS errors may be ignored. PR's are always welcome to address these errors!
+
 <a id="tailwind"></a>
 
 ## Tailwind [`⇧`](#contents)

@@ -192,7 +192,9 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    ```bash
    git pull --rebase upstream <dev-branch>
    ```
-> **Note:** When working on the frontend, activist recommends running `yarn nuxi typecheck` from within the `frontend` directory to confirm your changes are type-safe. Existing TS errors may be ignored. PR's to fix these are always welcome.
+
+   > **Note:** When working on the frontend, activist recommends running `yarn nuxi typecheck` from within the `frontend` directory to confirm your changes are type-safe. Existing TS errors may be ignored. PR's to fix these are always welcome!
+
 6. Push your topic branch up to your fork:
 
    ```bash
