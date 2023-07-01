@@ -90,6 +90,12 @@ docker-compose up
 # docker-compose up --build
 ```
 
+If your `docker` is not working write this command
+
+```
+choco install docker-for-windows  # for windows
+``` 
+
 You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
 ## Ways to Help [`⇧`](#contents)
