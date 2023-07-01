@@ -98,6 +98,27 @@ choco install docker-for-windows  # for windows
 
 You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
+### For Backend file
+
+To set up the environment and install the necessary dependencies for the backend, please follow these steps:
+
+
+
+Change directory to the cloned repository:
+
+```
+cd activist
+cd backend
+```
+
+Install the required Python packages by running the following command
+
+```
+pip install -r requirements.txt
+Make sure you have Python and pip installed on your system before running this command.
+```
+
+
 ## Ways to Help [`⇧`](#contents)
 
 - [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
