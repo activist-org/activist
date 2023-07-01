@@ -22,6 +22,7 @@
         :label="`${btnText1}`"
         linkTo="https://tally.so/r/nprxbq"
         fontSize="xl"
+        :alternateText="$t('landing-btn-alt-text')"
       />
     </div>
   </div>
