@@ -183,13 +183,13 @@ Tasks are all the things that organizations need to do, which will be able to be
 
 ## Events [`⇧`](#contents)
 
-Events are where things happen on activist. They are organized by [movements](#movements), [types](#types) and [formats](#formats): the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
+Events are where things happen on activist. They are organized by [topics](#topics), [types](#types) and [formats](#formats): the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
 
-<a id="movements"></a>
+<a id="topics"></a>
 
-### Movements
+### Topics
 
-activist will eventually include a broad selection of movements. From the start the platform will focus on a select few: `Environment`, `Housing` and `Refugees and Migration`. Further movements will be added later as interest from organizations and the community grows. The following are the working movements that activist could include:
+activist will eventually include a broad selection of topics. From the start the platform will focus on a select few: `Environment`, `Housing` and `Refugees and Migration`. Further topics will be added later as interest from organizations and the community grows. The following are the working topics that activist could include:
 
 |                      |                             |                            |
 | :------------------- | :-------------------------- | :------------------------- |
@@ -202,7 +202,7 @@ activist will eventually include a broad selection of movements. From the start 
 | Infrastructure       | Freedom of Expression       | Emergency Relief           |
 
 <br/>
-Beyond clustering by movements, tags will also be used to draw community attention to more specific issues.
+Beyond clustering by topics, tags will also be used to draw community attention to more specific issues.
 
 <a id="types"></a>
 
@@ -219,7 +219,7 @@ Types are further broken down into specific formats. The available formats curre
 - Act: protests, volunteering, organizing, fundraising
 - Learn: seminars, webinars, meetings, panel discussions
 
-Formats are not required for events like movements and types, but add an optional granularity to help people find what they're looking for.
+Formats are not required for events like topics and types, but add an optional granularity to help people find what they're looking for.
 
 ## Resources [`⇧`](#contents)
 
