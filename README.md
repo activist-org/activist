@@ -90,6 +90,7 @@ docker-compose up
 # docker-compose up --build
 ```
 
+You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
 
 ## Ways to Help [`⇧`](#contents)
