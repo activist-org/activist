@@ -92,6 +92,7 @@ docker-compose up
 
 You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
+
 ## Ways to Help [`⇧`](#contents)
 
 - [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
