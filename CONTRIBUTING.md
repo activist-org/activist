@@ -45,6 +45,7 @@ activist is very open to contributions from people in the early stages of their 
 - [Vue.js 3 docs](https://vuejs.org/guide/introduction.html)
 - [Vue docs on MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_getting_started)
 - [Nuxt.js 3 docs](https://nuxt.com/docs/getting-started/introduction)
+- [Nuxt.js and TypeScript docs](https://nuxt.com/docs/guide/concepts/typescript)
 - [TypeScript docs](https://www.typescriptlang.org/docs/)
 - [Tailwind CSS docs](https://tailwindcss.com/docs/installation)
 - [Headless UI docs](https://headlessui.com/)
@@ -191,6 +192,8 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    ```bash
    git pull --rebase upstream <dev-branch>
    ```
+
+   > **Note:** When working on the frontend, activist recommends running `yarn nuxi typecheck` from within the `frontend` directory to confirm your changes are type-safe. Existing TS errors may be ignored. PR's to fix these are always welcome!
 
 6. Push your topic branch up to your fork:
 

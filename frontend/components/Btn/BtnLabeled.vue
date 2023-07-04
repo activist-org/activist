@@ -42,6 +42,7 @@
       'text-base sm:text-lg xl:text-2xl xl:px-6 xl:py-3': fontSize == '2xl',
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
+    :aria-label="alternateText"
   >
     <Icon v-if="leftIcon" :name="leftIcon" class="mb-1 mr-2" :size="iconSize" />
     {{ $t(label) }}
@@ -69,6 +70,7 @@
       'text-base sm:text-lg xl:text-2xl xl:px-6 xl:py-3': fontSize == '2xl',
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
+    :aria-label="alternateText"
   >
     <Icon v-if="leftIcon" :name="leftIcon" class="mb-1 mr-2" :size="iconSize" />
     {{ $t(label) }}
@@ -94,6 +96,7 @@ defineProps<{
     type: string;
     required: false;
   };
+  alternateText: string | null;
 }>();
 const localePath = useLocalePath();
 </script>
