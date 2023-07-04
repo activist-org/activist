@@ -1,7 +1,6 @@
-version: '3.7'
+version: "3.7"
 
 services:
-
   backend:
     build:
       context: ./backend
@@ -17,7 +16,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
       - DEBUG=${DEBUG}
       - SECRET_KEY=${SECRET_KEY}
-    
+
   frontend:
     build:
       context: ./frontend
@@ -26,7 +25,7 @@ services:
       - ./frontend:/app
       - /app/node_modules
     ports:
-      - "3000:3000"
+      - "4000:4000"
       - "24678:24678"
 
   db:
