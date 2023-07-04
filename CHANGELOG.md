@@ -30,6 +30,7 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 - A sidebar component has been made to house all the navigation for the platform.
   - The sidebar has collapsed and expanded states to provide more room to work.
   - The collapsed state transitions directly to expanded upon hovering.
+- Header and tab bar components have been made for navigation on the frontend.
 
 ### 🎨 Design
 
@@ -38,9 +39,14 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 - Card components to compartmentalize platform functionality.
 - Custom icons have been implemented for the platform to better describe certain interactions.
 
+### ♿️ Accessibility
+
+- Buttons are given aria labels to make sure they're accessible.
+
 ### 🌐 Localization
 
 - Localization switching with routing applied to links.
+- Aria labels are written using translatable strings for localized accessibility.
 
 ### ⚖️ Legal
 
