@@ -3,3 +3,4 @@ Django==4.2.1
 psycopg2-binary==2.9.5
 pylint-django==2.5.3
 gunicorn==20.1.0
+python-dotenv==1.0.0
