@@ -1,1 +1,1 @@
-from .organisations import *
+from .organizations import *

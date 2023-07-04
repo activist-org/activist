@@ -8,7 +8,9 @@ services:
     container_name: django_backend
     ports:
       - "8000:8000"
-
+    env_file:
+      - ./backend/backend/.env  # Path to the .env file containing the environment variables for Django
+    
   frontend:
     build:
       context: ./frontend
@@ -17,5 +19,15 @@ services:
       - ./frontend:/app
       - /app/node_modules
     ports:
-      - "3000:3000"
+      - "4000:4000"
       - "24678:24678"
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    ports:
+      - "5432:${DATABASE_PORT}"
