@@ -60,8 +60,10 @@
         text="our-supporters-text"
         btnText1="become-a-supporter"
         btnURL1="/supporters/join"
+        btnAlternateText1="our-supporters-btn-become-alt-text"
         btnText2="view-all-supporters"
         btnURL2="/supporters"
+        btnAlternateText2="our-supporters-btn-view-alt-text"
         subText="our-supporters-sub-text"
       />
     </div>

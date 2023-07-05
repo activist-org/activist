@@ -73,6 +73,7 @@
                   ? 'text-red-500'
                   : 'text-light-text dark:text-dark-text'
               "
+              for="name"
               >Name <span v-if="!nameValidated">cannot be empty.</span></label
             >
 
@@ -88,6 +89,7 @@
               class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               autocomplete="off"
               spellcheck="false"
+              id="name"
             />
 
             <label
@@ -96,6 +98,7 @@
                   ? 'text-red-500'
                   : 'text-light-text dark:text-dark-text'
               "
+              for="email"
               >Email
               <span v-if="!emailValidated"
                 >must be valid (example@mail.com).</span
@@ -114,6 +117,7 @@
               class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               autocomplete="off"
               spellcheck="false"
+              id="email"
             />
 
             <label
@@ -122,6 +126,7 @@
                   ? 'text-red-500'
                   : 'text-light-text dark:text-dark-text'
               "
+              for="message"
               >Message
               <span v-if="!messageValidated">cannot be empty.</span></label
             >
@@ -139,6 +144,7 @@
               class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               autocomplete="off"
               spellcheck="false"
+              id="message"
             ></textarea>
 
             <button
