@@ -5,6 +5,7 @@
     height="80"
     viewBox="0 0 80 80"
     xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
   >
     <g clip-path="url(#clip0_2965_22651)">
       <path d="M43.843 34.173L44.8362 37.876H42.851L43.843 34.173Z" />
