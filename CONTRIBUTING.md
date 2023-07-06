@@ -22,6 +22,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Pull requests](#pull-requests)
 - [Localization](#localization)
 - [Documentation](#documentation)
+- [Accessibility](#accessibility)
 - [Design](#design)
 
 <a id="learning-the-tech"></a>
@@ -216,6 +217,33 @@ Those interested in contributing to localization for the app are welcome to chec
 ## Documentation [`⇧`](#contents)
 
 Documentation is an invaluable way to contribute to coding projects as it allows others to more easily understand the project structure and contribute. Issues related to documentation are marked with the [`documentation`](https://github.com/activist-org/activist/labels/documentation) label in the [issues](https://github.com/activist-org/activist/issues).
+
+<a id="accessibility"></a>
+
+## Accessibility [`⇧`](#contents)
+
+Thank you for your interest in improving activist's accessibility. We want our platform to not only be usable for all people, but also to provide a welcoming environment within the development community for all. This section lists a few points to account for when checking accessibility constraints during development:
+
+### Tab focussing
+
+Tab focussing sadly doesn't work out of the box for many browsers. Chrome works great, but the following changes are needed for browsers to function properly with tabs. We'll test activist against browsers with these settings with the assumption that people who need tab for more control of the interface will be able to activate them.
+
+**Firefox**
+
+- Go to `about:config`
+- Search for `accessibility.tabfocus` and check that it's set to type `Boolean` with value `true`
+- Remove it and select `Number` instead
+- Click on the add button and then enter the value `7`
+
+**Safari**
+
+- Go to `Keyboard` in `System Preferences` for your computer (assuming it's a Mac)
+- Select `Use keyboard navigation to move focus between controls` on Mac OS Catalina or `All controls` on earlier Mac OS versions
+- In Safari go to `Settings`
+- Go to the `Advanced` tab
+- Select `Press Tab to highlight each item on a webpage`
+
+Once the above steps are finished you should be able to use tab to navigate web pages :)
 
 <a id="design"></a>
 
