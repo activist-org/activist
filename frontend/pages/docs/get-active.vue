@@ -25,20 +25,25 @@
       <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div class="items-center text-left space-y-4 md:items-start">
           <!-- Note: image floating right of content. -->
-          <img
-            v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/mockups/get_active_light.png"
-            alt="Mockups that show mobile organization search and web event search on a map."
-            class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
+          <button 
             v-on:click="togglePopup"
-          />
-          <img
-            v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/mockups/get_active_dark.png"
-            alt="Mockups that show mobile organization search and web event search on a map."
-            class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5 lg:h-1/4"
-            v-on:click="togglePopup"
-          />
+            v-on:keydown.enter="togglePopup"
+            id="popup-open-btn"
+            class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5"
+          >
+            <img
+              v-if="$colorMode.value == 'light'"
+              src="/images/content_pages/mockups/get_active_light.png"
+              alt="Mockups that show mobile organization search and web event search on a map."
+              id="popup-img"
+            />
+            <img
+              v-if="$colorMode.value == 'dark'"
+              src="/images/content_pages/mockups/get_active_dark.png"
+              alt="Mockups that show mobile organization search and web event search on a map."
+              id="popup-img"
+            />
+          </button>
           <h1 class="pb-2 font-bold responsive-h1">
             Discover and get involved
           </h1>
@@ -175,14 +180,22 @@ export default {
 };
 
 function togglePopup(event) {
+  // Prevent button default behavior
+  event.preventDefault();
+
   // Style image container
   let popup_container = document.getElementById("popup");
 
   // Handle image
   let image = document.getElementById("popup-image");
-  image.src = `${event.target.src}`;
+  let pop_img = document.getElementById("popup-img");
+  image.src = `${pop_img.src}`;
 
   // Toggle visibility
   popup_container.classList.toggle("hidden");
+
+  // Focus on modal close button
+  let pop_close_btn = document.getElementById("popup-close-btn");
+  pop_close_btn.focus();
 }
 </script>

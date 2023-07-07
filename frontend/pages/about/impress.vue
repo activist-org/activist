@@ -12,13 +12,13 @@
       <img
         v-if="$colorMode.value == 'light'"
         src="/images/content_pages/icons/bootstrap_info_circle_light.png"
-        alt="Drawing of a fist raised."
+        alt="A information circle."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         src="/images/content_pages/icons/bootstrap_info_circle_dark.png"
-        alt="Drawing of a fist raised."
+        alt="A information circle."
         class="h-40 mb-4 md:hidden sm:h-52"
       />
       <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
@@ -27,13 +27,13 @@
           <img
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/icons/bootstrap_info_circle_light.png"
-            alt="Drawing of a fist raised."
+            alt="A information circle."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/icons/bootstrap_info_circle_dark.png"
-            alt="Drawing of a fist raised."
+            alt="A information circle."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <h1 class="pb-2 font-bold responsive-h1">Impress</h1>
@@ -95,13 +95,13 @@
           <img
             v-if="$colorMode.value == 'light'"
             src="/images/content_pages/icons/bootstrap_info_circle_light.png"
-            alt="Drawing of a fist raised."
+            alt="A information circle."
             class="hidden 2xl:block h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             src="/images/content_pages/icons/bootstrap_info_circle_dark.png"
-            alt="Drawing of a fist raised."
+            alt="A information circle."
             class="hidden 2xl:block h-72"
           />
         </div>
