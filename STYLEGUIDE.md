@@ -42,7 +42,7 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 ## TypeScript [`⇧`](#contents)
 
-TypeScript configuration is ongoing. PR's are always welcome to improve the developer experience and project infrastructure.
+TypeScript configuration is ongoing. PRs are always welcome to improve the developer experience and project infrastructure!
 
 Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are not enabled.
 
@@ -92,11 +92,12 @@ export default defineComponent({
 There is a limited set of package types that are available in the global scope. The current list can be found in `frontend/tsconfig.json` under `"compilerOptions.types"`, with this list being modified as the project matures.
 
 Before opening a new PR, it is recommended to first generate the current types, then manually check those types:
-1. cd `frontend`
-2. run `yarn run postinstall`. Types will be generated in `.nuxt`
+
+1. cd into `frontend`
+2. run `yarn run postinstall` to generate types in `frontend/.nuxt`
 3. run `yarn nuxi typecheck`
 
-Within VSCode TS errors are visible, however, running these commands will help to ensure the new code does not introduce unintended TS errors at build time. Existing TS errors may be ignored. PR's are always welcome to address these errors!
+Within VSCode TS errors are visible, however, running these commands will help to ensure the new code does not introduce unintended TS errors at build time. Existing TS errors may be ignored. PRs are always welcome to address these errors!
 
 <a id="tailwind"></a>
 
