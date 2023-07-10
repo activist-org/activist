@@ -14,7 +14,7 @@ import dotenv
 dotenv.load_dotenv()
 import os
 
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_HOST = os.getenv('DATABASE_HOST')
 DATABASE_NAME = os.getenv('DATABASE_NAME')
 DATABASE_PORT = os.getenv('DATABASE_PORT')
 DATABASE_USER = os.getenv('DATABASE_USER')
@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': DATABASE_NAME,
         'USER': DATABASE_USER,
         'PASSWORD': DATABASE_PASSWORD,
-        'HOST': DATABASE_URL,
+        'HOST': DATABASE_HOST,
         'PORT': DATABASE_PORT,
     }
 }
