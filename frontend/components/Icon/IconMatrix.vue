@@ -1,3 +1,4 @@
+<!-- Component adds padding to the Matrix icon that with most icon sets gets cut off at certain view sizes and scales. -->
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
     <path
