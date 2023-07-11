@@ -16,7 +16,7 @@
         href="https://matrix.to/#/#activist_community:matrix.org"
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
-        <Icon name="cib:matrix" size="1em" />
+        <Icon name="IconMatrix" size="1.061em" />
         <p class="sr-only sm:not-sr-only">Matrix</p>
       </a>
       <a
