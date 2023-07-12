@@ -38,6 +38,7 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 - Brand colors have been defined for light and dark mode.
 - Card components to compartmentalize platform functionality.
 - Custom icons have been implemented for the platform to better describe certain interactions.
+- Layouts for event and organization pages as well as sub pages have been defined.
 
 ### ♿️ Accessibility
 
