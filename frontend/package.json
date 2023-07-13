@@ -32,6 +32,7 @@
     "leaflet": "^1.9.4",
     "nuxt-mail": "^3.1.23",
     "swiper": "^9.3.2",
-    "tailwind-scrollbar": "^3.0.4"
+    "tailwind-scrollbar": "^3.0.4",
+    "tailwindcss": "^3.3.2"
   }
 }

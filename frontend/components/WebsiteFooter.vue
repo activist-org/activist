@@ -58,7 +58,7 @@
             href="https://matrix.to/#/#activist_community:matrix.org"
             class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
-            <Icon name="cib:matrix" size="1em" />
+            <Icon name="IconMatrix" size="1.061em" />
             <p>Matrix</p>
           </a>
           <a
@@ -249,7 +249,7 @@
             href="https://matrix.to/#/#activist_community:matrix.org"
             class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
-            <Icon name="cib:matrix" size="1em" />
+            <Icon name="IconMatrix" size="1.061em" />
             <p>Matrix</p>
           </a>
           <a

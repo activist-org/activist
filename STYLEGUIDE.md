@@ -11,6 +11,7 @@ If you have questions or would like to communicate with the team, please [join u
 ## **Contents**
 
 - [Vue and Nuxt](#vue-and-nuxt)
+- [TypeScript](#typescript)
 - [Tailwind](#tailwind)
 - [Formatting](#formatting)
 - [Common styles](#common-styles)
@@ -32,15 +33,71 @@ The team chose Vue because of its broad usage across the development industry as
 Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>` and `<style>` blocks. Conventions for writing Vue for activist include:
 
 - `<template>` blocks should come first, `<script>` second and `<style>` last
-- [TypeScript](https://www.typescriptlang.org/) should be used where ever possible within `<script>` blocks
-  - This will be more strictly enforced as the project matures
+- [TypeScript](https://www.typescriptlang.org/) should be used where ever possible within `<script>` blocks with `defineProps`
 - Self-closing components (`<Component />`) should be used for any component that doesn't have content
   - This style is [strongly recommended in Vue](https://vuejs.org/guide/essentials/component-basics.html#dom-template-parsing-caveats)
   - Generally if a component has a `<slot>` then this would imply that it would normally have content and thus require a closing tag
 
-<!-- <a id="typescript"></a>
+<a id="typescript"></a>
 
-## TypeScript -->
+## TypeScript [`⇧`](#contents)
+
+TypeScript configuration is ongoing. PRs are always welcome to improve the developer experience and project infrastructure!
+
+Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are not enabled.
+
+> In the future, once all TS errors are resolved, activist will be enabling these strict checks. This was done to allow building the app outside `Docker`. Local and Netlify builds proceed despite TS errors with strict checks disabled.
+
+VSCode: it is recommended to install these extensions to enable in-editor type-checking.
+
+- [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [Volar TS](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+
+**Regarding SFC (Single File Components) ie. each Vue files (.vue)**
+
+Create general frontend types in the [frontend/types](https://github.com/activist-org/activist/tree/main/frontend/types) directory. See [Vue and TypeScript docs](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) for more information about typing component props.
+
+<details><summary>With script setup lang="ts" (preferred)</summary>
+
+- When using `<script setup lang="ts">` use `defineProps` with the generic type argument.
+
+  ```typescript
+  const props = defineProps<{
+    foo: string;
+    bar?: number;
+  }>();
+  ```
+
+</details>
+
+<details><summary>Without script setup lang="ts"</summary>
+
+- It is necessary to use `defineComponent`
+
+```typescript
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  props: {
+    message: String,
+  },
+  setup(props) {
+    props.message; // <-- type: string
+  },
+});
+```
+
+</details>
+
+There is a limited set of package types that are available in the global scope. The current list can be found in `frontend/tsconfig.json` under `"compilerOptions.types"`, with this list being modified as the project matures.
+
+Before opening a new PR, it is recommended to first generate the current types, then manually check those types:
+
+1. cd into `frontend`
+2. run `yarn run postinstall` to generate types in `frontend/.nuxt`
+3. run `yarn nuxi typecheck`
+
+Within VSCode TS errors are visible, however, running these commands will help to ensure the new code does not introduce unintended TS errors at build time. Existing TS errors may be ignored. PRs are always welcome to address these errors!
 
 <a id="tailwind"></a>
 

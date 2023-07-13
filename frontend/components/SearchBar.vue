@@ -57,11 +57,21 @@
   </div>
   <div
     v-else
-    class="flex items-center pl-[12px] pr-[10px] py-1 mx-2 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
   >
-    <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
-    <input v-if="expanded" type="text" placeholder="Search" />
-    <Icon name="bi:filter" />
+    <Icon
+      :name="expanded ? 'bi:x-lg' : 'bi:search'"
+      size="1em"
+      class="flex-shrink-0 w-4 h-4 my-1"
+      @click="emit('on-search-toggle')"
+    />
+    <input
+      v-if="expanded"
+      class="bg-transparent focus:outline-none"
+      type="text"
+      placeholder="Search"
+    />
+    <Icon v-if="expanded" name="bi:filter" class="absolute right-3" />
   </div>
 </template>
 
@@ -107,6 +117,8 @@ const onFocusLost = () => {
     hotkeyIndicators.value.classList.remove("hide");
   }, 200);
 };
+
+const emit = defineEmits(["on-search-toggle"]);
 </script>
 
 <style>

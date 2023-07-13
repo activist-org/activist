@@ -39,6 +39,7 @@
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
         fontSize="xl"
+        :alternateText="btnAlternateText1 ? $t(`${btnAlternateText1}`) : null"
       />
     </div>
     <!-- Note: image right of content. -->
@@ -108,6 +109,7 @@
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
         fontSize="xl"
+        :alternateText="btnAlternateText1 ? $t(`${btnAlternateText1}`) : null"
       />
     </div>
   </div>
@@ -139,12 +141,14 @@
           :label="`${btnText1}`"
           :linkTo="`${btnURL1}`"
           fontSize="xl"
+          :alternateText="btnAlternateText1 ? $t(`${btnAlternateText1}`) : null"
         />
         <BtnLabeled
           :cta="false"
           :label="`${btnText2}`"
           :linkTo="`${btnURL2}`"
           fontSize="xl"
+          :alternateText="btnAlternateText2 ? $t(`${btnAlternateText2}`) : null"
         />
       </div>
       <div>
@@ -169,8 +173,10 @@ defineProps<{
   altText: string;
   btnText1: string;
   btnURL1: string;
+  btnAlternateText1?: string;
   btnText2?: string;
   btnURL2?: string;
+  btnAlternateText2?: string;
   subText?: string;
 }>();
 const localePath = useLocalePath();

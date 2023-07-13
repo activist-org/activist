@@ -1,5 +1,6 @@
 <template>
   <div class="flex h-screen overflow-hidden">
+    <MenuMobileHeader />
     <Sidebar />
     <div class="flex flex-col w-full overflow-y-scroll">
       <div class="bg-light-content dark:bg-dark-content" :class="{
