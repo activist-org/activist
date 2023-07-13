@@ -31,7 +31,7 @@ export default defineNuxtConfig({
     "@nuxtjs/plausible",
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
-    "@vueuse/nuxt",
+    "@vueuse/nuxt",  
   ],
   imports: {
     dirs: ["./stores"],
