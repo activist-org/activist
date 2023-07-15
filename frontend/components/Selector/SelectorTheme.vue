@@ -12,7 +12,7 @@
           />
           <Icon v-if="$colorMode.preference == 'light'" name="bi:sun" />
           <Icon v-else-if="$colorMode.preference == 'dark'" name="bi:moon" />
-          <p class="sr-only lg:not-sr-only">{{ $t("theme") }}</p>
+          <p class="sr-only lg:not-sr-only" :class="{'!not-sr-only !ml-3': props.location === 'sideMenu'}">{{ $t("theme") }}</p>
           <p></p>
           <Icon
             name="bi:chevron-down"
@@ -32,6 +32,7 @@
     >
       <MenuItems
         class="absolute right-0 mt-2 border shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text"
+        :class="{'!static !border-0': props.location === 'sideMenu'}"
       >
         <div class="px-2 py-2">
           <MenuItem v-slot="{ active }">
@@ -84,4 +85,10 @@
 
 <script setup>
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+
+const props = defineProps({
+  location: String,
+});
+
+
 </script>

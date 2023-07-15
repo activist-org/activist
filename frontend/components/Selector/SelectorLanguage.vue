@@ -7,7 +7,7 @@
       >
         <div class="flex items-center text-sm space-x-2">
           <Icon name="bi:globe" />
-          <p class="uppercase sr-only lg:not-sr-only">{{ $i18n.locale }}</p>
+          <p class="uppercase sr-only lg:not-sr-only" :class="{'!not-sr-only !ml-3': props.location === 'sideMenu'}">{{ $i18n.locale }}</p>
           <p></p>
           <Icon
             name="bi:chevron-down"
@@ -27,6 +27,7 @@
     >
       <MenuItems
         class="absolute right-0 mt-2 border shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text"
+        :class="{'!static !border-0': props.location === 'sideMenu'}"
       >
         <ul class="px-2 py-2">
           <NuxtLink
@@ -55,6 +56,10 @@
 
 <script setup>
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+const props = defineProps({
+  location: String,
+});
+
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 const availableLocales = computed(() => {

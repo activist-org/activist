@@ -15,9 +15,6 @@
           v-if="!isSearchExpanded"
           class="flex items-center w-6 h-8 absolute top-[0.3rem] m-auto left-0 right-0 overflow-clip"
         />
-        <div class="absolute right-4 top-[0.6rem]">
-          <MenuMeatball />
-        </div>
       </div>
     </nav>
   </div>

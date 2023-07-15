@@ -9,7 +9,7 @@
     }"
   >
     <!-- Note: mobile header -->
-    <div class="flex py-2 md:hidden">
+    <div class="flex py-3 md:hidden">
       <div class="z-0 flex justify-center mx-auto">
         <div class="relative z-0 w-24 h-6">
           <LogoActivist
@@ -21,6 +21,10 @@
       <div class="absolute right-0 mr-5">
         <MenuMeatball />
       </div>
+      <SidebarRight>
+        <SelectorTheme location="sideMenu" class="w-full mb-2"/>
+        <SelectorLanguage location="sideMenu" class="w-full" />
+      </SidebarRight>
     </div>
     <!-- Note: desktop header -->
     <div class="hidden py-3 mx-auto md:block">
@@ -59,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { Ref } from "vue";
+import { Ref, ref } from "vue";
 
 export default {
   setup() {

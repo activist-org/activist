@@ -2,6 +2,10 @@
   <div class="flex h-screen overflow-hidden">
     <MenuMobileHeader />
     <Sidebar />
+    <SidebarRight>
+        <SelectorTheme location="sideMenu" class="w-full mb-2"/>
+        <SelectorLanguage location="sideMenu" class="w-full" />
+    </SidebarRight>
     <div class="flex flex-col w-full overflow-y-scroll">
       <div class="bg-light-content dark:bg-dark-content" :class="{
         'pl-2 sm:pl-24 md:pl-72':

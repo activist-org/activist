@@ -8,6 +8,11 @@
       "@vueuse/nuxt",
       "@vueuse/core",
       "@pinia/nuxt",
-    ]
+    ],
+    "paths": {
+      "@/*": [
+       "./*"
+      ]
+     }
   }
 }
