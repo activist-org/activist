@@ -17,6 +17,7 @@
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <a
               href="https://github.com/activist-org/activist/releases"
+              target="_blank"
               class="focus-brand"
             >
               v0.0.1
@@ -26,6 +27,7 @@
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <a
               href="https://github.com/activist-org/activist"
+              target="_blank"
               class="focus-brand"
             >
               {{ $t("source-code") }}
@@ -49,6 +51,7 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
+            target="_blank"
             class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:github" size="1em" />
@@ -56,6 +59,7 @@
           </a>
           <a
             href="https://matrix.to/#/#activist_community:matrix.org"
+            target="_blank"
             class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="IconMatrix" size="1.061em" />
@@ -63,6 +67,7 @@
           </a>
           <a
             href="https://twitter.com/activist_org"
+            target="_blank"
             class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:twitter" size="1em" />
@@ -70,6 +75,7 @@
           </a>
           <a
             href="https://instagram.com/activist_org"
+            target="_blank"
             class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:instagram" size="1em" />
@@ -186,6 +192,7 @@
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <a
               href="https://github.com/activist-org/activist/releases"
+              target="_blank"
               class="focus-brand"
             >
               v0.0.1
@@ -195,6 +202,7 @@
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <a
               href="https://github.com/activist-org/activist"
+              target="_blank"
               class="focus-brand"
             >
               {{ $t("source-code") }}
@@ -240,6 +248,7 @@
           </p>
           <a
             href="https://github.com/activist-org/activist"
+            target="_blank"
             class="flex items-center mt-3 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:github" size="1em" />
@@ -247,6 +256,7 @@
           </a>
           <a
             href="https://matrix.to/#/#activist_community:matrix.org"
+            target="_blank"
             class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="IconMatrix" size="1.061em" />
@@ -254,6 +264,7 @@
           </a>
           <a
             href="https://twitter.com/activist_org"
+            target="_blank"
             class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:twitter" size="1em" />
@@ -261,6 +272,7 @@
           </a>
           <a
             href="https://instagram.com/activist_org"
+            target="_blank"
             class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
           >
             <Icon name="cib:instagram" size="1em" />
