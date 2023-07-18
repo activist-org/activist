@@ -12,6 +12,7 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
+- [First steps as a contributor](#first-steps)
 - [Learning the tech stack](#learning-the-tech)
 - [Development environment](#dev-env)
 - [Style guide](#style-guide)
@@ -24,6 +25,22 @@ If you have questions or would like to communicate with the team, please [join u
 - [Documentation](#documentation)
 - [Accessibility](#accessibility)
 - [Design](#design)
+
+<a id="first-steps"></a>
+
+## First steps as a contributor [`⇧`](#contents)
+
+Thank you for your interest in contributing to activist.org! We look forward to welcoming you to the community and working with you to build a global platform for political action :) The following are some suggested steps for people interested in joining our community:
+
+- Please join the [public Matrix chat](https://matrix.to/#/#activist_community:matrix.org) to connect with the community
+  - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
+  - activist would suggest that you use the [Element](https://element.io/) client
+  - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be a great places to start!
+  - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
+- Read through this contributing guide and the [styleguide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for all the information you need to contribute
+- Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
+- Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
+- Consider joining our [bi-weekly developers sync](https://etherpad.wikimedia.org/p/activist-dev-sync)!
 
 <a id="learning-the-tech"></a>
 
@@ -74,6 +91,22 @@ activist is very open to contributions from people in the early stages of their 
 <a id="dev-env"></a>
 
 ## Development environment [`⇧`](#contents)
+
+First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
+
+<details><summary><strong>Suggested IDE extensions</strong></summary>
+<p>
+
+VS Code
+
+- [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
+- [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+- [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+
+</p>
+</details>
 
 To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 

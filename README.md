@@ -71,6 +71,22 @@ After your first pull requests organization members would be happy to discuss gr
 
 ## Environment Setup [`⇧`](#contents)
 
+First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
+
+<details><summary><strong>Suggested IDE extensions</strong></summary>
+<p>
+
+VS Code
+
+- [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
+- [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+- [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+
+</p>
+</details>
+
 To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
 
 > **Note**: If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
@@ -91,7 +107,6 @@ docker-compose up
 ```
 
 You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
-
 
 ## Ways to Help [`⇧`](#contents)
 
