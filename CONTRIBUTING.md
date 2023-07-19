@@ -35,7 +35,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
 - Please join the [public Matrix chat](https://matrix.to/#/#activist_community:matrix.org) to connect with the community
   - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
   - activist would suggest that you use the [Element](https://element.io/) client
-  - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be a great places to start!
+  - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
   - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
 - Read through this contributing guide and the [styleguide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
