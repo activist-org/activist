@@ -92,7 +92,7 @@ activist is very open to contributions from people in the early stages of their 
 
 ## Development environment [`⇧`](#contents)
 
-First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
+1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
 
 <details><summary><strong>Suggested IDE extensions</strong></summary>
 <p>
@@ -108,17 +108,17 @@ VS Code
 </p>
 </details>
 
-To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
+2. To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
 > **Note**: If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
 
-Then clone this repository with the below command:
+3. Then clone this repository with the below command:
 
 ```bash
 git clone https://github.com/activist-org/activist.git
 ```
 
-Enter the created directory and start your docker images with the following:
+4. Enter the created directory and start your docker images with the following:
 
 ```bash
 cd activist
@@ -127,9 +127,9 @@ docker-compose up
 # docker-compose up --build
 ```
 
-You can visit <http://localhost:3000/> to see the development build once the container is up and running.
+5. You can visit <http://localhost:3000/> to see the development build once the container is up and running.
 
-Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
+> **Note**: Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
 <a id="style-guide"></a>
 
