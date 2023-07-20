@@ -57,7 +57,7 @@
   </div>
   <div
     v-else
-    class="inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
   >
     <Icon
       :name="expanded ? 'bi:x-lg' : 'bi:search'"
@@ -67,11 +67,11 @@
     />
     <input
       v-if="expanded"
-      class="bg-transparent"
+      class="bg-transparent focus:outline-none"
       type="text"
       placeholder="Search"
     />
-    <Icon v-if="expanded" name="bi:filter" />
+    <Icon v-if="expanded" name="bi:filter" class="absolute right-3" />
   </div>
 </template>
 

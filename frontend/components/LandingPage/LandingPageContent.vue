@@ -164,13 +164,13 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+  defineProps<{
   contentPosition: "left" | "right" | "top";
   header: string;
   tagline: string;
   text: string;
-  imageURL: string;
-  altText: string;
+  imageURL?: string;
+  altText?: string;
   btnText1: string;
   btnURL1: string;
   btnAlternateText1?: string;
@@ -179,5 +179,6 @@ defineProps<{
   btnAlternateText2?: string;
   subText?: string;
 }>();
+
 const localePath = useLocalePath();
 </script>

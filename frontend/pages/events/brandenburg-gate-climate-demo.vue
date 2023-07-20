@@ -45,10 +45,6 @@
         description="Let's gather at Brandenburg Gate..."
         aboutType="event"
       />
-      <CardAbout
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis purus pulvinar, suscipit velit sit amet, malesuada augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis purus pulvinar, suscipit velit sit amet, malesuada augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis purus pulvinar, suscipit velit sit amet, malesuada augue."
-        aboutType="organization"
-      />
       <div class="w-72 h-72">
         <MediaMap
           v-if="event.inPersonLocation"
