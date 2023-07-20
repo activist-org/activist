@@ -33,7 +33,8 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
   <!-- - A right sidebar component has been made to house select menu options given the page the user is on. -->
 - Header and tab bar components have been made for navigation on the frontend.
   <!-- - Sidebar filters for search results allow people to easily find events and organizations. -->
-  - Data transfer between the Django backend and Nuxt frontend.
+- Data transfer between the Django backend and Nuxt frontend.
+<!-- - A calendar component has been made to show when events are occurring and to select when they will occur. -->
 
 ### 🎨 Design
 
