@@ -60,6 +60,10 @@ import { Organization } from "~~/types/organization";
 import { Resource } from "~~/types/resource";
 const title = ref("Home");
 
+const {data: organizations} = await useFetch("http://127.0.0.1:8000/organizations")
+
+console.log(organizations)
+
 definePageMeta({
   layout: "sidebar",
 });
