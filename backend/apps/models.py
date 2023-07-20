@@ -10,7 +10,7 @@ class User(AbstractUser):
     description = models.TextField(max_length=500, null=True)
     verified = models.BooleanField(default=False)
     verification_method = models.CharField(max_length=30, null=True)
-    verification_patner = models.ForeignKey(Support, on_delete=models.CASCADE, null=True)
+    verification_partner = models.ForeignKey(Support, on_delete=models.CASCADE, null=True)
     social_accounts = ArrayField(models.CharField(max_length=255), null=True)
     total_flags = models.IntegerField(default=0)
     deletion_date = models.DateField(null=True)
@@ -276,7 +276,7 @@ class OrganizationResource(models.Model):
     def __str__(self):
         return self.index
 
-class OrganiZationMember(models.Model):
+class OrganizationMember(models.Model):
     index: models.IntegerField
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     user_id: models.ForeignKey(User, on_delete=models.CASCADE)
