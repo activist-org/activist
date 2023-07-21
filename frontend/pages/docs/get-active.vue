@@ -8,42 +8,25 @@
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
     >
-      <PopupImage v-on:click="togglePopup" />
-      <!-- Note: image on top of content. -->
+      <!-- Note: image on top of content for mobile. -->
       <img
         v-if="$colorMode.value == 'light'"
         src="/images/content_pages/mockups/get_active_light.png"
-        alt="Mockups that show mobile organization search and web event search on a map."
+        :alt="$t('get-active-modal-image-alt-text')"
         class="w-full md:hidden h-1/6"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         src="/images/content_pages/mockups/get_active_dark.png"
-        alt="Mockups that show mobile organization search and web event search on a map."
+        :alt="$t('get-active-modal-image-alt-text')"
         class="w-full md:hidden h-1/6"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center text-left space-y-4 md:items-start">
-          <!-- Note: image floating right of content. -->
-          <button 
-            v-on:click="togglePopup"
-            v-on:keydown.enter="togglePopup"
-            id="popup-open-btn"
-            class="hidden float-right object-contain p-4 cursor-pointer aspect-square md:block 2xl:hidden h-1/5"
-          >
-            <img
-              v-if="$colorMode.value == 'light'"
-              src="/images/content_pages/mockups/get_active_light.png"
-              alt="Mockups that show mobile organization search and web event search on a map."
-              id="popup-img"
-            />
-            <img
-              v-if="$colorMode.value == 'dark'"
-              src="/images/content_pages/mockups/get_active_dark.png"
-              alt="Mockups that show mobile organization search and web event search on a map."
-              id="popup-img"
-            />
-          </button>
+      <div class="w-10/12 2xl:grid 2xl:grid-cols-2 gap-16 md:w-full">
+        <ModalImage 
+          imageURL="/images/content_pages/mockups/get_active"
+          imageAltText="get-active-modal-image-alt-text"
+        />
+        <div class="2xl:col-span-1 2xl:row-start-1 items-center text-left space-y-4 md:items-start">
           <h1 class="pb-2 font-bold responsive-h1">
             Discover and get involved
           </h1>
@@ -143,23 +126,6 @@
             />
           </div>
         </div>
-        <div class="flex justify-end pr-32">
-          <!-- Note: image right of content. -->
-          <img
-            v-if="$colorMode.value == 'light'"
-            src="/images/content_pages/mockups/get_active_light.png"
-            alt="Mockups that show mobile organization search and web event search on a map."
-            class="hidden object-contain cursor-pointer 2xl:block h-3/4"
-            v-on:click="togglePopup"
-          />
-          <img
-            v-else-if="$colorMode.value == 'dark'"
-            src="/images/content_pages/mockups/get_active_dark.png"
-            alt="Mockups that show mobile organization search and web event search on a map."
-            class="hidden object-contain cursor-pointer 2xl:block h-3/4"
-            v-on:click="togglePopup"
-          />
-        </div>
       </div>
     </div>
   </div>
@@ -169,33 +135,13 @@
 const title = ref("Get Active");
 </script>
 
-<script popup_image>
-import PopupImage from "../../components/Popup/PopupImage";
+<script modal_image>
+  import ModalImage from "@/components/Modal/ModalImage";
 
-export default {
-  name: "PopupImage",
-  components: {
-    PopupImage,
-  },
-};
-
-function togglePopup(event) {
-  // Prevent button default behavior
-  event.preventDefault();
-
-  // Style image container
-  let popup_container = document.getElementById("popup");
-
-  // Handle image
-  let image = document.getElementById("popup-image");
-  let pop_img = document.getElementById("popup-img");
-  image.src = `${pop_img.src}`;
-
-  // Toggle visibility
-  popup_container.classList.toggle("hidden");
-
-  // Focus on modal close button
-  let pop_close_btn = document.getElementById("popup-close-btn");
-  pop_close_btn.focus();
-}
+  export default {
+    name: "ModalImage",
+    components: {
+      ModalImage,
+    },
+  };
 </script>

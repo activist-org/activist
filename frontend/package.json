@@ -25,10 +25,13 @@
     "vue-tsc": "^1.8.1"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/plausible": "^0.2.1",
     "@types/leaflet": "^1.9.3",
     "@vue-leaflet/vue-leaflet": "^0.9.0",
     "floating-vue": "^2.0.0-beta.24",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "leaflet": "^1.9.4",
     "nuxt-mail": "^3.1.23",
     "swiper": "^9.3.2",

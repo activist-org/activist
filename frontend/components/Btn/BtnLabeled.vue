@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="linkTo == 'placeholder-link'"
-    class="px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
+    class="px-4 py-2 font-semibold text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
     :class="{
       'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
         cta == true,
@@ -28,7 +28,7 @@
   <a
     v-else-if="linkTo.includes('http')"
     :href="linkTo"
-    class="px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
+    class="px-4 py-2 font-semibold text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
     :class="{
       'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
         cta == true,
@@ -56,7 +56,7 @@
   <NuxtLink
     v-else
     :to="localePath(`${linkTo}`)"
-    class="px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
+    class="px-4 py-2 font-semibold text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
     :class="{
       'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
         cta == true,
@@ -84,19 +84,20 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+export interface Props {
   cta: boolean;
   linkTo: string;
   label: string;
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   leftIcon?: string;
   rightIcon?: string;
-  iconSize: {
-    default: "1em";
-    type: string;
-    required: false;
-  };
-  alternateText: string | null;
-}>();
+  iconSize?: string;
+  alternateText?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  iconSize: "1em",
+});
+
 const localePath = useLocalePath();
 </script>

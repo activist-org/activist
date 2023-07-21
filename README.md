@@ -2,11 +2,12 @@
   <a href="https://github.com/activist-org/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/logos/activistGitHubOrgBanner.png" width=1024 alt="activist Logo"></a>
 </div>
 
-<!-- [![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack) -->
+<!-- [![supabase](https://img.shields.io/badge/Supabase-3ECF8E.svg?logo=supabase&logoColor=ffffff)](#tech-stack) -->
 
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
+[![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
 [![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
@@ -71,17 +72,33 @@ After your first pull requests organization members would be happy to discuss gr
 
 ## Environment Setup [`⇧`](#contents)
 
-To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
+1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
+
+<details><summary><strong>Suggested IDE extensions</strong></summary>
+<p>
+
+VS Code
+
+- [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
+- [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+- [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+
+</p>
+</details>
+
+2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
 
 > **Note**: If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
 
-Then clone this repository with the below command:
+3. Then clone this repository with the below command:
 
 ```bash
 git clone https://github.com/activist-org/activist.git
 ```
 
-Enter the created directory and start your docker images with the following:
+4. Enter the created directory and start your docker images with the following:
 
 ```bash
 cd activist
@@ -90,8 +107,9 @@ docker-compose up
 # docker-compose up --build
 ```
 
-You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
+5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
+> **Note**: Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
 ## Ways to Help [`⇧`](#contents)
 
@@ -128,7 +146,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Backend
 
-- [Django](https://www.djangoproject.com) (planned) • [PostgreSQL](https://www.postgresql.org) (planned) • [Redis](https://redis.io) (planned) • [Celery](https://docs.celeryq.dev/en/stable) (planned)
+- [Django](https://www.djangoproject.com) • [Supabase](https://supabase.com/) (planned) • [PostgreSQL](https://www.postgresql.org) (planned)
 
 ### Deployment
 
