@@ -2,10 +2,6 @@
   <div class="flex h-screen overflow-hidden">
     <MenuMobileHeader />
     <SidebarLeft />
-    <SidebarRight>
-        <SelectorTheme location="sideMenu" class="w-full mb-2"/>
-        <SelectorLanguage location="sideMenu" class="w-full" />
-    </SidebarRight>
     <div class="flex flex-col w-full overflow-y-scroll">
       <slot />
       <WebsiteFooter

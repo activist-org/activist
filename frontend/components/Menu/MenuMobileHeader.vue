@@ -16,6 +16,10 @@
           class="flex items-center w-6 h-8 absolute top-[0.3rem] m-auto left-0 right-0 overflow-clip"
         />
       </div>
+      <SidebarRight>
+        <SelectorTheme location="sideMenu" class="w-full mb-2"/>
+        <SelectorLanguage location="sideMenu" class="w-full" />
+      </SidebarRight>
     </nav>
   </div>
 </template>
