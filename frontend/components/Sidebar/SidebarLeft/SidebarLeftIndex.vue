@@ -47,7 +47,7 @@
           v-if="pageType === 'organization'"
           v-for="button in organizationButtons"
         >
-          <SidebarSelector
+          <SidebarLeftSelector
             :btn-text="button.btnText"
             :icon-u-r-l="button.iconURL"
             :btnURL="button.btnURL"
@@ -56,7 +56,7 @@
           />
         </li>
         <li v-if="pageType === 'event'" v-for="button in eventButtons">
-          <SidebarSelector
+          <SidebarLeftSelector
             :btn-text="button.btnText"
             :icon-u-r-l="button.iconURL"
             :btnURL="button.btnURL"
@@ -85,7 +85,7 @@ const nameAbbreviation = props.name
   })
   .join("");
 
-interface SidebarSelectorType {
+interface SidebarLeftSelectorType {
   btnText: string;
   btnURL: string;
   iconURL: string;
@@ -93,7 +93,7 @@ interface SidebarSelectorType {
   active: boolean;
 }
 
-const organizationButtons: SidebarSelectorType[] = [
+const organizationButtons: SidebarLeftSelectorType[] = [
   {
     btnText: "sidebar.about",
     btnURL: "/",
@@ -159,7 +159,7 @@ const organizationButtons: SidebarSelectorType[] = [
   },
 ];
 
-const eventButtons: SidebarSelectorType[] = [
+const eventButtons: SidebarLeftSelectorType[] = [
   {
     btnText: "sidebar.about",
     btnURL: "/",
@@ -204,7 +204,7 @@ const eventButtons: SidebarSelectorType[] = [
   },
 ];
 
-const AboutIndexButtons: SidebarSelectorType[] = [
+const AboutIndexButtons: SidebarLeftSelectorType[] = [
   {
     btnText: "sidebar.about-index.about-activist",
     btnURL: "/about",
@@ -242,7 +242,7 @@ const AboutIndexButtons: SidebarSelectorType[] = [
   },
 ];
 
-const LegalIndexButtons: SidebarSelectorType[] = [
+const LegalIndexButtons: SidebarLeftSelectorType[] = [
   {
     btnText: "sidebar.legal-index.legal-support",
     btnURL: "/legal/legal-support",
@@ -266,7 +266,7 @@ const LegalIndexButtons: SidebarSelectorType[] = [
   },
 ];
 
-const HelpIndexButtons: SidebarSelectorType[] = [
+const HelpIndexButtons: SidebarLeftSelectorType[] = [
   {
     btnText: "sidebar.help-index.faq",
     btnURL: "/help/faq",
@@ -297,7 +297,7 @@ const HelpIndexButtons: SidebarSelectorType[] = [
   },
 ];
 
-const DocsIndexButtons: SidebarSelectorType[] = [
+const DocsIndexButtons: SidebarLeftSelectorType[] = [
   {
     btnText: "sidebar.docs-index.get-active",
     btnURL: "/docs/get-active",
