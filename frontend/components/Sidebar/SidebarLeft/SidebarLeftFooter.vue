@@ -58,28 +58,28 @@
             <div
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
             >
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="bi:calendar-check"
                 btnText="New event"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="IconOrganization"
                 btnText="New organization"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="IconGroup"
                 btnText="New group"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="IconResource"
                 btnText="New resource"
                 btnURL="/"
@@ -129,21 +129,21 @@
             <div
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
             >
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="bi:question-circle"
                 btnText="Help"
                 btnURL="/help"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="bi:layout-text-sidebar-reverse"
                 btnText="Documentation"
                 btnURL="/docs"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="IconLegal"
                 btnText="Legal"
                 btnURL="/legal"
@@ -194,42 +194,42 @@
             <div
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
             >
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="bi:person-circle"
                 btnText="Your profile"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="bi:calendar-check"
                 btnText="Your events"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="IconOrganization"
                 btnText="Your orgs"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="bi:bell"
                 btnText="Notifications"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="bi:gear"
                 btnText="Settings"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
-              <SidebarSelector
+              <SidebarLeftSelector
                 iconURL="bi:box-arrow-left"
                 btnText="Sign out"
                 btnURL="/"

@@ -8,18 +8,18 @@
     @mouseover="sidebar.collapsed = false"
     @mouseleave="sidebar.collapsed = true"
   >
-    <SidebarHeader />
+    <SidebarLeftHeader />
     <div class="overflow-x-hidden overflow-y-scroll h-full">
       <SearchBar location="sidebar" class="mt-2" />
-      <SidebarMainSectionSelectors class="mt-2" />
-      <SidebarIndex
+      <SidebarLeftMainSectionSelectors class="mt-2" />
+      <SidebarLeftIndex
         :pageType="pageTypeToDisplay"
         :name="placeholderName"
         :logoUrl="placeholderLogo"
         class="mt-2"
       />
     </div>
-    <SidebarFooter />
+    <SidebarLeftFooter />
   </aside>
 </template>
 
