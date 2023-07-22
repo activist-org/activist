@@ -2,7 +2,7 @@
   <header
     class="pl-1 border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
     :class="{
-      'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+      'w-64': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
   >
