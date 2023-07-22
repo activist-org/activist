@@ -74,7 +74,7 @@ After your first pull requests organization members would be happy to discuss gr
 
 ## Environment Setup [`⇧`](#contents)
 
-First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
+1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
 
 <details><summary><strong>Suggested IDE extensions</strong></summary>
 <p>

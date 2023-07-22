@@ -92,7 +92,7 @@ activist is very open to contributions from people in the early stages of their 
 
 ## Development environment [`⇧`](#contents)
 
-First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
+1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
 
 <details><summary><strong>Suggested IDE extensions</strong></summary>
 <p>
