@@ -31,7 +31,8 @@
 
 [**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.
 
-> **Note**: The [contributing](#contributing) section has information for those interested, with the articles and presentations in [supported by](#supported-by) also being good resources for learning more about activist.
+> [!NOTE]\
+> The [contributing](#contributing) section has information for those interested, with the articles and presentations in [supported by](#supported-by) also being good resources for learning more about activist.
 
 [**Frequently Asked Questions**](https://activist.org/help/faq)
 
@@ -64,7 +65,8 @@ activist uses [Matrix](https://matrix.org/) for communications. You're more than
 
 Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) and [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) if you are interested in contributing to activist. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
 
-> **Note**: Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
+> [!NOTE]\
+> Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
 
 Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors. For those new to coding or our tech stack, we've collected [links to helpful documentation pages](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#learning-the-tech) in the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md).
 
@@ -90,7 +92,8 @@ VS Code
 
 2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
 
-> **Note**: If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
+> [!NOTE]\
+> If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
 
 3. Then clone this repository with the below command:
 
@@ -109,7 +112,8 @@ docker-compose up
 
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
-> **Note**: Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
+> [!NOTE]\
+> Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
 ## Ways to Help [`⇧`](#contents)
 

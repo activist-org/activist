@@ -110,7 +110,8 @@ VS Code
 
 2. To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
-> **Note**: If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
+> [!NOTE]\
+> If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
 
 3. Then clone this repository with the below command:
 
@@ -129,7 +130,8 @@ docker-compose up
 
 5. You can visit <http://localhost:3000/> to see the development build once the container is up and running.
 
-> **Note**: Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
+> [!NOTE]\
+> Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
 <a id="style-guide"></a>
 
@@ -149,7 +151,8 @@ For the backend [pylint-django](https://github.com/PyCQA/pylint-django) is insta
 
 The [issue tracker for activist](https://github.com/activist-org/activist/issues) is the preferred channel for [bug reports](#bug-reports), [features requests](#feature-requests) and [submitting pull requests](#pull-requests). activist also organizes related issues into [projects](https://github.com/activist-org/activist/projects).
 
-> **Note**: Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
+> [!NOTE]\
+> Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
 
 Be sure to check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
@@ -227,7 +230,8 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    git pull --rebase upstream <dev-branch>
    ```
 
-   > **Note:** When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
+   > [!NOTE]\
+   > When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
 
 6. Push your topic branch up to your fork:
 
