@@ -6,10 +6,13 @@ export default defineNuxtConfig({
     // strict: true,
     // typeCheck: true,
   },
+  
   plugins: [],
   alias: {
     "@": resolve(__dirname, "./"),
   },
+  
+  
   modules: [
     "@nuxt/content",
     "nuxt-icon",
@@ -25,14 +28,16 @@ export default defineNuxtConfig({
         },
       },
     ],
+    
     "@nuxtjs/color-mode",
     "@nuxtjs/device",
     "@nuxtjs/i18n",
     "@nuxtjs/plausible",
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
-    "@vueuse/nuxt",
+    "@vueuse/nuxt",  
   ],
+  
   imports: {
     dirs: ["./stores"],
   },

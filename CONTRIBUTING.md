@@ -12,6 +12,7 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
+- [First steps as a contributor](#first-steps)
 - [Learning the tech stack](#learning-the-tech)
 - [Development environment](#dev-env)
 - [Style guide](#style-guide)
@@ -24,6 +25,22 @@ If you have questions or would like to communicate with the team, please [join u
 - [Documentation](#documentation)
 - [Accessibility](#accessibility)
 - [Design](#design)
+
+<a id="first-steps"></a>
+
+## First steps as a contributor [`⇧`](#contents)
+
+Thank you for your interest in contributing to activist.org! We look forward to welcoming you to the community and working with you to build a global platform for political action :) The following are some suggested steps for people interested in joining our community:
+
+- Please join the [public Matrix chat](https://matrix.to/#/#activist_community:matrix.org) to connect with the community
+  - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
+  - activist would suggest that you use the [Element](https://element.io/) client
+  - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
+  - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
+- Read through this contributing guide and the [styleguide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for all the information you need to contribute
+- Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
+- Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
+- Consider joining our [bi-weekly developers sync](https://etherpad.wikimedia.org/p/activist-dev-sync)!
 
 <a id="learning-the-tech"></a>
 
@@ -75,17 +92,50 @@ activist is very open to contributions from people in the early stages of their 
 
 ## Development environment [`⇧`](#contents)
 
-To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
+1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
 
-> **Note**: If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
+<details><summary><strong>Suggested IDE extensions</strong></summary>
+<p>
 
-Then clone this repository with the below command:
+VS Code
+
+- [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
+- [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+- [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+
+</p>
+</details>
+
+1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
+
+<details><summary><strong>Suggested IDE extensions</strong></summary>
+<p>
+
+VS Code
+
+- [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
+- [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+- [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+
+</p>
+</details>
+
+2. To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
+
+> [!NOTE]\
+> If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
+
+3. Then clone this repository with the below command:
 
 ```bash
 git clone https://github.com/activist-org/activist.git
 ```
 
-Enter the created directory and start your docker images with the following:
+4. Enter the created directory and start your docker images with the following:
 
 ```bash
 cd activist
@@ -94,9 +144,10 @@ docker-compose up
 # docker-compose up --build
 ```
 
-You can visit <http://localhost:3000/> to see the development build once the container is up and running.
+5. You can visit <http://localhost:3000/> to see the development build once the container is up and running.
 
-Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
+> [!NOTE]\
+> Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
 <a id="style-guide"></a>
 
@@ -116,7 +167,8 @@ For the backend [pylint-django](https://github.com/PyCQA/pylint-django) is insta
 
 The [issue tracker for activist](https://github.com/activist-org/activist/issues) is the preferred channel for [bug reports](#bug-reports), [features requests](#feature-requests) and [submitting pull requests](#pull-requests). activist also organizes related issues into [projects](https://github.com/activist-org/activist/projects).
 
-> **Note**: Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
+> [!NOTE]\
+> Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
 
 Be sure to check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
 
@@ -194,7 +246,8 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    git pull --rebase upstream <dev-branch>
    ```
 
-   > **Note:** When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
+   > [!NOTE]\
+   > When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
 
 6. Push your topic branch up to your fork:
 

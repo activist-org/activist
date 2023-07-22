@@ -2,7 +2,7 @@
   <footer
     class="border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
     :class="{
-      'w-48': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+      'w-64': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16 absolute bottom-0':
         sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       'absolute bottom-0': onHomePage,
@@ -12,7 +12,7 @@
       <div
         class="flex flex-col justify-center px-[0.375rem] pt-2 pb-3 space-y-1"
         :class="{
-          'w-[11.4rem]':
+          'w-full':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
           'w-[3.4rem]':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,

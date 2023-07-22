@@ -13,8 +13,8 @@ If you have questions or would like to communicate with the team, please [join u
 - [Vue and Nuxt](#vue-and-nuxt)
 - [TypeScript](#typescript)
 - [Tailwind](#tailwind)
-- [Formatting](#formatting)
 - [Common styles](#common-styles)
+- [Formatting](#formatting)
 - [Colors](#colors)
 - [Font](#font)
 - [Text size](#text-size)
@@ -26,13 +26,12 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## Vue and Nuxt [`⇧`](#contents)
 
-The frontend for activist is written in the framework [Vue.js](https://vuejs.org/) and specifically the meta-framework [Nuxt.js](https://nuxt.com/).
-
-The team chose Vue because of its broad usage across the development industry as well as relative ease of use and adoption for new contributors. Most of all we appreciate the structure that Vue adds to a project by leveraging the order of HTML and adding scripting and styling on top. Nuxt expands on Vue seamlessly and includes many [modules](https://nuxt.com/modules) to make development much easier.
+The frontend for activist is written in the framework [Vue.js](https://vuejs.org/) and specifically the meta-framework [Nuxt.js](https://nuxt.com/). The team chose Vue because of its broad usage across the development industry as well as relative ease of use and adoption for new contributors. Most of all we appreciate the structure that Vue adds to a project by leveraging the order of HTML and adding scripting and styling on top. Nuxt expands on Vue seamlessly and includes many [modules](https://nuxt.com/modules) to make development much easier.
 
 Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>` and `<style>` blocks. Conventions for writing Vue for activist include:
 
 - `<template>` blocks should come first, `<script>` second and `<style>` last
+- The Vue [Composition API](https://vuejs.org/guide/introduction.html#composition-api) should be used in all cases
 - [TypeScript](https://www.typescriptlang.org/) should be used where ever possible within `<script>` blocks with `defineProps`
 - Self-closing components (`<Component />`) should be used for any component that doesn't have content
   - This style is [strongly recommended in Vue](https://vuejs.org/guide/essentials/component-basics.html#dom-template-parsing-caveats)
@@ -105,13 +104,7 @@ Within VSCode TS errors are visible, however, running these commands will help t
 
 activist uses [Tailwind CSS](https://tailwindcss.com/) for CSS styling and [Headless UI](https://headlessui.com/) unstyled, accessible components for more complex page elements like dropdowns and popups. Tailwind styles are applied via space-separated `class="STYLE"` attributes on HTML elements in Vue `<template>` blocks. The following sections will detail the specific styles that are used throughout the codebase.
 
-Please note that as activist uses Tailwind, this means that `<style>` blocks are often times not used within Vue Single-File Components. `<style>` blocks should only be used in cases where including the styles within the `<template>` block would be overly complex or if Tailwind does not support a certain style parameter. The team understands that Tailwind at times can lead to very long style classes, but because of this we make use of the custom classes below to combine commonly used elements into consistent, responsive drop-in attributes.
-
-<a id="formatting"></a>
-
-## Formatting [`⇧`](#contents)
-
-For the frontend activist uses [Prettier](https://prettier.io/) to format the code and [Headwind](https://github.com/heybourn/headwind) to sort Tailwind CSS classes. We'll eventually set it up so that code is autoformatted within the PR flow, and generally the team isn't worried about formatting as it's done on save locally as we work. Backend code written in Python should be formatted using [black](https://github.com/psf/black).
+Please note that as activist uses Tailwind, this means that `<style>` blocks are often times not used within Vue Single-File Components. `<style>` blocks should only be used in cases where including the styles within the `<template>` block would be overly complex or if Tailwind does not support a certain style parameter. The team understands that Tailwind at times can lead to very long style classes, but because of this we make use of the custom classes [below](#common-styles) to combine commonly used elements into consistent, responsive drop-in attributes.
 
 <a id="common-styles"></a>
 
@@ -133,6 +126,12 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
   - Applies styles for consistent cards across activist's pages
   - Colors are defined for light and dark mode with border width and radius also being applied
   - Used in cases like about page sections, search results, etc
+
+<a id="formatting"></a>
+
+## Formatting [`⇧`](#contents)
+
+For the frontend activist uses [Prettier](https://prettier.io/) to format the code and [Headwind](https://github.com/heybourn/headwind) to sort Tailwind CSS classes. We'll eventually set it up so that code is autoformatted within the PR flow, and generally the team isn't worried about formatting as it's done on save locally as we work. Backend code written in Python should be formatted using [black](https://github.com/psf/black).
 
 <a id="colors"></a>
 

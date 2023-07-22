@@ -7,21 +7,12 @@
     </Head>
     <h1
       class="pt-6 pl-56 transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
-      :class="{
-        'pl-56': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-        'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
-      }"
     >
       {{ event.name }}
     </h1>
     <flex class="relative flex items-center py-6"
       ><h2
         class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
-        :class="{
-          'pl-56':
-            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
-        }"
       >
         {{ event.tagline }}
       </h2>
@@ -36,10 +27,6 @@
     </flex>
     <div
       class="pb-4 pr-2 space-y-4 sm:pr-8"
-      :class="{
-        'pl-56': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-        'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
-      }"
     >
       <CardAbout
         description="Let's gather at Brandenburg Gate..."

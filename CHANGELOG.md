@@ -27,10 +27,14 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 - Links to activist GitHub and socials as well as supporter websites.
 - Landing page elements are reactive to screen sizes.
 - Image popup to get a better view of the images.
-- A sidebar component has been made to house all the navigation for the platform.
+- A left sidebar component has been made to house all the navigation for the platform.
   - The sidebar has collapsed and expanded states to provide more room to work.
   - The collapsed state transitions directly to expanded upon hovering.
+  <!-- - A right sidebar component has been made to house select menu options given the page the user is on. -->
 - Header and tab bar components have been made for navigation on the frontend.
+  <!-- - Sidebar filters for search results allow people to easily find events and organizations. -->
+- Data transfer between the Django backend and Nuxt frontend.
+<!-- - A calendar component has been made to show when events are occurring and to select when they will occur. -->
 
 ### 🎨 Design
 

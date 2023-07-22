@@ -1,14 +1,15 @@
 <template>
   <a
     :href="href"
-    class="flex items-center px-3 py-1 border space-x-2 card-style focus-brand text-light-text dark:text-dark-text border-light-text dark:border-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight"
+    target="_blank"
+    class="flex items-center px-3 py-1 space-x-2 border card-style focus-brand text-light-text dark:text-dark-text border-light-text dark:border-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight"
   >
     <slot></slot>
     <div v-if="text" class="text-lg font-semibold md:text-xl">
       {{ text }}
     </div>
     <div
-      v-if="loading"
+      v-if="isLoading"
       class="p-4 text-xl font-semibold rounded-full md:text-2xl animate-pulse bg-light-highlight dark:bg-dark-highlight"
     ></div>
     <div
@@ -22,9 +23,9 @@
 
 <script setup lang="ts">
 defineProps<{
-  text: String;
-  count: String;
-  loading: Boolean;
-  href: String;
+  text?: string;
+  count?: number;
+  isLoading: boolean;
+  href: string;
 }>();
 </script>

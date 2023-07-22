@@ -3,6 +3,7 @@
     <ImageGithubShield
       href="https://github.com/activist-org/activist"
       class="fill-light-text dark:fill-dark-text"
+      :isLoading="isLoading"
     >
       <Icon name="cib:github" size="2em" />
       <div class="pb-1 ml-4 place-self-center">
@@ -14,7 +15,8 @@
     <ImageGithubShield
       href="https://github.com/activist-org/activist/forks"
       text="Fork"
-      :count="result.forks_count"
+      :isLoading="isLoading"
+      :count="GitHubData.forks_count"
       class="fill-light-text dark:fill-dark-text"
     >
       <Icon name="octicon:repo-forked-24" size="2em" />
@@ -23,7 +25,8 @@
     <ImageGithubShield
       href="https://github.com/activist-org/activist/stargazers"
       text="Star"
-      :count="result.stargazers_count"
+      :isLoading="isLoading"
+      :count="GitHubData.stargazers_count"
       class="fill-light-text dark:fill-dark-text"
     >
       <Icon name="octicon:star-24" size="2em" />
@@ -31,37 +34,34 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, reactive, onMounted } from 'vue';
 import ImageGithubShield from "../Image/ImageGithubShield.vue";
 
-export default {
-  data() {
-    return {
-      loading: false,
-      result: {},
-      error: null,
-    };
-  },
-  methods: {
-    async getData() {
-      this.loading = true;
-      try {
-        const response = await fetch(
-          "https://api.github.com/repos/activist-org/activist"
-        );
-        const json = await response.json();
-        this.result = json;
-      } catch (e) {
-        this.error = e;
-        console.log(e);
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
-  mounted() {
-    this.getData();
-  },
-  components: { ImageGithubShield },
-};
+const isLoading = ref(false);
+const GitHubData = reactive({
+  forks_count: 0,
+  stargazers_count: 0
+});
+
+onMounted(() => {
+  fetchDataFromGitHubAPI();
+});
+
+async function fetchDataFromGitHubAPI() {
+  isLoading.value = true;
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/activist-org/activist"
+    );
+    const data = await response.json();
+    GitHubData.forks_count = data.forks_count;
+    GitHubData.stargazers_count = data.stargazers_count;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
 </script>
