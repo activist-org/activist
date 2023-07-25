@@ -108,22 +108,6 @@ VS Code
 </p>
 </details>
 
-1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
-
-<details><summary><strong>Suggested IDE extensions</strong></summary>
-<p>
-
-VS Code
-
-- [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
-- [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-- [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
-- [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-- [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
-
-</p>
-</details>
-
 2. To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
 > [!NOTE]\
