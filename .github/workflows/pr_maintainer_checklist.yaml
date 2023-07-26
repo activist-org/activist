@@ -32,4 +32,8 @@ jobs:
               - The contributor's name and icon in remote commits should be the same as what appears in the PR
               - If there's a mismatch, the contributor needs to make sure that the [email they use for GitHub](https://github.com/settings/emails) matches what they have for `git config user.email` in their local activist repo
 
+            - [ ] If Changes are done on the frontend, confirm the PR does not introduce new TypeScript errors
+              - If there are new errors, please advise the contributor and either suggest a possible solution or fix the error!
+              - For more information refer to the TypeScript section of the [STYLEGUIDE](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md#typescript)
+
             - [ ] The [CHANGELOG](https://github.com/activist-org/activist/blob/main/CHANGELOG.md) has been updated with a description of the changes for the upcoming release (if necessary)
