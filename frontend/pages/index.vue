@@ -3,12 +3,12 @@
     <Head>
       <Title>{{ title }}</Title>
     </Head>
-    <LandingPageSplash />
-    <LandingPageCommunityBanner />
+    <LandingSplash />
+    <LandingCommunityBanner />
     <div
       class="flex flex-col mt-4 mb-2 sm:mb-4 sm:mt-10 xl:mt-16 xl:mb-8 2xl:mt-24 2xl:mb-12"
     >
-      <LandingPageContent
+      <LandingContent
         contentPosition="left"
         header="get-active-header"
         tagline="get-active-tagline"
@@ -19,7 +19,7 @@
         btnURL1="/docs/get-active"
         btnAlternateText1="get-active-btn-alt-text"
       />
-      <LandingPageContent
+      <LandingContent
         contentPosition="right"
         header="get-organized-header"
         tagline="get-organized-tagline"
@@ -30,7 +30,7 @@
         btnURL1="/docs/get-organized"
         btnAlternateText1="get-organized-btn-alt-text"
       />
-      <LandingPageContent
+      <LandingContent
         contentPosition="left"
         header="grow-organization-header"
         tagline="grow-organization-tagline"
@@ -41,8 +41,8 @@
         btnURL1="/docs/grow-organization"
         btnAlternateText1="grow-organization-btn-alt-text"
       />
-      <LandingPageTechBanner />
-      <LandingPageContent
+      <LandingTechBanner />
+      <LandingContent
         contentPosition="right"
         header="activist-section-header"
         tagline="activist-section-tagline"
@@ -53,7 +53,7 @@
         btnURL1="/about"
         btnAlternateText1="activist-section-btn-alt-text"
       />
-      <LandingPageContent
+      <LandingContent
         contentPosition="top"
         header="our-supporters-header"
         tagline="our-supporters-tagline"
