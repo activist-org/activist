@@ -21,12 +21,14 @@
         :alt="$t('grow-organization-modal-image-alt-text')"
         class="w-full md:hidden h-1/6"
       />
-      <div class="w-10/12 2xl:grid 2xl:grid-cols-2 gap-16 md:w-full">
-        <ModalImage 
+      <div class="w-10/12 gap-16 2xl:grid 2xl:grid-cols-2 md:w-full">
+        <ModalImage
           imageURL="/images/content_pages/mockups/grow_organization"
           imageAltText="grow-organization-modal-image-alt-text"
         />
-        <div class="items-center text-left 2xl:col-span-1 2xl:row-start-1 space-y-4 md:items-start">
+        <div
+          class="items-center space-y-4 text-left 2xl:col-span-1 2xl:row-start-1 md:items-start"
+        >
           <h1 class="pb-2 font-bold responsive-h1">Expand your movement</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
@@ -124,15 +126,4 @@
 
 <script setup>
 const title = ref("Grow Organization");
-</script>
-
-<script modal_image>
-  import ModalImage from "@/components/Modal/ModalImage";
-
-  export default {
-    name: "ModalImage",
-    components: {
-      ModalImage,
-    },
-  };
 </script>
