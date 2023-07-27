@@ -36,7 +36,6 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
-import ImageGithubShield from "../Image/ImageGithubShield.vue";
 
 const isLoading = ref(false);
 const GitHubData = reactive({
