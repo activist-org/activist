@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const localePath = useLocalePath();
 const btnText1 = "Request access";
 </script>

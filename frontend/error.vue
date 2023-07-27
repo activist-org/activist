@@ -35,7 +35,7 @@
   <WebsiteFooter />
 </template>
 
-<script setup>
+<script setup lang="ts">
 const title = ref("Error • activist");
 defineProps(["error"]);
 </script>

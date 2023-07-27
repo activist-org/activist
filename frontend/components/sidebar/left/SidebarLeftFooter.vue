@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="transition-all duration-500 border-r bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
     :class="{
       'w-64': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16 absolute bottom-0':
@@ -247,7 +247,7 @@
   </footer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 const { locale, locales } = useI18n();
 

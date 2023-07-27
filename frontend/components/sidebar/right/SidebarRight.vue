@@ -17,7 +17,8 @@
     </div>
   </div>
 </template>
-<script setup>
+
+<script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
 import { ref } from "vue";
 

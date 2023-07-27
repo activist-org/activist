@@ -67,8 +67,8 @@
         />
       </p>
       <a href="https://github.com/activist-org/activist/graphs/contributors">
-        <img 
-          src="https://contrib.rocks/image?repo=activist-org/activist" 
+        <img
+          src="https://contrib.rocks/image?repo=activist-org/activist"
           alt="Contributors on GitHub"
         />
       </a>
@@ -82,6 +82,6 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const title = ref("Supporters");
 </script>

@@ -134,6 +134,6 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const title = ref("FAQ");
 </script>
