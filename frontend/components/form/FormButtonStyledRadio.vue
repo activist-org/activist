@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import useFormInput from "@/composables/useFormSetup";
 import useUniqueID from "@/composables/useUniqueID";
 

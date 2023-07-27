@@ -94,7 +94,7 @@
   </Menu>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
 const props = defineProps({

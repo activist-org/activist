@@ -37,7 +37,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import useFormCheckboxRadio from "@/composables/useFormCheckboxRadio";
 import { computed } from "vue";
 
