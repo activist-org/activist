@@ -26,7 +26,7 @@
           imageURL="/images/content_pages/mockups/grow_organization"
           imageAltText="grow-organization-modal-image-alt-text"
         />
-        <div class="2xl:col-span-1 2xl:row-start-1 items-center text-left space-y-4 md:items-start">
+        <div class="items-center text-left 2xl:col-span-1 2xl:row-start-1 space-y-4 md:items-start">
           <h1 class="pb-2 font-bold responsive-h1">Expand your movement</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon

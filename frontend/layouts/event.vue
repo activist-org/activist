@@ -14,10 +14,10 @@
     >
       {{ event.name }}
     </h1>
-    <flex class="w-full relative flex items-center py-6 m-0"
+    <flex class="relative flex items-center w-full py-6 m-0"
       ><h2
         :v-if="event.tagline"
-        class="transition-all duration-500 responsive-h4 m-0 p-0 text-light-special-text dark:text-dark-special-text"
+        class="p-0 m-0 transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
         :class="{
           'pl-56':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -26,8 +26,8 @@
       >
         {{ event.tagline }}
       </h2>
-      <div class="flex gap-3 absolute right-8 mb-5">
-        <div class="flex gap-1 items-center">
+      <div class="absolute flex mb-5 gap-3 right-8">
+        <div class="flex items-center gap-1">
           <BtnLabeled
             :cta="true"
             label="Offer to help"
@@ -36,7 +36,7 @@
             rightIcon="bi:arrow-right"
           />
         </div>
-        <div class="flex gap-1 items-center">
+        <div class="flex items-center gap-1">
           <BtnLabeled
             :cta="true"
             linkTo="/"
@@ -45,7 +45,7 @@
             leftIcon="bi:star"
           />
         </div>
-        <div class="flex gap-1 items-center">
+        <div class="flex items-center gap-1">
           <BtnLabeled
             :cta="true"
             linkTo="/"
@@ -63,9 +63,9 @@
         'pl-24': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
-      <div class="flex gap-6 w-full">
+      <div class="flex w-full gap-6">
         <CardAbout
-          class="h-72 px-6"
+          class="px-6 h-72"
           :description="event.description"
           aboutType="event"
         />

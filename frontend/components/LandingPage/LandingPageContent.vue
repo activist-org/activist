@@ -164,7 +164,7 @@
 </template>
 
 <script setup lang="ts">
-  defineProps<{
+defineProps<{
   contentPosition: "left" | "right" | "top";
   header: string;
   tagline: string;

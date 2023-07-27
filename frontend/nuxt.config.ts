@@ -1,18 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { resolve } from 'path'
+import { resolve } from "path";
 export default defineNuxtConfig({
   ssr: false,
   typescript: {
     // strict: true,
     // typeCheck: true,
   },
-  
+
   plugins: [],
   alias: {
     "@": resolve(__dirname, "./"),
   },
-  
-  
+
   modules: [
     "@nuxt/content",
     "nuxt-icon",
@@ -28,16 +27,16 @@ export default defineNuxtConfig({
         },
       },
     ],
-    
+
     "@nuxtjs/color-mode",
     "@nuxtjs/device",
     "@nuxtjs/i18n",
     "@nuxtjs/plausible",
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
-    "@vueuse/nuxt",  
+    "@vueuse/nuxt",
   ],
-  
+
   imports: {
     dirs: ["./stores"],
   },
@@ -66,6 +65,7 @@ export default defineNuxtConfig({
     lazy: true,
     baseUrl: "https://activist.org",
     langDir: "i18n",
+    vueI18n: "./i18n.config.ts",
     locales: [
       {
         code: "en",
@@ -94,11 +94,6 @@ export default defineNuxtConfig({
       //   de: "/ueber-uns",
       //   fr: "/a-propos",
       // },
-    },
-    vueI18n: {
-      legacy: false,
-      locale: "en",
-      fallbackLocale: "en",
     },
     detectBrowserLanguage: {
       useCookie: false,

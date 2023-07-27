@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="hidden absolute z-10 flex-col h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct sm:flex border-light-section-div dark:border-dark-section-div"
+    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct sm:flex border-light-section-div dark:border-dark-section-div"
     :class="{
       'w-64': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -9,7 +9,7 @@
     @mouseleave="sidebar.collapsed = true"
   >
     <SidebarLeftHeader />
-    <div class="overflow-x-hidden overflow-y-scroll h-full">
+    <div class="h-full overflow-x-hidden overflow-y-scroll">
       <SearchBar location="sidebar" class="mt-2" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex

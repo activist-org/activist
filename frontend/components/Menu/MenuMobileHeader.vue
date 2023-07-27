@@ -1,6 +1,6 @@
 <template>
   <div
-    class="sm:hidden fixed top-0 w-full bg-light-header dark:bg-dark-header h-12 z-20 border-b-2 border-light-section-div dark:border-dark-section-div"
+    class="fixed top-0 z-20 w-full h-12 border-b-2 sm:hidden bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
   >
     <nav>
       <div class="relative">
@@ -17,8 +17,10 @@
         />
       </div>
       <SidebarRight>
-        <SelectorTheme location="sideMenu" class="w-full mb-2"/>
-        <SelectorLanguage location="sideMenu" class="w-full" />
+        <div class="flex-col space-y-2">
+          <SelectorTheme location="sideMenu" class="w-full" />
+          <SelectorLanguage location="sideMenu" class="w-full" />
+        </div>
       </SidebarRight>
     </nav>
   </div>

@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="px-6 pb-1 space-y-4">
-        <div class="flex space-x-4 items-center">
+        <div class="flex items-center space-x-4">
           <h2 class="font-bold responsive-h3">
             {{ organization.name }}
           </h2>
@@ -31,16 +31,16 @@
         </div>
         <TopicMarker :topic="organization.topic" />
         <div class="flex gap-4" v-if="organization">
-          <div class="flex gap-1 items-center">
+          <div class="flex items-center gap-1">
             <Icon name="ic:sharp-location-on" class="mr-1" size="1.25em" />
             {{ organization.location }}
           </div>
-          <div class="flex gap-1 items-center">
+          <div class="flex items-center gap-1">
             <Icon name="bi:people" class="mr-1" />
             {{ organization.members }} {{ $t("members") }}
           </div>
           <div
-            class="flex gap-1 items-center fill-light-text dark:fill-dark-text"
+            class="flex items-center gap-1 fill-light-text dark:fill-dark-text"
           >
             <Icon name="IconSupport" class="mr-1" />
             {{ organization.supporters }} {{ $t("supporters") }}
@@ -73,7 +73,7 @@
       </div>
       <div class="px-6 pb-1 space-y-4 grow">
         <div class="flex justify-between">
-          <div class="flex space-x-4 items-center">
+          <div class="flex items-center space-x-4">
             <h2 class="font-bold responsive-h3">
               {{ event.name }}
             </h2>
@@ -82,11 +82,11 @@
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <div class="flex gap-1 items-center" v-if="event?.inPersonLocation">
+            <div class="flex items-center gap-1" v-if="event?.inPersonLocation">
               <Icon name="ic:sharp-location-on" class="mr-1" size="1.25em" />
               {{ event?.inPersonLocation }}
             </div>
-            <div class="flex gap-1 items-center" v-if="event?.onlineLocation">
+            <div class="flex items-center gap-1" v-if="event?.onlineLocation">
               <Icon
                 v-if="event?.onlineLocation"
                 name="bi:camera-video"
@@ -95,7 +95,7 @@
               />
               {{ event?.onlineLocation }}
             </div>
-            <div class="flex gap-1 items-center">
+            <div class="flex items-center gap-1">
               <Icon name="bi:calendar-event" class="mr-1" />
               {{ event?.date.toLocaleDateString() }}
             </div>
@@ -104,12 +104,12 @@
         <TopicMarker :topic="event.topic" />
         <div class="flex gap-4" v-if="event">
           <div
-            class="flex gap-1 items-center fill-light-text dark:fill-dark-text"
+            class="flex items-center gap-1 fill-light-text dark:fill-dark-text"
           >
             <Icon name="IconOrganization" class="mr-1" />
             {{ event.organizer }}
           </div>
-          <div class="flex gap-1 items-center">
+          <div class="flex items-center gap-1">
             <Icon name="bi:person-fill-check" class="mr-1" />
             {{ event.supporters }} {{ $t("attending") }}
           </div>
@@ -141,7 +141,7 @@
       </div>
       <div class="px-6 pb-1 space-y-4 grow">
         <div class="flex justify-between">
-          <div class="flex space-x-4 items-center">
+          <div class="flex items-center space-x-4">
             <h2 class="font-bold responsive-h3">
               {{ resource.name }}
             </h2>
@@ -153,20 +153,20 @@
         <TopicMarker :topic="resource.topic" />
         <div class="flex gap-4" v-if="resource">
           <div
-            class="flex gap-1 items-center fill-light-text dark:fill-dark-text"
+            class="flex items-center gap-1 fill-light-text dark:fill-dark-text"
           >
             <Icon name="IconOrganization" class="mr-1" />
             {{ resource.organizer }}
           </div>
-          <div class="flex gap-1 items-center">
+          <div class="flex items-center gap-1">
             <Icon name="bi:star" class="mr-1" />
             {{ resource.stars }}
           </div>
-          <div class="flex gap-1 items-center" v-if="resource.relatedLocation">
+          <div class="flex items-center gap-1" v-if="resource.relatedLocation">
             <Icon name="ic:sharp-location-on" class="mr-1" size="1.25em" />
             {{ resource.relatedLocation }}
           </div>
-          <div class="flex gap-1 items-center">
+          <div class="flex items-center gap-1">
             <Icon name="bi:calendar-event" class="mr-1" />
             {{ resource.creationDate.toLocaleDateString() }}
           </div>

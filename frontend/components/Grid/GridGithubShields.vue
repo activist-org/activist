@@ -35,13 +35,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { onMounted, reactive, ref } from "vue";
 import ImageGithubShield from "../Image/ImageGithubShield.vue";
 
 const isLoading = ref(false);
 const GitHubData = reactive({
   forks_count: 0,
-  stargazers_count: 0
+  stargazers_count: 0,
 });
 
 onMounted(() => {
@@ -63,5 +63,4 @@ async function fetchDataFromGitHubAPI() {
     isLoading.value = false;
   }
 }
-
 </script>

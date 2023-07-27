@@ -18,9 +18,7 @@
       </h2>
       <TopicMarker topic="My topics dropdown" class="absolute right-7" />
     </flex>
-    <div
-      class="pb-4 pr-2 space-y-4 sm:pr-8"
-    >
+    <div class="pb-4 pr-2 space-y-4 sm:pr-8">
       <CardSearchResult
         searchResultType="organization"
         :isPrivate="false"
@@ -32,7 +30,7 @@
 
 <script setup lang="ts">
 import { Organization } from "~~/types/organization";
-const title = ref("Home");
+const title = ref("Organizations");
 
 definePageMeta({
   layout: "sidebar",

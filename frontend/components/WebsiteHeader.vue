@@ -18,12 +18,11 @@
           />
         </div>
       </div>
-      <div class="absolute right-0 mr-5">
-        <MenuMeatball />
-      </div>
       <SidebarRight>
-        <SelectorTheme location="sideMenu" class="w-full mb-2"/>
-        <SelectorLanguage location="sideMenu" class="w-full" />
+        <div class="flex-col space-y-2">
+          <SelectorTheme location="sideMenu" class="w-full" />
+          <SelectorLanguage location="sideMenu" class="w-full" />
+        </div>
       </SidebarRight>
     </div>
     <!-- Note: desktop header -->

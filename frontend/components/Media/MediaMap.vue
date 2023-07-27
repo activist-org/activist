@@ -120,7 +120,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
         .setContent(
           `
           <div class="flex bg-[#F6F8FA] rounded-lg">
-            <div class="flex flex-col w-3/5 space-y-1 pt-1 pb-2 px-2">
+            <div class="flex flex-col w-3/5 px-2 pt-1 pb-2 space-y-1">
               <p class="text-sm font-bold">${props.title}</p>
               <p class="text-xs font-semibold">Date and time</p>
               <p class="text-xs font-semibold">${marker.address}</p>

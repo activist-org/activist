@@ -10,7 +10,7 @@
     }"
   >
     <div
-      class="relative z-0 flex flex-col items-center w-full text-sm font-medium text-center justify-center"
+      class="relative z-0 flex flex-col items-center justify-center w-full text-sm font-medium text-center"
     >
       <span>
         <Icon

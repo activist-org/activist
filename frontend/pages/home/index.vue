@@ -18,9 +18,7 @@
       </h2>
       <TopicMarker topic="My topics dropdown" class="absolute right-7" />
     </flex>
-    <div
-      class="pb-4 pr-2 space-y-4 sm:pr-8"
-    >
+    <div class="pb-4 pr-2 space-y-4 sm:pr-8">
       <GridHomeMetrics />
       <CardSearchResult
         searchResultType="organization"
@@ -47,9 +45,11 @@ import { Organization } from "~~/types/organization";
 import { Resource } from "~~/types/resource";
 const title = ref("Home");
 
-const {data: organizations} = await useFetch("http://127.0.0.1:8000/organizations")
+const { data: organizations } = await useFetch(
+  "http://127.0.0.1:8000/organizations"
+);
 
-console.log(organizations)
+console.log(organizations);
 
 definePageMeta({
   layout: "sidebar",
