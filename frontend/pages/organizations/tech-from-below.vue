@@ -5,6 +5,7 @@
     <Head>
       <Title>{{ title }}</Title>
     </Head>
+    <PageBreadcrumbs />
     <h1
       class="pt-6 transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
