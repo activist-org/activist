@@ -110,21 +110,21 @@
             so we know how best to help you in your work.
           </p>
           <div
-            class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
+            class="grid grid-cols-1 max-w-[70%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[80%] grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 mx-auto sm:mx-0 sm:grid-cols-2 sm:grid-rows-1"
           >
             <BtnLabeled
               :cta="true"
               label="Request access"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
-              class="w-52"
+              class="w-full"
             />
             <BtnLabeled
               :cta="false"
               label="Return home"
               linkTo="/"
               fontSize="lg"
-              class="w-52"
+              class="w-full"
             />
           </div>
         </div>

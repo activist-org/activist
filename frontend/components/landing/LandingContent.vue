@@ -134,7 +134,7 @@
         {{ $t(text) }}
       </p>
       <div
-        class="flex flex-col space-y-4 sm:flex-row sm:space-x-8 xl:space-x-12 sm:space-y-0"
+        class="grid grid-cols-1 grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 sm:grid-cols-2 sm:grid-rows-1"
       >
         <BtnLabeled
           :cta="true"
@@ -142,6 +142,7 @@
           :linkTo="`${btnURL1}`"
           fontSize="xl"
           :alternateText="btnAlternateText1 ? $t(`${btnAlternateText1}`) : null"
+          class="w-full"
         />
         <BtnLabeled
           :cta="false"
@@ -149,6 +150,7 @@
           :linkTo="`${btnURL2}`"
           fontSize="xl"
           :alternateText="btnAlternateText2 ? $t(`${btnAlternateText2}`) : null"
+          class="w-full"
         />
       </div>
       <div>
