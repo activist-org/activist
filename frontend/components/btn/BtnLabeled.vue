@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="linkTo == 'placeholder-link'"
-    class="flex items-center px-4 py-2 font-semibold text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
+    class="flex items-center px-4 py-2 font-semibold text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit fill-light-distinct dark:fill-dark-distinct"
     :class="{
       'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
         cta == true,
@@ -39,7 +39,7 @@
   <a
     v-else-if="linkTo.includes('http')"
     :href="linkTo"
-    class="flex items-center px-4 py-2 font-semibold text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
+    class="flex items-center px-4 py-2 font-semibold text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit fill-light-distinct dark:fill-dark-distinct"
     :class="{
       'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
         cta == true,
@@ -78,7 +78,7 @@
   <NuxtLink
     v-else
     :to="localePath(`${linkTo}`)"
-    class="flex items-center px-4 py-2 font-semibold text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit"
+    class="flex items-center px-4 py-2 font-semibold text-center border rounded-md select-none xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit fill-light-distinct dark:fill-dark-distinct"
     :class="{
       'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
         cta == true,
