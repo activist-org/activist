@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="w-full transition-all duration-500 border-t border-r bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="w-full border-t border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
   >
     <div class="flex">
       <div

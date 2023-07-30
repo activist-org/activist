@@ -27,7 +27,7 @@
           imageAltText="get-active-modal-image-alt-text"
         />
         <div
-          class="items-center space-y-4 text-left 2xl:col-span-1 2xl:row-start-1 md:items-start"
+          class="items-center text-left space-y-4 2xl:col-span-1 2xl:row-start-1 md:items-start"
         >
           <h1 class="pb-2 font-bold responsive-h1">
             Discover and get involved

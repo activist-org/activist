@@ -41,7 +41,7 @@
           </div>
         </div>
         <div v-if="aboutType === 'organization'">
-          <div class="flex flex-col gap-5 mb-3 sm:items-center sm:flex-row">
+          <div class="flex flex-col mb-3 gap-5 sm:items-center sm:flex-row">
             <TopicMarker :topic="organization.topic" class="" />
             <div class="flex items-center gap-2">
               <Icon name="bx:bxs-map" size="1.2em" />

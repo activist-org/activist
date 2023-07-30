@@ -5,6 +5,7 @@
     <Head>
       <Title>{{ event.name }}</Title>
     </Head>
+    <PageBreadcrumbs class="mt-4" />
     <h1
       class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >

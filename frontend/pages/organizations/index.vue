@@ -5,7 +5,7 @@
     <Head>
       <Title>{{ title }}</Title>
     </Head>
-    <PageBreadcrumbs />
+    <PageBreadcrumbs class="mt-4" />
     <h1
       class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { Organization } from "~~/types/organization";
-const title = ref("Organizations");
+const title = ref("Organizations Home");
 
 definePageMeta({
   layout: "sidebar",

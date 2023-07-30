@@ -5,7 +5,7 @@
     <Head>
       <Title>{{ title }}</Title>
     </Head>
-    <PageBreadcrumbs />
+    <PageBreadcrumbs class="mt-4" />
     <h1
       class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
@@ -19,9 +19,7 @@
       </h2>
       <TopicMarker topic="My topics dropdown" class="absolute right-7" />
     </flex>
-    <div
-      class="pb-4 pr-2 space-y-4 sm:pr-8"
-    >
+    <div class="pb-4 pr-2 space-y-4 sm:pr-8">
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
@@ -33,7 +31,7 @@
 
 <script setup lang="ts">
 import { Event } from "~~/types/event";
-const title = ref("Home");
+const title = ref("Events Home");
 
 definePageMeta({
   layout: "sidebar",
