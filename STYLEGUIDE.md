@@ -45,6 +45,7 @@ TypeScript configuration is ongoing. PRs are always welcome to improve the devel
 
 Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are not enabled.
 
+> [!NOTE]\
 > In the future, once all TS errors are resolved, activist will be enabling these strict checks. This was done to allow building the app outside `Docker`. Local and Netlify builds proceed despite TS errors with strict checks disabled.
 
 VSCode: it is recommended to install these extensions to enable in-editor type-checking.
