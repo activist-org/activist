@@ -5,7 +5,7 @@
     <Head>
       <Title>{{ organization.name }}</Title>
     </Head>
-    <PageBreadcrumbs class="mt-4" />
+    <PageBreadcrumbs class="mt-4" :organization="organization" />
     <h1
       class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >

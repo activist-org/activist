@@ -6,24 +6,43 @@
         :key="index"
         class="font-display"
       >
-        <span class="mx-2 text-light-special-text dark:text-dark-special-text"
+        <span
+          v-if="index !== 0"
+          class="mx-2 text-light-special-text dark:text-dark-special-text"
           >/</span
         >
-        <a
-          v-if="index !== displayBreadcrumbs.length - 1"
-          :href="makeURL(breadcrumb)"
-          class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
-        >
-          {{ capitalizeFirstLetter(breadcrumb) }}
-        </a>
-        <a
-          v-else
-          :href="makeURL(breadcrumb)"
-          aria-current="page"
-          class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
-        >
-          {{ capitalizeFirstLetter(breadcrumb) }}
-        </a>
+        <span v-if="index !== displayBreadcrumbs.length - 1">
+          <a
+            v-if="Number.isInteger(Number(breadcrumb)) && event"
+            :href="makeURL(breadcrumb)"
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
+          >
+            {{ event.name }}
+          </a>
+          <a
+            v-else-if="Number.isInteger(Number(breadcrumb)) && organization"
+            :href="makeURL(breadcrumb)"
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
+          >
+            {{ organization.name }}
+          </a>
+          <a
+            v-else
+            :href="makeURL(breadcrumb)"
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
+          >
+            {{ capitalizeFirstLetter(breadcrumb) }}
+          </a>
+        </span>
+        <span v-else>
+          <a
+            :href="makeURL(breadcrumb)"
+            aria-current="page"
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
+          >
+            {{ capitalizeFirstLetter(breadcrumb) }}
+          </a>
+        </span>
       </li>
     </ul>
   </nav>
@@ -31,7 +50,14 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import type { Event } from "~~/types/event";
+import type { Organization } from "~~/types/organization";
 const { locales } = useI18n();
+
+defineProps<{
+  organization?: Organization;
+  event?: Event;
+}>();
 
 const breadcrumbs = ref([]);
 
