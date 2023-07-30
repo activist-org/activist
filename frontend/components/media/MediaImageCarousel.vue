@@ -1,6 +1,6 @@
 <template>
   <swiper
-    class="rounded-sm swiper sm:rounded-md"
+    class="h-full rounded-sm swiper sm:rounded-md"
     :modules="modules"
     :slides-per-view="1"
     :space-between="30"
@@ -12,7 +12,11 @@
       v-for="n in 7"
       class="rounded-sm sm:rounded-md bg-light-placeholder dark:bg-dark-placeholder text-light-distinct dark:text-dark-distinct"
     >
-      {{ n }}
+      <p
+        class="flex items-center justify-center h-full text-2xl font-bold select-none"
+      >
+        {{ n }}
+      </p>
     </swiper-slide>
   </swiper>
 </template>
@@ -26,7 +30,6 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "swiper-example-loop",
   title: "Loop mode / Infinite loop",
   url: import.meta.url,
   components: {
@@ -40,14 +43,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.swiper-slide {
-  display: flex;
-  height: 300px;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  font-weight: 700;
-}
-</style>

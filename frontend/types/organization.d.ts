@@ -7,5 +7,6 @@ export interface Organization {
   members: number;
   supporters: number;
   imageURL?: string;
-  workingGroupURLs?: Array<string>;
+  workingGroups?: Array<string>;
+  socialLinks?: [string];
 }

@@ -7,6 +7,10 @@ export default defineNuxtConfig({
     // typeCheck: true,
   },
 
+  devtools: {
+    enabled: true,
+  },
+
   plugins: [],
   alias: {
     "@": resolve(__dirname, "./"),

@@ -6,7 +6,7 @@
       <Title>{{ title }}</Title>
     </Head>
     <h1
-      class="pt-6 pl-56 transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
+      class="pt-6 transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
       {{ event.name }}
     </h1>
@@ -25,9 +25,7 @@
         class="absolute right-7"
       />
     </flex>
-    <div
-      class="pb-4 pr-2 space-y-4 sm:pr-8"
-    >
+    <div class="pb-4 pr-2 space-y-4 sm:pr-8">
       <CardAbout
         description="Let's gather at Brandenburg Gate..."
         aboutType="event"

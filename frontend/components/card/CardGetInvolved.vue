@@ -3,9 +3,9 @@
     <div class="relative flex items-center gap-5">
       <h3 class="text-left responsive-h3 font-display">Get involved</h3>
       <Icon name="bi:pencil-square" size="1.2em" />
-      <div class="absolute right-0 space-x-2">
+      <div class="absolute right-0 flex space-x-2">
         <BtnLabeled
-          v-if="organization && organization.workingGroupURLs"
+          v-if="organization && organization.workingGroups"
           :cta="true"
           label="View all groups"
           linkTo="/"
@@ -23,12 +23,12 @@
       </div>
     </div>
     <div v-if="organization" class="mt-4">
-      <div v-if="organization.workingGroupURLs">
+      <div v-if="organization.workingGroups">
         <p>
           The following are working groups within
           {{ organization.name }}:
         </p>
-        <CardFeed :feedItemURLs="organization.workingGroupURLs" />
+        <CardFeed :feedItemURLs="organization.workingGroups" />
       </div>
       <div v-else>
         <p>
@@ -43,7 +43,7 @@
       </p>
       <p>
         Please read the legal disclaimer below for more information on your
-        rights during this event!
+        rights during this event.
       </p>
       <CardLegalDisclaimer />
       <div class="pt-2">
@@ -65,6 +65,7 @@ import type { Event } from "~~/types/event";
 import type { Organization } from "~~/types/organization";
 
 defineProps<{
+  getInvolvedType: "organization" | "event";
   organization?: Organization;
   event?: Event;
 }>();

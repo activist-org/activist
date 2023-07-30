@@ -1,8 +1,8 @@
 <template>
   <aside
-    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct sm:flex border-light-section-div dark:border-dark-section-div"
+    class="absolute z-10 flex-col hidden h-full transition-all duration-500 border-r bg-light-distinct dark:bg-dark-distinct sm:flex border-light-section-div dark:border-dark-section-div"
     :class="{
-      'w-64': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+      'w-56': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
     @mouseover="sidebar.collapsed = false"
@@ -16,7 +16,7 @@
         :pageType="pageTypeToDisplay"
         :name="placeholderName"
         :logoUrl="placeholderLogo"
-        class="mt-2"
+        class="mt-3 mb-1"
       />
     </div>
     <SidebarLeftFooter />

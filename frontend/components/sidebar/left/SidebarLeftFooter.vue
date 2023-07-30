@@ -1,12 +1,6 @@
 <template>
   <footer
-    class="border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
-    :class="{
-      'w-64': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-      'w-16 absolute bottom-0':
-        sidebar.collapsed == true && sidebar.collapsedSwitch == true,
-      'absolute bottom-0': onHomePage,
-    }"
+    class="w-full transition-all duration-500 border-t border-r bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
   >
     <div class="flex">
       <div
@@ -23,6 +17,7 @@
             :ref="(el) => (disclosure[0] = close)"
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             @click="closeOtherMenus(0)"
+            v-on:keyup.enter="closeOtherMenus(0)"
           >
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
@@ -94,6 +89,7 @@
             :ref="(el) => (disclosure[1] = close)"
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             @click="closeOtherMenus(1)"
+            v-on:keyup.enter="closeOtherMenus(1)"
           >
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
@@ -158,6 +154,7 @@
             :ref="(el) => (disclosure[2] = close)"
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             @click="closeOtherMenus(2)"
+            v-on:keyup.enter="closeOtherMenus(2)"
           >
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
@@ -249,13 +246,12 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-const { locale, locales } = useI18n();
 
 const route = useRoute();
 const onHomePage = route.path.includes("home");
 
 const disclosure = ref([]);
-const closeOtherMenus = (id) => {
+const closeOtherMenus = (id: number) => {
   disclosure.value.filter((d, i) => i !== id).forEach((c) => c());
 };
 const sidebar = useSidebar();

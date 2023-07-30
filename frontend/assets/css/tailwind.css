@@ -16,7 +16,7 @@
 
 @layer components {
   .focus-brand {
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75 rounded-sm;
   }
 
   .link-text {
@@ -93,5 +93,23 @@
 
   .responsive-py-5 {
     @apply py-6 lg:py-10 xl:py-14;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 4s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    @apply opacity-50;
+  }
+
+  50% {
+    @apply opacity-100;
+  }
+
+  100% {
+    @apply opacity-50;
   }
 }

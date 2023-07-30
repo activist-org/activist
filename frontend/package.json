@@ -11,6 +11,7 @@
   "devDependencies": {
     "@headlessui/vue": "^1.7.8",
     "@nuxt/content": "^2.3.0",
+    "@nuxt/devtools": "^0.7.1",
     "@nuxtjs/color-mode": "^3.2.0",
     "@nuxtjs/device": "^3.1.0",
     "@nuxtjs/i18n": "^8.0.0-beta.7",
@@ -29,9 +30,9 @@
     "@nuxtjs/plausible": "^0.2.1",
     "@types/leaflet": "^1.9.3",
     "@vue-leaflet/vue-leaflet": "^0.9.0",
-    "floating-vue": "^2.0.0-beta.24",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
+    "floating-vue": "^2.0.0-beta.24",
     "leaflet": "^1.9.4",
     "nuxt-mail": "^3.1.23",
     "swiper": "^9.3.2",

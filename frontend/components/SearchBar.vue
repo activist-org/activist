@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="location == 'sidebar'"
-    class="flex items-center pl-[12px] pr-[10px] py-1 mx-2 space-x-2 text-left transition duration-200 border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+    class="relative flex items-center pl-[12px] py-1 mx-2 space-x-2 text-left transition duration-200 border rounded-md select-none border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:mb-[-2px]"
   >
     <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
     <Transition name="search">
@@ -20,44 +20,44 @@
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="hotkeyIndicators"
-        class="flex space-x-1 transition-opacity transition-duration-200"
+        class="absolute right-0 flex pr-2 space-x-1 transition-opacity transition-duration-200"
       >
         <div
-          class="w-5 h-5 text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
+          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
           <span
             class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
             >Press "/" to search</span
           >
-          /
+          <p class="-mt-[0.075rem]">/</p>
         </div>
-        <div
+        <!-- <div
           v-if="$device.isMacOS"
           v-tooltip="'You have new messages.'"
-          class="h-5 text-sm text-center rounded-md has-tooltip w-7 bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
+          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
           <span
             class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
             >Press "⌘ + k" to jump to a page</span
           >
-          ⌘k
+          <p>⌘k</p>
         </div>
         <div
           v-else
-          class="h-5 text-sm text-center border rounded-md has-tooltip w-7 border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+          class="flex px-2 py-[0.125rem] text-sm text-center border rounded-md has-tooltip border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
         >
           <span
             class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
             >Press "^ + k" to jump to a page</span
           >
-          ⌃k
-        </div>
+          <p>⌃k</p>
+        </div> -->
       </div>
     </Transition>
   </div>
   <div
     v-else
-    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:my-[-1px]"
   >
     <Icon
       :name="expanded ? 'bi:x-lg' : 'bi:search'"
