@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
       <Title>{{ title }}</Title>
@@ -19,7 +19,7 @@
       </h2>
       <TopicMarker topic="My topics dropdown" class="absolute right-7" />
     </flex>
-    <div class="pb-4 pr-2 space-y-4 sm:pr-8">
+    <div class="pb-4 space-y-4">
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"

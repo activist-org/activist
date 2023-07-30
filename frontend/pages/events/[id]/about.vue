@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
       <Title>{{ event.name }}</Title>
@@ -18,7 +18,7 @@
       >
         {{ event.tagline }}
       </h2>
-      <div class="absolute flex space-x-3 right-8">
+      <div class="absolute right-0 flex space-x-3">
         <BtnLabeled
           :cta="true"
           linkTo="/"
@@ -46,7 +46,7 @@
         />
       </div>
     </flex>
-    <div class="pb-6 pr-8 space-y-6">
+    <div class="pb-6 space-y-6">
       <div class="flex">
         <CardAbout aboutType="event" :event="event" class="w-[73%]" />
         <div class="w-[2%]"></div>

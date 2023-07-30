@@ -15,6 +15,10 @@
 }
 
 @layer components {
+  .bg-breakpoint-test {
+    @apply 3xl:bg-violet-500 2xl:bg-indigo-500 xl:bg-blue-500 lg:bg-green-500 md:bg-yellow-500 sm:bg-orange-500 bg-red-500;
+  }
+
   .focus-brand {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75 rounded-sm;
   }

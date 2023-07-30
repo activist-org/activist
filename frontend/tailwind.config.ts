@@ -17,6 +17,9 @@ export default <Partial<Config>>{
         sans: ["Red Hat Text"],
         display: ["Red Hat Display"],
       },
+      screens: {
+        "3xl": "1792px",
+      },
       colors: {
         light: {
           header: "rgba(240, 240, 235, 1)",

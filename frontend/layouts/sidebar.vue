@@ -6,9 +6,9 @@
       <div
         class="bg-light-content dark:bg-dark-content"
         :class="{
-          'pl-2 sm:md:pl-64':
+          'pl-2 sm:md:pl-56':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'pl-2 sm:pl-24':
+          'pl-2 sm:pl-16':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
