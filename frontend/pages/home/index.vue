@@ -16,7 +16,7 @@
       >
         Your topics at a glance
       </h2>
-      <TopicMarker topic="My topics dropdown" class="absolute right-7" />
+      <TopicMarker topic="My topics dropdown" class="absolute right-0" />
     </flex>
     <div class="pb-4 space-y-4">
       <GridHomeMetrics />
