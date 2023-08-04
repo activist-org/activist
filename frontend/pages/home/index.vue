@@ -18,7 +18,7 @@
       </h2>
       <TopicMarker topic="My topics dropdown" class="absolute right-7" />
     </flex>
-    <div class="pb-4 pr-2 space-y-4 sm:pr-8">
+    <div class="pb-4 space-y-4">
       <GridHomeMetrics />
       <CardSearchResult
         searchResultType="organization"
