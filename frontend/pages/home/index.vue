@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
       <Title>{{ title }}</Title>
