@@ -3,6 +3,14 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
+
+
+class Support(models.Model):
+    index = models.IntegerField
+    supporter_type = models.IntegerField
+    supporter_entity = models.IntegerField
+    supported_type = models.IntegerField
+    supported_entity = models.IntegerField
 # Create your models here.
 # New user model
 class User(AbstractUser):
@@ -162,12 +170,7 @@ class Task(models.Model):
         return self.name
 
 
-class Support(models.Model):
-    index = models.IntegerField
-    supporter_type = models.IntegerField
-    supporter_entity = models.IntegerField
-    supported_type = models.IntegerField
-    supported_entity = models.IntegerField
+
 
 
 class SupportEntityTypes(models.Model):
