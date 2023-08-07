@@ -61,38 +61,32 @@
   </header>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Ref, ref } from "vue";
 
-export default {
-  setup() {
-    const headerOpacity: Ref<number> = ref(1);
-    const prevScrollY: Ref<number> = ref(0);
+const headerOpacity: Ref<number> = ref(1);
+const prevScrollY: Ref<number> = ref(0);
 
-    onMounted(() => {
-      window.addEventListener("scroll", handleScroll);
-    });
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
 
-    onUnmounted(() => {
-      window.removeEventListener("scroll", handleScroll);
-    });
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
 
-    function handleScroll(): void {
-      const scrollY: number = window.scrollY;
+function handleScroll() {
+  const scrollY = window.scrollY;
 
-      if (scrollY > document.getElementsByTagName("header")[0].clientHeight) {
-        if (scrollY > prevScrollY.value) {
-          headerOpacity.value = 0;
-        } else headerOpacity.value = 0.8;
-      } else {
-        headerOpacity.value = 1;
-      }
-      prevScrollY.value = scrollY;
-    }
-
-    return { headerOpacity };
-  },
-};
+  if (scrollY > document.getElementsByTagName("header")[0].clientHeight) {
+    if (scrollY > prevScrollY.value) {
+      headerOpacity.value = 0;
+    } else headerOpacity.value = 0.8;
+  } else {
+    headerOpacity.value = 1;
+  }
+  prevScrollY.value = scrollY;
+}
 </script>
 
 <style>
