@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-  <WebsiteFooter />
+  <Footer />
 </template>
 
 <script setup lang="ts">
