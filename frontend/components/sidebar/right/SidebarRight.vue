@@ -1,17 +1,9 @@
 <template>
-  <SidebarRightHamburger
-    :isMenuOpen="isMenuOpen"
-    @toggle="toggleMenuState"
-    ref="ignoreElRef"
-    class="h-full flex items-center"
-  />
-  <div
-    ref="target"
-    id="drawer-navigation"
+  <SidebarRightHamburger :isMenuOpen="isMenuOpen" @toggle="toggleMenuState" ref="ignoreElRef"
+    class="h-full flex items-center" />
+  <div ref="target" id="drawer-navigation"
     class="fixed top-0 right-0 z-40 w-64 h-screen px-4 pt-12 overflow-y-auto border-l transition-transform bg-light-distinct border-light-section-div dark:bg-dark-distinct dark:border-dark-section-div"
-    :class="{ 'hidden translate-x-full': !isMenuOpen }"
-    tabindex="-1"
-  >
+    :class="{ 'hidden translate-x-full': !isMenuOpen }" tabindex="-1">
     <div class="h-full py-4">
       <slot></slot>
     </div>
