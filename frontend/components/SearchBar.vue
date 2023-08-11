@@ -1,6 +1,8 @@
 <template>
-  <div v-if="location == 'sidebar'"
-    class="relative flex items-center pl-[12px] py-1 mx-2 space-x-2 text-left transition duration-200 border rounded-md select-none border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:mb-[-2px]">
+  <div
+    v-if="location == 'sidebar'"
+    class="flex items-center pl-[12px] py-1 mx-2 space-x-2 text-left transition duration-200 border rounded-md select-none border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:mb-[-2px]"
+  >
     <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
     <Transition name="search">
       <input v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false" ref="input"
@@ -19,7 +21,6 @@
         </div>
         <!-- <div
           v-if="$device.isMacOS"
-          v-tooltip="'You have new messages.'"
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
           <span

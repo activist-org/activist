@@ -14,7 +14,7 @@
       >
         <slot />
       </div>
-      <WebsiteFooter
+      <Footer 
         :class="{
           'md:pl-72':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,

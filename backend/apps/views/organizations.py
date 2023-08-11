@@ -6,6 +6,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from ..models import Organization
+from ..serializers import OrganizationSerializer
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -23,18 +24,10 @@ class OrganizationView(View):
         return JsonResponse(data, status=201)
 
     def get(self, request):
-        organization_count = Organization.objects.count()
         organizations = Organization.objects.all()
+        data = OrganizationSerializer(organizations, many=True)
 
-        organization_data = []
-        for organization in organizations:
-            organization_data.append(
-                {"name": organization.name, "tagline": organization.tagline}
-            )
-
-        data = {"organizations": organization_data, "count": organization_count}
-
-        return JsonResponse(data)
+        return JsonResponse(data.data, safe=False)
 
 
 @method_decorator(csrf_exempt, name="dispatch")
