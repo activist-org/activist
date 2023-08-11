@@ -3,7 +3,7 @@
     :isMenuOpen="isMenuOpen"
     @toggle="toggleMenuState"
     ref="ignoreElRef"
-    class="absolute h-[40px] flex top-1 right-0 mr-5"
+    class="h-full flex items-center"
   />
   <div
     ref="target"

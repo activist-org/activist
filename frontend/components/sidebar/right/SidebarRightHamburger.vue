@@ -1,5 +1,5 @@
 <template>
-  <div ref="ignore">
+  <div>
     <button class="relative z-50 group focus-brand" @click="$emit('toggle')">
       <div
         class="relative flex items-center justify-center w-[35px] h-[27px] transform transition-all bg-transparent duration-200"
