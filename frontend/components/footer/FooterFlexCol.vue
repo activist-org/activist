@@ -15,21 +15,20 @@
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(platform, index) in links.platformLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink v-if="platform.isLocalePath"
-              :to="platform.url" 
+            <NuxtLink
+              v-if="platform.isLocalePath"
+              :to="platform.url"
               class="focus-brand"
             >
               {{ $t(platform.name) }}
             </NuxtLink>
-            <a v-else
-              :href="platform.url"
-              target="_blank"
-              class="focus-brand"
-            >
+            <a v-else :href="platform.url" target="_blank" class="focus-brand">
               {{ $t(platform.name) }}
             </a>
           </div>
-          <div v-if="index < links.platformLinks.length - 1" class="px-2">•</div>
+          <div v-if="index < links.platformLinks.length - 1" class="px-2">
+            •
+          </div>
         </template>
       </div>
     </div>
@@ -37,7 +36,6 @@
     <div
       class="max-w-xl text-center grid gap-0 sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16 lg:hidden"
     >
-
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
@@ -51,7 +49,7 @@
               class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
               :class="{ 'mt-3': index === 0 }"
             >
-              <Icon :name="connect.iconName" class="text-2xl sm:text-base"/>
+              <Icon :name="connect.iconName" class="text-2xl sm:text-base" />
               <p class="sr-only sm:not-sr-only">
                 {{ connect.name }}
               </p>
@@ -76,7 +74,11 @@
               <NuxtLink :to="localePath(resource.url)" class="focus-brand">
                 {{ $t(resource.name) }}
               </NuxtLink>
-              <span v-if="index < links.resourcesLinks.length - 1" class="px-2 flex-inline sm:hidden">•</span>
+              <span
+                v-if="index < links.resourcesLinks.length - 1"
+                class="px-2 flex-inline sm:hidden"
+                >•</span
+              >
             </p>
           </template>
         </div>
@@ -89,18 +91,20 @@
         >
           {{ $t("organization") }}
         </p>
-        <div
-          class="flex flex-wrap justify-center sm:flex-col gap-x-1 sm:gap-0"
-        >
+        <div class="flex flex-wrap justify-center sm:flex-col gap-x-1 sm:gap-0">
           <template v-for="(organization, index) in links.organizationLinks">
-            <p 
+            <p
               class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
               <NuxtLink :to="localePath(organization.url)" class="focus-brand">
                 {{ $t(organization.name) }}
               </NuxtLink>
-              <span v-if="index < links.organizationLinks.length - 1" class="px-2 flex-inline sm:hidden">•</span>
+              <span
+                v-if="index < links.organizationLinks.length - 1"
+                class="px-2 flex-inline sm:hidden"
+                >•</span
+              >
             </p>
           </template>
         </div>
@@ -108,7 +112,6 @@
     </div>
 
     <div class="flex flex-col items-center justify-center">
-
       <!-- Note: Legal Links -->
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(policy, index) in links.legalLinks">
@@ -116,7 +119,11 @@
             <NuxtLink :to="localePath(policy.url)" class="focus-brand">
               {{ $t(policy.name) }}
             </NuxtLink>
-            <span v-if="index < links.legalLinks.length - 1" class="px-2 flex-inline">•</span>
+            <span
+              v-if="index < links.legalLinks.length - 1"
+              class="px-2 flex-inline"
+              >•</span
+            >
           </div>
         </template>
       </div>
@@ -133,28 +140,28 @@ const localePath = useLocalePath();
 defineProps<{
   links: {
     platformLinks: {
-      name: string
-      url: string
-      isLocalePath: boolean
-    }[],
+      name: string;
+      url: string;
+      isLocalePath: boolean;
+    }[];
     legalLinks: {
-      name: string
-      url: string
-    }[],
+      name: string;
+      url: string;
+    }[];
     connectLinks: {
-      name: string
-      url: string
-      iconName: string
-      iconSize: string
-    }[],
+      name: string;
+      url: string;
+      iconName: string;
+      iconSize: string;
+    }[];
     resourcesLinks: {
-      name: string
-      url: string
-    }[],
+      name: string;
+      url: string;
+    }[];
     organizationLinks: {
-      name: string
-      url: string
-    }[],
-  }
+      name: string;
+      url: string;
+    }[];
+  };
 }>();
 </script>

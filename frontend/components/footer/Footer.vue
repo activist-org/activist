@@ -69,7 +69,7 @@ const organizationLinks = [
   {
     name: "impress",
     url: "/about/impress",
-  }
+  },
 ];
 
 const platformLinks = [
@@ -87,7 +87,7 @@ const platformLinks = [
     name: "roadmap",
     isLocalePath: true,
     url: "/about/roadmap",
-  }
+  },
 ];
 
 const legalLinks = [
@@ -98,7 +98,7 @@ const legalLinks = [
   {
     name: "privacy-policy",
     url: "/legal/privacy-policy",
-  }
+  },
 ];
 
 const links = {

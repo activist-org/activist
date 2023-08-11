@@ -1,31 +1,27 @@
 from rest_framework import serializers
+
 from .models import *
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = (
-            "id", 
-            "username", 
-            "first_name", 
-            "last_name", 
-            "email", 
-            "date_joined"
-        )
+        fields = ("id", "username", "first_name", "last_name", "email", "date_joined")
+
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = (
-            "name", 
-            "tagline", 
-            "application_id", 
-            "social_accounts", 
+            "name",
+            "tagline",
+            "application_id",
+            "social_accounts",
             "total_flags",
             "created_by",
-            "creation_date"
+            "creation_date",
         )
+
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,5 +41,5 @@ class EventSerializer(serializers.ModelSerializer):
             "offline_location_long",
             "description",
             "get_involved_text",
-            "deletion_date"
+            "deletion_date",
         )

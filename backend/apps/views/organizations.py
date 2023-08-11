@@ -51,4 +51,3 @@ class OrganizationUpdate(View):
             "message": f"Organization {organization_id} has been deleted successfully"
         }
         return JsonResponse(data)
-

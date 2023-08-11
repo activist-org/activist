@@ -3,8 +3,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
-
-
 class Support(models.Model):
     index = models.IntegerField
     supporter_type = models.IntegerField
