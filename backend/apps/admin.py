@@ -9,7 +9,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class OrganizationAdmin(admin.ModelAdmin):
-    list_display = ("name", "tagline")
+    list_display = ("name", "tagline", "application_id", "social_accounts", "total_flags","created_by","creation_date")
 
 
 admin.site.register(User, UserAdmin)

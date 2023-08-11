@@ -41,6 +41,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(" ")
 # Application definition
 
 INSTALLED_APPS = [
+    "rest_framework",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -88,7 +89,7 @@ DATABASES = {
         "NAME": DATABASE_NAME,
         "USER": DATABASE_USER,
         "PASSWORD": DATABASE_PASSWORD,
-        "HOST": DATABASE_URL,
+        "HOST": DATABASE_HOST,
         "PORT": DATABASE_PORT,
     }
 }
