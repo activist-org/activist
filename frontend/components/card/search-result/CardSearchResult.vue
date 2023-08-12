@@ -21,6 +21,12 @@
     >
       <CardSearchResultResource :resource="resource" :isPrivate="isPrivate" />
     </div>
+    <div
+      v-if="searchResultType === 'user'"
+      class="flex md:flex-row flex-col p-2 sm:px-5 sm:py-3 h-fit"
+    >
+      <CardSearchResultUser :user="user" :isPrivate="isPrivate" />
+    </div>
   </div>
 </template>
 
@@ -28,12 +34,14 @@
 import type { Event } from "~~/types/event";
 import type { Organization } from "~~/types/organization";
 import type { Resource } from "~~/types/resource";
+import type { User } from "~~/types/user";
 
 const props = defineProps<{
-  searchResultType: "organization" | "event" | "resource";
+  searchResultType: "organization" | "event" | "resource" | "user";
   isPrivate?: boolean;
   organization?: Organization;
   event?: Event;
   resource?: Resource;
+  user?: User;
 }>();
 </script>
