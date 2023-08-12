@@ -2,26 +2,20 @@
   <div
     class="fixed top-0 z-20 w-full h-12 border-b-2 lg:hidden bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
   >
-    <nav>
-      <div class="relative">
+    <nav class="h-full">
+      <div class="h-full flex justify-between gap-2 px-4">
         <SearchBar
           location="header"
           :expanded="isSearchExpanded"
           @on-search-toggle="toggleSearchExpanded"
-          class="absolute left-4 top-2"
-          :class="{ 'w-5/6': isSearchExpanded }"
+          class="my-1.5"
+          :class="{ 'w-full': isSearchExpanded }"
         />
         <IconActivist
           v-if="!isSearchExpanded"
           class="flex items-center w-6 h-8 absolute top-[0.3rem] m-auto left-0 right-0 overflow-clip"
         />
       </div>
-      <SidebarRight>
-        <div class="flex-col space-y-2">
-          <SelectorTheme location="sideMenu" class="w-full" />
-          <SelectorLanguage location="sideMenu" class="w-full" />
-        </div>
-      </SidebarRight>
     </nav>
   </div>
 </template>
