@@ -25,12 +25,6 @@ const connectLinks = [
     iconSize: "1.061em",
   },
   {
-    name: "Twitter",
-    url: "https://twitter.com/activist_org",
-    iconName: "cib:twitter",
-    iconSize: "1em",
-  },
-  {
     name: "Instagram",
     url: "https://instagram.com/activist_org",
     iconName: "cib:instagram",
