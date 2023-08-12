@@ -1,17 +1,15 @@
 <template>
-  <header ref="header" class="sticky top-0 z-10 duration-500 header drop-shadow-md relative" :class="{
+  <header ref="header" class="relative sticky top-0 z-10 duration-500 header drop-shadow-md" :class="{
     'bg-light-header dark:bg-dark-header': headerOpacity == 1,
     'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
     'invisible opacity-0': headerOpacity == 0,
   }">
     <!-- Note: mobile header -->
-    <div class="flex md:hidden py-3 px-4">
+    <div class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
-        <div class="z-0 w-24 h-6 absolute top-0 left-0 h-full w-full">
-          <div class="flex items-center justify-center h-full">
-            <div>
-              <LogoActivist :is-mobile="true" class="h-full flex items-center justify-center z-1 overflow-clip" />
-            </div>
+        <div class="absolute top-0 left-0 z-0 flex items-center justify-center w-24 w-full h-6 h-full">
+          <div>
+            <LogoActivist :is-mobile="true" class="flex items-center justify-center h-full z-1 overflow-clip" />
           </div>
         </div>
       </div>

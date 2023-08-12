@@ -11,7 +11,7 @@
     </Transition>
     <Transition name="shortcuts">
       <div v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false" ref="hotkeyIndicators"
-        class="absolute right-0 flex pr-2 space-x-1 transition-opacity transition-duration-200">
+        class="absolute right-0 flex pr-6 space-x-1 transition-opacity transition-duration-200">
         <div
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text">
           <span
