@@ -8,7 +8,11 @@
     <div class="flex md:hidden py-3 px-4">
       <div class="z-0 mx-auto">
         <div class="z-0 w-24 h-6 absolute top-0 left-0 h-full w-full">
-          <LogoActivist :is-mobile="true" class="absolute inset-0 flex items-center justify-center z-1 overflow-clip" />
+          <div class="flex items-center justify-center h-full">
+            <div>
+              <LogoActivist :is-mobile="true" class="h-full flex items-center justify-center z-1 overflow-clip" />
+            </div>
+          </div>
         </div>
       </div>
       <SidebarRight>
