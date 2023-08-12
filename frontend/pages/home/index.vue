@@ -37,6 +37,11 @@
         :isPrivate="false"
         :resource="resource"
       />
+      <CardSearchResult
+        searchResultType="user"
+        :isPrivate="false"
+        :user="user"
+      />
     </div>
   </div>
 </template>
@@ -45,6 +50,7 @@
 import { Event } from "~~/types/event";
 import { Organization } from "~~/types/organization";
 import { Resource } from "~~/types/resource";
+import { User } from "~~/types/user";
 const title = ref("Home");
 
 const { data: organizations } = await useFetch(
@@ -90,5 +96,12 @@ const event: Event = {
   onlineLocation: "Zoom Test Room",
   date: new Date(),
   supporters: 10,
+};
+
+const user: User = {
+  name: "John A. Tester",
+  location: "Testville, TN",
+  supporters: 123,
+  description: "I love to test!",
 };
 </script>
