@@ -22,14 +22,6 @@
         <p class="sr-only sm:not-sr-only">Matrix</p>
       </a>
       <a
-        href="https://twitter.com/activist_org"
-        target="_blank"
-        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
-      >
-        <Icon name="cib:twitter" size="1em" />
-        <p class="sr-only sm:not-sr-only">Twitter</p>
-      </a>
-      <a
         href="https://instagram.com/activist_org"
         target="_blank"
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
