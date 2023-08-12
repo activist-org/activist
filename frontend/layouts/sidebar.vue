@@ -1,24 +1,25 @@
 <template>
-  <div class="flex h-screen overflow-hidden">
+  <div class="flex lg:h-screen overflow-hidden">
     <MenuMobileHeader />
     <SidebarLeft />
-    <div class="flex flex-col w-full overflow-y-scroll">
+    <div class="flex flex-col w-full lg:overflow-y-scroll">
       <div
-        class="bg-light-content dark:bg-dark-content"
+        class="bg-light-content dark:bg-dark-content mt-12 lg:mt-0"
         :class="{
-          'pl-2 sm:md:pl-56':
+          'lg:pl-56':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'pl-2 sm:pl-16':
+          'lg:pl-16':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
         <slot />
       </div>
-      <Footer 
+      <Footer
+        class="pb-24 lg:pb-12"
         :class="{
-          'md:pl-72':
+          'lg:pl-64':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'md:pl-24':
+          'lg:pl-24':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       />

@@ -16,7 +16,7 @@
 
 @layer components {
   .bg-breakpoint-test {
-    @apply 3xl:bg-violet-500 2xl:bg-indigo-500 xl:bg-blue-500 lg:bg-green-500 md:bg-yellow-500 sm:bg-orange-500 bg-red-500;
+    @apply 3xl:bg-pink-500 2xl:bg-violet-500 xl:bg-blue-500 lg:bg-green-500 md:bg-yellow-500 sm:bg-orange-500 bg-red-500;
   }
 
   .focus-brand {
@@ -28,7 +28,7 @@
   }
 
   .card-style {
-    @apply bg-light-distinct dark:bg-dark-distinct border border-light-section-div dark:border-dark-section-div rounded-md sm:rounded-lg;
+    @apply bg-light-distinct dark:bg-dark-distinct border border-light-section-div dark:border-dark-section-div rounded-md sm:rounded-lg shadow-sm shadow-zinc-700;
   }
 
   .tooltip {

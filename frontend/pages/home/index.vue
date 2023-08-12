@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
       <Title>{{ title }}</Title>
@@ -10,14 +10,16 @@
     >
       Welcome, username 👋✊
     </h1>
-    <flex class="relative flex items-center py-6"
-      ><h2
+    <div
+      class="relative flex flex-col lg:flex-row items-start lg:items-center space-y-4 -mt-2 lg:mt-0 lg:space-y-0 py-4 lg:py-6"
+    >
+      <h2
         class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
       >
         Your topics at a glance
       </h2>
-      <TopicMarker topic="My topics dropdown" class="absolute right-0" />
-    </flex>
+      <TopicMarker topic="My topics dropdown" class="lg:absolute lg:right-0" />
+    </div>
     <div class="pb-4 space-y-4">
       <GridHomeMetrics />
       <CardSearchResult

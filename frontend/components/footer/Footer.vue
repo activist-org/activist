@@ -5,7 +5,7 @@
     <!-- Note: Content Sections Top for Mobile -->
     <FooterFlexCol :links="links" />
 
-    <!-- Note: Content Sections Left and Right for Desktop (lg) -->
+    <!-- Note: Content Sections Left and Right for Desktop (xl) -->
     <FooterFlex :links="links" />
   </footer>
 </template>
