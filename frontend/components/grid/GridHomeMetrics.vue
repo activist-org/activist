@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="grid grid-cols-1 gap-6 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4"
-  >
+  <div class="grid grid-cols-2 gap-3 lg:gap-4 lg:grid-cols-4">
     <CardMetric
       text="New Organizations"
       number="10"

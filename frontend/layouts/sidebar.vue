@@ -6,19 +6,19 @@
       <div
         class="bg-light-content dark:bg-dark-content"
         :class="{
-          'pl-2 sm:md:pl-56':
+          'md:pl-16 xl:pl-56':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'pl-2 sm:pl-16':
+          'md:pl-16 xl:pl-16':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
         <slot />
       </div>
-      <Footer 
+      <Footer
         :class="{
-          'md:pl-72':
+          'md:pl-24 xl:pl-64':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'md:pl-24':
+          'md:pl-24 xl:pl-24':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       />

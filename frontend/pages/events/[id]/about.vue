@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="px-4 xl:px-8 flex flex-col text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
       <Title>{{ event.name }}</Title>

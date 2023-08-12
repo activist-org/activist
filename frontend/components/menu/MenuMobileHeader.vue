@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-0 z-20 w-full h-12 border-b-2 sm:hidden bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="fixed top-0 z-20 w-full h-12 border-b-2 md:hidden bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
   >
     <nav>
       <div class="relative">
