@@ -129,12 +129,14 @@
               label="Request access"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
+              class="w-full"
             />
             <BtnLabeled
               :cta="false"
               label="Return home"
               linkTo="/"
               fontSize="lg"
+              class="w-full"
             />
           </div>
         </div>
