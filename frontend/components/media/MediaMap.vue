@@ -1,10 +1,10 @@
 <template>
   <div
-    class="w-full h-full border rounded-sm bg-clip-content map border-light-section-div dark:border-dark-section-div sm:rounded-md"
+    class="w-full h-full border bg-clip-content map border-light-section-div dark:border-dark-section-div card-style"
   >
     <div
       id="map-div"
-      class="z-0 w-full h-full rounded-sm select-none sm:rounded-md saturate-[1.15] dark:hue-rotate-180 dark:invert"
+      class="z-0 w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert"
       ref="map"
       alt="Map displaying a pin at the location of this event."
     ></div>

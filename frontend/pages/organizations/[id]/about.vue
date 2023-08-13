@@ -39,14 +39,15 @@
       </div>
     </flex>
     <div class="pb-6 space-y-6">
-      <div class="flex">
+      <div
+        class="grid grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 space-y-6 lg:space-y-0 lg:space-x-6 lg:mr-6"
+      >
         <CardAbout
           aboutType="organization"
           :organization="organization"
-          class="w-[73%]"
+          class="w-full lg:col-span-2"
         />
-        <div class="w-[2%]"></div>
-        <div class="w-[25%] h-fill">
+        <div class="w-full h-full pb-6 lg:pb-0">
           <MediaImageCarousel />
         </div>
       </div>

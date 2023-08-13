@@ -47,10 +47,15 @@
       </div>
     </flex>
     <div class="pb-6 space-y-6">
-      <div class="flex">
-        <CardAbout aboutType="event" :event="event" class="w-[73%]" />
-        <div class="w-[2%]"></div>
-        <div class="w-[25%] h-fill">
+      <div
+        class="grid grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 space-y-6 lg:space-y-0 lg:space-x-6 lg:mr-6"
+      >
+        <CardAbout
+          aboutType="event"
+          :event="event"
+          class="w-full lg:col-span-2"
+        />
+        <div class="w-full h-full pb-6 lg:pb-0">
           <MediaMap
             v-if="event.inPersonLocation"
             :addresses="[event.inPersonLocation]"

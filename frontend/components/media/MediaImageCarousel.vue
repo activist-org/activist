@@ -1,6 +1,6 @@
 <template>
   <swiper
-    class="h-full rounded-sm swiper sm:rounded-md"
+    class="w-full h-full swiper card-style"
     :modules="modules"
     :slides-per-view="1"
     :space-between="30"
@@ -10,7 +10,7 @@
   >
     <swiper-slide
       v-for="n in 7"
-      class="rounded-sm sm:rounded-md bg-light-placeholder dark:bg-dark-placeholder text-light-distinct dark:text-dark-distinct"
+      class="bg-light-placeholder dark:bg-dark-placeholder text-light-distinct dark:text-dark-distinct"
     >
       <p
         class="flex items-center justify-center h-full text-2xl font-bold select-none"
