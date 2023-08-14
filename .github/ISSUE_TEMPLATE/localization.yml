@@ -1,6 +1,7 @@
 name: 🌐 Localization
 description: Report issues or offer help for activist localizations.
 labels: ["localization"]
+projects: ["activist-org/1"]
 body:
   - type: checkboxes
     id: terms
