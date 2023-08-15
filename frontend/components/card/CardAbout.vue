@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="px-6 py-5 card-style">
     <div class="relative flex-col w-full gap-5">
       <div
@@ -11,7 +11,7 @@
           <h3 class="text-left responsive-h3 font-display">About</h3>
           <Icon name="bi:pencil-square" size="1.2em" />
         </div>
-        <div v-if="aboutType === 'event'" class="flex-col space-y-3">
+        <div v-if="event" class="flex-col space-y-3">
           <TopicMarker :topic="event.topic" class="" />
           <div class="flex items-center gap-3">
             <div
@@ -40,7 +40,7 @@
             </button>
           </div>
         </div>
-        <div v-if="aboutType === 'organization'">
+        <div v-if="organization">
           <div class="flex flex-col mb-3 gap-5 sm:items-center sm:flex-row">
             <TopicMarker :topic="organization.topic" class="" />
             <div class="flex items-center gap-2">

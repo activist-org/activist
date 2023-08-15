@@ -46,7 +46,7 @@ defineProps<{
   ctaBtnLabel: string;
 }>();
 
-const inputValue = ref();
+const inputValue = ref<HTMLInputElement | null>(null);
 
 const emit = defineEmits(["on-cta-clicked", "on-close-clicked"]);
 </script>

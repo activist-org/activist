@@ -40,6 +40,6 @@ import type { User } from "~~/types/user";
 
 const props = defineProps<{
   isPrivate?: boolean;
-  user?: User;
+  user: User;
 }>();
 </script>

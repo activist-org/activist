@@ -64,6 +64,6 @@ import type { Event } from "~~/types/event";
 
 defineProps<{
   isPrivate?: boolean;
-  event?: Event;
+  event: Event;
 }>();
 </script>
