@@ -13,7 +13,7 @@
           {{ organization.name }}
           
         </h1>
-        <IconOrganizationStatus :status="'approved'"></IconOrganizationStatus>
+        <IconOrganizationStatus :status="''"></IconOrganizationStatus>
       </div>
     <flex class="relative flex items-center w-full py-6"
       ><h2
