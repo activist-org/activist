@@ -93,7 +93,7 @@
           >
             <PopoverPanel class="absolute bottom-0 mb-12">
               <PopupNewField
-                @on-cta-clicked="(account) => emit('on-new-account', account)"
+                @on-cta-clicked="emit('on-new-account', account)"
                 @on-close-clicked="onClose(close)"
                 :title="'Add Account'"
                 :field-name-prompt="'Name'"

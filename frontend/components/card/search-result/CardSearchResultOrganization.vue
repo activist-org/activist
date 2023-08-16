@@ -50,6 +50,6 @@ import type { Organization } from "~~/types/organization";
 
 const props = defineProps<{
   isPrivate?: boolean;
-  organization?: Organization;
+  organization: Organization;
 }>();
 </script>

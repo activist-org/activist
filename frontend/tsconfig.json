@@ -5,8 +5,5 @@
     "strict": true,
     "skipLibCheck": true,
     "types": ["@vueuse/nuxt", "@vueuse/core", "@pinia/nuxt"],
-    "paths": {
-      "@/*": ["./*"]
-    }
   }
 }

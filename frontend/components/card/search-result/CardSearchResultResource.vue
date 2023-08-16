@@ -56,6 +56,6 @@ import type { Resource } from "~~/types/resource";
 
 const props = defineProps<{
   isPrivate?: boolean;
-  resource?: Resource;
+  resource: Resource;
 }>();
 </script>
