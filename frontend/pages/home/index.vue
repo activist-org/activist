@@ -11,7 +11,7 @@
       Welcome, username 👋✊
     </h1>
     <div
-      class="relative flex flex-col lg:flex-row items-start lg:items-center space-y-4 -mt-2 lg:mt-0 lg:space-y-0 py-4 lg:py-6"
+      class="relative flex flex-col items-start py-4 -mt-2 lg:flex-row lg:items-center space-y-4 lg:mt-0 lg:space-y-0 lg:py-6"
     >
       <h2
         class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"

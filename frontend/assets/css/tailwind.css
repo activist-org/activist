@@ -27,8 +27,12 @@
     @apply text-light-link-text dark:text-dark-link-text hover:text-light-link-text-hover dark:hover:text-dark-link-text-hover;
   }
 
+  .card-style-base {
+    @apply border rounded-md sm:rounded-lg shadow-sm shadow-zinc-700;
+  }
+
   .card-style {
-    @apply bg-light-distinct dark:bg-dark-distinct border border-light-section-div dark:border-dark-section-div rounded-md sm:rounded-lg shadow-sm shadow-zinc-700;
+    @apply card-style-base bg-light-distinct dark:bg-dark-distinct border-light-section-div dark:border-dark-section-div;
   }
 
   .tooltip {

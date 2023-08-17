@@ -1,8 +1,8 @@
 <template>
-  <div class="h-min card-style flex justify-center md:justify-start">
+  <div class="flex justify-center h-min card-style md:justify-start">
     <div
       v-if="searchResultType === 'organization'"
-      class="flex md:flex-row flex-col p-2 sm:px-5 sm:py-3 h-fit"
+      class="flex flex-col p-2 md:flex-row sm:px-5 sm:py-3 h-fit"
     >
       <CardSearchResultOrganization
         :organization="organization"
@@ -11,19 +11,19 @@
     </div>
     <div
       v-if="searchResultType === 'event'"
-      class="flex md:flex-row flex-col md:grow p-2 sm:px-5 sm:py-3 h-fit"
+      class="flex flex-col p-2 md:flex-row md:grow sm:px-5 sm:py-3 h-fit"
     >
       <CardSearchResultEvent :event="event" :isPrivate="isPrivate" />
     </div>
     <div
       v-if="searchResultType === 'resource'"
-      class="flex md:flex-row flex-col p-2 sm:px-5 sm:py-3 h-fit"
+      class="flex flex-col p-2 md:flex-row sm:px-5 sm:py-3 h-fit"
     >
       <CardSearchResultResource :resource="resource" :isPrivate="isPrivate" />
     </div>
     <div
       v-if="searchResultType === 'user'"
-      class="flex md:flex-row flex-col p-2 sm:px-5 sm:py-3 h-fit"
+      class="flex flex-col p-2 md:flex-row sm:px-5 sm:py-3 h-fit"
     >
       <CardSearchResultUser :user="user" :isPrivate="isPrivate" />
     </div>

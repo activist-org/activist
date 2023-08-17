@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="px-6 pb-1 space-y-4 md:grow">
-    <div class="flex md:flex-row flex-col justify-between">
+    <div class="flex flex-col justify-between md:flex-row">
       <div class="flex items-center space-x-4">
         <h2 class="font-bold responsive-h3">
           {{ event.name }}

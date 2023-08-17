@@ -1,10 +1,10 @@
 <template>
-  <div class="flex md:h-screen overflow-hidden">
+  <div class="flex overflow-hidden md:h-screen">
     <MenuMobileHeader />
     <SidebarLeft />
     <div class="flex flex-col w-full md:overflow-y-scroll">
       <div
-        class="bg-light-content dark:bg-dark-content mt-12 md:mt-0"
+        class="mt-12 bg-light-content dark:bg-dark-content md:mt-0"
         :class="{
           'md:pl-16 xl:pl-56':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
