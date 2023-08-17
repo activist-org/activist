@@ -143,7 +143,14 @@ For the frontend activist uses [Prettier](https://prettier.io/) to format the co
 
 The file [frontend/tailwind.config.ts](https://github.com/activist-org/activist/blob/main/frontend/tailwind.config.ts) defines all colors within the `colors` section of the `theme` configuration. All brand colors are split first by `light` and `dark` mode in their names and then the general usage of the color followed by qualifiers such as `hover`. The reason for this naming criteria is to avoid repeat styling keywords like `text-text-light` that might lead to confusion or leaving it as just `text-light` rather than applying the usage and then the color. The prior style would correctly be applied via `text-light-text`.
 
-Note that tailwind allows for alpha components for opacity to be applied to colors directly within the class declaration. We thus do not need to save versions of colors with transparency unless they are inherently used with an alpha less than one. An example of a color that has an inherent non-one alpha is `light-text` (`"rgba(0, 0, 0, 0.85)"`). To apply an alpha component to a color in Tailwind you follow it with a slash and the alpha that should be used as in the following example:
+Note that for all colors we need to apply both the light and dark mode variants. In Tailwind this is done by placing the `dark:` prefix before a class. An example of this is the following where we'll set the background of an element to the header color for both light and dark mode:
+
+```html
+<!-- This div has a background that reacts to the color mode. -->
+<div class="bg-light-header dark:bg-dark-header"></div>
+```
+
+Note further that Tailwind allows for alpha components for opacity to be applied to colors directly within the class declaration. We thus do not need to save versions of colors with transparency unless they are inherently used with an alpha less than one. An example of a color that has an inherent non-one alpha is `light-text` (`"rgba(0, 0, 0, 0.85)"`). To apply an alpha component to a color in Tailwind you follow it with a slash and the alpha that should be used as in the following example:
 
 ```html
 <!-- The background of this div has 40% opacity. -->
