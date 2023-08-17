@@ -6,11 +6,15 @@
       <Title>{{ organization.name }}</Title>
     </Head>
     <PageBreadcrumbs class="mt-4" :organization="organization" />
-    <h1
-      class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
-    >
-      {{ organization.name }}
-    </h1>
+      <div class="flex items-baseline gap-2">
+        <h1
+          class=" pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
+        >
+          {{ organization.name }}
+          
+        </h1>
+        <IconOrganizationStatus :status="''"></IconOrganizationStatus>
+      </div>
     <flex class="relative flex items-center w-full py-6"
       ><h2
         :v-if="organization.tagline"
@@ -68,6 +72,7 @@ definePageMeta({
 });
 
 import { Organization } from "~~/types/organization";
+import IconOrganizationStatus from "../../../components/icon/IconOrganizationStatus.vue";
 
 const organization: Organization = {
   name: "tech from below",
