@@ -8,6 +8,6 @@
 
 <script setup lang="ts">
 defineProps<{
-  feedItemURLs?: Array<string>;
+  feedItemURLs?: string[];
 }>();
 </script>

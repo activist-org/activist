@@ -30,7 +30,7 @@ import "leaflet/dist/leaflet.css";
 import { ref } from "vue";
 
 const props = defineProps<{
-  addresses: Array<string>;
+  addresses: string[];
   title: string;
   type: string;
 }>();

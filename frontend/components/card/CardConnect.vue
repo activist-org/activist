@@ -111,7 +111,7 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 
 const props = defineProps<{
-  socialLinks: Array<string>;
+  socialLinks: string[];
   userIsAdmin?: boolean;
 }>();
 
