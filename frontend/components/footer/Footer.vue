@@ -3,10 +3,10 @@
     class="responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
   >
     <!-- Note: Content Sections Top for Mobile -->
-    <FooterFlexCol :links="links" />
+    <FooterFlexCol class="flex flex-col xl:hidden" :links="links" />
 
     <!-- Note: Content Sections Left and Right for Desktop (xl) -->
-    <FooterFlex :links="links" />
+    <FooterFlex class="hidden xl:flex" :links="links" />
   </footer>
 </template>
 

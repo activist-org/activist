@@ -1,15 +1,15 @@
 <template>
   <!-- Note: Content Sections Left and Right for Desktop (xl) -->
-  <div class="flex flex-col justify-center xl:flex-row xl:justify-start">
+  <div class="flex flex-row justify-start">
     <!-- Note: Content Sections Left -->
-    <div class="mt-0 justify-items-start w-[80%] hidden xl:flex xl:flex-col">
+    <div class="mt-0 justify-items-start w-[80%] flex flex-col">
       <div class="relative z-0 h-10 w-36">
         <LogoActivist
           class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />
       </div>
 
-      <p class="mt-3 text-light-text dark:text-dark-text xl:block">
+      <p class="mt-3 text-light-text dark:text-dark-text">
         {{ $t("activist-tagline") }}
       </p>
 
@@ -52,7 +52,7 @@
 
     <!-- Note: Content Sections Right -->
     <div
-      class="justify-end hidden w-full xl:flex lg:space-x-6 xl:space-x-10 2xl:space-x-24"
+      class="justify-end w-full flex lg:space-x-6 xl:space-x-10 2xl:space-x-24"
     >
       <!-- Note: Connect Links -->
       <div>

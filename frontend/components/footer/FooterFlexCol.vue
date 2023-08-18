@@ -1,6 +1,6 @@
 <template>
   <!-- Note: Content Sections Top for Mobile -->
-  <div class="flex flex-col items-center justify-center space-y-5 xl:hidden">
+  <div class="flex flex-col items-center justify-center space-y-5">
     <div class="flex flex-col items-center justify-center space-y-2">
       <div class="relative z-0 h-10 w-36">
         <LogoActivist
@@ -34,7 +34,7 @@
     </div>
 
     <div
-      class="max-w-xl text-center grid gap-0 sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16 xl:hidden"
+      class="max-w-xl text-center grid gap-0 sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16"
     >
       <!-- Note: Connect Links -->
       <div>
