@@ -58,18 +58,25 @@ VSCode: it is recommended to install these extensions to enable in-editor type-c
 Create general frontend types in the [frontend/types](https://github.com/activist-org/activist/tree/main/frontend/types) directory.
 
 Recommendations:
-- When typing Arrays, use `'arrayElementType'[]` rather than the generic type `Array<T>` unless [extending](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays)
-  - ```ts
-    const strArray: string[] = ["Hi", "thank", "you", "for", "contributing"]
-    ```
-- `withDefault` when types require [default values](https://vuejs.org/guide/typescript/composition-api.html#props-default-values)
 
-Refer to the Vue docs:
-- Typing component props:
-  - [Vue and TypeScript docs](https://vuejs.org/guide/typescript/overview.html)
-- Syntax for:
-  - [Composition API](https://vuejs.org/guide/typescript/composition-api.html)
-  - [Options API](https://vuejs.org/guide/typescript/options-api.html)
+- When typing Arrays, use `arrayElementType[]` rather than the generic type `Array<T>` unless [extending](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays):
+
+```ts
+const strArray: string[] = ["Thank", "you", "for", "contributing!"];
+```
+
+- activist uses the [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html), so please implement `<script setup lang="ts">` and use `defineProps` with the generic type argument.
+
+```typescript
+const props = defineProps<{
+  foo: string;
+  bar?: number;
+}>();
+```
+
+- Please also use `withDefault` when types require [default values](https://vuejs.org/guide/typescript/composition-api.html#props-default-values)
+
+See [Vue and TypeScript docs](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) for more information about typing component props.
 
 There is a limited set of package types that are available in the global scope. The current list can be found in `frontend/tsconfig.json` under `"compilerOptions.types"`, with this list being modified as the project matures.
 
