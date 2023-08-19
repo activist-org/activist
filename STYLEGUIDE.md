@@ -41,24 +41,19 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 ## TypeScript [`⇧`](#contents)
 
-TypeScript configuration is ongoing. PRs are always welcome to improve the developer experience and project infrastructure!
+PRs are always welcome to improve the developer experience and project infrastructure!
 
-Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are not enabled.
+Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are not enabled. This may change in the future. Strict type checks are not enabled to allow building the app outside `Docker`. Local and Netlify builds proceed despite TS errors with strict checks disabled.
 
 > [!NOTE]\
-> In the future, once all TS errors are resolved, activist will be enabling these strict checks. This was done to allow building the app outside `Docker`. Local and Netlify builds proceed despite TS errors with strict checks disabled.
+> For VS Code users: it is recommended to install these extensions to enable in-editor type-checking:
+>
+> - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+> - [Volar TS](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 
-VSCode: it is recommended to install these extensions to enable in-editor type-checking.
+### Vue Single File Component (.vue file) Guidelines
 
-- [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-- [Volar TS](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
-
-**Regarding SFC (Single File Components) ie. each Vue files (.vue)**
-
-Create general frontend types in the [frontend/types](https://github.com/activist-org/activist/tree/main/frontend/types) directory.
-
-Recommendations:
-
+- Create general frontend types in the [frontend/types](https://github.com/activist-org/activist/tree/main/frontend/types) directory
 - When typing Arrays, use `arrayElementType[]` rather than the generic type `Array<T>` unless [extending](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays):
 
 ```ts
@@ -86,7 +81,7 @@ Before opening a new PR, it is recommended to first generate the current types, 
 2. run `yarn run postinstall` to generate types in `frontend/.nuxt`
 3. run `yarn nuxi typecheck`
 
-Within VSCode TS errors are visible, however, running these commands will help to ensure the new code does not introduce unintended TS errors at build time. Existing TS errors may be ignored. PRs are always welcome to address these errors!
+Within VS Code TS errors are visible, however, running these commands will help to ensure the new code does not introduce unintended TS errors at build time. Existing TS errors may be ignored. PRs are always welcome to address these errors!
 
 <a id="tailwind"></a>
 
