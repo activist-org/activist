@@ -28,12 +28,10 @@
 
 ### Open-source, nonprofit activism platform
 
-[**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.
+[**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events. See the [frequently asked questions](https://activist.org/help/faq) for a general overview.
 
 > [!NOTE]\
 > The [contributing](#contributing) section has information for those interested, with the articles and presentations in [supported by](#supported-by) also being good resources for learning more about activist.
-
-[**Frequently Asked Questions**](https://activist.org/help/faq)
 
 <a id="contents"></a>
 
@@ -41,7 +39,8 @@
 
 - [Preview Video](#preview)
 - [Contributing](#contributing)
-- [Platform Overview](#overview)
+- [Environment Setup](#environment-setup)
+- [Platform Overview](#platform-overview)
 - [Supported By](#supported-by)
 
 <a id="preview"></a>
@@ -71,23 +70,55 @@ Also check the [`-next release-`](https://github.com/activist-org/activist/label
 
 After your first pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
 
-## Environment Setup [`⇧`](#contents)
+<a id="ways-to-help"></a>
+
+## Ways to Help [`⇧`](#contents)
+
+- [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
+- Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
+- [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
+  - Please join our public localization project [on Transifex](https://explore.transifex.com/activist-org/activist)!
+- [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
+- [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
+
+<a id="road-map"></a>
+
+## Road Map [`⇧`](#contents)
+
+The activist road map can be followed in the organization's [project board](https://github.com/orgs/activist-org/projects/1) where we list the most important issues along with their priority, status and an indication of which sub projects they're included in (if applicable).
+
+<a id="designs"></a>
+
+## Designs [`⇧`](#contents)
+
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
+
+The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those with interest can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
+
+Note that the Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or via the email on the public designs welcome page. We'd love to see a sample of your work and if everything looks good we'll schedule a time to get connected!
+
+<a id="environment-setup"></a>
+
+# Environment Setup [`⇧`](#contents)
 
 1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
 
-<details><summary><strong>Suggested IDE extensions</strong></summary>
-<p>
-
-VS Code
-
-- [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
-- [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-- [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
-- [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-- [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
-
-</p>
-</details>
+> [!IMPORTANT]\
+>
+> <details><summary><strong>Suggested IDE extensions</strong></summary>
+>
+> <p>
+>
+> VS Code
+>
+> - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
+> - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+> - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+> - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+> - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+>
+> </p>
+> </details>
 
 2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
 
@@ -111,22 +142,6 @@ docker-compose up
 
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
-> [!NOTE]\
-> Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
-
-## Ways to Help [`⇧`](#contents)
-
-- [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
-- Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
-- [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
-  - Please join our public localization project [on Transifex](https://explore.transifex.com/activist-org/activist)!
-- [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
-- [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
-
-### Road Map
-
-The activist road map can be followed in the organization's [project board](https://github.com/orgs/activist-org/projects/1) where we list the most important issues along with their priority, status and an indication of which sub projects they're included in (if applicable).
-
 <a id="tech-stack"></a>
 
 ## Tech Stack [`⇧`](#contents)
@@ -136,16 +151,6 @@ The following are the current and planned technologies for [activist.org](https:
 ### Frontend
 
 - [Nuxt.js](https://nuxt.com) • [Vue.js](https://vuejs.org) • [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com)
-
-<details><summary>Frontend tools</summary>
-<p>
-
-- Countless [Nuxt modules](https://nuxt.com/modules)
-- [OpenStreetMap](https://www.openstreetmap.org)
-- [Leaflet](https://leafletjs.com/)
-
-</p>
-</details>
 
 ### Backend
 
@@ -159,21 +164,14 @@ The following are the current and planned technologies for [activist.org](https:
 
 - [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Transifex](https://www.transifex.com/) ([activist on Transifex](https://explore.transifex.com/activist-org/activist))
 
-<!-- ### Analytics
+### Analytics
 
-- [Plausible](https://plausible.io/) (planned) -->
+- [Plausible](https://plausible.io/)
 
-<a id="designs"></a>
+<a id="platform-overview"></a>
 
-## Designs [`⇧`](#contents)
-
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
-
-The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those with interest can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
-
-Note that the Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or via the email on the public designs welcome page. We'd love to see a sample of your work and if everything looks good we'll schedule a time to get connected!
-
-<a id="overview"></a>
+> [!NOTE]\
+> Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
 # Platform Overview [`⇧`](#contents)
 
@@ -305,6 +303,14 @@ Many thanks to all the [activist.org contributors](https://github.com/activist-o
 <a href="https://github.com/activist-org/activist/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=activist-org/activist" />
 </a>
+
+### Code and Dependencies
+
+The activist team would like to thank all the great software that made activist's development possible ❤️
+
+- Countless [Nuxt modules](https://nuxt.com/modules)
+- [OpenStreetMap](https://www.openstreetmap.org)
+- [Leaflet](https://leafletjs.com/)
 
 # Disclosure
 
