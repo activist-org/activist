@@ -103,7 +103,7 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 
 1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
 
-> [!IMPORTANT]\
+> [!IMPORTANT]
 >
 > <details><summary><strong>Suggested IDE extensions</strong></summary>
 >
