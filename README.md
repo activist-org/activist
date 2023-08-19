@@ -168,10 +168,10 @@ The following are the current and planned technologies for [activist.org](https:
 
 - [Plausible](https://plausible.io/)
 
-<a id="platform-overview"></a>
-
 > [!NOTE]\
 > Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
+
+<a id="platform-overview"></a>
 
 # Platform Overview [`⇧`](#contents)
 
