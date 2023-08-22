@@ -1,6 +1,11 @@
 <template>
   <footer
-    class="responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
+    :class="{
+      'responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text':
+        !hasSidebar,
+      'responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text with-sidebar':
+        hasSidebar && isSidebarOpen,
+    }"
   >
     <!-- Note: Content Sections Top for Mobile -->
     <FooterFlexCol class="flex flex-col xl:hidden" :links="links" />
@@ -11,6 +16,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
+const hasSidebar = ref(false);
+
 const connectLinks = [
   {
     name: "GitHub",
