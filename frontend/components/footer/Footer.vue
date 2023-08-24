@@ -8,10 +8,18 @@
     }"
   >
     <!-- Note: Content Sections Top for Mobile -->
-    <FooterFlexCol class="flex flex-col xl:hidden" :links="links" />
+    <FooterFlexCol
+      class="flex flex-col"
+      :class="{ 'xl:hidden': hasSidebar, 'lg:hidden': !hasSidebar }"
+      :links="links"
+    />
 
     <!-- Note: Content Sections Left and Right for Desktop (xl) -->
-    <FooterFlex class="hidden xl:flex" :links="links" />
+    <FooterFlex
+      class="hidden"
+      :class="{ 'xl:flex': hasSidebar, 'lg:flex': !hasSidebar }"
+      :links="links"
+    />
   </footer>
 </template>
 
