@@ -1,7 +1,10 @@
 <template>
   <MenuMobileHeader />
+  <SidebarLeft
+    @mouseover="sidebarHover = true"
+    @mouseleave="sidebarHover = false"
+  />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
-    <SidebarLeft />
     <div
       class="mt-12 bg-light-content dark:bg-dark-content md:mt-0"
       :class="{
@@ -9,6 +12,10 @@
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'md:pl-16 xl:pl-16':
           sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        'blur-sm xl:blur-none':
+          sidebar.collapsedSwitch == true &&
+          sidebar.collapsed == false &&
+          sidebarHover == true,
       }"
     >
       <slot />
@@ -28,6 +35,8 @@
 
 <script setup lang="ts">
 const sidebar = useSidebar();
+
+let sidebarHover: boolean = false;
 
 onMounted(() => {
   window.addEventListener("resize", handleWindowSizeChange);
