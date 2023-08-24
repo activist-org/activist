@@ -52,7 +52,7 @@
 
     <!-- Note: Content Sections Right -->
     <div
-      class="justify-end w-full flex lg:space-x-6 xl:space-x-10 2xl:space-x-24"
+      class="justify-end w-full flex lg:space-x-6 xl:space-x-8 2xl:space-x-24"
     >
       <!-- Note: Connect Links -->
       <div>

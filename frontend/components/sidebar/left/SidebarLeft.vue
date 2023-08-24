@@ -24,16 +24,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { ref as sidebarRef } from "vue";
-
-const hasSidebar = ref(false);
-const sidebar = sidebarRef();
-
 defineProps<{
   name?: string;
 }>();
 
+const sidebar = useSidebar();
 const route = useRoute();
 
 let pageTypeToDisplay = "";
@@ -45,10 +40,6 @@ if (route.path.includes("organizations")) {
   pageTypeToDisplay = "misc"; // TODO: assign this based on other options
 }
 
-// assuming that ismenuopen reflects sidebar open state
-const isSidebarOpen = computed(() => {
-  return sidebar.value.isMenuOpen;
-});
 // TODO use real name of organization / event when available from backend.
 const placeholderName = route.path.split("/").at(-2).replaceAll("-", " ");
 const placeholderLogo = "/images/tech-from-below.svg";

@@ -1,25 +1,12 @@
 <template>
   <footer
-    :class="{
-      'responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text':
-        !hasSidebar,
-      'responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text with-sidebar':
-        hasSidebar && isSidebarOpen,
-    }"
+    class="responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
   >
     <!-- Note: Content Sections Top for Mobile -->
-    <FooterFlexCol
-      class="flex flex-col"
-      :class="{ 'xl:hidden': hasSidebar, 'lg:hidden': !hasSidebar }"
-      :links="links"
-    />
+    <FooterFlexCol class="flex flex-col lg:hidden" :links="links" />
 
     <!-- Note: Content Sections Left and Right for Desktop (xl) -->
-    <FooterFlex
-      class="hidden"
-      :class="{ 'xl:flex': hasSidebar, 'lg:flex': !hasSidebar }"
-      :links="links"
-    />
+    <FooterFlex class="hidden lg:flex" :links="links" />
   </footer>
 </template>
 

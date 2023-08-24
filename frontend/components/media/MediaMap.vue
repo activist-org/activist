@@ -1,25 +1,21 @@
 <template>
-  <div
-    class="w-full h-full border bg-clip-content map border-light-section-div dark:border-dark-section-div card-style"
-  >
+  <div class="map card-style">
     <div
       id="map-div"
-      class="z-0 w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert"
+      class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert"
       ref="map"
       alt="Map displaying a pin at the location of this event."
     ></div>
-
-    <p
-      class="z-10 p-5 m-auto text-2xl text-center align-middle text-light-cta-orange dark:text-dark-cta-orange"
+    <div
+      class="flex flex-col px-5 pb-5 h-full space-y-5 text-2xl text-center justify-center items-center text-light-cta-orange dark:text-dark-cta-orange"
       :class="{
-        absolute: !errorOccurred,
+        hidden: !errorOccurred,
       }"
       :key="rerenderKey"
     >
-      {{ errorMessage }}
-      <br />
-      {{ sorryMessage }}
-    </p>
+      <p>{{ errorMessage }}</p>
+      <p>{{ sorryMessage }}</p>
+    </div>
   </div>
 </template>
 

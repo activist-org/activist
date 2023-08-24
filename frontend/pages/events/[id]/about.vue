@@ -11,8 +11,8 @@
     >
       {{ event.name }}
     </h1>
-    <flex class="relative flex items-center w-full py-6"
-      ><h2
+    <div class="relative flex items-center w-full py-6">
+      <h2
         :v-if="event.tagline"
         class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
       >
@@ -45,24 +45,19 @@
           iconSize="1.25em"
         />
       </div>
-    </flex>
+    </div>
     <div class="pb-6 space-y-6">
       <div
-        class="grid grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 space-y-6 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="grid grid-rows-2 grid-cols-1 lg:grid-cols-3 lg:grid-rows-1 space-y-6 pb-6 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
-        <CardAbout
-          aboutType="event"
-          :event="event"
-          class="w-full lg:col-span-2"
+        <CardAbout aboutType="event" :event="event" class="lg:col-span-2" />
+        <MediaMap
+          class="w-full h-full"
+          v-if="event.inPersonLocation"
+          :addresses="[event.inPersonLocation]"
+          :type="event.type"
+          :title="event.name"
         />
-        <div class="w-full h-full pb-6 lg:pb-0">
-          <MediaMap
-            v-if="event.inPersonLocation"
-            :addresses="[event.inPersonLocation]"
-            :type="event.type"
-            :title="event.name"
-          />
-        </div>
       </div>
       <CardGetInvolved :event="event" />
       <CardConnect :social-links="event.socialLinks" :userIsAdmin="true" />
