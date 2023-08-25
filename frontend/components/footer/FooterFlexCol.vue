@@ -39,7 +39,7 @@
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("connect") }}
+          {{ $t("components.footer.footer-flex-col.connect") }}
         </p>
         <div class="flex mt-1 gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
@@ -63,7 +63,7 @@
         <p
           class="mt-6 text-xl font-medium sm:mt-0 text-light-text dark:text-dark-text"
         >
-          {{ $t("resources") }}
+          {{ $t("components.footer.footer-flex-col.resources") }}
         </p>
         <div class="flex flex-wrap justify-center sm:flex-col gap-x-1 sm:gap-0">
           <template v-for="(resource, index) in links.resourcesLinks">
@@ -89,7 +89,7 @@
         <p
           class="mt-6 text-xl font-medium sm:mt-0 text-light-text dark:text-dark-text"
         >
-          {{ $t("organization") }}
+          {{ $t("components.footer.footer-flex-col.organization") }}
         </p>
         <div class="flex flex-wrap justify-center sm:flex-col gap-x-1 sm:gap-0">
           <template v-for="(organization, index) in links.organizationLinks">
@@ -128,7 +128,7 @@
         </template>
       </div>
       <div class="mt-2 text-light-text dark:text-dark-text">
-        {{ $t("website-copyright") }}
+        {{ $t("components.footer.footer-flex-col.website-copyright") }}
       </div>
     </div>
   </div>

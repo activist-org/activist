@@ -38,34 +38,34 @@ const connectLinks = [
 
 const resourcesLinks = [
   {
-    name: "faq",
+    name: "components.footer.footer.faq",
     url: "/help/faq",
   },
   {
-    name: "help",
+    name: "components.footer.footer.help",
     url: "/help",
   },
   {
-    name: "documentation",
+    name: "components.footer.footer.documentation",
     url: "/docs",
   },
   {
-    name: "contact",
+    name: "components.footer.footer.contact",
     url: "/help/contact",
   },
 ];
 
 const organizationLinks = [
   {
-    name: "about",
+    name: "components.footer.footer.about",
     url: "/about",
   },
   {
-    name: "supporters",
+    name: "components.footer.footer.supporters",
     url: "/supporters",
   },
   {
-    name: "impress",
+    name: "components.footer.footer.impress",
     url: "/about/impress",
   },
 ];
@@ -77,12 +77,12 @@ const platformLinks = [
     url: "https://github.com/activist-org/activist/releases",
   },
   {
-    name: "source-code",
+    name: "components.footer.footer.source-code",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist",
   },
   {
-    name: "roadmap",
+    name: "components.footer.footer.roadmap",
     isLocalePath: true,
     url: "/about/roadmap",
   },
@@ -94,7 +94,7 @@ const legalLinks = [
     url: "/legal/trademark-policy",
   },
   {
-    name: "privacy-policy",
+    name: "components.footer.footer.privacy-policy",
     url: "/legal/privacy-policy",
   },
 ];

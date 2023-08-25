@@ -411,6 +411,12 @@
       }
     },
     "card": {
+      "search-result": {
+        "organization": {
+          "members": "Members",
+          "supporters": "Supporters"
+        }
+      },
       "card-about": {
         "title": "About",
         "full-text": "Click for full text"
@@ -435,21 +441,31 @@
     },
     "footer": {
       "footer": {
-        "faq": "faq",
-        "help": "help",
-        "documentation": "documentation",
-        "contact": "contact",
-        "about": "about",
-        "supporters": "supporters",
-        "impress": "impress",
-        "trademark-policy": "trademark-policy",
-        "privacy-policy": "privacy-policy"
+        "faq": "FAQ",
+        "help": "Help",
+        "documentation": "Documentation",
+        "contact": "Contact",
+        "about": "About",
+        "supporters": "Supporters",
+        "impress": "Impress",
+        "trademark-policy": "Trademark Policy",
+        "privacy-policy": "Privacy Policy",
+        "source-code": "Source Code",
+        "roadmap": "Roadmap"
       },
       "footer-flex": {
-        "activist-tagline": "Open-source, nonprofit activism platform."
+        "activist-tagline": "Open-source, nonprofit activism platform.",
+        "website-copyright": "Copyright © 2023 activist.",
+        "connect": "Connect",
+        "resources": "Resources",
+        "organization": "Organization"
       },
       "footer-flex-col": {
-        "activist-tagline": "Open-source, nonprofit activism platform."
+        "activist-tagline": "Open-source, nonprofit activism platform.",
+        "website-copyright": "Copyright © 2023 activist.",
+        "connect": "Connect",
+        "resources": "Resources",
+        "organization": "Organization"
 
       }
     },
@@ -481,10 +497,38 @@
         "github-text": "We're dedicated to working in the open to build trust with out partner organizations and fellow activists. Building the place for activism the world over takes a lot of effort, so please come join us!"
       }
     },
+    "selector": {
+      "selector-theme": {
+        "theme": "Theme"
+      }
+    },
     "sidebar": {
       "left": {
         "index": {
-          "trademark-policy": "Trademark policy"
+          "trademark-policy": "Trademark policy",
+          "privacy-policy": "Privacy policy",
+          "about": "About",
+          "events": "Events",
+          "groups": "Groups",
+          "resources": "Resources",
+          "faq": "FAQ",
+          "settings": "Settings",
+          "affiliates": "Affiliates",
+          "tasks": "Tasks",
+          "discussions": "Discussions",
+          "team": "Team",
+          "about-activist": "About activist",
+          "activism-network": "Activism Network",
+          "connect": "Connect",
+          "impress": "Impress",
+          "roadmap": "Roadmap",
+          "legal-support": "Legal Support",
+          "contact": "Contact",
+          "press": "Press",
+          "status": "Status",
+          "get-active": "Get Active",
+          "get-organized": "Get Organized",
+          "grow-organization": "Grow Organization"
         },
         "footer": {
           "new-event": "New event",
@@ -502,83 +546,6 @@
           "sign-out": "Sign out"
         }
       }
-    }
-  },
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  "privacy-policy": "Privacy policy",
-  "source-code": "Source code",
-  "roadmap": "Roadmap",
-  "website-copyright": "Copyright © 2023 activist.",
-  "connect": "Connect",
-  "resources": "Resources",
-  "faq": "FAQ",
-  "help": "Help",
-  "documentation": "Documentation",
-  "contact": "Contact",
-  "organization": "Organization",
-  "about": "About",
-  "members": "Members",
-  "supporters": "Supporters",
-  "impress": "Impress",
-  "theme": "Theme",
-  "sidebar": {
-    "about": "About",
-    "events": "Events",
-    "groups": "Groups",
-    "resources": "Resources",
-    "faq": "FAQ",
-    "settings": "Settings",
-    "affiliates": "Affiliates",
-    "tasks": "Tasks",
-    "discussions": "Discussions",
-    "team": "Team",
-    "about-index": {
-      "about-activist": "About activist",
-      "activism-network": "Activism Network",
-      "connect": "Connect",
-      "impress": "Impress",
-      "roadmap": "Roadmap"
-    },
-    "legal-index": {
-      "legal-support": "Legal Support",
-      "privacy-policy": "Privacy Policy",
-      "trademark-policy": "Trademark Policy"
-    },
-    "help-index": {
-      "faq": "FAQ",
-      "contact": "Contact",
-      "press": "Press",
-      "status": "Status"
-    },
-    "docs-index": {
-      "get-active": "Get Active",
-      "get-organized": "Get Organized",
-      "grow-organization": "Grow Organization"
     }
   }
 }

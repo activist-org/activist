@@ -46,7 +46,7 @@
         </template>
       </div>
       <div class="mt-2 text-light-text dark:text-dark-text">
-        {{ $t("website-copyright") }}
+        {{ $t("components.footer.footer-flex.website-copyright") }}
       </div>
     </div>
 
@@ -57,7 +57,7 @@
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("connect") }}
+          {{ $t("components.footer.footer-flex.connect") }}
         </p>
         <template v-for="(connect, index) in links.connectLinks">
           <a
@@ -75,7 +75,7 @@
       <!-- Note: Resources Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("resources") }}
+          {{ $t("components.footer.footer-flex.resources") }}
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p
@@ -92,7 +92,7 @@
       <!-- Note: Organization Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("organization") }}
+          {{ $t("components.footer.footer-flex.organization") }}
         </p>
         <template v-for="(organization, index) in links.organizationLinks">
           <p
