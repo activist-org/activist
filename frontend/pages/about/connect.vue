@@ -3,12 +3,11 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.about.connect.title") }}</Title>
     </Head>
-    <h1 class="p-4">This will be a page about activist channels</h1>
+    <h1 class="p-4">{{ $t("pages.about.connect.description") }}</h1>
   </div>
 </template>
 
 <script setup lang="ts">
-const title = ref("Connect");
 </script>

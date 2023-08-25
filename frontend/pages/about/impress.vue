@@ -3,7 +3,7 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.about.impress.title") }}</Title>
     </Head>
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
@@ -44,41 +44,36 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              Please use the
+              {{ $t("pages.about.impress.subtitle-1") }}
               <a
                 href="/help/contact"
                 class="items-center focus-brand link-text"
               >
-                contact page
+                {{ $t("pages.about.impress.subtitle-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
                   style="vertical-align: baseline"
                 />
               </a>
-              for inquiries
+              {{ $t("pages.about.impress.subtitle-3") }}
             </p>
           </div>
           <p>
-            activist.org is a network for political action that allows people to
-            coordinate and collaborate on the issues that matter most to them.
-            The current goal is the creation of a central platform to discover
-            activist organizations and their events.
+            {{ $t("pages.about.impress.paragraph-1") }}
           </p>
           <p>
-            We are currently working on the legal entity behind activist.
-            Further information will be available on this page once the
-            arrangements are finalized. Thank you for your patience!
+            {{ $t("pages.about.impress.paragraph-2") }}
           </p>
           <ul>
-            <li><strong>All inquiries:</strong></li>
+            <li><strong>{{ $t("pages.about.impress.inquiries") }}:</strong></li>
             <li>
               <a href="mailto:team@activist.org" class="focus-brand link-text"
                 >team@activist.org</a
               >
             </li>
           </ul>
-          <p class="pb-2 lg:pb-4">We look forward to hearing from you :)</p>
+          <p class="pb-2 lg:pb-4">{{ $t("pages.about.impress.message") }}</p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
           >
@@ -111,5 +106,4 @@
 </template>
 
 <script setup lang="ts">
-const title = ref("Impress");
 </script>
