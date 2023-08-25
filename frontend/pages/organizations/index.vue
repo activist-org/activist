@@ -3,19 +3,19 @@
     class="px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.organizations.index.title") }}</Title>
     </Head>
     <PageBreadcrumbs class="mt-4" />
     <h1
       class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
-      Organizations home
+      {{ $t("pages.organizations.index.title") }}
     </h1>
     <flex class="relative flex items-center py-6"
       ><h2
         class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
       >
-        Active organizations near you
+        {{ $t("pages.organizations.index.subtitle") }}
       </h2>
       <TopicMarker topic="My topics dropdown" class="absolute right-7" />
     </flex>
@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import { Organization } from "~~/types/organization";
-const title = ref("Organizations Home");
 
 definePageMeta({
   layout: "sidebar",

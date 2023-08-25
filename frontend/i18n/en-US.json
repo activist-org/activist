@@ -325,13 +325,7 @@
         "subtitle": "Active organizations near you"
 
       },
-      "[id]": {
-        "index": {
-
-        },
-        "about": {
-
-        },
+      "id": {
         "events": {
           "subtitle": "This is an events page for"
         },
@@ -343,9 +337,6 @@
         },
         "resources": {
           "subtitle": "This is a resources page for"
-        },
-        "settings": {
-
         }
       }
     },
