@@ -1,7 +1,7 @@
 <template>
   <div class="overflow-hidden bg-light-content dark:bg-dark-content">
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.index.title") }}</Title>
     </Head>
     <LandingSplash />
     <LandingCommunityBanner />
@@ -71,5 +71,4 @@
 </template>
 
 <script setup lang="ts">
-const title = ref("Welcome");
 </script>
