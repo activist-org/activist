@@ -3,7 +3,7 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.docs.grow-organization.title") }}</Title>
     </Head>
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
@@ -29,7 +29,7 @@
         <div
           class="items-center text-left space-y-4 2xl:col-span-1 2xl:row-start-1 md:items-start"
         >
-          <h1 class="pb-2 font-bold responsive-h1">Expand your movement</h1>
+          <h1 class="pb-2 font-bold responsive-h1">{{ $t("pages.docs.grow-organization.page-title") }}</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"
@@ -37,68 +37,51 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              See the
+              {{ $t("pages.docs.grow-organization.subtitle-1") }}
               <a
                 href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=517%3A4852&t=ytDrcE8K3RrfCxM6-1"
                 class="items-center focus-brand link-text"
                 target="_blank"
               >
-                organization designs on Figma
+                {{ $t("pages.docs.grow-organization.subtitle-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
                   style="vertical-align: baseline"
                 />
               </a>
-              to learn more
+              {{ $t("pages.docs.grow-organization.subtitle-3") }}
             </p>
           </div>
           <p>
-            activist is first and foremost about
-            <strong>organizations</strong>, with the design of the platform
-            being tailored to their needs. The main function of organizations on
-            activist is organizing and hosting <strong>events</strong>, but
-            future features aim to help them achieve their goals and scale more
-            effectively.
+            {{ $t("pages.docs.grow-organization.paragraph-1-pt1") }}
+            <strong>{{ $t("pages.docs.grow-organization.paragraph-1-pt2") }}</strong>, {{ $t("pages.docs.grow-organization.paragraph-1-pt3") }} <strong>{{ $t("pages.docs.grow-organization.paragraph-1-pt4") }}</strong>, {{ $t("pages.docs.grow-organization.paragraph-1-pt5") }}
           </p>
           <p>
-            With activist you can keep track of all your pads, protocols,
-            decisions and events in one place while at the same time quickly
-            onboarding new joiners to your political actions. We want to inspire
-            as well as improve collaboration between organizations because we
-            know that we're only going to be able to sustain action together.
+            {{ $t("pages.docs.grow-organization.paragraph-2") }}
           </p>
           <p>
-            Of paramount importance to activist's health is the
-            <strong>application to join</strong> for all organizations. We'll
-            start with a select few that will then help us choose all future
-            organizations that join the platform. In this way we hope to instill
-            trust in the community — that no organization has not been vouched
-            for, and that when interacting with a person they are verified and
-            brought in by people that others work with.
+            {{ $t("pages.docs.grow-organization.paragraph-3-pt1") }}
+            <strong>{{ $t("pages.docs.grow-organization.paragraph-3-pt2") }}</strong> {{ $t("pages.docs.grow-organization.paragraph-3-pt3") }}
           </p>
           <p>
-            Long term features will integrate every aspect of an organization's
-            political life: making working groups and assigning tasks; releasing
-            statements to their supporters; finding and tailoring actions based
-            on real life legislation; and much more!
+            {{ $t("pages.docs.grow-organization.paragraph-4") }}
           </p>
           <p class="pb-2 md:pb-4">
-            Please use the <strong>Request access</strong> link below to tell us
-            more about your organization! We'd also love to hear from you in our
+            {{ $t("pages.docs.grow-organization.paragraph-5-pt1") }} <strong>{{ $t("pages.docs.grow-organization.paragraph-5-pt2") }} </strong> {{ $t("pages.docs.grow-organization.paragraph-5-pt3") }} 
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              public Matrix chat rooms
+            {{ $t("pages.docs.grow-organization.paragraph-5-pt4") }} 
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            so we know how best to help your organization.
+            {{ $t("pages.docs.grow-organization.paragraph-5-pt5") }} 
           </p>
           <div
             class="grid grid-cols-1 max-w-[70%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[80%] grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 mx-auto sm:mx-0 sm:grid-cols-2 sm:grid-rows-1"
@@ -125,5 +108,4 @@
 </template>
 
 <script setup lang="ts">
-const title = ref("Grow Organization");
 </script>
