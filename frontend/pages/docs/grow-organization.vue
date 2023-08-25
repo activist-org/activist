@@ -12,19 +12,19 @@
       <img
         v-if="$colorMode.value == 'light'"
         src="/images/content_pages/mockups/grow_organization_light.png"
-        :alt="$t('grow-organization-modal-image-alt-text')"
+        :alt="$t('pages.docs.grow-organization.modal-image-alt-text')"
         class="w-full md:hidden h-1/6"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         src="/images/content_pages/mockups/grow_organization_dark.png"
-        :alt="$t('grow-organization-modal-image-alt-text')"
+        :alt="$t('pages.docs.grow-organization.modal-image-alt-text')"
         class="w-full md:hidden h-1/6"
       />
       <div class="w-10/12 gap-16 2xl:grid 2xl:grid-cols-2 md:w-full">
         <ModalImage
           imageURL="/images/content_pages/mockups/grow_organization"
-          imageAltText="grow-organization-modal-image-alt-text"
+          imageAltText="pages.docs.grow-organization.modal-image-alt-text"
         />
         <div
           class="items-center text-left space-y-4 2xl:col-span-1 2xl:row-start-1 md:items-start"

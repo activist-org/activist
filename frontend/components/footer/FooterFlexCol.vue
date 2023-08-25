@@ -8,7 +8,7 @@
         />
       </div>
       <p class="text-light-text dark:text-dark-text">
-        {{ $t("activist-tagline") }}
+        {{ $t("components.footer.footer-flex-col.activist-tagline") }}
       </p>
 
       <!-- Note: Platform Links -->

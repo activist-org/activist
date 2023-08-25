@@ -1,7 +1,31 @@
 {
   "pages": {
     "index": {
-      "title": "Welcome"
+      "title": "Welcome",
+      "become-a-supporter": "Become a supporter",
+      "view-all-supporters": "View all supporters",
+      "get-active-header": "Get active",
+      "get-active-tagline": "Coordinate and collaborate",
+      "get-active-text": "Discover and join organizations and events that work towards lasting change. Support the movements that matter most to you and learn from experienced activists along the way.",
+      "get-active-btn-alt-text": "Learn more about getting involved in an activist organization",
+      "get-organized-header": "Get organized",
+      "get-organized-tagline": "Find your allies",
+      "get-organized-text": "Connect with others across organizations and movements. Host panel discussions, collect signatures, unionize your workplace, organize protests and much more.",
+      "get-organized-btn-alt-text": "Learn more about organizing an activist organization",
+      "grow-organization-header": "Grow your organization",
+      "grow-organization-tagline": "Increase your people power",
+      "grow-organization-text": "Showcase your organization's aims and structure. Automatically and securely onboard new members to easily gain and maintain momentum from one action to the next.",
+      "grow-organization-btn-alt-text": "Learn more about growing an activist organization",
+      "activist-section-header": "About us",
+      "activist-section-tagline": "Our work and goals",
+      "activist-section-text": "We're a Berlin-based team with a growing global network of affiliates and partners. Let's create a dedicated open-source platform to take on the challenges of our time.",
+      "activist-section-btn-alt-text": "Learn more about activist",
+      "our-supporters-header": "Our supporters",
+      "our-supporters-tagline": "Community sponsors and backers",
+      "our-supporters-text": "Help us create and maintain a platform that enables people to safely engage in activism. Please consider contributing your skills, reach or money.",
+      "our-supporters-sub-text": "Sponsorship does not equal influence. activist is independent and governed by its community.",
+      "our-supporters-btn-become-alt-text": "Become a supporter of activist",
+      "our-supporters-btn-view-alt-text": "View all supporters of activist"
     },
     "about": {
       "index": {
@@ -66,6 +90,7 @@
         "description": "This will be a documentation landing page"
       },
       "get-active": {
+        "modal-image-alt-text": "Mockups that show mobile organization search and web event search on a map.",
         "title": "Get Active",
         "page-title": "Discover and get involved",
         "subtitle-1": "See the",
@@ -98,6 +123,7 @@
         "paragraph-3-pt5": "so we know how best to help you in your work."
       },
       "get-organized": {
+        "modal-image-alt-text": "Mockups that show mobile resource search and web event task organization.",
         "title": "Get Organized",
         "page-title": "Tools for organizers",
         "subtitle-1": "See the",
@@ -117,6 +143,7 @@
         "paragraph-4-pt5": "where our community plans all aspects of activist."
       },
       "grow-organization": {
+        "modal-image-alt-text": "Mockups that show mobile event join flow interests selection and web organization affiliates page.",
         "title": "Grow Organization",
         "page-title": "Expand your movement",
         "subtitle-1": "See the",
@@ -276,8 +303,7 @@
         "paragraph-3": "To use our trademarks beyond what is considered \"fair\" or \"nominative\" use, you must follow these guidelines. By making use of our trademarks, you agree to abide by the following terms and conditions.",
         "paragraph-4": "You agree to defend and indemnify activist.org from and against any and all claims and losses brought by a third party in connection with your use of the activist.org trademarks.",
         "paragraph-5-pt1": "To request the use of the activist name and logos in a way not covered in these guidelines, or to report violations, please contact us at",
-        "paragraph-5-pt2": "team@activist.org",
-        "paragraph-5-pt3": "In the event that we do not approve such use of the activist name and logos within fourteen (14) business days, your request shall be deemed denied.",
+        "paragraph-5-pt2": "In the event that we do not approve such use of the activist name and logos within fourteen (14) business days, your request shall be deemed denied.",
         "subtitle-1": "General guidelines",
         "list1-item1": "Only use the activist marks to accurately identify those goods or services that are built by the activist.org organization.",
         "list1-item2": "Do not use the activist marks in any way that could mistakenly imply that activist.org has reviewed, approved, or guaranteed your goods or services.",
@@ -374,24 +400,104 @@
         "paragraph-6-pt3": "page to help today."
       }
     }
-
   },
   "components": {
-    "search-bar": {
-
-    },
-    "topic-marker": {
-
-    },
     "website-header": {
-
+      "get-in-touch": "Get in touch"
     },
     "btn": {
-      "btn-labeled": {
-
-      },
       "btn-roadmap": {
+        "title": "Roadmap"
+      }
+    },
+    "card": {
+      "card-about": {
+        "title": "About",
+        "full-text": "Click for full text"
+      },
+      "card-connect": {
+        "title": "Connect"
+      },
+      "card-danger-zone": {
+        "title": "Danger Zone",
+        "label-username": "Your username",
+        "label-password": "Your password"
+      },
+      "card-get-involved": {
+        "title": "Get involved",
+        "working-groups": "The following are working groups within",
+        "click-join": "Click \"Join organization\" above to get involved in",
+        "legal-disclaimer": "Please read the legal disclaimer below for more information on your rights during this event."
+      },
+      "card-legal-disclaimer": {
+        "title": "Legal Disclaimer"
+      }
+    },
+    "footer": {
+      "footer": {
+        "faq": "faq",
+        "help": "help",
+        "documentation": "documentation",
+        "contact": "contact",
+        "about": "about",
+        "supporters": "supporters",
+        "impress": "impress",
+        "trademark-policy": "trademark-policy",
+        "privacy-policy": "privacy-policy"
+      },
+      "footer-flex": {
+        "activist-tagline": "Open-source, nonprofit activism platform."
+      },
+      "footer-flex-col": {
+        "activist-tagline": "Open-source, nonprofit activism platform."
 
+      }
+    },
+    "grid": {
+      "grid-github-shields": {
+        "visit": "Visit us on"
+      },
+      "grid-home-metrics": {
+        "new-organizations": "New organizations",
+        "events": "Events",
+        "act-events": "Act events",
+        "learn-events": "Learn events"
+      },
+      "grid-supporters": {
+        "wikimedia-de-logo-label": "Link to the website of Wikimedia Deutschland.",
+        "wikimedia-rs-logo-label": "Link to the website of Wikimedia Serbia.",
+        "impacthub-belgrade-logo-label": "Link to the website of Impact Hub Belgrade."
+      }
+    },
+    "landing": {
+      "splash": {
+        "header": "Where we start.",
+        "message": "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all. Free, open-source, privacy-focused and driven by our community.",
+        "btn-alt-text": "Request access to activist now"
+      },
+      "tech-banner": {
+        "github-header": "Open-Source APIs",
+        "github-tagline": "Trust through Transparency",
+        "github-text": "We're dedicated to working in the open to build trust with out partner organizations and fellow activists. Building the place for activism the world over takes a lot of effort, so please come join us!"
+      }
+    },
+    "sidebar": {
+      "left": {
+        "footer": {
+          "new-event": "New event",
+          "new-orga": "New organization",
+          "new-group": "New group",
+          "new-resource": "New resource",
+          "help": "Help",
+          "documentation": "Documentation",
+          "legal-support": "Legal",
+          "your-profile": "Your profile",
+          "your-events": "Your events",
+          "your-orgs": "Your organizations",
+          "notifications": "Notifications",
+          "settings": "Settings",
+          "sign-out": "Sign out"
+        }
       }
     }
   },
@@ -403,45 +509,24 @@
 
 
 
-
-
-
-
-
-
-  "learn-more": "Learn more",
-  "get-in-touch": "Get in touch",
-  "become-a-supporter": "Become a supporter",
-  "view-all-supporters": "View all supporters",
-  "landing-header": "Where we start.",
-  "landing-message": "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all. Free, open-source, privacy-focused and driven by our community.",
-  "landing-btn-alt-text": "Request access to activist now",
-  "get-active-header": "Get active",
-  "get-active-tagline": "Coordinate and collaborate",
-  "get-active-text": "Discover and join organizations and events that work towards lasting change. Support the movements that matter most to you and learn from experienced activists along the way.",
-  "get-active-modal-image-alt-text": "Mockups that show mobile organization search and web event search on a map.",
-  "get-active-btn-alt-text": "Learn more about getting involved in an activist organization",
-  "get-organized-header": "Get organized",
-  "get-organized-tagline": "Find your allies",
-  "get-organized-text": "Connect with others across organizations and movements. Host panel discussions, collect signatures, unionize your workplace, organize protests and much more.",
-  "get-organized-modal-image-alt-text": "Mockups that show mobile resource search and web event task organization.",
-  "get-organized-btn-alt-text": "Learn more about organizing an activist organization",
-  "grow-organization-header": "Grow your organization",
-  "grow-organization-tagline": "Increase your people power",
-  "grow-organization-text": "Showcase your organization's aims and structure. Automatically and securely onboard new members to easily gain and maintain momentum from one action to the next.",
-  "grow-organization-modal-image-alt-text": "Mockups that show mobile event join flow interests selection and web organization affiliates page.",
-  "grow-organization-btn-alt-text": "Learn more about growing an activist organization",
-  "activist-section-header": "About us",
-  "activist-section-tagline": "Our work and goals",
-  "activist-section-text": "We're a Berlin-based team with a growing global network of affiliates and partners. Let's create a dedicated open-source platform to take on the challenges of our time.",
-  "activist-section-btn-alt-text": "Learn more about activist",
-  "our-supporters-header": "Our supporters",
-  "our-supporters-tagline": "Community sponsors and backers",
-  "our-supporters-text": "Help us create and maintain a platform that enables people to safely engage in activism. Please consider contributing your skills, reach or money.",
-  "our-supporters-sub-text": "Sponsorship does not equal influence. activist is independent and governed by its community.",
-  "our-supporters-btn-become-alt-text": "Become a supporter of activist",
-  "our-supporters-btn-view-alt-text": "View all supporters of activist",
-  "activist-tagline": "Open-source, nonprofit activism platform.",
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   "trademark-policy": "Trademark policy",
   "privacy-policy": "Privacy policy",
   "source-code": "Source code",

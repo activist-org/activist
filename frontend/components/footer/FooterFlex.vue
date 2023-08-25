@@ -10,7 +10,7 @@
       </div>
 
       <p class="mt-3 text-light-text dark:text-dark-text">
-        {{ $t("activist-tagline") }}
+        {{ $t("components.footer.footer-flex.activist-tagline") }}
       </p>
 
       <!-- Note: Platform Links -->
