@@ -1,7 +1,6 @@
 <template>
-  <swiper
+  <swiper-container
     class="w-full h-full swiper card-style"
-    :modules="modules"
     :slides-per-view="1"
     :space-between="30"
     :loop="true"
@@ -18,28 +17,26 @@
         {{ n }}
       </p>
     </swiper-slide>
-  </swiper>
+  </swiper-container>
 </template>
 
-<script lang="ts">
-import { Navigation, Pagination } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  title: "Loop mode / Infinite loop",
-  url: import.meta.url,
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
-  setup() {
-    return {
-      modules: [Pagination, Navigation],
-    };
-  },
-});
+<script setup lang="ts">
+import { register } from "swiper/element/bundle";
+register();
 </script>
+
+<style>
+swiper-container::part(button-prev),
+swiper-container::part(button-next) {
+  @apply focus-brand text-light-cta-orange hover:text-light-cta-orange-hover dark:text-dark-cta-orange dark:hover:text-dark-cta-orange-hover;
+}
+
+swiper-container::part(bullet-active) {
+  @apply focus-brand bg-light-cta-orange dark:bg-dark-cta-orange;
+}
+
+swiper-container::part(bullet) {
+  @apply focus-brand hover:bg-light-cta-orange-hover dark:hover:bg-dark-cta-orange-hover;
+}
+
+</style>
