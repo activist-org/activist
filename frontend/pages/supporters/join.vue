@@ -3,82 +3,77 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.supporters.join.title") }}</Title>
     </Head>
     <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
-      <h1 class="font-bold responsive-h1">Become a supporter</h1>
+      <h1 class="font-bold responsive-h1">{{ $t("pages.supporters.join.title") }}</h1>
       <p>
-        activist needs support from our community in countless ways. The
-        following details how organizations and individuals can help the team
-        develop the platform to empower activists to have as much impact as
-        possible. A full list of activist's current supporters can be found
+        {{ $t("pages.supporters.join.paragraph-1-pt1") }}
         <NuxtLink :to="localePath('/supporters')" class="focus-brand link-text"
-          >here</NuxtLink
+          >{{ $t("pages.supporters.join.paragraph-1-pt1") }}</NuxtLink
         >.
       </p>
-      <h2 class="font-bold responsive-h4">Contribute on GitHub</h2>
+      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-1") }}</h2>
       <p>
-        Visit the
+        {{ $t("pages.supporters.join.paragraph-2-pt1") }}
         <a
           href="https://www.wikimedia.de/unlock"
           class="focus-brand link-text"
           target="_blank"
-          >source code on GitHub
+          >{{ $t("pages.supporters.join.paragraph-2-pt2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        to get involved!
+        {{ $t("pages.supporters.join.paragraph-2-pt3") }}
       </p>
-      <h2 class="font-bold responsive-h4">Sponsor activist's development</h2>
+      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-2") }}</h2>
       <p>
-        Visit our
+        {{ $t("pages.supporters.join.paragraph-3-pt1") }}
         <a href="" class="focus-brand link-text" target="_blank"
-          >page on elinor
+          >{{ $t("pages.supporters.join.paragraph-3-pt2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        to donate today. Thank you for your support!
+        {{ $t("pages.supporters.join.paragraph-3-pt3") }}
       </p>
-      <h2 class="font-bold responsive-h4">Share activist in your network</h2>
+      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-3") }}</h2>
       <p>
-        Please contact the team afterwards via our
+        {{ $t("pages.supporters.join.paragraph-4-pt1") }}
         <NuxtLink
           :to="localePath('/help/contact')"
           class="focus-brand link-text"
-          >contact page</NuxtLink
+          >{{ $t("pages.supporters.join.paragraph-4-pt2") }}</NuxtLink
         >
-        so that we're aware and can help spread the word!
+        {{ $t("pages.supporters.join.paragraph-4-pt3") }}
       </p>
-      <h2 class="font-bold responsive-h4">Help activist with your skills</h2>
+      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-4") }}</h2>
       <p>
-        Be it artistic contributions or legal consulting, we'd love to discuss
-        how we could work together. We'd be happy to give credit in the
-        Contributors section of our
+        {{ $t("pages.supporters.join.paragraph-5-pt1") }}
         <NuxtLink :to="localePath('/supporters')" class="focus-brand link-text"
-          >supporters page</NuxtLink
+          >{{ $t("pages.supporters.join.paragraph-5-pt2") }}</NuxtLink
         >.
       </p>
-      <h2 class="font-bold responsive-h4">Localization</h2>
+      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-5") }}</h2>
       <p>
-        Visit our
+        {{ $t("pages.supporters.join.paragraph-6-pt1") }}
         <a
           href="https://explore.transifex.com/activist-org/activist"
           class="focus-brand link-text"
           target="_blank"
-          >Transifex
+          >{{ $t("pages.supporters.join.paragraph-6-pt2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        page to help today.
+        {{ $t("pages.supporters.join.paragraph-6-pt3") }}
       </p>
     </div>
   </div>
