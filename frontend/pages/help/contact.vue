@@ -3,7 +3,7 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.help.contact.title") }}</Title>
     </Head>
     <div
       class="container w-10/12 mx-auto md:w-full md:max-w-2xl lg:max-w-3xl xl:max-w-4xl"
@@ -14,48 +14,44 @@
       >
         <div class="flex flex-col p-4 space-y-4 md:w-1/2 lg:space-y-6">
           <h1 class="text-center md:text-left responsive-h2">
-            We'd love to hear from you!
+            {{ $t("pages.help.contact.page-title") }}
           </h1>
           <p>
-            Thanks for your interest in connecting with the activist.org team.
-            Please consider joining the
+            {{ $t("pages.help.contact.paragraph-1-pt1") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
             >
-              public Matrix chat rooms
+              {{ $t("pages.help.contact.paragraph-1-pt2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            for simple inquiries and suggestions. The community including the
-            development team would be happy to help! Feature requests should
-            also be sent via our open-source codebase
+            {{ $t("pages.help.contact.paragraph-1-pt3") }}
             <a
               href="https://github.com/activist-org/activist"
               class="items-center focus-brand link-text"
             >
-              on GitHub
+              {{ $t("pages.help.contact.paragraph-1-pt4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            — go to <strong>Issues</strong> and select
-            <strong>New issue</strong> to get started.
+            — {{ $t("pages.help.contact.paragraph-1-pt5") }} <strong>{{ $t("pages.help.contact.paragraph-1-pt6") }}</strong> {{ $t("pages.help.contact.paragraph-1-pt7") }}
+            <strong>{{ $t("pages.help.contact.paragraph-1-pt8") }}</strong> {{ $t("pages.help.contact.paragraph-1-pt9") }}
           </p>
           <p>
-            For other inquiries, please use the contact form on this page. In
-            using this form we ask that you respect our
+            {{ $t("pages.help.contact.paragraph-2-pt1") }}
             <a
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              community code of conduct
+              {{ $t("pages.help.contact.paragraph-2-pt2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -74,7 +70,7 @@
                   : 'text-light-text dark:text-dark-text'
               "
               for="name"
-              >Name <span v-if="!nameValidated">cannot be empty.</span></label
+              >{{ $t("pages.help.contact.label-name") }} <span v-if="!nameValidated">{{ $t("pages.help.contact.error-empty") }}</span></label
             >
 
             <input
@@ -85,7 +81,7 @@
                   ? 'outline-red-500 outline outline-2'
                   : 'outline-none focus:outline-none'
               "
-              placeholder="Your name"
+              :placeholder="$t('pages.help.contact.placeholder-name')"
               class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               autocomplete="off"
               spellcheck="false"
@@ -99,9 +95,9 @@
                   : 'text-light-text dark:text-dark-text'
               "
               for="email"
-              >Email
+              >{{ $t("pages.help.contact.label-email") }}
               <span v-if="!emailValidated"
-                >must be valid (example@mail.com).</span
+                >{{ $t("pages.help.contact.valid") }} (example@mail.com).</span
               ></label
             >
 
@@ -127,7 +123,7 @@
                   : 'text-light-text dark:text-dark-text'
               "
               for="message"
-              >Message
+              >{{ $t("pages.help.contact.label-message") }}
               <span v-if="!messageValidated">cannot be empty.</span></label
             >
 
@@ -140,7 +136,7 @@
                   : 'outline-none focus:outline-none'
               "
               rows="6"
-              placeholder="Hey activist team..."
+              :placeholder="$t('pages.help.contact.placeholder-message')"
               class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               autocomplete="off"
               spellcheck="false"
@@ -157,7 +153,7 @@
               "
               :disabled="buttonDisabled"
             >
-              Send
+              {{ $t("pages.help.contact.send") }}
             </button>
           </form>
         </div>
@@ -167,11 +163,10 @@
         class="flex flex-col items-center justify-center w-10/12 py-8 mx-auto text-center space-y-6 sm:max-w-sm lg:max-w-md xl:max-w-xl md:py-16 md:space-y-12"
       >
         <h1 class="text-2xl font-semibold md:text-3xl lg:text-4xl">
-          Thank you for contacting the activist team!
+          {{ $t("pages.help.contact.thanks-1") }}
         </h1>
         <p>
-          We appreciate you taking the time to reach out. We'll do our best to
-          get back to you as quickly as possible. Thank you for your patience!
+          {{ $t("pages.help.contact.thanks-2") }}
         </p>
         <BtnLabeled :cta="false" label="Return home" linkTo="/" fontSize="lg" />
       </div>
@@ -180,7 +175,6 @@
 </template>
 
 <script setup lang="ts">
-const title = ref("Contact");
 const name = ref("");
 const email = ref("");
 const message = ref("");

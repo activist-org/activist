@@ -3,7 +3,7 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.help.faq.title") }}</Title>
     </Head>
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
@@ -37,7 +37,7 @@
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <h1 class="pb-2 font-bold responsive-h1">
-            Frequently Asked Questions
+            {{ $t("pages.help.faq.page-title") }}
           </h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
@@ -46,13 +46,13 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              Please join our community in the
+              {{ $t("pages.help.faq.subtitle-1") }}
               <a
                 href="https://matrix.to/#/#activist_community:matrix.org"
                 class="items-center focus-brand link-text"
                 target="_blank"
               >
-                public Matrix chat rooms
+                {{ $t("pages.help.faq.subtitle-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
@@ -63,55 +63,37 @@
             </p>
           </div>
           <p class="font-bold responsive-h4">
-            Q: What does the activist "a" mean?
+            {{ $t("pages.help.faq.question-1") }}
           </p>
           <p class="sm:text-lg">
-            The center of the letter represents an arrow that points left-center
-            from the top. This symbolizes our community and direction: that we
-            want to work with the left and center of the political spectrum and
-            value a democratic movement of power down to the people. Other
-            meanings are welcome :D
+            {{ $t("pages.help.faq.answer-1") }}
           </p>
           <p class="font-bold responsive-h4">
-            Q: How does activist plan to prevent abuse?
+            {{ $t("pages.help.faq.question-2") }}
           </p>
           <p class="sm:text-lg">
-            The big focus of activist is organizations. We will start with a
-            select few organizations based in Berlin where the core team is
-            located, with further organizations being added through applications
-            that need approval from the community. Users themselves will have a
-            limited scope of interaction if they're not in an organization. When
-            we get to a point where public discussions are happening, a user
-            will only be able to participate if they're a member of an
-            organization.
+            {{ $t("pages.help.faq.answer-2") }}
           </p>
-          <p class="font-bold responsive-h4">Q: What about privacy?</p>
+          <p class="font-bold responsive-h4">{{ $t("pages.help.faq.question-3") }}</p>
           <p class="sm:text-lg">
-            Thank you for asking! Privacy is a major concern for the team as we
-            understand that activism can be very dangerous. Working in the open
-            allows our code to be checked for vulnerabilities, and we welcome
-            feedback in this regard. Between functionality and privacy we will
-            always choose the latter. This means that some features of activist
-            will take longer to make sure that they're created in a way that
-            keeps people safe.
+            {{ $t("pages.help.faq.answer-3") }}
           </p>
           <p class="font-bold responsive-h4">
-            Q: What's the best way to get in touch?
+            {{ $t("pages.help.faq.question-4") }}
           </p>
           <p class="sm:text-lg">
-            activist uses Matrix for communications. You're welcome to
+            {{ $t("pages.help.faq.answer-4-pt1") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="focus-brand link-text"
-              >join us in our public chat rooms
+              >{{ $t("pages.help.faq.answer-4-pt2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            to share ideas, ask questions, find ways to help the platform grow
-            or to just say hi :)
+            t{{ $t("pages.help.faq.answer-4-pt3") }}
           </p>
         </div>
         <div class="flex justify-end pr-32">
