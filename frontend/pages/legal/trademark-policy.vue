@@ -3,7 +3,7 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.legal.trademark-policy.title") }}</Title>
     </Head>
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
@@ -40,148 +40,105 @@
           <p
             class="responsive-h4 text-light-special-text dark:text-dark-special-text"
           >
-            Last updated May 1st, 2023
+            {{ $t("pages.legal.trademark-policy.last-updated") }}
           </p>
           <p>
-            The activist name and logos are trademarks of activist.org, soon to
-            be incorporated as activist gGmbH. As such, their use is restricted
-            and protected by intellectual property law. While the software we
-            create is available under a free and open source software license,
-            the copyright license does not include an implied right or license
-            to use our trademarks.
+            {{ $t("pages.legal.trademark-policy.paragraph-1") }}
           </p>
           <p>
-            The role of trademarks is to prevent the exploitation of the good
-            name and reputation of activist.org by other people and
-            organizations, and to provide assurance about the quality of the
-            products and services associated with it.
+            {{ $t("pages.legal.trademark-policy.paragraph-2") }}
           </p>
           <p>
-            To use our trademarks beyond what is considered "fair" or
-            "nominative" use, you must follow these guidelines. By making use of
-            our trademarks, you agree to abide by the following terms and
-            conditions.
+            {{ $t("pages.legal.trademark-policy.paragraph-3") }}
           </p>
           <p>
-            You agree to defend and indemnify activist.org from and against any
-            and all claims and losses brought by a third party in connection
-            with your use of the activist.org trademarks.
+            {{ $t("pages.legal.trademark-policy.paragraph-4") }}
           </p>
           <p>
-            To request the use of the activist name and logos in a way not
-            covered in these guidelines, or to report violations, please contact
-            us at
+            {{ $t("pages.legal.trademark-policy.paragraph-5-pt1") }}
             <a href="mailto:team@activist.org" class="focus-brand link-text"
               >team@activist.org</a
-            >. In the event that we do not approve such use of the activist name
-            and logos within fourteen (14) business days, your request shall be
-            deemed denied.
+            >. {{ $t("pages.legal.trademark-policy.paragraph-5-pt2") }}
           </p>
-          <h2 class="font-bold responsive-h3">General guidelines</h2>
+          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.trademark-policy.subtitle-1") }}</h2>
           <ul class="ml-6 list-disc">
             <li>
-              Only use the activist marks to accurately identify those goods or
-              services that are built by the activist.org organization.
+              {{ $t("pages.legal.trademark-policy.list1-item1") }}
             </li>
             <li>
-              Do not use the activist marks in any way that could mistakenly
-              imply that activist.org has reviewed, approved, or guaranteed your
-              goods or services.
+              {{ $t("pages.legal.trademark-policy.list1-item2") }}
             </li>
             <li>
-              Do not use or register, in whole or in part, the activist marks as
-              part of your own or any other trademark, service mark, domain
-              name, company name, trade name, product name, or service name.
+              {{ $t("pages.legal.trademark-policy.list1-item3") }}
             </li>
             <li>
-              Do not use the activist marks in a manner that disparages or
-              defames the marks, activist.org, or other products associated with
-              activist.org.
+              {{ $t("pages.legal.trademark-policy.list1-item4") }}
             </li>
             <li>
-              You may use the activist word mark in referential phrases such as
-              "for", "as found on", etc.
+              {{ $t("pages.legal.trademark-policy.list1-item5") }}
             </li>
             <li>
-              You may use the activist marks when embedding or otherwise
-              displaying user generated content published using the activist
-              software.
+              {{ $t("pages.legal.trademark-policy.list1-item6") }}
             </li>
             <li>
-              Do not change or modify the activist marks aside from color
-              adjustments.
+              {{ $t("pages.legal.trademark-policy.list1-item7") }}
             </li>
             <li>
-              Any all use of the activist marks, and any goodwill accrued as a
-              result of that use, belongs entirely to, and shall inure for the
-              benefit of, activist.org.
+              {{ $t("pages.legal.trademark-policy.list1-item8") }}
             </li>
           </ul>
           <h2 class="font-bold responsive-h3">
-            Open source project guidelines
+            {{ $t("pages.legal.trademark-policy.subtitle-2") }}
           </h2>
           <p>
-            If you choose to build on or modify activist's open-source code,
-            beyond modifications limited to switching on or off features already
-            included in the software, minor tweaks in visual appearance,
-            translations into other languages, and bug fixes:
+            {{ $t("pages.legal.trademark-policy.paragraph-6") }}
           </p>
           <ul class="ml-6 list-disc">
             <li>
-              You must choose your own branding, logos, and trademarks that
-              denote your unique identity so as to clearly signal to users that
-              there is no affiliation with or endorsement by activist.org.
+              {{ $t("pages.legal.trademark-policy.list2-item1") }}
             </li>
             <li>
-              You may use word marks, but not our logos, in truthful statements
-              that describe the relationship between your software and ours, for
-              example "this software is derived from the source code of
-              activist.org".
+              {{ $t("pages.legal.trademark-policy.list2-item2") }}
             </li>
           </ul>
-          <h2 class="font-bold responsive-h3">Social media guidelines</h2>
+          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.trademark-policy.subtitle-3") }}</h2>
           <ul class="ml-6 list-disc">
             <li>
-              In addition, activist logos cannot be used in a way that might
-              suggest affiliation with or endorsement by activist.
+              {{ $t("pages.legal.trademark-policy.list3-item1") }}
             </li>
           </ul>
-          <h2 class="font-bold responsive-h3">Contact Us</h2>
+          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.trademark-policy.subtitle-4") }}</h2>
           <p>
-            Please contact us if you have any questions, comments, or concerns
-            about this Trademark Policy. We welcome feedback from our users and
-            are always looking for ways to improve our platform and better serve
-            our community.
+            {{ $t("pages.legal.trademark-policy.paragraph-7") }}
           </p>
           <p class="pb-2 lg:pb-4">
-            Interested in helping? Please visit us
+            {{ $t("pages.legal.trademark-policy.paragraph-8-pt1") }}
             <a
               href="https://github.com/orgs/activist-org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              on GitHub
+              {{ $t("pages.legal.trademark-policy.paragraph-8-pt2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            to contribute code, translations or suggestions to the project.
-            You're also welcome to join us in our
+            {{ $t("pages.legal.trademark-policy.paragraph-8-pt3") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              public Matrix chat rooms
+              {{ $t("pages.legal.trademark-policy.paragraph-8-pt4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            to share ideas, ask questions or just say hi :)
+            {{ $t("pages.legal.trademark-policy.paragraph-8-pt5") }}
           </p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
@@ -215,5 +172,4 @@
 </template>
 
 <script setup lang="ts">
-const title = ref("Trademark");
 </script>
