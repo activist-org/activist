@@ -90,7 +90,7 @@ const platformLinks = [
 
 const legalLinks = [
   {
-    name: "trademark-policy",
+    name: "components.footer.footer.trademark-policy",
     url: "/legal/trademark-policy",
   },
   {

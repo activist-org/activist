@@ -258,7 +258,7 @@ const LegalIndexButtons: SidebarLeftSelectorType[] = [
     active: true,
   },
   {
-    btnText: "sidebar.legal-index.trademark-policy",
+    btnText: "components.sidebar.left.index.trademark-policy",
     btnURL: "/legal/trademark-policy",
     iconURL: "bi:people",
     selected: false,

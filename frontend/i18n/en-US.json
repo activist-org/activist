@@ -483,6 +483,9 @@
     },
     "sidebar": {
       "left": {
+        "index": {
+          "trademark-policy": "Trademark policy"
+        },
         "footer": {
           "new-event": "New event",
           "new-orga": "New organization",
@@ -527,7 +530,6 @@
   
   
   
-  "trademark-policy": "Trademark policy",
   "privacy-policy": "Privacy policy",
   "source-code": "Source code",
   "roadmap": "Roadmap",
@@ -578,11 +580,5 @@
       "get-organized": "Get Organized",
       "grow-organization": "Grow Organization"
     }
-  },
-  "wikimedia-de-logo-label": "Link to the website of Wikimedia Deutschland.",
-  "wikimedia-rs-logo-label": "Link to the website of Wikimedia Serbia.",
-  "impacthub-belgrade-logo-label": "Link to the website of Impact Hub Belgrade.",
-  "landing-page-github-header": "Open-Source APIs",
-  "landing-page-github-tagline": "Trust through Transparency",
-  "landing-page-github-text": "We're dedicated to working in the open to build trust with out partner organizations and fellow activists. Building the place for activism the world over takes a lot of effort, so please come join us!"
+  }
 }
