@@ -6,7 +6,7 @@ services:
       context: ./backend
     container_name: django_backend
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
       - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_USER=${DATABASE_USER}
@@ -25,7 +25,7 @@ services:
       - ./frontend:/app
       - /app/node_modules
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
       - "24678:24678"
 
   db:
@@ -36,4 +36,4 @@ services:
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
