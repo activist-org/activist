@@ -171,18 +171,9 @@
         "title": "Events Home",
         "subtitle": "Upcoming events near you"
       },
-      "[id]": {
-        "index": {
-
-        },
-        "about": {
-
-        },
+      "id": {
         "resources": {
           "subtitle": "This is a resources page for"
-        },
-        "settings": {
-
         },
         "team": {
           "subtitle": "This is a team page for"
