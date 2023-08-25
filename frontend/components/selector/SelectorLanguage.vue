@@ -42,8 +42,8 @@
         <ul class="px-2 py-2">
           <NuxtLink
             v-for="locale in availableLocales"
-            :key="locale.code"
-            :to="switchLocalePath(locale.code)"
+            :key="getLocaleCode(locale)"
+            :to="switchLocalePath(getLocaleCode(locale))"
           >
             <MenuItem v-slot="{ active }">
               <li
@@ -54,7 +54,7 @@
                   'group flex w-full [word-spacing:0.5em] items-center rounded-md pl-4 pr-2 py-2 text-sm',
                 ]"
               >
-                {{ locale.name }}
+                {{ getLocaleCode(locale) }}
               </li>
             </MenuItem>
           </NuxtLink>
@@ -66,13 +66,21 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
 const props = defineProps({
   location: String,
 });
 
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
+
+const localesValues: Array<string | LocaleObject> = locales.value;
+  
 const availableLocales = computed(() => {
-  return locales.value.filter((i) => i.code !== locale.value);
+  return localesValues.filter((i) => getLocaleCode(i) !== locale.value);
 });
+
+function getLocaleCode(locale: string | LocaleObject) {
+  return typeof locale === "string" ? locale : locale.code;
+}
 </script>
