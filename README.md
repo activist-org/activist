@@ -131,10 +131,11 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 git clone https://github.com/activist-org/activist.git
 ```
 
-4. Enter the created directory and start your docker images with the following:
+4. Enter the created directory, create `.env` file and start your docker images with the following:
 
 ```bash
 cd activist
+cp .env.example .env
 docker-compose up
 # Or with new dependencies:
 # docker-compose up --build
