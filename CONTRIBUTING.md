@@ -119,7 +119,7 @@ VS Code
 git clone https://github.com/activist-org/activist.git
 ```
 
-4. Enter the created directory, create `.env` file and start your docker images with the following:
+4. Enter the created directory, create a `.env` file and start your docker images with the following:
 
 ```bash
 cd activist
