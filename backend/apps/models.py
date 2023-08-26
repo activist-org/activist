@@ -87,6 +87,9 @@ class Event(models.Model):
     start_time = models.DateField(null=True)
     end_time = models.DateField(null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Role(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
@@ -403,6 +406,9 @@ class OrganizationMember(models.Model):
     is_admin: models.BooleanField(default=False)
     is_comms: models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.index
+
 
 class OrganizationTopic(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
@@ -410,12 +416,18 @@ class OrganizationTopic(models.Model):
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.index
+
 
 class OrganizationEvent(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     event_id: models.ForeignKey(Event, on_delete=models.CASCADE)
+        
+    def __str__(self):
+        return self.index
 
 
 class OrganizationTask(models.Model):
@@ -423,3 +435,6 @@ class OrganizationTask(models.Model):
     index = models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id: models.ForeignKey(Task, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.index
