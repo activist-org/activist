@@ -4,7 +4,6 @@
       <Title>{{ title }}</Title>
     </Head>
     <LandingSplash />
-    <LandingCommunityBanner />
     <div
       class="flex flex-col mt-4 mb-2 sm:mb-4 sm:mt-10 xl:mt-16 xl:mb-8 2xl:mt-24 2xl:mb-12"
     >
