@@ -1,3 +1,4 @@
+import uuid
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
@@ -15,6 +16,7 @@ Considerations:
 
 
 class Support(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     supporter_type = models.IntegerField(null=True)
     supporter_entity = models.IntegerField(null=True)
@@ -23,6 +25,7 @@ class Support(models.Model):
 
 # New user model
 class User(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     password = models.CharField(max_length=255)
     location = models.CharField(max_length=30, null=True)
     description = models.TextField(max_length=500, null=True)
@@ -45,6 +48,7 @@ class User(AbstractUser):
 
 
 class Organization(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255)
     application_id: models.IntegerField(null=True)
@@ -62,6 +66,7 @@ class Organization(models.Model):
 
 
 class Event(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     creation_date = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -80,6 +85,7 @@ class Event(models.Model):
 
 
 class Role(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
     is_custom = models.BooleanField(null=True)
     description = models.TextField(max_length=500)
@@ -98,6 +104,7 @@ class Role(models.Model):
 
 
 class Topic(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
     active = models.BooleanField(null=True)
     description = models.TextField(max_length=500)
@@ -115,6 +122,7 @@ class Topic(models.Model):
 
 
 class Resource(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
     topics = ArrayField(models.CharField(max_length=255))
     location = models.CharField(max_length=255)
@@ -135,6 +143,7 @@ class Resource(models.Model):
 
 
 class Format(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     # Timestamps
@@ -151,6 +160,7 @@ class Format(models.Model):
 
 
 class Group(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
     creation_date = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -169,6 +179,7 @@ class Group(models.Model):
 
 
 class Task(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
     creation_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(max_length=500)
@@ -186,6 +197,7 @@ class Task(models.Model):
 
 
 class SupportEntityTypes(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
     type = models.ForeignKey(Support, on_delete=models.CASCADE)
 
@@ -198,6 +210,7 @@ class SupportEntityTypes(models.Model):
 
 
 class UserResource(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
@@ -207,6 +220,7 @@ class UserResource(models.Model):
 
 
 class UserTopic(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
@@ -216,6 +230,7 @@ class UserTopic(models.Model):
 
 
 class UserTask(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
@@ -225,6 +240,7 @@ class UserTask(models.Model):
 
 
 class GroupMember(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -234,6 +250,7 @@ class GroupMember(models.Model):
 
 
 class GroupResource(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
@@ -243,6 +260,7 @@ class GroupResource(models.Model):
 
 
 class GroupTopic(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
@@ -252,6 +270,7 @@ class GroupTopic(models.Model):
 
 
 class GroupEvent(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
@@ -261,6 +280,7 @@ class GroupEvent(models.Model):
 
 
 class EventResource(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
@@ -270,6 +290,7 @@ class EventResource(models.Model):
 
 
 class EventRole(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
@@ -279,6 +300,7 @@ class EventRole(models.Model):
 
 
 class EventTopic(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
@@ -288,6 +310,7 @@ class EventTopic(models.Model):
 
 
 class EventAttendee(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -296,6 +319,7 @@ class EventAttendee(models.Model):
 
 
 class EventAttendeeStatus(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     status = models.IntegerField(null=True)
     status_name = models.CharField(max_length=255)
 
@@ -304,6 +328,7 @@ class EventAttendeeStatus(models.Model):
 
 
 class EventTask(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
@@ -313,6 +338,7 @@ class EventTask(models.Model):
 
 
 class TopicFormat(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index: models.IntegerField(null=True)
     topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
     format_id: models.ForeignKey(Format, on_delete=models.CASCADE)
@@ -322,6 +348,7 @@ class TopicFormat(models.Model):
 
 
 class ResourceTopic(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index: models.IntegerField(null=True)
     resource_id: models.ForeignKey(Resource, on_delete=models.CASCADE)
     topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
@@ -331,6 +358,7 @@ class ResourceTopic(models.Model):
 
 
 class OrganizationApplicationStatus(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     status: models.IntegerField(null=True)
     status_name: models.CharField(max_length=255)
 
@@ -339,6 +367,7 @@ class OrganizationApplicationStatus(models.Model):
 
 
 class OrganizationApplication(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     creation_date: models.DateTimeField(auto_now_add=True)
     status = models.ForeignKey(OrganizationApplicationStatus, on_delete=models.CASCADE)
     status_updated: models.DateTimeField(auto_now=True)
@@ -351,6 +380,7 @@ class OrganizationApplication(models.Model):
 
 
 class OrganizationResource(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index: models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
 
@@ -359,6 +389,7 @@ class OrganizationResource(models.Model):
 
 
 class OrganizationMember(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index: models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     user_id: models.ForeignKey(User, on_delete=models.CASCADE)
@@ -368,18 +399,21 @@ class OrganizationMember(models.Model):
 
 
 class OrganizationTopic(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index: models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class OrganizationEvent(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     event_id: models.ForeignKey(Event, on_delete=models.CASCADE)
 
 
 class OrganizationTask(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     index = models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id: models.ForeignKey(Task, on_delete=models.CASCADE)
