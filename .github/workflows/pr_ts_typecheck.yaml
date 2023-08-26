@@ -27,6 +27,11 @@ jobs:
         with:
           cmd: install # will run `yarn install` command
 
+      - name: Build Production Bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build:prod
+
       - name: Run Type Check
         uses: borales/actions-yarn@v4
         with:
