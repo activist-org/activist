@@ -37,8 +37,9 @@ class User(AbstractUser):
     social_accounts = ArrayField(models.CharField(max_length=255), null=True)
     total_flags = models.IntegerField(default=0)
     
-    deletion_date = models.DateField(null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
+    deletion_date = models.DateField(null=True)
+    
 
     class Meta:
         verbose_name = "user"
