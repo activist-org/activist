@@ -246,13 +246,14 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import type { Ref } from "vue";
 
 const route = useRoute();
 const onHomePage = route.path.includes("home");
 
-const disclosure = ref([]);
+const disclosure = ref<((ref?: Ref | HTMLElement) => void)[]>([]);
 const closeOtherMenus = (id: number) => {
-  disclosure.value.filter((d, i) => i !== id).forEach((c) => c());
+  disclosure.value.filter((d, i) => i !== id).forEach((close) => close());
 };
 const sidebar = useSidebar();
 </script>
