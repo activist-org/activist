@@ -38,5 +38,4 @@ swiper-container::part(bullet-active) {
 swiper-container::part(bullet) {
   @apply focus-brand hover:bg-light-cta-orange-hover dark:hover:bg-dark-cta-orange-hover;
 }
-
 </style>
