@@ -1,0 +1,23 @@
+name: pr_ts_typecheck
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - opened
+  workflow_run:
+    workflows: [pr_maintainer_checklist]
+    types:
+      - completed
+
+jobs:
+  run_pr_typecheck:
+    runs-on: ubuntu-latest
+    name: Run PR TypeScript Type Check
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Type Check
+        run: |
+          yarn nuxi typecheck
