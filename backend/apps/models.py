@@ -36,6 +36,7 @@ class User(AbstractUser):
     )
     social_accounts = ArrayField(models.CharField(max_length=255), null=True)
     total_flags = models.IntegerField(default=0)
+    
     deletion_date = models.DateField(null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
@@ -55,6 +56,7 @@ class Organization(models.Model):
     social_accounts: ArrayField(models.CharField(max_length=255))
     total_flags: models.IntegerField(null=True)
     created_by: models.IntegerField(null=True)
+
     creation_date: models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -67,12 +69,9 @@ class Organization(models.Model):
 
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
-    creation_date = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255)
-    start_time = models.DateField(null=True)
-    end_time = models.DateField(null=True)
     type = models.CharField(max_length=255)
     format = models.CharField(max_length=255)
     online_location_link = models.CharField(max_length=255)
@@ -81,7 +80,11 @@ class Event(models.Model):
     offline_location_long = models.FloatField(null=True)
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
+    
+    creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
+    start_time = models.DateField(null=True)
+    end_time = models.DateField(null=True)
 
 
 class Role(models.Model):
@@ -90,7 +93,6 @@ class Role(models.Model):
     is_custom = models.BooleanField(null=True)
     description = models.TextField(max_length=500)
 
-    #timestamps
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateField(null=True)
@@ -108,7 +110,7 @@ class Topic(models.Model):
     name = models.CharField(max_length=255)
     active = models.BooleanField(null=True)
     description = models.TextField(max_length=500)
-    #timestamps
+
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateField(null=True)
@@ -129,7 +131,7 @@ class Resource(models.Model):
     url = models.CharField(max_length=255)
     total_flags = models.IntegerField(null=True)
     description = models.TextField(max_length=500)
-    # Timestamps
+    
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deletion_date = models.DateField(null=True)
@@ -146,7 +148,7 @@ class Format(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    # Timestamps
+    
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateField(null=True)
@@ -162,12 +164,13 @@ class Format(models.Model):
 class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
-    creation_date = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(max_length=500)
     tagline = models.CharField(max_length=255)
     total_flags = models.IntegerField(null=True)
     social_accounts = ArrayField(models.CharField(max_length=255))
+
+    creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
     class Meta:
@@ -181,10 +184,11 @@ class Group(models.Model):
 class Task(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     name = models.CharField(max_length=255)
-    creation_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(max_length=500)
     tags = ArrayField(models.CharField(max_length=255))
     location = models.CharField(max_length=255)
+
+    creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
     class Meta:
@@ -368,12 +372,13 @@ class OrganizationApplicationStatus(models.Model):
 
 class OrganizationApplication(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
-    creation_date: models.DateTimeField(auto_now_add=True)
     status = models.ForeignKey(OrganizationApplicationStatus, on_delete=models.CASCADE)
-    status_updated: models.DateTimeField(auto_now=True)
     org_id = models.IntegerField(null=True)
     orgs_in_favor: ArrayField(models.IntegerField)
     orgs_against: ArrayField(models.IntegerField)
+
+    creation_date: models.DateTimeField(auto_now_add=True)
+    status_updated: models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.creation_date
