@@ -23,6 +23,9 @@ class Support(models.Model):
     supported_type = models.IntegerField(null=True)
     supported_entity = models.IntegerField(null=True)
 
+    def __str__(self):
+        return self.index
+
 # New user model
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
@@ -40,7 +43,6 @@ class User(AbstractUser):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
     
-
     class Meta:
         verbose_name = "user"
         verbose_name_plural = "2. Users"
