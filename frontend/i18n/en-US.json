@@ -409,7 +409,9 @@
       "card-danger-zone": {
         "title": "Danger Zone",
         "label-username": "Your username",
-        "label-password": "Your password"
+        "placeholder-username": "Enter your username",
+        "label-password": "Your password",
+        "placeholder-password": "Enter your password"
       },
       "card-get-involved": {
         "title": "Get involved",

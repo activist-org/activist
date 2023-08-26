@@ -7,7 +7,7 @@
     >
       <Icon name="cib:github" size="2em" />
       <div class="pb-1 ml-4 place-self-center">
-        <div class="font-semibold text-xs leading-4 ml-0.5">Visit us on</div>
+        <div class="font-semibold text-xs leading-4 ml-0.5">{{ $t("components.grid.grid-github-shields.visit") }}</div>
         <div class="text-2xl font-semibold leading-4">GitHub</div>
       </div>
     </ImageGithubShield>

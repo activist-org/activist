@@ -1,7 +1,7 @@
 <template>
   <div class="px-6 py-5 card-style">
     <div class="relative flex items-center gap-5">
-      <h3 class="text-left responsive-h3 font-display">Get involved</h3>
+      <h3 class="text-left responsive-h3 font-display">{{ $t("components.card.card-get-involved.title") }}</h3>
       <Icon name="bi:pencil-square" size="1.2em" />
       <div class="absolute right-0 flex space-x-2">
         <BtnLabeled
@@ -25,14 +25,14 @@
     <div v-if="organization" class="mt-4">
       <div v-if="organization.workingGroups">
         <p>
-          The following are working groups within
+          {{ $t("components.card.card-get-involved.working-groups") }}
           {{ organization.name }}:
         </p>
         <CardFeed :feedItemURLs="organization.workingGroups" />
       </div>
       <div v-else>
         <p>
-          Click "Join organization" above to get involved in
+          {{ $t("components.card.card-get-involved.click-join") }}
           {{ organization.name }}.
         </p>
       </div>
@@ -42,8 +42,7 @@
         {{ event.getInvolvedDescription }}
       </p>
       <p>
-        Please read the legal disclaimer below for more information on your
-        rights during this event.
+        {{ $t("components.card.card-get-involved.legal-disclaimer") }}
       </p>
       <CardLegalDisclaimer />
       <div class="pt-2">
