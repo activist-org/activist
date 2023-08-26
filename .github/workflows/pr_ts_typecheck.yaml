@@ -22,6 +22,11 @@ jobs:
         with:
           node-version: 16.x
 
+      - name: Yarn Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+
       - name: Run Type Check
         uses: borales/actions-yarn@v4
         with:
