@@ -5,7 +5,7 @@
   >
     <div class="flex items-center gap-3">
       <Icon name="IconLegal" class="fill-light-text dark:fill-dark-text" />
-      <p>Legal disclaimer</p>
+      <p>{{ $t("components.card.card-legal-disclaimer.title") }}</p>
       <Icon v-if="isOpen" name="bi:chevron-up" />
       <Icon v-else name="bi:chevron-down" />
     </div>

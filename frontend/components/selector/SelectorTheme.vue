@@ -19,7 +19,7 @@
               '!not-sr-only !ml-3': props.location === 'sideMenu',
             }"
           >
-            {{ $t("theme") }}
+            {{ $t("components.selector.selector-theme.theme") }}
           </p>
           <Icon
             name="bi:chevron-down"

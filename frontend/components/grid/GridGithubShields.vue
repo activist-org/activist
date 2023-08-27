@@ -7,14 +7,14 @@
     >
       <Icon name="cib:github" size="2em" />
       <div class="pb-1 ml-4 place-self-center">
-        <div class="font-semibold text-xs leading-4 ml-0.5">Visit us on</div>
+        <div class="font-semibold text-xs leading-4 ml-0.5">{{ $t("components.grid.grid-github-shields.visit") }}</div>
         <div class="text-2xl font-semibold leading-4">GitHub</div>
       </div>
     </ImageGithubShield>
 
     <ImageGithubShield
       href="https://github.com/activist-org/activist/forks"
-      text="Fork"
+      :text="$t('components.grid.grid-github-shields.fork')"
       :isLoading="isLoading"
       :count="GitHubData.forks_count"
       class="fill-light-text dark:fill-dark-text"
@@ -24,7 +24,7 @@
 
     <ImageGithubShield
       href="https://github.com/activist-org/activist/stargazers"
-      text="Star"
+      :text="$t('components.grid.grid-github-shields.star')"
       :isLoading="isLoading"
       :count="GitHubData.stargazers_count"
       class="fill-light-text dark:fill-dark-text"

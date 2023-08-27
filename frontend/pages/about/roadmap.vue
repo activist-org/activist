@@ -3,7 +3,7 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.about.roadmap.title") }}</Title>
     </Head>
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
@@ -44,69 +44,66 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              See the
+              {{ $t("pages.about.roadmap.subtitle-1") }}
               <a
                 href="https://github.com/activist-org/activist"
                 class="items-center focus-brand link-text"
                 target="_blank"
               >
-                source code on GitHub
+                {{ $t("pages.about.roadmap.subtitle-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
                   style="vertical-align: baseline"
                 />
               </a>
-              to learn more
+              {{ $t("pages.about.roadmap.subtitle-3") }}
             </p>
           </div>
           <p>
-            activist.org is open-source software. Our goal is to build in as
-            transparent a manner as possible so that partner organizations and
-            our community can have as much input on the process as possible.
+            {{ $t("pages.about.roadmap.paragraph-1") }}
           </p>
           <p class="pb-2 lg:pb-4">
-            Please visit us at our
+            {{ $t("pages.about.roadmap.paragraph-2-pt1") }}
             <a
               href="https://github.com/orgs/activist-org/projects/1"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              GitHub project space
+            {{ $t("pages.about.roadmap.paragraph-2-pt2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            for a full overview of the current issues and features being worked
-            on. You're also welcome to join us in our public
+            {{ $t("pages.about.roadmap.paragraph-2-pt3") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              Matrix chat rooms
+              {{ $t("pages.about.roadmap.paragraph-2-pt4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            to share ideas, ask questions or just say hi :)
+            {{ $t("pages.about.roadmap.paragraph-2-pt5") }}
           </p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
           >
             <BtnLabeled
               :cta="true"
-              label="Suggest a feature"
+              :label="$t('components.btn.btn-labeled.sugest-a-feature')"
               linkTo="https://github.com/activist-org/activist/issues"
               fontSize="lg"
             />
             <BtnLabeled
               :cta="false"
-              label="Return home"
+              :label="$t('components.btn.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
             />
@@ -133,5 +130,4 @@
 </template>
 
 <script setup lang="ts">
-const title = ref("Roadmap");
 </script>

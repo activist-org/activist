@@ -33,8 +33,8 @@
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
             <SelectorTheme />
             <SelectorLanguage />
-            <BtnLabeled :cta="true" label="get-in-touch" linkTo="/help/contact" fontSize="sm" class="hidden lg:block" />
-            <BtnLabeled :cta="true" label="get-in-touch" linkTo="/help/contact" fontSize="xs"
+            <BtnLabeled :cta="true" label="components.btn.btn-labeled.get-in-touch" linkTo="/help/contact" fontSize="sm" class="hidden lg:block" />
+            <BtnLabeled :cta="true" label="components.btn.btn-labeled.get-in-touch" linkTo="/help/contact" fontSize="xs"
               class="hidden md:block lg:hidden" />
           </div>
         </div>
