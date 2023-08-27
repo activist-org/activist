@@ -3,7 +3,7 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.about.index.title") }}</Title>
     </Head>
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
@@ -44,96 +44,77 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              See the
+              {{ $t("pages.about.index.subtitle-1") }}
               <a
                 href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=805%3A231&t=vNWHCPdiq5EbPaO9-1"
                 class="items-center focus-brand link-text"
                 target="_blank"
               >
-                designs on Figma
+                {{ $t("pages.about.index.subtitle-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
                   style="vertical-align: baseline"
                 />
               </a>
-              to learn more
+              {{ $t("pages.about.index.subtitle-3") }}
             </p>
           </div>
           <p>
-            We're a Berlin-based team with a growing global network of
-            affiliates and partners. Our goal is to create and maintain a
-            platform that enables more people to safely engage in activism,
-            learn from experienced organizers as well as replicate proven and
-            novel strategies and tactics for social and ecological change.
+            {{ $t("pages.about.index.paragraph-1") }}
           </p>
           <p>
-            We're building a free, open-source and privacy-focused technical
-            infrastructure that can rival with the commercial campaigning tools
-            that are often inaccessible — financially and/or technically — to
-            small progressive organizations.
+            {{ $t("pages.about.index.paragraph-2") }}
           </p>
           <p>
-            We want to end their dependance on Big Tech infrastructure and put
-            tools of social action into the hands of everyone willing to work
-            towards a more equitable society. Well-executed campaign tactics
-            should not be the exception for well-funded, tech-savvy activists,
-            but a tool for all participants in social movements.
+            {{ $t("pages.about.index.paragraph-3") }}
           </p>
           <p>
-            That also means building a user experience that is easy and fun to
-            use while establishing security best-practices from the very
-            beginning. From signup to regularly organizing events. Imagine every
-            person new to activism showing up well-prepared to their first
-            meeting — guided by the knowledge and tools of veteran organizers —
-            and immediately being able to contribute a meaningful cause.
+            {{ $t("pages.about.index.paragraph-4") }}
           </p>
           <p class="pb-2 lg:pb-4">
-            Interested in helping? Please visit us
+            {{ $t("pages.about.index.paragraph-5-pt1") }}
             <a
               href="https://github.com/orgs/activist-org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              on GitHub
+              {{ $t("pages.about.index.paragraph-5-pt2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            to contribute code, translations or suggestions to the project.
-            You're also welcome to join us in our
+            {{ $t("pages.about.index.paragraph-5-pt3") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              public Matrix chat rooms
+              {{ $t("pages.about.index.paragraph-5-pt4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            to share ideas, ask questions or just say hi :) For activists
-            already involved in an organization, please use the form in the
-            <strong>Request access</strong> button below to get in contact with
-            us. We'll be in touch soon after!
+            {{ $t("pages.about.index.paragraph-5-pt5") }}
+            <strong>{{ $t("pages.about.index.paragraph-5-pt6") }}</strong> {{ $t("pages.about.index.paragraph-5-pt7") }}
           </p>
           <div
             class="grid grid-cols-1 max-w-[70%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[80%] grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 mx-auto sm:mx-0 sm:grid-cols-2 sm:grid-rows-1"
           >
             <BtnLabeled
               :cta="true"
-              label="Request access"
+              :label="$t('components.btn.btn-labeled.request-access-text')"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
               class="w-full"
             />
             <BtnLabeled
               :cta="false"
-              label="Return home"
+              :label="$t('components.btn.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
               class="w-full"
@@ -161,5 +142,4 @@
 </template>
 
 <script setup lang="ts">
-const title = ref("About");
 </script>

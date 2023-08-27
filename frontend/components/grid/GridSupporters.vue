@@ -5,17 +5,17 @@
     <LandingLogoImage
       imageName="WikimediaDE"
       imageLink="https://www.wikimedia.de"
-      :aria-label="$t('wikimedia-de-logo-label')"
+      :aria-label="$t('components.grid.grid-supporters.wikimedia-de-logo-label')"
     />
     <LandingLogoImage
       imageName="WikimediaRS"
       imageLink="https://wikimedia.rs"
-      :aria-label="$t('wikimedia-rs-logo-label')"
+      :aria-label="$t('components.grid.grid-supporters.wikimedia-rs-logo-label')"
     />
     <LandingLogoImage
       imageName="ImpactHub"
       imageLink="https://belgrade.impacthub.net"
-      :aria-label="$t('impacthub-belgrade-logo-label')"
+      :aria-label="$t('components.grid.grid-supporters.impacthub-belgrade-logo-label')"
     />
   </div>
 </template>

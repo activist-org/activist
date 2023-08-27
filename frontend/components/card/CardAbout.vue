@@ -8,7 +8,7 @@
       </div>
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
-          <h3 class="text-left responsive-h3 font-display">About</h3>
+          <h3 class="text-left responsive-h3 font-display">{{ $t("components.card.card-about.title") }}</h3>
           <Icon name="bi:pencil-square" size="1.2em" />
         </div>
         <div v-if="event" class="flex-col space-y-3">
@@ -36,7 +36,7 @@
             <button
               class="mt-2 font-semibold text-light-link-text dark:text-dark-link-text"
             >
-              Click for full text
+              {{ $t("components.card.card-about.full-text") }}
             </button>
           </div>
         </div>

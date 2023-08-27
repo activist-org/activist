@@ -22,7 +22,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          label="Offer to help"
+          :label="$t('components.btn.btn-labeled.offer-to-help')"
           fontSize="base"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
@@ -30,7 +30,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          label="Support"
+          :label="$t('components.btn.btn-labeled.support')"
           fontSize="base"
           leftIcon="IconSupport"
           iconSize="1.25em"
@@ -39,7 +39,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          label="Share event"
+          :label="$t('components.btn.btn-labeled.share-event')"
           fontSize="base"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"

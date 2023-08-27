@@ -3,12 +3,12 @@
     class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.home.title") }}</Title>
     </Head>
     <h1
       class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
-      Welcome, username 👋✊
+      {{ $t("pages.home.title-page") }}
     </h1>
     <div
       class="relative flex flex-col items-start py-4 -mt-2 lg:flex-row lg:items-center space-y-4 lg:mt-0 lg:space-y-0 lg:py-6"
@@ -16,7 +16,7 @@
       <h2
         class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
       >
-        Your topics at a glance
+      {{ $t("pages.home.subtitle") }}
       </h2>
       <TopicMarker topic="My topics dropdown" class="lg:absolute lg:right-0" />
     </div>

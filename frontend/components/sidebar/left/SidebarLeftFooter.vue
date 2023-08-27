@@ -34,7 +34,7 @@
                     sidebar.collapsedSwitch == false
                   "
                 >
-                  {{ $t("Create") }}
+                  {{ $t("components.sidebar.sidebar-left-footer.create") }}
                 </p>
               </Transition>
             </div>
@@ -55,28 +55,28 @@
             >
               <SidebarLeftSelector
                 iconURL="bi:calendar-check"
-                btnText="New event"
+                :btnText="$t('components.sidebar.sidebar-left-footer.new-event')"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="IconOrganization"
-                btnText="New organization"
+                :btnText="$t('components.sidebar.sidebar-left-footer.new-orga')"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="IconGroup"
-                btnText="New group"
+                :btnText="$t('components.sidebar.sidebar-left-footer.new-group')"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="IconResource"
-                btnText="New resource"
+                :btnText="$t('components.sidebar.sidebar-left-footer.new-resource')"
                 btnURL="/"
                 :selected="false"
                 :active="true"
@@ -106,7 +106,7 @@
                     sidebar.collapsedSwitch == false
                   "
                 >
-                  {{ $t("Info") }}
+                  {{ $t("components.sidebar.sidebar-left-footer.info") }}
                 </p>
               </Transition>
             </div>
@@ -127,21 +127,21 @@
             >
               <SidebarLeftSelector
                 iconURL="bi:question-circle"
-                btnText="Help"
+                :btnText="$t('components.sidebar.sidebar-left-footer.help')"
                 btnURL="/help"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="bi:layout-text-sidebar-reverse"
-                btnText="Documentation"
+                :btnText="$t('components.sidebar.sidebar-left-footer.documentation')"
                 btnURL="/docs"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="octicon:law"
-                btnText="Legal"
+                :btnText="$t('components.sidebar.sidebar-left-footer.legal-support')"
                 btnURL="/legal"
                 :selected="false"
                 :active="true"
@@ -193,42 +193,42 @@
             >
               <SidebarLeftSelector
                 iconURL="bi:person-circle"
-                btnText="Your profile"
+                :btnText="$t('components.sidebar.sidebar-left-footer.your-profile')"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="bi:calendar-check"
-                btnText="Your events"
+                :btnText="$t('components.sidebar.sidebar-left-footer.your-events')"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="IconOrganization"
-                btnText="Your orgs"
+                :btnText="$t('components.sidebar.sidebar-left-footer.your-orgs')"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="bi:bell"
-                btnText="Notifications"
+                :btnText="$t('components.sidebar.sidebar-left-footer.notifications')"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="bi:gear"
-                btnText="Settings"
+                :btnText="$t('components.sidebar.sidebar-left-footer.settings')"
                 btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
                 iconURL="bi:box-arrow-left"
-                btnText="Sign out"
+                :btnText="$t('components.sidebar.sidebar-left-footer.sign-out')"
                 btnURL="/"
                 :selected="false"
                 :active="true"

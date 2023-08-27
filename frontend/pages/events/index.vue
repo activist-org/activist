@@ -3,19 +3,19 @@
     class="px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.events.index.title") }} </Title>
     </Head>
     <PageBreadcrumbs class="mt-4" />
     <h1
       class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
-      Events home
+      {{ $t("pages.events.index.title") }}
     </h1>
     <flex class="relative flex items-center py-6"
       ><h2
         class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
       >
-        Upcoming events near you
+        {{ $t("pages.events.index.subtitle") }}
       </h2>
       <TopicMarker topic="My topics dropdown" class="absolute right-7" />
     </flex>
@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import { Event } from "~~/types/event";
-const title = ref("Events Home");
 
 definePageMeta({
   layout: "sidebar",
