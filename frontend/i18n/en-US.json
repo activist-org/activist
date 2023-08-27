@@ -46,12 +46,10 @@
         "paragraph-5-pt7": "button below to get in contact with us. We'll be in touch soon after!"
       },
       "activism-network": {
-        "title": "Our Network",
-        "description": "This will be a page about our partner organizations"
+        "title": "Our Network"
       },
       "connect": {
-        "title": "Connect",
-        "description": "This will be a page about activist channels"
+        "title": "Connect"
       },
       "impress": {
         "title": "Impress",
@@ -77,17 +75,14 @@
       }
     },
     "blog": {
-      "title": "Blog Home",
-      "description": "This will be the home page of a blog"
+      "title": "Blog Home"
     },
     "careers": {
-      "title": "Careers",
-      "description": "This will be a careers landing page"
+      "title": "Careers"
     },
     "docs": {
       "index": {
-        "title": "Documentation",
-        "description": "This will be a documentation landing page"
+        "title": "Documentation"
       },
       "get-active": {
         "modal-image-alt-text": "Mockups that show mobile organization search and web event search on a map.",
@@ -181,13 +176,11 @@
       }
     },
     "finances": {
-      "title": "Finances",
-      "description": "This will be a finances landing page"
+      "title": "Finances"
     },
     "help" : {
       "index": {
-        "title": "Help",
-        "description": "This will be a help landing page"
+        "title": "Help"
       },
       "faq": {
         "title": "FAQ",
@@ -231,12 +224,10 @@
         "thanks-2": "We appreciate you taking the time to reach out. We'll do our best to get back to you as quickly as possible. Thank you for your patience!"
       },
       "press": {
-        "title": "Press",
-        "description": "This will be a press contact page"
+        "title": "Press"
       },
       "status": {
-        "title": "Status",
-        "description": "This will be a page about the status of the activist server"
+        "title": "Status"
       }
     },
     "home": {
@@ -246,12 +237,10 @@
     },
     "legal": {
       "index": {
-        "title": "Legal",
-        "description": "This will be a page about legal matters for activist"
+        "title": "Legal"
       },
       "legal-support": {
-        "title": "Legal Support",
-        "description": "This will be legal support page with information for people who need help."
+        "title": "Legal Support"
       },
       "privacy-policy": {
         "title": "Privacy",
@@ -455,7 +444,9 @@
     },
     "grid": {
       "grid-github-shields": {
-        "visit": "Visit us on"
+        "visit": "Visit us on",
+        "fork": "Fork",
+        "star": "Star"
       },
       "grid-home-metrics": {
         "new-organizations": "New organizations",
@@ -470,12 +461,13 @@
       }
     },
     "landing": {
-      "splash": {
+      "landing-splash": {
         "header": "Where we start.",
         "message": "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all. Free, open-source, privacy-focused and driven by our community.",
-        "btn-alt-text": "Request access to activist now"
+        "btn-alt-text": "Request access to activist now",
+        "btn-text": "Request access"
       },
-      "tech-banner": {
+      "landing-tech-banner": {
         "github-header": "Open-Source APIs",
         "github-tagline": "Trust through Transparency",
         "github-text": "We're dedicated to working in the open to build trust with out partner organizations and fellow activists. Building the place for activism the world over takes a lot of effort, so please come join us!"
@@ -487,48 +479,49 @@
       }
     },
     "sidebar": {
-      "left": {
-        "index": {
-          "trademark-policy": "Trademark policy",
-          "privacy-policy": "Privacy policy",
-          "about": "About",
-          "events": "Events",
-          "groups": "Groups",
-          "resources": "Resources",
-          "faq": "FAQ",
-          "settings": "Settings",
-          "affiliates": "Affiliates",
-          "tasks": "Tasks",
-          "discussions": "Discussions",
-          "team": "Team",
-          "about-activist": "About activist",
-          "activism-network": "Activism Network",
-          "connect": "Connect",
-          "impress": "Impress",
-          "roadmap": "Roadmap",
-          "legal-support": "Legal Support",
-          "contact": "Contact",
-          "press": "Press",
-          "status": "Status",
-          "get-active": "Get Active",
-          "get-organized": "Get Organized",
-          "grow-organization": "Grow Organization"
-        },
-        "footer": {
-          "new-event": "New event",
-          "new-orga": "New organization",
-          "new-group": "New group",
-          "new-resource": "New resource",
-          "help": "Help",
-          "documentation": "Documentation",
-          "legal-support": "Legal",
-          "your-profile": "Your profile",
-          "your-events": "Your events",
-          "your-orgs": "Your organizations",
-          "notifications": "Notifications",
-          "settings": "Settings",
-          "sign-out": "Sign out"
-        }
+      "sidebar-left-footer": {
+        "create": "Create",
+        "info": "Info",
+        "username": "Username",
+        "new-event": "New event",
+        "new-orga": "New organization",
+        "new-group": "New group",
+        "new-resource": "New resource",
+        "help": "Help",
+        "documentation": "Documentation",
+        "legal-support": "Legal",
+        "your-profile": "Your profile",
+        "your-events": "Your events",
+        "your-orgs": "Your organizations",
+        "notifications": "Notifications",
+        "settings": "Settings",
+        "sign-out": "Sign out"
+      },
+      "sidebar-left-index": {
+        "trademark-policy": "Trademark policy",
+        "privacy-policy": "Privacy policy",
+        "about": "About",
+        "events": "Events",
+        "groups": "Groups",
+        "resources": "Resources",
+        "faq": "FAQ",
+        "settings": "Settings",
+        "affiliates": "Affiliates",
+        "tasks": "Tasks",
+        "discussions": "Discussions",
+        "team": "Team",
+        "about-activist": "About activist",
+        "activism-network": "Activism Network",
+        "connect": "Connect",
+        "impress": "Impress",
+        "roadmap": "Roadmap",
+        "legal-support": "Legal Support",
+        "contact": "Contact",
+        "press": "Press",
+        "status": "Status",
+        "get-active": "Get Active",
+        "get-organized": "Get Organized",
+        "grow-organization": "Grow Organization"
       }
     }
   }

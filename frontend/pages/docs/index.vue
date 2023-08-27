@@ -5,7 +5,7 @@
     <Head>
       <Title>{{ $t("pages.docs.index.title") }}</Title>
     </Head>
-    <h1 class="p-4">{{ $t("pages.docs.index.description") }}</h1>
+    <h1 class="p-4">This will be a documentation landing page</h1>
   </div>
 </template>
 

@@ -6,7 +6,7 @@
       <Title>{{ $t("pages.legal.legal-support.title") }}</Title>
     </Head>
     <h1 class="p-4">
-      {{ $t("pages.legal.legal-support.description") }}
+      This will be legal support page with information for people who need help.
     </h1>
   </div>
 </template>

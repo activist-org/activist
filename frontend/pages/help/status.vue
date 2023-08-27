@@ -6,7 +6,7 @@
       <Title>{{ $t("pages.help.status.title") }}</Title>
     </Head>
     <h1 class="p-4">
-      {{ $t("pages.help.status.description") }}
+      This will be a page about the status of the activist server
     </h1>
   </div>
 </template>

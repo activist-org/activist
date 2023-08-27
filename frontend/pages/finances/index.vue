@@ -5,7 +5,7 @@
     <Head>
       <Title>{{ $t("pages.finances.title") }}</Title>
     </Head>
-    <h1 class="p-4">{{ $t("pages.finances.description") }}</h1>
+    <h1 class="p-4">This will be a finances landing page</h1>
   </div>
 </template>
 

@@ -14,7 +14,7 @@
 
     <ImageGithubShield
       href="https://github.com/activist-org/activist/forks"
-      text="Fork"
+      :text="$t('components.grid.grid-github-shields.fork')"
       :isLoading="isLoading"
       :count="GitHubData.forks_count"
       class="fill-light-text dark:fill-dark-text"
@@ -24,7 +24,7 @@
 
     <ImageGithubShield
       href="https://github.com/activist-org/activist/stargazers"
-      text="Star"
+      :text="$t('components.grid.grid-github-shields.star')"
       :isLoading="isLoading"
       :count="GitHubData.stargazers_count"
       class="fill-light-text dark:fill-dark-text"

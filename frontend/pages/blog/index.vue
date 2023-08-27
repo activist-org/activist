@@ -5,7 +5,7 @@
     <Head>
       <Title>{{ $t("pages.blog.title") }}</Title>
     </Head>
-    <h1 class="p-4">{{ $t("pages.blog.description") }}</h1>
+    <h1 class="p-4">This will be the home page of a blog</h1>
   </div>
 </template>
 

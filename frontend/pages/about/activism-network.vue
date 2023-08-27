@@ -5,7 +5,7 @@
     <Head>
       <Title>{{ $t("pages.about.activism-network.title") }}</Title>
     </Head>
-    <h1 class="p-4">{{ $t("pages.about.activism-network.description") }}</h1>
+    <h1 class="p-4">This will be a page about our partner organizations</h1>
   </div>
 </template>
 

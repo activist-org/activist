@@ -5,7 +5,7 @@
     <Head>
       <Title>{{ $t("pages.help.index.title") }}</Title>
     </Head>
-    <h1 class="p-4">{{ $t("pages.help.index.description") }}</h1>
+    <h1 class="p-4">This will be a help landing page</h1>
   </div>
 </template>
 
