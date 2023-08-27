@@ -140,7 +140,7 @@
                 :active="true"
               />
               <SidebarLeftSelector
-                iconURL="IconLegal"
+                iconURL="octicon:law"
                 btnText="Legal"
                 btnURL="/legal"
                 :selected="false"

@@ -4,7 +4,7 @@
     class="flex flex-col gap-3 px-4 py-2 border rounded-md select-none border-light-section-div dark:border-dark-section-div bg-light-header dark:bg-dark-header active:bg-light-highlight dark:active:bg-dark-highlight hover:cursor-pointer"
   >
     <div class="flex items-center gap-3">
-      <Icon name="IconLegal" class="fill-light-text dark:fill-dark-text" />
+      <Icon name="octicon:law" class="fill-light-text dark:fill-dark-text" />
       <p>Legal disclaimer</p>
       <Icon v-if="isOpen" name="bi:chevron-up" />
       <Icon v-else name="bi:chevron-down" />

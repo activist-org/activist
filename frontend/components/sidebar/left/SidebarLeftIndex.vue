@@ -153,7 +153,7 @@ const organizationButtons: SidebarLeftSelectorType[] = [
   {
     btnText: "sidebar.discussions",
     btnURL: "/",
-    iconURL: "IconDiscussion",
+    iconURL: "octicon:comment-discussion-24",
     selected: false,
     active: false,
   },
@@ -198,7 +198,7 @@ const eventButtons: SidebarLeftSelectorType[] = [
   {
     btnText: "sidebar.discussions",
     btnURL: "/",
-    iconURL: "IconDiscussion",
+    iconURL: "octicon:comment-discussion-24",
     selected: false,
     active: false,
   },
