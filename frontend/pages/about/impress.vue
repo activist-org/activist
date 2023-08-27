@@ -79,7 +79,7 @@
           >
             <BtnLabeled
               :cta="false"
-              label="Return home"
+              :label="$('components.btn.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
             />

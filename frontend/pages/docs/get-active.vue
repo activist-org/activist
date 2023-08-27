@@ -105,14 +105,14 @@
           >
             <BtnLabeled
               :cta="true"
-              label="Request access"
+              :label="$t('components.btn.btn-labeled.request-access-text')"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
               class="w-full"
             />
             <BtnLabeled
               :cta="false"
-              label="Return home"
+              :label="$t('components.btn.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
               class="w-full"

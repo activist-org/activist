@@ -373,10 +373,22 @@
     }
   },
   "components": {
-    "website-header": {
-      "get-in-touch": "Get in touch"
-    },
     "btn": {
+      "btn-labeled": {
+        "go-to-home": "Go to home",
+        "get-in-touch": "Get in touch",
+        "new-account": "New account",
+        "view-all-groups": "View all groups",
+        "join-organiation": "Join organization",
+        "offer-to-help": "Offer to help",
+        "request-access-text": "Request access",
+        "request-access-alt": "Request access to activist now",
+        "return-home": "Return home",
+        "sugest-a-feature": "Suggest a feature",
+        "support": "Support",
+        "share-event": "Share event",
+        "share-organization": "Share organization"
+      },
       "btn-roadmap": {
         "title": "Roadmap"
       }
@@ -463,9 +475,7 @@
     "landing": {
       "landing-splash": {
         "header": "Where we start.",
-        "message": "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all. Free, open-source, privacy-focused and driven by our community.",
-        "btn-alt-text": "Request access to activist now",
-        "btn-text": "Request access"
+        "message": "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all. Free, open-source, privacy-focused and driven by our community."
       },
       "landing-tech-banner": {
         "github-header": "Open-Source APIs",

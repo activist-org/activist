@@ -7,14 +7,14 @@
         <BtnLabeled
           v-if="organization && organization.workingGroups"
           :cta="true"
-          label="View all groups"
+          :label="$('components.btn.btn-labeled.view-all-groups')"
           linkTo="/"
           fontSize="base"
         />
         <BtnLabeled
           v-if="organization"
           :cta="true"
-          label="Join organization"
+          :label="$('components.btn.btn-labeled.join-organization')"
           linkTo="/"
           fontSize="base"
           rightIcon="bi:arrow-right"
@@ -48,7 +48,7 @@
       <div class="pt-2">
         <BtnLabeled
           :cta="true"
-          label="Offer to help"
+          :label="$('components.btn.btn-labeled.offer-to-help')"
           linkTo="/"
           fontSize="base"
           rightIcon="bi:arrow-right"

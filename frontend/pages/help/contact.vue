@@ -168,7 +168,7 @@
         <p>
           {{ $t("pages.help.contact.thanks-2") }}
         </p>
-        <BtnLabeled :cta="false" label="Return home" linkTo="/" fontSize="lg" />
+        <BtnLabeled :cta="false" :label="$t('components.btn.btn-labeled.return-home')" linkTo="/" fontSize="lg" />
       </div>
     </div>
   </div>

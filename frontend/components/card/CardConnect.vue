@@ -78,7 +78,7 @@
             <BtnLabeled
               :cta="true"
               linkTo="placeholder-link"
-              label="New account"
+              :label="$t('components.btn.btn-labeled.new-account')"
               fontSize="base"
               leftIcon="bi:plus-lg"
             />

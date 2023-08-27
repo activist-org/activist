@@ -25,7 +25,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          label="Support"
+          :label="$t('components.btn.btn-labeled.support')"
           fontSize="base"
           leftIcon="IconSupport"
           iconSize="1.25em"
@@ -34,7 +34,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          label="Share organization"
+          :label="$t('components.btn.btn-labeled.share-organization')"
           fontSize="base"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"

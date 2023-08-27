@@ -28,7 +28,7 @@
         >
           {{ error.message }}
         </div>
-        <BtnLabeled :cta="true" label="Go to home" linkTo="/" fontSize="lg" />
+        <BtnLabeled :cta="true" :label="$t('components.btn.btn-labeled.go-to-home')" linkTo="/" fontSize="lg" />
       </div>
     </div>
   </div>

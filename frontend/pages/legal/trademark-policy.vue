@@ -145,7 +145,7 @@
           >
             <BtnLabeled
               :cta="false"
-              label="Return home"
+              :label="$t('components.btn.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
             />

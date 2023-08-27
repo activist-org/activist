@@ -97,13 +97,13 @@
           >
             <BtnLabeled
               :cta="true"
-              label="Suggest a feature"
+              :label="$t('components.btn.btn-labeled.sugest-a-feature')"
               linkTo="https://github.com/activist-org/activist/issues"
               fontSize="lg"
             />
             <BtnLabeled
               :cta="false"
-              label="Return home"
+              :label="$t('components.btn.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
             />

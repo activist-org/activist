@@ -19,10 +19,10 @@
     <div class="flex justify-center rounded-md">
       <BtnLabeled
         :cta="true"
-        :label="$t('components.landing.landing-splash.btn-text')"
+        :label="$t('components.btn.btn-labeled.request-access-text')"
         linkTo="https://tally.so/r/nprxbq"
         fontSize="xl"
-        :alternateText="$t('components.landing.splash.btn-alt-text')"
+        :alternateText="$t('components.btn.btn-labeled.request-access-alt')"
       />
     </div>
   </div>
