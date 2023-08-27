@@ -1,0 +1,35 @@
+name: pr_ts_typecheck
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - opened
+  workflow_run:
+    workflows: [pr_maintainer_checklist]
+    types:
+      - completed
+
+jobs:
+  build:
+    name: Run PR TypeScript Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Yarn Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: "frontend"
+
+      - name: Run Type Check
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: nuxi typecheck
+          dir: "frontend"

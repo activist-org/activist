@@ -2,14 +2,25 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
+'''
+Considerations:
+
+- Every field without a default value has been temporarily set to null=True.
+- Fields "creation_date" and "last_updated" have been standardized so that Django manages them automatically:
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+- All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
+- More comments should be added to improve the readability and understanding of the code.
+'''
+
 
 class Support(models.Model):
-    index = models.IntegerField
-    supporter_type = models.IntegerField
-    supporter_entity = models.IntegerField
-    supported_type = models.IntegerField
-    supported_entity = models.IntegerField
-# Create your models here.
+    index = models.IntegerField(null=True)
+    supporter_type = models.IntegerField(null=True)
+    supporter_entity = models.IntegerField(null=True)
+    supported_type = models.IntegerField(null=True)
+    supported_entity = models.IntegerField(null=True)
+
 # New user model
 class User(AbstractUser):
     password = models.CharField(max_length=255)
@@ -23,7 +34,7 @@ class User(AbstractUser):
     social_accounts = ArrayField(models.CharField(max_length=255), null=True)
     total_flags = models.IntegerField(default=0)
     deletion_date = models.DateField(null=True)
-    creation_date = models.DateField(auto_now_add=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "user"
@@ -36,11 +47,11 @@ class User(AbstractUser):
 class Organization(models.Model):
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255)
-    application_id: models.IntegerField
+    application_id: models.IntegerField(null=True)
     social_accounts: ArrayField(models.CharField(max_length=255))
-    total_flags: models.IntegerField
-    created_by: models.IntegerField
-    creation_date: models.DateField
+    total_flags: models.IntegerField(null=True)
+    created_by: models.IntegerField(null=True)
+    creation_date: models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "organization"
@@ -51,30 +62,32 @@ class Organization(models.Model):
 
 
 class Event(models.Model):
-    creation_date = models.DateField
+    creation_date = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255)
-    start_time = models.DateField
-    end_time = models.DateField
+    start_time = models.DateField(null=True)
+    end_time = models.DateField(null=True)
     type = models.CharField(max_length=255)
     format = models.CharField(max_length=255)
     online_location_link = models.CharField(max_length=255)
     offline_location_name = models.CharField(max_length=255)
-    offline_location_lat = models.FloatField
-    offline_location_long = models.FloatField
+    offline_location_lat = models.FloatField(null=True)
+    offline_location_long = models.FloatField(null=True)
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
-    deletion_date = models.DateField
+    deletion_date = models.DateField(null=True)
 
 
 class Role(models.Model):
     name = models.CharField(max_length=255)
-    is_custom = models.BooleanField
-    creation_date = models.DateField
+    is_custom = models.BooleanField(null=True)
     description = models.TextField(max_length=500)
-    last_updated = models.DateField
-    deprecation_date = models.DateField
+
+    #timestamps
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
 
     class Meta:
         verbose_name = "role"
@@ -86,11 +99,12 @@ class Role(models.Model):
 
 class Topic(models.Model):
     name = models.CharField(max_length=255)
-    active = models.BooleanField
-    creation_date = models.DateField
+    active = models.BooleanField(null=True)
     description = models.TextField(max_length=500)
-    last_updated = models.DateField
-    deprecation_date = models.DateField
+    #timestamps
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
 
     class Meta:
         verbose_name = "topic"
@@ -105,11 +119,12 @@ class Resource(models.Model):
     topics = ArrayField(models.CharField(max_length=255))
     location = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
-    total_flags = models.IntegerField
-    creation_date = models.DateField
+    total_flags = models.IntegerField(null=True)
     description = models.TextField(max_length=500)
-    last_updated = models.DateField
-    deletion_date = models.DateField
+    # Timestamps
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deletion_date = models.DateField(null=True)
 
     class Meta:
         verbose_name = "resource"
@@ -121,10 +136,11 @@ class Resource(models.Model):
 
 class Format(models.Model):
     name = models.CharField(max_length=255)
-    creation_date = models.DateField
     description = models.TextField(max_length=500)
-    last_updated = models.DateField
-    deprecation_date = models.DateField
+    # Timestamps
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
 
     class Meta:
         verbose_name = "format"
@@ -136,13 +152,13 @@ class Format(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=255)
-    creation_date = models.DateField
+    creation_date = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(max_length=500)
     tagline = models.CharField(max_length=255)
-    total_flags = models.IntegerField
+    total_flags = models.IntegerField(null=True)
     social_accounts = ArrayField(models.CharField(max_length=255))
-    deletion_date = models.DateField
+    deletion_date = models.DateField(null=True)
 
     class Meta:
         verbose_name = "group"
@@ -154,11 +170,11 @@ class Group(models.Model):
 
 class Task(models.Model):
     name = models.CharField(max_length=255)
-    creation_date = models.DateField
+    creation_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(max_length=500)
     tags = ArrayField(models.CharField(max_length=255))
     location = models.CharField(max_length=255)
-    deletion_date = models.DateField
+    deletion_date = models.DateField(null=True)
 
     class Meta:
         verbose_name = "task"
@@ -166,8 +182,6 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
-
-
 
 
 
@@ -184,7 +198,7 @@ class SupportEntityTypes(models.Model):
 
 
 class UserResource(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
 
@@ -193,7 +207,7 @@ class UserResource(models.Model):
 
 
 class UserTopic(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
@@ -202,7 +216,7 @@ class UserTopic(models.Model):
 
 
 class UserTask(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
 
@@ -211,7 +225,7 @@ class UserTask(models.Model):
 
 
 class GroupMember(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -220,7 +234,7 @@ class GroupMember(models.Model):
 
 
 class GroupResource(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
 
@@ -229,7 +243,7 @@ class GroupResource(models.Model):
 
 
 class GroupTopic(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
@@ -238,7 +252,7 @@ class GroupTopic(models.Model):
 
 
 class GroupEvent(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
 
@@ -247,7 +261,7 @@ class GroupEvent(models.Model):
 
 
 class EventResource(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
 
@@ -256,7 +270,7 @@ class EventResource(models.Model):
 
 
 class EventRole(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
 
@@ -265,7 +279,7 @@ class EventRole(models.Model):
 
 
 class EventTopic(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
@@ -274,15 +288,15 @@ class EventTopic(models.Model):
 
 
 class EventAttendee(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
-    attendee_status = models.IntegerField
+    attendee_status = models.IntegerField(null=True)
 
 
 class EventAttendeeStatus(models.Model):
-    status = models.IntegerField
+    status = models.IntegerField(null=True)
     status_name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -290,7 +304,7 @@ class EventAttendeeStatus(models.Model):
 
 
 class EventTask(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
 
@@ -299,7 +313,7 @@ class EventTask(models.Model):
 
 
 class TopicFormat(models.Model):
-    index: models.IntegerField
+    index: models.IntegerField(null=True)
     topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
     format_id: models.ForeignKey(Format, on_delete=models.CASCADE)
 
@@ -308,7 +322,7 @@ class TopicFormat(models.Model):
 
 
 class ResourceTopic(models.Model):
-    index: models.IntegerField
+    index: models.IntegerField(null=True)
     resource_id: models.ForeignKey(Resource, on_delete=models.CASCADE)
     topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
 
@@ -317,7 +331,7 @@ class ResourceTopic(models.Model):
 
 
 class OrganizationApplicationStatus(models.Model):
-    status: models.IntegerField
+    status: models.IntegerField(null=True)
     status_name: models.CharField(max_length=255)
 
     def __str__(self):
@@ -325,10 +339,10 @@ class OrganizationApplicationStatus(models.Model):
 
 
 class OrganizationApplication(models.Model):
-    creation_date: models.DateField
+    creation_date: models.DateTimeField(auto_now_add=True)
     status = models.ForeignKey(OrganizationApplicationStatus, on_delete=models.CASCADE)
-    status_updated: models.DateField
-    org_id = models.IntegerField
+    status_updated: models.DateTimeField(auto_now=True)
+    org_id = models.IntegerField(null=True)
     orgs_in_favor: ArrayField(models.IntegerField)
     orgs_against: ArrayField(models.IntegerField)
 
@@ -337,7 +351,7 @@ class OrganizationApplication(models.Model):
 
 
 class OrganizationResource(models.Model):
-    index: models.IntegerField
+    index: models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -345,27 +359,27 @@ class OrganizationResource(models.Model):
 
 
 class OrganizationMember(models.Model):
-    index: models.IntegerField
+    index: models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     user_id: models.ForeignKey(User, on_delete=models.CASCADE)
-    is_owner: models.BooleanField
-    is_admin: models.BooleanField
-    is_comms: models.BooleanField
+    is_owner: models.BooleanField(default=False)
+    is_admin: models.BooleanField(default=False)
+    is_comms: models.BooleanField(default=False)
 
 
 class OrganizationTopic(models.Model):
-    index: models.IntegerField
+    index: models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
 
 
 class OrganizationEvent(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     event_id: models.ForeignKey(Event, on_delete=models.CASCADE)
 
 
 class OrganizationTask(models.Model):
-    index = models.IntegerField
+    index = models.IntegerField(null=True)
     org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id: models.ForeignKey(Task, on_delete=models.CASCADE)

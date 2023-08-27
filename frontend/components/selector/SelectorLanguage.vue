@@ -42,19 +42,24 @@
         <ul class="px-2 py-2">
           <NuxtLink
             v-for="locale in availableLocales"
-            :key="locale.code"
-            :to="switchLocalePath(locale.code)"
+            :key="getLocaleCode(locale)"
+            :to="switchLocalePath(getLocaleCode(locale))"
           >
             <MenuItem v-slot="{ active }">
               <li
-                :class="[
-                  active
-                    ? 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content'
-                    : 'text-light-text dark:text-dark-text',
-                  'group flex w-full [word-spacing:0.5em] items-center rounded-md pl-4 pr-2 py-2 text-sm',
-                ]"
+                class="group flex [word-spacing:0.5em] items-center rounded-md pl-4 pr-2 py-2 text-sm"
+                :class="{
+                  'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content w-max':
+                    active && props.location !== 'sideMenu',
+                  'text-light-text dark:text-dark-text w-max':
+                    !active && props.location !== 'sideMenu',
+                  'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content w-full':
+                    active && props.location === 'sideMenu',
+                  'text-light-text dark:text-dark-text w-full':
+                    !active && props.location === 'sideMenu',
+                }"
               >
-                {{ locale.name }}
+                {{ getLocaleName(locale) }}
               </li>
             </MenuItem>
           </NuxtLink>
@@ -66,13 +71,25 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
 const props = defineProps({
   location: String,
 });
 
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
+
+const localesValues: Array<string | LocaleObject> = locales.value;
+
+function getLocaleCode(locale: string | LocaleObject) {
+  return typeof locale === "string" ? locale : locale.code;
+}
+
+function getLocaleName(locale: string | LocaleObject) {
+  return typeof locale === "string" ? locale : locale.name;
+}
+
 const availableLocales = computed(() => {
-  return locales.value.filter((i) => i.code !== locale.value);
+  return localesValues.filter((i) => getLocaleCode(i) !== locale.value);
 });
 </script>

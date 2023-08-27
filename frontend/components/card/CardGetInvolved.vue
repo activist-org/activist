@@ -44,7 +44,7 @@
       <p>
         {{ $t("components.card.card-get-involved.legal-disclaimer") }}
       </p>
-      <CardLegalDisclaimer />
+      <CardLegalDisclaimer :disclaimer="disclaimer" />
       <div class="pt-2">
         <BtnLabeled
           :cta="true"
@@ -63,9 +63,9 @@
 import type { Event } from "~~/types/event";
 import type { Organization } from "~~/types/organization";
 
-defineProps<{
-  getInvolvedType: "organization" | "event";
+const props = defineProps<{
   organization?: Organization;
   event?: Event;
+  disclaimer: string;
 }>();
 </script>

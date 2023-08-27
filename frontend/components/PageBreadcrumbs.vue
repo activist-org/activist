@@ -59,7 +59,7 @@ defineProps<{
   event?: Event;
 }>();
 
-const breadcrumbs = ref([]);
+const breadcrumbs = ref<string[]>([]);
 
 function setBreadcrumbs() {
   const url = window.location.pathname;
@@ -67,7 +67,7 @@ function setBreadcrumbs() {
   breadcrumbs.value = nonEmptySegments;
 }
 
-function getNonEmptySegmentsFromURL(url) {
+function getNonEmptySegmentsFromURL(url: string) {
   const segments = url.split("/");
   const nonEmptySegments = segments.filter((segment) => segment);
   return nonEmptySegments;
@@ -77,22 +77,22 @@ onMounted(() => {
   setBreadcrumbs();
 });
 
-function isLocaleSegment(segment) {
-  return locales.value.some((i) => i.code === segment);
+function isLocaleSegment(segment: string) {
+  return locales.value.some((locale) => typeof (locale) === "string" ? locale === segment : locale.code === segment);
 }
 
 const displayBreadcrumbs = computed(() => {
   return breadcrumbs.value.filter((segment) => !isLocaleSegment(segment));
 });
 
-function makeURL(breadcrumb) {
+function makeURL(breadcrumb: string) {
   const clickedBreadcrumbIndex = breadcrumbs.value.indexOf(breadcrumb);
   const segmentsForURL = breadcrumbs.value.slice(0, clickedBreadcrumbIndex + 1);
   const url = "/" + segmentsForURL.join("/");
   return url;
 }
 
-function capitalizeFirstLetter(string) {
+function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 </script>
