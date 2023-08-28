@@ -25,7 +25,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn.btn-labeled.support')"
+          :label="$t('components.btn-labeled.support')"
           fontSize="base"
           leftIcon="IconSupport"
           iconSize="1.25em"
@@ -34,7 +34,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn.btn-labeled.share-organization')"
+          :label="$t('components.btn-labeled.share-organization')"
           fontSize="base"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
@@ -64,13 +64,13 @@
 </template>
 
 <script setup lang="ts">
-const { id } = useRoute().params;
+import { Organization } from "~~/types/organization";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-import { Organization } from "~~/types/organization";
+const { id } = useRoute().params;
 
 const organization: Organization = {
   name: "tech from below",

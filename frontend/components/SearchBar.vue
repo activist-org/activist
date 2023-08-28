@@ -5,18 +5,30 @@
   >
     <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
     <Transition name="search">
-      <input v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false" ref="input"
-        class="w-16 h-5 bg-transparent outline-none" type="text" placeholder="Search" @focus="onFocus" @blur="onFocusLost"
-        :class="{ 'focus:w-5/6': isInputFocused }" />
+      <input
+        v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+        ref="input"
+        class="w-16 h-5 bg-transparent outline-none"
+        type="text"
+        :placeholder="$t('components.search-bar.placeholder')"
+        @focus="onFocus"
+        @blur="onFocusLost"
+        :class="{ 'focus:w-5/6': isInputFocused }"
+      />
     </Transition>
     <Transition name="shortcuts">
-      <div v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false" ref="hotkeyIndicators"
-        class="absolute right-0 flex pr-6 space-x-1 transition-opacity transition-duration-200">
+      <div
+        v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+        ref="hotkeyIndicators"
+        class="absolute right-0 flex pr-6 space-x-1 transition-opacity transition-duration-200"
+      >
         <div
-          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text">
+          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
+        >
           <span
-            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip">Press
-            "/" to search</span>
+            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
+            >{{ $t("components.search-bar.slash-tooltip-label") }}</span
+          >
           <p class="-mt-[0.075rem]">/</p>
         </div>
         <!-- <div
@@ -25,7 +37,7 @@
         >
           <span
             class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
-            >Press "⌘ + k" to jump to a page</span
+            >{{ $t("components.search-bar.command-tooltip-label") }}</span
           >
           <p>⌘k</p>
         </div>
@@ -35,18 +47,29 @@
         >
           <span
             class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
-            >Press "^ + k" to jump to a page</span
+            >{{ $t("components.search-bar.control-tooltip-label") }}/span
           >
           <p>⌃k</p>
         </div> -->
       </div>
     </Transition>
   </div>
-  <div v-else
-    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange ">
-    <Icon :name="expanded ? 'bi:x-lg' : 'bi:search'" size="1em" class="flex-shrink-0 w-4 h-4 my-1"
-      @click="emit('on-search-toggle')" />
-    <input v-if="expanded" class="bg-transparent focus:outline-none" type="text" placeholder="Search" />
+  <div
+    v-else
+    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange"
+  >
+    <Icon
+      :name="expanded ? 'bi:x-lg' : 'bi:search'"
+      size="1em"
+      class="flex-shrink-0 w-4 h-4 my-1"
+      @click="emit('on-search-toggle')"
+    />
+    <input
+      v-if="expanded"
+      class="bg-transparent focus:outline-none"
+      type="text"
+      placeholder="Search"
+    />
     <Icon v-if="expanded" name="bi:filter" class="absolute right-3" />
   </div>
 </template>
@@ -54,6 +77,9 @@
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { ref } from "vue";
+
+const route = useRoute();
+
 const sidebar = useSidebar();
 const input = ref();
 const hotkeyIndicators = ref();

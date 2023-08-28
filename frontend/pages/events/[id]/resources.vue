@@ -2,7 +2,7 @@
   <p
     class="py-5 text-light-text dark:text-dark-text responsive-px-5 bg-light-content dark:bg-dark-content"
   >
-    {{ $t("pages.events.id.resources.subtitle") }} {{ id }}
+    {{ $t("pages.events.id.resources.subheader") }} {{ id }}
   </p>
 </template>
 

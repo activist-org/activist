@@ -34,7 +34,7 @@
                     sidebar.collapsedSwitch == false
                   "
                 >
-                  {{ $t("components.sidebar.sidebar-left-footer.create") }}
+                  {{ $t("components.sidebar-left-footer.label.create") }}
                 </p>
               </Transition>
             </div>
@@ -54,30 +54,34 @@
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
             >
               <SidebarLeftSelector
+                :label="$t('components.sidebar-left-selector.label.new-event')"
+                routeURL="/"
                 iconURL="bi:calendar-check"
-                :btnText="$t('components.sidebar.sidebar-left-footer.new-event')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="
+                  $t('components.sidebar-left-selector.label.new-organization')
+                "
+                routeURL="/"
                 iconURL="IconOrganization"
-                :btnText="$t('components.sidebar.sidebar-left-footer.new-orga')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="$t('components.sidebar-left-selector.label.new-group')"
+                routeURL="/"
                 iconURL="IconGroup"
-                :btnText="$t('components.sidebar.sidebar-left-footer.new-group')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="
+                  $t('components.sidebar-left-selector.label.new-resource')
+                "
+                routeURL="/"
                 iconURL="IconResource"
-                :btnText="$t('components.sidebar.sidebar-left-footer.new-resource')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />
@@ -106,7 +110,7 @@
                     sidebar.collapsedSwitch == false
                   "
                 >
-                  {{ $t("components.sidebar.sidebar-left-footer.info") }}
+                  {{ $t("components.sidebar-left-footer.label.info") }}
                 </p>
               </Transition>
             </div>
@@ -126,23 +130,25 @@
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
             >
               <SidebarLeftSelector
+                :label="$t('components.sidebar-left-selector.label.help')"
+                routeURL="/help"
                 iconURL="bi:question-circle"
-                :btnText="$t('components.sidebar.sidebar-left-footer.help')"
-                btnURL="/help"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="
+                  $t('components.sidebar-left-selector.label.documentation')
+                "
+                routeURL="/docs"
                 iconURL="bi:layout-text-sidebar-reverse"
-                :btnText="$t('components.sidebar.sidebar-left-footer.documentation')"
-                btnURL="/docs"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="$t('components.sidebar-left-selector.label.legal')"
+                routeURL="/legal"
                 iconURL="IconLegal"
-                :btnText="$t('components.sidebar.sidebar-left-footer.legal-support')"
-                btnURL="/legal"
                 :selected="false"
                 :active="true"
               />
@@ -172,7 +178,7 @@
                   "
                   class="font-bold"
                 >
-                  {{ $t("Username") }}
+                  {{ $t("components.sidebar-left-footer.label.username") }}
                 </p>
               </Transition>
             </div>
@@ -192,44 +198,50 @@
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
             >
               <SidebarLeftSelector
+                :label="
+                  $t('components.sidebar-left-selector.label.your-profile')
+                "
+                routeURL="/"
                 iconURL="bi:person-circle"
-                :btnText="$t('components.sidebar.sidebar-left-footer.your-profile')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="
+                  $t('components.sidebar-left-selector.label.your-events')
+                "
+                routeURL="/"
                 iconURL="bi:calendar-check"
-                :btnText="$t('components.sidebar.sidebar-left-footer.your-events')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="$t('components.sidebar-left-selector.label.your-orgs')"
+                routeURL="/"
                 iconURL="IconOrganization"
-                :btnText="$t('components.sidebar.sidebar-left-footer.your-orgs')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="
+                  $t('components.sidebar-left-selector.label.notifications')
+                "
+                routeURL="/"
                 iconURL="bi:bell"
-                :btnText="$t('components.sidebar.sidebar-left-footer.notifications')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="$t('components.sidebar-left-selector.label.settings')"
+                routeURL="/"
                 iconURL="bi:gear"
-                :btnText="$t('components.sidebar.sidebar-left-footer.settings')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
+                :label="$t('components.sidebar-left-selector.label.sign-out')"
+                routeURL="/"
                 iconURL="bi:box-arrow-left"
-                :btnText="$t('components.sidebar.sidebar-left-footer.sign-out')"
-                btnURL="/"
                 :selected="false"
                 :active="true"
               />

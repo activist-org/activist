@@ -50,7 +50,8 @@
       </div>
       <div class="flex items-center gap-1">
         <Icon name="bi:person-fill-check" class="mr-1" />
-        {{ event.supporters }} {{ $t("attending") }}
+        {{ event.supporters }}
+        {{ $t("components.card-search-result-event.attending") }}
       </div>
     </div>
     <div>

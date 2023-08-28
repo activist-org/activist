@@ -38,34 +38,34 @@ const connectLinks = [
 
 const resourcesLinks = [
   {
-    name: "components.footer.footer.faq",
+    name: "components.footer.faq",
     url: "/help/faq",
   },
   {
-    name: "components.footer.footer.help",
+    name: "components.footer.help",
     url: "/help",
   },
   {
-    name: "components.footer.footer.documentation",
+    name: "components.footer.documentation",
     url: "/docs",
   },
   {
-    name: "components.footer.footer.contact",
+    name: "components.footer.contact",
     url: "/help/contact",
   },
 ];
 
 const organizationLinks = [
   {
-    name: "components.footer.footer.about",
+    name: "components.footer.about",
     url: "/about",
   },
   {
-    name: "components.footer.footer.supporters",
+    name: "components.footer.supporters",
     url: "/supporters",
   },
   {
-    name: "components.footer.footer.impress",
+    name: "components.footer.impress",
     url: "/about/impress",
   },
 ];
@@ -77,12 +77,12 @@ const platformLinks = [
     url: "https://github.com/activist-org/activist/releases",
   },
   {
-    name: "components.footer.footer.source-code",
+    name: "components.footer.source-code",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist",
   },
   {
-    name: "components.footer.footer.roadmap",
+    name: "components.footer.roadmap",
     isLocalePath: true,
     url: "/about/roadmap",
   },
@@ -90,11 +90,11 @@ const platformLinks = [
 
 const legalLinks = [
   {
-    name: "components.footer.footer.trademark-policy",
+    name: "components.footer.trademark-policy",
     url: "/legal/trademark-policy",
   },
   {
-    name: "components.footer.footer.privacy-policy",
+    name: "components.footer.privacy-policy",
     url: "/legal/privacy-policy",
   },
 ];

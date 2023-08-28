@@ -48,18 +48,18 @@
           v-for="button in organizationButtons"
         >
           <SidebarLeftSelector
-            :btn-text="button.btnText"
-            :icon-u-r-l="button.iconURL"
-            :btnURL="button.btnURL"
+            :label="button.label"
+            :routeURL="button.routeURL"
+            :iconURL="button.iconURL"
             :selected="button.selected"
             :active="button.active"
           />
         </li>
         <li v-if="pageType === 'event'" v-for="button in eventButtons">
           <SidebarLeftSelector
-            :btn-text="button.btnText"
-            :icon-u-r-l="button.iconURL"
-            :btnURL="button.btnURL"
+            :label="button.label"
+            :routeURL="button.routeURL"
+            :iconURL="button.iconURL"
             :selected="button.selected"
             :active="button.active"
           />
@@ -86,8 +86,8 @@ const nameAbbreviation = props.name
   .join("");
 
 interface SidebarLeftSelectorType {
-  btnText: string;
-  btnURL: string;
+  label: string;
+  routeURL: string;
   iconURL: string;
   selected: boolean;
   active: boolean;
@@ -95,64 +95,64 @@ interface SidebarLeftSelectorType {
 
 const organizationButtons: SidebarLeftSelectorType[] = [
   {
-    btnText: "components.sidebar.sidebar-left-index.about",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.about",
+    routeURL: "/",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.events",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.events",
+    routeURL: "/",
     iconURL: "bi:calendar-check",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.groups",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.groups",
+    routeURL: "/",
     iconURL: "IconGroup",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.resources",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.resources",
+    routeURL: "/",
     iconURL: "IconResource",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.faq",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.faq",
+    routeURL: "/",
     iconURL: "IconFAQ",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.settings",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.settings",
+    routeURL: "/",
     iconURL: "bi:gear",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.affiliates",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.affiliates",
+    routeURL: "/",
     iconURL: "IconSupport",
     selected: false,
     active: false,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.tasks",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.tasks",
+    routeURL: "/",
     iconURL: "bi:check-square",
     selected: false,
     active: false,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.discussions",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.discussions",
+    routeURL: "/",
     iconURL: "IconDiscussion",
     selected: false,
     active: false,
@@ -161,43 +161,43 @@ const organizationButtons: SidebarLeftSelectorType[] = [
 
 const eventButtons: SidebarLeftSelectorType[] = [
   {
-    btnText: "components.sidebar.sidebar-left-index.about",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.about",
+    routeURL: "/",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.team",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.team",
+    routeURL: "/",
     iconURL: "bi:people",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.resources",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.resources",
+    routeURL: "/",
     iconURL: "IconResource",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.settings",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.settings",
+    routeURL: "/",
     iconURL: "bi:gear",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.tasks",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.tasks",
+    routeURL: "/",
     iconURL: "bi:check-square",
     selected: false,
     active: false,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.discussions",
-    btnURL: "/",
+    label: "components.sidebar-left-selector.label.discussions",
+    routeURL: "/",
     iconURL: "IconDiscussion",
     selected: false,
     active: false,
@@ -206,36 +206,36 @@ const eventButtons: SidebarLeftSelectorType[] = [
 
 const AboutIndexButtons: SidebarLeftSelectorType[] = [
   {
-    btnText: "components.sidebar.sidebar-left-index.about-activist",
-    btnURL: "/about",
+    label: "components.sidebar-left-selector.label.about-activist",
+    routeURL: "/about",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.activism-network",
-    btnURL: "/about/activism-network",
+    label: "components.sidebar-left-selector.label.activism-network",
+    routeURL: "/about/activism-network",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.connect",
-    btnURL: "/about/connect",
+    label: "components.sidebar-left-selector.label.connect",
+    routeURL: "/about/connect",
     iconURL: "bi:people",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.roadmap",
-    btnURL: "/about/roadmap",
+    label: "components.sidebar-left-selector.label.roadmap",
+    routeURL: "/about/roadmap",
     iconURL: "bi:people",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.impress",
-    btnURL: "/about/impress",
+    label: "components.sidebar-left-selector.label.impress",
+    routeURL: "/about/impress",
     iconURL: "bi:people",
     selected: false,
     active: true,
@@ -244,22 +244,22 @@ const AboutIndexButtons: SidebarLeftSelectorType[] = [
 
 const LegalIndexButtons: SidebarLeftSelectorType[] = [
   {
-    btnText: "components.sidebar.sidebar-left-index.legal-support",
-    btnURL: "/legal/legal-support",
+    label: "components.sidebar-left-selector.label.legal-support",
+    routeURL: "/legal/legal-support",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.privacy-policy",
-    btnURL: "/legal/privacy-policy",
+    label: "components.sidebar-left-selector.label.privacy-policy",
+    routeURL: "/legal/privacy-policy",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.trademark-policy",
-    btnURL: "/legal/trademark-policy",
+    label: "components.sidebar-left-selector.label.trademark-policy",
+    routeURL: "/legal/trademark-policy",
     iconURL: "bi:people",
     selected: false,
     active: true,
@@ -268,29 +268,29 @@ const LegalIndexButtons: SidebarLeftSelectorType[] = [
 
 const HelpIndexButtons: SidebarLeftSelectorType[] = [
   {
-    btnText: "components.sidebar.sidebar-left-index.faq",
-    btnURL: "/help/faq",
+    label: "components.sidebar-left-selector.label.faq",
+    routeURL: "/help/faq",
     iconURL: "bi:people",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.contact",
-    btnURL: "/help/contact",
+    label: "components.sidebar-left-selector.label.contact",
+    routeURL: "/help/contact",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.press",
-    btnURL: "/help/press",
+    label: "components.sidebar-left-selector.label.press",
+    routeURL: "/help/press",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.status",
-    btnURL: "/help/status",
+    label: "components.sidebar-left-selector.label.status",
+    routeURL: "/help/status",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
@@ -299,22 +299,22 @@ const HelpIndexButtons: SidebarLeftSelectorType[] = [
 
 const DocsIndexButtons: SidebarLeftSelectorType[] = [
   {
-    btnText: "components.sidebar.sidebar-left-index.get-active",
-    btnURL: "/docs/get-active",
+    label: "components.sidebar-left-selector.label.get-active",
+    routeURL: "/docs/get-active",
     iconURL: "bi:card-text",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.get-organized",
-    btnURL: "/docs/get-organized",
+    label: "components.sidebar-left-selector.label.get-organized",
+    routeURL: "/docs/get-organized",
     iconURL: "bi:people",
     selected: false,
     active: true,
   },
   {
-    btnText: "components.sidebar.sidebar-left-index.grow-organization",
-    btnURL: "/docs/grow-organization",
+    label: "components.sidebar-left-selector.label.grow-organization",
+    routeURL: "/docs/grow-organization",
     iconURL: "bi:people",
     selected: false,
     active: true,

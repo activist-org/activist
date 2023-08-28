@@ -1,20 +1,22 @@
 <template>
   <div class="px-6 py-5 card-style">
     <div class="relative flex items-center gap-5">
-      <h3 class="text-left responsive-h3 font-display">{{ $t("components.card.card-get-involved.title") }}</h3>
+      <h3 class="text-left responsive-h3 font-display">
+        {{ $t("components.card-get-involved.header") }}
+      </h3>
       <Icon name="bi:pencil-square" size="1.2em" />
       <div class="absolute right-0 flex space-x-2">
         <BtnLabeled
           v-if="organization && organization.workingGroups"
           :cta="true"
-          :label="$('components.btn.btn-labeled.view-all-groups')"
+          :label="$t('components.btn-labeled.view-all-groups')"
           linkTo="/"
           fontSize="base"
         />
         <BtnLabeled
           v-if="organization"
           :cta="true"
-          :label="$('components.btn.btn-labeled.join-organization')"
+          :label="$t('components.btn-labeled.join-organization')"
           linkTo="/"
           fontSize="base"
           rightIcon="bi:arrow-right"
@@ -25,14 +27,14 @@
     <div v-if="organization" class="mt-4">
       <div v-if="organization.workingGroups">
         <p>
-          {{ $t("components.card.card-get-involved.working-groups") }}
+          {{ $t("components.card-get-involved.working-groups-subtext") }}
           {{ organization.name }}:
         </p>
         <CardFeed :feedItemURLs="organization.workingGroups" />
       </div>
       <div v-else>
         <p>
-          {{ $t("components.card.card-get-involved.click-join") }}
+          {{ $t("components.card-get-involved.join-subtext") }}
           {{ organization.name }}.
         </p>
       </div>
@@ -42,13 +44,13 @@
         {{ event.getInvolvedDescription }}
       </p>
       <p>
-        {{ $t("components.card.card-get-involved.legal-disclaimer") }}
+        {{ $t("components.card-get-involved.legal-disclaimer-subtext") }}
       </p>
       <CardLegalDisclaimer :disclaimer="disclaimer" />
       <div class="pt-2">
         <BtnLabeled
           :cta="true"
-          :label="$('components.btn.btn-labeled.offer-to-help')"
+          :label="$t('components.btn-labeled.offer-to-help')"
           linkTo="/"
           fontSize="base"
           rightIcon="bi:arrow-right"

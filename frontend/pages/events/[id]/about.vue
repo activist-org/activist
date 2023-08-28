@@ -22,7 +22,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn.btn-labeled.offer-to-help')"
+          :label="$t('components.btn-labeled.offer-to-help')"
           fontSize="base"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
@@ -30,7 +30,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn.btn-labeled.support')"
+          :label="$t('components.btn-labeled.support')"
           fontSize="base"
           leftIcon="IconSupport"
           iconSize="1.25em"
@@ -39,7 +39,7 @@
         <BtnLabeled
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn.btn-labeled.share-event')"
+          :label="$t('components.btn-labeled.share-event')"
           fontSize="base"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
@@ -69,13 +69,13 @@
 </template>
 
 <script setup lang="ts">
-const { id } = useRoute().params;
+import type { Event } from "~~/types/event";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-import type { Event } from "~~/types/event";
+const { id } = useRoute().params;
 
 const event: Event = {
   name: "Brandenburg Gate Climate Demo",

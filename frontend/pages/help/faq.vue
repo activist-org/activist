@@ -37,7 +37,7 @@
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <h1 class="pb-2 font-bold responsive-h1">
-            {{ $t("pages.help.faq.page-title") }}
+            {{ $t("pages.help.faq.header") }}
           </h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
@@ -46,13 +46,13 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              {{ $t("pages.help.faq.subtitle-1") }}
+              {{ $t("pages.help.faq.subheader-pt-1") }}
               <a
                 href="https://matrix.to/#/#activist_community:matrix.org"
                 class="items-center focus-brand link-text"
                 target="_blank"
               >
-                {{ $t("pages.help.faq.subtitle-2") }}
+                {{ $t("pages.help.faq.subheader-pt-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
@@ -63,37 +63,39 @@
             </p>
           </div>
           <p class="font-bold responsive-h4">
-            {{ $t("pages.help.faq.question-1") }}
+            {{ $t("pages.help.faq.section-1-paragraph-1") }}
           </p>
           <p class="sm:text-lg">
-            {{ $t("pages.help.faq.answer-1") }}
+            {{ $t("pages.help.faq.section-1-paragraph-2") }}
           </p>
           <p class="font-bold responsive-h4">
-            {{ $t("pages.help.faq.question-2") }}
+            {{ $t("pages.help.faq.section-2-paragraph-1") }}
           </p>
           <p class="sm:text-lg">
-            {{ $t("pages.help.faq.answer-2") }}
-          </p>
-          <p class="font-bold responsive-h4">{{ $t("pages.help.faq.question-3") }}</p>
-          <p class="sm:text-lg">
-            {{ $t("pages.help.faq.answer-3") }}
+            {{ $t("pages.help.faq.section-2-paragraph-2") }}
           </p>
           <p class="font-bold responsive-h4">
-            {{ $t("pages.help.faq.question-4") }}
+            {{ $t("pages.help.faq.section-3-paragraph-1") }}
           </p>
           <p class="sm:text-lg">
-            {{ $t("pages.help.faq.answer-4-pt1") }}
+            {{ $t("pages.help.faq.section-3-paragraph-2") }}
+          </p>
+          <p class="font-bold responsive-h4">
+            {{ $t("pages.help.faq.section-4-paragraph-1") }}
+          </p>
+          <p class="sm:text-lg">
+            {{ $t("pages.help.faq.section-4-paragraph-2-pt-1") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="focus-brand link-text"
-              >{{ $t("pages.help.faq.answer-4-pt2") }}
+              >{{ $t("pages.help.faq.section-4-paragraph-2-pt-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            t{{ $t("pages.help.faq.answer-4-pt3") }}
+            {{ $t("pages.help.faq.section-4-paragraph-2-pt-3") }}
           </p>
         </div>
         <div class="flex justify-end pr-32">

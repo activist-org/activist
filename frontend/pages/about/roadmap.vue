@@ -44,66 +44,66 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              {{ $t("pages.about.roadmap.subtitle-1") }}
+              {{ $t("pages.about.roadmap.subheader-pt-1") }}
               <a
                 href="https://github.com/activist-org/activist"
                 class="items-center focus-brand link-text"
                 target="_blank"
               >
-                {{ $t("pages.about.roadmap.subtitle-2") }}
+                {{ $t("pages.about.roadmap.subheader-pt-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
                   style="vertical-align: baseline"
                 />
               </a>
-              {{ $t("pages.about.roadmap.subtitle-3") }}
+              {{ $t("pages.about.roadmap.subheader-pt-3") }}
             </p>
           </div>
           <p>
-            {{ $t("pages.about.roadmap.paragraph-1") }}
+            {{ $t("pages.about.roadmap.section-1-paragraph-1") }}
           </p>
           <p class="pb-2 lg:pb-4">
-            {{ $t("pages.about.roadmap.paragraph-2-pt1") }}
+            {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-1") }}
             <a
               href="https://github.com/orgs/activist-org/projects/1"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-            {{ $t("pages.about.roadmap.paragraph-2-pt2") }}
+              {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.about.roadmap.paragraph-2-pt3") }}
+            {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-3") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.about.roadmap.paragraph-2-pt4") }}
+              {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.about.roadmap.paragraph-2-pt5") }}
+            {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-5") }}
           </p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
           >
             <BtnLabeled
               :cta="true"
-              :label="$t('components.btn.btn-labeled.sugest-a-feature')"
+              :label="$t('components.btn-labeled.suggest-a-feature')"
               linkTo="https://github.com/activist-org/activist/issues"
               fontSize="lg"
             />
             <BtnLabeled
               :cta="false"
-              :label="$t('components.btn.btn-labeled.return-home')"
+              :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
             />
@@ -129,5 +129,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

@@ -6,14 +6,22 @@
       <Title>{{ $t("pages.supporters.join.title") }}</Title>
     </Head>
     <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
-      <h1 class="font-bold responsive-h1">{{ $t("pages.supporters.join.title") }}</h1>
+      <h1 class="font-bold responsive-h1">
+        {{ $t("pages.supporters.join.title") }}
+      </h1>
       <p>
-        {{ $t("pages.supporters.join.paragraph-1-pt1") }}
-        <NuxtLink :to="localePath('/supporters')" class="focus-brand link-text"
-          >{{ $t("pages.supporters.join.paragraph-1-pt1") }}</NuxtLink
+        {{ $t("pages.supporters.join.section-1-paragraph-1-pt-1") }}
+        <NuxtLink
+          :to="localePath('/supporters')"
+          class="focus-brand link-text"
+          >{{
+            $t("pages.supporters.join.section-1-paragraph-1-pt-2")
+          }}</NuxtLink
         >.
       </p>
-      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-1") }}</h2>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-2-subheader") }}
+      </h2>
       <p>
         {{ $t("pages.supporters.join.paragraph-2-pt1") }}
         <a
@@ -29,55 +37,68 @@
         </a>
         {{ $t("pages.supporters.join.paragraph-2-pt3") }}
       </p>
-      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-2") }}</h2>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-3-subheader") }}
+      </h2>
       <p>
-        {{ $t("pages.supporters.join.paragraph-3-pt1") }}
+        {{ $t("pages.supporters.join.section-3-paragraph-1-pt-1") }}
         <a href="" class="focus-brand link-text" target="_blank"
-          >{{ $t("pages.supporters.join.paragraph-3-pt2") }}
+          >{{ $t("pages.supporters.join.section-3-paragraph-1-pt-2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("pages.supporters.join.paragraph-3-pt3") }}
+        {{ $t("pages.supporters.join.section-3-paragraph-1-pt-3") }}
       </p>
-      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-3") }}</h2>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-4-subheader") }}
+      </h2>
       <p>
-        {{ $t("pages.supporters.join.paragraph-4-pt1") }}
+        {{ $t("pages.supporters.join.section-4-paragraph-1-pt-1") }}
         <NuxtLink
           :to="localePath('/help/contact')"
           class="focus-brand link-text"
-          >{{ $t("pages.supporters.join.paragraph-4-pt2") }}</NuxtLink
+          >{{
+            $t("pages.supporters.join.section-4-paragraph-1-pt-2")
+          }}</NuxtLink
         >
-        {{ $t("pages.supporters.join.paragraph-4-pt3") }}
+        {{ $t("pages.supporters.join.section-4-paragraph-1-pt-3") }}
       </p>
-      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-4") }}</h2>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-5-subheader") }}
+      </h2>
       <p>
-        {{ $t("pages.supporters.join.paragraph-5-pt1") }}
-        <NuxtLink :to="localePath('/supporters')" class="focus-brand link-text"
-          >{{ $t("pages.supporters.join.paragraph-5-pt2") }}</NuxtLink
+        {{ $t("pages.supporters.join.section-5-paragraph-1-pt-1") }}
+        <NuxtLink
+          :to="localePath('/supporters')"
+          class="focus-brand link-text"
+          >{{
+            $t("pages.supporters.join.section-5-paragraph-1-pt-2")
+          }}</NuxtLink
         >.
       </p>
-      <h2 class="font-bold responsive-h4">{{ $t("pages.supporters.join.subtitle-5") }}</h2>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-6-subheader") }}
+      </h2>
       <p>
-        {{ $t("pages.supporters.join.paragraph-6-pt1") }}
+        {{ $t("pages.supporters.join.section-6-paragraph-1-pt-1") }}
         <a
           href="https://explore.transifex.com/activist-org/activist"
           class="focus-brand link-text"
           target="_blank"
-          >{{ $t("pages.supporters.join.paragraph-6-pt2") }}
+          >{{ $t("pages.supporters.join.section-6-paragraph-1-pt-2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("pages.supporters.join.paragraph-6-pt3") }}
+        {{ $t("pages.supporters.join.section-6-paragraph-1-pt-3") }}
       </p>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

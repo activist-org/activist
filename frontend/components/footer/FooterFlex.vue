@@ -10,7 +10,7 @@
       </div>
 
       <p class="mt-3 text-light-text dark:text-dark-text">
-        {{ $t("components.footer.footer-flex.activist-tagline") }}
+        {{ $t("components.footer-flex.activist-tagline") }}
       </p>
 
       <!-- Note: Platform Links -->
@@ -19,7 +19,7 @@
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink
               v-if="platform.isLocalePath"
-              :to="platform.url"
+              :to="localePath(platform.url)"
               class="focus-brand"
             >
               {{ $t(platform.name) }}
@@ -38,7 +38,7 @@
       <div class="flex mt-5">
         <template v-for="(policy, index) in links.legalLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink :to="policy.url" class="focus-brand">
+            <NuxtLink :to="localePath(policy.url)" class="focus-brand">
               {{ $t(policy.name) }}
             </NuxtLink>
           </div>
@@ -46,7 +46,7 @@
         </template>
       </div>
       <div class="mt-2 text-light-text dark:text-dark-text">
-        {{ $t("components.footer.footer-flex.website-copyright") }}
+        {{ $t("components.footer-flex.website-copyright") }}
       </div>
     </div>
 
@@ -57,7 +57,7 @@
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components.footer.footer-flex.connect") }}
+          {{ $t("components.footer-flex.connect") }}
         </p>
         <template v-for="(connect, index) in links.connectLinks">
           <a
@@ -75,7 +75,7 @@
       <!-- Note: Resources Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components.footer.footer-flex.resources") }}
+          {{ $t("components.footer-flex.resources") }}
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p
@@ -92,15 +92,15 @@
       <!-- Note: Organization Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components.footer.footer-flex.organization") }}
+          {{ $t("components.footer-flex.organization") }}
         </p>
-        <template v-for="(organization, index) in links.organizationLinks">
+        <template v-for="(oLink, index) in links.organizationLinks">
           <p
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
             :class="{ 'mt-3': index === 0 }"
           >
-            <NuxtLink :to="localePath(organization.url)" class="focus-brand">
-              {{ $t(organization.name) }}
+            <NuxtLink :to="localePath(oLink.url)" class="focus-brand">
+              {{ $t(oLink.name) }}
             </NuxtLink>
           </p>
         </template>

@@ -9,6 +9,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const title = ref("Careers");
-</script>
+<script setup lang="ts"></script>

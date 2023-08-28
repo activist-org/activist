@@ -6,7 +6,7 @@
       <h3
         class="font-bold text-left text-light-act-red dark:text-dark-act-red responsive-h3 font-display"
       >
-        {{ $t("components.card.card-danger-zone.title") }}
+        {{ $t("components.card-danger-zone.header") }}
       </h3>
       <p class="">{{ description }}</p>
       <form method="post">
@@ -17,8 +17,10 @@
             <label
               for="username"
               class="font-bold text-light-text dark:text-dark-text responsive-h4"
-              :placeholder="$t('components.card.card-danger-zone.placeholder-username')"
-              >{{ $t("components.card.card-danger-zone.label-username") }} *</label
+              :placeholder="
+                $t('components.card-danger-zone.placeholder-username')
+              "
+              >{{ $t("components.card-danger-zone.label-username") }} *</label
             >
             <input
               id="username"
@@ -29,8 +31,10 @@
             <label
               for="password"
               class="font-bold text-light-text dark:text-dark-text responsive-h4"
-              :placeholder="$t('components.card.card-danger-zone.placeholder-password')"
-              >{{ $t("components.card.card-danger-zone.label-password") }} *</label
+              :placeholder="
+                $t('components.card-danger-zone.placeholder-password')
+              "
+              >{{ $t("components.card-danger-zone.label-password") }} *</label
             >
             <input
               id="password"

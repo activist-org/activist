@@ -19,7 +19,7 @@
               '!not-sr-only !ml-3': props.location === 'sideMenu',
             }"
           >
-            {{ $t("components.selector.selector-theme.theme") }}
+            {{ $t("components.selector-theme.label") }}
           </p>
           <Icon
             name="bi:chevron-down"
@@ -57,7 +57,9 @@
               @click="$colorMode.preference = 'system'"
             >
               <Icon name="bi:circle-half" size="1em" />
-              <p class="pl-2 pr-2">System</p>
+              <p class="pl-2 pr-2">
+                {{ $t("components.selector-theme.label") }}
+              </p>
             </button>
           </MenuItem>
           <MenuItem v-slot="{ active }">
@@ -71,7 +73,9 @@
               @click="$colorMode.preference = 'light'"
             >
               <Icon name="bi:sun" size="1.1em" />
-              <p class="pl-2 pr-2">Light</p>
+              <p class="pl-2 pr-2">
+                {{ $t("components.selector-theme.light") }}
+              </p>
             </button>
           </MenuItem>
           <MenuItem v-slot="{ active }">
@@ -85,7 +89,9 @@
               @click="$colorMode.preference = 'dark'"
             >
               <Icon name="bi:moon" size="1em" />
-              <p class="pl-2 pr-2">Dark</p>
+              <p class="pl-2 pr-2">
+                {{ $t("components.selector-theme.dark") }}
+              </p>
             </button>
           </MenuItem>
         </div>

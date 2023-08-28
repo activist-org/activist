@@ -57,8 +57,8 @@ import { Dialog, DialogPanel } from "@headlessui/vue";
 import { ref } from "vue";
 
 defineProps<{
-  imageURL: string,
-  imageAltText: string,
+  imageURL: string;
+  imageAltText: string;
 }>();
 
 const isOpen = ref(false);

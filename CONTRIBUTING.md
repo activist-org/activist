@@ -37,7 +37,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
   - activist would suggest that you use the [Element](https://element.io/) client
   - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
   - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
-- Read through this contributing guide and the [styleguide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for all the information you need to contribute
+- Read through this contributing guide and the [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
 - Consider joining our [bi-weekly developers sync](https://etherpad.wikimedia.org/p/activist-dev-sync)!
@@ -248,7 +248,9 @@ Thank you in advance for your contributions!
 
 ## Localization [`⇧`](#contents)
 
-Those interested in contributing to localization for the app are welcome to check related issues using the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues).
+Localization for activist happens within our [public localization project on Transifex](https://explore.transifex.com/activist-org/activist). Join us there if you'd like to help bring activist to other languages!
+
+To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for more information on how to create new localization keys.
 
 <a id="documentation"></a>
 

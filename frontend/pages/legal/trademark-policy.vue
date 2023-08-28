@@ -43,109 +43,120 @@
             {{ $t("pages.legal.trademark-policy.last-updated") }}
           </p>
           <p>
-            {{ $t("pages.legal.trademark-policy.paragraph-1") }}
+            {{ $t("pages.legal.trademark-policy.section-1-paragraph-1") }}
           </p>
           <p>
-            {{ $t("pages.legal.trademark-policy.paragraph-2") }}
+            {{ $t("pages.legal.trademark-policy.section-1-paragraph-2") }}
           </p>
           <p>
-            {{ $t("pages.legal.trademark-policy.paragraph-3") }}
+            {{ $t("pages.legal.trademark-policy.section-1-paragraph-3") }}
           </p>
           <p>
-            {{ $t("pages.legal.trademark-policy.paragraph-4") }}
+            {{ $t("pages.legal.trademark-policy.section-1-paragraph-4") }}
           </p>
           <p>
-            {{ $t("pages.legal.trademark-policy.paragraph-5-pt1") }}
+            {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-pt-1") }}
             <a href="mailto:team@activist.org" class="focus-brand link-text"
               >team@activist.org</a
-            >. {{ $t("pages.legal.trademark-policy.paragraph-5-pt2") }}
+            >.
+            {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-pt-2") }}
           </p>
-          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.trademark-policy.subtitle-1") }}</h2>
+          <h2 class="font-bold responsive-h3">
+            {{ $t("pages.legal.trademark-policy.section-2-subheader") }}
+          </h2>
           <ul class="ml-6 list-disc">
             <li>
-              {{ $t("pages.legal.trademark-policy.list1-item1") }}
+              {{ $t("pages.legal.trademark-policy.section-2-list-1-item-1") }}
             </li>
             <li>
-              {{ $t("pages.legal.trademark-policy.list1-item2") }}
+              {{ $t("pages.legal.trademark-policy.section-2-list-1-item-2") }}
             </li>
             <li>
-              {{ $t("pages.legal.trademark-policy.list1-item3") }}
+              {{ $t("pages.legal.trademark-policy.section-2-list-1-item-3") }}
             </li>
             <li>
-              {{ $t("pages.legal.trademark-policy.list1-item4") }}
+              {{ $t("pages.legal.trademark-policy.section-2-list-1-item-4") }}
             </li>
             <li>
-              {{ $t("pages.legal.trademark-policy.list1-item5") }}
+              {{ $t("pages.legal.trademark-policy.section-2-list-1-item-5") }}
             </li>
             <li>
-              {{ $t("pages.legal.trademark-policy.list1-item6") }}
+              {{ $t("pages.legal.trademark-policy.section-2-list-1-item-6") }}
             </li>
             <li>
-              {{ $t("pages.legal.trademark-policy.list1-item7") }}
+              {{ $t("pages.legal.trademark-policy.section-2-list-1-item-7") }}
             </li>
             <li>
-              {{ $t("pages.legal.trademark-policy.list1-item8") }}
+              {{ $t("pages.legal.trademark-policy.section-2-list-1-item-8") }}
             </li>
           </ul>
           <h2 class="font-bold responsive-h3">
-            {{ $t("pages.legal.trademark-policy.subtitle-2") }}
+            {{ $t("pages.legal.trademark-policy.section-3-subheader") }}
           </h2>
           <p>
-            {{ $t("pages.legal.trademark-policy.paragraph-6") }}
+            {{ $t("pages.legal.trademark-policy.section-3-paragraph-1") }}
           </p>
           <ul class="ml-6 list-disc">
             <li>
-              {{ $t("pages.legal.trademark-policy.list2-item1") }}
+              {{ $t("pages.legal.trademark-policy.section-3-list-1-item-1") }}
             </li>
             <li>
-              {{ $t("pages.legal.trademark-policy.list2-item2") }}
+              {{ $t("pages.legal.trademark-policy.section-3-list-1-item-2") }}
             </li>
           </ul>
-          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.trademark-policy.subtitle-3") }}</h2>
+          <h2 class="font-bold responsive-h3">
+            {{ $t("pages.legal.trademark-policy.section-4-subheader") }}
+          </h2>
           <ul class="ml-6 list-disc">
             <li>
-              {{ $t("pages.legal.trademark-policy.list3-item1") }}
+              {{ $t("pages.legal.trademark-policy.section-4-list-1-item-1") }}
             </li>
           </ul>
-          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.trademark-policy.subtitle-4") }}</h2>
+          <h2 class="font-bold responsive-h3">
+            {{ $t("pages.legal.trademark-policy.section-5-subheader") }}
+          </h2>
           <p>
-            {{ $t("pages.legal.trademark-policy.paragraph-7") }}
+            {{ $t("pages.legal.trademark-policy.section-5-paragraph-1") }}
           </p>
           <p class="pb-2 lg:pb-4">
-            {{ $t("pages.legal.trademark-policy.paragraph-8-pt1") }}
+            {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-1") }}
             <a
               href="https://github.com/orgs/activist-org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.legal.trademark-policy.paragraph-8-pt2") }}
+              {{
+                $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-2")
+              }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.legal.trademark-policy.paragraph-8-pt3") }}
+            {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-3") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.legal.trademark-policy.paragraph-8-pt4") }}
+              {{
+                $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-4")
+              }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.legal.trademark-policy.paragraph-8-pt5") }}
+            {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-5") }}
           </p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
           >
             <BtnLabeled
               :cta="false"
-              :label="$t('components.btn.btn-labeled.return-home')"
+              :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
             />
@@ -171,5 +182,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

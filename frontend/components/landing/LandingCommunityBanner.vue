@@ -11,7 +11,9 @@
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
         <Icon name="cib:github" size="1em" />
-        <p class="sr-only sm:not-sr-only">GitHub</p>
+        <p class="sr-only sm:not-sr-only">
+          {{ $t("components.landing-community-banner.github") }}
+        </p>
       </a>
       <a
         href="https://matrix.to/#/#activist_community:matrix.org"
@@ -19,7 +21,9 @@
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
         <Icon name="IconMatrix" size="1.061em" />
-        <p class="sr-only sm:not-sr-only">Matrix</p>
+        <p class="sr-only sm:not-sr-only">
+          {{ $t("components.landing-community-banner.matrix") }}
+        </p>
       </a>
       <a
         href="https://instagram.com/activist_org"
@@ -27,7 +31,9 @@
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
       >
         <Icon name="cib:instagram" size="1em" />
-        <p class="sr-only sm:not-sr-only">Instagram</p>
+        <p class="sr-only sm:not-sr-only">
+          {{ $t("components.landing-community-banner.instagram") }}
+        </p>
       </a>
     </div>
   </div>

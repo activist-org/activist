@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-2 gap-3 lg:gap-4 lg:grid-cols-4">
     <CardMetric
-      :text="$t('components.grid.grid-home-metrics.new-organizations')"
+      :text="$t('components.grid-home-metrics.new-organizations')"
       number="10"
       textColor="text-light-header dark:text-dark-header"
       borderColor="border-light-header dark:border-dark-header"
@@ -9,7 +9,7 @@
     />
 
     <CardMetric
-      :text="$t('components.grid.grid-home-metrics.events')"
+      :text="$t('components.grid-home-metrics.events')"
       number="123"
       textColor="text-light-text dark:text-dark-text"
       borderColor="border-light-text dark:border-dark-text"
@@ -17,7 +17,7 @@
     />
 
     <CardMetric
-      :text="$t('components.grid.grid-home-metrics.act-events')"
+      :text="$t('components.grid-home-metrics.act-events')"
       number="100"
       textColor="text-light-act-red dark:text-dark-act-red"
       borderColor="border-light-act-red dark:border-dark-act-red"
@@ -25,7 +25,7 @@
     />
 
     <CardMetric
-      :text="$t('components.grid.grid-home-metrics.learn-events')"
+      :text="$t('components.grid-home-metrics.learn-events')"
       number="23"
       textColor="text-light-learn-blue dark:text-dark-learn-blue"
       borderColor="border-light-learn-blue dark:border-dark-learn-blue"

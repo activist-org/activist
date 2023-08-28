@@ -36,104 +36,97 @@
             alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1 class="pb-2 font-bold responsive-h1">{{ $t("pages.legal.privacy-policy.title-page") }}</h1>
+          <h1 class="pb-2 font-bold responsive-h1">
+            {{ $t("pages.legal.privacy-policy.header") }}
+          </h1>
           <p
             class="responsive-h4 text-light-special-text dark:text-dark-special-text"
           >
             {{ $t("pages.legal.privacy-policy.last-updated") }}
           </p>
           <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-1") }}
+            {{ $t("pages.legal.privacy-policy.section-1-paragraph-1") }}
           </p>
           <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-2") }}
-          </p>
-          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.privacy-policy.subtitle-1") }}</h2>
-          <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-3") }}
+            {{ $t("pages.legal.privacy-policy.section-1-paragraph-2") }}
           </p>
           <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-4") }}
-          </p>
-          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.privacy-policy.subtitle-2") }}</h2>
-          <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-5") }}
-          </p>
-          <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-6") }}
+            {{ $t("pages.legal.privacy-policy.section-1-paragraph-3") }}
           </p>
           <h2 class="font-bold responsive-h3">
-            {{ $t("pages.legal.privacy-policy.subtitle-3") }}
+            {{ $t("pages.legal.privacy-policy.section-2-subheader") }}
           </h2>
           <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-7") }}
+            {{ $t("pages.legal.privacy-policy.section-2-paragraph-1") }}
+          </p>
+          <h2 class="font-bold responsive-h3">
+            {{ $t("pages.legal.privacy-policy.section-3-subheader") }}
+          </h2>
+          <p>
+            {{ $t("pages.legal.privacy-policy.section-3-paragraph-1") }}
+          </p>
+          <h2 class="font-bold responsive-h3">
+            {{ $t("pages.legal.privacy-policy.section-4-subheader") }}
+          </h2>
+          <p>
+            {{ $t("pages.legal.privacy-policy.section-4-paragraph-1") }}
+          </p>
+          <h2 class="font-bold responsive-h3">
+            {{ $t("pages.legal.privacy-policy.section-5-subheader") }}
+          </h2>
+          <p>
+            {{ $t("pages.legal.privacy-policy.section-5-paragraph-1") }}
           </p>
           <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-8") }}
+            {{ $t("pages.legal.privacy-policy.section-5-paragraph-2") }}
           </p>
-          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.privacy-policy.subtitle-4") }}</h2>
+          <h2 class="font-bold responsive-h3">
+            {{ $t("pages.legal.privacy-policy.section-6-subheader") }}
+          </h2>
           <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-9") }}
+            {{ $t("pages.legal.privacy-policy.section-6-paragraph-1") }}
           </p>
+          <h2 class="font-bold responsive-h3">
+            {{ $t("pages.legal.privacy-policy.section-7-subheader") }}
+          </h2>
           <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-10") }}
-          </p>
-          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.privacy-policy.subtitle-5") }}</h2>
-          <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-11") }}
-          </p>
-          <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-12") }}
-          </p>
-          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.privacy-policy.subtitle-6") }}</h2>
-          <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-13") }}
-          </p>
-          <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-14") }}
-          </p>
-          <h2 class="font-bold responsive-h3">{{ $t("pages.legal.privacy-policy.subtitle-7") }}</h2>
-          <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-15") }}
-          </p>
-          <p>
-            {{ $t("pages.legal.privacy-policy.paragraph-16") }}
+            {{ $t("pages.legal.privacy-policy.section-7-paragraph-1") }}
           </p>
           <p class="pb-2 lg:pb-4">
-            {{ $t("pages.legal.privacy-policy.paragraph-17-pt1") }}
+            {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-1") }}
             <a
               href="https://github.com/orgs/activist-org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.legal.privacy-policy.paragraph-17-pt2") }}
+              {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.legal.privacy-policy.paragraph-17-pt3") }}
+            {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-3") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.legal.privacy-policy.paragraph-17-pt4") }}
+              {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.legal.privacy-policy.paragraph-17-pt5") }}
+            {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-5") }}
           </p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
           >
             <BtnLabeled
               :cta="false"
-              :label="$t('components.btn.btn-labeled.return-home')"
+              :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
             />
@@ -159,5 +152,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

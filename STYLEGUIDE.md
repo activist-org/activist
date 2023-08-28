@@ -18,8 +18,9 @@ If you have questions or would like to communicate with the team, please [join u
 - [Colors](#colors)
 - [Font](#font)
 - [Text size](#text-size)
-- [Tab size](#tab-size)
+- [Localization](#localization)
 - [Icons](#icons)
+- [Tab size](#tab-size)
 - [Padding](#padding)
 
 <a id="vue-and-nuxt"></a>
@@ -158,11 +159,48 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 <h1 class="font-bold responsive-h1">Page Header</h1>
 ```
 
-<a id="tab-size"></a>
+<a id="localization"></a>
 
-## Tab size [`⇧`](#contents)
+## Localization [`⇧`](#contents)
 
-Codes on the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), TypeScript, CSS and other related files should use two spaces for tabs. For the backend four spaces should be used for Python files.
+activist is a global platform and must function in countless different regions around the world. To achieve this, all strings on the platform must be defined using keys found in the [i18n directory of the frontend](https://github.com/activist-org/activist/tree/main/frontend/i18n).
+
+> [!NOTE]\
+> All keys should be defined within the [en-US.json file](https://github.com/activist-org/activist/blob/main/frontend/i18n/en-US.json)
+>
+> - This is the source from which all the other languages are translated from
+> - Edits to the other files need to be made on activist's [public localization project on Transifex](https://explore.transifex.com/activist-org/activist)
+> - Please alphabetize the keys except for indexes within page routes that should come first
+
+Localization keys should be defined based on their component or page within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
+
+- Separate directories by `.` and CamelCase file name words by `-` in keys
+  - Ex: `"components.search-bar.CONTENT_REFERENCE"` for the `SearchBar` component
+- If the localization key is being passed to a component prop, include it in the content reference
+  - Ex: `"components.topic-marker.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `TopicMarker` component
+    - `"CONTENT_REFERENCE"` in this case would be a reference to the name of a topic like `"environment"`
+- Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
+  - Ex: if you're defining a key within `SidebarLeftFooter`:
+    - ✅ `"components.sidebar-left-footer.CONTENT_REFERENCE"`
+    - ❌ `"components.sidebar.left.sidebar-left-footer.CONTENT_REFERENCE"`
+- Define keys based on the lowest level component or other entity in which they're used
+  - Ex: you're working on the about page of organizations and there's a `BtnLabeled` that's getting a localization key:
+    - ✅ `"components.btn-labeled.CONTENT_REFERENCE"`
+    - ❌ `"pages.organizations.id.about.CONTENT_REFERENCE"`
+  - The reason for this is we want to make sure that we can reuse keys where ever we can
+    - In the example above, if we defined the key based on its location on the organization about page when it's a `BtnLabeled` with a text like `"Support"`, then we'd need to create a different version of this key for each occurrence of the depending on the location
+    - With the system detailed above, we have the `components.btn-labeled.label.support` key that we can use anywhere that we have a support button ✨
+- For pages with long texts please follow the below naming criteria:
+  - `"header"`: the main header (h1) of the given page
+  - `"section-#"`: a section that iterates by one with every header and subheader
+  - `"section-#-subheader"`: marks the start of a new section (h2 and beyond)
+  - `"section-#-paragraph-#"`: a paragraph with one or more sentences
+  - `"section-#-paragraph-#-pt-#"`: a paragraph with separate parts to insert things like links
+  - `"section-#-list-#-item-#"`: an item in a list
+  - `"section-#-list-#-item-#-subitem-#"`: a subitem of the given item
+  - `"section-#-#"`: a subsection, with other `#-#` patterns also being possible
+
+The activist team is happy to help if there's any confusion with the above rules! Feel free to ask in the issue you're working on or even check once a PR is made and we'll make sure that conventions are being followed.
 
 <a id="icons"></a>
 
@@ -171,6 +209,12 @@ Codes on the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), T
 activist uses [nuxt-icon](https://github.com/nuxt-modules/icon) for all icons. Icons are defined via `<Icon name="ICON_NAME"/>` components, with [Icônes](https://icones.js.org/) being a good place to look for [Iconify](https://iconify.design/) based files to import. The `<Icon/>` component also has a `size` argument that `em` based arguments can be passed to. There's also a `color` argument, but colors are handled with Tailwind CSS via the `text-COLOR` class argument.
 
 Custom icons for activist can further be found in the [Icon directory of the frontend components](https://github.com/activist-org/activist/tree/main/frontend/components/Icon). These icons can also be referenced via the `<Icon>` component via their file name (ex: `<Icon name="IconSupport">` for the grasped hands we use). For Tailwind coloration note that we need to use `fill-COLOR` for the custom activist icons rather than `text-COLOR`.
+
+<a id="tab-size"></a>
+
+## Tab size [`⇧`](#contents)
+
+Codes on the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), TypeScript, CSS and other related files should use two spaces for tabs. For the backend four spaces should be used for Python files.
 
 <a id="padding"></a>
 

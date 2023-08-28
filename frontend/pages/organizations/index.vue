@@ -9,13 +9,13 @@
     <h1
       class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
-      {{ $t("pages.organizations.index.title") }}
+      {{ $t("pages.organizations.index.header") }}
     </h1>
     <flex class="relative flex items-center py-6"
       ><h2
         class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
       >
-        {{ $t("pages.organizations.index.subtitle") }}
+        {{ $t("pages.organizations.index.subheader") }}
       </h2>
       <TopicMarker topic="My topics dropdown" class="absolute right-7" />
     </flex>

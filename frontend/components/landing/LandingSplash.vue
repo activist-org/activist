@@ -6,23 +6,23 @@
       <h1
         class="w-10/12 text-3xl font-bold leading-snug text-center lg:font-bold sm:text-4xl md:text-5xl xl:text-6xl md:max-w-lg xl:max-w-2xl sm:leading-snug md:leading-snug xl:leading-snug font-display"
       >
-        {{ $t("components.landing.landing-splash.header") }}
+        {{ $t("components.landing-splash.header") }}
       </h1>
     </div>
     <div class="flex justify-center">
       <p
         class="w-10/12 text-base text-center md:text-lg md:max-w-lg sm:text-xl xl:max-w-2xl xl:text-2xl"
       >
-        {{ $t("components.landing.landing-splash.message") }}
+        {{ $t("components.landing-splash.message") }}
       </p>
     </div>
     <div class="flex justify-center rounded-md">
       <BtnLabeled
         :cta="true"
-        :label="$t('components.btn.btn-labeled.request-access-text')"
+        :label="$t('components.btn-labeled.request-access')"
         linkTo="https://tally.so/r/nprxbq"
         fontSize="xl"
-        :alternateText="$t('components.btn.btn-labeled.request-access-alt')"
+        :alternateText="$t('components.btn-labeled.request-access-alt')"
       />
     </div>
   </div>

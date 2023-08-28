@@ -14,44 +14,43 @@
       >
         <div class="flex flex-col p-4 space-y-4 md:w-1/2 lg:space-y-6">
           <h1 class="text-center md:text-left responsive-h2">
-            {{ $t("pages.help.contact.page-title") }}
+            {{ $t("pages.help.contact.header") }}
           </h1>
           <p>
-            {{ $t("pages.help.contact.paragraph-1-pt1") }}
+            {{ $t("pages.help.contact.section-1-paragraph-1-pt-1") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
             >
-              {{ $t("pages.help.contact.paragraph-1-pt2") }}
+              {{ $t("pages.help.contact.section-1-paragraph-1-pt-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.help.contact.paragraph-1-pt3") }}
+            {{ $t("pages.help.contact.section-1-paragraph-1-pt-3") }}
             <a
               href="https://github.com/activist-org/activist"
               class="items-center focus-brand link-text"
             >
-              {{ $t("pages.help.contact.paragraph-1-pt4") }}
+              {{ $t("pages.help.contact.section-1-paragraph-1-pt-4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            — {{ $t("pages.help.contact.paragraph-1-pt5") }} <strong>{{ $t("pages.help.contact.paragraph-1-pt6") }}</strong> {{ $t("pages.help.contact.paragraph-1-pt7") }}
-            <strong>{{ $t("pages.help.contact.paragraph-1-pt8") }}</strong> {{ $t("pages.help.contact.paragraph-1-pt9") }}
+            {{ $t("pages.help.contact.section-1-paragraph-1-pt-5") }}
           </p>
           <p>
-            {{ $t("pages.help.contact.paragraph-2-pt1") }}
+            {{ $t("pages.help.contact.section-1-paragraph-2-pt-1") }}
             <a
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.help.contact.paragraph-2-pt2") }}
+              {{ $t("pages.help.contact.section-1-paragraph-2-pt-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -70,7 +69,10 @@
                   : 'text-light-text dark:text-dark-text'
               "
               for="name"
-              >{{ $t("pages.help.contact.label-name") }} <span v-if="!nameValidated">{{ $t("pages.help.contact.error-empty") }}</span></label
+              >{{ $t("pages.help.contact.label-name") }}
+              <span v-if="!nameValidated">{{
+                $t("pages.help.contact.error-empty")
+              }}</span></label
             >
 
             <input
@@ -168,7 +170,12 @@
         <p>
           {{ $t("pages.help.contact.thanks-2") }}
         </p>
-        <BtnLabeled :cta="false" :label="$t('components.btn.btn-labeled.return-home')" linkTo="/" fontSize="lg" />
+        <BtnLabeled
+          :cta="false"
+          :label="$t('components.btn-labeled.return-home')"
+          linkTo="/"
+          fontSize="lg"
+        />
       </div>
     </div>
   </div>

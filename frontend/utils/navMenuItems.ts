@@ -1,12 +1,17 @@
 export const menuItems = [
   {
-    iconURL: "bi:calendar-check",
-    btnText: "Events",
-    btnURL: "/events",
+    label: "components.menu-mobile-selector.label.home",
+    routeURL: "/home",
+    iconURL: "bi:house",
   },
   {
+    label: "components.menu-mobile-selector.label.events",
+    routeURL: "/events",
+    iconURL: "bi:calendar-check",
+  },
+  {
+    label: "components.menu-mobile-selector.label.organizations",
+    routeURL: "/organizations",
     iconURL: "IconOrganization",
-    btnText: "Organizations",
-    btnURL: "/organizations",
   },
 ];

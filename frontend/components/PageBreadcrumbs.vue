@@ -78,7 +78,9 @@ onMounted(() => {
 });
 
 function isLocaleSegment(segment: string) {
-  return locales.value.some((locale) => typeof (locale) === "string" ? locale === segment : locale.code === segment);
+  return locales.value.some((locale) =>
+    typeof locale === "string" ? locale === segment : locale.code === segment
+  );
 }
 
 const displayBreadcrumbs = computed(() => {

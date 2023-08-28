@@ -1,6 +1,6 @@
 <template>
   <MenuLinkWrapper
-    :to="btnURL"
+    :to="routeURL"
     :active="active"
     :selected="selected"
     :linkClasses="{
@@ -21,7 +21,7 @@
       </span>
 
       <p class="select-none whitespace-nowrap hover:light-menu-selection">
-        {{ $t(btnText) }}
+        {{ $t(label) }}
       </p>
     </div>
   </MenuLinkWrapper>
@@ -29,9 +29,9 @@
 
 <script setup lang="ts">
 defineProps<{
+  label: string;
+  routeURL: string;
   iconURL: string;
-  btnText: string;
-  btnURL: string;
   selected: boolean;
   active: boolean;
 }>();

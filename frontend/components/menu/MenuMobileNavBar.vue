@@ -4,21 +4,12 @@
   >
     <nav>
       <ul class="flex">
-        <li class="flex-1">
-          <MenuMobileSelector
-            iconURL="bi:house"
-            btnText="Home"
-            btnURL="/home"
-            :selected="isActive('/home')"
-            :active="true"
-          />
-        </li>
         <li class="flex-1" v-for="(item, index) in menuItems" :key="index">
           <MenuMobileSelector
+            :label="item.label"
+            :routeURL="item.routeURL"
             :iconURL="item.iconURL"
-            :btnText="item.btnText"
-            :btnURL="item.btnURL"
-            :selected="isActive(item.btnURL)"
+            :selected="isActive(item.routeURL)"
             :active="true"
           />
         </li>
@@ -31,7 +22,7 @@
 import { menuItems } from "@/utils/navMenuItems";
 import { isRouteActive } from "@/utils/routeUtils";
 
-const isActive = (btnURL: string) => {
-  return isRouteActive(btnURL);
+const isActive = (routeURL: string) => {
+  return isRouteActive(routeURL);
 };
 </script>

@@ -32,11 +32,13 @@
       </div>
       <div class="flex items-center gap-1">
         <Icon name="bi:people" class="mr-1" />
-        {{ organization.members }} {{ $t("components.card.search-result.organization.members") }}
+        {{ organization.members }}
+        {{ $t("components.card-search-result-organization.members") }}
       </div>
       <div class="flex items-center gap-1 fill-light-text dark:fill-dark-text">
         <Icon name="IconSupport" class="mr-1" />
-        {{ organization.supporters }} {{ $t("components.card.search-result.organization.supporters") }}
+        {{ organization.supporters }}
+        {{ $t("components.card-search-result-organization.supporters") }}
       </div>
     </div>
     <div>

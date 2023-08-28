@@ -36,7 +36,9 @@
             alt="A information circle."
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
-          <h1 class="pb-2 font-bold responsive-h1">Impress</h1>
+          <h1 class="pb-2 font-bold responsive-h1">
+            {{ $t("pages.about.impress.header") }}
+          </h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
               name="bi:info-circle-fill"
@@ -44,29 +46,31 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              {{ $t("pages.about.impress.subtitle-1") }}
+              {{ $t("pages.about.impress.subheader-pt-1") }}
               <a
                 href="/help/contact"
                 class="items-center focus-brand link-text"
               >
-                {{ $t("pages.about.impress.subtitle-2") }}
+                {{ $t("pages.about.impress.subheader-pt-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
                   style="vertical-align: baseline"
                 />
               </a>
-              {{ $t("pages.about.impress.subtitle-3") }}
+              {{ $t("pages.about.impress.subheader-pt-3") }}
             </p>
           </div>
           <p>
-            {{ $t("pages.about.impress.paragraph-1") }}
+            {{ $t("pages.about.impress.section-1-paragraph-1") }}
           </p>
           <p>
-            {{ $t("pages.about.impress.paragraph-2") }}
+            {{ $t("pages.about.impress.section-1-paragraph-2") }}
           </p>
           <ul>
-            <li><strong>{{ $t("pages.about.impress.inquiries") }}:</strong></li>
+            <li>
+              <strong>{{ $t("pages.about.impress.inquiries") }}</strong>
+            </li>
             <li>
               <a href="mailto:team@activist.org" class="focus-brand link-text"
                 >team@activist.org</a
@@ -79,7 +83,7 @@
           >
             <BtnLabeled
               :cta="false"
-              :label="$('components.btn.btn-labeled.return-home')"
+              :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
             />
@@ -105,5 +109,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

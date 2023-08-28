@@ -1,5 +1,5 @@
 <template>
-  <MenuLinkWrapper :to="btnURL" :active="active" :selected="selected">
+  <MenuLinkWrapper :to="routeURL" :active="active" :selected="selected">
     <div
       class="relative z-0 flex items-center w-full text-sm font-medium text-left space-x-2"
     >
@@ -11,7 +11,7 @@
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
           class="select-none width-5/6 whitespace-nowrap hover:light-menu-selection"
         >
-          {{ $t(btnText) }}
+          {{ $t(label) }}
         </p>
       </Transition>
     </div>
@@ -20,9 +20,9 @@
 
 <script setup lang="ts">
 defineProps<{
+  label: string;
+  routeURL: string;
   iconURL: string;
-  btnText: string;
-  btnURL: string;
   selected: boolean;
   active: boolean;
 }>();
