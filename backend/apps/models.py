@@ -17,14 +17,13 @@ Considerations:
 
 class Support(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     supporter_type = models.IntegerField(null=True)
     supporter_entity = models.IntegerField(null=True)
     supported_type = models.IntegerField(null=True)
     supported_entity = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 # New user model
@@ -44,10 +43,6 @@ class User(AbstractUser):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
-    class Meta:
-        verbose_name = "user"
-        verbose_name_plural = "2. Users"
-
     def __str__(self):
         return self.username
 
@@ -56,16 +51,12 @@ class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255)
-    application_id: models.IntegerField(null=True)
-    social_accounts: ArrayField(models.CharField(max_length=255))
-    total_flags: models.IntegerField(null=True)
-    created_by: models.IntegerField(null=True)
+    application_id = models.IntegerField(null=True)
+    social_accounts = ArrayField(models.CharField(max_length=255))
+    total_flags = models.IntegerField(null=True)
+    created_by = models.IntegerField(null=True)
 
-    creation_date: models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = "organization"
-        verbose_name_plural = "2. Organizations"
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -104,10 +95,6 @@ class Role(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateField(null=True)
 
-    class Meta:
-        verbose_name = "role"
-        verbose_name_plural = "1. Role"
-
     def __str__(self):
         return self.name
 
@@ -121,10 +108,6 @@ class Topic(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateField(null=True)
-
-    class Meta:
-        verbose_name = "topic"
-        verbose_name_plural = "1. Topic"
 
     def __str__(self):
         return self.name
@@ -143,10 +126,6 @@ class Resource(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     deletion_date = models.DateField(null=True)
 
-    class Meta:
-        verbose_name = "resource"
-        verbose_name_plural = "1. Resource"
-
     def __str__(self):
         return self.name
 
@@ -159,10 +138,6 @@ class Format(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateField(null=True)
-
-    class Meta:
-        verbose_name = "format"
-        verbose_name_plural = "1. Format"
 
     def __str__(self):
         return self.name
@@ -180,10 +155,6 @@ class Group(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
-    class Meta:
-        verbose_name = "group"
-        verbose_name_plural = "1. Group"
-
     def __str__(self):
         return self.name
 
@@ -198,10 +169,6 @@ class Task(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
-    class Meta:
-        verbose_name = "task"
-        verbose_name_plural = "1. Task"
-
     def __str__(self):
         return self.name
 
@@ -211,117 +178,102 @@ class SupportEntityTypes(models.Model):
     name = models.CharField(max_length=255)
     type = models.ForeignKey(Support, on_delete=models.CASCADE)
 
-    class Meta:
-        verbose_name = "support entity type"
-        verbose_name_plural = "1. Support Entity Type"
-
     def __str__(self):
         return self.name
 
 
 class UserResource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class UserTopic(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class UserTask(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class GroupMember(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class GroupResource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class GroupTopic(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class GroupEvent(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class EventResource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class EventRole(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class EventTopic(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class EventAttendee(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
@@ -339,38 +291,35 @@ class EventAttendeeStatus(models.Model):
 
 class EventTask(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class TopicFormat(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index: models.IntegerField(null=True)
-    topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
-    format_id: models.ForeignKey(Format, on_delete=models.CASCADE)
+    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    format_id = models.ForeignKey(Format, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class ResourceTopic(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index: models.IntegerField(null=True)
-    resource_id: models.ForeignKey(Resource, on_delete=models.CASCADE)
-    topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
+    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
+    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class OrganizationApplicationStatus(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    status: models.IntegerField(null=True)
-    status_name: models.CharField(max_length=255)
+    status = models.IntegerField(null=True)
+    status_name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.status_name
@@ -380,8 +329,8 @@ class OrganizationApplication(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     status = models.ForeignKey(OrganizationApplicationStatus, on_delete=models.CASCADE)
     org_id = models.IntegerField(null=True)
-    orgs_in_favor: ArrayField(models.IntegerField)
-    orgs_against: ArrayField(models.IntegerField)
+    orgs_in_favor = ArrayField(models.IntegerField)
+    orgs_against = ArrayField(models.IntegerField)
 
     creation_date: models.DateTimeField(auto_now_add=True)
     status_updated: models.DateTimeField(auto_now=True)
@@ -392,51 +341,46 @@ class OrganizationApplication(models.Model):
 
 class OrganizationResource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index: models.IntegerField(null=True)
-    org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class OrganizationMember(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index: models.IntegerField(null=True)
-    org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
-    user_id: models.ForeignKey(User, on_delete=models.CASCADE)
-    is_owner: models.BooleanField(default=False)
-    is_admin: models.BooleanField(default=False)
-    is_comms: models.BooleanField(default=False)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_owner = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_comms = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class OrganizationTopic(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index: models.IntegerField(null=True)
-    org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
-    topic_id: models.ForeignKey(Topic, on_delete=models.CASCADE)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class OrganizationEvent(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
-    org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
-    event_id: models.ForeignKey(Event, on_delete=models.CASCADE)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
 
 
 class OrganizationTask(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    index = models.IntegerField(null=True)
-    org_id: models.ForeignKey(Organization, on_delete=models.CASCADE)
-    task_id: models.ForeignKey(Task, on_delete=models.CASCADE)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.index
+        return self.id
