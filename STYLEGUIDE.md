@@ -174,7 +174,7 @@ activist is a global platform and must function in countless different regions a
 
 Localization keys should be defined based on their component or page within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 
-- Separate directories by `.` and CamelCase file name words by `-` in keys
+- Separate directories and references by `.` and CamelCase file name words by `-` in keys
   - Ex: `"components.search-bar.CONTENT_REFERENCE"` for the `SearchBar` component
 - If the localization key is being passed to a component prop, include it in the content reference
   - Ex: `"components.topic-marker.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `TopicMarker` component
@@ -184,7 +184,7 @@ Localization keys should be defined based on their component or page within the 
     - ✅ `"components.sidebar-left-footer.CONTENT_REFERENCE"`
     - ❌ `"components.sidebar.left.sidebar-left-footer.CONTENT_REFERENCE"`
 - Define keys based on the lowest level component or other entity in which they're used
-  - Ex: you're working on the about page of organizations and there's a `BtnLabeled` that's getting a localization key:
+  - Ex: you're working on the about page for organizations and there's a `BtnLabeled` that's getting a localization key:
     - ✅ `"components.btn-labeled.CONTENT_REFERENCE"`
     - ❌ `"pages.organizations.id.about.CONTENT_REFERENCE"`
   - The reason for this is we want to make sure that we can reuse keys wherever we can
