@@ -26,7 +26,6 @@ class Support(models.Model):
         return self.id
 
 
-# New user model
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     password = models.CharField(max_length=255)
