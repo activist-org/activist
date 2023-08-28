@@ -331,8 +331,8 @@ class OrganizationApplication(models.Model):
     orgs_in_favor = ArrayField(models.IntegerField)
     orgs_against = ArrayField(models.IntegerField)
 
-    creation_date: models.DateTimeField(auto_now_add=True)
-    status_updated: models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    status_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.creation_date
