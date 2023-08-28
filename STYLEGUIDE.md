@@ -33,7 +33,7 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 - `<template>` blocks should come first, `<script>` second and `<style>` last
 - The Vue [Composition API](https://vuejs.org/guide/introduction.html#composition-api) should be used in all cases
-- [TypeScript](https://www.typescriptlang.org/) should be used where ever possible within `<script>` blocks with `defineProps`
+- [TypeScript](https://www.typescriptlang.org/) should be used wherever possible within `<script>` blocks with `defineProps`
 - Self-closing components (`<Component />`) should be used for any component that doesn't have content
   - This style is [strongly recommended in Vue](https://vuejs.org/guide/essentials/component-basics.html#dom-template-parsing-caveats)
   - Generally if a component has a `<slot>` then this would imply that it would normally have content and thus require a closing tag
@@ -187,8 +187,8 @@ Localization keys should be defined based on their component or page within the 
   - Ex: you're working on the about page of organizations and there's a `BtnLabeled` that's getting a localization key:
     - ✅ `"components.btn-labeled.CONTENT_REFERENCE"`
     - ❌ `"pages.organizations.id.about.CONTENT_REFERENCE"`
-  - The reason for this is we want to make sure that we can reuse keys where ever we can
-    - In the example above, if we defined the key based on its location on the organization about page when it's a `BtnLabeled` with a text like `"Support"`, then we'd need to create a different version of this key for each occurrence of the depending on the location
+  - The reason for this is we want to make sure that we can reuse keys wherever we can
+    - In the above example, if we defined the key based on its location on the organization about page when it's a `BtnLabeled` with a text like `"Support"`, then we'd need to create a different version of this key for each occurrence of the button depending on the location
     - With the system detailed above, we have the `components.btn-labeled.label.support` key that we can use anywhere that we have a support button ✨
 - For pages with long texts please follow the below naming criteria:
   - `"header"`: the main header (h1) of the given page
