@@ -58,7 +58,7 @@
             >
               <Icon name="bi:circle-half" size="1em" />
               <p class="pl-2 pr-2">
-                {{ $t("components.selector-theme.label") }}
+                {{ $t("components.selector-theme.system") }}
               </p>
             </button>
           </MenuItem>
