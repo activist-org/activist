@@ -1,0 +1,22 @@
+name: pr_python_formatting_check
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - opened
+  workflow_run:
+    workflows: [pr_maintainer_checklist]
+    types:
+      - completed
+
+jobs:
+  black:
+    name: Run PR Python formatting check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: psf/black@stable
+      with:
+        options: --check --verbose --exclude "migrations/"
+        src: ./backend
