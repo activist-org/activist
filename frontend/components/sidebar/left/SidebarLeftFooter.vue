@@ -148,7 +148,7 @@
               <SidebarLeftSelector
                 :label="$t('components.sidebar-left-selector.label.legal')"
                 routeURL="/legal"
-                iconURL="IconLegal"
+                iconURL="octicon:law"
                 :selected="false"
                 :active="true"
               />
