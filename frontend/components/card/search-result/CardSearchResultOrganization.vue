@@ -12,7 +12,7 @@
       v-else
       class="w-[200px] h-[200px] flex justify-center items-center text-light-text dark:text-dark-text"
     >
-      <IconOrganization class="w-[75%] h-[75%]" />
+      <Icon name="IconOrganization" class="w-[75%] h-[75%]" />
     </div>
   </div>
   <div class="px-6 pb-1 space-y-4 md:grow">
