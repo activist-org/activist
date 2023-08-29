@@ -10,33 +10,31 @@
         {{ $t("pages.supporters.index.title") }}
       </h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
-        {{ $t("pages.supporters.index.section-1-paragraph-1-pt-1") }}
+        {{ $t("pages.supporters.index.section-1-paragraph-1-1") }}
         <NuxtLink
           :to="localePath('/supporters/join')"
           class="focus-brand link-text"
-          >{{
-            $t("pages.supporters.index.section-1-paragraph-1-pt-2")
-          }}</NuxtLink
+          >{{ $t("pages.supporters.index.section-1-paragraph-1-2") }}</NuxtLink
         >.
       </p>
       <h2 class="font-bold responsive-py-1 responsive-h3">
         {{ $t("pages.supporters.index.section-2-subheader") }}
       </h2>
       <p>
-        {{ $t("pages.supporters.index.section-2-paragraph-1-pt-1") }}
+        {{ $t("pages.supporters.index.section-2-paragraph-1-1") }}
         <a
           href="https://www.wikimedia.de/unlock"
           class="items-center focus-brand link-text"
           target="_blank"
         >
-          {{ $t("pages.supporters.index.section-2-paragraph-1-pt-2") }}
+          {{ $t("pages.supporters.index.section-2-paragraph-1-2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        . {{ $t("pages.supporters.index.section-2-paragraph-1-pt-3") }}
+        . {{ $t("pages.supporters.index.section-2-paragraph-1-3") }}
       </p>
       <div class="flex items-center justify-center">
         <GridSupporters class="mt-6 xl:mt-8" />
@@ -48,12 +46,12 @@
         {{ $t("pages.supporters.index.section-3-1-subheader") }}
       </h3>
       <p class="space-x-1">
-        {{ $t("pages.supporters.index.section-3-1-paragraph-1-pt-1") }}
+        {{ $t("pages.supporters.index.section-3-1-paragraph-1-1") }}
         <a
           href="https://github.com/activist-org/activist/graphs/contributors"
           class="focus-brand link-text"
           target="_blank"
-          >{{ $t("pages.supporters.index.section-3-1-paragraph-1-pt-2") }}
+          >{{ $t("pages.supporters.index.section-3-1-paragraph-1-2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"

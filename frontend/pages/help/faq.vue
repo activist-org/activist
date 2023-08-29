@@ -46,13 +46,13 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              {{ $t("pages.help.faq.subheader-pt-1") }}
+              {{ $t("pages.help.faq.subheader-1") }}
               <a
                 href="https://matrix.to/#/#activist_community:matrix.org"
                 class="items-center focus-brand link-text"
                 target="_blank"
               >
-                {{ $t("pages.help.faq.subheader-pt-2") }}
+                {{ $t("pages.help.faq.subheader-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
@@ -84,18 +84,18 @@
             {{ $t("pages.help.faq.section-4-paragraph-1") }}
           </p>
           <p class="sm:text-lg">
-            {{ $t("pages.help.faq.section-4-paragraph-2-pt-1") }}
+            {{ $t("pages.help.faq.section-4-paragraph-2-1") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="focus-brand link-text"
-              >{{ $t("pages.help.faq.section-4-paragraph-2-pt-2") }}
+              >{{ $t("pages.help.faq.section-4-paragraph-2-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.help.faq.section-4-paragraph-2-pt-3") }}
+            {{ $t("pages.help.faq.section-4-paragraph-2-3") }}
           </p>
         </div>
         <div class="flex justify-end pr-32">

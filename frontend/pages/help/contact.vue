@@ -17,40 +17,40 @@
             {{ $t("pages.help.contact.header") }}
           </h1>
           <p>
-            {{ $t("pages.help.contact.section-1-paragraph-1-pt-1") }}
+            {{ $t("pages.help.contact.section-1-paragraph-1-1") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
             >
-              {{ $t("pages.help.contact.section-1-paragraph-1-pt-2") }}
+              {{ $t("pages.help.contact.section-1-paragraph-1-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.help.contact.section-1-paragraph-1-pt-3") }}
+            {{ $t("pages.help.contact.section-1-paragraph-1-3") }}
             <a
               href="https://github.com/activist-org/activist"
               class="items-center focus-brand link-text"
             >
-              {{ $t("pages.help.contact.section-1-paragraph-1-pt-4") }}
+              {{ $t("pages.help.contact.section-1-paragraph-1-4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.help.contact.section-1-paragraph-1-pt-5") }}
+            {{ $t("pages.help.contact.section-1-paragraph-1-5") }}
           </p>
           <p>
-            {{ $t("pages.help.contact.section-1-paragraph-2-pt-1") }}
+            {{ $t("pages.help.contact.section-1-paragraph-2-1") }}
             <a
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.help.contact.section-1-paragraph-2-pt-2") }}
+              {{ $t("pages.help.contact.section-1-paragraph-2-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"

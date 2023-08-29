@@ -193,12 +193,12 @@ Localization keys should be defined based on their component or page within the 
 - For pages with long texts please follow the below naming criteria:
   - `"header"`: the main header (h1) of the given page
   - `"section-#"`: a section that iterates by one with every header and subheader
+  - `"section-#-#"`: a subsection, with other `#-#` patterns also being possible (see below)
   - `"section-#-subheader"`: marks the start of a new section (h2 and beyond)
   - `"section-#-paragraph-#"`: a paragraph with one or more sentences
-  - `"section-#-paragraph-#-pt-#"`: a paragraph with separate parts to insert things like links
+  - `"section-#-paragraph-#-#"`: a paragraph with separate parts to insert things like links
   - `"section-#-list-#-item-#"`: an item in a list
-  - `"section-#-list-#-item-#-subitem-#"`: a subitem of the given item
-  - `"section-#-#"`: a subsection, with other `#-#` patterns also being possible
+  - `"section-#-list-#-item-#-#"`: a subitem of the given item
 
 The activist team is happy to help if there's any confusion with the above rules! Feel free to ask in the issue you're working on or even check once a PR is made and we'll make sure that conventions are being followed.
 

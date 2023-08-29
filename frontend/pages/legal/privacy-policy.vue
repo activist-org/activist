@@ -93,33 +93,33 @@
             {{ $t("pages.legal.privacy-policy.section-7-paragraph-1") }}
           </p>
           <p class="pb-2 lg:pb-4">
-            {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-1") }}
+            {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-1") }}
             <a
               href="https://github.com/orgs/activist-org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-2") }}
+              {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-3") }}
+            {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-3") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-4") }}
+              {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-pt-5") }}
+            {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-5") }}
           </p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"

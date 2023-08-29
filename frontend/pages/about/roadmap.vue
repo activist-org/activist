@@ -44,53 +44,53 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              {{ $t("pages.about.roadmap.subheader-pt-1") }}
+              {{ $t("pages.about.roadmap.subheader-1") }}
               <a
                 href="https://github.com/activist-org/activist"
                 class="items-center focus-brand link-text"
                 target="_blank"
               >
-                {{ $t("pages.about.roadmap.subheader-pt-2") }}
+                {{ $t("pages.about.roadmap.subheader-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
                   style="vertical-align: baseline"
                 />
               </a>
-              {{ $t("pages.about.roadmap.subheader-pt-3") }}
+              {{ $t("pages.about.roadmap.subheader-3") }}
             </p>
           </div>
           <p>
             {{ $t("pages.about.roadmap.section-1-paragraph-1") }}
           </p>
           <p class="pb-2 lg:pb-4">
-            {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-1") }}
+            {{ $t("pages.about.roadmap.section-1-paragraph-2-1") }}
             <a
               href="https://github.com/orgs/activist-org/projects/1"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-2") }}
+              {{ $t("pages.about.roadmap.section-1-paragraph-2-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-3") }}
+            {{ $t("pages.about.roadmap.section-1-paragraph-2-3") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-4") }}
+              {{ $t("pages.about.roadmap.section-1-paragraph-2-4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.about.roadmap.section-1-paragraph-2-pt-5") }}
+            {{ $t("pages.about.roadmap.section-1-paragraph-2-5") }}
           </p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"

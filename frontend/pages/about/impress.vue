@@ -46,19 +46,19 @@
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
-              {{ $t("pages.about.impress.subheader-pt-1") }}
+              {{ $t("pages.about.impress.subheader-1") }}
               <a
                 href="/help/contact"
                 class="items-center focus-brand link-text"
               >
-                {{ $t("pages.about.impress.subheader-pt-2") }}
+                {{ $t("pages.about.impress.subheader-2") }}
                 <Icon
                   name="bi:box-arrow-up-right"
                   size="1em"
                   style="vertical-align: baseline"
                 />
               </a>
-              {{ $t("pages.about.impress.subheader-pt-3") }}
+              {{ $t("pages.about.impress.subheader-3") }}
             </p>
           </div>
           <p>

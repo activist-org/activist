@@ -55,11 +55,11 @@
             {{ $t("pages.legal.trademark-policy.section-1-paragraph-4") }}
           </p>
           <p>
-            {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-pt-1") }}
+            {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-1") }}
             <a href="mailto:team@activist.org" class="focus-brand link-text"
               >team@activist.org</a
             >.
-            {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-pt-2") }}
+            {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-2") }}
           </p>
           <h2 class="font-bold responsive-h3">
             {{ $t("pages.legal.trademark-policy.section-2-subheader") }}
@@ -119,37 +119,33 @@
             {{ $t("pages.legal.trademark-policy.section-5-paragraph-1") }}
           </p>
           <p class="pb-2 lg:pb-4">
-            {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-1") }}
+            {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-1") }}
             <a
               href="https://github.com/orgs/activist-org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{
-                $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-2")
-              }}
+              {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-3") }}
+            {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-3") }}
             <a
               href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
               target="_blank"
             >
-              {{
-                $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-4")
-              }}
+              {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-pt-5") }}
+            {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-5") }}
           </p>
           <div
             class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
