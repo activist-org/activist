@@ -16,6 +16,8 @@ services:
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
       - DEBUG=${DEBUG}
       - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - db
 
   frontend:
     build:
