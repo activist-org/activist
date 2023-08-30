@@ -1,5 +1,6 @@
 export interface Organization {
   name: string;
+  status: string;
   tagline?: string;
   location: string;
   description: string;

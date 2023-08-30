@@ -1,5 +1,5 @@
 <template>
-  <WebsiteHeader />
+  <HeaderWebsite />
   <div class="flex h-full bg-light-content dark:bg-dark-content">
     <Head>
       <Title>{{ title }}</Title>

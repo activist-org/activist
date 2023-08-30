@@ -5,42 +5,25 @@
     <Head>
       <Title>{{ organization.name }}</Title>
     </Head>
-    <PageBreadcrumbs class="mt-4" :organization="organization" />
-    <div class="flex items-baseline gap-4">
-      <h1
-        class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
-      >
-        {{ organization.name }}
-      </h1>
-      <IconOrganizationStatus status="approved"></IconOrganizationStatus>
-    </div>
-    <flex class="relative flex items-center w-full py-6"
-      ><h2
-        :v-if="organization.tagline"
-        class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
-      >
-        {{ organization.tagline }}
-      </h2>
-      <div class="absolute right-0 flex space-x-3">
-        <BtnLabeled
-          :cta="true"
-          linkTo="/"
-          :label="$t('components.btn-labeled.support')"
-          fontSize="base"
-          leftIcon="IconSupport"
-          iconSize="1.25em"
-          :counter="organization.supporters"
-        />
-        <BtnLabeled
-          :cta="true"
-          linkTo="/"
-          :label="$t('components.btn-labeled.share-organization')"
-          fontSize="base"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-        />
-      </div>
-    </flex>
+    <HeaderAppPage :organization="organization">
+      <BtnLabeled
+        :cta="true"
+        linkTo="/"
+        :label="$t('components.btn-labeled.support')"
+        fontSize="base"
+        leftIcon="IconSupport"
+        iconSize="1.25em"
+        :counter="organization.supporters"
+      />
+      <BtnLabeled
+        :cta="true"
+        linkTo="/"
+        :label="$t('components.btn-labeled.share-organization')"
+        fontSize="base"
+        leftIcon="bi:box-arrow-up"
+        iconSize="1.25em"
+      />
+    </HeaderAppPage>
     <div class="pb-6 space-y-6">
       <div
         class="grid grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 space-y-6 lg:space-y-0 lg:space-x-6 lg:mr-6"
@@ -74,6 +57,7 @@ const { id } = useRoute().params;
 
 const organization: Organization = {
   name: "tech from below",
+  status: "approved",
   tagline: "Technologie von und für soziale Bewegungen",
   location: "Berlin, Germany",
   description:
