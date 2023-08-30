@@ -117,7 +117,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const title = ref("FAQ");
-</script>

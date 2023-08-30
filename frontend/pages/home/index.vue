@@ -5,21 +5,12 @@
     <Head>
       <Title>{{ $t("pages.home.title") }}</Title>
     </Head>
-    <h1
-      class="pt-6 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
+    <HeaderAppPage
+      :header="$t('pages.home.header')"
+      :tagline="$t('pages.home.subheader')"
     >
-      {{ $t("pages.home.header") }}
-    </h1>
-    <div
-      class="relative flex flex-col items-start py-4 -mt-2 lg:flex-row lg:items-center space-y-4 lg:mt-0 lg:space-y-0 lg:py-6"
-    >
-      <h2
-        class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
-      >
-        {{ $t("pages.home.subheader") }}
-      </h2>
-      <TopicMarker topic="My topics dropdown" class="lg:absolute lg:right-0" />
-    </div>
+      <TopicMarker topic="My topics dropdown" />
+    </HeaderAppPage>
     <div class="pb-4 space-y-4">
       <GridHomeMetrics />
       <CardSearchResult
@@ -51,7 +42,6 @@ import { Event } from "~~/types/event";
 import { Organization } from "~~/types/organization";
 import { Resource } from "~~/types/resource";
 import { User } from "~~/types/user";
-const title = ref("Home");
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"

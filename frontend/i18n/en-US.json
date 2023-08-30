@@ -311,6 +311,10 @@
         "title": "Grow Organization"
       }
     },
+    "error": {
+      "title": "Error • activist",
+      "message": "Oops, something went wrong:"
+    },
     "events": {
       "index": {
         "header": "Events Home",

@@ -8,5 +8,3 @@
     <h1 class="p-4">This will be the home page of a blog</h1>
   </div>
 </template>
-
-<script setup lang="ts"></script>
