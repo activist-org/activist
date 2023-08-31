@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { Organization } from "~~/types/organization";
+import { Organization } from "../../types/organization";
 
 definePageMeta({
   layout: "sidebar",
@@ -31,6 +31,8 @@ const sidebar = useSidebar();
 
 const organization: Organization = {
   name: "tech from below",
+  status: "approved",
+  tagline: "Technologie von und für soziale Bewegungen",
   location: "Berlin",
   description: "This is the description of tech from below",
   topic: "Technology and Privacy",

@@ -38,10 +38,10 @@
 </template>
 
 <script setup lang="ts">
-import { Event } from "~~/types/event";
-import { Organization } from "~~/types/organization";
-import { Resource } from "~~/types/resource";
-import { User } from "~~/types/user";
+import { Event } from "../../types/event";
+import { Organization } from "../../types/organization";
+import { Resource } from "../../types/resource";
+import { User } from "../../types/user";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -67,6 +67,8 @@ const resource: Resource = {
 
 const organization: Organization = {
   name: "tech from below",
+  status: "approved",
+  tagline: "Technologie von und für soziale Bewegungen",
   location: "Berlin",
   description: "This is the description of tech from below",
   topic: "Technology and Privacy",

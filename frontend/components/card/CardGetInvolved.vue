@@ -62,10 +62,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~~/types/event";
-import type { Organization } from "~~/types/organization";
+import type { Event } from "../../types/event";
+import type { Organization } from "../../types/organization";
 
-const props = defineProps<{
+defineProps<{
   organization?: Organization;
   event?: Event;
   disclaimer: string;

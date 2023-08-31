@@ -69,8 +69,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~~/types/event";
-import type { Organization } from "~~/types/organization";
+import type { Event } from "../../types/event";
+import type { Organization } from "../../types/organization";
 
 defineProps<{
   organization?: Organization;

@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { Event } from "~~/types/event";
+import { Event } from "../../types/event";
 
 definePageMeta({
   layout: "sidebar",

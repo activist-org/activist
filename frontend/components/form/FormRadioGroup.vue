@@ -38,8 +38,8 @@
 </template>
 
 <script setup lang="ts">
-import useFormCheckboxRadio from "@/composables/useFormCheckboxRadio";
 import { computed } from "vue";
+import useFormCheckboxRadio from "../../composables/useFormCheckboxRadio";
 
 const props = defineProps({
   vertical: {

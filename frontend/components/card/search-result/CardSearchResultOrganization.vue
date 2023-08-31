@@ -48,9 +48,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~~/types/organization";
+import type { Organization } from "../../../types/organization";
 
-const props = defineProps<{
+defineProps<{
   isPrivate?: boolean;
   organization: Organization;
 }>();

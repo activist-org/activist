@@ -52,9 +52,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "~~/types/resource";
+import type { Resource } from "../../../types/resource";
 
-const props = defineProps<{
+defineProps<{
   isPrivate?: boolean;
   resource: Resource;
 }>();

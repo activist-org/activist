@@ -17,8 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import useFormInput from "@/composables/useFormSetup";
-import useUniqueID from "@/composables/useUniqueID";
+import useFormInput from "../../composables/useFormSetup";
+import useUniqueID from "../../composables/useUniqueID";
 
 const props = defineProps({
   label: {

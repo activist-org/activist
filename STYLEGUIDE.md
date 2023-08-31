@@ -64,6 +64,7 @@ const strArray: string[] = ["Thank", "you", "for", "contributing!"];
 - activist uses the [Composition API](https://vuejs.org/guide/extras/composition-api-faq.html), so please implement `<script setup lang="ts">` and use `defineProps` with the generic type argument.
 
 ```typescript
+// No need to define `props` if we won't be accessing them in the `<script>` block.
 const props = defineProps<{
   foo: string;
   bar?: number;

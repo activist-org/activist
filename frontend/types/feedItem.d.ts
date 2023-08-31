@@ -1,6 +1,6 @@
 export interface FeedItem {
   url: string;
-  itemType: string = "group" | "social post";
+  itemType: string;
   title: string;
   description: string;
   imgURL?: string;

@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   isMenuOpen: {
     type: Boolean,
     default: false,

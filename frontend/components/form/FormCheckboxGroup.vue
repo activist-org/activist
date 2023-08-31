@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import useFormCheckboxRadio from "@/composables/useFormCheckboxRadio";
+import useFormCheckboxRadio from "../../composables/useFormCheckboxRadio";
 
 const props = defineProps({
   modelValue: {

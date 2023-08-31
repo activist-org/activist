@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~~/types/event";
+import type { Event } from "../../../types/event";
 
 defineProps<{
   isPrivate?: boolean;

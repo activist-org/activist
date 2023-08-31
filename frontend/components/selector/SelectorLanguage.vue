@@ -4,13 +4,13 @@
       <MenuButton
         v-slot="{ open }"
         class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
-        :class="{ 'pl-6': props.location === 'sideMenu' }"
+        :class="{ 'pl-6': location === 'sideMenu' }"
       >
         <div class="flex items-center text-sm space-x-2">
           <Icon name="bi:globe" />
           <p
             class="uppercase sr-only lg:not-sr-only"
-            :class="{ '!not-sr-only !ml-3': props.location === 'sideMenu' }"
+            :class="{ '!not-sr-only !ml-3': location === 'sideMenu' }"
           >
             {{ $i18n.locale }}
           </p>
@@ -20,7 +20,7 @@
             class="right-3"
             :class="{
               'rotate-180 transform': open,
-              absolute: props.location === 'sideMenu',
+              absolute: location === 'sideMenu',
             }"
           />
         </div>
@@ -37,7 +37,7 @@
     >
       <MenuItems
         class="absolute right-0 mt-2 border shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text"
-        :class="{ '!static !border-0': props.location === 'sideMenu' }"
+        :class="{ '!static !border-0': location === 'sideMenu' }"
       >
         <ul class="px-2 py-2">
           <NuxtLink
@@ -50,13 +50,13 @@
                 class="group flex [word-spacing:0.5em] items-center rounded-md pl-4 pr-2 py-2 text-sm"
                 :class="{
                   'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content w-max':
-                    active && props.location !== 'sideMenu',
+                    active && location !== 'sideMenu',
                   'text-light-text dark:text-dark-text w-max':
-                    !active && props.location !== 'sideMenu',
+                    !active && location !== 'sideMenu',
                   'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content w-full':
-                    active && props.location === 'sideMenu',
+                    active && location === 'sideMenu',
                   'text-light-text dark:text-dark-text w-full':
-                    !active && props.location === 'sideMenu',
+                    !active && location === 'sideMenu',
                 }"
               >
                 {{ getLocaleName(locale) }}
@@ -72,7 +72,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
-const props = defineProps({
+defineProps({
   location: String,
 });
 

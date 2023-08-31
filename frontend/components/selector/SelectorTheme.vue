@@ -4,7 +4,7 @@
       <MenuButton
         v-slot="{ open }"
         class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
-        :class="{ 'pl-6': props.location === 'sideMenu' }"
+        :class="{ 'pl-6': location === 'sideMenu' }"
       >
         <div class="flex items-center text-sm space-x-2">
           <Icon
@@ -16,7 +16,7 @@
           <p
             class="sr-only lg:not-sr-only"
             :class="{
-              '!not-sr-only !ml-3': props.location === 'sideMenu',
+              '!not-sr-only !ml-3': location === 'sideMenu',
             }"
           >
             {{ $t("components.selector-theme.label") }}
@@ -26,7 +26,7 @@
             class="right-3"
             :class="{
               'rotate-180 transform': open,
-              absolute: props.location === 'sideMenu',
+              absolute: location === 'sideMenu',
             }"
           />
         </div>
@@ -43,7 +43,7 @@
     >
       <MenuItems
         class="absolute right-0 mt-2 border shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text"
-        :class="{ '!static !border-0': props.location === 'sideMenu' }"
+        :class="{ '!static !border-0': location === 'sideMenu' }"
       >
         <div class="px-2 py-2">
           <MenuItem v-slot="{ active }">
@@ -103,7 +103,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
-const props = defineProps({
+defineProps({
   location: String,
 });
 </script>
