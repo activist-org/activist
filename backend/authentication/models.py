@@ -32,7 +32,7 @@ class User(AbstractUser):
 
 class UserResource(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey('contents.Resource', on_delete=models.CASCADE)
+    resource_id = models.ForeignKey('content.Resource', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -40,7 +40,7 @@ class UserResource(models.Model):
 
 class UserTask(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    task_id = models.ForeignKey('contents.Task', on_delete=models.CASCADE)
+    task_id = models.ForeignKey('content.Task', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -48,7 +48,7 @@ class UserTask(models.Model):
 
 class UserTopic(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey('contents.Topic', on_delete=models.CASCADE)
+    topic_id = models.ForeignKey('content.Topic', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id

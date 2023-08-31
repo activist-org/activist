@@ -7,7 +7,7 @@ import uuid
 Considerations:
 - All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
 - More comments should be added to improve the readability and understanding of the code.
-- Some relational-models may need to be moved in the "events" or "contents" app in order to prevent circular dependency issues.
+- Some relational-models may need to be moved in the "events" or "content" app in order to prevent circular dependency issues.
 - In some/most cases a "ManyToManyField" may be more suitable than "ArrayField"
 """
 
@@ -67,7 +67,7 @@ class OrganizationMember(models.Model):
 
 class OrganizationResource(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey('contents.Resource', on_delete=models.CASCADE)
+    resource_id = models.ForeignKey('content.Resource', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -75,8 +75,8 @@ class OrganizationResource(models.Model):
 
 class OrganizationTask(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    task_id = models.ForeignKey('contents.Task', on_delete=models.CASCADE)
-    group_id = models.ForeignKey('contents.Task', on_delete=models.CASCADE)
+    task_id = models.ForeignKey('content.Task', on_delete=models.CASCADE)
+    group_id = models.ForeignKey('content.Task', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -84,7 +84,7 @@ class OrganizationTask(models.Model):
 
 class OrganizationTopic(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey('contents.Topic', on_delete=models.CASCADE)
+    topic_id = models.ForeignKey('content.Topic', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -124,7 +124,7 @@ class GroupMember(models.Model):
 
 class GroupResource(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey('contents.Resource', on_delete=models.CASCADE)
+    resource_id = models.ForeignKey('content.Resource', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -132,7 +132,7 @@ class GroupResource(models.Model):
 
 class GroupTopic(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey('contents.Topic', on_delete=models.CASCADE)
+    topic_id = models.ForeignKey('content.Topic', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id

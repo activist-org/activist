@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "authentication",
     "entities",
-    "contents",
+    "content",
     "events"
 ]
 

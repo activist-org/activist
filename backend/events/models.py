@@ -79,7 +79,7 @@ class EventAttendeeStatus(models.Model):
 
 class EventResource(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey('contents.Resource', on_delete=models.CASCADE)
+    resource_id = models.ForeignKey('content.Resource', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -95,7 +95,7 @@ class EventRole(models.Model):
 
 class EventTask(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    task_id = models.ForeignKey('contents.Task', on_delete=models.CASCADE)
+    task_id = models.ForeignKey('content.Task', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -103,7 +103,7 @@ class EventTask(models.Model):
 
 class EventTopic(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey('contents.Topic', on_delete=models.CASCADE)
+    topic_id = models.ForeignKey('content.Topic', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
