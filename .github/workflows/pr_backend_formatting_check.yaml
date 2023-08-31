@@ -1,4 +1,4 @@
-name: pr_python_formatting_check
+name: pr_backend_formatting_check
 on:
   pull_request_target:
     branches:
@@ -12,11 +12,13 @@ on:
 
 jobs:
   black:
-    name: Run PR Python Formatting Check
+    name: Run PR Backend Formatting Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: psf/black@stable
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run Black
+        uses: psf/black@stable
         with:
           options: --check --verbose --exclude "migrations/"
           src: ./backend
