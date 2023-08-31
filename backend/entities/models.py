@@ -1,32 +1,29 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 import uuid
+
+"""
+Considerations:
+- All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
+- More comments should be added to improve the readability and understanding of the code.
+- All BooleanFields need a default value
+- Some relational-models may need to be moved in the "events" app in order to prevent circular dependency issues.
+- In some/most cases a "ManyToManyField" may be more suitable than "ArrayField"
+"""
 
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255)
-    #social_accounts = ArrayField(models.CharField(max_length=255))
+    social_accounts = ArrayField(models.CharField(max_length=255))
     total_flags = models.IntegerField(null=True)
-    #created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey('authentication.User', related_name='created_orgs', on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
     def __str__(self):
         return self.name
-
-
-class OrganizationApplication(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    org_id = models.IntegerField(null=True)
-    #status = models.ForeignKey(OrganizationApplicationStatus, on_delete=models.CASCADE)
-    #orgs_in_favor = ArrayField(models.IntegerField)
-    #orgs_against = ArrayField(models.IntegerField)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    status_updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.creation_date
 
 
 class OrganizationApplicationStatus(models.Model):
@@ -35,6 +32,19 @@ class OrganizationApplicationStatus(models.Model):
 
     def __str__(self):
         return self.status_name
+
+class OrganizationApplication(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    org_id = models.IntegerField(null=True)
+    status = models.ForeignKey(OrganizationApplicationStatus, on_delete=models.CASCADE)
+    orgs_in_favor = ArrayField(models.IntegerField)
+    orgs_against = ArrayField(models.IntegerField)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    status_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.creation_date
+
 
 
 class OrganizationEvent(models.Model):
