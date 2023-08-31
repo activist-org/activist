@@ -5,8 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from ..models import Organization
-from ..serializers import OrganizationSerializer
+from .models import Organization
+from .serializers import OrganizationSerializer
 
 
 @method_decorator(csrf_exempt, name="dispatch")

@@ -1,8 +1,8 @@
 """
-activist.org URL Configuration
+URL configuration for backend project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
+    https://docs.djangoproject.com/en/4.2/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -20,5 +20,5 @@ from rest_framework import routers
 
 urlpatterns = [
     path("/v1/admin/", admin.site.urls),
-    path("", include("apps.urls")),
+    path("", include("entities.urls")),
 ]
