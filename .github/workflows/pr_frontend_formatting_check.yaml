@@ -1,4 +1,4 @@
-name: pr_python_formatting_check
+name: pr_frontend_formatting_check
 on:
   pull_request_target:
     branches:
@@ -11,14 +11,15 @@ on:
       - completed
 
 jobs:
-  black:
-    name: Run PR Python Formatting Check
+  prettier:
+    name: Run PR Frontend Formatting Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Run Black
-        uses: psf/black@stable
+      - name: Run Prettier
+        uses: creyD/prettier_action@v4.3
         with:
-          options: --check --verbose --exclude "migrations/"
-          src: ./backend
+          working_directory: ./frontend
+          dry: True
+          prettier_options: --check
