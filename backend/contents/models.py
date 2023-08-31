@@ -9,7 +9,7 @@ Considerations:
 - More comments should be added to improve the readability and understanding of the code.
 - All BooleanFields need a default value
 - Some relational-models may need to be moved in the "events" app in order to prevent circular dependency issues.
-- In some/most cases a "ManyToManyField" may be more suitable than "ArrayField"
+- In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
 """
 
 class Topic(models.Model):

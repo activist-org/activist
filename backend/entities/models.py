@@ -8,7 +8,7 @@ Considerations:
 - All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
 - More comments should be added to improve the readability and understanding of the code.
 - Some relational-models may need to be moved in the "events" or "content" app in order to prevent circular dependency issues.
-- In some/most cases a "ManyToManyField" may be more suitable than "ArrayField"
+- In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
 """
 
 class Organization(models.Model):

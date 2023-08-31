@@ -8,6 +8,8 @@ import uuid
 Considerations:
 - All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
 - More comments should be added to improve the readability and understanding of the code.
+- Some relational-models may need to be moved in the "content" app in order to prevent circular dependency issues.
+
 """
 
 
