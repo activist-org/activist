@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     "authentication",
     "entities",
     "content",
-    "events"
+    "events",
 ]
 
 MIDDLEWARE = [

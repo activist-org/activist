@@ -1,8 +1,6 @@
-from django.db import models
-
-from django.db import models
-
 import uuid
+
+from django.db import models
 
 """
 Considerations:
@@ -10,53 +8,33 @@ Considerations:
 - More comments should be added to improve the readability and understanding of the code.
 """
 
+
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
+    description = models.TextField(max_length=500)
+    get_involved_text = models.TextField(max_length=500)
     online_location_link = models.CharField(max_length=255)
     offline_location_name = models.CharField(max_length=255)
     offline_location_lat = models.FloatField(null=True)
     offline_location_long = models.FloatField(null=True)
-    description = models.TextField(max_length=500)
-    get_involved_text = models.TextField(max_length=500)
     start_time = models.DateField(null=True)
     end_time = models.DateField(null=True)
-    created_by = models.ForeignKey('authentication.User', related_name='created_events', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        "authentication.User", related_name="created_events", on_delete=models.CASCADE
+    )
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
     def __str__(self):
         return self.name
 
-class Role(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    is_custom = models.BooleanField(null=True)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateField(null=True)
-
-    def __str__(self):
-        return self.name
-    
-class Format(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateField(null=True)
-
-    def __str__(self):
-        return self.name
-    
 
 class EventAttendee(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    user_id = models.ForeignKey('authentication.User', on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
     attendee_status = models.IntegerField(null=True)
 
@@ -79,7 +57,7 @@ class EventAttendeeStatus(models.Model):
 
 class EventResource(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey('content.Resource', on_delete=models.CASCADE)
+    resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -95,7 +73,7 @@ class EventRole(models.Model):
 
 class EventTask(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    task_id = models.ForeignKey('content.Task', on_delete=models.CASCADE)
+    task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -103,11 +81,32 @@ class EventTask(models.Model):
 
 class EventTopic(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey('content.Topic', on_delete=models.CASCADE)
+    topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
 
 
+class Format(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name
 
 
+class Role(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    is_custom = models.BooleanField(default=False)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name

@@ -7,19 +7,19 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = (
-            "creation_date",
-            "created_by",
+            "id",
             "name",
             "tagline",
-            "start_time",
-            "end_time",
             "type",
-            "format",
+            "description",
+            "get_involved_text",
             "online_location_link",
             "offline_location_name",
             "offline_location_lat",
             "offline_location_long",
-            "description",
-            "get_involved_text",
+            "start_time",
+            "end_time",
+            "created_by",
+            "creation_date",
             "deletion_date",
         )
