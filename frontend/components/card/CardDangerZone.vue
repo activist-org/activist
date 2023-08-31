@@ -11,7 +11,7 @@
       <p class="">{{ description }}</p>
       <form method="post">
         <div
-          class="grid justify-between grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-8"
+          class="justify-between grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-8"
         >
           <div class="flex flex-col gap-2">
             <label

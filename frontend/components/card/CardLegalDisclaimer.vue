@@ -1,7 +1,7 @@
 <template>
   <div
     @click="toggleExpand()"
-    class="flex flex-col gap-3 px-4 py-2 border rounded-md select-none border-light-section-div dark:border-dark-section-div bg-light-header dark:bg-dark-header active:bg-light-highlight dark:active:bg-dark-highlight hover:cursor-pointer"
+    class="flex flex-col px-4 py-2 border select-none gap-3 rounded-md border-light-section-div dark:border-dark-section-div bg-light-header dark:bg-dark-header active:bg-light-highlight dark:active:bg-dark-highlight hover:cursor-pointer"
   >
     <div class="flex items-center gap-3">
       <Icon name="IconLegal" class="fill-light-text dark:fill-dark-text" />

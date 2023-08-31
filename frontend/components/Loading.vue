@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-center h-screen bg-light-header dark:bg-dark-header fixed inset-0 z-20"
+    class="fixed inset-0 z-20 flex items-center justify-center h-screen bg-light-header dark:bg-dark-header"
     v-show="show"
   >
     <div class="pb-10 loading-pulse">

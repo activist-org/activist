@@ -34,7 +34,7 @@
     </HeaderAppPage>
     <div class="pb-6 space-y-6">
       <div
-        class="grid grid-rows-2 grid-cols-1 lg:grid-cols-3 lg:grid-rows-1 space-y-6 pb-6 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="pb-6 grid grid-rows-2 grid-cols-1 lg:grid-cols-3 lg:grid-rows-1 space-y-6 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
         <CardAbout aboutType="event" :event="event" class="lg:col-span-2" />
         <MediaMap
