@@ -100,12 +100,18 @@
               :label="$t('components.btn-labeled.suggest-a-feature')"
               linkTo="https://github.com/activist-org/activist/issues"
               fontSize="lg"
+              :alternateText="
+                $t('components.btn-labeled.suggest-a-feature-aria-label')
+              "
             />
             <BtnLabeled
               :cta="false"
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
+              :alternateText="
+                $t('components.btn-labeled.return-home-aria-label')
+              "
             />
           </div>
         </div>

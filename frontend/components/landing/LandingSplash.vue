@@ -22,7 +22,7 @@
         :label="$t('components.btn-labeled.request-access')"
         linkTo="https://tally.so/r/nprxbq"
         fontSize="xl"
-        :alternateText="$t('components.btn-labeled.request-access-alt')"
+        :alternateText="$t('components.btn-labeled.request-access-aria-label')"
       />
     </div>
   </div>

@@ -50,6 +50,9 @@
               linkTo="/help/contact"
               fontSize="sm"
               class="hidden lg:block"
+              :alternateText="
+                $t('components.btn-labeled.get-in-touch-aria-label')
+              "
             />
             <BtnLabeled
               :cta="true"
@@ -57,6 +60,9 @@
               linkTo="/help/contact"
               fontSize="xs"
               class="hidden md:block lg:hidden"
+              :alternateText="
+                $t('components.btn-labeled.get-in-touch-aria-label')
+              "
             />
           </div>
         </div>

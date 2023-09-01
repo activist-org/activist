@@ -45,9 +45,9 @@
         </div>
         <div class="mt-5">
           <button
-            aria-label="Delete account"
             type="button"
             class="w-auto px-3 py-2 rounded-md text-light-distinct dark:text-dark-distinct bg-light-text dark:bg-dark-text hover:bg-light-act-red dark:hover:bg-dark-act-red"
+            :aria-label="ctaBtnAriaLabel"
           >
             {{ ctaBtnText }}
           </button>
@@ -61,5 +61,6 @@
 defineProps<{
   description: string;
   ctaBtnText: { type: string; required: true };
+  ctaBtnAriaLabel: string;
 }>();
 </script>

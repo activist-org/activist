@@ -2,6 +2,7 @@
   <button
     @click="openModal"
     class="hidden p-4 cursor-pointer md:block md:float-right md:w-1/3 2xl:w-full 2xl:col-span-1 h-min focus-brand"
+    :aria-label="$t('components.modal-image.open-modal-aria-label')"
   >
     <img
       v-if="$colorMode.value == 'light'"
@@ -33,6 +34,7 @@
         <button
           class="flex flex-col items-center justify-center w-4/5 focus-brand"
           v-on:click="closeModal"
+          :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
           <img
             v-if="$colorMode.value == 'light'"

@@ -1,22 +1,33 @@
 {
   "components": {
     "btn-labeled": {
-      "go-to-home": "Go to home",
       "get-in-touch": "Get in touch",
+      "get-in-touch-aria-label": "Get in touch with the activist team",
       "join-organization": "Join organization",
+      "join-organization-aria-label": "Start the process to join the organization",
       "new-account": "New account",
+      "new-account-aria-label": "Add a new account",
       "offer-to-help": "Offer to help",
+      "offer-to-help-aria-label": "Start the process to offer help for this event",
       "request-access": "Request access",
-      "request-access-alt": "Request access to activist now",
+      "request-access-aria-label": "Request access to activist.org",
       "return-home": "Return home",
+      "return-home-aria-label": "Return home to the activist home page",
       "share-event": "Share event",
+      "share-event-aria-label": "Share this event with others",
       "share-organization": "Share organization",
+      "share-organization-aria-label": "Share this organization with others",
       "suggest-a-feature": "Suggest a feature",
+      "suggest-a-feature-aria-label": "Go to GitHub to suggest a feature for activist.org",
       "support": "Support",
-      "view-all-groups": "View all groups"
+      "support-event-aria-label": "Support this event",
+      "support-organization-aria-label": "Support this organization",
+      "view-all-groups": "View all groups",
+      "view-all-groups-aria-label": "View all groups within this organization"
     },
     "btn-roadmap": {
-      "label": "Roadmap"
+      "label": "Roadmap",
+      "label-aria-label": "Learn about the activist.org roadmap"
     },
     "card-search-result-event": {
       "attending": "Attending"
@@ -27,6 +38,7 @@
     },
     "card-about": {
       "full-text": "Click for full text",
+      "full-text-aria-label": "Click to view a popup with the full text",
       "header": "About"
     },
     "card-connect": {
@@ -87,9 +99,9 @@
       "new-organizations": "New organizations"
     },
     "grid-supporters": {
-      "impacthub-belgrade-logo-aria-label": "Link to the website of Impact Hub Belgrade.",
-      "wikimedia-de-logo-aria-label": "Link to the website of Wikimedia Deutschland.",
-      "wikimedia-rs-logo-aria-label": "Link to the website of Wikimedia Serbia."
+      "impacthub-belgrade-logo-aria-label": "Link to the website of Impact Hub Belgrade",
+      "wikimedia-de-logo-aria-label": "Link to the website of Wikimedia Deutschland",
+      "wikimedia-rs-logo-aria-label": "Link to the website of Wikimedia Serbia"
     },
     "landing-community-banner": {
       "github": "GitHub",
@@ -112,11 +124,22 @@
         "organizations": "Organizations"
       }
     },
+    "modal-image": {
+      "close-modal-aria-label": "Close the larger version of this image",
+      "open-modal-aria-label": "Open a larger version of this image"
+    },
+    "selector-language": {
+      "open-dropdown-aria-label": "Open the dropdown to select another language"
+    },
     "selector-theme": {
       "dark": "Dark",
+      "dark-aria-label": "Select to switch to dark mode",
       "label": "Theme",
       "light": "Light",
-      "system": "System"
+      "light-aria-label": "Select to switch to light mode",
+      "open-dropdown-aria-label": "Open the dropdown to select another theme",
+      "system": "System",
+      "system-aria-label": "Select to switch to the system color mode"
     },
     "search-bar": {
       "placeholder": "Search",
@@ -125,11 +148,15 @@
       "slash-tooltip-label": "Press \"/\" to search"
     },
     "sidebar-left-footer": {
-      "label": {
-        "create": "Create",
-        "info": "Info",
-        "username": "Username"
-      }
+      "create": "Create",
+      "create-aria-label": "Open to see options to create events, organizations and other content on activist",
+      "info": "Info",
+      "info-aria-label": "Open to see options for learning more about activist and getting help",
+      "username": "Username",
+      "username-aria-label": "Open to see user specific options"
+    },
+    "sidebar-left-header": {
+      "sidebar-collapse-aria-label": "Expand or collapse the left sidebar"
     },
     "sidebar-left-selector": {
       "label": {
@@ -170,6 +197,9 @@
         "your-events": "Your events",
         "your-orgs": "Your organizations"
       }
+    },
+    "sidebar-right-hamburger": {
+      "sidebar-collapse-aria-label": "Expand or collapse the right sidebar"
     }
   },
   "pages": {
@@ -369,6 +399,7 @@
         "section-1-paragraph-2-1": "For other inquiries, please use the contact form on this page. In using this form we ask that you respect our",
         "section-1-paragraph-2-2": "community code of conduct",
         "send": "Send",
+        "send-form-aria-label": "Send your message to the activist.org team email",
         "thanks-1": "Thank you for contacting the activist team!",
         "thanks-2": "We appreciate you taking the time to reach out. We'll do our best to get back to you as quickly as possible. Thank you for your patience!",
         "title": "Contact",

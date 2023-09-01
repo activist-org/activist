@@ -12,6 +12,9 @@
           :label="$t('components.btn-labeled.view-all-groups')"
           linkTo="/"
           fontSize="base"
+          :alternateText="
+            $t('components.btn-labeled.view-all-groups-aria-label')
+          "
         />
         <BtnLabeled
           v-if="organization"
@@ -21,6 +24,9 @@
           fontSize="base"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
+          :alternateText="
+            $t('components.btn-labeled.join-organization-aria-label')
+          "
         />
       </div>
     </div>
@@ -55,6 +61,7 @@
           fontSize="base"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
+          :alternateText="$t('components.btn-labeled.offer-to-help-aria-label')"
         />
       </div>
     </div>

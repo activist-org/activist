@@ -18,6 +18,7 @@
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             @click="closeOtherMenus(0)"
             v-on:keyup.enter="closeOtherMenus(0)"
+            :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
           >
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
@@ -34,7 +35,7 @@
                     sidebar.collapsedSwitch == false
                   "
                 >
-                  {{ $t("components.sidebar-left-footer.label.create") }}
+                  {{ $t("components.sidebar-left-footer.create") }}
                 </p>
               </Transition>
             </div>
@@ -94,6 +95,7 @@
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             @click="closeOtherMenus(1)"
             v-on:keyup.enter="closeOtherMenus(1)"
+            :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
           >
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
@@ -110,7 +112,7 @@
                     sidebar.collapsedSwitch == false
                   "
                 >
-                  {{ $t("components.sidebar-left-footer.label.info") }}
+                  {{ $t("components.sidebar-left-footer.info") }}
                 </p>
               </Transition>
             </div>
@@ -161,6 +163,9 @@
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             @click="closeOtherMenus(2)"
             v-on:keyup.enter="closeOtherMenus(2)"
+            :aria-label="
+              $t('components.sidebar-left-footer.username-aria-label')
+            "
           >
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
@@ -178,7 +183,7 @@
                   "
                   class="font-bold"
                 >
-                  {{ $t("components.sidebar-left-footer.label.username") }}
+                  {{ $t("components.sidebar-left-footer.username") }}
                 </p>
               </Transition>
             </div>

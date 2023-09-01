@@ -1,6 +1,12 @@
 <template>
   <div>
-    <button class="relative z-50 group focus-brand" @click="$emit('toggle')">
+    <button
+      class="relative z-50 group focus-brand"
+      @click="$emit('toggle')"
+      :aria-label="
+        $t('components.sidebar-right-hamburger.sidebar-collapse-aria-label')
+      "
+    >
       <div
         class="relative flex items-center justify-center w-[35px] h-[27px] transform transition-all bg-transparent duration-200"
       >

@@ -5,6 +5,7 @@
         v-slot="{ open }"
         class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
         :class="{ 'pl-6': location === 'sideMenu' }"
+        :aria-label="$t('components.selector-theme.open-dropdown-aria-label')"
       >
         <div class="flex items-center text-sm space-x-2">
           <Icon
@@ -55,6 +56,7 @@
                 'group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm',
               ]"
               @click="$colorMode.preference = 'system'"
+              :aria-label="$t('components.selector-theme.system-aria-label')"
             >
               <Icon name="bi:circle-half" size="1em" />
               <p class="pl-2 pr-2">
@@ -71,6 +73,7 @@
                 'group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm',
               ]"
               @click="$colorMode.preference = 'light'"
+              :aria-label="$t('components.selector-theme.light-aria-label')"
             >
               <Icon name="bi:sun" size="1.1em" />
               <p class="pl-2 pr-2">
@@ -87,6 +90,7 @@
                 'group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm',
               ]"
               @click="$colorMode.preference = 'dark'"
+              :aria-label="$t('components.selector-theme.dark-aria-label')"
             >
               <Icon name="bi:moon" size="1em" />
               <p class="pl-2 pr-2">

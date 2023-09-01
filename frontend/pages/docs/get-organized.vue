@@ -89,6 +89,9 @@
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
               class="w-full"
+              :alternateText="
+                $t('components.btn-labeled.request-access-aria-label')
+              "
             />
             <BtnLabeled
               :cta="false"
@@ -96,6 +99,9 @@
               linkTo="/"
               fontSize="lg"
               class="w-full"
+              :alternateText="
+                $t('components.btn-labeled.return-home-aria-label')
+              "
             />
           </div>
         </div>

@@ -14,6 +14,9 @@
         leftIcon="IconSupport"
         iconSize="1.25em"
         :counter="organization.supporters"
+        :alternateText="
+          $t('components.btn-labeled.support-organization-aria-label')
+        "
       />
       <BtnLabeled
         :cta="true"
@@ -22,6 +25,9 @@
         fontSize="base"
         leftIcon="bi:box-arrow-up"
         iconSize="1.25em"
+        :alternateText="
+          $t('components.btn-labeled.share-organization-aria-label')
+        "
       />
     </HeaderAppPage>
     <div class="pb-6 space-y-6">

@@ -154,6 +154,7 @@
                   : 'cursor-not-allowed'
               "
               :disabled="buttonDisabled"
+              :aria-label="$t('pages.contact.send-form-aria-label')"
             >
               {{ $t("pages.help.contact.send") }}
             </button>
@@ -175,6 +176,7 @@
           :label="$t('components.btn-labeled.return-home')"
           linkTo="/"
           fontSize="lg"
+          :alternateText="$t('components.btn-labeled.return-home-aria-label')"
         />
       </div>
     </div>

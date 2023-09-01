@@ -34,6 +34,9 @@
         <button
           class="flex items-center justify-center transition duration-100 w-7 h-7 text-light-special-text dark:text-dark-special-text hover:text-light-text dark:hover:text-dark-text focus-brand"
           @click="sidebar.toggleCollapsedSwitch()"
+          :aria-label="
+            $t('components.sidebar-left-header.sidebar-collapse-aria-label')
+          "
         >
           <div
             class="pb-[2px]"

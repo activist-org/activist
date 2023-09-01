@@ -35,8 +35,10 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 - The Vue [Composition API](https://vuejs.org/guide/introduction.html#composition-api) should be used in all cases
 - [TypeScript](https://www.typescriptlang.org/) should be used wherever possible within `<script>` blocks with `defineProps`
 - Self-closing components (`<Component />`) should be used for any component that doesn't have content
-  - This style is [strongly recommended in Vue](https://vuejs.org/guide/essentials/component-basics.html#dom-template-parsing-caveats)
   - Generally if a component has a `<slot>` then this would imply that it would normally have content and thus require a closing tag
+- Use `camelCase` for prop names for both declaration and within single file components
+
+Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general suggestions on how to write Vue files.
 
 <a id="typescript"></a>
 
@@ -172,6 +174,7 @@ activist is a global platform and must function in countless different regions a
 > - This is the source from which all the other languages are translated from
 > - Edits to the other files need to be made on activist's [public localization project on Transifex](https://explore.transifex.com/activist-org/activist)
 > - Please alphabetize the keys except for indexes within page routes that should come first
+> - Do not include periods in aria-labels (screen reader user will configure their own preferences for a hard stop)
 
 Localization keys should be defined based on their component or page within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 

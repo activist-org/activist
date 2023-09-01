@@ -129,6 +129,9 @@
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
+              :alternateText="
+                $t('components.btn-labeled.return-home-aria-label')
+              "
             />
           </div>
         </div>

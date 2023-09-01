@@ -37,6 +37,7 @@
             <p class="line-clamp-2">{{ event.description }}</p>
             <button
               class="mt-2 font-semibold text-light-link-text dark:text-dark-link-text"
+              :aria-label="$t('components.card-about.full-text-aria-label')"
             >
               {{ $t("components.card-about.full-text") }}
             </button>
@@ -58,8 +59,9 @@
             <p class="line-clamp-3">{{ organization.description }}</p>
             <button
               class="mt-2 font-semibold text-light-link-text dark:text-dark-link-text"
+              :aria-label="$t('components.card-about.full-text-aria-label')"
             >
-              Click for full text
+              {{ $t("components.card-about.full-text") }}
             </button>
           </div>
         </div>

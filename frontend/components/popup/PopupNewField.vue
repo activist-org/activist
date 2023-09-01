@@ -33,6 +33,7 @@
         :label="ctaBtnLabel"
         fontSize="base"
         leftIcon="bi:plus-lg"
+        :alternateText="ctaBtnAlternateText"
       />
     </div>
   </div>
@@ -44,6 +45,7 @@ defineProps<{
   fieldNamePrompt: string;
   descriptionPrompt?: string;
   ctaBtnLabel: string;
+  ctaBtnAlternateText: string;
 }>();
 
 const inputValue = ref<HTMLInputElement | null>(null);

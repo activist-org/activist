@@ -25,7 +25,7 @@
         v-model="customValue"
         @input="inputDebounce"
         :placeholder="customValuePlaceholder"
-        class="font-bold px-5 md:max-w-[10.5rem] outline-none flex-1 border border-light-interactive border-r-0 rounded-l-md bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
+        class="font-bold px-5 md:max-w-[10.5rem] outline-none flex-1 border border-light-interactive border-r-0 rounded-l-md bg-light-header dark:bg-dark-header dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
       />
       <button
         class="rounded-r-md text-xl font-bold relative min-w-[3.4rem] h-11 border border-light-interactive bg-light-header text-light-interactive dark:bg-dark-header dark:border-dark-interactive dark:text-dark-special-text"

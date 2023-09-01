@@ -13,6 +13,7 @@
         fontSize="base"
         rightIcon="bi:arrow-right"
         iconSize="1.25em"
+        :alternateText="$t('components.btn-labeled.offer-to-help-aria-label')"
       />
       <BtnLabeled
         :cta="true"
@@ -22,6 +23,7 @@
         leftIcon="IconSupport"
         iconSize="1.25em"
         :counter="event.supporters"
+        :alternateText="$t('components.btn-labeled.support-event-aria-label')"
       />
       <BtnLabeled
         :cta="true"
@@ -30,6 +32,7 @@
         fontSize="base"
         leftIcon="bi:box-arrow-up"
         iconSize="1.25em"
+        :alternateText="$t('components.btn-labeled.share-event-aria-label')"
       />
     </HeaderAppPage>
     <div class="pb-6 space-y-6">
