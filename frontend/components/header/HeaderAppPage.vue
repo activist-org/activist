@@ -27,8 +27,8 @@ import type { Event } from "../../types/event";
 import type { Organization } from "../../types/organization";
 
 const props = defineProps<{
-  header: string;
-  tagline: string;
+  header?: string;
+  tagline?: string;
   organization?: Organization;
   event?: Event;
 }>();
@@ -45,7 +45,7 @@ if (props.organization) {
   header = props.event.name;
   tagline = props.event.tagline;
 } else {
-  header = props.header;
-  tagline = props.tagline;
+  header = props.header || "Default Demo Header";
+  tagline = props.tagline || "Default Demo Tagline";
 }
 </script>
