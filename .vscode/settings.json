@@ -1,0 +1,4 @@
+{
+    "prettier.configPath": "frontend/.prettierrc",
+    "prettier.ignorePath": "frontend/.prettierignore"
+}
