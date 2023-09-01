@@ -12,22 +12,22 @@ Considerations:
 """
 
 
+class Support(models.Model):
+    supporter_type = models.ForeignKey('SupportEntityType', on_delete=models.CASCADE)
+    supporter_entity = models.IntegerField(null=True)
+    supported_type = models.ForeignKey('SupportEntityType', on_delete=models.CASCADE)
+    supported_entity = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.id
+
+
 class SupportEntityType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
-
-
-class Support(models.Model):
-    supporter_type = models.ForeignKey(SupportEntityType, on_delete=models.CASCADE)
-    supporter_entity = models.IntegerField(null=True)
-    supported_type = models.ForeignKey(SupportEntityType, on_delete=models.CASCADE)
-    supported_entity = models.IntegerField(null=True)
-
-    def __str__(self):
-        return self.id
 
 
 class User(AbstractUser):

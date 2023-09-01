@@ -28,22 +28,9 @@ class Resource(models.Model):
         return self.name
 
 
-class Topic(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    active = models.BooleanField(default=True)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateField(null=True)
-
-    def __str__(self):
-        return self.name
-
-
 class ResourceTopic(models.Model):
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    topic_id = models.ForeignKey("Topic", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -57,6 +44,19 @@ class Task(models.Model):
     tags = ArrayField(models.CharField(max_length=255))
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Topic(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    active = models.BooleanField(default=True)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
 
     def __str__(self):
         return self.name

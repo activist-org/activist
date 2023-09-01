@@ -32,41 +32,16 @@ class Event(models.Model):
         return self.name
 
 
-class Role(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    is_custom = models.BooleanField(default=False)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateField(null=True)
-
-    def __str__(self):
-        return self.name
-
-
 class EventAttendee(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
-    role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
     attendee_status = models.IntegerField(null=True)
-
-
-class Format(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateField(null=True)
-
-    def __str__(self):
-        return self.name
 
 
 class EventFormat(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    format_id = models.ForeignKey(Format, on_delete=models.CASCADE)
+    format_id = models.ForeignKey("Format", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -90,7 +65,7 @@ class EventResource(models.Model):
 
 class EventRole(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -110,3 +85,28 @@ class EventTopic(models.Model):
 
     def __str__(self):
         return self.id
+
+
+class Format(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Role(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    is_custom = models.BooleanField(default=False)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name
