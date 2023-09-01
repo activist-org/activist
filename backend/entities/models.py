@@ -1,32 +1,32 @@
+"""
+Entities Models
+
+This file contains models for the entities app.
+
+TODO: All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
+TODO: Some relational-models may need to be moved in the "events" or "content" app in order to prevent circular dependency issues.
+TODO: In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
+
+Contents:
+    - Organization
+    - OrganizationApplicationStatus
+    - OrganizationApplication
+    - OrganizationEvent
+    - OrganizationMember
+    - OrganizationResource
+    - Group
+    - OrganizationTask
+    - OrganizationTopic
+    - GroupEvent
+    - GroupMember
+    - GroupResource
+    - GroupTopic
+"""
+
 import uuid
 
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-
-"""
-Considerations:
-- All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
-- More comments should be added to improve the readability and understanding of the code.
-- Some relational-models may need to be moved in the "events" or "content" app in order to prevent circular dependency issues.
-- In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
-
-MODELS INDEX:
-- Organization
-- OrganizationApplicationStatus
-- OrganizationApplication
-- OrganizationEvent
-- OrganizationMember
-- OrganizationResource
-- Group
-- OrganizationTask
-- OrganizationTopic
-- GroupEvent
-- GroupMember
-- GroupResource
-- GroupTopic
-
-"""
-
 
 
 class Organization(models.Model):

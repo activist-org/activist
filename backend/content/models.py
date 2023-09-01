@@ -1,22 +1,23 @@
+"""
+Content Models
+
+This file contains models for the content app.
+
+TODO: All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
+TODO: In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
+
+Contents:
+    - Resource
+    - Task
+    - Topic
+    - ResourceTopic
+    - TopicFormat
+"""
+
 import uuid
 
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-
-"""
-Considerations:
-- All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
-- More comments should be added to improve the readability and understanding of the code.
-- Some relational-models may need to be moved in the "events" app in order to prevent circular dependency issues.
-- In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
-
-MODELS INDEX:
-- Resource
-- Task
-- Topic
-- ResourceTopic
-- TopicFormat
-"""
 
 
 class Resource(models.Model):
@@ -46,7 +47,7 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class Topic(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

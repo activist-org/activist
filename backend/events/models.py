@@ -1,24 +1,26 @@
+"""
+Events Models
+
+This file contains models for the events app.
+
+TODO: All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
+
+Contents:
+    - Event
+    - Format
+    - Role
+    - EventAttendee
+    - EventFormat
+    - EventAttendeeStatus
+    - EventResource
+    - EventRole
+    - EventTask
+    - EventTopic
+"""
+
 import uuid
 
 from django.db import models
-
-"""
-Considerations:
-- All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
-- More comments should be added to improve the readability and understanding of the code.
-
-MODELS INDEX:
-- Event
-- Format
-- Role
-- EventAttendee
-- EventFormat
-- EventAttendeeStatus
-- EventResource
-- EventRole
-- EventTask
-- EventTopic
-"""
 
 
 class Event(models.Model):
@@ -42,7 +44,7 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class Format(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -122,4 +124,3 @@ class EventTopic(models.Model):
 
     def __str__(self):
         return self.id
-
