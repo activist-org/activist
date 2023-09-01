@@ -6,6 +6,18 @@ from django.db import models
 Considerations:
 - All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
 - More comments should be added to improve the readability and understanding of the code.
+
+MODELS INDEX:
+- Event
+- Format
+- Role
+- EventAttendee
+- EventFormat
+- EventAttendeeStatus
+- EventResource
+- EventRole
+- EventTask
+- EventTopic
 """
 
 
@@ -27,6 +39,31 @@ class Event(models.Model):
     )
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name
+    
+
+class Format(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Role(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    is_custom = models.BooleanField(default=False)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateField(null=True)
 
     def __str__(self):
         return self.name
@@ -86,27 +123,3 @@ class EventTopic(models.Model):
     def __str__(self):
         return self.id
 
-
-class Format(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateField(null=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Role(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    is_custom = models.BooleanField(default=False)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateField(null=True)
-
-    def __str__(self):
-        return self.name

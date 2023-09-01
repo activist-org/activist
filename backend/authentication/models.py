@@ -9,7 +9,23 @@ Considerations:
 - All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
 - More comments should be added to improve the readability and understanding of the code.
 - Some relational-models may need to be moved in the "content" app in order to prevent circular dependency issues.
+
+MODELS INDEX:
+- SupportEntityType
+- Support
+- User
+- UserResource
+- UserTask
+- UserTopic
 """
+
+
+class SupportEntityType(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Support(models.Model):
@@ -20,14 +36,6 @@ class Support(models.Model):
 
     def __str__(self):
         return self.id
-
-
-class SupportEntityType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.name
 
 
 class User(AbstractUser):

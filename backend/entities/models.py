@@ -9,7 +9,26 @@ Considerations:
 - More comments should be added to improve the readability and understanding of the code.
 - Some relational-models may need to be moved in the "events" or "content" app in order to prevent circular dependency issues.
 - In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
+
+MODELS INDEX:
+- Organization
+- OrganizationApplicationStatus
+- OrganizationApplication
+- OrganizationEvent
+- OrganizationMember
+- OrganizationResource
+- Group
+- OrganizationTask
+- OrganizationTopic
+- GroupEvent
+- GroupMember
+- GroupResource
+- GroupTopic
+
 """
+
+
+
 
 
 class Organization(models.Model):
@@ -28,6 +47,14 @@ class Organization(models.Model):
         return self.name
 
 
+class OrganizationApplicationStatus(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    status_name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.status_name
+
+
 class OrganizationApplication(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     org_id = models.IntegerField(null=True)
@@ -39,14 +66,6 @@ class OrganizationApplication(models.Model):
 
     def __str__(self):
         return self.creation_date
-
-
-class OrganizationApplicationStatus(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    status_name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.status_name
 
 
 class OrganizationEvent(models.Model):
@@ -76,6 +95,22 @@ class OrganizationResource(models.Model):
         return self.id
 
 
+class Group(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255)
+    description = models.TextField(max_length=500)
+    social_accounts = ArrayField(models.CharField(max_length=255))
+    total_flags = models.IntegerField(null=True)
+    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    deletion_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name
+
+
 class OrganizationTask(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
@@ -91,22 +126,6 @@ class OrganizationTopic(models.Model):
 
     def __str__(self):
         return self.id
-
-
-class Group(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
-    description = models.TextField(max_length=500)
-    social_accounts = ArrayField(models.CharField(max_length=255))
-    total_flags = models.IntegerField(null=True)
-    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
-
-    def __str__(self):
-        return self.name
 
 
 class GroupEvent(models.Model):
