@@ -9,6 +9,13 @@ Considerations:
 - More comments should be added to improve the readability and understanding of the code.
 - Some relational-models may need to be moved in the "events" app in order to prevent circular dependency issues.
 - In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
+
+MODELS INDEX:
+- Resource
+- Task
+- Topic
+- ResourceTopic
+- TopicFormat
 """
 
 
@@ -28,14 +35,6 @@ class Resource(models.Model):
         return self.name
 
 
-class ResourceTopic(models.Model):
-    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.id
-
-
 class Task(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
@@ -47,7 +46,7 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
-
+    
 
 class Topic(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -60,6 +59,14 @@ class Topic(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ResourceTopic(models.Model):
+    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
+    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.id
 
 
 class TopicFormat(models.Model):
