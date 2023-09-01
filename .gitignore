@@ -9,6 +9,7 @@
 # Django and Python
 __pycache__
 .venv
+venv/
 
 # Nuxt dev/build outputs
 .output
