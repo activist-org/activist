@@ -46,8 +46,9 @@ onMounted(() => {
 });
 
 function redirectBasedOnScreenSize() {
-  if (window.innerWidth > 640) {
-    navigateTo(`/${id}/about`);
-  }
+  if (window.innerWidth > 384) {
+    navigateTo(`${id}/about`);
+  } else {
+	}
 }
 </script>
