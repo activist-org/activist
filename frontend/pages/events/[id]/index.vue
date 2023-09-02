@@ -1,5 +1,9 @@
 <template>
 	<div class="px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content flex flex-col justify-between align-center">
+		<Head>
+      <Title>{{ event.name }} </Title>
+    </Head>
+
 		<div
 			class="w-3/4 h-[260px] mx-auto"
 		>
