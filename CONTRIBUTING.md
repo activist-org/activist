@@ -207,7 +207,7 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    # Navigate to the newly cloned directory
    cd <repo-name>
    # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/<upsteam-owner>/<repo-name>
+   git remote add upstream https://github.com/<upstream-owner>/<repo-name>
    ```
 
 2. If you cloned a while ago, get the latest changes from upstream:
