@@ -10,9 +10,16 @@
       <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
     </div>
 
-		<h2 class="font-bold responsive-h3 text-2xl">
-			{{ event.name }}
-		</h2>
+		<div class="flex flex-col items-center gap-2">
+			<h1 class="font-bold responsive-h1 text-3xl text-light-text dark:text-dark-text">
+				{{ event.name }}
+			</h1>
+	
+			<h2 class="font-bold responsive-h2 text-lg text-light-special-text dark:text-dark-special-text">
+				{{ event.tagline }}
+			</h2>
+		</div>
+
   </div>
 </template>
 
