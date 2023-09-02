@@ -1,15 +1,19 @@
 <template>
-	<div class="px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content flex flex-col justify-between align-center">
-		<Head>
+  <div
+    class="px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content flex flex-col justify-between items-center gap-8"
+  >
+    <Head>
       <Title>{{ event.name }} </Title>
     </Head>
 
-		<div
-			class="w-3/4 h-[260px] mx-auto"
-		>
-			<ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
-		</div>
-	</div>
+    <div class="w-3/4 h-[260px] mx-auto">
+      <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
+    </div>
+
+		<h2 class="font-bold responsive-h3 text-2xl">
+			{{ event.name }}
+		</h2>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -30,14 +34,13 @@ const event: Event = {
   supporters: 10,
 };
 
-
 onMounted(() => {
-	redirectBasedOnScreenSize();
+  redirectBasedOnScreenSize();
 });
 
 function redirectBasedOnScreenSize() {
-	if (window.innerWidth > 640) {
-		navigateTo(`/${id}/about`);
-	}
+  if (window.innerWidth > 640) {
+    navigateTo(`/${id}/about`);
+  }
 }
 </script>
