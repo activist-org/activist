@@ -11,7 +11,7 @@
     </div>
 
 		<div class="flex flex-col items-center gap-2">
-			<h1 class="font-bold responsive-h1 text-3xl text-light-text dark:text-dark-text">
+			<h1 class="font-bold responsive-h1 text-3xl text-light-text dark:text-dark-text text-center">
 				{{ event.name }}
 			</h1>
 	
