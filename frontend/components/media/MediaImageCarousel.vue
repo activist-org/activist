@@ -1,12 +1,13 @@
 <template>
   <swiper-container
     class="w-full h-full swiper card-style"
-    :slides-per-view="1"
-    :space-between="30"
+    :slidesPerView="1"
+    :spaceBetween="30"
     :loop="true"
     :pagination="{ clickable: true }"
     :navigation="true"
   >
+
     <swiper-slide
       v-for="n in 7"
       class="bg-light-placeholder dark:bg-dark-placeholder text-light-distinct dark:text-dark-distinct"
