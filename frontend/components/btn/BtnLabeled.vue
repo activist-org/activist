@@ -39,7 +39,6 @@
   </div>
   <a
     v-else-if="linkTo.includes('http')"
-    :href="linkTo"
     class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit fill-light-distinct dark:fill-dark-distinct"
     :class="{
       'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
@@ -54,6 +53,7 @@
       'text-base sm:text-lg xl:text-2xl xl:px-6 xl:py-3': fontSize == '2xl',
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
+    :href="linkTo"
     :aria-label="alternateText"
   >
     <Icon

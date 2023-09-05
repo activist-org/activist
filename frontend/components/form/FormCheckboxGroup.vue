@@ -4,8 +4,8 @@
     :class="{ 'flex-col': checkboxComponent === 'FormCheckbox' }"
   >
     <component
-      :class="{ 'flex-1': checkboxComponent !== 'FormCheckbox' }"
       v-for="option in options"
+      :class="{ 'flex-1': checkboxComponent !== 'FormCheckbox' }"
       :key="option.value"
       :is="checkboxComponent"
       :label="option.label"

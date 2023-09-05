@@ -8,13 +8,13 @@
       <Transition name="search">
         <input
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          :class="{ 'focus:w-5/6': isInputFocused }"
           ref="input"
           class="w-16 h-5 bg-transparent outline-none"
           type="text"
           :placeholder="$t('components.search-bar.placeholder')"
           @focus="onFocus"
           @blur="onFocusLost"
-          :class="{ 'focus:w-5/6': isInputFocused }"
         />
       </Transition>
     </div>

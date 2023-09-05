@@ -13,11 +13,11 @@
         </h3>
         <div v-if="filter.slide">
           <Icon
-            name="bi:chevron-down"
             @click="filter.slideUp = !filter.slideUp"
-            size="1em"
             class="flex-shrink-0 my-1 mb-3 ml-4 cursor-pointer"
             :class="{ 'rotate-180': filter.slideUp }"
+            name="bi:chevron-down"
+            size="1em"
           />
         </div>
       </div>
