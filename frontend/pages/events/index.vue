@@ -6,12 +6,14 @@
       <Title>{{ $t("pages.events.index.title") }} </Title>
     </Head>
     <HeaderAppPage
-      :header="$t('pages.organizations.index.header')"
-      :tagline="$t('pages.organizations.index.subheader')"
+      :header="$t('pages.events.index.header')"
+      :tagline="$t('pages.events.index.subheader')"
     >
-      <TopicMarker topic="My topics dropdown" />
+      <div class="flex flex-col space-x-3 sm:flex-row">
+        <TopicMarker topic="My topics dropdown" />
+      </div>
     </HeaderAppPage>
-    <div class="pb-4 space-y-4">
+    <div class="pt-3 pb-6 space-y-6 md:pt-4">
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
@@ -37,7 +39,8 @@ const event: Event = {
   topic: "Testing and Designing",
   description: "This is a test event for testers.",
   getInvolvedDescription: "Wanna help test?",
-  onlineLocation: "Zoom Test Room",
+  inPersonLocation: "Berlin",
+  // onlineLocation: "Zoom Test Room",
   date: new Date(),
   supporters: 10,
 };

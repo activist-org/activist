@@ -10,7 +10,9 @@
         <div class="font-semibold text-xs leading-4 ml-0.5">
           {{ $t("components.grid-github-shields.visit-us") }}
         </div>
-        <div class="text-2xl font-semibold leading-4">GitHub</div>
+        <div class="text-2xl font-semibold leading-4">
+          {{ $t("components.grid-github-shields.github") }}
+        </div>
       </div>
     </ImageGithubShield>
 

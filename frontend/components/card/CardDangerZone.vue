@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-6 py-5 border bg-light-act-red/30 dark:bg-dark-act-red/30 border-light-act-red dark:border-dark-act-red card-style-base text-light-text dark:text-dark-text"
+    class="px-5 py-5 border bg-light-act-red/30 dark:bg-dark-act-red/30 border-light-act-red dark:border-dark-act-red card-style-base text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col gap-5">
       <h3

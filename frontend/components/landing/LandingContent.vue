@@ -137,20 +137,20 @@
         class="grid grid-cols-1 grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 sm:grid-cols-2 sm:grid-rows-1"
       >
         <BtnLabeled
+          class="w-full"
           :cta="true"
           :label="`${btnText1}`"
           :linkTo="`${btnURL1}`"
           fontSize="xl"
           :alternateText="btnAlternateText1 ? $t(`${btnAlternateText1}`) : null"
-          class="w-full"
         />
         <BtnLabeled
+          class="w-full"
           :cta="false"
           :label="`${btnText2}`"
           :linkTo="`${btnURL2}`"
           fontSize="xl"
           :alternateText="btnAlternateText2 ? $t(`${btnAlternateText2}`) : null"
-          class="w-full"
         />
       </div>
       <div>

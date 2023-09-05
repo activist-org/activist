@@ -12,19 +12,19 @@
       </div>
     </div>
     <input
+      class="h-8 p-2 bg-transparent border rounded-sm w-52 border-light-text dark:border-dark-text focus-brand"
       ref="input"
       type="text"
       :placeholder="fieldNamePrompt"
       v-model="inputValue"
-      class="h-8 p-2 bg-transparent border rounded-sm w-52 border-light-text dark:border-dark-text focus-brand"
     />
     <textarea
+      class="p-1 bg-transparent border rounded-sm resize-none border-light-text dark:border-dark-text focus-brand min-w-[75%] min-h-[50%]"
       v-if="descriptionPrompt"
       name="message"
       rows="3"
       cols="10"
       :placeholder="descriptionPrompt"
-      class="p-1 bg-transparent border rounded-sm resize-none border-light-text dark:border-dark-text focus-brand min-w-[75%] min-h-[50%]"
     ></textarea>
     <div @click="emit('on-cta-clicked', inputValue)" class="mt-1">
       <BtnLabeled

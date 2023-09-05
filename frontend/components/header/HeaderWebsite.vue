@@ -12,7 +12,7 @@
     <div class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
         <div
-          class="absolute top-0 left-0 z-0 flex items-center justify-center w-24 w-full h-6 h-full"
+          class="absolute top-0 left-0 z-0 flex items-center justify-center w-full h-full"
         >
           <div>
             <LogoActivist

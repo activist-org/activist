@@ -20,7 +20,7 @@
   }
 
   .focus-brand {
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75 rounded-sm;
+    @apply outline-offset-2 outline-light-cta-orange dark:outline-dark-cta-orange rounded-sm;
   }
 
   .link-text {
@@ -100,7 +100,7 @@
   }
 
   .responsive-py-5 {
-    @apply py-6 lg:py-10 xl:py-14;
+    @apply py-8 lg:py-10 xl:py-14;
   }
 }
 

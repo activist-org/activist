@@ -17,19 +17,19 @@ const hasSidebar = ref(false);
 
 const connectLinks = [
   {
-    name: "GitHub",
+    name: "components.footer.github",
     url: "https://github.com/activist-org/activist",
     iconName: "cib:github",
     iconSize: "1em",
   },
   {
-    name: "Matrix",
+    name: "components.footer.matrix",
     url: "https://matrix.to/#/#activist_community:matrix.org",
     iconName: "IconMatrix",
     iconSize: "1.061em",
   },
   {
-    name: "Instagram",
+    name: "components.footer.instagram",
     url: "https://instagram.com/activist_org",
     iconName: "cib:instagram",
     iconSize: "1em",
