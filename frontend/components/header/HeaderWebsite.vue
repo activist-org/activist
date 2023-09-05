@@ -1,7 +1,7 @@
 <template>
   <header
     ref="header"
-    class="relative top-0 z-10 duration-500 header drop-shadow-md"
+    class="relative sticky top-0 z-10 duration-500 header drop-shadow-md"
     :class="{
       'bg-light-header dark:bg-dark-header': headerOpacity == 1,
       'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
@@ -12,7 +12,7 @@
     <div class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
         <div
-          class="absolute top-0 left-0 z-0 flex items-center justify-center w-24 w-full h-6 h-full"
+          class="absolute top-0 left-0 z-0 flex items-center justify-center w-full h-full"
         >
           <div>
             <LogoActivist
