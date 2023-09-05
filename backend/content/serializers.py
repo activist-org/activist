@@ -17,6 +17,27 @@ class ResourceSerializer(serializers.ModelSerializer):
             "deletion_date",
         )
 
+        def validate(self, data):
+            if data["name"] == "":
+                raise serializers.ValidationError(
+                    "name cannot be empty"
+                )
+
+            if data["description"] == "":
+                raise serializers.ValidationError(
+                    "description cannot be empty"
+                )
+            
+            if type(data["total_flags"]) != int:
+                data["total_flags"] =  int(data["total_flags"])
+
+            if data["creation_date"] < data["deletion_date"]:
+                raise serializers.ValidationError(
+                    "creation_date must be before deletion_date"
+                )
+                
+            return data
+
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task

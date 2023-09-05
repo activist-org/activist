@@ -24,6 +24,20 @@ class EventSerializer(serializers.ModelSerializer):
             "deletion_date",
         )
 
+    def validate(self, data):
+        
+        if data["start_time"] > data["end_time"]:
+            raise serializers.ValidationError(
+                "start_time must be before end_time"
+            )
+    
+        if data["name"] == "":
+            raise serializers.ValidationError(
+                "name cannot be empty"
+            )
+
+        return data
+
 class FormatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Format
