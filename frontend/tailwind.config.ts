@@ -78,7 +78,6 @@ export default <Partial<Config>>{
         social: {
           email: "rgba(219, 68, 55, 1)",
           mastodon: "rgba(68, 58, 204, 1)",
-          twitter: "rgba(29, 161, 242, 1)",
           facebook: "rgba(66, 103, 178, 1)",
           instagram: "rgba(129, 52, 175, 1)",
         },

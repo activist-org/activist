@@ -107,21 +107,21 @@
             class="grid grid-cols-1 max-w-[70%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[80%] grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 mx-auto sm:mx-0 sm:grid-cols-2 sm:grid-rows-1"
           >
             <BtnLabeled
+              class="w-full"
               :cta="true"
               :label="$t('components.btn-labeled.request-access')"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
-              class="w-full"
               :alternateText="
                 $t('components.btn-labeled.request-access-aria-label')
               "
             />
             <BtnLabeled
+              class="w-full"
               :cta="false"
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
-              class="w-full"
               :alternateText="
                 $t('components.btn-labeled.return-home-aria-label')
               "

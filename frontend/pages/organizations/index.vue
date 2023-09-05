@@ -9,9 +9,11 @@
       :header="$t('pages.organizations.index.header')"
       :tagline="$t('pages.organizations.index.subheader')"
     >
-      <TopicMarker topic="My topics dropdown" />
+      <div class="flex flex-col space-x-3 sm:flex-row">
+        <TopicMarker topic="My topics dropdown" />
+      </div>
     </HeaderAppPage>
-    <div class="pb-4 space-y-4">
+    <div class="pt-3 pb-6 space-y-6 md:pt-4">
       <CardSearchResult
         searchResultType="organization"
         :isPrivate="false"
@@ -34,7 +36,7 @@ const organization: Organization = {
   status: "approved",
   tagline: "Technologie von und für soziale Bewegungen",
   location: "Berlin",
-  description: "This is the description of tech from below",
+  description: "This is the description of tech from below.",
   topic: "Technology and Privacy",
   members: 3,
   supporters: 30,

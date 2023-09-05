@@ -100,7 +100,7 @@
   }
 
   .responsive-py-5 {
-    @apply py-6 lg:py-10 xl:py-14;
+    @apply py-8 lg:py-10 xl:py-14;
   }
 }
 

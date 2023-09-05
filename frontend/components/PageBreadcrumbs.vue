@@ -1,44 +1,43 @@
 <template>
-  <nav aria-label="Breadcrumb">
-    <ul class="flex flex-row">
+  <nav :aria-label="$t('components.page-breadcrumbs.aria-label')">
+    <ul class="flex flex-row text-sm md:text-base">
       <li
+        class="font-display"
         v-for="(breadcrumb, index) in displayBreadcrumbs"
         :key="index"
-        class="font-display"
       >
         <span
-          v-if="index !== 0"
-          class="mx-2 text-light-special-text dark:text-dark-special-text"
+          class="mx-[0.35rem] text-light-special-text dark:text-dark-special-text"
           >/</span
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <a
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             v-if="Number.isInteger(Number(breadcrumb)) && event"
             :href="makeURL(breadcrumb)"
-            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
           >
             {{ event.name }}
           </a>
           <a
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             v-else-if="Number.isInteger(Number(breadcrumb)) && organization"
             :href="makeURL(breadcrumb)"
-            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
           >
             {{ organization.name }}
           </a>
           <a
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             v-else
             :href="makeURL(breadcrumb)"
-            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
           </a>
         </span>
         <span v-else>
           <a
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             :href="makeURL(breadcrumb)"
             aria-current="page"
-            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
           </a>

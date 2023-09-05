@@ -1,7 +1,7 @@
 <template>
   <header
     ref="header"
-    class="relative sticky top-0 z-10 duration-500 header drop-shadow-md"
+    class="relative top-0 z-10 duration-500 header drop-shadow-md"
     :class="{
       'bg-light-header dark:bg-dark-header': headerOpacity == 1,
       'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,

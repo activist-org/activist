@@ -5,6 +5,7 @@
       "get-in-touch-aria-label": "Get in touch with the activist team",
       "join-organization": "Join organization",
       "join-organization-aria-label": "Start the process to join the organization",
+      "learn-more": "Learn more",
       "new-account": "New account",
       "new-account-aria-label": "Add a new account",
       "offer-to-help": "Offer to help",
@@ -13,6 +14,7 @@
       "request-access-aria-label": "Request access to activist.org",
       "return-home": "Return home",
       "return-home-aria-label": "Return home to the activist home page",
+      "share": "Share",
       "share-event": "Share event",
       "share-event-aria-label": "Share this event with others",
       "share-organization": "Share organization",
@@ -27,7 +29,7 @@
     },
     "btn-roadmap": {
       "label": "Roadmap",
-      "label-aria-label": "Learn about the activist.org roadmap"
+      "aria-label": "Learn about the activist.org roadmap"
     },
     "card-search-result-event": {
       "attending": "Attending"
@@ -65,8 +67,11 @@
       "contact": "Contact",
       "documentation": "Documentation",
       "faq": "FAQ",
+      "github": "GitHub",
       "help": "Help",
       "impress": "Impress",
+      "instagram": "Instagram",
+      "matrix": "Matrix",
       "privacy-policy": "Privacy Policy",
       "roadmap": "Roadmap",
       "source-code": "Source Code",
@@ -89,6 +94,7 @@
     },
     "grid-github-shields": {
       "fork": "Fork",
+      "github": "GitHub",
       "star": "Star",
       "visit-us": "Visit us on"
     },
@@ -117,6 +123,13 @@
       "open-source-tagline": "Trust through Transparency",
       "open-source-text": "We're dedicated to working in the open to build trust with out partner organizations and fellow activists. Building the place for activism the world over takes a lot of effort, so please come join us!"
     },
+    "logo-activist": {
+      "aria-label": "The activist.org logo that links to the home page"
+    },
+    "media-map": {
+      "error-message": "There was a problem with the map service.",
+      "": "Sorry about that!"
+    },
     "menu-mobile-selector": {
       "label": {
         "home": "Home",
@@ -124,12 +137,27 @@
         "organizations": "Organizations"
       }
     },
+    "meta-tag-attending": {
+      "label": "attending"
+    },
+    "meta-tag-members": {
+      "label": "members"
+    },
+    "meta-tag-stars": {
+      "label": "stars"
+    },
+    "meta-tag-supporters": {
+      "label": "supporters"
+    },
     "modal-image": {
       "close-modal-aria-label": "Close the larger version of this image",
       "open-modal-aria-label": "Open a larger version of this image"
     },
     "selector-language": {
       "open-dropdown-aria-label": "Open the dropdown to select another language"
+    },
+    "page-breadcrumbs": {
+      "aria-label": "Page breadcrumb navigation"
     },
     "selector-theme": {
       "dark": "Dark",
@@ -530,9 +558,7 @@
         "section-2-paragraph-1-2": "source code on GitHub",
         "section-2-paragraph-1-3": "to get involved!",
         "section-3-subheader": "Sponsor activist's development",
-        "section-3-paragraph-1-1": "Visit our",
-        "section-3-paragraph-1-2": "page on elinor",
-        "section-3-paragraph-1-3": "to donate today. Thank you for your support!",
+        "section-3-paragraph-1-1": "Details of public funding for activist are forthcoming! Thank you for your support!",
         "section-4-subheader": "Share activist in your network",
         "section-4-paragraph-1-1": "Please contact the team afterwards via our",
         "section-4-paragraph-1-2": "contact page",

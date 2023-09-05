@@ -91,7 +91,10 @@ Within VS Code TS errors are visible, however, running these commands will help 
 
 ## Tailwind [`⇧`](#contents)
 
-activist uses [Tailwind CSS](https://tailwindcss.com/) for CSS styling and [Headless UI](https://headlessui.com/) unstyled, accessible components for more complex page elements like dropdowns and popups. Tailwind styles are applied via space-separated `class="STYLE"` attributes on HTML elements in Vue `<template>` blocks. The following sections will detail the specific styles that are used throughout the codebase.
+activist uses [Tailwind CSS](https://tailwindcss.com/) for CSS styling and [Headless UI](https://headlessui.com/) unstyled, accessible components for more complex page elements like dropdowns and popups. Tailwind styles are applied via space-separated `class="STYLE"` attributes on HTML elements in Vue `<template>` blocks. Generally these class attributes should be the first applied to an element and thus proceed all Vue component props so differences from shared styling are apparent:
+
+- ✅ `<MyComponent class="STYLE" propName="value"/>`
+- ❌ `<MyComponent propName="value" class="STYLE"/>`
 
 Please note that as activist uses Tailwind, this means that `<style>` blocks are often times not used within Vue Single-File Components. `<style>` blocks should only be used in cases where including the styles within the `<template>` block would be overly complex or if Tailwind does not support a certain style parameter. The team understands that Tailwind at times can lead to very long style classes, but because of this we make use of the custom classes [below](#common-styles) to combine commonly used elements into consistent, responsive drop-in attributes.
 
@@ -173,8 +176,9 @@ activist is a global platform and must function in countless different regions a
 >
 > - This is the source from which all the other languages are translated from
 > - Edits to the other files need to be made on activist's [public localization project on Transifex](https://explore.transifex.com/activist-org/activist)
-> - Please alphabetize the keys except for indexes within page routes that should come first
+> - Alphabetize the keys except for indexes within page routes that should come first
 > - Do not include periods in aria-labels (screen reader user will configure their own preferences for a hard stop)
+> - Put the aria label as the last attribute on any given element so it's easier to see if it's missing
 
 Localization keys should be defined based on their component or page within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 

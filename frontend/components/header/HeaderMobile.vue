@@ -1,9 +1,9 @@
 <template>
   <div
-    class="fixed top-0 z-20 w-full h-12 border-b-2 md:hidden bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="relative top-0 z-10 w-full h-12 border-b-2 md:hidden bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
   >
     <nav class="h-full">
-      <div class="flex justify-between h-full px-4 gap-2">
+      <div class="flex justify-between h-full gap-2 px-4">
         <SearchBar
           location="header"
           :expanded="isSearchExpanded"

@@ -1,5 +1,5 @@
 <template>
-  <div class="px-6 py-5 card-style">
+  <div class="px-5 py-5 card-style">
     <div class="relative flex-col w-full gap-5">
       <div
         class="absolute right-0 flex items-center justify-center w-10 h-10 border-2 rounded-md bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div sm:w-16 sm:h-16 text-light-text dark:text-dark-text"
@@ -23,7 +23,7 @@
             </div>
             <p class="font-semibold">{{ event.organizer }}</p>
           </div>
-          <div class="flex flex-col gap-8 sm:flex-row sm:items-center">
+          <div class="flex flex-col gap-3 md:gap-8 sm:flex-row sm:items-center">
             <div class="flex items-center gap-2">
               <Icon name="bx:bxs-map" size="1.2em" />
               <p>{{ event.inPersonLocation }}</p>
@@ -43,9 +43,9 @@
             </button>
           </div>
         </div>
-        <div v-if="organization">
-          <div class="flex flex-col mb-3 gap-5 sm:items-center sm:flex-row">
-            <TopicMarker :topic="organization.topic" class="" />
+        <div v-if="organization" class="flex-col space-y-3">
+          <TopicMarker :topic="organization.topic" class="" />
+          <div class="flex items-center gap-3">
             <div class="flex items-center gap-2">
               <Icon name="bx:bxs-map" size="1.2em" />
               <p>{{ organization.location }}</p>
