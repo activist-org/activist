@@ -1,15 +1,13 @@
 <template>
-  <div
-    class="relative top-0 z-10 w-full h-12 border-b-2 md:hidden bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
-  >
+  <div class="relative top-0 z-10 w-full h-12 border-b-2 md:hidden bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div">
     <nav class="h-full">
       <div class="flex justify-between h-full px-4 gap-2">
         <SearchBar
+          class="my-1.5"
+          :class="{ 'w-full': isSearchExpanded }"
           location="header"
           :expanded="isSearchExpanded"
           @on-search-toggle="toggleSearchExpanded"
-          class="my-1.5"
-          :class="{ 'w-full': isSearchExpanded }"
         />
         <IconActivist
           v-if="!isSearchExpanded"

@@ -11,30 +11,30 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
+        class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_trademark_light.png"
         alt="The trademark symbol - tm within a square.."
-        class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
+        class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_trademark_dark.png"
         alt="The trademark symbol - tm within a square.."
-        class="h-40 mb-4 md:hidden sm:h-52"
       />
       <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div class="items-center text-left space-y-4 md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
+            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_trademark_light.png"
             alt="The trademark symbol - tm within a square.."
-            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_trademark_dark.png"
             alt="The trademark symbol - tm within a square.."
-            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <h1 class="pb-2 font-bold responsive-h1">Trademark Policy</h1>
           <p
@@ -56,9 +56,13 @@
           </p>
           <p>
             {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-1") }}
-            <a href="mailto:team@activist.org" class="focus-brand link-text"
-              >team@activist.org</a
-            >.
+            <a
+              class="focus-brand link-text"
+              href="mailto:team@activist.org"
+            >
+              team@activist.org
+            </a>
+            .
             {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-2") }}
           </p>
           <h2 class="font-bold responsive-h3">
@@ -121,8 +125,8 @@
           <p class="pb-2 lg:pb-4">
             {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-1") }}
             <a
-              href="https://github.com/orgs/activist-org"
               class="items-center focus-brand link-text"
+              href="https://github.com/orgs/activist-org"
               target="_blank"
             >
               {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-2") }}
@@ -134,8 +138,8 @@
             </a>
             {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-3") }}
             <a
-              href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
+              href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
               {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-4") }}
@@ -155,9 +159,7 @@
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.return-home-aria-label')
-              "
+              :alternateText="$t('components.btn-labeled.return-home-aria-label')"
             />
           </div>
         </div>
@@ -165,15 +167,15 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
+            class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_trademark_light.png"
             alt="The trademark symbol - tm within a square.."
-            class="hidden 2xl:block h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_trademark_dark.png"
             alt="The trademark symbol - tm within a square.."
-            class="hidden 2xl:block h-72"
           />
         </div>
       </div>

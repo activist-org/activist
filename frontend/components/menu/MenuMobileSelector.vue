@@ -15,8 +15,8 @@
       <span>
         <Icon
           v-if="iconURL"
-          :name="iconURL"
           class="flex-shrink-0 w-5 h-5 mb-1"
+          :name="iconURL"
         />
       </span>
       <p class="select-none whitespace-nowrap hover:light-menu-selection">

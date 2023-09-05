@@ -4,20 +4,20 @@
     :class="{
       'bg-dark-header dark:bg-dark-menu-selection text-dark-interactive dark:text-dark-distinct border-dark-header ':
         modelValue === value,
-      [customColorClass]: modelValue === value,
+      customColorClass: modelValue === value,
     }"
   >
     <input
+      class="hidden"
       type="radio"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue === value"
       :id="uuid"
-      class="hidden"
     />
     <label
+      class="min-h-[2.75rem] absolute w-full h-full flex items-center justify-center cursor-pointer"
       v-if="label"
       :for="uuid"
-      class="min-h-[2.75rem] absolute w-full h-full flex items-center justify-center cursor-pointer"
     >
       {{ label }}
     </label>

@@ -4,7 +4,10 @@
   >
     <nav>
       <ul class="flex">
-        <li class="flex-1" v-for="(item, index) in menuItems" :key="index">
+        <li
+          v-for="(item, index) in menuItems" :key="index"
+          class="flex-1"
+        >
           <MenuMobileSelector
             :label="item.label"
             :routeURL="item.routeURL"

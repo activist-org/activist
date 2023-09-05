@@ -1,12 +1,12 @@
 <template>
   <input
+    class="field"
     v-bind="{ ...$attrs, onChange: updateValue }"
     :checked="modelValue === value"
     :id="uuid"
     type="checkbox"
-    class="field"
   />
-  <label :for="uuid" v-if="label">
+  <label v-if="label" :for="uuid">
     {{ label }}
   </label>
   <BaseErrorMessage v-if="error" :id="`${uuid}-error`">

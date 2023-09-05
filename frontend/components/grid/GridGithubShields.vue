@@ -1,8 +1,8 @@
 <template>
   <div class="grid grid-flow-row gap-3 md:gap-5 sm:grid-flow-col w-fit">
     <ImageGithubShield
-      href="https://github.com/activist-org/activist"
       class="fill-light-text dark:fill-dark-text"
+      href="https://github.com/activist-org/activist"
       :isLoading="isLoading"
     >
       <Icon name="cib:github" size="2em" />
@@ -17,21 +17,21 @@
     </ImageGithubShield>
 
     <ImageGithubShield
+      class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/forks"
       :text="$t('components.grid-github-shields.fork')"
       :isLoading="isLoading"
       :count="GitHubData.forks_count"
-      class="fill-light-text dark:fill-dark-text"
     >
       <Icon name="octicon:repo-forked-24" size="2em" />
     </ImageGithubShield>
 
     <ImageGithubShield
+      class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/stargazers"
       :text="$t('components.grid-github-shields.star')"
       :isLoading="isLoading"
       :count="GitHubData.stargazers_count"
-      class="fill-light-text dark:fill-dark-text"
     >
       <Icon name="octicon:star-24" size="2em" />
     </ImageGithubShield>

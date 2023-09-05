@@ -10,7 +10,7 @@
   >
     <SidebarLeftHeader />
     <div class="h-full overflow-x-hidden overflow-y-scroll">
-      <SearchBar location="sidebar" class="mt-2" />
+      <SearchBar class="mt-2" location="sidebar" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
         class="my-3"

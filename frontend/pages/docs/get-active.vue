@@ -11,15 +11,15 @@
       <!-- Note: image on top of content for mobile. -->
       <img
         v-if="$colorMode.value == 'light'"
+        class="w-full md:hidden h-1/6"
         src="/images/content_pages/mockups/get_active_light.png"
         :alt="$t('pages.docs.get-active.modal-image-alt-text')"
-        class="w-full md:hidden h-1/6"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
+        class="w-full md:hidden h-1/6"
         src="/images/content_pages/mockups/get_active_dark.png"
         :alt="$t('pages.docs.get-active.modal-image-alt-text')"
-        class="w-full md:hidden h-1/6"
       />
       <div class="w-10/12 gap-16 2xl:grid 2xl:grid-cols-2 md:w-full">
         <ModalImage
@@ -34,15 +34,15 @@
           </h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
+              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
               name="bi:info-circle-fill"
               size="1.25em"
-              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
               {{ $t("pages.docs.get-active.subheader-1") }}
               <a
-                href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=2475%3A19102&t=ytDrcE8K3RrfCxM6-1"
                 class="items-center focus-brand link-text"
+                href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=2475%3A19102&t=ytDrcE8K3RrfCxM6-1"
                 target="_blank"
               >
                 {{ $t("pages.docs.get-active.subheader-2") }}
@@ -94,8 +94,8 @@
           <p class="pb-2 md:pb-4">
             {{ $t("pages.docs.get-active.section-4-paragraph-1-1") }}
             <a
-              href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
+              href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
               {{ $t("pages.docs.get-active.section-4-paragraph-1-2") }}
@@ -116,9 +116,7 @@
               :label="$t('components.btn-labeled.request-access')"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.request-access-aria-label')
-              "
+              :alternateText="$t('components.btn-labeled.request-access-aria-label')"
             />
             <BtnLabeled
               class="w-full"
@@ -126,9 +124,7 @@
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.return-home-aria-label')
-              "
+              :alternateText="$t('components.btn-labeled.return-home-aria-label')"
             />
           </div>
         </div>

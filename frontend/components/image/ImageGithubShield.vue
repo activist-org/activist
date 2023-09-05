@@ -1,11 +1,14 @@
 <template>
   <a
+    class="flex items-center px-3 py-1 border space-x-2 card-style focus-brand text-light-text dark:text-dark-text border-light-text dark:border-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight"
     :href="href"
     target="_blank"
-    class="flex items-center px-3 py-1 border space-x-2 card-style focus-brand text-light-text dark:text-dark-text border-light-text dark:border-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight"
   >
     <slot></slot>
-    <div v-if="text" class="text-lg font-semibold md:text-xl">
+    <div
+      v-if="text"
+      class="text-lg font-semibold md:text-xl"
+    >
       {{ text }}
     </div>
     <div

@@ -19,8 +19,8 @@
           <p>
             {{ $t("pages.help.contact.section-1-paragraph-1-1") }}
             <a
-              href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
+              href="https://matrix.to/#/#activist_community:matrix.org"
             >
               {{ $t("pages.help.contact.section-1-paragraph-1-2") }}
               <Icon
@@ -31,8 +31,8 @@
             </a>
             {{ $t("pages.help.contact.section-1-paragraph-1-3") }}
             <a
-              href="https://github.com/activist-org/activist"
               class="items-center focus-brand link-text"
+              href="https://github.com/activist-org/activist"
             >
               {{ $t("pages.help.contact.section-1-paragraph-1-4") }}
               <Icon
@@ -46,8 +46,8 @@
           <p>
             {{ $t("pages.help.contact.section-1-paragraph-2-1") }}
             <a
-              href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               class="items-center focus-brand link-text"
+              href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               target="_blank"
             >
               {{ $t("pages.help.contact.section-1-paragraph-2-2") }}
@@ -61,7 +61,10 @@
         </div>
 
         <div class="md:ml-auto md:w-[500px]">
-          <form @submit.prevent="sendEmail" class="flex flex-col m-5 space-y-2">
+          <form
+            class="flex flex-col m-5 space-y-2"
+            @submit.prevent="sendEmail"
+          >
             <label
               :class="{
                 'text-red-500': !nameValidated,
@@ -75,13 +78,13 @@
             >
 
             <input
-              @blur="validateName"
               v-model="name"
               class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               :class="{
                 'outline-red-500 outline outline-2': !nameValidated.valueOf,
                 'outline-none focus:outline-none': nameValidated,
               }"
+              @blur="validateName"
               :placeholder="$t('pages.help.contact.placeholder-name')"
               autocomplete="off"
               spellcheck="false"
@@ -101,13 +104,13 @@
             >
 
             <input
-              @blur="validateEmail"
               v-model="email"
               class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               :class="{
                 'outline-red-500 outline outline-2': !emailValidated,
                 'outline-none focus:outline-none': emailValidated,
               }"
+              @blur="validateEmail"
               placeholder="example@mail.com"
               autocomplete="off"
               spellcheck="false"
@@ -125,12 +128,12 @@
             >
 
             <textarea
-              @blur="validateMessage"
               v-model="message"
               :class="{
                 'outline-red-500 outline outline-2': !messageValidated,
                 'outline-none focus:outline-none': messageValidated,
               }"
+              @blur="validateMessage"
               rows="6"
               :placeholder="$t('pages.help.contact.placeholder-message')"
               class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
@@ -140,13 +143,13 @@
             ></textarea>
 
             <button
-              type="submit"
               class="px-4 py-2 mr-auto font-medium text-center border select-none rounded-md xl:rounded-lg focus-brand bg-light-cta-orange dark:bg-dark-cta-orange text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
                 'hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
-                  !buttonDisabled,
+                !buttonDisabled,
               }"
+              type="submit"
               :disabled="buttonDisabled"
               :aria-label="$t('pages.contact.send-form-aria-label')"
             >
