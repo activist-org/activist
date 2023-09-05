@@ -2,14 +2,14 @@
   <PageBreadcrumbs class="mt-4" :organization="organization" :event="event" />
   <div class="flex items-baseline gap-2 md:gap-4">
     <h1
-      class="pt-2 font-bold transition-all duration-500 md:pt-3 xl:pt-4 responsive-h1 text-light-text dark:text-dark-text"
+      class="pt-4 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
       {{ header }}
     </h1>
     <IconOrganizationStatus v-if="status" :status="status" />
   </div>
   <div
-    class="flex flex-col items-start w-full pt-2 space-y-2 lg:space-y-0 xl:pt-4 lg:flex-row grow justify-between align-center"
+    class="flex flex-col items-start w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow justify-between align-center"
   >
     <h2
       :v-if="tagline"
