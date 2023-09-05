@@ -110,6 +110,11 @@ export default defineNuxtConfig({
       global: true,
     },
   ],
+  vue: {  
+    compilerOptions: {
+      isCustomElement: (tag) => ['swiper-slide', 'swiper-container'].includes(tag),
+    },
+  },
   app: {
     head: {
       charset: "utf-8",
