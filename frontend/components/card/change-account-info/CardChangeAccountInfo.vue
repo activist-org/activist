@@ -8,28 +8,28 @@
             <BtnCaptcha />
           </div>
           <div class="w-1/3">
-            <BtnCtaLabel info-type="email" />
+            <BtnChangeDetails info-type="email" />
           </div>
         </div>
       </div>
       <div v-if="infoType === 'username'" class="w-full">
         <CardChangeAccountInfoUsername />
         <div class="flex w-full pt-4">
-          <div class="w-1/3 pr-2=">
+          <div class="w-1/3">
             <BtnCaptcha />
           </div>
-          <BtnCtaLabel info-type="username" />
+          <BtnChangeDetails info-type="username" />
           <div class="w-1/3"></div>
         </div>
       </div>
       <div v-if="infoType === 'password'" class="w-full">
         <CardChangeAccountInfoPassword />
         <div class="flex w-full pt-4">
-          <div class="w-1/3 pr-2">
+          <div class="w-1/3">
             <BtnCaptcha />
           </div>
           <div class="w-1/3">
-            <BtnCtaLabel info-type="password" />
+            <BtnChangeDetails info-type="password" />
           </div>
         </div>
       </div>
