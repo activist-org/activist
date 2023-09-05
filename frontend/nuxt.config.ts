@@ -110,9 +110,10 @@ export default defineNuxtConfig({
       global: true,
     },
   ],
-  vue: {  
+  vue: {
     compilerOptions: {
-      isCustomElement: (tag) => ['swiper-slide', 'swiper-container'].includes(tag),
+      isCustomElement: (tag) =>
+        ["swiper-slide", "swiper-container"].includes(tag),
     },
   },
   app: {

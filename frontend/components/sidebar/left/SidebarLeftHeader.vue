@@ -1,6 +1,6 @@
 <template>
   <header
-    class="w-full pl-1 border-b border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="w-full pl-1 transition-all duration-500 border-b border-r bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
   >
     <div class="flex items-center pt-3 pb-2 pl-[0.625rem] pr-6">
       <div
@@ -32,7 +32,7 @@
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
       <div class="absolute -right-0" @mouseover.stop>
         <button
-          class="flex items-center justify-center transition duration-100 w-7 h-7 text-light-special-text dark:text-dark-special-text hover:text-light-text dark:hover:text-dark-text focus-brand"
+          class="flex items-center justify-center transition duration-100 w-7 h-7 text-light-special-text dark:text-dark-special-text hover:text-light-text dark:hover:text-dark-text focus-brand outline-offset-0"
           @click="sidebar.toggleCollapsedSwitch()"
           :aria-label="
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')

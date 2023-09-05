@@ -1,18 +1,21 @@
-import { ref, watch } from 'vue';
-import { useDebounceFn } from '@vueuse/core';
+import { useDebounceFn } from "@vueuse/core";
+import { ref, watch } from "vue";
 
 interface Props {
   modelValue: string | string[];
 }
 
-export default function useFormCheckboxRadio(props: Props, emit: (event: string, ...args: any[]) => void) {
+export default function useFormCheckboxRadio(
+  props: Props,
+  emit: (event: string, ...args: any[]) => void
+) {
   const selectedValue = ref<string | string[]>(props.modelValue);
-  const customValue = ref<string>('');
+  const customValue = ref<string>("");
   const showAdditionalInput = ref<boolean>(false);
 
   const updateValue = (value: string | string[]) => {
-    console.log(value, 'updateValue');
-    
+    console.log(value, "updateValue");
+
     selectedValue.value = value;
     emitValue();
   };
@@ -30,12 +33,14 @@ export default function useFormCheckboxRadio(props: Props, emit: (event: string,
   }, 1000);
 
   function emitValue() {
-    const val = showAdditionalInput.value ? customValue.value : selectedValue.value;
-    
+    const val = showAdditionalInput.value
+      ? customValue.value
+      : selectedValue.value;
+
     if (!val) {
       return;
     }
-    emit('update:modelValue', val);
+    emit("update:modelValue", val);
   }
 
   function toggleAdditionalInput() {
@@ -45,8 +50,8 @@ export default function useFormCheckboxRadio(props: Props, emit: (event: string,
 
   const toggleCheckbox = (value: string) => {
     if (!Array.isArray(selectedValue.value)) {
-        selectedValue.value = [];
-    };
+      selectedValue.value = [];
+    }
     if (isSelected(value)) {
       const index = selectedValue.value.indexOf(value);
       if (index !== -1) {
@@ -55,13 +60,16 @@ export default function useFormCheckboxRadio(props: Props, emit: (event: string,
     } else {
       selectedValue.value.push(value);
     }
-  
+
     updateValue(selectedValue.value);
   };
 
-  watch(() => props.modelValue, (newValue) => {
-    selectedValue.value = newValue;
-  });
+  watch(
+    () => props.modelValue,
+    (newValue) => {
+      selectedValue.value = newValue;
+    }
+  );
 
   return {
     selectedValue,
