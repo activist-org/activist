@@ -20,11 +20,11 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v3
-      
-      - name: Install prettier
+
+      - name: Install Prettier
         run: npm install prettier
-      
-      - name: Run prettier
+
+      - name: Run Prettier
         working-directory: ./frontend
         run: |
           npx prettier . --check
