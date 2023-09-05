@@ -64,7 +64,7 @@ class Topic(models.Model):
 
 class ResourceTopic(models.Model):
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    topic_id = models.ForeignKey("Topic", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id

@@ -10,6 +10,8 @@
 # Django and Python
 __pycache__
 .venv
+venv/
+.mypy_cache
 
 # Nuxt dev/build outputs
 .output
