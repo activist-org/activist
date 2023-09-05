@@ -59,7 +59,7 @@
           <a
             :href="connect.url"
             target="_blank"
-            class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
             :class="{ 'mt-3': index === 0 }"
           >
             <Icon :name="connect.iconName" :size="connect.iconSize" />

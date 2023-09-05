@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col md:flex-row w-full">
-    <div class="flex w-full md:w-fit justify-center">
+  <div class="flex flex-col w-full md:flex-row">
+    <div class="flex justify-center w-full md:w-fit">
       <div
-        class="border w-fit border-light-section-div dark:border-dark-section-div rounded-lg bg-light-content dark:bg-dark-content"
+        class="border rounded-lg w-fit border-light-section-div dark:border-dark-section-div bg-light-content dark:bg-dark-content"
       >
         <img
           v-if="resource.imageURL"
@@ -19,10 +19,10 @@
       </div>
     </div>
     <div
-      class="flex-col md:pl-4 lg:pl-6 space-y-3 md:space-y-4 md:grow pt-3 md:pt-0"
+      class="flex-col pt-3 md:pl-4 lg:pl-6 space-y-3 md:space-y-4 md:grow md:pt-0"
     >
       <div class="flex flex-col justify-between md:flex-row">
-        <div class="flex items-center space-x-2 md:space-x-4 justify-center">
+        <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <h2 class="font-bold responsive-h3">
             {{ resource.name }}
           </h2>
@@ -30,7 +30,7 @@
             <Icon name="ph:dots-three-circle-vertical" size="1.75em" />
           </div>
         </div>
-        <div class="hidden md:flex items-center space-x-3 lg:space-x-5">
+        <div class="items-center hidden md:flex space-x-3 lg:space-x-5">
           <MetaTagLocation :location="resource?.relatedLocation" />
           <MetaTagDate :date="resource.creationDate.toLocaleDateString()" />
         </div>
@@ -39,12 +39,12 @@
         <TopicMarker :topic="resource.topic" />
       </div>
       <div class="flex flex-col md:flex-row space-y-3 md:space-y-0">
-        <div class="flex md:hidden items-center space-x-4 justify-center">
+        <div class="flex items-center justify-center md:hidden space-x-4">
           <MetaTagLocation :location="resource?.relatedLocation" />
           <MetaTagDate :date="resource.creationDate.toLocaleDateString()" />
         </div>
         <div
-          class="flex space-x-3 lg:space-x-4 justify-center md:justify-start"
+          class="flex justify-center space-x-3 lg:space-x-4 md:justify-start"
         >
           <MetaTagOrganization :organization="resource.organizer" />
           <MetaTagStars
