@@ -7039,7 +7039,7 @@ pify@^3.0.0:
   resolved "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz"
   integrity sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==
 
-pinia@>=2.1.0:
+pinia@^2.1.6, pinia@>=2.1.0:
   version "2.1.6"
   resolved "https://registry.npmjs.org/pinia/-/pinia-2.1.6.tgz"
   integrity sha512-bIU6QuE5qZviMmct5XwCesXelb5VavdOWKWaB17ggk++NUwQWWbP5YnsONTk3b752QkW9sACiR81rorpeOMSvQ==
