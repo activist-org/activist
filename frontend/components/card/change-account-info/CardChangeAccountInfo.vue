@@ -18,7 +18,7 @@
           <div class="w-1/3 pr-2=">
             <BtnCaptcha />
           </div>
-          <BtnCtaLabel info-type="email" />
+          <BtnCtaLabel info-type="username" />
           <div class="w-1/3"></div>
         </div>
       </div>
