@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { menuItems } from "@/utils/navMenuItems";
-import { isRouteActive } from "@/utils/routeUtils";
+import { menuItems } from "../../utils/navMenuItems";
+import { isRouteActive } from "../../utils/routeUtils";
 
 const isActive = (routeURL: string) => {
   return isRouteActive(routeURL);

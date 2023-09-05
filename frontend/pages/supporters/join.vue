@@ -21,34 +21,25 @@
         {{ $t("pages.supporters.join.section-2-subheader") }}
       </h2>
       <p>
-        {{ $t("pages.supporters.join.paragraph-2-pt1") }}
+        {{ $t("pages.supporters.join.section-2-paragraph-1-1") }}
         <a
           href="https://www.wikimedia.de/unlock"
           class="focus-brand link-text"
           target="_blank"
-          >{{ $t("pages.supporters.join.paragraph-2-pt2") }}
+          >{{ $t("pages.supporters.join.section-2-paragraph-1-2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("pages.supporters.join.paragraph-2-pt3") }}
+        {{ $t("pages.supporters.join.section-2-paragraph-1-3") }}
       </p>
       <h2 class="font-bold responsive-h4">
         {{ $t("pages.supporters.join.section-3-subheader") }}
       </h2>
       <p>
         {{ $t("pages.supporters.join.section-3-paragraph-1-1") }}
-        <a href="" class="focus-brand link-text" target="_blank"
-          >{{ $t("pages.supporters.join.section-3-paragraph-1-2") }}
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        {{ $t("pages.supporters.join.section-3-paragraph-1-3") }}
       </p>
       <h2 class="font-bold responsive-h4">
         {{ $t("pages.supporters.join.section-4-subheader") }}

@@ -14,7 +14,7 @@
       >
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
-            :ref="(el) => (disclosure[0] = close)"
+            :ref="(el) => (disclosureButtons[0] = { close, el })"
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             @click="closeOtherMenus(0)"
             v-on:keyup.enter="closeOtherMenus(0)"
@@ -53,6 +53,7 @@
           <DisclosurePanel class="flex flex-col">
             <div
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
+              :ref="(el) => (disclosurePanels[0] = el)"
             >
               <SidebarLeftSelector
                 :label="$t('components.sidebar-left-selector.label.new-event')"
@@ -91,7 +92,7 @@
         </Disclosure>
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
-            :ref="(el) => (disclosure[1] = close)"
+            :ref="(el) => (disclosureButtons[1] = { close, el })"
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             @click="closeOtherMenus(1)"
             v-on:keyup.enter="closeOtherMenus(1)"
@@ -130,6 +131,7 @@
           <DisclosurePanel class="flex flex-col">
             <div
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
+              :ref="(el) => (disclosurePanels[1] = el)"
             >
               <SidebarLeftSelector
                 :label="$t('components.sidebar-left-selector.label.help')"
@@ -159,7 +161,7 @@
         </Disclosure>
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
-            :ref="(el) => (disclosure[2] = close)"
+            :ref="(el) => (disclosureButtons[2] = { close, el })"
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             @click="closeOtherMenus(2)"
             v-on:keyup.enter="closeOtherMenus(2)"
@@ -201,6 +203,7 @@
           <DisclosurePanel class="flex flex-col">
             <div
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
+              :ref="(el) => (disclosurePanels[2] = el)"
             >
               <SidebarLeftSelector
                 :label="
@@ -268,9 +271,25 @@ import type { Ref } from "vue";
 const route = useRoute();
 const onHomePage = route.path.includes("home");
 
-const disclosure = ref<((ref?: Ref | HTMLElement) => void)[]>([]);
+const disclosureButtons = ref<
+  {
+    close: (ref?: Ref | HTMLElement) => void;
+    el: Ref | HTMLElement;
+  }[]
+>([]);
+const disclosurePanels = ref<(Element | ComponentPublicInstance | null)[]>([]);
+
 const closeOtherMenus = (id: number) => {
-  disclosure.value.filter((d, i) => i !== id).forEach((close) => close());
+  disclosureButtons.value
+    .filter((d, i) => i !== id)
+    .forEach((disclosureButton) => disclosureButton.close());
+
+  // Focus on the first item in disclosurePanels when opening, on the disclosureButton when closing
+  if (disclosurePanels.value[id]?.childNodes) {
+    disclosurePanels.value[id]?.childNodes[0].focus();
+  } else {
+    disclosureButtons.value[id]?.el?.$el.focus();
+  }
 };
 const sidebar = useSidebar();
 </script>

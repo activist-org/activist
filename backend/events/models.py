@@ -74,13 +74,13 @@ class Role(models.Model):
 class EventAttendee(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
-    role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
     attendee_status = models.IntegerField(null=True)
 
 
 class EventFormat(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    format_id = models.ForeignKey(Format, on_delete=models.CASCADE)
+    format_id = models.ForeignKey("Format", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id
@@ -104,7 +104,7 @@ class EventResource(models.Model):
 
 class EventRole(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id

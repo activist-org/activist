@@ -8,11 +8,9 @@
           class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />
       </div>
-
       <p class="mt-3 text-light-text dark:text-dark-text">
         {{ $t("components.footer-flex.activist-tagline") }}
       </p>
-
       <!-- Note: Platform Links -->
       <div class="flex justify-start mt-2">
         <template v-for="(platform, index) in links.platformLinks">
@@ -33,7 +31,6 @@
           </div>
         </template>
       </div>
-
       <!-- Note: Legal Links -->
       <div class="flex mt-5">
         <template v-for="(policy, index) in links.legalLinks">
@@ -49,7 +46,6 @@
         {{ $t("components.footer-flex.website-copyright") }}
       </div>
     </div>
-
     <!-- Note: Content Sections Right -->
     <div
       class="flex justify-end w-full lg:space-x-6 xl:space-x-8 2xl:space-x-24"
@@ -67,11 +63,10 @@
             :class="{ 'mt-3': index === 0 }"
           >
             <Icon :name="connect.iconName" :size="connect.iconSize" />
-            <p>{{ connect.name }}</p>
+            <p>{{ $t(connect.name) }}</p>
           </a>
         </template>
       </div>
-
       <!-- Note: Resources Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
@@ -88,7 +83,6 @@
           </p>
         </template>
       </div>
-
       <!-- Note: Organization Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">

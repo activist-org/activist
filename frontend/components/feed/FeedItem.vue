@@ -10,11 +10,6 @@
         size="1.5em"
       />
       <Icon
-        v-else-if="item.url.includes('twitter')"
-        name="bi:twitter"
-        size="1.5em"
-      />
-      <Icon
         v-else-if="item.url.includes('facebook')"
         name="bi:facebook"
         size="1.5em"

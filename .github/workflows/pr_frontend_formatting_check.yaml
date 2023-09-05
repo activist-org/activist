@@ -17,8 +17,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+
+      - name: Install Prettier
+        run: npm install prettier
+
       - name: Run Prettier
-        uses: creyD/prettier_action@v4.3
-        with:
-          dry: True
-          prettier_options: ./frontend --check
+        working-directory: ./frontend
+        run: |
+          npx prettier . --check

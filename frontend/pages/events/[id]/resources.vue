@@ -1,11 +1,15 @@
 <template>
-  <p
-    class="py-5 text-light-text dark:text-dark-text responsive-px-5 bg-light-content dark:bg-dark-content"
+  <div
+    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    {{ $t("pages.events.id.resources.subheader") }} {{ id }}
-  </p>
+    <p>{{ $t("pages.events.id.resources.subheader") }} {{ id }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "sidebar",
+});
+
 const { id } = useRoute().params;
 </script>
