@@ -15,6 +15,9 @@
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
       <GridHomeMetrics />
+      <CardChangeAccountInfo infoType="email" header="email" />
+      <CardChangeAccountInfo infoType="username" header="username" />
+      <CardChangeAccountInfo infoType="password" header="password" />
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
