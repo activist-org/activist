@@ -19,6 +19,6 @@ from django.urls import include, path
 from rest_framework import routers
 
 urlpatterns = [
-    path("/v1/admin/", admin.site.urls),
+    path("v1/admin/", admin.site.urls),
     path("", include("entities.urls")),
 ]

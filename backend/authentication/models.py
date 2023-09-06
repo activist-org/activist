@@ -33,8 +33,6 @@ class SupportEntityType(models.Model):
 class Support(models.Model):
     supporter_type = models.ForeignKey("SupportEntityType", on_delete=models.CASCADE)
     supporter_entity = models.IntegerField(null=True)
-    supported_type = models.ForeignKey("SupportEntityType", on_delete=models.CASCADE)
-    supported_entity = models.IntegerField(null=True)
 
     def __str__(self):
         return self.id
