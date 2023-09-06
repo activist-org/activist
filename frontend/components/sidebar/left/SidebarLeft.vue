@@ -13,10 +13,10 @@
       <SearchBar location="sidebar" class="mt-2" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
-        :pageType="pageTypeToDisplay"
+        class="my-3"
         :name="placeholderName"
+        :pageType="pageTypeToDisplay"
         :logoUrl="placeholderLogo"
-        class="mt-3 mb-1"
       />
     </div>
     <SidebarLeftFooter />

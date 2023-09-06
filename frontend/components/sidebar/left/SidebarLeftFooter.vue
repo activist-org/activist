@@ -46,7 +46,7 @@
                 "
                 name="bi:chevron-up"
                 class="absolute right-0 mr-8"
-                :class="open ? 'rotate-180 transform' : ''"
+                :class="{ 'rotate-180 transform': open }"
               />
             </Transition>
           </DisclosureButton>
@@ -124,7 +124,7 @@
                 "
                 name="bi:chevron-up"
                 class="absolute right-0 mr-8"
-                :class="open ? 'rotate-180 transform' : ''"
+                :class="{ 'rotate-180 transform': open }"
               />
             </Transition>
           </DisclosureButton>
@@ -196,7 +196,7 @@
                 "
                 name="bi:chevron-up"
                 class="absolute right-0 mr-8"
-                :class="open ? 'rotate-180 transform' : ''"
+                :class="{ 'rotate-180 transform': open }"
               />
             </Transition>
           </DisclosureButton>
@@ -271,15 +271,19 @@ import type { Ref } from "vue";
 const route = useRoute();
 const onHomePage = route.path.includes("home");
 
-const disclosureButtons = ref<({ 
-  close: (ref?: Ref | HTMLElement) => void, 
-  el: Ref | HTMLElement
-})[]>([]);
+const disclosureButtons = ref<
+  {
+    close: (ref?: Ref | HTMLElement) => void;
+    el: Ref | HTMLElement;
+  }[]
+>([]);
 const disclosurePanels = ref<(Element | ComponentPublicInstance | null)[]>([]);
 
 const closeOtherMenus = (id: number) => {
-  disclosureButtons.value.filter((d, i) => i !== id).forEach((disclosureButton) => disclosureButton.close());
-  
+  disclosureButtons.value
+    .filter((d, i) => i !== id)
+    .forEach((disclosureButton) => disclosureButton.close());
+
   // Focus on the first item in disclosurePanels when opening, on the disclosureButton when closing
   if (disclosurePanels.value[id]?.childNodes) {
     disclosurePanels.value[id]?.childNodes[0].focus();

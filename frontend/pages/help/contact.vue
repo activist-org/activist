@@ -63,11 +63,10 @@
         <div class="md:ml-auto md:w-[500px]">
           <form @submit.prevent="sendEmail" class="flex flex-col m-5 space-y-2">
             <label
-              :class="
-                !nameValidated
-                  ? 'text-red-500'
-                  : 'text-light-text dark:text-dark-text'
-              "
+              :class="{
+                'text-red-500': !nameValidated,
+                'text-light-text dark:text-dark-text': nameValidated,
+              }"
               for="name"
               >{{ $t("pages.help.contact.label-name") }}
               <span v-if="!nameValidated">{{
@@ -78,24 +77,22 @@
             <input
               @blur="validateName"
               v-model="name"
-              :class="
-                !nameValidated
-                  ? 'outline-red-500 outline outline-2'
-                  : 'outline-none focus:outline-none'
-              "
-              :placeholder="$t('pages.help.contact.placeholder-name')"
               class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
+              :class="{
+                'outline-red-500 outline outline-2': !nameValidated.valueOf,
+                'outline-none focus:outline-none': nameValidated,
+              }"
+              :placeholder="$t('pages.help.contact.placeholder-name')"
               autocomplete="off"
               spellcheck="false"
               id="name"
             />
 
             <label
-              :class="
-                !emailValidated
-                  ? 'text-red-500'
-                  : 'text-light-text dark:text-dark-text'
-              "
+              :class="{
+                'text-red-500': !emailValidated,
+                'text-light-text dark:text-dark-text': emailValidated,
+              }"
               for="email"
               >{{ $t("pages.help.contact.label-email") }}
               <span v-if="!emailValidated"
@@ -106,24 +103,22 @@
             <input
               @blur="validateEmail"
               v-model="email"
-              :class="
-                !emailValidated
-                  ? 'outline-red-500 outline outline-2'
-                  : 'outline-none focus:outline-none'
-              "
-              placeholder="example@mail.com"
               class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
+              :class="{
+                'outline-red-500 outline outline-2': !emailValidated,
+                'outline-none focus:outline-none': emailValidated,
+              }"
+              placeholder="example@mail.com"
               autocomplete="off"
               spellcheck="false"
               id="email"
             />
 
             <label
-              :class="
-                !messageValidated
-                  ? 'text-red-500'
-                  : 'text-light-text dark:text-dark-text'
-              "
+              :class="{
+                'text-red-500': !messageValidated,
+                'text-light-text dark:text-dark-text': messageValidated,
+              }"
               for="message"
               >{{ $t("pages.help.contact.label-message") }}
               <span v-if="!messageValidated">cannot be empty.</span></label
@@ -132,11 +127,10 @@
             <textarea
               @blur="validateMessage"
               v-model="message"
-              :class="
-                !messageValidated
-                  ? 'outline-red-500 outline outline-2'
-                  : 'outline-none focus:outline-none'
-              "
+              :class="{
+                'outline-red-500 outline outline-2': !messageValidated,
+                'outline-none focus:outline-none': messageValidated,
+              }"
               rows="6"
               :placeholder="$t('pages.help.contact.placeholder-message')"
               class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
@@ -148,11 +142,11 @@
             <button
               type="submit"
               class="px-4 py-2 mr-auto font-medium text-center border select-none rounded-md xl:rounded-lg focus-brand bg-light-cta-orange dark:bg-dark-cta-orange text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct"
-              :class="
-                !buttonDisabled
-                  ? 'hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange  '
-                  : 'cursor-not-allowed'
-              "
+              :class="{
+                'cursor-not-allowed': buttonDisabled,
+                'hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
+                  !buttonDisabled,
+              }"
               :disabled="buttonDisabled"
               :aria-label="$t('pages.contact.send-form-aria-label')"
             >

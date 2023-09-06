@@ -3,18 +3,18 @@
     v-if="location == 'sidebar'"
     class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 border rounded-md select-none border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:mb-[-2px]"
   >
-    <div class="flex space-x-2 items-center">
+    <div class="flex items-center space-x-2">
       <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
       <Transition name="search">
         <input
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          :class="{ 'focus:w-5/6': isInputFocused }"
           ref="input"
           class="w-16 h-5 bg-transparent outline-none"
           type="text"
           :placeholder="$t('components.search-bar.placeholder')"
           @focus="onFocus"
           @blur="onFocusLost"
-          :class="{ 'focus:w-5/6': isInputFocused }"
         />
       </Transition>
     </div>

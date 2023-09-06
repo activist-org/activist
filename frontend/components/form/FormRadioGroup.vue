@@ -3,6 +3,11 @@
     <div class="flex w-full" v-show="!showAdditionalInput">
       <component
         v-for="opts in options"
+        class="flex-1 border-r-0"
+        :class="{
+          'last:border-r': !allowCustomValue,
+          'last:rounded-r-none': allowCustomValue,
+        }"
         :key="opts.value"
         :is="radioComponent"
         :name="name"
@@ -11,11 +16,6 @@
         :value="opts.value"
         :customColor="opts.customColor"
         @update:modelValue="updateValue(opts.value)"
-        class="flex-1 border-r-0"
-        :class="{
-          'last:border-r': !allowCustomValue,
-          'last:rounded-r-none': allowCustomValue,
-        }"
       />
     </div>
     <div class="flex flex-1 w-full" v-if="allowCustomValue">

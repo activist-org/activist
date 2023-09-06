@@ -56,9 +56,11 @@ class OrganizationApplicationStatus(models.Model):
 class OrganizationApplication(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     org_id = models.IntegerField(null=True)
-    status = models.ForeignKey(OrganizationApplicationStatus, on_delete=models.CASCADE)
-    orgs_in_favor = ArrayField(models.IntegerField)
-    orgs_against = ArrayField(models.IntegerField)
+    status = models.ForeignKey(
+        "OrganizationApplicationStatus", on_delete=models.CASCADE
+    )
+    orgs_in_favor = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
+    orgs_against = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     status_updated = models.DateTimeField(auto_now=True)
 
@@ -112,7 +114,7 @@ class Group(models.Model):
 class OrganizationTask(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group_id = models.ForeignKey("Group", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id

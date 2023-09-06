@@ -1,12 +1,10 @@
 <template>
   <div
-    :class="[
-      'text-xl font-bold relative min-w-[3.4rem] h-11 min-h-[2.75rem] border border-light-interactive dark:border-dark-interactive border-r-0 last:border-r bg-light-header text-light-special-text dark:text-dark-special-text dark:bg-dark-header first:rounded-l-md last:rounded-r-md',
-      {
-        'bg-dark-header dark:bg-dark-menu-selection text-dark-interactive dark:text-dark-distinct border-dark-header dark:border-light-header':
-          modelValue,
-      },
-    ]"
+    class="text-xl font-bold relative min-w-[3.4rem] h-11 min-h-[2.75rem] border border-light-interactive dark:border-dark-interactive border-r-0 last:border-r bg-light-header text-light-special-text dark:text-dark-special-text dark:bg-dark-header first:rounded-l-md last:rounded-r-md"
+    :class="{
+      'bg-dark-header dark:bg-dark-menu-selection text-dark-interactive dark:text-dark-distinct border-dark-header dark:border-light-header':
+        modelValue,
+    }"
   >
     <input
       type="checkbox"

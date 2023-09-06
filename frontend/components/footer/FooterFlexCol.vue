@@ -32,20 +32,20 @@
       </div>
     </div>
     <div
-      class="grid max-w-xl gap-0 text-center sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16"
+      class="max-w-xl text-center grid gap-0 sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16"
     >
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
           {{ $t("components.footer-flex-col.connect") }}
         </p>
-        <div class="flex gap-10 mt-1 sm:mt-0 sm:flex-col sm:gap-0">
+        <div class="flex mt-1 gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
             <a
+              class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+              :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
               target="_blank"
-              class="flex items-center mt-2 space-x-2 text-base hover:text-light-text dark:hover:text-dark-text focus-brand"
-              :class="{ 'mt-3': index === 0 }"
             >
               <Icon :name="connect.iconName" class="text-2xl sm:text-base" />
               <p class="sr-only sm:not-sr-only">

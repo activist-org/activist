@@ -2,12 +2,12 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
-        v-slot="{ open }"
         class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
         :class="{ 'pl-6': location === 'sideMenu' }"
         :aria-label="
           $t('components.selector-language.open-dropdown-aria-label')
         "
+        v-slot="{ open }"
       >
         <div class="flex items-center text-sm space-x-2">
           <Icon name="bi:globe" />
@@ -19,12 +19,12 @@
           </p>
           <p></p>
           <Icon
-            name="bi:chevron-down"
             class="right-3"
             :class="{
               'rotate-180 transform': open,
               absolute: location === 'sideMenu',
             }"
+            name="bi:chevron-down"
           />
         </div>
       </MenuButton>
