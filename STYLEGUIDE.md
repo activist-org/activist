@@ -41,7 +41,7 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 ```html
 <element
-  conditionals=""
+  v-attributes=""
   @attributes=""
   class=""
   :class="{}"
