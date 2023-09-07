@@ -46,7 +46,7 @@
                 "
                 name="bi:chevron-up"
                 class="absolute right-0 mr-8"
-                :class="open ? 'rotate-180 transform' : ''"
+                :class="{ 'rotate-180 transform': open }"
               />
             </Transition>
           </DisclosureButton>
@@ -124,7 +124,7 @@
                 "
                 name="bi:chevron-up"
                 class="absolute right-0 mr-8"
-                :class="open ? 'rotate-180 transform' : ''"
+                :class="{ 'rotate-180 transform': open }"
               />
             </Transition>
           </DisclosureButton>
@@ -196,7 +196,7 @@
                 "
                 name="bi:chevron-up"
                 class="absolute right-0 mr-8"
-                :class="open ? 'rotate-180 transform' : ''"
+                :class="{ 'rotate-180 transform': open }"
               />
             </Transition>
           </DisclosureButton>

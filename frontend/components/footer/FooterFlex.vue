@@ -57,10 +57,10 @@
         </p>
         <template v-for="(connect, index) in links.connectLinks">
           <a
-            :href="connect.url"
-            target="_blank"
             class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
             :class="{ 'mt-3': index === 0 }"
+            :href="connect.url"
+            target="_blank"
           >
             <Icon :name="connect.iconName" :size="connect.iconSize" />
             <p>{{ $t(connect.name) }}</p>

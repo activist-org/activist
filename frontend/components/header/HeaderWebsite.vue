@@ -1,12 +1,12 @@
 <template>
   <header
-    ref="header"
     class="relative sticky top-0 z-10 duration-500 header drop-shadow-md"
     :class="{
       'bg-light-header dark:bg-dark-header': headerOpacity == 1,
       'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
+    ref="header"
   >
     <!-- Note: mobile header -->
     <div class="flex px-4 py-3 md:hidden">
