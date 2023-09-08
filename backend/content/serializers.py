@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from utils.utils import validate_creation_and_deletion_dates
 
 class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,23 +19,25 @@ class ResourceSerializer(serializers.ModelSerializer):
         )
 
         def validate(self, data):
-            if data["name"] == "":
+            if data["name"] == "" or data["description"] == "" or data["url"] == "" or data["topics"] == [] or data["location"] == "":
                 raise serializers.ValidationError(
-                    "name cannot be empty"
-                )
-
-            if data["description"] == "":
-                raise serializers.ValidationError(
-                    "description cannot be empty"
+                    "the name, description, url, topics and location fields cannot be empty"
                 )
             
             if type(data["total_flags"]) != int:
                 data["total_flags"] =  int(data["total_flags"])
-
-            if data["creation_date"] < data["deletion_date"]:
+            
+            if data["total_flags"] < 0:
                 raise serializers.ValidationError(
-                    "creation_date must be before deletion_date"
+                    "total_flags cannot be negative"
                 )
+            
+            if not re.match(r'https?://\S+', data["url"]):
+                raise serializers.ValidationError(
+                    "url must be a valid url - https://www.example.com"
+                )
+            
+            data = validate_creation_and_deletion_dates(data)
                 
             return data
 
@@ -51,6 +54,18 @@ class TaskSerializer(serializers.ModelSerializer):
             "deletion_date",
         )
 
+        def validate(self, data):
+
+            if data["name"] == "" or data["description"] == "":
+                raise serializers.ValidationError(
+                    "the name, description, location and tags fields cannot be empty"
+                )
+
+            data = validate_creation_and_deletion_dates(data)
+
+            return data
+             
+
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
@@ -63,6 +78,30 @@ class TopicSerializer(serializers.ModelSerializer):
             "last_updated",
             "deprecation_date",
         )
+
+        def validate(self, data):
+
+            if data["name"] == "" or data["description"] == "":
+                raise serializers.ValidationError(
+                    "the name and description fields cannot be empty"
+                )
+            
+            if data["active"] == True and data["deprecation_date"] != None:
+                raise serializers.ValidationError(
+                    "active topics cannot have a deprecation date"
+                )
+            
+            if data["active"] == False and data["deprecation_date"] == None:
+                raise serializers.ValidationError(
+                    "inactive topics must have a deprecation date"
+                )
+            
+            if data["creation_date"] > data["deprecation_date"]:
+                raise serializers.ValidationError(
+                    "creation_date must be before deprecation_date"
+                )
+
+            return data
 
 class ResourceTopicSerializer(serializers.ModelSerializer):
     class Meta:
