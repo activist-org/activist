@@ -5,50 +5,68 @@
     <Head>
       <Title>{{ organization.name }} </Title>
     </Head>
-
     <div class="w-3/4 h-[260px] mx-auto">
       <ImageOrganization :imgURL="organization?.imageURL" />
     </div>
-
     <div class="flex flex-col items-center gap-2">
       <h1
         class="font-bold responsive-h1 text-3xl text-light-text dark:text-dark-text"
       >
         {{ organization.name }}
       </h1>
-
       <h2
         class="font-bold responsive-h2 text-lg text-light-special-text dark:text-dark-special-text text-center"
       >
         {{ organization.tagline }}
       </h2>
     </div>
-
-    <div 
-      class="w-full flex flex-col items-center gap-4"
-    >
-      <MenuLinkWrapper v-for="button in organizationButtons" :to="button.routeURL" :active="button.active" :selected="button.selected">
+    <div class="w-full flex flex-col items-center gap-4">
+      <MenuLinkWrapper
+        v-for="button in organizationButtons"
+        :to="button.routeURL"
+        :active="button.active"
+        :selected="button.selected"
+      >
         <div
           class="flex items-center w-full text-sm font-medium text-left space-x-2"
         >
           <span class="width-1/6"
-            ><Icon v-if="button.iconURL" :name="button.iconURL" class="flex-shrink-0 w-5 h-5"
+            ><Icon
+              v-if="button.iconURL"
+              :name="button.iconURL"
+              class="flex-shrink-0 w-5 h-5"
           /></span>
-            <p
-              class="select-none width-5/6 whitespace-nowrap hover:light-menu-selection font-bold text-lg"
-            >
-              {{ $t(button.label) }}
-            </p>
+          <p
+            class="select-none width-5/6 whitespace-nowrap hover:light-menu-selection font-bold text-lg"
+          >
+            {{ $t(button.label) }}
+          </p>
         </div>
       </MenuLinkWrapper>
+      <BtnLabeled
+        class="w-max"
+        :cta="true"
+        linkTo="/"
+        :label="$t('components.btn-labeled.offer-to-help')"
+        fontSize="base"
+        rightIcon="bi:arrow-right"
+        iconSize="1.25em"
+        :alternateText="$t('components.btn-labeled.offer-to-help-aria-label')"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { id } = useRoute().params;
-import { Organization } from "../../types/organization";
 import { onMounted } from "vue";
+import { MenuSelector } from "../../../types/menu-selector";
+import { Organization } from "../../../types/organization";
+
+definePageMeta({
+  layout: "sidebar",
+});
+
+const { id } = useRoute().params;
 
 const organization: Organization = {
   name: "tech from below",
@@ -62,7 +80,7 @@ const organization: Organization = {
   imageURL: "/images/tech-from-below.svg",
 };
 
-const organizationButtons: SidebarLeftSelectorType[] = [
+const organizationButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/organizations/" + id + "/about",
@@ -105,27 +123,27 @@ const organizationButtons: SidebarLeftSelectorType[] = [
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
     active: true,
   },
-  {
-    label: "components.sidebar-left-selector.label.affiliates",
-    routeURL: "/organizations/" + id + "/affiliates",
-    iconURL: "IconSupport",
-    selected: useRoute().path.split("/").pop() === "affiliates" ? true : true,
-    active: false,
-  },
-  {
-    label: "components.sidebar-left-selector.label.tasks",
-    routeURL: "/organizations/" + id + "/tasks",
-    iconURL: "bi:check-square",
-    selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
-    active: false,
-  },
-  {
-    label: "components.sidebar-left-selector.label.discussions",
-    routeURL: "/organizations/" + id + "/discussions",
-    iconURL: "octicon:comment-discussion-24",
-    selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
-    active: false,
-  },
+  // {
+  //   label: "components.sidebar-left-selector.label.affiliates",
+  //   routeURL: "/organizations/" + id + "/affiliates",
+  //   iconURL: "IconSupport",
+  //   selected: useRoute().path.split("/").pop() === "affiliates" ? true : true,
+  //   active: false,
+  // },
+  // {
+  //   label: "components.sidebar-left-selector.label.tasks",
+  //   routeURL: "/organizations/" + id + "/tasks",
+  //   iconURL: "bi:check-square",
+  //   selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
+  //   active: false,
+  // },
+  // {
+  //   label: "components.sidebar-left-selector.label.discussions",
+  //   routeURL: "/organizations/" + id + "/discussions",
+  //   iconURL: "octicon:comment-discussion-24",
+  //   selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
+  //   active: false,
+  // },
 ];
 
 onMounted(() => {

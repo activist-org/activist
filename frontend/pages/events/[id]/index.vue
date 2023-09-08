@@ -5,46 +5,67 @@
     <Head>
       <Title>{{ event.name }} </Title>
     </Head>
-
     <div class="w-3/4 h-[260px] mx-auto">
       <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
     </div>
-
-		<div class="flex flex-col items-center gap-2">
-			<h1 class="font-bold responsive-h1 text-3xl text-light-text dark:text-dark-text text-center">
-				{{ event.name }}
-			</h1>
-	
-			<h2 class="font-bold responsive-h2 text-lg text-light-special-text dark:text-dark-special-text">
-				{{ event.tagline }}
-			</h2>
-		</div>
-    
-    <div 
-      class="w-full flex flex-col items-center gap-4"
-    >
-      <MenuLinkWrapper v-for="button in eventButtons" :to="button.routeURL" :active="button.active" :selected="button.selected">
+    <div class="flex flex-col items-center gap-2">
+      <h1
+        class="font-bold responsive-h1 text-3xl text-light-text dark:text-dark-text text-center"
+      >
+        {{ event.name }}
+      </h1>
+      <h2
+        class="font-bold responsive-h2 text-lg text-light-special-text dark:text-dark-special-text"
+      >
+        {{ event.tagline }}
+      </h2>
+    </div>
+    <div class="w-full flex flex-col items-center gap-4">
+      <MenuLinkWrapper
+        v-for="button in eventButtons"
+        :to="button.routeURL"
+        :active="button.active"
+        :selected="button.selected"
+      >
         <div
           class="flex items-center w-full text-sm font-medium text-left space-x-2"
         >
           <span class="width-1/6"
-            ><Icon v-if="button.iconURL" :name="button.iconURL" class="flex-shrink-0 w-5 h-5"
+            ><Icon
+              v-if="button.iconURL"
+              :name="button.iconURL"
+              class="flex-shrink-0 w-5 h-5"
           /></span>
-            <p
-              class="select-none width-5/6 whitespace-nowrap hover:light-menu-selection font-bold text-lg"
-            >
-              {{ $t(button.label) }}
-            </p>
+          <p
+            class="select-none width-5/6 whitespace-nowrap hover:light-menu-selection font-bold text-lg"
+          >
+            {{ $t(button.label) }}
+          </p>
         </div>
       </MenuLinkWrapper>
+      <BtnLabeled
+        class="w-max"
+        :cta="true"
+        linkTo="/"
+        :label="$t('components.btn-labeled.offer-to-help')"
+        fontSize="base"
+        rightIcon="bi:arrow-right"
+        iconSize="1.25em"
+        :alternateText="$t('components.btn-labeled.offer-to-help-aria-label')"
+      />
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import { Event } from "../../types/event";
 import { onMounted } from "vue";
+import { Event } from "../../../types/event";
+import { MenuSelector } from "../../../types/menu-selector";
+
+definePageMeta({
+  layout: "sidebar",
+});
+
 const { id } = useRoute().params;
 
 const event: Event = {
@@ -60,7 +81,7 @@ const event: Event = {
   supporters: 10,
 };
 
-const eventButtons: SidebarLeftSelectorType[] = [
+const eventButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/events/" + id + "/about",
@@ -89,20 +110,21 @@ const eventButtons: SidebarLeftSelectorType[] = [
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
     active: true,
   },
-  {
-    label: "components.sidebar-left-selector.label.tasks",
-    routeURL: "/events/" + id + "/tasks",
-    iconURL: "bi:check-square",
-    selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
-    active: false,
-  },
-  {
-    label: "components.sidebar-left-selector.label.discussions",
-    routeURL: "/events/" + id + "/discussions",
-    iconURL: "octicon:comment-discussion-24",
-    selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
-    active: false,
-  },
+  // {
+  //   label: "components.sidebar-left-selector.label.tasks",
+  //   routeURL: "/events/" + id + "/tasks",
+  //   iconURL: "bi:check-square",
+  //   selected: useRoute().path.split("/").pop() === "tasks" ? false : false,
+  //   active: false,
+  // },
+  // {
+  //   label: "components.sidebar-left-selector.label.discussions",
+  //   routeURL: "/events/" + id + "/discussions",
+  //   iconURL: "octicon:comment-discussion-24",
+  //   selected:
+  //     useRoute().path.split("/").pop() === "discussions" ? false : false,
+  //   active: false,
+  // },
 ];
 
 onMounted(() => {
