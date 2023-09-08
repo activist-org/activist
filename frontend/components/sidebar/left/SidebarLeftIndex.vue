@@ -69,6 +69,8 @@
 </template>
 
 <script setup lang="ts">
+import { MenuSelector } from "../../../types/menu-selector";
+
 const sidebar = useSidebar();
 
 const props = defineProps<{
@@ -84,17 +86,9 @@ const nameAbbreviation = props.name
   })
   .join("");
 
-interface SidebarLeftSelectorType {
-  label: string;
-  routeURL: string;
-  iconURL: string;
-  selected: boolean;
-  active: boolean;
-}
-
 const { id } = useRoute().params;
 
-const organizationButtons: SidebarLeftSelectorType[] = [
+const organizationButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/organizations/" + id + "/about",
@@ -160,7 +154,7 @@ const organizationButtons: SidebarLeftSelectorType[] = [
   },
 ];
 
-const eventButtons: SidebarLeftSelectorType[] = [
+const eventButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/events/" + id + "/about",

@@ -37,6 +37,19 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 - Self-closing components (`<Component />`) should be used for any component that doesn't have content
   - Generally if a component has a `<slot>` then this would imply that it would normally have content and thus require a closing tag
 - Use `camelCase` for prop names for both declaration and within single file components
+- For element attribute order please use the following:
+
+```html
+<element
+  v-attributes=""
+  @attributes=""
+  class=""
+  :class="{}"
+  props=""
+  other-attributes=""
+  aria-label=""
+></element>
+```
 
 Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general suggestions on how to write Vue files.
 
@@ -178,7 +191,7 @@ activist is a global platform and must function in countless different regions a
 > - Edits to the other files need to be made on activist's [public localization project on Transifex](https://explore.transifex.com/activist-org/activist)
 > - Alphabetize the keys except for indexes within page routes that should come first
 > - Do not include periods in aria-labels (screen reader user will configure their own preferences for a hard stop)
-> - Put the aria label as the last attribute on any given element so it's easier to see if it's missing
+> - Put the aria label as the last attribute on any given element so it's easy to see if it's missing (`aria-label` for as an HTML attribute and `ariaLabel` as a prop)
 
 Localization keys should be defined based on their component or page within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 
