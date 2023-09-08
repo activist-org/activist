@@ -6,40 +6,56 @@
       <Title>{{ organization.name }}</Title>
     </Head>
     <HeaderAppPage :organization="organization">
-      <BtnLabeled
-        :cta="true"
-        linkTo="/"
-        :label="$t('components.btn-labeled.support')"
-        fontSize="base"
-        leftIcon="IconSupport"
-        iconSize="1.25em"
-        :counter="organization.supporters"
-        :alternateText="
-          $t('components.btn-labeled.support-organization-aria-label')
-        "
-      />
-      <BtnLabeled
-        :cta="true"
-        linkTo="/"
-        :label="$t('components.btn-labeled.share-organization')"
-        fontSize="base"
-        leftIcon="bi:box-arrow-up"
-        iconSize="1.25em"
-        :alternateText="
-          $t('components.btn-labeled.share-organization-aria-label')
-        "
-      />
+      <div class="flex space-x-2 lg:space-x-3">
+        <BtnLabeled
+          class="w-max"
+          :cta="true"
+          linkTo="/"
+          :label="$t('components.btn-labeled.support')"
+          fontSize="sm"
+          leftIcon="IconSupport"
+          iconSize="1.25em"
+          :counter="organization.supporters"
+          :alternateText="
+            $t('components.btn-labeled.support-organization-aria-label')
+          "
+        />
+        <BtnLabeled
+          class="hidden md:block w-max"
+          :cta="true"
+          linkTo="/"
+          :label="$t('components.btn-labeled.share-organization')"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.25em"
+          :alternateText="
+            $t('components.btn-labeled.share-organization-aria-label')
+          "
+        />
+        <BtnLabeled
+          class="md:hidden w-max"
+          :cta="true"
+          linkTo="/"
+          :label="$t('components.btn-labeled.share')"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.25em"
+          :alternateText="
+            $t('components.btn-labeled.share-organization-aria-label')
+          "
+        />
+      </div>
     </HeaderAppPage>
-    <div class="pb-6 space-y-6">
+    <div class="pt-3 pb-6 space-y-6 lg:pt-4">
       <div
-        class="grid grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 space-y-6 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="pb-6 grid grid-rows-2 grid-cols-1 lg:grid-cols-3 lg:grid-rows-1 space-y-6 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
         <CardAbout
+          class="lg:col-span-2"
           aboutType="organization"
           :organization="organization"
-          class="w-full lg:col-span-2"
         />
-        <div class="w-full h-full pb-6 lg:pb-0">
+        <div class="w-full h-full">
           <MediaImageCarousel />
         </div>
       </div>

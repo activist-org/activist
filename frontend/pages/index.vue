@@ -15,7 +15,7 @@
         text="pages.index.get-active-text"
         imageURL="/images/content_pages/art/get_active"
         altText="Drawing of a fist raised."
-        btnText1="Learn more"
+        btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/get-active"
         btnAlternateText1="pages.index.get-active-btn-alt-text"
       />
@@ -26,7 +26,7 @@
         text="pages.index.get-organized-text"
         imageURL="/images/content_pages/art/get_organized"
         altText="Drawing of fists in a circle pointed at the center."
-        btnText1="Learn more"
+        btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/get-organized"
         btnAlternateText1="pages.index.get-organized-btn-alt-text"
       />
@@ -37,7 +37,7 @@
         text="pages.index.grow-organization-text"
         imageURL="/images/content_pages/art/grow_organization"
         altText="Drawing of fists raised in a group."
-        btnText1="Learn more"
+        btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/grow-organization"
         btnAlternateText1="pages.index.grow-organization-btn-alt-text"
       />
@@ -49,7 +49,7 @@
         text="pages.index.activist-section-text"
         imageURL="/images/content_pages/icons/activist_icon"
         altText="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
-        btnText1="Learn more"
+        btnText1="components.btn-labeled.learn-more"
         btnURL1="/about"
         btnAlternateText1="pages.index.activist-section-btn-alt-text"
       />

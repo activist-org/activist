@@ -7,7 +7,6 @@
     :pagination="{ clickable: true }"
     :navigation="true"
   >
-
     <swiper-slide
       v-for="n in 7"
       class="bg-light-placeholder dark:bg-dark-placeholder text-light-distinct dark:text-dark-distinct"

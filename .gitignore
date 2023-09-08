@@ -4,11 +4,14 @@
 
 # Visual Studio Code
 .vscode/*
+!.vscode/settings.json
 !.vscode/extensions.json
 
 # Django and Python
 __pycache__
 .venv
+venv/
+.mypy_cache
 
 # Nuxt dev/build outputs
 .output

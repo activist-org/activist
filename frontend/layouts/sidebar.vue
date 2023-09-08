@@ -1,12 +1,12 @@
 <template>
-  <MenuMobileHeader />
+  <HeaderMobile />
   <SidebarLeft
     @mouseover="sidebarHover = true"
     @mouseleave="sidebarHover = false"
   />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
     <div
-      class="mt-12 bg-light-content dark:bg-dark-content md:mt-0"
+      class="bg-light-content dark:bg-dark-content"
       :class="{
         'md:pl-16 xl:pl-56':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -27,6 +27,10 @@
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'md:pl-24 xl:pl-24':
           sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        'blur-sm xl:blur-none':
+          sidebar.collapsedSwitch == true &&
+          sidebar.collapsed == false &&
+          sidebarHover == true,
       }"
     />
   </div>

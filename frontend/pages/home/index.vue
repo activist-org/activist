@@ -9,19 +9,21 @@
       :header="$t('pages.home.header')"
       :tagline="$t('pages.home.subheader')"
     >
-      <TopicMarker topic="My topics dropdown" />
+      <div class="flex flex-col space-x-3 sm:flex-row">
+        <TopicMarker topic="My topics dropdown" />
+      </div>
     </HeaderAppPage>
-    <div class="pb-4 space-y-4">
+    <div class="pt-3 pb-6 space-y-6 md:pt-4">
       <GridHomeMetrics />
-      <CardSearchResult
-        searchResultType="organization"
-        :isPrivate="false"
-        :organization="organization"
-      />
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
         :event="event"
+      />
+      <CardSearchResult
+        searchResultType="organization"
+        :isPrivate="false"
+        :organization="organization"
       />
       <CardSearchResult
         searchResultType="resource"
@@ -70,7 +72,7 @@ const organization: Organization = {
   status: "approved",
   tagline: "Technologie von und für soziale Bewegungen",
   location: "Berlin",
-  description: "This is the description of tech from below",
+  description: "This is the description of tech from below.",
   topic: "Technology and Privacy",
   members: 3,
   supporters: 30,
@@ -85,14 +87,15 @@ const event: Event = {
   topic: "Testing and Designing",
   description: "This is a test event for testers.",
   getInvolvedDescription: "Wanna help test?",
-  onlineLocation: "Zoom Test Room",
+  inPersonLocation: "Berlin",
+  // onlineLocation: "Zoom Test Room",
   date: new Date(),
   supporters: 10,
 };
 
 const user: User = {
   name: "John A. Tester",
-  location: "Testville, TN",
+  location: "Testerville, TN",
   supporters: 123,
   description: "I love to test!",
 };

@@ -32,7 +32,7 @@
       </div>
       <p
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-        class="mt-1 text-xl font-bold text-center"
+        class="mt-2 text-xl font-bold text-center"
       >
         {{ name }}
       </p>
@@ -42,7 +42,7 @@
       >
         {{ nameAbbreviation }}
       </p>
-      <ul class="flex flex-col w-full px-1 mb-1">
+      <ul class="flex flex-col w-full px-1 mt-2 mb-1">
         <li
           v-if="pageType === 'organization'"
           v-for="button in organizationButtons"
@@ -70,6 +70,8 @@
 </template>
 
 <script setup lang="ts">
+import { MenuSelector } from "../../../types/menu-selector";
+
 const sidebar = useSidebar();
 
 const props = defineProps<{
@@ -85,239 +87,116 @@ const nameAbbreviation = props.name
   })
   .join("");
 
-interface SidebarLeftSelectorType {
-  label: string;
-  routeURL: string;
-  iconURL: string;
-  selected: boolean;
-  active: boolean;
-}
+const { id } = useRoute().params;
 
-const organizationButtons: SidebarLeftSelectorType[] = [
+const organizationButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.about",
-    routeURL: "/",
+    routeURL: "/organizations/" + id + "/about",
     iconURL: "bi:card-text",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "about" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.events",
-    routeURL: "/",
+    routeURL: "/organizations/" + id + "/events",
     iconURL: "bi:calendar-check",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "events" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.groups",
-    routeURL: "/",
+    routeURL: "/organizations/" + id + "/groups",
     iconURL: "IconGroup",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "groups" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.resources",
-    routeURL: "/",
+    routeURL: "/organizations/" + id + "/resources",
     iconURL: "IconResource",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "resources" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.faq",
-    routeURL: "/",
+    routeURL: "/organizations/" + id + "/faq",
     iconURL: "IconFAQ",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "faq" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.settings",
-    routeURL: "/",
+    routeURL: "/organizations/" + id + "/settings",
     iconURL: "bi:gear",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "settings" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.affiliates",
-    routeURL: "/",
+    routeURL: "/organizations/" + id + "/affiliates",
     iconURL: "IconSupport",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "affiliates" ? true : false,
     active: false,
   },
   {
     label: "components.sidebar-left-selector.label.tasks",
-    routeURL: "/",
+    routeURL: "/organizations/" + id + "/tasks",
     iconURL: "bi:check-square",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "tasks" ? true : false,
     active: false,
   },
   {
     label: "components.sidebar-left-selector.label.discussions",
-    routeURL: "/",
+    routeURL: "/organizations/" + id + "/discussions",
     iconURL: "octicon:comment-discussion-24",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "discussions" ? true : false,
     active: false,
   },
 ];
 
-const eventButtons: SidebarLeftSelectorType[] = [
+const eventButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.about",
-    routeURL: "/",
+    routeURL: "/events/" + id + "/about",
     iconURL: "bi:card-text",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "about" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.team",
-    routeURL: "/",
+    routeURL: "/events/" + id + "/team",
     iconURL: "bi:people",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "team" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.resources",
-    routeURL: "/",
+    routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "resources" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.settings",
-    routeURL: "/",
+    routeURL: "/events/" + id + "/settings",
     iconURL: "bi:gear",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "settings" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.tasks",
-    routeURL: "/",
+    routeURL: "/events/" + id + "/tasks",
     iconURL: "bi:check-square",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "tasks" ? true : false,
     active: false,
   },
   {
     label: "components.sidebar-left-selector.label.discussions",
-    routeURL: "/",
+    routeURL: "/events/" + id + "/discussions",
     iconURL: "octicon:comment-discussion-24",
-    selected: false,
+    selected: useRoute().path.split("/").pop() === "discussions" ? true : false,
     active: false,
-  },
-];
-
-const AboutIndexButtons: SidebarLeftSelectorType[] = [
-  {
-    label: "components.sidebar-left-selector.label.about-activist",
-    routeURL: "/about",
-    iconURL: "bi:card-text",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.activism-network",
-    routeURL: "/about/activism-network",
-    iconURL: "bi:card-text",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.connect",
-    routeURL: "/about/connect",
-    iconURL: "bi:people",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.roadmap",
-    routeURL: "/about/roadmap",
-    iconURL: "bi:people",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.impress",
-    routeURL: "/about/impress",
-    iconURL: "bi:people",
-    selected: false,
-    active: true,
-  },
-];
-
-const LegalIndexButtons: SidebarLeftSelectorType[] = [
-  {
-    label: "components.sidebar-left-selector.label.legal-support",
-    routeURL: "/legal/legal-support",
-    iconURL: "bi:card-text",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.privacy-policy",
-    routeURL: "/legal/privacy-policy",
-    iconURL: "bi:card-text",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.trademark-policy",
-    routeURL: "/legal/trademark-policy",
-    iconURL: "bi:people",
-    selected: false,
-    active: true,
-  },
-];
-
-const HelpIndexButtons: SidebarLeftSelectorType[] = [
-  {
-    label: "components.sidebar-left-selector.label.faq",
-    routeURL: "/help/faq",
-    iconURL: "bi:people",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.contact",
-    routeURL: "/help/contact",
-    iconURL: "bi:card-text",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.press",
-    routeURL: "/help/press",
-    iconURL: "bi:card-text",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.status",
-    routeURL: "/help/status",
-    iconURL: "bi:card-text",
-    selected: false,
-    active: true,
-  },
-];
-
-const DocsIndexButtons: SidebarLeftSelectorType[] = [
-  {
-    label: "components.sidebar-left-selector.label.get-active",
-    routeURL: "/docs/get-active",
-    iconURL: "bi:card-text",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.get-organized",
-    routeURL: "/docs/get-organized",
-    iconURL: "bi:people",
-    selected: false,
-    active: true,
-  },
-  {
-    label: "components.sidebar-left-selector.label.grow-organization",
-    routeURL: "/docs/grow-organization",
-    iconURL: "bi:people",
-    selected: false,
-    active: true,
   },
 ];
 </script>

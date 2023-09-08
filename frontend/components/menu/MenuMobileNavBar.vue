@@ -1,11 +1,12 @@
 <template>
   <div
-    class="fixed bottom-0 z-20 w-full md:hidden bg-light-header dark:bg-dark-header"
+    class="fixed bottom-0 z-20 w-full md:hidden bg-light-header dark:bg-dark-header border-t border-light-section-div dark:border-dark-section-div"
   >
     <nav>
       <ul class="flex">
         <li class="flex-1" v-for="(item, index) in menuItems" :key="index">
           <MenuMobileSelector
+            class="rounded-none"
             :label="item.label"
             :routeURL="item.routeURL"
             :iconURL="item.iconURL"
@@ -19,8 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { menuItems } from "@/utils/navMenuItems";
-import { isRouteActive } from "@/utils/routeUtils";
+import { menuItems } from "../../utils/navMenuItems";
+import { isRouteActive } from "../../utils/routeUtils";
 
 const isActive = (routeURL: string) => {
   return isRouteActive(routeURL);

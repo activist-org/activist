@@ -2,9 +2,9 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
-        v-slot="{ open }"
         class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
         :class="{ 'pl-6': location === 'sideMenu' }"
+        v-slot="{ open }"
         :aria-label="$t('components.selector-theme.open-dropdown-aria-label')"
       >
         <div class="flex items-center text-sm space-x-2">
@@ -23,17 +23,16 @@
             {{ $t("components.selector-theme.label") }}
           </p>
           <Icon
-            name="bi:chevron-down"
             class="right-3"
             :class="{
               'rotate-180 transform': open,
               absolute: location === 'sideMenu',
             }"
+            name="bi:chevron-down"
           />
         </div>
       </MenuButton>
     </div>
-
     <transition
       enter-active-class="transition duration-100 ease-out"
       enter-from-class="opacity-0 transform scale-95"
@@ -49,12 +48,12 @@
         <div class="px-2 py-2">
           <MenuItem v-slot="{ active }">
             <button
-              :class="[
-                active
-                  ? 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content'
-                  : 'text-light-text dark:text-dark-text',
-                'group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm',
-              ]"
+              class="group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm"
+              :class="{
+                'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
+                  active,
+                'text-light-text dark:text-dark-text': !active,
+              }"
               @click="$colorMode.preference = 'system'"
               :aria-label="$t('components.selector-theme.system-aria-label')"
             >
@@ -66,12 +65,12 @@
           </MenuItem>
           <MenuItem v-slot="{ active }">
             <button
-              :class="[
-                active
-                  ? 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content'
-                  : 'text-light-text dark:text-dark-text',
-                'group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm',
-              ]"
+              class="group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm"
+              :class="{
+                'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
+                  active,
+                'text-light-text dark:text-dark-text': !active,
+              }"
               @click="$colorMode.preference = 'light'"
               :aria-label="$t('components.selector-theme.light-aria-label')"
             >
@@ -83,12 +82,12 @@
           </MenuItem>
           <MenuItem v-slot="{ active }">
             <button
-              :class="[
-                active
-                  ? 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content'
-                  : 'text-light-text dark:text-dark-text',
-                'group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm',
-              ]"
+              class="group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm"
+              :class="{
+                'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
+                  active,
+                'text-light-text dark:text-dark-text': !active,
+              }"
               @click="$colorMode.preference = 'dark'"
               :aria-label="$t('components.selector-theme.dark-aria-label')"
             >

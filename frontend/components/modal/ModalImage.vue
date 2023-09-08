@@ -26,8 +26,8 @@
       <DialogPanel class="flex flex-col items-center">
         <button
           class="absolute right-0 p-1 mt-8 mr-24 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
-          aria-label="Close modal"
           @click="closeModal"
+          :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
           <Icon name="bi:x-circle-fill" class="w-10 h-10" />
         </button>

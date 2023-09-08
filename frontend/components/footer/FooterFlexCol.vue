@@ -10,7 +10,6 @@
       <p class="text-light-text dark:text-dark-text">
         {{ $t("components.footer-flex-col.activist-tagline") }}
       </p>
-
       <!-- Note: Platform Links -->
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(platform, index) in links.platformLinks">
@@ -32,7 +31,6 @@
         </template>
       </div>
     </div>
-
     <div
       class="max-w-xl text-center grid gap-0 sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16"
     >
@@ -44,20 +42,19 @@
         <div class="flex mt-1 gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
             <a
-              :href="connect.url"
-              target="_blank"
               class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
               :class="{ 'mt-3': index === 0 }"
+              :href="connect.url"
+              target="_blank"
             >
               <Icon :name="connect.iconName" class="text-2xl sm:text-base" />
               <p class="sr-only sm:not-sr-only">
-                {{ connect.name }}
+                {{ $t(connect.name) }}
               </p>
             </a>
           </template>
         </div>
       </div>
-
       <!-- Note: Resources Links -->
       <div>
         <p
@@ -83,7 +80,6 @@
           </template>
         </div>
       </div>
-
       <!-- Note: Organization Links -->
       <div>
         <p
@@ -110,7 +106,6 @@
         </div>
       </div>
     </div>
-
     <div class="flex flex-col items-center justify-center">
       <!-- Note: Legal Links -->
       <div class="flex flex-wrap items-center justify-center">
