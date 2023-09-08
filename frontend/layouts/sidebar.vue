@@ -27,6 +27,10 @@
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'md:pl-24 xl:pl-24':
           sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        'blur-sm xl:blur-none':
+          sidebar.collapsedSwitch == true &&
+          sidebar.collapsed == false &&
+          sidebarHover == true,
       }"
     />
   </div>
