@@ -13,14 +13,11 @@ def validate_creation_and_deletion_dates(data):
             "creation_date must be before deletion_date"
         )
 
-    return data
-
 def validate_creation_and_deprecation_dates(data):
     if data["deprecation_date"] < data["creation_date"]:
         raise serializers.ValidationError(
             "deprecation_date cannot be before creation_date"
         )
-    return data
 
 def validate_flags_number(data):
     
@@ -28,4 +25,9 @@ def validate_flags_number(data):
         raise serializers.ValidationError(
             "total_flags cannot be negative"
         )
-    return data
+
+def validate_empty(value, field_name):
+    if value == "" or value is None:
+        raise serializers.ValidationError(
+            field_name + " cannot be empty"
+        )

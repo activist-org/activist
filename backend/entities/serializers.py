@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-from utils.utils import validate_creation_and_deletion_dates, validate_flags_number
+from utils.utils import validate_creation_and_deletion_dates, validate_flags_number, validate_empty
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,17 +9,13 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        if data["name"] == "" or data["tagline"] == "" or data["social_accounts"] == []:
-            raise serializers.ValidationError(
-                "the name, tagline and social_accounts fields cannot be empty"
-            )
-
-        data = validate_flags_number(data)
-
-        data = validate_creation_and_deletion_dates(data)
+        validate_empty(data["name"], "name")
+        validate_empty(data["tagline"], "tagline")
+        validate_empty(data["social_accounts"], "social_accounts")
+        validate_flags_number(data)
+        validate_creation_and_deletion_dates(data)
 
         return data
-
 
 class OrganizationApplicationStatusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,12 +29,8 @@ class OrganizationApplicationSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        if data["status"] == "":
-            raise serializers.ValidationError(
-                "status cannot be empty"
-            )
-
-        data = validate_creation_and_deletion_dates(data)
+        validate_empty(data["status"], "status")
+        validate_creation_and_deletion_dates(data)
         return data
 
 class OrganizationEventSerializer(serializers.ModelSerializer):
@@ -51,6 +43,7 @@ class OrganizationEventSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "org_id and event_id cannot be empty, they must be filled so that the event can be added to the organization"
             )
+        
         return data
 
 class OrganizationMemberSerializer(serializers.ModelSerializer):
@@ -62,7 +55,7 @@ class OrganizationMemberSerializer(serializers.ModelSerializer):
 
             if data["is_owner"] == False and data["is_admin"] == False and data["is_comms"] == False:
                 raise serializers.ValidationError(
-                    "he has to be at least one of the following: owner, admin or comms"
+                    "member has to be at least one of the following: owner, admin or comms"
                 )
 
             if data["org_id"] == "" or data["user_id"] == "":
@@ -85,14 +78,12 @@ class GroupSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
             
-            if data["name"] == "" or data["tagline"] == "" or data["social_accounts"] == [] or data["created_by"] == "":
-                raise serializers.ValidationError(
-                    "the name, tagline, social_accounts  and created_by fields cannot be empty"
-                )
-            
-            data = validate_flags_number(data)
-    
-            data = validate_creation_and_deletion_dates(data)
+            validate_empty(data["name"], "name")
+            validate_empty(data["tagline"], "tagline")
+            validate_empty(data["social_accounts"], "social_accounts")
+            validate_empty(data["created_by"], "created_by")
+            validate_flags_number(data)
+            validate_creation_and_deletion_dates(data)
     
             return data
 

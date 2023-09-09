@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import *
-from utils.utils import validate_creation_and_deletion_dates, validate_creation_and_deprecation_dates
+from utils.utils import validate_creation_and_deletion_dates, validate_creation_and_deprecation_dates, validate_empty
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,13 +9,21 @@ class EventSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-    
-        if data["name"] == "" or data["tagline"] == "" or data["type"] == "" or data["description"] == "" or data["get_involved_text"] == "" or data["online_location_link"] == "" or data["offline_location_name"] == "" or data or data["created_by"] == "":
+
+        required_fields = ["name", "tagline", "type", "description", "get_involved_text", "online_location_link", "offline_location_name", "created_by"]
+
+        def isEmpty():
+            for field in required_fields:
+                if data[field] == "" or data[field] == None:
+                    return True
+            return False
+
+        if isEmpty():
             raise serializers.ValidationError(
-                "only the offline_location_lat and offline_location_long fields can be empty"
+                "only the offline_location_lat and offline_location_long fields can be empty for Events"
             )
         
-        data = validate_creation_and_deletion_dates(data)
+        validate_creation_and_deletion_dates(data)
 
         return data
 
@@ -25,13 +33,12 @@ class FormatSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-    
-        if data["name"] == "" or data["description"] == "":
-            raise serializers.ValidationError(
-                "the name and description fields cannot be empty"
-            )
-        data = validate_creation_and_deprecation_dates(data)
-        data = validate_creation_and_deletion_dates(data)
+
+        validate_empty(data["name"], "name")
+        validate_empty(data["description"], "description")
+        validate_creation_and_deprecation_dates(data)
+        validate_creation_and_deletion_dates(data)
+
         return data
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -40,12 +47,11 @@ class RoleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
         def validate(self, data):
-    
-            if data["name"] == "" or data["description"] == "":
-                raise serializers.ValidationError(
-                    "the name and description fields cannot be empty"
-                )
-            data = validate_creation_and_deprecation_dates(data)
+
+            validate_empty(data["name"], "name")
+            validate_empty(data["description"], "description")
+            validate_creation_and_deprecation_dates(data)
+
             return data
 
 class EventAttendeeSerializer(serializers.ModelSerializer):
@@ -54,11 +60,11 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
+
+        validate_empty(data["event_id"], "event_id")
+        validate_empty(data["user_id"], "user_id")
+        validate_empty(data["role_id"], "role_id")
     
-        if data["event_id"] == "" or data["user_id"] == "" or data["role_id"] == "":
-            raise serializers.ValidationError(
-                "event_id, user_id and role_id cannot be empty"
-            )
         return data
 
 

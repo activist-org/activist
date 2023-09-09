@@ -1,17 +1,13 @@
 from rest_framework import serializers
 from .models import *
-from utils.utils import validate_creation_and_deletion_dates
+from utils.utils import validate_creation_and_deletion_dates, validate_empty
 class SupportEntityTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupportEntityType
         fields = '__all__'
 
     def validate(self, data):
-        if data["name"] == "":
-            raise serializers.ValidationError(
-                "name cannot be empty"
-            )
-        
+        validate_empty(data["name"], "name")
         if len(data["name"]) < 3:
             raise serializers.ValidationError(
                 "name must be at least 3 characters long"
@@ -42,12 +38,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-        if data["password"] == "" or data["name"] == "" or data["user_name"] == "":
-            raise serializers.ValidationError(
-                "password, name and user_name cannot be empty"
-            )
+
+        validate_empty(data["password"], "password")
+        validate_empty(data["name"], "name")
+        validate_empty(data["user_name"], "user_name")
         
-        data = validate_creation_and_deletion_dates(data)
+        validate_creation_and_deletion_dates(data)
 
         return data
 class UserResourceSerializer(serializers.ModelSerializer):

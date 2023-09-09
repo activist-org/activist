@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
 import re
-from utils.utils import validate_creation_and_deletion_dates, validate_creation_and_deprecation_dates
+from utils.utils import validate_creation_and_deletion_dates, validate_creation_and_deprecation_dates, validate_empty, validate_flags_number
 
 class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,25 +9,23 @@ class ResourceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
         def validate(self, data):
-            if data["name"] == "" or data["description"] == "" or data["url"] == "" or data["topics"] == [] or data["location"] == "":
-                raise serializers.ValidationError(
-                    "the name, description, url, topics and location fields cannot be empty"
-                )
+            validate_empty(data["name"], "name")
+            validate_empty(data["description"], "description")
+            validate_empty(data["url"], "url")
+            validate_empty(data["topics"], "topics")
+            validate_empty(data["location"], "location")
             
             if type(data["total_flags"]) != int:
                 data["total_flags"] =  int(data["total_flags"])
             
-            if data["total_flags"] < 0:
-                raise serializers.ValidationError(
-                    "total_flags cannot be negative"
-                )
+            validate_flags_number(data)
             
             if not re.match(r'https?://\S+', data["url"]):
                 raise serializers.ValidationError(
                     "url must be a valid url - https://www.example.com"
                 )
             
-            data = validate_creation_and_deletion_dates(data)
+            validate_creation_and_deletion_dates(data)
                 
             return data
 
@@ -38,12 +36,11 @@ class TaskSerializer(serializers.ModelSerializer):
 
         def validate(self, data):
 
-            if data["name"] == "" or data["description"] == "":
-                raise serializers.ValidationError(
-                    "the name, description, location and tags fields cannot be empty"
-                )
+            validate_empty(data["name"], "name")
+            validate_empty(data["description"], "description")
+            validate_empty(data["location"], "location")
 
-            data = validate_creation_and_deletion_dates(data)
+            validate_creation_and_deletion_dates(data)
 
             return data
              
@@ -55,10 +52,8 @@ class TopicSerializer(serializers.ModelSerializer):
 
         def validate(self, data):
 
-            if data["name"] == "" or data["description"] == "":
-                raise serializers.ValidationError(
-                    "the name and description fields cannot be empty"
-                )
+            validate_empty(data["name"], "name")
+            validate_empty(data["description"], "description")
             
             if data["active"] == True and data["deprecation_date"] != None:
                 raise serializers.ValidationError(
@@ -70,8 +65,7 @@ class TopicSerializer(serializers.ModelSerializer):
                     "inactive topics must have a deprecation date"
                 )
             
-            data = validate_creation_and_deprecation_dates(data)
-            
+            validate_creation_and_deprecation_dates(data)
 
             return data
 
