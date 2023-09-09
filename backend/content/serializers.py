@@ -5,18 +5,7 @@ from utils.utils import validate_creation_and_deletion_dates
 class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
-        fields = (
-            "id",
-            "name",
-            "description",
-            "topics",
-            "location",
-            "url",
-            "total_flags",
-            "creation_date",
-            "last_updated",
-            "deletion_date",
-        )
+        fields = '__all__'
 
         def validate(self, data):
             if data["name"] == "" or data["description"] == "" or data["url"] == "" or data["topics"] == [] or data["location"] == "":
@@ -44,15 +33,7 @@ class ResourceSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = (
-            "id",
-            "name",
-            "description",
-            "location",
-            "tags",
-            "creation_date",
-            "deletion_date",
-        )
+        fields = '__all__'
 
         def validate(self, data):
 
@@ -69,15 +50,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
-        fields = (
-            "id",
-            "name",
-            "active",
-            "description",
-            "creation_date",
-            "last_updated",
-            "deprecation_date",
-        )
+        fields =  '__all__'
 
         def validate(self, data):
 
@@ -106,15 +79,9 @@ class TopicSerializer(serializers.ModelSerializer):
 class ResourceTopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResourceTopic
-        fields = (
-            "resource_id",
-            "topic_id",
-        )
+        fields = '__all__'
 
 class TopicFormatSerializer(serializers.ModelSerializer):
     class Meta:
         model = TopicFormat
-        fields = (
-            "topic_id",
-            "format_id",
-        )
+        fields = '__all__'

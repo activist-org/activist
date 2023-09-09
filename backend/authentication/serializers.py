@@ -4,7 +4,7 @@ from utils.utils import validate_creation_and_deletion_dates
 class SupportEntityTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupportEntityType
-        fields = ("id", "name")
+        fields = '__all__'
 
     def validate(self, data):
         if data["name"] == "":
@@ -20,12 +20,7 @@ class SupportEntityTypeSerializer(serializers.ModelSerializer):
 class SupportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Support
-        fields = (
-            "supporter_type",
-            "supporter_entity",
-            "supported_type",
-            "supported_entity",
-        )
+        fields = '__all__'
 
     def validate(self, data):
         
@@ -44,21 +39,7 @@ class SupportSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = (
-            "id",
-            "username",
-            "name",
-            "password",
-            "location",
-            "description",
-            "verified",
-            "verification_method",
-            "verification_partner",
-            "social_accounts",
-            "total_flags",
-            "creation_date",
-            "deletion_date",
-        )
+        fields = '__all__'
 
     def validate(self, data):
         if data["password"] == "" or data["name"] == "" or data["user_name"] == "":
@@ -72,23 +53,13 @@ class UserSerializer(serializers.ModelSerializer):
 class UserResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserResource
-        fields = (
-            "user_id",
-            "resource_id",
-        )
-
+        fields = '__all__'
 class UserTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTask
-        fields = (
-            "user_id",
-            "task_id",
-        )
+        fields = '__all__'
 
 class UserTopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTopic
-        fields = (
-            "user_id",
-            "topic_id",
-        )
+        fields = '__all__'

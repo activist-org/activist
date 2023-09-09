@@ -6,23 +6,7 @@ from utils.utils import validate_creation_and_deletion_dates, validate_creation_
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = (
-            "id",
-            "name",
-            "tagline",
-            "type",
-            "description",
-            "get_involved_text",
-            "online_location_link",
-            "offline_location_name",
-            "offline_location_lat",
-            "offline_location_long",
-            "start_time",
-            "end_time",
-            "created_by",
-            "creation_date",
-            "deletion_date",
-        )
+        fields = '__all__'
 
     def validate(self, data):
     
@@ -38,14 +22,7 @@ class EventSerializer(serializers.ModelSerializer):
 class FormatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Format
-        fields = (
-            "id",
-            "name",
-            "description",
-            "creation_date",
-            "last_updated",
-            "deprecation_date",
-        )
+        fields = '__all__'
 
     def validate(self, data):
     
@@ -60,15 +37,7 @@ class FormatSerializer(serializers.ModelSerializer):
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
-        fields = (
-            "id",
-            "name",
-            "is_custom",
-            "description",
-            "creation_date",
-            "last_updated",
-            "deprecation_date",
-        )
+        fields = '__all__'
 
         def validate(self, data):
     
@@ -82,14 +51,7 @@ class RoleSerializer(serializers.ModelSerializer):
 class EventAttendeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventAttendee
-        fields = (
-            "id",
-            "event_id",
-            "user_id",
-            "status",
-            "creation_date",
-            "status_updated",
-        )
+        fields = '__all__'
 
     def validate(self, data):
     
@@ -103,31 +65,29 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
 class EventFormatSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventFormat
-        fields = ("id", "event", "format")
+        fields = '__all__'
 
 class EventAttendeeStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventAttendeeStatus
-        fields = ("id", "status_name")
+        fields = '__all__'
 
 class EventResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventResource
-        fields = ("event_id", "resource_id")
+        fields = '__all__'
 
 
 class EventRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventRole
-        fields = ("event_id", "role_id")
-
+        fields = '__all__'
 
 class EventTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventTask
-        fields = ("event_id", "task_id")
-
+        fields = '__all__'
 class EventTopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventTopic
-        fields = ("event_id", "topic_id")
+        fields = '__all__'
