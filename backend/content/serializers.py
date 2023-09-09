@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
-from utils.utils import validate_creation_and_deletion_dates
+import re
+from utils.utils import validate_creation_and_deletion_dates, validate_creation_and_deprecation_dates
 
 class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -69,10 +70,8 @@ class TopicSerializer(serializers.ModelSerializer):
                     "inactive topics must have a deprecation date"
                 )
             
-            if data["creation_date"] > data["deprecation_date"]:
-                raise serializers.ValidationError(
-                    "creation_date must be before deprecation_date"
-                )
+            data = validate_creation_and_deprecation_dates(data)
+            
 
             return data
 

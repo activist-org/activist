@@ -21,3 +21,11 @@ def validate_creation_and_deprecation_dates(data):
             "deprecation_date cannot be before creation_date"
         )
     return data
+
+def validate_flags_number(data):
+    
+    if int(data["total_flags"]) < 0:
+        raise serializers.ValidationError(
+            "total_flags cannot be negative"
+        )
+    return data

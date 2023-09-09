@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-from utils.utils import validate_creation_and_deletion_dates
+from utils.utils import validate_creation_and_deletion_dates, validate_flags_number
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,10 +14,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
                 "the name, tagline and social_accounts fields cannot be empty"
             )
 
-        if data["total_flags"] < 0:
-            raise serializers.ValidationError(
-                "total_flags cannot be negative"
-            )
+        data = validate_flags_number(data)
 
         data = validate_creation_and_deletion_dates(data)
 
@@ -93,10 +90,7 @@ class GroupSerializer(serializers.ModelSerializer):
                     "the name, tagline, social_accounts  and created_by fields cannot be empty"
                 )
             
-            if int(data["total_flags"]) < 0:
-                raise serializers.ValidationError(
-                    "total_flags cannot be negative"
-                )
+            data = validate_flags_number(data)
     
             data = validate_creation_and_deletion_dates(data)
     
