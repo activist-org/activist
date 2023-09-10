@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
-from utils.utils import validate_creation_and_deletion_dates, validate_empty
+from content.models import Resource, Task, Topic
+from utils.utils import validate_creation_and_deletion_dates, validate_empty, check_object_existence
 class SupportEntityTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupportEntityType
@@ -8,6 +9,7 @@ class SupportEntityTypeSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         validate_empty(data["name"], "name")
+
         if len(data["name"]) < 3:
             raise serializers.ValidationError(
                 "name must be at least 3 characters long"
@@ -50,12 +52,38 @@ class UserResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserResource
         fields = '__all__'
+
+    def validate(self, data):
+
+        check_object_existence(User, data["user_id"], "user_id does not exist")
+
+        check_object_existence(Resource, data["resource_id"], "resource_id does not exist")
+        
+        return data
+        
 class UserTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTask
         fields = '__all__'
 
+    def validate(self, data):
+
+        check_object_existence(User, data["user_id"], "user_id does not exist")
+
+
+        check_object_existence(Task, data["task_id"], "task_id does not exist")
+
+        return data
+
 class UserTopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTopic
         fields = '__all__'
+
+    def validate(self, data):
+
+        check_object_existence(User, data["user_id"], "user_id does not exist")
+
+        check_object_existence(Topic, data["topic_id"], "topic_id does not exist")
+        
+        return data
