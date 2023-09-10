@@ -1,53 +1,45 @@
 import json
 
-from django.http import HttpResponse, JsonResponse
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from .models import Organization
 from .serializers import OrganizationSerializer
 
 
-@method_decorator(csrf_exempt, name="dispatch")
-class OrganizationView(View):
-    def post(self, request):
-        data = json.loads(request.body.decode("utf-8"))
-        name = data.get("name")
-        tagline = data.get("tagline")
-
-        organization_data = {"name": name, "tagline": tagline}
-
-        organization = Organization.objects.create(**organization_data)
-
-        data = {"message": f"New Organization created with id: {organization.id}"}
-        return JsonResponse(data, status=201)
-
-    def get(self, request):
+@api_view(['GET', 'POST'])
+def organization_list(request):
+    if request.method == 'GET':
         organizations = Organization.objects.all()
-        data = OrganizationSerializer(organizations, many=True)
+        serializer = OrganizationSerializer(organizations, many=True)
+        return Response(serializer.data)
 
-        return JsonResponse(data.data, safe=False)
+    elif request.method == 'POST':
+        serializer = OrganizationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET', 'PUT', 'DELETE'])
+def organization_detail(request, organization_id):
+    try:
+        organization = Organization.objects.get(pk=organization_id)
+    except Organization.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-@method_decorator(csrf_exempt, name="dispatch")
-class OrganizationUpdate(View):
-    def patch(self, request, organization_id):
-        data = json.loads(request.body.decode("utf-8"))
-        org = Organization.objects.get(id=organization_id)
-        org.name = data["name"]
-        org.tagline = data["tagline"]
-        org.save()
+    if request.method == 'GET':
+        serializer = OrganizationSerializer(organization)
+        return Response(serializer.data)
 
-        data = {"message": f"Organization {organization_id} has been updated"}
-        return JsonResponse(data)
+    elif request.method == 'PUT':
+        serializer = OrganizationSerializer(organization, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, organization_id):
-        data = json.loads(request.body.decode("utf-8"))
-        org = Organization.objects.get(id=organization_id)
-        org.delete()
-
-        data = {
-            "message": f"Organization {organization_id} has been deleted successfully"
-        }
-        return JsonResponse(data)
+    elif request.method == 'DELETE':
+        organization.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
