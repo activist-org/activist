@@ -20,5 +20,8 @@ from rest_framework import routers
 
 urlpatterns = [
     path("v1/admin/", admin.site.urls),
-    path("", include("entities.urls")),
+    path("v1/auth/", include("authentication.urls", namespace="authentication")),
+    path("v1/content/", include("content.urls", namespace="content")),
+    path("v1/entities/", include("entities.urls", namespace="entities")),
+    path("v1/events/", include("events.urls", namespace="events")),
 ]
