@@ -1,45 +1,36 @@
-import json
-
+from rest_framework import viewsets
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
 from .models import Organization
 from .serializers import OrganizationSerializer
 
 
-@api_view(['GET', 'POST'])
-def organization_list(request):
-    if request.method == 'GET':
-        organizations = Organization.objects.all()
-        serializer = OrganizationSerializer(organizations, many=True)
-        return Response(serializer.data)
+class OrganizationViewSet(viewsets.ModelViewSet):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
 
-    elif request.method == 'POST':
-        serializer = OrganizationSerializer(data=request.data)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def organization_detail(request, organization_id):
-    try:
-        organization = Organization.objects.get(pk=organization_id)
-    except Organization.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = OrganizationSerializer(organization)
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
-        serializer = OrganizationSerializer(organization, data=request.data)
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'DELETE':
-        organization.delete()
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
