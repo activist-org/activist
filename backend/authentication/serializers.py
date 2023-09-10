@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from content.models import Resource, Task, Topic
-from utils.utils import validate_creation_and_deletion_dates, validate_empty, check_object_existence
+from utils.utils import validate_creation_and_deletion_dates, validate_empty, validate_object_existence
 class SupportEntityTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupportEntityType
@@ -55,9 +55,9 @@ class UserResourceSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(User, data["user_id"], "user_id does not exist")
+        validate_object_existence(User, data["user_id"], "user_id does not exist")
 
-        check_object_existence(Resource, data["resource_id"], "resource_id does not exist")
+        validate_object_existence(Resource, data["resource_id"], "resource_id does not exist")
         
         return data
         
@@ -68,10 +68,10 @@ class UserTaskSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(User, data["user_id"], "user_id does not exist")
+        validate_object_existence(User, data["user_id"], "user_id does not exist")
 
 
-        check_object_existence(Task, data["task_id"], "task_id does not exist")
+        validate_object_existence(Task, data["task_id"], "task_id does not exist")
 
         return data
 
@@ -82,8 +82,8 @@ class UserTopicSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(User, data["user_id"], "user_id does not exist")
+        validate_object_existence(User, data["user_id"], "user_id does not exist")
 
-        check_object_existence(Topic, data["topic_id"], "topic_id does not exist")
+        validate_object_existence(Topic, data["topic_id"], "topic_id does not exist")
         
         return data

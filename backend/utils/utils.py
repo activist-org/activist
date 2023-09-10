@@ -31,14 +31,8 @@ def validate_empty(value, field_name):
         raise serializers.ValidationError(
             field_name + " cannot be empty"
         )
-
-def validate_existing_data(value, model_name):
-    if model_name.objects.filter(id=value).count() == 0:
-        raise serializers.ValidationError(
-            "id does not exist"
-        )
     
-def check_object_existence(model, object_id, error_message):
+def validate_object_existence(model, object_id, error_message):
     if model.objects.filter(id=object_id).count() == 0:
         raise serializers.ValidationError(
             error_message

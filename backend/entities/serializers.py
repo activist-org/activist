@@ -6,7 +6,7 @@ from authentication.models import User
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_flags_number,
-    validate_empty, check_object_existence
+    validate_empty, validate_object_existence
 )
 
 
@@ -117,11 +117,9 @@ class OrganizationTaskSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Organization, data["org_id"], "org_id does not exist")
-
-        check_object_existence(Task, data["task_id"], "task_id does not exist")
-
-        check_object_existence(Group, data["group_id"], "group_id does not exist")
+        validate_object_existence(Organization, data["org_id"], "org_id does not exist")
+        validate_object_existence(Task, data["task_id"], "task_id does not exist")
+        validate_object_existence(Group, data["group_id"], "group_id does not exist")
 
         return data
 
@@ -133,9 +131,8 @@ class OrganizationTopicSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Organization, data["org_id"], "org_id does not exist")
-
-        check_object_existence(Topic, data["topic_id"], "topic_id does not exist")
+        validate_object_existence(Organization, data["org_id"], "org_id does not exist")
+        validate_object_existence(Topic, data["topic_id"], "topic_id does not exist")
 
         return data
 
@@ -147,9 +144,8 @@ class GroupEventSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Group, data["group_id"], "group_id does not exist")
-
-        check_object_existence(Event, data["event_id"], "event_id does not exist")
+        validate_object_existence(Group, data["group_id"], "group_id does not exist")
+        validate_object_existence(Event, data["event_id"], "event_id does not exist")
 
         return data
 
@@ -161,9 +157,8 @@ class GroupMemberSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Group, data["group_id"], "group_id does not exist")
-
-        check_object_existence(User, data["user_id"], "user_id does not exist")
+        validate_object_existence(Group, data["group_id"], "group_id does not exist")
+        validate_object_existence(User, data["user_id"], "user_id does not exist")
        
         return data
 
@@ -175,9 +170,8 @@ class GroupResourceSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Group, data["group_id"], "group_id does not exist")
-
-        check_object_existence(Resource, data["resource_id"], "resource_id does not exist")
+        validate_object_existence(Group, data["group_id"], "group_id does not exist")
+        validate_object_existence(Resource, data["resource_id"], "resource_id does not exist")
 
         return data
 
@@ -189,8 +183,7 @@ class GroupTopicSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Group, data["group_id"], "group_id does not exist")
-
-        check_object_existence(Topic, data["topic_id"], "topic_id does not exist")
+        validate_object_existence(Group, data["group_id"], "group_id does not exist")
+        validate_object_existence(Topic, data["topic_id"], "topic_id does not exist")
 
         return data

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import *
-from utils.utils import validate_creation_and_deletion_dates, validate_creation_and_deprecation_dates, validate_empty, check_object_existence
+from utils.utils import validate_creation_and_deletion_dates, validate_creation_and_deprecation_dates, validate_empty, validate_object_existence
 from authentication.models import User
 from content.models import Resource, Task, Topic
 
@@ -67,9 +67,9 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
         validate_empty(data["user_id"], "user_id")
         validate_empty(data["role_id"], "role_id")
 
-        check_object_existence(Event, data["event_id"], "event_id does not exist")
-        check_object_existence(User, data["user_id"], "user_id does not exist")
-        check_object_existence(Role, data["role_id"], "role_id does not exist")
+        validate_object_existence(Event, data["event_id"], "event_id does not exist")
+        validate_object_existence(User, data["user_id"], "user_id does not exist")
+        validate_object_existence(Role, data["role_id"], "role_id does not exist")
 
         return data
 
@@ -84,8 +84,8 @@ class EventFormatSerializer(serializers.ModelSerializer):
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["format_id"], "format_id")
 
-        check_object_existence(Event, data["event_id"], "event_id does not exist")
-        check_object_existence(Format, data["format_id"], "format_id does not exist")
+        validate_object_existence(Event, data["event_id"], "event_id does not exist")
+        validate_object_existence(Format, data["format_id"], "format_id does not exist")
     
         return data
 
@@ -106,8 +106,8 @@ class EventResourceSerializer(serializers.ModelSerializer):
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["resource_id"], "resource_id")
 
-        check_object_existence(Event, data["event_id"], "event_id does not exist")
-        check_object_existence(Resource, data["resource_id"], "resource_id does not exist")
+        validate_object_existence(Event, data["event_id"], "event_id does not exist")
+        validate_object_existence(Resource, data["resource_id"], "resource_id does not exist")
 
         return data
 
@@ -119,8 +119,8 @@ class EventRoleSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Event, data["event_id"], "event_id does not exist")
-        check_object_existence(Role, data["role_id"], "role_id does not exist")
+        validate_object_existence(Event, data["event_id"], "event_id does not exist")
+        validate_object_existence(Role, data["role_id"], "role_id does not exist")
 
         return data
 
@@ -131,8 +131,8 @@ class EventTaskSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Event, data["event_id"], "event_id does not exist")
-        check_object_existence(Task, data["task_id"], "task_id does not exist")
+        validate_object_existence(Event, data["event_id"], "event_id does not exist")
+        validate_object_existence(Task, data["task_id"], "task_id does not exist")
 
         return data
 class EventTopicSerializer(serializers.ModelSerializer):
@@ -142,7 +142,7 @@ class EventTopicSerializer(serializers.ModelSerializer):
 
     def validate(self, data):  
             
-        check_object_existence(Event, data["event_id"], "event_id does not exist")
-        check_object_existence(Topic, data["topic_id"], "topic_id does not exist")
+        validate_object_existence(Event, data["event_id"], "event_id does not exist")
+        validate_object_existence(Topic, data["topic_id"], "topic_id does not exist")
     
         return data

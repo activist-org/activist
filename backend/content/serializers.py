@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 import re
 from events.models import Format
-from utils.utils import validate_creation_and_deletion_dates, validate_creation_and_deprecation_dates, validate_empty, validate_flags_number, check_object_existence
+from utils.utils import validate_creation_and_deletion_dates, validate_creation_and_deprecation_dates, validate_empty, validate_flags_number, validate_object_existence
 
 class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -77,9 +77,8 @@ class ResourceTopicSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Resource, data["resource_id"], "resource_id does not exist")
-
-        check_object_existence(Topic, data["topic_id"], "topic_id does not exist")
+        validate_object_existence(Resource, data["resource_id"], "resource_id does not exist")
+        validate_object_existence(Topic, data["topic_id"], "topic_id does not exist")
         
         return data
 
@@ -90,8 +89,7 @@ class TopicFormatSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
 
-        check_object_existence(Topic, data["topic_id"], "topic_id does not exist")
-
-        check_object_existence(Format, data["format_id"], "format_id does not exist")
+        validate_object_existence(Topic, data["topic_id"], "topic_id does not exist")
+        validate_object_existence(Format, data["format_id"], "format_id does not exist")
         
         return data
