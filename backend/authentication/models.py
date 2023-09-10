@@ -26,7 +26,7 @@ class SupportEntityType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -40,8 +40,8 @@ class Support(models.Model):
     )
     supported_entity = models.IntegerField(null=True)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class User(AbstractUser):
@@ -61,7 +61,7 @@ class User(AbstractUser):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
-    def __str__(self):
+    def __str__(self) ->str:
         return self.username
 
 
@@ -69,21 +69,21 @@ class UserResource(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class UserTask(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class UserTopic(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)

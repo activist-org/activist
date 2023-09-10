@@ -32,7 +32,7 @@ class Resource(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     deletion_date = models.DateField(null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -45,7 +45,7 @@ class Task(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -58,7 +58,7 @@ class Topic(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateField(null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -66,13 +66,13 @@ class ResourceTopic(models.Model):
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("Topic", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class TopicFormat(models.Model):
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
     format_id = models.ForeignKey("events.Format", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)

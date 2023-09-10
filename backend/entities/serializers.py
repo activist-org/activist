@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from .models import *
+from .models import Organization
 
 
-class OrganizationSerializer(serializers.ModelSerializer):
+class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
         fields = (
