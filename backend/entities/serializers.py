@@ -65,25 +65,25 @@ class OrganizationMemberSerializer(serializers.ModelSerializer):
         model = OrganizationMember
         fields = "__all__"
 
-        def validate(self, data):
-            if (
-                data["is_owner"] == False
-                and data["is_admin"] == False
-                and data["is_comms"] == False
-            ):
-                raise serializers.ValidationError(
-                    "member has to be at least one of the following: owner, admin or comms"
-                )
+    def validate(self, data):
+        if (
+            data["is_owner"] == False
+            and data["is_admin"] == False
+            and data["is_comms"] == False
+        ):
+            raise serializers.ValidationError(
+                "member has to be at least one of the following: owner, admin or comms"
+            )
 
-            if data["org_id"] == "" or data["user_id"] == "":
-                raise serializers.ValidationError(
+        if data["org_id"] == "" or data["user_id"] == "":
+            raise serializers.ValidationError(
                     "org_id and user_id cannot be empty, they must be filled so that the user can be added to the organization"
-                )
+            )
             
-            validate_object_existence(Organization, data["org_id"], "org_id does not exist")
-            validate_object_existence(User, data["user_id"], "user_id does not exist")
+        validate_object_existence(Organization, data["org_id"], "org_id does not exist")
+        validate_object_existence(User, data["user_id"], "user_id does not exist")
 
-            return data
+        return data
 
 
 class OrganizationResourceSerializer(serializers.ModelSerializer):
@@ -94,7 +94,6 @@ class OrganizationResourceSerializer(serializers.ModelSerializer):
     def validate(self, data):
 
         validate_object_existence(Organization, data["org_id"], "org_id does not exist")
-
         validate_object_existence(Resource, data["resource_id"], "resource_id does not exist")
 
         return data
