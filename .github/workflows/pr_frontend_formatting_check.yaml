@@ -27,4 +27,4 @@ jobs:
       - name: Run Prettier
         working-directory: ./frontend
         run: |
-          npx prettier . --check
+          npx prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore`
