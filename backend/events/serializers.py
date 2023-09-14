@@ -1,14 +1,14 @@
+from authentication.models import User
+from content.models import Resource, Task, Topic
 from rest_framework import serializers
-
-from .models import *
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
     validate_empty,
     validate_object_existence,
 )
-from authentication.models import User
-from content.models import Resource, Task, Topic
+
+from .models import *
 
 
 class EventSerializer(serializers.ModelSerializer):

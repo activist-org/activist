@@ -1,4 +1,5 @@
 import re
+
 from rest_framework import serializers
 
 
@@ -24,7 +25,7 @@ def validate_flags_number(data):
 
 def validate_empty(value, field_name):
     if value == "" or value is None:
-        raise serializers.ValidationError(field_name + " cannot be empty")
+        raise serializers.ValidationError(f"{field_name} cannot be empty")
 
 
 def validate_object_existence(model, object_id, error_message):

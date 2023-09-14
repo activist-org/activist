@@ -1,7 +1,7 @@
-from rest_framework import serializers
-from .models import *
 import re
+
 from events.models import Format
+from rest_framework import serializers
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
@@ -9,6 +9,8 @@ from utils.utils import (
     validate_flags_number,
     validate_object_existence,
 )
+
+from .models import *
 
 
 class ResourceSerializer(serializers.ModelSerializer):

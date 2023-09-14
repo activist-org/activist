@@ -72,6 +72,7 @@ class UserResource(models.Model):
     def __str__(self):
         return self.id
 
+
 class UserTask(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)

@@ -1,14 +1,15 @@
-from rest_framework import serializers
-from .models import *
+from authentication.models import User
 from content.models import Resource, Task, Topic
 from events.models import Event
-from authentication.models import User
+from rest_framework import serializers
 from utils.utils import (
     validate_creation_and_deletion_dates,
-    validate_flags_number,
     validate_empty,
+    validate_flags_number,
     validate_object_existence,
 )
+
+from .models import *
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -53,7 +54,7 @@ class OrganizationEventSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "org_id and event_id cannot be empty, they must be filled so that the event can be added to the organization"
             )
-        
+
         validate_object_existence(Organization, data["org_id"], "org_id does not exist")
         validate_object_existence(Event, data["event_id"], "event_id does not exist")
 
@@ -66,20 +67,11 @@ class OrganizationMemberSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        if (
-            data["is_owner"] == False
-            and data["is_admin"] == False
-            and data["is_comms"] == False
-        ):
-            raise serializers.ValidationError(
-                "member has to be at least one of the following: owner, admin or comms"
-            )
-
         if data["org_id"] == "" or data["user_id"] == "":
             raise serializers.ValidationError(
-                    "org_id and user_id cannot be empty, they must be filled so that the user can be added to the organization"
+                "org_id and user_id cannot be empty, they must be filled so that the user can be added to the organization"
             )
-            
+
         validate_object_existence(Organization, data["org_id"], "org_id does not exist")
         validate_object_existence(User, data["user_id"], "user_id does not exist")
 
@@ -92,11 +84,13 @@ class OrganizationResourceSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-
         validate_object_existence(Organization, data["org_id"], "org_id does not exist")
-        validate_object_existence(Resource, data["resource_id"], "resource_id does not exist")
+        validate_object_existence(
+            Resource, data["resource_id"], "resource_id does not exist"
+        )
 
         return data
+
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
