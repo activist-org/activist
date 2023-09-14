@@ -27,8 +27,7 @@ urlpatterns = [
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),
-
-#   DA RIVEDERE:
+    
     path("v1/auth/", include("authentication.urls", namespace="authentication")),
     path("v1/content/", include("content.urls", namespace="content")),
     path("v1/entities/", include("entities.urls", namespace="entities")),

@@ -41,10 +41,33 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            instance = serializer.save()
+            data = {'message': f'New Organization created with id: {instance.id}'}
+            return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def retrieve(self, request, *args, **kwargs):
         instance = get_object_or_404(Organization, pk=kwargs["pk"])
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = get_object_or_404(Organization, pk=kwargs["pk"])
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            data = {'message': f'Organization {kwargs["pk"]} has been updated'}
+            return Response(data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = get_object_or_404(Organization, pk=kwargs["pk"])
+        instance.delete()
+        data = {'message': f'Organization {kwargs["pk"]} has been deleted successfully'}
+        return Response(data, status=status.HTTP_204_NO_CONTENT)
     
 class OrganizationApplicationStatusViewSet(viewsets.ModelViewSet):
     queryset = OrganizationApplicationStatus.objects.all()

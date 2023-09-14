@@ -2,12 +2,9 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 
-<<<<<<< HEAD
-=======
 
 app_name = 'events'
 
->>>>>>> add_viewsets
 router = DefaultRouter()
 router.register(r'events', views.EventViewSet)
 router.register(r'formats', views.FormatViewSet)
@@ -21,5 +18,5 @@ router.register(r'event_tasks', views.EventTaskViewSet)
 router.register(r'event_topics', views.EventTopicViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
 ]

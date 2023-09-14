@@ -4,12 +4,10 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 
-<<<<<<< HEAD
-=======
 app_name = 'authentication'
 
->>>>>>> add_viewsets
 router = DefaultRouter()
+
 router.register(r'support_entity_types', views.SupportEntityTypeViewSet)
 router.register(r'supports', views.SupportViewSet)
 router.register(r'users', views.UserViewSet)
