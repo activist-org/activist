@@ -130,6 +130,7 @@ const eventButtons: MenuSelector[] = [
 
 const handleResize = () => {
   if (window.innerWidth > 640) {
+    window.removeEventListener('resize', handleResize)
     navigateTo(`${id}/about`);
   }
 }
@@ -142,9 +143,5 @@ onMounted(() => {
   window.addEventListener('resize', handleResize)
 })
 
-onBeforeUnmount(() => {
-  // Remove event listener before unmounting
-  window.removeEventListener('resize', handleResize)
-})
 
 </script>
