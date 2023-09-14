@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content flex flex-col justify-between items-center gap-8"
+    class="flex flex-col items-center justify-between px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content gap-8"
   >
     <Head>
       <Title>{{ event.name }} </Title>
@@ -10,17 +10,17 @@
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1
-        class="font-bold responsive-h1 text-3xl text-light-text dark:text-dark-text text-center"
+        class="text-3xl font-bold text-center responsive-h1 text-light-text dark:text-dark-text"
       >
         {{ event.name }}
       </h1>
       <h2
-        class="font-bold responsive-h2 text-lg text-light-special-text dark:text-dark-special-text"
+        class="text-lg font-bold responsive-h2 text-light-special-text dark:text-dark-special-text"
       >
         {{ event.tagline }}
       </h2>
     </div>
-    <div class="w-full flex flex-col items-center gap-4">
+    <div class="flex flex-col items-center w-full gap-4">
       <MenuLinkWrapper
         v-for="button in eventButtons"
         :to="button.routeURL"
@@ -37,7 +37,7 @@
               class="flex-shrink-0 w-5 h-5"
           /></span>
           <p
-            class="select-none width-5/6 whitespace-nowrap hover:light-menu-selection font-bold text-lg"
+            class="text-lg font-bold select-none width-5/6 whitespace-nowrap hover:light-menu-selection"
           >
             {{ $t(button.label) }}
           </p>

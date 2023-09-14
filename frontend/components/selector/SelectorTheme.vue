@@ -49,7 +49,7 @@
           <MenuItem v-slot="{ active }">
             <button
               @click="$colorMode.preference = 'system'"
-              class="group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm"
+              class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md"
               :class="{
                 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
                   active,
@@ -66,7 +66,7 @@
           <MenuItem v-slot="{ active }">
             <button
               @click="$colorMode.preference = 'light'"
-              class="group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm"
+              class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md"
               :class="{
                 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
                   active,
@@ -83,7 +83,7 @@
           <MenuItem v-slot="{ active }">
             <button
               @click="$colorMode.preference = 'dark'"
-              class="group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm"
+              class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md"
               :class="{
                 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
                   active,
