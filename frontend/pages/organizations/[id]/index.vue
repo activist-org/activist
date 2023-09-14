@@ -146,13 +146,22 @@ const organizationButtons: MenuSelector[] = [
   // },
 ];
 
-onMounted(() => {
-  redirectBasedOnScreenSize();
-});
-
-function redirectBasedOnScreenSize() {
+const handleResize = () => {
   if (window.innerWidth > 640) {
     navigateTo(`${id}/about`);
   }
 }
+
+onMounted(() => {
+  // Verify that the user is on a mobile device
+  handleResize()
+
+  // Add event listener to handle resizing
+  window.addEventListener('resize', handleResize)
+})
+
+onBeforeUnmount(() => {
+  // Remove event listener before unmounting
+  window.removeEventListener('resize', handleResize)
+})
 </script>
