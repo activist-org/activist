@@ -13,7 +13,7 @@ from .serializers import OrganizationSerializer
 
 @method_decorator(csrf_exempt, name="dispatch")
 class OrganizationView(View):
-    def post(self, request: Request) ->  JsonResponse:
+    def post(self, request: Request) -> JsonResponse:
         data = json.loads(request.body.decode("utf-8"))
         name = data.get("name")
         tagline = data.get("tagline")
@@ -44,7 +44,7 @@ class OrganizationUpdate(View):
         data = {"message": f"Organization {organization_id} has been updated"}
         return JsonResponse(data)
 
-    def delete(self, request: Request, organization_id: UUID) ->JsonResponse:
+    def delete(self, request: Request, organization_id: UUID) -> JsonResponse:
         data = json.loads(request.body.decode("utf-8"))
         org = Organization.objects.get(id=organization_id)
         org.delete()

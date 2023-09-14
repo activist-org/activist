@@ -6,7 +6,7 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import User
+from .models import Support, SupportEntityType, User, UserResource, UserTask, UserTopic
 
 
 class SupportEntityTypeSerializer(serializers.ModelSerializer):
@@ -36,7 +36,7 @@ class SupportSerializer(serializers.ModelSerializer):
         return data
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer[User]):
     class Meta:
         model = User
         fields = "__all__"

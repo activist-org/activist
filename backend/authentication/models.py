@@ -61,7 +61,7 @@ class User(AbstractUser):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
-    def __str__(self) ->str:
+    def __str__(self) -> str:
         return self.username
 
 

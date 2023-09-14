@@ -9,10 +9,24 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import *
+from .models import (
+    Group,
+    GroupEvent,
+    GroupMember,
+    GroupResource,
+    GroupTopic,
+    Organization,
+    OrganizationApplication,
+    OrganizationApplicationStatus,
+    OrganizationEvent,
+    OrganizationMember,
+    OrganizationResource,
+    OrganizationTask,
+    OrganizationTopic,
+)
 
 
-class OrganizationSerializer(serializers.ModelSerializer):
+class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
         fields = "__all__"

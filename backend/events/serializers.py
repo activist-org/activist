@@ -8,10 +8,21 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import *
+from .models import (
+    Event,
+    EventAttendee,
+    EventAttendeeStatus,
+    EventFormat,
+    EventResource,
+    EventRole,
+    EventTask,
+    EventTopic,
+    Format,
+    Role,
+)
 
 
-class EventSerializer(serializers.ModelSerializer):
+class EventSerializer(serializers.ModelSerializer[Event]):
     class Meta:
         model = Event
         fields = "__all__"
@@ -23,14 +34,16 @@ class EventSerializer(serializers.ModelSerializer):
             "type",
             "description",
             "get_involved_text",
-            "online_location_link",
-            "offline_location_name",
+            "start_time",
+            "end_time",
             "created_by",
+            "creation_date",
+            "deletion_date",
         ]
 
         def isEmpty():
             for field in required_fields:
-                if data[field] == "" or data[field] == None:
+                if data[field] == "" or data[field] is None:
                     return True
             return False
 

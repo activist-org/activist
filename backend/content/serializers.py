@@ -10,7 +10,7 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import *
+from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
 
 
 class ResourceSerializer(serializers.ModelSerializer):
