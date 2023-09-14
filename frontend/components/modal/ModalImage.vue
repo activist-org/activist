@@ -1,7 +1,7 @@
 <template>
   <button
-    class="hidden p-4 cursor-pointer md:block md:float-right md:w-1/3 2xl:w-full 2xl:col-span-1 h-min focus-brand"
     @click="openModal"
+    class="hidden p-4 cursor-pointer md:block md:float-right md:w-1/3 2xl:w-full 2xl:col-span-1 h-min focus-brand"
     :aria-label="$t('components.modal-image.open-modal-aria-label')"
   >
     <img
@@ -15,11 +15,7 @@
       :alt="$t(imageAltText)"
     />
   </button>
-  <Dialog
-    class="relative z-50"
-    :open="isOpen"
-    @close="closeModal"
-  >
+  <Dialog @close="closeModal" class="relative z-50" :open="isOpen">
     <div
       class="fixed inset-0 bg-light-popup dark:bg-dark-popup"
       aria-hidden="true"
@@ -29,8 +25,8 @@
     >
       <DialogPanel class="flex flex-col items-center">
         <button
-          class="absolute right-0 p-1 mt-8 mr-24 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
           @click="closeModal"
+          class="absolute right-0 p-1 mt-8 mr-24 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
           <Icon class="w-10 h-10" name="bi:x-circle-fill" />

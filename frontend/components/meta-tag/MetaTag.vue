@@ -19,11 +19,7 @@
     </p>
   </div>
   <div v-else class="flex items-center gap-1">
-    <Icon
-      class="mr-1"
-      :name="iconName"
-      size="1.25em"
-    />
+    <Icon class="mr-1" :name="iconName" size="1.25em" />
     <a
       v-if="iconName === 'bi:camera-video'"
       class="block md:hidden lg:block"

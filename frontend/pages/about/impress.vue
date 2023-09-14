@@ -72,10 +72,7 @@
               <strong>{{ $t("pages.about.impress.inquiries") }}</strong>
             </li>
             <li>
-              <a
-                class="focus-brand link-text"
-                href="mailto:team@activist.org"
-              >
+              <a class="focus-brand link-text" href="mailto:team@activist.org">
                 team@activist.org
               </a>
             </li>
@@ -91,7 +88,9 @@
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
-              :alternateText="$t('components.btn-labeled.return-home-aria-label')"
+              :alternateText="
+                $t('components.btn-labeled.return-home-aria-label')
+              "
             />
           </div>
         </div>

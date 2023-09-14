@@ -11,7 +11,9 @@
     <!-- Note: mobile header -->
     <div class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
-        <div class="absolute top-0 left-0 z-0 flex items-center justify-center w-full h-full">
+        <div
+          class="absolute top-0 left-0 z-0 flex items-center justify-center w-full h-full"
+        >
           <div>
             <LogoActivist
               class="flex items-center justify-center h-full z-1 overflow-clip"

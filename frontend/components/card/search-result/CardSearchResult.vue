@@ -13,28 +13,19 @@
       v-if="searchResultType === 'event'"
       class="flex flex-col px-3 py-4 md:flex-row md:grow lg:px-5 md:py-3"
     >
-      <CardSearchResultEvent
-        :event="event"
-        :isPrivate="isPrivate"
-      />
+      <CardSearchResultEvent :event="event" :isPrivate="isPrivate" />
     </div>
     <div
       v-if="searchResultType === 'resource'"
       class="flex flex-col px-3 py-4 md:flex-row md:grow lg:px-5 md:py-3"
     >
-      <CardSearchResultResource
-        :resource="resource"
-        :isPrivate="isPrivate"
-      />
+      <CardSearchResultResource :resource="resource" :isPrivate="isPrivate" />
     </div>
     <div
       v-if="searchResultType === 'user'"
       class="flex flex-col px-3 py-4 md:flex-row md:grow lg:px-5 md:py-3"
     >
-      <CardSearchResultUser
-        :user="user"
-        :isPrivate="isPrivate"
-      />
+      <CardSearchResultUser :user="user" :isPrivate="isPrivate" />
     </div>
   </div>
 </template>

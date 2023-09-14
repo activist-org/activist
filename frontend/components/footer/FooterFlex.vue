@@ -22,12 +22,7 @@
             >
               {{ $t(platform.name) }}
             </NuxtLink>
-            <a 
-              v-else
-              class="focus-brand"
-              :href="platform.url"
-              target="_blank"
-            >
+            <a v-else class="focus-brand" :href="platform.url" target="_blank">
               {{ $t(platform.name) }}
             </a>
           </div>
@@ -40,10 +35,7 @@
       <div class="flex mt-5">
         <template v-for="(policy, index) in links.legalLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink
-              class="focus-brand"
-              :to="localePath(policy.url)"
-            >
+            <NuxtLink class="focus-brand" :to="localePath(policy.url)">
               {{ $t(policy.name) }}
             </NuxtLink>
           </div>
@@ -55,7 +47,9 @@
       </div>
     </div>
     <!-- Note: Content Sections Right -->
-    <div class="flex justify-end w-full lg:space-x-6 xl:space-x-8 2xl:space-x-24">
+    <div
+      class="flex justify-end w-full lg:space-x-6 xl:space-x-8 2xl:space-x-24"
+    >
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
@@ -83,10 +77,7 @@
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
             :class="{ 'mt-3': index === 0 }"
           >
-            <NuxtLink
-              class="focus-brand"
-              :to="localePath(resource.url)"
-            >
+            <NuxtLink class="focus-brand" :to="localePath(resource.url)">
               {{ $t(resource.name) }}
             </NuxtLink>
           </p>
@@ -102,10 +93,7 @@
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
             :class="{ 'mt-3': index === 0 }"
           >
-            <NuxtLink
-              class="focus-brand"
-              :to="localePath(oLink.url)"
-            >
+            <NuxtLink class="focus-brand" :to="localePath(oLink.url)">
               {{ $t(oLink.name) }}
             </NuxtLink>
           </p>

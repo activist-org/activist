@@ -7,10 +7,7 @@
         :src="event.imageURL"
         :alt="'The event logo of ' + event.name"
       />
-      <div 
-        v-else
-        class="w-[200px] h-[200px] flex justify-center items-center"
-      >
+      <div v-else class="w-[200px] h-[200px] flex justify-center items-center">
         <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
       </div>
     </div>

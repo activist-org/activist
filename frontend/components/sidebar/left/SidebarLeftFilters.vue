@@ -2,7 +2,8 @@
   <div
     class="px-3 py-8 opacity-0 text-light-text dark:text-dark-text transition"
     :class="{
-      '!opacity-100': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+      '!opacity-100':
+        sidebar.collapsed == false || sidebar.collapsedSwitch == false,
     }"
   >
     <template v-for="(filter, key) in filters">
@@ -12,11 +13,11 @@
         </h3>
         <div v-if="filter.slide">
           <Icon
+            @click="filter.slideUp = !filter.slideUp"
             class="flex-shrink-0 my-1 mb-3 ml-4 cursor-pointer"
             :class="{ 'rotate-180': filter.slideUp }"
             name="bi:chevron-down"
             size="1em"
-            @click="filter.slideUp = !filter.slideUp"
           />
         </div>
       </div>

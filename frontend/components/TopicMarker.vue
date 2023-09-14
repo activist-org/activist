@@ -7,9 +7,7 @@
       name="bi:globe"
       size="1em"
     />
-    <p
-      class="pl-2 text-base font-bold text-center select-none"
-    >
+    <p class="pl-2 text-base font-bold text-center select-none">
       {{ topic }}
     </p>
   </div>

@@ -9,19 +9,21 @@
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"
+          @click="toggleEditMode"
           name="bi:pencil-square"
           size="1.2em"
-          @click="toggleEditMode"
         />
         <Icon
           v-else-if="userIsAdmin && editModeEnabled"
+          @click="toggleEditMode"
           name="bi:x-lg"
           size="1.2em"
-          @click="toggleEditMode"
         />
       </div>
     </div>
-    <ul class="flex flex-col items-start mt-3 gap-2 md:flex-row md:items-center md:gap-6">
+    <ul
+      class="flex flex-col items-start mt-3 gap-2 md:flex-row md:items-center md:gap-6"
+    >
       <li v-for="link in socialLinksRef">
         <div
           class="flex items-center break-all cursor-pointer gap-3 transition-all"
@@ -34,15 +36,11 @@
         >
           <Icon
             v-if="editModeEnabled"
+            @click="emit('on-account-removed', link)"
             name="bi:x-lg"
             size="1em"
-            @click="emit('on-account-removed', link)"
           />
-          <Icon 
-            v-if="link.includes('email')"
-            name="bi:envelope"
-            size="1.2em"
-          />
+          <Icon v-if="link.includes('email')" name="bi:envelope" size="1.2em" />
           <Icon
             v-else-if="link.includes('mastodon')"
             name="bi:mastodon"
@@ -58,11 +56,7 @@
             name="bi:instagram"
             size="1.2em"
           />
-          <Icon 
-            v-else
-            name="bi:link-45deg"
-            size="1.2em"
-          />
+          <Icon v-else name="bi:link-45deg" size="1.2em" />
           <div class="font-semibold">
             {{ link }}
           </div>
@@ -70,8 +64,8 @@
       </li>
       <div
         :class="{
-          'block': editModeEnabled,
-          'hidden': !editModeEnabled,
+          block: editModeEnabled,
+          hidden: !editModeEnabled,
         }"
       >
         <Popover v-slot="{ close }" class="relative">
@@ -82,7 +76,9 @@
               :label="$t('components.btn-labeled.new-account')"
               fontSize="sm"
               leftIcon="bi:plus-lg"
-              :alternateText="$t('components.btn-labeled.new-account-aria-label')"
+              :alternateText="
+                $t('components.btn-labeled.new-account-aria-label')
+              "
             />
           </PopoverButton>
           <transition

@@ -56,10 +56,7 @@
           </p>
           <p>
             {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-1") }}
-            <a
-              class="focus-brand link-text"
-              href="mailto:team@activist.org"
-            >
+            <a class="focus-brand link-text" href="mailto:team@activist.org">
               team@activist.org
             </a>
             .
@@ -159,7 +156,9 @@
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
-              :alternateText="$t('components.btn-labeled.return-home-aria-label')"
+              :alternateText="
+                $t('components.btn-labeled.return-home-aria-label')
+              "
             />
           </div>
         </div>

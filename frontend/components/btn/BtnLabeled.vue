@@ -42,9 +42,9 @@
     class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit fill-light-distinct dark:fill-dark-distinct"
     :class="{
       'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
-      cta == true,
+        cta == true,
       'bg-neutral-500 dark:bg-gray-400 hover:bg-neutral-400 active:bg-neutral-500 dark:hover:bg-gray-300 dark:active:bg-gray-400 ':
-      cta == false,
+        cta == false,
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
       'text-base': fontSize == 'base',

@@ -21,11 +21,7 @@
             >
               {{ $t(platform.name) }}
             </NuxtLink>
-            <a
-              v-else :href="platform.url"
-              class="focus-brand"
-              target="_blank"
-            >
+            <a v-else :href="platform.url" class="focus-brand" target="_blank">
               {{ $t(platform.name) }}
             </a>
           </div>
@@ -72,10 +68,7 @@
               class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
-              <NuxtLink
-                class="focus-brand"
-                :to="localePath(resource.url)"
-              >
+              <NuxtLink class="focus-brand" :to="localePath(resource.url)">
                 {{ $t(resource.name) }}
               </NuxtLink>
               <span
@@ -101,10 +94,7 @@
               class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
-              <NuxtLink
-                class="focus-brand"
-                :to="localePath(oLink.url)"
-              >
+              <NuxtLink class="focus-brand" :to="localePath(oLink.url)">
                 {{ $t(oLink.name) }}
               </NuxtLink>
               <span
@@ -123,10 +113,7 @@
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(policy, index) in links.legalLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink
-              class="focus-brand"
-              :to="localePath(policy.url)"
-            >
+            <NuxtLink class="focus-brand" :to="localePath(policy.url)">
               {{ $t(policy.name) }}
             </NuxtLink>
             <span

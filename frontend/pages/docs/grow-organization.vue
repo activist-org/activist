@@ -106,7 +106,9 @@
               :label="$t('components.btn-labeled.request-access')"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
-              :alternateText="$t('components.btn-labeled.request-access-aria-label')"
+              :alternateText="
+                $t('components.btn-labeled.request-access-aria-label')
+              "
             />
             <BtnLabeled
               class="w-full"
@@ -114,7 +116,9 @@
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
-              :alternateText="$t('components.btn-labeled.return-home-aria-label')"
+              :alternateText="
+                $t('components.btn-labeled.return-home-aria-label')
+              "
             />
           </div>
         </div>

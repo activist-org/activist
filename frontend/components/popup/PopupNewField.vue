@@ -7,8 +7,8 @@
         {{ title }}
       </p>
       <div
-        class="absolute right-0 mr-1 text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text"
         @click="emit('on-close-clicked')"
+        class="absolute right-0 mr-1 text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text"
       >
         <Icon class="w-6 h-6" name="bi:x-circle-fill" />
       </div>
@@ -28,7 +28,7 @@
       cols="10"
       :placeholder="descriptionPrompt"
     ></textarea>
-    <div class="mt-1" @click="emit('on-cta-clicked', inputValue)">
+    <div @click="emit('on-cta-clicked', inputValue)" class="mt-1">
       <BtnLabeled
         :cta="true"
         linkTo="placeholder-link"

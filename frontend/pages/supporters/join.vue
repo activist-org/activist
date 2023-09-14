@@ -11,10 +11,7 @@
       </h1>
       <p>
         {{ $t("pages.supporters.join.section-1-paragraph-1-1") }}
-        <NuxtLink
-          class="focus-brand link-text"
-          :to="localePath('/supporters')"
-        >
+        <NuxtLink class="focus-brand link-text" :to="localePath('/supporters')">
           {{ $t("pages.supporters.join.section-1-paragraph-1-2") }}
         </NuxtLink>
         .
@@ -62,10 +59,7 @@
       </h2>
       <p>
         {{ $t("pages.supporters.join.section-5-paragraph-1-1") }}
-        <NuxtLink
-          class="focus-brand link-text"
-          :to="localePath('/supporters')"
-        >
+        <NuxtLink class="focus-brand link-text" :to="localePath('/supporters')">
           {{ $t("pages.supporters.join.section-5-paragraph-1-2") }}
         </NuxtLink>
         .

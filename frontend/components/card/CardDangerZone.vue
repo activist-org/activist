@@ -3,17 +3,23 @@
     class="px-5 py-5 border bg-light-act-red/30 dark:bg-dark-act-red/30 border-light-act-red dark:border-dark-act-red card-style-base text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col gap-5">
-      <h3 class="font-bold text-left text-light-act-red dark:text-dark-act-red responsive-h3 font-display">
+      <h3
+        class="font-bold text-left text-light-act-red dark:text-dark-act-red responsive-h3 font-display"
+      >
         {{ $t("components.card-danger-zone.header") }}
       </h3>
       <p>{{ description }}</p>
       <form method="post">
-        <div class="justify-between grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-8">
+        <div
+          class="justify-between grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-8"
+        >
           <div class="flex flex-col gap-2">
             <label
               class="font-bold text-light-text dark:text-dark-text responsive-h4"
               for="username"
-              :placeholder="$t('components.card-danger-zone.placeholder-username')"
+              :placeholder="
+                $t('components.card-danger-zone.placeholder-username')
+              "
             >
               {{ $t("components.card-danger-zone.label-username") }} *
             </label>
@@ -26,7 +32,9 @@
             <label
               class="font-bold text-light-text dark:text-dark-text responsive-h4"
               for="password"
-              :placeholder="$t('components.card-danger-zone.placeholder-password')"
+              :placeholder="
+                $t('components.card-danger-zone.placeholder-password')
+              "
             >
               {{ $t("components.card-danger-zone.label-password") }} *
             </label>

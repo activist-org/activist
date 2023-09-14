@@ -43,7 +43,9 @@
           <MetaTagLocation :location="resource?.relatedLocation" />
           <MetaTagDate :date="resource.creationDate.toLocaleDateString()" />
         </div>
-        <div class="flex justify-center space-x-3 lg:space-x-4 md:justify-start">
+        <div
+          class="flex justify-center space-x-3 lg:space-x-4 md:justify-start"
+        >
           <MetaTagOrganization :organization="resource.organizer" />
           <MetaTagStars
             :stars="resource.stars"

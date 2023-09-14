@@ -26,7 +26,7 @@
             class="right-3"
             :class="{
               'rotate-180 transform': open,
-              'absolute': location === 'sideMenu',
+              absolute: location === 'sideMenu',
             }"
             name="bi:chevron-down"
           />
@@ -48,13 +48,13 @@
         <div class="px-2 py-2">
           <MenuItem v-slot="{ active }">
             <button
+              @click="$colorMode.preference = 'system'"
               class="group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm"
               :class="{
                 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
                   active,
                 'text-light-text dark:text-dark-text': !active,
               }"
-              @click="$colorMode.preference = 'system'"
               :aria-label="$t('components.selector-theme.system-aria-label')"
             >
               <Icon name="bi:circle-half" size="1em" />
@@ -65,13 +65,13 @@
           </MenuItem>
           <MenuItem v-slot="{ active }">
             <button
+              @click="$colorMode.preference = 'light'"
               class="group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm"
               :class="{
                 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
                   active,
                 'text-light-text dark:text-dark-text': !active,
               }"
-              @click="$colorMode.preference = 'light'"
               :aria-label="$t('components.selector-theme.light-aria-label')"
             >
               <Icon name="bi:sun" size="1.1em" />
@@ -82,13 +82,13 @@
           </MenuItem>
           <MenuItem v-slot="{ active }">
             <button
+              @click="$colorMode.preference = 'dark'"
               class="group flex w-full items-center rounded-md pl-4 pr-2 py-2 text-sm"
               :class="{
                 'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
                   active,
                 'text-light-text dark:text-dark-text': !active,
               }"
-              @click="$colorMode.preference = 'dark'"
               :aria-label="$t('components.selector-theme.dark-aria-label')"
             >
               <Icon name="bi:moon" size="1em" />

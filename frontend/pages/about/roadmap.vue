@@ -35,7 +35,7 @@
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
             src="/images/content_pages/icons/arcticons_bike_location_dark.png"
             alt="A bicycle within a balloon-shaped icon."
-            />
+          />
           <h1 class="pb-2 font-bold responsive-h1">Roadmap</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
@@ -100,14 +100,18 @@
               :label="$t('components.btn-labeled.suggest-a-feature')"
               linkTo="https://github.com/activist-org/activist/issues"
               fontSize="lg"
-              :alternateText="$t('components.btn-labeled.suggest-a-feature-aria-label')"
+              :alternateText="
+                $t('components.btn-labeled.suggest-a-feature-aria-label')
+              "
             />
             <BtnLabeled
               :cta="false"
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
-              :alternateText="$t('components.btn-labeled.return-home-aria-label')"
+              :alternateText="
+                $t('components.btn-labeled.return-home-aria-label')
+              "
             />
           </div>
         </div>

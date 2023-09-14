@@ -61,10 +61,7 @@
         </div>
 
         <div class="md:ml-auto md:w-[500px]">
-          <form
-            class="flex flex-col m-5 space-y-2"
-            @submit.prevent="sendEmail"
-          >
+          <form @submit.prevent="sendEmail" class="flex flex-col m-5 space-y-2">
             <label
               :class="{
                 'text-red-500': !nameValidated,
@@ -79,12 +76,12 @@
 
             <input
               v-model="name"
+              @blur="validateName"
               class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               :class="{
                 'outline-red-500 outline outline-2': !nameValidated.valueOf,
                 'outline-none focus:outline-none': nameValidated,
               }"
-              @blur="validateName"
               :placeholder="$t('pages.help.contact.placeholder-name')"
               autocomplete="off"
               spellcheck="false"
@@ -105,12 +102,12 @@
 
             <input
               v-model="email"
+              @blur="validateEmail"
               class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
               :class="{
                 'outline-red-500 outline outline-2': !emailValidated,
                 'outline-none focus:outline-none': emailValidated,
               }"
-              @blur="validateEmail"
               placeholder="example@mail.com"
               autocomplete="off"
               spellcheck="false"
@@ -129,11 +126,11 @@
 
             <textarea
               v-model="message"
+              @blur="validateMessage"
               :class="{
                 'outline-red-500 outline outline-2': !messageValidated,
                 'outline-none focus:outline-none': messageValidated,
               }"
-              @blur="validateMessage"
               rows="6"
               :placeholder="$t('pages.help.contact.placeholder-message')"
               class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
@@ -147,7 +144,7 @@
               :class="{
                 'cursor-not-allowed': buttonDisabled,
                 'hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
-                !buttonDisabled,
+                  !buttonDisabled,
               }"
               type="submit"
               :disabled="buttonDisabled"

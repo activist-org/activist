@@ -1,9 +1,11 @@
 <template>
   <div>
     <button
-      class="relative z-50 group focus-brand outline-offset-4"
       @click="$emit('toggle')"
-      :aria-label="$t('components.sidebar-right-hamburger.sidebar-collapse-aria-label')"
+      class="relative z-50 group focus-brand outline-offset-4"
+      :aria-label="
+        $t('components.sidebar-right-hamburger.sidebar-collapse-aria-label')
+      "
     >
       <div
         class="relative flex items-center justify-center w-[35px] h-[27px] transform transition-all bg-transparent duration-200"
