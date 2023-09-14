@@ -6,7 +6,7 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import *
+from .models import User
 
 
 class SupportEntityTypeSerializer(serializers.ModelSerializer):
