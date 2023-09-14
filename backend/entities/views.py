@@ -1,55 +1,114 @@
-import json
-from uuid import UUID
+from rest_framework import viewsets
+from rest_framework import status
+from rest_framework.response import Response
 
-from django.http import JsonResponse
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.request import Request
+from .models import (
+    Organization, 
+    OrganizationApplicationStatus, 
+    OrganizationApplication,
+    OrganizationEvent, 
+    OrganizationMember, 
+    OrganizationResource, 
+    Group,
+    OrganizationTask, 
+    OrganizationTopic, 
+    GroupEvent, 
+    GroupMember,
+    GroupResource, 
+    GroupTopic
+)
 
-from .models import Organization
-from .serializers import OrganizationSerializer
+from .serializers import (
+    OrganizationSerializer,
+    OrganizationApplicationStatusSerializer, 
+    OrganizationApplicationSerializer,
+    OrganizationEventSerializer, 
+    OrganizationMemberSerializer, 
+    OrganizationResourceSerializer, 
+    GroupSerializer,
+    OrganizationTaskSerializer, 
+    OrganizationTopicSerializer, 
+    GroupEventSerializer, 
+    GroupMemberSerializer,
+    GroupResourceSerializer, 
+    GroupTopicSerializer
+    )
 
 
-@method_decorator(csrf_exempt, name="dispatch")
-class OrganizationView(View):
-    def post(self, request: Request) -> JsonResponse:
-        data = json.loads(request.body.decode("utf-8"))
-        name = data.get("name")
-        tagline = data.get("tagline")
+class OrganizationViewSet(viewsets.ModelViewSet):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
 
-        organization_data = {"name": name, "tagline": tagline}
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        organization = Organization.objects.create(**organization_data)
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
-        data = {"message": f"New Organization created with id: {organization.id}"}
-        return JsonResponse(data, status=201)
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request: Request) -> JsonResponse:
-        organizations = Organization.objects.all()
-        data = OrganizationSerializer(organizations, many=True)
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class OrganizationApplicationStatusViewSet(viewsets.ModelViewSet):
+    queryset = OrganizationApplicationStatus.objects.all()
+    serializer_class = OrganizationApplicationStatusSerializer
 
-        return JsonResponse(data.data, safe=False)
+class OrganizationApplicationViewSet(viewsets.ModelViewSet):
+    queryset = OrganizationApplication.objects.all()
+    serializer_class = OrganizationApplicationSerializer
 
+class OrganizationEventViewSet(viewsets.ModelViewSet):
+    queryset = OrganizationEvent.objects.all()
+    serializer_class = OrganizationEventSerializer
 
-@method_decorator(csrf_exempt, name="dispatch")
-class OrganizationUpdate(View):
-    def patch(self, request: Request, organization_id: UUID) -> JsonResponse:
-        data = json.loads(request.body.decode("utf-8"))
-        org = Organization.objects.get(id=organization_id)
-        org.name = data["name"]
-        org.tagline = data["tagline"]
-        org.save()
+class OrganizationMemberViewSet(viewsets.ModelViewSet):
+    queryset = OrganizationMember.objects.all()
+    serializer_class = OrganizationMemberSerializer
 
-        data = {"message": f"Organization {organization_id} has been updated"}
-        return JsonResponse(data)
+class OrganizationResourceViewSet(viewsets.ModelViewSet):
+    queryset = OrganizationResource.objects.all()
+    serializer_class = OrganizationResourceSerializer
 
-    def delete(self, request: Request, organization_id: UUID) -> JsonResponse:
-        data = json.loads(request.body.decode("utf-8"))
-        org = Organization.objects.get(id=organization_id)
-        org.delete()
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
 
-        data = {
-            "message": f"Organization {organization_id} has been deleted successfully"
-        }
-        return JsonResponse(data)
+class OrganizationTaskViewSet(viewsets.ModelViewSet):
+    queryset = OrganizationTask.objects.all()
+    serializer_class = OrganizationTaskSerializer
+
+class OrganizationTopicViewSet(viewsets.ModelViewSet):
+    queryset = OrganizationTopic.objects.all()
+    serializer_class = OrganizationTopicSerializer
+
+class GroupEventViewSet(viewsets.ModelViewSet):
+    queryset = GroupEvent.objects.all()
+    serializer_class = GroupEventSerializer
+
+class GroupMemberViewSet(viewsets.ModelViewSet):
+    queryset = GroupMember.objects.all()
+    serializer_class = GroupMemberSerializer
+
+class GroupResourceViewSet(viewsets.ModelViewSet):
+    queryset = GroupResource.objects.all()
+    serializer_class = GroupResourceSerializer
+
+class GroupTopicViewSet(viewsets.ModelViewSet):
+    queryset = GroupTopic.objects.all()
+    serializer_class = GroupTopicSerializer
+
