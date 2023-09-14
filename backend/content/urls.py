@@ -4,6 +4,8 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 
+app_name = 'content'
+
 router = DefaultRouter()
 router.register(r'resources', views.ResourceViewSet)
 router.register(r'tasks', views.TaskViewSet)

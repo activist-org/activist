@@ -2,6 +2,9 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 
+
+app_name = 'events'
+
 router = DefaultRouter()
 router.register(r'events', views.EventViewSet)
 router.register(r'formats', views.FormatViewSet)
