@@ -154,10 +154,10 @@ const handleResize = () => {
 }
 
 onMounted(() => {
-  // Verify that the user is on a mobile device
-  handleResize()
-
   // Add event listener to handle resizing
   window.addEventListener('resize', handleResize)
+
+  // Verify that the user is on a mobile device
+  handleResize()
 })
 </script>
