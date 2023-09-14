@@ -9,6 +9,7 @@ from utils.utils import (
     validate_flags_number,
     validate_object_existence,
 )
+from django.utils.translation import gettext as _
 
 from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
 
@@ -32,7 +33,8 @@ class ResourceSerializer(serializers.ModelSerializer):
 
         if not re.match(r"https?://\S+", data["url"]):
             raise serializers.ValidationError(
-                "url must be a valid url - https://www.example.com"
+                _("Url must be a valid url - https://www.example.com."),
+                code = "invalid_url"
             )
 
         validate_creation_and_deletion_dates(data)
@@ -66,12 +68,12 @@ class TopicSerializer(serializers.ModelSerializer):
 
         if data["active"] == True and data["deprecation_date"] != None:
             raise serializers.ValidationError(
-                "active topics cannot have a deprecation date"
+                "Active topics cannot have a deprecation date."
             )
 
         if data["active"] == False and data["deprecation_date"] == None:
             raise serializers.ValidationError(
-                "inactive topics must have a deprecation date"
+                "Inactive topics must have a deprecation date."
             )
 
         validate_creation_and_deprecation_dates(data)
@@ -86,9 +88,9 @@ class ResourceTopicSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         validate_object_existence(
-            Resource, data["resource_id"], "resource_id does not exist"
+            Resource, data["resource_id"], "Resource_id does not exist."
         )
-        validate_object_existence(Topic, data["topic_id"], "topic_id does not exist")
+        validate_object_existence(Topic, data["topic_id"], "Topic_id does not exist.")
 
         return data
 
@@ -99,7 +101,7 @@ class TopicFormatSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(Topic, data["topic_id"], "topic_id does not exist")
-        validate_object_existence(Format, data["format_id"], "format_id does not exist")
+        validate_object_existence(Topic, data["topic_id"], "Topic_id does not exist.")
+        validate_object_existence(Format, data["format_id"], "Format_id does not exist.")
 
         return data
