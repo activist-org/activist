@@ -30,10 +30,10 @@
         </div>
         <BtnLabeled
           :cta="true"
-          :label="$t('components.btn-labeled.return-home')"
+          label="components.btn-labeled.return-home"
           linkTo="/"
           fontSize="lg"
-          :alternateText="$t('components.btn-labeled.return-home-aria-label')"
+          ariaLabel="components.btn-labeled.return-home-aria-label"
         />
       </div>
     </div>

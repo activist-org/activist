@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="w-full border-t border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="w-full transition-all duration-500 border-t border-r bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
   >
     <div class="flex">
       <div
@@ -14,19 +14,19 @@
       >
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
-            :ref="(el) => (disclosureButtons[0] = { close, el })"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
-            @click="closeOtherMenus(0)"
             v-on:keyup.enter="closeOtherMenus(0)"
+            @click="closeOtherMenus(0)"
+            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
+            :ref="(el) => (disclosureButtons[0] = { close, el })"
             :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
           >
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
             >
               <Icon
+                class="flex-shrink-0 w-5 h-5 text-center"
                 name="bi:plus-circle"
                 size="1em"
-                class="flex-shrink-0 w-5 h-5 text-center"
               />
               <Transition name="text">
                 <p
@@ -44,9 +44,9 @@
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
-                name="bi:chevron-up"
                 class="absolute right-0 mr-8"
                 :class="{ 'rotate-180 transform': open }"
+                name="bi:chevron-up"
               />
             </Transition>
           </DisclosureButton>
@@ -56,15 +56,15 @@
               :ref="(el) => (disclosurePanels[0] = el)"
             >
               <SidebarLeftSelector
-                :label="$t('components.sidebar-left-selector.label.new-event')"
+                label="components.sidebar-left-selector.label.new-event"
                 routeURL="/"
                 iconURL="bi:calendar-check"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="
-                  $t('components.sidebar-left-selector.label.new-organization')
+                label="
+                  components.sidebar-left-selector.label.new-organization
                 "
                 routeURL="/"
                 iconURL="IconOrganization"
@@ -72,15 +72,15 @@
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="$t('components.sidebar-left-selector.label.new-group')"
+                label="components.sidebar-left-selector.label.new-group"
                 routeURL="/"
                 iconURL="IconGroup"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="
-                  $t('components.sidebar-left-selector.label.new-resource')
+                label="
+                  components.sidebar-left-selector.label.new-resource
                 "
                 routeURL="/"
                 iconURL="IconResource"
@@ -92,19 +92,19 @@
         </Disclosure>
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
-            :ref="(el) => (disclosureButtons[1] = { close, el })"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
-            @click="closeOtherMenus(1)"
             v-on:keyup.enter="closeOtherMenus(1)"
+            @click="closeOtherMenus(1)"
+            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
+            :ref="(el) => (disclosureButtons[1] = { close, el })"
             :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
           >
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
             >
               <Icon
+                class="flex-shrink-0 w-5 h-5"
                 name="bi:info-circle"
                 size="1em"
-                class="flex-shrink-0 w-5 h-5"
               />
               <Transition name="text">
                 <p
@@ -122,9 +122,9 @@
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
-                name="bi:chevron-up"
                 class="absolute right-0 mr-8"
                 :class="{ 'rotate-180 transform': open }"
+                name="bi:chevron-up"
               />
             </Transition>
           </DisclosureButton>
@@ -134,15 +134,15 @@
               :ref="(el) => (disclosurePanels[1] = el)"
             >
               <SidebarLeftSelector
-                :label="$t('components.sidebar-left-selector.label.help')"
+                label="components.sidebar-left-selector.label.help"
                 routeURL="/help"
                 iconURL="bi:question-circle"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="
-                  $t('components.sidebar-left-selector.label.documentation')
+                label="
+                  components.sidebar-left-selector.label.documentation
                 "
                 routeURL="/docs"
                 iconURL="bi:layout-text-sidebar-reverse"
@@ -150,7 +150,7 @@
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="$t('components.sidebar-left-selector.label.legal')"
+                label="components.sidebar-left-selector.label.legal"
                 routeURL="/legal"
                 iconURL="octicon:law"
                 :selected="false"
@@ -161,10 +161,10 @@
         </Disclosure>
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
-            :ref="(el) => (disclosureButtons[2] = { close, el })"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
-            @click="closeOtherMenus(2)"
             v-on:keyup.enter="closeOtherMenus(2)"
+            @click="closeOtherMenus(2)"
+            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
+            :ref="(el) => (disclosureButtons[2] = { close, el })"
             :aria-label="
               $t('components.sidebar-left-footer.username-aria-label')
             "
@@ -173,9 +173,9 @@
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
             >
               <Icon
+                class="flex-shrink-0 w-5 h-5"
                 name="bi:person-circle"
                 size="1em"
-                class="flex-shrink-0 w-5 h-5"
               />
               <Transition name="text">
                 <p
@@ -194,9 +194,9 @@
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
-                name="bi:chevron-up"
                 class="absolute right-0 mr-8"
                 :class="{ 'rotate-180 transform': open }"
+                name="bi:chevron-up"
               />
             </Transition>
           </DisclosureButton>
@@ -206,8 +206,8 @@
               :ref="(el) => (disclosurePanels[2] = el)"
             >
               <SidebarLeftSelector
-                :label="
-                  $t('components.sidebar-left-selector.label.your-profile')
+                label="
+                  components.sidebar-left-selector.label.your-profile
                 "
                 routeURL="/"
                 iconURL="bi:person-circle"
@@ -215,8 +215,8 @@
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="
-                  $t('components.sidebar-left-selector.label.your-events')
+                label="
+                  components.sidebar-left-selector.label.your-events
                 "
                 routeURL="/"
                 iconURL="bi:calendar-check"
@@ -224,15 +224,15 @@
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="$t('components.sidebar-left-selector.label.your-orgs')"
+                label="components.sidebar-left-selector.label.your-orgs"
                 routeURL="/"
                 iconURL="IconOrganization"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="
-                  $t('components.sidebar-left-selector.label.notifications')
+                label="
+                  components.sidebar-left-selector.label.notifications
                 "
                 routeURL="/"
                 iconURL="bi:bell"
@@ -240,14 +240,14 @@
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="$t('components.sidebar-left-selector.label.settings')"
+                label="components.sidebar-left-selector.label.settings"
                 routeURL="/"
                 iconURL="bi:gear"
                 :selected="false"
                 :active="true"
               />
               <SidebarLeftSelector
-                :label="$t('components.sidebar-left-selector.label.sign-out')"
+                label="components.sidebar-left-selector.label.sign-out"
                 routeURL="/"
                 iconURL="bi:box-arrow-left"
                 :selected="false"

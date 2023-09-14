@@ -7,12 +7,12 @@
         <div
           class="w-[200px] h-[200px] flex justify-center items-center fill-light-text dark:fill-dark-text"
         >
-          <Icon name="bi:person" class="w-[75%] h-[75%]" />
+          <Icon class="w-[75%] h-[75%]" name="bi:person" />
         </div>
       </div>
     </div>
     <div
-      class="flex-col pt-3 md:pl-4 lg:pl-6 space-y-3 md:space-y-4 md:grow md:pt-0"
+      class="flex-col pt-3 space-y-3 md:pl-4 lg:pl-6 md:space-y-4 md:grow md:pt-0"
     >
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
@@ -24,14 +24,14 @@
           </div>
         </div>
         <div
-          class="items-center hidden w-full md:flex md:w-fit space-x-3 lg:space-x-5"
+          class="items-center hidden w-full space-x-3 md:flex md:w-fit lg:space-x-5"
         >
           <MetaTagLocation :location="user?.location" />
         </div>
       </div>
-      <div class="flex flex-col md:flex-row space-y-3 md:space-y-0">
+      <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div
-          class="flex items-center justify-center w-full md:hidden space-x-3"
+          class="flex items-center justify-center w-full space-x-3 md:hidden"
         >
           <MetaTagLocation :location="user?.location" />
         </div>
@@ -40,7 +40,7 @@
         >
           <MetaTagSupporters
             :supporters="user.supporters"
-            :label="$t('components.meta-tag-supporters.label')"
+            label="components.meta-tag-supporters.label"
           />
         </div>
       </div>

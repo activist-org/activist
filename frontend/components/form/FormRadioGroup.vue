@@ -3,6 +3,7 @@
     <div class="flex w-full" v-show="!showAdditionalInput">
       <component
         v-for="opts in options"
+        @update:modelValue="updateValue(opts.value)"
         class="flex-1 border-r-0"
         :class="{
           'last:border-r': !allowCustomValue,
@@ -15,21 +16,20 @@
         :modelValue="modelValue"
         :value="opts.value"
         :customColor="opts.customColor"
-        @update:modelValue="updateValue(opts.value)"
       />
     </div>
-    <div class="flex flex-1 w-full" v-if="allowCustomValue">
+    <div v-if="allowCustomValue" class="flex flex-1 w-full">
       <input
         v-if="showAdditionalInput"
+        @input="inputDebounce"
+        class="font-bold px-5 md:max-w-[10.5rem] outline-none flex-1 border border-light-interactive border-r-0 rounded-l-md bg-light-header dark:bg-dark-header dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
         :type="customValueType"
         v-model="customValue"
-        @input="inputDebounce"
         :placeholder="customValuePlaceholder"
-        class="font-bold px-5 md:max-w-[10.5rem] outline-none flex-1 border border-light-interactive border-r-0 rounded-l-md bg-light-header dark:bg-dark-header dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
       />
       <button
-        class="rounded-r-md text-xl font-bold relative min-w-[3.4rem] h-11 border border-light-interactive bg-light-header text-light-interactive dark:bg-dark-header dark:border-dark-interactive dark:text-dark-special-text"
         @click="toggleAdditionalInput"
+        class="rounded-r-md text-xl font-bold relative min-w-[3.4rem] h-11 border border-light-interactive bg-light-header text-light-interactive dark:bg-dark-header dark:border-dark-interactive dark:text-dark-special-text"
       >
         #
       </button>

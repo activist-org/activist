@@ -4,33 +4,34 @@
     class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 border rounded-md select-none border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:mb-[-2px]"
   >
     <div class="flex items-center space-x-2">
-      <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
+      <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
       <Transition name="search">
         <input
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          :class="{ 'focus:w-5/6': isInputFocused }"
-          ref="input"
-          class="w-16 h-5 bg-transparent outline-none"
-          type="text"
-          :placeholder="$t('components.search-bar.placeholder')"
           @focus="onFocus"
           @blur="onFocusLost"
+          class="w-16 h-5 bg-transparent outline-none"
+          :class="{ 'focus:w-5/6': isInputFocused }"
+          ref="input"
+          type="text"
+          :placeholder="$t('components.search-bar.placeholder')"
         />
       </Transition>
     </div>
     <Transition name="shortcuts">
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-        ref="hotkeyIndicators"
         class="flex pr-1 space-x-1 transition-opacity transition-duration-200"
+        ref="hotkeyIndicators"
       >
         <div
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
           <span
             class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
-            >{{ $t("components.search-bar.slash-tooltip-label") }}</span
           >
+            {{ $t("components.search-bar.slash-tooltip-label") }}
+          </span>
           <p class="-mt-[0.075rem]">/</p>
         </div>
         <!-- <div
@@ -61,10 +62,10 @@
     class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange"
   >
     <Icon
+      @click="emit('on-search-toggle')"
+      class="flex-shrink-0 w-4 h-4 my-1"
       :name="expanded ? 'bi:x-lg' : 'bi:search'"
       size="1em"
-      class="flex-shrink-0 w-4 h-4 my-1"
-      @click="emit('on-search-toggle')"
     />
     <input
       v-if="expanded"
@@ -72,7 +73,7 @@
       type="text"
       placeholder="Search"
     />
-    <Icon v-if="expanded" name="bi:filter" class="absolute right-3" />
+    <Icon v-if="expanded" class="absolute right-3" name="bi:filter" />
   </div>
 </template>
 

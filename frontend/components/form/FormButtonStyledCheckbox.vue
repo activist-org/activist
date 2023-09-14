@@ -7,16 +7,16 @@
     }"
   >
     <input
+      class="hidden"
       type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"
       :id="uuid"
-      class="hidden"
     />
     <label
       v-if="label"
-      :for="uuid"
       class="min-h-[2.75rem] absolute w-full h-full flex items-center justify-center cursor-pointer"
+      :for="uuid"
     >
       {{ label }}
     </label>

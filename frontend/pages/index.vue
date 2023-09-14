@@ -17,7 +17,7 @@
         altText="Drawing of a fist raised."
         btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/get-active"
-        btnAlternateText1="pages.index.get-active-btn-alt-text"
+        btnAriaLabel1="pages.index.get-active-btn-alt-text"
       />
       <LandingContent
         contentPosition="right"
@@ -28,7 +28,7 @@
         altText="Drawing of fists in a circle pointed at the center."
         btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/get-organized"
-        btnAlternateText1="pages.index.get-organized-btn-alt-text"
+        btnAriaLabel1="pages.index.get-organized-btn-alt-text"
       />
       <LandingContent
         contentPosition="left"
@@ -39,7 +39,7 @@
         altText="Drawing of fists raised in a group."
         btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/grow-organization"
-        btnAlternateText1="pages.index.grow-organization-btn-alt-text"
+        btnAriaLabel1="pages.index.grow-organization-btn-alt-text"
       />
       <LandingTechBanner />
       <LandingContent
@@ -51,7 +51,7 @@
         altText="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
         btnText1="components.btn-labeled.learn-more"
         btnURL1="/about"
-        btnAlternateText1="pages.index.activist-section-btn-alt-text"
+        btnAriaLabel1="pages.index.activist-section-btn-alt-text"
       />
       <LandingContent
         contentPosition="top"
@@ -60,10 +60,10 @@
         text="pages.index.our-supporters-text"
         btnText1="pages.index.become-a-supporter"
         btnURL1="/supporters/join"
-        btnAlternateText1="pages.index.our-supporters-btn-become-alt-text"
+        btnAriaLabel1="pages.index.our-supporters-btn-become-alt-text"
         btnText2="pages.index.view-all-supporters"
         btnURL2="/supporters"
-        btnAlternateText2="pages.index.our-supporters-btn-view-alt-text"
+        btnAriaLabel2="pages.index.our-supporters-btn-view-alt-text"
         subText="pages.index.our-supporters-sub-text"
       />
     </div>

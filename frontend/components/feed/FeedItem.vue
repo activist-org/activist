@@ -27,7 +27,7 @@
     <div
       class="w-full h-32 rounded-md bg-light-placeholder dark:bg-dark-placeholder"
     >
-      <img :src="item.imgURL" alt="" class="" />
+      <img :src="item.imgURL" alt="" />
     </div>
   </div>
 </template>

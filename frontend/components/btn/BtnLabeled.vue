@@ -18,16 +18,16 @@
   >
     <Icon
       v-if="leftIcon"
-      :name="leftIcon"
       class="mr-2 -my-1"
+      :name="leftIcon"
       :size="iconSize"
     />
     <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
     <div v-else class="-mx-1"></div>
     <Icon
       v-if="rightIcon"
-      :name="rightIcon"
       class="ml-2 -my-1"
+      :name="rightIcon"
       :size="iconSize"
     />
     <div
@@ -54,20 +54,20 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
     :href="linkTo"
-    :aria-label="alternateText"
+    :aria-label="$t(ariaLabel)"
   >
     <Icon
       v-if="leftIcon"
-      :name="leftIcon"
       class="mr-2 -my-1"
+      :name="leftIcon"
       :size="iconSize"
     />
     <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
     <div v-else class="-mx-1"></div>
     <Icon
       v-if="rightIcon"
-      :name="rightIcon"
       class="ml-2 -my-1"
+      :name="rightIcon"
       :size="iconSize"
     />
     <div
@@ -94,21 +94,21 @@
       'text-base sm:text-lg xl:text-2xl xl:px-6 xl:py-3': fontSize == '2xl',
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
-    :aria-label="alternateText"
+    :aria-label="$t(ariaLabel)"
   >
     <div class="flex items-center">
       <Icon
         v-if="leftIcon"
-        :name="leftIcon"
         class="mr-2 -my-1"
+        :name="leftIcon"
         :size="iconSize"
       />
       <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
       <div v-else class="-mx-1"></div>
       <Icon
         v-if="rightIcon"
-        :name="rightIcon"
         class="ml-2 -my-1"
+        :name="rightIcon"
         :size="iconSize"
       />
       <div
@@ -131,7 +131,7 @@ export interface Props {
   rightIcon?: string;
   iconSize?: string;
   counter?: number;
-  alternateText: string;
+  ariaLabel: string;
 }
 
 withDefaults(defineProps<Props>(), {

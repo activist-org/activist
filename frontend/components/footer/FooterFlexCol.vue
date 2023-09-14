@@ -16,12 +16,12 @@
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink
               v-if="platform.isLocalePath"
-              :to="localePath(platform.url)"
               class="focus-brand"
+              :to="localePath(platform.url)"
             >
               {{ $t(platform.name) }}
             </NuxtLink>
-            <a v-else :href="platform.url" target="_blank" class="focus-brand">
+            <a v-else :href="platform.url" class="focus-brand" target="_blank">
               {{ $t(platform.name) }}
             </a>
           </div>
@@ -68,14 +68,15 @@
               class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
-              <NuxtLink :to="localePath(resource.url)" class="focus-brand">
+              <NuxtLink class="focus-brand" :to="localePath(resource.url)">
                 {{ $t(resource.name) }}
               </NuxtLink>
               <span
                 v-if="index < links.resourcesLinks.length - 1"
                 class="px-2 flex-inline sm:hidden"
-                >•</span
               >
+                •
+              </span>
             </p>
           </template>
         </div>
@@ -93,14 +94,15 @@
               class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
-              <NuxtLink :to="localePath(oLink.url)" class="focus-brand">
+              <NuxtLink class="focus-brand" :to="localePath(oLink.url)">
                 {{ $t(oLink.name) }}
               </NuxtLink>
               <span
                 v-if="index < links.organizationLinks.length - 1"
                 class="px-2 flex-inline sm:hidden"
-                >•</span
               >
+                •
+              </span>
             </p>
           </template>
         </div>
@@ -111,14 +113,15 @@
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(policy, index) in links.legalLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink :to="localePath(policy.url)" class="focus-brand">
+            <NuxtLink class="focus-brand" :to="localePath(policy.url)">
               {{ $t(policy.name) }}
             </NuxtLink>
             <span
               v-if="index < links.legalLinks.length - 1"
               class="px-2 flex-inline"
-              >•</span
             >
+              •
+            </span>
           </div>
         </template>
       </div>

@@ -11,45 +11,45 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
+        class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/activist_icon_light.png"
         alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
-        class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
+        class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/activist_icon_dark.png"
         alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
-        class="h-40 mb-4 md:hidden sm:h-52"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center text-left space-y-4 md:items-start">
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
+            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/activist_icon_light.png"
             alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
-            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/activist_icon_dark.png"
             alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
-            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <h1 class="pb-2 font-bold responsive-h1">
             {{ $t("pages.about.index.header") }}
           </h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
+              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
               name="bi:info-circle-fill"
               size="1.25em"
-              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
               {{ $t("pages.about.index.subheader-1") }}
               <a
-                href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=805%3A231&t=vNWHCPdiq5EbPaO9-1"
                 class="items-center focus-brand link-text"
+                href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=805%3A231&t=vNWHCPdiq5EbPaO9-1"
                 target="_blank"
               >
                 {{ $t("pages.about.index.subheader-2") }}
@@ -77,8 +77,8 @@
           <p class="pb-2 lg:pb-4">
             {{ $t("pages.about.index.section-1-paragraph-5-1") }}
             <a
-              href="https://github.com/orgs/activist-org"
               class="items-center focus-brand link-text"
+              href="https://github.com/orgs/activist-org"
               target="_blank"
             >
               {{ $t("pages.about.index.section-1-paragraph-5-2") }}
@@ -90,8 +90,8 @@
             </a>
             {{ $t("pages.about.index.section-1-paragraph-5-3") }}
             <a
-              href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
+              href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
               {{ $t("pages.about.index.section-1-paragraph-5-4") }}
@@ -109,22 +109,20 @@
             <BtnLabeled
               class="w-full"
               :cta="true"
-              :label="$t('components.btn-labeled.request-access')"
+              label="components.btn-labeled.request-access"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.request-access-aria-label')
+              ariaLabel="
+                components.btn-labeled.request-access-aria-label
               "
             />
             <BtnLabeled
               class="w-full"
               :cta="false"
-              :label="$t('components.btn-labeled.return-home')"
+              label="components.btn-labeled.return-home"
               linkTo="/"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.return-home-aria-label')
-              "
+              ariaLabel="components.btn-labeled.return-home-aria-label"
             />
           </div>
         </div>
@@ -132,15 +130,15 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
+            class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/activist_icon_light.png"
             alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
-            class="hidden 2xl:block h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/activist_icon_dark.png"
             alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
-            class="hidden 2xl:block h-72"
           />
         </div>
       </div>

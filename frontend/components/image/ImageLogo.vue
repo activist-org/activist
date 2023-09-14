@@ -1,5 +1,5 @@
 <template>
-  <a :href="imageLink" class="group rounded-xl focus-brand" target="_blank">
+  <a class="group rounded-xl focus-brand" :href="imageLink" target="_blank">
     <div
       class="w-[200px] h-[200px] lg:w-[250px] lg:h-[250px] rounded-xl bg-light-distinct dark:bg-dark-distinct group-hover:bg-light-highlight dark:group-hover:bg-dark-highlight relative z-0 group-hover:fill-black dark:group-hover:fill-white"
     >

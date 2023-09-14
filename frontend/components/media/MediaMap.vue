@@ -1,16 +1,14 @@
 <template>
   <div class="map card-style">
     <div
-      id="map-div"
       class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert"
+      id="map-div"
       ref="map"
       alt="Map displaying a pin at the location of this event."
     ></div>
     <div
       class="flex flex-col items-center justify-center h-full px-5 pb-5 text-2xl text-center space-y-5 text-light-cta-orange dark:text-dark-cta-orange"
-      :class="{
-        hidden: !errorOccurred,
-      }"
+      :class="{ hidden: !errorOccurred }"
       :key="rerenderKey"
     >
       <p>{{ errorMessage }}</p>

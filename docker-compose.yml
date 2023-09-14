@@ -5,10 +5,9 @@ services:
     build:
       context: ./backend
     container_name: django_backend
-    command:
-      sh -c "python manage.py makemigrations &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
