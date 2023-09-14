@@ -147,8 +147,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Activist.org API",
+    "TITLE": "activist.org API",
     "DESCRIPTION": "Open-source, nonprofit activism platform",
-    "VERSION": "1.0.0",
+    "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
