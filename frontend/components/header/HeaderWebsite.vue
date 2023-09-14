@@ -50,9 +50,7 @@
               label="components.btn-labeled.get-in-touch"
               linkTo="/help/contact"
               fontSize="sm"
-              :alternateText="
-                $t('components.btn-labeled.get-in-touch-aria-label')
-              "
+              ariaLabel="components.btn-labeled.get-in-touch-aria-label"
             />
             <BtnLabeled
               class="hidden md:block lg:hidden"
@@ -60,9 +58,7 @@
               label="components.btn-labeled.get-in-touch"
               linkTo="/help/contact"
               fontSize="xs"
-              :alternateText="
-                $t('components.btn-labeled.get-in-touch-aria-label')
-              "
+              ariaLabel="components.btn-labeled.get-in-touch-aria-label"
             />
           </div>
         </div>

@@ -27,7 +27,7 @@
           imageAltText="pages.docs.get-active.modal-image-alt-text"
         />
         <div
-          class="items-center text-left space-y-4 2xl:col-span-1 2xl:row-start-1 md:items-start"
+          class="items-center space-y-4 text-left 2xl:col-span-1 2xl:row-start-1 md:items-start"
         >
           <h1 class="pb-2 font-bold responsive-h1">
             {{ $t("pages.docs.get-active.header") }}
@@ -113,22 +113,20 @@
             <BtnLabeled
               class="w-full"
               :cta="true"
-              :label="$t('components.btn-labeled.request-access')"
+              label="components.btn-labeled.request-access"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.request-access-aria-label')
+              ariaLabel="
+                components.btn-labeled.request-access-aria-label
               "
             />
             <BtnLabeled
               class="w-full"
               :cta="false"
-              :label="$t('components.btn-labeled.return-home')"
+              label="components.btn-labeled.return-home"
               linkTo="/"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.return-home-aria-label')
-              "
+              ariaLabel="components.btn-labeled.return-home-aria-label"
             />
           </div>
         </div>

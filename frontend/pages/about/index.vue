@@ -21,8 +21,8 @@
         src="/images/content_pages/icons/activist_icon_dark.png"
         alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center text-left space-y-4 md:items-start">
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
@@ -109,22 +109,20 @@
             <BtnLabeled
               class="w-full"
               :cta="true"
-              :label="$t('components.btn-labeled.request-access')"
+              label="components.btn-labeled.request-access"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.request-access-aria-label')
+              ariaLabel="
+                components.btn-labeled.request-access-aria-label
               "
             />
             <BtnLabeled
               class="w-full"
               :cta="false"
-              :label="$t('components.btn-labeled.return-home')"
+              label="components.btn-labeled.return-home"
               linkTo="/"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.return-home-aria-label')
-              "
+              ariaLabel="components.btn-labeled.return-home-aria-label"
             />
           </div>
         </div>

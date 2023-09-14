@@ -15,7 +15,7 @@
     />
     {{ value }}
     <p v-if="label">
-      {{ label }}
+      {{ $t(label) }}
     </p>
   </div>
   <div v-else class="flex items-center gap-1">
@@ -29,7 +29,7 @@
       {{ value }}
     </p>
     <p v-if="label">
-      {{ label }}
+      {{ $t(label) }}
     </p>
   </div>
 </template>

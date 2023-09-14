@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content gap-8"
+    class="flex flex-col items-center justify-between gap-8 px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
       <Title>{{ event.name }} </Title>
@@ -28,7 +28,7 @@
         :selected="button.selected"
       >
         <div
-          class="flex items-center w-full text-sm font-medium text-left space-x-2"
+          class="flex items-center w-full space-x-2 text-sm font-medium text-left"
         >
           <span class="width-1/6"
             ><Icon
@@ -47,11 +47,11 @@
         class="w-max"
         :cta="true"
         linkTo="/"
-        :label="$t('components.btn-labeled.offer-to-help')"
+        label="components.btn-labeled.offer-to-help"
         fontSize="base"
         rightIcon="bi:arrow-right"
         iconSize="1.25em"
-        :alternateText="$t('components.btn-labeled.offer-to-help-aria-label')"
+        ariaLabel="components.btn-labeled.offer-to-help-aria-label"
       />
     </div>
   </div>

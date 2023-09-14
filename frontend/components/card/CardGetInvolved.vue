@@ -7,28 +7,24 @@
         </h3>
         <Icon name="bi:pencil-square" size="1.2em" />
       </div>
-      <div class="flex pt-2 lg:absolute lg:right-0 space-x-2 lg:pt-0">
+      <div class="flex pt-2 space-x-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnLabeled
           v-if="organization && organization.workingGroups"
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn-labeled.view-all-groups')"
+          label="components.btn-labeled.view-all-groups"
           fontSize="sm"
-          :alternateText="
-            $t('components.btn-labeled.view-all-groups-aria-label')
-          "
+          ariaLabel="components.btn-labeled.view-all-groups-aria-label"
         />
         <BtnLabeled
           v-if="organization"
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn-labeled.join-organization')"
+          label="components.btn-labeled.join-organization"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
-          :alternateText="
-            $t('components.btn-labeled.join-organization-aria-label')
-          "
+          ariaLabel="components.btn-labeled.join-organization-aria-label"
         />
       </div>
     </div>
@@ -60,11 +56,11 @@
           class="w-full"
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn-labeled.offer-to-help')"
+          label="components.btn-labeled.offer-to-help"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
-          :alternateText="$t('components.btn-labeled.offer-to-help-aria-label')"
+          ariaLabel="components.btn-labeled.offer-to-help-aria-label"
         />
       </div>
     </div>

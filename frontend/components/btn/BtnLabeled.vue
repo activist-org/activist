@@ -54,7 +54,7 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
     :href="linkTo"
-    :aria-label="alternateText"
+    :aria-label="$t(ariaLabel)"
   >
     <Icon
       v-if="leftIcon"
@@ -94,7 +94,7 @@
       'text-base sm:text-lg xl:text-2xl xl:px-6 xl:py-3': fontSize == '2xl',
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
-    :aria-label="alternateText"
+    :aria-label="$t(ariaLabel)"
   >
     <div class="flex items-center">
       <Icon
@@ -131,7 +131,7 @@ export interface Props {
   rightIcon?: string;
   iconSize?: string;
   counter?: number;
-  alternateText: string;
+  ariaLabel: string;
 }
 
 withDefaults(defineProps<Props>(), {
