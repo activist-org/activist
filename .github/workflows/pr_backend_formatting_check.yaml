@@ -3,8 +3,7 @@ on:
   pull_request_target:
     branches:
       - main
-    types:
-      - opened
+    types: [opened, reopened, synchronize]
   workflow_run:
     workflows: [pr_maintainer_checklist]
     types:
