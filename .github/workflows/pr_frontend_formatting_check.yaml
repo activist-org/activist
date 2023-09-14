@@ -4,7 +4,7 @@ on:
     branches:
       - main
     types:
-      - opened
+      [opened, reopened, synchronize]
   workflow_run:
     workflows: [pr_maintainer_checklist]
     types:
