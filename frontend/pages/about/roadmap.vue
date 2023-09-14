@@ -11,43 +11,43 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
+        class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/arcticons_bike_location_light.png"
         alt="A bicycle within a balloon-shaped icon."
-        class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
+        class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/arcticons_bike_location_dark.png"
         alt="A bicycle within a balloon-shaped icon."
-        class="h-40 mb-4 md:hidden sm:h-52"
       />
       <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div class="items-center text-left space-y-4 md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
+            class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
             src="/images/content_pages/icons/arcticons_bike_location_light.png"
             alt="A bicycle within a balloon-shaped icon."
-            class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
             src="/images/content_pages/icons/arcticons_bike_location_dark.png"
             alt="A bicycle within a balloon-shaped icon."
-            class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
-          />
+            />
           <h1 class="pb-2 font-bold responsive-h1">Roadmap</h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
+              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
               name="bi:info-circle-fill"
               size="1.25em"
-              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
               {{ $t("pages.about.roadmap.subheader-1") }}
               <a
-                href="https://github.com/activist-org/activist"
                 class="items-center focus-brand link-text"
+                href="https://github.com/activist-org/activist"
                 target="_blank"
               >
                 {{ $t("pages.about.roadmap.subheader-2") }}
@@ -66,8 +66,8 @@
           <p class="pb-2 lg:pb-4">
             {{ $t("pages.about.roadmap.section-1-paragraph-2-1") }}
             <a
-              href="https://github.com/orgs/activist-org/projects/1"
               class="items-center focus-brand link-text"
+              href="https://github.com/orgs/activist-org/projects/1"
               target="_blank"
             >
               {{ $t("pages.about.roadmap.section-1-paragraph-2-2") }}
@@ -79,8 +79,8 @@
             </a>
             {{ $t("pages.about.roadmap.section-1-paragraph-2-3") }}
             <a
-              href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
+              href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
               {{ $t("pages.about.roadmap.section-1-paragraph-2-4") }}
@@ -100,18 +100,14 @@
               :label="$t('components.btn-labeled.suggest-a-feature')"
               linkTo="https://github.com/activist-org/activist/issues"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.suggest-a-feature-aria-label')
-              "
+              :alternateText="$t('components.btn-labeled.suggest-a-feature-aria-label')"
             />
             <BtnLabeled
               :cta="false"
               :label="$t('components.btn-labeled.return-home')"
               linkTo="/"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.return-home-aria-label')
-              "
+              :alternateText="$t('components.btn-labeled.return-home-aria-label')"
             />
           </div>
         </div>
@@ -119,15 +115,15 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
+            class="hidden 2xl:block h-80"
             src="/images/content_pages/icons/arcticons_bike_location_light.png"
             alt="A bicycle within a balloon-shaped icon."
-            class="hidden 2xl:block h-80"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="hidden 2xl:block h-80"
             src="/images/content_pages/icons/arcticons_bike_location_dark.png"
             alt="A bicycle within a balloon-shaped icon."
-            class="hidden 2xl:block h-80"
           />
         </div>
       </div>

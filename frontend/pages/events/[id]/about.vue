@@ -64,10 +64,14 @@
       <div
         class="pb-6 grid grid-rows-2 grid-cols-1 lg:grid-cols-3 lg:grid-rows-1 space-y-6 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
-        <CardAbout class="lg:col-span-2" aboutType="event" :event="event" />
+        <CardAbout
+          class="lg:col-span-2"
+          aboutType="event"
+          :event="event"
+        />
         <MediaMap
-          class="w-full h-full"
           v-if="event.inPersonLocation"
+          class="w-full h-full"
           :addresses="[event.inPersonLocation]"
           :type="event.type"
           :title="event.name"

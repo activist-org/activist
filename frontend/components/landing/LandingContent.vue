@@ -9,15 +9,15 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
+        class="mb-4 lg:hidden h-36 sm:h-44"
         :src="imageURL + '_light.png'"
         :alt="altText"
-        class="mb-4 lg:hidden h-36 sm:h-44"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
+        class="mb-4 lg:hidden h-36 sm:h-44"
         :src="imageURL + '_dark.png'"
         :alt="altText"
-        class="mb-4 lg:hidden h-36 sm:h-44"
       />
       <h2
         class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full xl:text-4xl sm:text-left"
@@ -79,15 +79,15 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
+        class="mb-4 lg:hidden h-36 sm:h-44"
         :src="imageURL + '_light.png'"
         :alt="altText"
-        class="mb-4 lg:hidden h-36 sm:h-44"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
+        class="mb-4 lg:hidden h-36 sm:h-44"
         :src="imageURL + '_dark.png'"
         :alt="altText"
-        class="mb-4 lg:hidden h-36 sm:h-44"
       />
       <h2
         class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full sm:text-left xl:text-4xl"

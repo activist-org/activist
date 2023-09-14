@@ -2,8 +2,8 @@
   <nav :aria-label="$t('components.page-breadcrumbs.aria-label')">
     <ul class="flex flex-row text-sm md:text-base">
       <li
-        class="font-display"
         v-for="(breadcrumb, index) in displayBreadcrumbs"
+        class="font-display"
         :key="index"
       >
         <span
@@ -12,22 +12,22 @@
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <a
-            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             v-if="Number.isInteger(Number(breadcrumb)) && event"
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             :href="makeURL(breadcrumb)"
           >
             {{ event.name }}
           </a>
           <a
-            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             v-else-if="Number.isInteger(Number(breadcrumb)) && organization"
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             :href="makeURL(breadcrumb)"
           >
             {{ organization.name }}
           </a>
           <a
-            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             v-else
+            class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             :href="makeURL(breadcrumb)"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}

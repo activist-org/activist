@@ -1,7 +1,7 @@
 <template>
   <button
-    @click="openModal"
     class="hidden p-4 cursor-pointer md:block md:float-right md:w-1/3 2xl:w-full 2xl:col-span-1 h-min focus-brand"
+    @click="openModal"
     :aria-label="$t('components.modal-image.open-modal-aria-label')"
   >
     <img
@@ -15,7 +15,11 @@
       :alt="$t(imageAltText)"
     />
   </button>
-  <Dialog :open="isOpen" @close="closeModal" class="relative z-50">
+  <Dialog
+    class="relative z-50"
+    :open="isOpen"
+    @close="closeModal"
+  >
     <div
       class="fixed inset-0 bg-light-popup dark:bg-dark-popup"
       aria-hidden="true"
@@ -29,7 +33,7 @@
           @click="closeModal"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
-          <Icon name="bi:x-circle-fill" class="w-10 h-10" />
+          <Icon class="w-10 h-10" name="bi:x-circle-fill" />
         </button>
         <button
           class="flex flex-col items-center justify-center w-4/5 focus-brand"
@@ -38,15 +42,15 @@
         >
           <img
             v-if="$colorMode.value == 'light'"
+            class="object-contain p-12"
             :src="imageURL + '_light.png'"
             :alt="$t(imageAltText)"
-            class="object-contain p-12"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="object-contain p-12"
             :src="imageURL + '_dark.png'"
             :alt="$t(imageAltText)"
-            class="object-contain p-12"
           />
         </button>
       </DialogPanel>

@@ -26,7 +26,7 @@
             class="right-3"
             :class="{
               'rotate-180 transform': open,
-              absolute: location === 'sideMenu',
+              'absolute': location === 'sideMenu',
             }"
             name="bi:chevron-down"
           />

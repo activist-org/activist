@@ -1,9 +1,9 @@
 <template>
   <SidebarRightHamburger
+    class="flex items-center h-full"
+    ref="ignoreElRef"
     :menuOpen="menuOpen"
     @toggle="toggleMenuState"
-    ref="ignoreElRef"
-    class="flex items-center h-full"
   />
   <div
     class="fixed top-0 right-0 z-40 h-screen pt-12 overflow-y-auto border-l bg-light-distinct transition-[max-width] overflow-x-hidden duration-200 border-light-section-div dark:bg-dark-distinct dark:border-dark-section-div shadow-sm shadow-zinc-700"
