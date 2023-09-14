@@ -42,7 +42,7 @@ class Event(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -54,7 +54,7 @@ class Format(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateField(null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -67,7 +67,7 @@ class Role(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateField(null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -82,15 +82,15 @@ class EventFormat(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     format_id = models.ForeignKey("Format", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class EventAttendeeStatus(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     status_name = models.CharField(max_length=255)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.status_name
 
 
@@ -98,29 +98,29 @@ class EventResource(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class EventRole(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class EventTask(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class EventTopic(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
