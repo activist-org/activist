@@ -3,8 +3,7 @@ on:
   pull_request_target:
     branches:
       - main
-    types:
-      - opened
+    types: [opened, reopened, synchronize]
   workflow_run:
     workflows: [pr_maintainer_checklist]
     types:
@@ -27,4 +26,4 @@ jobs:
       - name: Run Prettier
         working-directory: ./frontend
         run: |
-          npx prettier . --check
+          npx prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore

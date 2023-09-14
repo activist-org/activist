@@ -4,6 +4,11 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 
+<<<<<<< HEAD
+=======
+app_name = 'content'
+
+>>>>>>> add_viewsets
 router = DefaultRouter()
 router.register(r'resources', views.ResourceViewSet)
 router.register(r'tasks', views.TaskViewSet)

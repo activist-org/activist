@@ -2,6 +2,9 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 
+
+app_name = 'entities'
+
 router = DefaultRouter()
 router.register(r'organizations', views.OrganizationViewSet, basename='organization')
 router.register(r'organization_application_statuses', views.OrganizationApplicationStatusViewSet)
@@ -18,5 +21,6 @@ router.register(r'group_resources', views.GroupResourceViewSet)
 router.register(r'group_topics', views.GroupTopicViewSet)
 
 urlpatterns = [
-    path('v1/', include(router.urls)),
+    path("v1/organizations/", views.OrganizationView.as_view()),
+    path("v1/organizations/<int:organization_id>", views.OrganizationUpdate.as_view()),
 ]
