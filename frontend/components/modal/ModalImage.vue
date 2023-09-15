@@ -15,7 +15,7 @@
       :alt="$t(imageAltText)"
     />
   </button>
-  <Dialog :open="isOpen" @close="closeModal" class="relative z-50">
+  <Dialog @close="closeModal" class="relative z-50" :open="isOpen">
     <div
       class="fixed inset-0 bg-light-popup dark:bg-dark-popup"
       aria-hidden="true"
@@ -25,11 +25,11 @@
     >
       <DialogPanel class="flex flex-col items-center">
         <button
-          class="absolute right-0 p-1 mt-8 mr-24 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
           @click="closeModal"
+          class="absolute right-0 p-1 mt-8 mr-24 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
-          <Icon name="bi:x-circle-fill" class="w-10 h-10" />
+          <Icon class="w-10 h-10" name="bi:x-circle-fill" />
         </button>
         <button
           class="flex flex-col items-center justify-center w-4/5 focus-brand"
@@ -38,15 +38,15 @@
         >
           <img
             v-if="$colorMode.value == 'light'"
+            class="object-contain p-12"
             :src="imageURL + '_light.png'"
             :alt="$t(imageAltText)"
-            class="object-contain p-12"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="object-contain p-12"
             :src="imageURL + '_dark.png'"
             :alt="$t(imageAltText)"
-            class="object-contain p-12"
           />
         </button>
       </DialogPanel>

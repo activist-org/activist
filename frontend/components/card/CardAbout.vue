@@ -14,7 +14,7 @@
           <Icon name="bi:pencil-square" size="1.2em" />
         </div>
         <div v-if="event" class="flex-col space-y-3">
-          <TopicMarker :topic="event.topic" class="" />
+          <TopicMarker :topic="event.topic" />
           <div class="flex items-center gap-3">
             <div
               class="flex items-center justify-center w-6 h-6 rounded-md fill-light-text dark:fill-dark-text"
@@ -44,7 +44,7 @@
           </div>
         </div>
         <div v-if="organization" class="flex-col space-y-3">
-          <TopicMarker :topic="organization.topic" class="" />
+          <TopicMarker :topic="organization.topic" />
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-2">
               <Icon name="bx:bxs-map" size="1.2em" />

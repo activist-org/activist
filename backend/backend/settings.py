@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "entities",
     "content",
     "events",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,14 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 SECRET_KEY = get_random_secret_key()
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "activist.org API",
+    "DESCRIPTION": "Open-source, nonprofit activism platform",
+    "VERSION": "0.1.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}

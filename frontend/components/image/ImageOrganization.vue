@@ -8,7 +8,7 @@
       v-else
       class="flex items-center justify-center w-full h-full border rounded-r-md bg-light-placeholder dark:bg-dark-placeholder text-light-distinct dark:text-dark-distinct"
     >
-      <Icon name="bi:people" class="mb-1" />
+      <Icon class="mb-1" name="bi:people" />
     </div>
   </div>
 </template>

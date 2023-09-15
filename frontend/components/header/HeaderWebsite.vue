@@ -16,16 +16,16 @@
         >
           <div>
             <LogoActivist
-              :is-mobile="true"
               class="flex items-center justify-center h-full z-1 overflow-clip"
+              :is-mobile="true"
             />
           </div>
         </div>
       </div>
       <SidebarRight>
         <div class="flex-col space-y-2">
-          <SelectorTheme location="sideMenu" class="w-full" />
-          <SelectorLanguage location="sideMenu" class="w-full" />
+          <SelectorTheme class="w-full" location="sideMenu" />
+          <SelectorLanguage class="w-full" location="sideMenu" />
         </div>
       </SidebarRight>
     </div>
@@ -45,24 +45,20 @@
             <SelectorTheme />
             <SelectorLanguage />
             <BtnLabeled
+              class="hidden lg:block"
               :cta="true"
               label="components.btn-labeled.get-in-touch"
               linkTo="/help/contact"
               fontSize="sm"
-              class="hidden lg:block"
-              :alternateText="
-                $t('components.btn-labeled.get-in-touch-aria-label')
-              "
+              ariaLabel="components.btn-labeled.get-in-touch-aria-label"
             />
             <BtnLabeled
+              class="hidden md:block lg:hidden"
               :cta="true"
               label="components.btn-labeled.get-in-touch"
               linkTo="/help/contact"
               fontSize="xs"
-              class="hidden md:block lg:hidden"
-              :alternateText="
-                $t('components.btn-labeled.get-in-touch-aria-label')
-              "
+              ariaLabel="components.btn-labeled.get-in-touch-aria-label"
             />
           </div>
         </div>

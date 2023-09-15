@@ -3,9 +3,9 @@
     <div
       class="relative z-0 flex items-center w-full text-sm font-medium text-left space-x-2"
     >
-      <span class="width-1/6"
-        ><Icon v-if="iconURL" :name="iconURL" class="flex-shrink-0 w-5 h-5"
-      /></span>
+      <span class="width-1/6">
+        <Icon v-if="iconURL" class="flex-shrink-0 w-5 h-5" :name="iconURL" />
+      </span>
       <Transition>
         <p
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"

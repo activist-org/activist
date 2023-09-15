@@ -11,45 +11,45 @@
       <!-- Note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
+        class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_question_square_light.png"
         alt="A question mark within a square."
-        class="h-40 mb-4 md:hidden sm:h-52"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
+        class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_question_square_dark.png"
         alt="A question mark within a square."
-        class="h-40 mb-4 md:hidden sm:h-52"
       />
       <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div class="items-center text-left space-y-4 md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
+            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_question_square_light.png"
             alt="A question mark within a square."
-            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_question_square_dark.png"
             alt="A question mark within a square."
-            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
           />
           <h1 class="pb-2 font-bold responsive-h1">
             {{ $t("pages.help.faq.header") }}
           </h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
+              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
               name="bi:info-circle-fill"
               size="1.25em"
-              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
               {{ $t("pages.help.faq.subheader-1") }}
               <a
-                href="https://matrix.to/#/#activist_community:matrix.org"
                 class="items-center focus-brand link-text"
+                href="https://matrix.to/#/#activist_community:matrix.org"
                 target="_blank"
               >
                 {{ $t("pages.help.faq.subheader-2") }}
@@ -86,9 +86,10 @@
           <p class="sm:text-lg">
             {{ $t("pages.help.faq.section-4-paragraph-2-1") }}
             <a
-              href="https://matrix.to/#/#activist_community:matrix.org"
               class="focus-brand link-text"
-              >{{ $t("pages.help.faq.section-4-paragraph-2-2") }}
+              href="https://matrix.to/#/#activist_community:matrix.org"
+            >
+              {{ $t("pages.help.faq.section-4-paragraph-2-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -102,15 +103,15 @@
           <!-- Note: image right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
+            class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_question_square_light.png"
             alt="A question mark within a square."
-            class="hidden 2xl:block h-72"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
+            class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_question_square_dark.png"
             alt="A question mark within a square."
-            class="hidden 2xl:block h-72"
           />
         </div>
       </div>

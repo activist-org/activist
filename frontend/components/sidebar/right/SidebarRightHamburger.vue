@@ -1,8 +1,8 @@
 <template>
   <div>
     <button
-      class="relative z-50 group focus-brand outline-offset-4"
       @click="$emit('toggle')"
+      class="relative z-50 group focus-brand outline-offset-4"
       :aria-label="
         $t('components.sidebar-right-hamburger.sidebar-collapse-aria-label')
       "
