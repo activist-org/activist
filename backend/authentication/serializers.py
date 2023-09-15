@@ -19,6 +19,16 @@ class SupportEntityTypeSerializer(serializers.ModelSerializer):
     def validate(self, data):
         validate_empty(data["name"], "name")
 
+        pattern = r"^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$"
+        
+        if not re.match(pattern, data["password"]):
+            raise serializers.ValidationError(
+                _(
+                    "Password must be at least 8 characters long and contain at least one special character."
+                ),
+                code="invalid_password",
+            )
+
         if len(data["name"]) < 3:
             raise serializers.ValidationError(
                 _("Name must be at least 3 characters long."),
