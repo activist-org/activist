@@ -42,9 +42,10 @@ def validate_empty(value, field_name):
         )
 
 
-def validate_object_existence(model, object_id, error_message):
+def validate_object_existence(model, object_id):
     if model.objects.filter(id=object_id).exists():
         raise serializers.ValidationError(
-            _("{}").format(error_message),
+            _("There is no %(model_name)s object with id %(object_id)s."),
             code = "inexistent_object",
+            params={"model_name": model.__name__, "object_id": object_id},
         )

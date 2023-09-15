@@ -34,7 +34,7 @@ class ResourceSerializer(serializers.ModelSerializer):
         if not re.match(r"https?://\S+", data["url"]):
             raise serializers.ValidationError(
                 _("Url must be a valid url - https://www.example.com."),
-                code = "invalid_url"
+                code="invalid_url",
             )
 
         validate_creation_and_deletion_dates(data)
@@ -87,10 +87,8 @@ class ResourceTopicSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(
-            Resource, data["resource_id"], "Resource_id does not exist."
-        )
-        validate_object_existence(Topic, data["topic_id"], "Topic_id does not exist.")
+        validate_object_existence(Resource, data["resource_id"])
+        validate_object_existence(Topic, data["topic_id"])
 
         return data
 
@@ -101,7 +99,7 @@ class TopicFormatSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(Topic, data["topic_id"], "Topic_id does not exist.")
-        validate_object_existence(Format, data["format_id"], "Format_id does not exist.")
+        validate_object_existence(Topic, data["topic_id"])
+        validate_object_existence(Format, data["format_id"])
 
         return data

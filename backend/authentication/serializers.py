@@ -1,5 +1,6 @@
 from content.models import Resource, Task, Topic
 from rest_framework import serializers
+import re
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_empty,
@@ -62,10 +63,8 @@ class UserResourceSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(User, data["user_id"], "User_id does not exist.")
-        validate_object_existence(
-            Resource, data["resource_id"], "Resource_id does not exist."
-        )
+        validate_object_existence(User, data["user_id"])
+        validate_object_existence(Resource, data["resource_id"])
 
         return data
 
@@ -76,8 +75,8 @@ class UserTaskSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(User, data["user_id"], "User_id does not exist.")
-        validate_object_existence(Task, data["task_id"], "Task_id does not exist.")
+        validate_object_existence(User, data["user_id"])
+        validate_object_existence(Task, data["task_id"])
 
         return data
 
@@ -88,7 +87,7 @@ class UserTopicSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(User, data["user_id"], "User_id does not exist.")
-        validate_object_existence(Topic, data["topic_id"], "Topic_id does not exist.")
+        validate_object_existence(User, data["user_id"])
+        validate_object_existence(Topic, data["topic_id"])
 
         return data

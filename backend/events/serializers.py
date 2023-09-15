@@ -52,7 +52,9 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
         if isEmpty():
             raise serializers.ValidationError(
-                _("Only the offline_location_lat and offline_location_long fields can be empty for Events."),
+                _(
+                    "Only the offline_location_lat and offline_location_long fields can be empty for Events."
+                ),
                 code="invalid_value",
             )
 
@@ -98,9 +100,9 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
         validate_empty(data["user_id"], "user_id")
         validate_empty(data["role_id"], "role_id")
 
-        validate_object_existence(Event, data["event_id"], "The field event_id does not exist.")
-        validate_object_existence(User, data["user_id"], "The field user_id does not exist.")
-        validate_object_existence(Role, data["role_id"], "The field role_id does not exist.")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(User, data["user_id"])
+        validate_object_existence(Role, data["role_id"])
 
         return data
 
@@ -114,8 +116,8 @@ class EventFormatSerializer(serializers.ModelSerializer):
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["format_id"], "format_id")
 
-        validate_object_existence(Event, data["event_id"], "The field event_id does not exist.")
-        validate_object_existence(Format, data["format_id"], "The field format_id does not exist.")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Format, data["format_id"])
 
         return data
 
@@ -135,10 +137,8 @@ class EventResourceSerializer(serializers.ModelSerializer):
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["resource_id"], "resource_id")
 
-        validate_object_existence(Event, data["event_id"], "The field event_id does not exist.")
-        validate_object_existence(
-            Resource, data["resource_id"], "The field resource_id does not exist."
-        )
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Resource, data["resource_id"])
 
         return data
 
@@ -149,8 +149,8 @@ class EventRoleSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(Event, data["event_id"], "The field event_id does not exist.")
-        validate_object_existence(Role, data["role_id"], "The field role_id does not exist.")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Role, data["role_id"])
 
         return data
 
@@ -161,8 +161,8 @@ class EventTaskSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(Event, data["event_id"], "The field event_id does not exist.")
-        validate_object_existence(Task, data["task_id"], "The field task_id does not exist.")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Task, data["task_id"])
 
         return data
 
@@ -173,7 +173,7 @@ class EventTopicSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(Event, data["event_id"], "The field event_id does not exist.")
-        validate_object_existence(Topic, data["topic_id"], "The field topic_id does not exist.")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Topic, data["topic_id"])
 
         return data
