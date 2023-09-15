@@ -206,7 +206,8 @@ const closeOtherMenus = (id: number) => {
     .filter((d, i) => i !== id)
     .forEach((disclosureButton) => disclosureButton.close());
 
-  // Focus on the first item in disclosurePanels when opening, on the disclosureButton when closing
+  // Focus on the first item in disclosurePanels when opening.
+  // Focus on the disclosureButton when closing.
   if (disclosurePanels.value[id]?.childNodes) {
     disclosurePanels.value[id]?.childNodes[1].focus();
   } else {

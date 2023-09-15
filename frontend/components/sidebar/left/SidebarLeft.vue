@@ -40,7 +40,7 @@ if (route.path.includes("organizations")) {
   pageTypeToDisplay = "misc"; // TODO: assign this based on other options
 }
 
-// TODO use real name of organization / event when available from backend.
+// TODO: Use real name of organization / event when available from backend.
 const placeholderName = route.path.split("/").at(-2)?.replaceAll("-", " ");
 const placeholderLogo = "/images/tech-from-below.svg";
 </script>

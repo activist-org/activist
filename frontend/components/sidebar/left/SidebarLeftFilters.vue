@@ -107,6 +107,6 @@ watch(selectedValues.value, (newVal) => {
   console.log("selectedValues changed");
   console.log(newVal);
 
-  // TODO filters items based on selected filters
+  // TODO: Filters items based on selected filters.
 });
 </script>
