@@ -9,8 +9,10 @@
       <div
         v-if="pageType === 'organization'"
         :class="{
-          'w-32 h-32': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'w-10 h-10': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+          'w-32 h-32':
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          'w-10 h-10':
+            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
         :alt="name + ' logo'"
       >
@@ -19,8 +21,10 @@
       <div
         v-else="pageType === 'event'"
         :class="{
-          'w-32 h-32': sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'w-10 h-10': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+          'w-32 h-32':
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          'w-10 h-10':
+            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
         :alt="name + ' logo'"
       >
@@ -51,10 +55,7 @@
             :active="button.active"
           />
         </li>
-        <li
-          v-if="pageType === 'event'"
-          v-for="button in eventButtons"
-        >
+        <li v-if="pageType === 'event'" v-for="button in eventButtons">
           <SidebarLeftSelector
             :label="button.label"
             :routeURL="button.routeURL"

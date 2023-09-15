@@ -265,7 +265,7 @@ const infoButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.legal",
     routeURL: "/legal",
-    iconURL: "octicon:law",
+    iconURL: "IconLegal",
     selected: false,
     active: true,
   },
