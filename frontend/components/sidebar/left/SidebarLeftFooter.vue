@@ -56,36 +56,12 @@
               :ref="(el) => (disclosurePanels[0] = el)"
             >
               <SidebarLeftSelector
-                label="components.sidebar-left-selector.label.new-event"
-                routeURL="/"
-                iconURL="bi:calendar-check"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="
-                  components.sidebar-left-selector.label.new-organization
-                "
-                routeURL="/"
-                iconURL="IconOrganization"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="components.sidebar-left-selector.label.new-group"
-                routeURL="/"
-                iconURL="IconGroup"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="
-                  components.sidebar-left-selector.label.new-resource
-                "
-                routeURL="/"
-                iconURL="IconResource"
-                :selected="false"
-                :active="true"
+                v-for="button in createButtons"
+                :label="button.label"
+                :routeURL="button.routeURL"
+                :iconURL="button.iconURL"
+                :selected="button.selected"
+                :active="button.active"
               />
             </div>
           </DisclosurePanel>
@@ -134,27 +110,12 @@
               :ref="(el) => (disclosurePanels[1] = el)"
             >
               <SidebarLeftSelector
-                label="components.sidebar-left-selector.label.help"
-                routeURL="/help"
-                iconURL="bi:question-circle"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="
-                  components.sidebar-left-selector.label.documentation
-                "
-                routeURL="/docs"
-                iconURL="bi:layout-text-sidebar-reverse"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="components.sidebar-left-selector.label.legal"
-                routeURL="/legal"
-                iconURL="octicon:law"
-                :selected="false"
-                :active="true"
+                v-for="button in infoButtons"
+                :label="button.label"
+                :routeURL="button.routeURL"
+                :iconURL="button.iconURL"
+                :selected="button.selected"
+                :active="button.active"
               />
             </div>
           </DisclosurePanel>
@@ -206,52 +167,12 @@
               :ref="(el) => (disclosurePanels[2] = el)"
             >
               <SidebarLeftSelector
-                label="
-                  components.sidebar-left-selector.label.your-profile
-                "
-                routeURL="/"
-                iconURL="bi:person-circle"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="
-                  components.sidebar-left-selector.label.your-events
-                "
-                routeURL="/"
-                iconURL="bi:calendar-check"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="components.sidebar-left-selector.label.your-orgs"
-                routeURL="/"
-                iconURL="IconOrganization"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="
-                  components.sidebar-left-selector.label.notifications
-                "
-                routeURL="/"
-                iconURL="bi:bell"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="components.sidebar-left-selector.label.settings"
-                routeURL="/"
-                iconURL="bi:gear"
-                :selected="false"
-                :active="true"
-              />
-              <SidebarLeftSelector
-                label="components.sidebar-left-selector.label.sign-out"
-                routeURL="/"
-                iconURL="bi:box-arrow-left"
-                :selected="false"
-                :active="true"
+                v-for="button in userButtons"
+                :label="button.label"
+                :routeURL="button.routeURL"
+                :iconURL="button.iconURL"
+                :selected="button.selected"
+                :active="button.active"
               />
             </div>
           </DisclosurePanel>
@@ -267,6 +188,7 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import type { Ref } from "vue";
+import { MenuSelector } from "../../../types/menu-selector";
 
 const route = useRoute();
 const onHomePage = route.path.includes("home");
@@ -286,12 +208,113 @@ const closeOtherMenus = (id: number) => {
 
   // Focus on the first item in disclosurePanels when opening, on the disclosureButton when closing
   if (disclosurePanels.value[id]?.childNodes) {
-    disclosurePanels.value[id]?.childNodes[0].focus();
+    disclosurePanels.value[id]?.childNodes[1].focus();
   } else {
     disclosureButtons.value[id]?.el?.$el.focus();
   }
 };
+
 const sidebar = useSidebar();
+
+const createButtons: MenuSelector[] = [
+  {
+    label: "components.sidebar-left-selector.label.new-event",
+    routeURL: "/",
+    iconURL: "bi:calendar-check",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.new-organization",
+    routeURL: "/",
+    iconURL: "IconOrganization",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.new-group",
+    routeURL: "/",
+    iconURL: "IconGroup",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.new-resource",
+    routeURL: "/",
+    iconURL: "IconResource",
+    selected: false,
+    active: true,
+  },
+];
+
+const infoButtons: MenuSelector[] = [
+  {
+    label: "components.sidebar-left-selector.label.help",
+    routeURL: "/help",
+    iconURL: "bi:question-circle",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.documentation",
+    routeURL: "/docs",
+    iconURL: "bi:layout-text-sidebar-reverse",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.legal",
+    routeURL: "/legal",
+    iconURL: "octicon:law",
+    selected: false,
+    active: true,
+  },
+];
+
+const userButtons: MenuSelector[] = [
+  {
+    label: "components.sidebar-left-selector.label.your-profile",
+    routeURL: "/",
+    iconURL: "bi:person-circle",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.your-events",
+    routeURL: "/",
+    iconURL: "bi:calendar-check",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.your-orgs",
+    routeURL: "/",
+    iconURL: "IconOrganization",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.notifications",
+    routeURL: "/",
+    iconURL: "bi:bell",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.settings",
+    routeURL: "/",
+    iconURL: "bi:gear",
+    selected: false,
+    active: true,
+  },
+  {
+    label: "components.sidebar-left-selector.label.sign-out",
+    routeURL: "/",
+    iconURL: "bi:box-arrow-left",
+    selected: false,
+    active: true,
+  },
+];
 </script>
 
 <style>
