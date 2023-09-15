@@ -5,10 +5,10 @@ from rest_framework import serializers
 from django.utils.translation import gettext as _
 
 from utils.utils import (
-    validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
-    validate_empty,
+    validate_creation_and_deletion_dates,
     validate_object_existence,
+    validate_empty,
 )
 
 from .models import (
@@ -59,6 +59,8 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             )
 
         validate_creation_and_deletion_dates(data)
+
+        validate_object_existence(User, data["created_by"])
 
         return data
 

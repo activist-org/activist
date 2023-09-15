@@ -3,11 +3,11 @@ import re
 from events.models import Format
 from rest_framework import serializers
 from utils.utils import (
-    validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
-    validate_empty,
-    validate_flags_number,
+    validate_creation_and_deletion_dates,
     validate_object_existence,
+    validate_flags_number,
+    validate_empty
 )
 from django.utils.translation import gettext as _
 

@@ -3,8 +3,8 @@ from rest_framework import serializers
 import re
 from utils.utils import (
     validate_creation_and_deletion_dates,
-    validate_empty,
     validate_object_existence,
+    validate_empty,
 )
 from django.utils.translation import gettext as _
 
@@ -18,16 +18,6 @@ class SupportEntityTypeSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         validate_empty(data["name"], "name")
-
-        pattern = r"^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$"
-        
-        if not re.match(pattern, data["password"]):
-            raise serializers.ValidationError(
-                _(
-                    "Password must be at least 8 characters long and contain at least one special character."
-                ),
-                code="invalid_password",
-            )
 
         if len(data["name"]) < 3:
             raise serializers.ValidationError(
@@ -61,6 +51,16 @@ class UserSerializer(serializers.ModelSerializer[User]):
         validate_empty(data["password"], "password")
         validate_empty(data["name"], "name")
         validate_empty(data["user_name"], "user_name")
+
+        pattern = r"^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$"
+
+        if not re.match(pattern, data["password"]):
+            raise serializers.ValidationError(
+                _(
+                    "Password must be at least 8 characters long and contain at least one special character."
+                ),
+                code="invalid_password",
+            )
 
         validate_creation_and_deletion_dates(data)
 

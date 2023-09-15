@@ -7,9 +7,9 @@ from django.utils.translation import gettext as _
 
 from utils.utils import (
     validate_creation_and_deletion_dates,
-    validate_empty,
-    validate_flags_number,
     validate_object_existence,
+    validate_flags_number,
+    validate_empty,
 )
 
 from .models import (
@@ -40,6 +40,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         validate_empty(data["social_accounts"], "social_accounts")
         validate_flags_number(data)
         validate_creation_and_deletion_dates(data)
+        validate_object_existence(User, data["created_by"])
 
         return data
 
@@ -58,6 +59,7 @@ class OrganizationApplicationSerializer(serializers.ModelSerializer):
     def validate(self, data):
         validate_empty(data["status"], "status")
         validate_creation_and_deletion_dates(data)
+        
         return data
 
 
@@ -125,6 +127,7 @@ class GroupSerializer(serializers.ModelSerializer):
         validate_empty(data["created_by"], "created_by")
         validate_flags_number(data)
         validate_creation_and_deletion_dates(data)
+        validate_object_existence(User, data["created_by"])
 
         return data
 
