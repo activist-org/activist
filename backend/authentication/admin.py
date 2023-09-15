@@ -1,10 +1,11 @@
 from django.contrib import admin
 
-from .models import User
+from .models import Support, SupportEntityType, User, UserResource, UserTask, UserTopic
 
+admin.site.register(User)
+admin.site.register(UserResource)
+admin.site.register(UserTask)
+admin.site.register(UserTopic)
 
-class UserAdmin(admin.ModelAdmin[User]):
-    list_display = ("username", "first_name", "last_name", "email", "creation_date")
-
-
-admin.site.register(User, UserAdmin)
+admin.site.register(SupportEntityType)
+admin.site.register(Support)
