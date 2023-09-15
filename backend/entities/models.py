@@ -38,6 +38,7 @@ class Organization(models.Model):
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
     )
+    high_risk = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
