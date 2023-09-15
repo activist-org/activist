@@ -33,7 +33,7 @@ class ResourceSerializer(serializers.ModelSerializer):
 
         if not re.match(r"https?://\S+", data["url"]):
             raise serializers.ValidationError(
-                _("Url must be a valid url - https://www.example.com."),
+                _("The field url must have a valid format - https://www.example.com."),
                 code="invalid_url",
             )
 

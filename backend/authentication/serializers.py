@@ -21,7 +21,7 @@ class SupportEntityTypeSerializer(serializers.ModelSerializer):
 
         if len(data["name"]) < 3:
             raise serializers.ValidationError(
-                _("Name must be at least 3 characters long."),
+                _("The field name must be at least 3 characters long."),
                 code="invalid_name",
             )
         return data
@@ -35,7 +35,7 @@ class SupportSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data["supporter_entity"] == data["supported_entity"]:
             raise serializers.ValidationError(
-                _("Supporter and supported entities cannot be the same."),
+                _("The fields supporter_entity and supported_entity cannot have the same value."),
                 code="invalid_entities_relation",
             )
 
@@ -57,7 +57,7 @@ class UserSerializer(serializers.ModelSerializer[User]):
         if not re.match(pattern, data["password"]):
             raise serializers.ValidationError(
                 _(
-                    "Password must be at least 8 characters long and contain at least one special character."
+                    "The field password must be at least 8 characters long and contain at least one special character."
                 ),
                 code="invalid_password",
             )

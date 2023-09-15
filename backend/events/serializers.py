@@ -53,7 +53,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         if isEmpty():
             raise serializers.ValidationError(
                 _(
-                    "Only the offline_location_lat and offline_location_long fields can be empty for Events."
+                    "Only the fields offline_location_lat and offline_location_long fields can be empty for Events."
                 ),
                 code="invalid_value",
             )
