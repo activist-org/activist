@@ -8,7 +8,7 @@
   >
     <template v-for="(filter, key) in filters">
       <div class="flex items-center">
-        <h3 class="mb-3 font-bold responsive-h4" v-if="filter.title">
+        <h3 v-if="filter.title" class="mb-3 font-bold responsive-h4">
           {{ filter.title }}
         </h3>
         <div v-if="filter.slide">
@@ -24,6 +24,7 @@
       <div>
         <FormRadioGroup
           v-if="filter.type === 'radio'"
+          class="mb-6"
           :key="key"
           :options="filter.items"
           :name="filter.name"
@@ -31,7 +32,6 @@
           :style="filter.style"
           :allowCustomValue="filter.allowCustomValue"
           v-model="selectedValues[filter.name]"
-          class="mb-6"
         />
         <keep-alive>
           <FormCheckboxGroup
@@ -39,22 +39,22 @@
               (filter.type === 'checkbox' && !filter.slideUp) ||
               filter.slideUp === false
             "
+            class="mb-1"
             :key="key"
             :options="filter.items"
             :name="filter.name"
             :title="filter.title"
             :style="filter.style"
             v-model="selectedValues[filter.name]"
-            class="mb-1"
           />
         </keep-alive>
         <FormSearch
           v-if="filter.type === 'search'"
+          class="mb-6"
           :key="key"
           :name="filter.name"
           v-model="selectedValues[filter.name]"
           :placeholder="filter.placeholder"
-          class="mb-6"
         />
       </div>
     </template>
@@ -107,6 +107,6 @@ watch(selectedValues.value, (newVal) => {
   console.log("selectedValues changed");
   console.log(newVal);
 
-  // TODO filters items based on selected filters
+  // TODO: Filters items based on selected filters.
 });
 </script>

@@ -19,7 +19,7 @@
       </div>
     </div>
     <div
-      class="flex-col pt-3 md:pl-4 lg:pl-6 space-y-3 md:space-y-4 md:grow md:pt-0"
+      class="flex-col pt-3 space-y-3 md:pl-4 lg:pl-6 md:space-y-4 md:grow md:pt-0"
     >
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
@@ -30,15 +30,15 @@
             <Icon name="ph:dots-three-circle-vertical" size="1.75em" />
           </div>
         </div>
-        <div class="items-center hidden md:flex space-x-3 lg:space-x-5">
+        <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation :location="organization.location" />
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
         <TopicMarker :topic="organization.topic" />
       </div>
-      <div class="flex flex-col md:flex-row space-y-3 md:space-y-0">
-        <div class="flex items-center justify-center md:hidden space-x-4">
+      <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
+        <div class="flex items-center justify-center space-x-4 md:hidden">
           <MetaTagLocation :location="organization.location" />
         </div>
         <div
@@ -46,11 +46,11 @@
         >
           <MetaTagMembers
             :members="organization.members"
-            :label="$t('components.meta-tag-members.label')"
+            label="components.meta-tag-members.label"
           />
           <MetaTagSupporters
             :supporters="organization.supporters"
-            :label="$t('components.meta-tag-supporters.label')"
+            label="components.meta-tag-supporters.label"
           />
         </div>
       </div>

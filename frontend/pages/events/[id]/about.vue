@@ -11,22 +11,22 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn-labeled.offer-to-help')"
+          label="components.btn-labeled.offer-to-help"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
-          :alternateText="$t('components.btn-labeled.offer-to-help-aria-label')"
+          ariaLabel="components.btn-labeled.offer-to-help-aria-label"
         />
         <BtnLabeled
           class="hidden md:block w-max"
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn-labeled.support')"
+          label="components.btn-labeled.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.25em"
           :counter="event.supporters"
-          :alternateText="$t('components.btn-labeled.support-event-aria-label')"
+          ariaLabel="components.btn-labeled.support-event-aria-label"
         />
         <BtnLabeled
           class="md:hidden w-fit"
@@ -36,38 +36,38 @@
           leftIcon="IconSupport"
           iconSize="1.25em"
           :counter="event.supporters"
-          :alternateText="$t('components.btn-labeled.support-event-aria-label')"
+          ariaLabel="components.btn-labeled.support-event-aria-label"
         />
         <BtnLabeled
           class="hidden md:block w-max"
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn-labeled.share-event')"
+          label="components.btn-labeled.share-event"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          :alternateText="$t('components.btn-labeled.share-event-aria-label')"
+          ariaLabel="components.btn-labeled.share-event-aria-label"
         />
         <BtnLabeled
           class="md:hidden w-fit"
           :cta="true"
           linkTo="/"
-          :label="$t('components.btn-labeled.share')"
+          label="components.btn-labeled.share"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          :alternateText="$t('components.btn-labeled.share-event-aria-label')"
+          ariaLabel="components.btn-labeled.share-event-aria-label"
         />
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 lg:pt-4">
       <div
-        class="pb-6 grid grid-rows-2 grid-cols-1 lg:grid-cols-3 lg:grid-rows-1 space-y-6 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="grid grid-cols-1 grid-rows-2 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
         <CardAbout class="lg:col-span-2" aboutType="event" :event="event" />
         <MediaMap
-          class="w-full h-full"
           v-if="event.inPersonLocation"
+          class="w-full h-full"
           :addresses="[event.inPersonLocation]"
           :type="event.type"
           :title="event.name"

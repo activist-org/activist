@@ -3,12 +3,14 @@
     class="flex flex-col px-4 pt-2 pb-3 shadow-md space-y-2 card-style bg-light-header dark:bg-dark-header w-fit shadow-zinc-700"
   >
     <div class="relative flex">
-      <p class="pl-1 responsive-h5">{{ title }}</p>
+      <p class="pl-1 responsive-h5">
+        {{ title }}
+      </p>
       <div
-        class="absolute right-0 mr-1 text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text"
         @click="emit('on-close-clicked')"
+        class="absolute right-0 mr-1 text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text"
       >
-        <Icon name="bi:x-circle-fill" class="w-6 h-6" />
+        <Icon class="w-6 h-6" name="bi:x-circle-fill" />
       </div>
     </div>
     <input
@@ -19,8 +21,8 @@
       v-model="inputValue"
     />
     <textarea
-      class="p-1 bg-transparent border rounded-sm resize-none border-light-text dark:border-dark-text focus-brand min-w-[75%] min-h-[50%]"
       v-if="descriptionPrompt"
+      class="p-1 bg-transparent border rounded-sm resize-none border-light-text dark:border-dark-text focus-brand min-w-[75%] min-h-[50%]"
       name="message"
       rows="3"
       cols="10"
@@ -33,7 +35,7 @@
         :label="ctaBtnLabel"
         fontSize="base"
         leftIcon="bi:plus-lg"
-        :alternateText="ctaBtnAlternateText"
+        :ariaLabel="ctaBtnAriaLabel"
       />
     </div>
   </div>
@@ -45,7 +47,7 @@ defineProps<{
   fieldNamePrompt: string;
   descriptionPrompt?: string;
   ctaBtnLabel: string;
-  ctaBtnAlternateText: string;
+  ctaBtnAriaLabel: string;
 }>();
 
 const inputValue = ref<HTMLInputElement | null>(null);

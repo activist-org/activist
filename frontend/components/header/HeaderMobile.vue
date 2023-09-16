@@ -11,11 +11,11 @@
     <nav class="h-full">
       <div class="flex justify-between h-full px-4 gap-2">
         <SearchBar
-          location="header"
-          :expanded="isSearchExpanded"
           @on-search-toggle="toggleSearchExpanded"
           class="my-1.5"
           :class="{ 'w-full': isSearchExpanded }"
+          location="header"
+          :expanded="isSearchExpanded"
         />
         <IconActivist
           v-if="!isSearchExpanded"

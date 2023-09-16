@@ -11,15 +11,15 @@
       <!-- Note: image on top of content for mobile. -->
       <img
         v-if="$colorMode.value == 'light'"
+        class="w-full md:hidden h-1/6"
         src="/images/content_pages/mockups/grow_organization_light.png"
         :alt="$t('pages.docs.grow-organization.modal-image-alt-text')"
-        class="w-full md:hidden h-1/6"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
+        class="w-full md:hidden h-1/6"
         src="/images/content_pages/mockups/grow_organization_dark.png"
         :alt="$t('pages.docs.grow-organization.modal-image-alt-text')"
-        class="w-full md:hidden h-1/6"
       />
       <div class="w-10/12 gap-16 2xl:grid 2xl:grid-cols-2 md:w-full">
         <ModalImage
@@ -27,22 +27,22 @@
           imageAltText="pages.docs.grow-organization.modal-image-alt-text"
         />
         <div
-          class="items-center text-left space-y-4 2xl:col-span-1 2xl:row-start-1 md:items-start"
+          class="items-center space-y-4 text-left 2xl:col-span-1 2xl:row-start-1 md:items-start"
         >
           <h1 class="pb-2 font-bold responsive-h1">
             {{ $t("pages.docs.grow-organization.header") }}
           </h1>
           <div class="flex flex-row py-2 space-x-3">
             <Icon
+              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
               name="bi:info-circle-fill"
               size="1.25em"
-              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             />
             <p>
               {{ $t("pages.docs.grow-organization.subheader-1") }}
               <a
-                href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=517%3A4852&t=ytDrcE8K3RrfCxM6-1"
                 class="items-center focus-brand link-text"
+                href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=517%3A4852&t=ytDrcE8K3RrfCxM6-1"
                 target="_blank"
               >
                 {{ $t("pages.docs.grow-organization.subheader-2") }}
@@ -84,8 +84,8 @@
           <p class="pb-2 md:pb-4">
             {{ $t("pages.docs.grow-organization.section-1-paragraph-5-1") }}
             <a
-              href="https://matrix.to/#/#activist_community:matrix.org"
               class="items-center focus-brand link-text"
+              href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
               {{ $t("pages.docs.grow-organization.section-1-paragraph-5-2") }}
@@ -103,22 +103,20 @@
             <BtnLabeled
               class="w-full"
               :cta="true"
-              :label="$t('components.btn-labeled.request-access')"
+              label="components.btn-labeled.request-access"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.request-access-aria-label')
+              ariaLabel="
+                components.btn-labeled.request-access-aria-label
               "
             />
             <BtnLabeled
               class="w-full"
               :cta="false"
-              :label="$t('components.btn-labeled.return-home')"
+              label="components.btn-labeled.return-home"
               linkTo="/"
               fontSize="lg"
-              :alternateText="
-                $t('components.btn-labeled.return-home-aria-label')
-              "
+              ariaLabel="components.btn-labeled.return-home-aria-label"
             />
           </div>
         </div>
