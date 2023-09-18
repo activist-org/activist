@@ -1,11 +1,9 @@
 <template>
   <div
-    class="px-5 py-5 border bg-light-act-red/30 dark:bg-dark-act-red/30 border-light-act-red dark:border-dark-act-red card-style-base text-light-text dark:text-dark-text"
+    class="px-5 py-5 border bg-light-act-red/30 dark:bg-dark-act-red/20 border-light-act-red dark:border-dark-act-red card-style-base text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col gap-5">
-      <h3
-        class="font-bold text-left text-light-act-red dark:text-dark-act-red responsive-h3 font-display"
-      >
+      <h3 class="font-bold text-left responsive-h3 font-display">
         {{ $t("components.card-danger-zone.header") }}
       </h3>
       <p>{{ description }}</p>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-2 border rounded-md bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div sm:p-3"
+    class="p-2 border rounded-md bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div sm:p-3 shadow-sm shadow-zinc-700"
   >
     <div class="flex items-center space-x-3">
       <Icon v-if="(item.itemType = 'group')" name="bi:people" size="1.5em" />
