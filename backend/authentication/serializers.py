@@ -1,12 +1,13 @@
-from content.models import Resource, Task, Topic
-from rest_framework import serializers
 import re
+
+from content.models import Resource, Task, Topic
+from django.utils.translation import gettext as _
+from rest_framework import serializers
 from utils.utils import (
     validate_creation_and_deletion_dates,
-    validate_object_existence,
     validate_empty,
+    validate_object_existence,
 )
-from django.utils.translation import gettext as _
 
 from .models import Support, SupportEntityType, User, UserResource, UserTask, UserTopic
 
@@ -35,7 +36,9 @@ class SupportSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data["supporter_entity"] == data["supported_entity"]:
             raise serializers.ValidationError(
-                _("The fields supporter_entity and supported_entity cannot have the same value."),
+                _(
+                    "The fields supporter_entity and supported_entity cannot have the same value."
+                ),
                 code="invalid_entities_relation",
             )
 

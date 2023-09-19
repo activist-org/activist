@@ -1,15 +1,13 @@
 from authentication.models import User
 from content.models import Resource, Task, Topic
+from django.utils.translation import gettext as _
 from events.models import Event
 from rest_framework import serializers
-
-from django.utils.translation import gettext as _
-
 from utils.utils import (
     validate_creation_and_deletion_dates,
-    validate_object_existence,
-    validate_flags_number,
     validate_empty,
+    validate_flags_number,
+    validate_object_existence,
 )
 
 from .models import (
@@ -59,7 +57,7 @@ class OrganizationApplicationSerializer(serializers.ModelSerializer):
     def validate(self, data):
         validate_empty(data["status"], "status")
         validate_creation_and_deletion_dates(data)
-        
+
         return data
 
 
@@ -72,7 +70,7 @@ class OrganizationEventSerializer(serializers.ModelSerializer):
         if data["org_id"] == "" or data["event_id"] == "":
             raise serializers.ValidationError(
                 _(
-                    "The fields org_id and event_id cannot be empty, they must be filled so that the event can be added to the organization."
+                    "The fields org_id and event_id cannot be empty. They must be filled so that the event can be added to the organization."
                 ),
                 code="invalid_value",
             )
@@ -92,7 +90,7 @@ class OrganizationMemberSerializer(serializers.ModelSerializer):
         if data["org_id"] == "" or data["user_id"] == "":
             raise serializers.ValidationError(
                 _(
-                    "The fields org_id and user_id cannot be empty, they must be filled so that the user can be added to the organization."
+                    "The fields org_id and user_id cannot be empty. They must be filled so that the user can be added to the organization."
                 ),
                 code="invalid_value",
             )

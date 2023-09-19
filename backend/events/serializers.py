@@ -1,14 +1,12 @@
 from authentication.models import User
 from content.models import Resource, Task, Topic
-from rest_framework import serializers
-
 from django.utils.translation import gettext as _
-
+from rest_framework import serializers
 from utils.utils import (
-    validate_creation_and_deprecation_dates,
     validate_creation_and_deletion_dates,
-    validate_object_existence,
+    validate_creation_and_deprecation_dates,
     validate_empty,
+    validate_object_existence,
 )
 
 from .models import (
@@ -59,7 +57,6 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             )
 
         validate_creation_and_deletion_dates(data)
-
         validate_object_existence(User, data["created_by"])
 
         return data
@@ -101,7 +98,6 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["user_id"], "user_id")
         validate_empty(data["role_id"], "role_id")
-
         validate_object_existence(Event, data["event_id"])
         validate_object_existence(User, data["user_id"])
         validate_object_existence(Role, data["role_id"])
@@ -117,7 +113,6 @@ class EventFormatSerializer(serializers.ModelSerializer):
     def validate(self, data):
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["format_id"], "format_id")
-
         validate_object_existence(Event, data["event_id"])
         validate_object_existence(Format, data["format_id"])
 
@@ -138,7 +133,6 @@ class EventResourceSerializer(serializers.ModelSerializer):
     def validate(self, data):
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["resource_id"], "resource_id")
-
         validate_object_existence(Event, data["event_id"])
         validate_object_existence(Resource, data["resource_id"])
 
