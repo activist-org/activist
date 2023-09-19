@@ -67,12 +67,7 @@
           style="vertical-align: baseline"
         />
       </p>
-      <a href="https://github.com/activist-org/activist/graphs/contributors">
-        <img
-          src="https://contrib.rocks/image?repo=activist-org/activist"
-          alt="Contributors on GitHub"
-        />
-      </a>
+      <GridGitHubContributors />
       <h3 class="pt-4 font-bold responsive-h4">
         {{ $t("pages.supporters.index.section-3-2-subheader") }}
       </h3>
