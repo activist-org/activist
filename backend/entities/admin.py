@@ -1,18 +1,31 @@
 from django.contrib import admin
 
-from .models import Organization
+from .models import (
+    Group,
+    GroupEvent,
+    GroupMember,
+    GroupResource,
+    GroupTopic,
+    Organization,
+    OrganizationApplication,
+    OrganizationApplicationStatus,
+    OrganizationEvent,
+    OrganizationMember,
+    OrganizationResource,
+    OrganizationTask,
+    OrganizationTopic,
+)
 
-
-class OrganizationAdmin(admin.ModelAdmin[Organization]):
-    list_display = (
-        "name",
-        "tagline",
-        "social_accounts",
-        "total_flags",
-        "created_by",
-        "creation_date",
-        "deletion_date",
-    )
-
-
-admin.site.register(Organization, OrganizationAdmin)
+admin.site.register(Group)
+admin.site.register(GroupEvent)
+admin.site.register(GroupMember)
+admin.site.register(GroupResource)
+admin.site.register(GroupTopic)
+admin.site.register(Organization)
+admin.site.register(OrganizationApplication)
+admin.site.register(OrganizationApplicationStatus)
+admin.site.register(OrganizationEvent)
+admin.site.register(OrganizationMember)
+admin.site.register(OrganizationResource)
+admin.site.register(OrganizationTask)
+admin.site.register(OrganizationTopic)

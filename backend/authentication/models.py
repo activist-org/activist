@@ -57,6 +57,8 @@ class User(AbstractUser):
         "User", on_delete=models.SET_NULL, null=True, blank=True
     )
     social_accounts = ArrayField(models.CharField(max_length=255), null=True)
+    private = models.BooleanField(default=False)
+    high_risk = models.BooleanField(default=False)
     total_flags = models.IntegerField(default=0)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
