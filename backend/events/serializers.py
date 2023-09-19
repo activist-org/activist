@@ -1,11 +1,14 @@
 from authentication.models import User
 from content.models import Resource, Task, Topic
 from rest_framework import serializers
+
+from django.utils.translation import gettext as _
+
 from utils.utils import (
-    validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
-    validate_empty,
+    validate_creation_and_deletion_dates,
     validate_object_existence,
+    validate_empty,
 )
 
 from .models import (
@@ -49,10 +52,15 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
         if isEmpty():
             raise serializers.ValidationError(
-                "only the offline_location_lat and offline_location_long fields can be empty for Events"
+                _(
+                    "Only the fields offline_location_lat and offline_location_long fields can be empty for Events."
+                ),
+                code="invalid_value",
             )
 
         validate_creation_and_deletion_dates(data)
+
+        validate_object_existence(User, data["created_by"])
 
         return data
 
@@ -94,9 +102,9 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
         validate_empty(data["user_id"], "user_id")
         validate_empty(data["role_id"], "role_id")
 
-        validate_object_existence(Event, data["event_id"], "event_id does not exist")
-        validate_object_existence(User, data["user_id"], "user_id does not exist")
-        validate_object_existence(Role, data["role_id"], "role_id does not exist")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(User, data["user_id"])
+        validate_object_existence(Role, data["role_id"])
 
         return data
 
@@ -110,8 +118,8 @@ class EventFormatSerializer(serializers.ModelSerializer):
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["format_id"], "format_id")
 
-        validate_object_existence(Event, data["event_id"], "event_id does not exist")
-        validate_object_existence(Format, data["format_id"], "format_id does not exist")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Format, data["format_id"])
 
         return data
 
@@ -131,10 +139,8 @@ class EventResourceSerializer(serializers.ModelSerializer):
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["resource_id"], "resource_id")
 
-        validate_object_existence(Event, data["event_id"], "event_id does not exist")
-        validate_object_existence(
-            Resource, data["resource_id"], "resource_id does not exist"
-        )
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Resource, data["resource_id"])
 
         return data
 
@@ -145,8 +151,8 @@ class EventRoleSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(Event, data["event_id"], "event_id does not exist")
-        validate_object_existence(Role, data["role_id"], "role_id does not exist")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Role, data["role_id"])
 
         return data
 
@@ -157,8 +163,8 @@ class EventTaskSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(Event, data["event_id"], "event_id does not exist")
-        validate_object_existence(Task, data["task_id"], "task_id does not exist")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Task, data["task_id"])
 
         return data
 
@@ -169,7 +175,7 @@ class EventTopicSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        validate_object_existence(Event, data["event_id"], "event_id does not exist")
-        validate_object_existence(Topic, data["topic_id"], "topic_id does not exist")
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Topic, data["topic_id"])
 
         return data
