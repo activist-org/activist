@@ -92,8 +92,9 @@
       "resources": "Resources",
       "website-copyright": "Copyright © 2023 activist."
     },
-    "grid-github-contributors" : {
-      "load-more": "Load more GitHub contributors"
+    "grid-github-contributors": {
+      "load-more": "Load more",
+      "load-more-aria-label": "Load more GitHub contributors"
     },
     "grid-github-shields": {
       "fork": "Fork",
