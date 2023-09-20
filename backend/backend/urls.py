@@ -21,11 +21,15 @@ from rest_framework import routers
 
 urlpatterns = [
     path("v1/admin/", admin.site.urls),
-    path("", include("entities.urls")),
     path("v1/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "v1/schema/swagger-ui/",
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),
+    
+    path("v1/auth/", include("authentication.urls", namespace="authentication")),
+    path("v1/content/", include("content.urls", namespace="content")),
+    path("v1/entities/", include("entities.urls", namespace="entities")),
+    path("v1/events/", include("events.urls", namespace="events")),
 ]
