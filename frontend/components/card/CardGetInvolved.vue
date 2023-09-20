@@ -11,7 +11,7 @@
         <BtnLabeled
           v-if="organization && organization.workingGroups"
           :cta="true"
-          linkTo="/"
+          :linkTo="'/organizations/' + id + '/groups'"
           label="components.btn-labeled.view-all-groups"
           fontSize="sm"
           ariaLabel="components.btn-labeled.view-all-groups-aria-label"
@@ -76,4 +76,6 @@ defineProps<{
   event?: Event;
   disclaimer: string;
 }>();
+
+const { id } = useRoute().params;
 </script>
