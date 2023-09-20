@@ -3,7 +3,7 @@
     <ul class="flex justify-center md:justify-normal flex-wrap gap-4">
       <li v-for="item in githubData" :key="item.loginID">
         <NuxtLink
-          class="flex flex-col w-20 items-center focus-brand"
+          class="flex flex-col w-20 items-center focus-brand space-y-1"
           :to="item.htmlUrl"
         >
           <img
@@ -12,7 +12,7 @@
             alt=""
           />
           <p
-            class="truncate w-full text-center text-base text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
+            class="truncate w-full text-center text-sm text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
           >
             {{ item.loginID }}
           </p>
@@ -21,7 +21,7 @@
       <li v-if="hasMoreContributors">
         <button
           @click="onClickLoadMoreContributors"
-          class="flex flex-col w-20 items-center focus-brand"
+          class="flex flex-col w-20 items-center focus-brand space-y-1"
           :aria-label="
             $t('components.grid-github-contributors.load-more-aria-label')
           "
@@ -37,9 +37,9 @@
             />
           </span>
           <p
-            class="truncate w-full text-center text-base text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
+            class="truncate w-full text-center text-sm text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
           >
-            {{ $t("components.grid-github-contributors.load-more-aria-label") }}
+            {{ $t("components.grid-github-contributors.load-more") }}
           </p>
         </button>
       </li>
