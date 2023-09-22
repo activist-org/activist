@@ -212,15 +212,15 @@ Events are where things happen on activist. They are organized by [topics](#topi
 
 activist will eventually include a broad selection of topics. From the start the platform will focus on a select few: `Environment`, `Housing` and `Refugees and Migration`. Further topics will be added later as interest from organizations and the community grows. The following are the working topics that activist could include:
 
-|                      |                             |                            |
-| :------------------- | :-------------------------- | :------------------------- |
-| Environment          | Housing                     | Refugees and Migration     |
-| LGTBQIA+             | Racial Justice              | Women's Rights             |
-| Children's Rights    | Elder Rights                | Education                  |
-| Health and Wellbeing | Animal Rights               | Democracy                  |
-| Labor Rights         | Technology and Privacy      | Peace and Resolution       |
-| Nutrition            | Accessibility and Inclusion | Institutional Transparency |
-| Infrastructure       | Freedom of Expression       | Emergency Relief           |
+|                       |                             |                            |
+| :-------------------- | :-------------------------- | :------------------------- |
+| Environment           | Housing                     | Refugees and Migration     |
+| LGTBQIA+              | Racial Justice              | Women's Rights             |
+| Children's Rights     | Elder Rights                | Education                  |
+| Health and Wellbeing  | Animal Rights               | Democracy                  |
+| Labor Rights          | Technology and Privacy      | Peace and Resolution       |
+| Nutrition             | Accessibility and Inclusion | Institutional Transparency |
+| Freedom of Expression | Infrastructure and Mobility | Emergency Relief           |
 
 <br/>
 Beyond clustering by topics, tags will also be used to draw community attention to more specific issues.
