@@ -43,7 +43,8 @@ const props = defineProps({
     default: "",
   },
 });
+
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit);
-const uuid = useUniqueID().getID();
+const uuid = useUniqueID().getID().toString();
 </script>

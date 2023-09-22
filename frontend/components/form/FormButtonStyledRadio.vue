@@ -49,7 +49,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit);
-const uuid = useUniqueID().getID();
+const uuid = useUniqueID().getID().toString();
 const customColorClass = props.customColor
   ? `text-white border-light-${props.customColor} dark:border-dark-${props.customColor} dark:bg-dark-${props.customColor} bg-light-${props.customColor}`
   : "";
