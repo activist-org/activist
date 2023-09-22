@@ -1,11 +1,7 @@
 import { useDebounceFn } from "@vueuse/core";
 
-interface Props {
-  value: any;
-}
-
 export default function useFormInput(
-  props: Props,
+  props: Record<string, unknown>,
   emit: any,
   debounce?: false
 ): { updateValue: (event: Event) => void } {
