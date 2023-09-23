@@ -1,8 +1,9 @@
 import re
 
 from django.utils.translation import gettext as _
-from events.models import Format
 from rest_framework import serializers
+
+from events.models import Format
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
@@ -26,7 +27,7 @@ class ResourceSerializer(serializers.ModelSerializer):
         validate_empty(data["topics"], "topics")
         validate_empty(data["location"], "location")
 
-        if type(data["total_flags"]) != int:
+        if not isinstance(data["total_flags"], int):
             data["total_flags"] = int(data["total_flags"])
 
         validate_flags_number(data)
@@ -65,12 +66,12 @@ class TopicSerializer(serializers.ModelSerializer):
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
 
-        if data["active"] == True and data["deprecation_date"] is not None:
+        if data["active"] is True and data["deprecation_date"] is not None:
             raise serializers.ValidationError(
                 "Active topics cannot have a deprecation date."
             )
 
-        if data["active"] == False and data["deprecation_date"] is None:
+        if data["active"] is False and data["deprecation_date"] is None:
             raise serializers.ValidationError(
                 "Inactive topics must have a deprecation date."
             )
