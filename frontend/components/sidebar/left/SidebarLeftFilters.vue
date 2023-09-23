@@ -1,69 +1,79 @@
 <template>
-  <div
-    class="px-3 py-8 opacity-0 text-light-text dark:text-dark-text transition"
-    :class="{
-      '!opacity-100':
-        sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-    }"
-  >
-    <template v-for="(filter, key) in filters">
-      <div class="flex items-center">
-        <h3 v-if="filter.title" class="mb-3 font-bold responsive-h4">
-          {{ filter.title }}
-        </h3>
-        <div v-if="filter.slide">
-          <Icon
-            @click="filter.slideUp = !filter.slideUp"
-            class="flex-shrink-0 my-1 mb-3 ml-4 cursor-pointer"
-            :class="{ 'rotate-180': filter.slideUp }"
-            name="bi:chevron-down"
-            size="1em"
-          />
+  <div class="flex flex-col">
+    <div
+      class="opacity-0 -my-4 w-full"
+      :class="{
+        '!opacity-100 flex items-center justify-center my-0 text-light-text dark:text-dark-cta-orange transition bg-light-cta-orange/80 dark:bg-dark-cta-orange/20 rounded-md border border-light-text dark:border-dark-cta-orange':
+          sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+      }"
+    >
+      <Icon class="mt-[0.125em]" name="bi:filter" size="2em" />
+    </div>
+    <div
+      class="opacity-0 text-light-text dark:text-dark-text transition"
+      :class="{
+        '!opacity-100':
+          sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+      }"
+    >
+      <template v-for="(filter, key) in filters">
+        <div
+          @click="filter.reveal = !filter.reveal"
+          class="flex items-center cursor-pointer w-fit"
+        >
+          <h3 v-if="filter.title" class="mb-2 font-bold font-display text-lg">
+            {{ filter.title }}
+          </h3>
+          <div v-if="filter.expandable">
+            <Icon
+              class="flex-shrink-0 my-1 mb-3 ml-4"
+              :class="{ 'rotate-180': filter.reveal }"
+              name="bi:chevron-down"
+              size="1.25em"
+            />
+          </div>
         </div>
-      </div>
-      <div>
-        <FormRadioGroup
-          v-if="filter.type === 'radio'"
-          class="mb-6"
-          :key="key"
-          :options="filter.items"
-          :name="filter.name"
-          :title="filter.title"
-          :style="filter.style"
-          :allowCustomValue="filter.allowCustomValue"
-          v-model="selectedValues[filter.name]"
-        />
-        <keep-alive>
-          <FormCheckboxGroup
-            v-if="
-              (filter.type === 'checkbox' && !filter.slideUp) ||
-              filter.slideUp === false
-            "
-            class="mb-1"
+        <div class="mb-4">
+          <FormRadioGroup
+            v-if="filter.type === 'radio'"
             :key="key"
             :options="filter.items"
             :name="filter.name"
             :title="filter.title"
             :style="filter.style"
+            :allowCustomValue="filter.allowCustomValue"
             v-model="selectedValues[filter.name]"
           />
-        </keep-alive>
-        <FormSearch
-          v-if="filter.type === 'search'"
-          class="mb-6"
-          :key="key"
-          :name="filter.name"
-          v-model="selectedValues[filter.name]"
-          :placeholder="filter.placeholder"
-        />
-      </div>
-    </template>
+          <keep-alive>
+            <FormCheckboxGroup
+              v-if="
+                (filter.type === 'checkbox' && !filter.reveal) ||
+                filter.reveal === false
+              "
+              class="mb-1"
+              :key="key"
+              :options="filter.items"
+              :name="filter.name"
+              :title="filter.title"
+              :style="filter.style"
+              v-model="selectedValues[filter.name]"
+            />
+          </keep-alive>
+          <FormSearch
+            v-if="filter.type === 'search'"
+            :key="key"
+            :name="filter.name"
+            v-model="selectedValues[filter.name]"
+            :placeholder="filter.placeholder"
+          />
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const sidebar = useSidebar();
-import { Ref, ref, watch } from "vue";
 
 interface FilterOption {
   label: string;
@@ -80,8 +90,8 @@ interface Filter {
   pageType?: string[];
   searchInput?: boolean;
   placeholder?: string;
-  slide?: boolean;
-  slideUp?: boolean;
+  expandable?: boolean;
+  reveal?: boolean;
 }
 
 interface Filters {
@@ -107,6 +117,6 @@ watch(selectedValues.value, (newVal) => {
   console.log("selectedValues changed");
   console.log(newVal);
 
-  // TODO: Filters items based on selected filters.
+  // TODO: Filter items based on selected filters.
 });
 </script>

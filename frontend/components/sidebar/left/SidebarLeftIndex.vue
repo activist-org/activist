@@ -2,12 +2,9 @@
   <div
     class="mx-1 transition-all duration-500 text-light-text dark:text-dark-text"
   >
-    <div
-      v-if="pageType === 'organization' || pageType === 'event'"
-      class="flex flex-col items-center"
-    >
+    <div class="flex flex-col items-center">
       <div
-        v-if="pageType === 'organization'"
+        v-if="sidebarType === 'organization'"
         :class="{
           'w-32 h-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -19,7 +16,7 @@
         <ImageOrganization :imgURL="logoUrl" />
       </div>
       <div
-        v-else="pageType === 'event'"
+        v-else-if="sidebarType === 'event'"
         :class="{
           'w-32 h-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -44,7 +41,7 @@
       </p>
       <ul class="flex flex-col w-full px-1 mt-2 mb-1">
         <li
-          v-if="pageType === 'organization'"
+          v-if="sidebarType === 'organization'"
           v-for="button in organizationButtons"
         >
           <SidebarLeftSelector
@@ -55,7 +52,7 @@
             :active="button.active"
           />
         </li>
-        <li v-if="pageType === 'event'" v-for="button in eventButtons">
+        <li v-if="sidebarType === 'event'" v-for="button in eventButtons">
           <SidebarLeftSelector
             :label="button.label"
             :routeURL="button.routeURL"
@@ -76,7 +73,7 @@ const sidebar = useSidebar();
 
 const props = defineProps<{
   name: string;
-  pageType: "organization" | "event";
+  sidebarType: "organization" | "event";
   logoUrl?: string;
 }>();
 
