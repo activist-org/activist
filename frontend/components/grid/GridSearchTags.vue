@@ -1,5 +1,5 @@
 <template>
-  <div v-if="tags.length > 0" class="w-full h-fit">
+  <div v-if="tags && tags.length > 0" class="w-full h-fit">
     <div class="flex space-x-3">
       <button
         v-for="t in tags"
