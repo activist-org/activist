@@ -5,9 +5,10 @@ services:
     build:
       context: ./backend
     container_name: django_backend
+    # restart: always
     command: sh -c "python manage.py makemigrations &&
       python manage.py migrate &&
-      python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
+      python manage.py runserver 0.0.0.0:8000"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
@@ -15,7 +16,7 @@ services:
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_HOST=${DATABASE_HOST}
-      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PORT=5432
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
       - DEBUG=${DEBUG}
       - SECRET_KEY=${SECRET_KEY}
@@ -41,4 +42,4 @@ services:
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     ports:
-      - "${DATABASE_PORT}:${DATABASE_PORT}"
+      - "${DATABASE_PORT}:5432"
