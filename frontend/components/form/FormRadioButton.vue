@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-xl font-bold relative min-w-[3.4rem] min-h-[2.75rem] h-11 first:rounded-l-md last:rounded-r-md border border-light-interactive dark:border-dark-interactive bg-light-header text-light-special-text dark:text-dark-special-text dark:bg-dark-header"
+    class="flex items-center font-bold w-full relative h-10 first:rounded-l-md last:rounded-r-md border border-light-interactive dark:border-dark-interactive bg-light-header text-light-special-text dark:text-dark-special-text dark:bg-dark-header"
     :class="{
       'bg-dark-header dark:bg-dark-menu-selection text-dark-interactive dark:text-dark-distinct border-dark-header ':
         modelValue === value,
@@ -15,7 +15,7 @@
       :id="uuid"
     />
     <label
-      class="min-h-[2.75rem] absolute w-full h-full flex items-center justify-center cursor-pointer"
+      class="absolute w-full h-full flex items-center justify-center cursor-pointer select-none"
       v-if="label"
       :for="uuid"
     >

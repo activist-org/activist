@@ -43,7 +43,7 @@ const props = defineProps({
 });
 
 const checkboxComponent = computed(() => {
-  return props.style === "button" ? "FormButtonStyledCheckbox" : "FormCheckbox";
+  return props.style === "button" ? "FormCheckboxButton" : "FormCheckbox";
 });
 
 const emit = defineEmits(["update:modelValue"]);

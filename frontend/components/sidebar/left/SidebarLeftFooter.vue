@@ -34,6 +34,7 @@
                     sidebar.collapsed == false ||
                     sidebar.collapsedSwitch == false
                   "
+                  class="select-none"
                 >
                   {{ $t("components.sidebar-left-footer.create") }}
                 </p>
@@ -88,6 +89,7 @@
                     sidebar.collapsed == false ||
                     sidebar.collapsedSwitch == false
                   "
+                  class="select-none"
                 >
                   {{ $t("components.sidebar-left-footer.info") }}
                 </p>
@@ -144,7 +146,7 @@
                     sidebar.collapsed == false ||
                     sidebar.collapsedSwitch == false
                   "
-                  class="font-bold"
+                  class="select-none font-bold"
                 >
                   {{ $t("components.sidebar-left-footer.username") }}
                 </p>

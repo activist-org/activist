@@ -1,8 +1,9 @@
 import re
 
-from content.models import Resource, Task, Topic
 from django.utils.translation import gettext as _
 from rest_framework import serializers
+
+from content.models import Resource, Task, Topic
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_empty,

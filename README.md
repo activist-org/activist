@@ -143,6 +143,9 @@ docker-compose up
 
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
+> [!NOTE]\
+> Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
+
 <a id="tech-stack"></a>
 
 ## Tech Stack [`⇧`](#contents)

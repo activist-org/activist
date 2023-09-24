@@ -13,10 +13,21 @@
       <SearchBar class="mt-2" location="sidebar" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
+        v-if="sidebarType === 'organization' || sidebarType === 'event'"
         class="my-3"
         :name="placeholderName"
-        :pageType="pageTypeToDisplay"
+        :sidebarType="sidebarType"
         :logoUrl="placeholderLogo"
+      />
+      <SidebarLeftFilters
+        v-else
+        :class="{
+          'mx-3 py-4':
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          'mx-2 py-3':
+            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        }"
+        :filters="getFiltersByPageType"
       />
     </div>
     <SidebarLeftFooter />
@@ -30,17 +41,253 @@ defineProps<{
 
 const sidebar = useSidebar();
 const route = useRoute();
+const { locale } = useI18n();
 
-let pageTypeToDisplay = "";
-if (route.path.includes("organizations")) {
-  pageTypeToDisplay = "organization";
-} else if (route.path.includes("events")) {
-  pageTypeToDisplay = "event";
+let sidebarType = "";
+if (route.path.includes(locale.value + "/search")) {
+  sidebarType = "search";
+} else if (route.path.includes(locale.value + "/home")) {
+  sidebarType = "home";
+} else if (route.path.includes(locale.value + "/organizations")) {
+  // We're in /organizations.
+  if (
+    // Check to see if we're on a sub page where we need id information.
+    route.path.length >
+      (
+        route.path.split(locale.value + "/organizations/", 1) +
+        locale.value +
+        "/organizations/"
+      ).length +
+        1 &&
+    route.path.split(locale.value + "/organizations/").pop() !== "search" &&
+    route.path.split(locale.value + "/organizations/").pop() !== "search/"
+  ) {
+    sidebarType = "organization";
+  } else {
+    // We're on /organizations itself or /organizations/search.
+    sidebarType = "filter organizations";
+  }
+} else if (route.path.includes(locale.value + "/events")) {
+  // We're in /events.
+  if (
+    // Check to see if we're on a sub page where we need id information.
+    route.path.length >
+      (
+        route.path.split(locale.value + "/events/", 1) +
+        locale.value +
+        "/events/"
+      ).length +
+        1 &&
+    route.path.split(locale.value + "/events/").pop() !== "search" &&
+    route.path.split(locale.value + "/events/").pop() !== "search/"
+  ) {
+    sidebarType = "event";
+  } else {
+    // We're on /events itself or /events/search.
+    sidebarType = "filter events";
+  }
 } else {
-  pageTypeToDisplay = "misc"; // TODO: assign this based on other options
+  // TODO: Handle this state.
+  sidebarType = "misc";
 }
 
 // TODO: Use real name of organization / event when available from backend.
 const placeholderName = route.path.split("/").at(-2)?.replaceAll("-", " ");
 const placeholderLogo = "/images/tech-from-below.svg";
+
+const filters = {
+  daysAhead: {
+    title: "Days ahead",
+    name: "daysAhead",
+    type: "radio",
+    style: "button",
+    allowCustomValue: true,
+    customValuePlaceholder: "Enter number",
+    sidebarType: ["filter events"],
+    items: [
+      {
+        label: "1",
+        value: "1",
+      },
+      {
+        label: "7",
+        value: "7",
+      },
+      {
+        label: "30",
+        value: "30",
+      },
+    ],
+  },
+  eventType: {
+    title: "Event type",
+    name: "eventType",
+    type: "checkbox",
+    style: "button",
+    sidebarType: ["filter events"],
+    items: [
+      {
+        label: "Learn",
+        value: "learn",
+        customColor: "learn-blue",
+      },
+      {
+        label: "Act",
+        value: "act",
+        customColor: "act-red",
+      },
+    ],
+  },
+  location: {
+    title: "Location",
+    name: "location",
+    type: "checkbox",
+    style: "button",
+    sidebarType: ["filter events"],
+    searchInput: true,
+    items: [
+      {
+        label: "In person",
+        value: "in-person",
+        customColor: "learn-blue",
+      },
+      {
+        label: "Online",
+        value: "online",
+        customColor: "learn-blue",
+      },
+    ],
+  },
+  eventLocationSearch: {
+    title: "",
+    name: "eventLocationSearch",
+    type: "search",
+    sidebarType: ["filter events"],
+    placeholder: "Filter by location",
+  },
+  locationSearch: {
+    title: "Location",
+    name: "locationSearch",
+    type: "search",
+    sidebarType: ["filter organizations", "search"],
+    placeholder: "Filter by location",
+  },
+  organizationSearch: {
+    title: "Organization",
+    name: "organizationSearch",
+    type: "search",
+    sidebarType: ["filter events"],
+    placeholder: "Filter by orgs",
+  },
+  topic: {
+    title: "Topic",
+    type: "checkbox",
+    name: "topic",
+    style: "simple",
+    expandable: true,
+    sidebarType: [
+      "filter events",
+      "filter organizations",
+      "filter resources",
+      "search",
+    ],
+    items: [
+      {
+        label: "Environment",
+        value: "environment",
+      },
+      {
+        label: "Housing",
+        value: "housing",
+      },
+      {
+        label: "Refugees",
+        value: "refugees",
+      },
+      {
+        label: "LGBTQIA+",
+        value: "lgbtqia+",
+      },
+      {
+        label: "Racial Justice",
+        value: "racial justice",
+      },
+      {
+        label: "Women's Rights",
+        value: "women's rights",
+      },
+      {
+        label: "Children's Rights",
+        value: "children's rights",
+      },
+      {
+        label: "Elder Rights",
+        value: "elder rights",
+      },
+      {
+        label: "Animal Rights",
+        value: "animal rights",
+      },
+      {
+        label: "Labor Rights",
+        value: "labor rights",
+      },
+      {
+        label: "Education",
+        value: "education",
+      },
+      {
+        label: "Democracy",
+        value: "democracy",
+      },
+      {
+        label: "Health",
+        value: "health",
+      },
+      {
+        label: "Privacy",
+        value: "privacy",
+      },
+      {
+        label: "Peace",
+        value: "peace",
+      },
+      {
+        label: "Nutrition",
+        value: "nutrition",
+      },
+      {
+        label: "Accessibility",
+        value: "accessibility",
+      },
+      {
+        label: "Transparency",
+        value: "transparency",
+      },
+      {
+        label: "Expression",
+        value: "expression",
+      },
+      {
+        label: "Emergency Relief",
+        value: "emergency relief",
+      },
+      {
+        label: "Infrastructure",
+        value: "infrastructure",
+      },
+    ],
+  },
+};
+
+const getFiltersByPageType = computed(() => {
+  for (const key in filters) {
+    const f = filters[key as keyof typeof filters];
+    if (!f.sidebarType.includes(sidebarType)) {
+      delete filters[key as keyof typeof filters];
+    }
+  }
+
+  return filters;
+});
 </script>
