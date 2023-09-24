@@ -75,16 +75,13 @@
 <script setup lang="ts">
 const sidebar = useSidebar();
 
-interface FilterOption {
-  label: string;
-  value: string;
-}
+import { CheckboxOption } from '../../form/FormCheckboxGroup.vue';
 
 interface Filter {
   title: string;
   name: string;
   type: "radio" | "checkbox" | "search";
-  items: FilterOption[];
+  items: CheckboxOption[];
   style?: string;
   allowCustomValue?: boolean;
   pageType?: string[];
