@@ -1,4 +1,5 @@
-from typing import Union, Dict
+from typing import Dict, Union
+
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 

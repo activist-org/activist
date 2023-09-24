@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
-from rest_framework.response import Response
 from rest_framework.request import Request
+from rest_framework.response import Response
 
 from .models import (
     Group,
@@ -68,7 +68,9 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(data, status=status.HTTP_204_NO_CONTENT)
 
 
-class OrganizationApplicationStatusViewSet(viewsets.ModelViewSet[OrganizationApplicationStatus]):
+class OrganizationApplicationStatusViewSet(
+    viewsets.ModelViewSet[OrganizationApplicationStatus]
+):
     queryset = OrganizationApplicationStatus.objects.all()
     serializer_class = OrganizationApplicationStatusSerializer
 

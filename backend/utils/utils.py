@@ -38,8 +38,7 @@ def validate_flags_number(data: Any) -> None:
 def validate_empty(value: Any, field_name: Any) -> None:
     if value == "" or value is None:
         raise serializers.ValidationError(
-            _(f"The field {field_name} has to be filled."),
-            code="invalid_value"
+            _(f"The field {field_name} has to be filled."), code="invalid_value"
         )
 
 
@@ -47,5 +46,5 @@ def validate_object_existence(model: Any, object_id: Any) -> None:
     if model.objects.filter(id=object_id).exists():
         raise serializers.ValidationError(
             _(f"There is no {model.__name__} object with id {object_id}."),
-            code="inexistent_object"
+            code="inexistent_object",
         )

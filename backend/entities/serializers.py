@@ -1,6 +1,7 @@
+from typing import Dict, Union
+
 from django.utils.translation import gettext as _
 from rest_framework import serializers
-from typing import Union, Dict
 
 from authentication.models import User
 from content.models import Resource, Task, Topic
@@ -45,13 +46,17 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         return data
 
 
-class OrganizationApplicationStatusSerializer(serializers.ModelSerializer[OrganizationApplicationStatus]):
+class OrganizationApplicationStatusSerializer(
+    serializers.ModelSerializer[OrganizationApplicationStatus]
+):
     class Meta:
         model = OrganizationApplicationStatus
         fields = "__all__"
 
 
-class OrganizationApplicationSerializer(serializers.ModelSerializer[OrganizationApplication]):
+class OrganizationApplicationSerializer(
+    serializers.ModelSerializer[OrganizationApplication]
+):
     class Meta:
         model = OrganizationApplication
         fields = "__all__"

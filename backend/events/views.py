@@ -25,6 +25,7 @@ from .serializers import (
     RoleSerializer,
 )
 
+
 class EventViewSet(viewsets.ModelViewSet[Event]):
     queryset = Event.objects.all()
     serializer_class = EventSerializer

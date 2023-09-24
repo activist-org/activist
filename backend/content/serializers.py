@@ -1,5 +1,5 @@
 import re
-from typing import Union, Dict, Any
+from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
 from rest_framework import serializers
