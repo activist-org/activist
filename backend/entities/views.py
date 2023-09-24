@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.response import Response
+from rest_framework.request import Request
 
 from .models import (
     Group,
@@ -34,11 +35,11 @@ from .serializers import (
 )
 
 
-class OrganizationViewSet(viewsets.ModelViewSet):
+class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             instance = serializer.save()
@@ -46,12 +47,12 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
         instance = get_object_or_404(Organization, pk=kwargs["pk"])
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    def partial_update(self, request, *args, **kwargs):
+    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
         instance = get_object_or_404(Organization, pk=kwargs["pk"])
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         if serializer.is_valid():
@@ -60,68 +61,68 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             return Response(data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
         instance = get_object_or_404(Organization, pk=kwargs["pk"])
         instance.delete()
         data = {"message": f'Organization {kwargs["pk"]} has been deleted successfully'}
         return Response(data, status=status.HTTP_204_NO_CONTENT)
 
 
-class OrganizationApplicationStatusViewSet(viewsets.ModelViewSet):
+class OrganizationApplicationStatusViewSet(viewsets.ModelViewSet[OrganizationApplicationStatus]):
     queryset = OrganizationApplicationStatus.objects.all()
     serializer_class = OrganizationApplicationStatusSerializer
 
 
-class OrganizationApplicationViewSet(viewsets.ModelViewSet):
+class OrganizationApplicationViewSet(viewsets.ModelViewSet[OrganizationApplication]):
     queryset = OrganizationApplication.objects.all()
     serializer_class = OrganizationApplicationSerializer
 
 
-class OrganizationEventViewSet(viewsets.ModelViewSet):
+class OrganizationEventViewSet(viewsets.ModelViewSet[OrganizationEvent]):
     queryset = OrganizationEvent.objects.all()
     serializer_class = OrganizationEventSerializer
 
 
-class OrganizationMemberViewSet(viewsets.ModelViewSet):
+class OrganizationMemberViewSet(viewsets.ModelViewSet[OrganizationMember]):
     queryset = OrganizationMember.objects.all()
     serializer_class = OrganizationMemberSerializer
 
 
-class OrganizationResourceViewSet(viewsets.ModelViewSet):
+class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
     queryset = OrganizationResource.objects.all()
     serializer_class = OrganizationResourceSerializer
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ModelViewSet[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
 
-class OrganizationTaskViewSet(viewsets.ModelViewSet):
+class OrganizationTaskViewSet(viewsets.ModelViewSet[OrganizationTask]):
     queryset = OrganizationTask.objects.all()
     serializer_class = OrganizationTaskSerializer
 
 
-class OrganizationTopicViewSet(viewsets.ModelViewSet):
+class OrganizationTopicViewSet(viewsets.ModelViewSet[OrganizationTopic]):
     queryset = OrganizationTopic.objects.all()
     serializer_class = OrganizationTopicSerializer
 
 
-class GroupEventViewSet(viewsets.ModelViewSet):
+class GroupEventViewSet(viewsets.ModelViewSet[GroupEvent]):
     queryset = GroupEvent.objects.all()
     serializer_class = GroupEventSerializer
 
 
-class GroupMemberViewSet(viewsets.ModelViewSet):
+class GroupMemberViewSet(viewsets.ModelViewSet[GroupMember]):
     queryset = GroupMember.objects.all()
     serializer_class = GroupMemberSerializer
 
 
-class GroupResourceViewSet(viewsets.ModelViewSet):
+class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
     queryset = GroupResource.objects.all()
     serializer_class = GroupResourceSerializer
 
 
-class GroupTopicViewSet(viewsets.ModelViewSet):
+class GroupTopicViewSet(viewsets.ModelViewSet[GroupTopic]):
     queryset = GroupTopic.objects.all()
     serializer_class = GroupTopicSerializer

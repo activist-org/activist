@@ -1,4 +1,5 @@
 import re
+from typing import Union, Dict, Any
 
 from django.utils.translation import gettext as _
 from rest_framework import serializers
@@ -13,12 +14,12 @@ from utils.utils import (
 from .models import Support, SupportEntityType, User, UserResource, UserTask, UserTopic
 
 
-class SupportEntityTypeSerializer(serializers.ModelSerializer):
+class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
     class Meta:
         model = SupportEntityType
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         validate_empty(data["name"], "name")
 
         if len(data["name"]) < 3:
@@ -29,12 +30,12 @@ class SupportEntityTypeSerializer(serializers.ModelSerializer):
         return data
 
 
-class SupportSerializer(serializers.ModelSerializer):
+class SupportSerializer(serializers.ModelSerializer[Support]):
     class Meta:
         model = Support
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         if data["supporter_entity"] == data["supported_entity"]:
             raise serializers.ValidationError(
                 _(
@@ -51,7 +52,7 @@ class UserSerializer(serializers.ModelSerializer[User]):
         model = User
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         validate_empty(data["password"], "password")
         validate_empty(data["name"], "name")
         validate_empty(data["user_name"], "user_name")
@@ -71,36 +72,36 @@ class UserSerializer(serializers.ModelSerializer[User]):
         return data
 
 
-class UserResourceSerializer(serializers.ModelSerializer):
+class UserResourceSerializer(serializers.ModelSerializer[UserResource]):
     class Meta:
         model = UserResource
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(User, data["user_id"])
         validate_object_existence(Resource, data["resource_id"])
 
         return data
 
 
-class UserTaskSerializer(serializers.ModelSerializer):
+class UserTaskSerializer(serializers.ModelSerializer[UserTask]):
     class Meta:
         model = UserTask
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(User, data["user_id"])
         validate_object_existence(Task, data["task_id"])
 
         return data
 
 
-class UserTopicSerializer(serializers.ModelSerializer):
+class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
     class Meta:
         model = UserTopic
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(User, data["user_id"])
         validate_object_existence(Topic, data["topic_id"])
 

@@ -1,3 +1,4 @@
+from typing import Union, Dict
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
@@ -29,7 +30,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         model = Event
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         required_fields = [
             "name",
             "tagline",
@@ -43,7 +44,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             "deletion_date",
         ]
 
-        def isEmpty():
+        def isEmpty() -> bool:
             for field in required_fields:
                 if data[field] == "" or data[field] is None:
                     return True
@@ -63,12 +64,12 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         return data
 
 
-class FormatSerializer(serializers.ModelSerializer):
+class FormatSerializer(serializers.ModelSerializer[Event]):
     class Meta:
         model = Format
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
         validate_creation_and_deprecation_dates(data)
@@ -77,12 +78,12 @@ class FormatSerializer(serializers.ModelSerializer):
         return data
 
 
-class RoleSerializer(serializers.ModelSerializer):
+class RoleSerializer(serializers.ModelSerializer[Event]):
     class Meta:
         model = Role
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
         validate_creation_and_deprecation_dates(data)
@@ -90,12 +91,12 @@ class RoleSerializer(serializers.ModelSerializer):
         return data
 
 
-class EventAttendeeSerializer(serializers.ModelSerializer):
+class EventAttendeeSerializer(serializers.ModelSerializer[EventAttendee]):
     class Meta:
         model = EventAttendee
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["user_id"], "user_id")
         validate_empty(data["role_id"], "role_id")
@@ -106,12 +107,12 @@ class EventAttendeeSerializer(serializers.ModelSerializer):
         return data
 
 
-class EventFormatSerializer(serializers.ModelSerializer):
+class EventFormatSerializer(serializers.ModelSerializer[EventFormat]):
     class Meta:
         model = EventFormat
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["format_id"], "format_id")
         validate_object_existence(Event, data["event_id"])
@@ -120,18 +121,18 @@ class EventFormatSerializer(serializers.ModelSerializer):
         return data
 
 
-class EventAttendeeStatusSerializer(serializers.ModelSerializer):
+class EventAttendeeStatusSerializer(serializers.ModelSerializer[EventAttendeeStatus]):
     class Meta:
         model = EventAttendeeStatus
         fields = "__all__"
 
 
-class EventResourceSerializer(serializers.ModelSerializer):
+class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
     class Meta:
         model = EventResource
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["event_id"], "event_id")
         validate_empty(data["resource_id"], "resource_id")
         validate_object_existence(Event, data["event_id"])
@@ -140,36 +141,36 @@ class EventResourceSerializer(serializers.ModelSerializer):
         return data
 
 
-class EventRoleSerializer(serializers.ModelSerializer):
+class EventRoleSerializer(serializers.ModelSerializer[EventRole]):
     class Meta:
         model = EventRole
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Event, data["event_id"])
         validate_object_existence(Role, data["role_id"])
 
         return data
 
 
-class EventTaskSerializer(serializers.ModelSerializer):
+class EventTaskSerializer(serializers.ModelSerializer[EventTask]):
     class Meta:
         model = EventTask
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Event, data["event_id"])
         validate_object_existence(Task, data["task_id"])
 
         return data
 
 
-class EventTopicSerializer(serializers.ModelSerializer):
+class EventTopicSerializer(serializers.ModelSerializer[EventTopic]):
     class Meta:
         model = EventTopic
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Event, data["event_id"])
         validate_object_existence(Topic, data["topic_id"])
 
