@@ -2,7 +2,7 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
-        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
+        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand shadow-sm shadow-zinc-700"
         :class="{ 'pl-6': location === 'sideMenu' }"
         v-slot="{ open }"
         :aria-label="
@@ -48,18 +48,13 @@
             :key="getLocaleCode(locale)"
             :to="switchLocalePath(getLocaleCode(locale))"
           >
-            <MenuItem v-slot="{ active }">
+            <MenuItem v-slot="{ active }" class="flex">
               <li
-                class="group flex [word-spacing:0.5em] items-center rounded-md pl-4 pr-2 py-2 text-sm"
+                class="group flex [word-spacing:0.5em] items-center rounded-md pl-4 pr-3 py-2 text-sm w-full"
                 :class="{
-                  'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content w-max':
-                    active && location !== 'sideMenu',
-                  'text-light-text dark:text-dark-text w-max':
-                    !active && location !== 'sideMenu',
-                  'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content w-full':
-                    active && location === 'sideMenu',
-                  'text-light-text dark:text-dark-text w-full':
-                    !active && location === 'sideMenu',
+                  'bg-light-cta-orange-hover dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
+                    active,
+                  'text-light-text dark:text-dark-text': !active,
                 }"
               >
                 {{ getLocaleName(locale) }}

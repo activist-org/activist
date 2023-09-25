@@ -1,11 +1,7 @@
 <template>
   <div class="px-5 py-5 card-style">
     <div class="relative flex-col w-full gap-5">
-      <div
-        class="absolute right-0 flex items-center justify-center w-10 h-10 border-2 rounded-md bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div sm:w-16 sm:h-16 text-light-text dark:text-dark-text"
-      >
-        <Icon name="bi:qr-code-scan" size="3em" alt="QR code scanning icon" />
-      </div>
+      <ModalQRCode />
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="text-left responsive-h3 font-display">

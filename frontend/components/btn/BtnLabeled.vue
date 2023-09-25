@@ -1,11 +1,11 @@
 <template>
   <div
     v-if="linkTo == 'placeholder-link'"
-    class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit fill-light-distinct dark:fill-dark-distinct"
+    class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit shadow-sm shadow-zinc-700"
     :class="{
-      'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
+      'text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10':
         cta == true,
-      'bg-neutral-500 dark:bg-gray-400 hover:bg-neutral-400 active:bg-neutral-500 dark:hover:bg-gray-300 dark:active:bg-gray-400 ':
+      'text-light-text border-light-text dark:text-dark-text dark:border-dark-text bg-light-btn dark:bg-dark-btn hover:bg-light-highlight active:bg-light-btn dark:hover:bg-dark-highlight dark:active:bg-dark-btn ':
         cta == false,
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
@@ -32,18 +32,18 @@
     />
     <div
       v-if="counter"
-      class="px-1 py-[0.1rem] ml-2 -m-[0.1rem] rounded-lg bg-white/40 dark:bg-black/30"
+      class="px-1 py-[0.1rem] ml-2 -m-[0.1rem] rounded-lg bg-black/20 dark:bg-dark-cta-orange/25"
     >
       {{ counter }}
     </div>
   </div>
   <a
     v-else-if="linkTo.includes('http')"
-    class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit fill-light-distinct dark:fill-dark-distinct"
+    class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit shadow-sm shadow-zinc-700"
     :class="{
-      'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
+      'text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10':
         cta == true,
-      'bg-neutral-500 dark:bg-gray-400 hover:bg-neutral-400 active:bg-neutral-500 dark:hover:bg-gray-300 dark:active:bg-gray-400 ':
+      'text-light-text border-light-text dark:text-dark-text dark:border-dark-text bg-light-btn dark:bg-dark-btn hover:bg-light-highlight active:bg-light-btn dark:hover:bg-dark-highlight dark:active:bg-dark-btn ':
         cta == false,
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
@@ -72,7 +72,7 @@
     />
     <div
       v-if="counter"
-      class="px-1 py-[0.1rem] ml-2 -m-[0.1rem] rounded-lg bg-white/40 dark:bg-black/30"
+      class="px-1 py-[0.1rem] ml-2 -m-[0.1rem] rounded-lg bg-black/20 dark:bg-dark-cta-orange/25"
     >
       {{ counter }}
     </div>
@@ -80,11 +80,11 @@
   <NuxtLink
     v-else
     :to="localePath(`${linkTo}`)"
-    class="px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg text-light-distinct border-light-distinct dark:text-dark-distinct dark:border-dark-distinct focus-brand w-fit fill-light-distinct dark:fill-dark-distinct"
+    class="px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit shadow-sm shadow-zinc-700"
     :class="{
-      'bg-light-cta-orange dark:bg-dark-cta-orange hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover dark:active:bg-dark-cta-orange':
+      'text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10':
         cta == true,
-      'bg-neutral-500 dark:bg-gray-400 hover:bg-neutral-400 active:bg-neutral-500 dark:hover:bg-gray-300 dark:active:bg-gray-400 ':
+      'text-light-text border-light-text dark:text-dark-text dark:border-dark-text bg-light-btn dark:bg-dark-btn hover:bg-light-highlight active:bg-light-btn dark:hover:bg-dark-highlight dark:active:bg-dark-btn ':
         cta == false,
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
@@ -113,7 +113,7 @@
       />
       <div
         v-if="counter"
-        class="px-1 py-[0.1rem] ml-2 -m-[0.1rem] rounded-lg bg-white/40 dark:bg-black/30"
+        class="px-1 py-[0.1rem] ml-2 -m-[0.1rem] rounded-lg bg-black/20 dark:bg-dark-cta-orange/25"
       >
         {{ counter }}
       </div>

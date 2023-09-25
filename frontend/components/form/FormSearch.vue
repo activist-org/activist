@@ -10,7 +10,6 @@
       :value="modelValue"
       :placeholder="placeholder"
       type="search"
-      placeholder="Search"
     />
   </div>
 </template>

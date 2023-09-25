@@ -2,7 +2,7 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
-        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand"
+        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand shadow-sm shadow-zinc-700"
         :class="{ 'pl-6': location === 'sideMenu' }"
         v-slot="{ open }"
         :aria-label="$t('components.selector-theme.open-dropdown-aria-label')"
@@ -49,11 +49,11 @@
           <MenuItem v-slot="{ active }">
             <button
               @click="$colorMode.preference = 'system'"
-              class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md"
+              class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md text-light-text"
               :class="{
-                'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
+                'bg-light-cta-orange-hover dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
                   active,
-                'text-light-text dark:text-dark-text': !active,
+                'dark:text-dark-text': !active,
               }"
               :aria-label="$t('components.selector-theme.system-aria-label')"
             >
@@ -66,11 +66,11 @@
           <MenuItem v-slot="{ active }">
             <button
               @click="$colorMode.preference = 'light'"
-              class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md"
+              class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md text-light-text"
               :class="{
-                'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
+                'bg-light-cta-orange-hover dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
                   active,
-                'text-light-text dark:text-dark-text': !active,
+                'dark:text-dark-text': !active,
               }"
               :aria-label="$t('components.selector-theme.light-aria-label')"
             >
@@ -83,11 +83,11 @@
           <MenuItem v-slot="{ active }">
             <button
               @click="$colorMode.preference = 'dark'"
-              class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md"
+              class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md text-light-text"
               :class="{
-                'bg-light-cta-orange dark:bg-dark-cta-orange text-light-content dark:text-dark-content':
+                'bg-light-cta-orange-hover dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
                   active,
-                'text-light-text dark:text-dark-text': !active,
+                'dark:text-dark-text': !active,
               }"
               :aria-label="$t('components.selector-theme.dark-aria-label')"
             >

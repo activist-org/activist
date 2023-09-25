@@ -92,6 +92,10 @@
       "resources": "Resources",
       "website-copyright": "Copyright © 2023 activist."
     },
+    "grid-github-contributors": {
+      "load-more": "Load more",
+      "load-more-aria-label": "Load more GitHub contributors"
+    },
     "grid-github-shields": {
       "fork": "Fork",
       "github": "GitHub",
@@ -386,6 +390,11 @@
         "team": {
           "subheader": "This is a team page for"
         }
+      },
+      "search": {
+        "header": "Events search",
+        "subheader": "Find events to attend",
+        "title": "Events Search"
       }
     },
     "finances": {
@@ -441,9 +450,11 @@
       }
     },
     "home": {
-      "header": "Welcome, username 👋✊",
-      "subheader": "Your topics at a glance",
-      "title": "Home"
+      "index": {
+        "header": "Welcome, username 👋✊",
+        "subheader": "Your topics at a glance",
+        "title": "Home"
+      }
     },
     "legal": {
       "index": {
@@ -531,6 +542,18 @@
         "resources": {
           "subheader": "This is a resources page for"
         }
+      },
+      "search": {
+        "header": "Organizations search",
+        "subheader": "Find organizations to support",
+        "title": "Organizations Search"
+      }
+    },
+    "search": {
+      "index": {
+        "header": "General search",
+        "subheader": "Find organizations, events and more",
+        "title": "Search"
       }
     },
     "supporters": {

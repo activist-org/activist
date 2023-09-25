@@ -3,11 +3,11 @@
     class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.home.title") }}</Title>
+      <Title>{{ $t("pages.home.index.title") }}</Title>
     </Head>
     <HeaderAppPage
-      :header="$t('pages.home.header')"
-      :tagline="$t('pages.home.subheader')"
+      :header="$t('pages.home.index.header')"
+      :tagline="$t('pages.home.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
         <TopicMarker topic="My topics dropdown" />

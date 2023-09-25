@@ -28,6 +28,7 @@ class Resource(models.Model):
     location = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
     total_flags = models.IntegerField(null=True)
+    private = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deletion_date = models.DateField(null=True)
