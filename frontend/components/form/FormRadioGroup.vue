@@ -42,17 +42,38 @@
 import { computed } from "vue";
 import useFormCheckboxRadio from "../../composables/useFormCheckboxRadio";
 
+// TODO: This type should be defined for the props definition type from FromRadioButton and FromRadio.
+/**
+ * The available radio type option.
+ */
+export type RadioOption = {
+  /**
+   * The radio label.
+   */
+  label: string;
+
+  /**
+   * The radio value.
+   */
+  value: string;
+
+  /**
+   * The optional radio button custom color.
+   */
+  customColor?: string;
+}
+
 const props = defineProps({
   vertical: {
     type: Boolean,
     default: false,
   },
   modelValue: {
-    type: [String, Number],
-    required: false,
+    type: [String, Array] as PropType<string | string[]>,
+    required: true,
   },
   options: {
-    type: Array,
+    type: Array as PropType<RadioOption[]>,
     required: true,
   },
   name: {
@@ -89,5 +110,5 @@ const {
   showAdditionalInput,
   inputDebounce,
   toggleAdditionalInput,
-} = useFormCheckboxRadio(props, emit);
+} = useFormCheckboxRadio(props.modelValue, emit);
 </script>
