@@ -1,12 +1,11 @@
-interface Props {
-  modelValue: string | string[];
-}
+import { useDebounceFn } from "@vueuse/core";
+import { ref, watch } from "vue";
 
 export default function useFormCheckboxRadio(
-  props: Props,
-  emit: (event: string, ...args: any[]) => void
+  value: string | string[],
+  emit: (event: 'update:modelValue', ...args: any[]) => void
 ) {
-  const selectedValue = ref<string | string[]>(props.modelValue);
+  const selectedValue = ref<string | string[]>(value);
   const customValue = ref<string>("");
   const showAdditionalInput = ref<boolean>(false);
 
@@ -62,7 +61,7 @@ export default function useFormCheckboxRadio(
   };
 
   watch(
-    () => props.modelValue,
+    () => value,
     (newValue) => {
       selectedValue.value = newValue;
     }

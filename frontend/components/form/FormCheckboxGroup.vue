@@ -38,8 +38,8 @@ export type CheckboxOption = {
 
 const props = defineProps({
   modelValue: {
-    type: Array,
-    required: false,
+    type: [String, Array] as PropType<string | string[]>,
+    required: true,
   },
   options: {
     type: Array as PropType<CheckboxOption[]>,
@@ -65,5 +65,5 @@ const checkboxComponent = computed(() => {
 
 const emit = defineEmits(["update:modelValue"]);
 
-const { isSelected, toggleCheckbox } = useFormCheckboxRadio(props, emit);
+const { isSelected, toggleCheckbox } = useFormCheckboxRadio(props.modelValue, emit);
 </script>
