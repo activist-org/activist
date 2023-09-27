@@ -13,13 +13,13 @@
         v-if="$colorMode.value == 'light'"
         class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_shield_check_light.png"
-        alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+        :alt="$t('pages.legal.privacy-policy.img-alt-text')"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_shield_check_dark.png"
-        alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+        :alt="$t('pages.legal.privacy-policy.img-alt-text')"
       />
       <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div class="items-center space-y-4 text-left md:items-start">
@@ -28,13 +28,13 @@
             v-if="$colorMode.value == 'light'"
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_shield_check_light.png"
-            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+            :alt="$t('pages.legal.privacy-policy.img-alt-text')"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_shield_check_dark.png"
-            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+            :alt="$t('pages.legal.privacy-policy.img-alt-text')"
           />
           <h1 class="pb-2 font-bold responsive-h1">
             {{ $t("pages.legal.privacy-policy.header") }}
@@ -139,13 +139,13 @@
             v-if="$colorMode.value == 'light'"
             class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_shield_check_light.png"
-            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+            :alt="$t('pages.legal.privacy-policy.img-alt-text')"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_shield_check_dark.png"
-            alt="A shield with a checkmark in the middle of it to indicate that privacy is protected."
+            :alt="$t('pages.legal.privacy-policy.img-alt-text')"
           />
         </div>
       </div>

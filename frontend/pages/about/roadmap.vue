@@ -13,13 +13,13 @@
         v-if="$colorMode.value == 'light'"
         class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/arcticons_bike_location_light.png"
-        alt="A bicycle within a balloon-shaped icon."
+        :alt="$t('pages.about.roadmap.img-alt-text')"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/arcticons_bike_location_dark.png"
-        alt="A bicycle within a balloon-shaped icon."
+        :alt="$t('pages.about.roadmap.img-alt-text')"
       />
       <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div class="items-center space-y-4 text-left md:items-start">
@@ -28,13 +28,13 @@
             v-if="$colorMode.value == 'light'"
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
             src="/images/content_pages/icons/arcticons_bike_location_light.png"
-            alt="A bicycle within a balloon-shaped icon."
+            :alt="$t('pages.about.roadmap.img-alt-text')"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             class="hidden float-right h-64 p-4 md:block 2xl:hidden lg:h-72"
             src="/images/content_pages/icons/arcticons_bike_location_dark.png"
-            alt="A bicycle within a balloon-shaped icon."
+            :alt="$t('pages.about.roadmap.img-alt-text')"
           />
           <h1 class="pb-2 font-bold responsive-h1">Roadmap</h1>
           <div class="flex flex-row py-2 space-x-3">
@@ -121,13 +121,13 @@
             v-if="$colorMode.value == 'light'"
             class="hidden 2xl:block h-80"
             src="/images/content_pages/icons/arcticons_bike_location_light.png"
-            alt="A bicycle within a balloon-shaped icon."
+            :alt="$t('pages.about.roadmap.img-alt-text')"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             class="hidden 2xl:block h-80"
             src="/images/content_pages/icons/arcticons_bike_location_dark.png"
-            alt="A bicycle within a balloon-shaped icon."
+            :alt="$t('pages.about.roadmap.img-alt-text')"
           />
         </div>
       </div>
