@@ -5,7 +5,7 @@ interface Props {
 export default function useFormInput(
   props: Props,
   emit: any,
-  debounce?: false
+  debounce = false
 ): { updateValue: (event: Event) => void } {
   const inputDebounce = useDebounceFn((val: any) => {
     emit("update:modelValue", val);
