@@ -306,6 +306,25 @@
         "title": "Roadmap"
       }
     },
+    "auth": {
+      "sign-in": {
+        "index": {
+          "sign-in": "Sign In",
+          "sign-up": "Sign Up",
+          "welcome-back": "Welcome Back!",
+          "enter-user-name": "Enter a User Name",
+          "enter-password": "Enter Password",
+          "dont-have-account": "Don't have an account?",
+          "i-am-human": "I am human"
+        }
+      },
+      "sign-up": {
+        "index": {
+          "sign-up": "Sign Up",
+          "sign-in": "Sign In"
+        }
+      }
+    },
     "blog": {
       "title": "Blog Home"
     },
