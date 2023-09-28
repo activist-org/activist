@@ -14,6 +14,7 @@ const passwordValue = ref("");
         <FormTextField
           :placeholder="$t('pages.auth.sign-in.index.enter-user-name')"
           :model-value="userNameValue"
+          @update:model-value="userNameValue = $event"
         />
       </div>
       <div>
@@ -22,6 +23,7 @@ const passwordValue = ref("");
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
+          @update:model-value="passwordValue = $event"
         />
       </div>
       <div class="grid grid-cols-9 space-x-12 md:space-x-2">

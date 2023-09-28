@@ -8,7 +8,8 @@ const props = defineProps({
     default: "",
   },
   modelValue: {
-    type: [String, Number],
+    type: String,
+    default: "",
   },
   inputType: {
     type: String,
@@ -21,9 +22,17 @@ const props = defineProps({
 });
 const emit = defineEmits(["update:modelValue"]);
 
-const { updateValue } = useFormInput(props, emit, true);
+
+const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
 
 const uuid = useUniqueID().getID();
+
+const refInputType = ref(props?.inputType)
+
+const changeInputType = () => {
+  refInputType.value = refInputType.value === "password" ? "text" : "password"
+}
+
 </script>
 
 <template>
@@ -32,13 +41,13 @@ const uuid = useUniqueID().getID();
   >
     <input
       class="w-full h-5 bg-transparent outline-none placeholder:text-light-special-text dark:placeholder:text-dark-special-text"
-      :onInput="updateValue"
+      @input="updateValue"
       :id="uuid"
       :value="modelValue"
       :placeholder="placeholder"
-      :type="inputType"
+      :type="refInputType"
     />
-    <span v-if="isIconVisible" @click="changeInputType">
+    <span v-if="isIconVisible" @click="changeInputType" class="cursor-pointer">
       <Icon name="mdi:eye" size="28px" />
     </span>
   </div>

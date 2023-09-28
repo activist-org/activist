@@ -21,6 +21,9 @@ export default function useFormInput(
     if ((event.target as HTMLInputElement).type === "radio") {
       val = props.value;
     }
+    if ((event.target as HTMLInputElement).type === "text") {
+      val = (event.target as HTMLInputElement).value
+    }
     if (debounce) {
       inputDebounce(val);
       return;
