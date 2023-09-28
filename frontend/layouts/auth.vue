@@ -17,7 +17,7 @@ const page = computed(() => {
     <!--  TODO: Think or ask about theme selection -->
     <div class="relative hidden md:block">
       <LogoActivist
-        class="absolute inset-0 flex items-center justify-center px-16"
+        class="absolute inset-0 flex items-center justify-center md:px-16 lg:px-32 xl:px-56"
       />
     </div>
     <div class="bg-white h-full">
@@ -32,10 +32,10 @@ const page = computed(() => {
           ariaLabel="SignIn"
         />
       </div>
-      <div class="flex-1 w-full pt-6 md:pt-36 pb-12 space-y-4">
+      <div class="flex-1 w-full pt-6 md:pt-36 pb-4 md:pb-12 space-y-4">
         <div class="flex items-center justify-center p-4">
           <h1
-            class="text-center text-[64px] responsive-h1 font-bold font-display"
+            class="text-center xl:text-[64px] responsive-h1 font-bold font-display"
           >
             {{ $t(page.message) }}
           </h1>
