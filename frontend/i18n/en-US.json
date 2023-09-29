@@ -309,6 +309,7 @@
     "auth": {
       "sign-in": {
         "index": {
+          "title": "Sign In",
           "sign-in": "Sign In",
           "sign-up": "Sign Up",
           "welcome-back": "Welcome Back!",
@@ -320,6 +321,7 @@
       },
       "sign-up": {
         "index": {
+          "title": "Sign Up",
           "sign-up": "Sign Up",
           "sign-in": "Sign In"
         }
