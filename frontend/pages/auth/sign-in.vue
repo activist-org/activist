@@ -5,6 +5,10 @@ definePageMeta({
 
 const userNameValue = ref("");
 const passwordValue = ref("");
+
+const signIn = () => {
+  //
+}
 </script>
 
 <template>
@@ -45,10 +49,10 @@ const passwordValue = ref("");
         <BtnLabeled
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
           label="Sign In"
-          linkTo="/auth/sign-up"
           :cta="true"
           fontSize="lg"
           ariaLabel="SignIn"
+          @click="signIn"
         />
       </div>
       <div class="flex justify-center pt-12">
