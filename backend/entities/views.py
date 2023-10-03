@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.response import Response
+from backend.paginator import CustomPagination
 
 from .models import (
     Group,
@@ -37,6 +38,7 @@ from .serializers import (
 class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
+    pagination_class = CustomPagination
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -70,58 +72,70 @@ class OrganizationViewSet(viewsets.ModelViewSet):
 class OrganizationApplicationStatusViewSet(viewsets.ModelViewSet):
     queryset = OrganizationApplicationStatus.objects.all()
     serializer_class = OrganizationApplicationStatusSerializer
+    pagination_class = CustomPagination
 
 
 class OrganizationApplicationViewSet(viewsets.ModelViewSet):
     queryset = OrganizationApplication.objects.all()
     serializer_class = OrganizationApplicationSerializer
+    pagination_class = CustomPagination
 
 
 class OrganizationEventViewSet(viewsets.ModelViewSet):
     queryset = OrganizationEvent.objects.all()
     serializer_class = OrganizationEventSerializer
+    pagination_class = CustomPagination
 
 
 class OrganizationMemberViewSet(viewsets.ModelViewSet):
     queryset = OrganizationMember.objects.all()
     serializer_class = OrganizationMemberSerializer
+    pagination_class = CustomPagination
 
 
 class OrganizationResourceViewSet(viewsets.ModelViewSet):
     queryset = OrganizationResource.objects.all()
     serializer_class = OrganizationResourceSerializer
+    pagination_class = CustomPagination
 
 
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    pagination_class = CustomPagination
 
 
 class OrganizationTaskViewSet(viewsets.ModelViewSet):
     queryset = OrganizationTask.objects.all()
     serializer_class = OrganizationTaskSerializer
+    pagination_class = CustomPagination
 
 
 class OrganizationTopicViewSet(viewsets.ModelViewSet):
     queryset = OrganizationTopic.objects.all()
     serializer_class = OrganizationTopicSerializer
+    pagination_class = CustomPagination
 
 
 class GroupEventViewSet(viewsets.ModelViewSet):
     queryset = GroupEvent.objects.all()
     serializer_class = GroupEventSerializer
+    pagination_class = CustomPagination
 
 
 class GroupMemberViewSet(viewsets.ModelViewSet):
     queryset = GroupMember.objects.all()
     serializer_class = GroupMemberSerializer
+    pagination_class = CustomPagination
 
 
 class GroupResourceViewSet(viewsets.ModelViewSet):
     queryset = GroupResource.objects.all()
     serializer_class = GroupResourceSerializer
+    pagination_class = CustomPagination
 
 
 class GroupTopicViewSet(viewsets.ModelViewSet):
     queryset = GroupTopic.objects.all()
     serializer_class = GroupTopicSerializer
+    pagination_class = CustomPagination
