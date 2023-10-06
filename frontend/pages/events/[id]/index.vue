@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between gap-8 px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
       <Title>{{ event.name }} </Title>
@@ -28,7 +28,7 @@
         :selected="button.selected"
       >
         <div
-          class="flex items-center w-full space-x-2 text-sm font-medium text-left"
+          class="flex items-center w-full text-sm font-medium text-left space-x-2"
         >
           <span class="width-1/6"
             ><Icon

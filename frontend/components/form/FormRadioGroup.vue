@@ -22,7 +22,7 @@
       <input
         v-if="showAdditionalInput"
         @input="inputDebounce"
-        class="font-bold pl-5 pr-2 w-full outline-none flex-1 border border-light-interactive border-r-0 rounded-l-md bg-light-header dark:bg-dark-header dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
+        class="flex-1 w-full pl-5 pr-2 font-bold border border-r-0 outline-none border-light-interactive rounded-l-md bg-light-header dark:bg-dark-header dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
         :type="customValueType"
         v-model="customValue"
         :placeholder="customValuePlaceholder"

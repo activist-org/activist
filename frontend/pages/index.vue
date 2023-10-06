@@ -50,7 +50,7 @@
         imageURL="/images/content_pages/icons/activist_icon"
         altText="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
         btnText1="components.btn-labeled.learn-more"
-        btnURL1="/about"
+        btnURL1="/about/activist"
         btnAriaLabel1="pages.index.activist-section-btn-alt-text"
       />
       <LandingContent
@@ -62,7 +62,7 @@
         btnURL1="/supporters/join"
         btnAriaLabel1="pages.index.our-supporters-btn-become-alt-text"
         btnText2="pages.index.view-all-supporters"
-        btnURL2="/supporters"
+        btnURL2="/supporters/showcase"
         btnAriaLabel2="pages.index.our-supporters-btn-view-alt-text"
         subText="pages.index.our-supporters-sub-text"
       />

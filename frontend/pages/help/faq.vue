@@ -36,6 +36,7 @@
             src="/images/content_pages/icons/bootstrap_question_square_dark.png"
             alt="A question mark within a square."
           />
+          <PageBreadcrumbs />
           <h1 class="pb-2 font-bold responsive-h1">
             {{ $t("pages.help.faq.header") }}
           </h1>

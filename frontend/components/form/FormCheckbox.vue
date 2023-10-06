@@ -11,7 +11,7 @@
       class="pointer-events-none w-[1rem] h-[1rem] top-[50%] translate-y-[-50%] hidden absolute left-[0.2rem] bg-light-text dark:bg-dark-text peer-checked:block rounded-sm"
     ></div>
     <label
-      class="cursor-pointer ml-2 text-lg select-none"
+      class="ml-2 text-lg cursor-pointer select-none"
       v-if="label"
       :for="uuid"
     >

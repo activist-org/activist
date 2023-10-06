@@ -63,7 +63,7 @@ export default <Partial<Config>>{
           "menu-selection": "rgba(200, 200, 200, 1)",
           placeholder: "rgba(138, 138, 138, 1)",
           interactive: "rgba(133, 126, 123, 1)",
-          highlight: "rgba(90, 90, 90, 0.25)",
+          highlight: "rgba(70, 70, 70, 0.25)",
           popup: "rgba(6, 8, 15, 0.90)",
           btn: "rgba(13, 17, 23, 1)",
 
