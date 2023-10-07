@@ -35,4 +35,3 @@ jobs:
 
       - name: Run ruff
         run: ruff ./backend
-

@@ -3,7 +3,7 @@
   <div class="flex flex-col items-center justify-center space-y-5">
     <div class="flex flex-col items-center justify-center space-y-2">
       <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
-      <div class="relative z-0 h-10 w-36 overflow-y-hidden">
+      <div class="relative z-0 h-10 overflow-y-hidden w-36">
         <LogoActivist
           class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />

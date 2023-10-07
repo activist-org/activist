@@ -5,7 +5,11 @@
         v-if="event.imageURL"
         class="w-[200px] h-[200px]"
         :src="event.imageURL"
-        :alt="'The event logo of ' + event.name"
+        :alt="
+          $t('components.card-search-result-event.img-alt-text') +
+          ' ' +
+          resource.name
+        "
       />
       <div v-else class="w-[200px] h-[200px] flex justify-center items-center">
         <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
