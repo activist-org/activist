@@ -38,10 +38,6 @@ const connectLinks = [
 
 const resourcesLinks = [
   {
-    name: "components.footer.faq",
-    url: "/help/faq",
-  },
-  {
     name: "components.footer.help",
     url: "/help",
   },

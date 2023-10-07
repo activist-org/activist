@@ -21,7 +21,7 @@ import useUniqueID from "../../composables/useUniqueID";
 const props = defineProps({
   placeholder: {
     type: String,
-    default: "",
+    default: "Search",
   },
   modelValue: {
     type: [String, Number],
@@ -31,5 +31,5 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit, true);
 
-const uuid = useUniqueID().getID();
+const uuid = useUniqueID().getID().toString();
 </script>

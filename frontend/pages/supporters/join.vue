@@ -6,6 +6,7 @@
       <Title>{{ $t("pages.supporters.join.title") }}</Title>
     </Head>
     <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
+      <PageBreadcrumbs />
       <h1 class="font-bold responsive-h1">
         {{ $t("pages.supporters.join.title") }}
       </h1>

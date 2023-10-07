@@ -265,7 +265,24 @@
     },
     "about": {
       "index": {
+        "header": "About",
+        "title": "About",
+        "subheader": "Learn more about our organization",
+        "section-1-subheader": "General information",
+        "section-1-tagline": "Our structure and plans.",
+        "activist": "activist",
+        "activist-description": "Description of the organization and what we want to achieve.",
+        "activist-alt-text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center.",
+        "impress": "Impress",
+        "impress-description": "The specifics of activist as an entity.",
+        "impress-alt-text": "A information circle.",
+        "roadmap": "Roadmap",
+        "roadmap-description": "Learn about the planned developments of activist.",
+        "roadmap-alt-text": "A bicycle within a balloon-shaped icon."
+      },
+      "activist": {
         "header": "About activist.org",
+        "img-alt-text":"The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
         "section-1-paragraph-1": "We're a Berlin-based team with a growing global network of affiliates and partners. Our goal is to create and maintain a platform that enables more people to safely engage in activism, learn from experienced organizers as well as replicate proven and novel strategies and tactics for social and ecological change.",
         "section-1-paragraph-2": "We're building a free, open-source and privacy-focused technical infrastructure that can rival with the commercial campaigning tools that are often inaccessible — financially and/or technically — to small progressive organizations.",
         "section-1-paragraph-3": "We want to end their dependance on Big Tech infrastructure and put tools of social action into the hands of everyone willing to work towards a more equitable society. Well-executed campaign tactics should not be the exception for well-funded, tech-savvy activists, but a tool for all participants in social movements.",
@@ -278,10 +295,9 @@
         "subheader-1": "See the",
         "subheader-2": "designs on Figma",
         "subheader-3": "to learn more",
-        "title": "About",
-        "img-alt-text":"The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+        "title": "About Us"
       },
-      "activism-network": {
+      "network": {
         "title": "Our Network"
       },
       "impress": {
@@ -297,6 +313,7 @@
         "img-alt-text":"A information circle."
       },
       "roadmap": {
+        "header": "Roadmap",
         "section-1-paragraph-1": "activist.org is open-source software. Our goal is to build in as transparent a manner as possible so that partner organizations and our community can have as much input on the process as possible.",
         "section-1-paragraph-2-1": "Please visit us at our",
         "section-1-paragraph-2-2": "GitHub project space",
@@ -319,7 +336,20 @@
     },
     "docs": {
       "index": {
-        "title": "Documentation"
+        "title": "Documentation",
+        "header": "Documentation",
+        "subheader": "Learn more about activist",
+        "section-1-subheader": "activist basics",
+        "section-1-tagline": "Learn how to use activist to expand your impact",
+        "get-active": "Getting active",
+        "get-active-description": "How activist helps people find organizations and events.",
+        "get-active-alt-text": "Drawing of a fist raised.",
+        "get-organized": "Getting organized",
+        "get-organized-description": "Plans for how activist will support partner organizations.",
+        "get-organized-alt-text": "Drawing of fists in a circle pointed at the center.",
+        "grow-organization": "Growing organizations",
+        "grow-organization-description": "Features that will allow activist partners to expand their reach.",
+        "grow-organization-alt-text": "Drawing of fists raised in a group."
       },
       "get-active": {
         "header": "Discover and get involved",
@@ -407,7 +437,17 @@
     },
     "help": {
       "index": {
-        "title": "Help"
+        "title": "Help",
+        "header": "Help",
+        "subheader": "Find needed information",
+        "section-1-subheader": "Inquiries",
+        "section-1-tagline": "Resources to find answers to your questions or connect with us.",
+        "faq": "Frequently asked questions",
+        "faq-description": "Answers for questions we often get from the community.",
+        "faq-alt-text": "A question mark within a square.",
+        "contact": "Contact form",
+        "contact-description": "Get in contact with the activist team.",
+        "contact-alt-text": "An envelope that's closed indicating a message to be sent."
       },
       "faq": {
         "header": "Frequently Asked Questions",
@@ -465,7 +505,17 @@
     },
     "legal": {
       "index": {
-        "title": "Legal"
+        "title": "Legal",
+        "header": "Legal",
+        "subheader": "Learn about your rights and get assistance",
+        "section-1-subheader": "activist policies",
+        "section-1-tagline": "Documentation of our terms and conditions",
+        "trademark-policy": "Trademark Policy",
+        "trademark-policy-description": "What rights we reserve for the use of our branded content.",
+        "trademark-policy-alt-text": "The trademark symbol.",
+        "privacy-policy": "Privacy Policy",
+        "privacy-policy-description": "What information we collect and your rights as an activist user.",
+        "privacy-policy-alt-text": "A shield with a check mark in the middle of it."
       },
       "legal-support": {
         "title": "Legal Support"
@@ -568,6 +618,19 @@
     },
     "supporters": {
       "index": {
+        "title": "Supporters",
+        "header": "Supporters",
+        "subheader": "Who's involved and how you can join",
+        "section-1-subheader": "Our network",
+        "section-1-tagline": "Those who support our development and how you can help activist.",
+        "showcase": "Showcase",
+        "showcase-description": "Organizations and contributors who make activist possible.",
+        "showcase-alt-text": "A question mark within a square.",
+        "join": "Become a supporter",
+        "join-description": "Learn about how you can help the activist community.",
+        "join-alt-text": "An envelope that's closed indicating a message to be sent."
+      },
+      "showcase": {
         "section-1-paragraph-1-1": "The following is an overview of organizations and individuals that have supported the development of activist. Those interested in providing support can read more about how they can help on the",
         "section-1-paragraph-1-2": "become a supporter page",
         "section-2-subheader": "UNLOCK Accelerator",
@@ -581,7 +644,7 @@
         "section-3-2-subheader": "Design",
         "section-3-2-paragraph-1": "activist has received design support from many individuals.",
         "thanks": "Thanks to our anonymous contributors!",
-        "title": "Supporters"
+        "title": "Our Supporters"
       },
       "join": {
         "section-1-paragraph-1-1": "activist needs support from our community in countless ways. The following details how organizations and individuals can help the team develop the platform to empower activists to have as much impact as possible. A full list of activist's current supporters can be found",
