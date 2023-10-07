@@ -261,6 +261,7 @@
       "our-supporters-text": "Help us create and maintain a platform that enables people to safely engage in activism. Please consider contributing your skills, reach or money.",
       "title": "Welcome",
       "view-all-supporters": "View all supporters"
+      
     },
     "about": {
       "index": {
@@ -281,6 +282,7 @@
       },
       "activist": {
         "header": "About activist.org",
+        "img-alt-text":"The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
         "section-1-paragraph-1": "We're a Berlin-based team with a growing global network of affiliates and partners. Our goal is to create and maintain a platform that enables more people to safely engage in activism, learn from experienced organizers as well as replicate proven and novel strategies and tactics for social and ecological change.",
         "section-1-paragraph-2": "We're building a free, open-source and privacy-focused technical infrastructure that can rival with the commercial campaigning tools that are often inaccessible — financially and/or technically — to small progressive organizations.",
         "section-1-paragraph-3": "We want to end their dependance on Big Tech infrastructure and put tools of social action into the hands of everyone willing to work towards a more equitable society. Well-executed campaign tactics should not be the exception for well-funded, tech-savvy activists, but a tool for all participants in social movements.",
@@ -307,7 +309,8 @@
         "subheader-1": "Please use the",
         "subheader-2": "contact page",
         "subheader-3": "for inquiries",
-        "title": "Impress"
+        "title": "Impress",
+        "img-alt-text":"A information circle."
       },
       "roadmap": {
         "header": "Roadmap",
@@ -320,7 +323,9 @@
         "subheader-1": "See the",
         "subheader-2": "source code on GitHub",
         "subheader-3": "to learn more",
-        "title": "Roadmap"
+        "title": "Roadmap",
+        "img-alt-text":"A bicycle within a balloon-shaped icon."
+
       }
     },
     "blog": {
@@ -458,7 +463,9 @@
         "section-4-paragraph-2-3": "to share ideas, ask questions, find ways to help the platform grow or to just say hi :)",
         "subheader-1": "Please join our community in the",
         "subheader-2": "public Matrix chat rooms",
-        "title": "FAQ"
+        "title": "FAQ",
+        "img-alt-text":"A question mark within a square."
+
       },
       "contact": {
         "header": "We'd love to hear from you!",
@@ -538,7 +545,9 @@
         "section-8-paragraph-1-3": "to contribute code, translations or suggestions to the project. You're also welcome to join us in our",
         "section-8-paragraph-1-4": "public Matrix chat rooms",
         "section-8-paragraph-1-5": "to share ideas, ask questions or just say hi :)",
-        "title": "Privacy"
+        "title": "Privacy",
+        "img-alt-text":"A shield with a checkmark in the middle of it to indicate that privacy is protected."
+
       },
       "trademark-policy": {
         "last-updated": "Last updated May 1st, 2023",
@@ -570,7 +579,8 @@
         "section-5-paragraph-2-3": "to contribute code, translations or suggestions to the project. You're also welcome to join us in our",
         "section-5-paragraph-2-4": "public Matrix chat rooms",
         "section-5-paragraph-2-5": "to share ideas, ask questions or just say hi :)",
-        "title": "Trademark"
+        "title": "Trademark",
+        "img-alt-text":"The trademark symbol - tm within a square.."
       }
     },
     "organizations": {
