@@ -13,13 +13,13 @@
         v-if="$colorMode.value == 'light'"
         class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_info_circle_light.png"
-        :alt=" $t('pages.about.impress.img-alt-text')"
+        :alt="$t('pages.about.impress.img-alt-text')"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_info_circle_dark.png"
-        :alt=" $t('pages.about.impress.img-alt-text')"
+        :alt="$t('pages.about.impress.img-alt-text')"
       />
       <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div class="items-center text-left space-y-4 md:items-start">
@@ -28,13 +28,13 @@
             v-if="$colorMode.value == 'light'"
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_info_circle_light.png"
-            :alt=" $t('pages.about.impress.img-alt-text')"
+            :alt="$t('pages.about.impress.img-alt-text')"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_info_circle_dark.png"
-            :alt=" $t('pages.about.impress.img-alt-text')"
+            :alt="$t('pages.about.impress.img-alt-text')"
           />
           <PageBreadcrumbs />
           <h1 class="pb-2 font-bold responsive-h1">
@@ -99,13 +99,13 @@
             v-if="$colorMode.value == 'light'"
             class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_info_circle_light.png"
-            :alt=" $t('pages.about.impress.img-alt-text')"
+            :alt="$t('pages.about.impress.img-alt-text')"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_info_circle_dark.png"
-            :alt=" $t('pages.about.impress.img-alt-text')"
+            :alt="$t('pages.about.impress.img-alt-text')"
           />
         </div>
       </div>

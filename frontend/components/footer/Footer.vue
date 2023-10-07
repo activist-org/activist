@@ -68,7 +68,7 @@ const organizationLinks = [
 
 const platformLinks = [
   {
-    name: "v0.0.1",
+    name: "components.footer.version-number",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist/releases",
   },
