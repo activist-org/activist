@@ -86,6 +86,7 @@ const props = defineProps<{
 }>();
 ```
 
+- Type assignments should be lower case, so `string` instead of `String`
 - Please also use `withDefault` when types require [default values](https://vuejs.org/guide/typescript/composition-api.html#props-default-values)
 
 See [Vue and TypeScript docs](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) for more information about typing component props.

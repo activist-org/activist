@@ -46,6 +46,10 @@ const resourcesLinks = [
     url: "/docs",
   },
   {
+    name: "components.footer.legal",
+    url: "/legal",
+  },
+  {
     name: "components.footer.contact",
     url: "/help/contact",
   },
