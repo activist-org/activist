@@ -27,7 +27,7 @@
     <div
       class="w-full h-32 rounded-md bg-light-placeholder dark:bg-dark-placeholder"
     >
-      <img :src="item.imgURL" alt="" />
+      <img :src="item.imgURL" :alt="$t('components.feed-item.img-alt-text')" />
     </div>
   </div>
 </template>

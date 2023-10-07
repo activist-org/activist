@@ -9,7 +9,11 @@
           <img
             class="w-16 h-16 rounded-full ring-2 hover:ring-light-cta-orange hover:ring-2 hover:ring-offset-2 ring-light-section-div dark:ring-dark-section-div dark:hover:ring-light-cta-orange dark:hover:ring-offset-dark-content"
             :src="item.avatarUrl"
-            alt=""
+            :alt="
+              $t('components.grid-github-contributors.img-alt-text') +
+              ' ' +
+              item.loginID
+            "
           />
           <p
             class="w-full text-sm text-center truncate text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
@@ -28,7 +32,9 @@
         >
           <span
             class="flex items-center justify-center w-16 h-16 rounded-full ring-2 hover:ring-light-cta-orange hover:ring-2 hover:ring-offset-2 ring-light-section-div dark:ring-dark-section-div dark:hover:ring-light-cta-orange dark:hover:ring-offset-dark-content bg-light-section-div dark:bg-dark-section-div"
-            alt=""
+            :alt="
+              $t('components.grid-github-contributors.load-more-img-alt-text')
+            "
           >
             <Icon
               name="bx:dots-horizontal-rounded"
