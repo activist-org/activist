@@ -37,11 +37,12 @@ export default <Partial<Config>>{
           interactive: "rgba(75, 75, 67, 1)",
           highlight: "rgba(140, 140, 140, 0.20)",
           popup: "rgba(255, 255, 255, 0.90)",
-          btn: "rgba(184, 184, 184, 1)",
+          btn: "rgba(200, 200, 200, 1)",
 
           "cta-orange": {
             DEFAULT: "rgba(242, 166, 84, 1)",
             hover: "rgba(244, 176, 103, 1)",
+            light: "rgba(244, 176, 103, 1)",
           },
           "act-red": "rgba(186, 61, 59, 1)",
           "learn-blue": "rgba(33, 118, 174, 1)",
@@ -70,6 +71,7 @@ export default <Partial<Config>>{
           "cta-orange": {
             DEFAULT: "rgba(241, 156, 65, 1)",
             hover: "rgba(242, 166, 84, 1)",
+            light: "rgba(242, 166, 84, 1)",
           },
           "act-red": "rgba(238, 90, 88, 1)",
           "learn-blue": "rgba(62, 146, 204, 1)",

@@ -1,19 +1,6 @@
-<script setup lang="ts">
-definePageMeta({
-  layout: "auth",
-});
-
-const userNameValue = ref("");
-const passwordValue = ref("");
-
-const signIn = () => {
-  //
-}
-</script>
-
 <template>
-  <div class="px-4 2xl:px-36 xl:px-24 md:px-16 sm:px-6">
-    <form class="space-y-8">
+  <div class="px-4 2xl:px-36 xl:px-24 md:px-8 sm:px-6">
+    <form class="space-y-4">
       <div class="col">
         <FormTextField
           :placeholder="$t('pages.auth.sign-in.index.enter-user-name')"
@@ -30,9 +17,9 @@ const signIn = () => {
           @update:model-value="passwordValue = $event"
         />
       </div>
-      <div class="grid grid-cols-9 space-x-12 md:space-x-2">
+      <div class="flex space-x-2">
         <button
-          class="flex items-center justify-center 2xl:space-x-[4.5vw] xl:space-x-8 lg:space-x-4 md:space-x-4 lg:col-span-5 md:col-span-2 px-3 rounded border light:border-black dark:border-[#857E7B] text-sm min-w-[68px] h-[48px] md:h-[40px]"
+          class="flex items-center w-fit justify-center 2xl:space-x-10 xl:space-x-8 lg:space-x-4 md:space-x-4 lg:col-span-5 md:col-span-2 px-3 rounded border light:border-black dark:border-[#857E7B] text-sm h-[48px] md:h-[40px]"
           type="button"
           aria-label="test"
         >
@@ -55,11 +42,11 @@ const signIn = () => {
           @click="signIn"
         />
       </div>
-      <div class="flex justify-center pt-12">
-        <h6>{{ $t("pages.auth.sign-in.index.dont-have-account") }}</h6>
+      <div class="flex md:justify-center pt-6 md:pt-8 lg:pt-12">
+        <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
         <NuxtLink
           :to="'sign-up'"
-          class="ml-2 text-light-cta-orange font-bold"
+          class="ml-2 text-light-cta-orange-light dark:text-dark-cta-orange-light hover:text-light-cta-orange hover:dark:text-dark-cta-orange font-extrabold"
           >{{ $t("pages.auth.sign-in.index.sign-up") }}</NuxtLink
         >
       </div>
@@ -67,4 +54,15 @@ const signIn = () => {
   </div>
 </template>
 
-<style scoped></style>
+<script setup lang="ts">
+definePageMeta({
+  layout: "auth",
+});
+
+const userNameValue = ref("");
+const passwordValue = ref("");
+
+const signIn = () => {
+  //
+};
+</script>
