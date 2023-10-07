@@ -95,7 +95,7 @@ function makeURL(breadcrumb: string) {
 
 function capitalizeFirstLetter(string: string) {
   if (string === "activist") {
-    string;
+    return string;
   } else if (string !== "activist" && string.includes("-")) {
     return string
       .replace("-", " ")

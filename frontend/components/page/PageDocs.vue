@@ -9,7 +9,7 @@
       <img
         class="h-40 mb-4 md:hidden sm:h-52"
         :src="imgURL + '_' + $colorMode.value + '.png'"
-        :alt="imgAltText"
+        :alt="$t(imgAltText)"
       />
       <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
         <div class="items-center text-left space-y-4 md:items-start">
@@ -17,7 +17,7 @@
           <img
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             :src="imgURL + '_' + $colorMode.value + '.png'"
-            :alt="imgAltText"
+            :alt="$t(imgAltText)"
           />
           <PageBreadcrumbs />
           <slot />
@@ -27,7 +27,7 @@
           <img
             class="hidden 2xl:block h-72"
             :src="imgURL + '_' + $colorMode.value + '.png'"
-            :alt="imgAltText"
+            :alt="$t(imgAltText)"
           />
         </div>
       </div>
