@@ -39,7 +39,7 @@
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
         fontSize="xl"
-        :ariaLabel="btnAriaLabel1 ? $t(`${btnAriaLabel1}`) : null"
+        :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : null"
       />
     </div>
     <!-- Note: image right of content. -->
@@ -109,7 +109,7 @@
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
         fontSize="xl"
-        :ariaLabel="btnAriaLabel1 ? $t(`${btnAriaLabel1}`) : null"
+        :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : null"
       />
     </div>
   </div>
@@ -142,7 +142,7 @@
           :label="`${btnText1}`"
           :linkTo="`${btnURL1}`"
           fontSize="xl"
-          :ariaLabel="btnAriaLabel1 ? $t(`${btnAriaLabel1}`) : null"
+          :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : null"
         />
         <BtnLabeled
           class="w-full"
@@ -150,7 +150,7 @@
           :label="`${btnText2}`"
           :linkTo="`${btnURL2}`"
           fontSize="xl"
-          :ariaLabel="btnAriaLabel2 ? $t(`${btnAriaLabel2}`) : null"
+          :ariaLabel="btnAriaLabel2 ? btnAriaLabel2 : null"
         />
       </div>
       <div>
