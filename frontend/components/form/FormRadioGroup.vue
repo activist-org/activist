@@ -61,7 +61,7 @@ export type RadioOption = {
    * The optional radio button custom color.
    */
   customColor?: string;
-}
+};
 
 const props = defineProps({
   vertical: {

@@ -75,7 +75,7 @@
 <script setup lang="ts">
 const sidebar = useSidebar();
 
-import { CheckboxOption } from '../../form/FormCheckboxGroup.vue';
+import { CheckboxOption } from "../../form/FormCheckboxGroup.vue";
 
 interface Filter {
   title: string;

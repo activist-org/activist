@@ -34,7 +34,7 @@ export type CheckboxOption = {
    * The checkbox value.
    */
   value: string;
-}
+};
 
 const props = defineProps({
   modelValue: {
@@ -65,5 +65,8 @@ const checkboxComponent = computed(() => {
 
 const emit = defineEmits(["update:modelValue"]);
 
-const { isSelected, toggleCheckbox } = useFormCheckboxRadio(props.modelValue, emit);
+const { isSelected, toggleCheckbox } = useFormCheckboxRadio(
+  props.modelValue,
+  emit
+);
 </script>

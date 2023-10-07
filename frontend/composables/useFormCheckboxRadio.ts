@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 
 export default function useFormCheckboxRadio(
   value: string | string[],
-  emit: (event: 'update:modelValue', ...args: any[]) => void
+  emit: (event: "update:modelValue", ...args: any[]) => void
 ) {
   const selectedValue = ref<string | string[]>(value);
   const customValue = ref<string>("");
