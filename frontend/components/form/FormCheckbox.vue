@@ -4,7 +4,7 @@
       class="cursor-pointer mb-0 peer appearance-none w-[1.375rem] h-[1.375rem] border border-light-text rounded-sm bg-light-button dark:bg-dark-button dark:border-dark-text"
       type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
-      :checked="modelValue === value"
+      :checked="modelValue"
       :id="uuid"
     />
     <div
@@ -30,7 +30,7 @@ const props = defineProps({
     default: "",
   },
   modelValue: {
-    type: [String, Number, Boolean],
+    type: Boolean,
   },
   value: {
     type: [String, Number],
@@ -44,5 +44,5 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit);
 
-const uuid = useUniqueID().getID();
+const uuid = useUniqueID().getID().toString();
 </script>

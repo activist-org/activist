@@ -17,15 +17,32 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from "vue";
+
 import useFormCheckboxRadio from "../../composables/useFormCheckboxRadio";
+
+/**
+ * The available checkbox type option.
+ */
+export type CheckboxOption = {
+  /**
+   * The checkbox label.
+   */
+  label: string;
+
+  /**
+   * The checkbox value.
+   */
+  value: string;
+}
 
 const props = defineProps({
   modelValue: {
-    type: Array,
-    required: false,
+    type: [String, Array] as PropType<string | string[]>,
+    required: true,
   },
   options: {
-    type: Array,
+    type: Array as PropType<CheckboxOption[]>,
     required: true,
   },
   name: {
@@ -48,5 +65,5 @@ const checkboxComponent = computed(() => {
 
 const emit = defineEmits(["update:modelValue"]);
 
-const { isSelected, toggleCheckbox } = useFormCheckboxRadio(props, emit);
+const { isSelected, toggleCheckbox } = useFormCheckboxRadio(props.modelValue, emit);
 </script>
