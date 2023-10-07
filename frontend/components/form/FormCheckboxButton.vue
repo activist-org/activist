@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center font-bold relative h-10 border border-light-interactive dark:border-dark-interactive border-r-0 last:border-r bg-light-header text-light-special-text dark:text-dark-special-text dark:bg-dark-header first:rounded-l-md last:rounded-r-md"
+    class="relative flex items-center h-10 font-bold border border-r-0 border-light-interactive dark:border-dark-interactive last:border-r bg-light-header text-light-special-text dark:text-dark-special-text dark:bg-dark-header first:rounded-l-md last:rounded-r-md"
     :class="{
       'bg-dark-header dark:bg-dark-menu-selection text-dark-interactive dark:text-dark-distinct border-dark-header dark:border-light-header':
         modelValue,
@@ -33,7 +33,7 @@ const props = defineProps({
     default: "",
   },
   modelValue: {
-    type: [String, Number, Boolean],
+    type: Boolean,
   },
   value: {
     type: [String, Number],
@@ -43,7 +43,8 @@ const props = defineProps({
     default: "",
   },
 });
+
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit);
-const uuid = useUniqueID().getID();
+const uuid = useUniqueID().getID().toString();
 </script>

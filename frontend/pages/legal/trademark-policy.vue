@@ -13,29 +13,30 @@
         v-if="$colorMode.value == 'light'"
         class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_trademark_light.png"
-        alt="The trademark symbol - tm within a square.."
+        :alt="$t('pages.legal.trademark-policy.img-alt-text')"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="h-40 mb-4 md:hidden sm:h-52"
         src="/images/content_pages/icons/bootstrap_trademark_dark.png"
-        alt="The trademark symbol - tm within a square.."
+        :alt="$t('pages.legal.trademark-policy.img-alt-text')"
       />
-      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center space-y-4 text-left md:items-start">
+      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center text-left space-y-4 md:items-start">
           <!-- Note: image floating right of content. -->
           <img
             v-if="$colorMode.value == 'light'"
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_trademark_light.png"
-            alt="The trademark symbol - tm within a square.."
+            :alt="$t('pages.legal.trademark-policy.img-alt-text')"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
             src="/images/content_pages/icons/bootstrap_trademark_dark.png"
-            alt="The trademark symbol - tm within a square.."
+            :alt="$t('pages.legal.trademark-policy.img-alt-text')"
           />
+          <PageBreadcrumbs />
           <h1 class="pb-2 font-bold responsive-h1">Trademark Policy</h1>
           <p
             class="responsive-h4 text-light-special-text dark:text-dark-special-text"
@@ -166,13 +167,13 @@
             v-if="$colorMode.value == 'light'"
             class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_trademark_light.png"
-            alt="The trademark symbol - tm within a square.."
+            :alt="$t('pages.legal.trademark-policy.img-alt-text')"
           />
           <img
             v-else-if="$colorMode.value == 'dark'"
             class="hidden 2xl:block h-72"
             src="/images/content_pages/icons/bootstrap_trademark_dark.png"
-            alt="The trademark symbol - tm within a square.."
+            :alt="$t('pages.legal.trademark-policy.img-alt-text')"
           />
         </div>
       </div>

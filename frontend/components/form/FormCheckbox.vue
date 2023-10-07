@@ -4,14 +4,14 @@
       class="cursor-pointer mb-0 peer appearance-none w-[1.375rem] h-[1.375rem] border border-light-text rounded-sm bg-light-button dark:bg-dark-button dark:border-dark-text"
       type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
-      :checked="modelValue === value"
+      :checked="modelValue"
       :id="uuid"
     />
     <div
       class="pointer-events-none w-[1rem] h-[1rem] top-[50%] translate-y-[-50%] hidden absolute left-[0.2rem] bg-light-text dark:bg-dark-text peer-checked:block rounded-sm"
     ></div>
     <label
-      class="cursor-pointer ml-2 text-lg select-none"
+      class="ml-2 text-lg cursor-pointer select-none"
       v-if="label"
       :for="uuid"
     >
@@ -30,7 +30,7 @@ const props = defineProps({
     default: "",
   },
   modelValue: {
-    type: [String, Number, Boolean],
+    type: Boolean,
   },
   value: {
     type: [String, Number],
@@ -44,5 +44,5 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit);
 
-const uuid = useUniqueID().getID();
+const uuid = useUniqueID().getID().toString();
 </script>

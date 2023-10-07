@@ -1,11 +1,9 @@
-interface Props {
-  value: any;
-}
+import { useDebounceFn } from "@vueuse/core";
 
 export default function useFormInput(
-  props: Props,
+  props: Record<string, unknown>,
   emit: any,
-  debounce = false
+  isDebounceEnabled?: boolean
 ): { updateValue: (event: Event) => void } {
   const inputDebounce = useDebounceFn((val: any) => {
     emit("update:modelValue", val);
@@ -24,7 +22,7 @@ export default function useFormInput(
     if ((event.target as HTMLInputElement).type === "text") {
       val = (event.target as HTMLInputElement).value
     }
-    if (debounce) {
+    if (isDebounceEnabled) {
       inputDebounce(val);
       return;
     }
