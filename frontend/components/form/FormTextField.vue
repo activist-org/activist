@@ -1,39 +1,3 @@
-<script setup lang="ts">
-import useUniqueID from "~/composables/useUniqueID";
-import useFormInput from "~/composables/useFormSetup";
-
-const props = defineProps({
-  placeholder: {
-    type: String,
-    default: "",
-  },
-  modelValue: {
-    type: String,
-    default: "",
-  },
-  inputType: {
-    type: String,
-    default: "text",
-  },
-  isIconVisible: {
-    type: Boolean,
-    default: false,
-  },
-});
-const emit = defineEmits(["update:modelValue"]);
-
-
-const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
-
-const uuid = useUniqueID().getID();
-
-const refInputType = ref(props?.inputType)
-
-const changeInputType = () => {
-  refInputType.value = refInputType.value === "password" ? "text" : "password"
-}
-
-</script>
 
 <template>
   <div
@@ -47,10 +11,79 @@ const changeInputType = () => {
       :placeholder="placeholder"
       :type="refInputType"
     />
-    <span v-if="isIconVisible" @click="changeInputType" class="cursor-pointer">
-      <Icon name="mdi:eye" size="28px" />
+    <span v-for="(icon, index) in iconsNames" :key="index" class="cursor-pointer" @click="handleIconClick(icon)">
+      <Icon :name="icon" size="1.5em" :color="getIconColor(icon)" />
     </span>
+    <!-- <span v-if="isIconVisible" @click="changeInputType" class="cursor-pointer">
+      <Icon name="mdi:eye" size="28px" />
+    </span> -->
   </div>
 </template>
+
+  <script setup lang="ts">
+  import useUniqueID from "~/composables/useUniqueID";
+  import useFormInput from "~/composables/useFormSetup";
+  
+  const props = defineProps({
+    placeholder: {
+      type: String,
+      default: "",
+    },
+    modelValue: {
+      type: String,
+      default: "",
+    },
+    inputType: {
+      type: String,
+      default: "text",
+    },
+    isIconVisible: {
+      type: Boolean,
+      default: false,
+    },
+    isInfoIconVisible: {
+    type: Boolean,
+    default: false,
+  },
+  isRepeatPassword: {
+    type: Boolean,
+    default: false,
+  },
+    iconsNames:{
+    type: Array,
+    // default: () => []
+    },
+  });
+  const emit = defineEmits(["update:modelValue"]);
+  
+  
+  const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
+  
+  const uuid = useUniqueID().getID();
+  
+  const refInputType = ref(props?.inputType)
+  
+  const changeInputType = () => {
+    refInputType.value = refInputType.value === "password" ? "text" : "password"
+  }
+  
+  const handleIconClick = (iconName) => {
+  if (iconName === 'bi:eye-fill') {
+    changeInputType(); // Alterna o tipo de entrada
+  }
+};
+
+const getIconColor = (iconName) => {
+  if (iconName === 'bi:check-lg') {
+    return "#3BA55C"
+  } else if (iconName === 'bi:x-lg') {
+    return "#BA3D3B"
+  } else {
+    return "#5A5A5A"
+  }
+}
+
+  
+  </script>
 
 <style scoped></style>
