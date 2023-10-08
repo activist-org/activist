@@ -106,7 +106,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
-defineProps({
-  location: string,
-});
+defineProps<{
+  location: string;
+}>();
 </script>

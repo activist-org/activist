@@ -27,21 +27,16 @@
 import useFormInput from "../../composables/useFormSetup";
 import useUniqueID from "../../composables/useUniqueID";
 
-const props = defineProps({
-  label: {
-    type: string,
-    default: "",
-  },
-  modelValue: {
-    type: boolean,
-  },
-  value: {
-    type: [string, number],
-  },
-  error: {
-    type: string,
-    default: "",
-  },
+export interface Props {
+  label?: string;
+  modelValue?: boolean;
+  value?: [string, number];
+  error?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  label: "",
+  error: "",
 });
 
 const emit = defineEmits(["update:modelValue"]);

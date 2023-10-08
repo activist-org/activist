@@ -20,24 +20,20 @@
 import useFormInput from "../../composables/useFormSetup";
 import useUniqueID from "../../composables/useUniqueID";
 
-const props = defineProps({
-  placeholder: {
-    type: string,
-    default: "",
-  },
-  modelValue: {
-    type: string,
-    default: "",
-  },
-  inputType: {
-    type: string,
-    default: "text",
-  },
-  isIconVisible: {
-    type: boolean,
-    default: false,
-  },
+export interface Props {
+  placeholder?: string;
+  modelValue?: string;
+  inputType?: string;
+  isIconVisible?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  placeholder: "",
+  modelValue: "",
+  inputType: "text",
+  isIconVisible: false,
 });
+
 const emit = defineEmits(["update:modelValue"]);
 
 const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);

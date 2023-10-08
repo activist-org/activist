@@ -63,39 +63,23 @@ export type RadioOption = {
   customColor?: string;
 };
 
-const props = defineProps({
-  vertical: {
-    type: boolean,
-    default: false,
-  },
-  modelValue: {
-    type: [string, Array] as PropType<string | string[]>,
-    required: true,
-  },
-  options: {
-    type: Array as PropType<RadioOption[]>,
-    required: true,
-  },
-  name: {
-    type: string,
-    required: true,
-  },
-  allowCustomValue: {
-    type: boolean,
-    default: false,
-  },
-  customValueType: {
-    type: string,
-    default: "number",
-  },
-  customValuePlaceholder: {
-    type: string,
-    default: "",
-  },
-  style: {
-    type: string,
-    default: "button",
-  },
+export interface Props {
+  vertical?: boolean;
+  modelValue: string | string[];
+  options: RadioOption[];
+  name: string;
+  allowCustomValue?: boolean;
+  customValueType?: string;
+  customValuePlaceholder?: string;
+  style?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  vertical: false,
+  allowCustomValue: false,
+  customValueType: "number",
+  customValuePlaceholder: "",
+  style: "button",
 });
 
 const emit = defineEmits(["update:modelValue"]);

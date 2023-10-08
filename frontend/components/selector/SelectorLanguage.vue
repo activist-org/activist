@@ -70,9 +70,10 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
-defineProps({
-  location: string,
-});
+
+defineProps<{
+  location: string;
+}>();
 
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();

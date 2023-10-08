@@ -17,8 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from "vue";
-
 import useFormCheckboxRadio from "../../composables/useFormCheckboxRadio";
 
 /**
@@ -36,27 +34,17 @@ export type CheckboxOption = {
   value: string;
 };
 
-const props = defineProps({
-  modelValue: {
-    type: [string, Array] as PropType<string | string[]>,
-    required: true,
-  },
-  options: {
-    type: Array as PropType<CheckboxOption[]>,
-    required: true,
-  },
-  name: {
-    type: string,
-    required: true,
-  },
-  style: {
-    type: string,
-    default: "button",
-  },
-  searchInput: {
-    type: boolean,
-    default: false,
-  },
+export interface Props {
+  modelValue: string | string[];
+  options: CheckboxOption[];
+  name: string;
+  style?: string;
+  searchInput?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  style: "button",
+  searchInput: false,
 });
 
 const checkboxComponent = computed(() => {

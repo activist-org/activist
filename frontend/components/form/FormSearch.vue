@@ -18,14 +18,13 @@
 import useFormInput from "../../composables/useFormSetup";
 import useUniqueID from "../../composables/useUniqueID";
 
-const props = defineProps({
-  placeholder: {
-    type: string,
-    default: "Search",
-  },
-  modelValue: {
-    type: [string, number],
-  },
+export interface Props {
+  placeholder?: string;
+  modelValue?: [string, number];
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  placeholder: "Search",
 });
 
 const emit = defineEmits(["update:modelValue"]);
