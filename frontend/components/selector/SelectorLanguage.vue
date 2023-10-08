@@ -71,7 +71,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
 defineProps({
-  location: String,
+  location: string,
 });
 
 const { locale, locales } = useI18n();

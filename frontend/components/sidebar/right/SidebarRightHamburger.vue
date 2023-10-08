@@ -34,7 +34,7 @@
 <script setup lang="ts">
 defineProps({
   menuOpen: {
-    type: Boolean,
+    type: boolean,
     default: false,
   },
 });

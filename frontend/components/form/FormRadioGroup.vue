@@ -65,11 +65,11 @@ export type RadioOption = {
 
 const props = defineProps({
   vertical: {
-    type: Boolean,
+    type: boolean,
     default: false,
   },
   modelValue: {
-    type: [String, Array] as PropType<string | string[]>,
+    type: [string, Array] as PropType<string | string[]>,
     required: true,
   },
   options: {
@@ -77,23 +77,23 @@ const props = defineProps({
     required: true,
   },
   name: {
-    type: String,
+    type: string,
     required: true,
   },
   allowCustomValue: {
-    type: Boolean,
+    type: boolean,
     default: false,
   },
   customValueType: {
-    type: String,
+    type: string,
     default: "number",
   },
   customValuePlaceholder: {
-    type: String,
+    type: string,
     default: "",
   },
   style: {
-    type: String,
+    type: string,
     default: "button",
   },
 });
