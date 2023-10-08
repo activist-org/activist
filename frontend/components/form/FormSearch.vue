@@ -20,11 +20,11 @@ import useUniqueID from "../../composables/useUniqueID";
 
 const props = defineProps({
   placeholder: {
-    type: String,
+    type: string,
     default: "Search",
   },
   modelValue: {
-    type: [String, Number],
+    type: [string, number],
   },
 });
 

@@ -107,6 +107,6 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
 defineProps({
-  location: String,
+  location: string,
 });
 </script>

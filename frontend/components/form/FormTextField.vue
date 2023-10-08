@@ -22,19 +22,19 @@ import useUniqueID from "../../composables/useUniqueID";
 
 const props = defineProps({
   placeholder: {
-    type: String,
+    type: string,
     default: "",
   },
   modelValue: {
-    type: String,
+    type: string,
     default: "",
   },
   inputType: {
-    type: String,
+    type: string,
     default: "text",
   },
   isIconVisible: {
-    type: Boolean,
+    type: boolean,
     default: false,
   },
 });

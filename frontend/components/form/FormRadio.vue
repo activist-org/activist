@@ -20,14 +20,14 @@ import useUniqueID from "../../composables/useUniqueID";
 
 const props = defineProps({
   label: {
-    type: String,
+    type: string,
     default: "",
   },
   modelValue: {
-    type: Boolean,
+    type: boolean,
   },
   error: {
-    type: String,
+    type: string,
     default: "",
   },
 });

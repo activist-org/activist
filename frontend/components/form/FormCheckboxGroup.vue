@@ -38,7 +38,7 @@ export type CheckboxOption = {
 
 const props = defineProps({
   modelValue: {
-    type: [String, Array] as PropType<string | string[]>,
+    type: [string, Array] as PropType<string | string[]>,
     required: true,
   },
   options: {
@@ -46,15 +46,15 @@ const props = defineProps({
     required: true,
   },
   name: {
-    type: String,
+    type: string,
     required: true,
   },
   style: {
-    type: String,
+    type: string,
     default: "button",
   },
   searchInput: {
-    type: Boolean,
+    type: boolean,
     default: false,
   },
 });
