@@ -88,11 +88,11 @@
             <div class="flex flex-col space-y-2">
               <label
                 :class="{
-                  'text-red-500': !nameValidated,
+                  'text-light-act-red dark:text-dark-act-red': !nameValidated,
                   'text-light-text dark:text-dark-text': nameValidated,
                 }"
                 for="name"
-                >{{ $t("pages.help.contact.label-name") }}
+                >{{ $t("pages.help.contact.name-label") }}
                 <span v-if="!nameValidated">{{
                   $t("pages.help.contact.error-empty")
                 }}</span></label
@@ -102,10 +102,11 @@
                 @blur="validateName"
                 class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
-                  'outline-red-500 outline outline-2': !nameValidated,
+                  'outline-light-act-red dark:outline-dark-act-red outline outline-2':
+                    !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
                 }"
-                :placeholder="$t('pages.help.contact.placeholder-name')"
+                :placeholder="$t('pages.help.contact.name-placeholder')"
                 autocomplete="off"
                 spellcheck="false"
                 id="name"
@@ -114,11 +115,11 @@
             <div class="flex flex-col space-y-2">
               <label
                 :class="{
-                  'text-red-500': !emailValidated,
+                  'text-light-act-red dark:text-dark-act-red': !emailValidated,
                   'text-light-text dark:text-dark-text': emailValidated,
                 }"
                 for="email"
-                >{{ $t("pages.help.contact.label-email") }}
+                >{{ $t("pages.help.contact.email-label") }}
                 <span v-if="!emailValidated"
                   >{{
                     $t("pages.help.contact.valid")
@@ -131,10 +132,11 @@
                 @blur="validateEmail"
                 class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
-                  'outline-red-500 outline outline-2': !emailValidated,
+                  'outline-light-act-red dark:outline-dark-act-red outline outline-2':
+                    !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
                 }"
-                placeholder="example@mail.com"
+                :placeholder="$t('pages.help.contact.email-placeholder')"
                 autocomplete="off"
                 spellcheck="false"
                 id="email"
@@ -143,11 +145,12 @@
             <div class="flex flex-col space-y-2">
               <label
                 :class="{
-                  'text-red-500': !subjectValidatedValidated,
+                  'text-light-act-red dark:text-dark-act-red':
+                    !subjectValidated,
                   'text-light-text dark:text-dark-text': subjectValidated,
                 }"
                 for="subject"
-                >{{ $t("pages.help.contact.label-subject") }}
+                >{{ $t("pages.help.contact.subject-label") }}
                 <span v-if="!subjectValidated">{{
                   $t("pages.help.contact.error-empty")
                 }}</span></label
@@ -157,10 +160,11 @@
                 @blur="validateSubject"
                 class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
-                  'outline-red-500 outline outline-2': !subjectValidated,
+                  'outline-light-act-red dark:outline-dark-act-red outline outline-2':
+                    !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
                 }"
-                placeholder="What's your message about?"
+                :placeholder="$t('pages.help.contact.subject-placeholder')"
                 autocomplete="off"
                 spellcheck="false"
                 id="subject"
@@ -169,22 +173,24 @@
             <div class="flex flex-col space-y-2">
               <label
                 :class="{
-                  'text-red-500': !messageValidated,
+                  'text-light-act-red dark:text-dark-act-red':
+                    !messageValidated,
                   'text-light-text dark:text-dark-text': messageValidated,
                 }"
                 for="message"
-                >{{ $t("pages.help.contact.label-message") }}
+                >{{ $t("pages.help.contact.message-label") }}
                 <span v-if="!messageValidated">cannot be empty.</span></label
               >
               <textarea
                 v-model="message"
                 @blur="validateMessage"
                 :class="{
-                  'outline-red-500 outline outline-2': !messageValidated,
+                  'outline-light-act-red dark:outline-dark-act-red outline outline-2':
+                    !messageValidated,
                   'outline-none focus:outline-none': messageValidated,
                 }"
                 rows="6"
-                :placeholder="$t('pages.help.contact.placeholder-message')"
+                :placeholder="$t('pages.help.contact.message-placeholder')"
                 class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 autocomplete="off"
                 spellcheck="false"
