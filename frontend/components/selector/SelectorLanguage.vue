@@ -78,7 +78,7 @@ defineProps<{
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-const localesValues: string[] | LocaleObject[] = locales.value;
+const localesValues: (string | LocaleObject)[] = locales.value;
 
 function getLocaleCode(locale: string | LocaleObject) {
   return typeof locale === "string" ? locale : locale.code;
