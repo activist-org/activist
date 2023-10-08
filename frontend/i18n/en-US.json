@@ -70,6 +70,9 @@
     "feed-item": {
       "img-alt-text": "A social media post's image."
     },
+    "form-radio-group": {
+      "custom-numeric-value-placeholder": "Enter number"
+    },
     "footer": {
       "about": "About",
       "contact": "Contact",
@@ -197,6 +200,10 @@
       "command-tooltip-label": "Press \"⌘ + k\" to jump to a page",
       "control-tooltip-label": "Press \"^ + k\" to jump to a page",
       "slash-tooltip-label": "Press \"/\" to search"
+    },
+    "sidebar-left": {
+      "location-search-placeholder": "Filter by location",
+      "orgs-search-placeholder": "Filter by orgs"
     },
     "sidebar-left-footer": {
       "create": "Create",

@@ -9,15 +9,16 @@
       :key="option.value"
       :is="checkboxComponent"
       :label="option.label"
-      :modelValue="isSelected(option.value)"
       :value="option.value"
+      :modelValue="isSelected(option.value)"
+      :customColor="option.customColor"
       @update:modelValue="toggleCheckbox(option.value)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import useFormCheckboxRadio from "../../composables/useFormCheckboxRadio";
+import useFormCheckboxRadio from "../../../composables/useFormCheckboxRadio";
 
 /**
  * The available checkbox type option.
@@ -32,23 +33,28 @@ export type CheckboxOption = {
    * The checkbox value.
    */
   value: string;
+
+  /**
+   * The optional checkbox button custom color.
+   */
+  customColor?: string;
 };
 
 export interface Props {
-  modelValue: string | string[];
-  options: CheckboxOption[];
   name: string;
+  options: CheckboxOption[];
+  modelValue: string | string[];
   style?: string;
   searchInput?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  style: "button",
+  style: "btn",
   searchInput: false,
 });
 
 const checkboxComponent = computed(() => {
-  return props.style === "button" ? "FormCheckboxButton" : "FormCheckbox";
+  return props.style === "btn" ? "FormCheckboxBtn" : "FormCheckbox";
 });
 
 const emit = defineEmits(["update:modelValue"]);
