@@ -143,6 +143,32 @@
             <div class="flex flex-col space-y-2">
               <label
                 :class="{
+                  'text-red-500': !subjectValidatedValidated,
+                  'text-light-text dark:text-dark-text': subjectValidated,
+                }"
+                for="subject"
+                >{{ $t("pages.help.contact.label-subject") }}
+                <span v-if="!subjectValidated">{{
+                  $t("pages.help.contact.error-empty")
+                }}</span></label
+              >
+              <input
+                v-model="subject"
+                @blur="validateSubject"
+                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
+                :class="{
+                  'outline-red-500 outline outline-2': !subjectValidated,
+                  'outline-none focus:outline-none': subjectValidated,
+                }"
+                placeholder="What's your message about?"
+                autocomplete="off"
+                spellcheck="false"
+                id="subject"
+              />
+            </div>
+            <div class="flex flex-col space-y-2">
+              <label
+                :class="{
                   'text-red-500': !messageValidated,
                   'text-light-text dark:text-dark-text': messageValidated,
                 }"
@@ -230,8 +256,10 @@
 const name = ref("");
 const email = ref("");
 const message = ref("");
+const subject = ref("");
 const nameValidated = ref(true);
 const emailValidated = ref(true);
+const subjectValidated = ref(true);
 const messageValidated = ref(true);
 const buttonDisabled = ref(true);
 const mail = useMail();
@@ -240,6 +268,12 @@ const emailSent = ref(false);
 const validateEmail = () => {
   if (!email.value.match(/.*@\w+\.\w+/)) {
     emailValidated.value = false;
+  }
+};
+
+const validateSubject = () => {
+  if (subject.value.trim().length === 0) {
+    subjectValidated.value = false;
   }
 };
 
@@ -266,16 +300,23 @@ watch(email, () => {
   }
 });
 
+watch(subject, () => {
+  if (subject.value.length > 0) {
+    subjectValidated.value = true;
+  }
+});
+
 watch(message, () => {
   if (message.value.length > 0) {
     messageValidated.value = true;
   }
 });
 
-watch([message, email, name], () => {
+watch([message, subject, email, name], () => {
   if (
     name.value.trim().length > 0 &&
     email.value.match(/.*@\w+\.\w+/) &&
+    subject.value.trim().length > 0 &&
     message.value.trim().length > 0
   ) {
     buttonDisabled.value = false;
@@ -288,11 +329,12 @@ const sendEmail = async () => {
   if (
     name.value.trim().length > 0 &&
     email.value.match(/.*@\w+\.\w+/) &&
+    subject.value.trim().length > 0 &&
     message.value.trim().length > 0
   ) {
     await mail.send({
       from: email.value,
-      subject: `activist contact form from ${name.value}`,
+      subject: `activist contact form:  ${subject.value}`,
       text: message.value,
     });
     emailSent.value = true;
