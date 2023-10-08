@@ -51,7 +51,7 @@ function handleMapError(error: Error) {
   map.value.style.position = "absolute";
 }
 
-function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
+function drawMap(avgLat: number, avgLon: number, markers: Marker[]) {
   let mapOptions: MapOptions = {
     center: [avgLat, avgLon],
     zoom: 13,
@@ -134,7 +134,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
     is up and running, removing most of the logic from the frontend.
 
     const props = defineProps<{
-        locations: Array<Marker>,
+        locations: Marker[],
         averageLat: number,
         averageLon: number
     }>();
@@ -145,7 +145,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
 */
 
 onMounted(() => {
-  let markers: Array<Marker> = [];
+  let markers: Marker[] = [];
   let averageLat: number = 0;
   let averageLon: number = 0;
 
