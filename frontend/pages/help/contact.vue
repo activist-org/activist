@@ -334,7 +334,7 @@ const sendEmail = async () => {
   ) {
     await mail.send({
       from: email.value,
-      subject: `activist contact form:  ${subject.value}`,
+      subject: `activist contact form: ${subject.value}`,
       text: message.value,
     });
     emailSent.value = true;
