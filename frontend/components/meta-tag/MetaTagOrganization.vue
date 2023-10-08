@@ -1,5 +1,5 @@
 <template>
-  <MetaTag iconName="IconOrganization" :value="organization" />
+  <metatag iconName="iconorganization" :value="organization" />
 </template>
 
 <script setup lang="ts">

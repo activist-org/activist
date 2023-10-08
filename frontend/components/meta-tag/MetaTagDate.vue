@@ -1,5 +1,5 @@
 <template>
-  <MetaTag iconName="bi:calendar-event" :value="date" />
+  <metatag iconName="bi:calendar-event" :value="date" />
 </template>
 
 <script setup lang="ts">

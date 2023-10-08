@@ -31,8 +31,8 @@
         @click="toggleAdditionalInput"
         class="rounded-r-md relative min-w-[3rem] h-10 border border-light-interactive bg-light-header text-light-interactive dark:bg-dark-header dark:border-dark-interactive dark:text-dark-special-text"
       >
-        <Icon v-if="!showAdditionalInput" name="bi:hash" size="1.5em" />
-        <Icon v-else name="bi:x-lg" size="1.35em" />
+        <icon v-if="!showAdditionalInput" name="bi:hash" size="1.5em" />
+        <icon v-else name="bi:x-lg" size="1.35em" />
       </button>
     </div>
   </div>
@@ -42,58 +42,58 @@
 import { computed } from "vue";
 import useFormCheckboxRadio from "../../composables/useFormCheckboxRadio";
 
-// TODO: This type should be defined for the props definition type from FromRadioButton and FromRadio.
+// todo: this type should be defined for the props definition type from fromradiobutton and fromradio.
 /**
- * The available radio type option.
+ * the available radio type option.
  */
-export type RadioOption = {
+export type radiooption = {
   /**
-   * The radio label.
+   * the radio label.
    */
   label: string;
 
   /**
-   * The radio value.
+   * the radio value.
    */
   value: string;
 
   /**
-   * The optional radio button custom color.
+   * the optional radio button custom color.
    */
   customColor?: string;
 };
 
 const props = defineProps({
   vertical: {
-    type: Boolean,
+    type: boolean,
     default: false,
   },
   modelValue: {
-    type: [String, Array] as PropType<string | string[]>,
+    type: [string, array] as proptype<string | string[]>,
     required: true,
   },
   options: {
-    type: Array as PropType<RadioOption[]>,
+    type: array as proptype<radiooption[]>,
     required: true,
   },
   name: {
-    type: String,
+    type: string,
     required: true,
   },
   allowCustomValue: {
-    type: Boolean,
+    type: boolean,
     default: false,
   },
   customValueType: {
-    type: String,
+    type: string,
     default: "number",
   },
   customValuePlaceholder: {
-    type: String,
+    type: string,
     default: "",
   },
   style: {
-    type: String,
+    type: string,
     default: "button",
   },
 });
@@ -101,7 +101,7 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 
 const radioComponent = computed(() => {
-  return props.style === "button" ? "FormRadioButton" : "FormRadio";
+  return props.style === "button" ? "formradiobutton" : "formradio";
 });
 
 const {

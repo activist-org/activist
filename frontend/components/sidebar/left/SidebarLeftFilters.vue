@@ -7,7 +7,7 @@
           sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
-      <Icon class="mt-[0.125em]" name="bi:filter" size="2em" />
+      <icon class="mt-[0.125em]" name="bi:filter" size="2em" />
     </div>
     <div
       class="opacity-0 text-light-text dark:text-dark-text transition"
@@ -25,7 +25,7 @@
             {{ filter.title }}
           </h3>
           <div v-if="filter.expandable">
-            <Icon
+            <icon
               class="flex-shrink-0 my-1 mb-3 ml-4"
               :class="{ 'rotate-180': filter.reveal }"
               name="bi:chevron-down"
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="mb-4">
-          <FormRadioGroup
+          <formradiogroup
             v-if="filter.type === 'radio'"
             :key="key"
             :options="filter.items"
@@ -45,7 +45,7 @@
             v-model="selectedValues[filter.name]"
           />
           <keep-alive>
-            <FormCheckboxGroup
+            <formcheckboxgroup
               v-if="
                 (filter.type === 'checkbox' && !filter.reveal) ||
                 filter.reveal === false
@@ -59,7 +59,7 @@
               v-model="selectedValues[filter.name]"
             />
           </keep-alive>
-          <FormSearch
+          <formsearch
             v-if="filter.type === 'search'"
             :key="key"
             :name="filter.name"
@@ -75,13 +75,13 @@
 <script setup lang="ts">
 const sidebar = useSidebar();
 
-import { CheckboxOption } from "../../form/FormCheckboxGroup.vue";
+import { checkboxoption } from "../../form/formcheckboxgroup.vue";
 
-interface Filter {
+interface filter {
   title: string;
   name: string;
   type: "radio" | "checkbox" | "search";
-  items: CheckboxOption[];
+  items: checkboxoption[];
   style?: string;
   allowCustomValue?: boolean;
   pageType?: string[];
@@ -91,29 +91,29 @@ interface Filter {
   reveal?: boolean;
 }
 
-interface Filters {
-  [key: string]: Filter;
+interface filters {
+  [key: string]: filter;
 }
 
-interface SelectedValues {
+interface selectedvalues {
   [key: string]: string | string[];
 }
 
 const props = defineProps({
   filters: {
-    type: Object as () => Filters,
+    type: object as () => filters,
     required: true,
   },
 });
 
 const filters = ref(props.filters);
 
-const selectedValues: Ref<SelectedValues> = ref({});
+const selectedValues: ref<selectedvalues> = ref({});
 
 watch(selectedValues.value, (newVal) => {
   console.log("selectedValues changed");
   console.log(newVal);
 
-  // TODO: Filter items based on selected filters.
+  // todo: filter items based on selected filters.
 });
 </script>

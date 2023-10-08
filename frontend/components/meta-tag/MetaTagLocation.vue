@@ -1,5 +1,5 @@
 <template>
-  <MetaTag iconName="ic:sharp-location-on" :value="location" />
+  <metatag iconName="ic:sharp-location-on" :value="location" />
 </template>
 
 <script setup lang="ts">

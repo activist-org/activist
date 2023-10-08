@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink
+  <nuxtlink
     class="relative flex items-center justify-center w-full p-2 text-sm text-left transition duration-200 rounded-md basis-full font-md group focus-brand"
     :class="{
       'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
@@ -13,7 +13,7 @@
     :event="active ? '' : 'click'"
   >
     <slot></slot>
-  </NuxtLink>
+  </nuxtlink>
 </template>
 
 <script setup lang="ts">

@@ -1,14 +1,14 @@
 <template>
   <div class="overflow-hidden bg-light-content dark:bg-dark-content">
-    <Head>
-      <Title>{{ $t("pages.index.title") }}</Title>
-    </Head>
-    <LandingSplash />
-    <LandingCommunityBanner />
+    <head>
+      <title>{{ $t("pages.index.title") }}</title>
+    </head>
+    <landingsplash />
+    <landingcommunitybanner />
     <div
       class="flex flex-col mt-4 mb-2 sm:mb-4 sm:mt-10 xl:mt-16 xl:mb-8 2xl:mt-24 2xl:mb-12"
     >
-      <LandingContent
+      <landingcontent
         contentPosition="left"
         header="pages.index.get-active-header"
         tagline="pages.index.get-active-tagline"
@@ -19,7 +19,7 @@
         btnURL1="/docs/get-active"
         btnAriaLabel1="pages.index.get-active-btn-alt-text"
       />
-      <LandingContent
+      <landingcontent
         contentPosition="right"
         header="pages.index.get-organized-header"
         tagline="pages.index.get-organized-tagline"
@@ -30,7 +30,7 @@
         btnURL1="/docs/get-organized"
         btnAriaLabel1="pages.index.get-organized-btn-alt-text"
       />
-      <LandingContent
+      <landingcontent
         contentPosition="left"
         header="pages.index.grow-organization-header"
         tagline="pages.index.grow-organization-tagline"
@@ -41,8 +41,8 @@
         btnURL1="/docs/grow-organization"
         btnAriaLabel1="pages.index.grow-organization-btn-alt-text"
       />
-      <LandingTechBanner />
-      <LandingContent
+      <landingtechbanner />
+      <landingcontent
         contentPosition="right"
         header="pages.index.activist-section-header"
         tagline="pages.index.activist-section-tagline"
@@ -53,7 +53,7 @@
         btnURL1="/about/activist"
         btnAriaLabel1="pages.index.activist-section-btn-alt-text"
       />
-      <LandingContent
+      <landingcontent
         contentPosition="top"
         header="pages.index.our-supporters-header"
         tagline="pages.index.our-supporters-tagline"

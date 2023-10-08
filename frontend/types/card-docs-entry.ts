@@ -1,4 +1,4 @@
-export interface CardDocsEntry {
+export interface carddocsentry {
   url: string;
   title: string;
   description: string;

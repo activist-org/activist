@@ -18,7 +18,7 @@
           v-else
           class="w-[200px] h-[200px] flex justify-center items-center text-light-text dark:text-dark-text"
         >
-          <Icon name="IconOrganization" class="w-[75%] h-[75%]" />
+          <icon name="iconorganization" class="w-[75%] h-[75%]" />
         </div>
       </div>
     </div>
@@ -31,28 +31,28 @@
             {{ organization.name }}
           </h2>
           <div class="text-light-cta-orange dark:text-dark-cta-orange">
-            <Icon name="ph:dots-three-circle-vertical" size="1.75em" />
+            <icon name="ph:dots-three-circle-vertical" size="1.75em" />
           </div>
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
-          <MetaTagLocation :location="organization.location" />
+          <metataglocation :location="organization.location" />
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <TopicMarker :topic="organization.topic" />
+        <topicmarker :topic="organization.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
-          <MetaTagLocation :location="organization.location" />
+          <metataglocation :location="organization.location" />
         </div>
         <div
           class="flex justify-center space-x-3 lg:space-x-4 md:justify-start"
         >
-          <MetaTagMembers
+          <metatagmembers
             :members="organization.members"
             label="components.meta-tag-members.label"
           />
-          <MetaTagSupporters
+          <metatagsupporters
             :supporters="organization.supporters"
             label="components.meta-tag-supporters.label"
           />
@@ -66,10 +66,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "../../../types/organization";
+import type { organization } from "../../../types/organization";
 
 defineProps<{
   isPrivate?: boolean;
-  organization: Organization;
+  organization: organization;
 }>();
 </script>

@@ -2,7 +2,7 @@
   <div>
     <ul class="flex flex-wrap justify-center md:justify-normal gap-4">
       <li v-for="item in githubData" :key="item.loginID">
-        <NuxtLink
+        <nuxtlink
           class="flex flex-col items-center w-20 focus-brand space-y-1"
           :to="item.htmlUrl"
         >
@@ -20,7 +20,7 @@
           >
             {{ item.loginID }}
           </p>
-        </NuxtLink>
+        </nuxtlink>
       </li>
       <li v-if="hasMoreContributors">
         <button
@@ -36,7 +36,7 @@
               $t('components.grid-github-contributors.load-more-img-alt-text')
             "
           >
-            <Icon
+            <icon
               name="bx:dots-horizontal-rounded"
               size="3em"
               class="text-light-text dark:text-dark-text"
@@ -56,14 +56,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-interface GithubContributor {
+interface githubcontributor {
   avatarUrl: string;
   htmlUrl: string;
   loginID: string;
 }
 
 const isLoading = ref<boolean>(false);
-const githubData = ref<GithubContributor[]>([]);
+const githubData = ref<githubcontributor[]>([]);
 const currentPage = ref<number>(1);
 const hasMoreContributors = ref<boolean>(true);
 

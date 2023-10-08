@@ -2,25 +2,25 @@
   <div
     class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ organization.name }}</Title>
-    </Head>
-    <HeaderAppPage :organization="organization">
+    <head>
+      <title>{{ organization.name }}</title>
+    </head>
+    <headerapppage :organization="organization">
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <btnlabeled
           class="w-max"
           :cta="true"
           linkTo="/"
           label="components.btn-labeled.support"
           fontSize="sm"
-          leftIcon="IconSupport"
+          leftIcon="iconsupport"
           iconSize="1.25em"
           :counter="organization.supporters"
           ariaLabel="
             components.btn-labeled.support-organization-aria-label
           "
         />
-        <BtnLabeled
+        <btnlabeled
           class="hidden md:block w-max"
           :cta="true"
           linkTo="/"
@@ -32,7 +32,7 @@
             components.btn-labeled.share-organization-aria-label
           "
         />
-        <BtnLabeled
+        <btnlabeled
           class="md:hidden w-max"
           :cta="true"
           linkTo="/"
@@ -45,22 +45,22 @@
           "
         />
       </div>
-    </HeaderAppPage>
+    </headerapppage>
     <div class="pt-3 pb-6 space-y-6 lg:pt-4">
       <div
         class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
-        <CardAbout
+        <cardabout
           class="lg:col-span-2"
           aboutType="organization"
           :organization="organization"
         />
         <div class="w-full h-full">
-          <MediaImageCarousel />
+          <mediaimagecarousel />
         </div>
       </div>
-      <CardGetInvolved :organization="organization" />
-      <CardConnect
+      <cardgetinvolved :organization="organization" />
+      <cardconnect
         :social-links="organization.socialLinks"
         :userIsAdmin="true"
       />
@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { Organization } from "../../../types/organization";
+import { organization } from "../../../types/organization";
 
 definePageMeta({
   layout: "sidebar",
@@ -77,14 +77,14 @@ definePageMeta({
 
 const { id } = useRoute().params;
 
-const organization: Organization = {
+const organization: organization = {
   name: "tech from below",
   status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin, Germany",
+  tagline: "technologie von und für soziale bewegungen",
+  location: "berlin, germany",
   description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
+    "nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco lorem. esse aliquip nisi ullamco pariatur velit officia. eiusmod commodo nulla consequat minim laboris pariatur adipisicing. veniam amet nostrud id cupidatat. esse duis velit elit duis non labore adipisicing sunt eu nostrud. occaecat mollit et do consectetur fugiat amet.",
+  topic: "technology and privacy",
   members: 3,
   supporters: 60,
   imageURL: "/images/tech-from-below.svg",

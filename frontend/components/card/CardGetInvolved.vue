@@ -5,10 +5,10 @@
         <h3 class="text-left responsive-h3 font-display">
           {{ $t("components.card-get-involved.header") }}
         </h3>
-        <Icon name="bi:pencil-square" size="1.2em" />
+        <icon name="bi:pencil-square" size="1.2em" />
       </div>
       <div class="flex pt-2 space-x-2 lg:absolute lg:right-0 lg:pt-0">
-        <BtnLabeled
+        <btnlabeled
           v-if="organization && organization.workingGroups"
           :cta="true"
           :linkTo="'/organizations/' + id + '/groups'"
@@ -16,7 +16,7 @@
           fontSize="sm"
           ariaLabel="components.btn-labeled.view-all-groups-aria-label"
         />
-        <BtnLabeled
+        <btnlabeled
           v-if="organization"
           :cta="true"
           linkTo="/"
@@ -34,7 +34,7 @@
           {{ $t("components.card-get-involved.working-groups-subtext") }}
           {{ organization.name }}:
         </p>
-        <Feed :feedItemURLs="organization.workingGroups" />
+        <feed :feedItemURLs="organization.workingGroups" />
       </div>
       <div v-else>
         <p>
@@ -50,9 +50,9 @@
       <p>
         {{ $t("components.card-get-involved.legal-disclaimer-subtext") }}
       </p>
-      <CardLegalDisclaimer :disclaimer="disclaimer" />
+      <cardlegaldisclaimer :disclaimer="disclaimer" />
       <div class="flex pt-2 w-max">
-        <BtnLabeled
+        <btnlabeled
           class="w-full"
           :cta="true"
           linkTo="/"
@@ -68,12 +68,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "../../types/event";
-import type { Organization } from "../../types/organization";
+import type { event } from "../../types/event";
+import type { organization } from "../../types/organization";
 
 defineProps<{
-  organization?: Organization;
-  event?: Event;
+  organization?: organization;
+  event?: event;
   disclaimer: string;
 }>();
 

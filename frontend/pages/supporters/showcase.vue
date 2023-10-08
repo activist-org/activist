@@ -2,22 +2,22 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.supporters.showcase.title") }}</Title>
-    </Head>
+    <head>
+      <title>{{ $t("pages.supporters.showcase.title") }}</title>
+    </head>
     <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
-      <PageBreadcrumbs />
+      <pagebreadcrumbs />
       <h1 class="font-bold responsive-h1">
         {{ $t("pages.supporters.showcase.title") }}
       </h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
         {{ $t("pages.supporters.showcase.section-1-paragraph-1-1") }}
-        <NuxtLink
+        <nuxtlink
           class="focus-brand link-text"
           :to="localePath('/supporters/join')"
         >
           {{ $t("pages.supporters.showcase.section-1-paragraph-1-2") }}
-        </NuxtLink>
+        </nuxtlink>
         .
       </p>
       <h2 class="font-bold responsive-py-1 responsive-h3">
@@ -31,7 +31,7 @@
           target="_blank"
         >
           {{ $t("pages.supporters.showcase.section-2-paragraph-1-2") }}
-          <Icon
+          <icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
@@ -40,7 +40,7 @@
         . {{ $t("pages.supporters.showcase.section-2-paragraph-1-3") }}
       </p>
       <div class="flex items-center justify-center">
-        <GridSupporters class="mt-6 xl:mt-8" />
+        <gridsupporters class="mt-6 xl:mt-8" />
       </div>
       <h2 class="font-bold responsive-py-1 responsive-h3">
         {{ $t("pages.supporters.showcase.section-3-subheader") }}
@@ -56,19 +56,19 @@
           target="_blank"
         >
           {{ $t("pages.supporters.showcase.section-3-1-paragraph-1-2") }}
-          <Icon
+          <icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        <Icon
+        <icon
           name="bi:heart-fill"
           size="1em"
           style="vertical-align: baseline"
         />
       </p>
-      <GridGitHubContributors />
+      <gridgithubcontributors />
       <h3 class="pt-4 font-bold responsive-h4">
         {{ $t("pages.supporters.showcase.section-3-2-subheader") }}
       </h3>

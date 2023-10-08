@@ -10,7 +10,7 @@
         href="https://github.com/activist-org/activist"
         target="_blank"
       >
-        <Icon name="cib:github" size="1em" />
+        <icon name="cib:github" size="1em" />
         <p class="sr-only sm:not-sr-only">
           {{ $t("components.landing-community-banner.github") }}
         </p>
@@ -20,7 +20,7 @@
         href="https://matrix.to/#/#activist_community:matrix.org"
         target="_blank"
       >
-        <Icon name="IconMatrix" size="1.061em" />
+        <icon name="iconmatrix" size="1.061em" />
         <p class="sr-only sm:not-sr-only">
           {{ $t("components.landing-community-banner.matrix") }}
         </p>
@@ -30,7 +30,7 @@
         href="https://instagram.com/activist_org"
         target="_blank"
       >
-        <Icon name="cib:instagram" size="1em" />
+        <icon name="cib:instagram" size="1em" />
         <p class="sr-only sm:not-sr-only">
           {{ $t("components.landing-community-banner.instagram") }}
         </p>

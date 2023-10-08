@@ -30,21 +30,21 @@ import useUniqueID from "../../composables/useUniqueID";
 
 const props = defineProps({
   label: {
-    type: String,
+    type: string,
     default: "",
   },
   modelValue: {
-    type: [String, Number, Boolean],
+    type: [string, number, boolean],
   },
   value: {
-    type: [String, Number],
+    type: [string, number],
   },
   error: {
-    type: String,
+    type: string,
     default: "",
   },
   customColor: {
-    type: String,
+    type: string,
   },
 });
 const emit = defineEmits(["update:modelValue"]);

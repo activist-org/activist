@@ -3,18 +3,18 @@
     class="p-2 border rounded-md bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div sm:p-3 shadow-sm shadow-zinc-700"
   >
     <div class="flex items-center space-x-3">
-      <Icon v-if="(item.itemType = 'group')" name="bi:people" size="1.5em" />
-      <Icon
+      <icon v-if="(item.itemType = 'group')" name="bi:people" size="1.5em" />
+      <icon
         v-else-if="item.url.includes('mastodon')"
         name="bi:mastodon"
         size="1.5em"
       />
-      <Icon
+      <icon
         v-else-if="item.url.includes('facebook')"
         name="bi:facebook"
         size="1.5em"
       />
-      <Icon
+      <icon
         v-else-if="item.url.includes('instagram')"
         name="bi:instagram"
         size="1.5em"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FeedItem } from "../../types/feedItem";
+import type { feeditem } from "../../types/feedItem";
 
 const props = defineProps<{
   url: string;
@@ -46,10 +46,10 @@ if (props.url.includes("activist")) {
   itemType = "social post";
 }
 
-const item: FeedItem = {
+const item: feeditem = {
   url: props.url,
   itemType: itemType,
-  title: "Title",
-  description: "Lorem ipsum dolor sit amet",
+  title: "title",
+  description: "lorem ipsum dolor sit amet",
 };
 </script>

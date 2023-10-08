@@ -2,22 +2,22 @@
   <div
     class="grid grid-cols-1 gap-6 sm:grid-rows-2 sm:grid-cols-2 md:grid-rows-1 md:grid-cols-3 lg:gap-12"
   >
-    <ImageLogo
-      imageName="WikimediaDE"
+    <imagelogo
+      imageName="wikimediade"
       imageLink="https://www.wikimedia.de"
       :aria-label="
         $t('components.grid-supporters.wikimedia-de-logo-aria-label')
       "
     />
-    <ImageLogo
-      imageName="WikimediaRS"
+    <imagelogo
+      imageName="wikimediars"
       imageLink="https://wikimedia.rs"
       :aria-label="
         $t('components.grid-supporters.wikimedia-rs-logo-aria-label')
       "
     />
-    <ImageLogo
-      imageName="ImpactHub"
+    <imagelogo
+      imageName="impacthub"
       imageLink="https://belgrade.impacthub.net"
       :aria-label="
         $t('components.grid-supporters.impacthub-belgrade-logo-aria-label')

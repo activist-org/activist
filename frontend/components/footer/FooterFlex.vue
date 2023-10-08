@@ -1,28 +1,28 @@
 <template>
-  <!-- Note: Content Sections Left and Right for Desktop (xl) -->
+  <!-- note: content sections left and right for desktop (xl) -->
   <div class="flex flex-row justify-start">
-    <!-- Note: Content Sections Left -->
+    <!-- note: content sections left -->
     <div class="mt-0 justify-items-start w-[80%] flex flex-col">
-      <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
+      <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile safari. -->
       <div class="relative z-0 h-10 overflow-y-hidden w-36">
-        <LogoActivist
+        <logoactivist
           class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />
       </div>
       <p class="mt-3 text-light-text dark:text-dark-text">
         {{ $t("components.footer-flex.activist-tagline") }}
       </p>
-      <!-- Note: Platform Links -->
+      <!-- note: platform links -->
       <div class="flex justify-start mt-2">
         <template v-for="(platform, index) in links.platformLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink
+            <nuxtlink
               v-if="platform.isLocalePath"
               class="focus-brand"
               :to="localePath(platform.url)"
             >
               {{ $t(platform.name) }}
-            </NuxtLink>
+            </nuxtlink>
             <a v-else class="focus-brand" :href="platform.url" target="_blank">
               {{ $t(platform.name) }}
             </a>
@@ -32,13 +32,13 @@
           </div>
         </template>
       </div>
-      <!-- Note: Legal Links -->
+      <!-- note: legal links -->
       <div class="flex mt-5">
         <template v-for="(policy, index) in links.legalLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink class="focus-brand" :to="localePath(policy.url)">
+            <nuxtlink class="focus-brand" :to="localePath(policy.url)">
               {{ $t(policy.name) }}
-            </NuxtLink>
+            </nuxtlink>
           </div>
           <div v-if="index < links.legalLinks.length - 1" class="px-2">•</div>
         </template>
@@ -47,11 +47,11 @@
         {{ $t("components.footer-flex.website-copyright") }}
       </div>
     </div>
-    <!-- Note: Content Sections Right -->
+    <!-- note: content sections right -->
     <div
       class="flex justify-end w-full lg:space-x-6 xl:space-x-8 2xl:space-x-24"
     >
-      <!-- Note: Connect Links -->
+      <!-- note: connect links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
           {{ $t("components.footer-flex.connect") }}
@@ -63,12 +63,12 @@
             :href="connect.url"
             target="_blank"
           >
-            <Icon :name="connect.iconName" :size="connect.iconSize" />
+            <icon :name="connect.iconName" :size="connect.iconSize" />
             <p>{{ $t(connect.name) }}</p>
           </a>
         </template>
       </div>
-      <!-- Note: Resources Links -->
+      <!-- note: resources links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
           {{ $t("components.footer-flex.resources") }}
@@ -78,13 +78,13 @@
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
             :class="{ 'mt-3': index === 0 }"
           >
-            <NuxtLink class="focus-brand" :to="localePath(resource.url)">
+            <nuxtlink class="focus-brand" :to="localePath(resource.url)">
               {{ $t(resource.name) }}
-            </NuxtLink>
+            </nuxtlink>
           </p>
         </template>
       </div>
-      <!-- Note: Organization Links -->
+      <!-- note: organization links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
           {{ $t("components.footer-flex.organization") }}
@@ -94,9 +94,9 @@
             class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
             :class="{ 'mt-3': index === 0 }"
           >
-            <NuxtLink class="focus-brand" :to="localePath(oLink.url)">
+            <nuxtlink class="focus-brand" :to="localePath(oLink.url)">
               {{ $t(oLink.name) }}
-            </NuxtLink>
+            </nuxtlink>
           </p>
         </template>
       </div>

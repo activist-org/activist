@@ -12,6 +12,6 @@ export const menuItems = [
   {
     label: "components.menu-mobile-selector.label.organizations",
     routeURL: "/organizations",
-    iconURL: "IconOrganization",
+    iconURL: "iconorganization",
   },
 ];

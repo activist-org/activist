@@ -5,7 +5,7 @@
     <div
       class="p-6 rounded-full md:p-8 bg-light-special-text dark:bg-dark-menu-selection"
     >
-      <Icon
+      <icon
         name="bi:camera-video"
         :color="$colorMode.preference === 'dark' ? 'white' : 'black'"
         size="75px"

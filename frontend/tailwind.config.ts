@@ -1,6 +1,6 @@
-import type { Config } from "tailwindcss";
+import type { config } from "tailwindcss";
 
-export default <Partial<Config>>{
+export default <partial<config>>{
   content: [
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
@@ -14,8 +14,8 @@ export default <Partial<Config>>{
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Red Hat Text"],
-        display: ["Red Hat Display"],
+        sans: ["red hat text"],
+        display: ["red hat display"],
       },
       screens: {
         "3xl": "1792px",
@@ -40,7 +40,7 @@ export default <Partial<Config>>{
           btn: "rgba(200, 200, 200, 1)",
 
           "cta-orange": {
-            DEFAULT: "rgba(242, 166, 84, 1)",
+            default: "rgba(242, 166, 84, 1)",
             hover: "rgba(244, 176, 103, 1)",
             light: "rgba(244, 176, 103, 1)",
           },
@@ -69,7 +69,7 @@ export default <Partial<Config>>{
           btn: "rgba(13, 17, 23, 1)",
 
           "cta-orange": {
-            DEFAULT: "rgba(241, 156, 65, 1)",
+            default: "rgba(241, 156, 65, 1)",
             hover: "rgba(242, 166, 84, 1)",
             light: "rgba(242, 166, 84, 1)",
           },

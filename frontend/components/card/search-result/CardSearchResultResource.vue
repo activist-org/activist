@@ -18,7 +18,7 @@
           v-else
           class="w-[200px] h-[200px] flex justify-center items-center fill-light-text dark:fill-dark-text"
         >
-          <Icon name="IconResource" class="w-[75%] h-[75%]" />
+          <icon name="iconresource" class="w-[75%] h-[75%]" />
         </div>
       </div>
     </div>
@@ -31,27 +31,27 @@
             {{ resource.name }}
           </h2>
           <div class="text-light-cta-orange dark:text-dark-cta-orange">
-            <Icon name="ph:dots-three-circle-vertical" size="1.75em" />
+            <icon name="ph:dots-three-circle-vertical" size="1.75em" />
           </div>
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
-          <MetaTagLocation :location="resource?.relatedLocation" />
-          <MetaTagDate :date="resource.creationDate.toLocaleDateString()" />
+          <metataglocation :location="resource?.relatedLocation" />
+          <metatagdate :date="resource.creationDate.toLocaleDateString()" />
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <TopicMarker :topic="resource.topic" />
+        <topicmarker :topic="resource.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
-          <MetaTagLocation :location="resource?.relatedLocation" />
-          <MetaTagDate :date="resource.creationDate.toLocaleDateString()" />
+          <metataglocation :location="resource?.relatedLocation" />
+          <metatagdate :date="resource.creationDate.toLocaleDateString()" />
         </div>
         <div
           class="flex justify-center space-x-3 lg:space-x-4 md:justify-start"
         >
-          <MetaTagOrganization :organization="resource.organizer" />
-          <MetaTagStars
+          <metatagorganization :organization="resource.organizer" />
+          <metatagstars
             :stars="resource.stars"
             label="components.meta-tag-stars.label"
           />
@@ -65,10 +65,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "../../../types/resource";
+import type { resource } from "../../../types/resource";
 
 defineProps<{
   isPrivate?: boolean;
-  resource: Resource;
+  resource: resource;
 }>();
 </script>

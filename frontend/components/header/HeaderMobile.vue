@@ -10,14 +10,14 @@
   >
     <nav class="h-full">
       <div class="flex justify-between h-full px-4 gap-2">
-        <SearchBar
+        <searchbar
           @on-search-toggle="toggleSearchExpanded"
           class="my-1.5"
           :class="{ 'w-full': isSearchExpanded }"
           location="header"
           :expanded="isSearchExpanded"
         />
-        <IconActivist
+        <iconactivist
           v-if="!isSearchExpanded"
           class="flex items-center w-6 h-8 absolute top-[0.3rem] m-auto left-0 right-0 overflow-clip"
         />
@@ -33,8 +33,8 @@ const toggleSearchExpanded = () => {
   isSearchExpanded.value = !isSearchExpanded.value;
 };
 
-const headerOpacity: Ref<number> = ref(1);
-const prevScrollY: Ref<number> = ref(0);
+const headerOpacity: ref<number> = ref(1);
+const prevScrollY: ref<number> = ref(0);
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);

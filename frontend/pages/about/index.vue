@@ -2,12 +2,12 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.about.index.title") }}</Title>
-    </Head>
+    <head>
+      <title>{{ $t("pages.about.index.title") }}</title>
+    </head>
     <div class="bg-light-distinct dark:bg-dark-distinct">
       <div class="responsive-py-4 flex flex-col w-full responsive-px-5">
-        <HeaderAppPage
+        <headerapppage
           :header="$t('pages.about.index.header')"
           :tagline="$t('pages.about.index.subheader')"
         />
@@ -22,15 +22,15 @@
       >
         {{ $t("pages.about.index.section-1-tagline") }}
       </p>
-      <GridDocEntries class="responsive-py-1" :cards="cards" />
+      <griddocentries class="responsive-py-1" :cards="cards" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { CardDocsEntry } from "../../types/card-docs-entry";
+import type { carddocsentry } from "../../types/card-docs-entry";
 
-const cards: CardDocsEntry[] = [
+const cards: carddocsentry[] = [
   {
     url: "activist",
     title: "pages.about.index.activist",

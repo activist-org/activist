@@ -9,9 +9,9 @@
   <label v-if="label" :for="uuid">
     {{ label }}
   </label>
-  <BaseErrorMessage v-if="error" :id="`${uuid}-error`">
+  <baseerrormessage v-if="error" :id="`${uuid}-error`">
     {{ error }}
-  </BaseErrorMessage>
+  </baseerrormessage>
 </template>
 
 <script setup lang="ts">
@@ -20,14 +20,14 @@ import useUniqueID from "../../composables/useUniqueID";
 
 const props = defineProps({
   label: {
-    type: String,
+    type: string,
     default: "",
   },
   modelValue: {
-    type: Boolean,
+    type: boolean,
   },
   error: {
-    type: String,
+    type: string,
     default: "",
   },
 });

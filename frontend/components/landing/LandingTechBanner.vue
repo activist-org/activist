@@ -17,6 +17,6 @@
     >
       {{ $t("components.landing-tech-banner.open-source-text") }}
     </p>
-    <GridGithubShields />
+    <gridgithubshields />
   </div>
 </template>

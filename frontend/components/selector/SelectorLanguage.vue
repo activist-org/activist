@@ -1,7 +1,7 @@
 <template>
-  <Menu as="div" class="relative inline-block text-left">
+  <menu as="div" class="relative inline-block text-left">
     <div>
-      <MenuButton
+      <menubutton
         class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand shadow-sm shadow-zinc-700"
         :class="{ 'pl-6': location === 'sideMenu' }"
         v-slot="{ open }"
@@ -10,7 +10,7 @@
         "
       >
         <div class="flex items-center text-sm space-x-2">
-          <Icon name="bi:globe" />
+          <icon name="bi:globe" />
           <p
             class="uppercase sr-only lg:not-sr-only"
             :class="{ '!not-sr-only !ml-3': location === 'sideMenu' }"
@@ -18,7 +18,7 @@
             {{ $i18n.locale }}
           </p>
           <p></p>
-          <Icon
+          <icon
             class="right-3"
             :class="{
               'rotate-180 transform': open,
@@ -27,7 +27,7 @@
             name="bi:chevron-down"
           />
         </div>
-      </MenuButton>
+      </menubutton>
     </div>
 
     <transition
@@ -38,17 +38,17 @@
       leave-from-class="opacity-100 transform scale-100"
       leave-to-class="opacity-0 transform scale-95"
     >
-      <MenuItems
+      <menuitems
         class="absolute right-0 mt-2 border shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text"
         :class="{ '!static !border-0': location === 'sideMenu' }"
       >
         <ul class="px-2 py-2">
-          <NuxtLink
+          <nuxtlink
             v-for="locale in availableLocales"
             :key="getLocaleCode(locale)"
             :to="switchLocalePath(getLocaleCode(locale))"
           >
-            <MenuItem v-slot="{ active }" class="flex">
+            <menuitem v-slot="{ active }" class="flex">
               <li
                 class="group flex [word-spacing:0.5em] items-center rounded-md pl-4 pr-3 py-2 text-sm w-full"
                 :class="{
@@ -59,31 +59,31 @@
               >
                 {{ getLocaleName(locale) }}
               </li>
-            </MenuItem>
-          </NuxtLink>
+            </menuitem>
+          </nuxtlink>
         </ul>
-      </MenuItems>
+      </menuitems>
     </transition>
-  </Menu>
+  </menu>
 </template>
 
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
+import { menu, menubutton, menuitem, menuitems } from "@headlessui/vue";
+import { localeobject } from "@nuxtjs/i18n/dist/runtime/composables";
 defineProps({
-  location: String,
+  location: string,
 });
 
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-const localesValues: Array<string | LocaleObject> = locales.value;
+const localesValues: array<string | localeobject> = locales.value;
 
-function getLocaleCode(locale: string | LocaleObject) {
+function getLocaleCode(locale: string | localeobject) {
   return typeof locale === "string" ? locale : locale.code;
 }
 
-function getLocaleName(locale: string | LocaleObject) {
+function getLocaleName(locale: string | localeobject) {
   return typeof locale === "string" ? locale : locale.name;
 }
 

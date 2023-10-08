@@ -1,4 +1,4 @@
-export interface Event {
+export interface event {
   name: string;
   tagline: string;
   organizer: string;

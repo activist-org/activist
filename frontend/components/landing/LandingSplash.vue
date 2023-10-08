@@ -17,7 +17,7 @@
       </p>
     </div>
     <div class="flex justify-center rounded-md">
-      <BtnLabeled
+      <btnlabeled
         :cta="true"
         label="components.btn-labeled.request-access"
         linkTo="https://tally.so/r/nprxbq"

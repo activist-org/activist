@@ -1,4 +1,4 @@
-export interface MenuSelector {
+export interface menuselector {
   label: string;
   routeURL: string;
   iconURL: string;

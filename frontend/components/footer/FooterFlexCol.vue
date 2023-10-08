@@ -1,27 +1,27 @@
 <template>
-  <!-- Note: Content Sections Top for Mobile -->
+  <!-- note: content sections top for mobile -->
   <div class="flex flex-col items-center justify-center space-y-5">
     <div class="flex flex-col items-center justify-center space-y-2">
-      <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
+      <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile safari. -->
       <div class="relative z-0 h-10 overflow-y-hidden w-36">
-        <LogoActivist
+        <logoactivist
           class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />
       </div>
       <p class="text-light-text dark:text-dark-text">
         {{ $t("components.footer-flex-col.activist-tagline") }}
       </p>
-      <!-- Note: Platform Links -->
+      <!-- note: platform links -->
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(platform, index) in links.platformLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink
+            <nuxtlink
               v-if="platform.isLocalePath"
               class="focus-brand"
               :to="localePath(platform.url)"
             >
               {{ $t(platform.name) }}
-            </NuxtLink>
+            </nuxtlink>
             <a v-else :href="platform.url" class="focus-brand" target="_blank">
               {{ $t(platform.name) }}
             </a>
@@ -35,7 +35,7 @@
     <div
       class="max-w-xl text-center grid gap-0 sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16"
     >
-      <!-- Note: Connect Links -->
+      <!-- note: connect links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
           {{ $t("components.footer-flex-col.connect") }}
@@ -48,7 +48,7 @@
               :href="connect.url"
               target="_blank"
             >
-              <Icon :name="connect.iconName" class="text-2xl sm:text-base" />
+              <icon :name="connect.iconName" class="text-2xl sm:text-base" />
               <p class="sr-only sm:not-sr-only">
                 {{ $t(connect.name) }}
               </p>
@@ -56,7 +56,7 @@
           </template>
         </div>
       </div>
-      <!-- Note: Resources Links -->
+      <!-- note: resources links -->
       <div>
         <p
           class="mt-6 text-xl font-medium sm:mt-0 text-light-text dark:text-dark-text"
@@ -69,9 +69,9 @@
               class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
-              <NuxtLink class="focus-brand" :to="localePath(resource.url)">
+              <nuxtlink class="focus-brand" :to="localePath(resource.url)">
                 {{ $t(resource.name) }}
-              </NuxtLink>
+              </nuxtlink>
               <span
                 v-if="index < links.resourcesLinks.length - 1"
                 class="px-2 flex-inline sm:hidden"
@@ -82,7 +82,7 @@
           </template>
         </div>
       </div>
-      <!-- Note: Organization Links -->
+      <!-- note: organization links -->
       <div>
         <p
           class="mt-6 text-xl font-medium sm:mt-0 text-light-text dark:text-dark-text"
@@ -95,9 +95,9 @@
               class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
-              <NuxtLink class="focus-brand" :to="localePath(oLink.url)">
+              <nuxtlink class="focus-brand" :to="localePath(oLink.url)">
                 {{ $t(oLink.name) }}
-              </NuxtLink>
+              </nuxtlink>
               <span
                 v-if="index < links.organizationLinks.length - 1"
                 class="px-2 flex-inline sm:hidden"
@@ -110,13 +110,13 @@
       </div>
     </div>
     <div class="flex flex-col items-center justify-center">
-      <!-- Note: Legal Links -->
+      <!-- note: legal links -->
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(policy, index) in links.legalLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
-            <NuxtLink class="focus-brand" :to="localePath(policy.url)">
+            <nuxtlink class="focus-brand" :to="localePath(policy.url)">
               {{ $t(policy.name) }}
-            </NuxtLink>
+            </nuxtlink>
             <span
               v-if="index < links.legalLinks.length - 1"
               class="px-2 flex-inline"

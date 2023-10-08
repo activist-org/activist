@@ -2,14 +2,14 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.legal.trademark-policy.title") }}</Title>
-    </Head>
-    <PageDocs
+    <head>
+      <title>{{ $t("pages.legal.trademark-policy.title") }}</title>
+    </head>
+    <pagedocs
       imgURL="/images/content_pages/icons/bootstrap_trademark"
       imgAltText="pages.legal.trademark-policy.img-alt-text"
     >
-      <h1 class="pb-2 font-bold responsive-h1">Trademark Policy</h1>
+      <h1 class="pb-2 font-bold responsive-h1">trademark policy</h1>
       <p
         class="responsive-h4 text-light-special-text dark:text-dark-special-text"
       >
@@ -100,7 +100,7 @@
           target="_blank"
         >
           {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-2") }}
-          <Icon
+          <icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
@@ -113,7 +113,7 @@
           target="_blank"
         >
           {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-4") }}
-          <Icon
+          <icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
@@ -124,7 +124,7 @@
       <div
         class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
       >
-        <BtnLabeled
+        <btnlabeled
           :cta="false"
           label="components.btn-labeled.return-home"
           linkTo="/"
@@ -132,6 +132,6 @@
           ariaLabel="components.btn-labeled.return-home-aria-label"
         />
       </div>
-    </PageDocs>
+    </pagedocs>
   </div>
 </template>

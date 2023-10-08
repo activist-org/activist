@@ -16,7 +16,7 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
   >
-    <Icon
+    <icon
       v-if="leftIcon"
       class="mr-2 -my-1"
       :name="leftIcon"
@@ -24,7 +24,7 @@
     />
     <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
     <div v-else class="-mx-1"></div>
-    <Icon
+    <icon
       v-if="rightIcon"
       class="ml-2 -my-1"
       :name="rightIcon"
@@ -56,7 +56,7 @@
     :href="linkTo"
     :aria-label="$t(ariaLabel)"
   >
-    <Icon
+    <icon
       v-if="leftIcon"
       class="mr-2 -my-1"
       :name="leftIcon"
@@ -64,7 +64,7 @@
     />
     <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
     <div v-else class="-mx-1"></div>
-    <Icon
+    <icon
       v-if="rightIcon"
       class="ml-2 -my-1"
       :name="rightIcon"
@@ -77,7 +77,7 @@
       {{ counter }}
     </div>
   </a>
-  <NuxtLink
+  <nuxtlink
     v-else
     :to="localePath(`${linkTo}`)"
     class="px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit shadow-sm shadow-zinc-700"
@@ -97,7 +97,7 @@
     :aria-label="$t(ariaLabel)"
   >
     <div class="flex items-center">
-      <Icon
+      <icon
         v-if="leftIcon"
         class="mr-2 -my-1"
         :name="leftIcon"
@@ -105,7 +105,7 @@
       />
       <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
       <div v-else class="-mx-1"></div>
-      <Icon
+      <icon
         v-if="rightIcon"
         class="ml-2 -my-1"
         :name="rightIcon"
@@ -118,11 +118,11 @@
         {{ counter }}
       </div>
     </div>
-  </NuxtLink>
+  </nuxtlink>
 </template>
 
 <script setup lang="ts">
-export interface Props {
+export interface props {
   cta: boolean;
   linkTo: string;
   label?: string;
@@ -134,7 +134,7 @@ export interface Props {
   ariaLabel: string;
 }
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<props>(), {
   iconSize: "1em",
 });
 

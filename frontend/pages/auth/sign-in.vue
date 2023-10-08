@@ -2,14 +2,14 @@
   <div class="px-4 2xl:px-36 xl:px-24 md:px-8 sm:px-6">
     <form class="space-y-4">
       <div class="col">
-        <FormTextField
+        <formtextfield
           :placeholder="$t('pages.auth.sign-in.index.enter-user-name')"
           :model-value="userNameValue"
           @update:model-value="userNameValue = $event"
         />
       </div>
       <div>
-        <FormTextField
+        <formtextfield
           :placeholder="$t('pages.auth.sign-in.index.enter-password')"
           :is-icon-visible="true"
           input-type="password"
@@ -24,30 +24,30 @@
           aria-label="test"
         >
           <span class="flex items-center space-x-4 whitespace-nowrap">
-            <Icon name="bi:shield-fill-check" size="28px" />
+            <icon name="bi:shield-fill-check" size="28px" />
             <span class="font-bold text-[18px] hidden lg:inline-block">{{
               $t("pages.auth.sign-in.index.i-am-human")
             }}</span>
           </span>
           <span class="text-[12px] hidden lg:inline-block truncate"
-            >FriendlyCaptcha</span
+            >friendlycaptcha</span
           >
         </button>
-        <BtnLabeled
+        <btnlabeled
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
-          label="Sign In"
+          label="sign in"
           :cta="true"
           fontSize="lg"
-          ariaLabel="SignIn"
+          ariaLabel="signin"
           @click="signIn"
         />
       </div>
       <div class="flex md:justify-center pt-6 md:pt-8 lg:pt-12">
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
-        <NuxtLink
+        <nuxtlink
           :to="'sign-up'"
           class="ml-2 text-light-cta-orange-light dark:text-dark-cta-orange-light hover:text-light-cta-orange hover:dark:text-dark-cta-orange font-extrabold"
-          >{{ $t("pages.auth.sign-in.index.sign-up") }}</NuxtLink
+          >{{ $t("pages.auth.sign-in.index.sign-up") }}</nuxtlink
         >
       </div>
     </form>

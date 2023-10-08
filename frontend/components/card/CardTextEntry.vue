@@ -10,7 +10,7 @@
         {{ description }}
       </p>
       <div v-if="multiline">
-        <!-- Mobile -->
+        <!-- mobile -->
         <textarea
           class="block w-full px-3 py-2 overflow-y-scroll bg-transparent border border-white resize-none rounded-md md:hidden dark:border-white md:resize-y md:overflow-hidden"
           id="feedback"
@@ -19,7 +19,7 @@
           :placeholder="placeholder"
           :aria-label="textAreaAriaLabel"
         ></textarea>
-        <!-- Desktop -->
+        <!-- desktop -->
         <textarea
           class="hidden w-full px-3 py-2 overflow-y-scroll bg-transparent border border-white resize-none rounded-md md:block dark:border-white md:resize-y md:overflow-hidden"
           id="feedback"

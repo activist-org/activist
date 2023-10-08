@@ -73,15 +73,15 @@ export default defineNuxtConfig({
     locales: [
       {
         code: "en",
-        iso: "en-US",
-        name: "English",
-        file: "en-US.json",
+        iso: "en-us",
+        name: "english",
+        file: "en-us.json",
         isCatchallLocale: true,
       },
       {
         code: "de",
         iso: "de",
-        name: "Deutsch",
+        name: "deutsch",
         file: "de.json",
       },
       {
@@ -99,7 +99,7 @@ export default defineNuxtConfig({
       {
         code: "it",
         iso: "it",
-        name: "Italiano",
+        name: "italiano",
         file: "it.json",
       },
       {
@@ -143,7 +143,7 @@ export default defineNuxtConfig({
         {
           hid: "description",
           name: "description",
-          content: "Open-source, nonprofit activism platform.",
+          content: "open-source, nonprofit activism platform.",
         },
         { property: "og:site_name", content: "activist" },
         { hid: "og:type", property: "og:type", content: "website" },
@@ -160,7 +160,7 @@ export default defineNuxtConfig({
         {
           hid: "og:description",
           property: "og:description",
-          content: "Open-source, nonprofit activism platform.",
+          content: "open-source, nonprofit activism platform.",
         },
         {
           hid: "og:image",
@@ -185,7 +185,7 @@ export default defineNuxtConfig({
         {
           hid: "twitter:description",
           name: "twitter:description",
-          content: "Open-source, nonprofit activism platform.",
+          content: "open-source, nonprofit activism platform.",
         },
         {
           hid: "twitter:image",

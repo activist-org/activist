@@ -2,8 +2,8 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.about.network.title") }}</Title>
-    </Head>
+    <head>
+      <title>{{ $t("pages.about.network.title") }}</title>
+    </head>
   </div>
 </template>

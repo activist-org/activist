@@ -1,6 +1,6 @@
 <template>
-  <HeaderMobile />
-  <SidebarLeft
+  <headermobile />
+  <sidebarleft
     @mouseover="sidebarHover = true"
     @mouseleave="sidebarHover = false"
   />
@@ -20,7 +20,7 @@
     >
       <slot />
     </div>
-    <Footer
+    <footer
       class="pb-24 md:pb-12"
       :class="{
         'md:pl-24 xl:pl-64':
@@ -34,7 +34,7 @@
       }"
     />
   </div>
-  <MenuMobileNavBar />
+  <menumobilenavbar />
 </template>
 
 <script setup lang="ts">

@@ -8,43 +8,43 @@
     }"
     ref="header"
   >
-    <!-- Note: mobile header -->
+    <!-- note: mobile header -->
     <div class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
         <div
           class="absolute top-0 left-0 z-0 flex items-center justify-center w-full h-full"
         >
           <div>
-            <LogoActivist
+            <logoactivist
               class="flex items-center justify-center h-full z-1 overflow-clip"
               :is-mobile="true"
             />
           </div>
         </div>
       </div>
-      <SidebarRight>
+      <sidebarright>
         <div class="flex-col space-y-2">
-          <SelectorTheme class="w-full" location="sideMenu" />
-          <SelectorLanguage class="w-full" location="sideMenu" />
+          <selectortheme class="w-full" location="sideMenu" />
+          <selectorlanguage class="w-full" location="sideMenu" />
         </div>
-      </SidebarRight>
+      </sidebarright>
     </div>
-    <!-- Note: desktop header -->
+    <!-- note: desktop header -->
     <div class="hidden py-3 mx-auto md:block">
       <div class="flex items-center justify-between responsive-px-5">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
-            <LogoActivist
+            <logoactivist
               class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
             />
           </div>
-          <BtnRoadMap label="Roadmap" linkTo="/about/roadmap" />
+          <btnroadmap label="roadmap" linkTo="/about/roadmap" />
         </div>
         <div>
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
-            <SelectorTheme />
-            <SelectorLanguage />
-            <BtnLabeled
+            <selectortheme />
+            <selectorlanguage />
+            <btnlabeled
               class="hidden lg:block"
               :cta="true"
               label="components.btn-labeled.get-in-touch"
@@ -52,7 +52,7 @@
               fontSize="sm"
               ariaLabel="components.btn-labeled.get-in-touch-aria-label"
             />
-            <BtnLabeled
+            <btnlabeled
               class="hidden md:block lg:hidden"
               :cta="true"
               label="components.btn-labeled.get-in-touch"
@@ -68,10 +68,10 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from "vue";
+import { ref, ref } from "vue";
 
-const headerOpacity: Ref<number> = ref(1);
-const prevScrollY: Ref<number> = ref(0);
+const headerOpacity: ref<number> = ref(1);
+const prevScrollY: ref<number> = ref(0);
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);

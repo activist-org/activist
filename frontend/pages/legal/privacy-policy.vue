@@ -2,10 +2,10 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.legal.privacy-policy.title") }}</Title>
-    </Head>
-    <PageDocs
+    <head>
+      <title>{{ $t("pages.legal.privacy-policy.title") }}</title>
+    </head>
+    <pagedocs
       imgURL="/images/content_pages/icons/bootstrap_shield_check"
       imgAltText="pages.legal.privacy-policy.img-alt-text"
     >
@@ -73,7 +73,7 @@
           target="_blank"
         >
           {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-2") }}
-          <Icon
+          <icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
@@ -86,7 +86,7 @@
           target="_blank"
         >
           {{ $t("pages.legal.privacy-policy.section-8-paragraph-1-4") }}
-          <Icon
+          <icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
@@ -97,7 +97,7 @@
       <div
         class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
       >
-        <BtnLabeled
+        <btnlabeled
           :cta="false"
           label="components.btn-labeled.return-home"
           linkTo="/"
@@ -105,6 +105,6 @@
           ariaLabel="components.btn-labeled.return-home-aria-label"
         />
       </div>
-    </PageDocs>
+    </pagedocs>
   </div>
 </template>

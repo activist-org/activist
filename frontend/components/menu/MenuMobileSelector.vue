@@ -1,5 +1,5 @@
 <template>
-  <MenuLinkWrapper
+  <menulinkwrapper
     :to="routeURL"
     :active="active"
     :selected="selected"
@@ -13,7 +13,7 @@
       class="relative z-0 flex flex-col items-center justify-center w-full text-sm font-medium text-center"
     >
       <span>
-        <Icon
+        <icon
           v-if="iconURL"
           class="flex-shrink-0 w-5 h-5 mb-1"
           :name="iconURL"
@@ -23,7 +23,7 @@
         {{ $t(label) }}
       </p>
     </div>
-  </MenuLinkWrapper>
+  </menulinkwrapper>
 </template>
 
 <script setup lang="ts">

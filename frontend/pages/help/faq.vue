@@ -2,10 +2,10 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.help.faq.title") }}</Title>
-    </Head>
-    <PageDocs
+    <head>
+      <title>{{ $t("pages.help.faq.title") }}</title>
+    </head>
+    <pagedocs
       imgURL="/images/content_pages/icons/bootstrap_question_square"
       imgAltText="pages.help.faq.img-alt-text"
     >
@@ -13,7 +13,7 @@
         {{ $t("pages.help.faq.header") }}
       </h1>
       <div class="flex flex-row py-2 space-x-3">
-        <Icon
+        <icon
           class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
           name="bi:info-circle-fill"
           size="1.25em"
@@ -26,7 +26,7 @@
             target="_blank"
           >
             {{ $t("pages.help.faq.subheader-2") }}
-            <Icon
+            <icon
               name="bi:box-arrow-up-right"
               size="1em"
               style="vertical-align: baseline"
@@ -63,7 +63,7 @@
           href="https://matrix.to/#/#activist_community:matrix.org"
         >
           {{ $t("pages.help.faq.section-4-paragraph-2-2") }}
-          <Icon
+          <icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
@@ -74,7 +74,7 @@
       <div
         class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
       >
-        <BtnLabeled
+        <btnlabeled
           :cta="false"
           label="components.btn-labeled.return-home"
           linkTo="/"
@@ -82,6 +82,6 @@
           ariaLabel="components.btn-labeled.return-home-aria-label"
         />
       </div>
-    </PageDocs>
+    </pagedocs>
   </div>
 </template>
