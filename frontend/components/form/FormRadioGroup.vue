@@ -46,9 +46,9 @@ import useFormCheckboxRadio from "../../composables/useFormCheckboxRadio";
 /**
  * The available radio type option.
  */
-export type RadioOption = {
+export type radiooption = {
   /**
-   * The radio label.
+   * the radio label.
    */
   label: string;
 

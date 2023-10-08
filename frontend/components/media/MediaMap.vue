@@ -33,7 +33,7 @@ const localePath = useLocalePath();
 const rerenderKey = ref(0);
 const map = ref();
 
-type Marker = {
+type marker = {
   address: string;
   lat: number;
   lon: number;
