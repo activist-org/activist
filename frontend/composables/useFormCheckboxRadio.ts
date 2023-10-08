@@ -17,7 +17,7 @@ export default function useFormCheckboxRadio(
   };
 
   const isSelected = (value: string) => {
-    if (Array.isArray(selectedValue.value)) {
+    if (array.isArray(selectedValue.value)) {
       return selectedValue.value.includes(value);
     } else {
       return selectedValue.value === value;
@@ -45,7 +45,7 @@ export default function useFormCheckboxRadio(
   }
 
   const toggleCheckbox = (value: string) => {
-    if (!Array.isArray(selectedValue.value)) {
+    if (!array.isArray(selectedValue.value)) {
       selectedValue.value = [];
     }
     if (isSelected(value)) {

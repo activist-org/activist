@@ -10,7 +10,7 @@
         @click="emit('on-close-clicked')"
         class="absolute right-0 mr-1 text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text"
       >
-        <Icon class="w-6 h-6" name="bi:x-circle-fill" />
+        <icon class="w-6 h-6" name="bi:x-circle-fill" />
       </div>
     </div>
     <input
@@ -29,7 +29,7 @@
       :placeholder="descriptionPrompt"
     ></textarea>
     <div @click="emit('on-cta-clicked', inputValue)" class="mt-1">
-      <BtnLabeled
+      <btnlabeled
         :cta="true"
         linkTo="placeholder-link"
         :label="ctaBtnLabel"
@@ -50,7 +50,7 @@ defineProps<{
   ctaBtnAriaLabel: string;
 }>();
 
-const inputValue = ref<HTMLInputElement | null>(null);
+const inputValue = ref<htmlinputelement | null>(null);
 
 const emit = defineEmits(["on-cta-clicked", "on-close-clicked"]);
 </script>

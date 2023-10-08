@@ -2,11 +2,11 @@
   <footer
     class="responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
   >
-    <!-- Note: Content Sections Top for Mobile -->
-    <FooterFlexCol class="flex flex-col lg:hidden" :links="links" />
+    <!-- note: content sections top for mobile -->
+    <footerflexcol class="flex flex-col lg:hidden" :links="links" />
 
-    <!-- Note: Content Sections Left and Right for Desktop (xl) -->
-    <FooterFlex class="hidden lg:flex" :links="links" />
+    <!-- note: content sections left and right for desktop (xl) -->
+    <footerflex class="hidden lg:flex" :links="links" />
   </footer>
 </template>
 
@@ -25,7 +25,7 @@ const connectLinks = [
   {
     name: "components.footer.matrix",
     url: "https://matrix.to/#/#activist_community:matrix.org",
-    iconName: "IconMatrix",
+    iconName: "iconmatrix",
     iconSize: "1.061em",
   },
   {

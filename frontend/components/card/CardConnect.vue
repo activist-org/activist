@@ -7,13 +7,13 @@
       <div
         class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
       >
-        <Icon
+        <icon
           v-if="userIsAdmin && !editModeEnabled"
           @click="toggleEditMode"
           name="bi:pencil-square"
           size="1.2em"
         />
-        <Icon
+        <icon
           v-else-if="userIsAdmin && editModeEnabled"
           @click="toggleEditMode"
           name="bi:x-lg"
@@ -34,29 +34,29 @@
             'hover:text-social-instagram': link.includes('instagram'),
           }"
         >
-          <Icon
+          <icon
             v-if="editModeEnabled"
             @click="emit('on-account-removed', link)"
             name="bi:x-lg"
             size="1em"
           />
-          <Icon v-if="link.includes('email')" name="bi:envelope" size="1.2em" />
-          <Icon
+          <icon v-if="link.includes('email')" name="bi:envelope" size="1.2em" />
+          <icon
             v-else-if="link.includes('mastodon')"
             name="bi:mastodon"
             size="1.2em"
           />
-          <Icon
+          <icon
             v-else-if="link.includes('facebook')"
             name="bi:facebook"
             size="1.2em"
           />
-          <Icon
+          <icon
             v-else-if="link.includes('instagram')"
             name="bi:instagram"
             size="1.2em"
           />
-          <Icon v-else name="bi:link-45deg" size="1.2em" />
+          <icon v-else name="bi:link-45deg" size="1.2em" />
           <div class="font-semibold">
             {{ link }}
           </div>
@@ -68,9 +68,9 @@
           hidden: !editModeEnabled,
         }"
       >
-        <Popover v-slot="{ close }" class="relative">
-          <PopoverButton as="div">
-            <BtnLabeled
+        <popover v-slot="{ close }" class="relative">
+          <popoverbutton as="div">
+            <btnlabeled
               :cta="true"
               linkTo="placeholder-link"
               label="components.btn-labeled.new-account"
@@ -78,7 +78,7 @@
               leftIcon="bi:plus-lg"
               ariaLabel="components.btn-labeled.new-account-aria-label"
             />
-          </PopoverButton>
+          </popoverbutton>
           <transition
             enter-active-class="transition duration-100 ease-out"
             enter-from-class="opacity-0 translate-y-1"
@@ -87,25 +87,25 @@
             leave-from-class="opacity-100 translate-y-0"
             leave-to-class="opacity-0 translate-y-1"
           >
-            <PopoverPanel class="absolute bottom-0 mb-12">
-              <PopupNewField
+            <popoverpanel class="absolute bottom-0 mb-12">
+              <popupnewfield
                 @on-cta-clicked="emit('on-new-account', account)"
                 @on-close-clicked="onClose(close)"
-                :title="'Add Account'"
-                :fieldNamePrompt="'Name'"
-                :ctaBtnLabel="'Add'"
-                :ctaBtnLabelAriaLabel="'Add a new field'"
+                :title="'add account'"
+                :fieldNamePrompt="'name'"
+                :ctaBtnLabel="'add'"
+                :ctaBtnLabelAriaLabel="'add a new field'"
               />
-            </PopoverPanel>
+            </popoverpanel>
           </transition>
-        </Popover>
+        </popover>
       </div>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+import { popover, popoverbutton, popoverpanel } from "@headlessui/vue";
 
 const props = defineProps<{
   socialLinks: string[];
@@ -119,7 +119,7 @@ const toggleEditMode = () => {
   editModeEnabled.value = !editModeEnabled.value;
 };
 
-const onClose = (close: (ref?: HTMLElement) => void) => {
+const onClose = (close: (ref?: htmlelement) => void) => {
   close();
 };
 

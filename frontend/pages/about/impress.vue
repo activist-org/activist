@@ -2,10 +2,10 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.about.impress.title") }}</Title>
-    </Head>
-    <PageDocs
+    <head>
+      <title>{{ $t("pages.about.impress.title") }}</title>
+    </head>
+    <pagedocs
       imgURL="/images/content_pages/icons/bootstrap_info_circle"
       imgAltText="pages.about.impress.img-alt-text"
     >
@@ -13,7 +13,7 @@
         {{ $t("pages.about.impress.header") }}
       </h1>
       <div class="flex flex-row py-2 space-x-3">
-        <Icon
+        <icon
           class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
           name="bi:info-circle-fill"
           size="1.25em"
@@ -22,7 +22,7 @@
           {{ $t("pages.about.impress.subheader-1") }}
           <a class="items-center focus-brand link-text" href="/help/contact">
             {{ $t("pages.about.impress.subheader-2") }}
-            <Icon
+            <icon
               name="bi:box-arrow-up-right"
               size="1em"
               style="vertical-align: baseline"
@@ -53,7 +53,7 @@
       <div
         class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
       >
-        <BtnLabeled
+        <btnlabeled
           :cta="false"
           label="components.btn-labeled.return-home"
           linkTo="/"
@@ -61,6 +61,6 @@
           ariaLabel="components.btn-labeled.return-home-aria-label"
         />
       </div>
-    </PageDocs>
+    </pagedocs>
   </div>
 </template>

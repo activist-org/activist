@@ -2,35 +2,35 @@
   <div
     class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.home.index.title") }}</Title>
-    </Head>
-    <HeaderAppPage
+    <head>
+      <title>{{ $t("pages.home.index.title") }}</title>
+    </head>
+    <headerapppage
       :header="$t('pages.home.index.header')"
       :tagline="$t('pages.home.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <TopicMarker topic="My topics dropdown" />
+        <topicmarker topic="my topics dropdown" />
       </div>
-    </HeaderAppPage>
+    </headerapppage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
-      <GridHomeMetrics />
-      <CardSearchResult
+      <gridhomemetrics />
+      <cardsearchresult
         searchResultType="event"
         :isPrivate="false"
         :event="event"
       />
-      <CardSearchResult
+      <cardsearchresult
         searchResultType="organization"
         :isPrivate="false"
         :organization="organization"
       />
-      <CardSearchResult
+      <cardsearchresult
         searchResultType="resource"
         :isPrivate="false"
         :resource="resource"
       />
-      <CardSearchResult
+      <cardsearchresult
         searchResultType="user"
         :isPrivate="false"
         :user="user"
@@ -40,10 +40,10 @@
 </template>
 
 <script setup lang="ts">
-import { Event } from "../../types/event";
-import { Organization } from "../../types/organization";
-import { Resource } from "../../types/resource";
-import { User } from "../../types/user";
+import { event } from "../../types/event";
+import { organization } from "../../types/organization";
+import { resource } from "../../types/resource";
+import { user } from "../../types/user";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -56,47 +56,47 @@ definePageMeta({
 });
 const sidebar = useSidebar();
 
-const resource: Resource = {
-  name: "Test Resource",
-  organizer: "Testers LLC",
+const resource: resource = {
+  name: "test resource",
+  organizer: "testers llc",
   resourceURL: "www.test.com",
-  description: "Test resource :D",
-  topic: "Tools",
-  relatedLocation: "Berlin",
-  creationDate: new Date(),
+  description: "test resource :d",
+  topic: "tools",
+  relatedLocation: "berlin",
+  creationDate: new date(),
   stars: 5,
 };
 
-const organization: Organization = {
+const organization: organization = {
   name: "tech from below",
   status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin",
-  description: "This is the description of tech from below.",
-  topic: "Technology and Privacy",
+  tagline: "technologie von und für soziale bewegungen",
+  location: "berlin",
+  description: "this is the description of tech from below.",
+  topic: "technology and privacy",
   members: 3,
   supporters: 30,
   imageURL: "/images/tech-from-below.svg",
 };
 
-const event: Event = {
-  name: "Test Event",
+const event: event = {
+  name: "test event",
   type: "act",
-  tagline: "We love to test!",
-  organizer: "Testers LLC",
-  topic: "Testing and Designing",
-  description: "This is a test event for testers.",
-  getInvolvedDescription: "Wanna help test?",
-  inPersonLocation: "Berlin",
-  // onlineLocation: "Zoom Test Room",
-  date: new Date(),
+  tagline: "we love to test!",
+  organizer: "testers llc",
+  topic: "testing and designing",
+  description: "this is a test event for testers.",
+  getInvolvedDescription: "wanna help test?",
+  inPersonLocation: "berlin",
+  // onlineLocation: "zoom test room",
+  date: new date(),
   supporters: 10,
 };
 
-const user: User = {
-  name: "John A. Tester",
-  location: "Testerville, TN",
+const user: user = {
+  name: "john a. tester",
+  location: "testerville, tn",
   supporters: 123,
-  description: "I love to test!",
+  description: "i love to test!",
 };
 </script>

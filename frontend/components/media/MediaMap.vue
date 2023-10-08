@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "@vue/runtime-core";
-import L, { MapOptions } from "leaflet";
+import l, { mapoptions } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { ref } from "vue";
 
@@ -33,7 +33,7 @@ const localePath = useLocalePath();
 const rerenderKey = ref(0);
 const map = ref();
 
-type Marker = {
+type marker = {
   address: string;
   lat: number;
   lon: number;
@@ -41,26 +41,26 @@ type Marker = {
 
 let errorOccurred: boolean = false;
 
-function handleMapError(error: Error) {
+function handleMapError(error: error) {
   console.error(error);
   errorOccurred = true;
 
-  // TODO: More helpful and better looking error messages.
+  // todo: more helpful and better looking error messages.
   rerenderKey.value += 1; // rerender the error div
   map.value.style.opacity = 0;
   map.value.style.position = "absolute";
 }
 
-function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
-  let mapOptions: MapOptions = {
+function drawMap(avgLat: number, avgLon: number, markers: array<marker>) {
+  let mapOptions: mapoptions = {
     center: [avgLat, avgLon],
     zoom: 13,
     attributionControl: false,
   };
 
-  let leafletMap = L.map("map-div", mapOptions);
+  let leafletMap = l.map("map-div", mapOptions);
 
-  let layer = new L.TileLayer(
+  let layer = new l.tilelayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   );
   leafletMap.addLayer(layer);
@@ -69,7 +69,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
   let eventColor = "";
   if (props.type === "act") {
     if (colorMode.value == "dark") {
-      eventColor = "#DD7E6B";
+      eventColor = "#dd7e6b";
     } else {
       eventColor = "#9A031E";
     }
@@ -91,31 +91,31 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
   position: relative;
   border-radius: 2rem 2rem 0;
   transform: rotate(45deg);
-  border: 1px solid #D8DEE4`;
+  border: 1px solid #d8dee4`;
 
-  const mapIcon = L.divIcon({
+  const mapIcon = l.divIcon({
     className: "my-custom-pin",
     iconAnchor: [0, 24],
     popupAnchor: [0, -36],
     html: `<span style="${markerHTMLStyles}" />`,
   });
 
-  markers.map((marker: Marker) => {
-    let pin = L.marker([marker.lat, marker.lon], { icon: mapIcon });
-    // Add location pin to map.
+  markers.map((marker: marker) => {
+    let pin = l.marker([marker.lat, marker.lon], { icon: mapIcon });
+    // add location pin to map.
     pin.addTo(leafletMap);
     pin.on("click", function () {
-      L.popup()
+      l.popup()
         .setLatLng(pin.getLatLng())
         .setContent(
           `
-          <div class="flex bg-[#F6F8FA] rounded-lg">
+          <div class="flex bg-[#f6f8fa] rounded-lg">
             <div class="flex flex-col w-3/5 px-2 pt-1 pb-2 space-y-1">
               <p class="text-sm font-bold">${props.title}</p>
-              <p class="text-xs font-semibold">Date and time</p>
+              <p class="text-xs font-semibold">date and time</p>
               <p class="text-xs font-semibold">${marker.address}</p>
-              <a href="/home" class="attend-btn py-[0.5rem] px-[1.125rem] bg-[#F1993D] text-[#F6F8FA] font-medium rounded-md w-fit">
-                Attend
+              <a href="/home" class="attend-btn py-[0.5rem] px-[1.125rem] bg-[#f1993d] text-[#f6f8fa] font-medium rounded-md w-fit">
+                attend
               </a>
             </div>
             <div class="w-2/5 border-l-[24px] border-[#9A031E] bg-[#898688] rounded-r-md">
@@ -130,11 +130,11 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
 }
 
 /*
-    NOTE: Below is an example of the code to use when the backend code
+    note: below is an example of the code to use when the backend code
     is up and running, removing most of the logic from the frontend.
 
     const props = defineProps<{
-        locations: Array<Marker>,
+        locations: array<marker>,
         averageLat: number,
         averageLon: number
     }>();
@@ -145,7 +145,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
 */
 
 onMounted(() => {
-  let markers: Array<Marker> = [];
+  let markers: array<marker> = [];
   let averageLat: number = 0;
   let averageLon: number = 0;
 
@@ -161,7 +161,7 @@ onMounted(() => {
       .then((response) => response.json())
       .then((data) => {
         if (data.length == 0) {
-          handleMapError(new Error("OSM: Provided address not found."));
+          handleMapError(new error("osm: provided address not found."));
           return;
         }
 
@@ -173,13 +173,13 @@ onMounted(() => {
         averageLon += +longitude;
 
         if (index == props.addresses.length - 1) {
-          // Calculate  averages for centerpoint of map.
+          // calculate  averages for centerpoint of map.
           averageLat /= props.addresses.length;
           averageLon /= props.addresses.length;
           drawMap(averageLat, averageLon, markers);
         }
       })
-      .catch((error: Error) => {
+      .catch((error: error) => {
         handleMapError(error);
       });
   });

@@ -12,14 +12,14 @@
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <a
-            v-if="Number.isInteger(Number(breadcrumb)) && event"
+            v-if="number.isInteger(number(breadcrumb)) && event"
             class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             :href="makeURL(breadcrumb)"
           >
             {{ event.name }}
           </a>
           <a
-            v-else-if="Number.isInteger(Number(breadcrumb)) && organization"
+            v-else-if="number.isInteger(number(breadcrumb)) && organization"
             class="text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
             :href="makeURL(breadcrumb)"
           >
@@ -49,13 +49,13 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { Event } from "../../types/event";
-import type { Organization } from "../../types/organization";
+import type { event } from "../../types/event";
+import type { organization } from "../../types/organization";
 const { locales } = useI18n();
 
 defineProps<{
-  organization?: Organization;
-  event?: Event;
+  organization?: organization;
+  event?: event;
 }>();
 
 const breadcrumbs = ref<string[]>([]);

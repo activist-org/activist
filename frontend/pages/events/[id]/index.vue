@@ -2,11 +2,11 @@
   <div
     class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ event.name }} </Title>
-    </Head>
+    <head>
+      <title>{{ event.name }} </title>
+    </head>
     <div class="w-3/4 h-[260px] mx-auto">
-      <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
+      <imageevent :eventType="event.type" :imgURL="event?.imageURL" />
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1
@@ -21,7 +21,7 @@
       </h2>
     </div>
     <div class="flex flex-col items-center w-full gap-4">
-      <MenuLinkWrapper
+      <menulinkwrapper
         v-for="button in eventButtons"
         :to="button.routeURL"
         :active="button.active"
@@ -31,7 +31,7 @@
           class="flex items-center w-full text-sm font-medium text-left space-x-2"
         >
           <span class="width-1/6"
-            ><Icon
+            ><icon
               v-if="button.iconURL"
               :name="button.iconURL"
               class="flex-shrink-0 w-5 h-5"
@@ -42,8 +42,8 @@
             {{ $t(button.label) }}
           </p>
         </div>
-      </MenuLinkWrapper>
-      <BtnLabeled
+      </menulinkwrapper>
+      <btnlabeled
         class="w-max"
         :cta="true"
         linkTo="/"
@@ -59,8 +59,8 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { Event } from "../../../types/event";
-import { MenuSelector } from "../../../types/menu-selector";
+import { event } from "../../../types/event";
+import { menuselector } from "../../../types/menu-selector";
 
 definePageMeta({
   layout: "sidebar",
@@ -68,20 +68,20 @@ definePageMeta({
 
 const { id } = useRoute().params;
 
-const event: Event = {
-  name: "Test Event",
+const event: event = {
+  name: "test event",
   type: "act",
-  tagline: "We love to test!",
-  organizer: "Testers LLC",
-  topic: "Testing and Designing",
-  description: "This is a test event for testers.",
-  getInvolvedDescription: "Wanna help test?",
-  onlineLocation: "Zoom Test Room",
-  date: new Date(),
+  tagline: "we love to test!",
+  organizer: "testers llc",
+  topic: "testing and designing",
+  description: "this is a test event for testers.",
+  getInvolvedDescription: "wanna help test?",
+  onlineLocation: "zoom test room",
+  date: new date(),
   supporters: 10,
 };
 
-const eventButtons: MenuSelector[] = [
+const eventButtons: menuselector[] = [
   {
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/events/" + id + "/about",
@@ -99,7 +99,7 @@ const eventButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.resources",
     routeURL: "/events/" + id + "/resources",
-    iconURL: "IconResource",
+    iconURL: "iconresource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
     active: true,
   },
@@ -135,10 +135,10 @@ const handleResize = () => {
 };
 
 onMounted(() => {
-  // Add event listener to handle resizing.
+  // add event listener to handle resizing.
   window.addEventListener("resize", handleResize);
 
-  // Verify that the user is on a mobile device.
+  // verify that the user is on a mobile device.
   handleResize();
 });
 </script>

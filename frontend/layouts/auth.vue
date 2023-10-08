@@ -1,11 +1,11 @@
 <template>
-  <HeaderWebsite class="md:hidden" />
+  <headerwebsite class="md:hidden" />
   <div class="grid grid-cols-1 md:grid-cols-2 h-screen">
-    <Head>
-      <Title>{{ $t("pages.auth.sign-in.index.title") }}</Title>
-    </Head>
+    <head>
+      <title>{{ $t("pages.auth.sign-in.index.title") }}</title>
+    </head>
     <div class="relative hidden md:block">
-      <LogoActivist
+      <logoactivist
         class="absolute inset-0 flex items-center justify-center mb-10 md:px-20 lg:px-28 xl:px-40"
       />
     </div>
@@ -13,14 +13,14 @@
       class="h-full text-light-text dark:text-dark-text bg-light-distinct dark:bg-dark-distinct"
     >
       <div class="hidden space-x-6 justify-end py-4 px-8 md:flex">
-        <SelectorLanguage />
-        <BtnLabeled
+        <selectorlanguage />
+        <btnlabeled
           class="flex items-center max-h-[38px] lg:max-h-[46px]"
           :label="page.label"
           linkTo="/auth/sign-up"
           :cta="true"
           fontSize="lg"
-          ariaLabel="SignIn"
+          ariaLabel="signin"
         />
       </div>
       <div class="flex-1 w-full pt-24 md:pt-36 pb-4 md:pb-12 space-y-4">
@@ -40,7 +40,7 @@ const route = useRoute();
 
 const page = computed(() => {
   const isSignIn = route.fullPath?.includes("sign-in");
-  // TODO: Please change the empty string when developing the sign up page
+  // todo: please change the empty string when developing the sign up page
   return {
     label: isSignIn ? "pages.auth.sign-in.index.sign-up" : "",
     message: isSignIn ? "pages.auth.sign-in.index.welcome-back" : "",

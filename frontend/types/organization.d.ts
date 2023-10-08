@@ -1,4 +1,4 @@
-export interface Organization {
+export interface organization {
   name: string;
   status: string;
   tagline: string;

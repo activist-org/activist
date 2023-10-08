@@ -8,18 +8,18 @@
       'w-16': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
     }"
   >
-    <SidebarLeftHeader />
+    <sidebarleftheader />
     <div class="h-full overflow-x-hidden overflow-y-scroll">
-      <SearchBar class="mt-2" location="sidebar" />
-      <SidebarLeftMainSectionSelectors class="mt-2" />
-      <SidebarLeftIndex
+      <searchbar class="mt-2" location="sidebar" />
+      <sidebarleftmainsectionselectors class="mt-2" />
+      <sidebarleftindex
         v-if="sidebarType === 'organization' || sidebarType === 'event'"
         class="my-3"
         :name="placeholderName"
         :sidebarType="sidebarType"
         :logoUrl="placeholderLogo"
       />
-      <SidebarLeftFilters
+      <sidebarleftfilters
         v-else
         :class="{
           'mx-3 py-4':
@@ -30,7 +30,7 @@
         :filters="getFiltersByPageType"
       />
     </div>
-    <SidebarLeftFooter />
+    <sidebarleftfooter />
   </aside>
 </template>
 
@@ -49,9 +49,9 @@ if (route.path.includes(locale.value + "/search")) {
 } else if (route.path.includes(locale.value + "/home")) {
   sidebarType = "home";
 } else if (route.path.includes(locale.value + "/organizations")) {
-  // We're in /organizations.
+  // we're in /organizations.
   if (
-    // Check to see if we're on a sub page where we need id information.
+    // check to see if we're on a sub page where we need id information.
     route.path.length >
       (
         route.path.split(locale.value + "/organizations/", 1) +
@@ -64,13 +64,13 @@ if (route.path.includes(locale.value + "/search")) {
   ) {
     sidebarType = "organization";
   } else {
-    // We're on /organizations itself or /organizations/search.
+    // we're on /organizations itself or /organizations/search.
     sidebarType = "filter organizations";
   }
 } else if (route.path.includes(locale.value + "/events")) {
-  // We're in /events.
+  // we're in /events.
   if (
-    // Check to see if we're on a sub page where we need id information.
+    // check to see if we're on a sub page where we need id information.
     route.path.length >
       (
         route.path.split(locale.value + "/events/", 1) +
@@ -83,26 +83,26 @@ if (route.path.includes(locale.value + "/search")) {
   ) {
     sidebarType = "event";
   } else {
-    // We're on /events itself or /events/search.
+    // we're on /events itself or /events/search.
     sidebarType = "filter events";
   }
 } else {
-  // TODO: Handle this state.
+  // todo: handle this state.
   sidebarType = "misc";
 }
 
-// TODO: Use real name of organization / event when available from backend.
+// todo: use real name of organization / event when available from backend.
 const placeholderName = route.path.split("/").at(-2)?.replaceAll("-", " ");
 const placeholderLogo = "/images/tech-from-below.svg";
 
 const filters = {
   daysAhead: {
-    title: "Days ahead",
+    title: "days ahead",
     name: "daysAhead",
     type: "radio",
     style: "button",
     allowCustomValue: true,
-    customValuePlaceholder: "Enter number",
+    customValuePlaceholder: "enter number",
     sidebarType: ["filter events"],
     items: [
       {
@@ -120,26 +120,26 @@ const filters = {
     ],
   },
   eventType: {
-    title: "Event type",
+    title: "event type",
     name: "eventType",
     type: "checkbox",
     style: "button",
     sidebarType: ["filter events"],
     items: [
       {
-        label: "Learn",
+        label: "learn",
         value: "learn",
         customColor: "learn-blue",
       },
       {
-        label: "Act",
+        label: "act",
         value: "act",
         customColor: "act-red",
       },
     ],
   },
   location: {
-    title: "Location",
+    title: "location",
     name: "location",
     type: "checkbox",
     style: "button",
@@ -147,12 +147,12 @@ const filters = {
     searchInput: true,
     items: [
       {
-        label: "In person",
+        label: "in person",
         value: "in-person",
         customColor: "learn-blue",
       },
       {
-        label: "Online",
+        label: "online",
         value: "online",
         customColor: "learn-blue",
       },
@@ -163,24 +163,24 @@ const filters = {
     name: "eventLocationSearch",
     type: "search",
     sidebarType: ["filter events"],
-    placeholder: "Filter by location",
+    placeholder: "filter by location",
   },
   locationSearch: {
-    title: "Location",
+    title: "location",
     name: "locationSearch",
     type: "search",
     sidebarType: ["filter organizations", "search"],
-    placeholder: "Filter by location",
+    placeholder: "filter by location",
   },
   organizationSearch: {
-    title: "Organization",
+    title: "organization",
     name: "organizationSearch",
     type: "search",
     sidebarType: ["filter events"],
-    placeholder: "Filter by orgs",
+    placeholder: "filter by orgs",
   },
   topic: {
-    title: "Topic",
+    title: "topic",
     type: "checkbox",
     name: "topic",
     style: "simple",
@@ -193,87 +193,87 @@ const filters = {
     ],
     items: [
       {
-        label: "Environment",
+        label: "environment",
         value: "environment",
       },
       {
-        label: "Housing",
+        label: "housing",
         value: "housing",
       },
       {
-        label: "Refugees",
+        label: "refugees",
         value: "refugees",
       },
       {
-        label: "LGBTQIA+",
+        label: "lgbtqia+",
         value: "lgbtqia+",
       },
       {
-        label: "Racial Justice",
+        label: "racial justice",
         value: "racial justice",
       },
       {
-        label: "Women's Rights",
+        label: "women's rights",
         value: "women's rights",
       },
       {
-        label: "Children's Rights",
+        label: "children's rights",
         value: "children's rights",
       },
       {
-        label: "Elder Rights",
+        label: "elder rights",
         value: "elder rights",
       },
       {
-        label: "Animal Rights",
+        label: "animal rights",
         value: "animal rights",
       },
       {
-        label: "Labor Rights",
+        label: "labor rights",
         value: "labor rights",
       },
       {
-        label: "Education",
+        label: "education",
         value: "education",
       },
       {
-        label: "Democracy",
+        label: "democracy",
         value: "democracy",
       },
       {
-        label: "Health",
+        label: "health",
         value: "health",
       },
       {
-        label: "Privacy",
+        label: "privacy",
         value: "privacy",
       },
       {
-        label: "Peace",
+        label: "peace",
         value: "peace",
       },
       {
-        label: "Nutrition",
+        label: "nutrition",
         value: "nutrition",
       },
       {
-        label: "Accessibility",
+        label: "accessibility",
         value: "accessibility",
       },
       {
-        label: "Transparency",
+        label: "transparency",
         value: "transparency",
       },
       {
-        label: "Expression",
+        label: "expression",
         value: "expression",
       },
       {
-        label: "Emergency Relief",
+        label: "emergency relief",
         value: "emergency relief",
       },
       {
-        label: "Infrastructure",
+        label: "infrastructure",
         value: "infrastructure",
       },
     ],

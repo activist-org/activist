@@ -11,7 +11,7 @@
           'w-6': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <IconActivist
+        <iconactivist
           class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-[1.3em] h-8 z-1 overflow-clip"
           :class="{
             hidden:
@@ -19,15 +19,15 @@
           }"
           color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-special-text-over-header hover:dark:fill-dark-special-text-over-header"
         />
-        <Transition>
-          <LogoActivist
+        <transition>
+          <logoactivist
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
             class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-32 h-8 z-1 overflow-clip"
             color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-special-text-over-header hover:dark:fill-dark-special-text-over-header"
           />
-        </Transition>
+        </transition>
       </div>
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
       <div @mouseover.stop class="absolute -right-0">
@@ -45,12 +45,12 @@
               'pl-[2px]': sidebar.collapsedSwitch == true,
             }"
           >
-            <Icon
+            <icon
               v-if="sidebar.collapsedSwitch == false"
               name="tabler:arrow-bar-to-left"
               size="1.5em"
             />
-            <Icon
+            <icon
               v-if="sidebar.collapsedSwitch == true"
               name="tabler:arrow-bar-to-right"
               size="1.5em"

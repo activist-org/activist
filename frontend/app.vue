@@ -1,9 +1,9 @@
 <template>
-  <Loading />
+  <loading />
   <div>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <nuxtlayout>
+      <nuxtpage />
+    </nuxtlayout>
   </div>
 </template>
 

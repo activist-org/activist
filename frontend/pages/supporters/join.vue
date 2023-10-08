@@ -2,19 +2,19 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.supporters.join.title") }}</Title>
-    </Head>
+    <head>
+      <title>{{ $t("pages.supporters.join.title") }}</title>
+    </head>
     <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
-      <PageBreadcrumbs />
+      <pagebreadcrumbs />
       <h1 class="font-bold responsive-h1">
         {{ $t("pages.supporters.join.title") }}
       </h1>
       <p>
         {{ $t("pages.supporters.join.section-1-paragraph-1-1") }}
-        <NuxtLink class="focus-brand link-text" :to="localePath('/supporters')">
+        <nuxtlink class="focus-brand link-text" :to="localePath('/supporters')">
           {{ $t("pages.supporters.join.section-1-paragraph-1-2") }}
-        </NuxtLink>
+        </nuxtlink>
         .
       </p>
       <h2 class="font-bold responsive-h4">
@@ -28,7 +28,7 @@
           target="_blank"
         >
           {{ $t("pages.supporters.join.section-2-paragraph-1-2") }}
-          <Icon
+          <icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
@@ -47,12 +47,12 @@
       </h2>
       <p>
         {{ $t("pages.supporters.join.section-4-paragraph-1-1") }}
-        <NuxtLink
+        <nuxtlink
           class="focus-brand link-text"
           :to="localePath('/help/contact')"
         >
           {{ $t("pages.supporters.join.section-4-paragraph-1-2") }}
-        </NuxtLink>
+        </nuxtlink>
         {{ $t("pages.supporters.join.section-4-paragraph-1-3") }}
       </p>
       <h2 class="font-bold responsive-h4">
@@ -60,9 +60,9 @@
       </h2>
       <p>
         {{ $t("pages.supporters.join.section-5-paragraph-1-1") }}
-        <NuxtLink class="focus-brand link-text" :to="localePath('/supporters')">
+        <nuxtlink class="focus-brand link-text" :to="localePath('/supporters')">
           {{ $t("pages.supporters.join.section-5-paragraph-1-2") }}
-        </NuxtLink>
+        </nuxtlink>
         .
       </p>
       <h2 class="font-bold responsive-h4">
@@ -76,7 +76,7 @@
           target="_blank"
         >
           {{ $t("pages.supporters.join.section-6-paragraph-1-2") }}
-          <Icon
+          <icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"

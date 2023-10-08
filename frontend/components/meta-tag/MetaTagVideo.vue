@@ -1,5 +1,5 @@
 <template>
-  <MetaTag iconName="bi:camera-video" :value="link" :label="label" />
+  <metatag iconName="bi:camera-video" :value="link" :label="label" />
 </template>
 
 <script setup lang="ts">

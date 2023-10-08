@@ -13,7 +13,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <ImageOrganization :imgURL="logoUrl" />
+        <imageorganization :imgURL="logoUrl" />
       </div>
       <div
         v-else-if="sidebarType === 'event'"
@@ -25,7 +25,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <ImageEvent eventType="act" />
+        <imageevent eventType="act" />
       </div>
       <p
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
@@ -44,7 +44,7 @@
           v-if="sidebarType === 'organization'"
           v-for="button in organizationButtons"
         >
-          <SidebarLeftSelector
+          <sidebarleftselector
             :label="button.label"
             :routeURL="button.routeURL"
             :iconURL="button.iconURL"
@@ -53,7 +53,7 @@
           />
         </li>
         <li v-if="sidebarType === 'event'" v-for="button in eventButtons">
-          <SidebarLeftSelector
+          <sidebarleftselector
             :label="button.label"
             :routeURL="button.routeURL"
             :iconURL="button.iconURL"
@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { MenuSelector } from "../../../types/menu-selector";
+import { menuselector } from "../../../types/menu-selector";
 
 const sidebar = useSidebar();
 
@@ -86,7 +86,7 @@ const nameAbbreviation = props.name
 
 const { id } = useRoute().params;
 
-const organizationButtons: MenuSelector[] = [
+const organizationButtons: menuselector[] = [
   {
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/organizations/" + id + "/about",
@@ -104,21 +104,21 @@ const organizationButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.groups",
     routeURL: "/organizations/" + id + "/groups",
-    iconURL: "IconGroup",
+    iconURL: "icongroup",
     selected: useRoute().path.split("/").pop() === "groups" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.resources",
     routeURL: "/organizations/" + id + "/resources",
-    iconURL: "IconResource",
+    iconURL: "iconresource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.faq",
     routeURL: "/organizations/" + id + "/faq",
-    iconURL: "IconFAQ",
+    iconURL: "iconfaq",
     selected: useRoute().path.split("/").pop() === "faq" ? true : false,
     active: true,
   },
@@ -132,7 +132,7 @@ const organizationButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.affiliates",
     routeURL: "/organizations/" + id + "/affiliates",
-    iconURL: "IconSupport",
+    iconURL: "iconsupport",
     selected: useRoute().path.split("/").pop() === "affiliates" ? true : false,
     active: false,
   },
@@ -152,7 +152,7 @@ const organizationButtons: MenuSelector[] = [
   },
 ];
 
-const eventButtons: MenuSelector[] = [
+const eventButtons: menuselector[] = [
   {
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/events/" + id + "/about",
@@ -170,7 +170,7 @@ const eventButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.resources",
     routeURL: "/events/" + id + "/resources",
-    iconURL: "IconResource",
+    iconURL: "iconresource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : false,
     active: true,
   },

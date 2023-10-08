@@ -2,10 +2,10 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.help.contact.title") }}</Title>
-    </Head>
-    <PageDocs
+    <head>
+      <title>{{ $t("pages.help.contact.title") }}</title>
+    </head>
+    <pagedocs
       imgURL="/images/content_pages/icons/bootstrap_envelope"
       imgAltText="pages.help.contact.img-alt-text"
     >
@@ -17,7 +17,7 @@
           {{ $t("pages.help.contact.header") }}
         </h1>
         <div class="flex flex-row py-2 space-x-3">
-          <Icon
+          <icon
             class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             name="bi:info-circle-fill"
             size="1.25em"
@@ -30,7 +30,7 @@
               target="_blank"
             >
               {{ $t("pages.help.faq.subheader-2") }}
-              <Icon
+              <icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
@@ -47,7 +47,7 @@
               href="https://matrix.to/#/#activist_community:matrix.org"
             >
               {{ $t("pages.help.contact.section-1-paragraph-1-2") }}
-              <Icon
+              <icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
@@ -59,7 +59,7 @@
               href="https://github.com/activist-org/activist"
             >
               {{ $t("pages.help.contact.section-1-paragraph-1-4") }}
-              <Icon
+              <icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
@@ -71,11 +71,11 @@
             {{ $t("pages.help.contact.section-1-paragraph-2-1") }}
             <a
               class="items-center focus-brand link-text"
-              href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
+              href="https://github.com/activist-org/activist/blob/main/.github/code_of_conduct.md"
               target="_blank"
             >
               {{ $t("pages.help.contact.section-1-paragraph-2-2") }}
-              <Icon
+              <icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
@@ -189,7 +189,7 @@
           {{ $t("pages.help.contact.thanks-1") }}
         </h1>
         <div class="flex flex-row text-start py-2 space-x-3">
-          <Icon
+          <icon
             class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             name="bi:info-circle-fill"
             size="1.25em"
@@ -202,7 +202,7 @@
               target="_blank"
             >
               {{ $t("pages.help.faq.subheader-2") }}
-              <Icon
+              <icon
                 name="bi:box-arrow-up-right"
                 size="1em"
                 style="vertical-align: baseline"
@@ -214,7 +214,7 @@
         <p>
           {{ $t("pages.help.contact.thanks-2") }}
         </p>
-        <BtnLabeled
+        <btnlabeled
           :cta="false"
           label="components.btn-labeled.return-home"
           linkTo="/"
@@ -222,7 +222,7 @@
           ariaLabel="components.btn-labeled.return-home-aria-label"
         />
       </div>
-    </PageDocs>
+    </pagedocs>
   </div>
 </template>
 

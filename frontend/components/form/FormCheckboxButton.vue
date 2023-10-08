@@ -29,17 +29,17 @@ import useUniqueID from "../../composables/useUniqueID";
 
 const props = defineProps({
   label: {
-    type: String,
+    type: string,
     default: "",
   },
   modelValue: {
-    type: Boolean,
+    type: boolean,
   },
   value: {
-    type: [String, Number],
+    type: [string, number],
   },
   error: {
-    type: String,
+    type: string,
     default: "",
   },
 });

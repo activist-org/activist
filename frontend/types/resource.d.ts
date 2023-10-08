@@ -1,4 +1,4 @@
-export interface Resource {
+export interface resource {
   name: string;
   organizer: string;
   resourceURL: string;

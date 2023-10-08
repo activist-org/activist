@@ -2,8 +2,8 @@
   <div
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <Head>
-      <Title>{{ $t("pages.finances.title") }}</Title>
-    </Head>
+    <head>
+      <title>{{ $t("pages.finances.title") }}</title>
+    </head>
   </div>
 </template>

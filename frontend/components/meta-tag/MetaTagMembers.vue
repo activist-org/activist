@@ -1,5 +1,5 @@
 <template>
-  <MetaTag iconName="bi:people" :value="String(members)" :label="label" />
+  <metatag iconName="bi:people" :value="string(members)" :label="label" />
 </template>
 
 <script setup lang="ts">

@@ -4,8 +4,8 @@
     class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 border rounded-md select-none border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:mb-[-2px]"
   >
     <div class="flex items-center space-x-2">
-      <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
-      <Transition name="search">
+      <icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
+      <transition name="search">
         <input
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
           @focus="onFocus"
@@ -16,9 +16,9 @@
           type="text"
           :placeholder="$t('components.search-bar.placeholder')"
         />
-      </Transition>
+      </transition>
     </div>
-    <Transition name="shortcuts">
+    <transition name="shortcuts">
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         class="flex pr-1 space-x-1 transition-opacity transition-duration-200"
@@ -55,13 +55,13 @@
           <p>⌃k</p>
         </div> -->
       </div>
-    </Transition>
+    </transition>
   </div>
   <div
     v-else
     class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange"
   >
-    <Icon
+    <icon
       @click="emit('on-search-toggle')"
       class="flex-shrink-0 w-4 h-4 my-1"
       :name="expanded ? 'bi:x-lg' : 'bi:search'"
@@ -71,9 +71,9 @@
       v-if="expanded"
       class="bg-transparent focus:outline-none"
       type="text"
-      placeholder="Search"
+      placeholder="search"
     />
-    <Icon v-if="expanded" class="absolute right-3" name="bi:filter" />
+    <icon v-if="expanded" class="absolute right-3" name="bi:filter" />
   </div>
 </template>
 

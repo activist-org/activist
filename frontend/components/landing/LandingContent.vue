@@ -6,7 +6,7 @@
     <div
       class="flex flex-col items-center w-full space-y-3 lg:items-start sm:w-10/12 lg:max-w-sm xl:max-w-md xl:space-y-4"
     >
-      <!-- Note: image on top of content. -->
+      <!-- note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
         class="mb-4 lg:hidden h-36 sm:h-44"
@@ -34,7 +34,7 @@
       >
         {{ $t(text) }}
       </p>
-      <BtnLabeled
+      <btnlabeled
         :cta="true"
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
@@ -42,7 +42,7 @@
         :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : null"
       />
     </div>
-    <!-- Note: image right of content. -->
+    <!-- note: image right of content. -->
     <div class="hidden lg:block w-60 h-60 xl:w-72 xl:h-72">
       <img
         v-if="$colorMode.value == 'light'"
@@ -60,7 +60,7 @@
     v-else-if="contentPosition === 'right'"
     class="flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-24 xl:py-28 lg:space-x-20 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header"
   >
-    <!-- Note: image left of content. -->
+    <!-- note: image left of content. -->
     <div class="hidden lg:block w-60 h-60 xl:w-72 xl:h-72">
       <img
         v-if="$colorMode.value == 'light'"
@@ -76,7 +76,7 @@
     <div
       class="flex flex-col items-center w-full space-y-3 lg:items-start sm:w-10/12 lg:max-w-sm xl:max-w-md xl:space-y-4"
     >
-      <!-- Note: image on top of content. -->
+      <!-- note: image on top of content. -->
       <img
         v-if="$colorMode.value == 'light'"
         class="mb-4 lg:hidden h-36 sm:h-44"
@@ -104,7 +104,7 @@
       >
         {{ $t(text) }}
       </p>
-      <BtnLabeled
+      <btnlabeled
         :cta="true"
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
@@ -136,7 +136,7 @@
       <div
         class="grid grid-cols-1 grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 sm:grid-cols-2 sm:grid-rows-1"
       >
-        <BtnLabeled
+        <btnlabeled
           class="w-full"
           :cta="true"
           :label="`${btnText1}`"
@@ -144,7 +144,7 @@
           fontSize="xl"
           :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : null"
         />
-        <BtnLabeled
+        <btnlabeled
           class="w-full"
           :cta="false"
           :label="`${btnText2}`"
@@ -154,7 +154,7 @@
         />
       </div>
       <div>
-        <GridSupporters class="mt-6 xl:mt-8" />
+        <gridsupporters class="mt-6 xl:mt-8" />
       </div>
       <p
         v-if="subText"

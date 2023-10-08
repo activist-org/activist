@@ -1,7 +1,7 @@
 <template>
-  <MetaTag
+  <metatag
     iconName="bi:person-fill-check"
-    :value="String(numAttending)"
+    :value="string(numAttending)"
     :label="label"
   />
 </template>

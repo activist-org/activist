@@ -6,18 +6,18 @@
       <div
         class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
       >
-        <div v-if="imageName == 'WikimediaDE'">
-          <LogoWikimediaDE
+        <div v-if="imageName == 'wikimediade'">
+          <logowikimediade
             class="w-[200px] h-[200px] lg:w-[250px] lg:h-[250px] group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
         </div>
-        <div v-if="imageName == 'WikimediaRS'">
-          <LogoWikimediaRS
+        <div v-if="imageName == 'wikimediars'">
+          <logowikimediars
             class="w-[200px] h-[200px] scale-[0.7] lg:w-[250px] lg:h-[250px] group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
         </div>
-        <div v-if="imageName == 'ImpactHub'">
-          <LogoImpactHub
+        <div v-if="imageName == 'impacthub'">
+          <logoimpacthub
             class="w-[200px] h-[200px] scale-[0.7] lg:w-[250px] lg:h-[250px] rounded-md lg:rounded-lg group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
         </div>

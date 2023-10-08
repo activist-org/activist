@@ -1,14 +1,14 @@
 <template>
-  <HeaderWebsite />
+  <headerwebsite />
   <div class="flex h-full bg-light-content dark:bg-dark-content">
-    <Head>
-      <Title>{{ $t("pages.error.title") }}</Title>
-    </Head>
+    <head>
+      <title>{{ $t("pages.error.title") }}</title>
+    </head>
     <div
       class="relative my-[10%] mx-auto items-center justify-center md:text-left text-center container flex flex-col md:flex-row md:space-x-8 xl:space-x-12 space-x-0 space-y-10 md:space-y-0"
     >
       <div
-        class="md:text-[175px] lg:text-[200px] text-light-text dark:text-dark-text text-[125px] flex flex-wrap font-black font-['Copperplate_Gothic_Light']"
+        class="md:text-[175px] lg:text-[200px] text-light-text dark:text-dark-text text-[125px] flex flex-wrap font-black font-['copperplate_gothic_light']"
       >
         {{ error.statusCode }}
       </div>
@@ -19,7 +19,7 @@
         class="text-left flex flex-col items-center md:items-start max-w-[350px]"
       >
         <div
-          class="text-lg md:text-xl text-light-text dark:text-dark-text font-['Copperplate_Gothic_Light'] mt-4 md:mt-0 flex flex-wrap"
+          class="text-lg md:text-xl text-light-text dark:text-dark-text font-['copperplate_gothic_light'] mt-4 md:mt-0 flex flex-wrap"
         >
           {{ $t("pages.error.message") }}
         </div>
@@ -28,7 +28,7 @@
         >
           {{ error.message }}
         </div>
-        <BtnLabeled
+        <btnlabeled
           :cta="true"
           label="components.btn-labeled.return-home"
           linkTo="/"
@@ -38,7 +38,7 @@
       </div>
     </div>
   </div>
-  <Footer />
+  <footer />
 </template>
 
 <script setup lang="ts">

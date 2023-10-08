@@ -12,8 +12,8 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <Disclosure v-slot="{ open, close }">
-          <DisclosureButton
+        <disclosure v-slot="{ open, close }">
+          <disclosurebutton
             v-on:keyup.enter="closeOtherMenus(0)"
             @click="closeOtherMenus(0)"
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
@@ -23,12 +23,12 @@
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
             >
-              <Icon
+              <icon
                 class="flex-shrink-0 w-5 h-5 text-center"
                 name="bi:plus-circle"
                 size="1em"
               />
-              <Transition name="text">
+              <transition name="text">
                 <p
                   v-if="
                     sidebar.collapsed == false ||
@@ -38,10 +38,10 @@
                 >
                   {{ $t("components.sidebar-left-footer.create") }}
                 </p>
-              </Transition>
+              </transition>
             </div>
-            <Transition name="chevron">
-              <Icon
+            <transition name="chevron">
+              <icon
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
@@ -49,14 +49,14 @@
                 :class="{ 'rotate-180 transform': open }"
                 name="bi:chevron-up"
               />
-            </Transition>
-          </DisclosureButton>
-          <DisclosurePanel class="flex flex-col">
+            </transition>
+          </disclosurebutton>
+          <disclosurepanel class="flex flex-col">
             <div
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
               :ref="(el) => (disclosurePanels[0] = el)"
             >
-              <SidebarLeftSelector
+              <sidebarleftselector
                 v-for="button in createButtons"
                 :label="button.label"
                 :routeURL="button.routeURL"
@@ -65,10 +65,10 @@
                 :active="button.active"
               />
             </div>
-          </DisclosurePanel>
-        </Disclosure>
-        <Disclosure v-slot="{ open, close }">
-          <DisclosureButton
+          </disclosurepanel>
+        </disclosure>
+        <disclosure v-slot="{ open, close }">
+          <disclosurebutton
             v-on:keyup.enter="closeOtherMenus(1)"
             @click="closeOtherMenus(1)"
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
@@ -78,12 +78,12 @@
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
             >
-              <Icon
+              <icon
                 class="flex-shrink-0 w-5 h-5"
                 name="bi:info-circle"
                 size="1em"
               />
-              <Transition name="text">
+              <transition name="text">
                 <p
                   v-if="
                     sidebar.collapsed == false ||
@@ -93,10 +93,10 @@
                 >
                   {{ $t("components.sidebar-left-footer.info") }}
                 </p>
-              </Transition>
+              </transition>
             </div>
-            <Transition name="chevron">
-              <Icon
+            <transition name="chevron">
+              <icon
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
@@ -104,14 +104,14 @@
                 :class="{ 'rotate-180 transform': open }"
                 name="bi:chevron-up"
               />
-            </Transition>
-          </DisclosureButton>
-          <DisclosurePanel class="flex flex-col">
+            </transition>
+          </disclosurebutton>
+          <disclosurepanel class="flex flex-col">
             <div
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
               :ref="(el) => (disclosurePanels[1] = el)"
             >
-              <SidebarLeftSelector
+              <sidebarleftselector
                 v-for="button in infoButtons"
                 :label="button.label"
                 :routeURL="button.routeURL"
@@ -120,10 +120,10 @@
                 :active="button.active"
               />
             </div>
-          </DisclosurePanel>
-        </Disclosure>
-        <Disclosure v-slot="{ open, close }">
-          <DisclosureButton
+          </disclosurepanel>
+        </disclosure>
+        <disclosure v-slot="{ open, close }">
+          <disclosurebutton
             v-on:keyup.enter="closeOtherMenus(2)"
             @click="closeOtherMenus(2)"
             class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
@@ -135,12 +135,12 @@
             <div
               class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
             >
-              <Icon
+              <icon
                 class="flex-shrink-0 w-5 h-5"
                 name="bi:person-circle"
                 size="1em"
               />
-              <Transition name="text">
+              <transition name="text">
                 <p
                   v-if="
                     sidebar.collapsed == false ||
@@ -150,10 +150,10 @@
                 >
                   {{ $t("components.sidebar-left-footer.username") }}
                 </p>
-              </Transition>
+              </transition>
             </div>
-            <Transition name="chevron">
-              <Icon
+            <transition name="chevron">
+              <icon
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
@@ -161,14 +161,14 @@
                 :class="{ 'rotate-180 transform': open }"
                 name="bi:chevron-up"
               />
-            </Transition>
-          </DisclosureButton>
-          <DisclosurePanel class="flex flex-col">
+            </transition>
+          </disclosurebutton>
+          <disclosurepanel class="flex flex-col">
             <div
               class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
               :ref="(el) => (disclosurePanels[2] = el)"
             >
-              <SidebarLeftSelector
+              <sidebarleftselector
                 v-for="button in userButtons"
                 :label="button.label"
                 :routeURL="button.routeURL"
@@ -177,8 +177,8 @@
                 :active="button.active"
               />
             </div>
-          </DisclosurePanel>
-        </Disclosure>
+          </disclosurepanel>
+        </disclosure>
       </div>
       <div
         class="flex right-0 w-[0.6rem] bg-light-section-div dark:bg-dark-section-div"
@@ -188,28 +188,28 @@
 </template>
 
 <script setup lang="ts">
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import type { Ref } from "vue";
-import { MenuSelector } from "../../../types/menu-selector";
+import { disclosure, disclosurebutton, disclosurepanel } from "@headlessui/vue";
+import type { ref } from "vue";
+import { menuselector } from "../../../types/menu-selector";
 
 const route = useRoute();
 const onHomePage = route.path.includes("home");
 
 const disclosureButtons = ref<
   {
-    close: (ref?: Ref | HTMLElement) => void;
-    el: Ref | HTMLElement;
+    close: (ref?: ref | htmlelement) => void;
+    el: ref | htmlelement;
   }[]
 >([]);
-const disclosurePanels = ref<(Element | ComponentPublicInstance | null)[]>([]);
+const disclosurePanels = ref<(element | componentpublicinstance | null)[]>([]);
 
 const closeOtherMenus = (id: number) => {
   disclosureButtons.value
     .filter((d, i) => i !== id)
     .forEach((disclosureButton) => disclosureButton.close());
 
-  // Focus on the first item in disclosurePanels when opening.
-  // Focus on the disclosureButton when closing.
+  // focus on the first item in disclosurePanels when opening.
+  // focus on the disclosureButton when closing.
   if (disclosurePanels.value[id]?.childNodes) {
     disclosurePanels.value[id]?.childNodes[1].focus();
   } else {
@@ -219,7 +219,7 @@ const closeOtherMenus = (id: number) => {
 
 const sidebar = useSidebar();
 
-const createButtons: MenuSelector[] = [
+const createButtons: menuselector[] = [
   {
     label: "components.sidebar-left-selector.label.new-event",
     routeURL: "/",
@@ -230,27 +230,27 @@ const createButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.new-organization",
     routeURL: "/",
-    iconURL: "IconOrganization",
+    iconURL: "iconorganization",
     selected: false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.new-group",
     routeURL: "/",
-    iconURL: "IconGroup",
+    iconURL: "icongroup",
     selected: false,
     active: true,
   },
   {
     label: "components.sidebar-left-selector.label.new-resource",
     routeURL: "/",
-    iconURL: "IconResource",
+    iconURL: "iconresource",
     selected: false,
     active: true,
   },
 ];
 
-const infoButtons: MenuSelector[] = [
+const infoButtons: menuselector[] = [
   {
     label: "components.sidebar-left-selector.label.help",
     routeURL: "/help",
@@ -268,13 +268,13 @@ const infoButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.legal",
     routeURL: "/legal",
-    iconURL: "IconLegal",
+    iconURL: "iconlegal",
     selected: false,
     active: true,
   },
 ];
 
-const userButtons: MenuSelector[] = [
+const userButtons: menuselector[] = [
   {
     label: "components.sidebar-left-selector.label.your-profile",
     routeURL: "/",
@@ -292,7 +292,7 @@ const userButtons: MenuSelector[] = [
   {
     label: "components.sidebar-left-selector.label.your-orgs",
     routeURL: "/",
-    iconURL: "IconOrganization",
+    iconURL: "iconorganization",
     selected: false,
     active: true,
   },

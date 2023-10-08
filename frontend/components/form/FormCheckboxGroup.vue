@@ -1,11 +1,11 @@
 <template>
   <div
     class="flex flex-wrap w-full"
-    :class="{ 'flex-col': checkboxComponent === 'FormCheckbox' }"
+    :class="{ 'flex-col': checkboxComponent === 'formcheckbox' }"
   >
     <component
       v-for="option in options"
-      :class="{ 'flex-1': checkboxComponent !== 'FormCheckbox' }"
+      :class="{ 'flex-1': checkboxComponent !== 'formcheckbox' }"
       :key="option.value"
       :is="checkboxComponent"
       :label="option.label"
@@ -17,50 +17,50 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from "vue";
+import { proptype } from "vue";
 
 import useFormCheckboxRadio from "../../composables/useFormCheckboxRadio";
 
 /**
- * The available checkbox type option.
+ * the available checkbox type option.
  */
-export type CheckboxOption = {
+export type checkboxoption = {
   /**
-   * The checkbox label.
+   * the checkbox label.
    */
   label: string;
 
   /**
-   * The checkbox value.
+   * the checkbox value.
    */
   value: string;
 };
 
 const props = defineProps({
   modelValue: {
-    type: [String, Array] as PropType<string | string[]>,
+    type: [string, array] as proptype<string | string[]>,
     required: true,
   },
   options: {
-    type: Array as PropType<CheckboxOption[]>,
+    type: array as proptype<checkboxoption[]>,
     required: true,
   },
   name: {
-    type: String,
+    type: string,
     required: true,
   },
   style: {
-    type: String,
+    type: string,
     default: "button",
   },
   searchInput: {
-    type: Boolean,
+    type: boolean,
     default: false,
   },
 });
 
 const checkboxComponent = computed(() => {
-  return props.style === "button" ? "FormCheckboxButton" : "FormCheckbox";
+  return props.style === "button" ? "formcheckboxbutton" : "formcheckbox";
 });
 
 const emit = defineEmits(["update:modelValue"]);

@@ -1,17 +1,17 @@
 <template>
   <div
-    v-if="iconName === 'IconOrganization' || iconName === 'IconSupport'"
+    v-if="iconName === 'iconorganization' || iconName === 'iconsupport'"
     class="flex items-center gap-1 fill-light-text dark:fill-dark-text"
   >
-    <Icon
-      v-if="iconName === 'IconOrganization'"
+    <icon
+      v-if="iconName === 'iconorganization'"
       class="mr-1"
-      name="IconOrganization"
+      name="iconorganization"
     />
-    <Icon
-      v-else-if="iconName === 'IconSupport'"
+    <icon
+      v-else-if="iconName === 'iconsupport'"
       class="mr-1"
-      name="IconSupport"
+      name="iconsupport"
     />
     {{ value }}
     <p v-if="label">
@@ -19,7 +19,7 @@
     </p>
   </div>
   <div v-else class="flex items-center gap-1">
-    <Icon class="mr-1" :name="iconName" size="1.25em" />
+    <icon class="mr-1" :name="iconName" size="1.25em" />
     <a
       v-if="iconName === 'bi:camera-video'"
       class="block md:hidden lg:block"

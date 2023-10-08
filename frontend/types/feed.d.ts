@@ -1,3 +1,3 @@
-export interface Feed {
+export interface feed {
   itemType: string;
 }

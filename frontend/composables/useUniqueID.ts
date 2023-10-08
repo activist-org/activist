@@ -1,9 +1,9 @@
-let UUID = 0;
+let uuid = 0;
 
 export default function useUniqueID() {
   const getID = () => {
-    UUID++;
-    return String(UUID);
+    uuid++;
+    return string(uuid);
   };
 
   return {
