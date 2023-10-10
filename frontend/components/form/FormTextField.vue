@@ -13,9 +13,6 @@
     <span v-for="(icon, index) in iconsNames" :key="index" class="cursor-pointer" @click="handleIconClick(icon)">
       <Icon :name="icon" size="1.5em" :color="getIconColor(icon)" />
     </span>
-    <!-- <span v-if="isIconVisible" @click="changeInputType" class="cursor-pointer">
-      <Icon name="mdi:eye" size="28px" />
-    </span> -->
   </div>
 </template>
 
