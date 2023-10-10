@@ -1,3 +1,3 @@
 export interface Feed {
-  itemType: string = "groups" | "social posts";
+  itemType: string;
 }

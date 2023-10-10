@@ -1,4 +1,6 @@
-Effective Date: 11th of April, 2023
+Privacy Policy
+
+Last updated August 28th, 2023
 
 Introduction
 
@@ -9,69 +11,61 @@ information.
 
 By using activist.org, you agree to the provisions of this Privacy Policy.
 Our primary goal is to provide a platform that allows users to engage in
-activism without compromising their privacy. We have implemented various
-measures to ensure the privacy and security of our users. If you have any
-questions or concerns, please contact us.
+activism without compromising their safety. We have and will continue to
+implement various measures to ensure the privacy and security of our users.
+If you have any questions or concerns, please contact us at
+security[at]activist.org.
+
+We encourage users to contribute to activist.org and participate in discussions
+about privacy, security, and other important topics. By engaging with our
+community, you can help shape the future of activist.org and ensure that it
+remains a safe, inclusive, and empowering platform for all.
 
 Information We Collect
 
-activist.org does not collect any personal information from our users at
-this time. We do not collect data such as names, email addresses, phone
-numbers, or any other information that can be used to identify you personally.
-Our platform is designed to provide a safe and private environment for
-activism and collaboration.
-
-As an open-source platform, we prioritize transparency and user control.
-We encourage users to contribute to activist.org and share their ideas,
-questions, and concerns. We also strive to provide a platform that fosters
-inclusivity and support for all users, regardless of their background.
+activist.org uses Plausible Analytics for non-identifiable tracking of the
+regions from which people visit. The platform does not collect any personally
+identifiable information from our users at this time. In the future we will
+collect user generated usernames that could be used to identify individuals as
+well as email addresses of some users. We will do our best to provide options for
+people to use the platform without providing personally identifiable
+information wherever possible.
 
 How We Use Information
 
-As we do not collect personal information, we do not use any such
-information for any purpose. Our goal is to provide a platform that
-allows users to engage in activism without compromising their privacy.
-
-We aim to foster a sense of community and collaboration among users,
-allowing them to connect with like-minded individuals and organizations.
-We also work to provide resources and tools that enable users to learn
-about and engage with important social, political, and environmental
-issues.
+We use the anonymous location data we collect from Plausible Analytics
+to get a better idea of where there's interest in the platform. As we do not
+collect personal information at this time, we do not use any such information
+for any purpose.
 
 Data Sharing and Third-Party Services
 
-We do not share your personal information with any third parties, nor do
-we use any third-party services that collect or process personal
-information. activist.org is dedicated to ensuring the privacy of our
-users and maintaining a secure platform.
-
-As an open-source platform, we collaborate with various organizations and
-individuals who share our values and goals. We strive to build partnerships
-that enhance the functionality and reach of activist.org while maintaining
-our commitment to user privacy and security.
+We do not share your personal information with any third parties. activist.org
+is dedicated to ensuring the privacy of our users. The team has no plans to share
+data with parties outside of our organization.
 
 Data Security and Breaches
 
-We are committed to protecting the security of our platform and the
+We are committed to ensuring the security of our platform and the
 information of our users. In the event of a data breach, we will promptly
 notify affected users and take appropriate measures to address the
 situation.
 
-We implement various security measures, such as encryption and secure
-connections, to protect the integrity of our platform and the safety of
-our users. We also encourage users to practice good security habits, such
-as using strong passwords and enabling two-factor authentication when
-available.
+We plan to implement various security measures to protect the integrity of our
+platform and the safety of our users. We also encourage users to practice good
+security habits, such as using strong passwords and enabling two-factor
+authentication when available.
 
 Your Rights
 
-As we do not collect personal information, you do not need to worry about
-exercising any rights related to your personal data. However, if you have
+As we do not collect personal information at this time, you do not need to worry
+about exercising any rights related to your personal data. However, if you have
 any questions or concerns about this Privacy Policy or our practices, please
-feel free to contact us.
+feel free to contact us at security[at]activist.org.
 
-We are committed to transparency and user control. We encourage users to
-contribute to activist.org and participate in discussions about privacy,
-security, and other important topics. By engaging with our community, you
-can help shape the future of activist.org and ensure that it remains a safe,
-inclusive, and empowering platform for all.
+Changes to This Policy
+
+We may update this Privacy Policy from time to time. If we make significant
+changes, we will notify you through the platform or by other means. By continuing
+to use activist.org after any changes are in effect, you agree to the updated
+Privacy Policy.

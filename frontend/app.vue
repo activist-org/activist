@@ -1,9 +1,10 @@
 <template>
-  <body>
+  <Loading />
+  <div>
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </body>
+  </div>
 </template>
 
 <script setup lang="ts">

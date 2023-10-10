@@ -7,4 +7,5 @@ export interface Resource {
   relatedLocation?: string;
   creationDate: datetime;
   stars: number;
+  imageURL?: string;
 }

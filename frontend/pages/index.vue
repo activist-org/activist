@@ -1,68 +1,72 @@
 <template>
   <div class="overflow-hidden bg-light-content dark:bg-dark-content">
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.index.title") }}</Title>
     </Head>
-    <LandingPageSplash />
-    <LandingPageCommunityBanner />
+    <LandingSplash />
+    <LandingCommunityBanner />
     <div
       class="flex flex-col mt-4 mb-2 sm:mb-4 sm:mt-10 xl:mt-16 xl:mb-8 2xl:mt-24 2xl:mb-12"
     >
-      <LandingPageContent
+      <LandingContent
         contentPosition="left"
-        header="get-active-header"
-        tagline="get-active-tagline"
-        text="get-active-text"
-        imageURL="images/content_pages/art/get_active"
-        altText="Drawing of a fist raised."
-        btnText1="Learn more"
+        header="pages.index.get-active-header"
+        tagline="pages.index.get-active-tagline"
+        text="pages.index.get-active-text"
+        imageURL="/images/content_pages/art/get_active"
+        imageAltText="pages.index.get-active-img-alt-text"
+        btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/get-active"
+        btnAriaLabel1="pages.index.get-active-btn-alt-text"
       />
-      <LandingPageContent
+      <LandingContent
         contentPosition="right"
-        header="get-organized-header"
-        tagline="get-organized-tagline"
-        text="get-organized-text"
-        imageURL="images/content_pages/art/get_organized"
-        altText="Drawing of fists in a circle pointed at the center."
-        btnText1="Learn more"
+        header="pages.index.get-organized-header"
+        tagline="pages.index.get-organized-tagline"
+        text="pages.index.get-organized-text"
+        imageURL="/images/content_pages/art/get_organized"
+        imageAltText="pages.index.get-organized-img-alt-text"
+        btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/get-organized"
+        btnAriaLabel1="pages.index.get-organized-btn-alt-text"
       />
-      <LandingPageContent
+      <LandingContent
         contentPosition="left"
-        header="grow-organization-header"
-        tagline="grow-organization-tagline"
-        text="grow-organization-text"
-        imageURL="images/content_pages/art/grow_organization"
-        altText="Drawing of fists raised in a group."
-        btnText1="Learn more"
+        header="pages.index.grow-organization-header"
+        tagline="pages.index.grow-organization-tagline"
+        text="pages.index.grow-organization-text"
+        imageURL="/images/content_pages/art/grow_organization"
+        imageAltText="pages.index.grow-organization-img-alt-text"
+        btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/grow-organization"
+        btnAriaLabel1="pages.index.grow-organization-btn-alt-text"
       />
-      <LandingPageContent
+      <LandingTechBanner />
+      <LandingContent
         contentPosition="right"
-        header="activist-section-header"
-        tagline="activist-section-tagline"
-        text="activist-section-text"
-        imageURL="images/content_pages/icons/activist_icon"
-        altText="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
-        btnText1="Learn more"
-        btnURL1="/about"
+        header="pages.index.activist-section-header"
+        tagline="pages.index.activist-section-tagline"
+        text="pages.index.activist-section-text"
+        imageURL="/images/content_pages/icons/activist_icon"
+        imageAltText="pages.index.activist-section-img-alt-text"
+        btnText1="components.btn-labeled.learn-more"
+        btnURL1="/about/activist"
+        btnAriaLabel1="pages.index.activist-section-btn-alt-text"
       />
-      <LandingPageContent
+      <LandingContent
         contentPosition="top"
-        header="our-supporters-header"
-        tagline="our-supporters-tagline"
-        text="our-supporters-text"
-        btnText1="become-a-supporter"
+        header="pages.index.our-supporters-header"
+        tagline="pages.index.our-supporters-tagline"
+        text="pages.index.our-supporters-text"
+        imageAltText=""
+        btnText1="pages.index.become-a-supporter"
         btnURL1="/supporters/join"
-        btnText2="view-all-supporters"
-        btnURL2="/supporters"
-        subText="our-supporters-sub-text"
+        btnAriaLabel1="pages.index.our-supporters-btn-become-alt-text"
+        btnText2="pages.index.view-all-supporters"
+        btnURL2="/supporters/showcase"
+        btnAriaLabel2="pages.index.our-supporters-btn-view-alt-text"
+        subText="pages.index.our-supporters-sub-text"
       />
     </div>
   </div>
 </template>
-
-<script setup>
-const title = ref("Welcome");
-</script>

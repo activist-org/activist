@@ -2,17 +2,17 @@
   <a href="https://github.com/activist-org/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/logos/activistGitHubOrgBanner.png" width=1024 alt="activist Logo"></a>
 </div>
 
-<!-- [![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack) -->
+<!-- [![supabase](https://img.shields.io/badge/Supabase-3ECF8E.svg?logo=supabase&logoColor=ffffff)](#tech-stack) -->
 
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
+[![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
 [![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
 [![license](https://img.shields.io/github/license/activist-org/activist-iOS.svg?label=%20)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
-[![twitter](https://img.shields.io/badge/Twitter-1DA1F2.svg?logo=twitter&logoColor=ffffff)](https://twitter.com/activist_org)
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
 
@@ -28,11 +28,10 @@
 
 ### Open-source, nonprofit activism platform
 
-[**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.
+[**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events. See the [frequently asked questions](https://activist.org/help/faq) for a general overview.
 
-> **Note**: The [contributing](#contributing) section has information for those interested, with the articles and presentations in [supported by](#supported-by) also being good resources for learning more about activist.
-
-[**Frequently Asked Questions**](https://activist.org/help/faq)
+> [!NOTE]\
+> The [contributing](#contributing) section has information for those interested, with the articles and presentations in [supported by](#supported-by) also being good resources for learning more about activist.
 
 <a id="contents"></a>
 
@@ -40,7 +39,8 @@
 
 - [Preview Video](#preview)
 - [Contributing](#contributing)
-- [Platform Overview](#overview)
+- [Environment Setup](#environment-setup)
+- [Platform Overview](#platform-overview)
 - [Supported By](#supported-by)
 
 <a id="preview"></a>
@@ -61,32 +61,16 @@ Further prototypes and designs are available in the [designs for activist](https
 
 activist uses [Matrix](https://matrix.org/) for communications. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi :)
 
-Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) and [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) if you are interested in contributing to activist. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects). Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
+Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) and [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) if you are interested in contributing to activist. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
+
+> [!NOTE]\
+> Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
+
+Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors. For those new to coding or our tech stack, we've collected [links to helpful documentation pages](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#learning-the-tech) in the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md).
 
 After your first pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
 
-## Environment Setup [`⇧`](#contents)
-
-To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
-
-> **Note** If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward GUI (Graphical User Interface).
-
-Then clone this repository with the below command:
-
-```bash
-git clone https://github.com/activist-org/activist.git
-```
-
-Enter the created directory and start your docker images with the following:
-
-```bash
-cd activist
-docker-compose up
-# Or with new dependencies:
-# docker-compose up --build
-```
-
-You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
+<a id="ways-to-help"></a>
 
 ## Ways to Help [`⇧`](#contents)
 
@@ -97,45 +81,11 @@ You can then visit <http://localhost:3000> to see the development frontend build
 - [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
 - [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
 
-### Road Map
+<a id="road-map"></a>
+
+## Road Map [`⇧`](#contents)
 
 The activist road map can be followed in the organization's [project board](https://github.com/orgs/activist-org/projects/1) where we list the most important issues along with their priority, status and an indication of which sub projects they're included in (if applicable).
-
-<a id="tech-stack"></a>
-
-## Tech Stack [`⇧`](#contents)
-
-The following are the current and planned technologies for [activist.org](https://activist.org):
-
-### Frontend
-
-- [Nuxt.js](https://nuxt.com) • [Vue.js](https://vuejs.org) • [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com)
-
-<details><summary>Frontend tools</summary>
-<p>
-
-- Countless [Nuxt modules](https://nuxt.com/modules)
-- [OpenStreetMap](https://www.openstreetmap.org)
-- [Leaflet](https://leafletjs.com/)
-
-</p>
-</details>
-
-### Backend
-
-- [Django](https://www.djangoproject.com) (planned) • [PostgreSQL](https://www.postgresql.org) (planned) • [Redis](https://redis.io) (planned) • [Celery](https://docs.celeryq.dev/en/stable) (planned)
-
-### Deployment
-
-- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/) (planned)
-
-### Localization
-
-- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Transifex](https://www.transifex.com/) ([activist on Transifex](https://explore.transifex.com/activist-org/activist))
-
-<!-- ### Analytics
-
-- [Plausible](https://plausible.io/) (planned) -->
 
 <a id="designs"></a>
 
@@ -147,7 +97,94 @@ The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/act
 
 Note that the Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or via the email on the public designs welcome page. We'd love to see a sample of your work and if everything looks good we'll schedule a time to get connected!
 
-<a id="overview"></a>
+<a id="environment-setup"></a>
+
+# Environment Setup [`⇧`](#contents)
+
+1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
+
+> [!IMPORTANT]
+>
+> <details><summary><strong>Suggested IDE extensions</strong></summary>
+>
+> <p>
+>
+> VS Code
+>
+> - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
+> - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+> - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+> - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+> - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+>
+> </p>
+> </details>
+
+2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
+
+> [!NOTE]\
+> If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
+
+3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork and configure the remotes:
+
+```bash
+# Clone your fork of the repo into the current directory.
+git clone https://github.com/<your-username>/activist.git
+# Navigate to the newly cloned directory.
+cd activist
+# Assign the original repo to a remote called "upstream".
+git remote add upstream https://github.com/activist-org/activist.git
+```
+
+Now, if you run `git remote -v` you should see two remote repositories named:
+
+- `origin` (forked repository)
+- `upstream` (activist repository)
+
+4. Create a `.env` file and start your docker images with the following:
+
+```bash
+cp .env.example .env
+docker-compose up
+# Or with new dependencies:
+# docker-compose up --build
+```
+
+5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
+
+> [!NOTE]\
+> Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
+
+<a id="tech-stack"></a>
+
+## Tech Stack [`⇧`](#contents)
+
+The following are the current and planned technologies for [activist.org](https://activist.org):
+
+### Frontend
+
+- [Nuxt.js](https://nuxt.com) • [Vue.js](https://vuejs.org) • [TypeScript](https://www.typescriptlang.org) • [Tailwind CSS](https://tailwindcss.com) • [Headless UI](https://headlessui.com)
+
+### Backend
+
+- [Django](https://www.djangoproject.com) • [Supabase](https://supabase.com/) (planned) • [PostgreSQL](https://www.postgresql.org) (planned)
+
+### Deployment
+
+- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/) (planned)
+
+### Localization
+
+- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Transifex](https://www.transifex.com/) ([activist on Transifex](https://explore.transifex.com/activist-org/activist))
+
+### Analytics
+
+- [Plausible](https://plausible.io/)
+
+> [!NOTE]\
+> Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
+
+<a id="platform-overview"></a>
 
 # Platform Overview [`⇧`](#contents)
 
@@ -179,26 +216,26 @@ Tasks are all the things that organizations need to do, which will be able to be
 
 ## Events [`⇧`](#contents)
 
-Events are where things happen on activist. They are organized by [movements](#movements), [types](#types) and [formats](#formats): the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
+Events are where things happen on activist. They are organized by [topics](#topics), [types](#types) and [formats](#formats): the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
 
-<a id="movements"></a>
+<a id="topics"></a>
 
-### Movements
+### Topics
 
-activist will eventually include a broad selection of movements. From the start the platform will focus on a select few: `Environment`, `Housing` and `Refugees and Migration`. Further movements will be added later as interest from organizations and the community grows. The following are the working movements that activist could include:
+activist will eventually include a broad selection of topics. From the start the platform will focus on a select few: `Environment`, `Housing` and `Refugees and Migration`. Further topics will be added later as interest from organizations and the community grows. The following are the working topics that activist could include:
 
-|                      |                             |                            |
-| :------------------- | :-------------------------- | :------------------------- |
-| Environment          | Housing                     | Refugees and Migration     |
-| LGTBQIA+             | Racial Justice              | Women's Rights             |
-| Children's Rights    | Elder Rights                | Education                  |
-| Health and Wellbeing | Animal Rights               | Democracy                  |
-| Labor Rights         | Technology and Privacy      | Peace and Resolution       |
-| Nutrition            | Accessibility and Inclusion | Institutional Transparency |
-| Infrastructure       | Freedom of Expression       | Emergency Relief           |
+|                       |                             |                            |
+| :-------------------- | :-------------------------- | :------------------------- |
+| Environment           | Housing                     | Refugees and Migration     |
+| LGTBQIA+              | Racial Justice              | Women's Rights             |
+| Children's Rights     | Elder Rights                | Education                  |
+| Health and Wellbeing  | Animal Rights               | Democracy                  |
+| Labor Rights          | Technology and Privacy      | Peace and Resolution       |
+| Nutrition             | Accessibility and Inclusion | Institutional Transparency |
+| Freedom of Expression | Infrastructure and Mobility | Emergency Relief           |
 
 <br/>
-Beyond clustering by movements, tags will also be used to draw community attention to more specific issues.
+Beyond clustering by topics, tags will also be used to draw community attention to more specific issues.
 
 <a id="types"></a>
 
@@ -215,7 +252,7 @@ Types are further broken down into specific formats. The available formats curre
 - Act: protests, volunteering, organizing, fundraising
 - Learn: seminars, webinars, meetings, panel discussions
 
-Formats are not required for events like movements and types, but add an optional granularity to help people find what they're looking for.
+Formats are not required for events like topics and types, but add an optional granularity to help people find what they're looking for.
 
 ## Resources [`⇧`](#contents)
 
@@ -279,6 +316,14 @@ Many thanks to all the [activist.org contributors](https://github.com/activist-o
 <a href="https://github.com/activist-org/activist/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=activist-org/activist" />
 </a>
+
+### Code and Dependencies
+
+The activist team would like to thank all the great software that made activist's development possible ❤️
+
+- Countless [Nuxt modules](https://nuxt.com/modules)
+- [OpenStreetMap](https://www.openstreetmap.org)
+- [Leaflet](https://leafletjs.com/)
 
 # Disclosure
 

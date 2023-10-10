@@ -1,6 +1,7 @@
 name: 🎨 Design improvement
 description: Make a suggestion for activist's UX/UI designs.
 labels: ["design"]
+projects: ["activist-org/1"]
 body:
   - type: checkboxes
     id: terms

@@ -1,11 +1,13 @@
 export interface Organization {
   name: string;
-  tagline?: string;
+  status: string;
+  tagline: string;
   location: string;
   description: string;
   topic: string;
   members: number;
   supporters: number;
   imageURL?: string;
-  workingGroupURLs?: Array<string>;
+  workingGroups?: string[];
+  socialLinks?: string[];
 }

@@ -1,21 +1,12 @@
 <!---
 Thank you for your pull request! 🚀
-
-If you're not already a member of our public Matrix community, please consider joining via the following link:
-https://matrix.to/#/#activist_community:matrix.org
-
-It'd be great to have you!
-
-Also if you're new to open source, check that the email you use for GitHub (https://github.com/settings/emails) is the same the one you have for git so you get credit for your contribution. You can see your git email by typing `git config user.email` and set it globally with `git config --global user.email "your_email@email.com"`.
 -->
 
 ### Contributor checklist
 
-<!-- Please replace the empty checkboxes [ ] below with checked ones [x] accordingly. -->
+<!-- Please replace the empty checkboxes [] below with checked ones [x] accordingly. -->
 
-- [ ] This pull request is on a [separate branch](https://docs.github.com/en/get-started/quickstart/github-flow) and not the main branch
-  <!-- - [ ] I have updated the [CHANGELOG](https://github.com/activist-org/activist/blob/main/CHANGELOG.md) with a description of my changes for the upcoming release (if necessary)  -->
-  <!-- ... or I'll send a commit with this now 🙃 -->
+- [] This pull request is on a [separate branch](https://docs.github.com/en/get-started/quickstart/github-flow) and not the main branch
 
 ---
 

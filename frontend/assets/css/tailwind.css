@@ -1,30 +1,42 @@
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-light-content dark:bg-dark-content;
+    @apply bg-light-header dark:bg-dark-header;
+  }
+  * {
+    @apply scrollbar scrollbar-w-2.5 scrollbar-thumb-light-interactive dark:scrollbar-thumb-dark-interactive scrollbar-track-light-highlight dark:scrollbar-track-dark-highlight scrollbar-thumb-rounded-md;
   }
 }
 
 @layer components {
+  .bg-breakpoint-test {
+    @apply 3xl:bg-pink-500 2xl:bg-violet-500 xl:bg-blue-500 lg:bg-green-500 md:bg-yellow-500 sm:bg-orange-500 bg-red-500;
+  }
+
   .focus-brand {
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-light-cta-orange dark:focus-visible:ring-dark-cta-orange focus-visible:ring-opacity-75;
+    @apply outline-offset-2 outline-light-cta-orange dark:outline-dark-cta-orange rounded-sm;
   }
 
   .link-text {
     @apply text-light-link-text dark:text-dark-link-text hover:text-light-link-text-hover dark:hover:text-dark-link-text-hover;
   }
 
+  .card-style-base {
+    @apply border rounded-md sm:rounded-lg shadow-sm shadow-zinc-700;
+  }
+
   .card-style {
-    @apply bg-light-distinct dark:bg-dark-distinct border border-light-section-div dark:border-dark-section-div rounded-md sm:rounded-lg;
+    @apply card-style-base bg-light-distinct dark:bg-dark-distinct border-light-section-div dark:border-dark-section-div;
   }
 
   .tooltip {
-    @apply invisible absolute;
+    @apply absolute;
   }
 
   .has-tooltip:hover .tooltip {
@@ -88,6 +100,24 @@
   }
 
   .responsive-py-5 {
-    @apply py-6 lg:py-10 xl:py-14;
+    @apply py-8 lg:py-10 xl:py-14;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 4s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    @apply opacity-50;
+  }
+
+  50% {
+    @apply opacity-100;
+  }
+
+  100% {
+    @apply opacity-50;
   }
 }

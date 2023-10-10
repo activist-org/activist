@@ -1,7 +1,21 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { resolve } from "path";
 export default defineNuxtConfig({
   ssr: false,
+  typescript: {
+    // strict: true,
+    // typeCheck: true,
+  },
+
+  devtools: {
+    enabled: true,
+  },
+
   plugins: [],
+  alias: {
+    "@": resolve(__dirname, "./"),
+  },
+
   modules: [
     "@nuxt/content",
     "nuxt-icon",
@@ -17,6 +31,7 @@ export default defineNuxtConfig({
         },
       },
     ],
+
     "@nuxtjs/color-mode",
     "@nuxtjs/device",
     "@nuxtjs/i18n",
@@ -25,8 +40,16 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
   ],
+
   imports: {
     dirs: ["./stores"],
+  },
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+      },
+    },
   },
   colorMode: {
     classSuffix: "",
@@ -46,25 +69,44 @@ export default defineNuxtConfig({
     lazy: true,
     baseUrl: "https://activist.org",
     langDir: "i18n",
+    vueI18n: "./i18n.config.ts",
     locales: [
       {
         code: "en",
         iso: "en-US",
-        name: "English (US)",
+        name: "English",
         file: "en-US.json",
         isCatchallLocale: true,
       },
       {
         code: "de",
-        iso: "de-DE",
-        name: "Deutsch (DE)",
-        file: "de-DE.json",
+        iso: "de",
+        name: "Deutsch",
+        file: "de.json",
+      },
+      {
+        code: "es",
+        iso: "es",
+        name: "Español",
+        file: "es.json",
       },
       {
         code: "fr",
-        iso: "fr-FR",
-        name: "Français (FR)",
-        file: "fr-FR.json",
+        iso: "fr",
+        name: "Français",
+        file: "fr.json",
+      },
+      {
+        code: "it",
+        iso: "it",
+        name: "Italiano",
+        file: "it.json",
+      },
+      {
+        code: "pt",
+        iso: "pt",
+        name: "Português",
+        file: "pt.json",
       },
     ],
     defaultLocale: "en",
@@ -74,11 +116,6 @@ export default defineNuxtConfig({
       //   de: "/ueber-uns",
       //   fr: "/a-propos",
       // },
-    },
-    vueI18n: {
-      legacy: false,
-      locale: "en",
-      fallbackLocale: "en",
     },
     detectBrowserLanguage: {
       useCookie: false,
@@ -91,6 +128,12 @@ export default defineNuxtConfig({
       global: true,
     },
   ],
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) =>
+        ["swiper-slide", "swiper-container"].includes(tag),
+    },
+  },
   app: {
     head: {
       charset: "utf-8",

@@ -3,78 +3,49 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.supporters.index.title") }}</Title>
     </Head>
-    <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
-      <h1 class="font-bold responsive-h1">Supporters</h1>
-      <p class="pt-2 lg:pt-4 xl:pt-6">
-        The following is an overview of organizations and individuals that have
-        supported the development of activist. Those interested in providing
-        support can read more about how they can help on the
-        <NuxtLink
-          :to="localePath('/supporters/join')"
-          class="focus-brand link-text"
-          >become a supporter page</NuxtLink
-        >.
-      </p>
-      <h2 class="font-bold responsive-py-1 responsive-h3">
-        UNLOCK Accelerator
-      </h2>
-      <p>
-        The following organizations have supported activist via the 2022 edition
-        of the
-        <a
-          href="https://www.wikimedia.de/unlock"
-          class="items-center focus-brand link-text"
-          target="_blank"
-        >
-          Wikimedia UNLOCK accelerator
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        . UNLOCK supports open-source software projects and non- technical
-        projects under free licenses. The UNLOCK Accelerator is committed to
-        promoting solutions that make the world's knowledge more diverse, more
-        accessible and inclusive for everyone.
-      </p>
-      <div class="flex items-center justify-center">
-        <GridSupporters class="mt-6 xl:mt-8" />
+    <div class="bg-light-distinct dark:bg-dark-distinct">
+      <div class="responsive-py-4 flex flex-col w-full responsive-px-5">
+        <HeaderAppPage
+          :header="$t('pages.supporters.index.header')"
+          :tagline="$t('pages.supporters.index.subheader')"
+        />
       </div>
-      <h2 class="font-bold responsive-py-1 responsive-h3">Contributors</h2>
-      <h3 class="font-bold responsive-h4">Development</h3>
-      <p>
-        activist has proudly developed in the open from its inception. This
-        project would not be what it is without the support of our open-source
-        community. Thank you to all our
-        <a
-          href="https://github.com/activist-org/activist/graphs/contributors"
-          class="focus-brand link-text"
-          target="_blank"
-          >contributors on GitHub
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        ❤
+    </div>
+    <div class="responsive-py-5 responsive-px-5">
+      <h3 class="transition-all duration-500 responsive-h2">
+        {{ $t("pages.supporters.index.section-1-subheader") }}
+      </h3>
+      <p
+        class="responsive-py-1 text-light-special-text dark:text-dark-special-text"
+      >
+        {{ $t("pages.supporters.index.section-1-tagline") }}
       </p>
-      <a href="https://github.com/activist-org/activist/graphs/contributors">
-        <img src="https://contrib.rocks/image?repo=activist-org/activist" />
-      </a>
-      <h3 class="pt-4 font-bold responsive-h4">Design</h3>
-      <p>activist has received design support from many individuals.</p>
-      <!-- <ul class="py-4 pl-4 space-y-2"></ul> -->
-      <p class="text-light-special-text dark:text-dark-special-text">
-        Thanks to our anonymous contributors!
-      </p>
+      <GridDocEntries class="responsive-py-1" :cards="cards" />
     </div>
   </div>
 </template>
 
-<script setup>
-const title = ref("Supporters");
+<script setup lang="ts">
+import type { CardDocsEntry } from "../../types/card-docs-entry";
+
+const cards: CardDocsEntry[] = [
+  {
+    url: "showcase",
+    title: "pages.supporters.index.showcase",
+    description: "pages.supporters.index.showcase-description",
+    imgURL: "/images/content_pages/icons/bootstrap_heart",
+    imgDimensions: "h-16 sm:h-20",
+    imgAltText: "pages.supporters.index.showcase-alt-text",
+  },
+  {
+    url: "join",
+    title: "pages.supporters.index.join",
+    description: "pages.supporters.index.join-description",
+    imgURL: "/images/content_pages/icons/join_icon",
+    imgDimensions: "h-16 sm:h-20",
+    imgAltText: "pages.supporters.index.join-alt-text",
+  },
+];
 </script>

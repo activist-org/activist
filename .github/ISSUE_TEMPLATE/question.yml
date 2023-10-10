@@ -1,5 +1,6 @@
 name: ❓ Questions and everything else
 description: We'd love to hear from you!
+projects: ["activist-org/1"]
 body:
   - type: checkboxes
     id: terms

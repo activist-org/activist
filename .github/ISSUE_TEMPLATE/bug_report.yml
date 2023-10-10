@@ -1,6 +1,7 @@
 name: 🐞 Bug report
 description: Report a bug to help us improve activist.org.
 labels: ["bug"]
+projects: ["activist-org/1"]
 body:
   - type: checkboxes
     id: new-bug

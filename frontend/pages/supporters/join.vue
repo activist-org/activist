@@ -3,87 +3,87 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.supporters.join.title") }}</Title>
     </Head>
     <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
-      <h1 class="font-bold responsive-h1">Become a supporter</h1>
+      <PageBreadcrumbs />
+      <h1 class="font-bold responsive-h1">
+        {{ $t("pages.supporters.join.title") }}
+      </h1>
       <p>
-        activist needs support from our community in countless ways. The
-        following details how organizations and individuals can help the team
-        develop the platform to empower activists to have as much impact as
-        possible. A full list of activist's current supporters can be found
-        <NuxtLink :to="localePath('/supporters')" class="focus-brand link-text"
-          >here</NuxtLink
-        >.
+        {{ $t("pages.supporters.join.section-1-paragraph-1-1") }}
+        <NuxtLink class="focus-brand link-text" :to="localePath('/supporters')">
+          {{ $t("pages.supporters.join.section-1-paragraph-1-2") }}
+        </NuxtLink>
+        .
       </p>
-      <h2 class="font-bold responsive-h4">Contribute on GitHub</h2>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-2-subheader") }}
+      </h2>
       <p>
-        Visit the
+        {{ $t("pages.supporters.join.section-2-paragraph-1-1") }}
         <a
+          class="focus-brand link-text"
           href="https://www.wikimedia.de/unlock"
-          class="focus-brand link-text"
           target="_blank"
-          >source code on GitHub
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        to get involved!
-      </p>
-      <h2 class="font-bold responsive-h4">Sponsor activist's development</h2>
-      <p>
-        Visit our
-        <a href="" class="focus-brand link-text" target="_blank"
-          >page on elinor
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        to donate today. Thank you for your support!
-      </p>
-      <h2 class="font-bold responsive-h4">Share activist in your network</h2>
-      <p>
-        Please contact the team afterwards via our
-        <NuxtLink
-          :to="localePath('/help/contact')"
-          class="focus-brand link-text"
-          >contact page</NuxtLink
         >
-        so that we're aware and can help spread the word!
-      </p>
-      <h2 class="font-bold responsive-h4">Help activist with your skills</h2>
-      <p>
-        Be it artistic contributions or legal consulting, we'd love to discuss
-        how we could work together. We'd be happy to give credit in the
-        Contributors section of our
-        <NuxtLink :to="localePath('/supporters')" class="focus-brand link-text"
-          >supporters page</NuxtLink
-        >.
-      </p>
-      <h2 class="font-bold responsive-h4">Localization</h2>
-      <p>
-        Visit our
-        <a
-          href="https://explore.transifex.com/activist-org/activist"
-          class="focus-brand link-text"
-          target="_blank"
-          >Transifex
+          {{ $t("pages.supporters.join.section-2-paragraph-1-2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        page to help today.
+        {{ $t("pages.supporters.join.section-2-paragraph-1-3") }}
+      </p>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-3-subheader") }}
+      </h2>
+      <p>
+        {{ $t("pages.supporters.join.section-3-paragraph-1-1") }}
+      </p>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-4-subheader") }}
+      </h2>
+      <p>
+        {{ $t("pages.supporters.join.section-4-paragraph-1-1") }}
+        <NuxtLink
+          class="focus-brand link-text"
+          :to="localePath('/help/contact')"
+        >
+          {{ $t("pages.supporters.join.section-4-paragraph-1-2") }}
+        </NuxtLink>
+        {{ $t("pages.supporters.join.section-4-paragraph-1-3") }}
+      </p>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-5-subheader") }}
+      </h2>
+      <p>
+        {{ $t("pages.supporters.join.section-5-paragraph-1-1") }}
+        <NuxtLink class="focus-brand link-text" :to="localePath('/supporters')">
+          {{ $t("pages.supporters.join.section-5-paragraph-1-2") }}
+        </NuxtLink>
+        .
+      </p>
+      <h2 class="font-bold responsive-h4">
+        {{ $t("pages.supporters.join.section-6-subheader") }}
+      </h2>
+      <p>
+        {{ $t("pages.supporters.join.section-6-paragraph-1-1") }}
+        <a
+          class="focus-brand link-text"
+          href="https://explore.transifex.com/activist-org/activist"
+          target="_blank"
+        >
+          {{ $t("pages.supporters.join.section-6-paragraph-1-2") }}
+          <Icon
+            name="bi:box-arrow-up-right"
+            size="1em"
+            style="vertical-align: baseline"
+          />
+        </a>
+        {{ $t("pages.supporters.join.section-6-paragraph-1-3") }}
       </p>
     </div>
   </div>
 </template>
-
-<script setup>
-const title = ref("Become a Supporter");
-</script>

@@ -1,8 +1,8 @@
 <template>
-  <WebsiteHeader />
-  <div>
+  <HeaderWebsite />
+  <div class="flex h-full bg-light-content dark:bg-dark-content">
     <Head>
-      <Title>{{ title }}</Title>
+      <Title>{{ $t("pages.error.title") }}</Title>
     </Head>
     <div
       class="relative my-[10%] mx-auto items-center justify-center md:text-left text-center container flex flex-col md:flex-row md:space-x-8 xl:space-x-12 space-x-0 space-y-10 md:space-y-0"
@@ -21,26 +21,26 @@
         <div
           class="text-lg md:text-xl text-light-text dark:text-dark-text font-['Copperplate_Gothic_Light'] mt-4 md:mt-0 flex flex-wrap"
         >
-          Oops, something went wrong:
+          {{ $t("pages.error.message") }}
         </div>
         <div
           class="flex flex-wrap justify-center my-8 break-all md:my-6 md:text-lg text-light-special-text dark:text-dark-special-text"
         >
           {{ error.message }}
         </div>
-        <LabeledBtn
+        <BtnLabeled
           :cta="true"
-          label="Go to home"
+          label="components.btn-labeled.return-home"
           linkTo="/"
           fontSize="lg"
-        ></LabeledBtn>
+          ariaLabel="components.btn-labeled.return-home-aria-label"
+        />
       </div>
     </div>
   </div>
-  <WebsiteFooter />
+  <Footer />
 </template>
 
-<script setup>
-const title = ref("Error • activist");
+<script setup lang="ts">
 defineProps(["error"]);
 </script>

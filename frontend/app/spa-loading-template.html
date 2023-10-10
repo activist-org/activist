@@ -1,0 +1,61 @@
+<div>
+  <img
+    class="img-light-mode"
+    src="/images/content_pages/icons/activist_icon_light.png"
+    height="160"
+    width="160"
+  />
+  <img
+    class="img-dark-mode"
+    src="/images/content_pages/icons/activist_icon_dark.png"
+    height="160"
+    width="160"
+  />
+</div>
+
+<style>
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+  }
+
+  div {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  div img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+
+  .img-dark-mode {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #161b22;
+    }
+
+    .img-dark-mode {
+      display: block;
+    }
+
+    .img-light-mode {
+      display: none;
+    }
+  }
+</style>

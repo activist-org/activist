@@ -10,12 +10,15 @@ export default <Partial<Config>>{
     "./app.vue",
   ],
   darkMode: "class",
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
   theme: {
     extend: {
       fontFamily: {
         sans: ["Red Hat Text"],
         display: ["Red Hat Display"],
+      },
+      screens: {
+        "3xl": "1792px",
       },
       colors: {
         light: {
@@ -27,22 +30,24 @@ export default <Partial<Config>>{
           "text-over-header": "rgba(36, 36, 35, 1)",
           "special-text": "rgba(90, 90, 90, 0.9)",
           "special-text-over-header": "rgba(105, 105, 105, 1)",
-          "link-text": "rgba(0, 106, 214, 0.9)",
-          "link-text-hover": "rgba(0, 82, 163, 0.9)",
+          "link-text": "rgba(0, 92, 184, 0.9)",
+          "link-text-hover": "rgba(0, 59, 119, 0.9)",
           "menu-selection": "rgba(50, 50, 50, 1)",
           placeholder: "rgba(137, 134, 136, 1)",
           interactive: "rgba(75, 75, 67, 1)",
           highlight: "rgba(140, 140, 140, 0.20)",
+          popup: "rgba(255, 255, 255, 0.90)",
+          btn: "rgba(200, 200, 200, 1)",
 
           "cta-orange": {
-            DEFAULT: "rgba(241, 153, 61, 1)",
-            hover: "rgba(244, 173, 99, 1)",
+            DEFAULT: "rgba(242, 166, 84, 1)",
+            hover: "rgba(244, 176, 103, 1)",
+            light: "rgba(244, 176, 103, 1)",
           },
-          "act-red": "rgba(153, 3, 30, 1)",
-          "learn-blue": "rgba(0, 109, 170, 1)",
-          "accepted-green": "rgba(106, 168, 79, 1)",
-          "pending-yellow": "rgba(241, 194, 50, 1)",
-          popup: "rgba(255, 255, 255, 0.90)",
+          "act-red": "rgba(186, 61, 59, 1)",
+          "learn-blue": "rgba(33, 118, 174, 1)",
+          "accepted-green": "rgba(62, 137, 20, 1)",
+          "pending-yellow": "rgba(255, 191, 0, 1)",
         },
 
         dark: {
@@ -59,23 +64,24 @@ export default <Partial<Config>>{
           "menu-selection": "rgba(200, 200, 200, 1)",
           placeholder: "rgba(138, 138, 138, 1)",
           interactive: "rgba(133, 126, 123, 1)",
-          highlight: "rgba(90, 90, 90, 0.25)",
+          highlight: "rgba(70, 70, 70, 0.25)",
+          popup: "rgba(6, 8, 15, 0.90)",
+          btn: "rgba(13, 17, 23, 1)",
 
           "cta-orange": {
-            DEFAULT: "rgba(228, 155, 44, 1)",
-            hover: "rgba(233, 172, 80, 1)",
+            DEFAULT: "rgba(241, 156, 65, 1)",
+            hover: "rgba(242, 166, 84, 1)",
+            light: "rgba(242, 166, 84, 1)",
           },
-          "act-red": "rgba(221, 126, 107, 1)",
-          "learn-blue": "rgba(109, 158, 235, 1)",
-          "accepted-green": "rgba(182, 215, 168, 1)",
-          "pending-yellow": "rgba(255, 217, 102, 1)",
-          popup: "rgba(6, 8, 15, 0.90)",
+          "act-red": "rgba(238, 90, 88, 1)",
+          "learn-blue": "rgba(62, 146, 204, 1)",
+          "accepted-green": "rgba(97, 139, 37, 1)",
+          "pending-yellow": "rgba(255, 209, 102, 1)",
         },
 
         social: {
           email: "rgba(219, 68, 55, 1)",
           mastodon: "rgba(68, 58, 204, 1)",
-          twitter: "rgba(29, 161, 242, 1)",
           facebook: "rgba(66, 103, 178, 1)",
           instagram: "rgba(129, 52, 175, 1)",
         },

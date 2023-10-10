@@ -1,0 +1,29 @@
+name: pr_frontend_formatting_check
+on:
+  pull_request_target:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+  workflow_run:
+    workflows: [pr_maintainer_checklist]
+    types:
+      - completed
+
+jobs:
+  prettier:
+    name: Run PR Frontend Formatting Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+
+      - name: Install Prettier
+        run: npm install prettier
+
+      - name: Run Prettier
+        working-directory: ./frontend
+        run: |
+          npx prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore

@@ -1,69 +1,102 @@
 <template>
   <div
-    class="flex items-center pl-[14px] pr-[10px] py-1 mx-3 space-x-2 text-left transition duration-200 border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+    v-if="location == 'sidebar'"
+    class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 border rounded-md select-none border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:mb-[-2px]"
   >
-    <Icon name="bi:search" size="1em" class="flex-shrink-0 w-4 h-4 my-1" />
-    <Transition name="search">
-      <input
-        v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-        ref="input"
-        class="w-16 h-5 bg-transparent outline-none"
-        type="text"
-        placeholder="Search"
-        @focus="onFocus"
-        @blur="onFocusLost"
-        :class="{'focus:w-5/6': isInputFocused }"
-      />
-    </Transition>
+    <div class="flex items-center space-x-2">
+      <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
+      <Transition name="search">
+        <input
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @focus="onFocus"
+          @blur="onFocusLost"
+          class="w-16 h-5 bg-transparent outline-none"
+          :class="{ 'focus:w-5/6': isInputFocused }"
+          ref="input"
+          type="text"
+          :placeholder="$t('components.search-bar.placeholder')"
+        />
+      </Transition>
+    </div>
     <Transition name="shortcuts">
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+        class="flex pr-1 space-x-1 transition-opacity transition-duration-200"
         ref="hotkeyIndicators"
-        class="flex space-x-1 transition-opacity transition-duration-200"
       >
         <div
-          class="w-5 h-5 text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
+          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
           <span
-            class="p-1 px-2 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
-            >Press "/" to search</span
+            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
           >
-          /
+            {{ $t("components.search-bar.slash-tooltip-label") }}
+          </span>
+          <p class="-mt-[0.075rem]">/</p>
         </div>
-        <div
+        <!-- <div
           v-if="$device.isMacOS"
-          v-tooltip="'You have new messages.'"
-          class="h-5 text-sm text-center rounded-md has-tooltip w-7 bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
+          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
           <span
-            class="p-1 px-2 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
-            >Press "⌘ + k" to jump to a page</span
+            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
+            >{{ $t("components.search-bar.command-tooltip-label") }}</span
           >
-          ⌘k
+          <p>⌘k</p>
         </div>
         <div
           v-else
-          class="h-5 text-sm text-center border rounded-md has-tooltip w-7 border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
+          class="flex px-2 py-[0.125rem] text-sm text-center border rounded-md has-tooltip border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
         >
           <span
-            class="p-1 px-2 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
-            >Press "^ + k" to jump to a page</span
+            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
+            >{{ $t("components.search-bar.control-tooltip-label") }}/span
           >
-          ⌃k
-        </div>
+          <p>⌃k</p>
+        </div> -->
       </div>
     </Transition>
+  </div>
+  <div
+    v-else
+    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange"
+  >
+    <Icon
+      @click="emit('on-search-toggle')"
+      class="flex-shrink-0 w-4 h-4 my-1"
+      :name="expanded ? 'bi:x-lg' : 'bi:search'"
+      size="1em"
+    />
+    <input
+      v-if="expanded"
+      class="bg-transparent focus:outline-none"
+      type="text"
+      placeholder="Search"
+    />
+    <Icon v-if="expanded" class="absolute right-3" name="bi:filter" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { ref } from "vue";
+
+const route = useRoute();
+
 const sidebar = useSidebar();
 const input = ref();
 const hotkeyIndicators = ref();
-const isInputFocused = ref(false)
+const isInputFocused = ref(false);
 const keys = useMagicKeys();
+
+export interface Props {
+  location: "sidebar" | "header";
+  expanded?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  expanded: false,
+});
 
 whenever(keys.slash, () => {
   setTimeout(() => {
@@ -80,15 +113,17 @@ const onFocus = () => {
   setTimeout(() => {
     isInputFocused.value = true;
     hotkeyIndicators.value.classList.add("hidden");
-  }, 200)
+  }, 200);
 };
 const onFocusLost = () => {
   hotkeyIndicators.value.classList.remove("hidden");
   isInputFocused.value = false;
   setTimeout(() => {
     hotkeyIndicators.value.classList.remove("hide");
-  }, 200)
+  }, 200);
 };
+
+const emit = defineEmits(["on-search-toggle"]);
 </script>
 
 <style>
@@ -96,6 +131,7 @@ const onFocusLost = () => {
   transition: opacity 0.25s ease;
   transition-delay: 0.125s;
 }
+
 .search-leave-active {
   transition: opacity 0.25s ease;
 }
@@ -104,6 +140,7 @@ const onFocusLost = () => {
 .search-leave-to {
   opacity: 0;
 }
+
 .search-enter-from {
   transition-delay: 0.25s;
 }
@@ -112,6 +149,7 @@ const onFocusLost = () => {
   transition: opacity 0.25s ease;
   transition-delay: 0.375s;
 }
+
 .shortcuts-leave-active {
   transition: opacity 0.125s ease;
 }
