@@ -20,7 +20,7 @@ export default function useFormInput(
       val = props.value;
     }
     if ((event.target as HTMLInputElement).type === "text") {
-      val = (event.target as HTMLInputElement).value
+      val = (event.target as HTMLInputElement).value;
     }
     if (isDebounceEnabled) {
       inputDebounce(val);

@@ -1,15 +1,15 @@
 <template>
   <div
-    class="flex items-center pl-[12px] pr-[10px] py-2 min-h-[44px] space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-interactive dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
+    class="flex items-center pl-[12px] pr-[10px] py-2 h-9 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-interactive dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
   >
     <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
     <input
-      class="w-full h-5 bg-transparent outline-none placeholder:font-bold placeholder:text-light-special-text dark:placeholder:text-dark-special-text"
+      class="w-full h-5 bg-transparent outline-none placeholder:font-bold"
       :onInput="updateValue"
       :id="uuid"
       :value="modelValue"
-      :placeholder="placeholder"
-      type="search"
+      :placeholder="$t(placeholder)"
+      type="text"
     />
   </div>
 </template>
@@ -18,14 +18,13 @@
 import useFormInput from "../../composables/useFormSetup";
 import useUniqueID from "../../composables/useUniqueID";
 
-const props = defineProps({
-  placeholder: {
-    type: String,
-    default: "Search",
-  },
-  modelValue: {
-    type: [String, Number],
-  },
+export interface Props {
+  placeholder?: string;
+  modelValue?: [string, number];
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  placeholder: "Search",
 });
 
 const emit = defineEmits(["update:modelValue"]);

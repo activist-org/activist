@@ -18,21 +18,26 @@
     >
       <template v-for="(filter, key) in filters">
         <div
+          v-if="filter.expandable"
           @click="filter.reveal = !filter.reveal"
-          class="flex items-center cursor-pointer w-fit"
+          class="flex items-center cursor-pointer w-fit mb-2"
         >
-          <h3 v-if="filter.title" class="mb-2 text-lg font-bold font-display">
+          <h3 v-if="filter.title" class="text-lg font-bold font-display">
             {{ filter.title }}
           </h3>
-          <div v-if="filter.expandable">
-            <Icon
-              class="flex-shrink-0 my-1 mb-3 ml-4"
-              :class="{ 'rotate-180': filter.reveal }"
-              name="bi:chevron-down"
-              size="1.25em"
-            />
-          </div>
+          <Icon
+            class="flex-shrink-0 my-1 mb-1 ml-4"
+            :class="{ 'rotate-180': filter.reveal }"
+            name="bi:chevron-down"
+            size="1.25em"
+          />
         </div>
+        <div v-else class="flex items-center w-fit mb-2">
+          <h3 v-if="filter.title" class="text-lg font-bold font-display">
+            {{ filter.title }}
+          </h3>
+        </div>
+        <div v-if="!filter.title" class="-mt-4"></div>
         <div class="mb-4">
           <FormRadioGroup
             v-if="filter.type === 'radio'"
@@ -44,7 +49,7 @@
             :allowCustomValue="filter.allowCustomValue"
             v-model="selectedValues[filter.name]"
           />
-          <keep-alive>
+          <KeepAlive>
             <FormCheckboxGroup
               v-if="
                 (filter.type === 'checkbox' && !filter.reveal) ||
@@ -58,13 +63,13 @@
               :style="filter.style"
               v-model="selectedValues[filter.name]"
             />
-          </keep-alive>
+          </KeepAlive>
           <FormSearch
             v-if="filter.type === 'search'"
             :key="key"
             :name="filter.name"
             v-model="selectedValues[filter.name]"
-            :placeholder="filter.placeholder"
+            :placeholder="$t(filter.placeholder)"
           />
         </div>
       </template>
@@ -75,7 +80,7 @@
 <script setup lang="ts">
 const sidebar = useSidebar();
 
-import { CheckboxOption } from "../../form/FormCheckboxGroup.vue";
+import { CheckboxOption } from "../../form/checkbox/FormCheckboxGroup.vue";
 
 interface Filter {
   title: string;
@@ -86,7 +91,7 @@ interface Filter {
   allowCustomValue?: boolean;
   pageType?: string[];
   searchInput?: boolean;
-  placeholder?: string;
+  placeholder: string;
   expandable?: boolean;
   reveal?: boolean;
 }

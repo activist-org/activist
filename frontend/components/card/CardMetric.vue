@@ -14,10 +14,10 @@
 
 <script setup lang="ts">
 defineProps<{
-  text: String;
-  number: String;
-  textColor: String;
-  borderColor: String;
-  backgroundColor: String;
+  text: string;
+  number: string;
+  textColor: string;
+  borderColor: string;
+  backgroundColor: string;
 }>();
 </script>

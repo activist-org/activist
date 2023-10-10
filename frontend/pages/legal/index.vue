@@ -32,7 +32,7 @@ import type { CardDocsEntry } from "../../types/card-docs-entry";
 
 const cards: CardDocsEntry[] = [
   {
-    url: "/trademark-policy",
+    url: "trademark-policy",
     title: "pages.legal.index.trademark-policy",
     description: "pages.legal.index.trademark-policy-description",
     imgURL: "/images/content_pages/icons/bootstrap_trademark",
@@ -40,7 +40,7 @@ const cards: CardDocsEntry[] = [
     imgAltText: "pages.legal.index.trademark-policy-alt-text",
   },
   {
-    url: "/privacy-policy",
+    url: "privacy-policy",
     title: "pages.legal.index.privacy-policy",
     description: "pages.legal.index.privacy-policy-description",
     imgURL: "/images/content_pages/icons/bootstrap_shield_check",

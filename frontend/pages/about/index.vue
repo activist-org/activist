@@ -32,7 +32,7 @@ import type { CardDocsEntry } from "../../types/card-docs-entry";
 
 const cards: CardDocsEntry[] = [
   {
-    url: "/activist",
+    url: "activist",
     title: "pages.about.index.activist",
     description: "pages.about.index.activist-description",
     imgURL: "/images/content_pages/icons/activist_icon",
@@ -40,7 +40,7 @@ const cards: CardDocsEntry[] = [
     imgAltText: "pages.about.index.activist-alt-text",
   },
   {
-    url: "/impress",
+    url: "impress",
     title: "pages.about.index.impress",
     description: "pages.about.index.impress-description",
     imgURL: "/images/content_pages/icons/bootstrap_info_circle",
@@ -48,7 +48,7 @@ const cards: CardDocsEntry[] = [
     imgAltText: "pages.about.index.impress-alt-text",
   },
   {
-    url: "/roadmap",
+    url: "roadmap",
     title: "pages.about.index.roadmap",
     description: "pages.about.index.roadmap-description",
     imgURL: "/images/content_pages/icons/arcticons_bike_location",
