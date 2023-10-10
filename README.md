@@ -125,14 +125,14 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 > [!NOTE]\
 > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
-3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
+3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork and configure the remotes:
 
 ```bash
-# Clone your fork of the repo into the current directory
+# Clone your fork of the repo into the current directory.
 git clone https://github.com/<your-username>/activist.git
-# Navigate to the newly cloned directory
+# Navigate to the newly cloned directory.
 cd activist
-# Assign the original repo to a remote called "upstream"
+# Assign the original repo to a remote called "upstream".
 git remote add upstream https://github.com/activist-org/activist.git
 ```
 

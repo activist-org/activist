@@ -199,14 +199,14 @@ Good pull requests — patches, improvements and new features — are a fantasti
 
 When making a contribution, adhering to the [GitHub flow](https://guides.github.com/introduction/flow/index.html) process is the best way to get your work merged:
 
-1. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
+1. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork and configure the remotes:
 
    ```bash
-   # Clone your fork of the repo into the current directory
+   # Clone your fork of the repo into the current directory.
    git clone https://github.com/<your-username>/activist.git
-   # Navigate to the newly cloned directory
+   # Navigate to the newly cloned directory.
    cd activist
-   # Assign the original repo to a remote called "upstream"
+   # Assign the original repo to a remote called "upstream".
    git remote add upstream https://github.com/activist-org/activist.git
    ```
 
