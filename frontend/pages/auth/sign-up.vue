@@ -70,11 +70,11 @@
         </NuxtLink>
         </div>
         <div class="flex md:justify-center pt-6 md:pt-8 lg:pt-12">
-          <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
+          <h6>{{ $t("pages.auth.sign-up.index.have-account") }}</h6>
           <NuxtLink
-            :to="'sign-up'"
+            :to="'sign-in'"
             class="ml-2 text-light-cta-orange-light dark:text-dark-cta-orange-light hover:text-light-cta-orange hover:dark:text-dark-cta-orange font-extrabold"
-            >{{ $t("pages.auth.sign-in.index.sign-up") }}</NuxtLink
+            >{{ $t("pages.auth.sign-up.index.sign-in") }}</NuxtLink
           >
         </div>
       </form>
