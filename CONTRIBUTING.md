@@ -203,11 +203,11 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
 
    ```bash
    # Clone your fork of the repo into the current directory
-   git clone https://github.com/<your-username>/<repo-name>
+   git clone https://github.com/<your-username>/activist.git
    # Navigate to the newly cloned directory
-   cd <repo-name>
+   cd activist
    # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/<upstream-owner>/<repo-name>
+   git remote add upstream https://github.com/activist-org/activist.git
    ```
 
 2. If you cloned a while ago, get the latest changes from upstream:

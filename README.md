@@ -95,7 +95,7 @@ The activist road map can be followed in the organization's [project board](http
 
 The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those with interest can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
-Note that the Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or via the email on the public designs welcome page. We'd love to see a sample of your work and if everything looks good we'll schedule a time to get connected!
+Note that the Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or via the email on the public designs welcome page. We'd love to see a sample of your work and if everything looks good we'll schedule a time to get connected
 
 <a id="environment-setup"></a>
 
@@ -125,16 +125,20 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 > [!NOTE]\
 > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
-3. Then clone this repository with the below command:
+3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
 
 ```bash
-git clone https://github.com/activist-org/activist.git
+# Clone your fork of the repo into the current directory
+git clone https://github.com/<your-username>/activist.git
+# Navigate to the newly cloned directory
+cd activist
+# Assign the original repo to a remote called "upstream"
+git remote add upstream https://github.com/activist-org/activist.git
 ```
 
-4. Enter the created directory, create a `.env` file and start your docker images with the following:
+4. Create a `.env` file and start your docker images with the following:
 
 ```bash
-cd activist
 cp .env.example .env
 docker-compose up
 # Or with new dependencies:
