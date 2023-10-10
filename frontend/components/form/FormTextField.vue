@@ -17,8 +17,9 @@
 </template>
 
 <script setup lang="ts">
+import { v4 as uuidv4 } from 'uuid';
+
 import useFormInput from "../../composables/useFormSetup";
-import useUniqueID from "../../composables/useUniqueID";
 
 export interface Props {
   placeholder?: string;
@@ -35,13 +36,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(["update:modelValue"]);
-
 const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
-
-const uuid = useUniqueID().getID();
-
+const uuid = uuidv4();
 const refInputType = ref(props?.inputType);
-
 const changeInputType = () => {
   refInputType.value = refInputType.value === "password" ? "text" : "password";
 };
