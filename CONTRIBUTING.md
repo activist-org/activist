@@ -210,6 +210,11 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    git remote add upstream https://github.com/activist-org/activist.git
    ```
 
+   Now, if you run `git remote -v` you should see two remote repositories named:
+
+   - `origin` (forked repository)
+   - `upstream` (activist repository)
+
 2. If you cloned a while ago, get the latest changes from upstream:
 
    ```bash
