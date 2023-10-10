@@ -5,77 +5,47 @@
     <Head>
       <Title>{{ $t("pages.supporters.index.title") }}</Title>
     </Head>
-    <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
-      <h1 class="font-bold responsive-h1">
-        {{ $t("pages.supporters.index.title") }}
-      </h1>
-      <p class="pt-2 lg:pt-4 xl:pt-6">
-        {{ $t("pages.supporters.index.section-1-paragraph-1-1") }}
-        <NuxtLink
-          class="focus-brand link-text"
-          :to="localePath('/supporters/join')"
-        >
-          {{ $t("pages.supporters.index.section-1-paragraph-1-2") }}
-        </NuxtLink>
-        .
-      </p>
-      <h2 class="font-bold responsive-py-1 responsive-h3">
-        {{ $t("pages.supporters.index.section-2-subheader") }}
-      </h2>
-      <p>
-        {{ $t("pages.supporters.index.section-2-paragraph-1-1") }}
-        <a
-          class="items-center focus-brand link-text"
-          href="https://www.wikimedia.de/unlock"
-          target="_blank"
-        >
-          {{ $t("pages.supporters.index.section-2-paragraph-1-2") }}
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        . {{ $t("pages.supporters.index.section-2-paragraph-1-3") }}
-      </p>
-      <div class="flex items-center justify-center">
-        <GridSupporters class="mt-6 xl:mt-8" />
-      </div>
-      <h2 class="font-bold responsive-py-1 responsive-h3">
-        {{ $t("pages.supporters.index.section-3-subheader") }}
-      </h2>
-      <h3 class="font-bold responsive-h4">
-        {{ $t("pages.supporters.index.section-3-1-subheader") }}
-      </h3>
-      <p class="space-x-1">
-        {{ $t("pages.supporters.index.section-3-1-paragraph-1-1") }}
-        <a
-          class="focus-brand link-text"
-          href="https://github.com/activist-org/activist/graphs/contributors"
-          target="_blank"
-        >
-          {{ $t("pages.supporters.index.section-3-1-paragraph-1-2") }}
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        <Icon
-          name="bi:heart-fill"
-          size="1em"
-          style="vertical-align: baseline"
+    <div class="bg-light-distinct dark:bg-dark-distinct">
+      <div class="responsive-py-4 flex flex-col w-full responsive-px-5">
+        <HeaderAppPage
+          :header="$t('pages.supporters.index.header')"
+          :tagline="$t('pages.supporters.index.subheader')"
         />
-      </p>
-      <GridGitHubContributors />
-      <h3 class="pt-4 font-bold responsive-h4">
-        {{ $t("pages.supporters.index.section-3-2-subheader") }}
+      </div>
+    </div>
+    <div class="responsive-py-5 responsive-px-5">
+      <h3 class="transition-all duration-500 responsive-h2">
+        {{ $t("pages.supporters.index.section-1-subheader") }}
       </h3>
-      <p>{{ $t("pages.supporters.index.section-3-2-paragraph-1") }}</p>
-      <!-- <ul class="py-4 pl-4 space-y-2"></ul> -->
-      <p class="text-light-special-text dark:text-dark-special-text">
-        {{ $t("pages.supporters.index.thanks") }}
+      <p
+        class="responsive-py-1 text-light-special-text dark:text-dark-special-text"
+      >
+        {{ $t("pages.supporters.index.section-1-tagline") }}
       </p>
+      <GridDocEntries class="responsive-py-1" :cards="cards" />
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import type { CardDocsEntry } from "../../types/card-docs-entry";
+
+const cards: CardDocsEntry[] = [
+  {
+    url: "showcase",
+    title: "pages.supporters.index.showcase",
+    description: "pages.supporters.index.showcase-description",
+    imgURL: "/images/content_pages/icons/bootstrap_heart",
+    imgDimensions: "h-16 sm:h-20",
+    imgAltText: "pages.supporters.index.showcase-alt-text",
+  },
+  {
+    url: "join",
+    title: "pages.supporters.index.join",
+    description: "pages.supporters.index.join-description",
+    imgURL: "/images/content_pages/icons/join_icon",
+    imgDimensions: "h-16 sm:h-20",
+    imgAltText: "pages.supporters.index.join-alt-text",
+  },
+];
+</script>

@@ -199,16 +199,21 @@ Good pull requests — patches, improvements and new features — are a fantasti
 
 When making a contribution, adhering to the [GitHub flow](https://guides.github.com/introduction/flow/index.html) process is the best way to get your work merged:
 
-1. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
+1. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork and configure the remotes:
 
    ```bash
-   # Clone your fork of the repo into the current directory
-   git clone https://github.com/<your-username>/<repo-name>
-   # Navigate to the newly cloned directory
-   cd <repo-name>
-   # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/<upstream-owner>/<repo-name>
+   # Clone your fork of the repo into the current directory.
+   git clone https://github.com/<your-username>/activist.git
+   # Navigate to the newly cloned directory.
+   cd activist
+   # Assign the original repo to a remote called "upstream".
+   git remote add upstream https://github.com/activist-org/activist.git
    ```
+
+   Now, if you run `git remote -v` you should see two remote repositories named:
+
+   - `origin` (forked repository)
+   - `upstream` (activist repository)
 
 2. If you cloned a while ago, get the latest changes from upstream:
 
@@ -264,9 +269,9 @@ Documentation is an invaluable way to contribute to coding projects as it allows
 
 Thank you for your interest in improving activist's accessibility. We want our platform to not only be usable for all people, but also to provide a welcoming environment within the development community for all. This section lists a few points to account for when checking accessibility constraints during development:
 
-### Tab focussing
+### Tab focusing
 
-Tab focussing sadly doesn't work out of the box for many browsers. Chrome works great, but the following changes are needed for browsers to function properly with tabs. We'll test activist against browsers with these settings with the assumption that people who need tab for more control of the interface will be able to activate them.
+Tab focusing sadly doesn't work out of the box for many browsers. Chrome works great, but the following changes are needed for browsers to function properly with tabs. We'll test activist against browsers with these settings with the assumption that people who need tab for more control of the interface will be able to activate them.
 
 **Firefox**
 

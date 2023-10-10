@@ -11,31 +11,31 @@ from .serializers import (
 )
 
 
-class SupportEntityTypeViewSet(viewsets.ModelViewSet):
+class SupportEntityTypeViewSet(viewsets.ModelViewSet[SupportEntityType]):
     queryset = SupportEntityType.objects.all()
     serializer_class = SupportEntityTypeSerializer
 
 
-class SupportViewSet(viewsets.ModelViewSet):
+class SupportViewSet(viewsets.ModelViewSet[Support]):
     queryset = Support.objects.all()
     serializer_class = SupportSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ModelViewSet[User]):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-class UserResourceViewSet(viewsets.ModelViewSet):
+class UserResourceViewSet(viewsets.ModelViewSet[UserResource]):
     queryset = UserResource.objects.all()
     serializer_class = UserResourceSerializer
 
 
-class UserTaskViewSet(viewsets.ModelViewSet):
+class UserTaskViewSet(viewsets.ModelViewSet[UserTask]):
     queryset = UserTask.objects.all()
     serializer_class = UserTaskSerializer
 
 
-class UserTopicViewSet(viewsets.ModelViewSet):
+class UserTopicViewSet(viewsets.ModelViewSet[UserTopic]):
     queryset = UserTopic.objects.all()
     serializer_class = UserTopicSerializer

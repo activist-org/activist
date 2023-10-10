@@ -8,7 +8,11 @@
           v-if="organization.imageURL"
           class="w-[200px] h-[200px]"
           :src="organization.imageURL"
-          :alt="'The organization logo of ' + organization.name"
+          :alt="
+            $t('components.card-search-result-organization.img-alt-text') +
+            ' ' +
+            organization.name
+          "
         />
         <div
           v-else

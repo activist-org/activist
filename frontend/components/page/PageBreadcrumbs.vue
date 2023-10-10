@@ -49,8 +49,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { Event } from "../types/event";
-import type { Organization } from "../types/organization";
+import type { Event } from "../../types/event";
+import type { Organization } from "../../types/organization";
 const { locales } = useI18n();
 
 defineProps<{
@@ -94,6 +94,14 @@ function makeURL(breadcrumb: string) {
 }
 
 function capitalizeFirstLetter(string: string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  if (string === "activist") {
+    return string;
+  } else if (string !== "activist" && string.includes("-")) {
+    return string
+      .replace("-", " ")
+      .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
+  } else {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 }
 </script>

@@ -4,15 +4,15 @@
       class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert"
       id="map-div"
       ref="map"
-      alt="Map displaying a pin at the location of this event."
+      :alt="$t('img-alt-text')"
     ></div>
     <div
       class="flex flex-col items-center justify-center h-full px-5 pb-5 text-2xl text-center space-y-5 text-light-cta-orange dark:text-dark-cta-orange"
       :class="{ hidden: !errorOccurred }"
       :key="rerenderKey"
     >
-      <p>{{ errorMessage }}</p>
-      <p>{{ sorryMessage }}</p>
+      <p>{{ $t("error-message") }}</p>
+      <p>{{ $t("sorry-message") }}</p>
     </div>
   </div>
 </template>
@@ -40,22 +40,18 @@ type Marker = {
 };
 
 let errorOccurred: boolean = false;
-let errorMessage: string;
-let sorryMessage: string;
 
 function handleMapError(error: Error) {
   console.error(error);
   errorOccurred = true;
 
   // TODO: More helpful and better looking error messages.
-  errorMessage = "There was a problem with the map service.";
-  sorryMessage = "Sorry about that!";
   rerenderKey.value += 1; // rerender the error div
   map.value.style.opacity = 0;
   map.value.style.position = "absolute";
 }
 
-function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
+function drawMap(avgLat: number, avgLon: number, markers: Marker[]) {
   let mapOptions: MapOptions = {
     center: [avgLat, avgLon],
     zoom: 13,
@@ -138,7 +134,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
     is up and running, removing most of the logic from the frontend.
 
     const props = defineProps<{
-        locations: Array<Marker>,
+        locations: Marker[],
         averageLat: number,
         averageLon: number
     }>();
@@ -149,7 +145,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Array<Marker>) {
 */
 
 onMounted(() => {
-  let markers: Array<Marker> = [];
+  let markers: Marker[] = [];
   let averageLat: number = 0;
   let averageLon: number = 0;
 

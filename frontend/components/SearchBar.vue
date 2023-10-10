@@ -89,14 +89,14 @@ const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
 const keys = useMagicKeys();
 
-defineProps<{
+export interface Props {
   location: "sidebar" | "header";
-  expanded: {
-    default: false;
-    type: boolean;
-    required: false;
-  };
-}>();
+  expanded?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  expanded: false,
+});
 
 whenever(keys.slash, () => {
   setTimeout(() => {

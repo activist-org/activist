@@ -1,6 +1,6 @@
 <template>
   <div
-    class="max-w-full px-4 py-6 text-center border-4 card-style grid place-content-center rounded-2xl min-width-fit min-height-fit max-h-40 cursor-pointer select-none"
+    class="max-w-full px-4 py-6 text-center border-4 cursor-pointer select-none card-style grid place-content-center rounded-2xl min-width-fit min-height-fit max-h-40"
     :class="[textColor, borderColor, backgroundColor]"
   >
     <div class="pb-2 text-5xl font-bold tracking-tighter">
@@ -14,10 +14,10 @@
 
 <script setup lang="ts">
 defineProps<{
-  text: String;
-  number: String;
-  textColor: String;
-  borderColor: String;
-  backgroundColor: String;
+  text: string;
+  number: string;
+  textColor: string;
+  borderColor: string;
+  backgroundColor: string;
 }>();
 </script>

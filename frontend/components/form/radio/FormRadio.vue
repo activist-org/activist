@@ -4,7 +4,7 @@
     v-bind="{ ...$attrs, onChange: updateValue }"
     :checked="modelValue === value"
     :id="uuid"
-    type="checkbox"
+    type="radio"
   />
   <label v-if="label" :for="uuid">
     {{ label }}
@@ -15,24 +15,21 @@
 </template>
 
 <script setup lang="ts">
-import useFormInput from "../../composables/useFormSetup";
-import useUniqueID from "../../composables/useUniqueID";
+import useFormInput from "../../../composables/useFormSetup";
+import useUniqueID from "../../../composables/useUniqueID";
 
-const props = defineProps({
-  label: {
-    type: String,
-    default: "",
-  },
-  modelValue: {
-    type: Boolean,
-  },
-  error: {
-    type: String,
-    default: "",
-  },
+export interface Props {
+  label?: string;
+  modelValue?: boolean;
+  error?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  label: "",
+  error: "",
 });
 
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit);
-const uuid = useUniqueID().getID();
+const uuid = useUniqueID().getID().toString();
 </script>
