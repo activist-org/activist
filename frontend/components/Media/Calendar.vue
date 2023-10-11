@@ -18,13 +18,13 @@
             next
         </button>
         </tab1>
-        <tab2         
+        <tab2
         :class="{ hidden: tab != 2 }"
         class="grow flex flex-col gap-2 z-10 h-[408px] max-w-[250px]"
         >
             <div class="text-center">
             <div class="text-black p-1">{{ eventData.range.start.toLocaleString() }}</div>
-            <div class="text-black p-1">&#8594</div>
+            <Icon name="bx:right-arrow" size="1em" />
             <div class="text-black p-1">{{ eventData.range.end.toLocaleString() }}</div>
             </div>
             <label 
@@ -84,14 +84,13 @@
         </tab2>
     </form>
 </template>
-  
+
 <script setup>
-  import { Calendar, DatePicker } from "v-calendar";
+  import { DatePicker } from "v-calendar";
   import "v-calendar/style.css";
-  
-  
-  import { ref, computed, watch } from "vue";
-  
+
+  import { ref, watch } from "vue";
+
   const tab = ref(1);
   const eventData = ref({
     name: "",
@@ -105,8 +104,8 @@
     name: true,
     description: true
   })
+
   const submitDisabled = ref(true)
-  
   const checkEmpty = (name, onBlur = false) => {
     if (eventData.value[name].trim().length > 0) {
       validation.value[name] = true
@@ -114,24 +113,23 @@
       validation.value[name] = false
     }
   }
-  
+
   watch(eventData.value.name, checkEmpty("name"))
-  
   watch(eventData.value.description, checkEmpty("description"))
-  
   watch(eventData.value, () => {
     if (eventData.value.description.trim().length > 0 && eventData.value.name.trim().length > 0) return submitDisabled.value = false
     submitDisabled.value = true
   });
-  
+
   const handler = (value) => {
     tab.value = value;
   };
-  
+
   const sendData = async () => {
     try {
       console.log(eventData.value);
       alert("the following information should be posted to api: \n" + JSON.stringify(eventData.value))
+
       const response = await fetch("https://apiplaceholder.io/eventData", {
         method: "POST",
         headers: {
@@ -139,10 +137,10 @@
         },
         body: JSON.stringify(eventData.value),
       });
-      const data = await response.json()
+
+      await response.json()
     } catch (error) {
       console.log(error)
     }
   }
 </script>
-  
