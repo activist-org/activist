@@ -28,6 +28,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/plausible": "^0.2.1",
+    "@popperjs/core": "^2.11.8",
     "@types/leaflet": "^1.9.3",
     "@vue-leaflet/vue-leaflet": "^0.9.0",
     "axios": "^1.4.0",
@@ -39,6 +40,7 @@
     "prettier": "^3.0.3",
     "swiper": "^9.3.2",
     "tailwind-scrollbar": "^3.0.4",
-    "tailwindcss": "^3.3.2"
+    "tailwindcss": "^3.3.2",
+    "v-calendar": "^3.1.1"
   }
 }
