@@ -13,7 +13,7 @@
       class="h-full text-light-text dark:text-dark-text bg-light-distinct dark:bg-dark-distinct"
     >
       <div class="hidden space-x-6 justify-end py-4 px-8 md:flex">
-        <SelectorLanguage />
+        <DropdownLanguage />
         <BtnLabeled
           class="flex items-center max-h-[38px] lg:max-h-[46px]"
           :label="page.label"

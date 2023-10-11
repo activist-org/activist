@@ -21,6 +21,8 @@
     "@types/uuid": "^9.0.5",
     "@vueuse/core": "^9.12.0",
     "@vueuse/nuxt": "^9.12.0",
+    "eslint": "^8.51.0",
+    "eslint-plugin-vue": "^9.17.0",
     "nuxt": "npm:nuxt3@latest",
     "nuxt-icon": "^0.2.6",
     "typescript": "^5.1.3",
