@@ -366,7 +366,7 @@
           "title": "Sign In",
           "sign-in": "Sign in",
           "sign-up": "Sign up",
-          "welcome-back": "Welcome back!",
+          "welcome-back": "Welcome back! 👋",
           "enter-user-name": "Enter username",
           "enter-password": "Enter password",
           "no-account": "Don't have an account?",
@@ -375,9 +375,17 @@
       },
       "sign-up": {
         "index": {
-          "title": "Sign Up",
           "sign-up": "Sign up",
-          "sign-in": "Sign in"
+          "sign-in": "Sign in",
+          "title": "Sign Up",
+          "first-time-welcome": "Let's get to work! ✊",
+          "enter-user-name": "Enter a username",
+          "enter-password": "Enter password",
+          "repeat-password": "Repeat password",
+          "have-account": "Already have an account?",
+          "i-am-human": "I am human",
+          "read-terms-of-service": "I have read and agree to the",
+          "terms-of-service": "terms of service"
         }
       }
     },

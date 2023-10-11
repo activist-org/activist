@@ -10,8 +10,8 @@
       :placeholder="placeholder"
       :type="refInputType"
     />
-    <span v-if="isIconVisible" @click="changeInputType" class="cursor-pointer">
-      <Icon name="mdi:eye" size="28px" />
+    <span v-for="(icon, index) in iconsNames" :key="index" class="cursor-pointer" @click="handleIconClick(icon)">
+      <Icon :name="icon" size="1.5em" :color="getIconColor(icon)" />
     </span>
   </div>
 </template>
@@ -25,6 +25,7 @@ export interface Props {
   modelValue?: string;
   inputType?: string;
   isIconVisible?: boolean;
+  iconsNames?: string[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -32,6 +33,7 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: "",
   inputType: "text",
   isIconVisible: false,
+  iconsNames: [],
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -41,4 +43,21 @@ const refInputType = ref(props?.inputType);
 const changeInputType = () => {
   refInputType.value = refInputType.value === "password" ? "text" : "password";
 };
+
+const handleIconClick = (iconName) => {
+  if (iconName === 'bi:eye-fill') {
+    changeInputType(); // Alterna o tipo de entrada
+  }
+};
+
+const getIconColor = (iconName) => {
+  if (iconName === 'bi:check-lg') {
+    return "#3BA55C"
+  } else if (iconName === 'bi:x-lg') {
+    return "#BA3D3B"
+  } else {
+    return "#5A5A5A"
+  }
+}
+
 </script>

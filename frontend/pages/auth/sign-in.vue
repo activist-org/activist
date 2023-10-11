@@ -15,6 +15,7 @@
           input-type="password"
           :model-value="passwordValue"
           @update:model-value="passwordValue = $event"
+          :iconsNames="['bi:eye-fill']"
         />
       </div>
       <div class="flex space-x-2">
