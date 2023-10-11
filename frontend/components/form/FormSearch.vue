@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import useFormInput from "../../composables/useFormSetup";
-import useUniqueID from "../../composables/useUniqueID";
+const { v4: uuidV4 } = require("uuid");
 
 export interface Props {
   placeholder?: string;
@@ -29,6 +29,5 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit, true);
-
-const uuid = useUniqueID().getID().toString();
+const uuid = uuidV4();
 </script>

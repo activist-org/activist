@@ -121,7 +121,7 @@
       "act-events": "Act events",
       "events": "Events",
       "learn-events": "Learn events",
-      "new-organizations": "New organizations"
+      "new-organizations": "New orgs"
     },
     "grid-supporters": {
       "impacthub-belgrade-logo-aria-label": "Link to the website of Impact Hub Belgrade",
@@ -184,6 +184,10 @@
     },
     "page-breadcrumbs": {
       "aria-label": "Page breadcrumb navigation"
+    },
+    "progress-bar": {
+      "close-process": "Close",
+      "close-process-aria-label": "Close the current process and return to the previous screen."
     },
     "selector-theme": {
       "dark": "Dark",
