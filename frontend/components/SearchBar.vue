@@ -27,31 +27,30 @@
         <div
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
-          <span
-            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
-          >
-            {{ $t("components.search-bar.slash-tooltip-label") }}
-          </span>
+          <Tooltip
+            class="invisible -mt-8"
+            :text="$t('components.search-bar.slash-tooltip-label')"
+          />
           <p class="-mt-[0.075rem]">/</p>
         </div>
         <!-- <div
           v-if="$device.isMacOS"
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
-          <span
-            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
-            >{{ $t("components.search-bar.command-tooltip-label") }}</span
-          >
+          <Tooltip
+            class="invisible -mt-8"
+            :text="$t('components.search-bar.command-tooltip-label')"
+          />
           <p>⌘k</p>
         </div>
         <div
           v-else
           class="flex px-2 py-[0.125rem] text-sm text-center border rounded-md has-tooltip border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
         >
-          <span
-            class="invisible px-2 py-1 -mt-8 rounded shadow-md shadow-zinc-700 bg-light-menu-selection dark:bg-dark-menu-selection w-max text-light-content dark:text-dark-content tooltip"
-            >{{ $t("components.search-bar.control-tooltip-label") }}/span
-          >
+          <Tooltip
+            class="invisible -mt-8"
+            :text="$t('components.search-bar.control-tooltip-label')"
+          />
           <p>⌃k</p>
         </div> -->
       </div>
@@ -89,14 +88,14 @@ const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
 const keys = useMagicKeys();
 
-defineProps<{
+export interface Props {
   location: "sidebar" | "header";
-  expanded: {
-    default: false;
-    type: boolean;
-    required: false;
-  };
-}>();
+  expanded?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  expanded: false,
+});
 
 whenever(keys.slash, () => {
   setTimeout(() => {

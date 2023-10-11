@@ -15,6 +15,7 @@
           input-type="password"
           :model-value="passwordValue"
           @update:model-value="passwordValue = $event"
+          :icons="['bi:eye-fill']"
         />
       </div>
       <div class="flex space-x-2">
@@ -34,21 +35,19 @@
           >
         </button>
         <BtnLabeled
+          @click="signIn"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
-          label="Sign In"
+          :label="$t('components.btn-labeled.sign-in')"
           :cta="true"
           fontSize="lg"
-          ariaLabel="SignIn"
-          @click="signIn"
+          :ariaLabel="$t('components.btn-labeled.sign-in-aria-label')"
         />
       </div>
-      <div class="flex md:justify-center pt-6 md:pt-8 lg:pt-12">
+      <div class="flex md:justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
-        <NuxtLink
-          :to="'sign-up'"
-          class="ml-2 text-light-cta-orange-light dark:text-dark-cta-orange-light hover:text-light-cta-orange hover:dark:text-dark-cta-orange font-extrabold"
-          >{{ $t("pages.auth.sign-in.index.sign-up") }}</NuxtLink
-        >
+        <NuxtLink :to="'sign-up'" class="ml-2 link-text font-extrabold">{{
+          $t("pages.auth.sign-in.index.sign-up")
+        }}</NuxtLink>
       </div>
     </form>
   </div>

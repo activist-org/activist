@@ -19,6 +19,10 @@
       "share-event-aria-label": "Share this event with others",
       "share-organization": "Share organization",
       "share-organization-aria-label": "Share this organization with others",
+      "sign-in": "Sign in",
+      "sign-up": "Sign up",
+      "sign-in-aria-label": "Sign in to your account.",
+      "sign-up-aria-label": "Sign up for a new account on activist.",
       "suggest-a-feature": "Suggest a feature",
       "suggest-a-feature-aria-label": "Go to GitHub to suggest a feature for activist.org",
       "support": "Support",
@@ -53,10 +57,10 @@
     },
     "card-danger-zone": {
       "header": "Danger Zone",
-      "label-password": "Your password",
-      "label-username": "Your username",
-      "placeholder-password": "Enter your password",
-      "placeholder-username": "Enter your username"
+      "password-label": "Your password",
+      "password-placeholder": "Enter your password",
+      "username-label": "Your username",
+      "username-placeholder": "Enter your username"
     },
     "card-get-involved": {
       "header": "Get involved",
@@ -70,6 +74,9 @@
     "feed-item": {
       "img-alt-text": "A social media post's image."
     },
+    "form-radio-group": {
+      "custom-numeric-value-placeholder": "Enter number"
+    },
     "footer": {
       "about": "About",
       "contact": "Contact",
@@ -79,6 +86,7 @@
       "help": "Help",
       "impress": "Impress",
       "instagram": "Instagram",
+      "legal": "Legal",
       "matrix": "Matrix",
       "privacy-policy": "Privacy Policy",
       "roadmap": "Roadmap",
@@ -117,7 +125,7 @@
       "act-events": "Act events",
       "events": "Events",
       "learn-events": "Learn events",
-      "new-organizations": "New organizations"
+      "new-organizations": "New orgs"
     },
     "grid-supporters": {
       "impacthub-belgrade-logo-aria-label": "Link to the website of Impact Hub Belgrade",
@@ -181,6 +189,10 @@
     "page-breadcrumbs": {
       "aria-label": "Page breadcrumb navigation"
     },
+    "progress-bar": {
+      "close-process": "Close",
+      "close-process-aria-label": "Close the current process and return to the previous screen."
+    },
     "selector-theme": {
       "dark": "Dark",
       "dark-aria-label": "Select to switch to dark mode",
@@ -196,6 +208,10 @@
       "command-tooltip-label": "Press \"⌘ + k\" to jump to a page",
       "control-tooltip-label": "Press \"^ + k\" to jump to a page",
       "slash-tooltip-label": "Press \"/\" to search"
+    },
+    "sidebar-left": {
+      "location-search-placeholder": "Filter by location",
+      "orgs-search-placeholder": "Filter by orgs"
     },
     "sidebar-left-footer": {
       "create": "Create",
@@ -250,6 +266,9 @@
     },
     "sidebar-right-hamburger": {
       "sidebar-collapse-aria-label": "Expand or collapse the right sidebar"
+    },
+    "tooltip-sign-in": {
+      "text": "You need to be signed in to see this content."
     }
   },
   "pages": {
@@ -354,7 +373,7 @@
           "title": "Sign In",
           "sign-in": "Sign in",
           "sign-up": "Sign up",
-          "welcome-back": "Welcome back!",
+          "welcome-back": "Welcome back! 👋",
           "enter-user-name": "Enter username",
           "enter-password": "Enter password",
           "no-account": "Don't have an account?",
@@ -363,9 +382,17 @@
       },
       "sign-up": {
         "index": {
-          "title": "Sign Up",
           "sign-up": "Sign up",
-          "sign-in": "Sign in"
+          "sign-in": "Sign in",
+          "title": "Sign Up",
+          "first-time-welcome": "Let's get to work! ✊",
+          "enter-user-name": "Enter a username",
+          "enter-password": "Enter password",
+          "repeat-password": "Repeat password",
+          "have-account": "Already have an account?",
+          "i-am-human": "I am human",
+          "read-terms-of-service": "I have read and agree to the",
+          "terms-of-service": "terms of service"
         }
       }
     },
@@ -508,18 +535,22 @@
         "title": "FAQ"
       },
       "contact": {
-        "header": "We'd love to hear from you!",
         "error-empty": "cannot be empty.",
-        "label-email": "Email",
-        "label-message": "Message",
-        "label-name": "Name",
-        "placeholder-name": "Your name",
-        "placeholder-message": "Hey activist team...",
+        "header": "We'd love to hear from you!",
+        "img-alt-text": "An envelope that's closed indicating a message to be sent.",
+        "email-label": "Email",
+        "email-placeholder": "example{'@'}mail.com",
+        "message-label": "Message",
+        "message-placeholder": "Hey activist team...",
+        "name-label": "Name",
+        "name-placeholder": "Your name",
+        "subject-label": "Subject",
+        "subject-placeholder": "What's your message about?",
         "section-1-paragraph-1-1": "Thanks for your interest in connecting with the activist.org team. Please consider joining the",
         "section-1-paragraph-1-2": "public Matrix chat rooms",
         "section-1-paragraph-1-3": "for simple inquiries and suggestions. The community including the development team would be happy to help! Feature requests should also be sent via our open-source codebase",
         "section-1-paragraph-1-4": "on GitHub",
-        "section-1-paragraph-1-5": "— go to \"Issues\" and select \"New issue\" to get started.",
+        "section-1-paragraph-1-5": ". Go to \"Issues\" and select \"New issue\" to get started.",
         "section-1-paragraph-2-1": "For other inquiries, please use the contact form on this page. In using this form we ask that you respect our",
         "section-1-paragraph-2-2": "community code of conduct",
         "send": "Send",

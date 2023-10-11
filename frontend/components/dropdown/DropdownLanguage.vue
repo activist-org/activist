@@ -70,14 +70,15 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
-defineProps({
-  location: String,
-});
+
+defineProps<{
+  location?: string;
+}>();
 
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-const localesValues: Array<string | LocaleObject> = locales.value;
+const localesValues: (string | LocaleObject)[] = locales.value;
 
 function getLocaleCode(locale: string | LocaleObject) {
   return typeof locale === "string" ? locale : locale.code;
