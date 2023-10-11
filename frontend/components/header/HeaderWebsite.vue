@@ -24,8 +24,8 @@
       </div>
       <SidebarRight>
         <div class="flex-col space-y-2">
-          <SelectorTheme class="w-full" location="sideMenu" />
-          <SelectorLanguage class="w-full" location="sideMenu" />
+          <DropdownTheme class="w-full" location="sideMenu" />
+          <DropdownLanguage class="w-full" location="sideMenu" />
         </div>
       </SidebarRight>
     </div>
@@ -42,8 +42,8 @@
         </div>
         <div>
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
-            <SelectorTheme />
-            <SelectorLanguage />
+            <DropdownTheme />
+            <DropdownLanguage />
             <BtnLabeled
               class="hidden lg:block"
               :cta="true"
