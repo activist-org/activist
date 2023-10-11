@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-between w-full h-2 md:h-12 bg-light-header dark:bg-dark-header"
+    class="flex items-center justify-between w-full h-2 md:h-8 bg-light-header dark:bg-dark-header border-b border-light-section-div dark:border-dark-section-div"
   >
     <div
       :class="[
@@ -14,11 +14,12 @@
       :style="{ width: `${percent}%` }"
     ></div>
     <button
-      class="items-center hidden h-full px-3 md:flex bg-light-cta-orange hover:bg-light-cta-orange-hover dark:bg-dark-cta-orange dark:hover:bg-dark-cta-orange-hover"
+      class="items-center hidden h-full px-3 md:flex space-x-3 bg-light-cta-orange hover:bg-light-cta-orange-hover dark:bg-dark-cta-orange/10 dark:hover:bg-dark-cta-orange-hover/25 text-light-text dark:text-dark-cta-orange"
       @click="$emit('close', progress, percent)"
+      :aria-label="$t('components.progress-bar.close-process-aria-label')"
     >
-      <Icon name="bi:x" size="24px" />
-      <span class="pl-1">Close</span>
+      <Icon name="bi:x-lg" />
+      <span>{{ $t("components.progress-bar.close-process") }}</span>
     </button>
   </div>
 </template>

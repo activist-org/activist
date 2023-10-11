@@ -185,6 +185,10 @@
     "page-breadcrumbs": {
       "aria-label": "Page breadcrumb navigation"
     },
+    "progress-bar": {
+      "close-process": "Close",
+      "close-process-aria-label": "Close the current process and return to the previous screen."
+    },
     "selector-theme": {
       "dark": "Dark",
       "dark-aria-label": "Select to switch to dark mode",
