@@ -23,7 +23,7 @@
           :ariaLabel="page.ariaLabel"
         />
       </div>
-      <div class="flex-1 w-full pt-16 md:pt-20 pb-4 md:pb-8 space-y-4">
+      <div class="flex-1 w-full pt-16 md:pt-24 pb-4 md:pb-8 space-y-4">
         <div class="flex items-center justify-center p-4">
           <h1 class="text-center responsive-h1 font-bold font-display">
             {{ $t(page.message) }}

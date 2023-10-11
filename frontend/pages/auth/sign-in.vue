@@ -43,7 +43,7 @@
           @click="signIn"
         />
       </div>
-      <div class="flex md:justify-center pt-6 md:pt-8 lg:pt-12">
+      <div class="flex md:justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
         <NuxtLink
           :to="'sign-up'"

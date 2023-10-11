@@ -73,7 +73,7 @@
           >{{ $t("pages.auth.sign-up.index.terms-of-service") }}
         </NuxtLink>
       </div>
-      <div class="flex md:justify-center pt-6 md:pt-8 lg:pt-12">
+      <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-up.index.have-account") }}</h6>
         <NuxtLink
           :to="'sign-in'"
