@@ -228,9 +228,21 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    git checkout -b <topic-branch-name>
    ```
 
-4. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
+4. Install [pre-commit](https://pre-commit.com/), this will ensure during development that each of your commits is properly formatted against our linter and formatters.:
 
-5. Locally merge (or rebase) the upstream development branch into your topic branch:
+   ```bash
+   pre-commit install
+   ```
+
+   > [!NOTE]\
+   > pre-commit is python package, that can be install via pip, homebrew or conda. You can also find it, in our [requirements.txt](backend/requirements.txt) file.
+   >```bash
+   >pip install pre-commit
+   >```
+
+5. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
+
+6. Locally merge (or rebase) the upstream development branch into your topic branch:
 
    ```bash
    git pull --rebase upstream <dev-branch>
@@ -239,13 +251,13 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    > [!NOTE]\
    > When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
 
-6. Push your topic branch up to your fork:
+7. Push your topic branch up to your fork:
 
    ```bash
    git push origin <topic-branch-name>
    ```
 
-7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
+8. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
 
 Thank you in advance for your contributions!
 
