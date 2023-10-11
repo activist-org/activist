@@ -10,22 +10,28 @@
       :placeholder="placeholder"
       :type="refInputType"
     />
-    <span v-for="(icon, index) in iconsNames" :key="index" class="cursor-pointer" @click="handleIconClick(icon)">
-      <Icon :name="icon" size="1.5em" :color="getIconColor(icon)" />
+    <span
+      v-for="(i, index) in icons"
+      :key="index"
+      class="cursor-pointer"
+      @click="handleIconClick(i)"
+    >
+      <Icon :name="i" size="1.5em" :color="getIconColor(i)" />
     </span>
   </div>
 </template>
 
 <script setup lang="ts">
+// @ts-nocheck
+import { v4 as uuidv4 } from "uuid";
 import useFormInput from "../../composables/useFormSetup";
-const { v4: uuidV4 } = require("uuid");
 
 export interface Props {
   placeholder?: string;
   modelValue?: string;
   inputType?: string;
   isIconVisible?: boolean;
-  iconsNames?: string[];
+  icons?: string[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -33,31 +39,29 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: "",
   inputType: "text",
   isIconVisible: false,
-  iconsNames: [],
 });
 
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
-const uuid = uuidV4();
+const uuid = uuidv4();
 const refInputType = ref(props?.inputType);
 const changeInputType = () => {
   refInputType.value = refInputType.value === "password" ? "text" : "password";
 };
 
-const handleIconClick = (iconName) => {
-  if (iconName === 'bi:eye-fill') {
-    changeInputType(); // Alterna o tipo de entrada
+const handleIconClick = (icon: string) => {
+  if (icon === "bi:eye-fill") {
+    changeInputType();
   }
 };
 
-const getIconColor = (iconName) => {
-  if (iconName === 'bi:check-lg') {
-    return "#3BA55C"
-  } else if (iconName === 'bi:x-lg') {
-    return "#BA3D3B"
+const getIconColor = (icon: string) => {
+  if (icon === "bi:check-lg") {
+    return "#3BA55C";
+  } else if (icon === "bi:x-lg") {
+    return "#BA3D3B";
   } else {
-    return "#5A5A5A"
+    return "#5A5A5A";
   }
-}
-
+};
 </script>

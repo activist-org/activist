@@ -363,6 +363,7 @@
     "auth": {
       "sign-in": {
         "index": {
+          "aria-label": "Sign in to your account.",
           "title": "Sign In",
           "sign-in": "Sign in",
           "sign-up": "Sign up",
@@ -375,6 +376,7 @@
       },
       "sign-up": {
         "index": {
+          "aria-label": "Sign up for a new account on activist.",
           "sign-up": "Sign up",
           "sign-in": "Sign in",
           "title": "Sign Up",

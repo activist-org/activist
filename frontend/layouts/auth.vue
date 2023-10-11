@@ -20,10 +20,10 @@
           :linkTo="page.link"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="page.arialLabel"
+          :ariaLabel="page.ariaLabel"
         />
       </div>
-      <div class="flex-1 w-full pt-24 md:pt-36 pb-4 md:pb-12 space-y-4">
+      <div class="flex-1 w-full pt-16 md:pt-20 pb-4 md:pb-8 space-y-4">
         <div class="flex items-center justify-center p-4">
           <h1 class="text-center responsive-h1 font-bold font-display">
             {{ $t(page.message) }}
@@ -39,36 +39,21 @@
 const route = useRoute();
 
 const page = computed(() => {
-  
-  const fullPath = route.fullPath || '';
-  console.log(fullPath);
-
-  const pageData = {
-    "sign-in": {
-      label: "pages.auth.sign-in.index.sign-up",
-      message: "pages.auth.sign-in.index.welcome-back",
-      icon:"",
-      title: "pages.auth.sign-in.index.title",
-      link: "/auth/sign-up",
-      arialLabel: "SignUp",
-    },
-    "sign-up": {
-      label: "pages.auth.sign-up.index.sign-in",
-      message: "pages.auth.sign-up.index.first-time-welcome",
-      icon: "",
-      title: "pages.auth.sign-up.index.title",
-      link: "/auth/sign-in",
-      arialLabel: "SignIn",
-    },
-    default: {
-      label: "",
-      message: "",
-      icon: "",
-      title: "",
-    },
+  const isSignIn = route.fullPath?.includes("sign-in");
+  return {
+    ariaLabel: isSignIn
+      ? "pages.auth.sign-in.index.aria-label"
+      : "pages.auth.sign-up.index.aria-label",
+    label: isSignIn
+      ? "pages.auth.sign-in.index.sign-up"
+      : "pages.auth.sign-up.index.sign-in",
+    link: isSignIn ? "/auth/sign-up" : "/auth/sign-in",
+    message: isSignIn
+      ? "pages.auth.sign-in.index.welcome-back"
+      : "pages.auth.sign-up.index.first-time-welcome",
+    title: isSignIn
+      ? "pages.auth.sign-up.index.title"
+      : "pages.auth.sign-in.index.title",
   };
-
-  return pageData[fullPath.includes("sign-in") ? "sign-in" : fullPath.includes("sign-up") ? "sign-up" : "default"];
-   
 });
 </script>

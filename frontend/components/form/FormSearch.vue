@@ -15,8 +15,9 @@
 </template>
 
 <script setup lang="ts">
+// @ts-nocheck
+import { v4 as uuidv4 } from "uuid";
 import useFormInput from "../../composables/useFormSetup";
-const { v4: uuidV4 } = require("uuid");
 
 export interface Props {
   placeholder?: string;
@@ -29,5 +30,5 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit, true);
-const uuid = uuidV4();
+const uuid = uuidv4();
 </script>
