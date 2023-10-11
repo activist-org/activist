@@ -262,6 +262,11 @@
     },
     "sidebar-right-hamburger": {
       "sidebar-collapse-aria-label": "Expand or collapse the right sidebar"
+    },
+    "tooltip-sign-in": {
+      "sign-in": "Sign in",
+      "sign-up": "Sign up",
+      "tooltip-text": "You need to be signed in to see this content."  
     }
   },
   "pages": {
