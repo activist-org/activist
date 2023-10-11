@@ -235,7 +235,7 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    ```
 
    > [!NOTE]\
-   > pre-commit is python package, that can be install via pip, homebrew or conda. You can also find it, in our [requirements.txt](backend/requirements.txt) file.
+   > pre-commit is python package, that can be install via pip or any other python package manager. You can also find it, in our [requirements.txt](backend/requirements.txt) file.
    >```bash
    >pip install pre-commit
    >```
