@@ -16,7 +16,8 @@
       class="cursor-pointer"
       @click="handleIconClick(i)"
     >
-      <Icon :name="i" size="1.5em" :color="getIconColor(i)" />
+      <Icon v-if="i === 'bi:eye-fill'" :name="i" size="1.4em" />
+      <Icon v-else :name="i" size="1.2em" :color="getIconColor(i)" />
     </span>
   </div>
 </template>

@@ -15,7 +15,7 @@
           input-type="password"
           :model-value="passwordValue"
           @update:model-value="passwordValue = $event"
-          :iconsNames="['bi:info-circle', 'bi:eye-fill']"
+          :icons="['bi:info-circle', 'bi:eye-fill']"
         />
       </div>
       <div>
@@ -25,7 +25,7 @@
           input-type="password"
           :model-value="confirmPasswordValue"
           @update:model-value="confirmPasswordValue = $event"
-          :iconsNames="
+          :icons="
             isPasswordMatch
               ? ['bi:check-lg', 'bi:eye-fill']
               : ['bi:x-lg', 'bi:eye-fill']
@@ -75,11 +75,9 @@
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-up.index.have-account") }}</h6>
-        <NuxtLink
-          :to="'sign-in'"
-          class="ml-2 text-light-cta-orange-light dark:text-dark-cta-orange-light hover:text-light-cta-orange hover:dark:text-dark-cta-orange font-extrabold"
-          >{{ $t("pages.auth.sign-up.index.sign-in") }}</NuxtLink
-        >
+        <NuxtLink :to="'sign-in'" class="ml-2 link-text font-extrabold">{{
+          $t("pages.auth.sign-up.index.sign-in")
+        }}</NuxtLink>
       </div>
     </form>
   </div>

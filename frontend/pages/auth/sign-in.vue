@@ -15,7 +15,7 @@
           input-type="password"
           :model-value="passwordValue"
           @update:model-value="passwordValue = $event"
-          :iconsNames="['bi:eye-fill']"
+          :icons="['bi:eye-fill']"
         />
       </div>
       <div class="flex space-x-2">
@@ -45,11 +45,9 @@
       </div>
       <div class="flex md:justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
-        <NuxtLink
-          :to="'sign-up'"
-          class="ml-2 text-light-cta-orange-light dark:text-dark-cta-orange-light hover:text-light-cta-orange hover:dark:text-dark-cta-orange font-extrabold"
-          >{{ $t("pages.auth.sign-in.index.sign-up") }}</NuxtLink
-        >
+        <NuxtLink :to="'sign-up'" class="ml-2 link-text font-extrabold">{{
+          $t("pages.auth.sign-in.index.sign-up")
+        }}</NuxtLink>
       </div>
     </form>
   </div>
