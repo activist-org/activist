@@ -52,8 +52,8 @@ const page = computed(() => {
       ? "pages.auth.sign-in.index.welcome-back"
       : "pages.auth.sign-up.index.first-time-welcome",
     title: isSignIn
-      ? "pages.auth.sign-up.index.title"
-      : "pages.auth.sign-in.index.title",
+      ? "pages.auth.sign-in.index.title"
+      : "pages.auth.sign-up.index.title",
   };
 });
 </script>
