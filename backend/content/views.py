@@ -1,5 +1,7 @@
 from rest_framework import viewsets
+
 from backend.paginator import CustomPagination
+
 from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
 from .serializers import (
     ResourceSerializer,
