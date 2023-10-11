@@ -19,6 +19,10 @@
       "share-event-aria-label": "Share this event with others",
       "share-organization": "Share organization",
       "share-organization-aria-label": "Share this organization with others",
+      "sign-in": "Sign in",
+      "sign-up": "Sign up",
+      "sign-in-aria-label": "Sign in to your account.",
+      "sign-up-aria-label": "Sign up for a new account on activist.",
       "suggest-a-feature": "Suggest a feature",
       "suggest-a-feature-aria-label": "Go to GitHub to suggest a feature for activist.org",
       "support": "Support",
@@ -264,9 +268,7 @@
       "sidebar-collapse-aria-label": "Expand or collapse the right sidebar"
     },
     "tooltip-sign-in": {
-      "sign-in": "Sign in",
-      "sign-up": "Sign up",
-      "tooltip-text": "You need to be signed in to see this content."  
+      "text": "You need to be signed in to see this content."
     }
   },
   "pages": {
@@ -368,7 +370,6 @@
     "auth": {
       "sign-in": {
         "index": {
-          "aria-label": "Sign in to your account.",
           "title": "Sign In",
           "sign-in": "Sign in",
           "sign-up": "Sign up",
@@ -381,7 +382,6 @@
       },
       "sign-up": {
         "index": {
-          "aria-label": "Sign up for a new account on activist.",
           "sign-up": "Sign up",
           "sign-in": "Sign in",
           "title": "Sign Up",

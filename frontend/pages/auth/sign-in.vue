@@ -35,12 +35,12 @@
           >
         </button>
         <BtnLabeled
+          @click="signIn"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
-          label="Sign In"
+          :label="$t('components.btn-labeled.sign-in')"
           :cta="true"
           fontSize="lg"
-          ariaLabel="SignIn"
-          @click="signIn"
+          :ariaLabel="$t('components.btn-labeled.sign-in-aria-label')"
         />
       </div>
       <div class="flex md:justify-center pt-4 md:pt-6 lg:pt-8">

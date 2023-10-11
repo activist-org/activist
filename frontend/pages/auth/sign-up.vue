@@ -49,12 +49,12 @@
           >
         </button>
         <BtnLabeled
+          @click="signUp"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
-          label="Sign up"
+          :label="$t('components.btn-labeled.sign-up')"
           :cta="true"
           fontSize="lg"
-          ariaLabel="SignUp"
-          @click="signUp"
+          :ariaLabel="$t('components.btn-labeled.sign-up-aria-label')"
         />
       </div>
       <div class="flex flex-col items-center sm:flex-row pt-6 md:pt-8 lg:pt-12">
