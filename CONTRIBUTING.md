@@ -228,17 +228,18 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    git checkout -b <topic-branch-name>
    ```
 
-4. Install [pre-commit](https://pre-commit.com/), this will ensure during development that each of your commits is properly formatted against our linter and formatters.:
+4. Install [pre-commit](https://pre-commit.com/) to ensure during development that each of your commits is properly formatted against our linter and formatters:
 
    ```bash
    pre-commit install
    ```
 
    > [!NOTE]\
-   > pre-commit is python package, that can be install via pip or any other python package manager. You can also find it, in our [requirements.txt](backend/requirements.txt) file.
-   >```bash
-   >pip install pre-commit
-   >```
+   > pre-commit is Python package that can be install via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+   >
+   > ```bash
+   > pip install pre-commit
+   > ```
 
 5. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
 
