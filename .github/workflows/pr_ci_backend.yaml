@@ -10,7 +10,7 @@ on:
       - completed
 
 jobs:
-  python:
+  backend:
     name: Run PR Backend Formatting Check
     runs-on: ubuntu-latest
     steps:
@@ -27,13 +27,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r backend/requirements.txt
 
-      - name: Run Black
+      - name: Run Black - Formatting check
         uses: psf/black@stable
         with:
           options: --check --verbose --exclude "migrations/"
           src: ./backend
 
-      - name: Run ruff
+      - name: Run ruff - Linting and import sorting check
         run: ruff ./backend
 
       - name: Run mypy - Static Type Checking

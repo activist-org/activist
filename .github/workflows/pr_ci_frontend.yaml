@@ -10,7 +10,7 @@ on:
       - completed
 
 jobs:
-  prettier:
+  frontend:
     name: Run PR Frontend Formatting Check
     runs-on: ubuntu-latest
     steps:
@@ -19,6 +19,12 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v3
+
+      - name: Yarn Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: "frontend"
 
       - name: Install Prettier
         run: yarn add prettier
