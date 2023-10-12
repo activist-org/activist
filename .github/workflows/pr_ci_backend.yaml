@@ -1,4 +1,4 @@
-name: pr_backend_formatting_check
+name: pr_ci_backend
 on:
   pull_request_target:
     branches:
