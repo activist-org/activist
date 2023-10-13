@@ -3,12 +3,18 @@
     <ul class="flex flex-row text-sm md:text-base">
       <li
         v-for="(breadcrumb, index) in displayBreadcrumbs"
-        class="font-display"
+        class="flex items-center font-display"
         :key="index"
       >
         <span
+          v-if="index === 0"
           class="mx-[0.35rem] text-light-special-text dark:text-dark-special-text"
-          >/</span
+          >&#60;</span
+        >
+        <span
+          v-else
+          class="mx-[0.45rem] mb-[0.2rem] text-light-special-text dark:text-dark-special-text"
+          >|</span
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <a
