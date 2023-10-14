@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ["eslint:recommended", "plugin:vue/vue3-recommended"],
+  parser: "vue-eslint-parser",
+  extends: [
+    "eslint:recommended",
+    "plugin:vue/vue3-recommended",
+    "plugin:vue/base",
+  ],
   rules: {
     "vue/component-tags-order": [
       "error",
