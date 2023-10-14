@@ -3,7 +3,7 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:vue/vue3-recommended",
-    "plugin: vue/base",
+    "plugin:vue/base",
   ],
   rules: {
     "vue/component-tags-order": [
