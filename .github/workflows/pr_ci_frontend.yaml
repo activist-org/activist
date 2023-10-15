@@ -34,9 +34,9 @@ jobs:
         run: |
           yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
         continue-on-error: true
-          
+
       - name: Run Type Check
-          uses: borales/actions-yarn@v4
-          with:
-            cmd: nuxi typecheck
-            dir: "frontend"
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: nuxi typecheck
+          dir: "frontend"
