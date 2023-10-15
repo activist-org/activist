@@ -43,6 +43,13 @@
           <div v-if="index < links.legalLinks.length - 1" class="px-2">•</div>
         </template>
       </div>
+      <a
+        class="w-fit mt-2 hover:text-light-text dark:hover:text-dark-text"
+        href="https://www.netlify.com/"
+        target="_blank"
+      >
+        {{ $t("components.footer-flex.powered-by-netlify") }}
+      </a>
       <div class="mt-2 text-light-text dark:text-dark-text">
         {{ $t("components.footer-flex.website-copyright") }}
       </div>

@@ -126,6 +126,13 @@
           </div>
         </template>
       </div>
+      <a
+        class="w-fit mt-2 hover:text-light-text dark:hover:text-dark-text"
+        href="https://www.netlify.com/"
+        target="_blank"
+      >
+        {{ $t("components.footer-flex-col.powered-by-netlify") }}
+      </a>
       <div class="mt-2 text-light-text dark:text-dark-text">
         {{ $t("components.footer-flex-col.website-copyright") }}
       </div>
