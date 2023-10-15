@@ -43,9 +43,9 @@
           :ariaLabel="$t('components.btn-labeled.sign-in-aria-label')"
         />
       </div>
-      <div class="flex md:justify-center pt-4 md:pt-6 lg:pt-8">
+      <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
-        <NuxtLink :to="'sign-up'" class="ml-2 link-text font-extrabold">{{
+        <NuxtLink :to="'sign-up'" class="ml-2 font-extrabold link-text">{{
           $t("pages.auth.sign-in.index.sign-up")
         }}</NuxtLink>
       </div>

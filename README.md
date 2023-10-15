@@ -114,6 +114,7 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 > - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
 > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
 > - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+> - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare)
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 > - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 >

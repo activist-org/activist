@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex items-center w-full h-9 font-bold border first:rounded-l-md last:rounded-r-md border-light-interactive dark:border-dark-interactive"
+    class="relative flex items-center w-full font-bold border h-9 first:rounded-l-md last:rounded-r-md border-light-interactive dark:border-dark-interactive"
     :class="{
       'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct':
         modelValue === value && !customColor,

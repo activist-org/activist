@@ -1,5 +1,5 @@
 <template>
-  <form v-if="$colorMode.preference == 'light'" class="light-cal w-full h-full">
+  <form v-if="$colorMode.preference == 'light'" class="w-full h-full light-cal">
     <DatePicker
       v-model.range="dateData.range"
       :first-day-of-week="2"
@@ -8,7 +8,7 @@
       expanded
     />
   </form>
-  <form v-else class="dark-cal w-full h-full">
+  <form v-else class="w-full h-full dark-cal">
     <DatePicker
       v-model.range="dateData.range"
       :first-day-of-week="2"

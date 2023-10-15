@@ -127,7 +127,7 @@
         </template>
       </div>
       <a
-        class="w-fit mt-2 hover:text-light-text dark:hover:text-dark-text"
+        class="mt-2 w-fit hover:text-light-text dark:hover:text-dark-text"
         href="https://www.netlify.com/"
         target="_blank"
       >

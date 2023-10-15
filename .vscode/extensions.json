@@ -3,8 +3,8 @@
     "batisteo.vscode-django",
     "bradlc.vscode-tailwindcss",
     "heybourn.headwind",
+    "ms-vsliveshare.vsliveshare",
     "Vue.volar",
-    "Vue.vscode-typescript-vue-plugin",
-    "ms-vsliveshare.vsliveshare"
+    "Vue.vscode-typescript-vue-plugin"
   ]
 }

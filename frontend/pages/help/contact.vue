@@ -215,12 +215,12 @@
       </div>
       <div
         v-else
-        class="flex flex-col items-center justify-center md:items-start md:text-start pb-8 text-center space-y-4 md:space-y-6"
+        class="flex flex-col items-center justify-center pb-8 text-center md:items-start md:text-start space-y-4 md:space-y-6"
       >
         <h1 class="pb-2 font-bold responsive-h1">
           {{ $t("pages.help.contact.thanks-1") }}
         </h1>
-        <div class="flex flex-row text-start py-2 space-x-3">
+        <div class="flex flex-row py-2 text-start space-x-3">
           <Icon
             class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             name="bi:info-circle-fill"

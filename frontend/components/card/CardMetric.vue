@@ -4,11 +4,11 @@
     :class="[textColor, borderColor, backgroundColor]"
   >
     <div
-      class="pb-2 text-5xl sm:text-6xl md:text-5xl xl:text-6xl font-bold tracking-tighter"
+      class="pb-2 text-5xl font-bold tracking-tighter sm:text-6xl md:text-5xl xl:text-6xl"
     >
       {{ number }}
     </div>
-    <div class="text-lg xl:text-xl font-bold">
+    <div class="text-lg font-bold xl:text-xl">
       {{ text }}
     </div>
   </div>

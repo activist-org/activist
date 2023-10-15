@@ -6,7 +6,7 @@
       <Title>{{ $t("pages.help.index.title") }}</Title>
     </Head>
     <div class="bg-light-distinct dark:bg-dark-distinct">
-      <div class="responsive-py-4 flex flex-col w-full responsive-px-5">
+      <div class="flex flex-col w-full responsive-py-4 responsive-px-5">
         <HeaderAppPage
           :header="$t('pages.help.index.header')"
           :tagline="$t('pages.help.index.subheader')"

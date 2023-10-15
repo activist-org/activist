@@ -57,7 +57,7 @@
           :ariaLabel="$t('components.btn-labeled.sign-up-aria-label')"
         />
       </div>
-      <div class="flex flex-col items-center sm:flex-row pt-6 md:pt-8 lg:pt-12">
+      <div class="flex flex-col items-center pt-6 sm:flex-row md:pt-8 lg:pt-12">
         <FormCheckbox
           @update:modelValue="hasRed = $event"
           :label="$t('pages.auth.sign-up.index.read-terms-of-service')"
@@ -75,7 +75,7 @@
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-up.index.have-account") }}</h6>
-        <NuxtLink :to="'sign-in'" class="ml-2 link-text font-extrabold">{{
+        <NuxtLink :to="'sign-in'" class="ml-2 font-extrabold link-text">{{
           $t("pages.auth.sign-up.index.sign-in")
         }}</NuxtLink>
       </div>

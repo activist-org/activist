@@ -20,7 +20,7 @@
         <div
           v-if="filter.expandable"
           @click="filter.reveal = !filter.reveal"
-          class="flex items-center cursor-pointer w-fit mb-2"
+          class="flex items-center mb-2 cursor-pointer w-fit"
         >
           <h3 v-if="filter.title" class="text-lg font-bold font-display">
             {{ filter.title }}
@@ -32,7 +32,7 @@
             size="1.25em"
           />
         </div>
-        <div v-else class="flex items-center w-fit mb-2">
+        <div v-else class="flex items-center mb-2 w-fit">
           <h3 v-if="filter.title" class="text-lg font-bold font-display">
             {{ filter.title }}
           </h3>

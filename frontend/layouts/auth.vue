@@ -1,6 +1,6 @@
 <template>
   <HeaderWebsite class="md:hidden" />
-  <div class="grid grid-cols-1 md:grid-cols-2 h-screen">
+  <div class="h-screen grid grid-cols-1 md:grid-cols-2">
     <Head>
       <Title>{{ $t(page.title) }}</Title>
     </Head>
@@ -12,7 +12,7 @@
     <div
       class="h-full text-light-text dark:text-dark-text bg-light-distinct dark:bg-dark-distinct"
     >
-      <div class="hidden space-x-6 justify-end py-4 px-8 md:flex">
+      <div class="justify-end hidden px-8 py-4 space-x-6 md:flex">
         <DropdownLanguage />
         <BtnLabeled
           class="flex items-center max-h-[38px] lg:max-h-[46px]"
@@ -23,9 +23,9 @@
           :ariaLabel="page.ariaLabel"
         />
       </div>
-      <div class="flex-1 w-full pt-16 md:pt-24 pb-4 md:pb-8 space-y-4">
+      <div class="flex-1 w-full pt-16 pb-4 md:pt-24 md:pb-8 space-y-4">
         <div class="flex items-center justify-center p-4">
-          <h1 class="text-center responsive-h1 font-bold font-display">
+          <h1 class="font-bold text-center responsive-h1 font-display">
             {{ $t(page.message) }}
           </h1>
         </div>
