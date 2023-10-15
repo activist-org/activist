@@ -1,0 +1,42 @@
+name: pr_ci_frontend
+on:
+  pull_request_target:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+  workflow_run:
+    workflows: [pr_maintainer_checklist]
+    types:
+      - completed
+
+jobs:
+  frontend:
+    name: Run PR Frontend Formatting Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+
+      - name: Yarn Install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: "frontend"
+
+      - name: Install Prettier
+        run: yarn add prettier
+
+      - name: Run Prettier
+        working-directory: ./frontend
+        run: |
+          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
+        continue-on-error: true
+          
+      - name: Run Type Check
+          uses: borales/actions-yarn@v4
+          with:
+            cmd: nuxi typecheck
+            dir: "frontend"
