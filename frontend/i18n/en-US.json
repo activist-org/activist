@@ -19,6 +19,10 @@
       "share-event-aria-label": "Share this event with others",
       "share-organization": "Share organization",
       "share-organization-aria-label": "Share this organization with others",
+      "sign-in": "Sign in",
+      "sign-up": "Sign up",
+      "sign-in-aria-label": "Sign in to your account.",
+      "sign-up-aria-label": "Sign up for a new account on activist.",
       "suggest-a-feature": "Suggest a feature",
       "suggest-a-feature-aria-label": "Go to GitHub to suggest a feature for activist.org",
       "support": "Support",
@@ -32,11 +36,16 @@
       "aria-label": "Learn about the activist.org roadmap"
     },
     "card-search-result-event": {
+      "img-alt-text": "The event logo of",
       "attending": "Attending"
     },
     "card-search-result-organization": {
+      "img-alt-text": "The organization logo of",
       "members": "Members",
       "supporters": "Supporters"
+    },
+    "card-search-result-resource": {
+      "img-alt-text": "The resource logo of"
     },
     "card-about": {
       "full-text": "Click for full text",
@@ -60,10 +69,10 @@
     },
     "card-danger-zone": {
       "header": "Danger Zone",
-      "label-password": "Your password",
-      "label-username": "Your username",
-      "placeholder-password": "Enter your password",
-      "placeholder-username": "Enter your username"
+      "password-label": "Your password",
+      "password-placeholder": "Enter your password",
+      "username-label": "Your username",
+      "username-placeholder": "Enter your username"
     },
     "card-get-involved": {
       "header": "Get involved",
@@ -74,6 +83,12 @@
     "card-legal-disclaimer": {
       "header": "Legal Disclaimer"
     },
+    "feed-item": {
+      "img-alt-text": "A social media post's image."
+    },
+    "form-radio-group": {
+      "custom-numeric-value-placeholder": "Enter number"
+    },
     "footer": {
       "about": "About",
       "contact": "Contact",
@@ -83,17 +98,20 @@
       "help": "Help",
       "impress": "Impress",
       "instagram": "Instagram",
+      "legal": "Legal",
       "matrix": "Matrix",
       "privacy-policy": "Privacy Policy",
       "roadmap": "Roadmap",
       "source-code": "Source Code",
       "supporters": "Supporters",
-      "trademark-policy": "Trademark Policy"
+      "trademark-policy": "Trademark Policy",
+      "version-number": "v0.0.1"
     },
     "footer-flex": {
       "activist-tagline": "Open-source, nonprofit activism platform.",
       "connect": "Connect",
       "organization": "Organization",
+      "powered-by-netlify": "This site is powered by Netlify.",
       "resources": "Resources",
       "website-copyright": "Copyright © 2023 activist."
     },
@@ -101,12 +119,15 @@
       "activist-tagline": "Open-source, nonprofit activism platform.",
       "connect": "Connect",
       "organization": "Organization",
+      "powered-by-netlify": "This site is powered by Netlify.",
       "resources": "Resources",
       "website-copyright": "Copyright © 2023 activist."
     },
     "grid-github-contributors": {
+      "img-alt-text": "The icon of",
       "load-more": "Load more",
-      "load-more-aria-label": "Load more GitHub contributors"
+      "load-more-aria-label": "Load more GitHub contributors",
+      "load-more-img-alt-text": "Three dots in a circle indicating more entries are available."
     },
     "grid-github-shields": {
       "fork": "Fork",
@@ -118,7 +139,7 @@
       "act-events": "Act events",
       "events": "Events",
       "learn-events": "Learn events",
-      "new-organizations": "New organizations"
+      "new-organizations": "New orgs"
     },
     "grid-supporters": {
       "impacthub-belgrade-logo-aria-label": "Link to the website of Impact Hub Belgrade",
@@ -142,9 +163,13 @@
     "logo-activist": {
       "aria-label": "The activist.org logo that links to the home page"
     },
+    "loading": {
+      "img-alt-text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+    },
     "media-map": {
       "error-message": "There was a problem with the map service.",
-      "": "Sorry about that!"
+      "img-alt-text": "Map displaying a pin at the location of this event.",
+      "sorry-message": "Sorry about that!"
     },
     "menu-mobile-selector": {
       "label": {
@@ -169,11 +194,18 @@
       "close-modal-aria-label": "Close the larger version of this image",
       "open-modal-aria-label": "Open a larger version of this image"
     },
+    "modal-qr-code": {
+      "img-alt-text": "QR code scanning icon."
+    },
     "selector-language": {
       "open-dropdown-aria-label": "Open the dropdown to select another language"
     },
     "page-breadcrumbs": {
       "aria-label": "Page breadcrumb navigation"
+    },
+    "progress-bar": {
+      "close-process": "Close",
+      "close-process-aria-label": "Close the current process and return to the previous screen."
     },
     "selector-theme": {
       "dark": "Dark",
@@ -190,6 +222,10 @@
       "command-tooltip-label": "Press \"⌘ + k\" to jump to a page",
       "control-tooltip-label": "Press \"^ + k\" to jump to a page",
       "slash-tooltip-label": "Press \"/\" to search"
+    },
+    "sidebar-left": {
+      "location-search-placeholder": "Filter by location",
+      "orgs-search-placeholder": "Filter by orgs"
     },
     "sidebar-left-footer": {
       "create": "Create",
@@ -244,29 +280,36 @@
     },
     "sidebar-right-hamburger": {
       "sidebar-collapse-aria-label": "Expand or collapse the right sidebar"
+    },
+    "tooltip-sign-in": {
+      "text": "You need to be signed in to see this content."
     }
   },
   "pages": {
     "index": {
-      "activist-section-btn-alt-text": "Learn more about activist",
+      "activist-section-img-alt-text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center.",
+      "activist-section-btn-alt-text": "Learn more about activist.",
       "activist-section-header": "About us",
       "activist-section-tagline": "Our work and goals",
       "activist-section-text": "We're a Berlin-based team with a growing global network of affiliates and partners. Let's create a dedicated open-source platform to take on the challenges of our time.",
       "become-a-supporter": "Become a supporter",
-      "get-active-btn-alt-text": "Learn more about getting involved in an activist organization",
+      "get-active-img-alt-text": "Drawing of a fist raised.",
+      "get-active-btn-alt-text": "Learn more about getting involved in an activist organization.",
       "get-active-header": "Get active",
       "get-active-tagline": "Coordinate and collaborate",
       "get-active-text": "Discover and join organizations and events that work towards lasting change. Support the movements that matter most to you and learn from experienced activists along the way.",
-      "get-organized-btn-alt-text": "Learn more about organizing an activist organization",
+      "get-organized-img-alt-text": "Drawing of fists in a circle pointed at the center.",
+      "get-organized-btn-alt-text": "Learn more about organizing an activist organization.",
       "get-organized-header": "Get organized",
       "get-organized-tagline": "Find your allies",
       "get-organized-text": "Connect with others across organizations and movements. Host panel discussions, collect signatures, unionize your workplace, organize protests and much more.",
-      "grow-organization-btn-alt-text": "Learn more about growing an activist organization",
+      "grow-organization-img-alt-text": "Drawing of fists raised in a group.",
+      "grow-organization-btn-alt-text": "Learn more about growing an activist organization.",
       "grow-organization-header": "Grow your organization",
       "grow-organization-tagline": "Increase your people power",
       "grow-organization-text": "Showcase your organization's aims and structure. Automatically and securely onboard new members to easily gain and maintain momentum from one action to the next.",
-      "our-supporters-btn-become-alt-text": "Become a supporter of activist",
-      "our-supporters-btn-view-alt-text": "View all supporters of activist",
+      "our-supporters-btn-become-alt-text": "Become a supporter of activist.",
+      "our-supporters-btn-view-alt-text": "View all supporters of activist.",
       "our-supporters-header": "Our supporters",
       "our-supporters-sub-text": "Sponsorship does not equal influence. activist is independent and governed by its community.",
       "our-supporters-tagline": "Community sponsors and backers",
@@ -276,7 +319,24 @@
     },
     "about": {
       "index": {
+        "header": "About",
+        "title": "About",
+        "subheader": "Learn more about our organization",
+        "section-1-subheader": "General information",
+        "section-1-tagline": "Our structure and plans.",
+        "activist": "activist",
+        "activist-description": "Description of the organization and what we want to achieve.",
+        "activist-alt-text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center.",
+        "impress": "Impress",
+        "impress-description": "The specifics of activist as an entity.",
+        "impress-alt-text": "An information icon in a circle.",
+        "roadmap": "Roadmap",
+        "roadmap-description": "Learn about the planned developments of activist.",
+        "roadmap-alt-text": "A bicycle within a balloon-shaped icon."
+      },
+      "activist": {
         "header": "About activist.org",
+        "img-alt-text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center.",
         "section-1-paragraph-1": "We're a Berlin-based team with a growing global network of affiliates and partners. Our goal is to create and maintain a platform that enables more people to safely engage in activism, learn from experienced organizers as well as replicate proven and novel strategies and tactics for social and ecological change.",
         "section-1-paragraph-2": "We're building a free, open-source and privacy-focused technical infrastructure that can rival with the commercial campaigning tools that are often inaccessible — financially and/or technically — to small progressive organizations.",
         "section-1-paragraph-3": "We want to end their dependance on Big Tech infrastructure and put tools of social action into the hands of everyone willing to work towards a more equitable society. Well-executed campaign tactics should not be the exception for well-funded, tech-savvy activists, but a tool for all participants in social movements.",
@@ -289,13 +349,14 @@
         "subheader-1": "See the",
         "subheader-2": "designs on Figma",
         "subheader-3": "to learn more",
-        "title": "About"
+        "title": "About Us"
       },
-      "activism-network": {
+      "network": {
         "title": "Our Network"
       },
       "impress": {
         "header": "Impress",
+        "img-alt-text": "An information icon in a circle.",
         "inquiries": "All inquiries:",
         "message": "We look forward to hearing from you :)",
         "section-1-paragraph-1": "activist.org is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events.",
@@ -306,6 +367,8 @@
         "title": "Impress"
       },
       "roadmap": {
+        "header": "Roadmap",
+        "img-alt-text": "A bicycle within a balloon-shaped icon.",
         "section-1-paragraph-1": "activist.org is open-source software. Our goal is to build in as transparent a manner as possible so that partner organizations and our community can have as much input on the process as possible.",
         "section-1-paragraph-2-1": "Please visit us at our",
         "section-1-paragraph-2-2": "GitHub project space",
@@ -318,6 +381,35 @@
         "title": "Roadmap"
       }
     },
+    "auth": {
+      "sign-in": {
+        "index": {
+          "title": "Sign In",
+          "sign-in": "Sign in",
+          "sign-up": "Sign up",
+          "welcome-back": "Welcome back! 👋",
+          "enter-user-name": "Enter username",
+          "enter-password": "Enter password",
+          "no-account": "Don't have an account?",
+          "i-am-human": "I am human"
+        }
+      },
+      "sign-up": {
+        "index": {
+          "sign-up": "Sign up",
+          "sign-in": "Sign in",
+          "title": "Sign Up",
+          "first-time-welcome": "Let's get to work! ✊",
+          "enter-user-name": "Enter a username",
+          "enter-password": "Enter password",
+          "repeat-password": "Repeat password",
+          "have-account": "Already have an account?",
+          "i-am-human": "I am human",
+          "read-terms-of-service": "I have read and agree to the",
+          "terms-of-service": "terms of service"
+        }
+      }
+    },
     "blog": {
       "title": "Blog Home"
     },
@@ -326,7 +418,20 @@
     },
     "docs": {
       "index": {
-        "title": "Documentation"
+        "title": "Documentation",
+        "header": "Documentation",
+        "subheader": "Learn more about activist",
+        "section-1-subheader": "activist basics",
+        "section-1-tagline": "Learn how to use activist to expand your impact",
+        "get-active": "Getting active",
+        "get-active-description": "How activist helps people find organizations and events.",
+        "get-active-alt-text": "Drawing of a fist raised.",
+        "get-organized": "Getting organized",
+        "get-organized-description": "Plans for how activist will support partner organizations.",
+        "get-organized-alt-text": "Drawing of fists in a circle pointed at the center.",
+        "grow-organization": "Growing organizations",
+        "grow-organization-description": "Features that will allow activist partners to expand their reach.",
+        "grow-organization-alt-text": "Drawing of fists raised in a group."
       },
       "get-active": {
         "header": "Discover and get involved",
@@ -414,10 +519,21 @@
     },
     "help": {
       "index": {
-        "title": "Help"
+        "title": "Help",
+        "header": "Help",
+        "subheader": "Find needed information",
+        "section-1-subheader": "Inquiries",
+        "section-1-tagline": "Resources to find answers to your questions or connect with us.",
+        "faq": "Frequently asked questions",
+        "faq-description": "Answers for questions we often get from the community.",
+        "faq-alt-text": "A question mark within a square.",
+        "contact": "Contact form",
+        "contact-description": "Get in contact with the activist team.",
+        "contact-alt-text": "An envelope that's closed indicating a message to be sent."
       },
       "faq": {
         "header": "Frequently Asked Questions",
+        "img-alt-text": "A question mark within a square.",
         "section-1-paragraph-1": "Q: What does the activist \"a\" mean?",
         "section-1-paragraph-2": "The center of the letter represents an arrow that points left-center from the top. This symbolizes our community and direction: that we want to work with the left and center of the political spectrum and value a democratic movement of power down to the people. Other meanings are welcome :D",
         "section-2-paragraph-1": "Q: How does activist plan to prevent abuse?",
@@ -433,18 +549,22 @@
         "title": "FAQ"
       },
       "contact": {
-        "header": "We'd love to hear from you!",
         "error-empty": "cannot be empty.",
-        "label-email": "Email",
-        "label-message": "Message",
-        "label-name": "Name",
-        "placeholder-name": "Your name",
-        "placeholder-message": "Hey activist team...",
+        "header": "We'd love to hear from you!",
+        "img-alt-text": "An envelope that's closed indicating a message to be sent.",
+        "email-label": "Email",
+        "email-placeholder": "example{'@'}mail.com",
+        "message-label": "Message",
+        "message-placeholder": "Hey activist team...",
+        "name-label": "Name",
+        "name-placeholder": "Your name",
+        "subject-label": "Subject",
+        "subject-placeholder": "What's your message about?",
         "section-1-paragraph-1-1": "Thanks for your interest in connecting with the activist.org team. Please consider joining the",
         "section-1-paragraph-1-2": "public Matrix chat rooms",
         "section-1-paragraph-1-3": "for simple inquiries and suggestions. The community including the development team would be happy to help! Feature requests should also be sent via our open-source codebase",
         "section-1-paragraph-1-4": "on GitHub",
-        "section-1-paragraph-1-5": "— go to \"Issues\" and select \"New issue\" to get started.",
+        "section-1-paragraph-1-5": ". Go to \"Issues\" and select \"New issue\" to get started.",
         "section-1-paragraph-2-1": "For other inquiries, please use the contact form on this page. In using this form we ask that you respect our",
         "section-1-paragraph-2-2": "community code of conduct",
         "send": "Send",
@@ -470,13 +590,24 @@
     },
     "legal": {
       "index": {
-        "title": "Legal"
+        "title": "Legal",
+        "header": "Legal",
+        "subheader": "Learn about your rights and get assistance",
+        "section-1-subheader": "activist policies",
+        "section-1-tagline": "Documentation of our terms and conditions",
+        "trademark-policy": "Trademark Policy",
+        "trademark-policy-description": "What rights we reserve for the use of our branded content.",
+        "trademark-policy-alt-text": "The trademark symbol.",
+        "privacy-policy": "Privacy Policy",
+        "privacy-policy-description": "What information we collect and your rights as an activist user.",
+        "privacy-policy-alt-text": "A shield with a check mark in the middle of it."
       },
       "legal-support": {
         "title": "Legal Support"
       },
       "privacy-policy": {
         "header": "Privacy Policy",
+        "img-alt-text": "A shield with a check mark in the middle of it to indicate that privacy is protected.",
         "last-updated": "Last updated August 28th, 2023",
         "section-1-paragraph-1": "At activist.org, we value your privacy and are committed to maintaining the trust and confidence of our users. This Privacy Policy explains how we handle your information and the choices you have regarding your information.",
         "section-1-paragraph-2": "By using activist.org, you agree to the provisions of this Privacy Policy. Our primary goal is to provide a platform that allows users to engage in activism without compromising their safety. We have and will continue to implement various measures to ensure the privacy and security of our users. If you have any questions or concerns, please contact us at security[at]activist.org.",
@@ -503,6 +634,7 @@
         "title": "Privacy"
       },
       "trademark-policy": {
+        "img-alt-text": "The trademark symbol - tm within a square.",
         "last-updated": "Last updated May 1st, 2023",
         "section-1-paragraph-1": "The activist name and logos are trademarks of activist.org, soon to be incorporated as activist gGmbH. As such, their use is restricted and protected by intellectual property law. While the software we create is available under a free and open source software license, the copyright license does not include an implied right or license to use our trademarks.",
         "section-1-paragraph-2": "The role of trademarks is to prevent the exploitation of the good name and reputation of activist.org by other people and organizations, and to provide assurance about the quality of the products and services associated with it.",
@@ -570,6 +702,19 @@
     },
     "supporters": {
       "index": {
+        "title": "Supporters",
+        "header": "Supporters",
+        "subheader": "Who's involved and how you can join",
+        "section-1-subheader": "Our network",
+        "section-1-tagline": "Those who support our development and how you can help activist.",
+        "showcase": "Showcase",
+        "showcase-description": "Organizations and contributors who make activist possible.",
+        "showcase-alt-text": "A question mark within a square.",
+        "join": "Become a supporter",
+        "join-description": "Learn about how you can help the activist community.",
+        "join-alt-text": "An envelope that's closed indicating a message to be sent."
+      },
+      "showcase": {
         "section-1-paragraph-1-1": "The following is an overview of organizations and individuals that have supported the development of activist. Those interested in providing support can read more about how they can help on the",
         "section-1-paragraph-1-2": "become a supporter page",
         "section-2-subheader": "UNLOCK Accelerator",
@@ -583,7 +728,7 @@
         "section-3-2-subheader": "Design",
         "section-3-2-paragraph-1": "activist has received design support from many individuals.",
         "thanks": "Thanks to our anonymous contributors!",
-        "title": "Supporters"
+        "title": "Our Supporters"
       },
       "join": {
         "section-1-paragraph-1-1": "activist needs support from our community in countless ways. The following details how organizations and individuals can help the team develop the platform to empower activists to have as much impact as possible. A full list of activist's current supporters can be found",

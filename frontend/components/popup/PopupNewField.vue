@@ -14,11 +14,11 @@
       </div>
     </div>
     <input
-      class="h-8 p-2 bg-transparent border rounded-sm w-52 border-light-text dark:border-dark-text focus-brand"
+      v-model="inputValue"
       ref="input"
+      class="h-8 p-2 bg-transparent border rounded-sm w-52 border-light-text dark:border-dark-text focus-brand"
       type="text"
       :placeholder="fieldNamePrompt"
-      v-model="inputValue"
     />
     <textarea
       v-if="descriptionPrompt"

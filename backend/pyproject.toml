@@ -47,6 +47,6 @@ line_length = 88
 [tool.black]
 exclude = '''
 /(
-  | migrations
+    | migrations
 )/
 '''

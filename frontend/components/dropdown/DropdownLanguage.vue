@@ -2,9 +2,9 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
+        v-slot="{ open }"
         class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand shadow-sm shadow-zinc-700"
         :class="{ 'pl-6': location === 'sideMenu' }"
-        v-slot="{ open }"
         :aria-label="
           $t('components.selector-language.open-dropdown-aria-label')
         "
@@ -44,9 +44,9 @@
       >
         <ul class="px-2 py-2">
           <NuxtLink
-            v-for="locale in availableLocales"
-            :key="getLocaleCode(locale)"
-            :to="switchLocalePath(getLocaleCode(locale))"
+            v-for="l in availableLocales"
+            :key="getLocaleCode(l)"
+            :to="switchLocalePath(getLocaleCode(l))"
           >
             <MenuItem v-slot="{ active }" class="flex">
               <li
@@ -57,7 +57,7 @@
                   'text-light-text dark:text-dark-text': !active,
                 }"
               >
-                {{ getLocaleName(locale) }}
+                {{ getLocaleName(l) }}
               </li>
             </MenuItem>
           </NuxtLink>
@@ -70,14 +70,15 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
-defineProps({
-  location: String,
-});
+
+defineProps<{
+  location?: string;
+}>();
 
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-const localesValues: Array<string | LocaleObject> = locales.value;
+const localesValues: (string | LocaleObject)[] = locales.value;
 
 function getLocaleCode(locale: string | LocaleObject) {
   return typeof locale === "string" ? locale : locale.code;

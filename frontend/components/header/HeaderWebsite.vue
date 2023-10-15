@@ -1,12 +1,12 @@
 <template>
   <header
+    ref="header"
     class="relative sticky top-0 z-10 duration-500 drop-shadow-md"
     :class="{
       'bg-light-header dark:bg-dark-header': headerOpacity == 1,
       'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
-    ref="header"
   >
     <!-- Note: mobile header -->
     <div class="flex px-4 py-3 md:hidden">
@@ -24,8 +24,8 @@
       </div>
       <SidebarRight>
         <div class="flex-col space-y-2">
-          <SelectorTheme class="w-full" location="sideMenu" />
-          <SelectorLanguage class="w-full" location="sideMenu" />
+          <DropdownTheme class="w-full" location="sideMenu" />
+          <DropdownLanguage class="w-full" location="sideMenu" />
         </div>
       </SidebarRight>
     </div>
@@ -42,8 +42,8 @@
         </div>
         <div>
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
-            <SelectorTheme />
-            <SelectorLanguage />
+            <DropdownTheme />
+            <DropdownLanguage />
             <BtnLabeled
               class="hidden lg:block"
               :cta="true"

@@ -10,7 +10,7 @@
   >
     <SidebarLeftHeader />
     <div class="h-full overflow-x-hidden overflow-y-scroll">
-      <SearchBar class="mt-2" location="sidebar" />
+      <SearchBar class="mt-3" location="sidebar" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
         v-if="sidebarType === 'organization' || sidebarType === 'event'"
@@ -97,13 +97,12 @@ const placeholderLogo = "/images/tech-from-below.svg";
 
 const filters = {
   daysAhead: {
+    sidebarType: ["filter events"],
     title: "Days ahead",
     name: "daysAhead",
     type: "radio",
-    style: "button",
+    style: "btn",
     allowCustomValue: true,
-    customValuePlaceholder: "Enter number",
-    sidebarType: ["filter events"],
     items: [
       {
         label: "1",
@@ -120,77 +119,75 @@ const filters = {
     ],
   },
   eventType: {
+    sidebarType: ["filter events"],
     title: "Event type",
     name: "eventType",
     type: "checkbox",
-    style: "button",
-    sidebarType: ["filter events"],
+    style: "btn",
     items: [
-      {
-        label: "Learn",
-        value: "learn",
-        customColor: "learn-blue",
-      },
       {
         label: "Act",
         value: "act",
         customColor: "act-red",
       },
+      {
+        label: "Learn",
+        value: "learn",
+        customColor: "learn-blue",
+      },
     ],
   },
-  location: {
-    title: "Location",
-    name: "location",
-    type: "checkbox",
-    style: "button",
+  locationType: {
     sidebarType: ["filter events"],
+    title: "Location",
+    name: "locationType",
+    type: "checkbox",
+    style: "btn",
     searchInput: true,
     items: [
       {
         label: "In person",
         value: "in-person",
-        customColor: "learn-blue",
       },
       {
         label: "Online",
         value: "online",
-        customColor: "learn-blue",
       },
     ],
   },
   eventLocationSearch: {
+    sidebarType: ["filter events"],
     title: "",
     name: "eventLocationSearch",
     type: "search",
-    sidebarType: ["filter events"],
-    placeholder: "Filter by location",
+    placeholder: "components.sidebar-left.location-search-placeholder",
   },
   locationSearch: {
+    sidebarType: ["filter organizations", "search"],
     title: "Location",
     name: "locationSearch",
     type: "search",
-    sidebarType: ["filter organizations", "search"],
-    placeholder: "Filter by location",
+    placeholder: "components.sidebar-left.location-search-placeholder",
   },
   organizationSearch: {
+    sidebarType: ["filter events"],
     title: "Organization",
     name: "organizationSearch",
     type: "search",
-    sidebarType: ["filter events"],
-    placeholder: "Filter by orgs",
+    placeholder: "components.sidebar-left.orgs-search-placeholder",
   },
   topic: {
-    title: "Topic",
-    type: "checkbox",
-    name: "topic",
-    style: "simple",
-    expandable: true,
     sidebarType: [
       "filter events",
       "filter organizations",
       "filter resources",
       "search",
     ],
+    title: "Topic",
+    type: "checkbox",
+    name: "topic",
+    style: "simple",
+    expandable: true,
     items: [
       {
         label: "Environment",

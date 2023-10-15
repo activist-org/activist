@@ -3,12 +3,18 @@
     <ul class="flex flex-row text-sm md:text-base">
       <li
         v-for="(breadcrumb, index) in displayBreadcrumbs"
-        class="font-display"
         :key="index"
+        class="flex items-center font-display"
       >
         <span
+          v-if="index === 0"
           class="mx-[0.35rem] text-light-special-text dark:text-dark-special-text"
-          >/</span
+          >&#60;</span
+        >
+        <span
+          v-else
+          class="mx-[0.45rem] mb-[0.2rem] text-light-special-text dark:text-dark-special-text"
+          >|</span
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <a
@@ -49,8 +55,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { Event } from "../types/event";
-import type { Organization } from "../types/organization";
+import type { Event } from "../../types/event";
+import type { Organization } from "../../types/organization";
 const { locales } = useI18n();
 
 defineProps<{
@@ -94,6 +100,14 @@ function makeURL(breadcrumb: string) {
 }
 
 function capitalizeFirstLetter(string: string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  if (string === "activist") {
+    return string;
+  } else if (string !== "activist" && string.includes("-")) {
+    return string
+      .replace("-", " ")
+      .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
+  } else {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 }
 </script>

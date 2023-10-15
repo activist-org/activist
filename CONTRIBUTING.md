@@ -199,16 +199,21 @@ Good pull requests — patches, improvements and new features — are a fantasti
 
 When making a contribution, adhering to the [GitHub flow](https://guides.github.com/introduction/flow/index.html) process is the best way to get your work merged:
 
-1. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
+1. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork and configure the remotes:
 
    ```bash
-   # Clone your fork of the repo into the current directory
-   git clone https://github.com/<your-username>/<repo-name>
-   # Navigate to the newly cloned directory
-   cd <repo-name>
-   # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/<upstream-owner>/<repo-name>
+   # Clone your fork of the repo into the current directory.
+   git clone https://github.com/<your-username>/activist.git
+   # Navigate to the newly cloned directory.
+   cd activist
+   # Assign the original repo to a remote called "upstream".
+   git remote add upstream https://github.com/activist-org/activist.git
    ```
+
+   Now, if you run `git remote -v` you should see two remote repositories named:
+
+   - `origin` (forked repository)
+   - `upstream` (activist repository)
 
 2. If you cloned a while ago, get the latest changes from upstream:
 
@@ -223,9 +228,22 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    git checkout -b <topic-branch-name>
    ```
 
-4. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
+4. Install [pre-commit](https://pre-commit.com/) to ensure during development that each of your commits is properly formatted against our linter and formatters:
 
-5. Locally merge (or rebase) the upstream development branch into your topic branch:
+   ```bash
+   pre-commit install
+   ```
+
+   > [!NOTE]\
+   > pre-commit is Python package that can be install via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+   >
+   > ```bash
+   > pip install pre-commit
+   > ```
+
+5. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
+
+6. Locally merge (or rebase) the upstream development branch into your topic branch:
 
    ```bash
    git pull --rebase upstream <dev-branch>
@@ -234,13 +252,13 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    > [!NOTE]\
    > When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
 
-6. Push your topic branch up to your fork:
+7. Push your topic branch up to your fork:
 
    ```bash
    git push origin <topic-branch-name>
    ```
 
-7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
+8. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
 
 Thank you in advance for your contributions!
 
@@ -264,9 +282,9 @@ Documentation is an invaluable way to contribute to coding projects as it allows
 
 Thank you for your interest in improving activist's accessibility. We want our platform to not only be usable for all people, but also to provide a welcoming environment within the development community for all. This section lists a few points to account for when checking accessibility constraints during development:
 
-### Tab focussing
+### Tab focusing
 
-Tab focussing sadly doesn't work out of the box for many browsers. Chrome works great, but the following changes are needed for browsers to function properly with tabs. We'll test activist against browsers with these settings with the assumption that people who need tab for more control of the interface will be able to activate them.
+Tab focusing sadly doesn't work out of the box for many browsers. Chrome works great, but the following changes are needed for browsers to function properly with tabs. We'll test activist against browsers with these settings with the assumption that people who need tab for more control of the interface will be able to activate them.
 
 **Firefox**
 

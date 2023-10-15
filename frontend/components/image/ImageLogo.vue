@@ -31,5 +31,4 @@ defineProps<{
   imageName?: string;
   imageLink?: string;
 }>();
-const localePath = useLocalePath();
 </script>
