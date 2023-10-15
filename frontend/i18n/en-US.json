@@ -52,7 +52,8 @@
         "paragraph-4": "• Sending them with materials for your organization",
         "paragraph-5": "Be sure to include the part that directs the user to only scan the code in the activist app. These codes can be used for malicious attacks, but the activist app protects the user by checking that it is a valid OR code before accessing the content."
       },
-      "button-generate": "Generate QR code"
+      "button-download": "Download QR code",
+      "text-right": "Scan this code in the"
     },
     "card-connect": {
       "header": "Connect"
