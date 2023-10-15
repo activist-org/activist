@@ -13,14 +13,14 @@
       ]"
       :style="{ width: `${percent}%` }"
     ></div>
-    <button
+    <NuxtLink
       class="items-center hidden h-full px-3 md:flex space-x-3 bg-light-cta-orange hover:bg-light-cta-orange-hover dark:bg-dark-cta-orange/10 dark:hover:bg-dark-cta-orange-hover/25 text-light-text dark:text-dark-cta-orange"
-      @click="$emit('close', progress, percent)"
+      :to="localePath('/')"
       :aria-label="$t('components.progress-bar.close-process-aria-label')"
     >
       <Icon name="bi:x-lg" />
       <span>{{ $t("components.progress-bar.close-process") }}</span>
-    </button>
+    </NuxtLink>
   </div>
 </template>
 
@@ -37,10 +37,6 @@ const props = withDefaults(defineProps<Props>(), {
   start: 0,
   end: 100,
 });
-
-const emits = defineEmits<{
-  close: [progress: number, percent: number];
-}>();
 
 const percent = computed(
   () => ((props.progress - props.start) / (props.end - props.start)) * 100

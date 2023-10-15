@@ -3,18 +3,18 @@
     <form class="space-y-4">
       <div class="col">
         <FormTextField
+          @update:model-value="userNameValue = $event"
           :placeholder="$t('pages.auth.sign-in.index.enter-user-name')"
           :model-value="userNameValue"
-          @update:model-value="userNameValue = $event"
         />
       </div>
       <div>
         <FormTextField
+          @update:model-value="passwordValue = $event"
           :placeholder="$t('pages.auth.sign-in.index.enter-password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
-          @update:model-value="passwordValue = $event"
           :icons="['bi:eye-fill']"
         />
       </div>

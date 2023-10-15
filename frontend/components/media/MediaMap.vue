@@ -1,15 +1,15 @@
 <template>
   <div class="map card-style">
     <div
-      class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert"
-      id="map-div"
       ref="map"
+      id="map-div"
+      class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert"
       :alt="$t('img-alt-text')"
     ></div>
     <div
+      :key="rerenderKey"
       class="flex flex-col items-center justify-center h-full px-5 pb-5 text-2xl text-center space-y-5 text-light-cta-orange dark:text-dark-cta-orange"
       :class="{ hidden: !errorOccurred }"
-      :key="rerenderKey"
     >
       <p>{{ $t("error-message") }}</p>
       <p>{{ $t("sorry-message") }}</p>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "@vue/runtime-core";
+import { onMounted } from "vue";
 import L, { MapOptions } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { ref } from "vue";
@@ -28,7 +28,6 @@ const props = defineProps<{
   title: string;
   type: string;
 }>();
-const localePath = useLocalePath();
 
 const rerenderKey = ref(0);
 const map = ref();
@@ -52,15 +51,15 @@ function handleMapError(error: Error) {
 }
 
 function drawMap(avgLat: number, avgLon: number, markers: Marker[]) {
-  let mapOptions: MapOptions = {
+  const mapOptions: MapOptions = {
     center: [avgLat, avgLon],
     zoom: 13,
     attributionControl: false,
   };
 
-  let leafletMap = L.map("map-div", mapOptions);
+  const leafletMap = L.map("map-div", mapOptions);
 
-  let layer = new L.TileLayer(
+  const layer = new L.TileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   );
   leafletMap.addLayer(layer);
@@ -101,7 +100,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Marker[]) {
   });
 
   markers.map((marker: Marker) => {
-    let pin = L.marker([marker.lat, marker.lon], { icon: mapIcon });
+    const pin = L.marker([marker.lat, marker.lon], { icon: mapIcon });
     // Add location pin to map.
     pin.addTo(leafletMap);
     pin.on("click", function () {
@@ -145,7 +144,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Marker[]) {
 */
 
 onMounted(() => {
-  let markers: Marker[] = [];
+  const markers: Marker[] = [];
   let averageLat: number = 0;
   let averageLon: number = 0;
 

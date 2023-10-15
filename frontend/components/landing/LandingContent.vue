@@ -182,6 +182,4 @@ defineProps<{
   btnAriaLabel2?: string;
   subText?: string;
 }>();
-
-const localePath = useLocalePath();
 </script>

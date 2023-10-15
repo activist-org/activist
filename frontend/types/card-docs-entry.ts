@@ -5,4 +5,5 @@ export interface CardDocsEntry {
   imgURL: string;
   imgDimensions: string;
   imgAltText: string;
+  id: number;
 }

@@ -1,8 +1,6 @@
-export interface MenuSelector {
+export interface MenuTopBarSelector {
   id: number;
   label: string;
   routeURL: string;
-  iconURL: string;
   selected: boolean;
-  active: boolean;
 }

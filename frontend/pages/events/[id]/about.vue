@@ -89,8 +89,6 @@ definePageMeta({
   layout: "sidebar",
 });
 
-const { id } = useRoute().params;
-
 const event: Event = {
   name: "Brandenburg Gate Climate Demo",
   tagline: "There is no Planet B",

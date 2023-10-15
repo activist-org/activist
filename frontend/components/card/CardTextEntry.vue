@@ -12,8 +12,8 @@
       <div v-if="multiline">
         <!-- Mobile -->
         <textarea
-          class="block w-full px-3 py-2 overflow-y-scroll bg-transparent border border-white resize-none rounded-md md:hidden dark:border-white md:resize-y md:overflow-hidden"
           id="feedback"
+          class="block w-full px-3 py-2 overflow-y-scroll bg-transparent border border-white resize-none rounded-md md:hidden dark:border-white md:resize-y md:overflow-hidden"
           type="text"
           rows="5"
           :placeholder="placeholder"
@@ -21,8 +21,8 @@
         ></textarea>
         <!-- Desktop -->
         <textarea
-          class="hidden w-full px-3 py-2 overflow-y-scroll bg-transparent border border-white resize-none rounded-md md:block dark:border-white md:resize-y md:overflow-hidden"
           id="feedback"
+          class="hidden w-full px-3 py-2 overflow-y-scroll bg-transparent border border-white resize-none rounded-md md:block dark:border-white md:resize-y md:overflow-hidden"
           type="text"
           rows="3"
           :placeholder="placeholder"
@@ -31,8 +31,8 @@
       </div>
       <input
         v-else
-        class="px-3 py-2 overflow-y-scroll bg-transparent border border-white resize-none rounded-md dark:border-white md:resize-y md:overflow-hidden"
         id="feedback"
+        class="px-3 py-2 overflow-y-scroll bg-transparent border border-white resize-none rounded-md dark:border-white md:resize-y md:overflow-hidden"
         type="text"
         :placeholder="placeholder"
         :aria-label="textAreaAriaLabel"

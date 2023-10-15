@@ -39,8 +39,7 @@
 
 <script setup lang="ts">
 const sidebar = useSidebar();
-
-let sidebarHover: boolean = false;
+let sidebarHover: boolean;
 
 onMounted(() => {
   window.addEventListener("resize", handleWindowSizeChange);

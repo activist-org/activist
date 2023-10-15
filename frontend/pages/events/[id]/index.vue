@@ -23,6 +23,7 @@
     <div class="flex flex-col items-center w-full gap-4">
       <MenuLinkWrapper
         v-for="button in eventButtons"
+        :key="button"
         :to="button.routeURL"
         :active="button.active"
         :selected="button.selected"
@@ -83,6 +84,7 @@ const event: Event = {
 
 const eventButtons: MenuSelector[] = [
   {
+    id: 1,
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/events/" + id + "/about",
     iconURL: "bi:card-text",
@@ -90,6 +92,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 2,
     label: "components.sidebar-left-selector.label.team",
     routeURL: "/events/" + id + "/team",
     iconURL: "bi:people",
@@ -97,6 +100,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 3,
     label: "components.sidebar-left-selector.label.resources",
     routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
@@ -104,6 +108,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 4,
     label: "components.sidebar-left-selector.label.settings",
     routeURL: "/events/" + id + "/settings",
     iconURL: "bi:gear",

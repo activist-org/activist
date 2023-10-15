@@ -75,8 +75,6 @@ definePageMeta({
   layout: "sidebar",
 });
 
-const { id } = useRoute().params;
-
 const organization: Organization = {
   name: "tech from below",
   status: "approved",

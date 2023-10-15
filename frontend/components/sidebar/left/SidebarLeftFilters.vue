@@ -41,13 +41,13 @@
         <div class="mb-4">
           <FormRadioGroup
             v-if="filter.type === 'radio'"
+            v-model="selectedValues[filter.name]"
             :key="key"
             :options="filter.items"
             :name="filter.name"
             :title="filter.title"
             :style="filter.style"
             :allowCustomValue="filter.allowCustomValue"
-            v-model="selectedValues[filter.name]"
           />
           <KeepAlive>
             <FormCheckboxGroup
@@ -55,20 +55,20 @@
                 (filter.type === 'checkbox' && !filter.reveal) ||
                 filter.reveal === false
               "
-              class="mb-1"
+              v-model="selectedValues[filter.name]"
               :key="key"
+              class="mb-1"
               :options="filter.items"
               :name="filter.name"
               :title="filter.title"
               :style="filter.style"
-              v-model="selectedValues[filter.name]"
             />
           </KeepAlive>
           <FormSearch
             v-if="filter.type === 'search'"
+            v-model="selectedValues[filter.name]"
             :key="key"
             :name="filter.name"
-            v-model="selectedValues[filter.name]"
             :placeholder="$t(filter.placeholder)"
           />
         </div>

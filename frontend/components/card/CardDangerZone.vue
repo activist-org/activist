@@ -22,8 +22,8 @@
               {{ $t("components.card-danger-zone.username-label") }} *
             </label>
             <input
-              class="px-3 py-1 bg-transparent border rounded-md border-light-text dark:border-dark-text focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
               id="username"
+              class="px-3 py-1 bg-transparent border rounded-md border-light-text dark:border-dark-text focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
             />
           </div>
           <div class="flex flex-col gap-2">
@@ -37,8 +37,8 @@
               {{ $t("components.card-danger-zone.password-label") }} *
             </label>
             <input
-              class="px-3 py-1 bg-transparent border rounded-md border-light-text dark:border-dark-text focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
               id="password"
+              class="px-3 py-1 bg-transparent border rounded-md border-light-text dark:border-dark-text focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
               type="password"
             />
           </div>

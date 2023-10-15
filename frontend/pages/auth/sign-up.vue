@@ -3,28 +3,28 @@
     <form class="space-y-4">
       <div class="col">
         <FormTextField
+          @update:model-value="userNameValue = $event"
           :placeholder="$t('pages.auth.sign-up.index.enter-user-name')"
           :model-value="userNameValue"
-          @update:model-value="userNameValue = $event"
         />
       </div>
       <div>
         <FormTextField
+          @update:model-value="passwordValue = $event"
           :placeholder="$t('pages.auth.sign-up.index.enter-password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
-          @update:model-value="passwordValue = $event"
           :icons="['bi:info-circle', 'bi:eye-fill']"
         />
       </div>
       <div>
         <FormTextField
+          @update:model-value="confirmPasswordValue = $event"
           :placeholder="$t('pages.auth.sign-up.index.repeat-password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="confirmPasswordValue"
-          @update:model-value="confirmPasswordValue = $event"
           :icons="
             isPasswordMatch
               ? ['bi:check-lg', 'bi:eye-fill']
@@ -59,11 +59,11 @@
       </div>
       <div class="flex flex-col items-center sm:flex-row pt-6 md:pt-8 lg:pt-12">
         <FormCheckbox
+          @update:modelValue="hasRed = $event"
           :label="$t('pages.auth.sign-up.index.read-terms-of-service')"
           :modelValue="hasRed"
           value="yes"
           :error="hasRedError"
-          @update:modelValue="hasRed = $event"
         />
 
         <NuxtLink

@@ -1,18 +1,18 @@
 <template>
   <SidebarRightHamburger
     @toggle="toggleMenuState"
-    class="flex items-center h-full"
     ref="ignoreElRef"
+    class="flex items-center h-full"
     :menuOpen="menuOpen"
   />
   <div
+    ref="target"
+    id="drawer-navigation"
     class="fixed top-0 right-0 z-40 h-screen pt-12 overflow-y-auto border-l bg-light-distinct transition-[max-width] overflow-x-hidden duration-200 border-light-section-div dark:bg-dark-distinct dark:border-dark-section-div shadow-sm shadow-zinc-700"
     :class="{
       'max-w-0 px-0': !menuOpen,
       'max-w-[16rem] px-4': menuOpen,
     }"
-    ref="target"
-    id="drawer-navigation"
     tabindex="-1"
   >
     <div

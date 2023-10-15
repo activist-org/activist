@@ -4,6 +4,7 @@
     "bradlc.vscode-tailwindcss",
     "heybourn.headwind",
     "Vue.volar",
-    "Vue.vscode-typescript-vue-plugin"
+    "Vue.vscode-typescript-vue-plugin",
+    "ms-vsliveshare.vsliveshare"
   ]
 }

@@ -3,8 +3,8 @@
     <ul class="flex flex-row text-sm md:text-base">
       <li
         v-for="(breadcrumb, index) in displayBreadcrumbs"
-        class="flex items-center font-display"
         :key="index"
+        class="flex items-center font-display"
       >
         <span
           v-if="index === 0"

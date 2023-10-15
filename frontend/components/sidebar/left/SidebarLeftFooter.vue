@@ -14,10 +14,10 @@
       >
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
-            v-on:keyup.enter="closeOtherMenus(0)"
+            @keyup.enter="closeOtherMenus(0)"
             @click="closeOtherMenus(0)"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             :ref="(el) => (disclosureButtons[0] = { close, el })"
+            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
           >
             <div
@@ -53,11 +53,12 @@
           </DisclosureButton>
           <DisclosurePanel class="flex flex-col">
             <div
-              class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
               :ref="(el) => (disclosurePanels[0] = el)"
+              class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
             >
               <SidebarLeftSelector
                 v-for="button in createButtons"
+                :key="button.id"
                 :label="button.label"
                 :routeURL="button.routeURL"
                 :iconURL="button.iconURL"
@@ -69,10 +70,10 @@
         </Disclosure>
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
-            v-on:keyup.enter="closeOtherMenus(1)"
+            @keyup.enter="closeOtherMenus(1)"
             @click="closeOtherMenus(1)"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             :ref="(el) => (disclosureButtons[1] = { close, el })"
+            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
           >
             <div
@@ -108,11 +109,12 @@
           </DisclosureButton>
           <DisclosurePanel class="flex flex-col">
             <div
-              class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
               :ref="(el) => (disclosurePanels[1] = el)"
+              class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
             >
               <SidebarLeftSelector
                 v-for="button in infoButtons"
+                :key="button.id"
                 :label="button.label"
                 :routeURL="button.routeURL"
                 :iconURL="button.iconURL"
@@ -124,10 +126,10 @@
         </Disclosure>
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
-            v-on:keyup.enter="closeOtherMenus(2)"
+            @keyup.enter="closeOtherMenus(2)"
             @click="closeOtherMenus(2)"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             :ref="(el) => (disclosureButtons[2] = { close, el })"
+            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
             :aria-label="
               $t('components.sidebar-left-footer.username-aria-label')
             "
@@ -165,11 +167,12 @@
           </DisclosureButton>
           <DisclosurePanel class="flex flex-col">
             <div
-              class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
               :ref="(el) => (disclosurePanels[2] = el)"
+              class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
             >
               <SidebarLeftSelector
                 v-for="button in userButtons"
+                :key="button"
                 :label="button.label"
                 :routeURL="button.routeURL"
                 :iconURL="button.iconURL"
@@ -191,9 +194,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import type { Ref } from "vue";
 import { MenuSelector } from "../../../types/menu-selector";
-
-const route = useRoute();
-const onHomePage = route.path.includes("home");
 
 const disclosureButtons = ref<
   {
@@ -221,6 +221,7 @@ const sidebar = useSidebar();
 
 const createButtons: MenuSelector[] = [
   {
+    id: 1,
     label: "components.sidebar-left-selector.label.new-event",
     routeURL: "/",
     iconURL: "bi:calendar-check",
@@ -228,6 +229,7 @@ const createButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 2,
     label: "components.sidebar-left-selector.label.new-organization",
     routeURL: "/",
     iconURL: "IconOrganization",
@@ -235,6 +237,7 @@ const createButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 3,
     label: "components.sidebar-left-selector.label.new-group",
     routeURL: "/",
     iconURL: "IconGroup",
@@ -242,6 +245,7 @@ const createButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 4,
     label: "components.sidebar-left-selector.label.new-resource",
     routeURL: "/",
     iconURL: "IconResource",
@@ -252,6 +256,7 @@ const createButtons: MenuSelector[] = [
 
 const infoButtons: MenuSelector[] = [
   {
+    id: 1,
     label: "components.sidebar-left-selector.label.help",
     routeURL: "/help",
     iconURL: "bi:question-circle",
@@ -259,6 +264,7 @@ const infoButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 2,
     label: "components.sidebar-left-selector.label.documentation",
     routeURL: "/docs",
     iconURL: "bi:layout-text-sidebar-reverse",
@@ -266,6 +272,7 @@ const infoButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 3,
     label: "components.sidebar-left-selector.label.legal",
     routeURL: "/legal",
     iconURL: "IconLegal",
@@ -276,6 +283,7 @@ const infoButtons: MenuSelector[] = [
 
 const userButtons: MenuSelector[] = [
   {
+    id: 1,
     label: "components.sidebar-left-selector.label.your-profile",
     routeURL: "/",
     iconURL: "bi:person-circle",
@@ -283,6 +291,7 @@ const userButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 2,
     label: "components.sidebar-left-selector.label.your-events",
     routeURL: "/",
     iconURL: "bi:calendar-check",
@@ -290,6 +299,7 @@ const userButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 3,
     label: "components.sidebar-left-selector.label.your-orgs",
     routeURL: "/",
     iconURL: "IconOrganization",
@@ -297,6 +307,7 @@ const userButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 4,
     label: "components.sidebar-left-selector.label.notifications",
     routeURL: "/",
     iconURL: "bi:bell",
@@ -304,6 +315,7 @@ const userButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 5,
     label: "components.sidebar-left-selector.label.settings",
     routeURL: "/",
     iconURL: "bi:gear",
@@ -311,6 +323,7 @@ const userButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 6,
     label: "components.sidebar-left-selector.label.sign-out",
     routeURL: "/",
     iconURL: "bi:box-arrow-left",
