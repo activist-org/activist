@@ -1,11 +1,10 @@
 from typing import Dict, Union
 
-from django.utils.translation import gettext as _
-from rest_framework import serializers
-
 from authentication.models import User
 from content.models import Resource, Task, Topic
+from django.utils.translation import gettext as _
 from events.models import Event
+from rest_framework import serializers
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_empty,
