@@ -2,6 +2,7 @@
   <div class="grid w-full grid-cols-1 gap-5 md:gap-8 md:grid-cols-2 h-fit">
     <CardDocsEntry
       v-for="card in cards"
+      :key="card.id"
       :url="route.path.replace(/\/$/, '') + '/' + card.url"
       :imgURL="card.imgURL"
       :imgDimensions="card.imgDimensions"
@@ -19,5 +20,5 @@ defineProps<{
   cards?: CardDocsEntry[];
 }>();
 
-var route = useRoute();
+const route = useRoute();
 </script>

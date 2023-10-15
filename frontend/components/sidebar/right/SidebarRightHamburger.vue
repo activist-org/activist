@@ -39,6 +39,5 @@ export interface Props {
 withDefaults(defineProps<Props>(), {
   menuOpen: false,
 });
-
-const emits = defineEmits(["toggle"]);
+defineEmits(["toggle"]);
 </script>

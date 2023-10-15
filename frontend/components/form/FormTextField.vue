@@ -3,18 +3,18 @@
     class="flex items-center pl-[12px] pr-[10px] py-2 max-h-[40px] space-x-2 text-left border rounded select-none border-light-interactive dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
   >
     <input
-      class="w-full h-5 bg-transparent outline-none placeholder:text-light-special-text dark:placeholder:text-dark-special-text"
       @input="updateValue"
       :id="uuid"
+      class="w-full h-5 bg-transparent outline-none placeholder:text-light-special-text dark:placeholder:text-dark-special-text"
       :value="modelValue"
       :placeholder="placeholder"
       :type="refInputType"
     />
     <span
       v-for="(i, index) in icons"
+      @click="handleIconClick(i)"
       :key="index"
       class="cursor-pointer"
-      @click="handleIconClick(i)"
     >
       <Icon v-if="i === 'bi:eye-fill'" :name="i" size="1.4em" />
       <Icon v-else :name="i" size="1.2em" :color="getIconColor(i)" />

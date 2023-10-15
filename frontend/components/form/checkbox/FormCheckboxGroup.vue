@@ -5,14 +5,14 @@
   >
     <component
       v-for="option in options"
-      :class="{ 'flex-1': checkboxComponent !== 'FormCheckbox' }"
-      :key="option.value"
+      @update:modelValue="toggleCheckbox(option.value)"
       :is="checkboxComponent"
+      :key="option.value"
+      :class="{ 'flex-1': checkboxComponent !== 'FormCheckbox' }"
       :label="option.label"
       :value="option.value"
       :modelValue="isSelected(option.value)"
       :customColor="option.customColor"
-      @update:modelValue="toggleCheckbox(option.value)"
     />
   </div>
 </template>

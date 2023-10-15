@@ -29,7 +29,6 @@ import { Event } from "../../types/event";
 definePageMeta({
   layout: "sidebar",
 });
-const sidebar = useSidebar();
 
 const event: Event = {
   name: "Test Event",

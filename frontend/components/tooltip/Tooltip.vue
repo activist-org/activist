@@ -6,10 +6,10 @@
       'px-3 py-2 shadow-md w-min': slots.default,
     }"
   >
-    <div class="responsive-h5" v-if="header">
+    <div v-if="header" class="responsive-h5">
       {{ header }}
     </div>
-    <div class="text-left" v-if="text">
+    <div v-if="text" class="text-left">
       {{ text }}
     </div>
     <slot />

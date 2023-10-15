@@ -11,10 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-
-const hasSidebar = ref(false);
-
 const connectLinks = [
   {
     name: "components.footer.github",

@@ -32,8 +32,8 @@
           <Icon class="w-10 h-10" name="bi:x-circle-fill" />
         </button>
         <button
+          @click="closeModal"
           class="flex flex-col items-center justify-center w-4/5 focus-brand"
-          v-on:click="closeModal"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
           <img

@@ -100,6 +100,7 @@
               <input
                 v-model="name"
                 @blur="validateName"
+                id="name"
                 class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
                   'outline-light-act-red dark:outline-dark-act-red outline outline-2':
@@ -109,7 +110,6 @@
                 :placeholder="$t('pages.help.contact.name-placeholder')"
                 autocomplete="off"
                 spellcheck="false"
-                id="name"
               />
             </div>
             <div class="flex flex-col space-y-2">
@@ -130,6 +130,7 @@
               <input
                 v-model="email"
                 @blur="validateEmail"
+                id="email"
                 class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
                   'outline-light-act-red dark:outline-dark-act-red outline outline-2':
@@ -139,7 +140,6 @@
                 :placeholder="$t('pages.help.contact.email-placeholder')"
                 autocomplete="off"
                 spellcheck="false"
-                id="email"
               />
             </div>
             <div class="flex flex-col space-y-2">
@@ -158,6 +158,7 @@
               <input
                 v-model="subject"
                 @blur="validateSubject"
+                id="subject"
                 class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
                   'outline-light-act-red dark:outline-dark-act-red outline outline-2':
@@ -167,7 +168,6 @@
                 :placeholder="$t('pages.help.contact.subject-placeholder')"
                 autocomplete="off"
                 spellcheck="false"
-                id="subject"
               />
             </div>
             <div class="flex flex-col space-y-2">
@@ -184,6 +184,8 @@
               <textarea
                 v-model="message"
                 @blur="validateMessage"
+                id="message"
+                class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
                   'outline-light-act-red dark:outline-dark-act-red outline outline-2':
                     !messageValidated,
@@ -191,10 +193,8 @@
                 }"
                 rows="6"
                 :placeholder="$t('pages.help.contact.message-placeholder')"
-                class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 autocomplete="off"
                 spellcheck="false"
-                id="message"
               ></textarea>
             </div>
             <button

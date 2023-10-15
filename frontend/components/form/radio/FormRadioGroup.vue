@@ -1,16 +1,16 @@
 <template>
   <div class="flex w-full">
-    <div class="flex w-full" v-show="!showAdditionalInput">
+    <div v-show="!showAdditionalInput" class="flex w-full">
       <component
         v-for="option in options"
         @update:modelValue="updateValue(option.value)"
+        :is="radioComponent"
+        :key="option.value"
         class="flex-1 border-r-0"
         :class="{
           'last:border-r': !allowCustomValue,
           'last:rounded-r-none': allowCustomValue,
         }"
-        :key="option.value"
-        :is="radioComponent"
         :name="name"
         :label="option.label"
         :value="option.value"
@@ -21,10 +21,10 @@
     <div v-if="allowCustomValue" class="flex flex-1 w-full">
       <input
         v-if="showAdditionalInput"
+        v-model="customValue"
         @input="inputDebounce"
         class="flex-1 w-full pl-4 pr-2 font-bold border border-r-0 outline-none border-light-interactive rounded-l-md bg-light-header dark:bg-dark-header dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
         :type="customValueType"
-        v-model="customValue"
         :placeholder="
           $t('components.form-radio-group.custom-numeric-value-placeholder')
         "

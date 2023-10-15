@@ -59,7 +59,6 @@ console.log(organizations);
 definePageMeta({
   layout: "sidebar",
 });
-const sidebar = useSidebar();
 
 const resource: Resource = {
   name: "Test Resource",

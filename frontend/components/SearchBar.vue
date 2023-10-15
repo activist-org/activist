@@ -10,9 +10,9 @@
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
           @focus="onFocus"
           @blur="onFocusLost"
+          ref="input"
           class="w-16 h-5 bg-transparent outline-none"
           :class="{ 'focus:w-5/6': isInputFocused }"
-          ref="input"
           type="text"
           :placeholder="$t('components.search-bar.placeholder')"
         />
@@ -21,8 +21,8 @@
     <Transition name="shortcuts">
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-        class="flex pr-1 space-x-1 transition-opacity transition-duration-200"
         ref="hotkeyIndicators"
+        class="flex pr-1 space-x-1 transition-opacity transition-duration-200"
       >
         <div
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
@@ -79,8 +79,6 @@
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { ref } from "vue";
-
-const route = useRoute();
 
 const sidebar = useSidebar();
 const input = ref();
