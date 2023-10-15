@@ -32,6 +32,7 @@ import type { CardDocsEntry } from "../../types/card-docs-entry";
 
 const cards: CardDocsEntry[] = [
   {
+    id: 1,
     url: "showcase",
     title: "pages.supporters.index.showcase",
     description: "pages.supporters.index.showcase-description",
@@ -40,6 +41,7 @@ const cards: CardDocsEntry[] = [
     imgAltText: "pages.supporters.index.showcase-alt-text",
   },
   {
+    id: 2,
     url: "join",
     title: "pages.supporters.index.join",
     description: "pages.supporters.index.join-description",

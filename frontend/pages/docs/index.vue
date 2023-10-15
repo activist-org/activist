@@ -32,6 +32,7 @@ import type { CardDocsEntry } from "../../types/card-docs-entry";
 
 const cards: CardDocsEntry[] = [
   {
+    id: 1,
     url: "get-active",
     title: "pages.docs.index.get-active",
     description: "pages.docs.index.get-active-description",
@@ -40,6 +41,7 @@ const cards: CardDocsEntry[] = [
     imgAltText: "pages.docs.index.get-active-alt-text",
   },
   {
+    id: 2,
     url: "get-organized",
     title: "pages.docs.index.get-organized",
     description: "pages.docs.index.get-organized-description",
@@ -48,6 +50,7 @@ const cards: CardDocsEntry[] = [
     imgAltText: "pages.docs.index.get-organized-alt-text",
   },
   {
+    id: 3,
     url: "grow-organization",
     title: "pages.docs.index.grow-organization",
     description: "pages.docs.index.grow-organization-description",

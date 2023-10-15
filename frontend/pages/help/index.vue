@@ -32,6 +32,7 @@ import type { CardDocsEntry } from "../../types/card-docs-entry";
 
 const cards: CardDocsEntry[] = [
   {
+    id: 1,
     url: "faq",
     title: "pages.help.index.faq",
     description: "pages.help.index.faq-description",
@@ -40,6 +41,7 @@ const cards: CardDocsEntry[] = [
     imgAltText: "pages.help.index.faq-alt-text",
   },
   {
+    id: 2,
     url: "contact",
     title: "pages.help.index.contact",
     description: "pages.help.index.contact-description",
