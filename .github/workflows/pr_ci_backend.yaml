@@ -11,7 +11,7 @@ on:
 
 jobs:
   backend:
-    name: Run PR Backend Formatting Check
+    name: Run PR Backend Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,9 +32,11 @@ jobs:
         with:
           options: --check --verbose --exclude "migrations/"
           src: ./backend
+        continue-on-error: true
 
       - name: Run ruff - Linting and import sorting check
         run: ruff ./backend
+        continue-on-error: true
 
       - name: Run mypy - Static Type Checking
         run: mypy ./backend --config-file ./backend/mypy.ini

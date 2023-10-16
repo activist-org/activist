@@ -2,8 +2,9 @@ import re
 from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
-from events.models import Format
 from rest_framework import serializers
+
+from events.models import Format
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
