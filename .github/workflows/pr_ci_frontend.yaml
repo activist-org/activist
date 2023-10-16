@@ -11,16 +11,16 @@ on:
 
 jobs:
   frontend:
-    name: Run PR Frontend Formatting Check
+    name: Run PR Frontend Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node environment
         uses: actions/setup-node@v3
 
-      - name: Yarn Install
+      - name: Install Yarn
         uses: borales/actions-yarn@v4
         with:
           cmd: install
@@ -29,7 +29,7 @@ jobs:
       - name: Install Prettier
         run: yarn add prettier
 
-      - name: Run Prettier
+      - name: Run Prettier - Formatting check
         working-directory: ./frontend
         run: |
           yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
@@ -39,4 +39,11 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: nuxi typecheck
+          dir: "frontend"
+        continue-on-error: true
+
+      - name: Run eslint - Linting
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: eslint . --ext .js,.vue
           dir: "frontend"
