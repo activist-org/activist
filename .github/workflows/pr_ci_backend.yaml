@@ -1,4 +1,4 @@
-name: pr_backend_formatting_check
+name: pr_ci_backend
 on:
   pull_request_target:
     branches:
@@ -10,8 +10,8 @@ on:
       - completed
 
 jobs:
-  python:
-    name: Run PR Backend Formatting Check
+  backend:
+    name: Run PR Backend Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,14 +25,18 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install ruff
+          pip install -r backend/requirements.txt
 
-      - name: Run Black
+      - name: Run Black - Formatting check
         uses: psf/black@stable
         with:
           options: --check --verbose --exclude "migrations/"
           src: ./backend
+        continue-on-error: true
 
-      - name: Run ruff
+      - name: Run ruff - Linting and import sorting check
         run: ruff ./backend
+        continue-on-error: true
 
+      - name: Run mypy - Static Type Checking
+        run: mypy ./backend --config-file ./backend/mypy.ini

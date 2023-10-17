@@ -13,8 +13,9 @@ from pathlib import Path
 import django_stubs_ext
 import dotenv
 from django.core.management.utils import get_random_secret_key
+from rest_framework import viewsets
 
-django_stubs_ext.monkeypatch()
+django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
 dotenv.load_dotenv()
 
 
@@ -146,6 +147,8 @@ SECRET_KEY = get_random_secret_key()
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
 }
 
 SPECTACULAR_SETTINGS = {

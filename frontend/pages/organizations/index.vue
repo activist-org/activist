@@ -29,7 +29,6 @@ import { Organization } from "../../types/organization";
 definePageMeta({
   layout: "sidebar",
 });
-const sidebar = useSidebar();
 
 const organization: Organization = {
   name: "tech from below",

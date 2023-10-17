@@ -1,4 +1,5 @@
 import re
+from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
 from rest_framework import serializers
@@ -15,12 +16,12 @@ from utils.utils import (
 from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
 
 
-class ResourceSerializer(serializers.ModelSerializer):
+class ResourceSerializer(serializers.ModelSerializer[Resource]):
     class Meta:
         model = Resource
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
         validate_empty(data["url"], "url")
@@ -43,12 +44,12 @@ class ResourceSerializer(serializers.ModelSerializer):
         return data
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer[Task]):
     class Meta:
         model = Task
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
         validate_empty(data["location"], "location")
@@ -57,12 +58,12 @@ class TaskSerializer(serializers.ModelSerializer):
         return data
 
 
-class TopicSerializer(serializers.ModelSerializer):
+class TopicSerializer(serializers.ModelSerializer[Topic]):
     class Meta:
         model = Topic
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
 
@@ -81,24 +82,24 @@ class TopicSerializer(serializers.ModelSerializer):
         return data
 
 
-class ResourceTopicSerializer(serializers.ModelSerializer):
+class ResourceTopicSerializer(serializers.ModelSerializer[ResourceTopic]):
     class Meta:
         model = ResourceTopic
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Resource, data["resource_id"])
         validate_object_existence(Topic, data["topic_id"])
 
         return data
 
 
-class TopicFormatSerializer(serializers.ModelSerializer):
+class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
     class Meta:
         model = TopicFormat
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Topic, data["topic_id"])
         validate_object_existence(Format, data["format_id"])
 

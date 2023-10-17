@@ -13,6 +13,4 @@
 definePageMeta({
   layout: "sidebar",
 });
-
-const { id } = useRoute().params;
 </script>

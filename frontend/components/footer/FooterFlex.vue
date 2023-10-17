@@ -4,7 +4,7 @@
     <!-- Note: Content Sections Left -->
     <div class="mt-0 justify-items-start w-[80%] flex flex-col">
       <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
-      <div class="relative z-0 h-10 w-36 overflow-y-hidden">
+      <div class="relative z-0 h-10 overflow-y-hidden w-36">
         <LogoActivist
           class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />
@@ -43,6 +43,13 @@
           <div v-if="index < links.legalLinks.length - 1" class="px-2">•</div>
         </template>
       </div>
+      <a
+        class="mt-2 w-fit hover:text-light-text dark:hover:text-dark-text"
+        href="https://www.netlify.com/"
+        target="_blank"
+      >
+        {{ $t("components.footer-flex.powered-by-netlify") }}
+      </a>
       <div class="mt-2 text-light-text dark:text-dark-text">
         {{ $t("components.footer-flex.website-copyright") }}
       </div>

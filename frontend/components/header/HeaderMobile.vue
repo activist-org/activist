@@ -1,14 +1,14 @@
 <template>
   <header
+    ref="header"
     class="relative sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md"
     :class="{
       'bg-light-header dark:bg-dark-header': headerOpacity == 1,
       'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
-    ref="header"
   >
-    <nav class="h-full">
+    <div class="h-full">
       <div class="flex justify-between h-full px-4 gap-2">
         <SearchBar
           @on-search-toggle="toggleSearchExpanded"
@@ -22,7 +22,7 @@
           class="flex items-center w-6 h-8 absolute top-[0.3rem] m-auto left-0 right-0 overflow-clip"
         />
       </div>
-    </nav>
+    </div>
   </header>
 </template>
 

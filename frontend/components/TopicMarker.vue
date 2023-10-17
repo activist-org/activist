@@ -17,5 +17,4 @@
 defineProps<{
   topic: string;
 }>();
-const localePath = useLocalePath();
 </script>

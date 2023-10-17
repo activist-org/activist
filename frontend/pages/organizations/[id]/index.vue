@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between gap-8 px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
       <Title>{{ organization.name }} </Title>
@@ -23,12 +23,13 @@
     <div class="flex flex-col items-center w-full gap-4">
       <MenuLinkWrapper
         v-for="button in organizationButtons"
+        :key="button.id"
         :to="button.routeURL"
         :active="button.active"
         :selected="button.selected"
       >
         <div
-          class="flex items-center w-full space-x-2 text-sm font-medium text-left"
+          class="flex items-center w-full text-sm font-medium text-left space-x-2"
         >
           <span class="width-1/6"
             ><Icon
@@ -82,6 +83,7 @@ const organization: Organization = {
 
 const organizationButtons: MenuSelector[] = [
   {
+    id: 1,
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/organizations/" + id + "/about",
     iconURL: "bi:card-text",
@@ -89,6 +91,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 2,
     label: "components.sidebar-left-selector.label.events",
     routeURL: "/organizations/" + id + "/events",
     iconURL: "bi:calendar-check",
@@ -96,6 +99,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 3,
     label: "components.sidebar-left-selector.label.groups",
     routeURL: "/organizations/" + id + "/groups",
     iconURL: "IconGroup",
@@ -103,6 +107,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 4,
     label: "components.sidebar-left-selector.label.resources",
     routeURL: "/organizations/" + id + "/resources",
     iconURL: "IconResource",
@@ -110,6 +115,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 5,
     label: "components.sidebar-left-selector.label.faq",
     routeURL: "/organizations/" + id + "/faq",
     iconURL: "IconFAQ",
@@ -117,6 +123,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 6,
     label: "components.sidebar-left-selector.label.settings",
     routeURL: "/organizations/" + id + "/settings",
     iconURL: "bi:gear",
@@ -124,6 +131,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   // {
+  //    id: 7,
   //   label: "components.sidebar-left-selector.label.affiliates",
   //   routeURL: "/organizations/" + id + "/affiliates",
   //   iconURL: "IconSupport",
@@ -131,6 +139,7 @@ const organizationButtons: MenuSelector[] = [
   //   active: false,
   // },
   // {
+  //    id: 8,
   //   label: "components.sidebar-left-selector.label.tasks",
   //   routeURL: "/organizations/" + id + "/tasks",
   //   iconURL: "bi:check-square",
@@ -138,6 +147,7 @@ const organizationButtons: MenuSelector[] = [
   //   active: false,
   // },
   // {
+  //    id: 9,
   //   label: "components.sidebar-left-selector.label.discussions",
   //   routeURL: "/organizations/" + id + "/discussions",
   //   iconURL: "octicon:comment-discussion-24",

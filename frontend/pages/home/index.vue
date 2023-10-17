@@ -14,7 +14,12 @@
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
-      <GridHomeMetrics />
+      <div
+        class="flex flex-col lg:grid space-y-6 lg:grid-cols-7 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-6"
+      >
+        <GridHomeMetrics class="lg:col-span-5" />
+        <MediaDatePicker class="w-full h-full lg:col-span-2" />
+      </div>
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
@@ -54,7 +59,6 @@ console.log(organizations);
 definePageMeta({
   layout: "sidebar",
 });
-const sidebar = useSidebar();
 
 const resource: Resource = {
   name: "Test Resource",

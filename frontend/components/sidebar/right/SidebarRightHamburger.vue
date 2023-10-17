@@ -32,12 +32,12 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  menuOpen: {
-    type: Boolean,
-    default: false,
-  },
-});
+export interface Props {
+  menuOpen: boolean;
+}
 
-const emits = defineEmits(["toggle"]);
+withDefaults(defineProps<Props>(), {
+  menuOpen: false,
+});
+defineEmits(["toggle"]);
 </script>
