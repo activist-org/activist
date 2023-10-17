@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   alias: {
     "@": resolve(__dirname, "./"),
   },
-  plugins: ['@/plugins/qrcode.js'],
+  plugins: [],
 
   modules: [
     "@nuxt/content",
