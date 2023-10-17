@@ -32,6 +32,7 @@ import type { CardDocsEntry } from "../../types/card-docs-entry";
 
 const cards: CardDocsEntry[] = [
   {
+    id: 1,
     url: "trademark-policy",
     title: "pages.legal.index.trademark-policy",
     description: "pages.legal.index.trademark-policy-description",
@@ -40,6 +41,7 @@ const cards: CardDocsEntry[] = [
     imgAltText: "pages.legal.index.trademark-policy-alt-text",
   },
   {
+    id: 2,
     url: "privacy-policy",
     title: "pages.legal.index.privacy-policy",
     description: "pages.legal.index.privacy-policy-description",
