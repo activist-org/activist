@@ -110,29 +110,38 @@ VS Code
 
 2. To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
 
-> [!NOTE]\
-> If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
+   > [!NOTE]\
+   > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
-3. Then clone this repository with the below command:
+3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
 
-```bash
-git clone https://github.com/activist-org/activist.git
-```
+   ```bash
+   # Clone your fork of the repo into the current directory
+   git clone https://github.com/<your-username>/activist.git
+   # Navigate to the newly cloned directory
+   cd activist
+   # Assign the original repo to a remote called "upstream"
+   git remote add upstream https://github.com/activist-org/activist.git
+   ```
 
-4. Enter the created directory, create a `.env` file and start your docker images with the following:
+   Now, if you run `git remote -v` you should see two remote repositories named:
 
-```bash
-cd activist
-cp .env.example .env
-docker-compose up
-# Or with new dependencies:
-# docker-compose up --build
-```
+   - `origin` (forked repository)
+   - `upstream` (activist repository)
+
+4. Create a `.env` file and start your docker images with the following:
+
+   ```bash
+   cp .env.example .env
+   docker-compose up
+   # Or with new dependencies:
+   # docker-compose up --build
+   ```
 
 5. You can visit <http://localhost:3000/> to see the development build once the container is up and running.
 
-> [!NOTE]\
-> Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
+   > [!NOTE]\
+   > Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
 <a id="style-guide"></a>
 
@@ -199,38 +208,22 @@ Good pull requests — patches, improvements and new features — are a fantasti
 
 When making a contribution, adhering to the [GitHub flow](https://guides.github.com/introduction/flow/index.html) process is the best way to get your work merged:
 
-1. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
-
-   ```bash
-   # Clone your fork of the repo into the current directory
-   git clone https://github.com/<your-username>/activist.git
-   # Navigate to the newly cloned directory
-   cd activist
-   # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/activist-org/activist.git
-   ```
-
-   Now, if you run `git remote -v` you should see two remote repositories named:
-
-   - `origin` (forked repository)
-   - `upstream` (activist repository)
-
-2. If you cloned a while ago, get the latest changes from upstream:
+1. If you cloned a while ago, get the latest changes from upstream:
 
    ```bash
    git checkout <dev-branch>
    git pull upstream <dev-branch>
    ```
 
-3. Create a new topic branch (off the main project development branch) to contain your feature, change, or fix:
+2. Create a new topic branch (off the main project development branch) to contain your feature, change, or fix:
 
    ```bash
    git checkout -b <topic-branch-name>
    ```
 
-4. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
+3. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
 
-5. Locally merge (or rebase) the upstream development branch into your topic branch:
+4. Locally merge (or rebase) the upstream development branch into your topic branch:
 
    ```bash
    git pull --rebase upstream <dev-branch>
@@ -239,13 +232,13 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    > [!NOTE]\
    > When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
 
-6. Push your topic branch up to your fork:
+5. Push your topic branch up to your fork:
 
    ```bash
    git push origin <topic-branch-name>
    ```
 
-7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
+6. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
 
 Thank you in advance for your contributions!
 
