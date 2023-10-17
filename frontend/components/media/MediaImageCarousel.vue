@@ -9,6 +9,7 @@
   >
     <swiper-slide
       v-for="n in 7"
+      :key="n"
       class="bg-light-placeholder dark:bg-dark-placeholder text-light-distinct dark:text-dark-distinct"
     >
       <p

@@ -1,8 +1,10 @@
 import re
+from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
-from events.models import Format
 from rest_framework import serializers
+
+from events.models import Format
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
@@ -14,19 +16,19 @@ from utils.utils import (
 from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
 
 
-class ResourceSerializer(serializers.ModelSerializer):
+class ResourceSerializer(serializers.ModelSerializer[Resource]):
     class Meta:
         model = Resource
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
         validate_empty(data["url"], "url")
         validate_empty(data["topics"], "topics")
         validate_empty(data["location"], "location")
 
-        if type(data["total_flags"]) != int:
+        if not isinstance(data["total_flags"], int):
             data["total_flags"] = int(data["total_flags"])
 
         validate_flags_number(data)
@@ -42,12 +44,12 @@ class ResourceSerializer(serializers.ModelSerializer):
         return data
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer[Task]):
     class Meta:
         model = Task
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
         validate_empty(data["location"], "location")
@@ -56,21 +58,21 @@ class TaskSerializer(serializers.ModelSerializer):
         return data
 
 
-class TopicSerializer(serializers.ModelSerializer):
+class TopicSerializer(serializers.ModelSerializer[Topic]):
     class Meta:
         model = Topic
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
 
-        if data["active"] == True and data["deprecation_date"] is not None:
+        if data["active"] is True and data["deprecation_date"] is not None:
             raise serializers.ValidationError(
                 "Active topics cannot have a deprecation date."
             )
 
-        if data["active"] == False and data["deprecation_date"] is None:
+        if data["active"] is False and data["deprecation_date"] is None:
             raise serializers.ValidationError(
                 "Inactive topics must have a deprecation date."
             )
@@ -80,24 +82,24 @@ class TopicSerializer(serializers.ModelSerializer):
         return data
 
 
-class ResourceTopicSerializer(serializers.ModelSerializer):
+class ResourceTopicSerializer(serializers.ModelSerializer[ResourceTopic]):
     class Meta:
         model = ResourceTopic
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Resource, data["resource_id"])
         validate_object_existence(Topic, data["topic_id"])
 
         return data
 
 
-class TopicFormatSerializer(serializers.ModelSerializer):
+class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
     class Meta:
         model = TopicFormat
         fields = "__all__"
 
-    def validate(self, data):
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Topic, data["topic_id"])
         validate_object_existence(Format, data["format_id"])
 

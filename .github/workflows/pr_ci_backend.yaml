@@ -1,0 +1,42 @@
+name: pr_ci_backend
+on:
+  pull_request_target:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+  workflow_run:
+    workflows: [pr_maintainer_checklist]
+    types:
+      - completed
+
+jobs:
+  backend:
+    name: Run PR Backend Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+
+      - name: Run Black - Formatting check
+        uses: psf/black@stable
+        with:
+          options: --check --verbose --exclude "migrations/"
+          src: ./backend
+        continue-on-error: true
+
+      - name: Run ruff - Linting and import sorting check
+        run: ruff ./backend
+        continue-on-error: true
+
+      - name: Run mypy - Static Type Checking
+        run: mypy ./backend --config-file ./backend/mypy.ini

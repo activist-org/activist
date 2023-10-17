@@ -114,6 +114,7 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 > - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
 > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
 > - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+> - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare)
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 > - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 >
@@ -125,16 +126,25 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 > [!NOTE]\
 > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
-3. Then clone this repository with the below command:
+3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork and configure the remotes:
 
 ```bash
-git clone https://github.com/activist-org/activist.git
+# Clone your fork of the repo into the current directory.
+git clone https://github.com/<your-username>/activist.git
+# Navigate to the newly cloned directory.
+cd activist
+# Assign the original repo to a remote called "upstream".
+git remote add upstream https://github.com/activist-org/activist.git
 ```
 
-4. Enter the created directory, create a `.env` file and start your docker images with the following:
+Now, if you run `git remote -v` you should see two remote repositories named:
+
+- `origin` (forked repository)
+- `upstream` (activist repository)
+
+4. Create a `.env` file and start your docker images with the following:
 
 ```bash
-cd activist
 cp .env.example .env
 docker-compose up
 # Or with new dependencies:

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between gap-8 px-8 py-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
       <Title>{{ event.name }} </Title>
@@ -23,12 +23,13 @@
     <div class="flex flex-col items-center w-full gap-4">
       <MenuLinkWrapper
         v-for="button in eventButtons"
+        :key="button"
         :to="button.routeURL"
         :active="button.active"
         :selected="button.selected"
       >
         <div
-          class="flex items-center w-full space-x-2 text-sm font-medium text-left"
+          class="flex items-center w-full text-sm font-medium text-left space-x-2"
         >
           <span class="width-1/6"
             ><Icon
@@ -83,6 +84,7 @@ const event: Event = {
 
 const eventButtons: MenuSelector[] = [
   {
+    id: 1,
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/events/" + id + "/about",
     iconURL: "bi:card-text",
@@ -90,6 +92,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 2,
     label: "components.sidebar-left-selector.label.team",
     routeURL: "/events/" + id + "/team",
     iconURL: "bi:people",
@@ -97,6 +100,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 3,
     label: "components.sidebar-left-selector.label.resources",
     routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
@@ -104,6 +108,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 4,
     label: "components.sidebar-left-selector.label.settings",
     routeURL: "/events/" + id + "/settings",
     iconURL: "bi:gear",

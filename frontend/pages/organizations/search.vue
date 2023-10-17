@@ -13,6 +13,7 @@
         <TopicMarker topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
+    <GridSearchTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
   </div>
 </template>
 

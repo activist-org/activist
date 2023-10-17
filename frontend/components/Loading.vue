@@ -8,13 +8,13 @@
         v-if="$colorMode.value == 'light'"
         class="h-40"
         src="/images/content_pages/icons/activist_icon_light.png"
-        alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+        :alt="$t('components.loading.img-alt-text')"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="h-40"
         src="/images/content_pages/icons/activist_icon_dark.png"
-        alt="The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
+        :alt="$t('components.loading.img-alt-text')"
       />
     </div>
   </div>
