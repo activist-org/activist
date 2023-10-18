@@ -5,9 +5,13 @@
       <Title>{{ $t(page.title) }}</Title>
     </Head>
     <div class="relative hidden md:block">
-      <LogoActivist
-        class="absolute inset-0 flex items-center justify-center mt-72 mb-96 md:mx-20 lg:mx-28 xl:mx-40 "
-      /><!--mb-10 md:px-20 lg:px-28 xl:px-40-->
+      <div class="flex items-center justify-center w-full h-full">
+        <div class="relative z-0 h-24 overflow-y-hidden w-96 mb-6">
+          <LogoActivist
+            class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+          />
+        </div>
+      </div>
     </div>
     <div
       class="h-full text-light-text dark:text-dark-text bg-light-distinct dark:bg-dark-distinct"
