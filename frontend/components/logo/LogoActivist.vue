@@ -8,7 +8,7 @@
       class="transition duration-100 fill-light-text dark:fill-dark-text hover:fill-light-special-text hover:dark:fill-dark-special-text"
       :class="{ 'w-28 h-7': isMobile, color }"
       width="3000"
-      height="647"
+      height="100"
       viewBox="0 0 3000 647"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
