@@ -11,10 +11,10 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  plugins: [],
   alias: {
     "@": resolve(__dirname, "./"),
   },
+  plugins: [],
 
   modules: [
     "@nuxt/content",

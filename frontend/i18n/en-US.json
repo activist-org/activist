@@ -52,6 +52,18 @@
       "full-text-aria-label": "Click to view a popup with the full text",
       "header": "About"
     },
+    "card-qrcode": {
+      "header": "QR Code",
+      "content": {
+        "paragraph-1": "You can generate a unique QR code for this page that will allow people to easily find out more in real life. Click Generate QR code below to create the code, then save it to your computer for future use. Generating a OR code will also allow other people to share it. Ideas for OR code use include:",
+        "paragraph-2": "• Including them on posters or billboards",
+        "paragraph-3": "• Adding them to flyers or cards",
+        "paragraph-4": "• Sending them with materials for your organization",
+        "paragraph-5": "Be sure to include the part that directs the user to only scan the code in the activist app. These codes can be used for malicious attacks, but the activist app protects the user by checking that it is a valid OR code before accessing the content."
+      },
+      "button-download": "Download QR code",
+      "text-right": "Make sure the QRCode redirect to"
+    },
     "card-connect": {
       "header": "Connect"
     },
