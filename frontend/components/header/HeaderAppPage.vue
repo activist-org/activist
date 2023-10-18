@@ -12,7 +12,7 @@
     class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow align-center"
   >
     <h2
-      v-if="tagline"
+      v-if="headerTagline"
       class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
     >
       {{ headerTagline }}
@@ -42,7 +42,7 @@ if (props.organization) {
   headerTagline = props.organization.tagline;
   headerStatus = props.organization.status;
 } else if (props.event) {
-  headerTagline = props.event.name;
+  headerName = props.event.name;
   headerTagline = props.event.tagline;
 } else {
   headerName = props.header || "Default Demo Header";
