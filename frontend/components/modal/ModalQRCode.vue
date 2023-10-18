@@ -88,8 +88,8 @@
                   class="h-16 w-16 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-white absolute fill-black"
                 >
                   <IconActivist
-                    class="flex items-center w-10 h-14 absolute -top-[0.1rem] m-auto left-[0.6rem] overflow-clip"
-                    color="fill-black"
+                    class="cursor-none pointer-events-none flex items-center w-10 h-14 absolute -top-[0.1rem] m-auto left-[0.6rem] overflow-clip"
+                    color="fill-black dark:fill-black hover:fill-black"
                   />
                 </div>
               </div>
