@@ -44,6 +44,8 @@
     "nuxt-mail": "^3.1.23",
     "pinia": "^2.1.6",
     "prettier": "^3.0.3",
+    "qrcode": "^1.5.3",
+    "qrcode.vue": "^3.4.1",
     "swiper": "^9.3.2",
     "tailwind-scrollbar": "^3.0.4",
     "tailwindcss": "^3.3.2",

@@ -21,8 +21,8 @@
       "share-organization-aria-label": "Share this organization with others",
       "sign-in": "Sign in",
       "sign-up": "Sign up",
-      "sign-in-aria-label": "Sign in to your account.",
-      "sign-up-aria-label": "Sign up for a new account on activist.",
+      "sign-in-aria-label": "Sign in to your account",
+      "sign-up-aria-label": "Sign up for a new account on activist",
       "suggest-a-feature": "Suggest a feature",
       "suggest-a-feature-aria-label": "Go to GitHub to suggest a feature for activist.org",
       "support": "Support",
@@ -187,7 +187,19 @@
       "open-modal-aria-label": "Open a larger version of this image"
     },
     "modal-qr-code": {
-      "img-alt-text": "QR code scanning icon."
+      "header": "QR Code",
+      "section-1-paragraph-1-event": "This is the unique QR code for this page that will allow people to easily find out more about this event in real life. Click Download QR code below to get a PNG of the code. Including QR codes in promotional materials is a great way to get more people involved!",
+      "section-1-paragraph-1-organization": "This is the unique QR code for this page that will allow people to easily find out more about this organization in real life. Click Download QR code below to get a PNG of the code. Including QR codes in promotional materials is a great way to get more people involved!",
+      "subheader-2": "Ideas for OR code use include:",
+      "section-2-list-1-item-1": "Including them on posters or billboards",
+      "section-2-list-1-item-2": "Adding them to flyers or cards",
+      "section-2-list-1-item-3": "Sending them with materials for your organization",
+      "section-3-paragraph-1": "Be sure to include the part that directs the user to only scan the code in the activist app. These codes can be used for malicious attacks, but the activist app protects the user by checking that it is a valid OR code before accessing the content.",
+      "close-modal-aria-label": "Close the QR Code download panel",
+      "img-alt-text": "QR code scanning icon.",
+      "download-qr-code": "Download QR code",
+      "download-qr-code-aria-label": "Download QR code",
+      "url-text": "activist.org"
     },
     "selector-language": {
       "open-dropdown-aria-label": "Open the dropdown to select another language"
@@ -197,7 +209,7 @@
     },
     "progress-bar": {
       "close-process": "Close",
-      "close-process-aria-label": "Close the current process and return to the previous screen."
+      "close-process-aria-label": "Close the current process and return to the previous screen"
     },
     "selector-theme": {
       "dark": "Dark",
