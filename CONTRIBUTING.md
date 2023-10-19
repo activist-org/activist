@@ -116,11 +116,11 @@ VS Code
 3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
 
    ```bash
-   # Clone your fork of the repo into the current directory
+   # Clone your fork of the repo into the current directory.
    git clone https://github.com/<your-username>/activist.git
-   # Navigate to the newly cloned directory
+   # Navigate to the newly cloned directory.
    cd activist
-   # Assign the original repo to a remote called "upstream"
+   # Assign the original repo to a remote called "upstream".
    git remote add upstream https://github.com/activist-org/activist.git
    ```
 
@@ -221,9 +221,22 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    git checkout -b <topic-branch-name>
    ```
 
-3. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
+3. Install [pre-commit](https://pre-commit.com/) to ensure during development that each of your commits is properly formatted against our linter and formatters:
 
-4. Locally merge (or rebase) the upstream development branch into your topic branch:
+   ```bash
+   pre-commit install
+   ```
+
+   > [!NOTE]\
+   > pre-commit is Python package that can be install via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+   >
+   > ```bash
+   > pip install pre-commit
+   > ```
+
+4. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
+
+5. Locally merge (or rebase) the upstream development branch into your topic branch:
 
    ```bash
    git pull --rebase upstream <dev-branch>
@@ -232,14 +245,13 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    > [!NOTE]\
    > When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
 
-
-5. Push your topic branch up to your fork:
+6. Push your topic branch up to your fork:
 
    ```bash
    git push origin <topic-branch-name>
    ```
 
-6. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
+7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
 
 Thank you in advance for your contributions!
 
