@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { Organization } from "../../../types/organization"; 
-import CardDonate from "~/components/card/CardDonate.vue";
+//import CardDonate from "~/components/card/CardDonate.vue";  "Uncomment when card donate component is use"
 
 definePageMeta({
   layout: "sidebar",
