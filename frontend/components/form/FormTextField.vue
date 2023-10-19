@@ -1,9 +1,14 @@
 <template>
   <div
     class="flex items-center pl-[12px] pr-[10px] py-2 max-h-[40px] space-x-2 text-left border rounded select-none border-light-interactive dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
+    :class="{
+      'border-red-600': error,
+    }"
   >
     <input
       @input="updateValue"
+      @blur="emit('blured')"
+      @focus="emit('focused')"
       :id="uuid"
       class="w-full h-5 bg-transparent outline-none placeholder:text-light-special-text dark:placeholder:text-dark-special-text"
       :value="modelValue"
@@ -33,19 +38,23 @@ export interface Props {
   inputType?: string;
   isIconVisible?: boolean;
   icons?: string[];
+  error?: boolean;
 }
 
+// FIXME: Type Issue
+// @ts-ignore
 const props = withDefaults(defineProps<Props>(), {
   placeholder: "",
   modelValue: "",
   inputType: "text",
   isIconVisible: false,
+  error: false,
 });
 
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
 const uuid = uuidv4();
-const refInputType = ref(props?.inputType);
+const refInputType = ref<string | undefined>(props?.inputType);
 const changeInputType = () => {
   refInputType.value = refInputType.value === "password" ? "text" : "password";
 };

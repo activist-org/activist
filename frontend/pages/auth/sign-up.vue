@@ -11,13 +11,21 @@
       <div>
         <FormTextField
           @update:model-value="passwordValue = $event"
+          @input="checkRules"
+          @blured="isBlured = true; isFocused = false"
+          @focused="isFocused = true; isBlured = false"
           :placeholder="$t('pages.auth.sign-up.index.enter-password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
           :icons="['bi:info-circle', 'bi:eye-fill']"
+          :error="!isAllRulesValid && isBlured"
         />
       </div>
+      <TooltipPassword
+        v-if="!!passwordValue?.length && !isAllRulesValid && (!isBlured || isFocused)"
+        :rules="rules"
+      />
       <div>
         <FormTextField
           @update:model-value="confirmPasswordValue = $event"
@@ -63,7 +71,6 @@
           :label="$t('pages.auth.sign-up.index.read-terms-of-service')"
           :modelValue="hasRed"
           value="yes"
-          :error="hasRedError"
         />
 
         <NuxtLink
@@ -84,6 +91,9 @@
 </template>
 
 <script setup lang="ts">
+import usePasswordRules from "~/composables/usePasswordRules";
+import { PasswordRules } from "~/types/password-rules";
+
 definePageMeta({
   layout: "auth",
 });
@@ -92,6 +102,8 @@ const userNameValue = ref("");
 const passwordValue = ref("");
 const confirmPasswordValue = ref("");
 const hasRed = ref(false);
+const isBlured = ref(false)
+const isFocused = ref(false)
 
 const isPasswordMatch = computed(() => {
   if (passwordValue.value === "" || confirmPasswordValue.value === "") {
@@ -99,6 +111,24 @@ const isPasswordMatch = computed(() => {
   }
   return passwordValue.value === confirmPasswordValue.value;
 });
+
+
+const rules = ref<PasswordRules[]>(passwordRules)
+const { ruleFunctions } = usePasswordRules()
+
+const checkRules = (value: { target: { value: string } }): void => {
+  const actualValue = value.target.value;
+  rules.value.forEach(rule => {
+    if (ruleFunctions[rule.message]) {
+      rule.isValid = ruleFunctions[rule.message](actualValue);
+    }
+  });
+};
+
+// Checks the rules to make the tooltip invisible when the rules are valid
+const isAllRulesValid = computed(() => {
+  return rules.value.every(rule => rule.isValid)
+})
 
 const signUp = () => {};
 </script>
