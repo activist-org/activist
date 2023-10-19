@@ -29,7 +29,8 @@
       "support-event-aria-label": "Support this event",
       "support-organization-aria-label": "Support this organization",
       "view-all-groups": "View all groups",
-      "view-all-groups-aria-label": "View all groups within this organization"
+      "view-all-groups-aria-label": "View all groups within this organization",
+      "Go-to-donation-page":"Go to donation page"
     },
     "btn-roadmap": {
       "label": "Roadmap",
@@ -54,6 +55,9 @@
     },
     "card-connect": {
       "header": "Connect"
+    },
+    "card-donate":{
+      "header": "Donate"
     },
     "card-danger-zone": {
       "header": "Danger Zone",
