@@ -42,10 +42,10 @@
         <div class="w-1/2">
           <label for="name" class="block font-medium responsive-h6">Organization name</label>
           <input
-            type="text"
-            id="name"
-            name="name"
             v-model="formData.name"
+            id="name"
+            type="text"
+            name="name"
             placeholder="The name of the organization"
             class="responsive-h6 px-4 py-2 mt-2 w-full bg-dark-input-bg text-dark-input-text border border-dark-input-border rounded-md"
           />
@@ -53,10 +53,10 @@
         <div class="w-1/2">
           <label for="location" class="block font-medium responsive-h6">Location</label>
           <input
-            type="text"
-            id="location"
-            name="location"
             v-model="formData.location"
+            id="location"
+            type="text"
+            name="location"
             placeholder="Where the organization is based or active"
             class="responsive-h6 px-4 py-2 mt-2 w-full bg-dark-input-bg text-dark-input-text border border-dark-input-border rounded-md"
           />
@@ -65,9 +65,9 @@
       <div class="mx-14 w-full card-style mt-5 px-5 py-10">
         <label for="description" class="block font-medium responsive-h6">Description</label>
         <textarea
+          v-model="formData.description"
           id="description"
           name="description"
-          v-model="formData.description"
           placeholder="Please provide a description of the organization for the community so that we can learn more about its goals and composition."
           class="responsive-h6 px-4 py-2 mt-2 w-full bg-dark-input-bg text-dark-input-text border border-dark-input-border rounded-md"
         ></textarea>
@@ -75,9 +75,9 @@
       <div class="mx-14 w-full card-style mt-5 px-5 py-10">
         <label for="tagline" class="block font-medium responsive-h6">Tagline</label>
         <input
+          v-model="formData.tagline"
           id="tagline"
           name="tagline"
-          v-model="formData.tagline"
           placeholder="Please provide a tagline for the organization."
           class="responsive-h6 px-4 py-2 mt-2 w-full bg-dark-input-bg text-dark-input-text border border-dark-input-border rounded-md"
         />
@@ -85,14 +85,40 @@
       <!-- TODO: add connect and topic custom components -->
       
       <div class="mx-14 w-full card-style mt-5 px-5 py-10">
-        <h2 class="block font-medium responsive-h6">Topics</h2>
+        <h2 class="block font-medium responsive-h4 mb-1">Topics</h2>
+        <p class="">Please select up to three topics that this organization predominantly works on so that the community can more easily find it.</p>
+        <input v-model="formData.newTopic" @keydown.enter="addTopic()" @keydown.prevent.enter="addTopic()" type="text" name="newTopic" placeholder="Add a new topic" class="responsive-h6 px-4 py-2 my-2 w-full bg-dark-input-bg text-dark-input-text border border-dark-input-border rounded-md" />
+        <ul class="list-none flex items-center gap-2">
+          <li v-for="topic in formData.topics" class="bg-dark-special-text-over-header py-1 px-2 rounded-md text-white flex items-center">
+            {{ topic  }}
+            <button @click="removeTopic(topic)" class="ml-2">
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="mx-14 w-full mt-5">
+        <CardConnect :social-links="formData.social_accounts" :userIsAdmin="true" />
       </div>
 
       <div class="mx-14 flex flex-col w-full mt-5">
         <div>
           <input
-            type="checkbox"
             id="terms"
+            type="checkbox"
             name="terms"
             class="mr-2"
           />
@@ -114,13 +140,27 @@ definePageMeta({
 });
 const sidebar = useSidebar();
 
+const addTopic = () => {
+  if (formData.value.newTopic) {
+    formData.value.topics.push(formData.value.newTopic);
+    formData.value.newTopic = "";
+  }
+};
+
+const removeTopic = (topic: string) => {
+  formData.value.topics = formData.value.topics.filter((t) => t !== topic);
+};
+
+
+
 const formData = ref({
   name: "",
   location: "",
   description: "",
   tagline: "",
   social_accounts: [],
-  topics : [],
+  topics : ["justice", "activism"],
+  newTopic: "",
 });
 
 const submit = async () => {
@@ -136,7 +176,7 @@ const submit = async () => {
         description: formData.value.description,
         social_accounts: ["https://twitter.com/activist_hq"],
         created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-        topics: ["technology", "activism"],
+        topics: formData.value.topics,
         high_risk: false,
         total_flags: 0,
       })
