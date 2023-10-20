@@ -14,6 +14,7 @@ import django_stubs_ext
 import dotenv
 from django.core.management.utils import get_random_secret_key
 from rest_framework import viewsets
+from rest_framework.settings import api_settings
 
 django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
 dotenv.load_dotenv()
@@ -164,3 +165,6 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+# Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
+api_settings.reload()
