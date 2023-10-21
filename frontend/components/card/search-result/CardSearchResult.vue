@@ -42,7 +42,7 @@ import type { Organization } from "../../../types/organization";
 import type { Resource } from "../../../types/resource";
 import type { User } from "../../../types/user";
 import type { DiscussionInput } from "../../../types/discussionInput";
-import CardDiscussionInput from "./CardDiscussionInput.vue";
+import CardDiscussionInput from "../discussion/CardDiscussionInput.vue";
 
 defineProps<{
   searchResultType: "organization" | "event" | "resource" | "user" | "discussionInput" ;
