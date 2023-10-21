@@ -124,11 +124,16 @@
       "load-more-aria-label": "Load more GitHub contributors",
       "load-more-img-alt-text": "Three dots in a circle indicating more entries are available."
     },
-    "grid-github-shields": {
+    "grid-shields": {
       "fork": "Fork",
       "github": "GitHub",
       "star": "Star",
-      "visit-us": "Visit us on"
+      "visit-us": "Visit us on",
+      "download-on-the": "Download on the",
+      "app-store": "App Store",
+      "get-it-on": "Get it on",
+      "google-play": "Google Play",
+      "f-droid": "F-Driod"
     },
     "grid-home-metrics": {
       "act-events": "Act events",
