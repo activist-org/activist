@@ -103,39 +103,39 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 
 1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
 
-> [!IMPORTANT]
->
-> <details><summary><strong>Suggested IDE extensions</strong></summary>
->
-> <p>
->
-> VS Code
->
-> - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
-> - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-> - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
-> - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare)
-> - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-> - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
->
-> </p>
-> </details>
+   > [!IMPORTANT]
+   >
+   > <details><summary><strong>Suggested IDE extensions</strong></summary>
+   >
+   > <p>
+   >
+   > VS Code
+   >
+   > - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
+   > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+   > - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+   > - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) # for collaboration
+   > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+   > - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+   >
+   > </p>
+   > </details>
 
 2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
 
-> [!NOTE]\
-> If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
+   > [!NOTE]\
+   > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
 3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork and configure the remotes:
 
-```bash
-# Clone your fork of the repo into the current directory.
-git clone https://github.com/<your-username>/activist.git
-# Navigate to the newly cloned directory.
-cd activist
-# Assign the original repo to a remote called "upstream".
-git remote add upstream https://github.com/activist-org/activist.git
-```
+   ```bash
+   # Clone your fork of the repo into the current directory.
+   git clone https://github.com/<your-username>/activist.git
+   # Navigate to the newly cloned directory.
+   cd activist
+   # Assign the original repo to a remote called "upstream".
+   git remote add upstream https://github.com/activist-org/activist.git
+   ```
 
 Now, if you run `git remote -v` you should see two remote repositories named:
 
@@ -144,12 +144,12 @@ Now, if you run `git remote -v` you should see two remote repositories named:
 
 4. Create a `.env` file and start your docker images with the following:
 
-```bash
-cp .env.example .env
-docker-compose up
-# Or with new dependencies:
-# docker-compose up --build
-```
+   ```bash
+   cp .env.example .env
+   docker-compose up
+   # Or with new dependencies:
+   # docker-compose up --build
+   ```
 
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
@@ -168,7 +168,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Backend
 
-- [Django](https://www.djangoproject.com) • [Supabase](https://supabase.com/) (planned) • [PostgreSQL](https://www.postgresql.org) (planned)
+- [Django](https://www.djangoproject.com) • [PostgreSQL](https://www.postgresql.org) (planned)
 
 ### Deployment
 
