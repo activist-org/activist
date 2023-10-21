@@ -13,7 +13,7 @@
         <TopicMarker topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
-    <div class="pt-3 pb-6 space-y-6 md:pt-4" v-for="event in events">
+    <div v-for="event in events" class="pt-3 pb-6 space-y-6 md:pt-4">
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
@@ -24,19 +24,18 @@
 </template>
 
 <script setup lang="ts">
-import { Event } from "../../types/event";
-
 definePageMeta({
   layout: "sidebar",
 });
 
-const {data: events} = await useFetch(
+const { data: events } = await useFetch(
   "http://localhost:8000/v1/entities/events/",
   {
     method: "GET",
   }
 );
 
+// import { Event } from "../../types/event";
 // const event: Event = {
 //   name: "Test Event",
 //   type: "act",

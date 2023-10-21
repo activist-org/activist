@@ -686,6 +686,13 @@
         "subheader": "Active organizations near you",
         "title": "Organizations Home"
       },
+      "create": {
+        "header": "Application information",
+        "subtext": "Thanks for bringing your organization to activist! The following information is requested so that our community can better understand what the goals of the organization are. Checking each new organization takes time for all of us, but in this way we can maintain trust within the network. We look forward to working with and supporting you all!",
+        "terms-pt-1": "I have read and agree to the",
+        "terms-pt-2": "activist terms and conditions",
+        "complete-application": "Complete application"
+      },
       "id": {
         "events": {
           "subheader": "This is an events page for"
