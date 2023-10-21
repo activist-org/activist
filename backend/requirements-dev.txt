@@ -15,6 +15,8 @@ attrs==23.1.0
     #   referencing
 black==23.3.0
     # via -r requirements-dev.in
+build==1.0.3
+    # via pip-tools
 certifi==2023.7.22
     # via
     #   -r requirements.txt
@@ -26,9 +28,13 @@ charset-normalizer==3.3.0
     #   -r requirements.txt
     #   requests
 click==8.1.7
-    # via black
+    # via
+    #   black
+    #   pip-tools
 colorama==0.4.6
-    # via click
+    # via
+    #   build
+    #   click
 distlib==0.3.7
     # via virtualenv
 django==4.2.6
@@ -89,9 +95,13 @@ mypy-extensions==1.0.0
 nodeenv==1.8.0
     # via pre-commit
 packaging==23.2
-    # via black
+    # via
+    #   black
+    #   build
 pathspec==0.11.2
     # via black
+pip-tools==7.3.0
+    # via -r requirements-dev.in
 platformdirs==3.11.0
     # via
     #   black
@@ -100,6 +110,8 @@ pre-commit==3.4.0
     # via -r requirements-dev.in
 psycopg2-binary==2.9.5
     # via -r requirements.txt
+pyproject-hooks==1.0.0
+    # via build
 python-dotenv==1.0.0
     # via -r requirements.txt
 pytz==2023.3.post1
@@ -166,6 +178,9 @@ urllib3==2.0.7
     #   types-requests
 virtualenv==20.24.5
     # via pre-commit
+wheel==0.41.2
+    # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
+# pip
 # setuptools
