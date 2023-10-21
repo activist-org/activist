@@ -40,16 +40,21 @@
         :isPrivate="false"
         :user="user"
       />
+
       <CardSearchResult
         searchResultType="discussionInput"
         :isPrivate="false"
         :discussionInput="discussionInput"
       /> 
+
+      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
+
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Discussion } from "../../types/discussion";
 import { Event } from "../../types/event";
 import { Organization } from "../../types/organization";
 import { Resource } from "../../types/resource";
@@ -110,6 +115,7 @@ const user: User = {
   description: "I love to test!",
 };
 
+
 const discussionInput: DiscussionInput = {
   name: "Text ",
   location: "Testerville, TN",
@@ -118,5 +124,16 @@ const discussionInput: DiscussionInput = {
   category: "Category",
   write: "Write",
   preview: "Preview",
+
+const discussion: Discussion = {
+  title: "Title of discussion ",
+  author: "John A. Tester",
+  category: "Category",
+  text: "I love to test!",
+  upVoters: 123,
+  participants: 3,
+  messages: 3,
+  creationDate: new Date(),
+
 };
 </script>

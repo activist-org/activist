@@ -1,6 +1,7 @@
 {
   "components": {
     "btn-labeled": {
+      "check-discussion-category-aria-label": "The type of discussion that is taking place",
       "get-in-touch": "Get in touch",
       "get-in-touch-aria-label": "Get in touch with the activist team",
       "join-organization": "Join organization",
@@ -28,6 +29,7 @@
       "support": "Support",
       "support-event-aria-label": "Support this event",
       "support-organization-aria-label": "Support this organization",
+      "upvote-discussion-aria-label": "Up vote this discussion as being interesting",
       "view-all-groups": "View all groups",
       "view-all-groups-aria-label": "View all groups within this organization",
       "go-to-donation-page": "Go to donation page"
@@ -683,6 +685,13 @@
         "header": "Organizations Home",
         "subheader": "Active organizations near you",
         "title": "Organizations Home"
+      },
+      "create": {
+        "header": "Application information",
+        "subtext": "Thanks for bringing your organization to activist! The following information is requested so that our community can better understand what the goals of the organization are. Checking each new organization takes time for all of us, but in this way we can maintain trust within the network. We look forward to working with and supporting you all!",
+        "terms-pt-1": "I have read and agree to the",
+        "terms-pt-2": "activist terms and conditions",
+        "complete-application": "Complete application"
       },
       "id": {
         "events": {

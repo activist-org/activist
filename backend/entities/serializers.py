@@ -39,9 +39,11 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         validate_empty(data["name"], "name")
         validate_empty(data["tagline"], "tagline")
         validate_empty(data["social_accounts"], "social_accounts")
+        validate_empty(data["location"], "location")
+        validate_empty(data["description"], "description")
+        validate_empty(data["topic"], "topic")
         validate_flags_number(data)
-        validate_creation_and_deletion_dates(data)
-        validate_object_existence(User, data["created_by"])
+        # validate_object_existence(User, data["created_by"]) TODO: BUG check if validate_object_existence can be fixed since causing errors during post requests
 
         return data
 

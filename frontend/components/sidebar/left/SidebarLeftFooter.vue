@@ -231,7 +231,7 @@ const createButtons: MenuSelector[] = [
   {
     id: 2,
     label: "components.sidebar-left-selector.label.new-organization",
-    routeURL: "/",
+    routeURL: "/organizations/create",
     iconURL: "IconOrganization",
     selected: false,
     active: true,
