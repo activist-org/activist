@@ -1,22 +1,22 @@
 export const passwordRules = [
   {
     isValid: false,
-    message: "number-of-chars"
+    message: "number-of-chars",
   },
   {
     isValid: false,
-    message: "capital-letters"
+    message: "capital-letters",
   },
   {
     isValid: false,
-    message: "lower-case-letters"
+    message: "lower-case-letters",
   },
   {
     isValid: false,
-    message: "contains-numbers"
+    message: "contains-numbers",
   },
   {
     isValid: false,
-    message: "contains-special-chars"
-  }
-]
+    message: "contains-special-chars",
+  },
+];

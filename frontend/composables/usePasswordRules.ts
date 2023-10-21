@@ -4,7 +4,7 @@ export default function usePasswordRules() {
     "capital-letters": (value: string) => /[A-Z]/.test(value),
     "lower-case-letters": (value: string) => /[a-z]/.test(value),
     "contains-numbers": (value: string) => /[0-9]/.test(value),
-    "contains-special-chars": (value: string) => /[^a-zA-Z0-9]/.test(value)
+    "contains-special-chars": (value: string) => /[^a-zA-Z0-9]/.test(value),
   };
-  return { ruleFunctions }
+  return { ruleFunctions };
 }

@@ -1,13 +1,14 @@
 <template>
   <div
-    class="flex items-center pl-[12px] pr-[10px] py-2 max-h-[40px] space-x-2 text-left border rounded select-none border-light-interactive dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
+    class="flex items-center pl-[12px] pr-[10px] py-2 max-h-[40px] space-x-2 text-left border rounded select-none text-light-special-text dark:text-dark-special-text"
     :class="{
-      'border-red-600': error,
+      'border-light-act-red dark:border-dark-act-red': error,
+      'border-light-interactive dark:border-dark-interactive': !error,
     }"
   >
     <input
       @input="updateValue"
-      @blur="emit('blured')"
+      @blur="emit('blurred')"
       @focus="emit('focused')"
       :id="uuid"
       class="w-full h-5 bg-transparent outline-none placeholder:text-light-special-text dark:placeholder:text-dark-special-text"
@@ -21,7 +22,16 @@
       :key="index"
       class="cursor-pointer"
     >
-      <Icon v-if="i === 'bi:eye-fill'" :name="i" size="1.4em" />
+      <Icon
+        v-if="i === 'bi:eye-fill' && refInputType === 'password'"
+        :name="i"
+        size="1.4em"
+      />
+      <Icon
+        v-else-if="i === 'bi:eye-fill' && refInputType === 'text'"
+        name="bi:eye-slash-fill"
+        size="1.4em"
+      />
       <Icon v-else :name="i" size="1.2em" :color="getIconColor(i)" />
     </span>
   </div>
@@ -41,7 +51,6 @@ export interface Props {
   error?: boolean;
 }
 
-// FIXME: Type Issue
 // @ts-ignore
 const props = withDefaults(defineProps<Props>(), {
   placeholder: "",
