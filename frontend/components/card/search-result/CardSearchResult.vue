@@ -27,12 +27,6 @@
     >
       <CardSearchResultUser :user="user" :isPrivate="isPrivate" />
     </div>
-    <div
-      v-if="searchResultType === 'discussion'"
-      class="flex flex-col px-3 py-4 md:flex-row md:grow lg:px-5 md:py-3"
-    >
-      <CardDiscussionEntry :discussion="discussion" :isPrivate="isPrivate" />
-    </div>
   </div>
 </template>
 
@@ -41,16 +35,13 @@ import type { Event } from "../../../types/event";
 import type { Organization } from "../../../types/organization";
 import type { Resource } from "../../../types/resource";
 import type { User } from "../../../types/user";
-import type { Discussion } from "../../../types/discussion";
-import CardDiscussionEntry from "./CardDiscussionEntry.vue";
 
 defineProps<{
-  searchResultType: "organization" | "event" | "resource" | "user" | "discussion" ;
+  searchResultType: "organization" | "event" | "resource" | "user";
   isPrivate?: boolean;
   organization?: Organization;
   event?: Event;
   resource?: Resource;
   user?: User;
-  discussion?:Discussion;
 }>();
 </script>

@@ -40,21 +40,17 @@
         :isPrivate="false"
         :user="user"
       />
-      <CardSearchResult
-        searchResultType="discussion"
-        :isPrivate="false"
-        :discussion="discussion"
-      /> 
+      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Discussion } from "../../types/discussion";
 import { Event } from "../../types/event";
 import { Organization } from "../../types/organization";
 import { Resource } from "../../types/resource";
 import { User } from "../../types/user";
-import { Discussion } from "~/types/discussion";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -111,10 +107,13 @@ const user: User = {
 };
 
 const discussion: Discussion = {
-  name: "Title of discussion ",
-  location: "Testerville, TN",
-  supporters: 123,
-  description: "I love to test!",
+  title: "Title of discussion ",
+  author: "John A. Tester",
   category: "Category",
+  text: "I love to test!",
+  upVoters: 123,
+  participants: 3,
+  messages: 3,
+  creationDate: new Date(),
 };
 </script>

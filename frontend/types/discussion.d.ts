@@ -1,8 +1,10 @@
 export interface Discussion {
-    name: string;
-    location?: string;
-    supporters: number;
-    description: string;
-    category: string;
-  }
-  
+  title: string;
+  author: string;
+  category: string;
+  text: string;
+  upVoters: number;
+  participants: number;
+  messages: number;
+  creationDate: datetime;
+}
