@@ -124,7 +124,7 @@ const discussionInput: DiscussionInput = {
   category: "Category",
   write: "Write",
   preview: "Preview",
-
+};
 const discussion: Discussion = {
   title: "Title of discussion ",
   author: "John A. Tester",
