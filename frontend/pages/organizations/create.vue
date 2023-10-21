@@ -1,8 +1,8 @@
 <template>
   <div class="w-full text-light-text dark:text-dark-text">
     <ProgressBar type="default" :progress="1" :start="1" :end="1" />
-    <div class="px-14 mt-2"><PageBreadcrumbs :breadcrumbs="breadcrumbs" /></div>
-    <div class="px-14 mt-4">
+    <div class="px-8 mt-2"><PageBreadcrumbs :breadcrumbs="breadcrumbs" /></div>
+    <div class="px-8 mt-4">
       <h1 class="font-bold responsive-h2">
         {{ $t("pages.organizations.create.header") }}
       </h1>
@@ -12,7 +12,7 @@
     </div>
     <form
       @submit.prevent="submit"
-      class="pt-4 flex flex-col w-full justify-center items-center px-14"
+      class="pt-4 flex flex-col w-full justify-center items-center px-8"
     >
       <div class="flex w-full justify-between mx-14 px-5 card-style gap-6 py-6">
         <div class="w-1/2">
