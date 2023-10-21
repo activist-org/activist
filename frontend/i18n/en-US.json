@@ -30,7 +30,7 @@
       "support-organization-aria-label": "Support this organization",
       "view-all-groups": "View all groups",
       "view-all-groups-aria-label": "View all groups within this organization",
-      "Go-to-donation-page":"Go to donation page"
+      "go-to-donation-page": "Go to donation page"
     },
     "btn-roadmap": {
       "label": "Roadmap",
@@ -56,8 +56,9 @@
     "card-connect": {
       "header": "Connect"
     },
-    "card-donate":{
-      "header": "Donate"
+    "card-donate": {
+      "header": "Donate",
+      "template-text": "Thanks for your interest in supporting this organization! The button below will take you to our funding page where you can make a one time or recurring donation. Thanks again!"
     },
     "card-danger-zone": {
       "header": "Danger Zone",

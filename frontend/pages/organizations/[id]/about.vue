@@ -64,16 +64,16 @@
         :social-links="organization.socialLinks"
         :userIsAdmin="true"
       />
-      <!-- <CardDonate 
-        :userIsAdmin="true"      //use this for card Donate component to be displayed on screen
+      <!-- <CardDonate
+        :userIsAdmin="true"
+        :donationPrompt="organization.donationPrompt"
       /> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Organization } from "../../../types/organization"; 
-//import CardDonate from "~/components/card/CardDonate.vue";  "Uncomment when card donate component is use"
+import { Organization } from "../../../types/organization";
 
 definePageMeta({
   layout: "sidebar",
@@ -92,5 +92,6 @@ const organization: Organization = {
   imageURL: "/images/tech-from-below.svg",
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
+  donationPrompt: "Hey thanks!",
 };
 </script>
