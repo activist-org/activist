@@ -40,6 +40,11 @@
         :isPrivate="false"
         :user="user"
       />
+      <CardSearchResult
+        searchResultType="discussionInput"
+        :isPrivate="false"
+        :discussionInput="discussionInput"
+      /> 
     </div>
   </div>
 </template>
@@ -49,6 +54,7 @@ import { Event } from "../../types/event";
 import { Organization } from "../../types/organization";
 import { Resource } from "../../types/resource";
 import { User } from "../../types/user";
+import { DiscussionInput } from "~/types/discussionInput";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -102,5 +108,15 @@ const user: User = {
   location: "Testerville, TN",
   supporters: 123,
   description: "I love to test!",
+};
+
+const discussionInput: DiscussionInput = {
+  name: "Text ",
+  location: "Testerville, TN",
+  supporters: 123,
+  description: "I love to test!",
+  category: "Category",
+  write: "Write",
+  preview: "Preview",
 };
 </script>
