@@ -13,7 +13,7 @@
         <TopicMarker topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
-    <div class="pt-3 pb-6 space-y-6 md:pt-4">
+    <div class="pt-3 pb-6 space-y-6 md:pt-4" v-for="event in events">
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
@@ -30,17 +30,24 @@ definePageMeta({
   layout: "sidebar",
 });
 
-const event: Event = {
-  name: "Test Event",
-  type: "act",
-  tagline: "We love to test!",
-  organizer: "Testers LLC",
-  topic: "Testing and Designing",
-  description: "This is a test event for testers.",
-  getInvolvedDescription: "Wanna help test?",
-  inPersonLocation: "Berlin",
-  // onlineLocation: "Zoom Test Room",
-  date: new Date(),
-  supporters: 10,
-};
+const {data: events} = await useFetch(
+  "http://localhost:8000/v1/entities/events/",
+  {
+    method: "GET",
+  }
+);
+
+// const event: Event = {
+//   name: "Test Event",
+//   type: "act",
+//   tagline: "We love to test!",
+//   organizer: "Testers LLC",
+//   topic: "Testing and Designing",
+//   description: "This is a test event for testers.",
+//   getInvolvedDescription: "Wanna help test?",
+//   inPersonLocation: "Berlin",
+//   // onlineLocation: "Zoom Test Room",
+//   date: new Date(),
+//   supporters: 10,
+// };
 </script>
