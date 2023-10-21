@@ -127,6 +127,7 @@
         </div>
         <div class="my-5">
           <BtnLabeled
+            type="submit"
             :cta="true"
             class="flex"
             label="pages.organizations.create.complete-application"
