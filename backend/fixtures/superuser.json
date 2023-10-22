@@ -1,0 +1,33 @@
+[
+  {
+    "model": "authentication.user",
+    "pk": "83f1174f-1f22-46c8-a542-f4814d97bbf3",
+    "fields": {
+      "last_login": "2023-10-22T11:58:17.946Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-10-22T11:58:11.260Z",
+      "user_name": "",
+      "name": "",
+      "password": "pbkdf2_sha256$600000$tG7BKHMVjcZM6GwsT5nmOL$IPkpPl4cX9UYTrhFkruvtevlzjW+9QqvyjcIVmR7FJA=",
+      "location": null,
+      "description": null,
+      "verified": false,
+      "verification_method": null,
+      "verification_partner": null,
+      "social_accounts": null,
+      "private": false,
+      "high_risk": false,
+      "total_flags": 0,
+      "creation_date": "2023-10-22T11:58:11.418Z",
+      "deletion_date": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
