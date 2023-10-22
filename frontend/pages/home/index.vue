@@ -40,11 +40,13 @@
         :isPrivate="false"
         :user="user"
       />
+      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Discussion } from "../../types/discussion";
 import { Event } from "../../types/event";
 import { Organization } from "../../types/organization";
 import { Resource } from "../../types/resource";
@@ -102,5 +104,16 @@ const user: User = {
   location: "Testerville, TN",
   supporters: 123,
   description: "I love to test!",
+};
+
+const discussion: Discussion = {
+  title: "Title of discussion ",
+  author: "John A. Tester",
+  category: "Category",
+  text: "I love to test!",
+  upVoters: 123,
+  participants: 3,
+  messages: 3,
+  creationDate: new Date(),
 };
 </script>

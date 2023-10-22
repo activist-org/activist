@@ -10,4 +10,5 @@ export interface Organization {
   imageURL?: string;
   workingGroups?: string[];
   socialLinks?: string[];
+  donationPrompt?: string;
 }

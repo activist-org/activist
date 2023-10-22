@@ -64,6 +64,10 @@
         :social-links="organization.socialLinks"
         :userIsAdmin="true"
       />
+      <!-- <CardDonate
+        :userIsAdmin="true"
+        :donationPrompt="organization.donationPrompt"
+      /> -->
     </div>
   </div>
 </template>
@@ -88,5 +92,6 @@ const organization: Organization = {
   imageURL: "/images/tech-from-below.svg",
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
+  donationPrompt: "Hey thanks!",
 };
 </script>

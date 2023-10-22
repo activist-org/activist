@@ -33,6 +33,13 @@ class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    status = models.CharField(max_length=255)
+    description = models.TextField(max_length=500)
+    members = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
+    supporters = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
+    images_url = ArrayField(models.CharField(max_length=255))
+    topics = ArrayField(models.CharField(max_length=255))
     social_accounts = ArrayField(models.CharField(max_length=255))
     total_flags = models.IntegerField(null=True)
     created_by = models.ForeignKey(
