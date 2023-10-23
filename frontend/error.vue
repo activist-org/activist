@@ -42,5 +42,16 @@
 </template>
 
 <script setup lang="ts">
-defineProps(["error"]);
+class HTTPError extends Error {
+  statusCode: number;
+
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
+
+defineProps<{
+  error: HTTPError;
+}>();
 </script>

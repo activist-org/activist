@@ -14,10 +14,12 @@
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
-      <GridHomeMetrics />
-      <CardChangeAccountInfo infoType="email" header="email" />
-      <CardChangeAccountInfo infoType="username" header="username" />
-      <CardChangeAccountInfo infoType="password" header="password" />
+      <div
+        class="flex flex-col lg:grid space-y-6 lg:grid-cols-7 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-6"
+      >
+        <GridHomeMetrics class="lg:col-span-5" />
+        <MediaDatePicker class="w-full h-full lg:col-span-2" />
+      </div>
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"
@@ -38,11 +40,13 @@
         :isPrivate="false"
         :user="user"
       />
+      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Discussion } from "../../types/discussion";
 import { Event } from "../../types/event";
 import { Organization } from "../../types/organization";
 import { Resource } from "../../types/resource";
@@ -57,7 +61,6 @@ console.log(organizations);
 definePageMeta({
   layout: "sidebar",
 });
-const sidebar = useSidebar();
 
 const resource: Resource = {
   name: "Test Resource",
@@ -101,5 +104,16 @@ const user: User = {
   location: "Testerville, TN",
   supporters: 123,
   description: "I love to test!",
+};
+
+const discussion: Discussion = {
+  title: "Title of discussion ",
+  author: "John A. Tester",
+  category: "Category",
+  text: "I love to test!",
+  upVoters: 123,
+  participants: 3,
+  messages: 3,
+  creationDate: new Date(),
 };
 </script>

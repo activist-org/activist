@@ -13,8 +13,10 @@ from pathlib import Path
 import django_stubs_ext
 import dotenv
 from django.core.management.utils import get_random_secret_key
+from rest_framework import viewsets
+from rest_framework.settings import api_settings
 
-django_stubs_ext.monkeypatch()
+django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
 dotenv.load_dotenv()
 
 
@@ -43,6 +45,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(" ")
 
 INSTALLED_APPS = [
     "rest_framework",
+    "rest_framework.authtoken",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -54,6 +57,7 @@ INSTALLED_APPS = [
     "content",
     "events",
     "drf_spectacular",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -64,6 +68,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -96,7 +106,15 @@ DATABASES = {
         "PASSWORD": DATABASE_PASSWORD,
         "HOST": DATABASE_HOST,
         "PORT": DATABASE_PORT,
-    }
+    },
+    "test": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "test_" + DATABASE_NAME,
+        "USER": DATABASE_USER,
+        "PASSWORD": DATABASE_PASSWORD,
+        "HOST": DATABASE_HOST,
+        "PORT": DATABASE_PORT,
+    },
 }
 
 
@@ -145,7 +163,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 SECRET_KEY = get_random_secret_key()
 
 REST_FRAMEWORK = {
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {"anon": "7/min", "user": "10/min"},
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
 }
 
 SPECTACULAR_SETTINGS = {
@@ -154,3 +179,6 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+# Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
+api_settings.reload()

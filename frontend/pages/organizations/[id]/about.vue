@@ -48,7 +48,7 @@
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 lg:pt-4">
       <div
-        class="grid grid-cols-1 grid-rows-2 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
         <CardAbout
           class="lg:col-span-2"
@@ -64,6 +64,10 @@
         :social-links="organization.socialLinks"
         :userIsAdmin="true"
       />
+      <!-- <CardDonate
+        :userIsAdmin="true"
+        :donationPrompt="organization.donationPrompt"
+      /> -->
     </div>
   </div>
 </template>
@@ -74,8 +78,6 @@ import { Organization } from "../../../types/organization";
 definePageMeta({
   layout: "sidebar",
 });
-
-const { id } = useRoute().params;
 
 const organization: Organization = {
   name: "tech from below",
@@ -90,5 +92,6 @@ const organization: Organization = {
   imageURL: "/images/tech-from-below.svg",
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
+  donationPrompt: "Hey thanks!",
 };
 </script>

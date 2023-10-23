@@ -2,9 +2,9 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
+        v-slot="{ open }"
         class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand shadow-sm shadow-zinc-700"
         :class="{ 'pl-6': location === 'sideMenu' }"
-        v-slot="{ open }"
         :aria-label="$t('components.selector-theme.open-dropdown-aria-label')"
       >
         <div class="flex items-center text-sm space-x-2">
@@ -106,7 +106,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
-defineProps({
-  location: String,
-});
+defineProps<{
+  location?: string;
+}>();
 </script>

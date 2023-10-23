@@ -11,10 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-
-const hasSidebar = ref(false);
-
 const connectLinks = [
   {
     name: "components.footer.github",
@@ -38,16 +34,16 @@ const connectLinks = [
 
 const resourcesLinks = [
   {
-    name: "components.footer.faq",
-    url: "/help/faq",
-  },
-  {
     name: "components.footer.help",
     url: "/help",
   },
   {
     name: "components.footer.documentation",
     url: "/docs",
+  },
+  {
+    name: "components.footer.legal",
+    url: "/legal",
   },
   {
     name: "components.footer.contact",
@@ -72,7 +68,7 @@ const organizationLinks = [
 
 const platformLinks = [
   {
-    name: "v0.0.1",
+    name: "components.footer.version-number",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist/releases",
   },

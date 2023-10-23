@@ -4,18 +4,18 @@
     <h1
       class="pt-4 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
-      {{ header }}
+      {{ headerName }}
     </h1>
-    <IconOrganizationStatus v-if="status" :status="status" />
+    <IconOrganizationStatus v-if="headerStatus" :status="headerStatus" />
   </div>
   <div
     class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow align-center"
   >
     <h2
-      v-if="tagline"
+      v-if="headerTagline"
       class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
     >
-      {{ tagline }}
+      {{ headerTagline }}
     </h2>
     <!-- Slot is for BtnLabeled and Dropdown components at the top of the page. -->
     <slot />
@@ -33,19 +33,19 @@ const props = defineProps<{
   event?: Event;
 }>();
 
-let header: string;
-let tagline: string;
-let status: string;
+let headerName: string;
+let headerTagline: string;
+let headerStatus: string;
 
 if (props.organization) {
-  header = props.organization.name;
-  tagline = props.organization.tagline;
-  status = props.organization.status;
+  headerName = props.organization.name;
+  headerTagline = props.organization.tagline;
+  headerStatus = props.organization.status;
 } else if (props.event) {
-  header = props.event.name;
-  tagline = props.event.tagline;
+  headerName = props.event.name;
+  headerTagline = props.event.tagline;
 } else {
-  header = props.header || "Default Demo Header";
-  tagline = props.tagline || "Default Demo Tagline";
+  headerName = props.header || "Default Demo Header";
+  headerTagline = props.tagline || "Default Demo Tagline";
 }
 </script>

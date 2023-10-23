@@ -43,6 +43,9 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 <element
   v-attributes=""
   @attributes=""
+  ref=""
+  key=""
+  id=""
   class=""
   :class="{}"
   props=""
@@ -82,11 +85,22 @@ const strArray: string[] = ["Thank", "you", "for", "contributing!"];
 // No need to define `props` if we won't be accessing them in the `<script>` block.
 const props = defineProps<{
   foo: string;
-  bar?: number;
+  bar?: number; // optionalProp?
 }>();
 ```
 
-- Please also use `withDefault` when types require [default values](https://vuejs.org/guide/typescript/composition-api.html#props-default-values)
+- Type assignments should be lower case, so `string` instead of `String`
+- Use `withDefaults` when types require [default values](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) as in the following example:
+
+```typescript
+export interface Props {
+  foo: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  foo: "default",
+});
+```
 
 See [Vue and TypeScript docs](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) for more information about typing component props.
 

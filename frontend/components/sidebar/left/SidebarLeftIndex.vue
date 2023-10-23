@@ -88,6 +88,7 @@ const { id } = useRoute().params;
 
 const organizationButtons: MenuSelector[] = [
   {
+    id: 1,
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/organizations/" + id + "/about",
     iconURL: "bi:card-text",
@@ -95,6 +96,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 2,
     label: "components.sidebar-left-selector.label.events",
     routeURL: "/organizations/" + id + "/events",
     iconURL: "bi:calendar-check",
@@ -102,6 +104,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 3,
     label: "components.sidebar-left-selector.label.groups",
     routeURL: "/organizations/" + id + "/groups",
     iconURL: "IconGroup",
@@ -109,6 +112,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 4,
     label: "components.sidebar-left-selector.label.resources",
     routeURL: "/organizations/" + id + "/resources",
     iconURL: "IconResource",
@@ -116,6 +120,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 5,
     label: "components.sidebar-left-selector.label.faq",
     routeURL: "/organizations/" + id + "/faq",
     iconURL: "IconFAQ",
@@ -123,6 +128,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 6,
     label: "components.sidebar-left-selector.label.settings",
     routeURL: "/organizations/" + id + "/settings",
     iconURL: "bi:gear",
@@ -130,6 +136,7 @@ const organizationButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 7,
     label: "components.sidebar-left-selector.label.affiliates",
     routeURL: "/organizations/" + id + "/affiliates",
     iconURL: "IconSupport",
@@ -137,6 +144,7 @@ const organizationButtons: MenuSelector[] = [
     active: false,
   },
   {
+    id: 8,
     label: "components.sidebar-left-selector.label.tasks",
     routeURL: "/organizations/" + id + "/tasks",
     iconURL: "bi:check-square",
@@ -144,6 +152,7 @@ const organizationButtons: MenuSelector[] = [
     active: false,
   },
   {
+    id: 9,
     label: "components.sidebar-left-selector.label.discussions",
     routeURL: "/organizations/" + id + "/discussions",
     iconURL: "octicon:comment-discussion-24",
@@ -154,6 +163,7 @@ const organizationButtons: MenuSelector[] = [
 
 const eventButtons: MenuSelector[] = [
   {
+    id: 1,
     label: "components.sidebar-left-selector.label.about",
     routeURL: "/events/" + id + "/about",
     iconURL: "bi:card-text",
@@ -161,6 +171,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 2,
     label: "components.sidebar-left-selector.label.team",
     routeURL: "/events/" + id + "/team",
     iconURL: "bi:people",
@@ -168,6 +179,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 3,
     label: "components.sidebar-left-selector.label.resources",
     routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
@@ -175,6 +187,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 4,
     label: "components.sidebar-left-selector.label.settings",
     routeURL: "/events/" + id + "/settings",
     iconURL: "bi:gear",
@@ -182,6 +195,7 @@ const eventButtons: MenuSelector[] = [
     active: true,
   },
   {
+    id: 5,
     label: "components.sidebar-left-selector.label.tasks",
     routeURL: "/events/" + id + "/tasks",
     iconURL: "bi:check-square",
@@ -189,6 +203,7 @@ const eventButtons: MenuSelector[] = [
     active: false,
   },
   {
+    id: 6,
     label: "components.sidebar-left-selector.label.discussions",
     routeURL: "/events/" + id + "/discussions",
     iconURL: "octicon:comment-discussion-24",
