@@ -107,14 +107,6 @@ DATABASES = {
         "HOST": DATABASE_HOST,
         "PORT": DATABASE_PORT,
     },
-    "test": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "test_" + DATABASE_NAME,
-        "USER": DATABASE_USER,
-        "PASSWORD": DATABASE_PASSWORD,
-        "HOST": DATABASE_HOST,
-        "PORT": DATABASE_PORT,
-    },
 }
 
 
