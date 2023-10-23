@@ -290,6 +290,9 @@
     },
     "tooltip-sign-in": {
       "text": "You need to be signed in to see this content."
+    },
+    "marker-privacy": {
+      "private": "Private"
     }
   },
   "pages": {
