@@ -1,37 +1,16 @@
 <template>
-  <div class="flex justify-center h-min card-style md:justify-start">
-    <div class="flex flex-col p-2 md:flex-row md:grow sm:px-5 sm:py-3 h-fit">
-      <div v-if="infoType === 'email'" class="w-full">
-        <CardChangeAccountInfoEmail />
-        <div class="flex w-full pt-4">
-          <div class="w-1/3">
-            <BtnCaptcha />
-          </div>
-          <div class="w-1/3">
-            <BtnChangeDetails info-type="email" />
-          </div>
-        </div>
-      </div>
-      <div v-if="infoType === 'username'" class="w-full">
-        <CardChangeAccountInfoUsername />
-        <div class="flex w-full pt-4">
-          <div class="w-1/3">
-            <BtnCaptcha />
-          </div>
-          <BtnChangeDetails info-type="username" />
-          <div class="w-1/3"></div>
-        </div>
-      </div>
-      <div v-if="infoType === 'password'" class="w-full">
-        <CardChangeAccountInfoPassword />
-        <div class="flex w-full pt-4">
-          <div class="w-1/3">
-            <BtnCaptcha />
-          </div>
-          <div class="w-1/3">
-            <BtnChangeDetails info-type="password" />
-          </div>
-        </div>
+  <div class="flex justify-center card-style md:justify-start">
+    <div class="flex flex-col p-2 w-full sm:px-5 sm:py-3 h-fit">
+      <slot />
+      <div class="flex items-center space-x-6 pt-4">
+        <FriendlyCaptcha />
+        <BtnLabeled
+          class="flex max-h-[48px] md:max-h-[40px]"
+          :cta="true"
+          :label="ctaLabel"
+          fontSize="sm"
+          :ariaLabel="ctaAriaLabel"
+        />
       </div>
     </div>
   </div>
@@ -39,9 +18,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  header: String;
-  description: String;
-  infoType: "email" | "username" | "password";
   ctaLabel: String;
+  ctaAriaLabel: String;
 }>();
 </script>

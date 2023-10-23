@@ -41,6 +41,9 @@
         :user="user"
       />
       <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
+      <CardChangeAccountInfoUsername />
+      <CardChangeAccountInfoPassword />
+      <CardChangeAccountInfoEmail />
     </div>
   </div>
 </template>

@@ -38,22 +38,38 @@
       "label": "Roadmap",
       "aria-label": "Learn about the activist.org roadmap"
     },
-    "card-search-result-event": {
-      "img-alt-text": "The event logo of",
-      "attending": "Attending"
-    },
-    "card-search-result-organization": {
-      "img-alt-text": "The organization logo of",
-      "members": "Members",
-      "supporters": "Supporters"
-    },
-    "card-search-result-resource": {
-      "img-alt-text": "The resource logo of"
-    },
     "card-about": {
       "full-text": "Click for full text",
       "full-text-aria-label": "Click to view a popup with the full text",
       "header": "About"
+    },
+    "card-change-account-info": {
+      "email": {
+        "cta-aria-label": "Change your email address to a new one",
+        "enter-new-email": "Enter new email",
+        "enter-old-email": "Enter old email",
+        "header-cta": "Change email",
+        "new-email": "New email",
+        "old-email": "Old email"
+      },
+      "password": {
+        "cta-aria-label": "Change your password to a new one",
+        "current-password": "Current password",
+        "enter-current-password": "Enter current password",
+        "enter-new-password": "Enter new password",
+        "enter-repeat-password": "Repeat new password",
+        "header-cta": "Change password",
+        "new-password": "New password",
+        "repeat-password": "Repeat password"
+      },
+      "username": {
+        "cta-aria-label": "Change your password to a new one",
+        "header-cta": "Change username",
+        "enter-new-username": "Enter desired username",
+        "new-username": "New username"
+      },
+      "enter-password": "Enter password",
+      "enter-your-password": "Enter your password"
     },
     "card-connect": {
       "header": "Connect"
@@ -77,6 +93,18 @@
     },
     "card-legal-disclaimer": {
       "header": "Legal Disclaimer"
+    },
+    "card-search-result-event": {
+      "img-alt-text": "The event logo of",
+      "attending": "Attending"
+    },
+    "card-search-result-organization": {
+      "img-alt-text": "The organization logo of",
+      "members": "Members",
+      "supporters": "Supporters"
+    },
+    "card-search-result-resource": {
+      "img-alt-text": "The resource logo of"
     },
     "feed-item": {
       "img-alt-text": "A social media post's image."
@@ -117,6 +145,10 @@
       "powered-by-netlify": "This site is powered by Netlify.",
       "resources": "Resources",
       "website-copyright": "Copyright © 2023 activist."
+    },
+    "friendly-captcha": {
+      "i-am-human": "I am human",
+      "label": "FriendlyCaptcha"
     },
     "grid-github-contributors": {
       "img-alt-text": "The icon of",
@@ -397,8 +429,7 @@
           "welcome-back": "Welcome back! 👋",
           "enter-user-name": "Enter username",
           "enter-password": "Enter password",
-          "no-account": "Don't have an account?",
-          "i-am-human": "I am human"
+          "no-account": "Don't have an account?"
         }
       },
       "sign-up": {
@@ -411,7 +442,6 @@
           "enter-password": "Enter password",
           "repeat-password": "Repeat password",
           "have-account": "Already have an account?",
-          "i-am-human": "I am human",
           "read-terms-of-service": "I have read and agree to the",
           "terms-of-service": "terms of service",
           "password-rules-message": "For your security and that of the community, please choose a password that you've never used before. Thank you!",
@@ -732,25 +762,26 @@
         "showcase-alt-text": "A question mark within a square.",
         "join": "Become a supporter",
         "join-description": "Learn about how you can help the activist community.",
-        "join-alt-text": "An envelope that's closed indicating a message to be sent."
+        "join-alt-text": "An arrow pointing in to an open circle."
       },
       "showcase": {
         "section-1-paragraph-1-1": "The following is an overview of organizations and individuals that have supported the development of activist. Those interested in providing support can read more about how they can help on the",
         "section-1-paragraph-1-2": "become a supporter page",
-        "section-2-subheader": "UNLOCK Accelerator",
-        "section-2-paragraph-1-1": "The following organizations have supported activist via the 2022 edition of the",
-        "section-2-paragraph-1-2": "Wikimedia UNLOCK accelerator",
-        "section-2-paragraph-1-3": "UNLOCK supports open-source software projects and non-technical projects under free licenses. The UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.",
-        "section-3-subheader": "Contributors",
-        "section-3-1-subheader": "Development",
-        "section-3-1-paragraph-1-1": "activist has proudly developed in the open from its inception. This project would not be what it is without the support of our open-source community. Thank you to all our",
-        "section-3-1-paragraph-1-2": "contributors on GitHub",
-        "section-3-2-subheader": "Design",
-        "section-3-2-paragraph-1": "activist has received design support from many individuals.",
-        "thanks": "Thanks to our anonymous contributors!",
+        "section-2-subheader": "Contributors",
+        "section-2-1-subheader": "Development",
+        "section-2-1-paragraph-1-1": "activist has proudly developed in the open from its inception. This project would not be what it is without the support of our open-source community. Thank you to all our",
+        "section-2-1-paragraph-1-2": "contributors on GitHub",
+        "section-2-2-subheader": "Design",
+        "section-2-2-paragraph-1": "activist has received design support from many individuals.",
+        "section-2-2-thanks": "Thanks to our anonymous contributors!",
+        "section-3-subheader": "UNLOCK Accelerator",
+        "section-3-paragraph-1-1": "The following organizations have supported activist via the 2022 edition of the",
+        "section-3-paragraph-1-2": "Wikimedia UNLOCK accelerator",
+        "section-3-paragraph-1-3": "UNLOCK supports open-source software projects and non-technical projects under free licenses. The UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.",
         "title": "Our Supporters"
       },
       "join": {
+        "img-alt-text": "An arrow pointing in to an open circle.",
         "section-1-paragraph-1-1": "activist needs support from our community in countless ways. The following details how organizations and individuals can help the team develop the platform to empower activists to have as much impact as possible. A full list of activist's current supporters can be found",
         "section-1-paragraph-1-2": "here",
         "section-2-subheader": "Contribute on GitHub",
