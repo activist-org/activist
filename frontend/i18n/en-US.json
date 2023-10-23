@@ -85,6 +85,10 @@
       "username-label": "Your username",
       "username-placeholder": "Enter your username"
     },
+
+    "card-discussion-text": {
+      "on": "on"
+    },
     "card-get-involved": {
       "header": "Get involved",
       "join-subtext": "Click \"Join organization\" above to get involved in",

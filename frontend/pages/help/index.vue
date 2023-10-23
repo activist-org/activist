@@ -28,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import type { CardDocsEntry } from "../../types/card-docs-entry";
+import type { DocsEntry } from "../../types/docs-entry";
 
-const cards: CardDocsEntry[] = [
+const cards: DocsEntry[] = [
   {
     id: 1,
     url: "faq",

@@ -41,6 +41,7 @@
         :user="user"
       />
       <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
+      <CardDiscussionText :discussionText="discussionText" />
       <CardChangeAccountInfoUsername />
       <CardChangeAccountInfoPassword />
       <CardChangeAccountInfoEmail />
@@ -49,7 +50,8 @@
 </template>
 
 <script setup lang="ts">
-import { Discussion } from "../../types/discussion";
+import { DiscussionEntry } from "../../types/discussion-entry";
+import { DiscussionText } from "../../types/discussion-text";
 import { Event } from "../../types/event";
 import { Organization } from "../../types/organization";
 import { Resource } from "../../types/resource";
@@ -109,7 +111,7 @@ const user: User = {
   description: "I love to test!",
 };
 
-const discussion: Discussion = {
+const discussion: DiscussionEntry = {
   title: "Title of discussion ",
   author: "John A. Tester",
   category: "Category",
@@ -118,5 +120,13 @@ const discussion: Discussion = {
   participants: 3,
   messages: 3,
   creationDate: new Date(),
+};
+
+const discussionText: DiscussionText = {
+  author: "John A. Tester",
+  content:
+    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
+  votes: 123,
+  date: new Date(),
 };
 </script>

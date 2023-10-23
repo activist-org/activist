@@ -1,4 +1,4 @@
-export interface CardDiscussionText {
+export interface DiscussionText {
   authorImg?: string;
   author: string;
   content: string;
