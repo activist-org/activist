@@ -28,7 +28,7 @@ class TaskFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     description = factory.Faker("paragraph")
     location = factory.Faker("address")
-    tags = [factory.Faker("word") for _ in range(10)]
+    tags = factory.List([factory.Faker("word") for _ in range(10)])
     creation_date = factory.LazyFunction(datetime.datetime.now)
     deletion_date = factory.LazyFunction(datetime.datetime.now)
 
