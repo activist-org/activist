@@ -35,6 +35,9 @@ colorama==0.4.6
     # via
     #   build
     #   click
+    #   pytest
+coverage[toml]==7.3.2
+    # via pytest-cov
 distlib==0.3.7
     # via virtualenv
 django==4.2.6
@@ -63,6 +66,10 @@ djangorestframework-stubs==3.14.2
     # via -r requirements.txt
 drf-spectacular==0.26.4
     # via -r requirements.txt
+factory-boy===3.3.0
+    # via -r requirements-dev.in
+faker==19.11.0
+    # via factory-boy
 filelock==3.12.4
     # via virtualenv
 gunicorn==20.1.0
@@ -77,6 +84,8 @@ inflection==0.5.1
     # via
     #   -r requirements.txt
     #   drf-spectacular
+iniconfig==2.0.0
+    # via pytest
 jsonschema==4.19.1
     # via
     #   -r requirements.txt
@@ -101,6 +110,7 @@ packaging==23.2
     # via
     #   black
     #   build
+    #   pytest
 pathspec==0.11.2
     # via black
 pip-tools==7.3.0
@@ -109,12 +119,25 @@ platformdirs==3.11.0
     # via
     #   black
     #   virtualenv
+pluggy==1.3.0
+    # via pytest
 pre-commit==3.4.0
     # via -r requirements-dev.in
 psycopg2-binary==2.9.5
     # via -r requirements.txt
 pyproject-hooks==1.0.0
     # via build
+pytest==7.4.2
+    # via
+    #   -r requirements-dev.in
+    #   pytest-cov
+    #   pytest-django
+pytest-cov==4.1.0
+    # via -r requirements-dev.in
+pytest-django==4.5.2
+    # via -r requirements-dev.in
+python-dateutil==2.8.2
+    # via faker
 python-dotenv==1.0.0
     # via -r requirements.txt
 pytz==2023.3.post1
@@ -142,6 +165,8 @@ rpds-py==0.10.6
     #   referencing
 ruff==0.0.292
     # via -r requirements-dev.in
+six==1.16.0
+    # via python-dateutil
 sqlparse==0.4.4
     # via
     #   -r requirements.txt
