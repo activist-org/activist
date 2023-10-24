@@ -639,7 +639,8 @@
       "index": {
         "header": "Welcome, username 👋✊",
         "subheader": "Your topics at a glance",
-        "title": "Home"
+        "title": "Home",
+        "dropdown-topics": "My Topics" 
       }
     },
     "legal": {
