@@ -1,6 +1,6 @@
 <template>
   <div class="w-full grid grid-cols-1 gap-5 md:gap-8 md:grid-cols-2 h-fit">
-    <DocsEntry
+    <CardDocsEntry
       v-for="card in cards"
       :key="card.id"
       :url="route.path.replace(/\/$/, '') + '/' + card.url"
