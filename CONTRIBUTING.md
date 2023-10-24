@@ -268,7 +268,13 @@ When making a contribution, adhering to the [GitHub flow](https://guides.github.
    > pip install pre-commit
    > ```
 
-4. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Use Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) feature to tidy up your commits before making them public.
+4. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+   > [!NOTE]\
+   > The following are tools and methods to help you write good commit messages ✨
+   >
+   > - [commitlint](https://commitlint.io/) helps write [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+   > - Git's [interactive rebase](https://docs.github.com/en/github/getting-started-with-github/about-git-rebase) cleans up commits
 
 5. Locally merge (or rebase) the upstream development branch into your topic branch:
 
