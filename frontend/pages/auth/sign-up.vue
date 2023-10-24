@@ -50,6 +50,22 @@
           "
         />
       </div>
+      <div class="flex items-center flex-row">
+        <FormCheckbox
+          @update:modelValue="hasRed = $event"
+          :modelValue="hasRed"
+          value="yes"
+        />
+        <p class="flex flex-wrap pl-2">
+          {{ $t("pages.auth.sign-up.index.read-terms-of-service") }}
+          <NuxtLink
+            :to="'../legal/privacy-policy'"
+            target="_blank"
+            class="ml-1 text-[#005CB8E5] sm:block"
+            >{{ $t("pages.auth.sign-up.index.terms-of-service") }}
+          </NuxtLink>
+        </p>
+      </div>
       <div class="flex space-x-2">
         <FriendlyCaptcha />
         <BtnLabeled
@@ -60,21 +76,6 @@
           fontSize="lg"
           :ariaLabel="$t('components.btn-labeled.sign-up-aria-label')"
         />
-      </div>
-      <div class="flex flex-col items-center pt-6 sm:flex-row md:pt-8 lg:pt-12">
-        <FormCheckbox
-          @update:modelValue="hasRed = $event"
-          :label="$t('pages.auth.sign-up.index.read-terms-of-service')"
-          :modelValue="hasRed"
-          value="yes"
-        />
-
-        <NuxtLink
-          :to="'../legal/privacy-policy'"
-          target="_blank"
-          class="ml-1 text-[#005CB8E5] sm:block"
-          >{{ $t("pages.auth.sign-up.index.terms-of-service") }}
-        </NuxtLink>
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-up.index.have-account") }}</h6>
