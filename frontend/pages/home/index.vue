@@ -40,13 +40,7 @@
         :isPrivate="false"
         :user="user"
       />
-
-      <CardSearchResult
-        searchResultType="discussionInput"
-        :isPrivate="false"
-        :discussionInput="discussionInput"
-      /> 
-
+      <CardDiscussionInput :discussionInput="discussionInput" />
       <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
       <CardDiscussionText :discussionText="discussionText" />
       <CardChangeAccountInfoUsername />
@@ -58,12 +52,12 @@
 
 <script setup lang="ts">
 import { DiscussionEntry } from "../../types/discussion-entry";
+import { DiscussionInput } from "../../types/discussion-input";
 import { DiscussionText } from "../../types/discussion-text";
 import { Event } from "../../types/event";
 import { Organization } from "../../types/organization";
 import { Resource } from "../../types/resource";
 import { User } from "../../types/user";
-import { DiscussionInput } from "~/types/discussionInput";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -119,6 +113,14 @@ const user: User = {
   description: "I love to test!",
 };
 
+const discussionInput: DiscussionInput = {
+  name: "Text ",
+  location: "Testerville, TN",
+  supporters: 123,
+  description: "I love to test!",
+  category: "Category",
+};
+
 const discussion: DiscussionEntry = {
   title: "Title of discussion ",
   author: "John A. Tester",
@@ -128,7 +130,6 @@ const discussion: DiscussionEntry = {
   participants: 3,
   messages: 3,
   creationDate: new Date(),
-
 };
 
 const discussionText: DiscussionText = {
