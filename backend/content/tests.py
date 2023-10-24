@@ -1,11 +1,12 @@
-from django.test import SimpleTestCase
-from .factory import ResourceFactory
+from .factory import ResourceFactory, TaskFactory, TopicFactory, ResourceTopicFactory
 
 
-class TestStrMethod(SimpleTestCase):
-    # def setUp(self) -> None:
-    #     self.resource = ResourceFactory.build()
-
-    def test_str_methods(self) -> None:
-        # self.assertEqual(str(self.resource), self.resource.name)
-        self.assertEquals(1, 1)
+def test_str_methods() -> None:
+    resource = ResourceFactory.build()
+    task = TaskFactory.build()
+    topics = TopicFactory.build()
+    resource_topics = ResourceTopicFactory.build()
+    assert str(resource) == resource.name
+    assert str(task) == task.name
+    assert str(topics) == topics.name
+    assert str(resource_topics) == resource_topics.id
