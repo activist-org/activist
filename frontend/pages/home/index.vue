@@ -94,7 +94,7 @@ const organization: Organization = {
 
 const event: Event = {
   name: "Test Event",
-  type: "act",
+  type: "action",
   tagline: "We love to test!",
   organizer: "Testers LLC",
   topic: "Testing and Designing",

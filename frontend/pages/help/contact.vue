@@ -88,7 +88,8 @@
             <div class="flex flex-col space-y-2">
               <label
                 :class="{
-                  'text-light-act-red dark:text-dark-act-red': !nameValidated,
+                  'text-light-action-red dark:text-dark-action-red':
+                    !nameValidated,
                   'text-light-text dark:text-dark-text': nameValidated,
                 }"
                 for="name"
@@ -103,7 +104,7 @@
                 id="name"
                 class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
-                  'outline-light-act-red dark:outline-dark-act-red outline outline-2':
+                  'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
                 }"
@@ -115,7 +116,8 @@
             <div class="flex flex-col space-y-2">
               <label
                 :class="{
-                  'text-light-act-red dark:text-dark-act-red': !emailValidated,
+                  'text-light-action-red dark:text-dark-action-red':
+                    !emailValidated,
                   'text-light-text dark:text-dark-text': emailValidated,
                 }"
                 for="email"
@@ -133,7 +135,7 @@
                 id="email"
                 class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
-                  'outline-light-act-red dark:outline-dark-act-red outline outline-2':
+                  'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
                 }"
@@ -145,7 +147,7 @@
             <div class="flex flex-col space-y-2">
               <label
                 :class="{
-                  'text-light-act-red dark:text-dark-act-red':
+                  'text-light-action-red dark:text-dark-action-red':
                     !subjectValidated,
                   'text-light-text dark:text-dark-text': subjectValidated,
                 }"
@@ -161,7 +163,7 @@
                 id="subject"
                 class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
-                  'outline-light-act-red dark:outline-dark-act-red outline outline-2':
+                  'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
                 }"
@@ -173,7 +175,7 @@
             <div class="flex flex-col space-y-2">
               <label
                 :class="{
-                  'text-light-act-red dark:text-dark-act-red':
+                  'text-light-action-red dark:text-dark-action-red':
                     !messageValidated,
                   'text-light-text dark:text-dark-text': messageValidated,
                 }"
@@ -187,7 +189,7 @@
                 id="message"
                 class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
                 :class="{
-                  'outline-light-act-red dark:outline-dark-act-red outline outline-2':
+                  'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !messageValidated,
                   'outline-none focus:outline-none': messageValidated,
                 }"

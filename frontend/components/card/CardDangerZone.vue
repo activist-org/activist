@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-5 py-5 border bg-light-act-red/30 dark:bg-dark-act-red/20 border-light-act-red dark:border-dark-act-red card-style-base text-light-text dark:text-dark-text"
+    class="px-5 py-5 border bg-light-action-red/30 dark:bg-dark-action-red/20 border-light-action-red dark:border-dark-action-red card-style-base text-light-text dark:text-dark-text"
   >
     <div class="flex flex-col gap-5">
       <h3 class="font-bold text-left responsive-h3 font-display">
@@ -45,7 +45,7 @@
         </div>
         <div class="mt-5">
           <button
-            class="w-auto px-3 py-2 rounded-md text-light-distinct dark:text-dark-distinct bg-light-text dark:bg-dark-text hover:bg-light-act-red dark:hover:bg-dark-act-red"
+            class="w-auto px-3 py-2 rounded-md text-light-distinct dark:text-dark-distinct bg-light-text dark:bg-dark-text hover:bg-light-action-red dark:hover:bg-dark-action-red"
             type="button"
             :aria-label="ctaBtnAriaLabel"
           >

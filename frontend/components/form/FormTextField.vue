@@ -2,7 +2,7 @@
   <div
     class="flex items-center pl-[12px] pr-[10px] py-2 max-h-[40px] space-x-2 text-left border rounded select-none text-light-special-text dark:text-dark-special-text"
     :class="{
-      'border-light-act-red dark:border-dark-act-red': error,
+      'border-light-action-red dark:border-dark-action-red': error,
       'border-light-interactive dark:border-dark-interactive': !error,
     }"
   >

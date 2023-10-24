@@ -8,14 +8,14 @@
       backgroundColor="bg-light-distinct dark:bg-dark-distinct hover:bg-light-highlight dark:hover:bg-dark-highlight active:bg-light-distinct active:dark:bg-dark-distinct"
     />
     <CardMetric
-      :text="$t('components.grid-home-metrics.act-events')"
+      :text="$t('components.grid-home-metrics.action')"
       number="100"
-      textColor="text-light-text dark:text-dark-act-red"
-      borderColor="border-light-text dark:border-dark-act-red"
-      backgroundColor="bg-light-act-red/60 dark:bg-dark-act-red/20 hover:bg-light-act-red/50 hover:dark:bg-dark-act-red/30 active:bg-light-act-red/60 active:dark:bg-dark-act-red/20"
+      textColor="text-light-text dark:text-dark-action-red"
+      borderColor="border-light-text dark:border-dark-action-red"
+      backgroundColor="bg-light-action-red/60 dark:bg-dark-action-red/20 hover:bg-light-action-red/50 hover:dark:bg-dark-action-red/30 active:bg-light-action-red/60 active:dark:bg-dark-action-red/20"
     />
     <CardMetric
-      :text="$t('components.grid-home-metrics.learn-events')"
+      :text="$t('components.grid-home-metrics.learn')"
       number="23"
       textColor="text-light-text dark:text-dark-learn-blue"
       borderColor="border-light-text dark:border-dark-learn-blue"

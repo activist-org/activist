@@ -126,14 +126,14 @@ const filters = {
     style: "btn",
     items: [
       {
-        label: "Act",
-        value: "act",
-        customColor: "act-red",
-      },
-      {
         label: "Learn",
         value: "learn",
         customColor: "learn-blue",
+      },
+      {
+        label: "Action",
+        value: "action",
+        customColor: "action-red",
       },
     ],
   },

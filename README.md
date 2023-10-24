@@ -242,7 +242,7 @@ Beyond clustering by topics, tags will also be used to draw community attention 
 
 ### Types
 
-`Act` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for act and 🔵 blue is for learn).
+`Act` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for action and 🔵 blue is for learn).
 
 <a id="formats"></a>
 
