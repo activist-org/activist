@@ -19,21 +19,7 @@
         />
       </div>
       <div class="flex space-x-2">
-        <button
-          class="flex items-center w-fit justify-center 2xl:space-x-10 xl:space-x-8 lg:space-x-4 md:space-x-4 lg:col-span-5 md:col-span-2 px-3 rounded border light:border-black dark:border-[#857E7B] text-sm h-[48px] md:h-[40px]"
-          type="button"
-          aria-label="test"
-        >
-          <span class="flex items-center space-x-4 whitespace-nowrap">
-            <Icon name="bi:shield-fill-check" size="28px" />
-            <span class="font-bold text-[18px] hidden lg:inline-block">{{
-              $t("pages.auth.sign-in.index.i-am-human")
-            }}</span>
-          </span>
-          <span class="text-[12px] hidden lg:inline-block truncate"
-            >FriendlyCaptcha</span
-          >
-        </button>
+        <FriendlyCaptcha />
         <BtnLabeled
           @click="signIn"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"

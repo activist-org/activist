@@ -1,6 +1,7 @@
 {
   "components": {
     "btn-labeled": {
+      "check-discussion-category-aria-label": "The type of discussion that is taking place",
       "get-in-touch": "Get in touch",
       "get-in-touch-aria-label": "Get in touch with the activist team",
       "join-organization": "Join organization",
@@ -21,19 +22,88 @@
       "share-organization-aria-label": "Share this organization with others",
       "sign-in": "Sign in",
       "sign-up": "Sign up",
-      "sign-in-aria-label": "Sign in to your account.",
-      "sign-up-aria-label": "Sign up for a new account on activist.",
+      "sign-in-aria-label": "Sign in to your account",
+      "sign-up-aria-label": "Sign up for a new account on activist",
       "suggest-a-feature": "Suggest a feature",
       "suggest-a-feature-aria-label": "Go to GitHub to suggest a feature for activist.org",
       "support": "Support",
       "support-event-aria-label": "Support this event",
       "support-organization-aria-label": "Support this organization",
+      "upvote-discussion-aria-label": "Up vote this discussion as being interesting",
       "view-all-groups": "View all groups",
-      "view-all-groups-aria-label": "View all groups within this organization"
+      "view-all-groups-aria-label": "View all groups within this organization",
+      "go-to-donation-page": "Go to donation page"
     },
     "btn-roadmap": {
       "label": "Roadmap",
       "aria-label": "Learn about the activist.org roadmap"
+    },
+    "card-about": {
+      "full-text": "Click for full text",
+      "full-text-aria-label": "Click to view a popup with the full text",
+      "header": "About"
+    },
+    "card-change-account-info": {
+      "email": {
+        "cta-aria-label": "Change your email address to a new one",
+        "enter-new-email": "Enter new email",
+        "enter-old-email": "Enter old email",
+        "header-cta": "Change email",
+        "new-email": "New email",
+        "old-email": "Old email"
+      },
+      "password": {
+        "cta-aria-label": "Change your password to a new one",
+        "current-password": "Current password",
+        "enter-current-password": "Enter current password",
+        "enter-new-password": "Enter new password",
+        "enter-repeat-password": "Repeat new password",
+        "header-cta": "Change password",
+        "new-password": "New password",
+        "repeat-password": "Repeat password"
+      },
+      "username": {
+        "cta-aria-label": "Change your password to a new one",
+        "header-cta": "Change username",
+        "enter-new-username": "Enter desired username",
+        "new-username": "New username"
+      },
+      "enter-password": "Enter password",
+      "enter-your-password": "Enter your password"
+    },
+    "card-connect": {
+      "header": "Connect"
+    },
+    "card-donate": {
+      "header": "Donate",
+      "template-text": "Thanks for your interest in supporting this organization! The button below will take you to our funding page where you can make a one time or recurring donation. Thanks again!"
+    },
+    "card-danger-zone": {
+      "header": "Danger Zone",
+      "password-label": "Your password",
+      "password-placeholder": "Enter your password",
+      "username-label": "Your username",
+      "username-placeholder": "Enter your username"
+    },
+
+    "card-discussion-text": {
+      "on": "on"
+    },
+    "card-discussion-input": {
+      "comment": "Comment",
+      "leave-comment": "Leave a comment",
+      "markdown-support": "This editor supports Markdown",
+      "preview": "Preview",
+      "write": "Write"
+    },
+    "card-get-involved": {
+      "header": "Get involved",
+      "join-subtext": "Click \"Join organization\" above to get involved in",
+      "legal-disclaimer-subtext": "Please read the legal disclaimer below for more information on your rights during this event.",
+      "working-groups-subtext": "The following are working groups within"
+    },
+    "card-legal-disclaimer": {
+      "header": "Legal Disclaimer"
     },
     "card-search-result-event": {
       "img-alt-text": "The event logo of",
@@ -46,30 +116,6 @@
     },
     "card-search-result-resource": {
       "img-alt-text": "The resource logo of"
-    },
-    "card-about": {
-      "full-text": "Click for full text",
-      "full-text-aria-label": "Click to view a popup with the full text",
-      "header": "About"
-    },
-    "card-connect": {
-      "header": "Connect"
-    },
-    "card-danger-zone": {
-      "header": "Danger Zone",
-      "password-label": "Your password",
-      "password-placeholder": "Enter your password",
-      "username-label": "Your username",
-      "username-placeholder": "Enter your username"
-    },
-    "card-get-involved": {
-      "header": "Get involved",
-      "join-subtext": "Click \"Join organization\" above to get involved in",
-      "legal-disclaimer-subtext": "Please read the legal disclaimer below for more information on your rights during this event.",
-      "working-groups-subtext": "The following are working groups within"
-    },
-    "card-legal-disclaimer": {
-      "header": "Legal Disclaimer"
     },
     "feed-item": {
       "img-alt-text": "A social media post's image."
@@ -110,6 +156,10 @@
       "powered-by-netlify": "This site is powered by Netlify.",
       "resources": "Resources",
       "website-copyright": "Copyright © 2023 activist."
+    },
+    "friendly-captcha": {
+      "i-am-human": "I am human",
+      "label": "FriendlyCaptcha"
     },
     "grid-github-contributors": {
       "img-alt-text": "The icon of",
@@ -183,7 +233,19 @@
       "open-modal-aria-label": "Open a larger version of this image"
     },
     "modal-qr-code": {
-      "img-alt-text": "QR code scanning icon."
+      "header": "QR Code",
+      "section-1-paragraph-1-event": "This is the unique QR code for this page that will allow people to easily find out more about this event in real life. Click Download QR code below to get a PNG of the code. Including QR codes in promotional materials is a great way to get more people involved!",
+      "section-1-paragraph-1-organization": "This is the unique QR code for this page that will allow people to easily find out more about this organization in real life. Click Download QR code below to get a PNG of the code. Including QR codes in promotional materials is a great way to get more people involved!",
+      "subheader-2": "Ideas for OR code use include:",
+      "section-2-list-1-item-1": "Including them on posters or billboards",
+      "section-2-list-1-item-2": "Adding them to flyers or cards",
+      "section-2-list-1-item-3": "Sending them with materials for your organization",
+      "section-3-paragraph-1": "Be sure to include the part that directs the user to only scan the code in the activist app. These codes can be used for malicious attacks, but the activist app protects the user by checking that it is a valid OR code before accessing the content.",
+      "close-modal-aria-label": "Close the QR Code download panel",
+      "img-alt-text": "QR code scanning icon.",
+      "download-qr-code": "Download QR code",
+      "download-qr-code-aria-label": "Download QR code",
+      "url-text": "activist.org"
     },
     "selector-language": {
       "open-dropdown-aria-label": "Open the dropdown to select another language"
@@ -193,7 +255,7 @@
     },
     "progress-bar": {
       "close-process": "Close",
-      "close-process-aria-label": "Close the current process and return to the previous screen."
+      "close-process-aria-label": "Close the current process and return to the previous screen"
     },
     "selector-theme": {
       "dark": "Dark",
@@ -378,8 +440,7 @@
           "welcome-back": "Welcome back! 👋",
           "enter-user-name": "Enter username",
           "enter-password": "Enter password",
-          "no-account": "Don't have an account?",
-          "i-am-human": "I am human"
+          "no-account": "Don't have an account?"
         }
       },
       "sign-up": {
@@ -392,9 +453,14 @@
           "enter-password": "Enter password",
           "repeat-password": "Repeat password",
           "have-account": "Already have an account?",
-          "i-am-human": "I am human",
           "read-terms-of-service": "I have read and agree to the",
-          "terms-of-service": "terms of service"
+          "terms-of-service": "terms of service",
+          "password-rules-message": "For your security and that of the community, please choose a password that you've never used before. Thank you!",
+          "number-of-chars": "At least 12 characters",
+          "capital-letters": "Contains capital letters",
+          "lower-case-letters": "Contains lower case letters",
+          "contains-numbers": "Contains numbers",
+          "contains-special-chars": "Contains special characters (!#$^*)"
         }
       }
     },
@@ -661,6 +727,13 @@
         "subheader": "Active organizations near you",
         "title": "Organizations Home"
       },
+      "create": {
+        "header": "Application information",
+        "subtext": "Thanks for bringing your organization to activist! The following information is requested so that our community can better understand what the goals of the organization are. Checking each new organization takes time for all of us, but in this way we can maintain trust within the network. We look forward to working with and supporting you all!",
+        "terms-pt-1": "I have read and agree to the",
+        "terms-pt-2": "activist terms and conditions",
+        "complete-application": "Complete application"
+      },
       "id": {
         "events": {
           "subheader": "This is an events page for"
@@ -700,25 +773,26 @@
         "showcase-alt-text": "A question mark within a square.",
         "join": "Become a supporter",
         "join-description": "Learn about how you can help the activist community.",
-        "join-alt-text": "An envelope that's closed indicating a message to be sent."
+        "join-alt-text": "An arrow pointing in to an open circle."
       },
       "showcase": {
         "section-1-paragraph-1-1": "The following is an overview of organizations and individuals that have supported the development of activist. Those interested in providing support can read more about how they can help on the",
         "section-1-paragraph-1-2": "become a supporter page",
-        "section-2-subheader": "UNLOCK Accelerator",
-        "section-2-paragraph-1-1": "The following organizations have supported activist via the 2022 edition of the",
-        "section-2-paragraph-1-2": "Wikimedia UNLOCK accelerator",
-        "section-2-paragraph-1-3": "UNLOCK supports open-source software projects and non-technical projects under free licenses. The UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.",
-        "section-3-subheader": "Contributors",
-        "section-3-1-subheader": "Development",
-        "section-3-1-paragraph-1-1": "activist has proudly developed in the open from its inception. This project would not be what it is without the support of our open-source community. Thank you to all our",
-        "section-3-1-paragraph-1-2": "contributors on GitHub",
-        "section-3-2-subheader": "Design",
-        "section-3-2-paragraph-1": "activist has received design support from many individuals.",
-        "thanks": "Thanks to our anonymous contributors!",
+        "section-2-subheader": "Contributors",
+        "section-2-1-subheader": "Development",
+        "section-2-1-paragraph-1-1": "activist has proudly developed in the open from its inception. This project would not be what it is without the support of our open-source community. Thank you to all our",
+        "section-2-1-paragraph-1-2": "contributors on GitHub",
+        "section-2-2-subheader": "Design",
+        "section-2-2-paragraph-1": "activist has received design support from many individuals.",
+        "section-2-2-thanks": "Thanks to our anonymous contributors!",
+        "section-3-subheader": "UNLOCK Accelerator",
+        "section-3-paragraph-1-1": "The following organizations have supported activist via the 2022 edition of the",
+        "section-3-paragraph-1-2": "Wikimedia UNLOCK accelerator",
+        "section-3-paragraph-1-3": "UNLOCK supports open-source software projects and non-technical projects under free licenses. The UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.",
         "title": "Our Supporters"
       },
       "join": {
+        "img-alt-text": "An arrow pointing in to an open circle.",
         "section-1-paragraph-1-1": "activist needs support from our community in countless ways. The following details how organizations and individuals can help the team develop the platform to empower activists to have as much impact as possible. A full list of activist's current supporters can be found",
         "section-1-paragraph-1-2": "here",
         "section-2-subheader": "Contribute on GitHub",

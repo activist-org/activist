@@ -5,9 +5,13 @@
       <Title>{{ $t(page.title) }}</Title>
     </Head>
     <div class="relative hidden md:block">
-      <LogoActivist
-        class="absolute inset-0 flex items-center justify-center mb-10 md:px-20 lg:px-28 xl:px-40"
-      />
+      <div class="flex items-center justify-center w-full h-full">
+        <div class="relative z-0 h-24 overflow-y-hidden w-96 mb-6">
+          <LogoActivist
+            class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+          />
+        </div>
+      </div>
     </div>
     <div
       class="h-full text-light-text dark:text-dark-text bg-light-distinct dark:bg-dark-distinct"
@@ -23,7 +27,7 @@
           :ariaLabel="page.ariaLabel"
         />
       </div>
-      <div class="flex-1 w-full pt-16 pb-4 md:pt-24 md:pb-8 space-y-4">
+      <div class="flex-1 w-full pt-16 pb-4 md:pt-28 md:pb-8 space-y-4">
         <div class="flex items-center justify-center p-4">
           <h1 class="font-bold text-center responsive-h1 font-display">
             {{ $t(page.message) }}

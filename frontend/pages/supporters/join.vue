@@ -5,8 +5,10 @@
     <Head>
       <Title>{{ $t("pages.supporters.join.title") }}</Title>
     </Head>
-    <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
-      <PageBreadcrumbs />
+    <PageDocs
+      imgURL="/images/content_pages/icons/join_icon"
+      imgAltText="pages.supporters.join.join-alt-text"
+    >
       <h1 class="font-bold responsive-h1">
         {{ $t("pages.supporters.join.title") }}
       </h1>
@@ -84,6 +86,6 @@
         </a>
         {{ $t("pages.supporters.join.section-6-paragraph-1-3") }}
       </p>
-    </div>
+    </PageDocs>
   </div>
 </template>

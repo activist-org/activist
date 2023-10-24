@@ -92,7 +92,7 @@
                 @on-cta-clicked="emit('on-new-account', account)"
                 @on-close-clicked="onClose(close)"
                 :title="'Add Account'"
-                :fieldNamePrompt="'Name'"
+                :fieldNamePrompt="'Link to account'"
                 :ctaBtnLabel="'Add'"
                 :ctaBtnLabelAriaLabel="'Add a new field'"
               />
