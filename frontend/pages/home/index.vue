@@ -40,6 +40,13 @@
         :isPrivate="false"
         :user="user"
       />
+
+      <CardSearchResult
+        searchResultType="discussionInput"
+        :isPrivate="false"
+        :discussionInput="discussionInput"
+      /> 
+
       <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
       <CardDiscussionText :discussionText="discussionText" />
       <CardChangeAccountInfoUsername />
@@ -56,6 +63,7 @@ import { Event } from "../../types/event";
 import { Organization } from "../../types/organization";
 import { Resource } from "../../types/resource";
 import { User } from "../../types/user";
+import { DiscussionInput } from "~/types/discussionInput";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -120,6 +128,7 @@ const discussion: DiscussionEntry = {
   participants: 3,
   messages: 3,
   creationDate: new Date(),
+
 };
 
 const discussionText: DiscussionText = {
