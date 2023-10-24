@@ -212,7 +212,7 @@ Localization keys should be defined based on their component or page within the 
 - Separate directories and references by `.` and CamelCase file name words by `-` in keys
   - Ex: `"components.search-bar.CONTENT_REFERENCE"` for the `SearchBar` component
 - If the localization key is being passed to a component prop, include it in the content reference
-  - Ex: `"components.topic-marker.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `TopicMarker` component
+  - Ex: `"components.marker-topic.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `MarkerTopic` component
     - `"CONTENT_REFERENCE"` in this case would be a reference to the name of a topic like `"environment"`
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
   - Ex: if you're defining a key within `SidebarLeftFooter`:

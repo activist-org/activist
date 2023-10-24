@@ -28,7 +28,7 @@
           :error="!isAllRulesValid && isBlurred"
         />
       </div>
-      <TooltipPassword
+      <TooltipPasswordRequirements
         v-if="
           !!passwordValue?.length &&
           !isAllRulesValid &&
