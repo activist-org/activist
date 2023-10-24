@@ -10,7 +10,7 @@
       :tagline="$t('pages.home.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <TopicMarker topic="My topics dropdown" />
+        <DropdownTopics topic="My topics" :hasIcon="true" :items="topicItems" iconName="bi:globe" :isRounded="true"/>
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
@@ -68,6 +68,13 @@ console.log(organizations);
 definePageMeta({
   layout: "sidebar",
 });
+
+const topicItems = [
+  "Topic 1",
+  "Topic 2",
+  "Topic 3",
+  "Topic 4"
+]
 
 const resource: Resource = {
   name: "Test Resource",
