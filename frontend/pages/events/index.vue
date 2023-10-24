@@ -10,7 +10,7 @@
       :tagline="$t('pages.events.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <TopicMarker topic="My topics dropdown" />
+        <MarkerTopic topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
     <div v-for="event in events" class="pt-3 pb-6 space-y-6 md:pt-4">

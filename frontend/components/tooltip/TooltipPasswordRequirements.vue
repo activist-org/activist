@@ -3,7 +3,7 @@
     class="transition ease-in-out delay-150 min-w-[200px] md:min-w-[450px] pt-2 pb-4 z-20"
   >
     <span class="mb-2 px-2">{{
-      $t("pages.auth.sign-up.index.password-rules-message")
+      $t("components.tooltip-password-requirements.password-rules-message")
     }}</span>
     <div
       v-for="(rule, index) in rules"
@@ -16,7 +16,7 @@
         :style="{ color: rule.isValid ? '#198754' : '#BA3D3B' }"
       />
       <span class="text-sm truncate">{{
-        $t(`pages.auth.sign-up.index.${rule.message}`)
+        $t(`components.tooltip-password-requirements.${rule.message}`)
       }}</span>
     </div>
   </Tooltip>

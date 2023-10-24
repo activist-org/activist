@@ -333,6 +333,17 @@
     },
     "tooltip-sign-in": {
       "text": "You need to be signed in to see this content."
+    },
+    "tooltip-password-requirements": {
+      "password-rules-message": "For your security and that of the community, please choose a password that you've never used before. Thank you!",
+      "number-of-chars": "At least 12 characters",
+      "capital-letters": "Contains capital letters",
+      "lower-case-letters": "Contains lower case letters",
+      "contains-numbers": "Contains numbers",
+      "contains-special-chars": "Contains special characters (!#$^*)"
+    },
+    "marker-private": {
+      "private": "Private"
     }
   },
   "pages": {
@@ -454,13 +465,7 @@
           "repeat-password": "Repeat password",
           "have-account": "Already have an account?",
           "read-terms-of-service": "I have read and agree to the",
-          "terms-of-service": "terms of service",
-          "password-rules-message": "For your security and that of the community, please choose a password that you've never used before. Thank you!",
-          "number-of-chars": "At least 12 characters",
-          "capital-letters": "Contains capital letters",
-          "lower-case-letters": "Contains lower case letters",
-          "contains-numbers": "Contains numbers",
-          "contains-special-chars": "Contains special characters (!#$^*)"
+          "terms-of-service": "terms of service"
         }
       }
     },

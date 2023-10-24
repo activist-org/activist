@@ -10,7 +10,7 @@
       :tagline="$t('pages.search.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <TopicMarker topic="My topics dropdown" />
+        <MarkerTopic topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
     <GridSearchTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
