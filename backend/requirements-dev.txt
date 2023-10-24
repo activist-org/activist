@@ -23,7 +23,7 @@ certifi==2023.7.22
     #   requests
 cfgv==3.4.0
     # via pre-commit
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via
     #   -r requirements.txt
     #   requests
@@ -40,10 +40,13 @@ distlib==0.3.7
 django==4.2.6
     # via
     #   -r requirements.txt
+    #   django-cors-headers
     #   django-stubs
     #   django-stubs-ext
     #   djangorestframework
     #   drf-spectacular
+django-cors-headers==4.2.0
+    # via -r requirements.txt
 django-stubs==4.2.3
     # via
     #   -r requirements.txt
