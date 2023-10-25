@@ -4,7 +4,7 @@
     <div
       class="w-[20%] h-full rounded-l-md border border-light-section-div dark:border-dark-section-div border-r-0"
       :class="{
-        'bg-light-act-red dark:bg-dark-act-red': eventType == 'act',
+        'bg-light-action-red dark:bg-dark-action-red': eventType == 'action',
         'bg-light-learn-blue dark:bg-dark-learn-blue': eventType == 'learn',
       }"
     ></div>
@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  eventType: "act" | "learn";
+  eventType: "action" | "learn";
   imgURL?: string;
 }>();
 </script>

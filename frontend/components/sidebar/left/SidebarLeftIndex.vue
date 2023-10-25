@@ -25,7 +25,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <ImageEvent eventType="act" />
+        <ImageEvent eventType="action" />
       </div>
       <p
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"

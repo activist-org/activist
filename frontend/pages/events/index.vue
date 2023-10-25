@@ -10,7 +10,7 @@
       :tagline="$t('pages.events.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <TopicMarker topic="My topics dropdown" />
+        <MarkerTopic topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
     <div v-for="event in events" class="pt-3 pb-6 space-y-6 md:pt-4">
@@ -38,7 +38,7 @@ const { data: events } = await useFetch(
 // import { Event } from "../../types/event";
 // const event: Event = {
 //   name: "Test Event",
-//   type: "act",
+//   type: "action",
 //   tagline: "We love to test!",
 //   organizer: "Testers LLC",
 //   topic: "Testing and Designing",

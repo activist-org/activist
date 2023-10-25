@@ -93,7 +93,7 @@ const event: Event = {
   name: "Brandenburg Gate Climate Demo",
   tagline: "There is no Planet B",
   organizer: "Berlin Climate Org",
-  type: "act",
+  type: "action",
   topic: "Environment",
   description:
     "Aute aliqua reprehenderit ex ut commodo nostrud et excepteur. Sunt amet velit sunt fugiat et excepteur dolore pariatur nisi non. Exercitation aute aute culpa commodo commodo ea Lorem aliquip id duis. Laboris nostrud ullamco ea voluptate et anim id adipisicing sint reprehenderit incididunt elit. Est fugiat pariatur elit culpa in incididunt eu esse cupidatat minim. Deserunt duis culpa minim Lorem consectetur quis fugiat ipsum nostrud voluptate veniam do. Reprehenderit duis officia in enim anim elit.",

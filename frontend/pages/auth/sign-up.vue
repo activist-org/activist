@@ -24,11 +24,11 @@
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
-          :icons="['bi:info-circle', 'bi:eye-fill']"
+          :icons="['bi:eye-fill']"
           :error="!isAllRulesValid && isBlurred"
         />
       </div>
-      <TooltipPassword
+      <TooltipPasswordRequirements
         v-if="
           !!passwordValue?.length &&
           !isAllRulesValid &&
@@ -50,22 +50,24 @@
           "
         />
       </div>
+      <div class="flex items-center flex-row">
+        <FormCheckbox
+          @update:modelValue="hasRed = $event"
+          :modelValue="hasRed"
+          value="yes"
+        />
+        <p class="flex flex-wrap pl-2">
+          {{ $t("pages.auth.sign-up.index.read-terms-of-service") }}
+          <NuxtLink
+            :to="'../legal/privacy-policy'"
+            target="_blank"
+            class="ml-1 text-[#005CB8E5] sm:block"
+            >{{ $t("pages.auth.sign-up.index.terms-of-service") }}
+          </NuxtLink>
+        </p>
+      </div>
       <div class="flex space-x-2">
-        <button
-          class="flex items-center w-fit justify-center 2xl:space-x-10 xl:space-x-8 lg:space-x-4 md:space-x-4 lg:col-span-5 md:col-span-2 px-3 rounded border light:border-black dark:border-[#857E7B] text-sm h-[48px] md:h-[40px]"
-          type="button"
-          aria-label="test"
-        >
-          <span class="flex items-center space-x-4 whitespace-nowrap">
-            <Icon name="bi:shield-fill-check" size="28px" />
-            <span class="font-bold text-[18px] hidden lg:inline-block">{{
-              $t("pages.auth.sign-up.index.i-am-human")
-            }}</span>
-          </span>
-          <span class="text-[12px] hidden lg:inline-block truncate"
-            >FriendlyCaptcha</span
-          >
-        </button>
+        <FriendlyCaptcha />
         <BtnLabeled
           @click="signUp"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
@@ -74,21 +76,6 @@
           fontSize="lg"
           :ariaLabel="$t('components.btn-labeled.sign-up-aria-label')"
         />
-      </div>
-      <div class="flex flex-col items-center pt-6 sm:flex-row md:pt-8 lg:pt-12">
-        <FormCheckbox
-          @update:modelValue="hasRed = $event"
-          :label="$t('pages.auth.sign-up.index.read-terms-of-service')"
-          :modelValue="hasRed"
-          value="yes"
-        />
-
-        <NuxtLink
-          :to="'../legal/privacy-policy'"
-          target="_blank"
-          class="ml-1 text-[#005CB8E5] sm:block"
-          >{{ $t("pages.auth.sign-up.index.terms-of-service") }}
-        </NuxtLink>
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-up.index.have-account") }}</h6>

@@ -18,10 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
 import L, { MapOptions } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const props = defineProps<{
   addresses: string[];
@@ -66,7 +65,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Marker[]) {
 
   const colorMode = useColorMode();
   let eventColor = "";
-  if (props.type === "act") {
+  if (props.type === "action") {
     if (colorMode.value == "dark") {
       eventColor = "#DD7E6B";
     } else {
