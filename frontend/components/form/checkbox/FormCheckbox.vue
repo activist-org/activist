@@ -26,7 +26,6 @@ import useFormInput from "../../../composables/useFormSetup";
 
 export interface Props {
   label?: string;
-  value?: [string, number];
   modelValue?: boolean;
   error?: string;
 }
