@@ -1,37 +1,45 @@
 <template>
-  <div
+  <RadioGroup
+    v-model="value"
     class="flex items-center w-full divide-x-2 h-11 divide-dark-btn dark:divide-light-btn"
-    role="radiogroup"
     :aria-label="$t('components.view-selector.title-aria-label')"
   >
-    <button
+    <RadioGroupOption
       v-for="option in viewOptions"
-      @click="value = option"
       :key="option"
-      class="flex-1 h-full border-y-2 first:rounded-l-xl first:border-l-2 last:rounded-r-xl last:!border-r-2 dark:border-light-btn border-dark-btn"
-      :class="
-        option === value
-          ? 'bg-dark-btn dark:bg-light-btn'
-          : 'bg-white dark:bg-dark-btn'
-      "
-      role="radio"
-      :aria-label="$t(`components.view-selector.view-as-${option}-aria-label`)"
-      :aria-checked="option === value"
+      v-slot="{ checked }"
+      :name="option"
+      :value="option"
+      as="template"
     >
-      <Icon
-        class="w-auto h-full p-2"
+      <button
+        class="flex-1 h-full border-y-2 first:rounded-l-xl first:border-l-2 last:rounded-r-xl last:!border-r-2 dark:border-light-btn border-dark-btn"
         :class="
-          option === value
-            ? 'text-dark-text dark:text-light-text'
-            : 'text-light-text dark:text-dark-text'
+          checked
+            ? 'bg-dark-btn dark:bg-light-btn'
+            : 'bg-white dark:bg-dark-btn'
         "
-        :name="viewTypeIcons[option]"
-      />
-    </button>
-  </div>
+        :aria-label="
+          $t(`components.view-selector.view-as-${option}-aria-label`)
+        "
+      >
+        <Icon
+          class="w-auto h-full p-2"
+          :class="
+            checked
+              ? 'text-dark-text dark:text-light-text'
+              : 'text-light-text dark:text-dark-text'
+          "
+          :name="viewTypeIcons[option]"
+        />
+      </button>
+    </RadioGroupOption>
+  </RadioGroup>
 </template>
 
 <script setup lang="ts">
+import { RadioGroup, RadioGroupOption } from "@headlessui/vue";
+
 import { ViewType } from "@/types/view-types";
 
 const props = defineProps({
@@ -72,7 +80,7 @@ const viewOptions = computed(() => {
   return options;
 });
 
-const viewTypeIcons = {
+const viewTypeIcons: Record<ViewType, string> = {
   [ViewType.MAP]: "bi-pin-map-fill",
   [ViewType.LIST]: "bi-list-ul",
   [ViewType.GRID]: "bi-grid-3x2-gap-fill",
