@@ -124,7 +124,7 @@
 <script setup lang="ts">
 export interface Props {
   cta: boolean;
-  linkTo: string;
+  linkTo?: string;
   label?: string;
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   leftIcon?: string;
