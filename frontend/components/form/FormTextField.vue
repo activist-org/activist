@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-// @ts-nocheck
 import { v4 as uuidv4 } from "uuid";
 import useFormInput from "../../composables/useFormSetup";
 
@@ -51,7 +50,6 @@ export interface Props {
   error?: boolean;
 }
 
-// @ts-ignore
 const props = withDefaults(defineProps<Props>(), {
   placeholder: "",
   modelValue: "",
