@@ -67,10 +67,10 @@
             </p>
             <BtnLabeled
               class="hidden md:flex"
+              @click="downloadQRCode()"
               :cta="true"
               :label="$t('components.modal-qr-code.download-qr-code')"
               fontSize="lg"
-              @click="downloadQRCode()"
               :ariaLabel="$t('download-qr-code-aria-label')"
             />
           </div>
@@ -79,10 +79,10 @@
           </div>
           <BtnLabeled
             class="flex md:hidden"
+            @click="downloadQRCode()"
             :cta="true"
             :label="$t('components.modal-qr-code.download-qr-code')"
             fontSize="lg"
-            @click="downloadQRCode()"
             :ariaLabel="$t('download-qr-code-aria-label')"
           />
         </div>
