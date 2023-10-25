@@ -15,7 +15,6 @@
         </div>
       </div>
     </ImageGithubShield>
-
     <ImageGithubShield
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/forks"
@@ -25,7 +24,6 @@
     >
       <Icon name="octicon:repo-forked-24" size="2em" />
     </ImageGithubShield>
-
     <ImageGithubShield
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/stargazers"
