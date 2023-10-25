@@ -66,8 +66,8 @@
               {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
             </p>
             <BtnLabeled
+            @click="downloadQRCode()"
               class="hidden md:flex"
-              @click="downloadQRCode()"
               :cta="true"
               :label="$t('components.modal-qr-code.download-qr-code')"
               fontSize="lg"
@@ -78,8 +78,8 @@
             <QRCode />
           </div>
           <BtnLabeled
+          @click="downloadQRCode()"
             class="flex md:hidden"
-            @click="downloadQRCode()"
             :cta="true"
             :label="$t('components.modal-qr-code.download-qr-code')"
             fontSize="lg"
