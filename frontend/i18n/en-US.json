@@ -211,6 +211,9 @@
     "loading": {
       "img-alt-text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center."
     },
+    "marker-private": {
+      "private": "Private"
+    },
     "media-map": {
       "error-message": "There was a problem with the map service.",
       "img-alt-text": "Map displaying a pin at the location of this event.",
@@ -349,8 +352,12 @@
       "contains-numbers": "Contains numbers",
       "contains-special-chars": "Contains special characters (!#$^*)"
     },
-    "marker-private": {
-      "private": "Private"
+    "view-selector": {
+      "title-aria-label": "Select a view type",
+      "view-as-grid-aria-label": "View as grid",
+      "view-as-list-aria-label": "View as list",
+      "view-as-map-aria-label":  "View as map",
+      "view-as-calendar-aria-label": "View as calendar"
     }
   },
   "pages": {
