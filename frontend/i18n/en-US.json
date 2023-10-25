@@ -173,6 +173,13 @@
       "star": "Star",
       "visit-us": "Visit us on"
     },
+    "grid-app-shields": {
+      "download-on-the": "Download on the",
+      "get-it-on": "Get it on",
+      "app-store": "App Store",
+      "google-play": "Google Play",
+      "f-droid": "F-Driod"
+    },
     "grid-home-metrics": {
       "action": "Action",
       "events": "Events",
