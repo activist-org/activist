@@ -18,6 +18,5 @@
       {{ $t("components.landing-tech-banner.open-source-text") }}
     </p>
     <GridGithubShields />
-    <!-- <GridAppShields /> -->
   </div>
 </template>

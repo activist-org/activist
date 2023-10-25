@@ -8,10 +8,10 @@
       <Icon name="cib:github" size="2em" />
       <div class="pb-1 ml-4 place-self-center">
         <div class="font-semibold text-xs leading-4 ml-0.5">
-          {{ $t("components.grid-shields.visit-us") }}
+          {{ $t("components.grid-github-shields.visit-us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">
-          {{ $t("components.grid-shields.github") }}
+          {{ $t("components.grid-github-shields.github") }}
         </div>
       </div>
     </ImageGithubShield>
@@ -19,7 +19,7 @@
     <ImageGithubShield
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/forks"
-      :text="$t('components.grid-shields.fork')"
+      :text="$t('components.grid-github-shields.fork')"
       :isLoading="isLoading"
       :count="GitHubData.forks_count"
     >
@@ -29,7 +29,7 @@
     <ImageGithubShield
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/stargazers"
-      :text="$t('components.grid-shields.star')"
+      :text="$t('components.grid-github-shields.star')"
       :isLoading="isLoading"
       :count="GitHubData.stargazers_count"
     >

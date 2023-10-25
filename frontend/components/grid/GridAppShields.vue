@@ -1,19 +1,17 @@
 <template>
-  <div
-    class="grid grid-flow-row gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:gap-3 w-fit"
-  >
+  <div class="grid grid-flow-row gap-3 md:gap-5 sm:grid-flow-col w-fit">
     <ImageAppShield
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist"
       :isLoading="isLoading"
     >
-      <Icon name="cib:apple" size="2em" />
+      <Icon name="simple-icons:apple" size="2em" />
       <div class="pb-1 ml-4 place-self-center">
         <div class="font-semibold text-xs leading-4 ml-0.5 whitespace-nowrap">
-          {{ $t("components.grid-shields.download-on-the") }}
+          {{ $t("components.grid-app-shields.download-on-the") }}
         </div>
         <div class="text-2xl font-semibold leading-4 whitespace-nowrap">
-          {{ $t("components.grid-shields.app-store") }}
+          {{ $t("components.grid-app-shields.app-store") }}
         </div>
       </div>
     </ImageAppShield>
@@ -23,31 +21,15 @@
       href="https://github.com/activist-org/activist"
       :isLoading="isLoading"
     >
-      <Icon name="cib:google-play" size="2em" />
-      <div class="pb-1 ml-4 place-self-center">
-        <div class="font-semibold text-xs leading-4 ml-0.5 whitespace-nowrap">
-          {{ $t("components.grid-shields.get-it-on") }}
-        </div>
-        <div class="text-2xl font-semibold leading-4 whitespace-nowrap">
-          {{ $t("components.grid-shields.google-play") }}
-        </div>
-      </div>
-    </ImageAppShield>
-
-    <ImageAppShield
-      class="fill-light-text dark:fill-dark-text"
-      href="https://github.com/activist-org/activist"
-      :isLoading="isLoading"
-    >
-      <Icon name="cib:google-play" size="2em" />
+      <Icon name="simple-icons:googleplay" size="2em" />
       <div class="pb-1 ml-4 place-self-center">
         <div
           class="font-semibold text-xs leading-4 ml-0.5 uppercase whitespace-nowrap"
         >
-          {{ $t("components.grid-shields.get-it-on") }}
+          {{ $t("components.grid-app-shields.get-it-on") }}
         </div>
         <div class="text-2xl font-semibold leading-4 whitespace-nowrap">
-          {{ $t("components.grid-shields.f-droid") }}
+          {{ $t("components.grid-app-shields.google-play") }}
         </div>
       </div>
     </ImageAppShield>
@@ -57,35 +39,17 @@
       href="https://github.com/activist-org/activist"
       :isLoading="isLoading"
     >
-      <Icon name="cib:github" size="2em" />
+      <Icon name="simple-icons:fdroid" size="2em" />
       <div class="pb-1 ml-4 place-self-center">
-        <div class="font-semibold text-xs leading-4 ml-0.5 whitespace-nowrap">
-          {{ $t("components.grid-shields.visit-us") }}
+        <div
+          class="font-semibold text-xs leading-4 ml-0.5 uppercase whitespace-nowrap"
+        >
+          {{ $t("components.grid-app-shields.get-it-on") }}
         </div>
         <div class="text-2xl font-semibold leading-4 whitespace-nowrap">
-          {{ $t("components.grid-shields.github") }}
+          {{ $t("components.grid-app-shields.f-droid") }}
         </div>
       </div>
-    </ImageAppShield>
-
-    <ImageAppShield
-      class="fill-light-text dark:fill-dark-text"
-      href="https://github.com/activist-org/activist/forks"
-      :text="$t('components.grid-shields.fork')"
-      :isLoading="isLoading"
-      :count="GitHubData.forks_count"
-    >
-      <Icon name="octicon:repo-forked-24" size="2em" />
-    </ImageAppShield>
-
-    <ImageAppShield
-      class="fill-light-text dark:fill-dark-text"
-      href="https://github.com/activist-org/activist/stargazers"
-      :text="$t('components.grid-shields.star')"
-      :isLoading="isLoading"
-      :count="GitHubData.stargazers_count"
-    >
-      <Icon name="octicon:star-24" size="2em" />
     </ImageAppShield>
   </div>
 </template>
