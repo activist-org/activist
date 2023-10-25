@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center flex-col" id="qrcode">
+  <div id="qrcode" class="flex justify-center flex-col">
     <div
       class="relative border-2 border-black bg-white rounded-t-3xl"
     >

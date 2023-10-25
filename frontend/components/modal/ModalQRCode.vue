@@ -70,8 +70,8 @@
               :cta="true"
               :label="$t('components.modal-qr-code.download-qr-code')"
               fontSize="lg"
-              :ariaLabel="$t('download-qr-code-aria-label')"
               @click="downloadQRCode()"
+              :ariaLabel="$t('download-qr-code-aria-label')"
             />
           </div>
           <div class="px-4 md:px-0 md:pb-10">
@@ -82,8 +82,8 @@
             :cta="true"
             :label="$t('components.modal-qr-code.download-qr-code')"
             fontSize="lg"
-            :ariaLabel="$t('download-qr-code-aria-label')"
             @click="downloadQRCode()"
+            :ariaLabel="$t('download-qr-code-aria-label')"
           />
         </div>
       </DialogPanel>
