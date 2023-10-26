@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DocsEntry } from "../../types/docs-entry";
+import type { DocsEntry } from "~/types/card-docs-entry";
 
 const cards: DocsEntry[] = [
   {

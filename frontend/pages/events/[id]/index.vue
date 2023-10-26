@@ -60,8 +60,8 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { Event } from "../../../types/event";
-import { MenuSelector } from "../../../types/menu-selector";
+import { Event } from "~/types/event";
+import { MenuSelector } from "~/types/menu-selector";
 
 definePageMeta({
   layout: "sidebar",

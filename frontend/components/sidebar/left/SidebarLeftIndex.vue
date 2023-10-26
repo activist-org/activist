@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { MenuSelector } from "../../../types/menu-selector";
+import { MenuSelector } from "~/types/menu-selector";
 
 const sidebar = useSidebar();
 

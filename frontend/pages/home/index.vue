@@ -51,13 +51,13 @@
 </template>
 
 <script setup lang="ts">
-import { DiscussionEntry } from "../../types/discussion-entry";
-import { DiscussionInput } from "../../types/discussion-input";
-import { DiscussionText } from "../../types/discussion-text";
-import { Event } from "../../types/event";
-import { Organization } from "../../types/organization";
-import { Resource } from "../../types/resource";
-import { User } from "../../types/user";
+import { DiscussionEntry } from "~/types/card-discussion-entry";
+import { DiscussionInput } from "~/types/card-discussion-input";
+import { DiscussionText } from "~/types/card-discussion-text";
+import { Event } from "~/types/event";
+import { Organization } from "~/types/organization";
+import { Resource } from "~/types/resource";
+import { User } from "~/types/user";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -140,3 +140,4 @@ const discussionText: DiscussionText = {
   date: new Date(),
 };
 </script>
+~/types/card-discussion-input

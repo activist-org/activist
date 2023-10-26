@@ -193,7 +193,7 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import type { Ref } from "vue";
-import { MenuSelector } from "../../../types/menu-selector";
+import { MenuSelector } from "~/types/menu-selector";
 
 const disclosureButtons = ref<
   {

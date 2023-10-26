@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionInput } from "~/types/discussion-input";
+import type { DiscussionInput } from "~/types/card-discussion-input";
 
 defineProps<{
   discussionInput: DiscussionInput;

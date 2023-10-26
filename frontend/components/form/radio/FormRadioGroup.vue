@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import useFormCheckboxRadio from "../../../composables/useFormCheckboxRadio";
+import useFormCheckboxRadio from "~/composables/useFormCheckboxRadio";
 
 // TODO: This type should be defined for the props definition type from FromRadioButton and FromRadio.
 /**

@@ -20,9 +20,9 @@
 </template>
 
 <script setup lang="ts">
-import { MenuTopBarSelector } from "../../types/menu-top-bar-selector";
+import { SubPageSelector } from "~/types/sub-page-selector";
 
 defineProps<{
-  selectors: MenuTopBarSelector[];
+  selectors: SubPageSelector[];
 }>();
 </script>

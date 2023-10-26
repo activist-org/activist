@@ -1,4 +1,4 @@
-export interface MenuTopBarSelector {
+export interface SubPageSelector {
   id: number;
   label: string;
   routeURL: string;

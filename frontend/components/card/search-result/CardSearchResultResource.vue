@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "../../../types/resource";
+import type { Resource } from "~/types/resource";
 
 defineProps<{
   isPrivate?: boolean;

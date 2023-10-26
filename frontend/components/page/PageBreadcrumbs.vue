@@ -55,8 +55,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { Event } from "../../types/event";
-import type { Organization } from "../../types/organization";
+import type { Event } from "~/types/event";
+import type { Organization } from "~/types/organization";
 const { locales } = useI18n();
 
 defineProps<{

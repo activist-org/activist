@@ -16,36 +16,38 @@
     >
       <div class="flex w-full justify-between mx-14 px-5 card-style gap-6 py-6">
         <div class="w-1/2">
-          <label for="name" class="block font-medium responsive-h3"
-            >Organization name</label
-          >
+          <label for="name" class="block font-medium responsive-h3">{{
+            $t("pages.organizations.create.organization-name")
+          }}</label>
           <input
             v-model="formData.name"
             id="name"
             class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
             type="text"
             name="name"
-            placeholder="The name of the organization"
+            :placeholder="
+              $t('pages.organizations.create.organization-name-placeholder')
+            "
           />
         </div>
         <div class="w-1/2">
-          <label for="location" class="block font-medium responsive-h3"
-            >Location</label
-          >
+          <label for="location" class="block font-medium responsive-h3">{{
+            $t("pages.organizations.create.location")
+          }}</label>
           <input
             v-model="formData.location"
             id="location"
             class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
             type="text"
             name="location"
-            placeholder="Where the organization is based or active"
+            :placeholder="$t('pages.organizations.create.location-placeholder')"
           />
         </div>
       </div>
       <div class="mx-14 w-full card-style mt-5 px-5 py-6">
-        <label for="description" class="block font-medium responsive-h3"
-          >Description</label
-        >
+        <label for="description" class="block font-medium responsive-h3">{{
+          $t("pages.organizations.create.description")
+        }}</label>
         <textarea
           v-model="formData.description"
           id="description"
@@ -55,23 +57,22 @@
         ></textarea>
       </div>
       <div class="mx-14 w-full card-style mt-5 px-5 py-6">
-        <label for="tagline" class="block font-medium responsive-h3"
-          >Tagline</label
-        >
+        <label for="tagline" class="block font-medium responsive-h3">{{
+          $t("pages.organizations.create.tagline")
+        }}</label>
         <input
           v-model="formData.tagline"
           id="tagline"
           class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
           name="tagline"
-          placeholder="Please provide a tagline for the organization."
+          :placeholder="$t('pages.organizations.create.tagline-placeholder')"
         />
       </div>
       <!-- TODO: add connect and topic custom components -->
       <div class="mx-14 w-full card-style mt-5 px-5 py-6">
         <h2 class="block font-medium responsive-h3 mb-1">Topics</h2>
         <p class="">
-          Please select up to three topics that this organization predominantly
-          works on so that the community can more easily find it.
+          {{ $t("pages.organizations.create.topic-selection-prompt") }}
         </p>
         <input
           v-model="formData.newTopic"

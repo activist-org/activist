@@ -356,7 +356,7 @@
       "title-aria-label": "Select a view type",
       "view-as-grid-aria-label": "View as grid",
       "view-as-list-aria-label": "View as list",
-      "view-as-map-aria-label":  "View as map",
+      "view-as-map-aria-label": "View as map",
       "view-as-calendar-aria-label": "View as calendar"
     }
   },
@@ -747,11 +747,19 @@
         "title": "Organizations Home"
       },
       "create": {
+        "complete-application": "Complete application",
+        "description": "Description",
         "header": "Application information",
+        "location": "Location",
+        "location-placeholder": "Where the organization is based or active",
+        "organization-name": "Organization name",
+        "organization-name-placeholder": "The name of the organization",
         "subtext": "Thanks for bringing your organization to activist! The following information is requested so that our community can better understand what the goals of the organization are. Checking each new organization takes time for all of us, but in this way we can maintain trust within the network. We look forward to working with and supporting you all!",
+        "tagline": "Tagline",
+        "tagline-placeholder": "Please provide a tagline for the organization",
         "terms-pt-1": "I have read and agree to the",
         "terms-pt-2": "activist terms and conditions",
-        "complete-application": "Complete application"
+        "topic-selection-prompt": "Please select up to three topics that this organization predominantly works on so that the community can more easily find it."
       },
       "id": {
         "events": {
