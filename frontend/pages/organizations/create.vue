@@ -16,9 +16,9 @@
     >
       <div class="flex w-full justify-between mx-14 px-5 card-style gap-6 py-6">
         <div class="w-1/2">
-          <label for="name" class="block font-medium responsive-h3">{{
-            $t("pages.organizations.create.organization-name")
-          }}</label>
+          <label for="name" class="block font-medium responsive-h3"
+            >{{ $t("pages.organizations.create.organization-name") }}*</label
+          >
           <input
             v-model="formData.name"
             id="name"
@@ -31,9 +31,9 @@
           />
         </div>
         <div class="w-1/2">
-          <label for="location" class="block font-medium responsive-h3">{{
-            $t("pages.organizations.create.location")
-          }}</label>
+          <label for="location" class="block font-medium responsive-h3"
+            >{{ $t("pages.organizations.create.location") }}*</label
+          >
           <input
             v-model="formData.location"
             id="location"
@@ -45,15 +45,17 @@
         </div>
       </div>
       <div class="mx-14 w-full card-style mt-5 px-5 py-6">
-        <label for="description" class="block font-medium responsive-h3">{{
-          $t("pages.organizations.create.description")
-        }}</label>
+        <label for="description" class="block font-medium responsive-h3"
+          >{{ $t("pages.organizations.create.description") }}*</label
+        >
         <textarea
           v-model="formData.description"
           id="description"
           class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
           name="description"
-          placeholder="Please provide a description of the organization for the community so that we can learn more about its goals and composition."
+          :placeholder="
+            $t('pages.organizations.create.description-placeholder')
+          "
         ></textarea>
       </div>
       <div class="mx-14 w-full card-style mt-5 px-5 py-6">
@@ -68,53 +70,13 @@
           :placeholder="$t('pages.organizations.create.tagline-placeholder')"
         />
       </div>
-      <!-- TODO: add connect and topic custom components -->
-      <div class="mx-14 w-full card-style mt-5 px-5 py-6">
-        <h2 class="block font-medium responsive-h3 mb-1">Topics</h2>
-        <p class="">
-          {{ $t("pages.organizations.create.topic-selection-prompt") }}
-        </p>
-        <input
-          v-model="formData.newTopic"
-          @keydown.enter="addTopic()"
-          @keydown.prevent.enter="addTopic()"
-          class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
-          type="text"
-          name="newTopic"
-          placeholder="Add a new topic"
-        />
-        <ul class="list-none flex items-center gap-2 pt-2">
-          <li
-            v-for="topic in formData.topics"
-            class="bg-light-placeholder dark:bg-dark-placeholder py-1 px-2 rounded-md text-white flex items-center"
-          >
-            {{ topic }}
-            <button @click="removeTopic(topic)" class="ml-2">
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                ></path>
-              </svg>
-            </button>
-          </li>
-        </ul>
-      </div>
+      <CardTopicSelection class="mt-5" />
       <div class="mx-14 w-full mt-5">
         <CardConnect
           :social-links="formData.social_accounts"
           :userIsAdmin="true"
         />
       </div>
-
       <div class="mx-14 flex flex-col w-full mt-5">
         <div class="flex space-x-2">
           <FormCheckbox />
@@ -148,17 +110,6 @@ definePageMeta({
   layout: "sidebar",
 });
 
-const addTopic = () => {
-  if (formData.value.newTopic) {
-    formData.value.topics.push(formData.value.newTopic);
-    formData.value.newTopic = "";
-  }
-};
-
-const removeTopic = (topic: string) => {
-  formData.value.topics = formData.value.topics.filter((t) => t !== topic);
-};
-
 const formData = ref({
   name: "",
   location: "",
@@ -166,7 +117,6 @@ const formData = ref({
   tagline: "",
   social_accounts: [],
   topics: ["justice", "activism"],
-  newTopic: "",
 });
 
 const submit = async () => {

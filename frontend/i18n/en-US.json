@@ -117,6 +117,10 @@
     "card-search-result-resource": {
       "img-alt-text": "The resource logo of"
     },
+    "card-topic-selection": {
+      "header": "Topics",
+      "topic-selection-prompt": "Please select up to three topics that this organization predominantly works on so that the community can more easily find it."
+    },
     "feed-item": {
       "img-alt-text": "A social media post's image."
     },
@@ -749,6 +753,7 @@
       "create": {
         "complete-application": "Complete application",
         "description": "Description",
+        "description-placeholder": "Please provide a description of the organization for the community so that we can learn more about its goals and composition",
         "header": "Application information",
         "location": "Location",
         "location-placeholder": "Where the organization is based or active",
@@ -756,10 +761,9 @@
         "organization-name-placeholder": "The name of the organization",
         "subtext": "Thanks for bringing your organization to activist! The following information is requested so that our community can better understand what the goals of the organization are. Checking each new organization takes time for all of us, but in this way we can maintain trust within the network. We look forward to working with and supporting you all!",
         "tagline": "Tagline",
-        "tagline-placeholder": "Please provide a tagline for the organization",
+        "tagline-placeholder": "A short tagline for the organization (optional)",
         "terms-pt-1": "I have read and agree to the",
-        "terms-pt-2": "activist terms and conditions",
-        "topic-selection-prompt": "Please select up to three topics that this organization predominantly works on so that the community can more easily find it."
+        "terms-pt-2": "activist terms and conditions"
       },
       "id": {
         "events": {
