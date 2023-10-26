@@ -1,7 +1,8 @@
 <template>
   <div class="px-5 py-5 card-style">
     <div class="relative flex-col w-full gap-5">
-      <ModalQRCode />
+      <ModalQRCode v-if="organization" :entityName="organization.name" />
+      <ModalQRCode v-if="event" :entityName="event.name" />
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="text-left responsive-h3 font-display">

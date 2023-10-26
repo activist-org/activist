@@ -82,7 +82,7 @@
             />
           </div>
           <div class="px-4 md:pl-8 md:pb-10">
-            <QRCode />
+            <QRCode class="rounded-3xl shadow-md shadow-zinc-700" />
           </div>
           <BtnLabeled
             @click="downloadQRCode()"
@@ -100,8 +100,16 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/vue";
-// import html2canvas from "html2canvas";
+import html2canvas from "html2canvas";
 import { ref } from "vue";
+
+const props = defineProps<{
+  entityName: string;
+}>();
+
+const qrCodeFileName: string = props.entityName
+  .toLowerCase()
+  .replaceAll(" ", "_");
 
 function downloadQRCode() {
   const style = document.createElement("style");
@@ -110,13 +118,15 @@ function downloadQRCode() {
     "body > div:last-child img { display: inline-block; }"
   );
 
-  // html2canvas(document.querySelector("#qrcode")!).then((canvas) => {
-  //   const link = document.createElement("a");
-  //   link.download = "qr-code.png";
-  //   link.href = canvas.toDataURL();
-  //   link.click();
-  //   style.remove();
-  // });
+  html2canvas(document.querySelector("#qrcode")!, {
+    backgroundColor: null,
+  }).then((canvas) => {
+    const link = document.createElement("a");
+    link.download = "activist_" + qrCodeFileName + "_qr_code.png";
+    link.href = canvas.toDataURL();
+    link.click();
+    style.remove();
+  });
 }
 
 const isOpen = ref(false);

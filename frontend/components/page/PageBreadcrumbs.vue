@@ -6,11 +6,13 @@
         :key="index"
         class="flex items-center font-display"
       >
-        <span
+        <NuxtLink
           v-if="index === 0"
-          class="mx-[0.35rem] text-light-special-text dark:text-dark-special-text"
-          >&#60;</span
+          class="mx-[0.35rem] text-light-special-text hover:text-light-text dark:text-dark-special-text dark:hover:text-dark-text focus-brand"
+          :to="localePath('/')"
         >
+          &#60;
+        </NuxtLink>
         <span
           v-else
           class="mx-[0.45rem] mb-[0.2rem] text-light-special-text dark:text-dark-special-text"

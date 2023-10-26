@@ -58,7 +58,7 @@ const props = withDefaults(defineProps<Props>(), {
   error: false,
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "blurred", "focused"]);
 const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
 const uuid = uuidv4();
 const refInputType = ref<string | undefined>(props?.inputType);
