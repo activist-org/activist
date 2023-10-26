@@ -1,8 +1,12 @@
 <template>
   <NuxtLink class="focus-brand" :to="localePath('/')">
     <svg
-      class="transition duration-100 fill-light-text dark:fill-dark-text hover:fill-light-special-text hover:dark:fill-dark-special-text"
-      :class="color"
+      class="transition duration-100"
+      :class="{
+        'fill-light-text dark:fill-dark-text hover:fill-light-special-text hover:dark:fill-dark-special-text':
+          !color,
+        '{{color}}': color,
+      }"
       width="503"
       height="647"
       viewBox="0 0 503 647"

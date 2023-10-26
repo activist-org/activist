@@ -1,13 +1,9 @@
 <template>
-  <div id="qrcode" class="flex justify-center flex-col">
+  <div id="qrcode" class="flex flex-col w-max">
     <div
-      class="relative border-2 border-black bg-white rounded-t-3xl"
+      class="flex w-max justify-center relative border-2 border-black bg-white rounded-t-3xl"
     >
-      <qrcode-vue
-        class="p-4"
-        :value="getPath()"
-        :size="codeSize"
-      />
+      <qrcode-vue class="p-4" :value="getPath()" :size="codeSize" />
       <div
         class="h-16 w-16 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-white absolute fill-black"
       >
@@ -21,7 +17,7 @@
       class="flex justify-center py-2 bg-black rounded-b-3xl text-white w-full"
     >
       <p class="pb-1 text-2xl">
-        {{ $t("components.modal-qr-code.url-text") }}
+        {{ $t("components.qr-code.url-text") }}
       </p>
     </div>
   </div>
@@ -37,5 +33,4 @@ function getPath() {
   const host = window.location.toString();
   return host;
 }
-
 </script>

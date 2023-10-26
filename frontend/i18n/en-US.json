@@ -258,11 +258,7 @@
       "close-modal-aria-label": "Close the QR Code download panel",
       "img-alt-text": "QR code scanning icon.",
       "download-qr-code": "Download QR code",
-      "download-qr-code-aria-label": "Download QR code",
-      "url-text": "activist.org"
-    },
-    "selector-language": {
-      "open-dropdown-aria-label": "Open the dropdown to select another language"
+      "download-qr-code-aria-label": "Download QR code"
     },
     "page-breadcrumbs": {
       "aria-label": "Page breadcrumb navigation"
@@ -270,6 +266,12 @@
     "progress-bar": {
       "close-process": "Close",
       "close-process-aria-label": "Close the current process and return to the previous screen"
+    },
+    "qr-code": {
+      "url-text": "activist.org"
+    },
+    "selector-language": {
+      "open-dropdown-aria-label": "Open the dropdown to select another language"
     },
     "selector-theme": {
       "dark": "Dark",

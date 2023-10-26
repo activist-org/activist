@@ -17,7 +17,6 @@
             hidden:
               sidebar.collapsed == false || sidebar.collapsedSwitch == false,
           }"
-          color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-special-text-over-header hover:dark:fill-dark-special-text-over-header"
         />
         <Transition>
           <LogoActivist

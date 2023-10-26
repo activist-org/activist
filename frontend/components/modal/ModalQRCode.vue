@@ -3,19 +3,26 @@
     @click="setIsOpen(true)"
     class="absolute right-0 flex items-center justify-center w-10 h-10 border-2 rounded-md bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div sm:w-16 sm:h-16 text-light-text dark:text-dark-text shadow-sm shadow-zinc-700 cursor-pointer"
   >
-    <Icon
-      name="bi:qr-code-scan"
-      size="3em"
-      :alt="$t('components.modal-qr-code.img-alt-text')"
-    />
+    <div class="sm:hidden">
+      <Icon
+        name="bi:qr-code-scan"
+        size="2em"
+        :alt="$t('components.modal-qr-code.img-alt-text')"
+      />
+    </div>
+    <div class="hidden sm:block">
+      <Icon
+        name="bi:qr-code-scan"
+        size="3em"
+        :alt="$t('components.modal-qr-code.img-alt-text')"
+      />
+    </div>
   </div>
-
   <Dialog @close="setIsOpen(false)" class="relative z-50" :open="isOpen">
     <div
       class="fixed inset-0 bg-light-popup dark:bg-dark-popup"
       aria-hidden="true"
     />
-
     <div class="fixed inset-0 flex w-screen items-center justify-center">
       <DialogPanel
         class="pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style text-light-text dark:text-dark-text container p-5"
@@ -66,7 +73,7 @@
               {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
             </p>
             <BtnLabeled
-            @click="downloadQRCode()"
+              @click="downloadQRCode()"
               class="hidden md:flex"
               :cta="true"
               :label="$t('components.modal-qr-code.download-qr-code')"
@@ -74,11 +81,11 @@
               :ariaLabel="$t('download-qr-code-aria-label')"
             />
           </div>
-          <div class="px-4 md:px-0 md:pb-10">
+          <div class="px-4 md:pl-8 md:pb-10">
             <QRCode />
           </div>
           <BtnLabeled
-          @click="downloadQRCode()"
+            @click="downloadQRCode()"
             class="flex md:hidden"
             :cta="true"
             :label="$t('components.modal-qr-code.download-qr-code')"
@@ -93,21 +100,23 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/vue";
+// import html2canvas from "html2canvas";
 import { ref } from "vue";
-import html2canvas from 'html2canvas';
 
 function downloadQRCode() {
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   document.head.appendChild(style);
-  style.sheet?.insertRule('body > div:last-child img { display: inline-block; }');
+  style.sheet?.insertRule(
+    "body > div:last-child img { display: inline-block; }"
+  );
 
-  html2canvas(document.querySelector("#qrcode")!).then((canvas) => {
-    const link = document.createElement("a");
-    link.download = "qr-code.png";
-    link.href = canvas.toDataURL();
-    link.click();
-    style.remove();
-  });
+  // html2canvas(document.querySelector("#qrcode")!).then((canvas) => {
+  //   const link = document.createElement("a");
+  //   link.download = "qr-code.png";
+  //   link.href = canvas.toDataURL();
+  //   link.click();
+  //   style.remove();
+  // });
 }
 
 const isOpen = ref(false);
