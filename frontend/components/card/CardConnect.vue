@@ -94,7 +94,7 @@
                 :title="'Add Account'"
                 :fieldNamePrompt="'Link to account'"
                 :ctaBtnLabel="'Add'"
-                :ctaBtnLabelAriaLabel="'Add a new field'"
+                :ctaBtnAriaLabel="'Add a new field'"
               />
             </PopoverPanel>
           </transition>

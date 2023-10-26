@@ -71,10 +71,10 @@
         <BtnLabeled
           @click="signUp"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
-          :label="$t('components.btn-labeled.sign-up')"
+          :label="'components.btn-labeled.sign-up'"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('components.btn-labeled.sign-up-aria-label')"
+          :ariaLabel="'components.btn-labeled.sign-up-aria-label'"
         />
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
@@ -88,7 +88,6 @@
 </template>
 
 <script setup lang="ts">
-// @ts-nocheck
 import usePasswordRules from "~/composables/usePasswordRules";
 import { PasswordRules } from "~/types/password-rules";
 
