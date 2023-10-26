@@ -50,3 +50,8 @@ exclude = '''
     | migrations
 )/
 '''
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "backend.settings"
+python_files = "tests.py test_*.py *_tests.py"
+addopts = "-vv --nomigrations --cov=. --cov-report=html --cov-report=term"
