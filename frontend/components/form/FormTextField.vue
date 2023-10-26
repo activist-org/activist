@@ -8,8 +8,8 @@
   >
     <input
       @input="updateValue"
-      @blur="emit('blurred')"
-      @focus="emit('focused')"
+      @blur="emit('update:modelValue', 'blurred')"
+      @focus="emit('update:modelValue', 'focused')"
       :id="uuid"
       class="w-full h-5 bg-transparent outline-none placeholder:text-light-special-text dark:placeholder:text-dark-special-text"
       :value="modelValue"
