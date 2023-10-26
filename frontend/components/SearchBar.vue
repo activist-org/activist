@@ -84,7 +84,12 @@ const sidebar = useSidebar();
 const input = ref();
 const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
-const keys = useMagicKeys();
+const { slash } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.key === "/" && e.type === "keydown") e.preventDefault();
+  },
+});
 
 export interface Props {
   location: "sidebar" | "header";
@@ -95,9 +100,11 @@ withDefaults(defineProps<Props>(), {
   expanded: false,
 });
 
-whenever(keys.slash, () => {
+whenever(slash, () => {
   setTimeout(() => {
-    input.value.focus();
+    if (input.value) {
+      input.value.focus();
+    }
   }, 0);
   if (sidebar.collapsed == true && sidebar.collapsedSwitch == true) {
     sidebar.collapsed = false;
