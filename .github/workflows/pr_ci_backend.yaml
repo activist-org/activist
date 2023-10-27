@@ -27,11 +27,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r backend/requirements-dev.txt
 
-      - name: Run Black - Formatting check
-        uses: psf/black@stable
-        with:
-          options: --check --verbose --exclude "migrations/"
-          src: ./backend
+      - name: Run ruff format - Formatting check
+        run: ruff ./backend
         continue-on-error: true
 
       - name: Run ruff - Linting and import sorting check
