@@ -58,3 +58,21 @@ omit = [
     "wsgi.py",
     "manage.py"
     ]
+
+[tool.mypy]
+mypy_path = "backend"
+plugins = [
+    "mypy_django_plugin.main",
+    "mypy_drf_plugin.main"
+]
+ignore_missing_imports = true
+strict = true
+exclude = [
+    "content/factory.py",
+]
+[[tool.mypy.overrides]]
+module = "content.*"
+follow_imports = "skip"
+
+[tool.django-stubs]
+django_settings_module = "backend.settings"
