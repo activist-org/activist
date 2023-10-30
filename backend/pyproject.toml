@@ -9,7 +9,7 @@ select = [
 fixable = ["I"]
 
 ignore = [
-    "E501",  # line too long, handled by black
+    "E501", # line too long, handled by black
 ]
 
 # Exclude a variety of commonly ignored directories.
@@ -56,20 +56,15 @@ omit = [
     "tests.py",
     "asgi.py",
     "wsgi.py",
-    "manage.py"
-    ]
+    "manage.py",
+]
 
 [tool.mypy]
 mypy_path = "backend"
-plugins = [
-    "mypy_django_plugin.main",
-    "mypy_drf_plugin.main"
-]
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 ignore_missing_imports = true
 strict = true
-exclude = [
-    "content/factory.py",
-]
+exclude = ["content/factory.py"]
 [[tool.mypy.overrides]]
 module = "content.*"
 follow_imports = "skip"
