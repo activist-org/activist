@@ -36,4 +36,4 @@ jobs:
         continue-on-error: true
 
       - name: Run mypy - Static Type Checking
-        run: mypy ./backend --config-file ./backend/mypy.ini
+        run: mypy ./backend --config-file ./backend/pyproject.toml
