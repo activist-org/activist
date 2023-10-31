@@ -15,7 +15,7 @@
 
     <ComboboxInput
       @change="query = $event.target.value"
-      @blur="query = ''"
+      :display-value="() => query"
       placeholder="Select a topic"
       class="py-2 w-full bg-transparent border-b-2 dark:text-dark-special-text"
     />
@@ -110,4 +110,13 @@ const filteredTopics = computed(() => {
 function isActiveTopic(topic: Topic) {
   return value.value.includes(topic);
 }
+
+watch(
+  () => open.value,
+  () => {
+    if (!open.value) {
+      query.value = "";
+    }
+  }
+);
 </script>
