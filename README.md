@@ -137,9 +137,11 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
    > Alternatively to using HTTPS as in the instructions below, consider SSH to interact with GitHub from the terminal. SSH allows you to connect without a user-pass authentication flow.
    >
    > To run git commands with SSH, remember then to substitute the HTTPS URL, `https://github.com/...`, with the SSH one, `git@github.com:...`.
+   >
    > - e.g. Cloning now becomes `git clone git@github.com:<your-username>/activist.git`
    >
    > GitHub also has their documentation on how to [Generate new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). 🔑
+   >
    > </p>
    > </details>
 
