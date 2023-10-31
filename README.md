@@ -126,7 +126,7 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
    > [!NOTE]\
    > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
-3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork and configure the remotes:
+3. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the repo, clone your fork, and configure the remotes:
 
    > [!NOTE]
    >
