@@ -130,7 +130,7 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 
    > [!NOTE]
    >
-   > <details><summary><strong>Consider using SSH</strong></summary>
+   > <details><summary>Consider using SSH</summary>
    >
    > <p>
    >

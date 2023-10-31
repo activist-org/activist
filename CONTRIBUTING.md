@@ -151,7 +151,7 @@ activist is very open to contributions from people in the early stages of their 
 
    > [!NOTE]
    >
-   > <details><summary><strong>Consider using SSH</strong></summary>
+   > <details><summary>Consider using SSH</summary>
    >
    > <p>
    >
