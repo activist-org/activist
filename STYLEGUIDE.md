@@ -203,7 +203,11 @@ activist is a global platform and must function in countless different regions a
 >
 > - This is the source from which all the other languages are translated from
 > - Edits to the other files need to be made on activist's [public localization project on Transifex](https://explore.transifex.com/activist-org/activist)
-> - Alphabetize the keys except for indexes within page routes that should come first
+> - Do not put the dictionary into different levels!
+>   - The purpose of one flat dictionary is so that we can search for the key in the codebase and easily find its uses and where it's defined
+> - Please alphabetize the keys, with your code editor likely having built in functionality for this
+> - If you're creating a value that already exists, move it and the original to a `_common` sub name at the lowest shared name in `en-US.json`
+> - If there are different uses of the same value in one file, then alphabetically combine the final keys with dashes (ex: `header-title`)
 > - Do not include periods in aria-labels (screen reader user will configure their own preferences for a hard stop)
 > - Put the aria label as the last attribute on any given element so it's easy to see if it's missing (`aria-label` for as an HTML attribute and `ariaLabel` as a prop)
 
