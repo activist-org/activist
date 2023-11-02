@@ -14,7 +14,7 @@ certifi==2023.7.22
     # via requests
 charset-normalizer==3.3.1
     # via requests
-django==4.2.6
+django==4.2.7
     # via
     #   -r requirements.in
     #   django-cors-headers
@@ -90,8 +90,6 @@ typing-extensions==4.8.0
     #   django-stubs-ext
     #   djangorestframework-stubs
     #   mypy
-tzdata==2023.3
-    # via django
 uritemplate==4.1.1
     # via drf-spectacular
 urllib3==2.0.7
