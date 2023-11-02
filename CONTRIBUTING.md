@@ -147,7 +147,24 @@ activist is very open to contributions from people in the early stages of their 
    > [!NOTE]\
    > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
-3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork, and configure the remotes:
+3. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the repo, clone your fork, and configure the remotes:
+
+   > [!NOTE]
+   >
+   > <details><summary>Consider using SSH</summary>
+   >
+   > <p>
+   >
+   > Alternatively to using HTTPS as in the instructions below, consider SSH to interact with GitHub from the terminal. SSH allows you to connect without a user-pass authentication flow.
+   >
+   > To run git commands with SSH, remember then to substitute the HTTPS URL, `https://github.com/...`, with the SSH one, `git@github.com:...`.
+   >
+   > - e.g. Cloning now becomes `git clone git@github.com:<your-username>/activist.git`
+   >
+   > GitHub also has their documentation on how to [Generate new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). 🔑
+   >
+   > </p>
+   > </details>
 
    ```bash
    # Clone your fork of the repo into the current directory.
@@ -240,7 +257,7 @@ Good pull requests — patches, improvements and new features — are a fantasti
 
 **Please ask first** before embarking on any significant pull request (implementing features, refactoring code, etc), otherwise you risk spending a lot of time working on something that the developers might not want to merge into the project. With that being said, major additions are very appreciated!
 
-When making a contribution, adhering to the [GitHub flow](https://guides.github.com/introduction/flow/index.html) process is the best way to get your work merged:
+When making a contribution, adhering to the [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow) process is the best way to get your work merged:
 
 1. If you cloned a while ago, get the latest changes from upstream:
 
