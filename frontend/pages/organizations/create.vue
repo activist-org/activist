@@ -70,7 +70,7 @@
           :placeholder="$t('pages.organizations.create.tagline-placeholder')"
         />
       </div>
-      <CardTopicSelection class="mt-5" />
+      <CardTopicSelection v-model="formData.topics" class="mt-5" />
       <div class="mx-14 w-full mt-5">
         <CardConnect
           :social-links="formData.social_accounts"
@@ -118,6 +118,7 @@ const formData = ref({
   social_accounts: [],
   topics: ["justice", "activism"],
 });
+
 
 const submit = async () => {
   const { data: responseData } = await useFetch(
