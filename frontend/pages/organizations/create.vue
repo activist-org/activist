@@ -119,7 +119,6 @@ const formData = ref({
   topics: ["justice", "activism"],
 });
 
-
 const submit = async () => {
   const { data: responseData } = await useFetch(
     "http://127.0.0.1:8000/v1/entities/organizations/",

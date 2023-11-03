@@ -15,21 +15,21 @@ export const GLOBAL_TOPICS: TopicsTag[] = [
   {
     icon: "material-symbols:volunteer-activism",
     value: Topic.ACTIVISM,
-    label: `global.topics.${Topic.ACTIVISM}`,
+    label: `_global.topics.${Topic.ACTIVISM}`,
   },
   {
     icon: "mdi:justice",
     value: Topic.JUSTICE,
-    label: `global.topics.${Topic.JUSTICE}`,
+    label: `_global.topics.${Topic.JUSTICE}`,
   },
   {
     icon: "mdi:environment",
     value: Topic.ENVIRONMENT,
-    label: `global.topics.${Topic.ENVIRONMENT}`,
+    label: `_global.topics.${Topic.ENVIRONMENT}`,
   },
   {
     icon: "bi:book",
     value: Topic.EDUCATION,
-    label: `global.topics.${Topic.EDUCATION}`,
+    label: `_global.topics.${Topic.EDUCATION}`,
   },
 ];
