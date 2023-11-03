@@ -110,13 +110,4 @@ const filteredTopics = computed(() => {
 function isActiveTopic(topic: Topic) {
   return value.value.includes(topic);
 }
-
-watch(
-  () => open.value,
-  () => {
-    if (!open.value) {
-      query.value = "";
-    }
-  }
-);
 </script>
