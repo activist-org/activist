@@ -27,19 +27,7 @@
       >
         <ImageEvent eventType="action" />
       </div>
-      <p
-        v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-        class="mt-2 text-xl font-bold text-center"
-      >
-        {{ name }}
-      </p>
-      <p
-        v-if="sidebar.collapsed == true && sidebar.collapsedSwitch == true"
-        class="mt-1 text-lg font-bold text-center"
-      >
-        {{ nameAbbreviation }}
-      </p>
-      <ul class="flex flex-col w-full px-1 mt-2 mb-1">
+      <ul class="flex flex-col w-full px-1 mt-4 mb-1">
         <li
           v-if="sidebarType === 'organization'"
           v-for="button in organizationButtons"
@@ -69,20 +57,13 @@
 <script setup lang="ts">
 import { MenuSelector } from "~/types/menu-selector";
 
-const sidebar = useSidebar();
-
-const props = defineProps<{
+defineProps<{
   name: string;
   sidebarType: "organization" | "event";
   logoUrl?: string;
 }>();
 
-const nameAbbreviation = props.name
-  .split(" ")
-  .map(function (item) {
-    return item[0];
-  })
-  .join("");
+const sidebar = useSidebar();
 
 const { id } = useRoute().params;
 
