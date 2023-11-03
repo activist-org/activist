@@ -1,5 +1,6 @@
 <template>
   <HeaderMobile />
+  <MenuNavigationDropdown />
   <SidebarLeft
     @mouseover="sidebarHover = true"
     @mouseleave="sidebarHover = false"
@@ -39,7 +40,8 @@
 
 <script setup lang="ts">
 const sidebar = useSidebar();
-let sidebarHover: boolean;
+
+let sidebarHover: boolean = false;
 
 onMounted(() => {
   window.addEventListener("resize", handleWindowSizeChange);
