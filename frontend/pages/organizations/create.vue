@@ -70,8 +70,7 @@
           :placeholder="$t('pages.organizations.create.tagline-placeholder')"
         />
       </div>
-      <CardTopicSelection class="mt-5" />
-      <CardTopicSelectionHUI v-model="formData.topics" class="mt-5" />
+      <CardTopicSelection v-model="formData.topics" class="mt-5" />
       <div class="mx-14 w-full mt-5">
         <CardConnect
           :social-links="formData.social_accounts"
