@@ -12,7 +12,7 @@ name: Find Repeat i18n Values
             # * * * * *
 on:
   schedule:
-    - cron: '0 18 */14 * 1' # At 00:00 on Monday
+    - cron: '0 18 */14 * 1' # Runs at 18:00, every 14 days, and on Monday
 
 jobs:
   worker:
