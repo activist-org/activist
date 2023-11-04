@@ -1,0 +1,31 @@
+name: Find Repeat i18n Values
+
+
+            # ┌───────────── minute (0 - 59)
+            # │ ┌───────────── hour (0 - 23)
+            # │ │ ┌───────────── day of the month (1 - 31)
+            # │ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+            # │ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+            # │ │ │ │ │
+            # │ │ │ │ │
+            # │ │ │ │ │
+            # * * * * *
+on:
+  schedule:
+    - cron: '0 18 */14 * 1' # At 00:00 on Monday
+
+jobs:
+  worker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v4
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: execute py script
+        working-directory: ./frontend/i18n
+        run: python find_repeat_i18n_values.py
