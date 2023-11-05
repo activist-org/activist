@@ -8,7 +8,8 @@ on:
     paths:
       - "**/en-US.json"
   push:
-    branches: -main
+    branches:
+      - main
     paths:
       - "**/en-US.json"
 
