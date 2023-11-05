@@ -52,8 +52,8 @@ for repeat_value in json_repeat_value_counts:
 
         common_character = False
 
-    if common_prefix := '.'.join(common_prefix.split('.')):
-        print(f"Suggested new key: {'.'.join(common_prefix.split('.'))[:-1]}._global.IDENTIFIER_KEY")
+    if common_prefix := '.'.join(common_prefix.split('.')[:-1]):
+        print(f"Suggested new key: {common_prefix}._global.IDENTIFIER_KEY")
     else:
         print("Suggested new key: _global.IDENTIFIER_KEY")
 
