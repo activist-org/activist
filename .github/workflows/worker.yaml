@@ -1,0 +1,29 @@
+name: Find Repeat i18n Values
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+    paths:
+        - "**/en-US.json"
+  push:
+    branches: -main
+    paths:
+        - "**/en-US.json"
+
+jobs:
+  worker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v4
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: execute py script
+        working-directory: ./frontend/i18n
+        run: python find_repeat_i18n_values.py
