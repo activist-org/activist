@@ -14,7 +14,7 @@ on:
       - "**/en-US.json"
 
 jobs:
-  worker:
+  i18n_check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo content
