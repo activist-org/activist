@@ -70,7 +70,7 @@ const { id } = useRoute().params;
 const organizationButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.about",
+    label: "_global.about",
     routeURL: "/organizations/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : false,
@@ -78,7 +78,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 2,
-    label: "components.sidebar-left-selector.label.events",
+    label: "_global.events",
     routeURL: "/organizations/" + id + "/events",
     iconURL: "bi:calendar-check",
     selected: useRoute().path.split("/").pop() === "events" ? true : false,
@@ -94,7 +94,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 4,
-    label: "components.sidebar-left-selector.label.resources",
+    label: "components._global.resources",
     routeURL: "/organizations/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : false,
@@ -102,7 +102,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 5,
-    label: "components.sidebar-left-selector.label.faq",
+    label: "_global.faq",
     routeURL: "/organizations/" + id + "/faq",
     iconURL: "IconFAQ",
     selected: useRoute().path.split("/").pop() === "faq" ? true : false,
@@ -145,7 +145,7 @@ const organizationButtons: MenuSelector[] = [
 const eventButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.about",
+    label: "_global.about",
     routeURL: "/events/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : false,
@@ -161,7 +161,7 @@ const eventButtons: MenuSelector[] = [
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.resources",
+    label: "components._global.resources",
     routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : false,

@@ -30,9 +30,7 @@
             <label
               class="font-bold text-light-text dark:text-dark-text responsive-h4"
               for="password"
-              :placeholder="
-                $t('components.card-danger-zone.password-placeholder')
-              "
+              :placeholder="$t('components._global.enter-password')"
             >
               {{ $t("components.card-danger-zone.password-label") }} *
             </label>

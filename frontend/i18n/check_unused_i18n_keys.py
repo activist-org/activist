@@ -5,6 +5,7 @@ Run `python i18n_check_unused_keys.py` to check if the en-US.json file has keys 
 If yes, then remove those keys from the `en-US.json`.
 """
 
+
 import json
 import os
 from pathlib import Path
@@ -34,7 +35,9 @@ for k in all_keys:
             break
 
 if unused_keys := list(set(all_keys) - set(used_keys)):
-    raise ValueError(f"There exist i18n keys that are unused. Please remove or assign {', '.join(unused_keys)}")
+    to_be = "are" if len(unused_keys) > 1 else "is"
+    key_to_be = "keys that are" if len(unused_keys) > 1 else "key that is"
+    raise ValueError(f"There {to_be} {len(unused_keys)} i18n {key_to_be} unused. Please remove or assign the following keys:\n{', '.join(unused_keys)}")
 
 else:
     print("\nSuccess: all i18n keys are used in the project.")

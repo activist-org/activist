@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-2 gap-3 lg:gap-4 lg:grid-cols-4">
     <CardMetric
-      :text="$t('components.grid-home-metrics.events')"
+      :text="$t('_global.events')"
       number="123"
       textColor="text-light-text dark:text-dark-text"
       borderColor="border-light-text dark:border-dark-text"

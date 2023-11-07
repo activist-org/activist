@@ -85,7 +85,7 @@ const event: Event = {
 const eventButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.about",
+    label: "_global.about",
     routeURL: "/events/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : true,
@@ -101,7 +101,7 @@ const eventButtons: MenuSelector[] = [
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.resources",
+    label: "components._global.resources",
     routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,

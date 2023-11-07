@@ -3,11 +3,11 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.about.activist.title") }}</Title>
+      <Title>{{ $t("pages._global.about-us") }}</Title>
     </Head>
     <PageDocs
       imgURL="/images/content_pages/icons/activist_icon"
-      imgAltText="pages.about.activist.img-alt-text"
+      imgAltText="_global.activist-icon-img-alt-text"
     >
       <h1 class="pb-2 font-bold responsive-h1">
         {{ $t("pages.about.activist.header") }}
@@ -19,7 +19,7 @@
           size="1.25em"
         />
         <p>
-          {{ $t("pages.about.activist.subheader-1") }}
+          {{ $t("pages._global.see-the") }}
           <a
             class="items-center focus-brand link-text"
             href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=805%3A231&t=vNWHCPdiq5EbPaO9-1"
@@ -32,7 +32,7 @@
               style="vertical-align: baseline"
             />
           </a>
-          {{ $t("pages.about.activist.subheader-3") }}
+          {{ $t("pages._global.to-learn-more") }}
         </p>
       </div>
       <p>
@@ -48,26 +48,26 @@
         {{ $t("pages.about.activist.section-1-paragraph-4") }}
       </p>
       <p class="pb-2 lg:pb-4">
-        {{ $t("pages.about.activist.section-1-paragraph-5-1") }}
+        {{ $t("pages._global.interested-in-helping") }}
         <a
           class="items-center focus-brand link-text"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
-          {{ $t("pages.about.activist.section-1-paragraph-5-2") }}
+          {{ $t("pages._global.on-github") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("pages.about.activist.section-1-paragraph-5-3") }}
+        {{ $t("pages._global.contribute-request-feature") }}
         <a
           class="items-center focus-brand link-text"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
-          {{ $t("pages.about.activist.section-1-paragraph-5-4") }}
+          {{ $t("pages._global.public-matrix-chat-rooms") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"

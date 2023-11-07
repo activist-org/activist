@@ -3,12 +3,12 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.supporters.showcase.title") }}</Title>
+      <Title>{{ $t("pages._global.our-supporters") }}</Title>
     </Head>
     <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
       <PageBreadcrumbs />
       <h1 class="font-bold responsive-h1">
-        {{ $t("pages.supporters.showcase.title") }}
+        {{ $t("pages._global.our-supporters") }}
       </h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
         {{ $t("pages.supporters.showcase.section-1-paragraph-1-1") }}

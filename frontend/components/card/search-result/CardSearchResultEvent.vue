@@ -62,7 +62,7 @@
           <MetaTagOrganization :organization="event.organizer" />
           <MetaTagSupporters
             :supporters="event.supporters"
-            label="components.meta-tag-supporters.label"
+            label="components.meta-tag.supporters_lower"
           />
         </div>
       </div>
