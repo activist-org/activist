@@ -12,7 +12,7 @@
       >
         <Icon name="cib:github" size="1em" />
         <p class="sr-only sm:not-sr-only">
-          {{ $t("components._global.github") }}
+          {{ $t("components.landing-community-banner.github") }}
         </p>
       </a>
       <a
@@ -22,7 +22,7 @@
       >
         <Icon name="IconMatrix" size="1.061em" />
         <p class="sr-only sm:not-sr-only">
-          {{ $t("components._global.matrix") }}
+          {{ $t("components.landing-community-banner.matrix") }}
         </p>
       </a>
       <a
@@ -32,7 +32,7 @@
       >
         <Icon name="cib:instagram" size="1em" />
         <p class="sr-only sm:not-sr-only">
-          {{ $t("components._global.instagram") }}
+          {{ $t("components.landing-community-banner.instagram") }}
         </p>
       </a>
     </div>

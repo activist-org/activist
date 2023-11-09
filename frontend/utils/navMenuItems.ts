@@ -1,11 +1,11 @@
 export const menuItems = [
   {
-    label: "_global.home",
+    label: "components.menu-mobile-selector.label.home",
     routeURL: "/home",
     iconURL: "bi:house",
   },
   {
-    label: "_global.events",
+    label: "components.menu-mobile-selector.label.events",
     routeURL: "/events",
     iconURL: "bi:calendar-check",
   },

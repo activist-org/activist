@@ -93,33 +93,33 @@
         {{ $t("pages.legal.trademark-policy.section-5-paragraph-1") }}
       </p>
       <p class="pb-2 lg:pb-4">
-        {{ $t("pages._global.interested-in-helping") }}
+        {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-1") }}
         <a
           class="items-center focus-brand link-text"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
-          {{ $t("pages._global.on-github") }}
+          {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("pages._global.contribute-request-feature") }}
+        {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-3") }}
         <a
           class="items-center focus-brand link-text"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
-          {{ $t("pages._global.public-matrix-chat-rooms") }}
+          {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-4") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("pages._global.share-ideas-say-hi") }}
+        {{ $t("pages.legal.trademark-policy.section-5-paragraph-2-5") }}
       </p>
       <div
         class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"

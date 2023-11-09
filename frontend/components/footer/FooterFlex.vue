@@ -10,7 +10,7 @@
         />
       </div>
       <p class="mt-3 text-light-text dark:text-dark-text">
-        {{ $t("components.footer._global.activist-tagline") }}
+        {{ $t("components.footer-flex.activist-tagline") }}
       </p>
       <!-- Note: Platform Links -->
       <div class="flex justify-start mt-2">
@@ -48,10 +48,10 @@
         href="https://www.netlify.com/"
         target="_blank"
       >
-        {{ $t("components.footer._global.powered-by-netlify") }}
+        {{ $t("components.footer-flex.powered-by-netlify") }}
       </a>
       <div class="mt-2 text-light-text dark:text-dark-text">
-        {{ $t("components._global.copyright") }}
+        {{ $t("components.footer-flex.website-copyright") }}
       </div>
     </div>
     <!-- Note: Content Sections Right -->
@@ -61,7 +61,7 @@
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components._global.connect") }}
+          {{ $t("components.footer-flex.connect") }}
         </p>
         <template v-for="(connect, index) in links.connectLinks">
           <a
@@ -78,7 +78,7 @@
       <!-- Note: Resources Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components._global.resources") }}
+          {{ $t("components.footer-flex.resources") }}
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p
@@ -94,7 +94,7 @@
       <!-- Note: Organization Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components._global.organization") }}
+          {{ $t("components.footer-flex.organization") }}
         </p>
         <template v-for="(oLink, index) in links.organizationLinks">
           <p

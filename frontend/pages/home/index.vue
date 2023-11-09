@@ -3,7 +3,7 @@
     class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("_global.home") }}</Title>
+      <Title>{{ $t("pages.home.index.title") }}</Title>
     </Head>
     <HeaderAppPage
       :header="$t('pages.home.index.header')"

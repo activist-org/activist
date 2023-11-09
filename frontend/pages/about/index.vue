@@ -3,12 +3,12 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("_global.about") }}</Title>
+      <Title>{{ $t("pages.about.index.title") }}</Title>
     </Head>
     <div class="bg-light-distinct dark:bg-dark-distinct">
       <div class="flex flex-col w-full responsive-py-4 responsive-px-5">
         <HeaderAppPage
-          :header="$t('_global.about')"
+          :header="$t('pages.about.index.header')"
           :tagline="$t('pages.about.index.subheader')"
         />
       </div>
@@ -38,25 +38,25 @@ const cards: DocsEntry[] = [
     description: "pages.about.index.activist-description",
     imgURL: "/images/content_pages/icons/activist_icon",
     imgDimensions: "h-12 sm:h-16",
-    imgAltText: "_global.activist-icon-img-alt-text",
+    imgAltText: "pages.about.index.activist-alt-text",
   },
   {
     id: 2,
     url: "impress",
-    title: "_global.imprint",
-    description: "pages.about.index.imprint-description",
+    title: "pages.about.index.impress",
+    description: "pages.about.index.impress-description",
     imgURL: "/images/content_pages/icons/bootstrap_info_circle",
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.about._global.imprint-img-alt-text",
+    imgAltText: "pages.about.index.impress-alt-text",
   },
   {
     id: 3,
     url: "roadmap",
-    title: "_global.roadmap",
-    description: "_global.roadmap-description",
+    title: "pages.about.index.roadmap",
+    description: "pages.about.index.roadmap-description",
     imgURL: "/images/content_pages/icons/arcticons_bike_location",
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.about._global.roadmap-img-alt-text",
+    imgAltText: "pages.about.index.roadmap-alt-text",
   },
 ];
 </script>

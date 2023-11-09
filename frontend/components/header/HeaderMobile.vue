@@ -27,6 +27,8 @@
 </template>
 
 <script setup lang="ts">
+import { SidebarType } from "~/types/sidebar-type";
+
 const isSearchExpanded = ref(false);
 
 const toggleSearchExpanded = () => {
@@ -37,6 +39,7 @@ const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
 
 onMounted(() => {
+  console.log(SidebarType.EVENT_PAGE);
   window.addEventListener("scroll", handleScroll);
 });
 

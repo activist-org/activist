@@ -3,11 +3,11 @@
     class="relative flex items-center justify-center w-full p-2 text-sm text-left transition duration-200 rounded-md basis-full font-md group focus-brand"
     :class="{
       'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
-        selected === true,
+        selected,
       'text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight':
-        selected === false && active === true,
+        !selected && active,
       'text-black/20 dark:text-white/40 fill-black/20 dark:fill-white/40 pointer-events-none':
-        selected === false && active === false,
+        !selected && !active,
     }"
     :to="localePath(`${to}`)"
     :event="active ? '' : 'click'"

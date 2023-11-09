@@ -81,9 +81,9 @@
         <div class="flex space-x-2">
           <FormCheckbox />
           <label for="terms" class="font-medium flex">
-            <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
+            <p>{{ $t("pages.organizations.create.terms-pt-1") }}&nbsp;</p>
             <a href="#" class="text-blue-500">{{
-              $t("pages._global.terms-of-service-pt-2")
+              $t("pages.organizations.create.terms-pt-2")
             }}</a>
             <p>.</p>
           </label>

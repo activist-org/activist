@@ -11,7 +11,7 @@
       <div>
         <FormTextField
           @update:model-value="passwordValue = $event"
-          :placeholder="$t('components._global.enter-password')"
+          :placeholder="$t('pages.auth.sign-in.index.enter-password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
@@ -23,7 +23,7 @@
         <BtnLabeled
           @click="signIn"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
-          :label="$t('_global.sign-in')"
+          :label="$t('components.btn-labeled.sign-in')"
           :cta="true"
           fontSize="lg"
           :ariaLabel="$t('components.btn-labeled.sign-in-aria-label')"
@@ -32,7 +32,7 @@
       <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
         <NuxtLink :to="'sign-up'" class="ml-2 font-extrabold link-text">{{
-          $t("_global.sign-up")
+          $t("pages.auth.sign-in.index.sign-up")
         }}</NuxtLink>
       </div>
     </form>

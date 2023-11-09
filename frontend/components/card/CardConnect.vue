@@ -2,7 +2,7 @@
   <div class="px-5 py-5 card-style">
     <div class="flex items-center gap-5">
       <h3 class="text-left responsive-h3 font-display">
-        {{ $t("components._global.connect") }}
+        {{ $t("components.card-connect.header") }}
       </h3>
       <div
         class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"

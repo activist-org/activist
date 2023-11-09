@@ -3,7 +3,7 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("_global.grow-organization") }}</Title>
+      <Title>{{ $t("pages.docs.grow-organization.title") }}</Title>
     </Head>
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
@@ -40,7 +40,7 @@
               size="1.25em"
             />
             <p>
-              {{ $t("pages._global.see-the") }}
+              {{ $t("pages.docs.grow-organization.subheader-1") }}
               <a
                 class="items-center focus-brand link-text"
                 href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=517%3A4852&t=ytDrcE8K3RrfCxM6-1"
@@ -53,11 +53,21 @@
                   style="vertical-align: baseline"
                 />
               </a>
-              {{ $t("pages._global.to-learn-more") }}
+              {{ $t("pages.docs.grow-organization.subheader-3") }}
             </p>
           </div>
           <p>
-            {{ $t("pages.docs.grow-organization.section-1-paragraph-1") }}
+            {{ $t("pages.docs.grow-organization.section-1-paragraph-1-1") }}
+            <strong>{{
+              $t("pages.docs.grow-organization.section-1-paragraph-1-2")
+            }}</strong
+            >,
+            {{ $t("pages.docs.grow-organization.section-1-paragraph-1-3") }}
+            <strong>{{
+              $t("pages.docs.grow-organization.section-1-paragraph-1-4")
+            }}</strong
+            >,
+            {{ $t("pages.docs.grow-organization.section-1-paragraph-1-5") }}
           </p>
           <p>
             {{ $t("pages.docs.grow-organization.section-1-paragraph-2") }}
@@ -79,7 +89,7 @@
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("pages._global.public-matrix-chat-rooms") }}
+              {{ $t("pages.docs.grow-organization.section-1-paragraph-5-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"

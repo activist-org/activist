@@ -40,7 +40,7 @@
         >
           <MetaTagSupporters
             :supporters="user.supporters"
-            label="components.meta-tag.supporters_lower"
+            label="components.meta-tag-supporters.label"
           />
         </div>
       </div>

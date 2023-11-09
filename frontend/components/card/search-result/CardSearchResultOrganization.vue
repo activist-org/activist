@@ -50,11 +50,11 @@
         >
           <MetaTagMembers
             :members="organization.members"
-            label="components._global.members"
+            label="components.meta-tag-members.label"
           />
           <MetaTagSupporters
             :supporters="organization.supporters"
-            label="components.meta-tag.supporters_lower"
+            label="components.meta-tag-supporters.label"
           />
         </div>
       </div>

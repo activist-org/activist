@@ -3,11 +3,11 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("_global.contact") }}</Title>
+      <Title>{{ $t("pages.help.contact.title") }}</Title>
     </Head>
     <PageDocs
       imgURL="/images/content_pages/icons/bootstrap_envelope"
-      imgAltText="pages.help._global.contact-img-alt-text"
+      imgAltText="pages.help.contact.img-alt-text"
     >
       <div
         v-if="!emailSent"
@@ -29,7 +29,7 @@
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("pages._global.public-matrix-chat-rooms") }}
+              {{ $t("pages.help.faq.subheader-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -46,7 +46,7 @@
               class="items-center focus-brand link-text"
               href="https://matrix.to/#/#activist_community:matrix.org"
             >
-              {{ $t("pages._global.public-matrix-chat-rooms") }}
+              {{ $t("pages.help.contact.section-1-paragraph-1-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -58,7 +58,7 @@
               class="items-center focus-brand link-text"
               href="https://github.com/activist-org/activist"
             >
-              {{ $t("pages._global.on-github") }}
+              {{ $t("pages.help.contact.section-1-paragraph-1-4") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -208,7 +208,7 @@
               }"
               type="submit"
               :disabled="buttonDisabled"
-              :aria-label="$t('pages.help.contact.send-form-aria-label')"
+              :aria-label="$t('pages.contact.send-form-aria-label')"
             >
               {{ $t("pages.help.contact.send") }}
             </button>
@@ -235,7 +235,7 @@
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("pages._global.public-matrix-chat-rooms") }}
+              {{ $t("pages.help.faq.subheader-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"

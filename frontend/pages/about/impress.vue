@@ -3,14 +3,14 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("_global.imprint") }}</Title>
+      <Title>{{ $t("pages.about.impress.title") }}</Title>
     </Head>
     <PageDocs
       imgURL="/images/content_pages/icons/bootstrap_info_circle"
-      imgAltText="pages.about._global.imprint-img-alt-text"
+      imgAltText="pages.about.impress.img-alt-text"
     >
       <h1 class="pb-2 font-bold responsive-h1">
-        {{ $t("_global.imprint") }}
+        {{ $t("pages.about.impress.header") }}
       </h1>
       <div class="flex flex-row py-2 space-x-3">
         <Icon
@@ -21,7 +21,7 @@
         <p>
           {{ $t("pages.about.impress.subheader-1") }}
           <a class="items-center focus-brand link-text" href="/help/contact">
-            {{ $t("pages._global.contact-page") }}
+            {{ $t("pages.about.impress.subheader-2") }}
             <Icon
               name="bi:box-arrow-up-right"
               size="1em"

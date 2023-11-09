@@ -3,10 +3,10 @@
     class="px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.organizations.index.header-title") }}</Title>
+      <Title>{{ $t("pages.organizations.index.title") }}</Title>
     </Head>
     <HeaderAppPage
-      :header="$t('pages.organizations.index.header-title')"
+      :header="$t('pages.organizations.index.header')"
       :tagline="$t('pages.organizations.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">

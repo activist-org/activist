@@ -4,7 +4,7 @@
     :to="localePath('/about/roadmap')"
     :aria-label="$t('components.btn-roadmap.aria-label')"
   >
-    {{ $t("_global.roadmap") }}
+    {{ $t("components.btn-roadmap.label") }}
   </NuxtLink>
 </template>
 

@@ -84,7 +84,7 @@ const organization: Organization = {
 const organizationButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "_global.about",
+    label: "components.sidebar-left-selector.label.about",
     routeURL: "/organizations/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : true,
@@ -92,7 +92,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 2,
-    label: "_global.events",
+    label: "components.sidebar-left-selector.label.events",
     routeURL: "/organizations/" + id + "/events",
     iconURL: "bi:calendar-check",
     selected: useRoute().path.split("/").pop() === "events" ? true : true,
@@ -108,7 +108,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 4,
-    label: "components._global.resources",
+    label: "components.sidebar-left-selector.label.resources",
     routeURL: "/organizations/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
@@ -116,7 +116,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 5,
-    label: "_global.faq",
+    label: "components.sidebar-left-selector.label.faq",
     routeURL: "/organizations/" + id + "/faq",
     iconURL: "IconFAQ",
     selected: useRoute().path.split("/").pop() === "faq" ? true : true,

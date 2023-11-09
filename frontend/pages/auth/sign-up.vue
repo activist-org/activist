@@ -20,7 +20,7 @@
             isFocused = true;
             isBlurred = false;
           "
-          :placeholder="$t('components._global.enter-password')"
+          :placeholder="$t('pages.auth.sign-up.index.enter-password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
@@ -39,7 +39,7 @@
       <div>
         <FormTextField
           @update:model-value="confirmPasswordValue = $event"
-          :placeholder="$t('_global.repeat-password')"
+          :placeholder="$t('pages.auth.sign-up.index.repeat-password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="confirmPasswordValue"
@@ -57,12 +57,12 @@
           value="yes"
         />
         <p class="flex flex-wrap pl-2">
-          {{ $t("pages._global.terms-of-service-pt-1") }}
+          {{ $t("pages.auth.sign-up.index.read-terms-of-service") }}
           <NuxtLink
             :to="'../legal/privacy-policy'"
             target="_blank"
             class="ml-1 text-[#005CB8E5] sm:block"
-            >{{ $t("pages._global.terms-of-service-pt-2") }}
+            >{{ $t("pages.auth.sign-up.index.terms-of-service") }}
           </NuxtLink>
         </p>
       </div>
@@ -71,7 +71,7 @@
         <BtnLabeled
           @click="signUp"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
-          :label="'_global.sign-up'"
+          :label="'components.btn-labeled.sign-up'"
           :cta="true"
           fontSize="lg"
           :ariaLabel="'components.btn-labeled.sign-up-aria-label'"
@@ -80,7 +80,7 @@
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-up.index.have-account") }}</h6>
         <NuxtLink :to="'sign-in'" class="ml-2 font-extrabold link-text">{{
-          $t("_global.sign-in")
+          $t("pages.auth.sign-up.index.sign-in")
         }}</NuxtLink>
       </div>
     </form>

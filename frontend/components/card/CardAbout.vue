@@ -6,7 +6,7 @@
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="text-left responsive-h3 font-display">
-            {{ $t("_global.about") }}
+            {{ $t("components.card-about.header") }}
           </h3>
           <Icon name="bi:pencil-square" size="1.2em" />
         </div>
