@@ -21,7 +21,7 @@ certifi==2023.7.22
     #   requests
 cfgv==3.4.0
     # via pre-commit
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via
     #   -r requirements.txt
     #   requests
@@ -36,7 +36,7 @@ coverage[toml]==7.3.2
     # via pytest-cov
 distlib==0.3.7
     # via virtualenv
-django==4.2.6
+django==4.2.7
     # via
     #   -r requirements.txt
     #   django-cors-headers
@@ -44,13 +44,13 @@ django==4.2.6
     #   django-stubs-ext
     #   djangorestframework
     #   drf-spectacular
-django-cors-headers==4.2.0
+django-cors-headers==4.3.0
     # via -r requirements.txt
-django-stubs==4.2.3
+django-stubs==4.2.6
     # via
     #   -r requirements.txt
     #   djangorestframework-stubs
-django-stubs-ext==4.2.2
+django-stubs-ext==4.2.5
     # via
     #   -r requirements.txt
     #   django-stubs
@@ -58,17 +58,17 @@ djangorestframework==3.14.0
     # via
     #   -r requirements.txt
     #   drf-spectacular
-djangorestframework-stubs==3.14.2
+djangorestframework-stubs==3.14.4
     # via -r requirements.txt
-drf-spectacular==0.26.4
+drf-spectacular==0.26.5
     # via -r requirements.txt
-factory-boy===3.3.0
+factory-boy==3.3.0
     # via -r requirements-dev.in
 faker==19.11.0
     # via factory-boy
 filelock==3.12.4
     # via virtualenv
-gunicorn==20.1.0
+gunicorn==21.2.0
     # via -r requirements.txt
 identify==2.5.30
     # via pre-commit
@@ -82,7 +82,7 @@ inflection==0.5.1
     #   drf-spectacular
 iniconfig==2.0.0
     # via pytest
-jsonschema==4.19.1
+jsonschema==4.19.2
     # via
     #   -r requirements.txt
     #   drf-spectacular
@@ -93,7 +93,6 @@ jsonschema-specifications==2023.7.1
 mypy==1.6.1
     # via
     #   -r requirements.txt
-    #   django-stubs
     #   djangorestframework-stubs
 mypy-extensions==1.0.0
     # via
@@ -103,7 +102,9 @@ nodeenv==1.8.0
     # via pre-commit
 packaging==23.2
     # via
+    #   -r requirements.txt
     #   build
+    #   gunicorn
     #   pytest
 pip-tools==7.3.0
     # via -r requirements-dev.in
@@ -113,7 +114,7 @@ pluggy==1.3.0
     # via pytest
 pre-commit==3.4.0
     # via -r requirements-dev.in
-psycopg2-binary==2.9.5
+psycopg2-binary==2.9.9
     # via -r requirements.txt
 pyproject-hooks==1.0.0
     # via build
@@ -148,12 +149,12 @@ requests==2.31.0
     # via
     #   -r requirements.txt
     #   djangorestframework-stubs
-rpds-py==0.10.6
+rpds-py==0.12.0
     # via
     #   -r requirements.txt
     #   jsonschema
     #   referencing
-ruff==0.1.3
+ruff==0.1.5
     # via -r requirements-dev.in
 six==1.16.0
     # via python-dateutil
