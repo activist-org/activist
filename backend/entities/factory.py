@@ -9,13 +9,13 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model: Organization
 
-    name = factory.Faker("name")
-    tagline = factory.Faker("sentence")
+    name = factory.Faker("word")
+    tagline = factory.Faker("word")
     location = factory.Faker("address")
     status = factory.Faker("word")
     description = factory.Faker("paragraph")
-    members = factory.List([factory.Faker("word") for _ in range(10)])
-    supporters = factory.List([factory.Faker("word") for _ in range(10)])
+    members = factory.List([factory.Faker("name") for _ in range(10)])
+    supporters = factory.List([factory.Faker("name") for _ in range(10)])
     images_url = factory.List([factory.Faker("word") for _ in range(10)])
     topics = factory.List([factory.Faker("word") for _ in range(10)])
     social_accounts = factory.List([factory.Faker("word") for _ in range(10)])
@@ -39,8 +39,8 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
 
     org_id = factory.SubFactory(OrganizationFactory)
     status = factory.SubFactory(OrganizationApplicationStatusFactory)
-    # orgs_in_favor
-    # orgs_against
+    orgs_in_favor = factory.List([factory.Faker("word") for _ in range(10)]) # orgs_in_favor
+    orgs_against = factory.List([factory.Faker("word") for _ in range(10)]) # orgs_against
     creation_date = factory.LazyFunction(datetime.datetime.now)
     status_update = factory.LazyFunction(datetime.datetime.now)
 
