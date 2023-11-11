@@ -24,7 +24,7 @@
       <MenuLinkWrapper
         v-for="button in eventButtons"
         :key="button"
-        :to="button.routeURL"
+        :to="localPath(button.routeURL)"
         :active="button.active"
         :selected="button.selected"
       >
@@ -68,7 +68,7 @@ definePageMeta({
 });
 
 const { id } = useRoute().params;
-
+const localPath = useLocalePath()
 const event: Event = {
   name: "Test Event",
   type: "action",

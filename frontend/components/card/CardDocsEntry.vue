@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     class="flex w-full px-3 py-3 group card-style space-x-4 lg:px-4 hover:bg-light-highlight dark:hover:bg-dark-highlight"
-    :to="url"
+    :to="localPath(url)"
   >
     <div
       class="flex items-center justify-center w-20 h-20 rounded-full bg-light-menu-selection dark:bg-dark-menu-selection sm:w-24 sm:h-24 group-hover:opacity-90"
@@ -30,6 +30,8 @@
 </template>
 
 <script setup lang="ts">
+const localPath = useLocalePath()
+
 defineProps<{
   url: string;
   imgURL: string;
