@@ -1,4 +1,3 @@
-# authentication/factories.py
 import factory
 from .models import SupportEntityType, Support, User, UserResource, UserTask, UserTopic
 
