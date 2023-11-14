@@ -68,7 +68,7 @@ definePageMeta({
 });
 
 const { id } = useRoute().params;
-const localePath = useLocalePath()
+const localePath = useLocalePath();
 const organization: Organization = {
   name: "tech from below",
   status: "approved",
@@ -100,7 +100,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.groups",
+    label: "_global.groups",
     routeURL: "/organizations/" + id + "/groups",
     iconURL: "IconGroup",
     selected: useRoute().path.split("/").pop() === "groups" ? true : true,
@@ -108,7 +108,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 4,
-    label: "components._global.resources",
+    label: "_global.resources",
     routeURL: "/organizations/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
@@ -124,7 +124,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 6,
-    label: "components.sidebar-left-selector.label.settings",
+    label: "_global.settings",
     routeURL: "/organizations/" + id + "/settings",
     iconURL: "bi:gear",
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
@@ -132,7 +132,7 @@ const organizationButtons: MenuSelector[] = [
   },
   // {
   //    id: 7,
-  //   label: "components.sidebar-left-selector.label.affiliates",
+  //   label: "_global.affiliates",
   //   routeURL: "/organizations/" + id + "/affiliates",
   //   iconURL: "IconSupport",
   //   selected: useRoute().path.split("/").pop() === "affiliates" ? true : true,
@@ -140,7 +140,7 @@ const organizationButtons: MenuSelector[] = [
   // },
   // {
   //    id: 8,
-  //   label: "components.sidebar-left-selector.label.tasks",
+  //   label: "_global.tasks",
   //   routeURL: "/organizations/" + id + "/tasks",
   //   iconURL: "bi:check-square",
   //   selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
@@ -148,7 +148,7 @@ const organizationButtons: MenuSelector[] = [
   // },
   // {
   //    id: 9,
-  //   label: "components.sidebar-left-selector.label.discussions",
+  //   label: "_global.discussions",
   //   routeURL: "/organizations/" + id + "/discussions",
   //   iconURL: "octicon:comment-discussion-24",
   //   selected: useRoute().path.split("/").pop() === "discussions" ? true : true,

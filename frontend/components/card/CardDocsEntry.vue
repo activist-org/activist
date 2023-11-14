@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-const localPath = useLocalePath()
+const localPath = useLocalePath();
 
 defineProps<{
   url: string;

@@ -68,7 +68,7 @@ definePageMeta({
 });
 
 const { id } = useRoute().params;
-const localPath = useLocalePath()
+const localPath = useLocalePath();
 const event: Event = {
   name: "Test Event",
   type: "action",
@@ -93,7 +93,7 @@ const eventButtons: MenuSelector[] = [
   },
   {
     id: 2,
-    label: "components.sidebar-left-selector.label.team",
+    label: "_global.team",
     routeURL: "/events/" + id + "/team",
     iconURL: "bi:people",
     selected: useRoute().path.split("/").pop() === "team" ? true : true,
@@ -101,7 +101,7 @@ const eventButtons: MenuSelector[] = [
   },
   {
     id: 3,
-    label: "components._global.resources",
+    label: "_global.resources",
     routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
@@ -109,21 +109,21 @@ const eventButtons: MenuSelector[] = [
   },
   {
     id: 4,
-    label: "components.sidebar-left-selector.label.settings",
+    label: "_global.settings",
     routeURL: "/events/" + id + "/settings",
     iconURL: "bi:gear",
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
     active: true,
   },
   // {
-  //   label: "components.sidebar-left-selector.label.tasks",
+  //   label: "_global.tasks",
   //   routeURL: "/events/" + id + "/tasks",
   //   iconURL: "bi:check-square",
   //   selected: useRoute().path.split("/").pop() === "tasks" ? false : false,
   //   active: false,
   // },
   // {
-  //   label: "components.sidebar-left-selector.label.discussions",
+  //   label: "_global.discussions",
   //   routeURL: "/events/" + id + "/discussions",
   //   iconURL: "octicon:comment-discussion-24",
   //   selected:

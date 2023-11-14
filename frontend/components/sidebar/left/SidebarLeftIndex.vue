@@ -29,8 +29,9 @@
       </div>
       <ul class="flex flex-col w-full px-1 mt-4 mb-1">
         <li
-          v-for="menuEntry in (
-            sidebarType === SidebarType.ORGANIZATION_PAGE ? menuEntriesState.organizationEntry.value : menuEntriesState.eventEntry.value)"
+          v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
+            ? menuEntriesState.organizationEntry.value
+            : menuEntriesState.eventEntry.value"
         >
           <SidebarLeftSelector
             :label="menuEntry.label"
@@ -56,5 +57,5 @@ defineProps<{
 }>();
 
 const sidebar = useSidebar();
-const menuEntriesState = useMenuEntriesState()
+const menuEntriesState = useMenuEntriesState();
 </script>

@@ -257,7 +257,7 @@ const createButtons: MenuSelector[] = [
 const infoButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.help",
+    label: "_global.help",
     routeURL: "/help",
     iconURL: "bi:question-circle",
     selected: false,
@@ -265,7 +265,7 @@ const infoButtons: MenuSelector[] = [
   },
   {
     id: 2,
-    label: "components.sidebar-left-selector.label.documentation",
+    label: "_global.documentation",
     routeURL: "/docs",
     iconURL: "bi:layout-text-sidebar-reverse",
     selected: false,
@@ -273,7 +273,7 @@ const infoButtons: MenuSelector[] = [
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.legal",
+    label: "_global.legal",
     routeURL: "/legal",
     iconURL: "IconLegal",
     selected: false,
@@ -316,7 +316,7 @@ const userButtons: MenuSelector[] = [
   },
   {
     id: 5,
-    label: "components.sidebar-left-selector.label.settings",
+    label: "_global.settings",
     routeURL: "/",
     iconURL: "bi:gear",
     selected: false,
