@@ -9,7 +9,13 @@
     }"
   >
     <SidebarLeftHeader />
-    <div class="h-full overflow-x-hidden overflow-y-scroll">
+    <div
+      class="h-full overflow-x-hidden"
+      :class="{
+        'overflow-y-scroll':
+          !sidebar.collapsed || sidebar.collapsedSwitch == false,
+      }"
+    >
       <SearchBar class="mt-3" location="sidebar" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex

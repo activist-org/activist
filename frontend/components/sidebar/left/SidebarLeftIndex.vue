@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-1 transition-all duration-500 text-light-text dark:text-dark-text"
+    class="mx-1 transition-all duration-500 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header shadow-sm shadow-zinc-700 rounded-md py-2"
   >
     <div class="flex flex-col items-center">
       <div
@@ -27,7 +27,14 @@
       >
         <ImageEvent eventType="action" />
       </div>
-      <ul class="flex flex-col w-full px-1 mt-4 mb-1">
+      <ul
+        class="flex flex-col w-full px-1 mb-1"
+        :class="{
+          'mt-4':
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          'mt-2': sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        }"
+      >
         <li
           v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
             ? menuEntriesState.organizationEntry.value

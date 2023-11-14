@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col justify-center mx-1 transition-all duration-500">
-    <div class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header">
+    <div
+      class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header shadow-sm shadow-zinc-700"
+    >
       <!-- In the v-for don't select Home. -->
       <SidebarLeftSelector
         v-for="(item, index) in menuItems.slice(1, 3)"
