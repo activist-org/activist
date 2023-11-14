@@ -7,6 +7,9 @@
 !.vscode/settings.json
 !.vscode/extensions.json
 
+# Webstorm
+.idea
+
 # Django and Python
 __pycache__
 .venv

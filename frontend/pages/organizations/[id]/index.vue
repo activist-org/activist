@@ -24,7 +24,7 @@
       <MenuLinkWrapper
         v-for="button in organizationButtons"
         :key="button.id"
-        :to="button.routeURL"
+        :to="localePath(button.routeURL)"
         :active="button.active"
         :selected="button.selected"
       >
@@ -68,7 +68,7 @@ definePageMeta({
 });
 
 const { id } = useRoute().params;
-
+const localePath = useLocalePath()
 const organization: Organization = {
   name: "tech from below",
   status: "approved",
