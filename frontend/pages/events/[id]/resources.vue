@@ -2,7 +2,7 @@
   <div
     class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
-    <p>{{ $t("pages.events.id.resources.subheader") }} {{ id }}</p>
+    <p>{{ $t("pages._global.resource-placeholder") }} {{ id }}</p>
   </div>
 </template>
 

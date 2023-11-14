@@ -14,7 +14,7 @@
           class="w-16 h-5 bg-transparent outline-none"
           :class="{ 'focus:w-5/6': isInputFocused }"
           type="text"
-          :placeholder="$t('components.search-bar.placeholder')"
+          :placeholder="$t('_global.search')"
         />
       </Transition>
     </div>

@@ -27,19 +27,7 @@
       >
         <ImageEvent eventType="action" />
       </div>
-      <p
-        v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-        class="mt-2 text-xl font-bold text-center"
-      >
-        {{ name }}
-      </p>
-      <p
-        v-if="sidebar.collapsed == true && sidebar.collapsedSwitch == true"
-        class="mt-1 text-lg font-bold text-center"
-      >
-        {{ nameAbbreviation }}
-      </p>
-      <ul class="flex flex-col w-full px-1 mt-2 mb-1">
+      <ul class="flex flex-col w-full px-1 mt-4 mb-1">
         <li
           v-if="sidebarType === 'organization'"
           v-for="button in organizationButtons"
@@ -69,27 +57,20 @@
 <script setup lang="ts">
 import { MenuSelector } from "~/types/menu-selector";
 
-const sidebar = useSidebar();
-
-const props = defineProps<{
+defineProps<{
   name: string;
   sidebarType: "organization" | "event";
   logoUrl?: string;
 }>();
 
-const nameAbbreviation = props.name
-  .split(" ")
-  .map(function (item) {
-    return item[0];
-  })
-  .join("");
+const sidebar = useSidebar();
 
 const { id } = useRoute().params;
 
 const organizationButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.about",
+    label: "_global.about",
     routeURL: "/organizations/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : false,
@@ -97,7 +78,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 2,
-    label: "components.sidebar-left-selector.label.events",
+    label: "_global.events",
     routeURL: "/organizations/" + id + "/events",
     iconURL: "bi:calendar-check",
     selected: useRoute().path.split("/").pop() === "events" ? true : false,
@@ -113,7 +94,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 4,
-    label: "components.sidebar-left-selector.label.resources",
+    label: "components._global.resources",
     routeURL: "/organizations/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : false,
@@ -121,7 +102,7 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 5,
-    label: "components.sidebar-left-selector.label.faq",
+    label: "_global.faq",
     routeURL: "/organizations/" + id + "/faq",
     iconURL: "IconFAQ",
     selected: useRoute().path.split("/").pop() === "faq" ? true : false,
@@ -164,7 +145,7 @@ const organizationButtons: MenuSelector[] = [
 const eventButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.about",
+    label: "_global.about",
     routeURL: "/events/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : false,
@@ -180,7 +161,7 @@ const eventButtons: MenuSelector[] = [
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.resources",
+    label: "components._global.resources",
     routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : false,

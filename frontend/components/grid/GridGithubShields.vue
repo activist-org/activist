@@ -11,7 +11,7 @@
           {{ $t("components.grid-github-shields.visit-us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">
-          {{ $t("components.grid-github-shields.github") }}
+          {{ $t("components._global.github") }}
         </div>
       </div>
     </ImageGithubShield>

@@ -19,9 +19,7 @@
             ? 'bg-dark-btn dark:bg-light-btn'
             : 'bg-white dark:bg-dark-btn'
         "
-        :aria-label="
-          $t(`components.view-selector.view-as-${option}-aria-label`)
-        "
+        :aria-label="$t(viewAriaLabelsDict[option])"
       >
         <Icon
           class="w-auto h-full p-2"
@@ -79,6 +77,14 @@ const viewOptions = computed(() => {
   }
   return options;
 });
+
+// Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
+const viewAriaLabelsDict = {
+  map: "components.view-selector.view-as-map-aria-label",
+  list: "components.view-selector.view-as-list-aria-label",
+  calendar: "components.view-selector.view-as-calendar-aria-label",
+  grid: "components.view-selector.view-as-grid-aria-label",
+};
 
 const viewTypeIcons: Record<ViewType, string> = {
   [ViewType.MAP]: "bi-pin-map-fill",

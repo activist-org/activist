@@ -3,7 +3,7 @@
     class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.search.index.title") }}</Title>
+      <Title>{{ $t("_global.search") }}</Title>
     </Head>
     <HeaderAppPage
       :header="$t('pages.search.index.header')"

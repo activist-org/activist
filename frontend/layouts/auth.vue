@@ -50,16 +50,12 @@ const page = computed(() => {
     ariaLabel: isSignIn
       ? "pages.auth.sign-in.index.aria-label"
       : "pages.auth.sign-up.index.aria-label",
-    label: isSignIn
-      ? "pages.auth.sign-in.index.sign-up"
-      : "pages.auth.sign-up.index.sign-in",
+    label: isSignIn ? "_global.sign-up" : "_global.sign-in",
     link: isSignIn ? "/auth/sign-up" : "/auth/sign-in",
     message: isSignIn
       ? "pages.auth.sign-in.index.welcome-back"
       : "pages.auth.sign-up.index.first-time-welcome",
-    title: isSignIn
-      ? "pages.auth.sign-in.index.title"
-      : "pages.auth.sign-up.index.title",
+    title: isSignIn ? "_global.sign-in" : "_global.sign-up",
   };
 });
 </script>
