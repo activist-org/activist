@@ -5,13 +5,13 @@
 # - `pip-compile --rebuild requirements-dev.in`
 #
 
-Django==4.2.6
-django-stubs==4.2.3
-django-stubs-ext==4.2.2
-djangorestframework==3.14.0
-djangorestframework-stubs==3.14.2
-drf-spectacular==0.26.4
-python-dotenv==1.0.0
-psycopg2-binary==2.9.5
-gunicorn==20.1.0
-django-cors-headers==4.2.0
+Django
+django-stubs
+django-stubs-ext
+djangorestframework
+djangorestframework-stubs
+drf-spectacular
+python-dotenv
+psycopg2-binary
+gunicorn
+django-cors-headers

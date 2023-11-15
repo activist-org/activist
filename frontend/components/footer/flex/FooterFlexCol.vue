@@ -61,7 +61,7 @@
         <p
           class="mt-6 text-xl font-medium sm:mt-0 text-light-text dark:text-dark-text"
         >
-          {{ $t("components._global.resources") }}
+          {{ $t("_global.resources") }}
         </p>
         <div class="flex flex-wrap justify-center sm:flex-col gap-x-1 sm:gap-0">
           <template v-for="(resource, index) in links.resourcesLinks">

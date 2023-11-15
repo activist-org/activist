@@ -78,7 +78,7 @@
       <!-- Note: Resources Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components._global.resources") }}
+          {{ $t("_global.resources") }}
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p

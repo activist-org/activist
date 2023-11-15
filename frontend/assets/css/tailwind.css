@@ -28,11 +28,11 @@
   }
 
   .card-style-base {
-    @apply border rounded-md sm:rounded-lg shadow-sm shadow-zinc-700;
+    @apply rounded-md sm:rounded-lg shadow-sm shadow-zinc-700;
   }
 
   .card-style {
-    @apply card-style-base bg-light-distinct dark:bg-dark-distinct border-light-section-div dark:border-dark-section-div;
+    @apply card-style-base bg-light-distinct dark:bg-dark-distinct;
   }
 
   .tooltip {
