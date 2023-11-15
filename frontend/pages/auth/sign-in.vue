@@ -31,15 +31,19 @@
       </div>
       <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
-        <NuxtLink :to="'sign-up'" class="ml-2 font-extrabold link-text">{{
-          $t("_global.sign-up")
-        }}</NuxtLink>
+        <NuxtLink
+          :to="localePath('/auth/sign-up')"
+          class="ml-2 font-extrabold link-text"
+          >{{ $t("_global.sign-up") }}</NuxtLink
+        >
       </div>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath();
+
 definePageMeta({
   layout: "auth",
 });

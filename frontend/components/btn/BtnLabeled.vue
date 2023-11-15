@@ -122,6 +122,8 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath();
+
 export interface Props {
   cta: boolean;
   linkTo?: string;
@@ -137,6 +139,4 @@ export interface Props {
 withDefaults(defineProps<Props>(), {
   iconSize: "1em",
 });
-
-const localePath = useLocalePath();
 </script>

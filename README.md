@@ -2,8 +2,6 @@
   <a href="https://github.com/activist-org/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/logos/activistGitHubOrgBanner.png" width=1024 alt="activist Logo"></a>
 </div>
 
-<!-- [![supabase](https://img.shields.io/badge/Supabase-3ECF8E.svg?logo=supabase&logoColor=ffffff)](#tech-stack) -->
-
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
@@ -16,12 +14,14 @@
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
 
-<!-- Also available on [Android](https://github.com/activist-org/activist-Android) (planned) and [iOS](https://github.com/activist-org/activist-iOS) (planned). -->
-
 <details><summary>🌐 Language</summary>
 <p>
 
-- [Open a localization issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) to add a new readme to the [README](https://github.com/activist-org/activist/tree/main/README) directory
+[Open a localization issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) to add a new readme to the [README](https://github.com/activist-org/activist/tree/main/README) directory
+
+- DE: [README_DE.md](https://github.com/activist-org/activist/blob/main/README/README_DE.md)
+- EN: README.md
+- FR: [README_FR.md](https://github.com/activist-org/activist/blob/main/README/README_FR.md)
 
 </p>
 </details>

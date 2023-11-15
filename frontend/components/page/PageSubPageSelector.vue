@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 import { SubPageSelector } from "~/types/sub-page-selector";
+const localePath = useLocalePath();
 
 defineProps<{
   selectors: SubPageSelector[];
