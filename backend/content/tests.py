@@ -1,4 +1,4 @@
-from .factory import ResourceFactory, TaskFactory, TopicFactory, ResourceTopicFactory
+from .factories import ResourceFactory, TaskFactory, TopicFactory, ResourceTopicFactory
 import pytest
 
 
