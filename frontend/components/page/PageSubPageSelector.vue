@@ -31,6 +31,7 @@
 import { computed } from 'vue';
 import { Tab, TabList, TabGroup } from '@headlessui/vue';
 import { SubPageSelector } from '~/types/sub-page-selector';
+const localePath = useLocalePath();
 
 const router = useRouter();
 const nuxtApp = useNuxtApp();
