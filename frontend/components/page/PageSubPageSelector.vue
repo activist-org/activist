@@ -1,13 +1,14 @@
 <template>
   <div class="w-full h-fit">
-    <TabGroup v-model="currentTabIndex"
-    @change="changeTab"
-    manual
-    :default-index="defaultIndex"
+    <TabGroup
+      v-model="currentTabIndex"
+      @change="changeTab"
+      manual
+      :default-index="defaultIndex"
     >
       <TabList class="flex flex-row">
         <Tab v-for="selector in selectors" :key="selector.id" class="w-full">
-          <template v-slot="{ selected }">
+          <template #default="{ selected }">
             <NuxtLink
               :class="[
                 'justify-center flex px-3 py-1 border-l-[1px] border-y-[1px] w-full',
@@ -20,7 +21,7 @@
             >
               {{ selector.label }}
             </NuxtLink>
-          </template> 
+          </template>
         </Tab>
       </TabList>
     </TabGroup>
@@ -28,9 +29,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { Tab, TabList, TabGroup } from '@headlessui/vue';
-import { SubPageSelector } from '~/types/sub-page-selector';
+import { Tab, TabGroup, TabList } from "@headlessui/vue";
+import { computed } from "vue";
+import { SubPageSelector } from "~/types/sub-page-selector";
 const localePath = useLocalePath();
 
 const router = useRouter();
@@ -41,7 +42,7 @@ const props = defineProps<{
 }>();
 
 const defaultIndex = computed(() => {
-  return props.selectors.findIndex(selector => selector.selected) || 0;
+  return props.selectors.findIndex((selector) => selector.selected) || 0;
 });
 
 function changeTab(index: number) {
