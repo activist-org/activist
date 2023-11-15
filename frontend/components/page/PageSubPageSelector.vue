@@ -1,8 +1,8 @@
 <template>
   <div class="w-full h-fit">
     <TabGroup v-model="currentTabIndex"
-    manual
     @change="changeTab"
+    manual
     :default-index="defaultIndex"
     >
       <TabList class="flex flex-row">
