@@ -1,7 +1,18 @@
 import datetime
+
 import factory
 
-from .models import Event, Format, Role, EventAttendee, EventAttendeeStatus, EventResource, EventRole, EventTask, EventTopic
+from .models import (
+    Event,
+    EventAttendee,
+    EventAttendeeStatus,
+    EventResource,
+    EventRole,
+    EventTask,
+    EventTopic,
+    Format,
+    Role,
+)
 
 
 class EventFactory(factory.django.DjangoModelFactory):
@@ -19,7 +30,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     offline_location_long = factory.Faker("longitude")
     start_time = factory.LazyFunction(datetime.datetime.now)
     end_time = factory.Faker("future_date", end_date="+15d")
-    created_by = factory.SubFactory("authentication.UserFactory")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(datetime.datetime.now)
     deletion_date = factory.Faker("future_date", end_date="+30d")
 
@@ -52,7 +63,7 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
         model = EventAttendee
 
     event_id = factory.SubFactory(EventFactory)
-    user_id = factory.SubFactory("authentication.UserFactory")
+    user_id = factory.SubFactory("authentication.factories.UserFactory")
     role_id = factory.SubFactory(RoleFactory)
     attendee_status = factory.Faker("random_element", elements=[1, 2, 3])
 
@@ -77,7 +88,7 @@ class EventResourceFactory(factory.django.DjangoModelFactory):
         model = EventResource
 
     event_id = factory.SubFactory(EventFactory)
-    resource_id = factory.SubFactory('content.ResourceFactory')
+    resource_id = factory.SubFactory("content.factories.ResourceFactory")
 
 
 class EventRoleFactory(factory.django.DjangoModelFactory):
@@ -93,7 +104,7 @@ class EventTaskFactory(factory.django.DjangoModelFactory):
         model = EventTask
 
     event_id = factory.SubFactory(EventFactory)
-    task_id = factory.SubFactory('content.TaskFactory')
+    task_id = factory.SubFactory("content.factories.TaskFactory")
 
 
 class EventTopicFactory(factory.django.DjangoModelFactory):
@@ -101,4 +112,4 @@ class EventTopicFactory(factory.django.DjangoModelFactory):
         model = EventTopic
 
     event_id = factory.SubFactory(EventFactory)
-    topic_id = factory.SubFactory('content.TopicFactory')
+    topic_id = factory.SubFactory("content.factories.TopicFactory")
