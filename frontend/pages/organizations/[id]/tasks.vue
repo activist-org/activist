@@ -4,13 +4,13 @@
   >
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{ $t("_global.resources_lower") }}</Title
+        >{{ organization.name }}&nbsp;{{ $t("_global.tasks_lower") }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.resources_lower')"
-      :tagline="$t('pages.organizations.resources.tagline')"
+      :header="organization.name + ' ' + $t('_global.tasks_lower')"
+      :tagline="$t('pages._global.tasks-page-tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -18,11 +18,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components._global.new-resource"
+          label="components.btn-labeled.new-task"
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.new-resource-aria-label"
+          ariaLabel="components.btn-labeled.new-task-aria-label"
         />
       </div>
     </HeaderAppPage>
