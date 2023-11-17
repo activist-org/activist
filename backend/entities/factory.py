@@ -3,11 +3,26 @@ import random
 
 import factory
 
-from .models import Organization, OrganizationApplication, OrganizationApplicationStatus, OrganizationEvent, OrganizationMember, OrganizationResource, Group, OrganizationTask, OrganizationTopic, GroupEvent, GroupMember, GroupResource, GroupTopic
+from .models import (
+    Group,
+    GroupEvent,
+    GroupMember,
+    GroupResource,
+    GroupTopic,
+    Organization,
+    OrganizationApplication,
+    OrganizationApplicationStatus,
+    OrganizationEvent,
+    OrganizationMember,
+    OrganizationResource,
+    OrganizationTask,
+    OrganizationTopic,
+)
+
 
 class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model: Organization
+        model = Organization
 
     name = factory.Faker("word")
     tagline = factory.Faker("word")
@@ -20,10 +35,10 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     topics = factory.List([factory.Faker("word") for _ in range(10)])
     social_accounts = factory.List([factory.Faker("word") for _ in range(10)])
     total_flags = random.randint(1, 100)
-    created_by = factory.SubFactory("authentication.UserFactory")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     high_risk = random.choice([True, False])
     creation_date = factory.LazyFunction(datetime.datetime.now)
-    deletion_date = factory.LazyFunction(datetime.datetime.now) 
+    deletion_date = factory.LazyFunction(datetime.datetime.now)
 
 
 class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
@@ -39,8 +54,12 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
 
     org_id = factory.SubFactory(OrganizationFactory)
     status = factory.SubFactory(OrganizationApplicationStatusFactory)
-    orgs_in_favor = factory.List([factory.Faker("word") for _ in range(10)]) # orgs_in_favor
-    orgs_against = factory.List([factory.Faker("word") for _ in range(10)]) # orgs_against
+    orgs_in_favor = factory.List(
+        [factory.Faker("word") for _ in range(10)]
+    )  # orgs_in_favor
+    orgs_against = factory.List(
+        [factory.Faker("word") for _ in range(10)]
+    )  # orgs_against
     creation_date = factory.LazyFunction(datetime.datetime.now)
     status_update = factory.LazyFunction(datetime.datetime.now)
 
@@ -50,7 +69,7 @@ class OrganizationEventFactory(factory.django.DjangoModelFactory):
         model = OrganizationEvent
 
     org_id = factory.SubFactory(OrganizationFactory)
-    event_id = factory.SubFactory("events.EventFactory")
+    event_id = factory.SubFactory("events.factories.EventFactory")
 
 
 class OrganizationMemberFactory(factory.django.DjangoModelFactory):
@@ -58,7 +77,7 @@ class OrganizationMemberFactory(factory.django.DjangoModelFactory):
         model = OrganizationMember
 
     org_id = factory.SubFactory(OrganizationFactory)
-    user_id = factory.SubFactory("authentication.UserFactory")
+    user_id = factory.SubFactory("authentication.factories.UserFactory")
     is_owner = random.choice([True, False])
     is_admin = random.choice([True, False])
     is_comms = random.choice([True, False])
@@ -69,7 +88,7 @@ class OrganizationResourceFactory(factory.django.DjangoModelFactory):
         model = OrganizationResource
 
     org_id = factory.SubFactory(OrganizationFactory)
-    resource_id = factory.SubFactory("content.ResourceFactory")
+    resource_id = factory.SubFactory("content.factories.ResourceFactory")
 
 
 class GroupFactory(factory.django.DjangoModelFactory):
@@ -82,17 +101,17 @@ class GroupFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("paragraph")
     social_accounts = factory.List([factory.Faker("word") for _ in range(10)])
     total_flags = random.randint(1, 100)
-    creation_by = factory.SubFactory("authentication.UserFactory")
+    creation_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(datetime.datetime.now)
     deletion_date = factory.LazyFunction(datetime.datetime.now)
-    
+
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OrganizationTask
 
     org_id = factory.SubFactory(OrganizationFactory)
-    task_id = factory.SubFactory("content.TaskFactory")
+    task_id = factory.SubFactory("content.factories.TaskFactory")
     group_id = factory.SubFactory(GroupFactory)
 
 
@@ -101,15 +120,15 @@ class OrganizationTopicFactory(factory.django.DjangoModelFactory):
         model = OrganizationTopic
 
     org_id = factory.SubFactory(OrganizationFactory)
-    topic_id = factory.SubFactory("content.TopicFactory")
+    topic_id = factory.SubFactory("content.factories.TopicFactory")
 
 
 class GroupEventFactory(factory.django.DjangoModelFactory):
-    class Meta: 
+    class Meta:
         model = GroupEvent
 
     group_id = factory.SubFactory(GroupFactory)
-    event_id = factory.SubFactory("events.EventFactory")
+    event_id = factory.SubFactory("events.factories.EventFactory")
 
 
 class GroupMemberFactory(factory.django.DjangoModelFactory):
@@ -126,7 +145,7 @@ class GroupResourceFactory(factory.django.DjangoModelFactory):
         model = GroupResource
 
     group_id = factory.SubFactory(GroupFactory)
-    resource_id = factory.SubFactory("content.ResourceFactory")
+    resource_id = factory.SubFactory("content.factories.ResourceFactory")
 
 
 class GroupTopicFactory(factory.django.DjangoModelFactory):
@@ -134,4 +153,4 @@ class GroupTopicFactory(factory.django.DjangoModelFactory):
         model = GroupTopic
 
     group_id = factory.SubFactory(GroupFactory)
-    topic_id = factory.SubFactory("content.Topic")
+    topic_id = factory.SubFactory("content.factories.Topic")

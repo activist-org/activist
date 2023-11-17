@@ -1,7 +1,7 @@
 from .factory import OrganizationFactory, OrganizationApplicationFactory, OrganizationApplicationStatusFactory, OrganizationEventFactory, OrganizationMemberFactory, OrganizationResourceFactory, GroupFactory, OrganizationTaskFactory, OrganizationTopicFactory, GroupEventFactory, GroupMemberFactory, GroupResourceFactory, GroupTopic
 import pytest
 
-@pytest.mark.django_db
+
 def test_str_methods() -> None:
     organization = OrganizationFactory.build()
     organization_application = OrganizationApplicationFactory.build()
@@ -16,7 +16,7 @@ def test_str_methods() -> None:
     group_member = GroupMemberFactory.build()
     group_resource = GroupResourceFactory.build()
     group_topic = GroupTopic.build()
-    
+
     assert str(organization) == organization.name
     assert str(organization_application) == str(organization_application.id)
     assert str(organization_application_status) == str(organization_application_status.id)
@@ -30,4 +30,3 @@ def test_str_methods() -> None:
     assert str(group_member) == str(group_member.id)
     assert str(group_resource) == str(group_resource.id)
     assert str(group_topic) == str(group_topic.id)
-    
