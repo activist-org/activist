@@ -4,25 +4,37 @@
   >
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{ $t("_global.resources_lower") }}</Title
+        >{{ organization.name }}&nbsp;{{
+          $t("_global.discussions_lower")
+        }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.resources_lower')"
-      :tagline="$t('pages.organizations.resources.tagline')"
+      :header="organization.name + ' ' + $t('_global.discussions_lower')"
+      :tagline="$t('pages.organizations.discussions.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnLabeled
-          class="w-max"
+          class="hidden md:block w-max"
           :cta="true"
           linkTo="/"
-          label="components._global.new-resource"
+          label="components.btn-labeled.new-discussion"
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.new-resource-aria-label"
+          ariaLabel="components.btn-labeled.new-discussion-aria-label"
+        />
+        <BtnLabeled
+          class="hidden md:block w-max"
+          :cta="true"
+          linkTo="/"
+          label="components.btn-labeled.share-discussion"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.25em"
+          ariaLabel="components.btn-labeled.share-discussion-aria-label"
         />
       </div>
     </HeaderAppPage>

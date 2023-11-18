@@ -3,11 +3,12 @@
     class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ event.name }}&nbsp;{{ $t("_global.settings_lower") }}</Title>
+      <Title>{{ event.name }}&nbsp;{{ $t("_global.tasks_lower") }}</Title>
     </Head>
     <HeaderAppPage
       :event="event"
-      :header="event.name + ' ' + $t('_global.settings_lower')"
+      :header="event.name + ' ' + $t('_global.tasks_lower')"
+      :tagline="$t('pages._global.tasks-page-tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -15,16 +16,14 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components.btn-labeled.save-settings"
+          label="components.btn-labeled.new-task"
           fontSize="sm"
-          ariaLabel="components.btn-labeled.save-settings-aria-label"
+          leftIcon="bi:plus-lg"
+          iconSize="1.35em"
+          ariaLabel="components.btn-labeled.new-task-aria-label"
         />
       </div>
     </HeaderAppPage>
-    <CardDangerZone
-      description="Here's where you can delete this event. Please note that this is not a reversible action - all event data, support and resources will be permanently lost. If you have questions on this event please contact us on our contact page. We'd be happy to help!"
-      ctaBtnText="Permanently delete event"
-    />
   </div>
 </template>
 

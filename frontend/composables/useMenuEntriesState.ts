@@ -43,6 +43,7 @@ const useMenuEntriesState = () => {
     createMenuEntry("_global.resources", "organizations", "IconResource", true),
     createMenuEntry("_global.faq", "organizations", "IconFAQ", true),
     createMenuEntry("_global.settings", "organizations", "bi:gear", true),
+    createMenuEntry("_global.team", "organizations", "bi:people", true),
     createMenuEntry("_global.affiliates", "organizations", "IconSupport", true),
     createMenuEntry("_global.tasks", "organizations", "bi:check-square", true),
     createMenuEntry(
@@ -60,7 +61,7 @@ const useMenuEntriesState = () => {
     createMenuEntry("_global.settings", "events", "bi:gear", true),
     createMenuEntry("_global.tasks", "events", "bi:check-square", true),
     createMenuEntry(
-      "_global.discussions",
+      "_global.discussion",
       "events",
       "octicon:comment-discussion-24",
       true

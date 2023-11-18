@@ -3,14 +3,12 @@
     class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title
-        >{{ organization.name }}&nbsp;{{ $t("_global.resources_lower") }}</Title
-      >
+      <Title>{{ organization.name }}&nbsp;{{ $t("_global.team_lower") }}</Title>
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.resources_lower')"
-      :tagline="$t('pages.organizations.resources.tagline')"
+      :header="organization.name + ' ' + $t('_global.team_lower')"
+      :tagline="$t('pages.organizations.team.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -18,11 +16,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components._global.new-resource"
+          label="components.btn-labeled.invite-someone"
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.new-resource-aria-label"
+          ariaLabel="components.btn-labeled.invite-someone-org-aria-label"
         />
       </div>
     </HeaderAppPage>

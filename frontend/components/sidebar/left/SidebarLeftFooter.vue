@@ -215,7 +215,7 @@ const sidebar = useSidebar();
 const createButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.new-event",
+    label: "components._global.new-event",
     routeURL: "/",
     iconURL: "bi:calendar-check",
     selected: false,
@@ -231,7 +231,7 @@ const createButtons: MenuSelector[] = [
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.new-group",
+    label: "components._global.new-group",
     routeURL: "/",
     iconURL: "IconGroup",
     selected: false,
@@ -239,7 +239,7 @@ const createButtons: MenuSelector[] = [
   },
   {
     id: 4,
-    label: "components.sidebar-left-selector.label.new-resource",
+    label: "components._global.new-resource",
     routeURL: "/",
     iconURL: "IconResource",
     selected: false,

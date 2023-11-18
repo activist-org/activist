@@ -3,8 +3,6 @@ Events Models
 
 This file contains models for the events app.
 
-TODO: All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
-
 Contents:
     - Event
     - Format
