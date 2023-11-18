@@ -1,6 +1,4 @@
-from django.test import TestCase
-
-from .factory import (
+from .factories import (
     EventFactory,
     EventAttendeeFactory,
     EventFormatFactory,
@@ -23,11 +21,11 @@ def test_str_methods() -> None:
     assert (
         str(event_attendee) == f"{event_attendee.user_id} - {event_attendee.event_id}"
     )
-    assert str(event_format) == f"{event_format.event_id} - {event_format.format_id}"
+    assert str(event_format) == f"{event_format.id}"
     assert str(event_attendee_status) == event_attendee_status.status_name
     assert (
         str(event_resource)
-        == f"{event_resource.event_id} - {event_resource.resource_id}"
+        == f"{event_resource.id}"
     )
     assert str(_format) == _format.name
     assert str(role) == role.name
