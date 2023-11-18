@@ -143,6 +143,7 @@
   "components.card-search-result-organization.img-alt-text": "The organization logo of",
   "components.card-search-result-resource.img-alt-text": "The resource logo of",
   "components.card-topic-selection.header": "Topics",
+  "components.card-topic-selection.selector-placeholder": "Type to filter topics",
   "components.feed-item.img-alt-text": "A social media post's image.",
   "components.footer._global.activist-tagline": "Open-source, nonprofit activism platform.",
   "components.footer._global.powered-by-netlify": "This site is powered by Netlify.",

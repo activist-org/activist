@@ -4,11 +4,11 @@
     v-slot="{ open }"
     multiple
     as="div"
-    class="w-full card-style px-5 py-6"
+    class="flex-col space-y-3 w-full card-style px-5 py-6"
   >
     <ComboboxLabel
       as="h2"
-      class="block font-medium responsive-h3 mb-1 dark:text-dark-text"
+      class="block font-medium responsive-h3 dark:text-dark-text"
     >
       {{ $t("components.card-topic-selection.header") }}
     </ComboboxLabel>
@@ -16,13 +16,13 @@
     <ComboboxInput
       @change="query = $event.target.value"
       :display-value="() => query"
-      placeholder="Select a topic"
-      class="py-2 w-full bg-transparent border-b-2 dark:text-dark-special-text"
+      :placeholder="$t('components.card-topic-selection.selector-placeholder')"
+      class="pl-4 py-2 w-full text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md shadow-sm shadow-zinc-700"
     />
 
     <ComboboxOptions
       static
-      class="flex flex-col gap-1 mt-2 md:flex-row md:items-center"
+      class="flex flex-col gap-2 md:flex-row md:items-center"
     >
       <ComboboxOption
         v-for="topic of filteredTopics"
@@ -32,7 +32,7 @@
         as="template"
       >
         <li
-          class="flex justify-between items-center gap-2 rounded-lg p-2 border bg-light-btn border-dark-btn font-bold cursor-pointer hover:bg-light-cta-orange-hover hover:dark:bg-dark-cta-orange-hover"
+          class="flex justify-between items-center gap-2 rounded-lg p-2 border bg-light-btn border-dark-btn font-bold cursor-pointer hover:bg-light-cta-orange-hover hover:dark:bg-dark-cta-orange-hover shadow-sm shadow-zinc-700"
           :class="{
             'outline outline-blue-400 bg-light-cta-orange-hover dark:bg-dark-cta-orange-hover':
               active && open,

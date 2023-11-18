@@ -13,7 +13,10 @@
         }"
         :alt="name + ' logo'"
       >
-        <ImageOrganization :imgURL="logoUrl" />
+        <ImageOrganization
+          class="shadow-sm shadow-zinc-700"
+          :imgURL="logoUrl"
+        />
       </div>
       <div
         v-else-if="sidebarType === SidebarType.EVENT_PAGE"
@@ -25,7 +28,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <ImageEvent eventType="action" />
+        <ImageEvent class="shadow-sm shadow-zinc-700" eventType="action" />
       </div>
       <ul
         class="flex flex-col w-full px-1 mb-1"
