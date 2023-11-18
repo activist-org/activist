@@ -65,9 +65,19 @@ mypy_path = "backend"
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 ignore_missing_imports = true
 strict = true
-exclude = ["content/factory.py"]
+exclude = [
+    "authentication/factories.py",
+    "content/factories.py",
+    "entities/factories.py",
+    "events/factories.py"
+]
 [[tool.mypy.overrides]]
-module = "content.*"
+module = [
+    "authentication.*",
+    "content.*",
+    "entities.*",
+    "events.*"
+]
 follow_imports = "skip"
 
 [tool.django-stubs]

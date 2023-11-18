@@ -75,6 +75,9 @@ class EventAttendee(models.Model):
     role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
     attendee_status = models.IntegerField(null=True)
 
+    def __str__(self) -> str:
+        return f"{self.user_id} - {self.event_id}"
+
 
 class EventFormat(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
