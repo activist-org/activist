@@ -64,7 +64,7 @@ PRs are always welcome to improve the developer experience and project infrastru
 
 Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are not enabled. This may change in the future. Strict type checks are not enabled to allow building the app outside `Docker`. Local and Netlify builds proceed despite TS errors with strict checks disabled.
 
-> [!NOTE]\
+> [!NOTE]
 > For VS Code users: it is recommended to install these extensions to enable in-editor type-checking:
 >
 > - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
@@ -146,7 +146,7 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
   - Colors are defined for light and dark mode with border width and radius also being applied
   - Used in cases like about page sections, search results, etc
 
-> [!NOTE]\
+> [!NOTE]
 > There's also custom styles available to make development easier such as `bg-breakpoint-test` that changes the background of the element it's applied to based on the current breakpoint.
 
 <a id="formatting"></a>
@@ -198,7 +198,7 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 
 activist is a global platform and must function in countless different regions around the world. To achieve this, all strings on the platform must be defined using keys found in the [i18n directory of the frontend](https://github.com/activist-org/activist/tree/main/frontend/i18n).
 
-> [!NOTE]\
+> [!NOTE]
 > All keys should be defined within the [en-US.json file](https://github.com/activist-org/activist/blob/main/frontend/i18n/en-US.json)
 >
 > - This is the source from which all the other languages are translated from
