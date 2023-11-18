@@ -1,9 +1,13 @@
 <template>
-  <MetaTag iconName="IconOrganization" :value="organization" />
+  <MetaTag
+    v-for="organization in organizations"
+    iconName="IconOrganization"
+    :value="organization"
+  />
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  organization: string;
+  organizations: string[];
 }>();
 </script>
