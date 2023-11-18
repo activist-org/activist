@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col w-full md:flex-row">
-    <div class="flex justify-center w-full md:w-fit">
+    <div
+      class="flex justify-center w-full md:w-fit rounded-md border border-light-section-div dark:border-dark-section-div"
+    >
       <img
         v-if="event.imageURL"
         class="w-[200px] h-[200px]"
@@ -23,9 +25,7 @@
           <h2 class="font-bold responsive-h3">
             {{ event.name }}
           </h2>
-          <div class="text-light-cta-orange dark:text-dark-cta-orange">
-            <Icon name="ph:dots-three-circle-vertical" size="1.75em" />
-          </div>
+          <SearchResultMeatball />
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation
