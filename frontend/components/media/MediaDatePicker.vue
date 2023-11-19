@@ -5,7 +5,6 @@
   >
   <Calendar 
       :first-day-of-week="2"
-      :is-dark="true"
       trim-weeks
       expanded
       :attributes="attributes">
