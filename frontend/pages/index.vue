@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 console.log(
-  '                     #K   @P        -@C        @r\r\n     g@NNg#@ ,g@NNg N@@@K @P\'@w  ,@C @F,g@NNwJ@@@@r     Why are looking at the console?\r\n    @Mg, !$@ @C   -  #K   @P ]@, @P  @P]@wg;  -@F       When you can checkout our repo on:\r\n    %g%@N;@@ @g   ,  $K   @P  ]@@@   @P ,-"]@ -@F       https:\/\/github.com\/activist-org\/activist\r\n     "*MM**M "*MNM"  \'*MF M~   *M    MC\'*MMM*  "*M`'
+  '                     #K   @P        -@C        @r\r\n     g@NNg#@ ,g@NNg N@@@K @P\'@w  ,@C @F,g@NNwJ@@@@r     Why are looking at the console?\r\n    @Mg, !$@ @C   -  #K   @P ]@, @P  @P]@wg;  -@F       When you can checkout our repo on:\r\n    %g%@N;@@ @g   ,  $K   @P  ]@@@   @P ,-"]@ -@F       https://github.com/activist-org/activist\r\n     "*MM**M "*MNM"  \'*MF M~   *M    MC\'*MMM*  "*M`'
 );
 //                  #K   @P        -@C        @r
 // g@NNg#@ ,g@NNg N@@@K @P'@w  ,@C @F,g@NNwJ@@@@r      Why are looking at the console?
