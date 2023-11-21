@@ -1,27 +1,29 @@
 <template>
     <form
       v-if="$colorMode.preference == 'light'"
-      class="w-full h-full rounded-[0.45em] shadow-sm shadow-zinc-700"
+      
     >
-    <div class="date-label">
-      <strong>DATE*</strong>
-    </div>
       <DatePicker
-        v-model="date"
+        v-model.range="range"
         :first-day-of-week="2"
         color="light-mode"
         trim-weeks
         expanded
+        mode="dateTime"
+        hide-time-header
       />
     </form>
-    <form v-else class="w-full h-full rounded-[0.45em] shadow-sm shadow-zinc-700">
+    <form v-else>
+      <h1>Testezinhoo</h1>
       <DatePicker
-        v-model="date"
+        v-model.range="range"
         :first-day-of-week="2"
         color="dark-mode"
         :is-dark="true"
         trim-weeks
         expanded
+        mode="dateTime"
+        hide-time-header
       />
     </form>
   </template>
@@ -29,7 +31,8 @@
   <script setup>
   import { DatePicker } from "v-calendar";
   import "v-calendar/style.css";
-  
+  import{Calendar} from "v-calendar";
+
   const date = ref(new Date());
   </script>
   

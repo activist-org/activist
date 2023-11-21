@@ -20,9 +20,9 @@
         :event="event"
       />
     </div>
-    <div class="pt-3 pb-6 space-y-6 md:pt-4">
-      <CardDatePicker class="w-full h-full lg:col-span-2" />
-
+    <div class="pt-3 pb-6 space-y-6 md:pt-4 w-1/2">
+      <strong><h1>Date *</h1></strong>
+      <CardDatePicker></CardDatePicker>
     </div>
   </div>
 </template>
