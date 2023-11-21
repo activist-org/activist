@@ -172,11 +172,4 @@ class ContentAPIThrottlingTests(TestCase):
     
     def test_fail_this(self):
         assert 1 == 2
-'''
-
-
-
-
-
-# self.resource_url = reverse("content:resource-list")
-        
+'''        
