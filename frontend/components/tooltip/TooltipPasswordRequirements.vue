@@ -16,7 +16,7 @@
         :style="{ color: rule.isValid ? '#198754' : '#BA3D3B' }"
       />
       <span class="text-sm truncate">{{
-        $t(`components.tooltip-password-requirements.${rule.message}`)
+        $t(passwordRequirementsDict[rule.message])
       }}</span>
     </div>
   </Tooltip>
@@ -27,4 +27,18 @@ import { PasswordRules } from "~/types/password-rules";
 defineProps<{
   rules: PasswordRules[];
 }>();
+
+// Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
+const passwordRequirementsDict: { [key: string]: string } = {
+  "capital-letters": "components.tooltip-password-requirements.capital-letters",
+  "contains-numbers":
+    "components.tooltip-password-requirements.contains-numbers",
+  "contains-special-chars":
+    "components.tooltip-password-requirements.contains-special-chars",
+  "lower-case-letters":
+    "components.tooltip-password-requirements.lower-case-letters",
+  "number-of-chars": "components.tooltip-password-requirements.number-of-chars",
+  "password-rules-message":
+    "components.tooltip-password-requirements.password-rules-message",
+};
 </script>

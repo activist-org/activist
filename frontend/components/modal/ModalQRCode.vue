@@ -78,9 +78,11 @@
               :cta="true"
               :label="$t('components.modal-qr-code.download-qr-code')"
               fontSize="lg"
-              :ariaLabel="$t('download-qr-code-aria-label')"
               :options="availableFormats"
               :optionsCallback="downloadQRCode"
+              ariaLabel="
+                $t('components.modal-qr-code.download-qr-code-aria-label')
+              "
             />
           </div>
           <div class="px-4 md:pl-8 md:pb-10">
@@ -95,9 +97,11 @@
             :cta="true"
             :label="$t('components.modal-qr-code.download-qr-code')"
             fontSize="lg"
-            :ariaLabel="$t('download-qr-code-aria-label')"
             :options="availableFormats"
             :optionsCallback="downloadQRCode"
+            :ariaLabel="
+              $t('components.modal-qr-code.download-qr-code-aria-label')
+            "
           />
         </div>
       </DialogPanel>

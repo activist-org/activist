@@ -30,9 +30,7 @@
           <h2 class="font-bold responsive-h3">
             {{ resource.name }}
           </h2>
-          <div class="text-light-cta-orange dark:text-dark-cta-orange">
-            <Icon name="ph:dots-three-circle-vertical" size="1.75em" />
-          </div>
+          <SearchResultMeatball />
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation :location="resource?.relatedLocation" />

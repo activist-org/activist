@@ -13,9 +13,6 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
@@ -34,4 +31,4 @@ jobs:
 
             - [ ] The TypeScript and formatting workflows within the [PR checks](https://github.com/activist-org/activist/pull/${{ github.event.pull_request.number }}/checks) do not indicate new errors in the files changed
 
-            - [ ] The [CHANGELOG](https://github.com/activist-org/activist/blob/main/CHANGELOG.md) has been updated with a description of the changes for the upcoming release (if necessary)
+            - [ ] The [CHANGELOG](https://github.com/activist-org/activist/blob/main/CHANGELOG.md) has been updated with a description of the changes for the upcoming release and the corresponding issue (if necessary)

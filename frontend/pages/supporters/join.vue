@@ -3,14 +3,14 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.supporters.join.title") }}</Title>
+      <Title>{{ $t("pages._global.become-supporter") }}</Title>
     </Head>
     <PageDocs
       imgURL="/images/content_pages/icons/join_icon"
-      imgAltText="pages.supporters.join.join-alt-text"
+      imgAltText="pages.supporters._global.join-img-alt-text"
     >
       <h1 class="font-bold responsive-h1">
-        {{ $t("pages.supporters.join.title") }}
+        {{ $t("pages._global.become-supporter") }}
       </h1>
       <p>
         {{ $t("pages.supporters.join.section-1-paragraph-1-1") }}
@@ -23,20 +23,20 @@
         {{ $t("pages.supporters.join.section-2-subheader") }}
       </h2>
       <p>
-        {{ $t("pages.supporters.join.section-2-paragraph-1-1") }}
+        {{ $t("pages._global.visit-source-code-pt-1") }}
         <a
           class="focus-brand link-text"
           href="https://www.wikimedia.de/unlock"
           target="_blank"
         >
-          {{ $t("pages.supporters.join.section-2-paragraph-1-2") }}
+          {{ $t("pages._global.visit-source-code-pt-2") }}
           <Icon
             name="bi:box-arrow-up-right"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("pages.supporters.join.section-2-paragraph-1-3") }}
+        {{ $t("pages._global.visit-source-code-pt-3") }}
       </p>
       <h2 class="font-bold responsive-h4">
         {{ $t("pages.supporters.join.section-3-subheader") }}
@@ -53,7 +53,7 @@
           class="focus-brand link-text"
           :to="localePath('/help/contact')"
         >
-          {{ $t("pages.supporters.join.section-4-paragraph-1-2") }}
+          {{ $t("pages._global.contact-page") }}
         </NuxtLink>
         {{ $t("pages.supporters.join.section-4-paragraph-1-3") }}
       </p>
@@ -89,3 +89,7 @@
     </PageDocs>
   </div>
 </template>
+
+<script setup lang="ts">
+const localePath = useLocalePath();
+</script>

@@ -3,13 +3,13 @@
     <div
       class="relative z-0 flex items-center w-full text-sm font-medium text-left space-x-2"
     >
-      <span class="width-1/6">
+      <span class="pl-1">
         <Icon v-if="iconURL" class="flex-shrink-0 w-5 h-5" :name="iconURL" />
       </span>
       <Transition>
         <p
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          class="select-none width-5/6 whitespace-nowrap hover:light-menu-selection"
+          class="select-none whitespace-nowrap hover:light-menu-selection"
         >
           {{ $t(label) }}
         </p>

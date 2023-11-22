@@ -162,6 +162,7 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+const localePath = useLocalePath();
 
 export interface Props {
   cta: boolean;
@@ -180,6 +181,4 @@ export interface Props {
 withDefaults(defineProps<Props>(), {
   iconSize: "1em",
 });
-
-const localePath = useLocalePath();
 </script>
