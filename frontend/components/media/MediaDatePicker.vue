@@ -3,29 +3,33 @@
     v-if="$colorMode.preference == 'light'"
     class="w-full h-full rounded-[0.45em] shadow-sm shadow-zinc-700"
   >
-  <Calendar 
+    <Calendar
       :first-day-of-week="2"
       trim-weeks
       expanded
-      :attributes="attributes">
-      ></Calendar>
+      :attributes="attributes"
+    >
+      ></Calendar
+    >
   </form>
   <form v-else class="w-full h-full rounded-[0.45em] shadow-sm shadow-zinc-700">
-    <Calendar 
+    <Calendar
       :first-day-of-week="2"
       color="dark-mode"
       :is-dark="true"
       trim-weeks
       expanded
-      :attributes="attributes">
-      ></Calendar>
+      :attributes="attributes"
+    >
+      ></Calendar
+    >
   </form>
 </template>
 
 <script setup>
-import{Calendar} from "v-calendar";
+import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const date = new Date();
 const year = date.getFullYear();
@@ -33,19 +37,21 @@ const month = date.getMonth();
 
 const attributes = ref([
   {
-    key: 'today',
-    dot:'purple',
+    key: "today",
+    dot: "orange",
     dates: new Date(),
   },
   {
     highlight: {
-      color: 'purple',
-      fillMode: 'light',
+      color: "orange",
+      fillMode: "light",
     },
-    dates: [//Put here the dates that are to be highlighted
+    dates: [
+      //Put the dates that should be highlighted here.
       new Date(year, month, 13),
       new Date(year, month, 14),
-    ],  },
+    ],
+  },
 ]);
 </script>
 
