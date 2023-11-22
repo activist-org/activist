@@ -1,6 +1,6 @@
 <template>
   <div v-for="organization in organizations">
-    <MetaTag iconName="IconOrganization" :value="organization" />
+    <MetaTag iconName="IconOrganization" :value="organization" class="pr-2" />
   </div>
 </template>
 

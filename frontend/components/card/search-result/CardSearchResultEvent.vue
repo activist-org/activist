@@ -59,7 +59,7 @@
         <div
           class="flex justify-center space-x-3 lg:space-x-4 md:justify-start"
         >
-          <MetaTagOrganization :organization="event.organizer" />
+          <MetaTagOrganization :organizations="event.organizations" />
           <MetaTagSupporters
             :supporters="event.supporters"
             label="components.meta-tag.supporters_lower"
