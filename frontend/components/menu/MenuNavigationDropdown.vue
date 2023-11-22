@@ -5,7 +5,7 @@
   >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="flex items-center align-middle text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct relative w-full py-2 pl-5 text-left shadow-sm shadow-zinc-700 focus-brand"
+        class="flex items-center align-middle text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct relative w-full py-2 pl-5 text-left elem-shadow-sm focus-brand"
       >
         <Icon
           :name="selectedMenuItem.iconURL"

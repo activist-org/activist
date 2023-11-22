@@ -28,11 +28,23 @@
   }
 
   .card-style-base {
-    @apply rounded-md sm:rounded-lg shadow-sm shadow-zinc-700;
+    @apply rounded-md sm:rounded-lg elem-shadow-sm;
   }
 
   .card-style {
     @apply card-style-base bg-light-distinct dark:bg-dark-distinct;
+  }
+
+  .elem-shadow-sm {
+    @apply shadow-sm shadow-zinc-700;
+  }
+
+  .elem-shadow-md {
+    @apply shadow-sm shadow-zinc-700;
+  }
+
+  .elem-shadow-lg {
+    @apply shadow-lg shadow-zinc-700;
   }
 
   .tooltip {

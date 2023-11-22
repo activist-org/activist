@@ -1,7 +1,7 @@
 <template>
   <form
     v-if="$colorMode.preference == 'light'"
-    class="w-full h-full rounded-[0.45em] shadow-sm shadow-zinc-700"
+    class="w-full h-full rounded-[0.45em] elem-shadow-sm"
   >
     <Calendar
       :first-day-of-week="2"
@@ -12,7 +12,7 @@
       ></Calendar
     >
   </form>
-  <form v-else class="w-full h-full rounded-[0.45em] shadow-sm shadow-zinc-700">
+  <form v-else class="w-full h-full rounded-[0.45em] elem-shadow-sm">
     <Calendar
       :first-day-of-week="2"
       color="dark-mode"
