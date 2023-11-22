@@ -13,12 +13,9 @@
         <div v-if="event" class="flex-col space-y-3">
           <MarkerTopic :topic="event.topic" />
           <div class="flex items-center gap-3">
-            <div
-              class="flex items-center justify-center w-6 h-6 rounded-md fill-light-text dark:fill-dark-text"
-            >
-              <Icon name="IconOrganization" size="1.75em" />
-            </div>
-            <p class="font-semibold">{{ event.organizer }}</p>
+            <MetaTagOrganization
+              :organizations="event.organizations"
+            ></MetaTagOrganization>
           </div>
           <div class="flex flex-col gap-3 md:gap-8 sm:flex-row sm:items-center">
             <div class="flex items-center gap-2">
