@@ -3,7 +3,7 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.docs.get-active.title") }}</Title>
+      <Title>{{ $t("_global.get-active") }}</Title>
     </Head>
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
@@ -40,7 +40,7 @@
               size="1.25em"
             />
             <p>
-              {{ $t("pages.docs.get-active.subheader-1") }}
+              {{ $t("pages._global.see-the") }}
               <a
                 class="items-center focus-brand link-text"
                 href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=2475%3A19102&t=ytDrcE8K3RrfCxM6-1"
@@ -53,7 +53,7 @@
                   style="vertical-align: baseline"
                 />
               </a>
-              {{ $t("pages.docs.get-active.subheader-3") }}
+              {{ $t("pages._global.to-learn-more") }}
             </p>
           </div>
           <p>
@@ -99,7 +99,7 @@
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("pages.docs.get-active.section-4-paragraph-1-2") }}
+              {{ $t("pages._global.public-matrix-chat-rooms") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"

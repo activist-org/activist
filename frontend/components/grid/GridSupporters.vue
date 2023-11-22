@@ -20,7 +20,7 @@
       imageName="ImpactHub"
       imageLink="https://belgrade.impacthub.net"
       :aria-label="
-        $t('components.grid-supporters.impacthub-belgrade-logo-aria-label')
+        $t('components.grid-supporters.impact-hub-belgrade-logo-aria-label')
       "
     />
   </div>

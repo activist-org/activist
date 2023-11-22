@@ -74,7 +74,6 @@ export default function useFormCheckboxRadio(
     customValue,
     showAdditionalInput,
     inputDebounce,
-    emitValue,
     toggleAdditionalInput,
     toggleCheckbox,
   };

@@ -7,11 +7,18 @@
 !.vscode/settings.json
 !.vscode/extensions.json
 
+# Webstorm
+.idea
+
 # Django and Python
 __pycache__
 .venv
 venv/
 .mypy_cache
+
+# Testing
+.coverage
+cov_html/
 
 # Nuxt dev/build outputs
 .output

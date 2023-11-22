@@ -18,7 +18,10 @@
           v-else
           class="w-[200px] h-[200px] flex justify-center items-center text-light-text dark:text-dark-text"
         >
-          <Icon name="IconOrganization" class="w-[75%] h-[75%]" />
+          <Icon
+            name="IconOrganization"
+            class="w-[75%] h-[75%] shadow shadow-zinc-700"
+          />
         </div>
       </div>
     </div>
@@ -30,9 +33,7 @@
           <h2 class="font-bold responsive-h3">
             {{ organization.name }}
           </h2>
-          <div class="text-light-cta-orange dark:text-dark-cta-orange">
-            <Icon name="ph:dots-three-circle-vertical" size="1.75em" />
-          </div>
+          <SearchResultMeatball />
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation :location="organization.location" />
@@ -50,11 +51,11 @@
         >
           <MetaTagMembers
             :members="organization.members"
-            label="components.meta-tag-members.label"
+            label="components._global.members"
           />
           <MetaTagSupporters
             :supporters="organization.supporters"
-            label="components.meta-tag-supporters.label"
+            label="components.meta-tag.supporters_lower"
           />
         </div>
       </div>
@@ -66,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "../../../types/organization";
+import type { Organization } from "~/types/organization";
 
 defineProps<{
   isPrivate?: boolean;

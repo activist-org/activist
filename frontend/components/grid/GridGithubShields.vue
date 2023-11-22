@@ -11,11 +11,10 @@
           {{ $t("components.grid-github-shields.visit-us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">
-          {{ $t("components.grid-github-shields.github") }}
+          {{ $t("components._global.github") }}
         </div>
       </div>
     </ImageGithubShield>
-
     <ImageGithubShield
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/forks"
@@ -25,7 +24,6 @@
     >
       <Icon name="octicon:repo-forked-24" size="2em" />
     </ImageGithubShield>
-
     <ImageGithubShield
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/stargazers"

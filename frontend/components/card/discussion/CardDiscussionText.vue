@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionText } from "../../../types/discussion-text";
+import type { DiscussionText } from "~/types/card-discussion-text";
 
 defineProps<{
   isPrivate?: boolean;

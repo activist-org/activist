@@ -31,10 +31,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "../../../types/event";
-import type { Organization } from "../../../types/organization";
-import type { Resource } from "../../../types/resource";
-import type { User } from "../../../types/user";
+import type { Event } from "~/types/event";
+import type { Organization } from "~/types/organization";
+import type { Resource } from "~/types/resource";
+import type { User } from "~/types/user";
 
 defineProps<{
   searchResultType: "organization" | "event" | "resource" | "user";

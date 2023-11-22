@@ -8,7 +8,7 @@
     >
       {{ number }}
     </div>
-    <div class="text-lg font-bold xl:text-xl">
+    <div class="text-xl font-bold xl:text-2xl">
       {{ text }}
     </div>
   </div>

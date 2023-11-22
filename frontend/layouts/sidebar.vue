@@ -1,5 +1,6 @@
 <template>
   <HeaderMobile />
+  <MenuNavigationDropdown />
   <SidebarLeft
     @mouseover="sidebarHover = true"
     @mouseleave="sidebarHover = false"
@@ -45,6 +46,7 @@ onMounted(() => {
   window.addEventListener("resize", handleWindowSizeChange);
   handleWindowSizeChange();
 });
+
 onUnmounted(() => {
   window.removeEventListener("resize", handleWindowSizeChange);
 });

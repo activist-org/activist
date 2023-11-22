@@ -44,17 +44,12 @@
         </div>
         <div class="flex flex-col w-full lg:w-1/3">
           <label for="password" class="font-bold responsive-h4"
-            >{{
-              $t("components.card-change-account-info.enter-password")
-            }}
-            *</label
+            >{{ $t("components._global.enter-password") }} *</label
           >
           <input
             id="password"
             class="peer border border-light-text rounded-sm bg-transparent py-1 px-3 dark:border-dark-text"
-            :placeholder="
-              $t('components.card-change-account-info.enter-your-password')
-            "
+            :placeholder="$t('components._global.enter-password')"
           />
         </div>
       </div>

@@ -122,9 +122,11 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath();
+
 export interface Props {
   cta: boolean;
-  linkTo: string;
+  linkTo?: string;
   label?: string;
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   leftIcon?: string;
@@ -137,6 +139,4 @@ export interface Props {
 withDefaults(defineProps<Props>(), {
   iconSize: "1em",
 });
-
-const localePath = useLocalePath();
 </script>

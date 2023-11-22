@@ -13,19 +13,19 @@
 <script setup lang="ts">
 const connectLinks = [
   {
-    name: "components.footer.github",
+    name: "components._global.github",
     url: "https://github.com/activist-org/activist",
     iconName: "cib:github",
     iconSize: "1em",
   },
   {
-    name: "components.footer.matrix",
+    name: "components._global.matrix",
     url: "https://matrix.to/#/#activist_community:matrix.org",
     iconName: "IconMatrix",
     iconSize: "1.061em",
   },
   {
-    name: "components.footer.instagram",
+    name: "components._global.instagram",
     url: "https://instagram.com/activist_org",
     iconName: "cib:instagram",
     iconSize: "1em",
@@ -34,34 +34,34 @@ const connectLinks = [
 
 const resourcesLinks = [
   {
-    name: "components.footer.help",
+    name: "_global.help",
     url: "/help",
   },
   {
-    name: "components.footer.documentation",
+    name: "_global.documentation",
     url: "/docs",
   },
   {
-    name: "components.footer.legal",
+    name: "_global.legal",
     url: "/legal",
   },
   {
-    name: "components.footer.contact",
+    name: "_global.contact",
     url: "/help/contact",
   },
 ];
 
 const organizationLinks = [
   {
-    name: "components.footer.about",
+    name: "_global.about",
     url: "/about",
   },
   {
-    name: "components.footer.supporters",
+    name: "_global.supporters",
     url: "/supporters",
   },
   {
-    name: "components.footer.impress",
+    name: "_global.imprint",
     url: "/about/impress",
   },
 ];
@@ -78,7 +78,7 @@ const platformLinks = [
     url: "https://github.com/activist-org/activist",
   },
   {
-    name: "components.footer.roadmap",
+    name: "_global.roadmap",
     isLocalePath: true,
     url: "/about/roadmap",
   },
@@ -86,11 +86,11 @@ const platformLinks = [
 
 const legalLinks = [
   {
-    name: "components.footer.trademark-policy",
+    name: "_global.trademark-policy",
     url: "/legal/trademark-policy",
   },
   {
-    name: "components.footer.privacy-policy",
+    name: "_global.privacy-policy",
     url: "/legal/privacy-policy",
   },
 ];

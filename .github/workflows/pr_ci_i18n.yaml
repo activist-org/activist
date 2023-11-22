@@ -1,0 +1,35 @@
+name: pr_ci_i18n
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+    paths:
+      - "**/en-US.json"
+  push:
+    branches:
+      - main
+    paths:
+      - "**/en-US.json"
+
+jobs:
+  i18n_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo content
+        uses: actions/checkout@v4
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Execute check repeat i18n value script
+        working-directory: ./frontend/i18n
+        run: python check_repeat_i18n_values.py
+        continue-on-error: true
+
+      - name: Execute check unused i18n key script
+        working-directory: ./frontend/i18n
+        run: python check_unused_i18n_keys.py

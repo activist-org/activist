@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "../../../types/discussion-entry";
+import type { DiscussionEntry } from "~/types/card-discussion-entry";
 
 defineProps<{
   isPrivate?: boolean;

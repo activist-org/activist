@@ -1,6 +1,6 @@
 <template>
   <a
-    class="flex items-center px-3 py-1 border space-x-2 card-style focus-brand text-light-text dark:text-dark-text border-light-text dark:border-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight"
+    class="flex items-center px-3 py-1 space-x-2 card-style focus-brand text-light-text dark:text-dark-text border-light-text dark:border-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight"
     :href="href"
     target="_blank"
   >
@@ -14,7 +14,7 @@
     ></div>
     <div
       v-if="count"
-      class="flex items-center justify-center p-1 text-md font-semibold rounded-full w-9 h-9 md:text-lg md:h-10 md:w-10 bg-light-highlight dark:bg-dark-highlight"
+      class="flex items-center justify-center p-1 text-md font-semibold rounded-full w-9 h-9 md:h-10 md:w-10 bg-light-highlight dark:bg-dark-highlight"
     >
       {{ count }}
     </div>
