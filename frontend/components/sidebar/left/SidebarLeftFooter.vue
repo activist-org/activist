@@ -11,7 +11,7 @@
             @keyup.enter="closeOtherMenus(0)"
             @click="closeOtherMenus(0)"
             :ref="(el) => (disclosureButtons[0] = { close, el })"
-            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
+            class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
             :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
           >
             <div
@@ -66,7 +66,7 @@
             @keyup.enter="closeOtherMenus(1)"
             @click="closeOtherMenus(1)"
             :ref="(el) => (disclosureButtons[1] = { close, el })"
-            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
+            class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
             :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
           >
             <div
@@ -121,7 +121,7 @@
             @keyup.enter="closeOtherMenus(2)"
             @click="closeOtherMenus(2)"
             :ref="(el) => (disclosureButtons[2] = { close, el })"
-            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
+            class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
             :aria-label="
               $t('components.sidebar-left-footer.username-aria-label')
             "

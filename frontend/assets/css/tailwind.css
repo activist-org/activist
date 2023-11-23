@@ -127,7 +127,7 @@
     @apply text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight;
   }
 
-  .style-menu-option-selected {
+  .style-menu-option-cta {
     @apply bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct hover:bg-light-menu-selection/80 dark:hover:bg-dark-menu-selection/80 focus-brand;
   }
 
