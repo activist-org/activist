@@ -9,9 +9,13 @@
       :header="$t('pages.home.index.header')"
       :tagline="$t('pages.home.index.subheader')"
     >
-      <div class="flex flex-col space-x-3 sm:flex-row">
-        <MarkerTopic topic="My topics dropdown" />
-      </div>
+      <ComboboxTopics
+        :topic="$t('pages.home.index.dropdown-topics')"
+        :hasIcon="true"
+        :items="topicItems"
+        iconName="bi:globe"
+        :isRounded="true"
+      />
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
       <div
@@ -63,9 +67,11 @@ definePageMeta({
   layout: "sidebar",
 });
 
+const topicItems = ["Topic 1", "Topic 2", "Topic 3", "Topic 4"];
+
 const resource: Resource = {
   name: "Test Resource",
-  organizer: "Testers LLC",
+  organization: "Testers LLC",
   resourceURL: "www.test.com",
   description: "Test resource :D",
   topic: "Tools",
@@ -90,7 +96,7 @@ const event: Event = {
   name: "Test Event",
   type: "action",
   tagline: "We love to test!",
-  organizer: "Testers LLC",
+  organizations: ["Testers LLC"],
   topic: "Testing and Designing",
   description: "This is a test event for testers.",
   getInvolvedDescription: "Wanna help test?",

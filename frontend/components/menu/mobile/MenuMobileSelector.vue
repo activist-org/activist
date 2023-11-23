@@ -1,7 +1,6 @@
 <template>
   <MenuLinkWrapper
     :to="routeURL"
-    :active="active"
     :selected="selected"
     :linkClasses="{
       'rounded-none border-t': true,

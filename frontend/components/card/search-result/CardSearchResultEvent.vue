@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <MarkerTopic :topic="event.topic" />
+        <ShieldTopic :topic="event.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
@@ -59,7 +59,7 @@
         <div
           class="flex justify-center space-x-3 lg:space-x-4 md:justify-start"
         >
-          <MetaTagOrganization :organization="event.organizer" />
+          <MetaTagOrganization :organizations="event.organizations" />
           <MetaTagSupporters
             :supporters="event.supporters"
             label="components.meta-tag.supporters_lower"

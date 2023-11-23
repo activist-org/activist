@@ -2,9 +2,7 @@
   <footer
     class="w-full transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
   >
-    <div
-      class="flex bg-light-header dark:bg-dark-header shadow-sm shadow-zinc-700"
-    >
+    <div class="flex bg-light-header dark:bg-dark-header elem-shadow-sm">
       <div
         class="flex flex-col justify-center px-[0.375rem] pt-2 pb-3 space-y-1 w-full"
       >
@@ -13,7 +11,7 @@
             @keyup.enter="closeOtherMenus(0)"
             @click="closeOtherMenus(0)"
             :ref="(el) => (disclosureButtons[0] = { close, el })"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand pl-1"
+            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
             :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
           >
             <div
@@ -59,7 +57,6 @@
                 :routeURL="button.routeURL"
                 :iconURL="button.iconURL"
                 :selected="button.selected"
-                :active="button.active"
               />
             </div>
           </DisclosurePanel>
@@ -69,7 +66,7 @@
             @keyup.enter="closeOtherMenus(1)"
             @click="closeOtherMenus(1)"
             :ref="(el) => (disclosureButtons[1] = { close, el })"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand pl-1"
+            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
             :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
           >
             <div
@@ -115,7 +112,6 @@
                 :routeURL="button.routeURL"
                 :iconURL="button.iconURL"
                 :selected="button.selected"
-                :active="button.active"
               />
             </div>
           </DisclosurePanel>
@@ -125,7 +121,7 @@
             @keyup.enter="closeOtherMenus(2)"
             @click="closeOtherMenus(2)"
             :ref="(el) => (disclosureButtons[2] = { close, el })"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand pl-1"
+            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
             :aria-label="
               $t('components.sidebar-left-footer.username-aria-label')
             "
@@ -173,7 +169,6 @@
                 :routeURL="button.routeURL"
                 :iconURL="button.iconURL"
                 :selected="button.selected"
-                :active="button.active"
               />
             </div>
           </DisclosurePanel>
@@ -219,7 +214,6 @@ const createButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:calendar-check",
     selected: false,
-    active: true,
   },
   {
     id: 2,
@@ -227,7 +221,6 @@ const createButtons: MenuSelector[] = [
     routeURL: "/organizations/create",
     iconURL: "IconOrganization",
     selected: false,
-    active: true,
   },
   {
     id: 3,
@@ -235,7 +228,6 @@ const createButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "IconGroup",
     selected: false,
-    active: true,
   },
   {
     id: 4,
@@ -243,7 +235,6 @@ const createButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "IconResource",
     selected: false,
-    active: true,
   },
 ];
 
@@ -254,7 +245,6 @@ const infoButtons: MenuSelector[] = [
     routeURL: "/help",
     iconURL: "bi:question-circle",
     selected: false,
-    active: true,
   },
   {
     id: 2,
@@ -262,7 +252,6 @@ const infoButtons: MenuSelector[] = [
     routeURL: "/docs",
     iconURL: "bi:layout-text-sidebar-reverse",
     selected: false,
-    active: true,
   },
   {
     id: 3,
@@ -270,7 +259,6 @@ const infoButtons: MenuSelector[] = [
     routeURL: "/legal",
     iconURL: "IconLegal",
     selected: false,
-    active: true,
   },
 ];
 
@@ -281,7 +269,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:person-circle",
     selected: false,
-    active: true,
   },
   {
     id: 2,
@@ -289,7 +276,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:calendar-check",
     selected: false,
-    active: true,
   },
   {
     id: 3,
@@ -297,7 +283,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "IconOrganization",
     selected: false,
-    active: true,
   },
   {
     id: 4,
@@ -305,7 +290,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:bell",
     selected: false,
-    active: true,
   },
   {
     id: 5,
@@ -313,7 +297,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:gear",
     selected: false,
-    active: true,
   },
   {
     id: 6,
@@ -321,7 +304,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:box-arrow-left",
     selected: false,
-    active: true,
   },
 ];
 </script>
