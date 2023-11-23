@@ -1,6 +1,6 @@
 <template>
   <a
-    class="flex items-center px-3 py-1 space-x-2 card-style focus-brand text-light-text dark:text-dark-text border-light-text dark:border-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight"
+    class="flex items-center px-3 py-1 rounded-md sm:rounded-lg space-x-2 style-btn"
     :href="href"
     target="_blank"
   >

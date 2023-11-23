@@ -179,7 +179,7 @@
   "components.landing-tech-banner.open-source-tagline": "Trust through Transparency",
   "components.landing-tech-banner.open-source-text": "We're dedicated to working in the open to build trust with out partner organizations and fellow activists. Building the place for activism the world over takes a lot of effort, so please come join us!",
   "components.logo-activist.aria-label": "The activist.org logo that links to the home page",
-  "components.marker-private.private": "Private",
+  "components.shield-private.private": "Private",
   "components.media-map.error-message": "There was a problem with the map service.",
   "components.media-map.img-alt-text": "Map displaying a pin at the location of this event.",
   "components.media-map.sorry-message": "Sorry about that!",

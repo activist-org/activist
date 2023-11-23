@@ -10,7 +10,7 @@
       :tagline="$t('pages.organizations.search.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <MarkerTopic topic="My topics dropdown" />
+        <ShieldTopic topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
     <GridFilterTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />

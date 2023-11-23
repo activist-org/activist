@@ -25,7 +25,6 @@
         v-for="button in eventButtons"
         :key="button"
         :to="localPath(button.routeURL)"
-        :active="button.active"
         :selected="button.selected"
       >
         <div
@@ -89,7 +88,6 @@ const eventButtons: MenuSelector[] = [
     routeURL: "/events/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : true,
-    active: true,
   },
   {
     id: 2,
@@ -97,7 +95,6 @@ const eventButtons: MenuSelector[] = [
     routeURL: "/events/" + id + "/team",
     iconURL: "bi:people",
     selected: useRoute().path.split("/").pop() === "team" ? true : true,
-    active: true,
   },
   {
     id: 3,
@@ -105,7 +102,6 @@ const eventButtons: MenuSelector[] = [
     routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
-    active: true,
   },
   {
     id: 4,
@@ -113,7 +109,6 @@ const eventButtons: MenuSelector[] = [
     routeURL: "/events/" + id + "/settings",
     iconURL: "bi:gear",
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
-    active: true,
   },
   // {
   //   label: "_global.tasks",
