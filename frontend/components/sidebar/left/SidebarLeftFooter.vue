@@ -2,9 +2,7 @@
   <footer
     class="w-full transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
   >
-    <div
-      class="flex bg-light-header dark:bg-dark-header shadow-sm shadow-zinc-700"
-    >
+    <div class="flex bg-light-header dark:bg-dark-header elem-shadow-sm">
       <div
         class="flex flex-col justify-center px-[0.375rem] pt-2 pb-3 space-y-1 w-full"
       >

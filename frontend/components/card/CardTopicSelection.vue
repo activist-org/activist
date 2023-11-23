@@ -17,7 +17,7 @@
       @change="query = $event.target.value"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="pl-4 py-2 w-full text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md shadow-sm shadow-zinc-700"
+      class="pl-4 py-2 w-full text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md elem-shadow-sm"
     />
 
     <ComboboxOptions
@@ -32,7 +32,7 @@
         as="template"
       >
         <li
-          class="flex justify-between items-center gap-2 rounded-lg p-2 border bg-light-btn border-dark-btn font-bold cursor-pointer hover:bg-light-cta-orange-hover hover:dark:bg-dark-cta-orange-hover shadow-sm shadow-zinc-700"
+          class="flex justify-between items-center gap-2 rounded-lg p-2 border bg-light-btn border-dark-btn font-bold cursor-pointer hover:bg-light-cta-orange-hover hover:dark:bg-dark-cta-orange-hover elem-shadow-sm"
           :class="{
             'outline outline-blue-400 bg-light-cta-orange-hover dark:bg-dark-cta-orange-hover':
               active && open,

@@ -73,7 +73,7 @@ const event: Event = {
   name: "Test Event",
   type: "action",
   tagline: "We love to test!",
-  organizer: "Testers LLC",
+  organizations: ["Testers LLC"],
   topic: "Testing and Designing",
   description: "This is a test event for testers.",
   getInvolvedDescription: "Wanna help test?",
