@@ -25,7 +25,6 @@
         v-for="button in organizationButtons"
         :key="button.id"
         :to="localePath(button.routeURL)"
-        :active="button.active"
         :selected="button.selected"
       >
         <div
@@ -88,7 +87,6 @@ const organizationButtons: MenuSelector[] = [
     routeURL: "/organizations/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : true,
-    active: true,
   },
   {
     id: 2,
@@ -96,7 +94,6 @@ const organizationButtons: MenuSelector[] = [
     routeURL: "/organizations/" + id + "/events",
     iconURL: "bi:calendar-check",
     selected: useRoute().path.split("/").pop() === "events" ? true : true,
-    active: true,
   },
   {
     id: 3,
@@ -104,7 +101,6 @@ const organizationButtons: MenuSelector[] = [
     routeURL: "/organizations/" + id + "/groups",
     iconURL: "IconGroup",
     selected: useRoute().path.split("/").pop() === "groups" ? true : true,
-    active: true,
   },
   {
     id: 4,
@@ -112,7 +108,6 @@ const organizationButtons: MenuSelector[] = [
     routeURL: "/organizations/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
-    active: true,
   },
   {
     id: 5,
@@ -120,7 +115,6 @@ const organizationButtons: MenuSelector[] = [
     routeURL: "/organizations/" + id + "/faq",
     iconURL: "IconFAQ",
     selected: useRoute().path.split("/").pop() === "faq" ? true : true,
-    active: true,
   },
   {
     id: 6,
@@ -128,7 +122,6 @@ const organizationButtons: MenuSelector[] = [
     routeURL: "/organizations/" + id + "/settings",
     iconURL: "bi:gear",
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
-    active: true,
   },
   // {
   //    id: 7,
@@ -136,7 +129,6 @@ const organizationButtons: MenuSelector[] = [
   //   routeURL: "/organizations/" + id + "/affiliates",
   //   iconURL: "IconSupport",
   //   selected: useRoute().path.split("/").pop() === "affiliates" ? true : true,
-  //   active: false,
   // },
   // {
   //    id: 8,
@@ -144,7 +136,6 @@ const organizationButtons: MenuSelector[] = [
   //   routeURL: "/organizations/" + id + "/tasks",
   //   iconURL: "bi:check-square",
   //   selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
-  //   active: false,
   // },
   // {
   //    id: 9,
@@ -152,7 +143,6 @@ const organizationButtons: MenuSelector[] = [
   //   routeURL: "/organizations/" + id + "/discussions",
   //   iconURL: "octicon:comment-discussion-24",
   //   selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
-  //   active: false,
   // },
 ];
 

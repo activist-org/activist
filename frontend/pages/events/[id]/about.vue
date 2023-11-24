@@ -92,7 +92,7 @@ definePageMeta({
 const event: Event = {
   name: "Brandenburg Gate Climate Demo",
   tagline: "There is no Planet B",
-  organizer: "Berlin Climate Org",
+  organizations: ["Berlin Climate Org", "Testing Corp"],
   type: "action",
   topic: "Environment",
   description:

@@ -19,28 +19,36 @@
     @apply 3xl:bg-pink-500 2xl:bg-violet-500 xl:bg-blue-500 lg:bg-green-500 md:bg-yellow-500 sm:bg-orange-500 bg-red-500;
   }
 
-  .focus-brand {
-    @apply outline-offset-2 outline-light-cta-orange dark:outline-dark-cta-orange rounded-sm;
-  }
-
-  .link-text {
-    @apply text-light-link-text dark:text-dark-link-text hover:text-light-link-text-hover dark:hover:text-dark-link-text-hover;
-  }
-
   .card-style-base {
-    @apply rounded-md sm:rounded-lg shadow-sm shadow-zinc-700;
+    @apply rounded-md sm:rounded-lg elem-shadow-sm;
   }
 
   .card-style {
     @apply card-style-base bg-light-distinct dark:bg-dark-distinct;
   }
 
-  .tooltip {
-    @apply absolute;
+  .elem-on-card-style {
+    @apply card-style-base bg-light-header dark:bg-dark-header hover:bg-light-highlight active:bg-light-header dark:hover:bg-dark-highlight dark:active:bg-dark-header dark:border dark:border-dark-text elem-shadow-sm;
   }
 
-  .has-tooltip:hover .tooltip {
-    @apply visible z-50;
+  .elem-shadow-sm {
+    @apply shadow-sm shadow-zinc-700;
+  }
+
+  .elem-shadow-md {
+    @apply shadow-sm shadow-zinc-700;
+  }
+
+  .elem-shadow-lg {
+    @apply shadow-lg shadow-zinc-700;
+  }
+
+  .focus-brand {
+    @apply outline-offset-2 outline-light-cta-orange dark:outline-dark-cta-orange rounded-sm;
+  }
+
+  .link-text {
+    @apply text-light-link-text dark:text-dark-link-text hover:text-light-link-text-hover dark:hover:text-dark-link-text-hover;
   }
 
   .responsive-h1 {
@@ -101,6 +109,34 @@
 
   .responsive-py-5 {
     @apply py-8 lg:py-10 xl:py-14;
+  }
+
+  .style-btn {
+    @apply text-light-text bg-light-content hover:bg-light-highlight active:bg-light-content dark:text-dark-text dark:bg-dark-content dark:hover:bg-dark-highlight dark:active:bg-dark-content focus-brand elem-shadow-sm dark:border dark:border-dark-text;
+  }
+
+  .style-cta {
+    @apply text-light-text border border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10;
+  }
+
+  .style-cta-secondary {
+    @apply text-light-text border border-light-text dark:text-dark-text dark:border-dark-text bg-light-header dark:bg-dark-header hover:bg-light-highlight-darker active:bg-light-header dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-header;
+  }
+
+  .style-menu-option {
+    @apply text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight;
+  }
+
+  .style-menu-option-cta {
+    @apply bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct hover:bg-light-menu-selection/80 dark:hover:bg-dark-menu-selection/80 focus-brand;
+  }
+
+  .tooltip {
+    @apply absolute;
+  }
+
+  .has-tooltip:hover .tooltip {
+    @apply visible z-50;
   }
 }
 

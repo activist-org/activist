@@ -3,7 +3,7 @@
     <div
       class="w-full -my-4 opacity-0"
       :class="{
-        '!opacity-100 flex items-center justify-center my-0 text-light-text dark:text-dark-cta-orange transition bg-light-cta-orange/80 dark:bg-dark-cta-orange/20 rounded-md border border-light-text dark:border-dark-cta-orange shadow-sm shadow-zinc-700':
+        '!opacity-100 flex items-center justify-center my-0 rounded-md style-cta elem-shadow-sm':
           sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >

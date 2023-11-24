@@ -4,5 +4,4 @@ export interface MenuSelector {
   routeURL: string;
   iconURL: string;
   selected: boolean;
-  active: boolean;
 }
