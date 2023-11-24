@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="location == 'sidebar'"
-    class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 border rounded-md select-none border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:mb-[-2px] bg-light-header dark:bg-dark-header elem-shadow-sm"
+    class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 rounded-md select-none text-light-special-text dark:text-dark-special-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange focus-within:mb-[-2px] bg-light-header dark:bg-dark-header elem-shadow-sm"
   >
     <div class="flex items-center space-x-2 pl-1">
       <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />

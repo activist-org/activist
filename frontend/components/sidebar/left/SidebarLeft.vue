@@ -12,11 +12,11 @@
     <div
       class="h-full overflow-x-hidden"
       :class="{
-        'overflow-y-scroll':
+        'overflow-y-auto':
           !sidebar.collapsed || sidebar.collapsedSwitch == false,
       }"
     >
-      <SearchBar class="mt-3" location="sidebar" />
+      <SearchBar class="mt-2" location="sidebar" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
         v-if="

@@ -6,7 +6,7 @@
       </h3>
       <DropdownDateFilter />
     </div>
-    <div class="grid grid-cols-2 gap-3 lg:gap-4 lg:grid-cols-4">
+    <div class="grid grid-cols-2 gap-3 lg:gap-4 lg:grid-cols-4 h-full">
       <CardMetric
         :text="$t('_global.events')"
         number="123"
