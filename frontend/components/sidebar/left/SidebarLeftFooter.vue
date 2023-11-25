@@ -1,5 +1,7 @@
 <template>
-  <footer class="w-full transition-all duration-500 pb-1 px-1">
+  <footer
+    class="w-full transition-all duration-500 bg-light-distinct dark:bg-dark-distinct p-1"
+  >
     <div
       class="flex bg-light-header dark:bg-dark-header elem-shadow-sm flex-col justify-center p-1 space-y-1 w-full rounded-md"
     >
