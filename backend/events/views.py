@@ -26,12 +26,20 @@ from .serializers import (
     FormatSerializer,
     RoleSerializer,
 )
+from rest_framework.throttling import (
+    AnonRateThrottle,
+    BaseThrottle,
+    ScopedRateThrottle,
+    SimpleRateThrottle,
+    UserRateThrottle,
+)
 
 
 class EventViewSet(viewsets.ModelViewSet[Event]):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     pagination_class = CustomPagination
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
 
 class FormatViewSet(viewsets.ModelViewSet[Format]):

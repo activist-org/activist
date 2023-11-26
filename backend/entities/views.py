@@ -35,12 +35,14 @@ from .serializers import (
     OrganizationTaskSerializer,
     OrganizationTopicSerializer,
 )
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 
 class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def create(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(data=request.data)
