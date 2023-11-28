@@ -83,7 +83,7 @@
           />
         </div>
       </div>
-      <div class="w-full md:w-full" v-if="discussionInput.highRisk">
+      <div v-if="discussionInput.highRisk" class="w-full md:w-full">
         <textarea
           id="message"
           rows="4"
@@ -91,7 +91,7 @@
           :placeholder="$t('components.card-discussion-input.leave-comment-highRisk')"
         ></textarea>
       </div>
-       <div class="w-full md:w-full" v-else>
+       <div v-else class="w-full md:w-full">
         <textarea
               id="message"
               rows="4"
@@ -105,7 +105,7 @@
           <Icon class="mx-1" name="bi:markdown" size="1.25em"></Icon>
         </p>
         <div class="flex space-x-3 items-center">
-          <div class="w-full md:w-full" v-if="discussionInput.highRisk">
+          <div v-if="discussionInput.highRisk" class="w-full md:w-full">
             <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand" style="width: 3.3em; height: 2.4em; display: flex; justify-content: center; align-items: center;">
               <Icon name="bi:exclamation-octagon" size="1.4em" />
             </div>
