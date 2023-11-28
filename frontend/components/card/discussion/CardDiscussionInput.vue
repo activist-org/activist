@@ -83,14 +83,22 @@
           />
         </div>
       </div>
-      <div class="w-full md:w-full">
+      <div class="w-full md:w-full" v-if="discussionInput.highRisk">
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm text-light-text bg-light-content rounded-lg border border-light-section-div dark:bg-dark-content dark:border-dark-section-div placeholder-light-special-text dark:placeholder-dark-special-text dark:text-dark-text focus-brand"
-          :placeholder="$t('components.card-discussion-input.leave-comment')"
+          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-red-500 placeholder-light-special-text focus-brand font-bold red-text"
+          :placeholder="$t('components.card-discussion-input.leave-comment-highRisk')"
         ></textarea>
       </div>
+       <div class="w-full md:w-full" v-else>
+        <textarea
+              id="message"
+              rows="4"
+              class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-special-text  focus-brand"
+              :placeholder="$t('components.card-discussion-input.leave-comment')"
+        ></textarea>
+    </div>
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
           {{ $t("components.card-discussion-input.markdown-support") }}
