@@ -169,3 +169,8 @@ const listol = () => {
   console.log("click on listol");
 };
 </script>
+<style>
+  .red-text::placeholder {
+    color: red;
+  }
+</style>
