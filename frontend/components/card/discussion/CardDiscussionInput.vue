@@ -117,6 +117,7 @@
             fontSize="sm"
             iconSize="1.25em"
             ariaLabel="components.btn-labeled.support-organization-aria-label"
+            style="background-color: light-action-red; border: 1px solid light-text;"
           />
         </div>
       </div>
