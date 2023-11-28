@@ -104,7 +104,12 @@
           {{ $t("components.card-discussion-input.markdown-support") }}
           <Icon class="mx-1" name="bi:markdown" size="1.25em"></Icon>
         </p>
-        <div class="flex space-x-1">
+        <div class="flex space-x-3 items-center">
+          <div class="w-full md:w-full" v-if="discussionInput.highRisk">
+            <div class="cursor-pointer rounded-lg p-1 text-light-text bg-light-action-red border border-light-text focus-brand" style="width: 3.3em; height: 2.4em; display: flex; justify-content: center; align-items: center;">
+              <Icon name="bi:exclamation-octagon" size="1.4em" />
+            </div>
+          </div>         
           <BtnLabeled
             class="inline-flex justify-center items-center w-small"
             :cta="true"
@@ -112,6 +117,7 @@
             fontSize="sm"
             iconSize="1.25em"
             ariaLabel="components.btn-labeled.support-organization-aria-label"
+            style="background-color: light-action-red; border: 1px solid light-text;"
           />
         </div>
       </div>
@@ -163,3 +169,8 @@ const listol = () => {
   console.log("click on listol");
 };
 </script>
+<style>
+  .red-text::placeholder {
+    color: red;
+  }
+</style>
