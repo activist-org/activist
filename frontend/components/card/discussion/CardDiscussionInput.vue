@@ -91,6 +91,14 @@
           :placeholder="$t('components.card-discussion-input.leave-comment-highRisk')"
         ></textarea>
       </div>
+       <div class="w-full md:w-full" v-else>
+        <textarea
+              id="message"
+              rows="4"
+              class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-special-text  focus-brand"
+              :placeholder="$t('components.card-discussion-input.leave-comment')"
+        ></textarea>
+    </div>
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
           {{ $t("components.card-discussion-input.markdown-support") }}
