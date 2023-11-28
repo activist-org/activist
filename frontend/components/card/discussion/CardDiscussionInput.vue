@@ -87,7 +87,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-red-500 placeholder-light-special-text focus-brand font-bold red-text"
+          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-red-500 placeholder-light-special-text focus-brand  dark:bg-dark-distinct font-bold red-text"
           :placeholder="$t('components.card-discussion-input.leave-comment-highRisk')"
         ></textarea>
       </div>
@@ -95,7 +95,7 @@
         <textarea
               id="message"
               rows="4"
-              class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-special-text  focus-brand"
+              class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-special-text dark:placeholder-dark-special-text dark:text-dark-text  dark:bg-dark-distinct focus-brand"
               :placeholder="$t('components.card-discussion-input.leave-comment')"
         ></textarea>
     </div>
@@ -106,7 +106,7 @@
         </p>
         <div class="flex space-x-3 items-center">
           <div class="w-full md:w-full" v-if="discussionInput.highRisk">
-            <div class="cursor-pointer rounded-lg p-1 text-light-text bg-light-action-red border border-light-text focus-brand" style="width: 3.3em; height: 2.4em; display: flex; justify-content: center; align-items: center;">
+            <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand" style="width: 3.3em; height: 2.4em; display: flex; justify-content: center; align-items: center;">
               <Icon name="bi:exclamation-octagon" size="1.4em" />
             </div>
           </div>         
