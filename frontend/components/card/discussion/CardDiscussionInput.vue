@@ -106,7 +106,7 @@
         </p>
         <div class="flex space-x-3 items-center">
           <div class="w-full md:w-full" v-if="discussionInput.highRisk">
-            <div class="cursor-pointer rounded-lg p-1 text-light-text bg-light-action-red border border-light-text focus-brand" style="width: 3.3em; height: 2.4em; display: flex; justify-content: center; align-items: center;">
+            <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand" style="width: 3.3em; height: 2.4em; display: flex; justify-content: center; align-items: center;">
               <Icon name="bi:exclamation-octagon" size="1.4em" />
             </div>
           </div>         
