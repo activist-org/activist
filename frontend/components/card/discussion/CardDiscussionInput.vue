@@ -87,7 +87,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-red-500 placeholder-light-special-text focus-brand font-bold red-text"
+          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-red-500 placeholder-light-special-text focus-brand  dark:bg-dark-distinct font-bold red-text"
           :placeholder="$t('components.card-discussion-input.leave-comment-highRisk')"
         ></textarea>
       </div>
