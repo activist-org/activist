@@ -44,7 +44,7 @@
   }
 
   .focus-brand {
-    @apply outline-offset-2 outline-light-cta-orange dark:outline-dark-cta-orange rounded-sm;
+    @apply focus:ring-2 focus:ring-light-cta-orange dark:focus:ring-dark-cta-orange focus:outline-none focus:border-light-cta-orange dark:focus:border-dark-cta-orange rounded-sm;
   }
 
   .link-text {
@@ -116,7 +116,8 @@
   }
 
   .style-cta {
-    @apply text-light-text border border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10;
+    /* focus:border-light-text counteracts focus-brand so we don't lose cta borders. */
+    @apply text-light-text border border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10 focus:border-light-text;
   }
 
   .style-cta-secondary {
