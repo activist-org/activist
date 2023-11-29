@@ -3,7 +3,7 @@
     <div>
       <MenuButton
         v-slot="{ open }"
-        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand elem-shadow-sm"
+        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md style-btn"
         :class="{ 'pl-6': location === 'sideMenu' }"
         :aria-label="$t('components.selector-theme.open-dropdown-aria-label')"
       >

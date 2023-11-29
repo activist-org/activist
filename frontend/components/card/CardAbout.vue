@@ -11,7 +11,7 @@
           <Icon name="bi:pencil-square" size="1.2em" />
         </div>
         <div v-if="event" class="flex-col space-y-3">
-          <MarkerTopic :topic="event.topic" />
+          <ShieldTopic :topic="event.topic" />
           <div class="flex items-center gap-3">
             <MetaTagOrganization
               :organizations="event.organizations"
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div v-if="organization" class="flex-col space-y-3">
-          <MarkerTopic :topic="organization.topic" />
+          <ShieldTopic :topic="organization.topic" />
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-2">
               <Icon name="bx:bxs-map" size="1.2em" />

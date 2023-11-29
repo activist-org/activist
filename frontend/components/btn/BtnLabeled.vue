@@ -1,12 +1,10 @@
 <template>
   <div
     v-if="linkTo == 'placeholder-link'"
-    class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm"
+    class="flex items-center px-4 py-2 font-semibold text-center select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm"
     :class="{
-      'text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10':
-        cta == true,
-      'text-light-text border-light-text dark:text-dark-text dark:border-dark-text bg-light-btn dark:bg-dark-btn hover:bg-light-highlight active:bg-light-btn dark:hover:bg-dark-highlight dark:active:bg-dark-btn ':
-        cta == false,
+      'style-cta': cta == true,
+      'style-cta-secondary': cta == false,
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
       'text-base': fontSize == 'base',
@@ -39,12 +37,10 @@
   </div>
   <a
     v-else-if="linkTo?.includes('http')"
-    class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm"
+    class="flex items-center px-4 py-2 font-semibold text-center select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm"
     :class="{
-      'text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10':
-        cta == true,
-      'text-light-text border-light-text dark:text-dark-text dark:border-dark-text bg-light-btn dark:bg-dark-btn hover:bg-light-highlight active:bg-light-btn dark:hover:bg-dark-highlight dark:active:bg-dark-btn ':
-        cta == false,
+      'style-cta': cta == true,
+      'style-cta-secondary': cta == false,
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
       'text-base': fontSize == 'base',
@@ -80,12 +76,10 @@
   <NuxtLink
     v-else
     :to="localePath(`${linkTo}`)"
-    class="px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm"
+    class="px-4 py-2 font-semibold text-center select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm"
     :class="{
-      'text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10':
-        cta == true,
-      'text-light-text border-light-text dark:text-dark-text dark:border-dark-text bg-light-btn dark:bg-dark-btn hover:bg-light-highlight active:bg-light-btn dark:hover:bg-dark-highlight dark:active:bg-dark-btn ':
-        cta == false,
+      'style-cta': cta == true,
+      'style-cta-secondary': cta == false,
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
       'text-base': fontSize == 'base',

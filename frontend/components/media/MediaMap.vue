@@ -3,7 +3,7 @@
     <div
       ref="map"
       id="map-div"
-      class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert"
+      class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert rounded-md sm:rounded-lg"
       :alt="$t('components.media-map.img-alt-text')"
     ></div>
     <div

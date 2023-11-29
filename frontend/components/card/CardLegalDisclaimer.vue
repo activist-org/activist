@@ -2,7 +2,7 @@
   <Disclosure
     v-slot="{ open }"
     as="div"
-    class="flex flex-col gap-3 rounded-md border-light-section-div dark:border-dark-section-div bg-light-header dark:bg-dark-header active:bg-light-highlight dark:active:bg-dark-highlight hover:cursor-pointer elem-shadow-sm focus-brand border"
+    class="flex flex-col gap-3 rounded-md hover:cursor-pointer elem-on-card-style focus-brand"
   >
     <DisclosureButton class="focus-brand px-4 py-2 rounded-md">
       <div
