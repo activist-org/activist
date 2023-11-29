@@ -87,7 +87,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red placeholder-light-special-text focus-brand  dark:bg-dark-distinct font-bold text-light-action-red dark:text-dark-action-red dark:text-dark-text"
+          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red placeholder-light-special-text focus-brand font-bold placeholder:text-light-action-red  dark:placeholder:text-dark-action-red dark:text-dark-text bg-light-content dark:bg-dark-content"
           :placeholder="$t('components.card-discussion-input.leave-comment-highRisk')"
         ></textarea>
       </div>
@@ -106,7 +106,7 @@
         </p>
         <div class="flex space-x-3 items-center">
           <div v-if="discussionInput.highRisk" class="w-full md:w-full">
-            <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand" style="width: 3.3em; height: 2.4em; display: flex; justify-content: center; align-items: center;">
+            <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand w-16 h-10 flex justify-center items-center">
               <Icon name="bi:exclamation-octagon" size="1.4em" />
             </div>
           </div>         
@@ -117,7 +117,6 @@
             fontSize="sm"
             iconSize="1.25em"
             ariaLabel="components.btn-labeled.support-organization-aria-label"
-            style="background-color: light-action-red; border: 1px solid light-text;"
           />
         </div>
       </div>

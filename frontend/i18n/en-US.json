@@ -127,7 +127,7 @@
   "components.card-danger-zone.username-label": "Your username",
   "components.card-danger-zone.username-placeholder": "Enter your username",
   "components.card-discussion-input.comment": "Comment",
-  "components.card-discussion-input.leave-comment": "Leave a comment",
+  "components.card-discussion-input.leave-comment": "Leave a public comment",
   "components.card-discussion-input.leave-comment-highRisk": "You are a member of a high risk organization. Please be careful what you write.",
   "components.card-discussion-input.markdown-support": "This editor supports Markdown",
   "components.card-discussion-input.preview": "Preview",
