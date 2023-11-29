@@ -11,12 +11,10 @@ Contents:
     - TopicFormat
 """
 
-import uuid
-
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from backend.backend.mixins.models import ModelMixin, BaseModelMixin
+from backend.mixins.models import BaseModelMixin, ModelMixin
 
 
 class Resource(ModelMixin):

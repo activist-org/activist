@@ -1,9 +1,9 @@
 [
   {
     "model": "authentication.user",
-    "pk": "83f1174f-1f22-46c8-a542-f4814d97bbf3",
+    "pk": "97f77c4e-6011-4536-8a9b-fa83f401aff1",
     "fields": {
-      "last_login": "2023-10-22T11:58:17.946Z",
+      "last_login": null,
       "is_superuser": true,
       "username": "admin",
       "first_name": "",
@@ -11,10 +11,16 @@
       "email": "",
       "is_staff": true,
       "is_active": true,
-      "date_joined": "2023-10-22T11:58:11.260Z",
+      "date_joined": "2023-11-29T21:31:24.446Z",
+      "active": true,
+      "created_by": null,
+      "modified_by": null,
+      "created_at": "2023-11-29T21:31:24.632Z",
+      "modified_at": "2023-11-29T21:31:24.632Z",
+      "deleted_at": null,
       "user_name": "",
       "name": "",
-      "password": "pbkdf2_sha256$600000$tG7BKHMVjcZM6GwsT5nmOL$IPkpPl4cX9UYTrhFkruvtevlzjW+9QqvyjcIVmR7FJA=",
+      "password": "pbkdf2_sha256$600000$8AnAeTxZcHsTuCw5zyimmY$c5z9tYc3rzIytTZ7sVDuuL2c71U2FsHjJITQrmsvVpw=",
       "location": null,
       "description": null,
       "verified": false,
@@ -24,8 +30,6 @@
       "private": false,
       "high_risk": false,
       "total_flags": 0,
-      "creation_date": "2023-10-22T11:58:11.418Z",
-      "deletion_date": null,
       "groups": [],
       "user_permissions": []
     }

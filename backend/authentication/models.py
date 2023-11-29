@@ -12,13 +12,11 @@ Contents:
     - UserTopic
 """
 
-import uuid
-
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from backend.backend.mixins.models import BaseModelMixin, ModelMixin
+from backend.mixins.models import BaseModelMixin, ModelMixin
 
 
 class SupportEntityType(BaseModelMixin):

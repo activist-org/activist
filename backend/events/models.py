@@ -16,11 +16,10 @@ Contents:
     - EventTopic
 """
 
-import uuid
 
 from django.db import models
 
-from backend.backend.mixins.models import BaseModelMixin
+from backend.mixins.models import BaseModelMixin
 
 
 class Event(BaseModelMixin):
