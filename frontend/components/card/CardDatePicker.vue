@@ -42,16 +42,16 @@
           />
       </div>
 
-        <Calendar
+        <DatePicker
         :first-day-of-week="2"
         v-model="dateArray"
         trim-weeks
         expanded
-        @click="adicionarData"
+        @click="addDate"
         :attributes="attributes"
         transparent
         borderless
-        ></Calendar>
+        ></DatePicker>
 
       <!-- <DatePicker
         :first-day-of-week="2"
@@ -92,7 +92,7 @@
     ],
   },
 ]);
-  function adicionarData() {
+  function addDate() {
     const novaData = new Date();
     dateArray.value.push(novaData);
 }
