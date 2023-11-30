@@ -1,18 +1,18 @@
 <template>
-    <form class="flex flex-col w-full space-y-3 px-5 py-4 card-style"
-      v-if="$colorMode.preference == 'light'"
+    <form v-if="$colorMode.preference == 'light'" class="flex flex-col w-full space-y-3 px-5 py-4 card-style"
+      
       
     >
     <h1 class="text-2xl" ><strong>Date *</strong></h1>
 
 <div class="flex justify-between">
   <div class="flex flex-row space-x-2">
-    <input type="checkbox" id="All Day" value="All Day" />
+    <input id="All Day" type="checkbox"  value="All Day" />
     <label for="All Day">All Day</label>
   </div> 
 
   <div class="flex flex-row space-x-2 margin-left-20">
-    <input type="checkbox" id="Multiple Days" value="Multiple Days" />
+    <input id="Multiple Days" type="checkbox"  value="Multiple Days" />
     <label for="Multiple Days">Multiple Days</label>
   </div>
 </div>
@@ -31,8 +31,8 @@
 </div>
 
 <DatePicker
+  v-model="dateArray"  
   :first-day-of-week="2"
-  v-model="dateArray"
   trim-weeks
   expanded
   :attributes="attributes"
@@ -46,12 +46,12 @@
 
       <div class="flex-container">
         <div class="flex flex-row space-x-2">
-          <input type="checkbox" id="All Day" value="All Day" />
+          <input id="All Day" type="checkbox"  value="All Day" />
           <label for="All Day">All Day</label>
         </div> 
 
         <div class="flex flex-row space-x-2 ml-right">
-          <input type="checkbox" id="Multiple Days" value="Multiple Days" />
+          <input id="Multiple Days" type="checkbox"  value="Multiple Days" />
           <label for="Multiple Days">Multiple Days</label>
         </div>
       </div>
@@ -70,11 +70,10 @@
       </div>
 
       <DatePicker
-        :first-day-of-week="2"
         v-model="dateArray"
+        :first-day-of-week="2"
         trim-weeks
         expanded
-        @click="addDate"
         :attributes="attributes"
         transparent
         borderless
@@ -87,7 +86,6 @@
   import "v-calendar/style.css";
   const date1 = "2021-02-28T18:20:00.000Z"
   const date2 = "2021-02-28T18:20:00.000Z"
-  const date = new Date();
 
   const attributes = ref([
 
