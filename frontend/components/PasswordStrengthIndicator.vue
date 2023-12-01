@@ -1,17 +1,21 @@
 <template>
-  <div
-    v-if="!!passwordValue.length"
-    class="h-1 bg-gray-400"
-  >
+  <div class="h-4">
     <div
-      class="h-1 transition-width ease-in duration-500"
-      :style="`width: ${width}%; background: ${color};`"
-    />
+      class="h-1 bg-gray-400 rounded-md"
+    >
+      <div
+        class="h-1 transition-width ease-in duration-500 rounded-md"
+        :class="!!passwordValue.length ? `bg-light-${color} dark:bg-dark-${color}` : ''"
+        :style="`width: ${width}%;`"
+      />
+    </div>
+    <div class="float-right text-xs mt-1">
+      Password strength: {{ $t(!!passwordValue.length ? `components.password-strength.${text}` : 'components.password-strength.invalid') }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
 import zxcvbn from 'zxcvbn'
 
 const props = defineProps({
@@ -21,24 +25,26 @@ const props = defineProps({
   }
 })
 
-const width = ref<number>(0)
-const color = ref<string>('')
+const width = computed(() => (score.value + 1) * 20)
+const color = computed(() => passwordStrengthMap[score.value].color)
+const text = computed(() => passwordStrengthMap[score.value].text)
 
-const strength: Record<number, string> = {
-  0: '#FF0000',
-  1: '#FFA500',
-  2: '#FFFF00',
-  3: '#90EE90',
-  4: '#008000'
-}
+const passwordStrengthMap: Record<number, { color: string, text: string }> = {
+  0: { color: 'action-red', text: 'very-weak' },
+  1: { color: 'cta-orange', text: 'weak' },
+  2: { color: 'pending-yellow/40', text: 'medium' },
+  3: { color: 'accepted-green/60', text: 'strong' },
+  4: { color: 'text', text: 'very-strong' }
+};
+
+const SCORE_THRESHOLDS: number[] = [6, 9, 11.5, 13.5, 15]
+
+// Finds the case where guessLog is less than the value among the values specified in the SCORE_THRESHOLDS array and returns its index
+const score = computed(() => {
+  const guessLog: number = zxcvbn(props.passwordValue).guesses_log10;
+  const scoreIndex = SCORE_THRESHOLDS.findIndex(threshold => guessLog < threshold);
 
 
-const strengthMeter = () => {
-  const score = zxcvbn(props.passwordValue).score
-  width.value = (score + 1) * 20
-  color.value = strength[score]
-}
-watch(() => props.passwordValue, () => {
- strengthMeter()
-})
+  return scoreIndex >= 0 ? scoreIndex : SCORE_THRESHOLDS.length - 1;
+});
 </script>
