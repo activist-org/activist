@@ -26,7 +26,7 @@ from django.db import models
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255, null=True)
     type = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
@@ -64,7 +64,7 @@ class Role(models.Model):
     is_custom = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
+    last_updated = models.DateTimeField(auto_now=True, null=True)
     deprecation_date = models.DateField(null=True)
 
     def __str__(self) -> str:
@@ -73,8 +73,9 @@ class Role(models.Model):
 
 class EventAttendee(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
-    role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
+    user_id = models.ForeignKey(
+        "authentication.User", on_delete=models.CASCADE)
+    role_id = models.ForeignKey("Role", on_delete=models.CASCADE, null=True)
     attendee_status = models.IntegerField(null=True)
 
 
@@ -96,7 +97,8 @@ class EventAttendeeStatus(models.Model):
 
 class EventResource(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
+    resource_id = models.ForeignKey(
+        "content.Resource", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return str(self.id)

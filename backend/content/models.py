@@ -23,11 +23,11 @@ from django.db import models
 class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    description = models.TextField(max_length=500)
+    description = models.TextField(max_length=500, null=True)
     topics = ArrayField(models.CharField(max_length=255))
-    location = models.CharField(max_length=255)
+    location = models.CharField(max_length=255, null=True)
     url = models.CharField(max_length=255)
-    total_flags = models.IntegerField(null=True)
+    total_flags = models.IntegerField(default=0)
     private = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
@@ -42,7 +42,7 @@ class Task(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     location = models.CharField(max_length=255)
-    tags = ArrayField(models.CharField(max_length=255))
+    tags = ArrayField(models.CharField(max_length=255), null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateField(null=True)
 
@@ -56,7 +56,7 @@ class Topic(models.Model):
     active = models.BooleanField(default=True)
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
+    last_updated = models.DateTimeField(auto_now=True, null=True)
     deprecation_date = models.DateField(null=True)
 
     def __str__(self) -> str:

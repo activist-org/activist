@@ -69,7 +69,8 @@ class User(AbstractUser):
 
 class UserResource(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
+    resource_id = models.ForeignKey(
+        "content.Resource", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return str(self.id)
