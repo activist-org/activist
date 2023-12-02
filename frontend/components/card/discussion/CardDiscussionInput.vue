@@ -88,24 +88,27 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red placeholder-light-special-text focus-brand font-bold placeholder:text-light-action-red  dark:placeholder:text-dark-action-red dark:text-dark-text bg-light-content dark:bg-dark-content"
-          :placeholder="$t('components.card-discussion-input.leave-comment-highRisk')"
+          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red focus-brand focus:border-none font-bold placeholder:text-light-action-red dark:placeholder:text-dark-action-red dark:text-dark-text bg-light-content dark:bg-dark-content"
+          :placeholder="
+            $t('components.card-discussion-input.leave-comment-highRisk')
+          "
         ></textarea>
       </div>
-       <div v-else class="w-full md:w-full">
+      <div v-else class="w-full md:w-full">
         <textarea
-              id="message"
-              rows="4"
-              class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-special-text dark:placeholder-dark-special-text dark:text-dark-text  dark:bg-dark-distinct focus-brand"
-              :placeholder="$t('components.card-discussion-input.leave-comment')"
+          id="message"
+          rows="4"
+          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-special-text dark:placeholder-dark-special-text dark:text-dark-text dark:bg-dark-distinct focus-brand"
+          :placeholder="$t('components.card-discussion-input.leave-comment')"
         ></textarea>
-    </div>
+      </div>
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
           {{ $t("components.card-discussion-input.markdown-support") }}
           <Icon class="mx-1" name="bi:markdown" size="1.25em"></Icon>
         </p>
         <div class="flex space-x-3 items-center">
+
           <div v-if="discussionInput.highRisk" @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" class="relative w-full md:w-full">
             <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand w-16 h-10 flex justify-center items-center">
               <Icon name="bi:exclamation-octagon" size="1.4em" />
