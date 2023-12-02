@@ -1,13 +1,10 @@
 <template>
-  <Tooltip
-    :text="text"
-    class="w-96 lg:right-0"
-    >
+  <Tooltip :text="text" class="w-96 lg:right-0">
     <ul class="list-disc pl-4 space-y-1">
-      <li>Names</li>
-      <li>Home addresses</li>
-      <li>Phone numbers</li>
-      <li>Email addresses</li>
+      <li>{{ $t('components.tooltip-discussion-warning.names') }}</li>
+      <li>{{ $t('components.tooltip-discussion-warning.home-addresses') }}</li>
+      <li>{{ $t('components.tooltip-discussion-warning.phone-numbers') }}</li>
+      <li>{{ $t('components.tooltip-discussion-warning.email-addresses') }}</li>
     </ul>
   </Tooltip>
 </template>
@@ -16,9 +13,9 @@
 import Tooltip from './Tooltip.vue';
 
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   text?: string;
 }>(), {
-  text: 'Please use usernames and do NOT write any personal information including:'
+  text: $t('components.tooltip-discussion-warning.text')
 });
 </script>
