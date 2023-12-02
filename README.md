@@ -259,7 +259,7 @@ Beyond clustering by topics, tags will also be used to draw community attention 
 
 ### Types
 
-`Act` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for action and 🔵 blue is for learn).
+`Action` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for action and 🔵 blue is for learn).
 
 <a id="formats"></a>
 
@@ -267,7 +267,7 @@ Beyond clustering by topics, tags will also be used to draw community attention 
 
 Types are further broken down into specific formats. The available formats currently include:
 
-- Act: protests, volunteering, organizing, fundraising
+- Action: protests, volunteering, organizing, fundraising
 - Learn: seminars, webinars, meetings, panel discussions
 
 Formats are not required for events like topics and types, but add an optional granularity to help people find what they're looking for.
