@@ -10,7 +10,7 @@
       />
     </div>
     <div class="float-right text-xs mt-1">
-      Password strength: {{ $t(!!passwordValue.length ? `components.password-strength.${text}` : 'components.password-strength.invalid') }}
+      {{ $t('components.password-strength.title') }}: {{ $t(!!passwordValue.length ? `components.password-strength.${text}` : 'components.password-strength.invalid') }}
     </div>
   </div>
 </template>
