@@ -18,9 +18,7 @@
           :icons="['bi:eye-fill']"
         />
       </div>
-      <PasswordStrengthIndicator
-        :password-value="passwordValue"
-      />
+      <PasswordStrengthIndicator :password-value="passwordValue" />
       <div class="flex space-x-2">
         <FriendlyCaptcha />
         <BtnLabeled
