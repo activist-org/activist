@@ -46,11 +46,11 @@ const passwordStrengthMap: Record<number, { color: string; text: string }> = {
   0: { color: "action-red", text: "components.password-strength.very-weak" },
   1: { color: "cta-orange", text: "components.password-strength.weak" },
   2: {
-    color: "pending-yellow",
+    color: "pending-yellow/40",
     text: "components.password-strength.medium",
   },
   3: {
-    color: "accepted-green",
+    color: "accepted-green/60",
     text: "components.password-strength.strong",
   },
   4: { color: "text", text: "components.password-strength.very-strong" },
