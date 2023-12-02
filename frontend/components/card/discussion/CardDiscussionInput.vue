@@ -127,7 +127,8 @@
 
 <script setup lang="ts">
 import type { DiscussionInput } from "~/types/card-discussion-input";
-
+import TooltipDiscussionWarning from '@/components/tooltip/TooltipDiscussionWarning.vue';
+const showTooltip = ref(false);
 defineProps<{
   discussionInput: DiscussionInput;
 }>();
