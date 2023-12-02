@@ -28,6 +28,9 @@
           :error="!isAllRulesValid && isBlurred"
         />
       </div>
+      <PasswordStrengthIndicator
+        :password-value="passwordValue"
+      />
       <TooltipPasswordRequirements
         v-if="
           !!passwordValue?.length &&
