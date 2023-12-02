@@ -18,6 +18,7 @@
 
 <script setup lang="ts">
 const localePath = useLocalePath();
+
 defineProps<{
   to: string;
   selected: boolean;

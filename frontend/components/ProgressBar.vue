@@ -7,7 +7,7 @@
         'h-full transition-width ease-in duration-500',
         {
           'bg-light-placeholder dark:bg-dark-placeholder': type === 'default',
-          'bg-light-act-red dark:bg-dark-act-red': type === 'act',
+          'bg-light-action-red dark:bg-dark-action-red': type === 'action',
           'bg-light-learn-blue dark:bg-dark-learn-blue': type === 'learn',
         },
       ]"
@@ -25,8 +25,10 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath();
+
 export interface Props {
-  type?: "default" | "act" | "learn";
+  type?: "default" | "action" | "learn";
   progress: number;
   start?: number;
   end?: number;

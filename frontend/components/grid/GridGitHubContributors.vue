@@ -4,7 +4,7 @@
       <li v-for="item in githubData" :key="item.loginID">
         <NuxtLink
           class="flex flex-col items-center w-20 focus-brand space-y-1"
-          :to="item.htmlUrl"
+          :to="localePath(item.htmlUrl)"
         >
           <img
             class="w-16 h-16 rounded-full ring-2 hover:ring-light-cta-orange hover:ring-2 hover:ring-offset-2 ring-light-section-div dark:ring-dark-section-div dark:hover:ring-light-cta-orange dark:hover:ring-offset-dark-content"
@@ -55,6 +55,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+const localePath = useLocalePath();
 
 interface GithubContributor {
   avatarUrl: string;

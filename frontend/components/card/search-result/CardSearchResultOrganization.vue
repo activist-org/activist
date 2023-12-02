@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <TopicMarker :topic="organization.topic" />
+        <MarkerTopic :topic="organization.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
@@ -50,11 +50,11 @@
         >
           <MetaTagMembers
             :members="organization.members"
-            label="components.meta-tag-members.label"
+            label="components._global.members"
           />
           <MetaTagSupporters
             :supporters="organization.supporters"
-            label="components.meta-tag-supporters.label"
+            label="components.meta-tag.supporters_lower"
           />
         </div>
       </div>
@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "../../../types/organization";
+import type { Organization } from "~/types/organization";
 
 defineProps<{
   isPrivate?: boolean;

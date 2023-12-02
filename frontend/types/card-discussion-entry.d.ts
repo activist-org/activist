@@ -1,4 +1,4 @@
-export interface Discussion {
+export interface DiscussionEntry {
   title: string;
   author: string;
   category: string;

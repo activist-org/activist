@@ -3,10 +3,6 @@ Entities Models
 
 This file contains models for the entities app.
 
-TODO: All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
-TODO: Some relational-models may need to be moved in the "events" or "content" app in order to prevent circular dependency issues.
-TODO: In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
-
 Contents:
     - Organization
     - OrganizationApplicationStatus

@@ -5,7 +5,7 @@
     <BtnLabeled
       class="hidden md:flex mt-1 h-min"
       :cta="true"
-      :label="discussion.upVoters"
+      :counter="discussion.upVoters"
       fontSize="sm"
       leftIcon="bi:arrow-up"
       iconSize="1.25em"
@@ -86,10 +86,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Discussion } from "../../../types/discussion";
+import type { DiscussionEntry } from "~/types/card-discussion-entry";
 
 defineProps<{
   isPrivate?: boolean;
-  discussion: Discussion;
+  discussion: DiscussionEntry;
 }>();
 </script>

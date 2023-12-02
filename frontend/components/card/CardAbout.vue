@@ -1,16 +1,17 @@
 <template>
   <div class="px-5 py-5 card-style">
     <div class="relative flex-col w-full gap-5">
-      <ModalQRCode />
+      <ModalQRCode v-if="organization" :entityName="organization.name" />
+      <ModalQRCode v-if="event" :entityName="event.name" />
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="text-left responsive-h3 font-display">
-            {{ $t("components.card-about.header") }}
+            {{ $t("_global.about") }}
           </h3>
           <Icon name="bi:pencil-square" size="1.2em" />
         </div>
         <div v-if="event" class="flex-col space-y-3">
-          <TopicMarker :topic="event.topic" />
+          <MarkerTopic :topic="event.topic" />
           <div class="flex items-center gap-3">
             <div
               class="flex items-center justify-center w-6 h-6 rounded-md fill-light-text dark:fill-dark-text"
@@ -40,7 +41,7 @@
           </div>
         </div>
         <div v-if="organization" class="flex-col space-y-3">
-          <TopicMarker :topic="organization.topic" />
+          <MarkerTopic :topic="organization.topic" />
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-2">
               <Icon name="bx:bxs-map" size="1.2em" />
@@ -67,8 +68,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "../../types/event";
-import type { Organization } from "../../types/organization";
+import type { Event } from "~/types/event";
+import type { Organization } from "~/types/organization";
 
 defineProps<{
   organization?: Organization;

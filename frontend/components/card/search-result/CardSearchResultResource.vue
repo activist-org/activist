@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <TopicMarker :topic="resource.topic" />
+        <MarkerTopic :topic="resource.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "../../../types/resource";
+import type { Resource } from "~/types/resource";
 
 defineProps<{
   isPrivate?: boolean;

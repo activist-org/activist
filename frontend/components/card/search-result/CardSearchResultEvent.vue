@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <TopicMarker :topic="event.topic" />
+        <MarkerTopic :topic="event.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
@@ -62,7 +62,7 @@
           <MetaTagOrganization :organization="event.organizer" />
           <MetaTagSupporters
             :supporters="event.supporters"
-            label="components.meta-tag-supporters.label"
+            label="components.meta-tag.supporters_lower"
           />
         </div>
       </div>
@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "../../../types/event";
+import type { Event } from "~/types/event";
 
 defineProps<{
   isPrivate?: boolean;

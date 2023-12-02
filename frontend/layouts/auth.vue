@@ -6,7 +6,9 @@
     </Head>
     <div class="relative hidden md:block">
       <div class="flex items-center justify-center w-full h-full">
-        <div class="relative z-0 h-24 overflow-y-hidden w-96 mb-6">
+        <div
+          class="relative z-0 h-16 w-64 xl:h-24 overflow-y-hidden xl:w-96 mb-6"
+        >
           <LogoActivist
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
           />
@@ -48,16 +50,12 @@ const page = computed(() => {
     ariaLabel: isSignIn
       ? "pages.auth.sign-in.index.aria-label"
       : "pages.auth.sign-up.index.aria-label",
-    label: isSignIn
-      ? "pages.auth.sign-in.index.sign-up"
-      : "pages.auth.sign-up.index.sign-in",
+    label: isSignIn ? "_global.sign-up" : "_global.sign-in",
     link: isSignIn ? "/auth/sign-up" : "/auth/sign-in",
     message: isSignIn
       ? "pages.auth.sign-in.index.welcome-back"
       : "pages.auth.sign-up.index.first-time-welcome",
-    title: isSignIn
-      ? "pages.auth.sign-in.index.title"
-      : "pages.auth.sign-up.index.title",
+    title: isSignIn ? "_global.sign-in" : "_global.sign-up",
   };
 });
 </script>

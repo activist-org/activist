@@ -1,13 +1,9 @@
 name: pr_ci_frontend
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - main
     types: [opened, reopened, synchronize]
-  workflow_run:
-    workflows: [pr_maintainer_checklist]
-    types:
-      - completed
 
 jobs:
   frontend:

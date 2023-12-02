@@ -40,7 +40,7 @@
         >
           <MetaTagSupporters
             :supporters="user.supporters"
-            label="components.meta-tag-supporters.label"
+            label="components.meta-tag.supporters_lower"
           />
         </div>
       </div>
@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "../../../types/user";
+import type { User } from "~/types/user";
 
 defineProps<{
   isPrivate?: boolean;

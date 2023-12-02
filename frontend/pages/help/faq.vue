@@ -3,14 +3,14 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.help.faq.title") }}</Title>
+      <Title>{{ $t("_global.faq") }}</Title>
     </Head>
     <PageDocs
       imgURL="/images/content_pages/icons/bootstrap_question_square"
-      imgAltText="pages.help.faq.img-alt-text"
+      imgAltText="pages._global.faq-img-alt-text"
     >
       <h1 class="pb-2 font-bold responsive-h1">
-        {{ $t("pages.help.faq.header") }}
+        {{ $t("pages.help._global.frequently-asked-questions") }}
       </h1>
       <div class="flex flex-row py-2 space-x-3">
         <Icon
@@ -25,7 +25,7 @@
             href="https://matrix.to/#/#activist_community:matrix.org"
             target="_blank"
           >
-            {{ $t("pages.help.faq.subheader-2") }}
+            {{ $t("pages._global.public-matrix-chat-rooms") }}
             <Icon
               name="bi:box-arrow-up-right"
               size="1em"

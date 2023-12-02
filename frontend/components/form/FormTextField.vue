@@ -2,7 +2,7 @@
   <div
     class="flex items-center pl-[12px] pr-[10px] py-2 max-h-[40px] space-x-2 text-left border rounded select-none text-light-special-text dark:text-dark-special-text"
     :class="{
-      'border-light-act-red dark:border-dark-act-red': error,
+      'border-light-action-red dark:border-dark-action-red': error,
       'border-light-interactive dark:border-dark-interactive': !error,
     }"
   >
@@ -38,9 +38,8 @@
 </template>
 
 <script setup lang="ts">
-// @ts-nocheck
 import { v4 as uuidv4 } from "uuid";
-import useFormInput from "../../composables/useFormSetup";
+import useFormInput from "~/composables/useFormSetup";
 
 export interface Props {
   placeholder?: string;
@@ -51,7 +50,6 @@ export interface Props {
   error?: boolean;
 }
 
-// @ts-ignore
 const props = withDefaults(defineProps<Props>(), {
   placeholder: "",
   modelValue: "",
@@ -60,7 +58,7 @@ const props = withDefaults(defineProps<Props>(), {
   error: false,
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "blurred", "focused"]);
 const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
 const uuid = uuidv4();
 const refInputType = ref<string | undefined>(props?.inputType);

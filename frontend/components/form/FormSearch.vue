@@ -15,9 +15,8 @@
 </template>
 
 <script setup lang="ts">
-// @ts-nocheck
 import { v4 as uuidv4 } from "uuid";
-import useFormInput from "../../composables/useFormSetup";
+import useFormInput from "~/composables/useFormSetup";
 
 export interface Props {
   placeholder?: string;

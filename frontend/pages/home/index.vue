@@ -3,14 +3,14 @@
     class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.home.index.title") }}</Title>
+      <Title>{{ $t("_global.home") }}</Title>
     </Head>
     <HeaderAppPage
       :header="$t('pages.home.index.header')"
       :tagline="$t('pages.home.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <TopicMarker topic="My topics dropdown" />
+        <MarkerTopic topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
@@ -40,17 +40,24 @@
         :isPrivate="false"
         :user="user"
       />
+      <CardDiscussionInput :discussionInput="discussionInput" />
       <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
+      <CardDiscussionText :discussionText="discussionText" />
+      <CardChangeAccountInfoUsername />
+      <CardChangeAccountInfoPassword />
+      <CardChangeAccountInfoEmail />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Discussion } from "../../types/discussion";
-import { Event } from "../../types/event";
-import { Organization } from "../../types/organization";
-import { Resource } from "../../types/resource";
-import { User } from "../../types/user";
+import { DiscussionEntry } from "~/types/card-discussion-entry";
+import { DiscussionInput } from "~/types/card-discussion-input";
+import { DiscussionText } from "~/types/card-discussion-text";
+import { Event } from "~/types/event";
+import { Organization } from "~/types/organization";
+import { Resource } from "~/types/resource";
+import { User } from "~/types/user";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -87,7 +94,7 @@ const organization: Organization = {
 
 const event: Event = {
   name: "Test Event",
-  type: "act",
+  type: "action",
   tagline: "We love to test!",
   organizer: "Testers LLC",
   topic: "Testing and Designing",
@@ -106,7 +113,15 @@ const user: User = {
   description: "I love to test!",
 };
 
-const discussion: Discussion = {
+const discussionInput: DiscussionInput = {
+  name: "Text ",
+  location: "Testerville, TN",
+  supporters: 123,
+  description: "I love to test!",
+  category: "Category",
+};
+
+const discussion: DiscussionEntry = {
   title: "Title of discussion ",
   author: "John A. Tester",
   category: "Category",
@@ -116,4 +131,13 @@ const discussion: Discussion = {
   messages: 3,
   creationDate: new Date(),
 };
+
+const discussionText: DiscussionText = {
+  author: "John A. Tester",
+  content:
+    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
+  votes: 123,
+  date: new Date(),
+};
 </script>
+~/types/card-discussion-input
