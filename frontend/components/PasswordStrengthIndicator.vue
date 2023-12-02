@@ -10,7 +10,7 @@
       />
     </div>
     <div class="float-right text-xs mt-1">
-      {{ $t('components.password-strength.title') }}: {{ $t(!!passwordValue.length ? `components.password-strength.${text}` : 'components.password-strength.invalid') }}
+      {{ $t('components.password-strength.title') }}: {{ $t(!!passwordValue.length ? text : 'components.password-strength.invalid') }}
     </div>
   </div>
 </template>
@@ -30,11 +30,11 @@ const color = computed(() => passwordStrengthMap[score.value].color)
 const text = computed(() => passwordStrengthMap[score.value].text)
 
 const passwordStrengthMap: Record<number, { color: string, text: string }> = {
-  0: { color: 'action-red', text: 'very-weak' },
-  1: { color: 'cta-orange', text: 'weak' },
-  2: { color: 'pending-yellow/40', text: 'medium' },
-  3: { color: 'accepted-green/60', text: 'strong' },
-  4: { color: 'text', text: 'very-strong' }
+  0: { color: 'action-red', text: 'components.password-strength.very-weak' },
+  1: { color: 'cta-orange', text: 'components.password-strength.weak' },
+  2: { color: 'pending-yellow/40', text: 'components.password-strength.medium' },
+  3: { color: 'accepted-green/60', text: 'components.password-strength.strong' },
+  4: { color: 'text', text: 'components.password-strength.very-strong' }
 };
 
 const SCORE_THRESHOLDS: number[] = [6, 9, 11.5, 13.5, 15]
