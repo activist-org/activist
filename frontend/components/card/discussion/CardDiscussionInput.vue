@@ -1,3 +1,4 @@
+
 <template>
   <div class="flex flex-col w-full md:flex-row card-style px-3 py-4">
     <div class="flex-col pt-3 space-y-3 md:pl-2 md:space-y-4 md:grow md:pt-0">
@@ -105,12 +106,12 @@
           <Icon class="mx-1" name="bi:markdown" size="1.25em"></Icon>
         </p>
         <div class="flex space-x-3 items-center">
-          <div v-if="discussionInput.highRisk" @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" class="relative w-full md:w-full">            <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand w-16 h-10 flex justify-center items-center">
+          <div v-if="discussionInput.highRisk" @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" class="relative w-full md:w-full">
+            <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand w-16 h-10 flex justify-center items-center">
               <Icon name="bi:exclamation-octagon" size="1.4em" />
             </div>
-          </div> 
-        <TooltipDiscussionWarning v-show="showTooltip" />
-        
+            <TooltipDiscussionWarning v-show="showTooltip" />
+          </div>         
           <BtnLabeled
             class="inline-flex justify-center items-center w-small"
             :cta="true"
@@ -124,7 +125,6 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import type { DiscussionInput } from "~/types/card-discussion-input";
 import TooltipDiscussionWarning from '@/components/tooltip/TooltipDiscussionWarning.vue';
@@ -132,42 +132,32 @@ const showTooltip = ref(false);
 defineProps<{
   discussionInput: DiscussionInput;
 }>();
-
 const at = () => {
   console.log("click on at");
 };
-
 const heading = () => {
   console.log("click on heading");
 };
-
 const bold = () => {
   console.log("click on bold");
 };
-
 const italic = () => {
   console.log("click on italic");
 };
-
 const blockquote = () => {
   console.log("click on blockquote");
 };
-
 const link = () => {
   console.log("click on link");
 };
-
 // There is as of now no plan to add in attachments.
 // const attach = () => {
 //   console.log("click on attach");
 // };
-
 const listul = () => {
   console.log("click on listul");
 };
-
 const listol = () => {
   console.log("click on listol");
 };
 </script>
-
