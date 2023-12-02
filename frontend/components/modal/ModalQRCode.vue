@@ -111,7 +111,26 @@ import { ref, Ref } from "vue";
 
 const qrcode = ref(null);
 
-const availableFormats: Ref<string[]> = ref(["PNG", "SVG", "JPEG"]);
+const qrPixelGraphicsSize = computed(() => {
+  if (qrcode?.value) {
+    const size = qrcode!.value!.getSize();
+    const width = 1500;
+    const height: number = Math.round(width * (size.height / size.width));
+    return { width: width, height: height };
+  } else {
+    return undefined;
+  }
+});
+
+const availableFormats: Ref<string[]> = computed(() => {
+  const size = qrPixelGraphicsSize.value;
+  const qrCodeIsReady = size != undefined;
+  return [
+    "PNG" + (qrCodeIsReady ? ` (${size.width} x ${size.height} px)` : ""),
+    "JPEG" + (qrCodeIsReady ? ` (${size.width} x ${size.height} px)` : ""),
+    "SVG",
+  ];
+});
 
 const props = defineProps<{
   entityName: string;
@@ -121,11 +140,17 @@ const qrCodeFileName: string = props.entityName
   .toLowerCase()
   .replaceAll(" ", "_");
 
-function drawInlineSVG(svgElement: any, ctx: any, callback: any) {
+function drawInlineSVG(
+  svgElement: any,
+  ctx: any,
+  width: number,
+  height: number,
+  callback: any
+) {
   const svgURL = new XMLSerializer().serializeToString(svgElement);
   const img = new Image();
   img.onload = function () {
-    ctx.drawImage(this, 0, 0);
+    ctx.drawImage(this, 0, 0, width, height);
     callback();
   };
   img.src = "data:image/svg+xml; charset=utf8, " + encodeURIComponent(svgURL);
@@ -155,6 +180,7 @@ function downloadQRCode(format: string) {
 }
         </style>`;
   svgData.appendChild(def);
+  const fileNameWithoutExt = "activist_dot_org_qrcode";
   if (format == "SVG") {
     const svgBlob = new Blob([svgData.outerHTML], {
       type: "image/svg+xml;charset=utf-8",
@@ -162,28 +188,27 @@ function downloadQRCode(format: string) {
     const svgUrl = URL.createObjectURL(svgBlob);
     const downloadLink = document.createElement("a");
     downloadLink.href = svgUrl;
-    downloadLink.download = "activist_dot_org_qrcode.svg";
+    downloadLink.download = `${fileNameWithoutExt}.svg`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
-  } else if (format == "PNG" || format == "JPEG") {
+  } else if (format.startsWith("PNG") || format.startsWith("JPEG")) {
     const canvas: HTMLCanvasElement = document.createElement("canvas");
-    const size = qrcode.value.getSize();
-    canvas.width = size.width;
-    canvas.height = size.height;
+    const size = qrPixelGraphicsSize.value;
+    canvas.width = size!.width;
+    canvas.height = size!.height;
     const ctx = canvas.getContext("2d")!;
-    if (format == "JPEG") {
+    const isJPEG = format.startsWith("JPEG");
+    if (isJPEG) {
       // avoid black bg in jpeg files
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
-    drawInlineSVG(svgData, ctx, function () {
+    const fileExtension = isJPEG ? "jpeg" : "png";
+    drawInlineSVG(svgData, ctx, canvas.width, canvas.height, function () {
       const downloadLink = document.createElement("a");
-      downloadLink.href = canvas.toDataURL(
-        `image/${format.toLowerCase()}`,
-        1.0
-      );
-      downloadLink.download = `activist_dot_org_qrcode.${format.toLowerCase()}`;
+      downloadLink.href = canvas.toDataURL(`image/${fileExtension}`, 1.0);
+      downloadLink.download = `${fileNameWithoutExt}.${fileExtension}`;
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
