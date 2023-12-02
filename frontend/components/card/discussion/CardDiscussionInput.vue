@@ -105,8 +105,7 @@
           <Icon class="mx-1" name="bi:markdown" size="1.25em"></Icon>
         </p>
         <div class="flex space-x-3 items-center">
-          <div v-if="discussionInput.highRisk" class="w-full md:w-full">
-            <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand w-16 h-10 flex justify-center items-center">
+          <div v-if="discussionInput.highRisk" @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" class="relative w-full md:w-full">            <div class="cursor-pointer rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand w-16 h-10 flex justify-center items-center">
               <Icon name="bi:exclamation-octagon" size="1.4em" />
             </div>
           </div>         
