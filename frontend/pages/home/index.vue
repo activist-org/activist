@@ -22,7 +22,7 @@
         class="flex flex-col lg:grid space-y-6 lg:grid-cols-7 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
         <CardMetricsOverview class="lg:col-span-5" />
-        <MediaDatePicker class="w-full h-full lg:col-span-2" />
+        <MediaCalendar class="w-full h-full lg:col-span-2" />
       </div>
       <CardSearchResult
         searchResultType="event"
