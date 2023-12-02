@@ -27,9 +27,9 @@ services:
     build:
       context: ./frontend
     container_name: nuxt_frontend
+    command: sh -c "yarn install && yarn dev"
     volumes:
       - ./frontend:/app
-      - /app/node_modules
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
       - "24678:24678"

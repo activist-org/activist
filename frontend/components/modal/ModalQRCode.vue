@@ -1,7 +1,7 @@
 <template>
   <div
     @click="setIsOpen(true)"
-    class="absolute right-0 flex items-center justify-center w-10 h-10 border-2 rounded-md bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div sm:w-16 sm:h-16 text-light-text dark:text-dark-text shadow-sm shadow-zinc-700 cursor-pointer"
+    class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md sm:w-16 sm:h-16 elem-on-card-style cursor-pointer"
   >
     <div class="sm:hidden">
       <Icon
@@ -78,15 +78,17 @@
               :cta="true"
               :label="$t('components.modal-qr-code.download-qr-code')"
               fontSize="lg"
-              :ariaLabel="$t('download-qr-code-aria-label')"
               :options="availableFormats"
               :optionsCallback="downloadQRCode"
+              ariaLabel="
+                $t('components.modal-qr-code.download-qr-code-aria-label')
+              "
             />
           </div>
           <div class="px-4 md:pl-8 md:pb-10">
             <QRCode
               ref="qrcode"
-              class="rounded-3xl shadow-md shadow-zinc-700"
+              class="rounded-3xl elem-shadow-md" 
             />
           </div>
           <BtnLabeled
@@ -95,9 +97,11 @@
             :cta="true"
             :label="$t('components.modal-qr-code.download-qr-code')"
             fontSize="lg"
-            :ariaLabel="$t('download-qr-code-aria-label')"
             :options="availableFormats"
             :optionsCallback="downloadQRCode"
+            :ariaLabel="
+              $t('components.modal-qr-code.download-qr-code-aria-label')
+            "
           />
         </div>
       </DialogPanel>

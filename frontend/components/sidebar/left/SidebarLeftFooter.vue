@@ -1,23 +1,17 @@
 <template>
   <footer
-    class="w-full border-t border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="w-full transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
   >
-    <div class="flex">
+    <div class="flex bg-light-header dark:bg-dark-header elem-shadow-sm">
       <div
-        class="flex flex-col justify-center px-[0.375rem] pt-2 pb-3 space-y-1"
-        :class="{
-          'w-full':
-            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'w-[3.4rem]':
-            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
-        }"
+        class="flex flex-col justify-center px-[0.375rem] pt-2 pb-3 space-y-1 w-full"
       >
         <Disclosure v-slot="{ open, close }">
           <DisclosureButton
             @keyup.enter="closeOtherMenus(0)"
             @click="closeOtherMenus(0)"
             :ref="(el) => (disclosureButtons[0] = { close, el })"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
+            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
             :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
           >
             <div
@@ -63,7 +57,6 @@
                 :routeURL="button.routeURL"
                 :iconURL="button.iconURL"
                 :selected="button.selected"
-                :active="button.active"
               />
             </div>
           </DisclosurePanel>
@@ -73,7 +66,7 @@
             @keyup.enter="closeOtherMenus(1)"
             @click="closeOtherMenus(1)"
             :ref="(el) => (disclosureButtons[1] = { close, el })"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
+            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
             :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
           >
             <div
@@ -119,7 +112,6 @@
                 :routeURL="button.routeURL"
                 :iconURL="button.iconURL"
                 :selected="button.selected"
-                :active="button.active"
               />
             </div>
           </DisclosurePanel>
@@ -129,7 +121,7 @@
             @keyup.enter="closeOtherMenus(2)"
             @click="closeOtherMenus(2)"
             :ref="(el) => (disclosureButtons[2] = { close, el })"
-            class="flex items-center w-full rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-content dark:text-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight hover:text-light-special-text hover:dark:text-dark-special-text focus-brand"
+            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
             :aria-label="
               $t('components.sidebar-left-footer.username-aria-label')
             "
@@ -177,15 +169,11 @@
                 :routeURL="button.routeURL"
                 :iconURL="button.iconURL"
                 :selected="button.selected"
-                :active="button.active"
               />
             </div>
           </DisclosurePanel>
         </Disclosure>
       </div>
-      <div
-        class="flex right-0 w-[0.6rem] bg-light-section-div dark:bg-dark-section-div"
-      ></div>
     </div>
   </footer>
 </template>
@@ -222,11 +210,10 @@ const sidebar = useSidebar();
 const createButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.new-event",
+    label: "components._global.new-event",
     routeURL: "/",
     iconURL: "bi:calendar-check",
     selected: false,
-    active: true,
   },
   {
     id: 2,
@@ -234,50 +221,44 @@ const createButtons: MenuSelector[] = [
     routeURL: "/organizations/create",
     iconURL: "IconOrganization",
     selected: false,
-    active: true,
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.new-group",
+    label: "components._global.new-group",
     routeURL: "/",
     iconURL: "IconGroup",
     selected: false,
-    active: true,
   },
   {
     id: 4,
-    label: "components.sidebar-left-selector.label.new-resource",
+    label: "components._global.new-resource",
     routeURL: "/",
     iconURL: "IconResource",
     selected: false,
-    active: true,
   },
 ];
 
 const infoButtons: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.help",
+    label: "_global.help",
     routeURL: "/help",
     iconURL: "bi:question-circle",
     selected: false,
-    active: true,
   },
   {
     id: 2,
-    label: "components.sidebar-left-selector.label.documentation",
+    label: "_global.documentation",
     routeURL: "/docs",
     iconURL: "bi:layout-text-sidebar-reverse",
     selected: false,
-    active: true,
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.legal",
+    label: "_global.legal",
     routeURL: "/legal",
     iconURL: "IconLegal",
     selected: false,
-    active: true,
   },
 ];
 
@@ -288,7 +269,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:person-circle",
     selected: false,
-    active: true,
   },
   {
     id: 2,
@@ -296,7 +276,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:calendar-check",
     selected: false,
-    active: true,
   },
   {
     id: 3,
@@ -304,7 +283,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "IconOrganization",
     selected: false,
-    active: true,
   },
   {
     id: 4,
@@ -312,15 +290,13 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:bell",
     selected: false,
-    active: true,
   },
   {
     id: 5,
-    label: "components.sidebar-left-selector.label.settings",
+    label: "_global.settings",
     routeURL: "/",
     iconURL: "bi:gear",
     selected: false,
-    active: true,
   },
   {
     id: 6,
@@ -328,7 +304,6 @@ const userButtons: MenuSelector[] = [
     routeURL: "/",
     iconURL: "bi:box-arrow-left",
     selected: false,
-    active: true,
   },
 ];
 </script>

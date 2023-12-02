@@ -3,9 +3,6 @@ Content Models
 
 This file contains models for the content app.
 
-TODO: All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
-TODO: In some/most cases a "ManyToManyField" may be more suitable and scalable than "ArrayField"
-
 Contents:
     - Resource
     - Task

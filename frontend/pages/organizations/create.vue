@@ -70,7 +70,7 @@
           :placeholder="$t('pages.organizations.create.tagline-placeholder')"
         />
       </div>
-      <CardTopicSelection class="mt-5" />
+      <CardTopicSelection v-model="formData.topics" class="mt-5" />
       <div class="mx-14 w-full mt-5">
         <CardConnect
           :social-links="formData.social_accounts"
@@ -81,9 +81,9 @@
         <div class="flex space-x-2">
           <FormCheckbox />
           <label for="terms" class="font-medium flex">
-            <p>{{ $t("pages.organizations.create.terms-pt-1") }}&nbsp;</p>
+            <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
             <a href="#" class="text-blue-500">{{
-              $t("pages.organizations.create.terms-pt-2")
+              $t("pages._global.terms-of-service-pt-2")
             }}</a>
             <p>.</p>
           </label>

@@ -1,61 +1,113 @@
 <template>
-  <div class="w-full card-style px-5 py-6">
-    <h2 class="block font-medium responsive-h3 mb-1">
+  <Combobox
+    v-model="value"
+    v-slot="{ open }"
+    multiple
+    as="div"
+    class="flex-col space-y-3 w-full card-style px-5 py-6"
+  >
+    <ComboboxLabel
+      as="h2"
+      class="block font-medium responsive-h3 dark:text-dark-text"
+    >
       {{ $t("components.card-topic-selection.header") }}
-    </h2>
-    <p>
-      {{ $t("components.card-topic-selection.topic-selection-prompt") }}
-    </p>
-    <input
-      v-model="formData.newTopic"
-      @keydown.enter="addTopic()"
-      @keydown.prevent.enter="addTopic()"
-      class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
-      type="text"
-      name="newTopic"
-      placeholder="Add a new topic"
+    </ComboboxLabel>
+
+    <ComboboxInput
+      @change="query = $event.target.value"
+      :display-value="() => query"
+      :placeholder="$t('components.card-topic-selection.selector-placeholder')"
+      class="pl-4 py-2 w-full text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md elem-shadow-sm"
     />
-    <ul class="list-none flex items-center gap-2 pt-2">
-      <li
-        v-for="topic in formData.topics"
-        class="bg-light-placeholder dark:bg-dark-placeholder py-1 px-2 rounded-md text-white flex items-center"
+
+    <ComboboxOptions
+      static
+      class="flex flex-col gap-2 md:flex-row md:items-center"
+    >
+      <ComboboxOption
+        v-for="topic of filteredTopics"
+        v-slot="{ active, selected }"
+        :key="topic.value"
+        :value="topic.value"
+        as="template"
       >
-        {{ topic }}
-        <button @click="removeTopic(topic)" class="ml-2">
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-        </button>
-      </li>
-    </ul>
-  </div>
+        <li
+          class="flex justify-between items-center gap-2 rounded-lg p-2 border bg-light-btn border-dark-btn font-bold cursor-pointer hover:bg-light-cta-orange-hover hover:dark:bg-dark-cta-orange-hover elem-shadow-sm"
+          :class="{
+            'outline outline-blue-400 bg-light-cta-orange-hover dark:bg-dark-cta-orange-hover':
+              active && open,
+            'bg-light-cta-orange dark:bg-dark-cta-orange': selected,
+          }"
+        >
+          <span class="flex items-center gap-2">
+            <Icon :name="topic.icon" size="20" />
+            {{ $t(topic.label) }}
+          </span>
+          <Icon
+            v-if="selected"
+            name="bi:x-lg"
+            class="cursor-pointer"
+            size="20"
+          />
+        </li>
+      </ComboboxOption>
+    </ComboboxOptions>
+  </Combobox>
 </template>
 
 <script setup lang="ts">
-const formData = ref({
-  topics: ["justice", "activism"],
-  newTopic: "",
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+} from "@headlessui/vue";
+
+import { GLOBAL_TOPICS, Topic, TopicsTag } from "~/types/topics";
+
+const props = defineProps({
+  modelValue: {
+    type: Array as PropType<Topic[]>,
+    required: true,
+    default: () => [],
+  },
 });
 
-const addTopic = () => {
-  if (formData.value.newTopic) {
-    formData.value.topics.push(formData.value.newTopic);
-    formData.value.newTopic = "";
-  }
-};
+const emit = defineEmits(["update:modelValue"]);
 
-const removeTopic = (topic: string) => {
-  formData.value.topics = formData.value.topics.filter((t) => t !== topic);
-};
+const value = computed<Topic[]>({
+  get() {
+    return props.modelValue;
+  },
+  set(value: Topic[]) {
+    emit("update:modelValue", value);
+  },
+});
+
+const query = ref("");
+
+const topics = computed((): TopicsTag[] => {
+  return [
+    ...selectedTopicTags.value,
+    ...GLOBAL_TOPICS.filter((topic) => !isActiveTopic(topic.value)),
+  ];
+});
+
+const selectedTopicTags = computed(() => {
+  return value.value
+    .map((topic) => {
+      return GLOBAL_TOPICS.find((tag) => tag.value === topic);
+    })
+    .filter((tag) => tag) as TopicsTag[];
+});
+
+const filteredTopics = computed(() => {
+  return topics.value.filter((topic) => {
+    return topic.value.includes(query.value.trim().toLowerCase());
+  });
+});
+
+function isActiveTopic(topic: Topic) {
+  return value.value.includes(topic);
+}
 </script>

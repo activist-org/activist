@@ -3,14 +3,14 @@
     class="px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.organizations.index.title") }}</Title>
+      <Title>{{ $t("pages.organizations.index.header-title") }}</Title>
     </Head>
     <HeaderAppPage
-      :header="$t('pages.organizations.index.header')"
+      :header="$t('pages.organizations.index.header-title')"
       :tagline="$t('pages.organizations.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <MarkerTopic topic="My topics dropdown" />
+        <ShieldTopic topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
     <div

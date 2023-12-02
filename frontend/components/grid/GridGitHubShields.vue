@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-flow-row gap-3 md:gap-5 sm:grid-flow-col w-fit">
-    <ImageGithubShield
+    <ShieldGitHub
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist"
       :isLoading="isLoading"
@@ -11,11 +11,11 @@
           {{ $t("components.grid-github-shields.visit-us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">
-          {{ $t("components.grid-github-shields.github") }}
+          {{ $t("components._global.github") }}
         </div>
       </div>
-    </ImageGithubShield>
-    <ImageGithubShield
+    </ShieldGitHub>
+    <ShieldGitHub
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/forks"
       :text="$t('components.grid-github-shields.fork')"
@@ -23,8 +23,8 @@
       :count="GitHubData.forks_count"
     >
       <Icon name="octicon:repo-forked-24" size="2em" />
-    </ImageGithubShield>
-    <ImageGithubShield
+    </ShieldGitHub>
+    <ShieldGitHub
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/stargazers"
       :text="$t('components.grid-github-shields.star')"
@@ -32,7 +32,7 @@
       :count="GitHubData.stargazers_count"
     >
       <Icon name="octicon:star-24" size="2em" />
-    </ImageGithubShield>
+    </ShieldGitHub>
   </div>
 </template>
 

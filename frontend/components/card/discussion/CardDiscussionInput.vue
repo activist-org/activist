@@ -63,12 +63,12 @@
             name="bi:link-45deg"
             size="1.75em"
           />
-          <Icon
+          <!-- <Icon
             @click="attach()"
             class="cursor-pointer"
             name="bi:paperclip"
             size="1.6em"
-          />
+          /> -->
           <Icon
             @click="listul()"
             class="cursor-pointer"
@@ -142,9 +142,10 @@ const link = () => {
   console.log("click on link");
 };
 
-const attach = () => {
-  console.log("click on attach");
-};
+// There is as of now no plan to add in attachments.
+// const attach = () => {
+//   console.log("click on attach");
+// };
 
 const listul = () => {
   console.log("click on listul");

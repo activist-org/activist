@@ -3,8 +3,6 @@ Events Models
 
 This file contains models for the events app.
 
-TODO: All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
-
 Contents:
     - Event
     - Format
@@ -76,6 +74,9 @@ class EventAttendee(models.Model):
     user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
     attendee_status = models.IntegerField(null=True)
+
+    def __str__(self) -> str:
+        return f"{self.user_id} - {self.event_id}"
 
 
 class EventFormat(models.Model):
