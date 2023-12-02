@@ -1,7 +1,7 @@
 <template>
   <Tooltip
     :text="text"
-    class="w-80 lg:right-0"
+    class="w-96 lg:right-0"
     >
     <ul class="list-disc pl-4 space-y-1">
       <li>Names</li>
