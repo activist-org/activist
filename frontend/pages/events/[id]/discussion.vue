@@ -71,6 +71,6 @@ const discussionInput: DiscussionInput = {
   supporters: 123,
   description: "I love to test!",
   category: "Category",
-  highRisk: true,
+  highRisk: false,
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <Tooltip
+  <TooltipBase
     header="Restricted content"
     :text="$t('components.tooltip-sign-in.text')"
   >
@@ -21,5 +21,5 @@
         :ariaLabel="$t('components.btn-labeled.sign-up-aria-label')"
       />
     </div>
-  </Tooltip>
+  </TooltipBase>
 </template>

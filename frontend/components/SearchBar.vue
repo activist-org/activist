@@ -27,7 +27,7 @@
         <div
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
-          <Tooltip
+          <TooltipBase
             class="invisible -mt-8"
             :text="$t('components.search-bar.slash-tooltip-label')"
           />
@@ -37,7 +37,7 @@
           v-if="$device.isMacOS"
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
-          <Tooltip
+          <TooltipBase
             class="invisible -mt-8"
             :text="$t('components.search-bar.command-tooltip-label')"
           />
@@ -47,7 +47,7 @@
           v-else
           class="flex px-2 py-[0.125rem] text-sm text-center border rounded-md has-tooltip border-light-special-text dark:border-dark-special-text text-light-special-text dark:text-dark-special-text"
         >
-          <Tooltip
+          <TooltipBase
             class="invisible -mt-8"
             :text="$t('components.search-bar.control-tooltip-label')"
           />
