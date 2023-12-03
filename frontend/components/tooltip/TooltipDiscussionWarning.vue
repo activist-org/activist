@@ -13,6 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import Tooltip from './tooltip.vue';
+import Tooltip from './Tooltip.vue';
 
 </script>
