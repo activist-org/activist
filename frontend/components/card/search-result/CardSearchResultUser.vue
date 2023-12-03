@@ -19,9 +19,7 @@
           <h2 class="font-bold responsive-h3">
             {{ user.name }}
           </h2>
-          <div class="text-light-cta-orange dark:text-dark-cta-orange">
-            <Icon name="ph:dots-three-circle-vertical" size="1.75em" />
-          </div>
+          <SearchResultMeatball />
         </div>
         <div
           class="items-center hidden w-full space-x-3 md:flex md:w-fit lg:space-x-5"
@@ -40,7 +38,7 @@
         >
           <MetaTagSupporters
             :supporters="user.supporters"
-            label="components.meta-tag-supporters.label"
+            label="components.meta-tag.supporters_lower"
           />
         </div>
       </div>

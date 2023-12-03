@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 pt-2 pb-3 shadow-md space-y-2 card-style bg-light-distinct dark:bg-dark-distinct w-fit shadow-zinc-700"
+    class="flex flex-col px-4 pt-2 pb-3 elem-shadow-md space-y-2 card-style bg-light-distinct dark:bg-dark-distinct w-fit"
   >
     <div class="relative flex">
       <p class="pl-1 responsive-h5">

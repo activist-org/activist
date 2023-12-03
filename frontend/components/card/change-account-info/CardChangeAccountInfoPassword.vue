@@ -50,10 +50,7 @@
         </div>
         <div class="flex flex-col w-full lg:w-1/3">
           <label for="repeat-password" class="font-bold responsive-h4 pb-2"
-            >{{
-              $t("components.card-change-account-info.password.repeat-password")
-            }}
-            *</label
+            >{{ $t("_global.repeat-password") }} *</label
           >
           <input
             id="confirm-password"

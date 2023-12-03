@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-// @ts-nocheck
 import { v4 as uuidv4 } from "uuid";
 import useFormInput from "~/composables/useFormSetup";
 
@@ -51,7 +50,6 @@ export interface Props {
   error?: boolean;
 }
 
-// @ts-ignore
 const props = withDefaults(defineProps<Props>(), {
   placeholder: "",
   modelValue: "",
@@ -60,7 +58,7 @@ const props = withDefaults(defineProps<Props>(), {
   error: false,
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "blurred", "focused"]);
 const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
 const uuid = uuidv4();
 const refInputType = ref<string | undefined>(props?.inputType);

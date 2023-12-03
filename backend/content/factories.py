@@ -1,9 +1,8 @@
 import datetime
-import random
 
 import factory
 
-from .models import Resource, ResourceTopic, Task, Topic
+from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
 
 
 class ResourceFactory(factory.django.DjangoModelFactory):
@@ -11,12 +10,12 @@ class ResourceFactory(factory.django.DjangoModelFactory):
         model = Resource
 
     name = factory.Faker("name")
-    description = factory.Faker("paragraph")
-    topics = factory.Faker("words", nb=1)
+    description = factory.Faker("text")
+    topics = factory.List([factory.Faker("word") for _ in range(5)])
     location = factory.Faker("address")
     url = factory.Faker("url")
-    total_flags = random.randint(1, 100)
-    private = random.choice([True, False])
+    total_flags = factory.Faker("random_int", min=0, max=100)
+    private = factory.Faker("boolean")
     creation_date = factory.LazyFunction(datetime.datetime.now)
     deletion_date = factory.LazyFunction(datetime.datetime.now)
 
@@ -26,7 +25,7 @@ class TaskFactory(factory.django.DjangoModelFactory):
         model = Task
 
     name = factory.Faker("word")
-    description = factory.Faker("paragraph")
+    description = factory.Faker("text")
     location = factory.Faker("address")
     tags = factory.List([factory.Faker("word") for _ in range(10)])
     creation_date = factory.LazyFunction(datetime.datetime.now)
@@ -38,9 +37,8 @@ class TopicFactory(factory.django.DjangoModelFactory):
         model = Topic
 
     name = factory.Faker("word")
-    active = random.choice([True, False])
-    description = factory.Faker("paragraph")
-    creation_date = factory.LazyFunction(datetime.datetime.now)
+    active = factory.Faker("boolean")
+    description = factory.Faker("text")
     creation_date = factory.LazyFunction(datetime.datetime.now)
     deprecation_date = factory.Faker("date")
 
@@ -54,9 +52,7 @@ class ResourceTopicFactory(factory.django.DjangoModelFactory):
 
 
 class TopicFormatFactory(factory.django.DjangoModelFactory):
-    """Placeholder
-    We do not have Factory for events.Format, therefore can not use a Subfactory yet.
-    format_id = models.ForeignKey("events.Format", on_delete=models.CASCADE)
-    """
+    class Meta:
+        model = TopicFormat
 
-    pass
+    format_id = factory.SubFactory("events.factories.FormatFactory")

@@ -1,8 +1,8 @@
 <template>
   <header
-    class="w-full pl-1 border-b border-r transition-all duration-500 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="w-full pl-1 transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
   >
-    <div class="flex items-center pt-3 pb-2 pl-[0.625rem] pr-6">
+    <div class="flex items-center pt-3 pb-2 pl-[0.85rem] pr-6">
       <div
         class="relative z-0 h-8"
         :class="{
@@ -38,7 +38,6 @@
           "
         >
           <div
-            class="pb-[2px]"
             :class="{
               'pr-[2px]': sidebar.collapsedSwitch == false,
               'pl-[2px]': sidebar.collapsedSwitch == true,
@@ -46,13 +45,13 @@
           >
             <Icon
               v-if="sidebar.collapsedSwitch == false"
-              name="tabler:arrow-bar-to-left"
-              size="1.5em"
+              name="bi:chevron-bar-left"
+              size="1.4em"
             />
             <Icon
               v-if="sidebar.collapsedSwitch == true"
-              name="tabler:arrow-bar-to-right"
-              size="1.5em"
+              name="bi:chevron-bar-right"
+              size="1.4em"
             />
           </div>
         </button>

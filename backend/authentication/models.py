@@ -3,9 +3,6 @@ Authentication Models
 
 This file contains models for the authentication app.
 
-TODO: All fields have on_delete=models.CASCADE: this needs to be reviewed, as SET_NULL is preferable in many cases.
-TODO: Some relational-models may need to be moved in the "content" app in order to prevent circular dependency issues.
-
 Contents:
     - SupportEntityType
     - Support
@@ -15,22 +12,21 @@ Contents:
     - UserTopic
 """
 
-import uuid
-
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
+from backend.mixins.models import BaseModelMixin, ModelMixin
 
-class SupportEntityType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+class SupportEntityType(BaseModelMixin):
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return self.name
 
 
-class Support(models.Model):
+class Support(BaseModelMixin):
     supporter_type = models.ForeignKey(
         "SupportEntityType", on_delete=models.CASCADE, related_name="supporter"
     )
@@ -44,8 +40,7 @@ class Support(models.Model):
         return str(self.id)
 
 
-class User(AbstractUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class User(AbstractUser, ModelMixin):
     user_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
@@ -60,14 +55,12 @@ class User(AbstractUser):
     private = models.BooleanField(default=False)
     high_risk = models.BooleanField(default=False)
     total_flags = models.IntegerField(default=0)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
 
     def __str__(self) -> str:
         return self.username
 
 
-class UserResource(models.Model):
+class UserResource(BaseModelMixin):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
@@ -75,7 +68,7 @@ class UserResource(models.Model):
         return str(self.id)
 
 
-class UserTask(models.Model):
+class UserTask(BaseModelMixin):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
 
@@ -83,7 +76,7 @@ class UserTask(models.Model):
         return str(self.id)
 
 
-class UserTopic(models.Model):
+class UserTopic(BaseModelMixin):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
 

@@ -21,9 +21,10 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath();
+
 defineProps<{
   color?: string;
   isMobile?: boolean;
 }>();
-const localePath = useLocalePath();
 </script>

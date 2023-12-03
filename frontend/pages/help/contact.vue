@@ -3,11 +3,11 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.help.contact.title") }}</Title>
+      <Title>{{ $t("_global.contact") }}</Title>
     </Head>
     <PageDocs
       imgURL="/images/content_pages/icons/bootstrap_envelope"
-      imgAltText="pages.help.contact.img-alt-text"
+      imgAltText="pages.help._global.contact-img-alt-text"
     >
       <div
         v-if="!emailSent"
@@ -29,7 +29,7 @@
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("pages.help.faq.subheader-2") }}
+              {{ $t("pages._global.public-matrix-chat-rooms") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -46,7 +46,7 @@
               class="items-center focus-brand link-text"
               href="https://matrix.to/#/#activist_community:matrix.org"
             >
-              {{ $t("pages.help.contact.section-1-paragraph-1-2") }}
+              {{ $t("pages._global.public-matrix-chat-rooms") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -58,7 +58,7 @@
               class="items-center focus-brand link-text"
               href="https://github.com/activist-org/activist"
             >
-              {{ $t("pages.help.contact.section-1-paragraph-1-4") }}
+              {{ $t("pages._global.on-github") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -200,7 +200,7 @@
               ></textarea>
             </div>
             <button
-              class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit shadow-sm shadow-zinc-700 text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10"
+              class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
                 'hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10':
@@ -208,7 +208,7 @@
               }"
               type="submit"
               :disabled="buttonDisabled"
-              :aria-label="$t('pages.contact.send-form-aria-label')"
+              :aria-label="$t('pages.help.contact.send-form-aria-label')"
             >
               {{ $t("pages.help.contact.send") }}
             </button>
@@ -235,7 +235,7 @@
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("pages.help.faq.subheader-2") }}
+              {{ $t("pages._global.public-matrix-chat-rooms") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"

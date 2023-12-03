@@ -1,5 +1,5 @@
 export default function usePasswordRules() {
-  const ruleFunctions = {
+  const ruleFunctions: { [key: string]: (value: string) => boolean } = {
     "number-of-chars": (value: string) => value.length >= 12,
     "capital-letters": (value: string) => /[A-Z]/.test(value),
     "lower-case-letters": (value: string) => /[a-z]/.test(value),

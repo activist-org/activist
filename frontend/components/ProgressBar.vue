@@ -25,6 +25,8 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath();
+
 export interface Props {
   type?: "default" | "action" | "learn";
   progress: number;
