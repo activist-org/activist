@@ -111,23 +111,21 @@
             @mouseenter="showTooltip = true"
             @mouseleave="showTooltip = false"
             @click="showTooltip = showTooltip == true ? false : true"
-            class="relative w-full flex justify-center"
+            class="relative flex rounded-lg w-16 h-10 elem-shadow-sm focus-brand justify-center items-center"
+            :class="{
+              'style-action': discussionInput.highRisk,
+              'style-warn': !discussionInput.highRisk,
+            }"
           >
-            <div
+            <Icon
               v-if="discussionInput.highRisk"
-              class="rounded-lg p-1 text-light-text dark:text-light-action-red dark:bg-dark-action-red/20 dark:border-dark-action-red bg-light-action-red border border-light-text focus-brand w-16 h-10 flex justify-center items-center"
-            >
-              <Icon name="bi:exclamation-octagon" size="1.4em" />
-            </div>
-            <div
-              v-else
-              class="rounded-lg p-1 text-light-text dark:text-light-pending-yellow dark:bg-dark-pending-yellow/20 dark:border-dark-pending-yellow bg-light-pending-yellow border border-light-text focus-brand w-16 h-10 flex justify-center items-center"
-            >
-              <Icon name="bi:exclamation-triangle" size="1.4em" />
-            </div>
+              name="bi:exclamation-octagon"
+              size="1.4em"
+            />
+            <Icon v-else name="bi:exclamation-triangle" size="1.4em" />
             <TooltipDiscussionWarning
               v-show="showTooltip"
-              class="-mt-56 md:-mt-48"
+              class="-mt-64 md:-mt-56"
             />
           </Button>
           <BtnLabeled

@@ -32,9 +32,9 @@
         as="template"
       >
         <li
-          class="flex justify-between items-center gap-2 rounded-lg p-2 border bg-light-btn border-dark-btn font-bold cursor-pointer hover:bg-light-cta-orange-hover hover:dark:bg-dark-cta-orange-hover elem-shadow-sm"
+          class="flex justify-between items-center gap-2 rounded-lg p-2 border bg-light-btn border-dark-btn font-bold cursor-pointer hover:bg-light-cta-orange/80 hover:dark:bg-dark-cta-orange/80 elem-shadow-sm"
           :class="{
-            'outline outline-blue-400 bg-light-cta-orange-hover dark:bg-dark-cta-orange-hover':
+            'outline outline-blue-400 bg-light-cta-orange/80 dark:bg-dark-cta-orange/80':
               active && open,
             'bg-light-cta-orange dark:bg-dark-cta-orange': selected,
           }"
