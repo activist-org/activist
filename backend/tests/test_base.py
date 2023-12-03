@@ -21,6 +21,9 @@ class BaseTestThrottle:
         }
     )
     def test_anon_rate_throttle(self):
+        if not self.url:
+            raise ValueError("No url provided")
+            
         cache.clear()
 
         # Make 7 requests from the same IP address within a minute
@@ -40,6 +43,9 @@ class BaseTestThrottle:
         }
     )
     def test_auth_rate_throttle(self):
+        if not self.url:
+            raise ValueError("No url provided")
+            
         # Create a user for testing
         test_user = get_user_model().objects.create_user(
             username="testuser", email="testuser@example.com", password="testpassword"
