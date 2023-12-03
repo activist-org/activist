@@ -107,10 +107,11 @@
           <Icon class="mx-1" name="bi:markdown" size="1.25em"></Icon>
         </p>
         <div class="flex space-x-3 items-center">
-          <div
+          <Button
             @mouseenter="showTooltip = true"
             @mouseleave="showTooltip = false"
-            class="relative w-full md:w-full"
+            @click="showTooltip = showTooltip == true ? false : true"
+            class="relative w-full flex justify-center"
           >
             <div
               v-if="discussionInput.highRisk"
@@ -124,8 +125,11 @@
             >
               <Icon name="bi:exclamation-triangle" size="1.4em" />
             </div>
-            <TooltipDiscussionWarning v-show="showTooltip" class="-mt-56" />
-          </div>
+            <TooltipDiscussionWarning
+              v-show="showTooltip"
+              class="-mt-56 md:-mt-48"
+            />
+          </Button>
           <BtnLabeled
             class="inline-flex justify-center items-center w-small"
             :cta="true"
