@@ -7,7 +7,7 @@
         >
           <ComboboxInput
             @change="query = $event.target.value"
-            class="w-full border style-cta py-2 pl-4 rounded-lg"
+            class="w-full border style-cta py-2 pl-4 rounded-lg selection:bg-light-highlight dark:selection:bg-white/20"
             :displayValue="(_) => selectedTopic.name"
           />
           <ComboboxButton

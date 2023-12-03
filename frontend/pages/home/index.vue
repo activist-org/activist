@@ -9,13 +9,7 @@
       :header="$t('pages.home.index.header')"
       :tagline="$t('pages.home.index.subheader')"
     >
-      <ComboboxTopics
-        :topic="$t('pages.home.index.dropdown-topics')"
-        :hasIcon="true"
-        :items="topicItems"
-        iconName="bi:globe"
-        :isRounded="true"
-      />
+      <ComboboxTopics />
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
       <div
