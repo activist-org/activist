@@ -20,7 +20,7 @@ class BaseTestThrottle:
             "DEFAULT_THROTTLE_RATES": {"anon": anon_throttle, "user": user_throttle}
         }
     )
-    def test_anon_rate_throttle(self):
+    def test_anon_rate_throttle(self) -> None:
         if not self.url:
             raise ValueError("No url provided")
             
@@ -42,7 +42,7 @@ class BaseTestThrottle:
             "DEFAULT_THROTTLE_RATES": {"anon": anon_throttle, "user": user_throttle}
         }
     )
-    def test_auth_rate_throttle(self):
+    def test_auth_rate_throttle(self) -> None:
         if not self.url:
             raise ValueError("No url provided")
             
