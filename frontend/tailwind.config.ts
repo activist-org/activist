@@ -45,7 +45,6 @@ export default <Partial<Config>>{
           "cta-orange": {
             DEFAULT: "rgba(242, 166, 84, 1)",
             hover: "rgba(245, 186, 122, 1)",
-            light: "rgba(245, 186, 122, 1)",
           },
           "action-red": "rgba(186, 61, 59, 1)",
           "learn-blue": "rgba(33, 118, 174, 1)",
@@ -77,7 +76,6 @@ export default <Partial<Config>>{
           "cta-orange": {
             DEFAULT: "rgba(241, 156, 65, 1)",
             hover: "rgba(244, 176, 103, 1)",
-            light: "rgba(244, 176, 103, 1)",
           },
           "action-red": "rgba(238, 90, 88, 1)",
           "learn-blue": "rgba(62, 146, 204, 1)",

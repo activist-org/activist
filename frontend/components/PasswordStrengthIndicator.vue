@@ -3,19 +3,17 @@
     <div class="h-1 bg-light-special-text dark:bg-dark-special-text rounded-md">
       <div
         class="h-1 transition-width ease-in duration-500 rounded-md"
-        :class="
-          !!passwordValue.length
-            ? `bg-light-${color} dark:bg-dark-${color}`
-            : ''
-        "
+        :class="!!passwordValue.length ? `${color}` : ''"
         :style="`width: ${width}%;`"
       ></div>
     </div>
     <div
       class="float-right text-xs mt-1"
       :class="{
-        'text-light-special-text dark:text-dark-special-text': color !== 'text',
-        'text-light-text dark:text-dark-text': color === 'text',
+        'text-light-special-text dark:text-dark-special-text':
+          color !== 'bg-light-text dark-bg-dark-text',
+        'text-light-text dark:text-dark-text':
+          color === 'bg-light-text dark-bg-dark-text',
       }"
     >
       {{ $t("components.password-strength.title") }}:
@@ -43,17 +41,26 @@ const color = computed(() => passwordStrengthMap[score.value].color);
 const text = computed(() => passwordStrengthMap[score.value].text);
 
 const passwordStrengthMap: Record<number, { color: string; text: string }> = {
-  0: { color: "action-red", text: "components.password-strength.very-weak" },
-  1: { color: "cta-orange", text: "components.password-strength.weak" },
+  0: {
+    color: "bg-[#cc0000] dark:bg-[#e06666]",
+    text: "components.password-strength.very-weak",
+  },
+  1: {
+    color: "bg-[#e69138] dark:bg-[#f6b26b]",
+    text: "components.password-strength.weak",
+  },
   2: {
-    color: "pending-yellow/40",
+    color: "bg-[#f1c232] dark:bg-[#ffd966]",
     text: "components.password-strength.medium",
   },
   3: {
-    color: "accepted-green/60",
+    color: "bg-[#6aa84f] dark:bg-[#93c47d]",
     text: "components.password-strength.strong",
   },
-  4: { color: "text", text: "components.password-strength.very-strong" },
+  4: {
+    color: "bg-light-text dark:bg-dark-text",
+    text: "components.password-strength.very-strong",
+  },
 };
 
 const SCORE_THRESHOLDS: number[] = [6, 9, 11.5, 13.5, 15];
