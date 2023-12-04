@@ -32,10 +32,7 @@
         >
           <Icon class="w-10 h-10" name="bi:x-circle-fill" />
         </button>
-        <div 
-          v-else
-          class="relative"
-          >
+        <div v-else class="relative">
           <button
             @click="closeModal"
             class="absolute right-0 p-1 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
@@ -43,14 +40,14 @@
             <Icon class="w-10 h-10" name="bi:x-circle-fill" />
           </button>
         </div>
-        <button
+        <div
           v-if="imageModal"
           @click="closeModal"
           class="flex flex-col items-center justify-center w-4/5 focus-brand"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
           <slot name="modalDisplay"></slot>
-        </button>
+        </div>
         <div v-else>
           <slot name="modalDisplay"></slot>
         </div>
