@@ -24,8 +24,7 @@
       <MenuLinkWrapper
         v-for="button in eventButtons"
         :key="button"
-        :to="button.routeURL"
-        :active="button.active"
+        :to="localPath(button.routeURL)"
         :selected="button.selected"
       >
         <div
@@ -68,12 +67,12 @@ definePageMeta({
 });
 
 const { id } = useRoute().params;
-
+const localPath = useLocalePath();
 const event: Event = {
   name: "Test Event",
   type: "action",
   tagline: "We love to test!",
-  organizer: "Testers LLC",
+  organizations: ["Testers LLC"],
   topic: "Testing and Designing",
   description: "This is a test event for testers.",
   getInvolvedDescription: "Wanna help test?",
@@ -89,41 +88,37 @@ const eventButtons: MenuSelector[] = [
     routeURL: "/events/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : true,
-    active: true,
   },
   {
     id: 2,
-    label: "components.sidebar-left-selector.label.team",
+    label: "_global.team",
     routeURL: "/events/" + id + "/team",
     iconURL: "bi:people",
     selected: useRoute().path.split("/").pop() === "team" ? true : true,
-    active: true,
   },
   {
     id: 3,
-    label: "components._global.resources",
+    label: "_global.resources",
     routeURL: "/events/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
-    active: true,
   },
   {
     id: 4,
-    label: "components.sidebar-left-selector.label.settings",
+    label: "_global.settings",
     routeURL: "/events/" + id + "/settings",
     iconURL: "bi:gear",
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
-    active: true,
   },
   // {
-  //   label: "components.sidebar-left-selector.label.tasks",
+  //   label: "_global.tasks",
   //   routeURL: "/events/" + id + "/tasks",
   //   iconURL: "bi:check-square",
   //   selected: useRoute().path.split("/").pop() === "tasks" ? false : false,
   //   active: false,
   // },
   // {
-  //   label: "components.sidebar-left-selector.label.discussions",
+  //   label: "_global.discussions",
   //   routeURL: "/events/" + id + "/discussions",
   //   iconURL: "octicon:comment-discussion-24",
   //   selected:

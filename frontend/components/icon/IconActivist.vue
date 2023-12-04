@@ -20,8 +20,9 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath();
+
 defineProps<{
   color?: string;
 }>();
-const localePath = useLocalePath();
 </script>

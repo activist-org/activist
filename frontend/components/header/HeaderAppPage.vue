@@ -1,5 +1,30 @@
 <template>
   <PageBreadcrumbs class="mt-4" :organization="organization" :event="event" />
+  <div
+    v-if="underDevelopment"
+    class="mt-3 flex w-full bg-light-warn-yellow/40 border border-light-text rounded-md py-1 pl-4 text-light-text dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow dark:border-dark-warn-yellow"
+  >
+    <p>
+      🚧&nbsp;&nbsp;{{
+        $t("components.header-app-page.under-development-1")
+      }}&nbsp;
+    </p>
+    <a
+      class="flex space-x-1 items-center focus-brand link-text"
+      href="https://github.com/activist-org/activist"
+      target="_blank"
+    >
+      <p>github.com/activist-org/activist</p>
+      <Icon
+        class="mb-1"
+        name="bi:box-arrow-up-right"
+        size="1em"
+        style="vertical-align: baseline"
+      />
+    </a>
+    <p></p>
+    <p>&nbsp;{{ $t("components.header-app-page.under-development-2") }}</p>
+  </div>
   <div class="flex items-baseline gap-2 md:gap-4">
     <h1
       class="pt-4 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
@@ -31,6 +56,7 @@ const props = defineProps<{
   tagline?: string;
   organization?: Organization;
   event?: Event;
+  underDevelopment?: boolean;
 }>();
 
 let headerName: string;
@@ -44,8 +70,13 @@ if (props.organization) {
 } else if (props.event) {
   headerName = props.event.name;
   headerTagline = props.event.tagline;
-} else {
-  headerName = props.header || "Default Demo Header";
-  headerTagline = props.tagline || "Default Demo Tagline";
+}
+
+if (props.header) {
+  headerName = props.header || "Default header";
+}
+
+if (props.tagline) {
+  headerTagline = props.tagline || "Default tagline";
 }
 </script>

@@ -29,7 +29,7 @@ register();
 <style>
 swiper-container::part(button-prev),
 swiper-container::part(button-next) {
-  @apply focus-brand text-light-cta-orange hover:text-light-cta-orange-hover dark:text-dark-cta-orange dark:hover:text-dark-cta-orange-hover;
+  @apply focus-brand text-light-cta-orange hover:text-light-cta-orange/80 dark:text-dark-cta-orange dark:hover:text-dark-cta-orange/80;
 }
 
 swiper-container::part(bullet-active) {
@@ -37,6 +37,6 @@ swiper-container::part(bullet-active) {
 }
 
 swiper-container::part(bullet) {
-  @apply focus-brand hover:bg-light-cta-orange-hover dark:hover:bg-dark-cta-orange-hover;
+  @apply focus-brand hover:bg-light-cta-orange/80 dark:hover:bg-dark-cta-orange/80;
 }
 </style>

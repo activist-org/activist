@@ -1,6 +1,6 @@
 export interface Resource {
   name: string;
-  organizer: string;
+  organization: string;
   resourceURL: string;
   description: string;
   topic: string;

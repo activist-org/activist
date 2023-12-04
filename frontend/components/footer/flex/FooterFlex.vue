@@ -44,7 +44,7 @@
         </template>
       </div>
       <a
-        class="mt-2 w-fit hover:text-light-text dark:hover:text-dark-text"
+        class="mt-2 w-fit hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://www.netlify.com/"
         target="_blank"
       >
@@ -78,7 +78,7 @@
       <!-- Note: Resources Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components._global.resources") }}
+          {{ $t("_global.resources") }}
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p

@@ -10,10 +10,10 @@
       :tagline="$t('pages.events.search.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <MarkerTopic topic="My topics dropdown" />
+        <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <GridSearchTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
+    <GridFilterTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
   </div>
 </template>
 

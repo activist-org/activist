@@ -28,6 +28,7 @@
           :error="!isAllRulesValid && isBlurred"
         />
       </div>
+      <PasswordStrengthIndicator :password-value="passwordValue" />
       <TooltipPasswordRequirements
         v-if="
           !!passwordValue?.length &&
@@ -59,9 +60,9 @@
         <p class="flex flex-wrap pl-2">
           {{ $t("pages._global.terms-of-service-pt-1") }}
           <NuxtLink
-            :to="'../legal/privacy-policy'"
+            :to="localePath('/legal/privacy-policy')"
             target="_blank"
-            class="ml-1 text-[#005CB8E5] sm:block"
+            class="ml-1 link-text sm:block"
             >{{ $t("pages._global.terms-of-service-pt-2") }}
           </NuxtLink>
         </p>
@@ -79,9 +80,11 @@
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign-up.index.have-account") }}</h6>
-        <NuxtLink :to="'sign-in'" class="ml-2 font-extrabold link-text">{{
-          $t("_global.sign-in")
-        }}</NuxtLink>
+        <NuxtLink
+          :to="localePath('/auth/sign-in')"
+          class="ml-2 font-extrabold link-text"
+          >{{ $t("_global.sign-in") }}</NuxtLink
+        >
       </div>
     </form>
   </div>
@@ -90,6 +93,7 @@
 <script setup lang="ts">
 import usePasswordRules from "~/composables/usePasswordRules";
 import { PasswordRules } from "~/types/password-rules";
+const localePath = useLocalePath();
 
 definePageMeta({
   layout: "auth",

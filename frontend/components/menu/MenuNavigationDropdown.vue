@@ -1,20 +1,18 @@
 <template>
   <div
+    v-if="selectedMenuItem"
     class="fixed z-20 w-full h-10 md:hidden bg-light-menu-selection dark:bg-dark-menu-selection"
   >
-    <Listbox
-      v-if="sidebarType === 'organization'"
-      v-model="selectedOrganization"
-    >
+    <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="flex items-center align-middle text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct relative w-full py-2 pl-5 text-left shadow-sm shadow-zinc-700 focus-brand"
+        class="flex items-center align-middle text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct relative w-full py-2 pl-5 text-left elem-shadow-sm focus-brand"
       >
         <Icon
-          :name="selectedOrganization.iconURL"
+          :name="selectedMenuItem.iconURL"
           class="w-5 h-5 mr-4 align-middle"
           aria-hidden="true"
         />
-        <span>{{ $t(selectedOrganization.label) }}</span>
+        <span>{{ $t(selectedMenuItem.label) }}</span>
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
@@ -33,102 +31,42 @@
           class="bg-light-menu-selection dark:bg-dark-menu-selection focus-brand"
         >
           <ListboxOption
-            v-for="option in organizationButtons"
+            v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
+              ? menuEntryState.organizationEntry.value
+              : menuEntryState.eventEntry.value"
             v-slot="{ active, selected }"
-            :key="option.id"
-            :value="option"
-            :disabled="!option.active"
+            :key="menuEntry.id"
+            :value="menuEntry"
+            :disabled="!menuEntry.active"
           >
-            <li
-              class="flex items-center align-middle relative cursor-default select-none py-2 pl-5"
-              :class="{
-                'bg-light-header dark:bg-dark-section-div text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
-                  selected && active,
-                'bg-light-distinct dark:bg-dark-distinct text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
-                  selected && !active,
-                'bg-light-highlight dark:bg-dark-highlight text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
-                  !selected && active,
-                'text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
-                  !active && option.active,
-                'text-light-special-text dark:text-dark-special-text fill-light-special-text dark:fill-dark-special-text':
-                  !active && !option.active,
-              }"
-            >
-              <Icon
-                :name="option.iconURL"
-                class="w-5 h-5 mr-4 align-middle"
-                aria-hidden="true"
-              />
-              <span
-                class="block truncate"
-                :class="{ 'font-medium': selected, 'font-normal': !selected }"
-                >{{ $t(option.label) }}</span
+            <NuxtLink @click="handleItemClick(menuEntry)">
+              <li
+                class="flex items-center align-middle relative cursor-default select-none py-2 pl-5"
+                :class="{
+                  'bg-light-header dark:bg-dark-section-div text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
+                    selected && active,
+                  'bg-light-distinct dark:bg-dark-distinct text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
+                    selected && !active,
+                  'bg-light-highlight dark:bg-dark-highlight text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
+                    !selected && active,
+                  'text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
+                    !active && menuEntry.active,
+                  'text-light-special-text dark:text-dark-special-text fill-light-special-text dark:fill-dark-special-text':
+                    !active && !menuEntry.active,
+                }"
               >
-            </li>
-          </ListboxOption>
-        </ListboxOptions>
-      </transition>
-    </Listbox>
-    <Listbox v-if="sidebarType === 'event'" v-model="selectedEvent">
-      <ListboxButton
-        class="flex items-center align-middle text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct relative w-full py-2 pl-5 text-left shadow-sm shadow-zinc-700 focus-brand"
-      >
-        <Icon
-          :name="selectedEvent.iconURL"
-          class="w-5 h-5 mr-4 align-middle"
-          aria-hidden="true"
-        />
-        <span>{{ $t(selectedEvent.label) }}</span>
-        <span
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
-        >
-          <Icon
-            name="bi:chevron-expand"
-            class="w-5 h-5 mr-2 align-middle"
-            aria-hidden="true"
-        /></span>
-      </ListboxButton>
-      <transition
-        leave-active-class="transition duration-100 ease-in"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <ListboxOptions
-          class="bg-light-menu-selection dark:bg-dark-menu-selection focus-brand"
-        >
-          <ListboxOption
-            v-for="option in eventButtons"
-            v-slot="{ active, selected }"
-            :key="option.id"
-            :value="option"
-            :disabled="!option.active"
-          >
-            <li
-              class="flex items-center align-middle relative cursor-default select-none py-2 pl-5"
-              :class="{
-                'bg-light-section-div dark:bg-dark-section-div text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
-                  selected && active,
-                'bg-light-distinct dark:bg-dark-distinct text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
-                  selected && !active,
-                'bg-light-highlight dark:bg-dark-highlight text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
-                  !selected && active,
-                'text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
-                  !active && option.active,
-                'text-light-special-text dark:text-dark-special-text fill-light-special-text dark:fill-dark-special-text':
-                  !active && !option.active,
-              }"
-            >
-              <Icon
-                :name="option.iconURL"
-                class="w-5 h-5 mr-4 align-middle"
-                aria-hidden="true"
-              />
-              <span
-                class="block truncate"
-                :class="{ 'font-medium': selected, 'font-normal': !selected }"
-                >{{ $t(option.label) }}</span
-              >
-            </li>
+                <Icon
+                  :name="menuEntry.iconURL"
+                  class="w-5 h-5 mr-4 align-middle"
+                  aria-hidden="true"
+                />
+                <span
+                  class="block truncate"
+                  :class="{ 'font-medium': selected, 'font-normal': !selected }"
+                  >{{ $t(menuEntry.label) }}</span
+                >
+              </li>
+            </NuxtLink>
           </ListboxOption>
         </ListboxOptions>
       </transition>
@@ -143,186 +81,64 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
-import { MenuSelector } from "~/types/menu-selector";
+import useMenuEntriesState from "~/composables/useMenuEntriesState";
+import MenuEntry from "~/types/menu-entry";
+import { SidebarType } from "~/types/sidebar-type";
 
 const route = useRoute();
-const { id } = useRoute().params;
 const { locale } = useI18n();
 
-let sidebarType = "";
-if (route.path.includes(locale.value + "/search")) {
-  sidebarType = "search";
-} else if (route.path.includes(locale.value + "/home")) {
-  sidebarType = "home";
-} else if (route.path.includes(locale.value + "/organizations")) {
-  // We're in /organizations.
-  if (
-    // Check to see if we're on a sub page where we need id information.
+function currentRoutePathIncludes(path: string): boolean {
+  const { locale } = useI18n();
+
+  return route.path.includes(locale.value + path);
+}
+const handleItemClick = (menuEntry: MenuEntry) => {
+  console.log("Clicked item:", menuEntry);
+  console.log("Router:", useRouter());
+  const router = useRouter();
+  console.log("Current route:", router.currentRoute.value.fullPath);
+  console.log("Target route:", menuEntry.routeURL);
+  router.push(menuEntry.routeURL);
+};
+function isCurrentRoutePathSubpageOf(path: string) {
+  return (
     route.path.length >
-      (
-        route.path.split(locale.value + "/organizations/", 1) +
-        locale.value +
-        "/organizations/"
-      ).length +
+      (route.path.split(locale.value + path, 1) + locale.value + path).length +
         1 &&
-    route.path.split(locale.value + "/organizations/").pop() !== "search" &&
-    route.path.split(locale.value + "/organizations/").pop() !== "search/"
-  ) {
-    sidebarType = "organization";
-  } else {
-    // We're on /organizations itself or /organizations/search.
-    sidebarType = "filter organizations";
-  }
-} else if (route.path.includes(locale.value + "/events")) {
-  // We're in /events.
-  if (
-    // Check to see if we're on a sub page where we need id information.
-    route.path.length >
-      (
-        route.path.split(locale.value + "/events/", 1) +
-        locale.value +
-        "/events/"
-      ).length +
-        1 &&
-    route.path.split(locale.value + "/events/").pop() !== "search" &&
-    route.path.split(locale.value + "/events/").pop() !== "search/"
-  ) {
-    sidebarType = "event";
-  } else {
-    // We're on /events itself or /events/search.
-    sidebarType = "filter events";
-  }
-} else {
-  // TODO: Handle this state.
-  sidebarType = "misc";
+    route.path.split(locale.value + path).pop() !== "search" &&
+    route.path.split(locale.value + path).pop() !== "search/"
+  );
 }
 
-const organizationButtons: MenuSelector[] = [
+const pathToSidebarTypeMap = [
+  { path: "/search", type: SidebarType.SEARCH },
+  { path: "/home", type: SidebarType.HOME },
   {
-    id: 1,
-    label: "_global.about",
-    routeURL: "/organizations/" + id + "/about",
-    iconURL: "bi:card-text",
-    selected: useRoute().path.split("/").pop() === "about" ? true : false,
-    active: true,
+    path: "/organizations",
+    type: isCurrentRoutePathSubpageOf("/organizations/")
+      ? SidebarType.ORGANIZATION_PAGE
+      : SidebarType.FILTER_ORGANIZATIONS,
   },
   {
-    id: 2,
-    label: "_global.events",
-    routeURL: "/organizations/" + id + "/events",
-    iconURL: "bi:calendar-check",
-    selected: useRoute().path.split("/").pop() === "events" ? true : false,
-    active: true,
-  },
-  {
-    id: 3,
-    label: "components.sidebar-left-selector.label.groups",
-    routeURL: "/organizations/" + id + "/groups",
-    iconURL: "IconGroup",
-    selected: useRoute().path.split("/").pop() === "groups" ? true : false,
-    active: true,
-  },
-  {
-    id: 4,
-    label: "components._global.resources",
-    routeURL: "/organizations/" + id + "/resources",
-    iconURL: "IconResource",
-    selected: useRoute().path.split("/").pop() === "resources" ? true : false,
-    active: true,
-  },
-  {
-    id: 5,
-    label: "_global.faq",
-    routeURL: "/organizations/" + id + "/faq",
-    iconURL: "IconFAQ",
-    selected: useRoute().path.split("/").pop() === "faq" ? true : false,
-    active: true,
-  },
-  {
-    id: 6,
-    label: "components.sidebar-left-selector.label.settings",
-    routeURL: "/organizations/" + id + "/settings",
-    iconURL: "bi:gear",
-    selected: useRoute().path.split("/").pop() === "settings" ? true : false,
-    active: true,
-  },
-  {
-    id: 7,
-    label: "components.sidebar-left-selector.label.affiliates",
-    routeURL: "/organizations/" + id + "/affiliates",
-    iconURL: "IconSupport",
-    selected: useRoute().path.split("/").pop() === "affiliates" ? true : false,
-    active: false,
-  },
-  {
-    id: 8,
-    label: "components.sidebar-left-selector.label.tasks",
-    routeURL: "/organizations/" + id + "/tasks",
-    iconURL: "bi:check-square",
-    selected: useRoute().path.split("/").pop() === "tasks" ? true : false,
-    active: false,
-  },
-  {
-    id: 9,
-    label: "components.sidebar-left-selector.label.discussions",
-    routeURL: "/organizations/" + id + "/discussions",
-    iconURL: "octicon:comment-discussion-24",
-    selected: useRoute().path.split("/").pop() === "discussions" ? true : false,
-    active: false,
+    path: "/events",
+    type: isCurrentRoutePathSubpageOf("/events/")
+      ? SidebarType.EVENT_PAGE
+      : SidebarType.FILTER_EVENTS,
   },
 ];
 
-const eventButtons: MenuSelector[] = [
-  {
-    id: 1,
-    label: "_global.about",
-    routeURL: "/events/" + id + "/about",
-    iconURL: "bi:card-text",
-    selected: useRoute().path.split("/").pop() === "about" ? true : false,
-    active: true,
-  },
-  {
-    id: 2,
-    label: "components.sidebar-left-selector.label.team",
-    routeURL: "/events/" + id + "/team",
-    iconURL: "bi:people",
-    selected: useRoute().path.split("/").pop() === "team" ? true : false,
-    active: true,
-  },
-  {
-    id: 3,
-    label: "components._global.resources",
-    routeURL: "/events/" + id + "/resources",
-    iconURL: "IconResource",
-    selected: useRoute().path.split("/").pop() === "resources" ? true : false,
-    active: true,
-  },
-  {
-    id: 4,
-    label: "components.sidebar-left-selector.label.settings",
-    routeURL: "/events/" + id + "/settings",
-    iconURL: "bi:gear",
-    selected: useRoute().path.split("/").pop() === "settings" ? true : false,
-    active: true,
-  },
-  {
-    id: 5,
-    label: "components.sidebar-left-selector.label.tasks",
-    routeURL: "/events/" + id + "/tasks",
-    iconURL: "bi:check-square",
-    selected: useRoute().path.split("/").pop() === "tasks" ? true : false,
-    active: false,
-  },
-  {
-    id: 6,
-    label: "components.sidebar-left-selector.label.discussions",
-    routeURL: "/events/" + id + "/discussions",
-    iconURL: "octicon:comment-discussion-24",
-    selected: useRoute().path.split("/").pop() === "discussions" ? true : false,
-    active: false,
-  },
-];
+const sidebarType =
+  pathToSidebarTypeMap.find((item) => currentRoutePathIncludes(item.path))
+    ?.type || SidebarType.MISC;
+const menuEntryState = useMenuEntriesState();
+const selectedMenuItem = ref<MenuEntry | undefined>(undefined);
 
-const selectedOrganization = ref(organizationButtons[0]);
-const selectedEvent = ref(eventButtons[0]);
+watchEffect(() => {
+  selectedMenuItem.value = useRouter().currentRoute.value.fullPath.includes(
+    "organizations"
+  )
+    ? menuEntryState.organizationEntry.value.find((e) => e.selected)
+    : menuEntryState.eventEntry.value.find((e) => e.selected);
+});
 </script>

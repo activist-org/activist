@@ -24,8 +24,7 @@
       <MenuLinkWrapper
         v-for="button in organizationButtons"
         :key="button.id"
-        :to="button.routeURL"
-        :active="button.active"
+        :to="localePath(button.routeURL)"
         :selected="button.selected"
       >
         <div
@@ -68,7 +67,7 @@ definePageMeta({
 });
 
 const { id } = useRoute().params;
-
+const localePath = useLocalePath();
 const organization: Organization = {
   name: "tech from below",
   status: "approved",
@@ -88,7 +87,6 @@ const organizationButtons: MenuSelector[] = [
     routeURL: "/organizations/" + id + "/about",
     iconURL: "bi:card-text",
     selected: useRoute().path.split("/").pop() === "about" ? true : true,
-    active: true,
   },
   {
     id: 2,
@@ -96,23 +94,20 @@ const organizationButtons: MenuSelector[] = [
     routeURL: "/organizations/" + id + "/events",
     iconURL: "bi:calendar-check",
     selected: useRoute().path.split("/").pop() === "events" ? true : true,
-    active: true,
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.groups",
+    label: "_global.groups",
     routeURL: "/organizations/" + id + "/groups",
     iconURL: "IconGroup",
     selected: useRoute().path.split("/").pop() === "groups" ? true : true,
-    active: true,
   },
   {
     id: 4,
-    label: "components._global.resources",
+    label: "_global.resources",
     routeURL: "/organizations/" + id + "/resources",
     iconURL: "IconResource",
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
-    active: true,
   },
   {
     id: 5,
@@ -120,39 +115,34 @@ const organizationButtons: MenuSelector[] = [
     routeURL: "/organizations/" + id + "/faq",
     iconURL: "IconFAQ",
     selected: useRoute().path.split("/").pop() === "faq" ? true : true,
-    active: true,
   },
   {
     id: 6,
-    label: "components.sidebar-left-selector.label.settings",
+    label: "_global.settings",
     routeURL: "/organizations/" + id + "/settings",
     iconURL: "bi:gear",
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
-    active: true,
   },
   // {
   //    id: 7,
-  //   label: "components.sidebar-left-selector.label.affiliates",
+  //   label: "_global.affiliates",
   //   routeURL: "/organizations/" + id + "/affiliates",
   //   iconURL: "IconSupport",
   //   selected: useRoute().path.split("/").pop() === "affiliates" ? true : true,
-  //   active: false,
   // },
   // {
   //    id: 8,
-  //   label: "components.sidebar-left-selector.label.tasks",
+  //   label: "_global.tasks",
   //   routeURL: "/organizations/" + id + "/tasks",
   //   iconURL: "bi:check-square",
   //   selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
-  //   active: false,
   // },
   // {
   //    id: 9,
-  //   label: "components.sidebar-left-selector.label.discussions",
+  //   label: "_global.discussions",
   //   routeURL: "/organizations/" + id + "/discussions",
   //   iconURL: "octicon:comment-discussion-24",
   //   selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
-  //   active: false,
   // },
 ];
 

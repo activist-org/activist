@@ -1,5 +1,5 @@
 <template>
-  <Tooltip
+  <TooltipBase
     class="transition ease-in-out delay-150 min-w-[200px] md:min-w-[450px] pt-2 pb-4 z-20"
   >
     <span class="mb-2 px-2">{{
@@ -19,7 +19,7 @@
         $t(passwordRequirementsDict[rule.message])
       }}</span>
     </div>
-  </Tooltip>
+  </TooltipBase>
 </template>
 <script setup lang="ts">
 import { PasswordRules } from "~/types/password-rules";
