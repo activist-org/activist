@@ -1,6 +1,6 @@
 <template>
   <ModalBase imageModal>
-    <template v-slot:normalDisplay>
+    <template #normalDisplay>
       <button
         class="hidden p-4 cursor-pointer md:block md:float-right md:w-1/3 2xl:w-full 2xl:col-span-1 h-min focus-brand"
         :aria-label="$t('components.modal-image.open-modal-aria-label')"
@@ -17,7 +17,7 @@
         />
       </button>
     </template>
-    <template v-slot:modalDisplay>
+    <template #modalDisplay>
       <img
         v-if="$colorMode.value == 'light'"
         class="object-contain p-12"

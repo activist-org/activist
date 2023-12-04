@@ -1,6 +1,6 @@
 <template>
   <ModalBase>
-    <template v-slot:normalDisplay>
+    <template #normalDisplay>
       <div
         class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md sm:w-16 sm:h-16 elem-on-card-style cursor-pointer"
       >
@@ -20,7 +20,7 @@
         </div>
       </div>
     </template>
-    <template v-slot:modalDisplay>
+    <template #modalDisplay>
       <DialogTitle class="font-display flex justify-between">
           <p class="text-3xl md:responsive-h2 font-bold">
             {{ $t("components.modal-qr-code.header") }}

@@ -63,7 +63,7 @@
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import { ref } from "vue";
 
-const props = defineProps<{
+defineProps<{
   imageModal?: boolean;
 }>();
 
