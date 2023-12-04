@@ -61,8 +61,6 @@ definePageMeta({
   layout: "sidebar",
 });
 
-const topicItems = ["Topic 1", "Topic 2", "Topic 3", "Topic 4"];
-
 const resource: Resource = {
   name: "Test Resource",
   organization: "Testers LLC",
