@@ -1,5 +1,5 @@
 <template>
-  <ModalBase modalTitle="QR code">
+  <ModalBase>
     <template v-slot:normalDisplay>
       <div
         class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md sm:w-16 sm:h-16 elem-on-card-style cursor-pointer"
@@ -21,6 +21,11 @@
       </div>
     </template>
     <template v-slot:modalDisplay>
+      <DialogTitle class="font-display flex justify-between">
+          <p class="text-3xl md:responsive-h2 font-bold">
+            {{ $t("components.modal-qr-code.header") }}
+          </p>
+      </DialogTitle>
       <div
           class="flex flex-col items-center md:grid md:grid-cols-2 md:grid-rows-1 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
         >

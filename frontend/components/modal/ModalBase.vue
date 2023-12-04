@@ -14,8 +14,8 @@
       :class="[
         imageModal
           ? 'fixed top-0 z-10 flex flex-col items-center w-full h-screen overflow-hidden cursor-pointer bg-light-popup dark:bg-dark-popup'
-          : 'fixed inset-0 flex w-screen items-center justify-center'
-        ]"
+          : 'fixed inset-0 flex w-screen items-center justify-center',
+      ]"
     >
       <DialogPanel
         :class="[
@@ -32,28 +32,27 @@
         >
           <Icon class="w-10 h-10" name="bi:x-circle-fill" />
         </button>
-        <DialogTitle v-else class="font-display flex justify-between">
-          <p class="text-3xl md:responsive-h2 font-bold">
-            <!-- $t to go here -->
-            {{ modalTitle }}
-          </p>
+        <div 
+          v-else
+          class="relative"
+          >
           <button
             @click="closeModal"
-            class="p-1 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
+            class="absolute right-0 p-1 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
           >
             <Icon class="w-10 h-10" name="bi:x-circle-fill" />
           </button>
-        </DialogTitle>
+        </div>
         <button
           v-if="imageModal"
-          @click="closeImgModal"
+          @click="closeModal"
           class="flex flex-col items-center justify-center w-4/5 focus-brand"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
           <slot name="modalDisplay"></slot>
         </button>
         <div v-else>
-            <slot name="modalDisplay"></slot>
+          <slot name="modalDisplay"></slot>
         </div>
       </DialogPanel>
     </div>
@@ -66,7 +65,6 @@ import { ref } from "vue";
 
 const props = defineProps<{
   imageModal?: boolean;
-  modalTitle?: string;
 }>();
 
 const isOpen = ref(false);
@@ -77,9 +75,5 @@ function openModal() {
 
 function closeModal() {
   isOpen.value = false;
-}
-
-function closeImgModal() {
-  if (isOpen.value && props.imageModal) isOpen.value = false;
 }
 </script>
