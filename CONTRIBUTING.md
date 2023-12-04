@@ -175,10 +175,9 @@ cd activist
 git remote add upstream https://github.com/activist-org/activist.git
 ```
 
-Now, if you run `git remote -v` you should see two remote repositories named:
-
-- `origin` (forked repository)
-- `upstream` (activist repository)
+- Now, if you run `git remote -v` you should see two remote repositories named:
+  - `origin` (forked repository)
+  - `upstream` (activist repository)
 
 4. Create a `.env` file and start your docker images with the following:
 
