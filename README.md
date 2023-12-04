@@ -121,7 +121,7 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 > </p>
 > </details>
 
-2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
+2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker Compose](https://docs.docker.com/compose).
 
 > [!NOTE]
 > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
@@ -163,9 +163,9 @@ Now, if you run `git remote -v` you should see two remote repositories named:
 
    ```bash
    cp .env.example .env
-   docker-compose up
+   docker compose up
    # Or with new dependencies:
-   # docker-compose up --build
+   # docker compose up --build
    ```
 
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
