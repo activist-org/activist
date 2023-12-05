@@ -9,7 +9,7 @@ from django.test import override_settings
 
 class BaseTestThrottle:
     __test__ = False
-    url = None  # Subclasses must specify
+    url = ""  # Subclasses must specify
     client = APIClient()
     anon_throttle = "7/min"  # Default
     user_throttle = "10/min"  # Default

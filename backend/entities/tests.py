@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
-import tests
+from tests.test_base import BaseTestThrottle
 
 
-class EntitiesThrottleTest(tests.BaseTestThrottle):
+class EntitiesThrottleTest(BaseTestThrottle):
     __test__ = True
     url = reverse("entities:organization-list")
     anon_throttle = "7/min"

@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
-import tests
+from tests.test_base import BaseTestThrottle
 
 
-class EventsThrottleTest(tests.BaseTestThrottle):
+class EventsThrottleTest(BaseTestThrottle):
     __test__ = True
     url = reverse("events:event-list")
     anon_throttle = "7/min"

@@ -1,16 +1,14 @@
 from .factory import ResourceFactory, TaskFactory, TopicFactory, ResourceTopicFactory
-import tests
+from tests.test_base import BaseTestThrottle
 from django.urls import reverse
 
 
 import pytest
 
-from django.contrib.auth.models import User
-
 from django.test import TestCase
 
 
-class ContentThrottleTest(tests.BaseTestThrottle):
+class ContentThrottleTest(BaseTestThrottle):
     __test__ = True
     url = reverse("content:resource-list")
     anon_throttle = "7/min"
