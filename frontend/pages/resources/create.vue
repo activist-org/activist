@@ -38,13 +38,13 @@
                 >{{ $t("pages.resources.create.link") }}*</label
               >
               <input
-                v-model="formData.url"
+                v-model="formData.link"
                 id="location"
                 class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
                 type="text"
                 name="location"
                 :placeholder="
-                  $t('pages.resources.create.location-placeholder')
+                  $t('pages.resources.create.link-placeholder')
                 "
               />
             </div>
@@ -78,14 +78,14 @@
             </div>
             <div class="flex-1 px-5 py-6">
                 <label for="location" class="block font-medium responsive-h3">
-                {{ $t("pages.resources.create.location") }}*
+                {{ $t("pages.resources.create.organization") }}*
                 </label>
                 <textarea
                 v-model="formData.organization"
-                id="location"
+                id="organization"
                 class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
-                name="location"
-                :placeholder="$t('pages.resources.create.location-placeholder')"
+                name="organization"
+                :placeholder="$t('pages.resources.create.organization-placeholder')"
                 ></textarea>
             </div>
             </div>
@@ -119,7 +119,7 @@
     name: "",
     location: "",
     description: "",
-    url: "",
+    link: "",
     organization:"",
     topics: ["justice", "activism"],
   });
@@ -132,7 +132,7 @@
         body: JSON.stringify({
           name: formData.value.name,
           location: formData.value.location,
-          url: formData.value.url,
+          url: formData.value.link,
           description: formData.value.description,
           social_accounts: ["https://twitter.com/activist_hq"],
           created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
