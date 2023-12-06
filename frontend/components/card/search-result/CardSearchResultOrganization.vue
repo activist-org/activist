@@ -70,7 +70,6 @@
 import type { Organization } from "~/types/organization";
 
 defineProps<{
-  isPrivate?: boolean;
   organization: Organization;
 }>();
 </script>
