@@ -41,16 +41,11 @@ export default <Partial<Config>>{
           },
           popup: "rgba(255, 255, 255, 0.90)",
           btn: "rgba(200, 200, 200, 1)",
-
-          "cta-orange": {
-            DEFAULT: "rgba(242, 166, 84, 1)",
-            hover: "rgba(245, 186, 122, 1)",
-            light: "rgba(245, 186, 122, 1)",
-          },
+          "cta-orange": "rgba(242, 166, 84, 1)",
           "action-red": "rgba(186, 61, 59, 1)",
           "learn-blue": "rgba(33, 118, 174, 1)",
           "accepted-green": "rgba(62, 137, 20, 1)",
-          "pending-yellow": "rgba(255, 191, 0, 1)",
+          "warn-yellow": "rgba(255, 191, 0, 1)",
         },
 
         dark: {
@@ -73,16 +68,11 @@ export default <Partial<Config>>{
           },
           popup: "rgba(6, 8, 15, 0.90)",
           btn: "rgba(13, 17, 23, 1)",
-
-          "cta-orange": {
-            DEFAULT: "rgba(241, 156, 65, 1)",
-            hover: "rgba(244, 176, 103, 1)",
-            light: "rgba(244, 176, 103, 1)",
-          },
+          "cta-orange": "rgba(241, 156, 65, 1)",
           "action-red": "rgba(238, 90, 88, 1)",
           "learn-blue": "rgba(62, 146, 204, 1)",
           "accepted-green": "rgba(97, 139, 37, 1)",
-          "pending-yellow": "rgba(255, 209, 102, 1)",
+          "warn-yellow": "rgba(255, 209, 102, 1)",
         },
 
         social: {

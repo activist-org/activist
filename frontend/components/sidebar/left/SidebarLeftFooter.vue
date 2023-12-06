@@ -204,7 +204,7 @@ const createButtons: MenuSelector[] = [
   {
     id: 1,
     label: "components._global.new-event",
-    routeURL: "/",
+    routeURL: "/events/create",
     iconURL: "bi:calendar-check",
     selected: false,
   },

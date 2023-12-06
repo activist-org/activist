@@ -31,7 +31,7 @@
       />
       <button
         @click="toggleAdditionalInput"
-        class="rounded-r-md relative min-w-[3rem] h-9 border border-light-interactive dark:border-dark-interactive"
+        class="rounded-r-md relative min-w-[3rem] h-9 border border-light-interactive dark:border-dark-interactive focus-brand"
         :class="{
           'bg-light-header text-light-special-text dark:bg-dark-header dark:text-dark-special-text':
             !showAdditionalInput,
