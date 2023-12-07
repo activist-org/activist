@@ -94,7 +94,7 @@
       <!-- Note: Organization Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components._global.organization") }}
+          {{ $t("_global.organization") }}
         </p>
         <template v-for="(oLink, index) in links.organizationLinks">
           <p

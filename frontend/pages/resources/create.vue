@@ -5,7 +5,7 @@
       <PageBreadcrumbs class="mt-2" :breadcrumbs="breadcrumbs" />
       <div class="mt-4">
         <h1 class="font-bold responsive-h2">
-          {{ $t("pages.resources.create.header") }}
+          {{ $t("pages._global.information") }}
         </h1>
         <p class="mt-4">
           {{ $t("pages.resources.create.subtext") }}
@@ -20,7 +20,7 @@
         >
           <div class="w-1/2">
             <label for="name" class="block font-medium responsive-h3"
-              >{{ $t("pages.resources.create.resource-name") }}*</label
+              >{{ $t("pages._global.name-label") }}*</label
             >
             <input
               v-model="formData.name"
@@ -74,7 +74,7 @@
           </div>
           <div class="flex-1 px-5 py-6">
             <label for="location" class="block font-medium responsive-h3">
-              {{ $t("pages.resources.create.organization") }}*
+              {{ $t("_global.organization") }}*
             </label>
             <textarea
               v-model="formData.organization"

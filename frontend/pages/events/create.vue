@@ -5,7 +5,7 @@
       <PageBreadcrumbs class="mt-2" :breadcrumbs="breadcrumbs" />
       <div class="mt-4">
         <h1 class="font-bold responsive-h2">
-          {{ $t("pages.events.create.header.information") }}
+          {{ $t("pages._global.information") }}
         </h1>
       </div>
       <div class="pt-3 pb-6 space-y-6 md:pt-4 w-1/2">
