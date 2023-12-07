@@ -1,45 +1,32 @@
 <template>
-  <div
-    @click="setIsOpen(true)"
-    class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md sm:w-16 sm:h-16 elem-on-card-style cursor-pointer"
-  >
-    <div class="sm:hidden">
-      <Icon
-        name="bi:qr-code-scan"
-        size="2em"
-        :alt="$t('components.modal-qr-code.img-alt-text')"
-      />
-    </div>
-    <div class="hidden sm:block">
-      <Icon
-        name="bi:qr-code-scan"
-        size="3em"
-        :alt="$t('components.modal-qr-code.img-alt-text')"
-      />
-    </div>
-  </div>
-  <Dialog @close="setIsOpen(false)" class="relative z-50" :open="isOpen">
-    <div
-      class="fixed inset-0 bg-light-popup dark:bg-dark-popup"
-      aria-hidden="true"
-    />
-    <div class="fixed inset-0 flex w-screen items-center justify-center">
-      <DialogPanel
-        class="pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style text-light-text dark:text-dark-text container p-5"
+  <ModalBase>
+    <template #normalDisplay>
+      <div
+        class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md sm:w-16 sm:h-16 elem-on-card-style cursor-pointer"
       >
-        <DialogTitle class="font-display flex justify-between">
+        <div class="sm:hidden">
+          <Icon
+            name="bi:qr-code-scan"
+            size="2em"
+            :alt="$t('components.modal-qr-code.img-alt-text')"
+          />
+        </div>
+        <div class="hidden sm:block">
+          <Icon
+            name="bi:qr-code-scan"
+            size="3em"
+            :alt="$t('components.modal-qr-code.img-alt-text')"
+          />
+        </div>
+      </div>
+    </template>
+    <template #modalDisplay>
+      <DialogTitle class="font-display flex justify-between">
           <p class="text-3xl md:responsive-h2 font-bold">
             {{ $t("components.modal-qr-code.header") }}
           </p>
-          <button
-            @click="setIsOpen(false)"
-            class="p-1 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
-            :aria-label="$t('components.modal-qr-code.close-modal-aria-label')"
-          >
-            <Icon class="w-10 h-10" name="bi:x-circle-fill" />
-          </button>
-        </DialogTitle>
-        <div
+      </DialogTitle>
+      <div
           class="flex flex-col items-center md:grid md:grid-cols-2 md:grid-rows-1 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
         >
           <div
@@ -97,15 +84,12 @@
             "
           />
         </div>
-      </DialogPanel>
-    </div>
-  </Dialog>
+    </template>
+  </ModalBase>
 </template>
 
 <script setup lang="ts">
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/vue";
 import html2canvas from "html2canvas";
-import { ref } from "vue";
 
 const props = defineProps<{
   entityName: string;
@@ -133,8 +117,4 @@ function downloadQRCode() {
   });
 }
 
-const isOpen = ref(false);
-function setIsOpen(value: boolean) {
-  isOpen.value = value;
-}
 </script>
