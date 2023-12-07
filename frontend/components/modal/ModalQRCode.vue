@@ -22,60 +22,44 @@
     </template>
     <template #modalDisplay>
       <DialogTitle class="font-display flex justify-between">
-          <p class="text-3xl md:responsive-h2 font-bold">
-            {{ $t("components.modal-qr-code.header") }}
-          </p>
+        <p class="text-3xl md:responsive-h2 font-bold">
+          {{ $t("components.modal-qr-code.header") }}
+        </p>
       </DialogTitle>
       <div
-          class="flex flex-col items-center md:grid md:grid-cols-2 md:grid-rows-1 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="flex flex-col items-center md:grid md:grid-cols-2 md:grid-rows-1 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+      >
+        <div
+          class="items-center space-y-4 text-left col-span-2 pt-2 font-medium"
         >
-          <div
-            class="items-center space-y-4 text-left col-span-2 pt-2 font-medium"
-          >
-            <p>
-              {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}
-            </p>
-            <p v-if="false">
-              {{
-                $t(
-                  "components.modal-qr-code.section-1-paragraph-1-organization"
-                )
-              }}
-            </p>
-            <p>
-              {{ $t("components.modal-qr-code.subheader-2") }}
-            </p>
-            <ul class="pl-6 md:pl-8 list-disc">
-              <li>
-                {{ $t("components.modal-qr-code.section-2-list-1-item-1") }}
-              </li>
-              <li>
-                {{ $t("components.modal-qr-code.section-2-list-1-item-2") }}
-              </li>
-              <li>
-                {{ $t("components.modal-qr-code.section-2-list-1-item-3") }}
-              </li>
-            </ul>
-            <p>
-              {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
-            </p>
-            <BtnLabeled
-              @click="downloadQRCode()"
-              class="hidden md:flex"
-              :cta="true"
-              :label="$t('components.modal-qr-code.download-qr-code')"
-              fontSize="lg"
-              :ariaLabel="
-                $t('components.modal-qr-code.download-qr-code-aria-label')
-              "
-            />
-          </div>
-          <div class="px-4 md:pl-8 md:pb-10">
-            <QRCode class="rounded-3xl elem-shadow-md" />
-          </div>
+          <p>
+            {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}
+          </p>
+          <p v-if="false">
+            {{
+              $t("components.modal-qr-code.section-1-paragraph-1-organization")
+            }}
+          </p>
+          <p>
+            {{ $t("components.modal-qr-code.subheader-2") }}
+          </p>
+          <ul class="pl-6 md:pl-8 list-disc">
+            <li>
+              {{ $t("components.modal-qr-code.section-2-list-1-item-1") }}
+            </li>
+            <li>
+              {{ $t("components.modal-qr-code.section-2-list-1-item-2") }}
+            </li>
+            <li>
+              {{ $t("components.modal-qr-code.section-2-list-1-item-3") }}
+            </li>
+          </ul>
+          <p>
+            {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
+          </p>
           <BtnLabeled
             @click="downloadQRCode()"
-            class="flex md:hidden"
+            class="hidden md:flex"
             :cta="true"
             :label="$t('components.modal-qr-code.download-qr-code')"
             fontSize="lg"
@@ -84,6 +68,20 @@
             "
           />
         </div>
+        <div class="px-4 md:pl-8 md:pb-10">
+          <QRCode class="rounded-3xl elem-shadow-md" />
+        </div>
+        <BtnLabeled
+          @click="downloadQRCode()"
+          class="flex md:hidden"
+          :cta="true"
+          :label="$t('components.modal-qr-code.download-qr-code')"
+          fontSize="lg"
+          :ariaLabel="
+            $t('components.modal-qr-code.download-qr-code-aria-label')
+          "
+        />
+      </div>
     </template>
   </ModalBase>
 </template>
@@ -116,5 +114,4 @@ function downloadQRCode() {
     style.remove();
   });
 }
-
 </script>

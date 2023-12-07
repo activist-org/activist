@@ -20,13 +20,13 @@
     <template #modalDisplay>
       <img
         v-if="$colorMode.value == 'light'"
-        class="object-contain p-12"
+        class="object-contain w-4/5"
         :src="imageURL + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        class="object-contain p-12"
+        class="object-contain w-4/5"
         :src="imageURL + '_dark.png'"
         :alt="$t(imageAltText)"
       />

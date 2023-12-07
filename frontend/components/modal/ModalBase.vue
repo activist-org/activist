@@ -1,28 +1,29 @@
 <template>
-  <!-- Normal display on page -->
-  <div @click="openModal">
-    <slot name="normalDisplay"></slot>
+  <!-- Normal display on the page. -->
+  <div @click="openModal" class="h-fit">
+    <slot name="normalDisplay" />
   </div>
-  <!-- Modal pop up -->
+  <!-- Modal pop up from page element. -->
   <Dialog @close="closeModal" class="relative z-50" :open="isOpen">
     <div
       @click="closeModal"
-      class="fixed inset-0 bg-light-popup dark:bg-dark-popup"
+      class="fixed inset-0 bg-light-popup dark:bg-dark-popup cursor-pointer"
       aria-hidden="true"
     />
     <div
-      :class="[
-        imageModal
-          ? 'fixed top-0 z-10 flex flex-col items-center w-full h-screen overflow-hidden cursor-pointer bg-light-popup dark:bg-dark-popup'
-          : 'fixed inset-0 flex w-screen items-center justify-center',
-      ]"
+      class="cursor-pointer"
+      :class="{
+        'fixed top-0 z-10 flex flex-col items-center w-full h-screen overflow-hidden':
+          imageModal,
+        'fixed inset-0 flex w-screen items-center justify-center': !imageModal,
+      }"
     >
       <DialogPanel
-        :class="[
-          imageModal
-            ? 'flex flex-col items-center'
-            : 'pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style text-light-text dark:text-dark-text container p-5',
-        ]"
+        :class="{
+          'flex flex-col items-center': imageModal,
+          'pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style text-light-text dark:text-dark-text container p-5 cursor-default':
+            !imageModal,
+        }"
       >
         <button
           v-if="imageModal"
@@ -43,13 +44,13 @@
         <div
           v-if="imageModal"
           @click="closeModal"
-          class="flex flex-col items-center justify-center w-4/5 focus-brand"
+          class="flex flex-col items-center justify-center focus-brand"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
-          <slot name="modalDisplay"></slot>
+          <slot name="modalDisplay" />
         </div>
         <div v-else>
-          <slot name="modalDisplay"></slot>
+          <slot name="modalDisplay" />
         </div>
       </DialogPanel>
     </div>
