@@ -48,7 +48,7 @@
         <div
           class="flex justify-center space-x-3 lg:space-x-4 md:justify-start"
         >
-          <MetaTagOrganization :organizations="resource.organizations" />
+          <MetaTagOrganization :organizations="[resource.organization]" />
           <MetaTagStars
             :stars="resource.stars"
             label="components.meta-tag-stars.label"
