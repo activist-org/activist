@@ -225,7 +225,7 @@ const createButtons: MenuSelector[] = [
   {
     id: 4,
     label: "components._global.new-resource",
-    routeURL: "/",
+    routeURL: "/resources/create",
     iconURL: "IconResource",
     selected: false,
   },
