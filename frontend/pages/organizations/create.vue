@@ -35,7 +35,7 @@
           </div>
           <div class="w-1/2">
             <label for="location" class="block font-medium responsive-h3"
-              >{{ $t("pages.organizations.create.location") }}*</label
+              >{{ $t("pages._global.location") }}*</label
             >
             <input
               v-model="formData.location"

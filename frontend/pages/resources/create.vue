@@ -66,7 +66,7 @@
           <div class="mx-14 w-full flex card-style mt-5">
             <div class="flex-1 px-5 py-6">
                 <label for="location" class="block font-medium responsive-h3">
-                {{ $t("pages.resources.create.location") }}*
+                {{ $t("pages._global.location") }}*
                 </label>
                 <textarea
                 v-model="formData.location"
