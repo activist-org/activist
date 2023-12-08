@@ -25,11 +25,11 @@ jobs:
 
       - name: Run ruff format - Formatting check
         run: ruff ./backend
-        continue-on-error: true
 
       - name: Run ruff - Linting and import sorting check
+        if: always()
         run: ruff ./backend
-        continue-on-error: true
 
       - name: Run mypy - Static Type Checking
+        if: always()
         run: mypy ./backend --config-file ./backend/pyproject.toml
