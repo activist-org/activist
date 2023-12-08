@@ -1,4 +1,8 @@
 from rest_framework import viewsets
+from rest_framework.throttling import (
+    AnonRateThrottle,
+    UserRateThrottle,
+)
 
 from backend.paginator import CustomPagination
 
@@ -25,13 +29,6 @@ from .serializers import (
     EventTopicSerializer,
     FormatSerializer,
     RoleSerializer,
-)
-from rest_framework.throttling import (
-    AnonRateThrottle,
-    BaseThrottle,
-    ScopedRateThrottle,
-    SimpleRateThrottle,
-    UserRateThrottle,
 )
 
 

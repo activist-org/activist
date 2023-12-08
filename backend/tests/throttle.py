@@ -1,67 +1,72 @@
-from django import db
 import pytest
-from django.core.cache import cache
-from rest_framework.test import APIClient
 from django.contrib.auth import get_user_model
-from rest_framework import status
+from django.core.cache import cache
 from django.test import override_settings
+from rest_framework import status
+from rest_framework.test import APIClient
 
 
 class BaseTestThrottle:
+    """
+    Base class for testing throttling.
+    ----------------------------------
+
+    This is a base class for testing throttling.
+
+    Attributes:
+        url (str): The URL to test. Subclasses must specify.
+        anon_throttle (int): The number of requests allowed per minute for anonymous users.
+            (defaults 7)
+        user_throttle (int): The number of requests allowed per minute for authenticated users.
+            (defaults 10)
+    """
+
     __test__ = False
-    url = ""  # Subclasses must specify
+    url = ""
     client = APIClient()
-    anon_throttle = "7/min"  # Default
-    user_throttle = "10/min"  # Default
+    anon_throttle = 7
+    user_throttle = 10
 
     @pytest.mark.django_db
     @override_settings(
         REST_FRAMEWORK={
-            "DEFAULT_THROTTLE_RATES": {"anon": anon_throttle, "user": user_throttle}
+            "DEFAULT_THROTTLE_RATES": {
+                "anon": f"{anon_throttle}/min",
+                "user": f"{user_throttle}/min",
+            }
         }
     )
     def test_anon_rate_throttle(self) -> None:
-        if not self.url:
-            raise ValueError("No url provided")
-            
         cache.clear()
 
-        # Make 7 requests from the same IP address within a minute
-        limit = int(self.anon_throttle[0])
-        for _ in range(limit):
+        for _ in range(self.anon_throttle):
             response = self.client.get(self.url)
             assert response.status_code == 200
 
-        # Make another request and expect a 429 Too Many Requests response
         response = self.client.get(self.url)
         assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
 
     @pytest.mark.django_db
     @override_settings(
         REST_FRAMEWORK={
-            "DEFAULT_THROTTLE_RATES": {"anon": anon_throttle, "user": user_throttle}
+            "DEFAULT_THROTTLE_RATES": {
+                "anon": f"{anon_throttle}/min",
+                "user": f"{user_throttle}/min",
+            }
         }
     )
     def test_auth_rate_throttle(self) -> None:
-        if not self.url:
-            raise ValueError("No url provided")
-            
-        # Create a user for testing
         test_user = get_user_model().objects.create_user(
             username="testuser", email="testuser@example.com", password="testpassword"
         )
 
-        # Authenticate the user
         self.client.login(username="testuser", password="testpassword")
 
-        # Make 10 requests from the same user
-        limit = int(self.user_throttle[0])
         try:
-            for _ in range(10):
+            for _ in range(self.user_throttle):
                 response = self.client.get(self.url)
                 assert response.status_code == 200
 
-            # Make another request and expect a 429 Too Many Requests response
             response = self.client.get(self.url)
             assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
         finally:
