@@ -1,11 +1,7 @@
 from .factories import ResourceFactory, TaskFactory, TopicFactory, ResourceTopicFactory
 from tests.throttle import BaseTestThrottle
 from django.urls import reverse
-
-
 import pytest
-
-from django.test import TestCase
 
 
 class ContentThrottleTest(BaseTestThrottle):
