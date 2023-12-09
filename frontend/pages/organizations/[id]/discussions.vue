@@ -38,10 +38,15 @@
         />
       </div>
     </HeaderAppPage>
+    <div class="pt-3 pb-6 space-y-6 md:pt-4">
+      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
+      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { DiscussionEntry } from "~/types/card-discussion-entry";
 import { Organization } from "../../../types/organization";
 
 definePageMeta({
@@ -62,5 +67,16 @@ const organization: Organization = {
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
+};
+
+const discussion: DiscussionEntry = {
+  title: "Title of discussion ",
+  author: "John A. Tester",
+  category: "Category",
+  text: "I love to test!",
+  upVoters: 123,
+  participants: 3,
+  messages: 3,
+  creationDate: new Date(),
 };
 </script>

@@ -63,12 +63,12 @@
             name="bi:link-45deg"
             size="1.75em"
           />
-          <Icon
+          <!-- <Icon
             @click="attach()"
             class="cursor-pointer"
             name="bi:paperclip"
             size="1.6em"
-          />
+          /> -->
           <Icon
             @click="listul()"
             class="cursor-pointer"
@@ -83,11 +83,21 @@
           />
         </div>
       </div>
-      <div class="w-full md:w-full">
+      <div v-if="discussionInput.highRisk" class="w-full md:w-full">
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm text-light-text bg-light-content rounded-lg border border-light-section-div dark:bg-dark-content dark:border-dark-section-div placeholder-light-special-text dark:placeholder-dark-special-text dark:text-dark-text focus-brand"
+          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red focus-brand focus:border-none font-bold placeholder:text-light-action-red dark:placeholder:text-dark-action-red dark:text-dark-text bg-light-content dark:bg-dark-content"
+          :placeholder="
+            $t('components.card-discussion-input.leave-comment-highRisk')
+          "
+        ></textarea>
+      </div>
+      <div v-else class="w-full md:w-full">
+        <textarea
+          id="message"
+          rows="4"
+          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-special-text dark:placeholder-dark-special-text dark:text-dark-text dark:bg-dark-distinct focus-brand"
           :placeholder="$t('components.card-discussion-input.leave-comment')"
         ></textarea>
       </div>
@@ -96,7 +106,28 @@
           {{ $t("components.card-discussion-input.markdown-support") }}
           <Icon class="mx-1" name="bi:markdown" size="1.25em"></Icon>
         </p>
-        <div class="flex space-x-1">
+        <div class="flex space-x-3 items-center">
+          <Button
+            @mouseenter="showTooltip = true"
+            @mouseleave="showTooltip = false"
+            @click="showTooltip = showTooltip == true ? false : true"
+            class="relative flex rounded-lg w-16 h-10 elem-shadow-sm focus-brand justify-center items-center"
+            :class="{
+              'style-action': discussionInput.highRisk,
+              'style-warn': !discussionInput.highRisk,
+            }"
+          >
+            <Icon
+              v-if="discussionInput.highRisk"
+              name="bi:exclamation-octagon"
+              size="1.4em"
+            />
+            <Icon v-else name="bi:exclamation-triangle" size="1.4em" />
+            <TooltipDiscussionWarning
+              v-show="showTooltip"
+              class="-mt-64 md:-mt-56"
+            />
+          </Button>
           <BtnLabeled
             class="inline-flex justify-center items-center w-small"
             :cta="true"
@@ -110,46 +141,37 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import type { DiscussionInput } from "~/types/card-discussion-input";
-
+const showTooltip = ref(false);
 defineProps<{
   discussionInput: DiscussionInput;
 }>();
-
 const at = () => {
   console.log("click on at");
 };
-
 const heading = () => {
   console.log("click on heading");
 };
-
 const bold = () => {
   console.log("click on bold");
 };
-
 const italic = () => {
   console.log("click on italic");
 };
-
 const blockquote = () => {
   console.log("click on blockquote");
 };
-
 const link = () => {
   console.log("click on link");
 };
-
-const attach = () => {
-  console.log("click on attach");
-};
-
+// There is as of now no plan to add in attachments.
+// const attach = () => {
+//   console.log("click on attach");
+// };
 const listul = () => {
   console.log("click on listul");
 };
-
 const listol = () => {
   console.log("click on listol");
 };

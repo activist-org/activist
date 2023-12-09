@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit shadow-sm shadow-zinc-700 text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 text-base sm:text-lg xl:text-xl xl:px-6 xl:py-3"
+    class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 text-base sm:text-lg xl:text-xl xl:px-6 xl:py-3"
     :class="{
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
@@ -17,7 +17,7 @@
       :size="iconSize"
     />
     <span class="mx-auto hidden ml-2 md:block">{{
-      $t("components.marker-private.private")
+      $t("components.shield-private.private")
     }}</span>
   </div>
 </template>

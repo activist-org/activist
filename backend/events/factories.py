@@ -6,6 +6,7 @@ from .models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventFormat,
     EventResource,
     EventRole,
     EventTask,
@@ -70,7 +71,7 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
 
 class EventFormatFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Format
+        model = EventFormat
 
     event_id = factory.SubFactory(EventFactory)
     format_id = factory.SubFactory(FormatFactory)

@@ -1,5 +1,26 @@
-from .factory import OrganizationFactory, OrganizationApplicationFactory, OrganizationApplicationStatusFactory, OrganizationEventFactory, OrganizationMemberFactory, OrganizationResourceFactory, GroupFactory, OrganizationTaskFactory, OrganizationTopicFactory, GroupEventFactory, GroupMemberFactory, GroupResourceFactory, GroupTopic
-import pytest
+from django.urls import reverse
+from tests.throttle import BaseTestThrottle
+
+from .factories import (
+    OrganizationFactory,
+    OrganizationApplicationFactory,
+    OrganizationApplicationStatusFactory,
+    OrganizationEventFactory,
+    OrganizationMemberFactory,
+    OrganizationResourceFactory,
+    GroupFactory,
+    OrganizationTaskFactory,
+    OrganizationTopicFactory,
+    GroupEventFactory,
+    GroupMemberFactory,
+    GroupResourceFactory,
+    GroupTopicFactory,
+)
+
+
+class EntitiesThrottleTest(BaseTestThrottle):
+    __test__ = True
+    url = reverse("entities:organization-list")
 
 
 def test_str_methods() -> None:
@@ -15,11 +36,13 @@ def test_str_methods() -> None:
     group_event = GroupEventFactory.build()
     group_member = GroupMemberFactory.build()
     group_resource = GroupResourceFactory.build()
-    group_topic = GroupTopic.build()
+    group_topic = GroupTopicFactory.build()
 
     assert str(organization) == organization.name
-    assert str(organization_application) == str(organization_application.id)
-    assert str(organization_application_status) == str(organization_application_status.id)
+    assert str(organization_application) == str(organization_application.creation_date)
+    assert str(organization_application_status) == str(
+        organization_application_status.status_name
+    )
     assert str(organization_event) == str(organization_event.id)
     assert str(organization_member) == str(organization_member.id)
     assert str(organization_resource) == str(organization_resource.id)

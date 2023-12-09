@@ -121,7 +121,7 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 > </p>
 > </details>
 
-2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
+2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker Compose](https://docs.docker.com/compose).
 
 > [!NOTE]
 > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
@@ -140,7 +140,7 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 >
 > - e.g. Cloning now becomes `git clone git@github.com:<your-username>/activist.git`
 >
-> GitHub also has their documentation on how to [Generate new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). 🔑
+> GitHub also has their documentation on how to [Generate a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) 🔑
 >
 > </p>
 > </details>
@@ -154,18 +154,17 @@ cd activist
 git remote add upstream https://github.com/activist-org/activist.git
 ```
 
-Now, if you run `git remote -v` you should see two remote repositories named:
-
-- `origin` (forked repository)
-- `upstream` (activist repository)
+- Now, if you run `git remote -v` you should see two remote repositories named:
+  - `origin` (forked repository)
+  - `upstream` (activist repository)
 
 4. Create a `.env` file and start your docker images with the following:
 
    ```bash
    cp .env.example .env
-   docker-compose up
+   docker compose up
    # Or with new dependencies:
-   # docker-compose up --build
+   # docker compose up --build
    ```
 
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
@@ -259,7 +258,7 @@ Beyond clustering by topics, tags will also be used to draw community attention 
 
 ### Types
 
-`Act` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for action and 🔵 blue is for learn).
+`Action` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for action and 🔵 blue is for learn).
 
 <a id="formats"></a>
 
@@ -267,7 +266,7 @@ Beyond clustering by topics, tags will also be used to draw community attention 
 
 Types are further broken down into specific formats. The available formats currently include:
 
-- Act: protests, volunteering, organizing, fundraising
+- Action: protests, volunteering, organizing, fundraising
 - Learn: seminars, webinars, meetings, panel discussions
 
 Formats are not required for events like topics and types, but add an optional granularity to help people find what they're looking for.

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-1 transition-all duration-500 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header shadow-sm shadow-zinc-700 rounded-md py-2"
+    class="mx-1 transition-all duration-500 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header elem-shadow-sm rounded-md py-2"
   >
     <div class="flex flex-col items-center">
       <div
@@ -13,10 +13,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <ImageOrganization
-          class="shadow-sm shadow-zinc-700"
-          :imgURL="logoUrl"
-        />
+        <ImageOrganization class="elem-shadow-sm" :imgURL="logoUrl" />
       </div>
       <div
         v-else-if="sidebarType === SidebarType.EVENT_PAGE"
@@ -28,7 +25,7 @@
         }"
         :alt="name + ' logo'"
       >
-        <ImageEvent class="shadow-sm shadow-zinc-700" eventType="action" />
+        <ImageEvent class="elem-shadow-sm" eventType="action" />
       </div>
       <ul
         class="flex flex-col w-full px-1 mb-1"

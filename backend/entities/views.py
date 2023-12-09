@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 from backend.paginator import CustomPagination
 
@@ -41,6 +42,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def create(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(data=request.data)

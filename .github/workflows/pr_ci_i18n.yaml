@@ -28,8 +28,8 @@ jobs:
       - name: Execute check repeat i18n value script
         working-directory: ./frontend/i18n
         run: python check_repeat_i18n_values.py
-        continue-on-error: true
 
       - name: Execute check unused i18n key script
+        if: always()
         working-directory: ./frontend/i18n
         run: python check_unused_i18n_keys.py

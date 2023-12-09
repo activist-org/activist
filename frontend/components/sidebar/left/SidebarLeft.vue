@@ -2,7 +2,7 @@
   <aside
     @mouseover="sidebar.collapsed = false"
     @mouseleave="sidebar.collapsed = true"
-    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct md:flex border-light-section-div dark:border-dark-section-div shadow-sm shadow-zinc-700"
+    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
@@ -12,11 +12,11 @@
     <div
       class="h-full overflow-x-hidden"
       :class="{
-        'overflow-y-scroll':
+        'overflow-y-auto':
           !sidebar.collapsed || sidebar.collapsedSwitch == false,
       }"
     >
-      <SearchBar class="mt-3" location="sidebar" />
+      <SearchBar class="mt-2" location="sidebar" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
         v-if="

@@ -19,65 +19,57 @@ Contents:
     - GroupTopic
 """
 
-import uuid
-
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
+from backend.mixins.models import BaseModelMixin, ModelMixin
 
-class Organization(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+class Organization(ModelMixin):
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255, null=True)
     location = models.CharField(max_length=255)
-    status = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    members = ArrayField(models.IntegerField(
-        null=True, blank=True), blank=True, default=list)
-    supporters = ArrayField(models.IntegerField(
-        null=True, blank=True), blank=True, default=list)
+    members = ArrayField(
+        models.IntegerField(null=True, blank=True), blank=True, default=list
+    )
+    supporters = ArrayField(
+        models.IntegerField(null=True, blank=True), blank=True, default=list
+    )
     images_url = ArrayField(models.CharField(max_length=255))
     topics = ArrayField(models.CharField(max_length=255))
-    social_accounts = ArrayField(
-        models.CharField(max_length=255), null=True)
+    social_accounts = ArrayField(models.CharField(max_length=255), null=True)
     total_flags = models.IntegerField(null=True, default=0)
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
     )
     high_risk = models.BooleanField(default=False)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
 
     def __str__(self) -> str:
         return self.name
 
 
-class OrganizationApplicationStatus(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class OrganizationApplicationStatus(BaseModelMixin):
     status_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return self.status_name
 
 
-class OrganizationApplication(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class OrganizationApplication(ModelMixin):
     org_id = models.IntegerField(null=True)
     status = models.ForeignKey(
-        "OrganizationApplicationStatus", on_delete=models.CASCADE
+        "OrganizationApplicationStatus", on_delete=models.CASCADE, default=1
     )
-    orgs_in_favor = ArrayField(models.IntegerField(
-        null=True, blank=True), blank=True)
-    orgs_against = ArrayField(models.IntegerField(
-        null=True, blank=True), blank=True)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    status_updated = models.DateTimeField(auto_now=True, null=True)
+    orgs_in_favor = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
+    orgs_against = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
+    status_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return str(self.creation_date)
 
 
-class OrganizationEvent(models.Model):
+class OrganizationEvent(BaseModelMixin):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
 
@@ -85,7 +77,7 @@ class OrganizationEvent(models.Model):
         return str(self.id)
 
 
-class OrganizationMember(models.Model):
+class OrganizationMember(BaseModelMixin):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user_id = models.ForeignKey(
         "authentication.User", on_delete=models.CASCADE)
@@ -97,7 +89,7 @@ class OrganizationMember(models.Model):
         return str(self.id)
 
 
-class OrganizationResource(models.Model):
+class OrganizationResource(BaseModelMixin):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(
         "content.Resource", on_delete=models.CASCADE)
@@ -106,24 +98,20 @@ class OrganizationResource(models.Model):
         return str(self.id)
 
 
-class Group(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Group(ModelMixin):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255, null=True)
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(models.CharField(max_length=255), null=True)
     total_flags = models.IntegerField(default=0)
-    created_by = models.ForeignKey(
-        "authentication.User", on_delete=models.CASCADE)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
+    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.name
 
 
-class OrganizationTask(models.Model):
+class OrganizationTask(BaseModelMixin):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
     group_id = models.ForeignKey("Group", on_delete=models.CASCADE, null=True)
@@ -132,7 +120,7 @@ class OrganizationTask(models.Model):
         return str(self.id)
 
 
-class OrganizationTopic(models.Model):
+class OrganizationTopic(BaseModelMixin):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
 
@@ -140,7 +128,7 @@ class OrganizationTopic(models.Model):
         return str(self.id)
 
 
-class GroupEvent(models.Model):
+class GroupEvent(BaseModelMixin):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
 
@@ -148,7 +136,7 @@ class GroupEvent(models.Model):
         return str(self.id)
 
 
-class GroupMember(models.Model):
+class GroupMember(BaseModelMixin):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     user_id = models.ForeignKey(
         "authentication.User", on_delete=models.CASCADE)
@@ -158,7 +146,7 @@ class GroupMember(models.Model):
         return str(self.id)
 
 
-class GroupResource(models.Model):
+class GroupResource(BaseModelMixin):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     resource_id = models.ForeignKey(
         "content.Resource", on_delete=models.CASCADE)
@@ -167,7 +155,7 @@ class GroupResource(models.Model):
         return str(self.id)
 
 
-class GroupTopic(models.Model):
+class GroupTopic(BaseModelMixin):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
 

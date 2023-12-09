@@ -1,3 +1,5 @@
+from typing import Any
+
 import factory
 
 from .models import Support, SupportEntityType, User, UserResource, UserTask, UserTopic
@@ -42,7 +44,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     # Does not work with the create method at the moment
     # verification_partner field references itself
     @factory.post_generation
-    def verification_partner(self, create, extracted, **kwargs):
+    def verification_partner(
+        self, create: bool, extracted: bool, **kwargs: dict[str, Any]
+    ) -> None:
         if not create:
             # Simple build, do nothing.
             return

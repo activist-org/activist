@@ -44,7 +44,7 @@
         </template>
       </div>
       <a
-        class="mt-2 w-fit hover:text-light-text dark:hover:text-dark-text"
+        class="mt-2 w-fit hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://www.netlify.com/"
         target="_blank"
       >
@@ -94,7 +94,7 @@
       <!-- Note: Organization Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
-          {{ $t("components._global.organization") }}
+          {{ $t("_global.organization") }}
         </p>
         <template v-for="(oLink, index) in links.organizationLinks">
           <p
