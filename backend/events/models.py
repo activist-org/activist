@@ -30,17 +30,17 @@ class Event(models.Model):
     type = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
-    online_location_link = models.CharField(max_length=255)
-    offline_location_name = models.CharField(max_length=255)
+    online_location_link = models.CharField(max_length=255, null=True)
+    offline_location_name = models.CharField(max_length=255, null=True)
     offline_location_lat = models.FloatField(null=True)
     offline_location_long = models.FloatField(null=True)
-    start_time = models.DateField(null=True)
-    end_time = models.DateField(null=True)
+    start_time = models.DateTimeField(null=True)
+    end_time = models.DateTimeField(null=True)
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_events", on_delete=models.CASCADE
     )
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
+    deletion_date = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -52,7 +52,7 @@ class Format(models.Model):
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateField(null=True)
+    deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -64,8 +64,8 @@ class Role(models.Model):
     is_custom = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True, null=True)
-    deprecation_date = models.DateField(null=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -73,10 +73,11 @@ class Role(models.Model):
 
 class EventAttendee(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(
-        "authentication.User", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     role_id = models.ForeignKey("Role", on_delete=models.CASCADE, null=True)
-    attendee_status = models.IntegerField(null=True)
+    attendee_status = models.ForeignKey(
+        "EventAttendeeStatus", on_delete=models.CASCADE, default=1
+    )
 
 
 class EventFormat(models.Model):
@@ -97,8 +98,7 @@ class EventAttendeeStatus(models.Model):
 
 class EventResource(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey(
-        "content.Resource", on_delete=models.CASCADE)
+    resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return str(self.id)

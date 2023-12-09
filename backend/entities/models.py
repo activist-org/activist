@@ -32,25 +32,25 @@ from django.db import models
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255, null=True)
     location = models.CharField(max_length=255)
-    status = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    members = ArrayField(models.IntegerField(
-        null=True, blank=True), blank=True, default=list)
-    supporters = ArrayField(models.IntegerField(
-        null=True, blank=True), blank=True, default=list)
+    members = ArrayField(
+        models.IntegerField(null=True, blank=True), blank=True, default=list
+    )
+    supporters = ArrayField(
+        models.IntegerField(null=True, blank=True), blank=True, default=list
+    )
     images_url = ArrayField(models.CharField(max_length=255))
     topics = ArrayField(models.CharField(max_length=255))
-    social_accounts = ArrayField(
-        models.CharField(max_length=255), null=True)
+    social_accounts = ArrayField(models.CharField(max_length=255), null=True)
     total_flags = models.IntegerField(null=True, default=0)
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
     )
     high_risk = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
+    deletion_date = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -68,14 +68,12 @@ class OrganizationApplication(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     org_id = models.IntegerField(null=True)
     status = models.ForeignKey(
-        "OrganizationApplicationStatus", on_delete=models.CASCADE
+        "OrganizationApplicationStatus", on_delete=models.CASCADE, default=1
     )
-    orgs_in_favor = ArrayField(models.IntegerField(
-        null=True, blank=True), blank=True)
-    orgs_against = ArrayField(models.IntegerField(
-        null=True, blank=True), blank=True)
+    orgs_in_favor = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
+    orgs_against = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-    status_updated = models.DateTimeField(auto_now=True, null=True)
+    status_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return str(self.creation_date)
@@ -91,8 +89,7 @@ class OrganizationEvent(models.Model):
 
 class OrganizationMember(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(
-        "authentication.User", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)
@@ -103,8 +100,7 @@ class OrganizationMember(models.Model):
 
 class OrganizationResource(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey(
-        "content.Resource", on_delete=models.CASCADE)
+    resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return str(self.id)
@@ -114,14 +110,13 @@ class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255, null=True)
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(models.CharField(max_length=255), null=True)
     total_flags = models.IntegerField(default=0)
-    created_by = models.ForeignKey(
-        "authentication.User", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
+    deletion_date = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -154,8 +149,7 @@ class GroupEvent(models.Model):
 
 class GroupMember(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(
-        "authentication.User", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     is_admin = models.BooleanField(default=False)
 
     def __str__(self) -> str:
@@ -164,8 +158,7 @@ class GroupMember(models.Model):
 
 class GroupResource(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey(
-        "content.Resource", on_delete=models.CASCADE)
+    resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return str(self.id)

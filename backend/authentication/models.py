@@ -61,7 +61,7 @@ class User(AbstractUser):
     high_risk = models.BooleanField(default=False)
     total_flags = models.IntegerField(default=0)
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
+    deletion_date = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self) -> str:
         return self.username
@@ -69,8 +69,7 @@ class User(AbstractUser):
 
 class UserResource(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey(
-        "content.Resource", on_delete=models.CASCADE)
+    resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return str(self.id)

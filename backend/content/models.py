@@ -24,14 +24,14 @@ class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500, null=True)
-    topics = ArrayField(models.CharField(max_length=255))
+    topics = ArrayField(models.CharField(max_length=255), null=True)
     location = models.CharField(max_length=255, null=True)
     url = models.CharField(max_length=255)
     total_flags = models.IntegerField(default=0)
-    private = models.BooleanField(default=False)
+    private = models.BooleanField(default=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    deletion_date = models.DateField(null=True)
+    deletion_date = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -41,10 +41,10 @@ class Task(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    location = models.CharField(max_length=255)
+    location = models.CharField(max_length=255, null=True)
     tags = ArrayField(models.CharField(max_length=255), null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
+    deletion_date = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -56,8 +56,8 @@ class Topic(models.Model):
     active = models.BooleanField(default=True)
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True, null=True)
-    deprecation_date = models.DateField(null=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
         return self.name
