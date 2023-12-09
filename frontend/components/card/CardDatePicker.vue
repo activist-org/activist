@@ -73,7 +73,7 @@ const attributes = ref([
   --vc-hover-bg: rgba(140, 140, 140, 0.2);
   --vc-focus-ring: 0 0 0 2px rgba(242, 166, 84, 1);
   --vc-day-content-hover-bg: rgba(242, 166, 84, 1);
-  --vc-accent-600: #D76226;
+  --vc-accent-600: #d76226;
 
   /* Time select group. */
   --vc-time-select-group-bg: transparent;
@@ -86,14 +86,13 @@ const attributes = ref([
   --vc-hover-bg: rgba(70, 70, 70, 0.25);
   --vc-focus-ring: 0 0 0 2px rgba(241, 156, 65, 1);
   --vc-day-content-hover-bg: rgba(242, 166, 84, 1);
-  --vc-accent-600: #D76226;
+  --vc-accent-600: #d76226;
 
   /* Time select group. */
   --vc-time-select-group-bg: transparent;
   --vc-time-select-group-border: transparent;
   --vc-time-select-group-icon-color: rgba(43, 50, 59, 1);
   --vc-day-content-hover-bg: rgba(242, 166, 84, 1);
-
 }
 
 .date-picker-width {

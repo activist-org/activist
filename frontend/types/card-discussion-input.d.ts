@@ -5,5 +5,4 @@ export interface DiscussionInput {
   description: string;
   category: string;
   highRisk: boolean;
-
 }

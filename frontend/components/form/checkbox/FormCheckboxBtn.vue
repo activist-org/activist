@@ -54,14 +54,13 @@ const customColorClass =
 </script>
 
 <style scoped>
-  /* Define hover styles for the light theme */
-  .hover:bg-light-hover:hover {
-    background-color: #ffdd00; /* Change this to your desired color */
-  }
+/* Define hover styles for the light theme */
+.hover:bg-light-hover:hover {
+  background-color: #ffdd00; /* Change this to your desired color */
+}
 
-  /* Define hover styles for the dark theme */
-  .dark:hover:bg-dark-hover:hover {
-    background-color: #333333; /* Change this to your desired color */
-  }
+/* Define hover styles for the dark theme */
+.dark:hover:bg-dark-hover:hover {
+  background-color: #333333; /* Change this to your desired color */
+}
 </style>
-
