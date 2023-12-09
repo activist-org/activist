@@ -1,3 +1,6 @@
+from django.urls import reverse
+from tests.throttle import BaseTestThrottle
+
 from .factories import (
     EventFactory,
     EventAttendeeFactory,
@@ -7,6 +10,11 @@ from .factories import (
     FormatFactory,
     RoleFactory,
 )
+
+
+class EventsThrottleTest(BaseTestThrottle):
+    __test__ = True
+    url = reverse("events:event-list")
 
 
 def test_str_methods() -> None:
@@ -23,9 +31,6 @@ def test_str_methods() -> None:
     )
     assert str(event_format) == f"{event_format.id}"
     assert str(event_attendee_status) == event_attendee_status.status_name
-    assert (
-        str(event_resource)
-        == f"{event_resource.id}"
-    )
+    assert str(event_resource) == f"{event_resource.id}"
     assert str(_format) == _format.name
     assert str(role) == role.name

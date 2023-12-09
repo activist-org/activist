@@ -1,4 +1,8 @@
 from rest_framework import viewsets
+from rest_framework.throttling import (
+    AnonRateThrottle,
+    UserRateThrottle,
+)
 
 from backend.paginator import CustomPagination
 
@@ -32,6 +36,7 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     pagination_class = CustomPagination
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
 
 class FormatViewSet(viewsets.ModelViewSet[Format]):
