@@ -19,15 +19,12 @@ from backend.mixins.models import BaseModelMixin, ModelMixin
 
 class Resource(ModelMixin):
     name = models.CharField(max_length=255)
-    description = models.TextField(max_length=500)
-    topics = ArrayField(models.CharField(max_length=255))
-    location = models.CharField(max_length=255)
+    description = models.TextField(max_length=500, null=True)
+    topics = ArrayField(models.CharField(max_length=255), null=True)
+    location = models.CharField(max_length=255, null=True)
     url = models.CharField(max_length=255)
-    total_flags = models.IntegerField(null=True)
-    private = models.BooleanField(default=False)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deletion_date = models.DateField(null=True)
+    total_flags = models.IntegerField(default=0)
+    private = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return self.name
@@ -36,8 +33,8 @@ class Resource(ModelMixin):
 class Task(ModelMixin):
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    location = models.CharField(max_length=255)
-    tags = ArrayField(models.CharField(max_length=255))
+    location = models.CharField(max_length=255, null=True)
+    tags = ArrayField(models.CharField(max_length=255), null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -47,6 +44,7 @@ class Topic(ModelMixin):
     name = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
     description = models.TextField(max_length=500)
+    deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
         return self.name

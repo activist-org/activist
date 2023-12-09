@@ -27,16 +27,22 @@ from backend.mixins.models import BaseModelMixin, ModelMixin
 
 class Organization(ModelMixin):
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255, null=True)
     location = models.CharField(max_length=255)
-    status = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    members = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
-    supporters = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
+    members = ArrayField(
+        models.IntegerField(null=True, blank=True), blank=True, default=list
+    )
+    supporters = ArrayField(
+        models.IntegerField(null=True, blank=True), blank=True, default=list
+    )
     images_url = ArrayField(models.CharField(max_length=255))
     topics = ArrayField(models.CharField(max_length=255))
-    social_accounts = ArrayField(models.CharField(max_length=255))
-    total_flags = models.IntegerField(null=True)
+    social_accounts = ArrayField(models.CharField(max_length=255), null=True)
+    total_flags = models.IntegerField(null=True, default=0)
+    created_by = models.ForeignKey(
+        "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
+    )
     high_risk = models.BooleanField(default=False)
 
     def __str__(self) -> str:
@@ -53,14 +59,14 @@ class OrganizationApplicationStatus(BaseModelMixin):
 class OrganizationApplication(ModelMixin):
     org_id = models.IntegerField(null=True)
     status = models.ForeignKey(
-        "OrganizationApplicationStatus", on_delete=models.CASCADE
+        "OrganizationApplicationStatus", on_delete=models.CASCADE, default=1
     )
     orgs_in_favor = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
     orgs_against = ArrayField(models.IntegerField(null=True, blank=True), blank=True)
     status_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return str(self.created_at)
+        return str(self.creation_date)
 
 
 class OrganizationEvent(BaseModelMixin):
@@ -93,10 +99,11 @@ class OrganizationResource(BaseModelMixin):
 class Group(ModelMixin):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255, null=True)
     description = models.TextField(max_length=500)
-    social_accounts = ArrayField(models.CharField(max_length=255))
-    total_flags = models.IntegerField(null=True)
+    social_accounts = ArrayField(models.CharField(max_length=255), null=True)
+    total_flags = models.IntegerField(default=0)
+    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.name
@@ -105,7 +112,7 @@ class Group(ModelMixin):
 class OrganizationTask(BaseModelMixin):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
-    group_id = models.ForeignKey("Group", on_delete=models.CASCADE)
+    group_id = models.ForeignKey("Group", on_delete=models.CASCADE, null=True)
 
     def __str__(self) -> str:
         return str(self.id)
