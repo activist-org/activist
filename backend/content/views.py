@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 from backend.paginator import CustomPagination
 
@@ -16,6 +17,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
     queryset = Resource.objects.all()
     serializer_class = ResourceSerializer
     pagination_class = CustomPagination
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
 
 class TaskViewSet(viewsets.ModelViewSet[Task]):

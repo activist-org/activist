@@ -2,8 +2,6 @@
   <a href="https://github.com/activist-org/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/logos/activistGitHubOrgBanner.png" width=1024 alt="activist Logo"></a>
 </div>
 
-<!-- [![supabase](https://img.shields.io/badge/Supabase-3ECF8E.svg?logo=supabase&logoColor=ffffff)](#tech-stack) -->
-
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
@@ -16,12 +14,14 @@
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
 
-<!-- Also available on [Android](https://github.com/activist-org/activist-Android) (planned) and [iOS](https://github.com/activist-org/activist-iOS) (planned). -->
-
 <details><summary>🌐 Language</summary>
 <p>
 
-- [Open a localization issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) to add a new readme to the [README](https://github.com/activist-org/activist/tree/main/README) directory
+[Open a localization issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) to add a new readme to the [README](https://github.com/activist-org/activist/tree/main/README) directory
+
+- DE: [README_DE.md](https://github.com/activist-org/activist/blob/main/README/README_DE.md)
+- EN: README.md
+- FR: [README_FR.md](https://github.com/activist-org/activist/blob/main/README/README_FR.md)
 
 </p>
 </details>
@@ -30,7 +30,7 @@
 
 [**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events. See the [frequently asked questions](https://activist.org/help/faq) for a general overview.
 
-> [!NOTE]\
+> [!NOTE]
 > The [contributing](#contributing) section has information for those interested, with the articles and presentations in [supported by](#supported-by) also being good resources for learning more about activist.
 
 <a id="contents"></a>
@@ -63,7 +63,7 @@ activist uses [Matrix](https://matrix.org/) for communications. You're more than
 
 Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) and [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) if you are interested in contributing to activist. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
 
-> [!NOTE]\
+> [!NOTE]
 > Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
 
 Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors. For those new to coding or our tech stack, we've collected [links to helpful documentation pages](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#learning-the-tech) in the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md).
@@ -103,57 +103,73 @@ Note that the Figma file above is the [public facing designs](https://www.figma.
 
 1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
 
-   > [!IMPORTANT]
-   >
-   > <details><summary><strong>Suggested IDE extensions</strong></summary>
-   >
-   > <p>
-   >
-   > VS Code
-   >
-   > - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
-   > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-   > - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
-   > - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) # for collaboration
-   > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-   > - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
-   >
-   > </p>
-   > </details>
+> [!IMPORTANT]
+>
+> <details><summary><strong>Suggested IDE extensions</strong></summary>
+>
+> <p>
+>
+> VS Code
+>
+> - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
+> - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+> - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
+> - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) # for collaboration
+> - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+> - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+>
+> </p>
+> </details>
 
-2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker-Compose](https://docs.docker.com/compose).
+2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker Compose](https://docs.docker.com/compose).
 
-   > [!NOTE]\
-   > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
+> [!NOTE]
+> If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
-3. [Fork](http://help.github.com/fork-a-repo/) the repo, clone your fork and configure the remotes:
+3. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the repo, clone your fork, and configure the remotes:
 
-   ```bash
-   # Clone your fork of the repo into the current directory.
-   git clone https://github.com/<your-username>/activist.git
-   # Navigate to the newly cloned directory.
-   cd activist
-   # Assign the original repo to a remote called "upstream".
-   git remote add upstream https://github.com/activist-org/activist.git
-   ```
+> [!NOTE]
+>
+> <details><summary>Consider using SSH</summary>
+>
+> <p>
+>
+> Alternatively to using HTTPS as in the instructions below, consider SSH to interact with GitHub from the terminal. SSH allows you to connect without a user-pass authentication flow.
+>
+> To run git commands with SSH, remember then to substitute the HTTPS URL, `https://github.com/...`, with the SSH one, `git@github.com:...`.
+>
+> - e.g. Cloning now becomes `git clone git@github.com:<your-username>/activist.git`
+>
+> GitHub also has their documentation on how to [Generate a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) 🔑
+>
+> </p>
+> </details>
 
-Now, if you run `git remote -v` you should see two remote repositories named:
+```bash
+# Clone your fork of the repo into the current directory.
+git clone https://github.com/<your-username>/activist.git
+# Navigate to the newly cloned directory.
+cd activist
+# Assign the original repo to a remote called "upstream".
+git remote add upstream https://github.com/activist-org/activist.git
+```
 
-- `origin` (forked repository)
-- `upstream` (activist repository)
+- Now, if you run `git remote -v` you should see two remote repositories named:
+  - `origin` (forked repository)
+  - `upstream` (activist repository)
 
 4. Create a `.env` file and start your docker images with the following:
 
    ```bash
    cp .env.example .env
-   docker-compose up
+   docker compose up
    # Or with new dependencies:
-   # docker-compose up --build
+   # docker compose up --build
    ```
 
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
-> [!NOTE]\
+> [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
 
 <a id="tech-stack"></a>
@@ -182,7 +198,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 - [Plausible](https://plausible.io/)
 
-> [!NOTE]\
+> [!NOTE]
 > Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
 <a id="platform-overview"></a>
@@ -242,7 +258,7 @@ Beyond clustering by topics, tags will also be used to draw community attention 
 
 ### Types
 
-`Act` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for act and 🔵 blue is for learn).
+`Action` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for action and 🔵 blue is for learn).
 
 <a id="formats"></a>
 
@@ -250,7 +266,7 @@ Beyond clustering by topics, tags will also be used to draw community attention 
 
 Types are further broken down into specific formats. The available formats currently include:
 
-- Act: protests, volunteering, organizing, fundraising
+- Action: protests, volunteering, organizing, fundraising
 - Learn: seminars, webinars, meetings, panel discussions
 
 Formats are not required for events like topics and types, but add an optional granularity to help people find what they're looking for.

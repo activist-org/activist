@@ -7,6 +7,7 @@
       [customColorClass]: modelValue && customColor,
       'bg-light-header text-light-special-text dark:text-dark-special-text dark:bg-dark-header':
         !modelValue,
+      'hover:bg-light-hover dark:hover:bg-dark-hover': !modelValue,
     }"
   >
     <input
@@ -27,9 +28,8 @@
 </template>
 
 <script setup lang="ts">
-// @ts-nocheck
 import { v4 as uuidv4 } from "uuid";
-import useFormInput from "../../../composables/useFormSetup";
+import useFormInput from "~/composables/useFormSetup";
 
 export interface Props {
   label?: string;
@@ -52,3 +52,15 @@ const customColorClass =
     ? `bg-light-${props.customColor}/60 dark:bg-dark-${props.customColor}/10 dark:text-dark-${props.customColor}`
     : "";
 </script>
+
+<style scoped>
+/* Define hover styles for the light theme */
+.hover:bg-light-hover:hover {
+  background-color: #ffdd00; /* Change this to your desired color */
+}
+
+/* Define hover styles for the dark theme */
+.dark:hover:bg-dark-hover:hover {
+  background-color: #333333; /* Change this to your desired color */
+}
+</style>

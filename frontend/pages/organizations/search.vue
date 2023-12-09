@@ -3,17 +3,17 @@
     class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.organizations.search.title") }}</Title>
+      <Title>{{ $t("pages.organizations.search.header-title") }}</Title>
     </Head>
     <HeaderAppPage
-      :header="$t('pages.organizations.search.header')"
+      :header="$t('pages.organizations.search.header-title')"
       :tagline="$t('pages.organizations.search.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <TopicMarker topic="My topics dropdown" />
+        <ShieldTopic topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
-    <GridSearchTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
+    <GridFilterTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
   </div>
 </template>
 

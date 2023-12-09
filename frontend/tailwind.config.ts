@@ -35,19 +35,17 @@ export default <Partial<Config>>{
           "menu-selection": "rgba(50, 50, 50, 1)",
           placeholder: "rgba(137, 134, 136, 1)",
           interactive: "rgba(75, 75, 67, 1)",
-          highlight: "rgba(140, 140, 140, 0.20)",
+          highlight: {
+            DEFAULT: "rgba(140, 140, 140, 0.20)",
+            darker: "rgba(120, 120, 120, 0.30)",
+          },
           popup: "rgba(255, 255, 255, 0.90)",
           btn: "rgba(200, 200, 200, 1)",
-
-          "cta-orange": {
-            DEFAULT: "rgba(242, 166, 84, 1)",
-            hover: "rgba(244, 176, 103, 1)",
-            light: "rgba(244, 176, 103, 1)",
-          },
-          "act-red": "rgba(186, 61, 59, 1)",
+          "cta-orange": "rgba(242, 166, 84, 1)",
+          "action-red": "rgba(186, 61, 59, 1)",
           "learn-blue": "rgba(33, 118, 174, 1)",
           "accepted-green": "rgba(62, 137, 20, 1)",
-          "pending-yellow": "rgba(255, 191, 0, 1)",
+          "warn-yellow": "rgba(255, 191, 0, 1)",
         },
 
         dark: {
@@ -64,19 +62,17 @@ export default <Partial<Config>>{
           "menu-selection": "rgba(200, 200, 200, 1)",
           placeholder: "rgba(138, 138, 138, 1)",
           interactive: "rgba(133, 126, 123, 1)",
-          highlight: "rgba(70, 70, 70, 0.25)",
+          highlight: {
+            DEFAULT: "rgba(70, 70, 70, 0.25)",
+            lighter: "rgba(120, 120, 120, 0.50)",
+          },
           popup: "rgba(6, 8, 15, 0.90)",
           btn: "rgba(13, 17, 23, 1)",
-
-          "cta-orange": {
-            DEFAULT: "rgba(241, 156, 65, 1)",
-            hover: "rgba(242, 166, 84, 1)",
-            light: "rgba(242, 166, 84, 1)",
-          },
-          "act-red": "rgba(238, 90, 88, 1)",
+          "cta-orange": "rgba(241, 156, 65, 1)",
+          "action-red": "rgba(238, 90, 88, 1)",
           "learn-blue": "rgba(62, 146, 204, 1)",
           "accepted-green": "rgba(97, 139, 37, 1)",
-          "pending-yellow": "rgba(255, 209, 102, 1)",
+          "warn-yellow": "rgba(255, 209, 102, 1)",
         },
 
         social: {

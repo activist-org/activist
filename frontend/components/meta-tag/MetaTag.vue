@@ -7,6 +7,7 @@
       v-if="iconName === 'IconOrganization'"
       class="mr-1"
       name="IconOrganization"
+      size="1.25em"
     />
     <Icon
       v-else-if="iconName === 'IconSupport'"

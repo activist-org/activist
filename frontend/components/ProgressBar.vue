@@ -7,14 +7,14 @@
         'h-full transition-width ease-in duration-500',
         {
           'bg-light-placeholder dark:bg-dark-placeholder': type === 'default',
-          'bg-light-act-red dark:bg-dark-act-red': type === 'act',
+          'bg-light-action-red dark:bg-dark-action-red': type === 'action',
           'bg-light-learn-blue dark:bg-dark-learn-blue': type === 'learn',
         },
       ]"
       :style="{ width: `${percent}%` }"
     ></div>
     <NuxtLink
-      class="items-center hidden h-full px-3 md:flex space-x-3 bg-light-cta-orange hover:bg-light-cta-orange-hover dark:bg-dark-cta-orange/10 dark:hover:bg-dark-cta-orange-hover/25 text-light-text dark:text-dark-cta-orange"
+      class="items-center hidden h-full px-3 md:flex space-x-3 bg-light-cta-orange hover:bg-light-cta-orange/80 dark:bg-dark-cta-orange/10 dark:hover:bg-dark-cta-orange/25 text-light-text dark:text-dark-cta-orange"
       :to="localePath('/')"
       :aria-label="$t('components.progress-bar.close-process-aria-label')"
     >
@@ -25,8 +25,10 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath();
+
 export interface Props {
-  type?: "default" | "act" | "learn";
+  type?: "default" | "action" | "learn";
   progress: number;
   start?: number;
   end?: number;

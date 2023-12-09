@@ -3,12 +3,12 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.help.index.title") }}</Title>
+      <Title>{{ $t("_global.help") }}</Title>
     </Head>
     <div class="bg-light-distinct dark:bg-dark-distinct">
       <div class="flex flex-col w-full responsive-py-4 responsive-px-5">
         <HeaderAppPage
-          :header="$t('pages.help.index.header')"
+          :header="$t('_global.help')"
           :tagline="$t('pages.help.index.subheader')"
         />
       </div>
@@ -28,17 +28,17 @@
 </template>
 
 <script setup lang="ts">
-import type { CardDocsEntry } from "../../types/card-docs-entry";
+import type { DocsEntry } from "~/types/card-docs-entry";
 
-const cards: CardDocsEntry[] = [
+const cards: DocsEntry[] = [
   {
     id: 1,
     url: "faq",
-    title: "pages.help.index.faq",
+    title: "pages.help._global.frequently-asked-questions",
     description: "pages.help.index.faq-description",
     imgURL: "/images/content_pages/icons/bootstrap_question_square",
     imgDimensions: "h-14 sm:h-16",
-    imgAltText: "pages.help.index.faq-alt-text",
+    imgAltText: "pages._global.faq-img-alt-text",
   },
   {
     id: 2,
@@ -47,7 +47,7 @@ const cards: CardDocsEntry[] = [
     description: "pages.help.index.contact-description",
     imgURL: "/images/content_pages/icons/bootstrap_envelope",
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.help.index.contact-alt-text",
+    imgAltText: "pages.help._global.contact-img-alt-text",
   },
 ];
 </script>

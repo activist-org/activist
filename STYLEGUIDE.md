@@ -64,7 +64,7 @@ PRs are always welcome to improve the developer experience and project infrastru
 
 Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are not enabled. This may change in the future. Strict type checks are not enabled to allow building the app outside `Docker`. Local and Netlify builds proceed despite TS errors with strict checks disabled.
 
-> [!NOTE]\
+> [!NOTE]
 > For VS Code users: it is recommended to install these extensions to enable in-editor type-checking:
 >
 > - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
@@ -146,7 +146,7 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
   - Colors are defined for light and dark mode with border width and radius also being applied
   - Used in cases like about page sections, search results, etc
 
-> [!NOTE]\
+> [!NOTE]
 > There's also custom styles available to make development easier such as `bg-breakpoint-test` that changes the background of the element it's applied to based on the current breakpoint.
 
 <a id="formatting"></a>
@@ -198,12 +198,14 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 
 activist is a global platform and must function in countless different regions around the world. To achieve this, all strings on the platform must be defined using keys found in the [i18n directory of the frontend](https://github.com/activist-org/activist/tree/main/frontend/i18n).
 
-> [!NOTE]\
+> [!NOTE]
 > All keys should be defined within the [en-US.json file](https://github.com/activist-org/activist/blob/main/frontend/i18n/en-US.json)
 >
 > - This is the source from which all the other languages are translated from
 > - Edits to the other files need to be made on activist's [public localization project on Transifex](https://explore.transifex.com/activist-org/activist)
-> - Alphabetize the keys except for indexes within page routes that should come first
+> - Please alphabetize the keys, with your code editor likely having built in functionality for this
+> - Do not put the dictionary into different levels!
+>   - The purpose of one flat dictionary is so that we can search for the key in the codebase and easily find its uses and where it's defined
 > - Do not include periods in aria-labels (screen reader user will configure their own preferences for a hard stop)
 > - Put the aria label as the last attribute on any given element so it's easy to see if it's missing (`aria-label` for as an HTML attribute and `ariaLabel` as a prop)
 
@@ -212,7 +214,7 @@ Localization keys should be defined based on their component or page within the 
 - Separate directories and references by `.` and CamelCase file name words by `-` in keys
   - Ex: `"components.search-bar.CONTENT_REFERENCE"` for the `SearchBar` component
 - If the localization key is being passed to a component prop, include it in the content reference
-  - Ex: `"components.topic-marker.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `TopicMarker` component
+  - Ex: `"components.shield-topic.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `ShieldTopic` component
     - `"CONTENT_REFERENCE"` in this case would be a reference to the name of a topic like `"environment"`
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
   - Ex: if you're defining a key within `SidebarLeftFooter`:
@@ -225,6 +227,7 @@ Localization keys should be defined based on their component or page within the 
   - The reason for this is we want to make sure that we can reuse keys wherever we can
     - In the above example, if we defined the key based on its location on the organization about page when it's a `BtnLabeled` with a text like `"Support"`, then we'd need to create a different version of this key for each occurrence of the button depending on the location
     - With the system detailed above, we have the `components.btn-labeled.label.support` key that we can use anywhere that we have a support button ✨
+- If you need a capitalized and lower case version of a word, signify the lower case version with `_lower` at the end of the key
 - For pages with long texts please follow the below naming criteria:
   - `"header"`: the main header (h1) of the given page
   - `"section-#"`: a section that iterates by one with every header and subheader
@@ -234,6 +237,11 @@ Localization keys should be defined based on their component or page within the 
   - `"section-#-paragraph-#-#"`: a paragraph with separate parts to insert things like links
   - `"section-#-list-#-item-#"`: an item in a list
   - `"section-#-list-#-item-#-#"`: a subitem of the given item
+- If you're creating a value that already exists, move it and the original to a `_global` sub name at the lowest shared name in `en-US.json`
+- If there are different uses of the same value in one file, then alphabetically combine the final keys with dashes (ex: `header-title`)
+- Please always assign the full key as a string to assure that i18n content checks can pick up if the key has been used
+  - Eg: `section-1-2` and not `section-{var_number}-2`
+  - This makes sure that content writers and the i18n team are only working with language that's actively in use
 
 The activist team is happy to help if there's any confusion with the above rules! Feel free to ask in the issue you're working on or even check once a PR is made and we'll make sure that conventions are being followed.
 

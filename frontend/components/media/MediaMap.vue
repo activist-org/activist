@@ -3,25 +3,24 @@
     <div
       ref="map"
       id="map-div"
-      class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert"
-      :alt="$t('img-alt-text')"
+      class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert rounded-md sm:rounded-lg"
+      :alt="$t('components.media-map.img-alt-text')"
     ></div>
     <div
       :key="rerenderKey"
       class="flex flex-col items-center justify-center h-full px-5 pb-5 text-2xl text-center space-y-5 text-light-cta-orange dark:text-dark-cta-orange"
       :class="{ hidden: !errorOccurred }"
     >
-      <p>{{ $t("error-message") }}</p>
-      <p>{{ $t("sorry-message") }}</p>
+      <p>{{ $t("components.media-map.error-message") }}</p>
+      <p>{{ $t("components.media-map.sorry-message") }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
 import L, { MapOptions } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const props = defineProps<{
   addresses: string[];
@@ -66,7 +65,7 @@ function drawMap(avgLat: number, avgLon: number, markers: Marker[]) {
 
   const colorMode = useColorMode();
   let eventColor = "";
-  if (props.type === "act") {
+  if (props.type === "action") {
     if (colorMode.value == "dark") {
       eventColor = "#DD7E6B";
     } else {

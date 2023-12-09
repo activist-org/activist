@@ -3,12 +3,12 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.legal.index.title") }}</Title>
+      <Title>{{ $t("_global.legal") }}</Title>
     </Head>
     <div class="bg-light-distinct dark:bg-dark-distinct">
       <div class="flex flex-col w-full responsive-py-4 responsive-px-5">
         <HeaderAppPage
-          :header="$t('pages.legal.index.header')"
+          :header="$t('_global.legal')"
           :tagline="$t('pages.legal.index.subheader')"
         />
       </div>
@@ -28,13 +28,13 @@
 </template>
 
 <script setup lang="ts">
-import type { CardDocsEntry } from "../../types/card-docs-entry";
+import type { DocsEntry } from "~/types/card-docs-entry";
 
-const cards: CardDocsEntry[] = [
+const cards: DocsEntry[] = [
   {
     id: 1,
     url: "trademark-policy",
-    title: "pages.legal.index.trademark-policy",
+    title: "_global.trademark-policy",
     description: "pages.legal.index.trademark-policy-description",
     imgURL: "/images/content_pages/icons/bootstrap_trademark",
     imgDimensions: "h-16 sm:h-20",
@@ -43,7 +43,7 @@ const cards: CardDocsEntry[] = [
   {
     id: 2,
     url: "privacy-policy",
-    title: "pages.legal.index.privacy-policy",
+    title: "_global.privacy-policy",
     description: "pages.legal.index.privacy-policy-description",
     imgURL: "/images/content_pages/icons/bootstrap_shield_check",
     imgDimensions: "h-16 sm:h-20",

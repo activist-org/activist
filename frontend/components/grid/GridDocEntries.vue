@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import type { CardDocsEntry } from "../../types/card-docs-entry";
+import type { DocsEntry } from "~/types/card-docs-entry";
 
 defineProps<{
-  cards?: CardDocsEntry[];
+  cards?: DocsEntry[];
 }>();
 
 const route = useRoute();

@@ -3,7 +3,7 @@
     <div>
       <MenuButton
         v-slot="{ open }"
-        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand shadow-sm shadow-zinc-700"
+        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md style-btn"
         :class="{ 'pl-6': location === 'sideMenu' }"
         :aria-label="
           $t('components.selector-language.open-dropdown-aria-label')
@@ -52,7 +52,7 @@
               <li
                 class="group flex [word-spacing:0.5em] items-center rounded-md pl-4 pr-3 py-2 text-sm w-full"
                 :class="{
-                  'bg-light-cta-orange-hover dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
+                  'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
                     active,
                   'text-light-text dark:text-dark-text': !active,
                 }"

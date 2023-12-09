@@ -31,7 +31,7 @@ class ModelMixin(BaseModelMixin):
     )
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     modified_at = models.DateTimeField(_("Modified at"), auto_now=True)
-    deleted_at = models.DateTimeField(_("Deleted at"), null=True, blank=True)
+    deletion_date = models.DateTimeField(_("Deletion date"), null=True, blank=True)
 
     class Meta:
         abstract = True

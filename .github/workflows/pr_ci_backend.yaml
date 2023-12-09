@@ -1,13 +1,9 @@
 name: pr_ci_backend
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - main
     types: [opened, reopened, synchronize]
-  workflow_run:
-    workflows: [pr_maintainer_checklist]
-    types:
-      - completed
 
 jobs:
   backend:
@@ -25,18 +21,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt
+          pip install -r backend/requirements-dev.txt
 
-      - name: Run Black - Formatting check
-        uses: psf/black@stable
-        with:
-          options: --check --verbose --exclude "migrations/"
-          src: ./backend
-        continue-on-error: true
+      - name: Run ruff format - Formatting check
+        run: ruff ./backend
 
       - name: Run ruff - Linting and import sorting check
+        if: always()
         run: ruff ./backend
-        continue-on-error: true
 
       - name: Run mypy - Static Type Checking
-        run: mypy ./backend --config-file ./backend/mypy.ini
+        if: always()
+        run: mypy ./backend --config-file ./backend/pyproject.toml

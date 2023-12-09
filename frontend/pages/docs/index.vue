@@ -3,12 +3,12 @@
     class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.docs.index.title") }}</Title>
+      <Title>{{ $t("_global.documentation") }}</Title>
     </Head>
     <div class="bg-light-distinct dark:bg-dark-distinct">
       <div class="flex flex-col w-full responsive-py-4 responsive-px-5">
         <HeaderAppPage
-          :header="$t('pages.docs.index.header')"
+          :header="$t('_global.documentation')"
           :tagline="$t('pages.docs.index.subheader')"
         />
       </div>
@@ -28,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import type { CardDocsEntry } from "../../types/card-docs-entry";
+import type { DocsEntry } from "~/types/card-docs-entry";
 
-const cards: CardDocsEntry[] = [
+const cards: DocsEntry[] = [
   {
     id: 1,
     url: "get-active",
@@ -38,7 +38,7 @@ const cards: CardDocsEntry[] = [
     description: "pages.docs.index.get-active-description",
     imgURL: "/images/content_pages/art/get_active",
     imgDimensions: "h-20 sm:h-24",
-    imgAltText: "pages.docs.index.get-active-alt-text",
+    imgAltText: "pages._global.get-active-img-alt-text",
   },
   {
     id: 2,
@@ -47,7 +47,7 @@ const cards: CardDocsEntry[] = [
     description: "pages.docs.index.get-organized-description",
     imgURL: "/images/content_pages/art/get_organized",
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.docs.index.get-organized-alt-text",
+    imgAltText: "pages._global.get-organized-img-alt-text",
   },
   {
     id: 3,
@@ -56,7 +56,7 @@ const cards: CardDocsEntry[] = [
     description: "pages.docs.index.grow-organization-description",
     imgURL: "/images/content_pages/art/grow_organization",
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.docs.index.grow-organization-alt-text",
+    imgAltText: "pages._global.grow-org-img-alt-text",
   },
 ];
 </script>

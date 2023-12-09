@@ -3,22 +3,20 @@
     class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
   >
     <Head>
-      <Title>{{ $t("pages.home.index.title") }}</Title>
+      <Title>{{ $t("_global.home") }}</Title>
     </Head>
     <HeaderAppPage
       :header="$t('pages.home.index.header')"
       :tagline="$t('pages.home.index.subheader')"
     >
-      <div class="flex flex-col space-x-3 sm:flex-row">
-        <TopicMarker topic="My topics dropdown" />
-      </div>
+      <ComboboxTopics />
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
       <div
         class="flex flex-col lg:grid space-y-6 lg:grid-cols-7 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
-        <GridHomeMetrics class="lg:col-span-5" />
-        <MediaDatePicker class="w-full h-full lg:col-span-2" />
+        <CardMetricsOverview class="lg:col-span-5" />
+        <MediaCalendar class="w-full h-full lg:col-span-2" />
       </div>
       <CardSearchResult
         searchResultType="event"
@@ -40,17 +38,18 @@
         :isPrivate="false"
         :user="user"
       />
-      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
+      <CardChangeAccountInfoUsername />
+      <CardChangeAccountInfoPassword />
+      <CardChangeAccountInfoEmail />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Discussion } from "../../types/discussion";
-import { Event } from "../../types/event";
-import { Organization } from "../../types/organization";
-import { Resource } from "../../types/resource";
-import { User } from "../../types/user";
+import { Event } from "~/types/event";
+import { Organization } from "~/types/organization";
+import { Resource } from "~/types/resource";
+import { User } from "~/types/user";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -64,7 +63,7 @@ definePageMeta({
 
 const resource: Resource = {
   name: "Test Resource",
-  organizer: "Testers LLC",
+  organization: "Testers LLC",
   resourceURL: "www.test.com",
   description: "Test resource :D",
   topic: "Tools",
@@ -87,9 +86,9 @@ const organization: Organization = {
 
 const event: Event = {
   name: "Test Event",
-  type: "act",
+  type: "action",
   tagline: "We love to test!",
-  organizer: "Testers LLC",
+  organizations: ["Testers LLC"],
   topic: "Testing and Designing",
   description: "This is a test event for testers.",
   getInvolvedDescription: "Wanna help test?",
@@ -104,16 +103,5 @@ const user: User = {
   location: "Testerville, TN",
   supporters: 123,
   description: "I love to test!",
-};
-
-const discussion: Discussion = {
-  title: "Title of discussion ",
-  author: "John A. Tester",
-  category: "Category",
-  text: "I love to test!",
-  upVoters: 123,
-  participants: 3,
-  messages: 3,
-  creationDate: new Date(),
 };
 </script>
