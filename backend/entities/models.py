@@ -66,7 +66,7 @@ class OrganizationApplication(ModelMixin):
     status_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return str(self.created_at)
+        return str(self.creation_date)
 
 
 class OrganizationEvent(BaseModelMixin):
