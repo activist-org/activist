@@ -13,7 +13,11 @@
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
       class="pl-4 py-2 w-full text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md elem-shadow-sm"
     />
-    <TabGroup manual class="flex flex-col gap-2 md:flex-row md:items-center">
+    <TabGroup
+      :selected-index="0"
+      manual
+      class="flex flex-col gap-2 md:flex-row md:items-center"
+    >
       <TabList>
         <Tab
           v-for="topic of filteredTopics"
@@ -24,7 +28,6 @@
           :value="topic.value"
           multiple
           as="template"
-          :selectedTab="selectedTab"
           class="flex justify-between focus:ring-4 items-center gap-2 rounded-lg p-2 border bg-light-btn border-dark-btn font-bold cursor-pointer hover:bg-light-cta-orange-hover hover:dark:bg-dark-cta-orange-hover shadow-sm shadow-zinc-700"
         >
           <div
@@ -77,7 +80,6 @@ const value = computed<Topic[]>({
 });
 
 const query = ref("");
-const selectedTab = ref(0);
 
 const selectTopic = (topic: TopicsTag) => {
   const updatedValue = [...props.modelValue];
@@ -103,7 +105,8 @@ const selectedTopicTags = computed(() => {
     .map((topic) => {
       return GLOBAL_TOPICS.find((tag) => tag.value === topic);
     })
-    .filter((tag) => tag) as TopicsTag[];
+    .filter((tag) => tag)
+    .sort() as TopicsTag[];
 });
 
 const filteredTopics = computed(() => {
