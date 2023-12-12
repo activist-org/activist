@@ -95,6 +95,12 @@
   "components.btn-labeled.sign-in-aria-label": "Sign in to your account",
   "components.btn-labeled.sign-up-aria-label": "Sign up for a new account on activist",
   "components.btn-labeled.suggest-a-feature": "Suggest a feature",
+  "components.btn-labeled.support-aria-label": "Support",
+  "components.btn-labeled.join-aria-label": "Join",
+  "components.btn-labeled.share-aria-label": "Share",
+  "components.btn-labeled.Attend-aria-label": "Attend",
+  "components.btn-labeled.Star-aria-label": "Star",
+
   "components.btn-labeled.suggest-a-feature-aria-label": "Go to GitHub to suggest a feature for activist.org",
   "components.btn-labeled.support": "Support",
   "components.btn-labeled.support-event-aria-label": "Support this event",
