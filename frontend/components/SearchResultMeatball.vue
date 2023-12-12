@@ -8,12 +8,24 @@
     <TooltipOrganizations
       v-if="searchResultType === 'organization'"
       v-show="showTooltip"
+      class="tooltip-absolute"
     />
-    <TooltipEvents v-if="searchResultType === 'event'" v-show="showTooltip" />
-    <TooltipUsers v-if="searchResultType === 'user'" v-show="showTooltip" />
+
+    <TooltipEvents 
+      v-if="searchResultType === 'event'" 
+      v-show="showTooltip" 
+      class="tooltip-absolute"
+    />
+
+    <TooltipUsers 
+      v-if="searchResultType === 'user'" 
+      v-show="showTooltip" 
+      class="tooltip-absolute"
+    />
     <TooltipResources
       v-if="searchResultType === 'resource'"
       v-show="showTooltip"
+      class="tooltip-absolute"
     />
   </button>
 </template>
@@ -25,3 +37,11 @@ defineProps<{
 }>();
 const showTooltip = ref(false);
 </script>
+
+<style scoped>
+.tooltip-absolute {
+  position: absolute;
+  bottom:100%;
+  left: 70%;
+}
+</style>
