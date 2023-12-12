@@ -11,15 +11,15 @@
       class="tooltip-absolute"
     />
 
-    <TooltipEvents 
-      v-if="searchResultType === 'event'" 
-      v-show="showTooltip" 
+    <TooltipEvents
+      v-if="searchResultType === 'event'"
+      v-show="showTooltip"
       class="tooltip-absolute"
     />
 
-    <TooltipUsers 
-      v-if="searchResultType === 'user'" 
-      v-show="showTooltip" 
+    <TooltipUsers
+      v-if="searchResultType === 'user'"
+      v-show="showTooltip"
       class="tooltip-absolute"
     />
     <TooltipResources
@@ -41,7 +41,7 @@ const showTooltip = ref(false);
 <style scoped>
 .tooltip-absolute {
   position: absolute;
-  bottom:100%;
+  bottom: 100%;
   left: 70%;
 }
 </style>
