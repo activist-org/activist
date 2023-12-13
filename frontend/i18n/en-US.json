@@ -203,7 +203,6 @@
   "components.modal-qr-code.section-2-list-1-item-1": "Including them on posters or billboards",
   "components.modal-qr-code.section-2-list-1-item-2": "Adding them to flyers or cards",
   "components.modal-qr-code.section-2-list-1-item-3": "Sending them with materials for your organization",
-  "components.modal-qr-code.section-3-paragraph-1": "Be sure to include the part that directs the user to only scan the code in the activist app. These codes can be used for malicious attacks, but the activist app protects the user by checking that it is a valid OR code before accessing the content.",
   "components.modal-qr-code.subheader-2": "Ideas for OR code use include:",
   "components.page-breadcrumbs.aria-label": "Page breadcrumb navigation",
   "components.password-strength.invalid": "invalid",

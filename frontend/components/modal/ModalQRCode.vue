@@ -54,9 +54,9 @@
               {{ $t("components.modal-qr-code.section-2-list-1-item-3") }}
             </li>
           </ul>
-          <p>
+          <!-- <p>
             {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
-          </p>
+          </p> -->
           <BtnLabeled
             @click="downloadQRCode()"
             class="hidden md:flex"
