@@ -13,7 +13,8 @@
           resource.name
         "
       />
-      <div v-else 
+      <div
+        v-else
         :class="reduced ? 'w-[150px] h-[150px]' : 'w-[200px] h-[200px]'"
         class="flex justify-center items-center"
       >
@@ -44,10 +45,7 @@
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <ShieldTopic 
-          v-if="!reduced"
-          :topic="event.topic" 
-        />
+        <ShieldTopic v-if="!reduced" :topic="event.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">

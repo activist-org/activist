@@ -70,6 +70,6 @@ const event: Event = {
   inPersonLocation: "Yakima, WA",
   supporters: 234,
   date: new Date(),
-  //Bug: if no date is passed, component breaks
+  //Bug: if no date is passed, component breaks even though date is optional
 }
 </script>
