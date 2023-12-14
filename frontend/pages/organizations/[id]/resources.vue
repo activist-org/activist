@@ -26,11 +26,17 @@
         />
       </div>
     </HeaderAppPage>
+    <CardSearchResult 
+      searchResultType="resource"
+      :reduced="true"
+      :resource="resource"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { Organization } from "../../../types/organization";
+import { Resource } from "../../../types/resource";
 
 definePageMeta({
   layout: "sidebar",
@@ -51,4 +57,15 @@ const organization: Organization = {
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
 };
+
+const resource: Resource = {
+  name: "Activist website",
+  organization: "activist.org",
+  resourceURL: "www.activist.org",
+  description: "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all. Free, open-source, privacy-focused and driven by our community.",
+  topic: "Sites",
+  relatedLocation: "Berlin, DE",
+  creationDate: new Date(),
+  stars: 100000000,
+}
 </script>

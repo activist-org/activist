@@ -26,11 +26,18 @@
         />
       </div>
     </HeaderAppPage>
+    <CardSearchResult
+      searchResultType="event"
+      :reduced="true"
+      :event="event"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { Organization } from "../../../types/organization";
+import { Event } from "../../../types/event";
+
 
 definePageMeta({
   layout: "sidebar",
@@ -51,4 +58,18 @@ const organization: Organization = {
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
 };
+
+const event: Event = {
+  name: "bimonthly tech meetup",
+  tagline: "let's fix some bugs!",
+  organizations: ["org1", "org2"],
+  type: "test",
+  topic: "Hackathon",
+  description: "let's fix some bugs!",
+  getInvolvedDescription: "squash some bugs!",
+  inPersonLocation: "Yakima, WA",
+  supporters: 234,
+  date: new Date(),
+  //Bug: if no date is passed, component breaks
+}
 </script>
