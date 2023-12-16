@@ -77,4 +77,5 @@ defineProps<{
   organization: Organization;
   reduced?: boolean;
 }>();
+
 </script>
