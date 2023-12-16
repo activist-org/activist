@@ -26,18 +26,13 @@
         />
       </div>
     </HeaderAppPage>
-    <CardSearchResult
-      searchResultType="event"
-      :reduced="true"
-      :event="event"
-    />
+    <CardSearchResult searchResultType="event" :reduced="true" :event="event" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { Organization } from "../../../types/organization";
 import { Event } from "../../../types/event";
-
 
 definePageMeta({
   layout: "sidebar",
@@ -71,5 +66,5 @@ const event: Event = {
   supporters: 234,
   date: new Date(),
   //Bug: if no date is passed, component breaks even though date is optional
-}
+};
 </script>

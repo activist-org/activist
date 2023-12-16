@@ -26,7 +26,7 @@
         />
       </div>
     </HeaderAppPage>
-    <CardSearchResult 
+    <CardSearchResult
       searchResultType="resource"
       :reduced="true"
       :resource="resource"
@@ -62,10 +62,11 @@ const resource: Resource = {
   name: "Activist website",
   organization: "activist.org",
   resourceURL: "www.activist.org",
-  description: "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all. Free, open-source, privacy-focused and driven by our community.",
+  description:
+    "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all. Free, open-source, privacy-focused and driven by our community.",
   topic: "Sites",
   relatedLocation: "Berlin, DE",
   creationDate: new Date(),
   stars: 100000000,
-}
+};
 </script>

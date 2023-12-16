@@ -66,5 +66,5 @@ const group: Organization = {
   topic: "test",
   members: 10,
   supporters: 15,
-}
+};
 </script>

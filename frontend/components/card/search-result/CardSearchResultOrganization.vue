@@ -41,10 +41,7 @@
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <ShieldTopic 
-          v-if="!reduced"
-          :topic="organization.topic" 
-        />
+        <ShieldTopic v-if="!reduced" :topic="organization.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
@@ -77,5 +74,4 @@ defineProps<{
   organization: Organization;
   reduced?: boolean;
 }>();
-
 </script>
