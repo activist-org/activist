@@ -5,20 +5,24 @@
     <CardSearchResultOrganization
       v-if="searchResultType === 'organization'"
       :organization="organization"
+      :reduced="reduced"
     />
     <CardSearchResultEvent
       v-else-if="searchResultType === 'event'"
       :event="event"
+      :reduced="reduced"
     />
     <CardSearchResultResource
       v-else-if="searchResultType === 'resource'"
       :resource="resource"
       :isPrivate="isPrivate"
+      :reduced="reduced"
     />
     <CardSearchResultUser
       v-else-if="searchResultType === 'user'"
       :user="user"
       :isPrivate="isPrivate"
+      :reduced="reduced"
     />
   </div>
 </template>
@@ -31,6 +35,7 @@ import type { User } from "~/types/user";
 
 defineProps<{
   searchResultType: "organization" | "event" | "resource" | "user";
+  reduced?: boolean;
   isPrivate?: boolean;
   organization?: Organization;
   event?: Event;
