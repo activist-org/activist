@@ -16,7 +16,10 @@
         />
         <div
           v-else
-          :class="reduced ? 'w-[150px] h-[150px]' : 'w-[200px] h-[200px]'"
+          :class="{
+            'w-[150px] h-[150px]': reduced,
+            'w-[200px] h-[200px]': !reduced,
+          }"
           class="flex justify-center items-center fill-light-text dark:fill-dark-text"
         >
           <Icon name="IconResource" class="w-[75%] h-[75%]" />
@@ -24,7 +27,11 @@
       </div>
     </div>
     <div
-      class="flex-col pt-3 space-y-3 md:pl-4 lg:pl-6 md:space-y-4 md:grow md:pt-0"
+      class="flex-col pt-3 md:pl-4 lg:pl-6 md:grow md:pt-0"
+      :class="{
+        'space-y-2': reduced,
+        'space-y-3 md:space-y-4': !reduced,
+      }"
     >
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">

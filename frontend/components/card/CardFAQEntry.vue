@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import { FaqEntry } from "../../types/card-faq-entry";
+import { FaqEntry } from "~/types/card-faq-entry";
 
 defineProps<{
   faqEntry: FaqEntry;

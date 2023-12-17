@@ -26,16 +26,18 @@
         />
       </div>
     </HeaderAppPage>
-    <CardSearchResult
-      searchResultType="organization"
-      :reduced="true"
-      :organization="group"
-    />
+    <div class="py-4 space-y-3">
+      <CardSearchResult
+        searchResultType="organization"
+        :reduced="true"
+        :organization="group"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Organization } from "../../../types/organization";
+import { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",
