@@ -59,6 +59,10 @@
           <MediaImageCarousel />
         </div>
       </div>
+      <CardOrgApplicationVote
+        title="Votes in favor"
+        :organizations="organizationsInFavor"
+      />
       <CardGetInvolved :organization="organization" />
       <CardConnect
         :social-links="organization.socialLinks"
@@ -73,13 +77,18 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from "vue-router";
 import { Organization } from "../../../types/organization";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-const organization: Organization = {
+const route = useRoute();
+
+// TODO: for testing purpose, should be remove.
+
+const testOrganization: Organization = {
   name: "tech from below",
   status: "approved",
   tagline: "Technologie von und für soziale Bewegungen",
@@ -93,5 +102,17 @@ const organization: Organization = {
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
-};
+}
+
+const organization = reactive<Organization>({...testOrganization});
+const organizationsInFavor = new Array(3).fill(undefined)
+  .map(() => testOrganization);
+
+onMounted(() => {
+  const status = route.query.status?.toString();
+
+  if (status !== undefined) {
+    organization.status = status;
+  }
+});
 </script>
