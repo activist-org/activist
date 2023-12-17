@@ -102,10 +102,11 @@ const testOrganization: Organization = {
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
-}
+};
 
-const organization = reactive<Organization>({...testOrganization});
-const organizationsInFavor = new Array(3).fill(undefined)
+const organization = reactive<Organization>({ ...testOrganization });
+const organizationsInFavor = new Array(3)
+  .fill(undefined)
   .map(() => testOrganization);
 
 onMounted(() => {

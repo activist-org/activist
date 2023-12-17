@@ -1,20 +1,14 @@
 <template>
   <div class="card-style py-10 px-5">
-    <h3 class="text-left responsive-h3 font-display"> {{ title }} </h3>
+    <h3 class="text-left responsive-h3 font-display">{{ title }}</h3>
     <div class="py-3 flex flex-row">
-      <div
-        v-for="organization in organizations"
-        class="mr-5"
-      >
-      <Icon
-        v-if="organization.imageURL === undefined"
-        name="IconOrganization"
-        size="1.25em"
-      />
-      <img
-        v-else
-        :src="organization.imageURL"
-      />
+      <div v-for="organization in organizations" class="mr-5">
+        <Icon
+          v-if="organization.imageURL === undefined"
+          name="IconOrganization"
+          size="1.25em"
+        />
+        <img v-else :src="organization.imageURL" />
       </div>
     </div>
     <div class="flex">
@@ -45,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { Organization } from '~/types/organization';
+import { Organization } from "~/types/organization";
 
 /**
  * The component public properties.
@@ -72,6 +66,6 @@ const upVotes = ref(123);
 const downVotes = ref(123);
 
 withDefaults(defineProps<Props>(), {
-  'isVotingDisabled': true
+  isVotingDisabled: true,
 });
 </script>
