@@ -3,7 +3,7 @@
     <Listbox v-model="selectedFilter">
       <div class="relative mt-1">
         <ListboxButton
-          class="relative w-36 cursor-pointer rounded-lg py-2 pl-4 pr-10 text-left elem-shadow-md focus-brand bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct focus-brand sm:text-sm"
+          class="relative w-36 cursor-pointer rounded-lg py-2 pl-4 pr-10 text-left elem-shadow-sm focus-brand bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct focus-brand sm:text-sm"
         >
           <span class="block truncate">{{ selectedFilter }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-3">
