@@ -25,7 +25,7 @@
           <h2 class="font-bold responsive-h3">
             {{ event.name }}
           </h2>
-          <SearchResultKebabMenu searchResultType="event" />
+          <MenuSearchResultKebab searchResultType="event" />
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation

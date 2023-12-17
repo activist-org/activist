@@ -33,7 +33,7 @@
           <h2 class="font-bold responsive-h3">
             {{ organization.name }}
           </h2>
-          <SearchResultKebabMenu search-result-type="organization" />
+          <MenuSearchResultKebab search-result-type="organization" />
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation :location="organization.location" />

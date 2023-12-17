@@ -8,21 +8,25 @@
       <TooltipKebabOrganizations
         v-if="searchResultType === 'organization'"
         v-show="showTooltip"
+        @blur="showTooltip = false"
         class="absolute bottom-6 left-4"
       />
       <TooltipKebabEvents
         v-if="searchResultType === 'event'"
         v-show="showTooltip"
+        @blur="showTooltip = false"
         class="absolute bottom-6 left-4"
       />
       <TooltipKebabUsers
         v-if="searchResultType === 'user'"
         v-show="showTooltip"
+        @blur="showTooltip = false"
         class="absolute bottom-6 left-4"
       />
       <TooltipKebabResources
         v-if="searchResultType === 'resource'"
         v-show="showTooltip"
+        @blur="showTooltip = false"
         class="absolute bottom-6 left-4"
       />
     </button>
