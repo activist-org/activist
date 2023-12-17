@@ -30,7 +30,7 @@
           <h2 class="font-bold responsive-h3">
             {{ resource.name }}
           </h2>
-          <SearchResultMeatball search-result-type="resource" />
+          <SearchResultKebabMenu search-result-type="resource" />
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation :location="resource?.relatedLocation" />

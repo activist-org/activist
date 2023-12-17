@@ -1,29 +1,29 @@
 <template>
-  <TooltipBase>
-    <div class="space-y-4">
+  <TooltipBase class="rounded-md">
+    <div class="space-y-2">
       <BtnLabeled
-        class="flex text-align: left truncate max-h-[40px] w-full space-y-4"
+        class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.support"
         leftIcon="IconSupport"
         linkTo=""
         fontSize="lg"
-        :ariaLabel="$t('components.btn-labeled.support')"
+        :ariaLabel="$t('components.btn-labeled.support-event-aria-label')"
       />
       <BtnLabeled
-        class="flex text-align: left truncate max-h-[40px] w-full space-y-4"
-        label="components.btn-labeled.Attend-aria-label"
+        class="flex truncate max-h-[40px] w-full"
+        label="components.btn-labeled.attend"
         leftIcon="IconJoin"
         linkTo=""
         fontSize="lg"
-        :ariaLabel="$t('components.btn-labeled.Attend-aria-label')"
+        :ariaLabel="$t('components.btn-labeled.attend-aria-label')"
       />
       <BtnLabeled
-        class="flex text-align: left truncate max-h-[40px] w-full space-y-4"
+        class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.share"
         leftIcon="bi:box-arrow-up"
         linkTo=""
         fontSize="lg"
-        :ariaLabel="$t('components.btn-labeled.share')"
+        :ariaLabel="$t('components.btn-labeled.share-event-aria-label')"
       />
     </div>
   </TooltipBase>

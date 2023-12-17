@@ -19,7 +19,7 @@
           <h2 class="font-bold responsive-h3">
             {{ user.name }}
           </h2>
-          <SearchResultMeatball search-result-type="user" />
+          <SearchResultKebabMenu search-result-type="user" />
         </div>
         <div
           class="items-center hidden w-full space-x-3 md:flex md:w-fit lg:space-x-5"

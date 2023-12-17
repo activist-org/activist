@@ -1,16 +1,16 @@
 <template>
-  <TooltipBase>
-    <div class="space-y-4">
+  <TooltipBase class="rounded-md">
+    <div class="space-y-2">
       <BtnLabeled
-        class="flex text-align: left truncate max-h-[40px] w-full space-y-4"
-        label="components.btn-labeled.support"
-        leftIcon="IconSupport"
+        class="flex truncate max-h-[40px] w-full"
+        label="components._global.star"
+        leftIcon="bi:star"
         linkTo=""
         fontSize="lg"
-        :ariaLabel="$t('components.btn-labeled.support')"
+        :ariaLabel="$t('components._global.star')"
       />
       <BtnLabeled
-        class="flex text-align: left truncate max-h-[40px] w-full space-y-4"
+        class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.share"
         leftIcon="bi:box-arrow-up"
         linkTo=""

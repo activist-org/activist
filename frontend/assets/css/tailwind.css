@@ -124,7 +124,7 @@
   }
 
   .style-cta-secondary {
-    @apply text-light-text border border-light-text dark:text-dark-text dark:border-dark-text bg-light-header dark:bg-dark-header hover:bg-light-highlight-darker active:bg-light-header dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-header focus-brand;
+    @apply text-light-text border border-light-text dark:text-dark-text dark:border-dark-text fill-light-text dark:fill-dark-text bg-light-header dark:bg-dark-header hover:bg-light-highlight-darker active:bg-light-header dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-header focus-brand;
   }
 
   .style-learn {
