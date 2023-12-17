@@ -54,6 +54,7 @@ import type { User } from "~/types/user";
 
 defineProps<{
   isPrivate?: boolean;
+  reduced?: boolean;
   user: User;
 }>();
 </script>

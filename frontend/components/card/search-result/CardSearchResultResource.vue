@@ -6,7 +6,7 @@
       >
         <img
           v-if="resource.imageURL"
-          class="w-[200px] h-[200px]"
+          :class="recued ? 'w-[150px] h-[150px]' : 'w-[200px] h-[200px]'"
           :src="resource.imageURL"
           :alt="
             $t('components.card-search-result-resource.img-alt-text') +
@@ -16,7 +16,8 @@
         />
         <div
           v-else
-          class="w-[200px] h-[200px] flex justify-center items-center fill-light-text dark:fill-dark-text"
+          :class="reduced ? 'w-[150px] h-[150px]' : 'w-[200px] h-[200px]'"
+          class="flex justify-center items-center fill-light-text dark:fill-dark-text"
         >
           <Icon name="IconResource" class="w-[75%] h-[75%]" />
         </div>
@@ -38,7 +39,7 @@
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <ShieldTopic :topic="resource.topic" />
+        <ShieldTopic v-if="!reduced" :topic="resource.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
@@ -67,6 +68,7 @@ import type { Resource } from "~/types/resource";
 
 defineProps<{
   isPrivate?: boolean;
+  reduced?: boolean;
   resource: Resource;
 }>();
 </script>

@@ -26,6 +26,11 @@
         />
       </div>
     </HeaderAppPage>
+    <CardSearchResult
+      searchResultType="organization"
+      :reduced="true"
+      :organization="group"
+    />
   </div>
 </template>
 
@@ -50,5 +55,16 @@ const organization: Organization = {
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
+};
+
+const group: Organization = {
+  name: "friends of tech",
+  status: "approved",
+  tagline: "We're just friends!",
+  location: "Kalamazoo, MI",
+  description: "Friends!!",
+  topic: "test",
+  members: 10,
+  supporters: 15,
 };
 </script>

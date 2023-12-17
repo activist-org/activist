@@ -2,11 +2,11 @@
   <div class="flex flex-col w-full md:flex-row">
     <div class="flex justify-center w-full md:w-fit">
       <div
-        class="border rounded-lg w-fit border-light-section-div dark:border-dark-section-div bg-light-content"
+        class="border rounded-lg w-fit border-light-section-div dark:border-dark-section-div bg-light-content dark:bg-dark-content"
       >
         <img
           v-if="organization.imageURL"
-          class="w-[200px] h-[200px]"
+          :class="reduced ? 'w-[150px] h-[150px]' : 'w-[200px] h-[200px]'"
           :src="organization.imageURL"
           :alt="
             $t('components.card-search-result-organization.img-alt-text') +
@@ -16,7 +16,8 @@
         />
         <div
           v-else
-          class="w-[200px] h-[200px] flex justify-center items-center text-light-text dark:text-dark-text"
+          :class="reduced ? 'w-[150px] h-[150px]' : 'w-[200px] h-[200px]'"
+          class="flex justify-center items-center text-light-text dark:text-dark-text"
         >
           <Icon
             name="IconOrganization"
@@ -40,7 +41,7 @@
         </div>
       </div>
       <div class="flex justify-center md:justify-start">
-        <ShieldTopic :topic="organization.topic" />
+        <ShieldTopic v-if="!reduced" :topic="organization.topic" />
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
@@ -71,5 +72,6 @@ import type { Organization } from "~/types/organization";
 
 defineProps<{
   organization: Organization;
+  reduced?: boolean;
 }>();
 </script>
