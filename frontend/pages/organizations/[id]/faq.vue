@@ -33,8 +33,8 @@
 </template>
 
 <script setup lang="ts">
-import { FaqEntry } from "../../../types/card-faq-entry";
-import { Organization } from "../../../types/organization";
+import { FaqEntry } from "~/types/card-faq-entry";
+import { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",

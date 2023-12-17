@@ -5,15 +5,20 @@
         <div
           class="flex relative w-full cursor-default overflow-hidden rounded-lg elem-shadow-sm focus-brand"
         >
-          <ComboboxInput
-            @change="query = $event.target.value"
-            class="w-full border style-cta py-2 pl-4 rounded-lg selection:bg-light-highlight dark:selection:bg-white/20"
-            :displayValue="(_) => selectedTopic.name"
-          />
-          <ComboboxButton
-            class="absolute inset-y-0 right-0 flex items-center pr-2 text-light-text dark:text-dark-cta-orange"
-          >
-            <Icon name="bi:chevron-expand" />
+          <ComboboxButton>
+            <ComboboxInput
+              @change="query = $event.target.value"
+              @click="inputFocussed = true"
+              @keyup.enter="inputFocussed = false"
+              @blur="inputFocussed = false"
+              class="border style-cta py-2 pl-4 rounded-lg selection:bg-light-highlight dark:selection:bg-white/20"
+              :displayValue="(_) => displayValue()"
+            />
+            <div
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-light-text dark:text-dark-cta-orange"
+            >
+              <Icon name="bi:chevron-expand" />
+            </div>
           </ComboboxButton>
         </div>
         <TransitionRoot
@@ -31,9 +36,9 @@
             >
               {{ $t("components.combobox-topics.no-matching-topics") }}
             </div>
-
             <ComboboxOption
               v-for="topic in filteredTopics"
+              @click="inputFocussed = false"
               v-slot="{ selected, active }"
               :key="topic.id"
               as="template"
@@ -81,7 +86,7 @@ import {
 import { computed, ref } from "vue";
 
 const topics = [
-  { id: 1, name: "Filter for all topics" },
+  { id: 1, name: "All topics" },
   { id: 2, name: "Environment" },
   { id: 3, name: "Animal rights" },
   { id: 4, name: "Racial justice" },
@@ -89,6 +94,7 @@ const topics = [
 
 const selectedTopic = ref(topics[0]);
 const query = ref("");
+const inputFocussed = ref(false);
 
 const filteredTopics = computed(() =>
   query.value === ""
@@ -100,4 +106,14 @@ const filteredTopics = computed(() =>
           .includes(query.value.toLowerCase().replace(/\s+/g, ""))
       )
 );
+
+function displayValue() {
+  if (inputFocussed.value) {
+    return "";
+  } else {
+    return selectedTopic.value.id == 1
+      ? "Filter by topic"
+      : selectedTopic.value.name;
+  }
+}
 </script>

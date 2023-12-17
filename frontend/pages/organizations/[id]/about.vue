@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { Organization } from "../../../types/organization";
+import { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",

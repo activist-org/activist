@@ -5,26 +5,26 @@
       class="relative flex items-center justify-center style-cta rounded-full w-6 h-6 elem-shadow-sm"
     >
       <Icon name="bi:three-dots-vertical" size="1.25em" />
-      <TooltipKebabOrganizations
-        v-if="searchResultType === 'organization'"
-        v-show="showTooltip"
-        @blur="showTooltip = false"
-        class="absolute bottom-6 left-4"
-      />
-      <TooltipKebabEvents
+      <TooltipMenuSearchResultEvent
         v-if="searchResultType === 'event'"
         v-show="showTooltip"
         @blur="showTooltip = false"
         class="absolute bottom-6 left-4"
       />
-      <TooltipKebabUsers
-        v-if="searchResultType === 'user'"
+      <TooltipMenuSearchResultOrganization
+        v-if="searchResultType === 'organization'"
         v-show="showTooltip"
         @blur="showTooltip = false"
         class="absolute bottom-6 left-4"
       />
-      <TooltipKebabResources
+      <TooltipMenuSearchResultResource
         v-if="searchResultType === 'resource'"
+        v-show="showTooltip"
+        @blur="showTooltip = false"
+        class="absolute bottom-6 left-4"
+      />
+      <TooltipMenuSearchResultUser
+        v-if="searchResultType === 'user'"
         v-show="showTooltip"
         @blur="showTooltip = false"
         class="absolute bottom-6 left-4"
