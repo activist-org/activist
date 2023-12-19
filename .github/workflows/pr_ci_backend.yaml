@@ -33,3 +33,6 @@ jobs:
       - name: Run mypy - Static Type Checking
         if: always()
         run: mypy ./backend --config-file ./backend/pyproject.toml
+
+      - name: Run pytest - Unit Tests
+        run: pytest ./backend
