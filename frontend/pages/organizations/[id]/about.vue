@@ -60,8 +60,13 @@
         </div>
       </div>
       <CardOrgApplicationVote
+        v-if="organization.status === 'pending'"
+        @up-vote="upVotes++"
+        @down-vote="downVotes++"
         title="Votes in favor"
         :organizations="organizationsInFavor"
+        :up-votes="upVotes"
+        :down-votes="downVotes"
       />
       <CardGetInvolved :organization="organization" />
       <CardConnect
@@ -87,6 +92,8 @@ definePageMeta({
 const route = useRoute();
 
 // TODO: for testing purpose, should be remove.
+const upVotes = ref(123);
+const downVotes = ref(123);
 
 const testOrganization: Organization = {
   name: "tech from below",
@@ -105,7 +112,7 @@ const testOrganization: Organization = {
 };
 
 const organization = reactive<Organization>({ ...testOrganization });
-const organizationsInFavor = new Array(3)
+const organizationsInFavor = new Array(6)
   .fill(undefined)
   .map(() => testOrganization);
 
