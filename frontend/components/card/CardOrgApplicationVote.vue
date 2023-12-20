@@ -78,12 +78,12 @@ export interface Emits {
   /**
    * The up vote casted event.
    */
-  (event: 'up-vote'): void;
+  (event: "up-vote"): void;
 
   /**
    * The down vote casted event.
    */
-  (event: 'down-vote'): void;
+  (event: "down-vote"): void;
 }
 
 defineEmits<Emits>();
@@ -92,5 +92,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const maximumCountOrganizations = 10;
-const availableOrganizations = computed(() => props.organizations.slice(0, maximumCountOrganizations));
+const availableOrganizations = computed(() =>
+  props.organizations.slice(0, maximumCountOrganizations)
+);
 </script>
