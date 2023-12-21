@@ -120,7 +120,7 @@ We would be happy to discuss granting you further rights as a contributor after 
 
 > [!IMPORTANT]
 >
-> <details><summary><strong>Suggested IDE extensions</strong></summary>
+> <details><summary>Suggested IDE extensions</summary>
 >
 > <p>
 >
@@ -357,7 +357,7 @@ We would like to thank all the great software that made activist's development p
 
 #### Our fiscal host Änderwerk
 
-<details><summary><strong>About Änderwerk</strong></summary>
+<details><summary>About Änderwerk</summary>
 <p>
 
 Änderwerk is a non-profit host organization for projects, initiatives and movements working towards a better future for people and the planet.
@@ -373,7 +373,7 @@ We are happy to be a part of this community.
 
 #### The Wikimedia UNLOCK Accelerator
 
-<details><summary><strong>About UNLOCK</strong></summary>
+<details><summary>About UNLOCK</summary>
 <p>
 
 These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supports open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
