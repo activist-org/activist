@@ -227,6 +227,7 @@ Localization keys should be defined based on their component or page within the 
   - The reason for this is we want to make sure that we can reuse keys wherever we can
     - In the above example, if we defined the key based on its location on the organization about page when it's a `BtnLabeled` with a text like `"Support"`, then we'd need to create a different version of this key for each occurrence of the button depending on the location
     - With the system detailed above, we have the `components.btn-labeled.label.support` key that we can use anywhere that we have a support button ✨
+- Please end all aria-label keys with `-alt-text` so the localization team knows that they're for screen readers
 - If you need a capitalized and lower case version of a word, signify the lower case version with `_lower` at the end of the key
 - For pages with long texts please follow the below naming criteria:
   - `"header"`: the main header (h1) of the given page

@@ -7,7 +7,7 @@
     </Head>
     <PageDocs
       imgURL="/images/content_pages/icons/bootstrap_trademark"
-      imgAltText="pages.legal.trademark-policy.img-alt-text"
+      imgAltText="pages.legal._global.trademark-policy-alt-text"
     >
       <h1 class="pb-2 font-bold responsive-h1">Trademark Policy</h1>
       <p
