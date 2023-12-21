@@ -9,7 +9,10 @@
           size="3em"
           class="dark:fill-white"
         />
-        <div v-else class="border rounded border-light-section-div dark:border-dark-section-div">
+        <div
+          v-else
+          class="border rounded border-light-section-div dark:border-dark-section-div"
+        >
           <img :src="organization.imageURL" class="w-12 h-full" />
         </div>
       </div>
