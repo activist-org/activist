@@ -255,7 +255,7 @@ Other event features include:
 - A feed will allow organizers to share information in real time with participants
 - Organizations can create event templates and share them with allies
 - Event pages can be transformed into flyers or posters and linked to via QR codes
-- Legal disclaimers can be added so people know their rights
+- Legal notes can be added to warn participants of the risks involved
 
 ### Resources [`⇧`](#contents)
 
