@@ -7,8 +7,11 @@
           v-if="organization.imageURL === undefined"
           name="IconOrganization"
           size="3em"
+          class="dark:fill-white"
         />
-        <img v-else :src="organization.imageURL" class="w-12 h-full" />
+        <div v-else class="border rounded border-light-section-div dark:border-dark-section-div">
+          <img :src="organization.imageURL" class="w-12 h-full" />
+        </div>
       </div>
     </div>
     <div class="flex">
