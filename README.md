@@ -355,42 +355,42 @@ We would like to thank all the great software that made activist's development p
 
 ### Our partners
 
-- Our fiscal host Änderwerk
+#### Our fiscal host Änderwerk
 
-    <details><summary><strong>About Änderwerk</strong></summary>
-    <p>
+<details><summary><strong>About Änderwerk</strong></summary>
+<p>
 
-  Änderwerk is a non-profit host organization for projects, initiatives and movements working towards a better future for people and the planet.
+Änderwerk is a non-profit host organization for projects, initiatives and movements working towards a better future for people and the planet.
 
-  They take care of fiscal hosting, managing donations, budgets, accounting and the transformation of financial resources into useful tools.
+They take care of fiscal hosting, managing donations, budgets, accounting and the transformation of financial resources into useful tools.
 
-  They enable initiatives and groups in their hub to concentrate on what they do best – effective community-led action, aligned with their values and goals.
+They enable initiatives and groups in their hub to concentrate on what they do best – effective community-led action, aligned with their values and goals.
 
-  We are happy to be a part of this community.
+We are happy to be a part of this community.
 
-    </p>
-    </details>
+</p>
+</details>
 
-- The Wikimedia UNLOCK Accelerator
+#### The Wikimedia UNLOCK Accelerator
 
-    <details><summary><strong>About UNLOCK</strong></summary>
-    <p>
+<details><summary><strong>About UNLOCK</strong></summary>
+<p>
 
-  These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supports open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
+These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supports open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
 
-    <div align="center">
-    <br>
-        <a href="https://www.wikimedia.de"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="https://wikimedia.rs"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="https://belgrade.impacthub.net"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <br>
-    </div>
+<div align="center">
+<br>
+    <a href="https://www.wikimedia.de"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://wikimedia.rs"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://belgrade.impacthub.net"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+</div>
 
-    </p>
-    </details>
+</p>
+</details>
 
 # Disclosure
 
