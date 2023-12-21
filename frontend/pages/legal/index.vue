@@ -38,7 +38,7 @@ const cards: DocsEntry[] = [
     description: "pages.legal.index.trademark-policy-description",
     imgURL: "/images/content_pages/icons/bootstrap_trademark",
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.legal.index.trademark-policy-alt-text",
+    imgAltText: "pages.legal._global.trademark-policy-alt-text",
   },
   {
     id: 2,
@@ -47,7 +47,7 @@ const cards: DocsEntry[] = [
     description: "pages.legal.index.privacy-policy-description",
     imgURL: "/images/content_pages/icons/bootstrap_shield_check",
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.legal.index.privacy-policy-alt-text",
+    imgAltText: "pages.legal._global.privacy-policy-alt-text",
   },
 ];
 </script>

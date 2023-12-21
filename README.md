@@ -26,32 +26,63 @@
 </p>
 </details>
 
-### Open-source, nonprofit activism platform
+### An open-source activism platform
 
-[**activist.org**](https://activist.org) is a network for political action that allows people to coordinate and collaborate on the issues that matter most to them. The current goal is the creation of a central platform to discover activist organizations and their events. See the [frequently asked questions](https://activist.org/help/faq) for a general overview.
+[**activist.org**](https://activist.org) is a platform that enables more people to safely engage in activism by making it easy to discover organizations and events as well as coordinate and collaborate on political action. We want to enable activists to learn proven and novel strategies from each other for social and ecological change. Free, open-source, privacy-focused and governed by our community.
+
+<!-- > [Learn more about our organization on activist.org](https://activist.org/organizations/1/about) -->
 
 > [!NOTE]
-> The [contributing](#contributing) section has information for those interested, with the articles and presentations in [supported by](#supported-by) also being good resources for learning more about activist.
+> The [contributing](#contributing) section has information for those interested.
 
 <a id="contents"></a>
 
 # **Contents**
 
-- [Preview Video](#preview)
+- [Our goals](#our-goals)
 - [Contributing](#contributing)
-- [Environment Setup](#environment-setup)
-- [Platform Overview](#platform-overview)
-- [Supported By](#supported-by)
+- [Environment setup](#environment-setup)
+- [Design and accessability](design-a11y)
+- [Platform features](#platform-features)
+- [Securely hosted](#securely-hosted)
+- [Community governance](#community-governance)
+- [Localization](#localization)
+- [Supporters and partners](#supporters-partners)
 
-<a id="preview"></a>
+<a id="our-goals"></a>
 
-# Preview Video [`⇧`](#contents)
+# Our goals [`⇧`](#contents)
+
+The activist community is creating a global platform where movements grow and people are inspired join in political actions. We want to update how power is distributed in our society by removing barriers and enabling more people to safely engage in activism.
+
+<a id="topics"></a>
+
+## Topics
+
+The following are the working topics that activist could include:
+
+|                       |                             |                            |
+| :-------------------- | :-------------------------- | :------------------------- |
+| Environment           | Housing                     | Refugees and Migration     |
+| LGTBQIA+              | Racial Justice              | Women's Rights             |
+| Children's Rights     | Elder Rights                | Education                  |
+| Health and Wellbeing  | Animal Rights               | Democracy                  |
+| Labor Rights          | Technology and Privacy      | Peace and Resolution       |
+| Nutrition             | Accessibility and Inclusion | Institutional Transparency |
+| Freedom of Expression | Infrastructure and Mobility | Emergency Relief           |
+
+<br/>
+Beyond clustering by topics, tags will also be used to draw community attention to more specific issues.
+
+<a id="preview-video"></a>
+
+## Preview video [`⇧`](#contents)
 
 The following is a recording of the [Creating and Joining Events prototype](https://www.figma.com/proto/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=1998%3A2577&scaling=contain&page-id=1986%3A1046&starting-point-node-id=1998%3A2577) found on [Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231):
 
 https://user-images.githubusercontent.com/24387426/215117858-96b0d3ac-4d11-449e-bcc0-2b7ec330a6e1.mp4
 
-Further prototypes and designs are available in the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Feedback and ideas can be submitted via a [design issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=design&template=design_improvement.yml).
+Further prototypes and designs are available in the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231).
 
 <a id="contributing"></a>
 
@@ -59,47 +90,31 @@ Further prototypes and designs are available in the [designs for activist](https
 
 <a href="https://matrix.to/#/#activist_community:matrix.org"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/MatrixLogoGrey.png" height="50" alt="Public Matrix Chat" align="right"></a>
 
-activist uses [Matrix](https://matrix.org/) for communications. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi :)
+We use [Matrix](https://matrix.org/) for our internal communication. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi to the team :)
 
-Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) and [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) if you are interested in contributing to activist. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
+Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) and [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) if you are interested in contributing. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
 
-> [!NOTE]
+> [!TIP]
 > Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
 
 Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors. For those new to coding or our tech stack, we've collected [links to helpful documentation pages](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#learning-the-tech) in the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md).
 
-After your first pull requests organization members would be happy to discuss granting you further rights as a contributor, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive and supportive organization. We'd love to have you on the team!
+We would be happy to discuss granting you further rights as a contributor after your first pull requests, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive, diverse and supportive organization. We'd love to have you on the team!
 
-<a id="ways-to-help"></a>
+<a id="how-you-can-help"></a>
 
-## Ways to Help [`⇧`](#contents)
+## How you can help [`⇧`](#contents)
 
 - [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
-- Working on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
-- [Localization](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) for the platform 🌐
-  - Please join our public localization project [on Transifex](https://explore.transifex.com/activist-org/activist)!
+- Working with us on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
+- [Localizing](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) content for the platform 🌐
+  - Please join our [public localization project on Transifex](https://explore.transifex.com/activist-org/activist)!
 - [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
 - [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
 
-<a id="road-map"></a>
-
-## Road Map [`⇧`](#contents)
-
-The activist road map can be followed in the organization's [project board](https://github.com/orgs/activist-org/projects/1) where we list the most important issues along with their priority, status and an indication of which sub projects they're included in (if applicable).
-
-<a id="designs"></a>
-
-## Designs [`⇧`](#contents)
-
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
-
-The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those with interest can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
-
-Note that the Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or via the email on the public designs welcome page. We'd love to see a sample of your work and if everything looks good we'll schedule a time to get connected!
-
 <a id="environment-setup"></a>
 
-# Environment Setup [`⇧`](#contents)
+# Environment setup [`⇧`](#contents)
 
 1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
 
@@ -190,7 +205,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 - [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/) (planned)
 
-### Localization
+### Internationalization
 
 - [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Transifex](https://www.transifex.com/) ([activist on Transifex](https://explore.transifex.com/activist-org/activist))
 
@@ -201,147 +216,182 @@ The following are the current and planned technologies for [activist.org](https:
 > [!NOTE]
 > Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
-<a id="platform-overview"></a>
+<a id="design-a11y"></a>
 
-# Platform Overview [`⇧`](#contents)
+# Design and accessability [`⇧`](#contents)
 
-The following sections give a general overview of the various features of [activist.org](https://activist.org).
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
 
-## Organizations [`⇧`](#contents)
+The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). You can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
-activist is first and foremost about organizations, with the design of the platform being tailored to their needs. The main function of organizations on activist is organizing and hosting [events](#events), but future features aim to help them achieve their goals and scale more effectively.
+We want our tools to look great, feel easy to use and function flawlessly on any device while at the same time including good security practices wherever possible. We also consistently make decisions that put a11y at the center of what we’re building.
 
-Organizations will eventually have the following features:
+> [!NOTE]
+> Please contact the team on GitHub or via the email on the [designs welcome page](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) if you're interested in contributing. We'd love to see a sample of your work and if everything looks good we'll schedule a time to get connected!
 
-### Applying to join
+<a id="platform-features"></a>
 
-All organizations have to apply to join activist. The application process is the way that the community transparently expands, with the support from organizations already on the platform serving to verify those who want to join. Interactions on the platform will also in some cases be limited to members of organizations. In this way we create important links of trust from organizations to other organizations and each organization to its individual members.
+# Platform features [`⇧`](#contents)
 
-### Working Groups
+The [project board](https://github.com/orgs/activist-org/projects/1) is where we organize our work and plan out what's next. The following sections give a general overview of the various planned features of [activist.org](https://activist.org).
 
-Working groups will allow organizations to organize themselves into smaller teams for specific purposes.
+### Organizations profiles [`⇧`](#contents)
 
-### Communications
+> Easy-to-use microsites for organizations of all sizes with multiple subpages.
 
-Organizations will be able to send out communications to their members (announcements) and supporters (statements).
+Describe your organization’s aims and structure as well as answer frequently asked questions. Explain how your groups collaborate and safely onboard new people to the team.
 
-### Tasks
+### Events [`⇧`](#contents)
 
-Tasks are all the things that organizations need to do, which will be able to be organized in lists and kanban boards.
+> Collaborative event pages made for activists and their needs.
 
-<a id="events"></a>
+Organizations can create flexible event pages for different formats of events. There are two types of events:
 
-## Events [`⇧`](#contents)
+- **Learn**: seminars, meetings, panel discussions
+- **Action**: protests, volunteering, canvassing
 
-Events are where things happen on activist. They are organized by [topics](#topics), [types](#types) and [formats](#formats): the first being the focus of the event; the second being the kind of participation that people attending should expect; and the third being the specific kind of activity happening (see below).
+Other event features include:
 
-<a id="topics"></a>
+- A feed will allow organizers to share information in real time with participants
+- Organizations can create event templates and share them with allies
+- Event pages can be transformed into flyers or posters and linked to via QR codes
+- Legal disclaimers can be added so people know their rights
 
-### Topics
+### Resources [`⇧`](#contents)
 
-activist will eventually include a broad selection of topics. From the start the platform will focus on a select few: `Environment`, `Housing` and `Refugees and Migration`. Further topics will be added later as interest from organizations and the community grows. The following are the working topics that activist could include:
+> A simple link hub for organizations.
 
-|                       |                             |                            |
-| :-------------------- | :-------------------------- | :------------------------- |
-| Environment           | Housing                     | Refugees and Migration     |
-| LGTBQIA+              | Racial Justice              | Women's Rights             |
-| Children's Rights     | Elder Rights                | Education                  |
-| Health and Wellbeing  | Animal Rights               | Democracy                  |
-| Labor Rights          | Technology and Privacy      | Peace and Resolution       |
-| Nutrition             | Accessibility and Inclusion | Institutional Transparency |
-| Freedom of Expression | Infrastructure and Mobility | Emergency Relief           |
+Organizations can keep important links (chats, articles, pads, etc.) in one place, group what belongs together and pin to the top what’s currently most important. Private by default, resources can also be made public to share information and best practices.
 
-<br/>
-Beyond clustering by topics, tags will also be used to draw community attention to more specific issues.
+### Onboarding [`⇧`](#contents)
 
-<a id="types"></a>
+> Safe methods to onboard new members.
 
-### Types
+We are working on a conversational onboarding interface based on the [Matrix protocol](https://matrix.org/) that operates across messengers while not compromising data sovereignty for organizations or individuals. Organizations will also have the option to include their existing processes if preferred.
 
-`Action` and `Learn` are the two types of an event on activist, with coloration being used to easily delineate the level of participation for a particular event (🔴 red is for action and 🔵 blue is for learn).
+### Search [`⇧`](#contents)
 
-<a id="formats"></a>
+> Easily find, filter and share.
 
-### Formats
+Display search results in list, map and calendar views. Users can also save searches for later or set up notifications for newly published events, resources, and discussions.
 
-Types are further broken down into specific formats. The available formats currently include:
+### Discussions [`⇧`](#contents)
 
-- Action: protests, volunteering, organizing, fundraising
-- Learn: seminars, webinars, meetings, panel discussions
+> Dedicated forums for organizations and their events.
 
-Formats are not required for events like topics and types, but add an optional granularity to help people find what they're looking for.
+Discussions will also allow organizations, groups and events to send notifications to supporters. Included features for democratic decision making will further enable asynchronous planning.
 
-## Resources [`⇧`](#contents)
+### Tasks [`⇧`](#contents)
 
-Resources at the start will aggregate links to files that organizations want to present to their members and the general public (if made open). Later the goal is to allow for the creation of unique hosted resources such as maps that indicate areas of interest, findings from researchers, news articles and any other kind of information that they would like to share.
+> Kanban boards for organizing the work to be done.
 
-## Activists [`⇧`](#contents)
+Users will be able to attach kanban boards to every organization, group and event. This will allow those involved to easily plan and keep an overview of progress while templates guide organizers with best practices from our community.
 
-Activists, user accounts, will not be included in the MVP beyond what's needed for organization management. The main goal at the start is to derive technical specifications that assure that privacy at the highest level can be provided to those users who want it, while at the same time balancing features needed by the community. Activism is dangerous work for many and the platform will respect the needs of those who need anonymity in their work and still want to participate.
+### Affiliates [`⇧`](#contents)
 
-## Affiliations [`⇧`](#contents)
+> Relationships between organizations, people and events.
 
-activist will have various kinds of relationships between organizations and activists that are collectively known as affiliations. The possible affiliations include:
+Organizations and users can give support to each other as well as events:
 
-- Supporter: an organization or activist that supports another ➡️
-- Ally: the relationship of mutual support ↔️
+- **Supporter**: a one-way relationship of support
+- **Ally**: a relationship of mutual support
 
-What kind of affiliate an organization or activist is will determine their notifications and degrees of access to private content.
+Relationships between organizations will help users find similar organizations or easily connect with actions when they’re in a new place. Affiliations will also determine notifications and access to restricted content.
 
-## Votes [`⇧`](#contents)
+### Votes [`⇧`](#contents)
 
-Another forthcoming feature, the votes section would allow events to be made in relation to elections and legislation. This would allow users to filter by votes to find events that have an impact on the legislative process. Generally the idea is that [Wikidata](https://wikidata.org) would be used as a source for votes in the various regions in which activist operates.
+> Linking events and organizations to decision making.
 
-<a id="supported-by"></a>
+Users will be able to subscribe for updates on events and organizations that work in relation to legislation and elections. The plan for this feature is that it will be based on data from [Wikidata](https://www.wikidata.org), with open data generating the vote pages that our community then maintains.
 
-# Supported By [`⇧`](#contents)
+<a id="securely-hosted"></a>
 
-<details open><summary><strong>activist Featured on the Web</strong></summary>
-<p>
+# Securely hosted [`⇧`](#contents)
 
-<strong>2023</strong>
+We are hosting our data in Iceland with a reputable hosting provider that is trusted by whistleblowers, activists and investigative journalists: [FlokiNET]().
 
-- [Presentation](https://docs.google.com/presentation/d/1MMCi8UoGZgDOLovEsE-jHNsPQcoQD5pQxLCI1E9Qt0Q/edit?usp=sharing) of activist at the Berlin [tech from below meetup](https://techfrombelow.de/2023-05-11/)
+Iceland is a strong supporter for net neutrality with strict privacy protection laws and freedom of the press. All these factors have contributed to making Iceland a preferred destination for data centers.
 
-<strong>2022</strong>
+> You can learn more about FlokiNET on [their blog](https://blog.flokinet.is).
 
-- [Presentation](https://www.youtube.com/watch?v=PdUZ8zFWnCk&list=PLduaHBu_3ejMxN1xipMDCOTb0wx6wxWnZ) for the [2022 Wikimedia UNLOCK accelerator](https://www.wikimedia.de/unlock)
-- activist on the [Wikimedia UNLOCK accelerator website](https://www.wikimedia.de/unlock/unlock-projects/activist-org)
+<a id="community-governance"></a>
 
-</p>
-</details>
+# Community governance [`⇧`](#contents)
 
-activist has received support from the following organizations as a participant in the [UNLOCK accelerator](https://www.wikimedia.de/unlock):
+We not only value, but need open discourse. Our initial feature set for the MVP and future releases was developed together with our growing community of activists.
 
-<div align="center">
-  <br>
-    <a href="https://www.wikimedia.de"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://wikimedia.rs"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://belgrade.impacthub.net"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <br>
-</div>
+Our aim is to secure a progressive community by design while putting platform health before platform growth. Only organizations that are already on activist will be able to vouch for new organizations that apply to join. Together with experienced activists we are selecting an initial group of organizations that have a proven track record of inclusivity and elevating underrepresented groups.
 
-# Powered By
+We are still developing our operating principles and will always update them based on community decisions. Questions around flagging, banning, guidelines and rules will always be answered collectively.
+
+<a id="localization"></a>
+
+# Localization [`⇧`](#contents)
+
+We need to break down language barriers in order to mobilize larger and more diverse coalitions. Translation requests will be available for several assets on the platform - organization profiles, events and resources - and we are growing our network of volunteer contributors to facilitate this.
+
+> [!NOTE]
+> Want to join our translators working group? Please join our [public localization project on Transifex](https://explore.transifex.com/activist-org/activist).
+
+<a id="supporters-partners"></a>
+
+# Supporters and partners [`⇧`](#contents)
 
 ### Contributors
 
-Many thanks to all the [activist.org contributors](https://github.com/activist-org/activist/graphs/contributors)! 🚀
+Thanks to all our amazing [contributors](https://github.com/activist-org/activist/graphs/contributors)! ❤️
 
 <a href="https://github.com/activist-org/activist/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=activist-org/activist" />
 </a>
 
-### Code and Dependencies
+### Code and dependencies
 
-The activist team would like to thank all the great software that made activist's development possible ❤️
+We would like to thank all the great software that made activist's development possible 🙏
 
 - Countless [Nuxt modules](https://nuxt.com/modules)
 - [OpenStreetMap](https://www.openstreetmap.org)
 - [Leaflet](https://leafletjs.com/)
 
+### Our partners
+
+- Our fiscal host Änderwerk
+
+    <details><summary><strong>About Änderwerk</strong></summary>
+    <p>
+
+  Änderwerk is a non-profit host organization for projects, initiatives and movements working towards a better future for people and the planet.
+
+  They take care of fiscal hosting, managing donations, budgets, accounting and the transformation of financial resources into useful tools.
+
+  They enable initiatives and groups in their hub to concentrate on what they do best – effective community-led action, aligned with their values and goals.
+
+  We are happy to be a part of this community.
+
+    </p>
+    </details>
+
+- The Wikimedia UNLOCK Accelerator
+
+    <details><summary><strong>About UNLOCK</strong></summary>
+    <p>
+
+  These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supports open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
+
+    <div align="center">
+    <br>
+        <a href="https://www.wikimedia.de"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="https://wikimedia.rs"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="https://belgrade.impacthub.net"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <br>
+    </div>
+
+    </p>
+    </details>
+
 # Disclosure
 
-activist is not directly affiliated with any corporations, political parties or governments. Our goal is to make activism easier for our community and partner organizations.
+activist is not directly affiliated with any corporation, political party or government.

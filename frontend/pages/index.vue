@@ -17,7 +17,7 @@
         imageAltText="pages._global.get-active-img-alt-text"
         btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/get-active"
-        btnAriaLabel1="pages.index.get-active-btn-alt-text"
+        btnAriaLabel1="pages.index.get-active-btn-aria-label"
       />
       <LandingContent
         contentPosition="right"
@@ -28,7 +28,7 @@
         imageAltText="pages._global.get-organized-img-alt-text"
         btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/get-organized"
-        btnAriaLabel1="pages.index.get-organized-btn-alt-text"
+        btnAriaLabel1="pages.index.get-organized-btn-aria-label"
       />
       <LandingContent
         contentPosition="left"
@@ -39,7 +39,7 @@
         imageAltText="pages._global.grow-org-img-alt-text"
         btnText1="components.btn-labeled.learn-more"
         btnURL1="/docs/grow-organization"
-        btnAriaLabel1="pages.index.grow-organization-btn-alt-text"
+        btnAriaLabel1="pages.index.grow-organization-btn-aria-label"
       />
       <LandingTechBanner />
       <LandingContent
@@ -51,7 +51,7 @@
         imageAltText="_global.activist-icon-img-alt-text"
         btnText1="components.btn-labeled.learn-more"
         btnURL1="/about/activist"
-        btnAriaLabel1="pages.index.activist-section-btn-alt-text"
+        btnAriaLabel1="pages.index.activist-section-btn-aria-label"
       />
       <LandingContent
         contentPosition="top"
@@ -61,10 +61,10 @@
         imageAltText=""
         btnText1="pages._global.become-supporter"
         btnURL1="/supporters/join"
-        btnAriaLabel1="pages.index.our-supporters-btn-become-alt-text"
+        btnAriaLabel1="pages.index.our-supporters-btn-become-aria-label"
         btnText2="pages.index.view-all-supporters"
         btnURL2="/supporters/showcase"
-        btnAriaLabel2="pages.index.our-supporters-btn-view-alt-text"
+        btnAriaLabel2="pages.index.our-supporters-btn-view-aria-label"
         subText="pages.index.our-supporters-sub-text"
       />
     </div>
