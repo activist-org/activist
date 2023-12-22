@@ -30,10 +30,10 @@ class Event(CreationDeletionMixin):
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
     online_location_link = models.CharField(max_length=255, blank=True)
-    offline_location_lat = models.FloatField(null=True)
-    offline_location_long = models.FloatField(null=True)
-    start_time = models.DateTimeField(null=True)
-    end_time = models.DateTimeField(null=True)
+    offline_location_lat = models.FloatField(null=True, blank=True)
+    offline_location_long = models.FloatField(null=True, blank=True)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_events", on_delete=models.CASCADE
     )
@@ -68,7 +68,7 @@ class Role(models.Model):
 class EventAttendee(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
-    role_id = models.ForeignKey("Role", on_delete=models.CASCADE, null=True)
+    role_id = models.ForeignKey("Role", on_delete=models.CASCADE, null=True, blank=True)
     attendee_status = models.ForeignKey(
         "EventAttendeeStatus", on_delete=models.CASCADE, default=1
     )

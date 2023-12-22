@@ -38,7 +38,7 @@ class Organization(CreationDeletionMixin):
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
-    total_flags = models.IntegerField(null=True, default=0)
+    total_flags = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.name
@@ -116,7 +116,9 @@ class Group(CreationDeletionMixin):
 class OrganizationTask(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
-    group_id = models.ForeignKey("Group", on_delete=models.CASCADE, null=True)
+    group_id = models.ForeignKey(
+        "Group", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self) -> str:
         return f"{self.id}"

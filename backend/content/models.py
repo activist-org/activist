@@ -27,7 +27,7 @@ class Resource(CreationDeletionMixin):
     url = models.URLField(max_length=255)
     total_flags = models.IntegerField(default=0)
     private = models.BooleanField(default=True)
-    last_updated = models.DateTimeField(auto_now=True)  # check parameters again
+    last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return self.name
@@ -50,7 +50,7 @@ class Topic(models.Model):
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateTimeField(null=True)
+    deprecation_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
