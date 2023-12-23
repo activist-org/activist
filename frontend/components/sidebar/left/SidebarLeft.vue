@@ -9,14 +9,15 @@
     }"
   >
     <SidebarLeftHeader />
+    <!-- -mr and pr are used to position the scrollbar to the right of the sidebar. -->
     <div
-      class="h-full overflow-x-hidden"
+      class="h-full overflow-x-hidden overflow-y-hidden hover:-mr-[0.85rem] hover:pr-2"
       :class="{
-        'overflow-y-auto':
-          !sidebar.collapsed || sidebar.collapsedSwitch == false,
+        'hover:overflow-y-scroll':
+          !sidebar.collapsed || !sidebar.collapsedSwitch,
       }"
     >
-      <SearchBar class="mt-2" location="sidebar" />
+      <SearchBar class="mt-1" location="sidebar" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
         v-if="
