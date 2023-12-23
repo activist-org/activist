@@ -91,7 +91,7 @@ definePageMeta({
 
 const route = useRoute();
 
-// TODO: for testing purpose, should be remove.
+// TODO: for testing purpose, should be removed.
 const upVotes = ref(123);
 const downVotes = ref(123);
 
