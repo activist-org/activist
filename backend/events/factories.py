@@ -26,7 +26,6 @@ class EventFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text")
     get_involved_text = factory.Faker("text")
     online_location_link = factory.Faker("url")
-    offline_location_name = factory.Faker("word")
     offline_location_lat = factory.Faker("latitude")
     offline_location_long = factory.Faker("longitude")
     start_time = factory.LazyFunction(datetime.datetime.now)
@@ -66,7 +65,7 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
     event_id = factory.SubFactory(EventFactory)
     user_id = factory.SubFactory("authentication.factories.UserFactory")
     role_id = factory.SubFactory(RoleFactory)
-    attendee_status = factory.Faker("random_element", elements=[1, 2, 3])
+    attendee_status = factory.SubFactory("events.factories.EventAttendeeStatusFactory")
 
 
 class EventFormatFactory(factory.django.DjangoModelFactory):

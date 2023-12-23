@@ -19,7 +19,7 @@ from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
-    path("", admin.site.urls),
+    path("admin/", admin.site.urls),
     path("v1/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "v1/schema/swagger-ui/",
