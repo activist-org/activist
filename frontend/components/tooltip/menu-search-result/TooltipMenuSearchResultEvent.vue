@@ -1,6 +1,6 @@
 <template>
   <TooltipBase class="rounded-md">
-    <div ref="tooltip" class="space-y-2">
+    <div class="space-y-2">
       <BtnLabeled
         class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.support"
