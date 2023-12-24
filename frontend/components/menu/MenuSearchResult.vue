@@ -9,24 +9,28 @@
         v-if="searchResultType === 'event'"
         v-show="showTooltip"
         @blur="showTooltip = false"
+        @tab="onTab"
         class="absolute bottom-6 left-4"
       />
       <TooltipMenuSearchResultOrganization
         v-if="searchResultType === 'organization'"
         v-show="showTooltip"
         @blur="showTooltip = false"
+        @tab="onTab"
         class="absolute bottom-6 left-4"
       />
       <TooltipMenuSearchResultResource
         v-if="searchResultType === 'resource'"
         v-show="showTooltip"
         @blur="showTooltip = false"
+        @tab="onTab"
         class="absolute bottom-6 left-4"
       />
       <TooltipMenuSearchResultUser
         v-if="searchResultType === 'user'"
         v-show="showTooltip"
         @blur="showTooltip = false"
+        @tab="onTab"
         class="absolute bottom-6 left-4"
       />
     </button>
@@ -38,4 +42,11 @@ defineProps<{
   searchResultType: "organization" | "event" | "resource" | "user";
 }>();
 const showTooltip = ref(false);
+
+// The function is triggered when the Tab key is pressed on the last element of the tooltip.
+// It sets the 'showTooltip' to false, making the tooltip invisible.
+// NOTE: If new elements are added to the tooltip, this function should be reviewed to ensure it correctly handles the visibility of the tooltip in response to Tab key actions.
+const onTab = () => {
+  showTooltip.value = false;
+};
 </script>
