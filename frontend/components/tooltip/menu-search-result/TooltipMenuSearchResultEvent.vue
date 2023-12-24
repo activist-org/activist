@@ -1,9 +1,9 @@
 <template>
   <TooltipBase class="rounded-md">
-    <div class="space-y-2">
+    <div class="flex-col space-y-2">
       <BtnLabeled
         @keydown="onTabPress((isLastItem = false), (event = $event))"
-        class="flex truncate max-h-[40px] w-full"
+        class="flex max-h-[40px] w-full"
         label="components.btn-labeled.support"
         leftIcon="IconSupport"
         linkTo=""
@@ -11,7 +11,7 @@
         :ariaLabel="$t('components.btn-labeled.support-event-aria-label')"
       />
       <BtnLabeled
-        class="flex truncate max-h-[40px] w-full"
+        class="flex max-h-[40px] w-full items-center"
         label="components.btn-labeled.attend"
         leftIcon="IconJoin"
         linkTo=""
@@ -20,7 +20,7 @@
       />
       <BtnLabeled
         @keydown="onTabPress((isLastItem = true), (event = $event))"
-        class="flex truncate max-h-[40px] w-full"
+        class="flex max-h-[40px] w-full items-center"
         label="components.btn-labeled.share"
         leftIcon="bi:box-arrow-up"
         linkTo=""

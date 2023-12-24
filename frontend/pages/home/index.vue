@@ -46,10 +46,10 @@
 </template>
 
 <script setup lang="ts">
-import { Event } from "~/types/event";
-import { Organization } from "~/types/organization";
-import { Resource } from "~/types/resource";
-import { User } from "~/types/user";
+import type { Event } from "~/types/event";
+import type { Organization } from "~/types/organization";
+import type { Resource } from "~/types/resource";
+import type { User } from "~/types/user";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"

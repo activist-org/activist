@@ -82,7 +82,7 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 import useMenuEntriesState from "~/composables/useMenuEntriesState";
-import MenuEntry from "~/types/menu-entry";
+import type MenuEntry from "~/types/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
 
 const route = useRoute();

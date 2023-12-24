@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 import QrcodeVue from "qrcode.vue";
-import { ref } from "vue";
 
 const codeSize = ref(250);
 

@@ -78,7 +78,6 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
-import { ref } from "vue";
 
 const sidebar = useSidebar();
 const input = ref();

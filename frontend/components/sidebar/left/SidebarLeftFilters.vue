@@ -80,7 +80,7 @@
 <script setup lang="ts">
 const sidebar = useSidebar();
 
-import { CheckboxOption } from "../../form/checkbox/FormCheckboxGroup.vue";
+import type { CheckboxOption } from "../../form/checkbox/FormCheckboxGroup.vue";
 
 interface Filter {
   title: string;

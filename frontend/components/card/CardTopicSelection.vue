@@ -63,7 +63,8 @@ import {
   ComboboxOptions,
 } from "@headlessui/vue";
 
-import { GLOBAL_TOPICS, Topic, TopicsTag } from "~/types/topics";
+import type { Topic, TopicsTag } from "~/types/topics";
+import { GLOBAL_TOPICS } from "~/types/topics";
 
 const props = defineProps({
   modelValue: {

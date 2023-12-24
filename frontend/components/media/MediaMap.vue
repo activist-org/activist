@@ -18,9 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import L, { MapOptions } from "leaflet";
+import type { MapOptions } from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { onMounted, ref } from "vue";
 
 const props = defineProps<{
   addresses: string[];

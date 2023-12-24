@@ -33,8 +33,8 @@
 </template>
 
 <script setup lang="ts">
-import { DiscussionInput } from "~/types/card-discussion-input";
-import { DiscussionText } from "~/types/card-discussion-text";
+import type { DiscussionInput } from "~/types/card-discussion-input";
+import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Event } from "~/types/event";
 definePageMeta({
   layout: "sidebar",

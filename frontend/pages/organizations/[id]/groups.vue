@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { Organization } from "~/types/organization";
+import type { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",

@@ -22,7 +22,7 @@
   </TooltipBase>
 </template>
 <script setup lang="ts">
-import { PasswordRules } from "~/types/password-rules";
+import type { PasswordRules } from "~/types/password-rules";
 
 defineProps<{
   rules: PasswordRules[];

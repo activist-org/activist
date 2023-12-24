@@ -59,8 +59,8 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { MenuSelector } from "~/types/menu-selector";
-import { Organization } from "~/types/organization";
+import type { MenuSelector } from "~/types/menu-selector";
+import type { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",
