@@ -1,6 +1,6 @@
 <template>
   <TooltipBase class="rounded-md">
-    <div class="space-y-2">
+    <div ref="tooltip" class="space-y-2">
       <BtnLabeled
         class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.support"
@@ -18,6 +18,7 @@
         :ariaLabel="$t('components.btn-labeled.attend-aria-label')"
       />
       <BtnLabeled
+        @keydown.tab="$emit('tab')"
         class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.share"
         leftIcon="bi:box-arrow-up"
@@ -33,4 +34,6 @@
 defineProps<{
   location?: string;
 }>();
+
+defineEmits(['tab'])
 </script>

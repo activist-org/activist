@@ -10,6 +10,7 @@
         :ariaLabel="$t('components._global.star')"
       />
       <BtnLabeled
+        @keydown.tab="$emit('tab')"
         class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.share"
         leftIcon="bi:box-arrow-up"
@@ -25,4 +26,6 @@
 defineProps<{
   location?: string;
 }>();
+
+defineEmits(['tab'])
 </script>
