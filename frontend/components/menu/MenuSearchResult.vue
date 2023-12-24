@@ -42,7 +42,6 @@ defineProps<{
   searchResultType: "organization" | "event" | "resource" | "user";
 }>();
 const showTooltip = ref(false);
-const tooltipButton = ref(null)
 
 // The function is triggered when the Tab key is pressed on the last element of the tooltip.
 // It sets the 'showTooltip' to false, making the tooltip invisible.
