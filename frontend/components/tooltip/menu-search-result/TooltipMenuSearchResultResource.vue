@@ -2,6 +2,7 @@
   <TooltipBase class="rounded-md">
     <div class="space-y-2">
       <BtnLabeled
+        @keydown="onTabPress(false, $event)"
         class="flex truncate max-h-[40px] w-full"
         label="components._global.star"
         leftIcon="bi:star"
@@ -10,7 +11,7 @@
         :ariaLabel="$t('components._global.star')"
       />
       <BtnLabeled
-        @keydown.tab="$emit('tab')"
+        @keydown="onTabPress(true, $event)"
         class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.share"
         leftIcon="bi:box-arrow-up"
@@ -23,9 +24,13 @@
 </template>
 
 <script setup lang="ts">
+import useTabNavigationEmit from "~/composables/useTabNavigationEmit";
+
 defineProps<{
   location?: string;
 }>();
 
-defineEmits(['tab'])
+const emit = defineEmits(['tab'])
+
+const { onTabPress } = useTabNavigationEmit(emit)
 </script>
