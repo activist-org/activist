@@ -19,7 +19,6 @@ export default function useTabNavigationEmit(emit: EmitType) {
       (!isLastItem && event.shiftKey && event.key === "Tab") ||
       (isLastItem && !event.shiftKey && event.key === "Tab")
     ) {
-      event.preventDefault();
       emit("tab");
     }
   };
