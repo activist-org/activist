@@ -1,7 +1,8 @@
 <template>
   <div @mouseleave="showTooltip = false" class="p-2">
     <button
-      @click="showTooltip = showTooltip == true ? false : true"
+      @click="showTooltip = !showTooltip"
+      @keydown.shift.tab="onShiftTab"
       class="relative flex items-center justify-center style-cta rounded-full w-6 h-6 elem-shadow-sm"
     >
       <Icon name="bi:three-dots-vertical" size="1.25em" />
@@ -10,6 +11,7 @@
         v-show="showTooltip"
         @blur="showTooltip = false"
         @tab="onTab"
+        @keydown.shift.tab.stop
         class="absolute bottom-6 left-4"
       />
       <TooltipMenuSearchResultOrganization
@@ -17,6 +19,7 @@
         v-show="showTooltip"
         @blur="showTooltip = false"
         @tab="onTab"
+        @keydown.shift.tab.stop
         class="absolute bottom-6 left-4"
       />
       <TooltipMenuSearchResultResource
@@ -24,6 +27,7 @@
         v-show="showTooltip"
         @blur="showTooltip = false"
         @tab="onTab"
+        @keydown.shift.tab.stop
         class="absolute bottom-6 left-4"
       />
       <TooltipMenuSearchResultUser
@@ -31,6 +35,7 @@
         v-show="showTooltip"
         @blur="showTooltip = false"
         @tab="onTab"
+        @keydown.shift.tab.stop
         class="absolute bottom-6 left-4"
       />
     </button>
@@ -43,10 +48,16 @@ defineProps<{
 }>();
 const showTooltip = ref(false);
 
-// The function is triggered when the Tab key is pressed on the last element of the tooltip.
-// It sets the 'showTooltip' to false, making the tooltip invisible.
-// NOTE: If new elements are added to the tooltip, this function should be reviewed to ensure it correctly handles the visibility of the tooltip in response to Tab key actions.
+// The functions are triggered when the Tab key is pressed on the button or tooltip elements.
+// They set `showTooltip` to false, making the tooltip invisible again.
+// NOTE: This functionality should be reviewed if new elements are added to the tooltip.
+//   - The first BtnLabeled in the tooltip should get `isLastItem = false`
+//   - The last BtnLabeled should get `isLastItem = true`
 const onTab = () => {
+  showTooltip.value = false;
+};
+
+const onShiftTab = () => {
   showTooltip.value = false;
 };
 </script>

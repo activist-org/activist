@@ -14,7 +14,7 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
   >
-    <div class="flex justify-items-center">
+    <div class="flex justify-items-center items-center">
       <Icon v-if="leftIcon" class="mr-2" :name="leftIcon" :size="iconSize" />
       <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
       <div v-else class="-mx-1"></div>
@@ -44,7 +44,7 @@
     :href="linkTo"
     :aria-label="$t(ariaLabel)"
   >
-    <div class="flex justify-items-center">
+    <div class="flex justify-items-center items-center">
       <Icon v-if="leftIcon" class="mr-2" :name="leftIcon" :size="iconSize" />
       <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
       <div v-else class="-mx-1"></div>
@@ -74,7 +74,7 @@
     }"
     :aria-label="$t(ariaLabel)"
   >
-    <div class="flex justify-items-center">
+    <div class="flex justify-items-center items-center">
       <Icon v-if="leftIcon" class="mr-2" :name="leftIcon" :size="iconSize" />
       <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
       <div v-else class="-mx-1"></div>

@@ -2,7 +2,7 @@
   <TooltipBase class="rounded-md">
     <div class="space-y-2">
       <BtnLabeled
-        @keydown="onTabPress(false, $event)"
+        @keydown="onTabPress((isLastItem = false), (event = $event))"
         class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.support"
         leftIcon="IconSupport"
@@ -11,7 +11,7 @@
         :ariaLabel="$t('components.btn-labeled.support-user-aria-label')"
       />
       <BtnLabeled
-        @keydown="onTabPress(true, $event)"
+        @keydown="onTabPress((isLastItem = true), (event = $event))"
         class="flex truncate max-h-[40px] w-full"
         label="components.btn-labeled.share"
         leftIcon="bi:box-arrow-up"
@@ -31,6 +31,5 @@ defineProps<{
 }>();
 
 const emit = defineEmits(["tab"]);
-
 const { onTabPress } = useTabNavigationEmit(emit);
 </script>
