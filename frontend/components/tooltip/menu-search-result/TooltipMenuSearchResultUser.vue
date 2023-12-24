@@ -30,7 +30,7 @@ defineProps<{
   location?: string;
 }>();
 
-const emit = defineEmits(['tab'])
+const emit = defineEmits(["tab"]);
 
-const { onTabPress } = useTabNavigationEmit(emit)
+const { onTabPress } = useTabNavigationEmit(emit);
 </script>

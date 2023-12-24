@@ -47,6 +47,6 @@ const showTooltip = ref(false);
 // It sets the 'showTooltip' to false, making the tooltip invisible.
 // NOTE: If new elements are added to the tooltip, this function should be reviewed to ensure it correctly handles the visibility of the tooltip in response to Tab key actions.
 const onTab = () => {
-  showTooltip.value = false
-}
+  showTooltip.value = false;
+};
 </script>
