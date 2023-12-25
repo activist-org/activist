@@ -10,7 +10,7 @@
     @apply bg-light-header dark:bg-dark-header;
   }
   * {
-    @apply scrollbar scrollbar-w-1.5 scrollbar-thumb-light-special-text dark:scrollbar-thumb-dark-special-text scrollbar-track-light-highlight dark:scrollbar-track-dark-highlight  scrollbar-thumb-rounded-md scrollbar-track-rounded-md;
+    @apply scrollbar scrollbar-w-1.5 scrollbar-thumb-light-special-text dark:scrollbar-thumb-dark-special-text scrollbar-track-light-highlight dark:scrollbar-track-dark-highlight scrollbar-thumb-rounded-md scrollbar-track-rounded-md;
   }
 }
 
