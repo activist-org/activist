@@ -11,13 +11,10 @@
     <SidebarLeftHeader />
     <!-- -mr and pr are used to position the scrollbar to the right of the sidebar. -->
     <div
-      class="h-full overflow-x-hidden overflow-y-hidden"
+      class="h-full overflow-x-hidden overflow-y-scroll"
       :class="{
-        'hover:overflow-y-scroll':
-          !sidebar.collapsed || !sidebar.collapsedSwitch,
-        'hover:-mr-[1.1rem] hover:pr-[0.25rem] scrollbar-track-transparent':
-          isFirefox,
-        'hover:-mr-[0.8rem] hover:pr-[0.45rem]': !isFirefox,
+        '-mr-[0.8rem]': isFirefox,
+        '-mr-[0.8rem] pr-[0.45rem]': !isFirefox,
       }"
     >
       <SearchBar class="mt-1" location="sidebar" />
