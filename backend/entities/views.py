@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.request import Request
@@ -44,33 +45,74 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     pagination_class = CustomPagination
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
-    def create(self, request: Request, *args: str, **kwargs: int) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            instance = serializer.save()
-            data = {"message": f"New Organization created with id: {instance.id}"}
-            return Response(data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def create(self, request: Request) -> Response:
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(created_by=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
-        instance = get_object_or_404(Organization, pk=kwargs["pk"])
-        serializer = self.get_serializer(instance)
+        return Response(
+            {"error": "You are not allowed to create a organization."},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    def retrieve(self, request: Request, pk: str | None = None) -> Response:
+        if request.user.is_authenticated:
+            query = self.queryset.filter(
+                Q(created_by=request.user), id=pk
+            )
+        else:
+            query = self.queryset.filter(id=pk)
+
+        serializer = self.get_serializer(query)
         return Response(serializer.data)
 
-    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        instance = get_object_or_404(Organization, pk=kwargs["pk"])
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            data = {"message": f'Organization {kwargs["pk"]} has been updated'}
-            return Response(data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def list(self, request: Request) -> Response:
+        if request.user.is_authenticated:
+            query = self.queryset.filter(
+                Q(created_by=request.user)
+            )
+        else:
+            query = self.queryset
 
-    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
-        instance = get_object_or_404(Organization, pk=kwargs["pk"])
-        instance.delete()
-        data = {"message": f'Organization {kwargs["pk"]} has been deleted successfully'}
-        return Response(data, status=status.HTTP_204_NO_CONTENT)
+        serializer = self.get_serializer(query, many=True)
+        return self.get_paginated_response(self.paginate_queryset(serializer.data))
+
+    def update(self, request: Request, pk: str | None = None) -> Response:
+        item = self.get_object()
+        if not item.created_by == request.user:
+            return Response(
+                {"error": "You are not allowed to update this organization."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        serializer = self.get_serializer(item, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        item = self.get_object()
+        if not item.created_by == request.user:
+            return Response(
+                {"error": "You are not allowed to update this organization."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        serializer = self.get_serializer(item, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request: Request, pk: str | None = None) -> Response:
+        item = self.get_object()
+        if not item.created_by == request.user:
+            return Response(
+                {"error": "You are not allowed to delete this organization."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        self.perform_destroy(item)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class OrganizationApplicationStatusViewSet(
