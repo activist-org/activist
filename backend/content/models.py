@@ -18,7 +18,7 @@ from django.db import models
 from backend.mixins.models import CreationDeletionMixin
 
 
-class Resource(CreationDeletionMixin):
+class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
@@ -27,6 +27,8 @@ class Resource(CreationDeletionMixin):
     url = models.URLField(max_length=255)
     total_flags = models.IntegerField(default=0)
     private = models.BooleanField(default=True)
+    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
