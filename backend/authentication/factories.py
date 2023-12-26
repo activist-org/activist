@@ -17,9 +17,9 @@ class SupportFactory(factory.django.DjangoModelFactory):
         model = Support
 
     supporter_type = factory.SubFactory(SupportEntityTypeFactory)
-    supporter_entity = factory.Faker("random_int", min=1, max=100)
+    supporter_entity = factory.SubFactory("entities.factories.OrganizationFactory")
     supported_type = factory.SubFactory(SupportEntityTypeFactory)
-    supported_entity = factory.Faker("random_int", min=1, max=100)
+    supported_entity = factory.SubFactory("entities.factories.OrganizationFactory")
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -29,7 +29,6 @@ class UserFactory(factory.django.DjangoModelFactory):
     user_name = factory.Faker("user_name")
     name = factory.Faker("name")
     password = factory.Faker("password")
-    location = factory.Faker("city")
     description = factory.Faker("text", max_nb_chars=500)
     verified = factory.Faker("boolean")
     verification_method = factory.Faker("word")

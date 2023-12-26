@@ -38,7 +38,7 @@ const { data: organizations } = await useFetch(
   }
 );
 
-// import { Organization } from "~/types/organization";
+// import type { Organization } from "~/types/organization";
 // const organization: Organization = {
 //   name: "tech from below",
 //   status: "approved",

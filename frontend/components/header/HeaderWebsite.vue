@@ -68,8 +68,6 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from "vue";
-
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
 

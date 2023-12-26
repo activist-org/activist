@@ -59,7 +59,6 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
-import { ref } from "vue";
 
 defineProps<{
   imageModal?: boolean;

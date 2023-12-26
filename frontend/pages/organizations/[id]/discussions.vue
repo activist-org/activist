@@ -46,8 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import { DiscussionEntry } from "~/types/card-discussion-entry";
-import { Organization } from "~/types/organization";
+import type { DiscussionEntry } from "~/types/card-discussion-entry";
+import type { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",

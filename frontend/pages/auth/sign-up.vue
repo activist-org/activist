@@ -92,7 +92,7 @@
 
 <script setup lang="ts">
 import usePasswordRules from "~/composables/usePasswordRules";
-import { PasswordRules } from "~/types/password-rules";
+import type { PasswordRules } from "~/types/password-rules";
 const localePath = useLocalePath();
 
 definePageMeta({

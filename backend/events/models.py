@@ -15,25 +15,25 @@ Contents:
     - EventTask
     - EventTopic
 """
-
+from uuid import uuid4
 
 from django.db import models
 
-from backend.mixins.models import BaseModelMixin
+from backend.mixins.models import CreationDeletionMixin
 
 
-class Event(BaseModelMixin):
+class Event(CreationDeletionMixin):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255, null=True)
+    tagline = models.CharField(max_length=255, blank=True)
     type = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
-    online_location_link = models.CharField(max_length=255, null=True)
-    offline_location_name = models.CharField(max_length=255, null=True)
-    offline_location_lat = models.FloatField(null=True)
-    offline_location_long = models.FloatField(null=True)
-    start_time = models.DateTimeField(null=True)
-    end_time = models.DateTimeField(null=True)
+    online_location_link = models.CharField(max_length=255, blank=True)
+    offline_location_lat = models.FloatField(null=True, blank=True)
+    offline_location_long = models.FloatField(null=True, blank=True)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_events", on_delete=models.CASCADE
     )
@@ -42,29 +42,33 @@ class Event(BaseModelMixin):
         return self.name
 
 
-class Format(BaseModelMixin):
+class Format(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
         return self.name
 
 
-class Role(BaseModelMixin):
+class Role(models.Model):
     name = models.CharField(max_length=255)
     is_custom = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
         return self.name
 
 
-class EventAttendee(BaseModelMixin):
+class EventAttendee(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
-    role_id = models.ForeignKey("Role", on_delete=models.CASCADE, null=True)
+    role_id = models.ForeignKey("Role", on_delete=models.CASCADE, null=True, blank=True)
     attendee_status = models.ForeignKey(
         "EventAttendeeStatus", on_delete=models.CASCADE, default=1
     )
@@ -73,48 +77,48 @@ class EventAttendee(BaseModelMixin):
         return f"{self.user_id} - {self.event_id}"
 
 
-class EventFormat(BaseModelMixin):
+class EventFormat(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     format_id = models.ForeignKey("Format", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.id}"
 
 
-class EventAttendeeStatus(BaseModelMixin):
+class EventAttendeeStatus(models.Model):
     status_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return self.status_name
 
 
-class EventResource(BaseModelMixin):
+class EventResource(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.id}"
 
 
-class EventRole(BaseModelMixin):
+class EventRole(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.id}"
 
 
-class EventTask(BaseModelMixin):
+class EventTask(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.id}"
 
 
-class EventTopic(BaseModelMixin):
+class EventTopic(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.id}"
