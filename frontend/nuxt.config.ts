@@ -197,6 +197,11 @@ export default defineNuxtConfig({
           href: "/favicon.svg",
         },
         {
+          rel: "icon",
+          type: "image/png",
+          href: "/icon.png",
+        },
+        {
           hid: "canonical",
           rel: "canonical",
           href: "https://activist.org",
