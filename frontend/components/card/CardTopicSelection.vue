@@ -1,21 +1,18 @@
 <template v-model="value">
   <div class="flex-col space-y-3 w-full card-style px-5 py-6">
-    <label
-      for="query"
-      class="block font-medium responsive-h3 dark:text-dark-text"
-    >
+    <p class="font-medium responsive-h3 text-light-text dark:text-dark-text">
       {{ $t("components.card-topic-selection.header") }}
-    </label>
+    </p>
     <input
       v-model="query"
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="pl-4 py-2 w-full text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md elem-shadow-sm"
+      class="pl-4 py-2 w-full text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md elem-shadow-sm focus-brand"
     />
     <TabGroup
-      :selected-index="0"
       manual
+      :defaultIndex="0"
       class="flex flex-col gap-2 md:flex-row md:items-center"
     >
       <TabList>
@@ -23,31 +20,23 @@
           v-for="topic of filteredTopics"
           @click="selectTopic(topic)"
           @keydown.enter.prevent="selectTopic(topic)"
-          v-slot="{ selected }"
           :key="topic.value"
           :value="topic.value"
           multiple
           as="template"
-          class="flex justify-between focus:ring-4 items-center gap-2 rounded-lg p-2 border bg-light-btn border-dark-btn font-bold cursor-pointer hover:bg-light-cta-orange-hover hover:dark:bg-dark-cta-orange-hover shadow-sm shadow-zinc-700"
+          class="flex justify-between px-4 md:px-2 py-2 gap-2 rounded-lg select-none cursor-pointer elem-shadow-sm"
         >
           <div
             :class="{
-              'focus:outline focus:outline-blue-400': selected,
-              'bg-light-cta-orange dark:bg-dark-cta-orange': isActiveTopic(
-                topic.value
-              ),
+              'style-cta': isActiveTopic(topic.value),
+              'style-cta-secondary': !isActiveTopic(topic.value),
             }"
           >
             <span class="flex items-center gap-2">
               <Icon :name="topic.icon" size="20" />
               {{ $t(topic.label) }}
             </span>
-            <Icon
-              v-if="isActiveTopic(topic.value)"
-              name="bi:x-lg"
-              class="cursor-pointer"
-              size="20"
-            />
+            <Icon v-if="isActiveTopic(topic.value)" name="bi:x-lg" size="20" />
           </div>
         </Tab>
       </TabList>
@@ -56,8 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { TabGroup, TabList, Tab } from "@headlessui/vue";
-
+import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import type { Topic, TopicsTag } from "~/types/topics";
 import { GLOBAL_TOPICS } from "~/types/topics";
 
@@ -106,8 +94,7 @@ const selectedTopicTags = computed(() => {
     .map((topic) => {
       return GLOBAL_TOPICS.find((tag) => tag.value === topic);
     })
-    .filter((tag) => tag)
-    .sort() as TopicsTag[];
+    .filter((tag) => tag) as TopicsTag[];
 });
 
 const filteredTopics = computed(() => {
