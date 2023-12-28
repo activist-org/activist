@@ -39,6 +39,9 @@ class Organization(CreationDeletionMixin):
     )
     high_risk = models.BooleanField(default=False)
     total_flags = models.IntegerField(default=0)
+    org_icon = models.ForeignKey(
+        "content.Image", on_delete=models.CASCADE
+    )
 
     def __str__(self) -> str:
         return self.name
@@ -108,6 +111,7 @@ class Group(CreationDeletionMixin):
     created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     category = models.CharField(max_length=255)
     total_flags = models.IntegerField(default=0)
+    group_icon = models.ForeignKey("content.Image", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.name
