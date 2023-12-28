@@ -47,6 +47,10 @@
     @apply rounded-sm focus:ring-2 focus:ring-light-link-text dark:focus:ring-dark-link-text focus:outline-none focus:border-light-link-text dark:focus:border-dark-link-text;
   }
 
+  .focus-inside {
+    @apply rounded-sm focus-within:ring-2 focus-within:ring-light-link-text dark:focus-within:ring-dark-link-text focus-within:outline-none focus-within:border-light-link-text dark:focus-within:border-dark-link-text;
+  }
+
   .link-text {
     @apply text-light-link-text dark:text-dark-link-text hover:text-light-link-text-hover dark:hover:text-dark-link-text-hover;
   }

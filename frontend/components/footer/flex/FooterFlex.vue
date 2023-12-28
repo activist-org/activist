@@ -4,7 +4,7 @@
     <!-- Note: Content Sections Left -->
     <div class="mt-0 justify-items-start w-[80%] flex flex-col">
       <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
-      <div class="relative z-0 h-10 overflow-y-hidden w-36">
+      <div class="relative z-0 h-10 overflow-y-hidden w-36 focus-inside">
         <LogoActivist
           class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />
