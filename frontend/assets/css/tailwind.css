@@ -173,12 +173,3 @@
     @apply opacity-50;
   }
 }
-
-@media (max-width: 640px) {
-  .three-dot-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    
-  }
-}

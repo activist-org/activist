@@ -3,7 +3,7 @@
     <button
       @click="showTooltip = !showTooltip"
       @keydown.shift.tab="onShiftTab"
-      class="relative flex items-center justify-center style-cta rounded-full w-6 h-6 elem-shadow-sm three-dot-button"
+      class="relative flex items-center justify-center style-cta rounded-full w-6 h-6 elem-shadow-sm max-sm:absolute max-sm:pt-4 max-sm:pr-4"
     >
       <Icon name="bi:three-dots-vertical" size="1.25em" />
       <TooltipMenuSearchResultEvent
