@@ -8,14 +8,14 @@ from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 from backend.paginator import CustomPagination
 
-from .models import Resource, ResourceTopic, Task, Topic, TopicFormat, Image
+from .models import Image, Resource, ResourceTopic, Task, Topic, TopicFormat
 from .serializers import (
+    ImageSerializer,
     ResourceSerializer,
     ResourceTopicSerializer,
     TaskSerializer,
     TopicFormatSerializer,
     TopicSerializer,
-    ImageSerializer
 )
 
 

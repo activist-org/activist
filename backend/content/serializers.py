@@ -11,7 +11,7 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import Resource, ResourceTopic, Task, Topic, TopicFormat, Image
+from .models import Image, Resource, ResourceTopic, Task, Topic, TopicFormat
 
 
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
