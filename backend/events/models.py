@@ -37,6 +37,7 @@ class Event(CreationDeletionMixin):
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_events", on_delete=models.CASCADE
     )
+    event_icon = models.ForeignKey("content.Image", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.name
