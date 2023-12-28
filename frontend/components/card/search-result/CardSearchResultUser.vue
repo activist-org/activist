@@ -27,7 +27,10 @@
           <h2 class="font-bold responsive-h3">
             {{ user.name }}
           </h2>
-          <MenuSearchResult search-result-type="user" />
+          <MenuSearchResult
+            class="max-md:absolute max-md:top-0 max-md:right-0"
+            search-result-type="user"
+          />
         </div>
         <div
           class="items-center hidden w-full space-x-3 md:flex md:w-fit lg:space-x-5"
