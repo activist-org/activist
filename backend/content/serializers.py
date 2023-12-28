@@ -11,7 +11,7 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
+from .models import Resource, ResourceTopic, Task, Topic, TopicFormat, Image
 
 
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
@@ -95,4 +95,13 @@ class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
         validate_object_existence(Topic, data["topic_id"])
         validate_object_existence(Format, data["format_id"])
 
+        return data
+
+class ImageSerializer(serializers.ModelSerializer[Image]):
+    class Meta:
+        model = Image
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        # TODO: not sure what validation should be performance
         return data
