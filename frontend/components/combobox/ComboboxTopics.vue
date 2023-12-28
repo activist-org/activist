@@ -83,7 +83,6 @@ import {
   ComboboxOptions,
   TransitionRoot,
 } from "@headlessui/vue";
-import { computed, ref } from "vue";
 
 const topics = [
   { id: 1, name: "All topics" },

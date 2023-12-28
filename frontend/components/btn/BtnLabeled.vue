@@ -14,20 +14,10 @@
       'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
     }"
   >
-    <Icon
-      v-if="leftIcon"
-      class="mr-2 -my-1"
-      :name="leftIcon"
-      :size="iconSize"
-    />
+    <Icon v-if="leftIcon" class="mr-2" :name="leftIcon" :size="iconSize" />
     <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
     <div v-else class="-mx-1"></div>
-    <Icon
-      v-if="rightIcon"
-      class="ml-2 -my-1"
-      :name="rightIcon"
-      :size="iconSize"
-    />
+    <Icon v-if="rightIcon" class="ml-2" :name="rightIcon" :size="iconSize" />
     <div
       v-if="counter"
       class="px-1 py-[0.1rem] ml-2 -m-[0.1rem] rounded-lg bg-black/20 dark:bg-dark-cta-orange/25"
@@ -52,20 +42,10 @@
     :href="linkTo"
     :aria-label="$t(ariaLabel)"
   >
-    <Icon
-      v-if="leftIcon"
-      class="mr-2 -my-1"
-      :name="leftIcon"
-      :size="iconSize"
-    />
+    <Icon v-if="leftIcon" class="mr-2" :name="leftIcon" :size="iconSize" />
     <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
     <div v-else class="-mx-1"></div>
-    <Icon
-      v-if="rightIcon"
-      class="ml-2 -my-1"
-      :name="rightIcon"
-      :size="iconSize"
-    />
+    <Icon v-if="rightIcon" class="ml-2" :name="rightIcon" :size="iconSize" />
     <div
       v-if="counter"
       class="px-1 py-[0.1rem] ml-2 -m-[0.1rem] rounded-lg bg-black/20 dark:bg-dark-cta-orange/25"
@@ -90,21 +70,11 @@
     }"
     :aria-label="$t(ariaLabel)"
   >
-    <div class="flex items-center">
-      <Icon
-        v-if="leftIcon"
-        class="mr-2 -my-1"
-        :name="leftIcon"
-        :size="iconSize"
-      />
+    <div class="flex items-center justify-center">
+      <Icon v-if="leftIcon" class="mr-2" :name="leftIcon" :size="iconSize" />
       <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
       <div v-else class="-mx-1"></div>
-      <Icon
-        v-if="rightIcon"
-        class="ml-2 -my-1"
-        :name="rightIcon"
-        :size="iconSize"
-      />
+      <Icon v-if="rightIcon" class="ml-2" :name="rightIcon" :size="iconSize" />
       <div
         v-if="counter"
         class="px-1 py-[0.1rem] ml-2 -m-[0.1rem] rounded-lg bg-black/20 dark:bg-dark-cta-orange/25"

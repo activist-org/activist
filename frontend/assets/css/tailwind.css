@@ -10,7 +10,7 @@
     @apply bg-light-header dark:bg-dark-header;
   }
   * {
-    @apply scrollbar scrollbar-w-2.5 scrollbar-thumb-light-interactive dark:scrollbar-thumb-dark-interactive scrollbar-track-light-highlight dark:scrollbar-track-dark-highlight scrollbar-thumb-rounded-md;
+    @apply scrollbar scrollbar-w-1.5 scrollbar-thumb-light-special-text dark:scrollbar-thumb-dark-special-text scrollbar-track-transparent scrollbar-thumb-rounded-md;
   }
 }
 
@@ -45,6 +45,10 @@
 
   .focus-brand {
     @apply rounded-sm focus:ring-2 focus:ring-light-link-text dark:focus:ring-dark-link-text focus:outline-none focus:border-light-link-text dark:focus:border-dark-link-text;
+  }
+
+  .focus-inside {
+    @apply rounded-sm focus-within:ring-2 focus-within:ring-light-link-text dark:focus-within:ring-dark-link-text focus-within:outline-none focus-within:border-light-link-text dark:focus-within:border-dark-link-text;
   }
 
   .link-text {

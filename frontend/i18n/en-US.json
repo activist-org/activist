@@ -67,6 +67,7 @@
   "components.btn-labeled.invite-someone-event-aria-label": "Invite someone to join this event",
   "components.btn-labeled.invite-someone-org-aria-label": "Invite someone to join this organization",
   "components.btn-labeled.join": "Join",
+  "components.btn-labeled.join-organization": "Join organization",
   "components.btn-labeled.join-organization-aria-label": "Start the process to join the organization",
   "components.btn-labeled.learn-more": "Learn more",
   "components.btn-labeled.new-account": "New account",

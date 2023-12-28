@@ -27,7 +27,7 @@
         </p>
       </DialogTitle>
       <div
-        class="flex flex-col items-center md:grid md:grid-cols-2 md:grid-rows-1 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="flex flex-col items-center md:grid md:grid-cols-2 md:grid-rows-1 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-14 lg:pr-8"
       >
         <div
           class="items-center space-y-4 text-left col-span-2 pt-2 font-medium"
@@ -68,7 +68,7 @@
             "
           />
         </div>
-        <div class="px-4 md:pl-8 md:pb-10">
+        <div class="px-4 md:pl-8 md:pb-2">
           <QRCode class="rounded-3xl elem-shadow-md" />
         </div>
         <BtnLabeled

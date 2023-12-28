@@ -34,7 +34,7 @@
     <IconOrganizationStatus v-if="headerStatus" :status="headerStatus" />
   </div>
   <div
-    class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow align-center"
+    class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow lg:items-center"
   >
     <h2
       v-if="headerTagline"

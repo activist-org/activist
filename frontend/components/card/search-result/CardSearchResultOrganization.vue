@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full md:flex-row">
+  <div class="flex flex-col w-full md:flex-row relative">
     <div class="flex justify-center w-full md:w-fit">
       <div
         class="border w-fit border-light-section-div dark:border-dark-section-div bg-light-content dark:bg-dark-content"
@@ -45,7 +45,10 @@
           <h2 class="font-bold responsive-h3">
             {{ organization.name }}
           </h2>
-          <MenuSearchResult search-result-type="organization" />
+          <MenuSearchResult
+            class="max-md:absolute max-md:top-0 max-md:right-0"
+            search-result-type="organization"
+          />
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation :location="organization.location" />

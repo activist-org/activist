@@ -178,8 +178,12 @@ git remote add upstream https://github.com/activist-org/activist.git
    ```bash
    cp .env.example .env
    docker compose up
+
    # Or with new dependencies:
    # docker compose up --build
+
+   # And to stop the containers when you're done working:
+   # docker compose down
    ```
 
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.

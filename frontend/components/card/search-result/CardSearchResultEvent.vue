@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full md:flex-row">
+  <div class="flex flex-col w-full md:flex-row relative">
     <div class="flex justify-center w-full md:w-fit">
       <div
         class="rounded-md border border-light-section-div dark:border-dark-section-div h-min"
@@ -41,7 +41,10 @@
           <h2 class="font-bold responsive-h3">
             {{ event.name }}
           </h2>
-          <MenuSearchResult searchResultType="event" />
+          <MenuSearchResult
+            class="max-md:absolute max-md:top-0 max-md:right-0"
+            searchResultType="event"
+          />
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation

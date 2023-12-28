@@ -57,7 +57,6 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
-import { ref } from "vue";
 
 const filterOptions = [
   "Lase week",

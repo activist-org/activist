@@ -9,14 +9,15 @@
     }"
   >
     <SidebarLeftHeader />
+    <!-- -mr and pr are used to position the scrollbar to the right of the sidebar. -->
     <div
-      class="h-full overflow-x-hidden"
+      class="h-full overflow-x-hidden overflow-y-scroll"
       :class="{
-        'overflow-y-auto':
-          !sidebar.collapsed || sidebar.collapsedSwitch == false,
+        '-mr-[0.8rem]': isFirefox,
+        '-mr-[0.8rem] pr-[0.45rem]': !isFirefox,
       }"
     >
-      <SearchBar class="mt-2" location="sidebar" />
+      <SearchBar class="mt-1" location="sidebar" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
         v-if="
@@ -284,5 +285,12 @@ const getFiltersByPageType = computed(() => {
   }
 
   return filters;
+});
+
+const isFirefox = ref(false);
+onMounted(() => {
+  isFirefox.value = window.navigator.userAgent
+    .toLowerCase()
+    .includes("firefox");
 });
 </script>

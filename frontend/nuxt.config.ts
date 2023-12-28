@@ -30,6 +30,7 @@ export default defineNuxtConfig({
     ],
     "@nuxtjs/color-mode",
     "@nuxtjs/device",
+    "@nuxt/devtools",
     "@nuxtjs/i18n",
     "@nuxtjs/plausible",
     "@nuxtjs/tailwindcss",
@@ -138,7 +139,8 @@ export default defineNuxtConfig({
         {
           hid: "description",
           name: "description",
-          content: "Open-source, nonprofit activism platform.",
+          content:
+            "A global platform for activism where movements grow and people are inspired join in political actions.",
         },
         { property: "og:site_name", content: "activist" },
         { hid: "og:type", property: "og:type", content: "website" },
@@ -192,7 +194,12 @@ export default defineNuxtConfig({
         {
           rel: "icon",
           type: "image/svg+xml",
-          href: "/favicon.svg",
+          href: "favicons/favicon.svg",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          href: "favicons/faviconLight.png",
         },
         {
           hid: "canonical",

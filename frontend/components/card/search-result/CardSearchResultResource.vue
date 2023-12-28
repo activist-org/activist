@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full md:flex-row">
+  <div class="flex flex-col w-full md:flex-row relative">
     <div class="flex justify-center w-full md:w-fit">
       <div
         class="border rounded-lg w-fit border-light-section-div dark:border-dark-section-div bg-light-content dark:bg-dark-content"
@@ -38,7 +38,10 @@
           <h2 class="font-bold responsive-h3">
             {{ resource.name }}
           </h2>
-          <MenuSearchResult search-result-type="resource" />
+          <MenuSearchResult
+            class="max-md:absolute max-md:top-0 max-md:right-0"
+            search-result-type="resource"
+          />
         </div>
         <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation :location="resource?.relatedLocation" />

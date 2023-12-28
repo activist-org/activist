@@ -13,7 +13,6 @@
 <script setup>
 import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
-import { ref } from "vue";
 
 const date = new Date();
 const year = date.getFullYear();

@@ -54,7 +54,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
 const localePath = useLocalePath();
 
 interface GithubContributor {
