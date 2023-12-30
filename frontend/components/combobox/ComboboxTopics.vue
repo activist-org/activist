@@ -119,10 +119,11 @@ function displayValue() {
 }
 
 function handleInputFocus(e: Event) {
+  // A timeout to make sure the dropdown exist before checking.
   setTimeout(() => {
     const isVisible = document.getElementById("isVisibleElement")?.offsetParent;
-    console.log(isVisible);
-    
+
+    // If the dropdown does not exist, click on the input to trigger it.
     if (!isVisible) {
       const target = e.target as HTMLElement;
       target?.click();  
