@@ -126,7 +126,7 @@ function handleInputFocus(e: Event) {
     // If the dropdown does not exist, click on the input to trigger it.
     if (!isVisible) {
       const target = e.target as HTMLElement;
-      target?.click();  
+      target?.click();
     }
   }, 100);
 }
