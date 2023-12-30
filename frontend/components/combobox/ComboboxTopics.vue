@@ -10,6 +10,7 @@
               @change="query = $event.target.value"
               @click="inputFocussed = true"
               @keyup.enter="inputFocussed = false"
+              @focus="handleInputFocus"
               @blur="inputFocussed = false"
               class="border style-cta py-2 pl-4 rounded-lg selection:bg-light-highlight dark:selection:bg-white/20"
               :displayValue="(_) => displayValue()"
@@ -29,6 +30,7 @@
         >
           <ComboboxOptions
             class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-distinct dark:bg-dark-distinct py-1 text-base elem-shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            id="isVisibleElement"
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
@@ -114,5 +116,17 @@ function displayValue() {
       ? "Filter by topic"
       : selectedTopic.value.name;
   }
+}
+
+function handleInputFocus(e: Event) {
+  setTimeout(() => {
+    const isVisible = document.getElementById("isVisibleElement")?.offsetParent;
+    console.log(isVisible);
+    
+    if (!isVisible) {
+      const target = e.target as HTMLElement;
+      target?.click();  
+    }
+  }, 100);
 }
 </script>
