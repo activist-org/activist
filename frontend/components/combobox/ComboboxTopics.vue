@@ -29,8 +29,8 @@
           leaveTo="opacity-0"
         >
           <ComboboxOptions
-            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-distinct dark:bg-dark-distinct py-1 text-base elem-shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
             id="isVisibleElement"
+            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-distinct dark:bg-dark-distinct py-1 text-base elem-shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
