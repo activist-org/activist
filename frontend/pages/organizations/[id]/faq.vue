@@ -12,15 +12,14 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.new-faq"
+          label="components.btn-action.new-faq"
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.new-faq-aria-label"
+          ariaLabel="components.btn-action.new-faq-aria-label"
         />
       </div>
     </HeaderAppPage>

@@ -14,7 +14,7 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnRouteInternal
           class="w-max"
           :cta="true"
           linkTo="/"
@@ -22,7 +22,7 @@
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.new-resource-aria-label"
+          ariaLabel="components.btn-route-internal.new-resource-aria-label"
         />
       </div>
     </HeaderAppPage>

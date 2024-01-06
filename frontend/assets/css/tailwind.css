@@ -19,6 +19,10 @@
     @apply 3xl:bg-pink-500 2xl:bg-violet-500 xl:bg-blue-500 lg:bg-green-500 md:bg-yellow-500 sm:bg-orange-500 bg-red-500;
   }
 
+  .btn-base-class {
+    @apply px-4 py-2 font-semibold text-center select-none focus-brand w-fit elem-shadow-sm;
+  }
+
   .card-style-base {
     @apply rounded-md sm:rounded-lg elem-shadow-sm;
   }

@@ -1,16 +1,16 @@
 <template>
   <footer
-    class="w-full transition-all duration-500 bg-light-distinct dark:bg-dark-distinct p-1"
+    class="w-full p-1 transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
   >
     <div
-      class="flex bg-light-header dark:bg-dark-header elem-shadow-sm flex-col justify-center p-1 space-y-1 w-full rounded-md"
+      class="flex flex-col justify-center w-full p-1 bg-light-header dark:bg-dark-header elem-shadow-sm space-y-1 rounded-md"
     >
       <Disclosure v-slot="{ open, close }">
         <DisclosureButton
           @keyup.enter="closeOtherMenus(0)"
           @click="closeOtherMenus(0)"
           :ref="(el) => (disclosureButtons[0] = { close, el })"
-          class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
+          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
           :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
         >
           <div
@@ -64,7 +64,7 @@
           @keyup.enter="closeOtherMenus(1)"
           @click="closeOtherMenus(1)"
           :ref="(el) => (disclosureButtons[1] = { close, el })"
-          class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
+          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
           :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
         >
           <div
@@ -118,7 +118,7 @@
           @keyup.enter="closeOtherMenus(2)"
           @click="closeOtherMenus(2)"
           :ref="(el) => (disclosureButtons[2] = { close, el })"
-          class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
+          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
           :aria-label="$t('components.sidebar-left-footer.username-aria-label')"
         >
           <div

@@ -34,7 +34,7 @@
       >
         {{ $t(text) }}
       </p>
-      <BtnLabeled
+      <BtnRouteInternal
         :cta="true"
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
@@ -104,7 +104,7 @@
       >
         {{ $t(text) }}
       </p>
-      <BtnLabeled
+      <BtnRouteInternal
         :cta="true"
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
@@ -136,7 +136,7 @@
       <div
         class="grid grid-cols-1 grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 sm:grid-cols-2 sm:grid-rows-1"
       >
-        <BtnLabeled
+        <BtnRouteInternal
           class="w-full"
           :cta="true"
           :label="`${btnText1}`"
@@ -144,7 +144,7 @@
           fontSize="xl"
           :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : null"
         />
-        <BtnLabeled
+        <BtnRouteInternal
           class="w-full"
           :cta="false"
           :label="`${btnText2}`"

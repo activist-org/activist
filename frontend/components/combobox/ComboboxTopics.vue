@@ -1,9 +1,9 @@
 <template>
-  <div class="flex z-50">
+  <div class="z-50 flex">
     <Combobox v-model="selectedTopic">
       <div class="relative">
         <div
-          class="flex relative w-full cursor-default overflow-hidden rounded-lg elem-shadow-sm focus-brand"
+          class="relative flex w-full overflow-hidden rounded-lg cursor-default elem-shadow-sm focus-brand"
         >
           <ComboboxButton>
             <ComboboxInput
@@ -12,7 +12,7 @@
               @keyup.enter="inputFocussed = false"
               @focus="handleInputFocus"
               @blur="inputFocussed = false"
-              class="border style-cta py-2 pl-4 rounded-lg selection:bg-light-highlight dark:selection:bg-white/20"
+              class="py-2 pl-4 border rounded-lg style-cta selection:bg-light-highlight dark:selection:bg-white/20"
               :displayValue="(_) => displayValue()"
             />
             <div
@@ -30,11 +30,11 @@
         >
           <ComboboxOptions
             id="isVisibleElement"
-            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-distinct dark:bg-dark-distinct py-1 text-base elem-shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="absolute w-full py-1 mt-1 overflow-auto text-base max-h-60 rounded-md bg-light-distinct dark:bg-dark-distinct elem-shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
-              class="relative cursor-default select-none px-4 py-2 text-light-special-text dark:text-dark-special-text"
+              class="relative px-4 py-2 cursor-default select-none text-light-special-text dark:text-dark-special-text"
             >
               {{ $t("components.combobox-topics.no-matching-topics") }}
             </div>
@@ -47,7 +47,7 @@
               :value="topic"
             >
               <li
-                class="relative cursor-default select-none py-2 pl-10 pr-4"
+                class="relative py-2 pl-10 pr-4 cursor-default select-none"
                 :class="{
                   'bg-light-cta-orange/80 text-light-text dark:bg-dark-cta-orange/40 dark:text-dark-cta-orange':
                     active,

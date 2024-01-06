@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-center card-style md:justify-start flex-col px-3 py-4 md:flex-row md:grow lg:px-5 md:py-3"
+    class="flex flex-col justify-center px-3 py-4 card-style md:justify-start md:flex-row md:grow lg:px-5 md:py-3"
   >
     <CardSearchResultOrganization
       v-if="searchResultType === 'organization'"

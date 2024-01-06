@@ -12,15 +12,14 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share-discussion"
+          label="components.btn-action.share-discussion"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.share-discussion-aria-label"
+          ariaLabel="components.btn-action.share-discussion-aria-label"
         />
       </div>
     </HeaderAppPage>
