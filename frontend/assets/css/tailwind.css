@@ -154,6 +154,16 @@
   .has-tooltip:hover .tooltip {
     @apply visible z-50;
   }
+
+  .command-palette-element-hover {
+    @apply relative w-full ml-2
+    hover:text-light-special-text hover:bg-light-header hover:dark:bg-dark-header hover:dark:text-dark-special-text;
+  }
+
+  .jump-link {
+    @apply text-blue-500 absolute inset-y-0 right-3 w-16 invisible
+    group-hover:visible;
+  }
 }
 
 .loading-pulse {
