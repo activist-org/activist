@@ -14,18 +14,15 @@
             name="bi:search"
             size="1em"
           />
-          <Transition name="search">
-            <!-- TODO: Input area is much smaller that tag width. -->
-            <input
-              ref="input"
-              class="w-16 h-5 bg-transparent outline-none"
-              type="text"
-              size="100"
-              :placeholder="
-                $t('components.modal-command-palette.search-alt-text')
-              "
-            />
-          </Transition>
+
+          <!-- TODO: Input area is much smaller that tag width. -->
+          <input
+            ref="input"
+            class="w-16 h-5 bg-transparent outline-none"
+            type="text"
+            size="100"
+            :placeholder="$t('_global.search')"
+          />
         </div>
       </div>
       <DialogTitle class="font-display flex justify-between mt-5">
@@ -41,11 +38,11 @@
             <Icon
               name="material-symbols:other-houses-outline"
               size="1em"
-              :alt="$t('components.modal-command-palette.home')"
+              :alt="$t('_global.home')"
             />
           </div>
           <div class="group command-palette-element-hover">
-            {{ $t("components.modal-command-palette.home") }}
+            {{ $t("_global.home") }}
             <span class="jump-link">
               {{ $t("components.modal-command-palette.jump-to") }}
             </span>
@@ -75,11 +72,11 @@
             <Icon
               name="material-symbols:notifications-outline"
               size="1em"
-              :alt="$t('components.modal-command-palette.notifications')"
+              :alt="$t('_global.notifications')"
             />
           </div>
           <div class="group command-palette-element-hover">
-            {{ $t("components.modal-command-palette.notifications") }}
+            {{ $t("_global.notifications") }}
             <span class="jump-link">{{
               $t("components.modal-command-palette.jump-to")
             }}</span>
@@ -92,11 +89,11 @@
             <Icon
               name="octicon:comment-discussion"
               size="1em"
-              :alt="$t('components.modal-command-palette.discussions')"
+              :alt="$t('_global.discussions')"
             />
           </div>
           <div class="group command-palette-element-hover">
-            {{ $t("components.modal-command-palette.discussions") }}
+            {{ $t("_global.discussions") }}
             <span class="jump-link">{{
               $t("components.modal-command-palette.jump-to")
             }}</span>
@@ -106,7 +103,7 @@
 
       <DialogTitle class="font-display flex justify-between mt-3">
         <p class="text-3xl md:responsive-h2 font-bold">
-          {{ $t("components.modal-command-palette.organizations-header") }}
+          {{ $t("_global.organization") }}
         </p>
       </DialogTitle>
       <router-link to="/organizations">
