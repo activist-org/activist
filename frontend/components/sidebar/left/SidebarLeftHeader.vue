@@ -2,7 +2,7 @@
   <header
     class="w-full pl-1 transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
   >
-    <div class="flex items-center pt-3 pb-2 pl-[0.625rem] pr-6">
+    <div class="flex items-center pt-3 pb-2 pl-[0.85rem] pr-6">
       <div
         class="relative z-0 h-8"
         :class="{
@@ -46,12 +46,12 @@
             <Icon
               v-if="sidebar.collapsedSwitch == false"
               name="bi:chevron-bar-left"
-              size="1.5em"
+              size="1.4em"
             />
             <Icon
               v-if="sidebar.collapsedSwitch == true"
               name="bi:chevron-bar-right"
-              size="1.5em"
+              size="1.4em"
             />
           </div>
         </button>

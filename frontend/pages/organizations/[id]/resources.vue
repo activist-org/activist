@@ -14,7 +14,7 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnRouteInternal
           class="w-max"
           :cta="true"
           linkTo="/"
@@ -22,15 +22,23 @@
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.new-resource-aria-label"
+          ariaLabel="components.btn-route-internal.new-resource-aria-label"
         />
       </div>
     </HeaderAppPage>
+    <div class="py-4 space-y-3">
+      <CardSearchResult
+        searchResultType="resource"
+        :reduced="true"
+        :resource="resource"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Organization } from "../../../types/organization";
+import type { Organization } from "~/types/organization";
+import type { Resource } from "~/types/resource";
 
 definePageMeta({
   layout: "sidebar",
@@ -50,5 +58,17 @@ const organization: Organization = {
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
+};
+
+const resource: Resource = {
+  name: "Activist website",
+  organization: "activist.org",
+  resourceURL: "www.activist.org",
+  description:
+    "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all...",
+  topic: "Sites",
+  relatedLocation: "Berlin, DE",
+  creationDate: new Date(),
+  stars: 100000000,
 };
 </script>

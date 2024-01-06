@@ -51,7 +51,7 @@
               @click="$colorMode.preference = 'system'"
               class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md text-light-text"
               :class="{
-                'bg-light-cta-orange-hover dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
+                'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
                   active,
                 'dark:text-dark-text': !active,
               }"
@@ -68,7 +68,7 @@
               @click="$colorMode.preference = 'light'"
               class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md text-light-text"
               :class="{
-                'bg-light-cta-orange-hover dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
+                'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
                   active,
                 'dark:text-dark-text': !active,
               }"
@@ -85,7 +85,7 @@
               @click="$colorMode.preference = 'dark'"
               class="flex items-center w-full py-2 pl-4 pr-2 text-sm group rounded-md text-light-text"
               :class="{
-                'bg-light-cta-orange-hover dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
+                'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
                   active,
                 'dark:text-dark-text': !active,
               }"

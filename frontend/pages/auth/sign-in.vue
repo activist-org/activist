@@ -18,15 +18,16 @@
           :icons="['bi:eye-fill']"
         />
       </div>
+      <PasswordStrengthIndicator :password-value="passwordValue" />
       <div class="flex space-x-2">
         <FriendlyCaptcha />
-        <BtnLabeled
+        <BtnAction
           @click="signIn"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
           :label="$t('_global.sign-in')"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('components.btn-labeled.sign-in-aria-label')"
+          :ariaLabel="$t('components.btn-route-internal.sign-in-aria-label')"
         />
       </div>
       <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">

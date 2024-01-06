@@ -43,15 +43,15 @@
           </p>
         </div>
       </MenuLinkWrapper>
-      <BtnLabeled
+      <BtnRouteInternal
         class="w-max"
         :cta="true"
         linkTo="/"
-        label="components.btn-labeled.offer-to-help"
+        label="components.btn-route-internal.offer-to-help"
         fontSize="base"
         rightIcon="bi:arrow-right"
         iconSize="1.25em"
-        ariaLabel="components.btn-labeled.offer-to-help-aria-label"
+        ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
       />
     </div>
   </div>
@@ -59,8 +59,8 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { Event } from "~/types/event";
-import { MenuSelector } from "~/types/menu-selector";
+import type { Event } from "~/types/event";
+import type { MenuSelector } from "~/types/menu-selector";
 
 definePageMeta({
   layout: "sidebar",

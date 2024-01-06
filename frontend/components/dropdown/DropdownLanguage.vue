@@ -29,7 +29,6 @@
         </div>
       </MenuButton>
     </div>
-
     <transition
       enter-active-class="transition duration-100 ease-out"
       enter-from-class="opacity-0 transform scale-95"
@@ -52,7 +51,7 @@
               <li
                 class="group flex [word-spacing:0.5em] items-center rounded-md pl-4 pr-3 py-2 text-sm w-full"
                 :class="{
-                  'bg-light-cta-orange-hover dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
+                  'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
                     active,
                   'text-light-text dark:text-dark-text': !active,
                 }"
@@ -69,7 +68,7 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
+import type { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
 
 defineProps<{
   location?: string;

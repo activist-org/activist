@@ -29,16 +29,16 @@ jobs:
         working-directory: ./frontend
         run: |
           yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
-        continue-on-error: true
 
       - name: Run Type Check
+        if: always()
         uses: borales/actions-yarn@v4
         with:
           cmd: nuxi typecheck
           dir: "frontend"
-        continue-on-error: true
 
       - name: Run eslint - Linting
+        if: always()
         uses: borales/actions-yarn@v4
         with:
           cmd: eslint . --ext .js,.vue

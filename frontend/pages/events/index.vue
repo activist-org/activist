@@ -35,7 +35,7 @@ const { data: events } = await useFetch(
   }
 );
 
-// import { Event } from "../../types/event";
+// import type { Event } from "~/types/event";
 // const event: Event = {
 //   name: "Test Event",
 //   type: "action",

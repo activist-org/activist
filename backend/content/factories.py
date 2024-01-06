@@ -12,12 +12,12 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("name")
     description = factory.Faker("text")
     topics = factory.List([factory.Faker("word") for _ in range(5)])
-    location = factory.Faker("address")
     url = factory.Faker("url")
     total_flags = factory.Faker("random_int", min=0, max=100)
     private = factory.Faker("boolean")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(datetime.datetime.now)
-    deletion_date = factory.LazyFunction(datetime.datetime.now)
+    last_updated = factory.LazyFunction(datetime.datetime.now)
 
 
 class TaskFactory(factory.django.DjangoModelFactory):
@@ -26,7 +26,6 @@ class TaskFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     description = factory.Faker("text")
-    location = factory.Faker("address")
     tags = factory.List([factory.Faker("word") for _ in range(10)])
     creation_date = factory.LazyFunction(datetime.datetime.now)
     deletion_date = factory.LazyFunction(datetime.datetime.now)

@@ -2,7 +2,7 @@
   <PageBreadcrumbs class="mt-4" :organization="organization" :event="event" />
   <div
     v-if="underDevelopment"
-    class="mt-3 flex w-full bg-light-pending-yellow/40 border border-light-text rounded-md py-1 pl-4 text-light-text dark:bg-dark-pending-yellow/30 dark:text-dark-pending-yellow dark:border-dark-pending-yellow"
+    class="flex w-full py-1 pl-4 mt-3 border bg-light-warn-yellow/40 border-light-text rounded-md text-light-text dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow dark:border-dark-warn-yellow"
   >
     <p>
       🚧&nbsp;&nbsp;{{
@@ -10,7 +10,7 @@
       }}&nbsp;
     </p>
     <a
-      class="flex space-x-1 items-center focus-brand link-text"
+      class="flex items-center space-x-1 focus-brand link-text"
       href="https://github.com/activist-org/activist"
       target="_blank"
     >
@@ -34,7 +34,7 @@
     <IconOrganizationStatus v-if="headerStatus" :status="headerStatus" />
   </div>
   <div
-    class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow align-center"
+    class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow lg:items-center"
   >
     <h2
       v-if="headerTagline"
@@ -42,7 +42,7 @@
     >
       {{ headerTagline }}
     </h2>
-    <!-- Slot is for BtnLabeled and Dropdown components at the top of the page. -->
+    <!-- Slot is for Btn and Dropdown components at the top of the page. -->
     <slot />
   </div>
 </template>

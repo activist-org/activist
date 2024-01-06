@@ -44,21 +44,21 @@
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
             <DropdownTheme />
             <DropdownLanguage />
-            <BtnLabeled
+            <BtnRouteInternal
               class="hidden lg:block"
               :cta="true"
-              label="components.btn-labeled.get-in-touch"
+              label="components.btn-route-internal.get-in-touch"
               linkTo="/help/contact"
               fontSize="sm"
-              ariaLabel="components.btn-labeled.get-in-touch-aria-label"
+              ariaLabel="components.btn-route-internal.get-in-touch-aria-label"
             />
-            <BtnLabeled
+            <BtnRouteInternal
               class="hidden md:block lg:hidden"
               :cta="true"
-              label="components.btn-labeled.get-in-touch"
+              label="components.btn-route-internal.get-in-touch"
               linkTo="/help/contact"
               fontSize="xs"
-              ariaLabel="components.btn-labeled.get-in-touch-aria-label"
+              ariaLabel="components.btn-route-internal.get-in-touch-aria-label"
             />
           </div>
         </div>
@@ -68,8 +68,6 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from "vue";
-
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
 

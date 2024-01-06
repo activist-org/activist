@@ -16,25 +16,24 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnRouteInternal
           class="hidden md:block w-max"
           :cta="true"
           linkTo="/"
-          label="components.btn-labeled.new-discussion"
+          label="components.btn-route-internal.new-discussion"
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.new-discussion-aria-label"
+          ariaLabel="components.btn-route-internal.new-discussion-aria-label"
         />
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share-discussion"
+          label="components.btn-action.share-discussion"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.share-discussion-aria-label"
+          ariaLabel="components.btn-action.share-discussion-aria-label"
         />
       </div>
     </HeaderAppPage>
@@ -46,8 +45,8 @@
 </template>
 
 <script setup lang="ts">
-import { DiscussionEntry } from "~/types/card-discussion-entry";
-import { Organization } from "../../../types/organization";
+import type { DiscussionEntry } from "~/types/card-discussion-entry";
+import type { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",

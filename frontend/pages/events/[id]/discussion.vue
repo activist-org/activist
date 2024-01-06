@@ -12,15 +12,14 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share-discussion"
+          label="components.btn-action.share-discussion"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.share-discussion-aria-label"
+          ariaLabel="components.btn-action.share-discussion-aria-label"
         />
       </div>
     </HeaderAppPage>
@@ -33,8 +32,8 @@
 </template>
 
 <script setup lang="ts">
-import { DiscussionInput } from "~/types/card-discussion-input";
-import { DiscussionText } from "~/types/card-discussion-text";
+import type { DiscussionInput } from "~/types/card-discussion-input";
+import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Event } from "~/types/event";
 definePageMeta({
   layout: "sidebar",
@@ -71,5 +70,6 @@ const discussionInput: DiscussionInput = {
   supporters: 123,
   description: "I love to test!",
   category: "Category",
+  highRisk: false,
 };
 </script>

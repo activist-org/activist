@@ -41,7 +41,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
 - Read through this contributing guide and the [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
-- Consider joining our [bi-weekly developers sync](https://etherpad.wikimedia.org/p/activist-dev-sync)!
+- Consider joining our [bi-weekly developer sync](https://etherpad.wikimedia.org/p/activist-dev-sync)!
 
 <a id="tech-stack"></a>
 
@@ -142,12 +142,12 @@ activist is very open to contributions from people in the early stages of their 
 > </p>
 > </details>
 
-2. To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/).
+2. To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/).
 
 > [!NOTE]
 > If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
-3. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the repo, clone your fork, and configure the remotes:
+3. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the [activist repo](https://github.com/activist-org/activist), clone your fork, and configure the remotes:
 
 > [!NOTE]
 >
@@ -161,7 +161,7 @@ activist is very open to contributions from people in the early stages of their 
 >
 > - e.g. Cloning now becomes `git clone git@github.com:<your-username>/activist.git`
 >
-> GitHub also has their documentation on how to [Generate new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). 🔑
+> GitHub also has their documentation on how to [Generate a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) 🔑
 >
 > </p>
 > </details>
@@ -175,18 +175,21 @@ cd activist
 git remote add upstream https://github.com/activist-org/activist.git
 ```
 
-Now, if you run `git remote -v` you should see two remote repositories named:
-
-- `origin` (forked repository)
-- `upstream` (activist repository)
+- Now, if you run `git remote -v` you should see two remote repositories named:
+  - `origin` (forked repository)
+  - `upstream` (activist repository)
 
 4. Create a `.env` file and start your docker images with the following:
 
    ```bash
    cp .env.example .env
-   docker-compose up
+   docker compose up
+
    # Or with new dependencies:
-   # docker-compose up --build
+   # docker compose up --build
+
+   # And to stop the containers when you're done working:
+   # docker compose down
    ```
 
 5. You can visit <http://localhost:3000/> to see the development build once the container is up and running.
@@ -239,7 +242,7 @@ Guidelines for bug reports:
 - What actually happens
 - Notes (why this might be happening, things tried that didn't work, etc)
 
-Bug reports are marked with the [`bug`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Abug) label in the [issues](https://github.com/activist-org/activist/issues).
+To make the above steps easier, the activist team asks that contributors report bugs using the [bug report template](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&projects=activist-org%2F1&template=bug_report.yml), with these issues further being marked with the [`bug`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Abug) label.
 
 Again, thank you for your time in reporting issues!
 
@@ -253,7 +256,7 @@ Feature requests are more than welcome! Please take a moment to find out whether
 
 ## Pull requests [`⇧`](#contents)
 
-Good pull requests — patches, improvements and new features — are a fantastic help. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license](https://github.com/activist-org/activist/blob/main/LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
+Good pull requests — patches, improvements and new features — are the foundation of our community making activist. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license](https://github.com/activist-org/activist/blob/main/LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
 
 **Please ask first** before embarking on any significant pull request (implementing features, refactoring code, etc), otherwise you risk spending a lot of time working on something that the developers might not want to merge into the project. With that being said, major additions are very appreciated!
 
@@ -357,8 +360,10 @@ Once the above steps are finished you should be able to use tab to navigate web 
 
 ## Design [`⇧`](#contents)
 
-The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). Those interest can use the [discussions](https://github.com/activist-org/activist/discussions) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
 
-Note that the linked Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub and via other means. We'd love to see a sample of your work, and if everything looks good we'll schedule a time to get connected!
+Designs for activist are done in the [public design file in Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in helping with activist's design are also welcome to share their ideas using the [design improvement](https://github.com/activist-org/activist/issues/new?assignees=&labels=design&template=design_improvement.yml) template that makes an issue marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
+
+Note that the linked Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or [Matrix](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global). We'd love to see a sample of your work, and if everything looks good we'll schedule a time to get connected!
 
 All branding elements such as logos, icons, colors and fonts should follow those that are set out in [activist-org/Organization](https://github.com/activist-org/Organization). As the project is fully open source, these elements are also open for discussion. Your efforts in making activist products professional with a distinct and cohesive identity are much appreciated.

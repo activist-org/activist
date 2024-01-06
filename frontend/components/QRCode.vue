@@ -1,17 +1,15 @@
 <template>
-  <div id="qrcode" class="flex flex-col w-max">
-    <div class="flex w-max justify-center relative">
+  <div id="qr-code" class="flex flex-col w-max">
+    <div class="relative flex justify-center w-max">
       <svg
-        id="resultqr"
-        :width="`${codeSize + quietZone * 2 + 2}`"
-        :height="`${codeSize + quietZone * 2 + fontSize + textPaddingY * 2}`"
-        :viewBox="`${-quietZone} ${-quietZone - 1} ${
-          codeSize + quietZone * 2
-        } ${codeSize + quietZone * 2 + fontSize + textPaddingY * 2}`"
+        id="result-qr"
+        :width="`${computedWidth}`"
+        :height="`${computedHeight}`"
+        :viewBox="viewBox"
         xmlns="http://www.w3.org/2000/svg"
       >
         <rect
-          id="generaledges"
+          id="general-edges"
           :rx="borderRadius"
           :width="`${codeSize + quietZone * 2}`"
           :height="`${codeSize + quietZone * 2 + fontSize + textPaddingY * 2}`"
@@ -28,16 +26,16 @@
           render-as="svg"
         />
         <rect
-          id="removetopedgeofbottom"
+          id="remove-top-edge-of-bottom"
           :width="`${codeSize + quietZone * 2}`"
-          :height="`${borderRadius / 2}`"
+          :height="`${borderRadius}`"
           fill="#000000"
           :x="`${-quietZone}`"
           :y="`${codeSize + quietZone * 2 - quietZone}`"
           style="stroke-width: 1; stroke: #000000"
         />
         <rect
-          id="fillbottom"
+          id="fill-bottom"
           :rx="borderRadius"
           :width="`${codeSize + quietZone * 2}`"
           :height="`${fontSize + textPaddingY * 2}`"
@@ -51,7 +49,7 @@
           :style="`font-size: ${fontSize}px;`"
           :x="`${(codeSize + quietZone * 2) / 2 - quietZone}`"
           :y="`${
-            codeSize + quietZone * 2 + fontSize + textPaddingY - quietZone
+            codeSize + quietZone * 2.15 + fontSize + textPaddingY - quietZone
           }`"
           dominant-baseline="ideographic"
           text-anchor="middle"
@@ -86,7 +84,6 @@
 
 <script setup lang="ts">
 import QrcodeVue from "qrcode.vue";
-import { ref } from "vue";
 
 const fontSize = ref(24);
 const quietZone = ref(18);
@@ -94,25 +91,42 @@ const textPaddingY = ref(14);
 const codeSize = ref(218);
 const logoBGRadius = ref(64);
 const logoSize = ref(40);
-const qrref = ref(null);
+const borderRadius = ref(24);
 
-const borderRadius = ref(36);
+const getPath = () => window.location.toString();
 
-function getPath() {
-  const host = window.location.toString();
-  return host;
-}
+const getSize = () => ({
+  width: codeSize.value + quietZone.value * 2 + 2,
+  height:
+    codeSize.value +
+    quietZone.value * 2 +
+    fontSize.value +
+    textPaddingY.value * 2,
+});
 
-function getSize() {
-  return {
-    width: codeSize.value + quietZone.value * 2 + 2,
-    height:
+const computedWidth = computed(
+  () => `${codeSize.value + quietZone.value * 2 + 2}`
+);
+const computedHeight = computed(
+  () =>
+    `${
       codeSize.value +
       quietZone.value * 2 +
       fontSize.value +
-      textPaddingY.value * 2,
-  };
-}
+      textPaddingY.value * 2
+    }`
+);
+const viewBox = computed(
+  () =>
+    `${-quietZone.value} ${-quietZone.value - 1} ${
+      codeSize.value + quietZone.value * 2
+    } ${
+      codeSize.value +
+      quietZone.value * 2 +
+      fontSize.value +
+      textPaddingY.value * 2
+    }`
+);
 
 defineExpose({ getSize });
 </script>

@@ -1,4 +1,3 @@
-import re
 from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
@@ -9,7 +8,6 @@ from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
     validate_empty,
-    validate_flags_number,
     validate_object_existence,
 )
 
@@ -19,28 +17,22 @@ from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
     class Meta:
         model = Resource
-        fields = "__all__"
+        fields = [
+            "name",
+            "description",
+            "topics",
+            "category",
+            "url",
+            "private",
+            "total_flags",
+        ]
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        validate_empty(data["name"], "name")
-        validate_empty(data["description"], "description")
-        validate_empty(data["url"], "url")
-        validate_empty(data["topics"], "topics")
-        validate_empty(data["location"], "location")
-
-        if not isinstance(data["total_flags"], int):
-            data["total_flags"] = int(data["total_flags"])
-
-        validate_flags_number(data)
-
-        if not re.match(r"https?://\S+", data["url"]):
-            raise serializers.ValidationError(
-                _("The field url must have a valid format - https://www.example.com."),
-                code="invalid_url",
-            )
-
-        validate_creation_and_deletion_dates(data)
-
+        if total_flags := data.get("total_flags") is not None:
+            if not isinstance(total_flags, int):
+                raise serializers.ValidationError(
+                    _("Total flags must be an integer value.")
+                )
         return data
 
 

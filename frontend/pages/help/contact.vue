@@ -93,7 +93,7 @@
                   'text-light-text dark:text-dark-text': nameValidated,
                 }"
                 for="name"
-                >{{ $t("pages.help.contact.name-label") }}
+                >{{ $t("pages._global.name-label") }}
                 <span v-if="!nameValidated">{{
                   $t("pages.help.contact.error-empty")
                 }}</span></label
@@ -203,7 +203,7 @@
               class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
-                'hover:bg-light-cta-orange-hover active:bg-light-cta-orange dark:hover:bg-dark-cta-orange-hover/25 dark:active:bg-dark-cta-orange/10':
+                'hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10':
                   !buttonDisabled,
               }"
               type="submit"
@@ -248,12 +248,12 @@
         <p>
           {{ $t("pages.help.contact.thanks-2") }}
         </p>
-        <BtnLabeled
+        <BtnRouteInternal
           :cta="false"
-          label="components.btn-labeled.return-home"
+          label="components.btn-route-internal.return-home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-labeled.return-home-aria-label"
+          ariaLabel="components.btn-route-internal.return-home-aria-label"
         />
       </div>
     </PageDocs>

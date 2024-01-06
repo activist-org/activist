@@ -1,39 +1,25 @@
 <template>
-  <form
-    v-if="$colorMode.preference == 'light'"
-    class="w-full h-full rounded-[0.45em] elem-shadow-sm"
-  >
+  <form class="w-full h-full rounded-[0.45em] elem-shadow-sm">
     <Calendar
       :first-day-of-week="2"
+      :color="cMode"
       trim-weeks
       expanded
       :attributes="attributes"
-    >
-      ></Calendar
-    >
-  </form>
-  <form v-else class="w-full h-full rounded-[0.45em] elem-shadow-sm">
-    <Calendar
-      :first-day-of-week="2"
-      color="dark-mode"
-      :is-dark="true"
-      trim-weeks
-      expanded
-      :attributes="attributes"
-    >
-      ></Calendar
-    >
+    ></Calendar>
   </form>
 </template>
 
 <script setup>
 import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
-import { ref } from "vue";
 
 const date = new Date();
 const year = date.getFullYear();
 const month = date.getMonth();
+
+const colorMode = useColorMode();
+const cMode = colorMode.preference == "light" ? "light" : "dark";
 
 const attributes = ref([
   {
@@ -44,7 +30,6 @@ const attributes = ref([
   {
     highlight: {
       color: "orange",
-      fillMode: "light",
     },
     dates: [
       //Put the dates that should be highlighted here.
@@ -56,7 +41,10 @@ const attributes = ref([
 </script>
 
 <style>
-.vc-light-mode {
+.vc-light {
+  --vc-border: transparent;
+  --vc-hover-bg: rgba(140, 140, 140, 0.2);
+  --vc-focus-ring: 0 0 0 2px rgba(242, 166, 84, 1);
   --vc-accent-50: #8f8f8f;
   --vc-accent-100: #858585;
   --vc-accent-200: #7a7a7a;
@@ -69,13 +57,16 @@ const attributes = ref([
   --vc-accent-900: #323232;
 }
 
-.vc-light-mode .vc-pane-container {
+.vc-light .vc-pane-container {
   border-radius: 0.45em;
   background: #f6f8fa;
   color: #000000;
 }
 
-.vc-dark-mode {
+.vc-dark {
+  --vc-border: transparent;
+  --vc-hover-bg: rgba(70, 70, 70, 0.25);
+  --vc-focus-ring: 0 0 0 2px rgba(241, 156, 65, 1);
   --vc-accent-50: #8f8f8f;
   --vc-accent-100: #858585;
   --vc-accent-200: #7a7a7a;
@@ -88,7 +79,7 @@ const attributes = ref([
   --vc-accent-900: #666666;
 }
 
-.vc-dark-mode .vc-pane-container {
+.vc-dark .vc-pane-container {
   border-radius: 0.45em;
   background: #131316;
   color: #ffffff;

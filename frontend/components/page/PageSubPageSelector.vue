@@ -30,8 +30,7 @@
 
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { computed } from "vue";
-import { SubPageSelector } from "~/types/sub-page-selector";
+import type { SubPageSelector } from "~/types/sub-page-selector";
 const localePath = useLocalePath();
 
 const router = useRouter();

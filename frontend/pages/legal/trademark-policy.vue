@@ -7,7 +7,7 @@
     </Head>
     <PageDocs
       imgURL="/images/content_pages/icons/bootstrap_trademark"
-      imgAltText="pages.legal.trademark-policy.img-alt-text"
+      imgAltText="pages.legal._global.trademark-policy-alt-text"
     >
       <h1 class="pb-2 font-bold responsive-h1">Trademark Policy</h1>
       <p
@@ -124,12 +124,12 @@
       <div
         class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
       >
-        <BtnLabeled
+        <BtnRouteInternal
           :cta="false"
-          label="components.btn-labeled.return-home"
+          label="components.btn-route-internal.return-home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-labeled.return-home-aria-label"
+          ariaLabel="components.btn-route-internal.return-home-aria-label"
         />
       </div>
     </PageDocs>

@@ -1,119 +1,109 @@
 <template>
-  <div
-    @click="setIsOpen(true)"
-    class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md sm:w-16 sm:h-16 elem-on-card-style cursor-pointer"
-  >
-    <div class="sm:hidden">
-      <Icon
-        name="bi:qr-code-scan"
-        size="2em"
-        :alt="$t('components.modal-qr-code.img-alt-text')"
-      />
-    </div>
-    <div class="hidden sm:block">
-      <Icon
-        name="bi:qr-code-scan"
-        size="3em"
-        :alt="$t('components.modal-qr-code.img-alt-text')"
-      />
-    </div>
-  </div>
-  <Dialog @close="setIsOpen(false)" class="relative z-50" :open="isOpen">
-    <div
-      class="fixed inset-0 bg-light-popup dark:bg-dark-popup"
-      aria-hidden="true"
-    />
-    <div class="fixed inset-0 flex w-screen items-center justify-center">
-      <DialogPanel
-        class="pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style text-light-text dark:text-dark-text container p-5"
+  <ModalBase>
+    <template #normalDisplay>
+      <div
+        class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md cursor-pointer sm:w-16 sm:h-16 elem-on-card-style"
       >
-        <DialogTitle class="font-display flex justify-between">
-          <p class="text-3xl md:responsive-h2 font-bold">
-            {{ $t("components.modal-qr-code.header") }}
-          </p>
-          <button
-            @click="setIsOpen(false)"
-            class="p-1 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
-            :aria-label="$t('components.modal-qr-code.close-modal-aria-label')"
-          >
-            <Icon class="w-10 h-10" name="bi:x-circle-fill" />
-          </button>
-        </DialogTitle>
+        <div class="sm:hidden">
+          <Icon
+            name="bi:qr-code-scan"
+            size="2em"
+            :alt="$t('components.modal-qr-code.img-alt-text')"
+          />
+        </div>
+        <div class="hidden sm:block">
+          <Icon
+            name="bi:qr-code-scan"
+            size="3em"
+            :alt="$t('components.modal-qr-code.img-alt-text')"
+          />
+        </div>
+      </div>
+    </template>
+    <template #modalDisplay>
+      <DialogTitle class="flex justify-between font-display">
+        <p class="text-3xl font-bold md:responsive-h2">
+          {{ $t("components.modal-qr-code.header") }}
+        </p>
+      </DialogTitle>
+      <div
+        class="flex flex-col items-center pb-6 space-y-6 md:grid md:grid-cols-2 md:grid-rows-1 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-14 lg:pr-8"
+      >
         <div
-          class="flex flex-col items-center md:grid md:grid-cols-2 md:grid-rows-1 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+          class="items-center col-span-2 pt-2 space-y-4 font-medium text-left"
         >
-          <div
-            class="items-center space-y-4 text-left col-span-2 pt-2 font-medium"
-          >
-            <p>
-              {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}
-            </p>
-            <p v-if="false">
-              {{
-                $t(
-                  "components.modal-qr-code.section-1-paragraph-1-organization"
-                )
-              }}
-            </p>
-            <p>
-              {{ $t("components.modal-qr-code.subheader-2") }}
-            </p>
-            <ul class="pl-6 md:pl-8 list-disc">
-              <li>
-                {{ $t("components.modal-qr-code.section-2-list-1-item-1") }}
-              </li>
-              <li>
-                {{ $t("components.modal-qr-code.section-2-list-1-item-2") }}
-              </li>
-              <li>
-                {{ $t("components.modal-qr-code.section-2-list-1-item-3") }}
-              </li>
-            </ul>
-            <p>
-              {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
-            </p>
-            <BtnLabeled
-              @click="downloadQRCode('PNG')"
-              class="hidden md:flex items-start"
-              :cta="true"
-              :label="$t('components.modal-qr-code.download-qr-code')"
-              fontSize="lg"
-              :options="availableFormats"
-              :optionsCallback="downloadQRCode"
-              ariaLabel="
-                $t('components.modal-qr-code.download-qr-code-aria-label')
-              "
-            />
-          </div>
-          <div class="px-4 md:pl-8 md:pb-10">
-            <QRCode
-              ref="qrcode"
-              class="rounded-3xl elem-shadow-md" 
-            />
-          </div>
-          <BtnLabeled
-            @click="downloadQRCode('PNG')"
-            class="flex md:hidden items-start"
+          <p>
+            {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}
+          </p>
+          <p v-if="false">
+            {{
+              $t("components.modal-qr-code.section-1-paragraph-1-organization")
+            }}
+          </p>
+          <p>
+            {{ $t("components.modal-qr-code.subheader-2") }}
+          </p>
+          <ul class="pl-6 list-disc md:pl-8">
+            <li>
+              {{ $t("components.modal-qr-code.section-2-list-1-item-1") }}
+            </li>
+            <li>
+              {{ $t("components.modal-qr-code.section-2-list-1-item-2") }}
+            </li>
+            <li>
+              {{ $t("components.modal-qr-code.section-2-list-1-item-3") }}
+            </li>
+          </ul>
+          <!-- <p>
+            {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
+          </p> -->
+          <BtnActionDropdown
+            @main-btn-clicked="handleMainBtnClicked"
+            class="hidden md:block w-fit"
             :cta="true"
-            :label="$t('components.modal-qr-code.download-qr-code')"
+            :label="$t('components.btn-action-dropdown.download-qr-code')"
             fontSize="lg"
-            :options="availableFormats"
-            :optionsCallback="downloadQRCode"
-            :ariaLabel="
-              $t('components.modal-qr-code.download-qr-code-aria-label')
+            iconSize="1.25em"
+            dropdownIcon="bi:chevron-down"
+            :dropdownOptions="availableFormats"
+            :dropdownOptionsCallback="downloadQRCode"
+            ariaLabel="
+              $t('components.btn-action-dropdown.download-qr-code-aria-label')
+            "
+            :ariaLabelDropdown="
+              $t('components.btn-action-dropdown.qr-code-options-aria-label')
             "
           />
         </div>
-      </DialogPanel>
-    </div>
-  </Dialog>
+        <div class="px-4 md:pl-8 md:pb-2">
+          <QRCode ref="qrcode" class="select-none rounded-3xl elem-shadow-md" />
+        </div>
+        <BtnActionDropdown
+          @main-btn-clicked="handleMainBtnClicked"
+          class="md:hidden w-fit"
+          :cta="true"
+          :label="$t('components.btn-action-dropdown.download-qr-code')"
+          fontSize="lg"
+          iconSize="1.25em"
+          dropdownIcon="bi:chevron-down"
+          :dropdownOptions="availableFormats"
+          :dropdownOptionsCallback="downloadQRCode"
+          :ariaLabel="
+            $t('components.btn-action-dropdown.download-qr-code-aria-label')
+          "
+          :ariaLabelDropdown="
+            $t('components.btn-action-dropdown.qr-code-options-aria-label')
+          "
+        />
+      </div>
+    </template>
+  </ModalBase>
 </template>
 
 <script setup lang="ts">
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/vue";
-import { ref, Ref } from "vue";
+import { DialogTitle } from "@headlessui/vue";
 
-const qrcode = ref(null);
+const qrcode = ref();
 
 const qrPixelGraphicsSize = computed(() => {
   if (qrcode?.value) {
@@ -130,8 +120,22 @@ const availableFormats: Ref<string[]> = computed(() => {
   const size = qrPixelGraphicsSize.value;
   const qrCodeIsReady = size != undefined;
   return [
-    "PNG" + (qrCodeIsReady ? ` (${size.width} x ${size.height} px)` : ""),
-    "JPEG" + (qrCodeIsReady ? ` (${size.width} x ${size.height} px)` : ""),
+    "PNG" +
+      (qrCodeIsReady
+        ? ` (${size.width
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} x ${size.height
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} px)`
+        : ""),
+    "JPEG" +
+      (qrCodeIsReady
+        ? ` (${size.width
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} x ${size.height
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} px)`
+        : ""),
     "SVG",
   ];
 });
@@ -139,10 +143,6 @@ const availableFormats: Ref<string[]> = computed(() => {
 const props = defineProps<{
   entityName: string;
 }>();
-
-const qrCodeFileName: string = props.entityName
-  .toLowerCase()
-  .replaceAll(" ", "_");
 
 function drawInlineSVG(
   svgElement: any,
@@ -160,8 +160,15 @@ function drawInlineSVG(
   img.src = "data:image/svg+xml; charset=utf8, " + encodeURIComponent(svgURL);
 }
 
+const handleMainBtnClicked = () => {
+  downloadQRCode("PNG");
+};
+
+const qrCodeFileName: string =
+  "qr_code_" + props.entityName.toLowerCase().replaceAll(" ", "_");
+
 function downloadQRCode(format: string) {
-  const svgData = document.querySelector("#resultqr")!;
+  const svgData = document.querySelector("#result-qr")!;
   const def = document.createElement("def");
   def.innerHTML = `<style>
   /* latin-ext */
@@ -184,7 +191,6 @@ function downloadQRCode(format: string) {
 }
         </style>`;
   svgData.appendChild(def);
-  const fileNameWithoutExt = "activist_dot_org_qrcode";
   if (format == "SVG") {
     const svgBlob = new Blob([svgData.outerHTML], {
       type: "image/svg+xml;charset=utf-8",
@@ -192,7 +198,7 @@ function downloadQRCode(format: string) {
     const svgUrl = URL.createObjectURL(svgBlob);
     const downloadLink = document.createElement("a");
     downloadLink.href = svgUrl;
-    downloadLink.download = `${fileNameWithoutExt}.svg`;
+    downloadLink.download = `${qrCodeFileName}.svg`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -204,7 +210,7 @@ function downloadQRCode(format: string) {
     const ctx = canvas.getContext("2d")!;
     const isJPEG = format.startsWith("JPEG");
     if (isJPEG) {
-      // avoid black bg in jpeg files
+      // Avoid black background in jpeg files.
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
@@ -212,16 +218,11 @@ function downloadQRCode(format: string) {
     drawInlineSVG(svgData, ctx, canvas.width, canvas.height, function () {
       const downloadLink = document.createElement("a");
       downloadLink.href = canvas.toDataURL(`image/${fileExtension}`, 1.0);
-      downloadLink.download = `${fileNameWithoutExt}.${fileExtension}`;
+      downloadLink.download = `${qrCodeFileName}.${fileExtension}`;
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
     });
   }
-}
-
-const isOpen = ref(false);
-function setIsOpen(value: boolean) {
-  isOpen.value = value;
 }
 </script>

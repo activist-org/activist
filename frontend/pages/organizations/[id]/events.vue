@@ -14,7 +14,7 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnRouteInternal
           class="w-max"
           :cta="true"
           linkTo="/"
@@ -22,15 +22,23 @@
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.new-event-aria-label"
+          ariaLabel="components.btn-route-internal.new-event-aria-label"
         />
       </div>
     </HeaderAppPage>
+    <div class="py-4 space-y-3">
+      <CardSearchResult
+        searchResultType="event"
+        :reduced="true"
+        :event="event"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Organization } from "../../../types/organization";
+import type { Event } from "~/types/event";
+import type { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",
@@ -50,5 +58,18 @@ const organization: Organization = {
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
+};
+
+const event: Event = {
+  name: "bimonthly tech meetup",
+  tagline: "let's fix some bugs!",
+  organizations: ["org1", "org2"],
+  type: "learn",
+  topic: "Hackathon",
+  description: "let's fix some bugs!",
+  getInvolvedDescription: "squash some bugs!",
+  inPersonLocation: "Berlin, Germany",
+  supporters: 234,
+  date: new Date(),
 };
 </script>

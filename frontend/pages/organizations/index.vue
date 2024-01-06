@@ -10,7 +10,7 @@
       :tagline="$t('pages.organizations.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <ShieldTopic topic="My topics dropdown" />
+        <ComboboxTopics />
       </div>
     </HeaderAppPage>
     <div
@@ -38,7 +38,7 @@ const { data: organizations } = await useFetch(
   }
 );
 
-// import { Organization } from "../../types/organization";
+// import type { Organization } from "~/types/organization";
 // const organization: Organization = {
 //   name: "tech from below",
 //   status: "approved",

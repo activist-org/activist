@@ -12,15 +12,14 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.invite-someone"
+          label="components.btn-action.invite-someone"
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.invite-someone-org-aria-label"
+          ariaLabel="components.btn-action.invite-someone-org-aria-label"
         />
       </div>
     </HeaderAppPage>
@@ -28,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { Organization } from "../../../types/organization";
+import type { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",

@@ -14,7 +14,7 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnRouteInternal
           class="w-max"
           :cta="true"
           linkTo="/"
@@ -22,15 +22,22 @@
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.new-group-aria-label"
+          ariaLabel="components.btn-route-internal.new-group-aria-label"
         />
       </div>
     </HeaderAppPage>
+    <div class="py-4 space-y-3">
+      <CardSearchResult
+        searchResultType="organization"
+        :reduced="true"
+        :organization="group"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Organization } from "../../../types/organization";
+import type { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",
@@ -50,5 +57,16 @@ const organization: Organization = {
   workingGroups: ["meetup", "code-night"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
+};
+
+const group: Organization = {
+  name: "friends of tech",
+  status: "approved",
+  tagline: "We're just friends!",
+  location: "Kalamazoo, MI",
+  description: "Friends!!",
+  topic: "test",
+  members: 10,
+  supporters: 15,
 };
 </script>

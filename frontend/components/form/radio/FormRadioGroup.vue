@@ -31,7 +31,7 @@
       />
       <button
         @click="toggleAdditionalInput"
-        class="rounded-r-md relative min-w-[3rem] h-9 border border-light-interactive dark:border-dark-interactive"
+        class="rounded-r-md relative min-w-[3rem] h-9 border border-light-interactive dark:border-dark-interactive focus-brand"
         :class="{
           'bg-light-header text-light-special-text dark:bg-dark-header dark:text-dark-special-text':
             !showAdditionalInput,
@@ -48,7 +48,6 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import useFormCheckboxRadio from "~/composables/useFormCheckboxRadio";
 
 // TODO: This type should be defined for the props definition type from FromRadioButton and FromRadio.
 /**

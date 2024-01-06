@@ -19,9 +19,9 @@
 
 [Öffnen Sie ein Lokalisierungsproblem](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) um eine neue Readme zum [README-Verzeichnis](https://github.com/activist-org/activist/tree/main/README) hinzuzufügen
 
-- DE: README_DE.md
-- EN: [README.md](https://github.com/activist-org/activist/blob/main/README.md)
-- FR: [README_FR.md](https://github.com/activist-org/activist/blob/main/README/README_FR.md)
+- Deutsch: README_DE.md
+- English: [README.md](https://github.com/activist-org/activist/blob/main/README.md)
+- Français: [README_FR.md](https://github.com/activist-org/activist/blob/main/README/README_FR.md)
 
 </p>
 </details>

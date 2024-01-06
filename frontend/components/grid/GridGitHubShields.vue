@@ -27,7 +27,7 @@
     <ShieldGitHub
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/stargazers"
-      :text="$t('components.grid-github-shields.star')"
+      :text="$t('components._global.star')"
       :isLoading="isLoading"
       :count="GitHubData.stargazers_count"
     >
@@ -37,8 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
-
 const isLoading = ref(false);
 const GitHubData = reactive({
   forks_count: 0,

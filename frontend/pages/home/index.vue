@@ -9,20 +9,14 @@
       :header="$t('pages.home.index.header')"
       :tagline="$t('pages.home.index.subheader')"
     >
-      <ComboboxTopics
-        :topic="$t('pages.home.index.dropdown-topics')"
-        :hasIcon="true"
-        :items="topicItems"
-        iconName="bi:globe"
-        :isRounded="true"
-      />
+      <ComboboxTopics />
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
       <div
         class="flex flex-col lg:grid space-y-6 lg:grid-cols-7 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
-        <GridHomeMetrics class="lg:col-span-5" />
-        <MediaDatePicker class="w-full h-full lg:col-span-2" />
+        <CardMetricsOverview class="lg:col-span-5" />
+        <MediaCalendar class="w-full h-full lg:col-span-2" />
       </div>
       <CardSearchResult
         searchResultType="event"
@@ -52,10 +46,10 @@
 </template>
 
 <script setup lang="ts">
-import { Event } from "~/types/event";
-import { Organization } from "~/types/organization";
-import { Resource } from "~/types/resource";
-import { User } from "~/types/user";
+import type { Event } from "~/types/event";
+import type { Organization } from "~/types/organization";
+import type { Resource } from "~/types/resource";
+import type { User } from "~/types/user";
 
 const { data: organizations } = await useFetch(
   "http://127.0.0.1:8000/organizations"
@@ -66,8 +60,6 @@ console.log(organizations);
 definePageMeta({
   layout: "sidebar",
 });
-
-const topicItems = ["Topic 1", "Topic 2", "Topic 3", "Topic 4"];
 
 const resource: Resource = {
   name: "Test Resource",

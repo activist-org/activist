@@ -1,3 +1,6 @@
+from django.urls import reverse
+from tests.throttle import BaseTestThrottle
+
 from .factories import (
     OrganizationFactory,
     OrganizationApplicationFactory,
@@ -13,6 +16,11 @@ from .factories import (
     GroupResourceFactory,
     GroupTopicFactory,
 )
+
+
+class EntitiesThrottleTest(BaseTestThrottle):
+    __test__ = True
+    url = reverse("entities:organization-list")
 
 
 def test_str_methods() -> None:

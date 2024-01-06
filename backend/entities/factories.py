@@ -25,13 +25,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    location = factory.Faker("address")
-    status = factory.Faker("word")
     description = factory.Faker("text")
-    members = factory.List([factory.Faker("name") for _ in range(10)])
-    supporters = factory.List([factory.Faker("name") for _ in range(10)])
-    images_url = factory.List([factory.Faker("word") for _ in range(10)])
-    topics = factory.List([factory.Faker("word") for _ in range(10)])
     social_accounts = factory.List([factory.Faker("word") for _ in range(10)])
     total_flags = factory.Faker("random_int", min=0, max=100)
     created_by = factory.SubFactory("authentication.factories.UserFactory")

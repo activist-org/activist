@@ -4,4 +4,5 @@ export interface DiscussionInput {
   supporters: number;
   description: string;
   category: string;
+  highRisk: boolean;
 }

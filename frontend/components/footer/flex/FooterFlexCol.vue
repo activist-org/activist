@@ -3,7 +3,7 @@
   <div class="flex flex-col items-center justify-center space-y-5">
     <div class="flex flex-col items-center justify-center space-y-2">
       <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
-      <div class="relative z-0 h-10 overflow-y-hidden w-36">
+      <div class="relative z-0 h-10 overflow-y-hidden w-36 focus-inside">
         <LogoActivist
           class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
         />
@@ -87,7 +87,7 @@
         <p
           class="mt-6 text-xl font-medium sm:mt-0 text-light-text dark:text-dark-text"
         >
-          {{ $t("components._global.organization") }}
+          {{ $t("_global.organization") }}
         </p>
         <div class="flex flex-wrap justify-center sm:flex-col gap-x-1 sm:gap-0">
           <template v-for="(oLink, index) in links.organizationLinks">

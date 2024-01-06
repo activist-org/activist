@@ -17,12 +17,12 @@
       </p>
     </div>
     <div class="flex justify-center rounded-md">
-      <BtnLabeled
+      <BtnRouteExternal
         :cta="true"
-        label="components.btn-labeled.request-access"
+        label="components.btn-route-external.request-access"
         linkTo="https://tally.so/r/nprxbq"
         fontSize="xl"
-        ariaLabel="components.btn-labeled.request-access-aria-label"
+        ariaLabel="components.btn-route-external.request-access-aria-label"
       />
     </div>
   </div>

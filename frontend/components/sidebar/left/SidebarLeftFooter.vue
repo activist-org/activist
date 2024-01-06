@@ -1,187 +1,179 @@
 <template>
   <footer
-    class="w-full transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
+    class="w-full p-1 transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
   >
-    <div class="flex bg-light-header dark:bg-dark-header elem-shadow-sm">
-      <div
-        class="flex flex-col justify-center px-[0.375rem] pt-2 pb-3 space-y-1 w-full"
-      >
-        <Disclosure v-slot="{ open, close }">
-          <DisclosureButton
-            @keyup.enter="closeOtherMenus(0)"
-            @click="closeOtherMenus(0)"
-            :ref="(el) => (disclosureButtons[0] = { close, el })"
-            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
-            :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
+    <div
+      class="flex flex-col justify-center w-full p-1 bg-light-header dark:bg-dark-header elem-shadow-sm space-y-1 rounded-md"
+    >
+      <Disclosure v-slot="{ open, close }">
+        <DisclosureButton
+          @keyup.enter="closeOtherMenus(0)"
+          @click="closeOtherMenus(0)"
+          :ref="(el) => (disclosureButtons[0] = { close, el })"
+          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
+          :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
+        >
+          <div
+            class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
           >
-            <div
-              class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
-            >
-              <Icon
-                class="flex-shrink-0 w-5 h-5 text-center"
-                name="bi:plus-circle"
-                size="1em"
-              />
-              <Transition name="text">
-                <p
-                  v-if="
-                    sidebar.collapsed == false ||
-                    sidebar.collapsedSwitch == false
-                  "
-                  class="select-none"
-                >
-                  {{ $t("components.sidebar-left-footer.create") }}
-                </p>
-              </Transition>
-            </div>
-            <Transition name="chevron">
-              <Icon
+            <Icon
+              class="flex-shrink-0 w-5 h-5 text-center"
+              name="bi:plus-circle"
+              size="1em"
+            />
+            <Transition name="text">
+              <p
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
-                class="absolute right-0 mr-8"
-                :class="{ 'rotate-180 transform': open }"
-                name="bi:chevron-up"
-              />
+                class="select-none"
+              >
+                {{ $t("components.sidebar-left-footer.create") }}
+              </p>
             </Transition>
-          </DisclosureButton>
-          <DisclosurePanel class="flex flex-col">
-            <div
-              :ref="(el) => (disclosurePanels[0] = el)"
-              class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
-            >
-              <SidebarLeftSelector
-                v-for="button in createButtons"
-                :key="button.id"
-                :label="button.label"
-                :routeURL="button.routeURL"
-                :iconURL="button.iconURL"
-                :selected="button.selected"
-              />
-            </div>
-          </DisclosurePanel>
-        </Disclosure>
-        <Disclosure v-slot="{ open, close }">
-          <DisclosureButton
-            @keyup.enter="closeOtherMenus(1)"
-            @click="closeOtherMenus(1)"
-            :ref="(el) => (disclosureButtons[1] = { close, el })"
-            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
-            :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
+          </div>
+          <Transition name="chevron">
+            <Icon
+              v-if="
+                sidebar.collapsed == false || sidebar.collapsedSwitch == false
+              "
+              class="absolute right-0 mr-8"
+              :class="{ 'rotate-180 transform': open }"
+              name="bi:chevron-up"
+            />
+          </Transition>
+        </DisclosureButton>
+        <DisclosurePanel class="flex flex-col">
+          <div
+            :ref="(el) => (disclosurePanels[0] = el)"
+            class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
           >
-            <div
-              class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
-            >
-              <Icon
-                class="flex-shrink-0 w-5 h-5"
-                name="bi:info-circle"
-                size="1em"
-              />
-              <Transition name="text">
-                <p
-                  v-if="
-                    sidebar.collapsed == false ||
-                    sidebar.collapsedSwitch == false
-                  "
-                  class="select-none"
-                >
-                  {{ $t("components.sidebar-left-footer.info") }}
-                </p>
-              </Transition>
-            </div>
-            <Transition name="chevron">
-              <Icon
+            <SidebarLeftSelector
+              v-for="button in createButtons"
+              :key="button.id"
+              :label="button.label"
+              :routeURL="button.routeURL"
+              :iconURL="button.iconURL"
+              :selected="button.selected"
+            />
+          </div>
+        </DisclosurePanel>
+      </Disclosure>
+      <Disclosure v-slot="{ open, close }">
+        <DisclosureButton
+          @keyup.enter="closeOtherMenus(1)"
+          @click="closeOtherMenus(1)"
+          :ref="(el) => (disclosureButtons[1] = { close, el })"
+          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
+          :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
+        >
+          <div
+            class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
+          >
+            <Icon
+              class="flex-shrink-0 w-5 h-5"
+              name="bi:info-circle"
+              size="1em"
+            />
+            <Transition name="text">
+              <p
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
-                class="absolute right-0 mr-8"
-                :class="{ 'rotate-180 transform': open }"
-                name="bi:chevron-up"
-              />
+                class="select-none"
+              >
+                {{ $t("components.sidebar-left-footer.info") }}
+              </p>
             </Transition>
-          </DisclosureButton>
-          <DisclosurePanel class="flex flex-col">
-            <div
-              :ref="(el) => (disclosurePanels[1] = el)"
-              class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
-            >
-              <SidebarLeftSelector
-                v-for="button in infoButtons"
-                :key="button.id"
-                :label="button.label"
-                :routeURL="button.routeURL"
-                :iconURL="button.iconURL"
-                :selected="button.selected"
-              />
-            </div>
-          </DisclosurePanel>
-        </Disclosure>
-        <Disclosure v-slot="{ open, close }">
-          <DisclosureButton
-            @keyup.enter="closeOtherMenus(2)"
-            @click="closeOtherMenus(2)"
-            :ref="(el) => (disclosureButtons[2] = { close, el })"
-            class="flex items-center w-full rounded-md style-menu-option-selected pl-1"
-            :aria-label="
-              $t('components.sidebar-left-footer.username-aria-label')
-            "
+          </div>
+          <Transition name="chevron">
+            <Icon
+              v-if="
+                sidebar.collapsed == false || sidebar.collapsedSwitch == false
+              "
+              class="absolute right-0 mr-8"
+              :class="{ 'rotate-180 transform': open }"
+              name="bi:chevron-up"
+            />
+          </Transition>
+        </DisclosureButton>
+        <DisclosurePanel class="flex flex-col">
+          <div
+            :ref="(el) => (disclosurePanels[1] = el)"
+            class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
           >
-            <div
-              class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
-            >
-              <Icon
-                class="flex-shrink-0 w-5 h-5"
-                name="bi:person-circle"
-                size="1em"
-              />
-              <Transition name="text">
-                <p
-                  v-if="
-                    sidebar.collapsed == false ||
-                    sidebar.collapsedSwitch == false
-                  "
-                  class="font-bold select-none"
-                >
-                  {{ $t("components.sidebar-left-footer.username") }}
-                </p>
-              </Transition>
-            </div>
-            <Transition name="chevron">
-              <Icon
+            <SidebarLeftSelector
+              v-for="button in infoButtons"
+              :key="button.id"
+              :label="button.label"
+              :routeURL="button.routeURL"
+              :iconURL="button.iconURL"
+              :selected="button.selected"
+            />
+          </div>
+        </DisclosurePanel>
+      </Disclosure>
+      <Disclosure v-slot="{ open, close }">
+        <DisclosureButton
+          @keyup.enter="closeOtherMenus(2)"
+          @click="closeOtherMenus(2)"
+          :ref="(el) => (disclosureButtons[2] = { close, el })"
+          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
+          :aria-label="$t('components.sidebar-left-footer.username-aria-label')"
+        >
+          <div
+            class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
+          >
+            <Icon
+              class="flex-shrink-0 w-5 h-5"
+              name="bi:person-circle"
+              size="1em"
+            />
+            <Transition name="text">
+              <p
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
-                class="absolute right-0 mr-8"
-                :class="{ 'rotate-180 transform': open }"
-                name="bi:chevron-up"
-              />
+                class="font-bold select-none"
+              >
+                {{ $t("components.sidebar-left-footer.username") }}
+              </p>
             </Transition>
-          </DisclosureButton>
-          <DisclosurePanel class="flex flex-col">
-            <div
-              :ref="(el) => (disclosurePanels[2] = el)"
-              class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
-            >
-              <SidebarLeftSelector
-                v-for="button in userButtons"
-                :key="button"
-                :label="button.label"
-                :routeURL="button.routeURL"
-                :iconURL="button.iconURL"
-                :selected="button.selected"
-              />
-            </div>
-          </DisclosurePanel>
-        </Disclosure>
-      </div>
+          </div>
+          <Transition name="chevron">
+            <Icon
+              v-if="
+                sidebar.collapsed == false || sidebar.collapsedSwitch == false
+              "
+              class="absolute right-0 mr-8"
+              :class="{ 'rotate-180 transform': open }"
+              name="bi:chevron-up"
+            />
+          </Transition>
+        </DisclosureButton>
+        <DisclosurePanel class="flex flex-col">
+          <div
+            :ref="(el) => (disclosurePanels[2] = el)"
+            class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
+          >
+            <SidebarLeftSelector
+              v-for="button in userButtons"
+              :key="button"
+              :label="button.label"
+              :routeURL="button.routeURL"
+              :iconURL="button.iconURL"
+              :selected="button.selected"
+            />
+          </div>
+        </DisclosurePanel>
+      </Disclosure>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import type { Ref } from "vue";
-import { MenuSelector } from "~/types/menu-selector";
+import type { MenuSelector } from "~/types/menu-selector";
 
 const disclosureButtons = ref<
   {
@@ -211,7 +203,7 @@ const createButtons: MenuSelector[] = [
   {
     id: 1,
     label: "components._global.new-event",
-    routeURL: "/",
+    routeURL: "/events/create",
     iconURL: "bi:calendar-check",
     selected: false,
   },
@@ -232,7 +224,7 @@ const createButtons: MenuSelector[] = [
   {
     id: 4,
     label: "components._global.new-resource",
-    routeURL: "/",
+    routeURL: "/resources/create",
     iconURL: "IconResource",
     selected: false,
   },

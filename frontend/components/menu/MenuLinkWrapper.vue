@@ -2,7 +2,7 @@
   <NuxtLink
     class="relative flex items-center justify-center w-full p-2 text-sm text-left transition duration-200 rounded-md basis-full font-md group focus-brand"
     :class="{
-      'style-menu-option-selected': selected,
+      'style-menu-option-cta': selected,
       'style-menu-option': !selected,
     }"
     :to="localePath(`${to}`)"

@@ -5,7 +5,7 @@
   >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="flex items-center align-middle text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct relative w-full py-2 pl-5 text-left elem-shadow-sm focus-brand"
+        class="relative flex items-center w-full py-2 pl-5 text-left align-middle text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct elem-shadow-sm focus-brand"
       >
         <Icon
           :name="selectedMenuItem.iconURL"
@@ -14,7 +14,7 @@
         />
         <span>{{ $t(selectedMenuItem.label) }}</span>
         <span
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+          class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
         >
           <Icon
             name="bi:chevron-expand"
@@ -41,7 +41,7 @@
           >
             <NuxtLink @click="handleItemClick(menuEntry)">
               <li
-                class="flex items-center align-middle relative cursor-default select-none py-2 pl-5"
+                class="relative flex items-center py-2 pl-5 align-middle cursor-default select-none"
                 :class="{
                   'bg-light-header dark:bg-dark-section-div text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
                     selected && active,
@@ -81,8 +81,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
-import useMenuEntriesState from "~/composables/useMenuEntriesState";
-import MenuEntry from "~/types/menu-entry";
+import type MenuEntry from "~/types/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
 
 const route = useRoute();

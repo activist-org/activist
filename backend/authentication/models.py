@@ -12,15 +12,16 @@ Contents:
     - UserTopic
 """
 
-import uuid
+from uuid import uuid4
 
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
+from backend.mixins.models import CreationDeletionMixin
+
 
 class SupportEntityType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
@@ -31,34 +32,37 @@ class Support(models.Model):
     supporter_type = models.ForeignKey(
         "SupportEntityType", on_delete=models.CASCADE, related_name="supporter"
     )
-    supporter_entity = models.IntegerField(null=True)
+    supporter_entity = models.ForeignKey(
+        "entities.Organization", on_delete=models.CASCADE, related_name="supporter"
+    )
     supported_type = models.ForeignKey(
         "SupportEntityType", on_delete=models.CASCADE, related_name="supported"
     )
-    supported_entity = models.IntegerField(null=True)
+    supported_entity = models.ForeignKey(
+        "entities.Organization", on_delete=models.CASCADE, related_name="supported"
+    )
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.id}"
 
 
-class User(AbstractUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class User(AbstractUser, CreationDeletionMixin):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user_name = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True)
     password = models.CharField(max_length=255)
-    location = models.CharField(max_length=30, null=True)
-    description = models.TextField(max_length=500, null=True)
+    description = models.TextField(max_length=500)
     verified = models.BooleanField(default=False)
-    verification_method = models.CharField(max_length=30, null=True)
+    verification_method = models.CharField(max_length=30, blank=True)
     verification_partner = models.ForeignKey(
-        "User", on_delete=models.SET_NULL, null=True, blank=True
+        "User", on_delete=models.SET_NULL, null=True
     )
-    social_accounts = ArrayField(models.CharField(max_length=255), null=True)
+    social_accounts = ArrayField(
+        models.CharField(max_length=255), null=True, blank=True
+    )
+    total_flags = models.IntegerField(default=0)
     private = models.BooleanField(default=False)
     high_risk = models.BooleanField(default=False)
-    total_flags = models.IntegerField(default=0)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateField(null=True)
 
     def __str__(self) -> str:
         return self.username
@@ -69,7 +73,7 @@ class UserResource(models.Model):
     resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.id}"
 
 
 class UserTask(models.Model):
@@ -77,7 +81,7 @@ class UserTask(models.Model):
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.id}"
 
 
 class UserTopic(models.Model):
@@ -85,4 +89,4 @@ class UserTopic(models.Model):
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.id}"
