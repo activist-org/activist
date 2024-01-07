@@ -197,6 +197,31 @@ git remote add upstream https://github.com/activist-org/activist.git
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
 
+### Using Yarn or Python
+
+Dockerized environments are resource intensive and may take a very long time to load. Specifically for many Windows users, Docker requires a Linux environment running in the background that makes the entire process take way too long. If you would like to get just the frontend or backend up and running, please follow the steps below:
+
+**Frontend: Yarn**
+
+```bash
+# In the root activist directory:
+cd frontend
+yarn install
+yarn run dev
+```
+
+You can then visit http://localhost:3000/ to see the development frontend build once the server is up and running.
+
+**Backend: Python**
+
+```bash
+# In the root activist directory:
+cd backend
+python manage.py runserver
+```
+
+You can then visit http://localhost:3000/ to see the development frontend build once the server is up and running.
+
 <a id="style-guide"></a>
 
 ## Style guide [`⇧`](#contents)
