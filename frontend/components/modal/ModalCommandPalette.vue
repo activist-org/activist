@@ -164,20 +164,16 @@
 <script setup>
 import { useMagicKeys, whenever } from "@vueuse/core";
 
-// TODO: Maybe there is a better / more future-proof solution than userAgent?
-const isMacOS = /Mac/.test(navigator.userAgent);
+const { isMacOS } = useDevice();
 
-const { slash, meta_k, ctrl_k } = useMagicKeys({
+const { meta_k, ctrl_k } = useMagicKeys({
   passive: false,
   onEventFired(e) {
-    if (["slash", "meta_k", "ctrl_k"].includes(e.key) && e.type === "keydown")
+    if (["meta_k", "ctrl_k"].includes(e.key) && e.type === "keydown")
       e.preventDefault();
   },
 });
 
-whenever(slash, () => {
-  doWhenever();
-});
 whenever(meta_k, () => {
   if (isMacOS) {
     doWhenever();

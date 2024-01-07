@@ -33,7 +33,7 @@
           />
           <p class="-mt-[0.075rem]">/</p>
         </div>
-        <!-- <div
+        <div
           v-if="$device.isMacOS"
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-special-text dark:text-dark-special-text"
         >
@@ -52,7 +52,7 @@
             :text="$t('components.search-bar.control-tooltip-label')"
           />
           <p>⌃k</p>
-        </div> -->
+        </div>
       </div>
     </Transition>
   </div>
