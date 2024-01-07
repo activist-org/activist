@@ -229,7 +229,7 @@ DATABASE_HOST=db
 DATABASE_HOST=localhost
 ```
 
-Now we can run the server in another terminal with:
+Now you can open up a new terminal to apply database migrations and start the local server:
 
 > [!NOTE]
 > Make sure to install the dependencies first. Best practice is to create a virtual enviroment first and then install the dependencies. Our dependencies are inside the `requirements.txt` file and can be install via `pip install -r requirements-dev.txt`
