@@ -120,7 +120,7 @@ const formData = ref({
   description: "",
   tagline: "",
   social_accounts: [],
-  topics: ["justice", "activism"],
+  topics: [],
 });
 
 const submit = async () => {
