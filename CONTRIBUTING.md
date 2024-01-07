@@ -197,11 +197,14 @@ git remote add upstream https://github.com/activist-org/activist.git
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
 
+<a id="using-yarn-or-python"></a>
+
 ### Using Yarn or Python
 
-Dockerized environments are resource intensive and may take a very long time to load. Specifically for many Windows users, Docker requires a Linux environment running in the background that makes the entire process take way too long. If you would like to get just the frontend or backend up and running, please follow the steps below:
+Dockerized environments are resource intensive - specifically for some Windows users - and may take a very long time to load. If you would like to get just the frontend or backend up and running, please follow the steps below:
 
-**Frontend: Yarn**
+<details><summary><strong>Frontend: Yarn</strong></summary>
+<p>
 
 ```bash
 # In the root activist directory:
@@ -212,9 +215,13 @@ yarn run dev
 
 You can then visit http://localhost:3000/ to see the development frontend build once the server is up and running.
 
-**Backend: Python**
+</p>
+</details>
 
-Our backend depends on a connection to a postgres DB, therefore we need to setup the database first. Here our best opition is to still use docker to create a postgres DB with the following command:
+<details><summary><strong>Backend: Python</strong></summary>
+<p>
+
+Our backend depends on a connection to a postgres DB, therefore we need to setup the database first. Here our best option is to still use docker to create a postgres DB with the following command:
 
 ```bash
 docker compose up db
@@ -232,7 +239,7 @@ DATABASE_HOST=localhost
 Now you can open up a new terminal to apply database migrations and start the local server:
 
 > [!NOTE]
-> Make sure to install the dependencies first. Best practice is to create a virtual enviroment first and then install the dependencies. Our dependencies are inside the `requirements.txt` file and can be install via `pip install -r requirements-dev.txt`
+> Make sure to install the dependencies first. Best practice is to create a virtual environment first and then install the dependencies. Our dependencies are inside the `requirements.txt` file and can be installed via `pip install -r requirements-dev.txt`
 
 ```bash
 # In the root activist directory:
@@ -243,6 +250,9 @@ python manage.py runserver
 ```
 
 You can then visit http://localhost:8000/ to see the development backend build once the server is up and running.
+
+</p>
+</details>
 
 <a id="style-guide"></a>
 
