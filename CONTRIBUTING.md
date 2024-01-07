@@ -214,13 +214,35 @@ You can then visit http://localhost:3000/ to see the development frontend build 
 
 **Backend: Python**
 
+Our backend depends on a connection to a postgres DB, therefore we need to setup the database first. Here our best opition is to still use docker to create a postgres DB with the following command:
+
+```bash
+docker compose up db
+```
+
+In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env` file first.
+
+```bash
+# Current
+DATABASE_HOST=db
+# Changed
+DATABASE_HOST=localhost
+```
+
+Now we can run the server in another terminal with:
+
+> [!NOTE]
+> Make sure to install the dependencies first. Best practice is to create a virtual enviroment first and then install the dependencies. Our dependencies are inside the `requirements.txt` file and can be install via `pip install -r requirements-dev.txt`
+
 ```bash
 # In the root activist directory:
 cd backend
+pyhton manage.py makemigrations
+python manage.py migrate
 python manage.py runserver
 ```
 
-You can then visit http://localhost:3000/ to see the development frontend build once the server is up and running.
+You can then visit http://localhost:8000/ to see the development backend build once the server is up and running.
 
 <a id="style-guide"></a>
 
