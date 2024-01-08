@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import type { Topic, TopicsTag } from "~/types/topics";
 import { GLOBAL_TOPICS } from "~/types/topics";
-// import { useMagicKeys } from "@vueuse/core"; 
+// import { useMagicKeys } from "@vueuse/core";
 
 // const { left, right } =useMagicKeys()
 // const currentItem = document.activeElement;
@@ -105,31 +105,31 @@ const inputTabbing = (e: KeyboardEvent) => {
   const firstTopic: HTMLElement | null = document.querySelector(".topic");
 
   firstTopic?.focus();
-}
+};
 
 const topicTabbing = (e: KeyboardEvent) => {
   const topicInput: HTMLElement | null = document.querySelector(".topicInput");
   const connect: HTMLElement | null = document.querySelector(".connect");
 
-  if (e.shiftKey) {    
-    topicInput?.focus()
-    return
+  if (e.shiftKey) {
+    topicInput?.focus();
+    return;
   }
 
   connect?.focus();
-}
+};
 
 const topicNext = (index: number) => {
   const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
 
-  topics[index + 1].focus()
-}
+  topics[index + 1].focus();
+};
 
 const topicBefore = (index: number) => {
   const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
 
-  topics[index - 1].focus()
-}
+  topics[index - 1].focus();
+};
 
 const value = computed<Topic[]>({
   get() {
