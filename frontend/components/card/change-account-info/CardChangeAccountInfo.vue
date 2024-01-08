@@ -4,7 +4,7 @@
       <slot />
       <div class="flex items-center pt-4 space-x-6">
         <FriendlyCaptcha />
-        <BtnLabeled
+        <BtnAction
           class="flex max-h-[48px] md:max-h-[40px]"
           :cta="true"
           :label="ctaLabel"

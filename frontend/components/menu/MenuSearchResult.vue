@@ -63,8 +63,8 @@ onClickOutside(tooltip, closeTooltip);
 // The functions are triggered when the Tab key is pressed on the button or tooltip elements.
 // They set `showTooltip` to false, making the tooltip invisible again.
 // NOTE: This functionality should be reviewed if new elements are added to the tooltip.
-//   - The first BtnLabeled in the tooltip should get `isLastItem = false`
-//   - The last BtnLabeled should get `isLastItem = true`
+//   - The first Btn in the tooltip should get `isLastItem = false`
+//   - The last Btn should get `isLastItem = true`
 const onTab = () => {
   closeTooltip();
 };

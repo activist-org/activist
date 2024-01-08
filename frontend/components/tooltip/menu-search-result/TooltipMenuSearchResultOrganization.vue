@@ -1,41 +1,37 @@
 <template>
   <TooltipBase class="rounded-md">
     <div class="space-y-2">
-      <BtnLabeled
+      <BtnAction
         @keydown="onTabPress((isLastItem = false), (event = $event))"
         class="flex max-h-[40px] w-full"
-        label="components.btn-labeled.support"
+        label="components.btn-action.support"
         leftIcon="IconSupport"
-        linkTo=""
+        fontSize="lg"
+        :ariaLabel="$t('components.btn-action.support-organization-aria-label')"
+      />
+      <BtnRouteInternal
+        class="flex max-h-[40px] w-full"
+        label="components.btn-route-internal.join"
+        leftIcon="IconJoin"
+        linkTo="/"
         fontSize="lg"
         :ariaLabel="
-          $t('components.btn-labeled.support-organization-aria-label')
+          $t('components.btn-route-internal.join-organization-aria-label')
         "
       />
-      <BtnLabeled
-        class="flex max-h-[40px] w-full"
-        label="components.btn-labeled.join"
-        leftIcon="IconJoin"
-        linkTo=""
-        fontSize="lg"
-        :ariaLabel="$t('components.btn-labeled.join-organization-aria-label')"
-      />
-      <BtnLabeled
+      <BtnAction
         @keydown="onTabPress((isLastItem = true), (event = $event))"
         class="flex max-h-[40px] w-full"
-        label="components.btn-labeled.share"
+        label="components.btn-action.share"
         leftIcon="bi:box-arrow-up"
-        linkTo=""
         fontSize="lg"
-        :ariaLabel="$t('components.btn-labeled.share-organization-aria-label')"
+        :ariaLabel="$t('components.btn-action.share-organization-aria-label')"
       />
     </div>
   </TooltipBase>
 </template>
 
 <script setup lang="ts">
-import useTabNavigationEmit from "~/composables/useTabNavigationEmit";
-
 defineProps<{
   location?: string;
 }>();

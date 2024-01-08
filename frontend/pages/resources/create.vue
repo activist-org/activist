@@ -90,7 +90,7 @@
         <CardTopicSelection v-model="formData.topics" class="mt-5" />
         <div class="flex flex-col w-full mt-5 mx-14">
           <div class="my-5">
-            <BtnLabeled
+            <BtnAction
               type="submit"
               :cta="true"
               class="flex"

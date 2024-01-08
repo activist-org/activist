@@ -29,7 +29,7 @@
       :placeholder="descriptionPrompt"
     ></textarea>
     <div @click="emit('on-cta-clicked', inputValue)" class="mt-1">
-      <BtnLabeled
+      <BtnAction
         :cta="true"
         linkTo="placeholder-link"
         :label="ctaBtnLabel"

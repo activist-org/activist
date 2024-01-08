@@ -94,7 +94,7 @@
             </label>
           </div>
           <div class="my-5">
-            <BtnLabeled
+            <BtnAction
               type="submit"
               :cta="true"
               class="flex"
@@ -120,7 +120,7 @@ const formData = ref({
   description: "",
   tagline: "",
   social_accounts: [],
-  topics: ["justice", "activism"],
+  topics: [],
 });
 
 const submit = async () => {

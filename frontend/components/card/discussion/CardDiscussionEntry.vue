@@ -2,14 +2,14 @@
   <div
     class="flex flex-col w-full px-3 py-4 md:flex-row card-style md:grow lg:px-5 md:py-3"
   >
-    <BtnLabeled
+    <BtnAction
       class="hidden mt-1 md:flex h-min"
       :cta="true"
       :counter="discussion.upVoters"
       fontSize="sm"
       leftIcon="bi:arrow-up"
       iconSize="1.25em"
-      ariaLabel="components.btn-labeled.upvote-discussion-aria-label"
+      ariaLabel="components.btn-action.upvote-discussion-aria-label"
     />
     <div class="flex-col space-y-3 md:pl-4 lg:pl-6 md:space-y-4 md:grow">
       <div class="flex flex-col justify-between md:flex-row">
@@ -31,22 +31,22 @@
             </div>
           </div>
           <div class="flex space-x-2">
-            <BtnLabeled
+            <BtnAction
               class="flex mt-1 md:hidden"
               :cta="true"
               :label="discussion.upVoters"
               fontSize="sm"
               leftIcon="bi:arrow-up"
               iconSize="1.25em"
-              ariaLabel="components.btn-labeled.upvote-discussion-aria-label"
+              ariaLabel="components.btn-action.upvote-discussion-aria-label"
             />
-            <BtnLabeled
+            <BtnAction
               class="flex mt-1"
               :cta="true"
               :label="discussion.category"
               fontSize="sm"
               iconSize="1.25em"
-              ariaLabel="components.btn-labeled.check-discussion-category-aria-label"
+              ariaLabel="components.btn-action.filter-discussion-category-aria-label"
             />
           </div>
         </div>

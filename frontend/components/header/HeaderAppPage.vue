@@ -42,7 +42,7 @@
     >
       {{ headerTagline }}
     </h2>
-    <!-- Slot is for BtnLabeled and Dropdown components at the top of the page. -->
+    <!-- Slot is for Btn and Dropdown components at the top of the page. -->
     <slot />
   </div>
 </template>

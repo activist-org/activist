@@ -4,23 +4,23 @@
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <div class="w-min md:w-min">
-            <BtnLabeled
+            <BtnAction
               class="flex mt-1 w-small"
               :cta="true"
               :label="$t('components.card-discussion-input.write')"
               fontSize="sm"
               iconSize="1.25em"
-              ariaLabel="components.btn-labeled.support-organization-aria-label"
+              ariaLabel="components.card-discussion-input.write-aria-label"
             />
           </div>
           <div class="w-min md:w-min">
-            <BtnLabeled
+            <BtnAction
               class="flex mt-1 w-small"
               :cta="false"
               :label="$t('components.card-discussion-input.preview')"
               fontSize="sm"
               iconSize="1.25em"
-              ariaLabel="components.btn-labeled.support-organization-aria-label"
+              ariaLabel="components.card-discussion-input.preview-aria-label"
             />
           </div>
         </div>
@@ -128,13 +128,13 @@
               class="-mt-64 md:-mt-56"
             />
           </Button>
-          <BtnLabeled
+          <BtnAction
             class="inline-flex items-center justify-center w-small"
             :cta="true"
             :label="$t('components.card-discussion-input.comment')"
             fontSize="sm"
             iconSize="1.25em"
-            ariaLabel="components.btn-labeled.support-organization-aria-label"
+            ariaLabel="components.card-discussion-input.comment-aria-label"
           />
         </div>
       </div>

@@ -54,7 +54,6 @@
 </template>
 
 <script setup lang="ts">
-import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { SidebarType } from "~/types/sidebar-type";
 
 defineProps<{

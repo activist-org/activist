@@ -84,23 +84,23 @@
           <div
             class="grid grid-cols-1 max-w-[70%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[80%] grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 mx-auto sm:mx-0 sm:grid-cols-2 sm:grid-rows-1"
           >
-            <BtnLabeled
+            <BtnRouteExternal
               class="w-full"
               :cta="true"
-              label="components.btn-labeled.request-access"
+              label="components.btn-route-external.request-access"
               linkTo="https://tally.so/r/nprxbq"
               fontSize="lg"
               ariaLabel="
-                components.btn-labeled.request-access-aria-label
+                components.btn-route-external.request-access-aria-label
               "
             />
-            <BtnLabeled
+            <BtnRouteInternal
               class="w-full"
               :cta="false"
-              label="components.btn-labeled.return-home"
+              label="components.btn-route-internal.return-home"
               linkTo="/"
               fontSize="lg"
-              ariaLabel="components.btn-labeled.return-home-aria-label"
+              ariaLabel="components.btn-route-internal.return-home-aria-label"
             />
           </div>
         </div>

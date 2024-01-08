@@ -69,13 +69,13 @@
       </div>
       <div class="flex space-x-2">
         <FriendlyCaptcha />
-        <BtnLabeled
+        <BtnAction
           @click="signUp"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
           :label="'_global.sign-up'"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="'components.btn-labeled.sign-up-aria-label'"
+          :ariaLabel="'components.btn-route-internal.sign-up-aria-label'"
         />
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
@@ -91,7 +91,6 @@
 </template>
 
 <script setup lang="ts">
-import usePasswordRules from "~/composables/usePasswordRules";
 import type { PasswordRules } from "~/types/password-rules";
 const localePath = useLocalePath();
 

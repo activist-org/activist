@@ -18,14 +18,14 @@
       </div>
     </div>
     <p class="text-lg">{{ discussionText.content }}</p>
-    <BtnLabeled
+    <BtnAction
       class="block"
       :cta="true"
       fontSize="sm"
       leftIcon="bi:arrow-up"
       iconSize="1.25em"
       :counter="discussionText.votes"
-      ariaLabel="components.btn-labeled.vote"
+      ariaLabel="components.btn-action.upvote-discussion-aria-label"
     />
   </div>
 </template>

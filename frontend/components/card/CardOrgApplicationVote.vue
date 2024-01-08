@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="flex">
-      <BtnLabeled
+      <BtnAction
         @click="$emit('up-vote')"
         class="flex mr-5"
         :cta="true"
@@ -28,10 +28,10 @@
         fontSize="sm"
         leftIcon="bi:arrow-up"
         iconSize="1.25em"
-        ariaLabel="components.btn-labeled.upvote-application-aria-label"
+        ariaLabel="components.btn-action.upvote-application-aria-label"
         :disabled="isVotingDisabled"
       />
-      <BtnLabeled
+      <BtnAction
         @click="$emit('down-vote')"
         class="flex"
         :cta="true"
@@ -39,7 +39,7 @@
         fontSize="sm"
         leftIcon="bi:arrow-down"
         iconSize="1.25em"
-        ariaLabel="components.btn-labeled.downvote-application-aria-label"
+        ariaLabel="components.btn-action.downvote-application-aria-label"
         :disabled="isVotingDisabled"
       />
     </div>
