@@ -9,18 +9,22 @@
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header elem-shadow-sm focus-brand"
+      class="topicInput w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header elem-shadow-sm focus-brand"
+      @keydown.tab.exact.prevent="inputTabbing($event)"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
-        v-for="t of filteredTopics"
+        v-for="(t, index) of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
         :key="t.value"
         :topic="t.label"
-        class="max-sm:w-full"
+        class="topic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
+        @keydown.tab.prevent="topicTabbing($event)"
+        @keydown.right="topicNext(index)"
+        @keydown.left="topicBefore(index)"
       />
     </ul>
     <ul
@@ -75,6 +79,15 @@
 <script setup lang="ts">
 import type { Topic, TopicsTag } from "~/types/topics";
 import { GLOBAL_TOPICS } from "~/types/topics";
+// import { useMagicKeys } from "@vueuse/core"; 
+
+// const { left, right } =useMagicKeys()
+// const currentItem = document.activeElement;
+
+// whenever(left, () => {
+//     console.log("Left pressed");
+//     currentItem.nextElementSibling.
+// })
 
 const props = defineProps({
   modelValue: {
@@ -87,6 +100,36 @@ const props = defineProps({
 const moreOptionsShown = ref(false);
 const inputFocus = ref(false);
 const emit = defineEmits(["update:modelValue"]);
+
+const inputTabbing = (e: KeyboardEvent) => {
+  const firstTopic: HTMLElement | null = document.querySelector(".topic");
+
+  firstTopic?.focus();
+}
+
+const topicTabbing = (e: KeyboardEvent) => {
+  const topicInput: HTMLElement | null = document.querySelector(".topicInput");
+  const connect: HTMLElement | null = document.querySelector(".connect");
+
+  if (e.shiftKey) {    
+    topicInput?.focus()
+    return
+  }
+
+  connect?.focus();
+}
+
+const topicNext = (index: number) => {
+  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+
+  topics[index + 1].focus()
+}
+
+const topicBefore = (index: number) => {
+  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+
+  topics[index - 1].focus()
+}
 
 const value = computed<Topic[]>({
   get() {
