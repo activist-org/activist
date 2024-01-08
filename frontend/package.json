@@ -52,6 +52,7 @@
     "tailwindcss": "^3.3.2",
     "uuid": "^9.0.1",
     "v-calendar": "^3.1.1",
+    "vue-socials": "^2.0.4",
     "zxcvbn": "^4.4.2"
   }
 }

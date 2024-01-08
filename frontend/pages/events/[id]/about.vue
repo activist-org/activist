@@ -39,9 +39,9 @@
           ariaLabel="components.btn-labeled.support-event-aria-label"
         />
         <BtnLabeled
+          @click="openShareModal"
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
           label="components.btn-labeled.share-event"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
@@ -105,4 +105,15 @@ const event: Event = {
   imageURL: "/images/tech-from-below.svg",
   socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
 };
+
 </script>
+
+<!-- <script> -->
+//  export default {
+  //  methods: {
+    //  openShareModal() {
+      //  alert('Share Modal should open');
+    //  },
+  //  },
+//  };
+<!-- </script> -->
