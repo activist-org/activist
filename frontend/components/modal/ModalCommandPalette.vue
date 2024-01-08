@@ -111,14 +111,10 @@
             class="fill-light-text dark:fill-dark-text"
             name="IconOrganization"
             size="1em"
-            :alt="
-              $t('components.modal-command-palette.organization-placeholder')
-            "
+            :alt="$t('_global.organization-name')"
           />
           <div>
-            {{
-              $t("components.modal-command-palette.organization-placeholder")
-            }}
+            {{ $t("_global.organization-name") }}
             <span
               class="absolute invisible w-16 link-text right-3 group-hover:visible"
               >{{ $t("components.modal-command-palette.jump-to") }}</span
@@ -137,14 +133,10 @@
             class="fill-light-text dark:fill-dark-text"
             name="IconOrganization"
             size="1em"
-            :alt="
-              $t('components.modal-command-palette.organization-placeholder')
-            "
+            :alt="$t('_global.organization-name')"
           />
           <div>
-            {{
-              $t("components.modal-command-palette.organization-placeholder")
-            }}
+            {{ $t("_global.organization-name") }}
             <span
               class="absolute invisible w-16 link-text right-3 group-hover:visible"
               >{{ $t("components.modal-command-palette.jump-to") }}</span
@@ -163,14 +155,10 @@
             class="fill-light-text dark:fill-dark-text"
             name="IconOrganization"
             size="1em"
-            :alt="
-              $t('components.modal-command-palette.organization-placeholder')
-            "
+            :alt="$t('_global.organization-name')"
           />
           <div>
-            {{
-              $t("components.modal-command-palette.organization-placeholder")
-            }}
+            {{ $t("_global.organization-name") }}
             <span
               class="absolute invisible w-16 link-text right-3 group-hover:visible"
               >{{ $t("components.modal-command-palette.jump-to") }}</span

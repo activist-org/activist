@@ -16,11 +16,11 @@
         class="flex flex-col items-center justify-center w-full pt-4"
       >
         <div
-          class="flex justify-between w-full px-5 py-6 mx-14 card-style gap-6"
+          class="flex justify-between w-full gap-6 px-5 py-6 mx-14 card-style"
         >
           <div class="w-1/2">
             <label for="name" class="block font-medium responsive-h3"
-              >{{ $t("pages.organizations.create.organization-name") }}*</label
+              >{{ $t("_global.organization-name") }}*</label
             >
             <input
               v-model="formData.name"
