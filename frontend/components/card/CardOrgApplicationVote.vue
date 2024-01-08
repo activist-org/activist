@@ -1,7 +1,7 @@
 <template>
-  <div class="card-style px-10 py-5">
+  <div class="px-10 py-5 card-style">
     <h3 class="text-left responsive-h3 font-display">{{ title }}</h3>
-    <div class="py-3 flex flex-row">
+    <div class="flex flex-row py-3">
       <div
         v-for="organization in availableOrganizations"
         class="mr-5 fill-light-text dark:fill-dark-text"

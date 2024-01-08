@@ -10,7 +10,7 @@ export const menuItems = [
     iconURL: "bi:calendar-check",
   },
   {
-    label: "components.menu-mobile-selector.label.organizations",
+    label: "components._global.organizations",
     routeURL: "/organizations",
     iconURL: "IconOrganization",
   },

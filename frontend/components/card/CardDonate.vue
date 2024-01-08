@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col space-y-3 px-5 py-5 card-style">
+  <div class="flex flex-col px-5 py-5 space-y-3 card-style">
     <div class="flex items-center gap-5">
       <h3 class="text-left responsive-h3 font-display">
         {{ $t("components.card-donate.header") }}

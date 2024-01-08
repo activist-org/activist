@@ -1,5 +1,5 @@
 <template v-model="value">
-  <div class="flex-col space-y-3 w-full card-style px-5 py-6">
+  <div class="flex-col w-full px-5 py-6 space-y-3 card-style">
     <p class="font-medium responsive-h3 text-light-text dark:text-dark-text">
       {{ $t("components.card-topic-selection.header") }}
     </p>
@@ -8,7 +8,7 @@
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="pl-4 py-2 w-full text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md elem-shadow-sm focus-brand"
+      class="w-full py-2 pl-4 text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md elem-shadow-sm focus-brand"
     />
     <TabGroup
       manual
@@ -24,7 +24,7 @@
           :value="topic.value"
           multiple
           as="template"
-          class="flex justify-between px-4 md:px-2 py-2 gap-2 rounded-lg select-none cursor-pointer elem-shadow-sm"
+          class="flex justify-between px-4 py-2 rounded-lg cursor-pointer select-none md:px-2 gap-2 elem-shadow-sm"
         >
           <div
             :class="{

@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col w-full space-y-3 px-5 py-4 card-style">
+  <form class="flex flex-col w-full px-5 py-4 space-y-3 card-style">
     <h1 class="text-2xl">
       <strong>{{ $t("components.card-date-picker.date") }} *</strong>
     </h1>

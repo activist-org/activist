@@ -51,7 +51,7 @@
           "
         />
       </div>
-      <div class="flex items-center flex-row">
+      <div class="flex flex-row items-center">
         <FormCheckbox
           @update:modelValue="hasRed = $event"
           :modelValue="hasRed"

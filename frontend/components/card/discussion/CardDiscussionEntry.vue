@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex flex-col w-full md:flex-row card-style px-3 py-4 md:grow lg:px-5 md:py-3"
+    class="flex flex-col w-full px-3 py-4 md:flex-row card-style md:grow lg:px-5 md:py-3"
   >
     <BtnLabeled
-      class="hidden md:flex mt-1 h-min"
+      class="hidden mt-1 md:flex h-min"
       :cta="true"
       :counter="discussion.upVoters"
       fontSize="sm"
@@ -15,10 +15,10 @@
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
           <div class="flex justify-between w-full">
-            <h2 class="font-bold responsive-h3 w-full">
+            <h2 class="w-full font-bold responsive-h3">
               {{ discussion.title }}
             </h2>
-            <div class="items-center flex space-x-3 md:hidden md:w-fit">
+            <div class="flex items-center space-x-3 md:hidden md:w-fit">
               <MetaTagMembers
                 :members="discussion.participants"
                 :label="label"
@@ -32,7 +32,7 @@
           </div>
           <div class="flex space-x-2">
             <BtnLabeled
-              class="flex md:hidden mt-1"
+              class="flex mt-1 md:hidden"
               :cta="true"
               :label="discussion.upVoters"
               fontSize="sm"
@@ -67,13 +67,13 @@
         >
           <a href="/" class="flex items-center">
             <div
-              class="flex items-center justify-center border rounded-full border-light-section-div dark:border-dark-section-div bg-light-content dark:bg-dark-content w-8 h-8"
+              class="flex items-center justify-center w-8 h-8 border rounded-full border-light-section-div dark:border-dark-section-div bg-light-content dark:bg-dark-content"
             >
               <Icon name="bi:person" size="1.5em" />
             </div>
             <p class="ml-2">{{ discussion.author }}</p>
           </a>
-          <div class="ml-2 flex items-center">
+          <div class="flex items-center ml-2">
             <MetaTagDate :date="event?.date.toLocaleDateString()" />
             <p class="mt-0.8 ml-1">
               {{ discussion.creationDate.toLocaleDateString() }}

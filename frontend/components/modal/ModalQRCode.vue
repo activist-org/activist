@@ -2,7 +2,7 @@
   <ModalBase>
     <template #normalDisplay>
       <div
-        class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md sm:w-16 sm:h-16 elem-on-card-style cursor-pointer"
+        class="absolute right-0 flex items-center justify-center w-10 h-10 cursor-pointer rounded-md sm:w-16 sm:h-16 elem-on-card-style"
       >
         <div class="sm:hidden">
           <Icon
@@ -21,16 +21,16 @@
       </div>
     </template>
     <template #modalDisplay>
-      <DialogTitle class="font-display flex justify-between">
-        <p class="text-3xl md:responsive-h2 font-bold">
+      <DialogTitle class="flex justify-between font-display">
+        <p class="text-3xl font-bold md:responsive-h2">
           {{ $t("components.modal-qr-code.header") }}
         </p>
       </DialogTitle>
       <div
-        class="flex flex-col items-center md:grid md:grid-cols-2 md:grid-rows-1 pb-6 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-14 lg:pr-8"
+        class="flex flex-col items-center pb-6 md:grid md:grid-cols-2 md:grid-rows-1 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-14 lg:pr-8"
       >
         <div
-          class="items-center space-y-4 text-left col-span-2 pt-2 font-medium"
+          class="items-center pt-2 font-medium text-left space-y-4 col-span-2"
         >
           <p>
             {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}
@@ -43,7 +43,7 @@
           <p>
             {{ $t("components.modal-qr-code.subheader-2") }}
           </p>
-          <ul class="pl-6 md:pl-8 list-disc">
+          <ul class="pl-6 list-disc md:pl-8">
             <li>
               {{ $t("components.modal-qr-code.section-2-list-1-item-1") }}
             </li>

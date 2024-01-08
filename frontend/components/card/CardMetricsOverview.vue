@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col space-y-3 px-5 py-4 card-style">
+  <div class="flex flex-col px-5 py-4 space-y-3 card-style">
     <div class="flex items-center w-full">
       <h3 class="text-left responsive-h3 font-display grow">
         {{ $t("components.card-metics-overview.header") }}
       </h3>
       <DropdownDateFilter />
     </div>
-    <div class="grid grid-cols-2 gap-3 lg:gap-4 lg:grid-cols-4 h-full">
+    <div class="h-full grid grid-cols-2 gap-3 lg:gap-4 lg:grid-cols-4">
       <CardMetric
         :text="$t('_global.events')"
         number="123"
