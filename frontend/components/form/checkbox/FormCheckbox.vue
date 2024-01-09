@@ -6,6 +6,7 @@
       type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"
+      @keydown.tab.prevent="tabToFirstTopic($event)"
     />
     <div
       class="pointer-events-none w-[1rem] h-[1rem] hidden absolute left-[0.2rem] bg-light-menu-selection dark:bg-dark-menu-selection peer-checked:block rounded-sm"
@@ -29,6 +30,18 @@ export interface Props {
   modelValue?: boolean;
   error?: string;
 }
+
+const tabToFirstTopic = (e: KeyboardEvent) => {
+  const firstTopic: HTMLElement | null = document.querySelector(".topic");
+  const submit: HTMLElement | null = document.querySelector(".submit-button");
+
+  if (e.shiftKey) {
+    firstTopic?.focus();
+    return;
+  }
+
+  submit?.focus();
+};
 
 const props = withDefaults(defineProps<Props>(), {
   label: "",

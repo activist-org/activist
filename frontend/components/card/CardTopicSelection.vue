@@ -10,7 +10,7 @@
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
       class="topicInput w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header elem-shadow-sm focus-brand"
-      @keydown.tab.exact.prevent="inputTabbing($event)"
+      @keydown.tab.exact.prevent="tabToFirstTopic()"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
@@ -22,7 +22,8 @@
         class="topic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
-        @keydown.tab.prevent="topicTabbing($event)"
+        @keydown.tab.prevent="tabToConnect($event)"
+        @keydown.enter="topicEnter(index)"
         @keydown.right="topicNext(index)"
         @keydown.left="topicBefore(index)"
       />
@@ -79,15 +80,6 @@
 <script setup lang="ts">
 import type { Topic, TopicsTag } from "~/types/topics";
 import { GLOBAL_TOPICS } from "~/types/topics";
-// import { useMagicKeys } from "@vueuse/core";
-
-// const { left, right } =useMagicKeys()
-// const currentItem = document.activeElement;
-
-// whenever(left, () => {
-//     console.log("Left pressed");
-//     currentItem.nextElementSibling.
-// })
 
 const props = defineProps({
   modelValue: {
@@ -101,16 +93,20 @@ const moreOptionsShown = ref(false);
 const inputFocus = ref(false);
 const emit = defineEmits(["update:modelValue"]);
 
-const inputTabbing = (e: KeyboardEvent) => {
+// Tab from topic input to the first topic
+const tabToFirstTopic = () => {
   const firstTopic: HTMLElement | null = document.querySelector(".topic");
 
   firstTopic?.focus();
 };
 
-const topicTabbing = (e: KeyboardEvent) => {
+// Tab from topic to T&C checkbox
+const tabToConnect = (e: KeyboardEvent) => {
+  e.preventDefault();
   const topicInput: HTMLElement | null = document.querySelector(".topicInput");
   const connect: HTMLElement | null = document.querySelector(".connect");
 
+  // Shift-Tab back to topic input from any topic
   if (e.shiftKey) {
     topicInput?.focus();
     return;
@@ -119,6 +115,14 @@ const topicTabbing = (e: KeyboardEvent) => {
   connect?.focus();
 };
 
+// Remain focus on topics after enter
+const topicEnter = (index: number) => {
+  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+
+  topics[index - 1]?.focus();
+};
+
+// Left and right navigation using arrow keys for topics
 const topicNext = (index: number) => {
   const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
 
