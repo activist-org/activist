@@ -1,5 +1,5 @@
 <template>
-  <div @mouseleave="showTooltip = false" class="p-2" ref="tooltip">
+  <div @mouseleave="showTooltip = false" ref="tooltip" class="p-2">
     <button
       @click="toggleTooltip"
       @keydown.shift.tab="onShiftTab"
