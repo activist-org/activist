@@ -2,11 +2,11 @@
   <div class="relative flex flex-row items-center justify-start">
     <input
       :id="uuid"
+      @keydown.tab.prevent="tabToFirstTopic($event)"
       class="connect cursor-pointer mb-0 peer appearance-none w-[1.375rem] h-[1.375rem] border border-light-menu-selection rounded-sm bg-light-button dark:bg-dark-button dark:border-dark-menu-selection focus-brand"
       type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"
-      @keydown.tab.prevent="tabToFirstTopic($event)"
     />
     <div
       class="pointer-events-none w-[1rem] h-[1rem] hidden absolute left-[0.2rem] bg-light-menu-selection dark:bg-dark-menu-selection peer-checked:block rounded-sm"

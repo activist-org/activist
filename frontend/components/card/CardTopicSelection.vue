@@ -6,26 +6,26 @@
     <input
       v-model="query"
       @focus="inputFocus = true"
+      @keydown.tab.exact.prevent="tabToFirstTopic()"
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
       class="topicInput w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header elem-shadow-sm focus-brand"
-      @keydown.tab.exact.prevent="tabToFirstTopic()"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
         v-for="(t, index) of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
+        @keydown.tab.prevent="tabToConnect($event)"
+        @keydown.enter="topicEnter(index)"
+        @keydown.right="topicNext(index)"
+        @keydown.left="topicBefore(index)"
         :key="t.value"
         :topic="t.label"
         class="topic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
-        @keydown.tab.prevent="tabToConnect($event)"
-        @keydown.enter="topicEnter(index)"
-        @keydown.right="topicNext(index)"
-        @keydown.left="topicBefore(index)"
       />
     </ul>
     <ul
