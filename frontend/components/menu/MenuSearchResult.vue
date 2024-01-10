@@ -48,7 +48,7 @@ defineProps<{
 }>();
 
 const showTooltip = ref(false);
-const tooltip = ref(); 
+const tooltip = ref();
 
 const toggleTooltip = () => {
   showTooltip.value = !showTooltip.value;
