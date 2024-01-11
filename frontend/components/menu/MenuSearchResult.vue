@@ -1,5 +1,9 @@
 <template>
-  <div @mouseleave="showTooltip = false" ref="tooltip" class="p-2">
+  <div
+    @mouseleave="showTooltip = false"
+    ref="quickActionBtnAndMenu"
+    class="p-2"
+  >
     <button
       @click="toggleTooltip"
       @keydown.shift.tab="onShiftTab"
@@ -48,7 +52,7 @@ defineProps<{
 }>();
 
 const showTooltip = ref(false);
-const tooltip = ref();
+const quickActionBtnAndMenu = ref();
 
 const toggleTooltip = () => {
   showTooltip.value = !showTooltip.value;
@@ -58,7 +62,7 @@ const closeTooltip = () => {
   showTooltip.value = false;
 };
 
-onClickOutside(tooltip, closeTooltip);
+onClickOutside(quickActionBtnAndMenu, closeTooltip);
 
 // The functions are triggered when the Tab key is pressed on the button or tooltip elements.
 // They set `showTooltip` to false, making the tooltip invisible again.
