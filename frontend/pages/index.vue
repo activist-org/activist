@@ -15,9 +15,9 @@
         text="pages.index.get-active-text"
         imageURL="/images/content_pages/art/get_active"
         imageAltText="pages._global.get-active-img-alt-text"
-        btnText1="components.btn-labeled.learn-more"
+        btnText1="components.btn-route-internal.learn-more"
         btnURL1="/docs/get-active"
-        btnAriaLabel1="pages.index.get-active-btn-aria-label"
+        btnAriaLabel1="components.btn-route-internal.get-active-aria-label"
       />
       <LandingContent
         contentPosition="right"
@@ -26,9 +26,9 @@
         text="pages.index.get-organized-text"
         imageURL="/images/content_pages/art/get_organized"
         imageAltText="pages._global.get-organized-img-alt-text"
-        btnText1="components.btn-labeled.learn-more"
+        btnText1="components.btn-route-internal.learn-more"
         btnURL1="/docs/get-organized"
-        btnAriaLabel1="pages.index.get-organized-btn-aria-label"
+        btnAriaLabel1="components.btn-route-internal.get-organized-aria-label"
       />
       <LandingContent
         contentPosition="left"
@@ -37,9 +37,9 @@
         text="pages.index.grow-organization-text"
         imageURL="/images/content_pages/art/grow_organization"
         imageAltText="pages._global.grow-org-img-alt-text"
-        btnText1="components.btn-labeled.learn-more"
+        btnText1="components.btn-route-internal.learn-more"
         btnURL1="/docs/grow-organization"
-        btnAriaLabel1="pages.index.grow-organization-btn-aria-label"
+        btnAriaLabel1="components.btn-route-internal.grow-organization-aria-label"
       />
       <LandingTechBanner />
       <LandingContent
@@ -49,7 +49,7 @@
         text="pages.index.activist-section-text"
         imageURL="/images/content_pages/icons/activist_icon"
         imageAltText="_global.activist-icon-img-alt-text"
-        btnText1="components.btn-labeled.learn-more"
+        btnText1="components.btn-route-internal.learn-more"
         btnURL1="/about/activist"
         btnAriaLabel1="pages.index.activist-section-btn-aria-label"
       />

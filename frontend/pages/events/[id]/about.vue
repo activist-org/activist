@@ -7,56 +7,52 @@
     </Head>
     <HeaderAppPage :event="event">
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnRouteInternal
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components.btn-labeled.offer-to-help"
+          label="components.btn-route-internal.offer-to-help"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.offer-to-help-aria-label"
+          ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.support"
+          label="components.btn-action.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.25em"
           :counter="event.supporters"
-          ariaLabel="components.btn-labeled.support-event-aria-label"
+          ariaLabel="components.btn-action.support-event-aria-label"
         />
-        <BtnLabeled
+        <BtnAction
           class="md:hidden w-fit"
           :cta="true"
-          linkTo="/"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.25em"
           :counter="event.supporters"
-          ariaLabel="components.btn-labeled.support-event-aria-label"
+          ariaLabel="components.btn-action.support-event-aria-label"
         />
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share-event"
+          label="components.btn-action.share-event"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.share-event-aria-label"
+          ariaLabel="components.btn-action.share-event-aria-label"
         />
-        <BtnLabeled
+        <BtnAction
           class="md:hidden w-fit"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share"
+          label="components.btn-action.share"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.share-event-aria-label"
+          ariaLabel="components.btn-action.share-event-aria-label"
         />
       </div>
     </HeaderAppPage>

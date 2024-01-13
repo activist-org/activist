@@ -29,7 +29,6 @@
         </div>
       </MenuButton>
     </div>
-
     <transition
       enter-active-class="transition duration-100 ease-out"
       enter-from-class="opacity-0 transform scale-95"

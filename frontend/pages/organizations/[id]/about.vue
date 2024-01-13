@@ -7,41 +7,38 @@
     </Head>
     <HeaderAppPage :organization="organization">
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.support"
+          label="components.btn-action.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.25em"
           :counter="organization.supporters"
           ariaLabel="
-            components.btn-labeled.support-organization-aria-label
+            components.btn-action.support-organization-aria-label
           "
         />
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share-organization"
+          label="components.btn-action.share-organization"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
           ariaLabel="
-            components.btn-labeled.share-organization-aria-label
+            components.btn-action.share-organization-aria-label
           "
         />
-        <BtnLabeled
+        <BtnAction
           class="md:hidden w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share"
+          label="components.btn-action.share"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
           ariaLabel="
-            components.btn-labeled.share-organization-aria-label
+            components.btn-action.share-organization-aria-label
           "
         />
       </div>
