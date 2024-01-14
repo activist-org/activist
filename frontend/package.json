@@ -9,7 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@headlessui/vue": "^1.7.8",
+    "@headlessui/vue": "^1.7.16",
     "@nuxt/content": "^2.3.0",
     "@nuxt/devtools": "^1.0.6",
     "@nuxt/eslint-config": "^0.2.0",

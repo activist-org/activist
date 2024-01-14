@@ -14,7 +14,7 @@
     ></div>
     <div
       v-if="count"
-      class="flex items-center justify-center p-1 text-md font-semibold rounded-full w-9 h-9 md:h-10 md:w-10 bg-light-highlight dark:bg-dark-highlight"
+      class="flex items-center justify-center p-1 font-semibold rounded-full text-md w-9 h-9 md:h-10 md:w-10 bg-light-highlight dark:bg-dark-highlight"
     >
       {{ count }}
     </div>

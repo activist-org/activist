@@ -7,7 +7,7 @@
     <div class="relative hidden md:block">
       <div class="flex items-center justify-center w-full h-full">
         <div
-          class="relative z-0 h-16 w-64 xl:h-24 overflow-y-hidden xl:w-96 mb-6"
+          class="relative z-0 w-64 h-16 mb-6 overflow-y-hidden xl:h-24 xl:w-96"
         >
           <LogoActivist
             class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
@@ -20,7 +20,7 @@
     >
       <div class="justify-end hidden px-8 py-4 space-x-6 md:flex">
         <DropdownLanguage />
-        <BtnLabeled
+        <BtnRouteInternal
           class="flex items-center max-h-[38px] lg:max-h-[46px]"
           :label="page.label"
           :linkTo="page.link"

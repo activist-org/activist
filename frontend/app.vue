@@ -2,6 +2,7 @@
   <Loading />
   <div>
     <NuxtLayout>
+      <ModalCommandPalette />
       <NuxtPage />
     </NuxtLayout>
   </div>

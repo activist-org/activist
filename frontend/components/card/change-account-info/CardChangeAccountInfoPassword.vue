@@ -13,7 +13,7 @@
       </div>
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-8">
         <div class="flex flex-col w-full lg:w-1/3">
-          <label for="current-password" class="font-bold responsive-h4 pb-2"
+          <label for="current-password" class="pb-2 font-bold responsive-h4"
             >{{
               $t(
                 "components.card-change-account-info.password.current-password"
@@ -23,7 +23,7 @@
           >
           <input
             id="current-password"
-            class="peer border border-light-text rounded-sm bg-transparent py-1 px-3 dark:border-dark-text"
+            class="px-3 py-1 bg-transparent border rounded-sm peer border-light-text dark:border-dark-text"
             :placeholder="
               $t(
                 'components.card-change-account-info.password.enter-current-password'
@@ -32,7 +32,7 @@
           />
         </div>
         <div class="flex flex-col w-full lg:w-1/3">
-          <label for="new-password" class="font-bold responsive-h4 pb-2"
+          <label for="new-password" class="pb-2 font-bold responsive-h4"
             >{{
               $t("components.card-change-account-info.password.new-password")
             }}
@@ -40,7 +40,7 @@
           >
           <input
             id="password"
-            class="peer border border-light-text rounded-sm bg-transparent py-1 px-3 dark:border-dark-text"
+            class="px-3 py-1 bg-transparent border rounded-sm peer border-light-text dark:border-dark-text"
             :placeholder="
               $t(
                 'components.card-change-account-info.password.enter-new-password'
@@ -49,12 +49,12 @@
           />
         </div>
         <div class="flex flex-col w-full lg:w-1/3">
-          <label for="repeat-password" class="font-bold responsive-h4 pb-2"
+          <label for="repeat-password" class="pb-2 font-bold responsive-h4"
             >{{ $t("_global.repeat-password") }} *</label
           >
           <input
             id="confirm-password"
-            class="peer border border-light-text rounded-sm bg-transparent py-1 px-3 dark:border-dark-text"
+            class="px-3 py-1 bg-transparent border rounded-sm peer border-light-text dark:border-dark-text"
             :placeholder="
               $t(
                 'components.card-change-account-info.password.enter-repeat-password'

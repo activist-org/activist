@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-1 transition-all duration-500 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header elem-shadow-sm rounded-md py-2"
+    class="py-2 mx-1 transition-all duration-500 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header elem-shadow-sm rounded-md"
   >
     <div class="flex flex-col items-center">
       <div
@@ -54,7 +54,6 @@
 </template>
 
 <script setup lang="ts">
-import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { SidebarType } from "~/types/sidebar-type";
 
 defineProps<{
