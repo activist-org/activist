@@ -62,7 +62,7 @@ const closeTooltip = () => {
   showTooltip.value = false;
 };
 
-onClickOutside(quickActionBtnAndMenu, closeTooltip);
+onClickOutside(quickActionBtnAndMenu.value, closeTooltip);
 
 // The functions are triggered when the Tab key is pressed on the button or tooltip elements.
 // They set `showTooltip` to false, making the tooltip invisible again.
