@@ -21,6 +21,8 @@
         @keydown.enter="topicEnter(index)"
         @keydown.right="topicNext(index)"
         @keydown.left="topicBefore(index)"
+        @keydown.down="topicDown(index, $event)"
+        @keydown.up="topicUp(index, $event)"
         :key="t.value"
         :topic="t.label"
         class="topic max-sm:w-full"
@@ -133,6 +135,52 @@ const topicBefore = (index: number) => {
   const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
 
   topics[index - 1].focus();
+};
+
+const topicDown = (index: number, e: KeyboardEvent) => {
+  e.preventDefault();
+
+  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+  const top = topics[index].getBoundingClientRect().top + 38;
+  const left = topics[index].getBoundingClientRect().left - 38;
+
+  const result = topics.filter(
+    (topic) =>
+      topic.getBoundingClientRect().top == top &&
+      topic.getBoundingClientRect().left >= left
+  );
+
+  if (result.length != 0) {
+    result[0].focus();
+  } else {
+    const lastTopicInRow = topics.filter(
+      (topic) => topic.getBoundingClientRect().top == top
+    );
+    lastTopicInRow[lastTopicInRow.length - 1].focus();
+  }
+};
+
+const topicUp = (index: number, e: KeyboardEvent) => {
+  e.preventDefault();
+
+  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+  const top = topics[index].getBoundingClientRect().top - 38;
+  const left = topics[index].getBoundingClientRect().left - 38;
+
+  const result = topics.filter(
+    (topic) =>
+      topic.getBoundingClientRect().top == top &&
+      topic.getBoundingClientRect().left >= left
+  );
+  
+  if (result.length != 0) {
+    result[0].focus();
+  } else {
+    const lastTopicInRow = topics.filter(
+      (topic) => topic.getBoundingClientRect().top == top
+    );
+    lastTopicInRow[lastTopicInRow.length - 1].focus();
+  }
 };
 
 const value = computed<Topic[]>({
