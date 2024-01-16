@@ -172,7 +172,7 @@ const topicUp = (index: number, e: KeyboardEvent) => {
       topic.getBoundingClientRect().top == top &&
       topic.getBoundingClientRect().left >= left
   );
-  
+
   if (result.length != 0) {
     result[0].focus();
   } else {
