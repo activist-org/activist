@@ -1,7 +1,11 @@
 <template>
-  <div @mouseleave="showTooltip = false" class="p-2">
+  <div
+    @mouseleave="showTooltip = false"
+    ref="quickActionBtnAndMenu"
+    class="p-2"
+  >
     <button
-      @click="showTooltip = !showTooltip"
+      @click="toggleTooltip"
       @keydown.shift.tab="onShiftTab"
       class="relative flex items-center justify-center w-8 h-8 rounded-full style-cta md:w-6 md:h-6 elem-shadow-sm"
     >
@@ -12,7 +16,6 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        ref="tooltip"
         class="absolute max-md:top-8 max-md:right-0 lg:bottom-6 lg:left-4"
       />
       <TooltipMenuSearchResultOrganization
@@ -21,7 +24,6 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        ref="tooltip"
         class="absolute max-md:top-8 max-md:right-0 lg:bottom-6 lg:left-4"
       />
       <TooltipMenuSearchResultResource
@@ -30,7 +32,6 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        ref="tooltip"
         class="absolute max-md:top-8 max-md:right-0 lg:bottom-6 lg:left-4"
       />
       <TooltipMenuSearchResultUser
@@ -39,7 +40,6 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        ref="tooltip"
         class="absolute max-md:top-8 max-md:right-0 lg:bottom-6 lg:left-4"
       />
     </button>
@@ -52,13 +52,17 @@ defineProps<{
 }>();
 
 const showTooltip = ref(false);
-const tooltip = ref();
+const quickActionBtnAndMenu = ref();
+
+const toggleTooltip = () => {
+  showTooltip.value = !showTooltip.value;
+};
 
 const closeTooltip = () => {
   showTooltip.value = false;
 };
 
-onClickOutside(tooltip, closeTooltip);
+onClickOutside(quickActionBtnAndMenu.value, closeTooltip);
 
 // The functions are triggered when the Tab key is pressed on the button or tooltip elements.
 // They set `showTooltip` to false, making the tooltip invisible again.

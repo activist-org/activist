@@ -278,7 +278,7 @@ const userButtons: MenuSelector[] = [
   },
   {
     id: 4,
-    label: "components.sidebar-left-selector.label.notifications",
+    label: "_global.notifications",
     routeURL: "/",
     iconURL: "bi:bell",
     selected: false,
