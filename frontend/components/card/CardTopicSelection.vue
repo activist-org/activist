@@ -120,9 +120,7 @@ const tabToConnect = (e: KeyboardEvent) => {
 const keydownEvent = (index: number, e: KeyboardEvent) => {
   e.preventDefault();
 
-  const topics: HTMLElement[] = Array.from(
-    document.querySelectorAll(".topic")
-  );
+  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
   const upTop = topics[index].getBoundingClientRect().top - 38;
   const upLeft = topics[index].getBoundingClientRect().left - 38;
 
