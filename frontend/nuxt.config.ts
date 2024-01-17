@@ -157,7 +157,7 @@ export default defineNuxtConfig({
         {
           hid: "og:description",
           property: "og:description",
-          content: "Open-source, nonprofit activism platform.",
+          content: "Open-source activism platform.",
         },
         {
           hid: "og:image",
@@ -182,7 +182,7 @@ export default defineNuxtConfig({
         {
           hid: "twitter:description",
           name: "twitter:description",
-          content: "Open-source, nonprofit activism platform.",
+          content: "Open-source activism platform.",
         },
         {
           hid: "twitter:image",

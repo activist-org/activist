@@ -198,7 +198,7 @@
   "components.card-topic-selection.hide-all-topics": "Hide all topics",
   "components.combobox-topics.no-matching-topics": "No matching topics.",
   "components.feed-item.img-alt-text": "A social media post's image.",
-  "components.footer._global.activist-tagline": "Open-source, nonprofit activism platform.",
+  "components.footer._global.activist-tagline": "Open-source activism platform.",
   "components.footer._global.powered-by-netlify": "This site is powered by Netlify.",
   "components.footer.source-code": "Source Code",
   "components.footer.version-number": "v0.0.1",
