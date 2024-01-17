@@ -18,11 +18,7 @@
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
         @keydown.tab.prevent="tabToConnect($event)"
-        @keydown.enter="topicEnter(index)"
-        @keydown.right="topicNext(index)"
-        @keydown.left="topicBefore(index)"
-        @keydown.down="topicDown(index, $event)"
-        @keydown.up="topicUp(index, $event)"
+        @keydown="keydownEvent(index, $event)"
         :key="t.value"
         :topic="t.label"
         class="topic max-sm:w-full"
@@ -38,25 +34,29 @@
     >
       <ShieldTopic
         v-if="moreOptionsShown || inputFocus"
-        v-for="t of filteredTopics"
+        v-for="(t, index) of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
+        @keydown.tab.prevent="tabToConnect($event)"
+        @keydown="mobileKeyboardEvent(index, $event)"
         :key="t.value + '-selected-only'"
         :topic="t.label"
-        class="max-sm:w-full"
+        class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
       />
       <ShieldTopic
         v-else
-        v-for="t of selectedTopicTags.sort((a, b) =>
+        v-for="(t, index) of selectedTopicTags.sort((a, b) =>
           a.value.localeCompare(b.value)
         )"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
+        @keydown.tab.prevent="tabToConnect($event)"
+        @keydown="mobileKeyboardEvent(index, $event)"
         :key="t.value"
         :topic="t.label"
-        class="max-sm:w-full"
+        class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
       />
@@ -117,69 +117,84 @@ const tabToConnect = (e: KeyboardEvent) => {
   connect?.focus();
 };
 
-// Remain focus on topics after enter
-const topicEnter = (index: number) => {
-  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
-
-  topics[index - 1]?.focus();
-};
-
-// Left and right navigation using arrow keys for topics
-const topicNext = (index: number) => {
-  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
-
-  topics[index + 1].focus();
-};
-
-const topicBefore = (index: number) => {
-  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
-
-  topics[index - 1].focus();
-};
-
-const topicDown = (index: number, e: KeyboardEvent) => {
+const keydownEvent = (index: number, e: KeyboardEvent) => {
   e.preventDefault();
 
-  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
-  const top = topics[index].getBoundingClientRect().top + 38;
-  const left = topics[index].getBoundingClientRect().left - 38;
+  const topics: HTMLElement[] = Array.from(
+    document.querySelectorAll(".topic")
+  );
+  const upTop = topics[index].getBoundingClientRect().top - 38;
+  const upLeft = topics[index].getBoundingClientRect().left - 38;
 
-  const result = topics.filter(
+  const upResult = topics.filter(
     (topic) =>
-      topic.getBoundingClientRect().top == top &&
-      topic.getBoundingClientRect().left >= left
+      topic.getBoundingClientRect().top == upTop &&
+      topic.getBoundingClientRect().left >= upLeft
   );
 
-  if (result.length != 0) {
-    result[0].focus();
-  } else {
-    const lastTopicInRow = topics.filter(
-      (topic) => topic.getBoundingClientRect().top == top
-    );
-    lastTopicInRow[lastTopicInRow.length - 1].focus();
+  const downTop = topics[index].getBoundingClientRect().top + 38;
+  const downLeft = topics[index].getBoundingClientRect().left - 38;
+
+  const downResult = topics.filter(
+    (topic) =>
+      topic.getBoundingClientRect().top == downTop &&
+      topic.getBoundingClientRect().left >= downLeft
+  );
+
+  switch (e.code) {
+    case "ArrowUp":
+      if (upResult.length != 0) {
+        upResult[0].focus();
+      } else {
+        const lastTopicInRow = topics.filter(
+          (topic) => topic.getBoundingClientRect().top == upTop
+        );
+        lastTopicInRow[lastTopicInRow.length - 1].focus();
+      }
+      break;
+    case "ArrowDown":
+      if (downResult.length != 0) {
+        downResult[0].focus();
+      } else {
+        const lastTopicInRow = topics.filter(
+          (topic) => topic.getBoundingClientRect().top == downTop
+        );
+        lastTopicInRow[lastTopicInRow.length - 1].focus();
+      }
+      break;
+    case "ArrowLeft":
+      topics[index - 1].focus();
+      break;
+    case "ArrowRight":
+      topics[index + 1].focus();
+      break;
+    case "Enter":
+      topics[index - 1]?.focus();
+      break;
   }
 };
 
-const topicUp = (index: number, e: KeyboardEvent) => {
+const mobileKeyboardEvent = (index: number, e: KeyboardEvent) => {
   e.preventDefault();
 
-  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
-  const top = topics[index].getBoundingClientRect().top - 38;
-  const left = topics[index].getBoundingClientRect().left - 38;
-
-  const result = topics.filter(
-    (topic) =>
-      topic.getBoundingClientRect().top == top &&
-      topic.getBoundingClientRect().left >= left
+  const topics: HTMLElement[] = Array.from(
+    document.querySelectorAll(".mobileTopic")
   );
 
-  if (result.length != 0) {
-    result[0].focus();
-  } else {
-    const lastTopicInRow = topics.filter(
-      (topic) => topic.getBoundingClientRect().top == top
-    );
-    lastTopicInRow[lastTopicInRow.length - 1].focus();
+  switch (e.code) {
+    case "ArrowUp":
+    case "ArrowLeft":
+      e.preventDefault();
+      topics[index - 1].focus();
+      break;
+    case "ArrowDown":
+    case "ArrowRight":
+      e.preventDefault();
+      topics[index + 1].focus();
+      break;
+    case "Enter":
+      topics[index - 1]?.focus();
+      break;
   }
 };
 

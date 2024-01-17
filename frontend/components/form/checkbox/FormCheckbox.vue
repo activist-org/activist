@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-row items-center justify-start">
     <input
-      @keydown.tab.prevent="tabToFirstTopic($event)"
+      @keydown="tabToFirstTopic($event)"
       :id="uuid"
       class="connect cursor-pointer mb-0 peer appearance-none w-[1.375rem] h-[1.375rem] border border-light-menu-selection rounded-sm bg-light-button dark:bg-dark-button dark:border-dark-menu-selection focus-brand"
       type="checkbox"
@@ -33,14 +33,12 @@ export interface Props {
 
 const tabToFirstTopic = (e: KeyboardEvent) => {
   const firstTopic: HTMLElement | null = document.querySelector(".topic");
-  const submit: HTMLElement | null = document.querySelector(".submit-button");
 
-  if (e.shiftKey) {
+  if (e.shiftKey && e.key == "Tab") {
+    e.preventDefault();
     firstTopic?.focus();
     return;
   }
-
-  submit?.focus();
 };
 
 const props = withDefaults(defineProps<Props>(), {

@@ -97,7 +97,7 @@
             <BtnAction
               type="submit"
               :cta="true"
-              class="submit-button flex"
+              class="flex"
               label="pages.organizations.create.complete-application"
               fontSize="lg"
               ariaLabel="pages.organizations.create.complete-application-aria-label"
