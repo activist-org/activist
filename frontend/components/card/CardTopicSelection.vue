@@ -97,7 +97,12 @@ const emit = defineEmits(["update:modelValue"]);
 
 // Tab from topic input to the first topic
 const tabToFirstTopic = () => {
-  const firstTopic: HTMLElement | null = document.querySelector(".topic");
+  let firstTopic: HTMLElement | null;
+  if (window.matchMedia("(min-width: 640px)").matches) {
+    firstTopic = document.querySelector(".topic");
+  } else {
+    firstTopic = document.querySelector(".mobileTopic");
+  }
 
   firstTopic?.focus();
 };

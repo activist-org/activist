@@ -32,7 +32,12 @@ export interface Props {
 }
 
 const tabToFirstTopic = (e: KeyboardEvent) => {
-  const firstTopic: HTMLElement | null = document.querySelector(".topic");
+  let firstTopic: HTMLElement | null;
+  if (window.matchMedia("(min-width: 640px)").matches) {
+    firstTopic = document.querySelector(".topic");
+  } else {
+    firstTopic = document.querySelector(".mobileTopic");
+  }
 
   if (e.shiftKey && e.key == "Tab") {
     e.preventDefault();
