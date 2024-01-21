@@ -13,7 +13,7 @@
         <DisclosureButton
           @keyup.enter="closeOtherMenus(index)"
           @click="closeOtherMenus(index)"
-          :ref="(el) => (disclosureButtons[0] = { close, el })"
+          :ref="(el) => (disclosureButtons[index] = { close, el })"
           class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
           :aria-label="
             $t(`components.sidebar-left-footer.${subMenu.ariaLabel}`)
