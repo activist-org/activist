@@ -6,19 +6,22 @@
     <input
       v-model="query"
       @focus="inputFocus = true"
+      @keydown.tab.exact.prevent="tabToFirstTopic()"
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header elem-shadow-sm focus-brand"
+      class="topicInput w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header elem-shadow-sm focus-brand"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
-        v-for="t of filteredTopics"
+        v-for="(t, index) of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
+        @keydown.tab.prevent="tabToConnect($event)"
+        @keydown="keydownEvent(index, $event)"
         :key="t.value"
         :topic="t.label"
-        class="max-sm:w-full"
+        class="topic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
       />
@@ -31,25 +34,29 @@
     >
       <ShieldTopic
         v-if="moreOptionsShown || inputFocus"
-        v-for="t of filteredTopics"
+        v-for="(t, index) of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
+        @keydown.tab.prevent="tabToConnect($event)"
+        @keydown="mobileKeyboardEvent(index, $event)"
         :key="t.value + '-selected-only'"
         :topic="t.label"
-        class="max-sm:w-full"
+        class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
       />
       <ShieldTopic
         v-else
-        v-for="t of selectedTopicTags.sort((a, b) =>
+        v-for="(t, index) of selectedTopicTags.sort((a, b) =>
           a.value.localeCompare(b.value)
         )"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
+        @keydown.tab.prevent="tabToConnect($event)"
+        @keydown="mobileKeyboardEvent(index, $event)"
         :key="t.value"
         :topic="t.label"
-        class="max-sm:w-full"
+        class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
       />
@@ -87,6 +94,112 @@ const props = defineProps({
 const moreOptionsShown = ref(false);
 const inputFocus = ref(false);
 const emit = defineEmits(["update:modelValue"]);
+
+// Tab from topic input to the first topic
+const tabToFirstTopic = () => {
+  let firstTopic: HTMLElement | null;
+  if (window.matchMedia("(min-width: 640px)").matches) {
+    firstTopic = document.querySelector(".topic");
+  } else {
+    firstTopic = document.querySelector(".mobileTopic");
+  }
+
+  firstTopic?.focus();
+};
+
+// Tab from topic to T&C checkbox
+const tabToConnect = (e: KeyboardEvent) => {
+  e.preventDefault();
+  const topicInput: HTMLElement | null = document.querySelector(".topicInput");
+  const connect: HTMLElement | null = document.querySelector(".connect");
+
+  // Shift-Tab back to topic input from any topic
+  if (e.shiftKey) {
+    topicInput?.focus();
+    return;
+  }
+
+  connect?.focus();
+};
+
+const keydownEvent = (index: number, e: KeyboardEvent) => {
+  e.preventDefault();
+
+  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+  const upTop = topics[index].getBoundingClientRect().top - 38;
+  const upLeft = topics[index].getBoundingClientRect().left - 38;
+
+  const upResult = topics.filter(
+    (topic) =>
+      topic.getBoundingClientRect().top == upTop &&
+      topic.getBoundingClientRect().left >= upLeft
+  );
+
+  const downTop = topics[index].getBoundingClientRect().top + 38;
+  const downLeft = topics[index].getBoundingClientRect().left - 38;
+
+  const downResult = topics.filter(
+    (topic) =>
+      topic.getBoundingClientRect().top == downTop &&
+      topic.getBoundingClientRect().left >= downLeft
+  );
+
+  switch (e.code) {
+    case "ArrowUp":
+      if (upResult.length != 0) {
+        upResult[0].focus();
+      } else {
+        const lastTopicInRow = topics.filter(
+          (topic) => topic.getBoundingClientRect().top == upTop
+        );
+        lastTopicInRow[lastTopicInRow.length - 1].focus();
+      }
+      break;
+    case "ArrowDown":
+      if (downResult.length != 0) {
+        downResult[0].focus();
+      } else {
+        const lastTopicInRow = topics.filter(
+          (topic) => topic.getBoundingClientRect().top == downTop
+        );
+        lastTopicInRow[lastTopicInRow.length - 1].focus();
+      }
+      break;
+    case "ArrowLeft":
+      topics[index - 1].focus();
+      break;
+    case "ArrowRight":
+      topics[index + 1].focus();
+      break;
+    case "Enter":
+      topics[index - 1]?.focus();
+      break;
+  }
+};
+
+const mobileKeyboardEvent = (index: number, e: KeyboardEvent) => {
+  e.preventDefault();
+
+  const topics: HTMLElement[] = Array.from(
+    document.querySelectorAll(".mobileTopic")
+  );
+
+  switch (e.code) {
+    case "ArrowUp":
+    case "ArrowLeft":
+      e.preventDefault();
+      topics[index - 1].focus();
+      break;
+    case "ArrowDown":
+    case "ArrowRight":
+      e.preventDefault();
+      topics[index + 1].focus();
+      break;
+    case "Enter":
+      topics[index - 1]?.focus();
+      break;
+  }
+};
 
 const value = computed<Topic[]>({
   get() {
