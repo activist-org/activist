@@ -5,20 +5,24 @@
     <div
       class="flex flex-col justify-center w-full p-1 bg-light-header dark:bg-dark-header elem-shadow-sm space-y-1 rounded-md"
     >
-      <Disclosure v-slot="{ open, close }">
+      <Disclosure
+        v-for="(subMenu, index) in menu"
+        v-slot="{ open, close }"
+        :key="subMenu.id"
+      >
         <DisclosureButton
-          @keyup.enter="closeOtherMenus(0)"
-          @click="closeOtherMenus(0)"
+          @keyup.enter="closeOtherMenus(index)"
+          @click="closeOtherMenus(index)"
           :ref="(el) => (disclosureButtons[0] = { close, el })"
-          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
-          :aria-label="$t('components.sidebar-left-footer.create-aria-label')"
+          class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
+          :aria-label="$t(`components.sidebar-left-footer.${subMenu.ariaLabel}`)"
         >
           <div
             class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
           >
             <Icon
               class="flex-shrink-0 w-5 h-5 text-center"
-              name="bi:plus-circle"
+              :name=subMenu.icon
               size="1em"
             />
             <Transition name="text">
@@ -28,7 +32,7 @@
                 "
                 class="select-none"
               >
-                {{ $t("components.sidebar-left-footer.create") }}
+                {{ $t(`components.sidebar-left-footer.${subMenu.label}`) }}
               </p>
             </Transition>
           </div>
@@ -45,11 +49,11 @@
         </DisclosureButton>
         <DisclosurePanel class="flex flex-col">
           <div
-            :ref="(el) => (disclosurePanels[0] = el)"
+            :ref="(el) => (disclosurePanels[index] = el)"
             class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
           >
             <SidebarLeftSelector
-              v-for="button in createButtons"
+              v-for="button in subMenu.panelButtons"
               :key="button.id"
               :label="button.label"
               :routeURL="button.routeURL"
@@ -58,122 +62,15 @@
             />
           </div>
         </DisclosurePanel>
-      </Disclosure>
-      <Disclosure v-slot="{ open, close }">
-        <DisclosureButton
-          @keyup.enter="closeOtherMenus(1)"
-          @click="closeOtherMenus(1)"
-          :ref="(el) => (disclosureButtons[1] = { close, el })"
-          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
-          :aria-label="$t('components.sidebar-left-footer.info-aria-label')"
-        >
-          <div
-            class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
-          >
-            <Icon
-              class="flex-shrink-0 w-5 h-5"
-              name="bi:info-circle"
-              size="1em"
-            />
-            <Transition name="text">
-              <p
-                v-if="
-                  sidebar.collapsed == false || sidebar.collapsedSwitch == false
-                "
-                class="select-none"
-              >
-                {{ $t("components.sidebar-left-footer.info") }}
-              </p>
-            </Transition>
-          </div>
-          <Transition name="chevron">
-            <Icon
-              v-if="
-                sidebar.collapsed == false || sidebar.collapsedSwitch == false
-              "
-              class="absolute right-0 mr-8"
-              :class="{ 'rotate-180 transform': open }"
-              name="bi:chevron-up"
-            />
-          </Transition>
-        </DisclosureButton>
-        <DisclosurePanel class="flex flex-col">
-          <div
-            :ref="(el) => (disclosurePanels[1] = el)"
-            class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
-          >
-            <SidebarLeftSelector
-              v-for="button in infoButtons"
-              :key="button.id"
-              :label="button.label"
-              :routeURL="button.routeURL"
-              :iconURL="button.iconURL"
-              :selected="button.selected"
-            />
-          </div>
-        </DisclosurePanel>
-      </Disclosure>
-      <Disclosure v-slot="{ open, close }">
-        <DisclosureButton
-          @keyup.enter="closeOtherMenus(2)"
-          @click="closeOtherMenus(2)"
-          :ref="(el) => (disclosureButtons[2] = { close, el })"
-          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
-          :aria-label="$t('components.sidebar-left-footer.username-aria-label')"
-        >
-          <div
-            class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
-          >
-            <Icon
-              class="flex-shrink-0 w-5 h-5"
-              name="bi:person-circle"
-              size="1em"
-            />
-            <Transition name="text">
-              <p
-                v-if="
-                  sidebar.collapsed == false || sidebar.collapsedSwitch == false
-                "
-                class="font-bold select-none"
-              >
-                {{ $t("components.sidebar-left-footer.username") }}
-              </p>
-            </Transition>
-          </div>
-          <Transition name="chevron">
-            <Icon
-              v-if="
-                sidebar.collapsed == false || sidebar.collapsedSwitch == false
-              "
-              class="absolute right-0 mr-8"
-              :class="{ 'rotate-180 transform': open }"
-              name="bi:chevron-up"
-            />
-          </Transition>
-        </DisclosureButton>
-        <DisclosurePanel class="flex flex-col">
-          <div
-            :ref="(el) => (disclosurePanels[2] = el)"
-            class="p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header"
-          >
-            <SidebarLeftSelector
-              v-for="button in userButtons"
-              :key="button"
-              :label="button.label"
-              :routeURL="button.routeURL"
-              :iconURL="button.iconURL"
-              :selected="button.selected"
-            />
-          </div>
-        </DisclosurePanel>
-      </Disclosure>
+      </Disclosure>      
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import type { MenuSelector } from "~/types/menu-selector";
+import type { Ref } from "vue";
+import { BarMenu } from "~/types/menu-selector";
 
 const disclosureButtons = ref<
   {
@@ -184,6 +81,7 @@ const disclosureButtons = ref<
 const disclosurePanels = ref<(Element | ComponentPublicInstance | null)[]>([]);
 
 const closeOtherMenus = (id: number) => {
+  console.log(id);
   disclosureButtons.value
     .filter((d, i) => i !== id)
     .forEach((disclosureButton) => disclosureButton.close());
@@ -199,105 +97,124 @@ const closeOtherMenus = (id: number) => {
 
 const sidebar = useSidebar();
 
-const createButtons: MenuSelector[] = [
+const menu: BarMenu[] = [
   {
-    id: 1,
-    label: "components._global.new-event",
-    routeURL: "/events/create",
-    iconURL: "bi:calendar-check",
-    selected: false,
+    id: "createButtons",
+    ariaLabel: "create-aria-label",
+    icon: "bi:plus-circle",
+    label: "create",
+    panelButtons: [
+      {
+        id: 1,
+        label: "components._global.new-event",
+        routeURL: "/events/create",
+        iconURL: "bi:calendar-check",
+        selected: false,
+      },
+      {
+        id: 2,
+        label: "components.sidebar-left-selector.label.new-organization",
+        routeURL: "/organizations/create",
+        iconURL: "IconOrganization",
+        selected: false,
+      },
+      {
+        id: 3,
+        label: "components._global.new-group",
+        routeURL: "/",
+        iconURL: "IconGroup",
+        selected: false,
+      },
+      {
+        id: 4,
+        label: "components._global.new-resource",
+        routeURL: "/resources/create",
+        iconURL: "IconResource",
+        selected: false,
+      },
+    ]
   },
   {
-    id: 2,
-    label: "components.sidebar-left-selector.label.new-organization",
-    routeURL: "/organizations/create",
-    iconURL: "IconOrganization",
-    selected: false,
+    id: "infoButtons",
+    ariaLabel: "info-aria-label",
+    icon: "bi:info-circle",
+    label: "info",
+    panelButtons: [
+      {
+        id: 1,
+        label: "_global.help",
+        routeURL: "/help",
+        iconURL: "bi:question-circle",
+        selected: false,
+      },
+      {
+        id: 2,
+        label: "_global.documentation",
+        routeURL: "/docs",
+        iconURL: "bi:layout-text-sidebar-reverse",
+        selected: false,
+      },
+      {
+        id: 3,
+        label: "_global.legal",
+        routeURL: "/legal",
+        iconURL: "IconLegal",
+        selected: false,
+      },
+    ],
   },
   {
-    id: 3,
-    label: "components._global.new-group",
-    routeURL: "/",
-    iconURL: "IconGroup",
-    selected: false,
-  },
-  {
-    id: 4,
-    label: "components._global.new-resource",
-    routeURL: "/resources/create",
-    iconURL: "IconResource",
-    selected: false,
+    id: "userButtons",
+    ariaLabel: "username-aria-label",
+    icon: "bi:person-circle",
+    label: "username",
+    panelButtons: [
+      {
+        id: 1,
+        label: "components.sidebar-left-selector.label.your-profile",
+        routeURL: "/",
+        iconURL: "bi:person-circle",
+        selected: false,
+      },
+      {
+        id: 2,
+        label: "components.sidebar-left-selector.label.your-events",
+        routeURL: "/",
+        iconURL: "bi:calendar-check",
+        selected: false,
+      },
+      {
+        id: 3,
+        label: "components.sidebar-left-selector.label.your-orgs",
+        routeURL: "/",
+        iconURL: "IconOrganization",
+        selected: false,
+      },
+      {
+        id: 4,
+        label: "components.sidebar-left-selector.label.notifications",
+        routeURL: "/",
+        iconURL: "bi:bell",
+        selected: false,
+      },
+      {
+        id: 5,
+        label: "_global.settings",
+        routeURL: "/",
+        iconURL: "bi:gear",
+        selected: false,
+      },
+      {
+        id: 6,
+        label: "components.sidebar-left-selector.label.sign-out",
+        routeURL: "/",
+        iconURL: "bi:box-arrow-left",
+        selected: false,
+      },
+    ],
   },
 ];
 
-const infoButtons: MenuSelector[] = [
-  {
-    id: 1,
-    label: "_global.help",
-    routeURL: "/help",
-    iconURL: "bi:question-circle",
-    selected: false,
-  },
-  {
-    id: 2,
-    label: "_global.documentation",
-    routeURL: "/docs",
-    iconURL: "bi:layout-text-sidebar-reverse",
-    selected: false,
-  },
-  {
-    id: 3,
-    label: "_global.legal",
-    routeURL: "/legal",
-    iconURL: "IconLegal",
-    selected: false,
-  },
-];
-
-const userButtons: MenuSelector[] = [
-  {
-    id: 1,
-    label: "components.sidebar-left-selector.label.your-profile",
-    routeURL: "/",
-    iconURL: "bi:person-circle",
-    selected: false,
-  },
-  {
-    id: 2,
-    label: "components.sidebar-left-selector.label.your-events",
-    routeURL: "/",
-    iconURL: "bi:calendar-check",
-    selected: false,
-  },
-  {
-    id: 3,
-    label: "components.sidebar-left-selector.label.your-orgs",
-    routeURL: "/",
-    iconURL: "IconOrganization",
-    selected: false,
-  },
-  {
-    id: 4,
-    label: "_global.notifications",
-    routeURL: "/",
-    iconURL: "bi:bell",
-    selected: false,
-  },
-  {
-    id: 5,
-    label: "_global.settings",
-    routeURL: "/",
-    iconURL: "bi:gear",
-    selected: false,
-  },
-  {
-    id: 6,
-    label: "components.sidebar-left-selector.label.sign-out",
-    routeURL: "/",
-    iconURL: "bi:box-arrow-left",
-    selected: false,
-  },
-];
 </script>
 
 <style>
