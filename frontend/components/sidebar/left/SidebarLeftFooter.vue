@@ -15,14 +15,16 @@
           @click="closeOtherMenus(index)"
           :ref="(el) => (disclosureButtons[0] = { close, el })"
           class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
-          :aria-label="$t(`components.sidebar-left-footer.${subMenu.ariaLabel}`)"
+          :aria-label="
+            $t(`components.sidebar-left-footer.${subMenu.ariaLabel}`)
+          "
         >
           <div
             class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
           >
             <Icon
               class="flex-shrink-0 w-5 h-5 text-center"
-              :name=subMenu.icon
+              :name="subMenu.icon"
               size="1em"
             />
             <Transition name="text">
@@ -62,7 +64,7 @@
             />
           </div>
         </DisclosurePanel>
-      </Disclosure>      
+      </Disclosure>
     </div>
   </footer>
 </template>
@@ -132,7 +134,7 @@ const menu: BarMenu[] = [
         iconURL: "IconResource",
         selected: false,
       },
-    ]
+    ],
   },
   {
     id: "infoButtons",
@@ -214,7 +216,6 @@ const menu: BarMenu[] = [
     ],
   },
 ];
-
 </script>
 
 <style>
