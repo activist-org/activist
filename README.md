@@ -189,7 +189,10 @@ git remote add upstream https://github.com/activist-org/activist.git
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
 > [!NOTE]
-> Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](./CONTRIBUTING.md#using-yarn-or-python).
+> Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#using-yarn-or-python).
+
+> [!TIP]
+> For those using LLM coding assistants, [LLMPROMPT.txt](https://github.com/activist-org/activist/blob/main/LLMPROMPT.txt) contains a good prompt to paste as context or add to your settings.
 
 <a id="tech-stack"></a>
 

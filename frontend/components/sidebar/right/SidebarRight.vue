@@ -38,11 +38,11 @@ const toggleMenuState = () => {
 };
 
 onClickOutside(
-  target,
+  target.value,
   () => {
     if (!menuOpen.value) return;
     toggleMenuState();
   },
-  { ignore: [ignoreElRef] }
+  { ignore: [ignoreElRef.value] }
 );
 </script>
