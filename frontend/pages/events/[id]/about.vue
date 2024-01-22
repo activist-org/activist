@@ -58,12 +58,24 @@
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 lg:pt-4">
       <div
-        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0"
+        :class="{
+          'lg:space-x-6 lg:mr-6': !textExpanded,
+        }"
       >
-        <CardAbout class="lg:col-span-2" aboutType="event" :event="event" />
+        <CardAbout
+          @expand-reduce-text="expandReduceText"
+          :class="{
+            'lg:col-span-2': !textExpanded,
+            'lg:col-span-3': textExpanded,
+          }"
+          aboutType="event"
+          :event="event"
+        />
         <MediaMap
           v-if="event.inPersonLocation"
           class="w-full h-full"
+          :class="{ 'lg:hidden': textExpanded }"
           :addresses="[event.inPersonLocation]"
           :type="event.type"
           :title="event.name"
@@ -84,6 +96,11 @@ import type { Event } from "~/types/event";
 definePageMeta({
   layout: "sidebar",
 });
+
+const textExpanded = ref(false);
+const expandReduceText = () => {
+  textExpanded.value = !textExpanded.value;
+};
 
 const event: Event = {
   name: "Brandenburg Gate Climate Demo",
