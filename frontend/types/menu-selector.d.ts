@@ -11,5 +11,6 @@ export interface BarMenu {
   ariaLabel: string;
   label: string;
   icon: string;
+  isFontBold: boolean;
   panelButtons: MenuSelector[];
 }

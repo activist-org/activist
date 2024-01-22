@@ -3,7 +3,7 @@
     class="w-full p-1 transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
   >
     <div
-      class="flex flex-col justify-center w-full p-1 bg-light-header dark:bg-dark-header elem-shadow-sm space-y-1 rounded-md"
+      class="flex flex-col justify-center w-full p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header elem-shadow-sm"
     >
       <Disclosure
         v-for="(subMenu, index) in menu"
@@ -14,7 +14,7 @@
           @keyup.enter="closeOtherMenus(index)"
           @click="closeOtherMenus(index)"
           :ref="(el) => (disclosureButtons[index] = { close, el })"
-          class="flex items-center w-full rounded-md style-menu-option-cta pl-1"
+          class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
           :aria-label="
             $t(`components.sidebar-left-footer.${subMenu.ariaLabel}`)
           "
@@ -32,6 +32,7 @@
                 v-if="
                   sidebar.collapsed == false || sidebar.collapsedSwitch == false
                 "
+                :class="{ 'font-bold': subMenu.isFontBold }"
                 class="select-none"
               >
                 {{ $t(`components.sidebar-left-footer.${subMenu.label}`) }}
@@ -105,6 +106,7 @@ const menu: BarMenu[] = [
     ariaLabel: "create-aria-label",
     icon: "bi:plus-circle",
     label: "create",
+    isFontBold: false,
     panelButtons: [
       {
         id: 1,
@@ -141,6 +143,7 @@ const menu: BarMenu[] = [
     ariaLabel: "info-aria-label",
     icon: "bi:info-circle",
     label: "info",
+    isFontBold: false,
     panelButtons: [
       {
         id: 1,
@@ -170,6 +173,7 @@ const menu: BarMenu[] = [
     ariaLabel: "username-aria-label",
     icon: "bi:person-circle",
     label: "username",
+    isFontBold: true,
     panelButtons: [
       {
         id: 1,
@@ -194,7 +198,7 @@ const menu: BarMenu[] = [
       },
       {
         id: 4,
-        label: "components.sidebar-left-selector.label.notifications",
+        label: "_global.notifications",
         routeURL: "/",
         iconURL: "bi:bell",
         selected: false,
