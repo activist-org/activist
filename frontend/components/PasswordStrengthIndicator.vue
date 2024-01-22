@@ -8,7 +8,7 @@
       ></div>
     </div>
     <div
-      class="float-right text-xs mt-1"
+      class="float-right mt-1 text-xs"
       :class="{
         'text-light-special-text dark:text-dark-special-text':
           color !== 'bg-light-text dark-bg-dark-text',

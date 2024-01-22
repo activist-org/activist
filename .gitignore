@@ -27,6 +27,8 @@ cov_html/
 .nitro
 .cache
 .env
+.env.*
+!.env.example
 dist
 
 # Node dependencies

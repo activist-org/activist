@@ -1,12 +1,7 @@
 <template>
   <header
     ref="header"
-    class="relative sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md"
-    :class="{
-      'bg-light-header dark:bg-dark-header': headerOpacity == 1,
-      'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
-      'invisible opacity-0': headerOpacity == 0,
-    }"
+    class="relative sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md bg-light-header dark:bg-dark-header"
   >
     <div class="h-full">
       <div class="flex justify-between h-full px-4 gap-2">
@@ -32,34 +27,4 @@ const isSearchExpanded = ref(false);
 const toggleSearchExpanded = () => {
   isSearchExpanded.value = !isSearchExpanded.value;
 };
-
-const headerOpacity: Ref<number> = ref(1);
-const prevScrollY: Ref<number> = ref(0);
-
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
-});
-
-function handleScroll() {
-  const scrollY = window.scrollY;
-
-  if (scrollY > document.getElementsByTagName("header")[0].clientHeight) {
-    if (scrollY > prevScrollY.value) {
-      headerOpacity.value = 0;
-    } else headerOpacity.value = 0.8;
-  } else {
-    headerOpacity.value = 1;
-  }
-  prevScrollY.value = scrollY;
-}
 </script>
-
-<style>
-.header {
-  -webkit-transform: translate3d(0, 0, 0);
-}
-</style>

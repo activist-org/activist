@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col w-full md:flex-row relative">
+  <div class="relative flex flex-col w-full md:flex-row">
     <div class="flex justify-center w-full md:w-fit">
       <div
-        class="rounded-md border border-light-section-div dark:border-dark-section-div h-min"
+        class="border rounded-md border-light-section-div dark:border-dark-section-div h-min"
       >
         <img
           v-if="event.imageURL"
@@ -23,7 +23,7 @@
             'w-[150px] h-[150px]': reduced,
             'w-[200px] h-[200px]': !reduced,
           }"
-          class="flex justify-center items-center"
+          class="flex items-center justify-center"
         >
           <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
         </div>

@@ -7,67 +7,75 @@
     </Head>
     <HeaderAppPage :event="event">
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnRouteInternal
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components.btn-labeled.offer-to-help"
+          label="components.btn-route-internal.offer-to-help"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.offer-to-help-aria-label"
+          ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.support"
+          label="components.btn-action.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.25em"
           :counter="event.supporters"
-          ariaLabel="components.btn-labeled.support-event-aria-label"
+          ariaLabel="components.btn-action.support-event-aria-label"
         />
-        <BtnLabeled
+        <BtnAction
           class="md:hidden w-fit"
           :cta="true"
-          linkTo="/"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.25em"
           :counter="event.supporters"
-          ariaLabel="components.btn-labeled.support-event-aria-label"
+          ariaLabel="components.btn-action.support-event-aria-label"
         />
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share-event"
+          label="components.btn-action.share-event"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.share-event-aria-label"
+          ariaLabel="components.btn-action.share-event-aria-label"
         />
-        <BtnLabeled
+        <BtnAction
           class="md:hidden w-fit"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share"
+          label="components.btn-action.share"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.share-event-aria-label"
+          ariaLabel="components.btn-action.share-event-aria-label"
         />
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 lg:pt-4">
       <div
-        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0"
+        :class="{
+          'lg:space-x-6 lg:mr-6': !textExpanded,
+        }"
       >
-        <CardAbout class="lg:col-span-2" aboutType="event" :event="event" />
+        <CardAbout
+          @expand-reduce-text="expandReduceText"
+          :class="{
+            'lg:col-span-2': !textExpanded,
+            'lg:col-span-3': textExpanded,
+          }"
+          aboutType="event"
+          :event="event"
+        />
         <MediaMap
           v-if="event.inPersonLocation"
           class="w-full h-full"
+          :class="{ 'lg:hidden': textExpanded }"
           :addresses="[event.inPersonLocation]"
           :type="event.type"
           :title="event.name"
@@ -88,6 +96,11 @@ import type { Event } from "~/types/event";
 definePageMeta({
   layout: "sidebar",
 });
+
+const textExpanded = ref(false);
+const expandReduceText = () => {
+  textExpanded.value = !textExpanded.value;
+};
 
 const event: Event = {
   name: "Brandenburg Gate Climate Demo",

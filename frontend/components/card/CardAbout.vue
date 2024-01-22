@@ -1,8 +1,21 @@
 <template>
   <div class="px-5 py-5 card-style">
     <div class="relative flex-col w-full gap-5">
-      <ModalQRCode v-if="organization" :entityName="organization.name" />
-      <ModalQRCode v-if="event" :entityName="event.name" />
+      <ModalQRCode
+        v-if="organization && !expandText"
+        :entityName="organization.name"
+      />
+      <ModalQRCode v-if="event && !expandText" :entityName="event.name" />
+      <button
+        v-if="expandText"
+        @click="
+          emit('expand-reduce-text');
+          expand_reduce_text();
+        "
+        class="absolute right-0 p-1 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
+      >
+        <Icon class="w-10 h-10" name="bi:x-circle-fill" />
+      </button>
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="text-left responsive-h3 font-display">
@@ -28,13 +41,37 @@
             </div>
           </div>
           <div>
-            <p class="line-clamp-2">{{ event.description }}</p>
-            <button
-              class="mt-2 font-semibold text-light-link-text dark:text-dark-link-text"
-              :aria-label="$t('components.card-about.full-text-aria-label')"
+            <p
+              :class="{
+                'line-clamp-2': !expandText,
+              }"
             >
-              {{ $t("components.card-about.full-text") }}
-            </button>
+              {{ event.description }}
+            </p>
+            <div class="flex justify-end">
+              <button
+                v-if="!expandText"
+                @click="
+                  emit('expand-reduce-text');
+                  expand_reduce_text();
+                "
+                class="mt-1 font-semibold text-light-link-text dark:text-dark-link-text focus-brand"
+                :aria-label="$t('components.card-about.full-text-aria-label')"
+              >
+                {{ $t("components.card-about.full-text") }}
+              </button>
+              <button
+                v-else
+                @click="
+                  emit('expand-reduce-text');
+                  expand_reduce_text();
+                "
+                class="mt-1 font-semibold text-light-link-text dark:text-dark-link-text focus-brand"
+                :aria-label="$t('components.card-about.reduce-text-aria-label')"
+              >
+                {{ $t("components.card-about.reduce-text") }}
+              </button>
+            </div>
           </div>
         </div>
         <div v-if="organization" class="flex-col space-y-3">
@@ -50,13 +87,37 @@
             </div>
           </div>
           <div>
-            <p class="line-clamp-3">{{ organization.description }}</p>
-            <button
-              class="mt-2 font-semibold text-light-link-text dark:text-dark-link-text"
-              :aria-label="$t('components.card-about.full-text-aria-label')"
+            <p
+              :class="{
+                'line-clamp-3': !expandText,
+              }"
             >
-              {{ $t("components.card-about.full-text") }}
-            </button>
+              {{ organization.description }}
+            </p>
+            <div class="flex justify-end">
+              <button
+                v-if="!expandText"
+                @click="
+                  emit('expand-reduce-text');
+                  expand_reduce_text();
+                "
+                class="mt-1 font-semibold text-light-link-text dark:text-dark-link-text focus-brand"
+                :aria-label="$t('components.card-about.full-text-aria-label')"
+              >
+                {{ $t("components.card-about.full-text") }}
+              </button>
+              <button
+                v-else
+                @click="
+                  emit('expand-reduce-text');
+                  expand_reduce_text();
+                "
+                class="mt-1 font-semibold text-light-link-text dark:text-dark-link-text focus-brand"
+                :aria-label="$t('components.card-about.reduce-text-aria-label')"
+              >
+                {{ $t("components.card-about.reduce-text") }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -72,4 +133,11 @@ defineProps<{
   organization?: Organization;
   event?: Event;
 }>();
+
+const emit = defineEmits(["expand-reduce-text"]);
+const expandText = ref(false);
+
+function expand_reduce_text() {
+  expandText.value = !expandText.value;
+}
 </script>

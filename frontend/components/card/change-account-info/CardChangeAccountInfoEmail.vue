@@ -21,7 +21,7 @@
           >
           <input
             id="old-email"
-            class="peer border border-light-text rounded-sm bg-transparent py-1 px-3 dark:border-dark-text"
+            class="px-3 py-1 bg-transparent border rounded-sm peer border-light-text dark:border-dark-text"
             :placeholder="
               $t('components.card-change-account-info.email.enter-old-email')
             "
@@ -36,7 +36,7 @@
           >
           <input
             id="new-email"
-            class="peer border border-light-text rounded-sm bg-transparent py-1 px-3 dark:border-dark-text"
+            class="px-3 py-1 bg-transparent border rounded-sm peer border-light-text dark:border-dark-text"
             :placeholder="
               $t('components.card-change-account-info.email.enter-new-email')
             "
@@ -48,7 +48,7 @@
           >
           <input
             id="password"
-            class="peer border border-light-text rounded-sm bg-transparent py-1 px-3 dark:border-dark-text"
+            class="px-3 py-1 bg-transparent border rounded-sm peer border-light-text dark:border-dark-text"
             :placeholder="$t('components._global.enter-password')"
           />
         </div>

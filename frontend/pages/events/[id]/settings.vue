@@ -11,13 +11,12 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.save-settings"
+          label="components.btn-action.save-settings"
           fontSize="sm"
-          ariaLabel="components.btn-labeled.save-settings-aria-label"
+          ariaLabel="components.btn-action.save-settings-aria-label"
         />
       </div>
     </HeaderAppPage>

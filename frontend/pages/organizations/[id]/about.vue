@@ -7,56 +7,60 @@
     </Head>
     <HeaderAppPage :organization="organization">
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.support"
+          label="components.btn-action.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.25em"
           :counter="organization.supporters"
           ariaLabel="
-            components.btn-labeled.support-organization-aria-label
+            components.btn-action.support-organization-aria-label
           "
         />
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share-organization"
+          label="components.btn-action.share-organization"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
           ariaLabel="
-            components.btn-labeled.share-organization-aria-label
+            components.btn-action.share-organization-aria-label
           "
         />
-        <BtnLabeled
+        <BtnAction
           class="md:hidden w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share"
+          label="components.btn-action.share"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
           ariaLabel="
-            components.btn-labeled.share-organization-aria-label
+            components.btn-action.share-organization-aria-label
           "
         />
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 lg:pt-4">
       <div
-        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0"
+        :class="{
+          'lg:space-x-6 lg:mr-6': !textExpanded,
+        }"
       >
         <CardAbout
-          class="lg:col-span-2"
+          @expand-reduce-text="expandReduceText"
+          :class="{
+            'lg:col-span-2': !textExpanded,
+            'lg:col-span-3': textExpanded,
+          }"
           aboutType="organization"
           :organization="organization"
         />
         <div class="w-full h-full">
-          <MediaImageCarousel />
+          <MediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
         </div>
       </div>
       <CardOrgApplicationVote
@@ -88,6 +92,11 @@ import type { Organization } from "~/types/organization";
 definePageMeta({
   layout: "sidebar",
 });
+
+const textExpanded = ref(false);
+const expandReduceText = () => {
+  textExpanded.value = !textExpanded.value;
+};
 
 const route = useRoute();
 

@@ -70,13 +70,12 @@
       >
         <Popover v-slot="{ close }" class="relative">
           <PopoverButton as="div">
-            <BtnLabeled
+            <BtnAction
               :cta="true"
-              linkTo="placeholder-link"
-              label="components.btn-labeled.new-account"
+              label="components.btn-action.new-account"
               fontSize="sm"
               leftIcon="bi:plus-lg"
-              ariaLabel="components.btn-labeled.new-account-aria-label"
+              ariaLabel="components.btn-action.new-account-aria-label"
             />
           </PopoverButton>
           <transition
