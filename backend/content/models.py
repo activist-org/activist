@@ -76,7 +76,7 @@ class TopicFormat(models.Model):
 
 class Image(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    file_location = models.CharField(max_length=255)
+    image_location = models.ImageField(upload_to="images/")
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
