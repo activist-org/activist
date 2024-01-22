@@ -27,12 +27,11 @@
           :counter="event.supporters"
           ariaLabel="components.btn-action.support-event-aria-label"
         />
-        <BtnAction
+        <ModalSharePage
           :cta="true"
-          ariaLabel="components.btn-action.share-event-aria-label"
           label="components.btn-action.share-event"
+          ariaLabel="components.btn-action.share-event-aria-label"
         />
-        <ModalSharePage/>
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 lg:pt-4">
