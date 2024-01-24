@@ -42,6 +42,7 @@
           </div>
           <div>
             <p
+              ref="description"
               :class="{
                 'line-clamp-2': !expandText,
               }"
@@ -50,7 +51,7 @@
             </p>
             <div class="flex justify-end">
               <button
-                v-if="!expandText"
+                v-if="!expandText && isShowButton"
                 @click="
                   emit('expand-reduce-text');
                   expand_reduce_text();
@@ -61,7 +62,7 @@
                 {{ $t("components.card-about.full-text") }}
               </button>
               <button
-                v-else
+                v-else-if="isShowButton"
                 @click="
                   emit('expand-reduce-text');
                   expand_reduce_text();
@@ -88,6 +89,7 @@
           </div>
           <div>
             <p
+              ref="description"
               :class="{
                 'line-clamp-3': !expandText,
               }"
@@ -96,7 +98,7 @@
             </p>
             <div class="flex justify-end">
               <button
-                v-if="!expandText"
+                v-if="!expandText && isShowButton"
                 @click="
                   emit('expand-reduce-text');
                   expand_reduce_text();
@@ -107,7 +109,7 @@
                 {{ $t("components.card-about.full-text") }}
               </button>
               <button
-                v-else
+                v-else-if="isShowButton"
                 @click="
                   emit('expand-reduce-text');
                   expand_reduce_text();
@@ -134,8 +136,27 @@ defineProps<{
   event?: Event;
 }>();
 
+const description = ref();
+const isShowButton = ref(false);
+
 const emit = defineEmits(["expand-reduce-text"]);
 const expandText = ref(false);
+
+onMounted(() => {
+  window.addEventListener("resize", setIsShowButton);
+  setIsShowButton();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", setIsShowButton);
+});
+
+function setIsShowButton(): void {
+  isShowButton.value =
+    description.value.scrollHeight > description.value.clientHeight
+      ? true
+      : false;
+}
 
 function expand_reduce_text() {
   expandText.value = !expandText.value;
