@@ -7,7 +7,7 @@ export interface Event {
   description: string;
   getInvolvedDescription: string;
   inPersonLocation?: string;
-  onlineLocation?: sting;
+  onlineLocation?: string;
   date: datetime;
   supporters: number;
   imageURL?: string;

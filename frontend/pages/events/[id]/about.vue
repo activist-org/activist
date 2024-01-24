@@ -31,6 +31,7 @@
           :cta="true"
           label="components.btn-action.share-event"
           ariaLabel="components.btn-action.share-event-aria-label"
+          :event="event"
         />
       </div>
     </HeaderAppPage>

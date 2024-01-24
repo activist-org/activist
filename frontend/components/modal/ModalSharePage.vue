@@ -2,8 +2,8 @@
 <template>
     <ModalBase>
         <template #normalDisplay>
-            <BtnAction @click="openShareModal" class="hidden md:block w-max" :cta=props.cta :label=props.label
-                :aria-label=props.ariaLabel fontSize="sm" leftIcon="bi:box-arrow-up" iconSize="1.25em" />
+            <BtnAction class="hidden md:block w-max" :cta=props.cta :label=props.label :aria-label=props.ariaLabel
+                fontSize="sm" leftIcon="bi:box-arrow-up" iconSize="1.25em" />
         </template>
         <template #modalDisplay>
             <DialogTitle class="font-display flex justify-between">
@@ -67,17 +67,25 @@
                                 </div>
                             </div>
                         </s-email>
-                        <div
-                            style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-                            <div style="width: 28px; height: 28px; position: relative">
-                                <Icon name="bi:qr-code-scan" size="2em"
-                                    :alt="$t('components.modal-qr-code.img-alt-text')" />
-                            </div>
-                            <div
-                                style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
-                                View QR code
-                            </div>
-                        </div>
+                        <ModalBase>
+                            <template #normalDisplay>
+                                <div
+                                    style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
+                                    <div style="width: 28px; height: 28px; position: relative">
+                                        <Icon name="bi:qr-code-scan" size="2em"
+                                            :alt="$t('components.modal-qr-code.img-alt-text')" />
+                                    </div>
+                                    <span
+                                        style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
+                                        View QR code
+                                    </span>                                
+                                </div>
+                            </template>
+                            <template #modalDisplay>
+                                <ModalQRCode v-if=props.organization :entityName=props?.organization?.name />
+                                <ModalQRCode v-if=props.event :entityName=props?.event?.name />              
+                            </template>
+                        </ModalBase>
                     </div>
                     <div class="flex space-x-2 lg:space-x-3">
                         <s-mastodon :window-features="windowFeatures" :share-options="shareOptions"
@@ -167,38 +175,50 @@
 import type { BtnAction } from "~/types/btn-props";
 import ModalBase from "~/components/modal/ModalBase.vue";
 import { STelegram, STwitter, SEmail, SMastodon, SFacebookMessenger, SFacebookWorkplace, SSms } from 'vue-socials';
+import type { Event } from "~/types/event";
+import type { Organization } from "~/types/organization";
 
 const props = defineProps<{
     cta: BtnAction["cta"];
     label: BtnAction["label"];
     ariaLabel: BtnAction["ariaLabel"];
+    organization?: Organization;
+    event?: Event;
+    // group?: Group; // add group when we have it
 }>();
 
-const isOpen = ref(false);
-
-const openShareModal = () => {
-    isOpen.value = true;
+const checkEntityType = () => {
+    if (props.event) {
+        return setData(props.event);
+    } else if (props.organization) {
+        return setData(props.organization);
+    }
+    // add group when we have it
 };
 
-const closeShareModal = () => {
-    isOpen.value = false;
-}
+const setData = (data: Event | Organization) => {
+    return {
+        subject: `Share ${data.name}!`,
+        body: `Check out ${data.name}!`,
+        url: "onlineLocation" in data ? data?.onlineLocation : "",
+    };
+};
 
 const windowFeatures = {};
 const shareOptions = {
-    url: 'https://activist.org/',
+    url: checkEntityType()?.url || "https://activist.org/en",
     text: '',
     hashtags: ['activism', 'organizing'],
-    via: '@activist_org', // replace with Activist's twitter handle
+    via: '@activist_org', 
     mail: 'google@gmail.com',
     cc: [''],
     bcc: [''],
-    subject: 'Share Brandenburg Gate Climate Demo!', // will need to update this to be dynamic to the event/organization/group name
-    body: 'Check out tBrandenburg Gate Climate Demo! https://activist.org/', // will need to update this to be dynamic to the event/organization/group name + link to event/organization/group page
+    subject: checkEntityType()?.subject || "Share this!", 
+    body: checkEntityType()?.body || "Check this out!",
     domain: 'https://mas.to',
     redirectUri: 'https://www.domain.com/',
     appId: 123456789,
-    to: undefined,
+    to: undefined,    
     number: '+1(999)999-99-99',
 };
 
