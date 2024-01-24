@@ -51,7 +51,7 @@
             </p>
             <div class="flex justify-end">
               <button
-                v-if="!expandText && isShowButton"
+                v-if="!expandText && descriptionExpandable"
                 @click="
                   emit('expand-reduce-text');
                   expand_reduce_text();
@@ -62,7 +62,7 @@
                 {{ $t("components.card-about.full-text") }}
               </button>
               <button
-                v-else-if="isShowButton"
+                v-else-if="descriptionExpandable"
                 @click="
                   emit('expand-reduce-text');
                   expand_reduce_text();
@@ -98,7 +98,7 @@
             </p>
             <div class="flex justify-end">
               <button
-                v-if="!expandText && isShowButton"
+                v-if="!expandText && descriptionExpandable"
                 @click="
                   emit('expand-reduce-text');
                   expand_reduce_text();
@@ -109,7 +109,7 @@
                 {{ $t("components.card-about.full-text") }}
               </button>
               <button
-                v-else-if="isShowButton"
+                v-else-if="descriptionExpandable"
                 @click="
                   emit('expand-reduce-text');
                   expand_reduce_text();
@@ -137,10 +137,7 @@ defineProps<{
 }>();
 
 const description = ref();
-const isShowButton = ref(false);
-
-const emit = defineEmits(["expand-reduce-text"]);
-const expandText = ref(false);
+const descriptionExpandable = ref(false);
 
 onMounted(() => {
   window.addEventListener("resize", setIsShowButton);
@@ -152,11 +149,14 @@ onUnmounted(() => {
 });
 
 function setIsShowButton(): void {
-  isShowButton.value =
+  descriptionExpandable.value =
     description.value.scrollHeight > description.value.clientHeight
       ? true
       : false;
 }
+
+const emit = defineEmits(["expand-reduce-text"]);
+const expandText = ref(false);
 
 function expand_reduce_text() {
   expandText.value = !expandText.value;

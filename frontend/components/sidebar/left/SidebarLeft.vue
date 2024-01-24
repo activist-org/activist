@@ -2,19 +2,18 @@
   <aside
     @mouseover="sidebar.collapsed = false"
     @mouseleave="sidebar.collapsed = true"
-    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm"
+    class="absolute z-10 flex-col hidden h-full transition-all duration-500 border-r bg-light-distinct dark:bg-dark-distinct md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
     }"
   >
     <SidebarLeftHeader />
-    <!-- -mr and pr are used to position the scrollbar to the right of the sidebar. -->
     <div
-      class="h-full overflow-x-hidden overflow-y-scroll"
+      ref="content"
+      class="h-full overflow-x-hidden"
       :class="{
-        '-mr-[0.8rem]': isFirefox,
-        '-mr-[0.8rem] pr-[0.45rem]': !isFirefox,
+        '-mr-[0.4rem]': contentScrollable,
       }"
     >
       <SearchBar class="mt-1" location="sidebar" />
@@ -287,10 +286,20 @@ const getFiltersByPageType = computed(() => {
   return filters;
 });
 
-const isFirefox = ref(false);
+const content = ref();
+const contentScrollable = ref(false);
+
 onMounted(() => {
-  isFirefox.value = window.navigator.userAgent
-    .toLowerCase()
-    .includes("firefox");
+  window.addEventListener("resize", setIsShowButton);
+  setIsShowButton();
 });
+
+onUnmounted(() => {
+  window.removeEventListener("resize", setIsShowButton);
+});
+
+function setIsShowButton(): void {
+  contentScrollable.value =
+    content.value.scrollHeight > content.value.clientHeight ? true : false;
+}
 </script>
