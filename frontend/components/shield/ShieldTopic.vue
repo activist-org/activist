@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-between border w-max h-max cursor-pointer style-cta elem-shadow-sm space-x-2"
+    class="flex items-center justify-between border cursor-pointer w-max h-max style-cta elem-shadow-sm space-x-2"
     :class="{
       'style-cta': active,
       'style-cta-secondary': !active,

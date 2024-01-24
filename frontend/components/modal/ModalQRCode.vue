@@ -1,8 +1,9 @@
 <template>
   <ModalBase>
     <template #normalDisplay>
-      <div
-        class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md cursor-pointer sm:w-16 sm:h-16 elem-on-card-style"
+      <button
+        class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md cursor-pointer sm:w-16 sm:h-16 elem-on-card-style focus-brand"
+        :aria-label="$t('components.modal-qr-code.open-modal-aria-label')"
       >
         <div class="sm:hidden">
           <Icon
@@ -18,7 +19,7 @@
             :alt="$t('components.modal-qr-code.img-alt-text')"
           />
         </div>
-      </div>
+      </button>
     </template>
     <template #modalDisplay>
       <DialogTitle class="flex justify-between font-display">

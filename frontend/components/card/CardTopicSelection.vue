@@ -13,7 +13,7 @@
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="topicInput w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-content dark:bg-dark-content elem-shadow-sm focus-brand"
+      class="w-full py-2 pl-4 topicInput rounded-md text-light-special-text dark:text-dark-special-text bg-light-content dark:bg-dark-content elem-shadow-sm focus-brand"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
