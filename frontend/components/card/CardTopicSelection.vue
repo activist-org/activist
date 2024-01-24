@@ -3,6 +3,9 @@
     <p class="font-medium responsive-h3 text-light-text dark:text-dark-text">
       {{ $t("components.card-topic-selection.header") }}
     </p>
+    <p class="text-light-text dark:text-dark-text">
+      {{ $t("components.card-topic-selection.subtext-organization") }}
+    </p>
     <input
       v-model="query"
       @focus="inputFocus = true"
@@ -10,7 +13,7 @@
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="topicInput w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header elem-shadow-sm focus-brand"
+      class="topicInput w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-content dark:bg-dark-content elem-shadow-sm focus-brand"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
