@@ -8,7 +8,7 @@
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
     }"
   >
-    <SidebarLeftHeader @toggle-pressed="expandReduceText" />
+    <SidebarLeftHeader @toggle-pressed="setContentScrollable()" />
     <div
       ref="content"
       class="h-full overflow-x-hidden"
@@ -302,8 +302,4 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", setContentScrollable);
 });
-
-const expandReduceText = () => {
-  setContentScrollable();
-};
 </script>
