@@ -13,7 +13,7 @@
       ref="content"
       class="h-full overflow-x-hidden"
       :class="{
-        '-mr-[0.45rem]': contentScrollable,
+        '-mr-[0.55rem]': contentScrollable,
       }"
     >
       <SearchBar class="mt-1" location="sidebar" />
