@@ -1,7 +1,13 @@
 <template>
   <aside
-    @mouseover="sidebar.collapsed = false"
-    @mouseleave="sidebar.collapsed = true"
+    @mouseover="
+      sidebar.collapsed = false;
+      setContentScrollable();
+    "
+    @mouseleave="
+      sidebar.collapsed = true;
+      setContentScrollable();
+    "
     class="absolute z-10 flex-col hidden h-full transition-all duration-500 border-r bg-light-distinct dark:bg-dark-distinct md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
