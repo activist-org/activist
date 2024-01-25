@@ -75,16 +75,16 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import type { Ref } from "vue";
 import type { BarMenu } from "~/types/menu-selector";
 
-const disclosureButtons = ref<
-  {
-    close: (ref?: Ref | HTMLElement) => void;
-    el: Ref | HTMLElement;
-  }[]
->([]);
+type DisclosureButton = {
+  close: (ref?: Ref | HTMLElement) => void;
+  el: Ref | HTMLElement;
+};
+
+const disclosureButtons = ref<DisclosureButton[]>([]);
+
 const disclosurePanels = ref<(Element | ComponentPublicInstance | null)[]>([]);
 
 const closeOtherMenus = (id: number) => {
-  console.log(id);
   disclosureButtons.value
     .filter((d, i) => i !== id)
     .forEach((disclosureButton) => disclosureButton.close());
