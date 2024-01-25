@@ -8,7 +8,7 @@
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
     }"
   >
-    <SidebarLeftHeader />
+    <SidebarLeftHeader @toggle-pressed="expandReduceText" />
     <div
       ref="content"
       class="h-full overflow-x-hidden"
@@ -289,17 +289,21 @@ const getFiltersByPageType = computed(() => {
 const content = ref();
 const contentScrollable = ref(false);
 
-onMounted(() => {
-  window.addEventListener("resize", setIsShowButton);
-  setIsShowButton();
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", setIsShowButton);
-});
-
-function setIsShowButton(): void {
+function setContentScrollable(): void {
   contentScrollable.value =
     content.value.scrollHeight > content.value.clientHeight ? true : false;
 }
+
+onMounted(() => {
+  window.addEventListener("resize", setContentScrollable);
+  setContentScrollable();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", setContentScrollable);
+});
+
+const expandReduceText = () => {
+  setContentScrollable();
+};
 </script>

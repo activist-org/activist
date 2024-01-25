@@ -31,7 +31,10 @@
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
       <div @mouseover.stop class="absolute -right-0">
         <button
-          @click="sidebar.toggleCollapsedSwitch()"
+          @click="
+            sidebar.toggleCollapsedSwitch();
+            emit('toggle-pressed');
+          "
           class="flex items-center justify-center transition duration-100 w-7 h-7 text-light-special-text dark:text-dark-special-text hover:text-light-text dark:hover:text-dark-text focus-brand outline-offset-0"
           :aria-label="
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')
@@ -62,6 +65,7 @@
 
 <script setup lang="ts">
 const sidebar = useSidebar();
+const emit = defineEmits(["toggle-pressed"]);
 </script>
 
 <style>

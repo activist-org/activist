@@ -139,21 +139,21 @@ defineProps<{
 const description = ref();
 const descriptionExpandable = ref(false);
 
-onMounted(() => {
-  window.addEventListener("resize", setIsShowButton);
-  setIsShowButton();
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", setIsShowButton);
-});
-
-function setIsShowButton(): void {
+function setDescriptionExpandable(): void {
   descriptionExpandable.value =
     description.value.scrollHeight > description.value.clientHeight
       ? true
       : false;
 }
+
+onMounted(() => {
+  window.addEventListener("resize", setDescriptionExpandable);
+  setDescriptionExpandable();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", setDescriptionExpandable);
+});
 
 const emit = defineEmits(["expand-reduce-text"]);
 const expandText = ref(false);
