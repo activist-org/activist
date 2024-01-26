@@ -93,7 +93,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 const keydownEvent = (index: number, e: KeyboardEvent) => {
   const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
-  
+
   const upTop = topics[index].getBoundingClientRect().top - 38;
   const upLeft = topics[index].getBoundingClientRect().left - 38;
   const downTop = topics[index].getBoundingClientRect().top + 38;
