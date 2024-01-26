@@ -6,7 +6,6 @@
     <input
       v-model="query"
       @focus="inputFocus = true"
-      @keydown.tab.exact.prevent="tabToFirstTopic()"
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
@@ -17,7 +16,6 @@
         v-for="(t, index) of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
-        @keydown.tab.prevent="tabToConnect($event)"
         @keydown="keydownEvent(index, $event)"
         :key="t.value"
         :topic="t.label"
@@ -37,7 +35,6 @@
         v-for="(t, index) of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
-        @keydown.tab.prevent="tabToConnect($event)"
         @keydown="mobileKeyboardEvent(index, $event)"
         :key="t.value + '-selected-only'"
         :topic="t.label"
@@ -52,7 +49,6 @@
         )"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
-        @keydown.tab.prevent="tabToConnect($event)"
         @keydown="mobileKeyboardEvent(index, $event)"
         :key="t.value"
         :topic="t.label"
@@ -95,49 +91,18 @@ const moreOptionsShown = ref(false);
 const inputFocus = ref(false);
 const emit = defineEmits(["update:modelValue"]);
 
-// Tab from topic input to the first topic
-const tabToFirstTopic = () => {
-  let firstTopic: HTMLElement | null;
-  if (window.matchMedia("(min-width: 640px)").matches) {
-    firstTopic = document.querySelector(".topic");
-  } else {
-    firstTopic = document.querySelector(".mobileTopic");
-  }
-
-  firstTopic?.focus();
-};
-
-// Tab from topic to T&C checkbox
-const tabToConnect = (e: KeyboardEvent) => {
-  e.preventDefault();
-  const topicInput: HTMLElement | null = document.querySelector(".topicInput");
-  const connect: HTMLElement | null = document.querySelector(".connect");
-
-  // Shift-Tab back to topic input from any topic
-  if (e.shiftKey) {
-    topicInput?.focus();
-    return;
-  }
-
-  connect?.focus();
-};
-
 const keydownEvent = (index: number, e: KeyboardEvent) => {
-  e.preventDefault();
-
   const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+  
   const upTop = topics[index].getBoundingClientRect().top - 38;
   const upLeft = topics[index].getBoundingClientRect().left - 38;
-
+  const downTop = topics[index].getBoundingClientRect().top + 38;
+  const downLeft = topics[index].getBoundingClientRect().left - 38;
   const upResult = topics.filter(
     (topic) =>
       topic.getBoundingClientRect().top == upTop &&
       topic.getBoundingClientRect().left >= upLeft
   );
-
-  const downTop = topics[index].getBoundingClientRect().top + 38;
-  const downLeft = topics[index].getBoundingClientRect().left - 38;
-
   const downResult = topics.filter(
     (topic) =>
       topic.getBoundingClientRect().top == downTop &&
@@ -146,6 +111,7 @@ const keydownEvent = (index: number, e: KeyboardEvent) => {
 
   switch (e.code) {
     case "ArrowUp":
+      e.preventDefault();
       if (upResult.length != 0) {
         upResult[0].focus();
       } else {
@@ -156,6 +122,7 @@ const keydownEvent = (index: number, e: KeyboardEvent) => {
       }
       break;
     case "ArrowDown":
+      e.preventDefault();
       if (downResult.length != 0) {
         downResult[0].focus();
       } else {
@@ -166,20 +133,29 @@ const keydownEvent = (index: number, e: KeyboardEvent) => {
       }
       break;
     case "ArrowLeft":
-      topics[index - 1].focus();
+      if (index > 0) {
+        topics[index - 1].focus();
+      } else {
+        topics[topics.length - 1].focus();
+      }
       break;
     case "ArrowRight":
-      topics[index + 1].focus();
+      if (index < topics.length - 1) {
+        topics[index + 1].focus();
+      } else {
+        topics[0].focus();
+      }
       break;
     case "Enter":
       topics[index - 1]?.focus();
       break;
   }
+
+  topics.forEach((topic) => (topic.tabIndex = -1));
+  topics[index].tabIndex = 0;
 };
 
 const mobileKeyboardEvent = (index: number, e: KeyboardEvent) => {
-  e.preventDefault();
-
   const topics: HTMLElement[] = Array.from(
     document.querySelectorAll(".mobileTopic")
   );
@@ -188,17 +164,28 @@ const mobileKeyboardEvent = (index: number, e: KeyboardEvent) => {
     case "ArrowUp":
     case "ArrowLeft":
       e.preventDefault();
-      topics[index - 1].focus();
+      if (index > 0) {
+        topics[index - 1].focus();
+      } else {
+        topics[topics.length - 1].focus();
+      }
       break;
     case "ArrowDown":
     case "ArrowRight":
       e.preventDefault();
-      topics[index + 1].focus();
+      if (index < topics.length - 1) {
+        topics[index + 1].focus();
+      } else {
+        topics[0].focus();
+      }
       break;
     case "Enter":
       topics[index - 1]?.focus();
       break;
   }
+
+  topics.forEach((topic) => (topic.tabIndex = -1));
+  topics[index].tabIndex = 0;
 };
 
 const value = computed<Topic[]>({
