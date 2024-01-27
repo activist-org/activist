@@ -1,75 +1,31 @@
 <template>
-  <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
-  >
+  <div class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content">
+
     <Head>
       <Title>{{ organization.name }}</Title>
     </Head>
     <HeaderAppPage :organization="organization">
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          class="w-max"
-          :cta="true"
-          label="components.btn-action.support"
-          fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.25em"
-          :counter="organization.supporters"
-          ariaLabel="
+        <BtnAction class="w-max" :cta="true" label="components.btn-action.support" fontSize="sm" leftIcon="IconSupport"
+          iconSize="1.25em" :counter="organization.supporters" ariaLabel="
             components.btn-action.support-organization-aria-label
-          "
-        />
-        <BtnAction
-          class="hidden md:block w-max"
-          :cta="true"
-          label="components.btn-action.share-organization"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="
-            components.btn-action.share-organization-aria-label
-          "
-        />
-        <BtnAction
-          class="md:hidden w-max"
-          :cta="true"
-          label="components.btn-action.share"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="
-            components.btn-action.share-organization-aria-label
-          "
-        />
+          " />
+        <ModalSharePage :cta="true" label="components.btn-action.share-organization"
+          ariaLabel="components.btn-action.share-organization-aria-label" :organization="organization" />
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 lg:pt-4">
       <div
-        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
-      >
-        <CardAbout
-          class="lg:col-span-2"
-          aboutType="organization"
-          :organization="organization"
-        />
+        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6">
+        <CardAbout class="lg:col-span-2" aboutType="organization" :organization="organization" />
         <div class="w-full h-full">
           <MediaImageCarousel />
         </div>
       </div>
-      <CardOrgApplicationVote
-        v-if="organization.status === 'pending'"
-        @up-vote="upVotes++"
-        @down-vote="downVotes++"
-        title="Votes in favor"
-        :organizations="organizationsInFavor"
-        :up-votes="upVotes"
-        :down-votes="downVotes"
-      />
+      <CardOrgApplicationVote v-if="organization.status === 'pending'" @up-vote="upVotes++" @down-vote="downVotes++"
+        title="Votes in favor" :organizations="organizationsInFavor" :up-votes="upVotes" :down-votes="downVotes" />
       <CardGetInvolved :organization="organization" />
-      <CardConnect
-        :social-links="organization.socialLinks"
-        :userIsAdmin="true"
-      />
+      <CardConnect :social-links="organization.socialLinks" :userIsAdmin="true" />
       <!-- <CardDonate
         :userIsAdmin="true"
         :donationPrompt="organization.donationPrompt"

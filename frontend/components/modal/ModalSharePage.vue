@@ -56,9 +56,11 @@
                             <div
                                 style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
                                 <div style="width: 28px; height: 28px; position: relative">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                                        <path fill="black"
-                                            d="M32 6v20c0 1.135-.865 2-2 2h-2V9.849l-12 8.62l-12-8.62V28H2c-1.135 0-2-.865-2-2V6c0-.568.214-1.068.573-1.422A1.973 1.973 0 0 1 2 4h.667L16 13.667L29.333 4H30c.568 0 1.068.214 1.427.578c.359.354.573.854.573 1.422" />
+                                    <svg width="32" height="32" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M0 4C0 2.89543 0.895431 2 2 2H14C15.1046 2 16 2.89543 16 4V12C16 13.1046 15.1046 14 14 14H2C0.895431 14 0 13.1046 0 12V4ZM2 3C1.44772 3 1 3.44772 1 4V4.2169L8 8.4169L15 4.2169V4C15 3.44772 14.5523 3 14 3H2ZM15 5.3831L10.2919 8.20794L15 11.1052V5.3831ZM14.9662 12.2586L9.32583 8.7876L8 9.5831L6.67417 8.7876L1.03376 12.2586C1.14774 12.6855 1.53715 13 2 13H14C14.4628 13 14.8523 12.6855 14.9662 12.2586ZM1 11.1052L5.70808 8.20794L1 5.3831V11.1052Z"
+                                            fill="black" />
                                     </svg>
                                 </div>
                                 <div
@@ -78,12 +80,12 @@
                                     <span
                                         style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
                                         View QR code
-                                    </span>                                
+                                    </span>
                                 </div>
                             </template>
                             <template #modalDisplay>
                                 <ModalQRCode v-if=props.organization :entityName=props?.organization?.name />
-                                <ModalQRCode v-if=props.event :entityName=props?.event?.name />              
+                                <ModalQRCode v-if=props.event :entityName=props?.event?.name />
                             </template>
                         </ModalBase>
                     </div>
@@ -126,44 +128,35 @@
                                 </div>
                             </div>
                         </s-facebook-messenger>
-                        <s-facebook-workplace :window-features="windowFeatures" :share-options="shareOptions"
-                            :use-native-behavior="useNativeBehavior" @popup-close="onClose" @popup-open="onOpen"
-                            @popup-block="onBlock" @popup-focus="onFocus">
-                            <div
-                                style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-                                <div style="width: 28px; height: 28px; position: relative">
-                                    <svg width="32" height="32" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M16 8.0486C16 3.60314 12.418 -0.000610352 7.99949 -0.000610352C3.58095 -0.000610352 -0.000976562 3.60314 -0.000976562 8.0486C-0.000976562 12.0662 2.92468 15.3962 6.74942 16V10.3753H4.71805V8.0486H6.74942V6.27526C6.74942 4.25792 7.94383 3.14361 9.77132 3.14361C10.6466 3.14361 11.5622 3.30082 11.5622 3.30082V5.28168H10.5534C9.55951 5.28168 9.24957 5.90215 9.24957 6.53869V8.0486H11.4684L11.1137 10.3753H9.24957V16C13.0743 15.3962 16 12.0662 16 8.0486Z"
-                                            fill="black" />
-                                    </svg>
-                                </div>
-                                <div
-                                    style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
-                                    Facebook
-                                </div>
+                        <div @click="copyToClipboard('Share Brandenburg Gate Climate Demo!', 'http://localhost:3000/en/events/1')"
+                            class="cursor-pointer"
+                            style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
+                            <div style="width: 28px; height: 28px; position: relative">
+                                <svg v-if="!contentCopied" width="32" height="32" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.71488 6.54244L3.34312 7.9142C2.17155 9.08577 2.17155 10.9853 3.34312 12.1568C4.51469 13.3284 6.41419 13.3284 7.58576 12.1568L9.41419 10.3284C10.5858 9.15684 10.5858 7.25735 9.41419 6.08577C9.16625 5.83784 8.88572 5.64237 8.58638 5.49938L7.99998 6.08578C7.939 6.14675 7.88754 6.21365 7.8456 6.28461C8.16104 6.37499 8.45862 6.54442 8.70708 6.79288C9.48813 7.57393 9.48813 8.84026 8.70708 9.62131L6.87866 11.4497C6.09761 12.2308 4.83128 12.2308 4.05023 11.4497C3.26918 10.6687 3.26918 9.40236 4.05023 8.62131L4.84283 7.8287C4.73064 7.40858 4.68799 6.97375 4.71488 6.54244Z"
+                                        fill="black" />
+                                    <path
+                                        d="M6.58576 4.67156C5.41419 5.84313 5.41419 7.74263 6.58576 8.9142C6.8337 9.16214 7.11424 9.3576 7.41358 9.5006L8.18917 8.72501C7.86083 8.63732 7.55046 8.46468 7.29287 8.2071C6.51182 7.42605 6.51182 6.15972 7.29287 5.37867L9.1213 3.55024C9.90235 2.76919 11.1687 2.76919 11.9497 3.55024C12.7308 4.33129 12.7308 5.59762 11.9497 6.37867L11.1571 7.17128C11.2693 7.5914 11.312 8.02623 11.2851 8.45754L12.6568 7.08577C13.8284 5.9142 13.8284 4.01471 12.6568 2.84313C11.4853 1.67156 9.58576 1.67156 8.41419 2.84313L6.58576 4.67156Z"
+                                        fill="black" />
+                                </svg>
+                                <svg v-if="contentCopied" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy-check"
+                                    width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00b341"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path
+                                        d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+                                    <path
+                                        d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+                                    <path d="M11 14l2 2l4 -4" />
+                                </svg>
                             </div>
-                        </s-facebook-workplace>
-                        <s-sms :window-features="windowFeatures" :share-options="shareOptions"
-                            :use-native-behavior="useNativeBehavior" @popup-close="onClose" @popup-open="onOpen"
-                            @popup-block="onBlock" @popup-focus="onFocus">
                             <div
-                                style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-                                <div style="width: 28px; height: 28px; position: relative">
-                                    <svg width="32" height="32" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M13.6013 2.32644C12.1074 0.824899 10.1154 0 7.99428 0C3.62651 0 0.0684247 3.55809 0.0646233 7.92587C0.0646233 9.32478 0.429555 10.6857 1.1214 11.8907L0 16L4.20432 14.8976C5.36373 15.5286 6.6676 15.8632 7.99428 15.8632H7.99808C12.3659 15.8632 15.9239 12.3051 15.9277 7.93348C15.9239 5.81611 15.099 3.82419 13.6013 2.32644ZM7.99428 14.5213C6.80826 14.5213 5.64884 14.2019 4.63767 13.6013L4.39819 13.4569L1.90449 14.1107L2.56973 11.6778L2.41387 11.4269C1.75243 10.3778 1.40651 9.16512 1.40651 7.92207C1.40651 4.29556 4.36397 1.33809 7.99808 1.33809C9.75812 1.33809 11.4117 2.02613 12.6586 3.26919C13.9016 4.51604 14.5859 6.16964 14.5859 7.92968C14.5821 11.5676 11.6246 14.5213 7.99428 14.5213ZM11.6094 9.58708C11.4117 9.48824 10.4386 9.00927 10.2561 8.94084C10.0736 8.87622 9.94059 8.84201 9.81134 9.03968C9.67829 9.23735 9.29815 9.68591 9.18411 9.81516C9.07007 9.94821 8.95223 9.96341 8.75456 9.86458C8.55689 9.76574 7.91825 9.55667 7.16178 8.88002C6.57257 8.35543 6.17723 7.70539 6.05938 7.50772C5.94534 7.31005 6.04798 7.20361 6.14682 7.10478C6.23425 7.01734 6.34449 6.87289 6.44332 6.75885C6.54216 6.64481 6.57637 6.56118 6.64099 6.42813C6.70562 6.29508 6.67521 6.18104 6.62579 6.08221C6.57637 5.98337 6.18103 5.00642 6.01377 4.61107C5.85411 4.22333 5.69065 4.27655 5.56901 4.27275C5.45497 4.26515 5.32192 4.26515 5.18887 4.26515C5.05582 4.26515 4.84295 4.31456 4.66048 4.51224C4.47801 4.70991 3.96863 5.18888 3.96863 6.16584C3.96863 7.14279 4.67949 8.08173 4.77832 8.21478C4.87716 8.34783 6.17343 10.3474 8.16154 11.2065C8.63291 11.4117 9.00165 11.5334 9.29055 11.6246C9.76572 11.7767 10.1953 11.7539 10.5374 11.7044C10.9175 11.6474 11.7082 11.2255 11.8755 10.7617C12.0389 10.2979 12.0389 9.90259 11.9895 9.81896C11.9401 9.73533 11.8071 9.68591 11.6094 9.58708Z"
-                                            fill="black" />
-                                    </svg>
-                                </div>
-                                <div
-                                    style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
-                                    Text
-                                </div>
+                                style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
+                                Copy Link
                             </div>
-                        </s-sms>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -174,16 +167,17 @@
 <script setup lang="ts">
 import type { BtnAction } from "~/types/btn-props";
 import ModalBase from "~/components/modal/ModalBase.vue";
-import { STelegram, STwitter, SEmail, SMastodon, SFacebookMessenger, SFacebookWorkplace, SSms } from 'vue-socials';
+import { STelegram, STwitter, SEmail, SMastodon, SFacebookMessenger } from 'vue-socials';
 import type { Event } from "~/types/event";
 import type { Organization } from "~/types/organization";
+// import entityProps from "~/frontend/utils/ModalSharePage.vue";
 
 const props = defineProps<{
     cta: BtnAction["cta"];
     label: BtnAction["label"];
     ariaLabel: BtnAction["ariaLabel"];
-    organization?: Organization;
     event?: Event;
+    organization?: Organization;
     // group?: Group; // add group when we have it
 }>();
 
@@ -200,29 +194,37 @@ const setData = (data: Event | Organization) => {
     return {
         subject: `Share ${data.name}!`,
         body: `Check out ${data.name}!`,
-        url: "onlineLocation" in data ? data?.onlineLocation : "",
+        url: getCurrentUrl(),
+        text: `Check out ${data.name}!`,
     };
 };
 
+// function to grab the url to the base id of the event/org/group
+const getCurrentUrl = () => {
+    const url = window.location.href;
+    return url.substring(0, url.lastIndexOf("/"));
+};
+
 const windowFeatures = {};
+
 const shareOptions = {
     url: checkEntityType()?.url || "https://activist.org/en",
-    text: '',
+    text: checkEntityType()?.text || "Check this out!",
     hashtags: ['activism', 'organizing'],
-    via: '@activist_org', 
-    mail: 'google@gmail.com',
+    via: 'activist_org',
+    mail: '',
     cc: [''],
     bcc: [''],
-    subject: checkEntityType()?.subject || "Share this!", 
-    body: checkEntityType()?.body || "Check this out!",
-    domain: 'https://mas.to',
+    subject: checkEntityType()?.subject || "Share this!",
+    body: `${checkEntityType()?.body}   ${checkEntityType()?.url}` || "Check this out!",
     redirectUri: 'https://www.domain.com/',
     appId: 123456789,
-    to: undefined,    
-    number: '+1(999)999-99-99',
+    to: undefined,
+    number: '+1(312)758-7765',
 };
 
 const useNativeBehavior = false;
+const contentCopied = ref(false);
 
 const nativeBehaviorOptions = {
     onClose: () => { },
@@ -231,39 +233,17 @@ const nativeBehaviorOptions = {
     onFocus: () => { },
 };
 
-</script>
+const copyToClipboard = (name: string, url: string) => {
+    navigator.clipboard.writeText(`${name} ${url}`)
+        .then(() => {
+            console.log(`Copied text to clipboard: ${name} ${url}`);
+            contentCopied.value = true;
+            setTimeout(() => { contentCopied.value = true }, 100)
+        })
+        .catch((error) => {
+            console.error(`Could not copy text: ${error}`);
+            contentCopied.value = false;
+        });
+};
 
-<!-- <script> -->
-<!-- // import { defineComponent } from "vue"; -->
-<!-- //  -->
-<!-- // export default defineComponent({ -->
-    <!-- // components: { -->
-        <!-- //  STelegram,  -->
-    <!-- // }, -->
-    <!-- // setup() { -->
-        <!-- // return { -->
-            <!-- // ...data(), -->
-            <!-- // ...nativeBehaviorOptions, -->
-        <!-- // }; -->
-    <!-- // }, -->
-<!-- // }); -->
-<!-- </script> -->
-<!-- <script> -->
-<!-- export default { -->
-  <!-- name: 'STelegramSharing', -->
-  <!-- components: { STelegram }, -->
-  <!-- name: 'STwitterSharing', -->
-  <!-- components: { STwitter }, -->
-  <!-- name: 'SEmailSharing', -->
-  <!-- components: { SEmail }, -->
-  <!-- name: 'SMastodonSharing', -->
-  <!-- components: { SMastodon }, -->
-  <!-- name: 'SFacebookMessengerSharing', -->
-  <!-- components: { SFacebookMessenger }, -->
-  <!-- name: 'SFacebookWorkplaceSharing', -->
-  <!-- components: { SFacebookWorkplace }, -->
-  <!-- name: 'SSmsSharing', -->
-  <!-- components: { SSms }, -->
-<!-- } -->
-<!-- </script> -->
-<!-- :cta=props.cta :label=props.label :aria-label=props.ariaLabel  -->
+</script>
