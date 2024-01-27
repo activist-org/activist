@@ -4,6 +4,7 @@
     :class="btnDynamicClass"
     :href="linkTo"
     :aria-label="$t(ariaLabel)"
+    target="_blank"
   >
     <BtnIconsLabel
       :label="label"
