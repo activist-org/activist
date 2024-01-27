@@ -173,10 +173,9 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a `.env` file and start your docker images with the following:
+4. Start your docker images with the following:
 
    ```bash
-   cp .env.example .env
    docker compose up
 
    # Or with new dependencies:

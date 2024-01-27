@@ -28,7 +28,7 @@ cov_html/
 .cache
 .env
 .env.*
-!.env.example
+!.env.dev
 dist
 
 # Node dependencies

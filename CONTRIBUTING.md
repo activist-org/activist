@@ -179,10 +179,9 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a `.env` file and start your docker images with the following:
+4. Start your docker images with the following:
 
    ```bash
-   cp .env.example .env
    docker compose up
 
    # Or with new dependencies:
@@ -230,7 +229,7 @@ Our backend depends on a connection to a postgres DB, therefore we need to setup
 docker compose up db
 ```
 
-In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env` file first.
+In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env.dev` file first.
 
 ```bash
 # Current
