@@ -16,16 +16,12 @@
   >
     <SidebarLeftHeader @toggle-pressed="setContentScrollable()" />
     <div
-      ref="content relative"
+      ref="content"
       class="h-full overflow-x-hidden"
       :class="{
         '-mr-[0.55rem]': contentScrollable,
       }"
     >
-      <SidebarLeftScrollbar
-        class="absolute -right-4"
-        :class="setScrollbarHeight()"
-      />
       <SearchBar class="mt-1" location="sidebar" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
@@ -298,23 +294,10 @@ const getFiltersByPageType = computed(() => {
 
 const content = ref();
 const contentScrollable = ref(false);
-const scrollbarHeightClass = ref("");
 
 function setContentScrollable(): void {
   contentScrollable.value =
     content.value.scrollHeight > content.value.clientHeight ? true : false;
-}
-
-function setScrollbarHeight(): string {
-  if (content.value) {
-    const scrollbarHeight =
-      content.value.clientHeight / content.value.scrollHeight;
-    scrollbarHeightClass.value = `h-[${scrollbarHeight * 100}%]`;
-  }
-  // Above isn't working, so setting 10em so it's visible for now.
-  scrollbarHeightClass.value = "h-[10em]";
-
-  return scrollbarHeightClass.value;
 }
 
 onMounted(() => {
