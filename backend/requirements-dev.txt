@@ -106,6 +106,8 @@ packaging==23.2
     #   build
     #   gunicorn
     #   pytest
+pillow==10.2.0
+    # via -r requirements.txt
 pip-tools==7.3.0
     # via -r requirements-dev.in
 platformdirs==3.11.0
