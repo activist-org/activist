@@ -357,7 +357,6 @@ We would like to thank all the great software that made activist's development p
 
 - Countless [Nuxt modules](https://nuxt.com/modules)
 - [OpenStreetMap](https://www.openstreetmap.org)
-- [Leaflet](https://leafletjs.com/)
 
 ### Our partners
 

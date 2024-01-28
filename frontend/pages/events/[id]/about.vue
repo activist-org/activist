@@ -76,9 +76,6 @@
           v-if="event.inPersonLocation"
           class="w-full h-full"
           :class="{ 'lg:hidden': textExpanded }"
-          :addresses="[event.inPersonLocation]"
-          :type="event.type"
-          :title="event.name"
         />
       </div>
       <CardGetInvolved
