@@ -10,7 +10,8 @@ import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const props = defineProps<{ markerColors: string[]; isHidden: boolean }>();
+const i18n = useI18n();
+const props = defineProps<{ markerColors: string[] }>();
 
 function isWebglSupported() {
   if (window.WebGLRenderingContext) {
@@ -30,8 +31,8 @@ function isWebglSupported() {
 }
 
 onMounted(() => {
-  if (!isWebglSupported() && !props.isHidden) {
-    alert("Your browser does not support MapLibre GL");
+  if (!isWebglSupported()) {
+    alert(i18n.t("components.media-map.maplibre-gl-alert"));
   } else {
     const map = new maplibregl.Map({
       container: "map",
