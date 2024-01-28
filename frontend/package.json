@@ -34,9 +34,11 @@
     "vue-tsc": "^1.8.8"
   },
   "dependencies": {
+    "@maplibre/maplibre-gl-directions": "^0.6.1",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/plausible": "^0.2.1",
     "@popperjs/core": "^2.11.8",
+    "@types/geojson": "^7946.0.13",
     "axios": "^1.6.0",
     "dotenv": "^16.3.1",
     "eslint-config-prettier": "^9.0.0",

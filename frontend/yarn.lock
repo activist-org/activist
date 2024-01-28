@@ -911,6 +911,14 @@
   resolved "https://registry.yarnpkg.com/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz#497c67a1cef50d1a2459ba60f315e448d2ad87fe"
   integrity sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
 
+"@maplibre/maplibre-gl-directions@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@maplibre/maplibre-gl-directions/-/maplibre-gl-directions-0.6.1.tgz#48d00ebc476e99aa51a8be40a31cf91259c14520"
+  integrity sha512-pRiWnnXAJ2I5dhHgQZHUot/uu3Jcaa8SIMe7Slqf8lTvQc25dM6aZEwe7nxgYKbYaOw+D0pXMaZ8liAZDL8sFw==
+  dependencies:
+    "@placemarkio/polyline" "^1.2.0"
+    nanoid "^5.0.4"
+
 "@maplibre/maplibre-gl-style-spec@^19.3.3":
   version "19.3.3"
   resolved "https://registry.yarnpkg.com/@maplibre/maplibre-gl-style-spec/-/maplibre-gl-style-spec-19.3.3.tgz#a106248bd2e25e77c963a362aeaf630e00f924e9"
@@ -1500,6 +1508,13 @@
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
+
+"@placemarkio/polyline@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@placemarkio/polyline/-/polyline-1.2.0.tgz#f08aafe0efc52cff495c6c3d29005b1808413f76"
+  integrity sha512-PjXntwUKQFTM/MgXIZHBOtuU2rAkmPgfrIxweOJEf1vyytQJNLDMI4YIRO3LUkt++F4TyAQHjPoRsteYa+gtVQ==
+  dependencies:
+    "@types/geojson" "*"
 
 "@polka/url@^1.0.0-next.24":
   version "1.0.0-next.24"
@@ -6144,6 +6159,11 @@ nanoid@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
   integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
+
+nanoid@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-5.0.4.tgz#d2b608d8169d7da669279127615535705aa52edf"
+  integrity sha512-vAjmBf13gsmhXSgBrtIclinISzFFy22WwCYoyilZlsrRXNIHSwgFQ1bEdjRwMT3aoadeIF6HMuDRlOxzfXV8ig==
 
 napi-wasm@^1.1.0:
   version "1.1.0"

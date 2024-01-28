@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
@@ -78,6 +79,12 @@ onMounted(() => {
     new maplibregl.Marker({ color: `${props.markerColors[0]}` })
       .setLngLat([13.3778, 52.5163])
       .addTo(map);
+
+    map.on("load", () => {
+      const directions = new MapLibreGlDirections(map);
+
+      directions.interactive = true;
+    });
   }
 });
 </script>
