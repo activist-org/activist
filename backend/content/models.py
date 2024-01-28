@@ -9,6 +9,7 @@ Contents:
     - Topic
     - ResourceTopic
     - TopicFormat
+    - Image
 """
 from uuid import uuid4
 
@@ -69,6 +70,15 @@ class ResourceTopic(models.Model):
 class TopicFormat(models.Model):
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
     format_id = models.ForeignKey("events.Format", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class Image(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    image_location = models.ImageField(upload_to="images/")
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.id}"
