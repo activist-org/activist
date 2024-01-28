@@ -74,8 +74,8 @@
         />
         <MediaMap
           v-if="event.inPersonLocation"
-          class="w-full h-full"
-          :class="{ 'lg:hidden': textExpanded }"
+          :markerColors="event.type === 'learn' ? ['#2176AE'] : ['#BA3D3B']"
+          :isHidden="textExpanded"
         />
       </div>
       <CardGetInvolved
