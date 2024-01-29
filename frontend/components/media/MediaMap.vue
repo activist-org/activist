@@ -6,12 +6,22 @@
 </template>
 
 <script setup lang="ts">
-import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
+import MapLibreGlDirections, {
+  layersFactory,
+} from "@maplibre/maplibre-gl-directions";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const i18n = useI18n();
 const props = defineProps<{ markerColors: string[] }>();
+
+const isTouchDevice =
+  // `maxTouchPoints` isn't recognized by TS. Safe to ignore.
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  navigator.msMaxTouchPoints > 0 ||
+  "ontouchstart" in window ||
+  navigator.maxTouchPoints > 0;
 
 function isWebglSupported() {
   if (window.WebGLRenderingContext) {
@@ -82,7 +92,17 @@ onMounted(() => {
       .addTo(map);
 
     map.on("load", () => {
-      const directions = new MapLibreGlDirections(map);
+      const layers = layersFactory(
+        isTouchDevice ? 1.5 : 1,
+        isTouchDevice ? 2 : 1
+      );
+
+      const directions = new MapLibreGlDirections(map, {
+        requestOptions: {
+          alternatives: "true",
+        },
+        layers,
+      });
 
       directions.interactive = true;
     });
