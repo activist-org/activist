@@ -116,7 +116,21 @@ onMounted(() => {
       const colorMode = useColorMode();
       const clearDirectionsTextColor =
         colorMode.preference == "dark" ? "white" : "black";
-      const clearDirectionsHTMLControl = `
+
+      // const clearDirectionsControl = `
+      //   <div style="
+      //     background-color: rgba(255, 255, 255, 1);
+      //     padding: 1px 5px;
+      //     margin: 10px;
+      //     border-radius: 5px;
+      //     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+      //     color: ${clearDirectionsTextColor};
+      //   ">
+      //     Click to clear directions
+      //   </div>
+      // `;
+
+      const clearDirectionsHotkeyControl = `
         <div style="
           background-color: rgba(255, 255, 255, 1);
           padding: 1px 5px;
@@ -128,12 +142,16 @@ onMounted(() => {
           Press x to clear directions
         </div>
       `;
-
       map.addControl(
         {
           onAdd: function () {
             const div = document.createElement("div");
-            div.innerHTML = clearDirectionsHTMLControl;
+            div.innerHTML = clearDirectionsHotkeyControl;
+            // if (window.innerWidth < 768) {
+            //   div.innerHTML = clearDirectionsControl;
+            // } else {
+            //   div.innerHTML = clearDirectionsHotkeyControl;
+            // }
             return div;
           },
           onRemove: function () {},
