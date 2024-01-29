@@ -6,6 +6,7 @@
     <input
       v-model="query"
       @focus="inputFocus = true"
+      @keydown="resetTabIndex()"
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
@@ -13,10 +14,10 @@
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
-        v-for="(t, index) of filteredTopics"
+        v-for="t of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
-        @keydown="keydownEvent(index, $event)"
+        @keydown="keydownEvent($event)"
         :key="t.value"
         :topic="t.label"
         class="topic max-sm:w-full"
@@ -32,10 +33,10 @@
     >
       <ShieldTopic
         v-if="moreOptionsShown || inputFocus"
-        v-for="(t, index) of filteredTopics"
+        v-for="t of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
-        @keydown="mobileKeyboardEvent(index, $event)"
+        @keydown="mobileKeyboardEvent($event)"
         :key="t.value + '-selected-only'"
         :topic="t.label"
         class="mobileTopic max-sm:w-full"
@@ -44,12 +45,12 @@
       />
       <ShieldTopic
         v-else
-        v-for="(t, index) of selectedTopicTags.sort((a, b) =>
+        v-for="t of selectedTopicTags.sort((a, b) =>
           a.value.localeCompare(b.value)
         )"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
-        @keydown="mobileKeyboardEvent(index, $event)"
+        @keydown="mobileKeyboardEvent($event)"
         :key="t.value"
         :topic="t.label"
         class="mobileTopic max-sm:w-full"
@@ -91,7 +92,20 @@ const moreOptionsShown = ref(false);
 const inputFocus = ref(false);
 const emit = defineEmits(["update:modelValue"]);
 
-const keydownEvent = (index: number, e: KeyboardEvent) => {
+const resetTabIndex = () => {
+  const topic: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+  const mobileTopic: HTMLElement[] = Array.from(
+    document.querySelectorAll(".mobileTopic")
+  );
+
+  topic.forEach((topic) => (topic.tabIndex = -1));
+  topic[0].tabIndex = 0;
+  mobileTopic.forEach((topic) => (topic.tabIndex = -1));
+  mobileTopic[0].tabIndex = 0;
+};
+
+let index = 0;
+const keydownEvent = (e: KeyboardEvent) => {
   const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
 
   const upTop = topics[index].getBoundingClientRect().top - 38;
@@ -113,49 +127,98 @@ const keydownEvent = (index: number, e: KeyboardEvent) => {
     case "ArrowUp":
       e.preventDefault();
       if (upResult.length != 0) {
-        upResult[0].focus();
+        index = topics.indexOf(upResult[0]);
       } else {
         const lastTopicInRow = topics.filter(
           (topic) => topic.getBoundingClientRect().top == upTop
         );
-        lastTopicInRow[lastTopicInRow.length - 1].focus();
+
+        if (lastTopicInRow.length == 0) {
+          const sameTopicInRow = topics.filter(
+            (topic) =>
+              topic.getBoundingClientRect().top ==
+                topics[index].getBoundingClientRect().top &&
+              topic.getBoundingClientRect().left <
+                topics[index].getBoundingClientRect().left
+          );
+
+          if (sameTopicInRow.length != 0) {
+            index = topics.indexOf(sameTopicInRow[sameTopicInRow.length - 1]);
+          } else {
+            index = topics.length - 1;
+          }
+        } else {
+          index = topics.indexOf(lastTopicInRow[lastTopicInRow.length - 1]);
+        }
       }
       break;
     case "ArrowDown":
       e.preventDefault();
       if (downResult.length != 0) {
-        downResult[0].focus();
+        index = topics.indexOf(downResult[0]);
       } else {
         const lastTopicInRow = topics.filter(
           (topic) => topic.getBoundingClientRect().top == downTop
         );
-        lastTopicInRow[lastTopicInRow.length - 1].focus();
+
+        if (lastTopicInRow.length == 0) {
+          const sameTopicInRow = topics.filter(
+            (topic) =>
+              topic.getBoundingClientRect().top ==
+                topics[index].getBoundingClientRect().top &&
+              topic.getBoundingClientRect().left >
+                topics[index].getBoundingClientRect().left
+          );
+
+          if (sameTopicInRow.length != 0) {
+            index = topics.indexOf(sameTopicInRow[0]);
+          } else {
+            index = 0;
+          }
+        } else {
+          index = topics.indexOf(lastTopicInRow[lastTopicInRow.length - 1]);
+        }
       }
       break;
     case "ArrowLeft":
       if (index > 0) {
-        topics[index - 1].focus();
+        index--;
       } else {
-        topics[topics.length - 1].focus();
+        index = topics.length - 1;
       }
       break;
     case "ArrowRight":
       if (index < topics.length - 1) {
-        topics[index + 1].focus();
+        index++;
       } else {
-        topics[0].focus();
+        index = 0;
       }
       break;
     case "Enter":
-      topics[index - 1]?.focus();
+      e.preventDefault();
+      if (topics[index].classList.contains("style-cta-secondary")) {
+        if (index < topics.length - 1) {
+          index++;
+        }
+      } else {
+        if (index > 0) {
+          index--;
+        } else {
+          index = 0;
+        }
+      }
+      break;
+    case "Tab":
+      index = 0;
       break;
   }
 
   topics.forEach((topic) => (topic.tabIndex = -1));
   topics[index].tabIndex = 0;
+  topics[index].focus();
 };
 
-const mobileKeyboardEvent = (index: number, e: KeyboardEvent) => {
+const mobileKeyboardEvent = (e: KeyboardEvent) => {
   const topics: HTMLElement[] = Array.from(
     document.querySelectorAll(".mobileTopic")
   );
@@ -165,27 +228,42 @@ const mobileKeyboardEvent = (index: number, e: KeyboardEvent) => {
     case "ArrowLeft":
       e.preventDefault();
       if (index > 0) {
-        topics[index - 1].focus();
+        index--;
       } else {
-        topics[topics.length - 1].focus();
+        index = topics.length - 1;
       }
       break;
     case "ArrowDown":
     case "ArrowRight":
       e.preventDefault();
       if (index < topics.length - 1) {
-        topics[index + 1].focus();
+        index++;
       } else {
-        topics[0].focus();
+        index = 0;
       }
       break;
     case "Enter":
-      topics[index - 1]?.focus();
+      e.preventDefault();
+      if (topics[index].classList.contains("style-cta-secondary")) {
+        if (index < topics.length - 1) {
+          index++;
+        }
+      } else {
+        if (index > 0) {
+          index--;
+        } else {
+          index = 0;
+        }
+      }
+      break;
+    case "Tab":
+      index = 0;
       break;
   }
 
   topics.forEach((topic) => (topic.tabIndex = -1));
   topics[index].tabIndex = 0;
+  topics[index].focus();
 };
 
 const value = computed<Topic[]>({
