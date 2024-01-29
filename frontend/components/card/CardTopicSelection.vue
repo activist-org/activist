@@ -111,7 +111,7 @@ const keydownEvent = (e: KeyboardEvent) => {
   switch (e.code) {
     case "ArrowUp":
     case "ArrowLeft":
-      e.preventDefault()
+      e.preventDefault();
       if (index > 0) {
         index--;
       } else {
@@ -120,7 +120,7 @@ const keydownEvent = (e: KeyboardEvent) => {
       break;
     case "ArrowDown":
     case "ArrowRight":
-      e.preventDefault()
+      e.preventDefault();
       if (index < topics.length - 1) {
         index++;
       } else {
