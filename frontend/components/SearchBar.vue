@@ -79,6 +79,15 @@
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 
+export interface Props {
+  location: "sidebar" | "header";
+  expanded?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  expanded: false,
+});
+
 const sidebar = useSidebar();
 const input = ref();
 const hotkeyIndicators = ref();
@@ -88,15 +97,6 @@ const { slash } = useMagicKeys({
   onEventFired(e) {
     if (e.key === "/" && e.type === "keydown") e.preventDefault();
   },
-});
-
-export interface Props {
-  location: "sidebar" | "header";
-  expanded?: boolean;
-}
-
-withDefaults(defineProps<Props>(), {
-  expanded: false,
 });
 
 whenever(slash, () => {

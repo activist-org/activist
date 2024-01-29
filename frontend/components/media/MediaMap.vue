@@ -63,12 +63,13 @@ onMounted(() => {
             type: "raster",
             source: "raster-tiles",
             minzoom: 0,
-            maxzoom: 22,
+            maxzoom: 24,
           },
         ],
       },
       center: [13.38, 52.5168],
       zoom: 15,
+      pitch: 20,
     });
 
     map.addControl(
@@ -105,6 +106,40 @@ onMounted(() => {
       });
 
       directions.interactive = true;
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "x") {
+          directions.clear();
+        }
+      });
+
+      const colorMode = useColorMode();
+      const clearDirectionsTextColor =
+        colorMode.preference == "dark" ? "white" : "black";
+      const clearDirectionsHTMLControl = `
+        <div style="
+          background-color: rgba(255, 255, 255, 1);
+          padding: 1px 5px;
+          margin: 10px;
+          border-radius: 5px;
+          box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+          color: ${clearDirectionsTextColor};
+        ">
+          Press x to clear directions
+        </div>
+      `;
+
+      map.addControl(
+        {
+          onAdd: function () {
+            const div = document.createElement("div");
+            div.innerHTML = clearDirectionsHTMLControl;
+            return div;
+          },
+          onRemove: function () {},
+        },
+        "bottom-left"
+      );
     });
   }
 });
