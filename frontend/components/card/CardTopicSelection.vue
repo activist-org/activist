@@ -108,86 +108,19 @@ let index = 0;
 const keydownEvent = (e: KeyboardEvent) => {
   const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
 
-  const upTop = topics[index].getBoundingClientRect().top - 38;
-  const upLeft = topics[index].getBoundingClientRect().left - 38;
-  const downTop = topics[index].getBoundingClientRect().top + 38;
-  const downLeft = topics[index].getBoundingClientRect().left - 38;
-  const upResult = topics.filter(
-    (topic) =>
-      topic.getBoundingClientRect().top == upTop &&
-      topic.getBoundingClientRect().left >= upLeft
-  );
-  const downResult = topics.filter(
-    (topic) =>
-      topic.getBoundingClientRect().top == downTop &&
-      topic.getBoundingClientRect().left >= downLeft
-  );
-
   switch (e.code) {
     case "ArrowUp":
-      e.preventDefault();
-      if (upResult.length != 0) {
-        index = topics.indexOf(upResult[0]);
-      } else {
-        const lastTopicInRow = topics.filter(
-          (topic) => topic.getBoundingClientRect().top == upTop
-        );
-
-        if (lastTopicInRow.length == 0) {
-          const sameTopicInRow = topics.filter(
-            (topic) =>
-              topic.getBoundingClientRect().top ==
-                topics[index].getBoundingClientRect().top &&
-              topic.getBoundingClientRect().left <
-                topics[index].getBoundingClientRect().left
-          );
-
-          if (sameTopicInRow.length != 0) {
-            index = topics.indexOf(sameTopicInRow[sameTopicInRow.length - 1]);
-          } else {
-            index = topics.length - 1;
-          }
-        } else {
-          index = topics.indexOf(lastTopicInRow[lastTopicInRow.length - 1]);
-        }
-      }
-      break;
-    case "ArrowDown":
-      e.preventDefault();
-      if (downResult.length != 0) {
-        index = topics.indexOf(downResult[0]);
-      } else {
-        const lastTopicInRow = topics.filter(
-          (topic) => topic.getBoundingClientRect().top == downTop
-        );
-
-        if (lastTopicInRow.length == 0) {
-          const sameTopicInRow = topics.filter(
-            (topic) =>
-              topic.getBoundingClientRect().top ==
-                topics[index].getBoundingClientRect().top &&
-              topic.getBoundingClientRect().left >
-                topics[index].getBoundingClientRect().left
-          );
-
-          if (sameTopicInRow.length != 0) {
-            index = topics.indexOf(sameTopicInRow[0]);
-          } else {
-            index = 0;
-          }
-        } else {
-          index = topics.indexOf(lastTopicInRow[lastTopicInRow.length - 1]);
-        }
-      }
-      break;
     case "ArrowLeft":
+      e.preventDefault()
       if (index > 0) {
         index--;
       } else {
         index = topics.length - 1;
       }
       break;
+    case "ArrowDown":
     case "ArrowRight":
+      e.preventDefault()
       if (index < topics.length - 1) {
         index++;
       } else {
