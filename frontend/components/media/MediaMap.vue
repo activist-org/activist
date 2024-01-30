@@ -154,7 +154,9 @@ onMounted(() => {
         {
           onAdd: function () {
             const div = document.createElement("div");
-            div.innerHTML = clearDirectionsHotkeyControl;
+            if (window.innerWidth >= 768) {
+              div.innerHTML = clearDirectionsHotkeyControl;
+            }
             // if (window.innerWidth < 768) {
             //   div.innerHTML = clearDirectionsControl;
             // } else {
