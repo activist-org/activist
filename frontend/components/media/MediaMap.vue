@@ -14,6 +14,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 const i18n = useI18n();
 const props = defineProps<{ markerColors: string[] }>();
+const colorMode = useColorMode();
 
 const isTouchDevice =
   // `maxTouchPoints` isn't recognized by TS. Safe to ignore.
@@ -58,6 +59,14 @@ onMounted(() => {
           },
         },
         layers: [
+          {
+            id: "background",
+            type: "background",
+            paint: {
+              "background-color":
+                colorMode.preference == "dark" ? "#131316" : "#F6F8FA",
+            },
+          },
           {
             id: "simple-tiles",
             type: "raster",
@@ -113,7 +122,6 @@ onMounted(() => {
         }
       });
 
-      const colorMode = useColorMode();
       const clearDirectionsTextColor =
         colorMode.preference == "dark" ? "white" : "black";
 
