@@ -34,7 +34,7 @@
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
-              class="relative px-4 py-2 cursor-default select-none text-light-special-text dark:text-dark-special-text"
+              class="relative px-4 py-2 cursor-default select-none text-light-distinct-text dark:text-dark-distinct-text"
             >
               {{ $t("components.combobox-topics.no-matching-topics") }}
             </div>

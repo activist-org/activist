@@ -51,7 +51,7 @@
                     !selected && active,
                   'text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
                     !active && menuEntry.active,
-                  'text-light-special-text dark:text-dark-special-text fill-light-special-text dark:fill-dark-special-text':
+                  'text-light-distinct-text dark:text-dark-distinct-text fill-light-distinct-text dark:fill-dark-distinct-text':
                     !active && !menuEntry.active,
                 }"
               >

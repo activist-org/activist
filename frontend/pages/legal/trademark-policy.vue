@@ -11,7 +11,7 @@
     >
       <h1 class="pb-2 font-bold responsive-h1">Trademark Policy</h1>
       <p
-        class="responsive-h4 text-light-special-text dark:text-dark-special-text"
+        class="responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ $t("pages.legal.trademark-policy.last-updated") }}
       </p>

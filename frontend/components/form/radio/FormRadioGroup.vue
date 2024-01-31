@@ -23,7 +23,7 @@
         v-if="showAdditionalInput"
         v-model="customValue"
         @input="inputDebounce"
-        class="flex-1 w-full pl-4 pr-2 font-bold border border-r-0 outline-none border-light-interactive rounded-l-md bg-light-header dark:bg-dark-header dark:border-dark-interactive text-light-special-text dark:text-dark-special-text"
+        class="flex-1 w-full pl-4 pr-2 font-bold border border-r-0 outline-none border-light-interactive rounded-l-md bg-light-header dark:bg-dark-header dark:border-dark-interactive text-light-distinct-text dark:text-dark-distinct-text"
         :type="customValueType"
         :placeholder="
           $t('components.form-radio-group.custom-numeric-value-placeholder')
@@ -33,7 +33,7 @@
         @click="toggleAdditionalInput"
         class="rounded-r-md relative min-w-[3rem] h-9 border border-light-interactive dark:border-dark-interactive focus-brand"
         :class="{
-          'bg-light-header text-light-special-text dark:bg-dark-header dark:text-dark-special-text':
+          'bg-light-header text-light-distinct-text dark:bg-dark-header dark:text-dark-distinct-text':
             !showAdditionalInput,
           'bg-light-menu-selection text-light-distinct dark:bg-dark-menu-selection dark:text-dark-distinct':
             showAdditionalInput,

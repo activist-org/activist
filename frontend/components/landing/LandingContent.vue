@@ -25,7 +25,7 @@
         {{ $t(header) }}
       </h2>
       <p
-        class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full sm:text-left xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
+        class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full sm:text-left xl:text-xl text-transform: text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ $t(tagline) }}
       </p>
@@ -95,7 +95,7 @@
         {{ $t(header) }}
       </h2>
       <p
-        class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full sm:text-left xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
+        class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full sm:text-left xl:text-xl text-transform: text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ $t(tagline) }}
       </p>
@@ -124,7 +124,7 @@
         {{ $t(header) }}
       </h2>
       <p
-        class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
+        class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full xl:text-xl text-transform: text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ $t(tagline) }}
       </p>
@@ -158,7 +158,7 @@
       </div>
       <p
         v-if="subText"
-        class="pt-8 mx-12 text-center md:max-w-md lg:max-w-lg xl:pt-12 text-light-special-text dark:text-dark-special-text"
+        class="pt-8 mx-12 text-center md:max-w-md lg:max-w-lg xl:pt-12 text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ $t(subText) }}
       </p>

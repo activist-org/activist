@@ -24,7 +24,7 @@
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
             class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-32 h-8 z-1 overflow-clip"
-            color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-special-text-over-header hover:dark:fill-dark-special-text-over-header"
+            color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-distinct-text-over-header hover:dark:fill-dark-distinct-text-over-header"
           />
         </Transition>
       </div>
@@ -35,7 +35,7 @@
             sidebar.toggleCollapsedSwitch();
             emit('toggle-pressed');
           "
-          class="flex items-center justify-center transition duration-100 w-7 h-7 text-light-special-text dark:text-dark-special-text hover:text-light-text dark:hover:text-dark-text focus-brand outline-offset-0"
+          class="flex items-center justify-center transition duration-100 w-7 h-7 text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text dark:hover:text-dark-text focus-brand outline-offset-0"
           :aria-label="
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')
           "

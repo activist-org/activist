@@ -15,7 +15,7 @@
         {{ event.name }}
       </h1>
       <h2
-        class="text-lg font-bold responsive-h2 text-light-special-text dark:text-dark-special-text"
+        class="text-lg font-bold responsive-h2 text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ event.tagline }}
       </h2>

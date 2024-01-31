@@ -8,7 +8,7 @@
       </p>
       <div
         @click="emit('on-close-clicked')"
-        class="absolute right-0 mr-1 text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text"
+        class="absolute right-0 mr-1 text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text"
       >
         <Icon class="w-6 h-6" name="bi:x-circle-fill" />
       </div>

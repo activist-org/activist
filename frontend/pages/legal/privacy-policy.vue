@@ -13,7 +13,7 @@
         {{ $t("_global.privacy-policy") }}
       </h1>
       <p
-        class="responsive-h4 text-light-special-text dark:text-dark-special-text"
+        class="responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ $t("pages.legal.privacy-policy.last-updated") }}
       </p>

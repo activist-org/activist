@@ -15,7 +15,7 @@
         {{ organization.name }}
       </h1>
       <h2
-        class="text-lg font-bold text-center responsive-h2 text-light-special-text dark:text-dark-special-text"
+        class="text-lg font-bold text-center responsive-h2 text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ organization.tagline }}
       </h2>
