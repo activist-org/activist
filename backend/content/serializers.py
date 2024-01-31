@@ -11,7 +11,18 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
+from .models import Faq, Resource, ResourceTopic, Task, Topic, TopicFormat
+
+
+class FaqSerializer(serializers.ModelSerializer[Faq]):
+    class Meta:
+        model = Faq
+        fields = {
+            "id", "name", "question"
+        }
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        return data
 
 
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
