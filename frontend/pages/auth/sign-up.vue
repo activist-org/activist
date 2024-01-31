@@ -68,7 +68,7 @@
         </p>
       </div>
       <div class="flex space-x-2">
-        <FriendlyCaptcha />
+        <Captcha />
         <BtnAction
           @click="signUp"
           class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"

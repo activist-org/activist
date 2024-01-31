@@ -38,6 +38,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/plausible": "^0.2.1",
     "@popperjs/core": "^2.11.8",
+    "@somushq/vue3-friendly-captcha": "^1.0.2",
     "@types/geojson": "^7946.0.13",
     "axios": "^1.6.0",
     "dotenv": "^16.3.1",
