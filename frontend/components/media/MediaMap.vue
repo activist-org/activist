@@ -12,8 +12,9 @@ import MapLibreGlDirections, {
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const i18n = useI18n();
 const props = defineProps<{ markerColors: string[] }>();
+
+const i18n = useI18n();
 const colorMode = useColorMode();
 
 const isTouchDevice =
@@ -41,7 +42,7 @@ function isWebglSupported() {
   return false;
 }
 
-onMounted(() => {
+function initializeMap() {
   if (!isWebglSupported()) {
     alert(i18n.t("components.media-map.maplibre-gl-alert"));
   } else {
@@ -132,9 +133,9 @@ onMounted(() => {
       //     margin: 10px;
       //     border-radius: 5px;
       //     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-      //     color: ${clearDirectionsTextColor};
-      //   ">
-      //     Click to clear directions
+      //     color: ${clearDirectionsTextColor};"
+      //   >
+      //     Clear directions
       //   </div>
       // `;
 
@@ -145,30 +146,35 @@ onMounted(() => {
           margin: 10px;
           border-radius: 5px;
           box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-          color: ${clearDirectionsTextColor};
-        ">
-          Press x to clear directions
+          color: ${clearDirectionsTextColor};"
+        >
+          Clear directions [x]
         </div>
       `;
-      map.addControl(
-        {
-          onAdd: function () {
-            const div = document.createElement("div");
-            if (window.innerWidth >= 768) {
+
+      if (window.innerWidth >= 768) {
+        map.addControl(
+          {
+            onAdd: function () {
+              const div = document.createElement("div");
+              // if (window.innerWidth < 768) {
+              //   div.innerHTML = clearDirectionsControl;
+              // } else {
+              //   div.innerHTML = clearDirectionsHotkeyControl;
+              // }
               div.innerHTML = clearDirectionsHotkeyControl;
-            }
-            // if (window.innerWidth < 768) {
-            //   div.innerHTML = clearDirectionsControl;
-            // } else {
-            //   div.innerHTML = clearDirectionsHotkeyControl;
-            // }
-            return div;
+              return div;
+            },
+            onRemove: function () {},
           },
-          onRemove: function () {},
-        },
-        "bottom-left"
-      );
+          "bottom-left"
+        );
+      }
     });
   }
+}
+
+onMounted(() => {
+  initializeMap();
 });
 </script>
