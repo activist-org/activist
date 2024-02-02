@@ -12,7 +12,11 @@ import MapLibreGlDirections, {
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const props = defineProps<{ markerColors: string[] }>();
+const props = defineProps<{
+  markerColors: string[];
+  eventNames: string[];
+  eventLocations: string[];
+}>();
 
 const i18n = useI18n();
 const colorMode = useColorMode();
@@ -41,6 +45,8 @@ function isWebglSupported() {
   // WebGL not supported.
   return false;
 }
+
+const mapTextColor = colorMode.preference == "dark" ? "white" : "black";
 
 onMounted(() => {
   const nominatimLocationRequest =
@@ -105,8 +111,24 @@ onMounted(() => {
           })
         );
 
-        new maplibregl.Marker({ color: `${props.markerColors[0]}` })
+        const popup = new maplibregl.Popup({
+          className: "map-popup",
+          offset: 25,
+        }).setHTML(
+          `<div style="
+            text-align: center;
+            color: ${mapTextColor};"
+          >
+            <div style="font-size: 13px;">${props.eventNames[0]}</div>
+            <div style="color: grey;">${props.eventLocations[0]}</div>
+          </div>`
+        );
+
+        new maplibregl.Marker({
+          color: `${props.markerColors[0]}`,
+        })
           .setLngLat([parseFloat(location["lon"]), parseFloat(location["lat"])])
+          .setPopup(popup)
           .addTo(map);
 
         map.on("load", () => {
@@ -130,9 +152,6 @@ onMounted(() => {
             }
           });
 
-          const clearDirectionsTextColor =
-            colorMode.preference == "dark" ? "white" : "black";
-
           // const clearDirectionsControl = `
           //   <div style="
           //     background-color: rgba(255, 255, 255, 1);
@@ -140,7 +159,7 @@ onMounted(() => {
           //     margin: 10px;
           //     border-radius: 5px;
           //     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-          //     color: ${clearDirectionsTextColor};"
+          //     color: ${mapTextColor};"
           //   >
           //     Clear directions
           //   </div>
@@ -153,7 +172,7 @@ onMounted(() => {
             margin: 10px;
             border-radius: 5px;
             box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: ${clearDirectionsTextColor};"
+            color: ${mapTextColor};"
           >
             Clear directions [x]
           </div>
@@ -182,3 +201,10 @@ onMounted(() => {
     });
 });
 </script>
+
+<style>
+/* To assure that the close button is visible in light and dark mode. */
+.map-popup {
+  color: grey;
+}
+</style>
