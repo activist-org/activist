@@ -7,6 +7,9 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+
+from backend.custom_settings import *
+
 import os
 from pathlib import Path
 
