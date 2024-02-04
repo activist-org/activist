@@ -7,4 +7,3 @@ check the path: backend/backend/settings.py
 # Pagination settings
 PAGINATION_PAGE_SIZE = 20 
 PAGINATION_MAX_PAGE_SIZE = 100
-
