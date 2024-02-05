@@ -32,7 +32,7 @@ class Discussion(models.Model):
     deletion_date = models.DateTimeField(null=True, blank=True)
     
     def __str__(self) -> str:
-        return self.name
+        return f"{self.id}"
     
 class DiscussionEntry(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -43,7 +43,7 @@ class DiscussionEntry(models.Model):
     deletion_date = models.DateTimeField(null=True, blank=True)
     
     def __str__(self) -> str:
-        return self.name
+        return f"{self.id}"
 
 class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
