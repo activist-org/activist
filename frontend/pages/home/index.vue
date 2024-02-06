@@ -15,7 +15,15 @@
       <div
         class="flex flex-col lg:grid space-y-6 lg:grid-cols-7 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >
-        <CardMetricsOverview class="lg:col-span-5" />
+        <CardMetricsOverview
+          class="lg:col-span-5"
+          :metrics="{
+            'total events': 123,
+            'action events': 100,
+            'learn events': 23,
+            'new orgs': 10,
+          }"
+        />
         <MediaCalendar class="w-full h-full lg:col-span-2" />
       </div>
       <CardSearchResult

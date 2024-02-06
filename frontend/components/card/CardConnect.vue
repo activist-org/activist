@@ -90,10 +90,20 @@
               <PopupNewField
                 @on-cta-clicked="emit('on-new-account', account)"
                 @on-close-clicked="onClose(close)"
-                :title="'Add Account'"
-                :fieldNamePrompt="'Link to account'"
-                :ctaBtnLabel="'Add'"
-                :ctaBtnAriaLabel="'Add a new field'"
+                :title="$t('components.card-connect.app-account-popup-title')"
+                :fieldNamePrompt="
+                  $t(
+                    'components.card-connect.app-account-popup-field-name-prompt'
+                  )
+                "
+                :ctaBtnLabel="
+                  $t('components.card-connect.app-account-popup-cta-btn-label')
+                "
+                :ctaBtnAriaLabel="
+                  $t(
+                    'components.card-connect.app-account-popup-cta-btn-aria-label'
+                  )
+                "
               />
             </PopoverPanel>
           </transition>
@@ -107,7 +117,7 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 
 const props = defineProps<{
-  socialLinks: string[];
+  socialLinks?: string[];
   userIsAdmin?: boolean;
 }>();
 

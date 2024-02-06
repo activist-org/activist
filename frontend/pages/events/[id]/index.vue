@@ -22,8 +22,8 @@
     </div>
     <div class="flex flex-col items-center w-full gap-4">
       <MenuLinkWrapper
-        v-for="button in eventButtons"
-        :key="button"
+        v-for="[i, button] of eventButtons.entries()"
+        :key="i"
         :to="localPath(button.routeURL)"
         :selected="button.selected"
       >

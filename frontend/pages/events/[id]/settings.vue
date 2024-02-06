@@ -21,8 +21,11 @@
       </div>
     </HeaderAppPage>
     <CardDangerZone
-      description="Here's where you can delete this event. Please note that this is not a reversible action - all event data, support and resources will be permanently lost. If you have questions on this event please contact us on our contact page. We'd be happy to help!"
-      ctaBtnText="Permanently delete event"
+      :description="$t('components.card-danger-zone.event-description')"
+      :ctaBtnText="$t('components.card-danger-zone.event-cta-btn-text')"
+      :ctaBtnAriaLabel="
+        $t('components.card-danger-zone.event-cta-btn-aria-label')
+      "
     />
   </div>
 </template>

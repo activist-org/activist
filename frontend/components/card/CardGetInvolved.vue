@@ -50,7 +50,7 @@
       <p>
         {{ $t("components.card-get-involved.legal-disclaimer-subtext") }}
       </p>
-      <CardLegalDisclaimer :disclaimer="disclaimer" />
+      <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" />
       <div class="flex pt-2 w-max">
         <BtnRouteInternal
           class="w-full"
