@@ -75,7 +75,7 @@
               label="components.btn-action.new-account"
               fontSize="sm"
               leftIcon="bi:plus-lg"
-              ariaLabel="components.btn-action.new-account-aria-label"
+              ariaLabel="components._global.new-account-aria-label"
             />
           </PopoverButton>
           <transition
@@ -100,9 +100,7 @@
                   $t('components.card-connect.app-account-popup-cta-btn-label')
                 "
                 :ctaBtnAriaLabel="
-                  $t(
-                    'components.card-connect.app-account-popup-cta-btn-aria-label'
-                  )
+                  $t('components._global.new-account-aria-label')
                 "
               />
             </PopoverPanel>
