@@ -10,7 +10,7 @@
     @apply bg-light-header dark:bg-dark-header;
   }
   * {
-    @apply scrollbar scrollbar-w-2 scrollbar-thumb-light-special-text dark:scrollbar-thumb-dark-special-text scrollbar-track-light-distinct dark:scrollbar-track-dark-distinct scrollbar-thumb-rounded-md;
+    @apply scrollbar scrollbar-w-2 scrollbar-thumb-light-distinct-text dark:scrollbar-thumb-dark-distinct-text scrollbar-track-transparent scrollbar-thumb-rounded-md;
   }
 }
 
@@ -156,7 +156,7 @@
   }
 
   .has-tooltip:hover .tooltip {
-    @apply visible z-50;
+    @apply visible z-40;
   }
 }
 

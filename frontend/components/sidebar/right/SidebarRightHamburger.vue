@@ -2,7 +2,7 @@
   <div>
     <button
       @click="$emit('toggle')"
-      class="relative z-50 group focus-brand outline-offset-4"
+      class="relative z-40 group focus-brand outline-offset-4"
       :aria-label="
         $t('components.sidebar-right-hamburger.sidebar-collapse-aria-label')
       "

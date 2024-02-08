@@ -43,6 +43,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             "created_by",
             "creation_date",
             "deletion_date",
+            "event_icon"
         ]
 
         def isEmpty() -> bool:

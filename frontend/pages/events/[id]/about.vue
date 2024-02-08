@@ -58,7 +58,7 @@
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 lg:pt-4">
       <div
-        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0"
+        class="lg:grid space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0"
         :class="{
           'lg:space-x-6 lg:mr-6': !textExpanded,
         }"
@@ -73,12 +73,14 @@
           :event="event"
         />
         <MediaMap
-          v-if="event.inPersonLocation"
-          class="w-full h-full"
-          :class="{ 'lg:hidden': textExpanded }"
-          :addresses="[event.inPersonLocation]"
-          :type="event.type"
-          :title="event.name"
+          v-if="
+            (event.inPersonLocation && !textExpanded) ||
+            (event.inPersonLocation && isUnderLargeBP)
+          "
+          class="w-full h-[17.5rem]"
+          :markerColors="event.type === 'learn' ? ['#2176AE'] : ['#BA3D3B']"
+          :eventNames="[event.name]"
+          :eventLocations="[event.inPersonLocation]"
         />
       </div>
       <CardGetInvolved
@@ -101,6 +103,21 @@ const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
+
+const isUnderLargeBP = ref(false);
+
+const checkUnderLargeBP = () => {
+  isUnderLargeBP.value = window.innerWidth < 1024;
+};
+
+const handleResize = () => {
+  checkUnderLargeBP();
+};
+
+onMounted(() => {
+  window.addEventListener("resize", handleResize);
+  handleResize(); // initial check
+});
 
 const event: Event = {
   name: "Brandenburg Gate Climate Demo",

@@ -2,6 +2,8 @@ version: "3.7"
 
 services:
   backend:
+    env_file:
+      - .env.dev
     build:
       context: ./backend
     container_name: django_backend
@@ -24,6 +26,8 @@ services:
       - db
 
   frontend:
+    env_file:
+      - .env.dev
     build:
       context: ./frontend
     container_name: nuxt_frontend
@@ -35,6 +39,8 @@ services:
       - "24678:24678"
 
   db:
+    env_file:
+      - .env.dev
     image: postgres:15
     container_name: postgres_db
     environment:

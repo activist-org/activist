@@ -2,7 +2,7 @@
   <div class="w-full text-light-text dark:text-dark-text">
     <ProgressBar type="default" :progress="1" :start="1" :end="1" />
     <div class="flex flex-col px-4 xl:px-8">
-      <PageBreadcrumbs class="mt-2" :breadcrumbs="breadcrumbs" />
+      <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="font-bold responsive-h2">
           {{ $t("pages._global.information") }}
@@ -116,7 +116,7 @@ const formData = ref({
   description: "",
   link: "",
   organization: "",
-  topics: ["justice", "activism"],
+  topics: [""],
 });
 
 const submit = async () => {

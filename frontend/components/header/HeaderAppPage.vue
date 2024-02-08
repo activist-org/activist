@@ -38,7 +38,7 @@
   >
     <h2
       v-if="headerTagline"
-      class="transition-all duration-500 responsive-h4 text-light-special-text dark:text-dark-special-text"
+      class="transition-all duration-500 responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
     >
       {{ headerTagline }}
     </h2>

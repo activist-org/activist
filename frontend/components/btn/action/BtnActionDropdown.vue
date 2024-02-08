@@ -18,7 +18,7 @@
         <Icon :name="dropdownIcon" :size="iconSize" />
       </MenuButton>
       <MenuItems
-        class="absolute right-0 z-50 rounded-md bg-light-distinct dark:bg-dark-distinct elem-shadow-lg ring-1 ring-black/5 top-14 focus:outline-none"
+        class="absolute right-0 z-40 rounded-md bg-light-distinct dark:bg-dark-distinct elem-shadow-lg ring-1 ring-black/5 top-14 focus:outline-none"
       >
         <MenuItem
           v-for="o in dropdownOptions"

@@ -6,7 +6,7 @@
     <div
       class="pb-1 text-3xl font-bold tracking-tighter sm:text-4xl md:text-3xl xl:text-4xl"
     >
-      {{ number }}
+      {{ number.toString() }}
     </div>
     <div class="text-lg font-bold xl:text-xl">
       {{ text }}
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 defineProps<{
   text: string;
-  number: string;
+  number: number;
   textColor: string;
   borderColor: string;
   backgroundColor: string;

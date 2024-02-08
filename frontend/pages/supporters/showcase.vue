@@ -52,7 +52,7 @@
       </h3>
       <p>{{ $t("pages.supporters.showcase.section-2-2-paragraph-1") }}</p>
       <!-- <ul class="py-4 pl-4 space-y-2"></ul> -->
-      <p class="text-light-special-text dark:text-dark-special-text">
+      <p class="text-light-distinct-text dark:text-dark-distinct-text">
         {{ $t("pages.supporters.showcase.section-2-2-thanks") }}
       </p>
       <h2 class="font-bold responsive-py-1 responsive-h3">

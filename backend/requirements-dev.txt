@@ -36,7 +36,7 @@ coverage[toml]==7.3.2
     # via pytest-cov
 distlib==0.3.7
     # via virtualenv
-django==4.2.7
+django==4.2.10
     # via
     #   -r requirements.txt
     #   django-cors-headers
@@ -106,6 +106,8 @@ packaging==23.2
     #   build
     #   gunicorn
     #   pytest
+pillow==10.2.0
+    # via -r requirements.txt
 pip-tools==7.3.0
     # via -r requirements-dev.in
 platformdirs==3.11.0
@@ -182,7 +184,7 @@ typing-extensions==4.8.0
     #   django-stubs-ext
     #   djangorestframework-stubs
     #   mypy
-tzdata==2023.3
+tzdata==2023.4
     # via
     #   -r requirements.txt
     #   django

@@ -15,9 +15,7 @@
           @click="closeOtherMenus(index)"
           :ref="(el) => (disclosureButtons[index] = { close, el })"
           class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
-          :aria-label="
-            $t(`components.sidebar-left-footer.${subMenu.ariaLabel}`)
-          "
+          :aria-label="$t(`${subMenu.ariaLabel}`)"
         >
           <div
             class="relative z-0 flex items-center w-full px-[0.625rem] py-2 space-x-2 text-sm font-medium text-left"
@@ -35,7 +33,7 @@
                 :class="{ 'font-bold': subMenu.isFontBold }"
                 class="select-none"
               >
-                {{ $t(`components.sidebar-left-footer.${subMenu.label}`) }}
+                {{ $t(`${subMenu.label}`) }}
               </p>
             </Transition>
           </div>
@@ -103,9 +101,9 @@ const sidebar = useSidebar();
 const menu: BarMenu[] = [
   {
     id: "createButtons",
-    ariaLabel: "create-aria-label",
+    ariaLabel: "components.sidebar-left-footer.create-aria-label",
     icon: "bi:plus-circle",
-    label: "create",
+    label: "components.sidebar-left-footer.create",
     isFontBold: false,
     panelButtons: [
       {
@@ -140,9 +138,9 @@ const menu: BarMenu[] = [
   },
   {
     id: "infoButtons",
-    ariaLabel: "info-aria-label",
+    ariaLabel: "components.sidebar-left-footer.info-aria-label",
     icon: "bi:info-circle",
-    label: "info",
+    label: "components.sidebar-left-footer.info",
     isFontBold: false,
     panelButtons: [
       {
@@ -170,9 +168,9 @@ const menu: BarMenu[] = [
   },
   {
     id: "userButtons",
-    ariaLabel: "username-aria-label",
+    ariaLabel: "components.sidebar-left-footer.username-aria-label",
     icon: "bi:person-circle",
-    label: "username",
+    label: "components.sidebar-left-footer.username",
     isFontBold: true,
     panelButtons: [
       {

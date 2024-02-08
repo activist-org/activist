@@ -3,7 +3,7 @@
     <input
       @keydown="tabToFirstTopic($event)"
       :id="uuid"
-      class="connect cursor-pointer mb-0 peer appearance-none w-[1.375rem] h-[1.375rem] border border-light-menu-selection rounded-sm bg-light-button dark:bg-dark-button dark:border-dark-menu-selection focus-brand"
+      class="cursor-pointer mb-0 peer appearance-none w-[1.375rem] h-[1.375rem] border border-light-menu-selection rounded-sm bg-light-button dark:bg-dark-button dark:border-dark-menu-selection focus-brand"
       type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"
@@ -30,21 +30,6 @@ export interface Props {
   modelValue?: boolean;
   error?: string;
 }
-
-const tabToFirstTopic = (e: KeyboardEvent) => {
-  let firstTopic: HTMLElement | null;
-  if (window.matchMedia("(min-width: 640px)").matches) {
-    firstTopic = document.querySelector(".topic");
-  } else {
-    firstTopic = document.querySelector(".mobileTopic");
-  }
-
-  if (e.shiftKey && e.key == "Tab") {
-    e.preventDefault();
-    firstTopic?.focus();
-    return;
-  }
-};
 
 const props = withDefaults(defineProps<Props>(), {
   label: "",

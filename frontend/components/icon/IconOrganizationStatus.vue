@@ -39,6 +39,6 @@
 
 <script setup lang="ts">
 defineProps<{
-  status: "approved";
+  status: string;
 }>();
 </script>

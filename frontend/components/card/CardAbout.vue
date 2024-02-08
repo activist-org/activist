@@ -12,7 +12,7 @@
           emit('expand-reduce-text');
           expand_reduce_text();
         "
-        class="absolute right-0 p-1 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
+        class="absolute right-0 p-1 rounded-full text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand"
       >
         <Icon class="w-10 h-10" name="bi:x-circle-fill" />
       </button>

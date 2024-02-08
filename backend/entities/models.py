@@ -35,10 +35,18 @@ class Organization(CreationDeletionMixin):
     )
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
-        models.CharField(max_length=255), default=list, blank=True
+        models.CharField(max_length=255),
+        default=list,
+        blank=True,
     )
     high_risk = models.BooleanField(default=False)
     total_flags = models.IntegerField(default=0)
+    org_icon = models.OneToOneField(
+        "content.Image", on_delete=models.CASCADE, null=True, blank=True
+    )
+    about_images = models.ManyToManyField(
+        "content.Image", related_name="about_images", blank=True
+    )
 
     def __str__(self) -> str:
         return self.name
@@ -108,6 +116,12 @@ class Group(CreationDeletionMixin):
     created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     category = models.CharField(max_length=255)
     total_flags = models.IntegerField(default=0)
+    group_icon = models.OneToOneField(
+        "content.Image", on_delete=models.CASCADE, null=True, blank=True
+    )
+    about_images = models.ManyToManyField(
+        "content.Image", related_name="about_img", blank=True
+    )
 
     def __str__(self) -> str:
         return self.name

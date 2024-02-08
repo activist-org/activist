@@ -2,7 +2,7 @@
   <ModalBase>
     <template #normalDisplay>
       <button
-        class="absolute right-0 flex items-center justify-center w-10 h-10 rounded-md cursor-pointer sm:w-16 sm:h-16 elem-on-card-style focus-brand"
+        class="absolute right-0 flex items-center justify-center w-10 h-10 cursor-pointer rounded-md sm:w-16 sm:h-16 elem-on-card-style focus-brand"
         :aria-label="$t('components.modal-qr-code.open-modal-aria-label')"
       >
         <div class="sm:hidden">
@@ -31,7 +31,7 @@
         class="flex flex-col items-center pb-6 space-y-6 md:grid md:grid-cols-2 md:grid-rows-1 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-14 lg:pr-8"
       >
         <div
-          class="items-center col-span-2 pt-2 space-y-4 font-medium text-left"
+          class="items-center pt-2 font-medium text-left col-span-2 space-y-4"
         >
           <p>
             {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}

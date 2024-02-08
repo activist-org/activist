@@ -58,7 +58,7 @@
 <script setup lang="ts">
 defineProps<{
   description: string;
-  ctaBtnText: { type: string; required: true };
+  ctaBtnText: string;
   ctaBtnAriaLabel: string;
 }>();
 </script>
