@@ -2,7 +2,15 @@ import datetime
 
 import factory
 
-from .models import Resource, ResourceTopic, Task, Topic, TopicFormat
+from .models import Faq, Resource, ResourceTopic, Task, Topic, TopicFormat
+
+
+class FaqFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Faq
+
+    name = factory.Faker("name")
+    question = factory.Faker("text")
 
 
 class ResourceFactory(factory.django.DjangoModelFactory):

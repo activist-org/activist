@@ -19,6 +19,18 @@ from django.db import models
 from backend.mixins.models import CreationDeletionMixin
 
 
+class Faq(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    question = models.TextField(max_length=500)
+    answer = models.TextField(max_length=500)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
 class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
