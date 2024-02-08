@@ -17,12 +17,7 @@ from .models import Faq, Resource, ResourceTopic, Task, Topic, TopicFormat
 class FaqSerializer(serializers.ModelSerializer[Faq]):
     class Meta:
         model = Faq
-        fields = {
-            "id", "name", "question"
-        }
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        return data
+        fields = ["id", "name", "question", "org_id", "answer", "last_updated"]
 
 
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
