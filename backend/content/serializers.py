@@ -11,7 +11,6 @@ from utils.utils import (
     validate_object_existence,
 )
 
-
 from .models import Faq, Image, Resource, ResourceTopic, Task, Topic, TopicFormat
 
 

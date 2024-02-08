@@ -19,6 +19,7 @@ from .serializers import (
     TopicSerializer,
 )
 
+
 class FaqViewSet(viewsets.ModelViewSet[Faq]):
     queryset = Faq.objects.all()
     serializer_class = FaqSerializer
