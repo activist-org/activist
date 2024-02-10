@@ -21,39 +21,24 @@ from .models import (
     GroupTopic,
     Organization,
     OrganizationApplication,
-    OrganizationApplicationStatus,
     OrganizationEvent,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
+    Status,
+    StatusType,
 )
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
-        fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_empty(data["name"], "name")
-        validate_empty(data["tagline"], "tagline")
-        validate_empty(data["social_accounts"], "social_accounts")
-        validate_empty(data["location"], "location")
-        validate_empty(data["description"], "description")
-        validate_empty(data["topic"], "topic")
-        validate_flags_number(data)
-        # validate_object_existence(User, data["created_by"]) TODO: BUG check if validate_object_existence can be fixed since causing errors during post requests
-
-        return data
-
-
-class OrganizationApplicationStatusSerializer(
-    serializers.ModelSerializer[OrganizationApplicationStatus]
-):
-    class Meta:
-        model = OrganizationApplicationStatus
-        fields = "__all__"
+        exclude = ["status_updated", "acceptance_date", "deletion_date"]
+        extra_kwargs = {
+            "created_by": {"read_only": True},
+            "social_accounts": {"required": False},
+        }
 
 
 class OrganizationApplicationSerializer(
@@ -210,3 +195,15 @@ class GroupTopicSerializer(serializers.ModelSerializer[GroupTopic]):
         validate_object_existence(Topic, data["topic_id"])
 
         return data
+
+
+class StatusSerializer(serializers.ModelSerializer[Status]):
+    class Meta:
+        model = Status
+        fields = "__all__"
+
+
+class StatusTypeSerializer(serializers.ModelSerializer[StatusType]):
+    class Meta:
+        model = StatusType
+        fields = "__all__"

@@ -1,6 +1,6 @@
-from django.db.models import Q
-from django.shortcuts import get_object_or_404
+# mypy: disable-error-code="override"
 from rest_framework import status, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
@@ -15,12 +15,13 @@ from .models import (
     GroupTopic,
     Organization,
     OrganizationApplication,
-    OrganizationApplicationStatus,
     OrganizationEvent,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
+    Status,
+    StatusType,
 )
 from .serializers import (
     GroupEventSerializer,
@@ -29,13 +30,14 @@ from .serializers import (
     GroupSerializer,
     GroupTopicSerializer,
     OrganizationApplicationSerializer,
-    OrganizationApplicationStatusSerializer,
     OrganizationEventSerializer,
     OrganizationMemberSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationTaskSerializer,
     OrganizationTopicSerializer,
+    StatusSerializer,
+    StatusTypeSerializer,
 )
 
 
@@ -44,83 +46,37 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
+    permission_classes = [
+        IsAuthenticated,
+    ]
 
     def create(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save(created_by=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(
-            {"error": "You are not allowed to create a organization."},
-            status=status.HTTP_403_FORBIDDEN,
-        )
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        org = serializer.save(created_by=request.user)
+        OrganizationApplication.objects.create(org_id=org)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        if request.user.is_authenticated:
-            query = self.queryset.filter(
-                Q(created_by=request.user), id=pk
-            )
-        else:
-            query = self.queryset.filter(id=pk)
+        org = self.queryset.filter(pk=pk).first()
+        if org:
+            serializer = self.get_serializer(org)
+            return Response(serializer.data)
 
-        serializer = self.get_serializer(query)
-        return Response(serializer.data)
+        return Response({"error": "Organization not found"}, status.HTTP_404_NOT_FOUND)
 
     def list(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            query = self.queryset.filter(
-                Q(created_by=request.user)
-            )
-        else:
-            query = self.queryset
-
-        serializer = self.get_serializer(query, many=True)
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if not item.created_by == request.user:
-            return Response(
-                {"error": "You are not allowed to update this organization."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-        serializer = self.get_serializer(item, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        pass
 
-    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        item = self.get_object()
-        if not item.created_by == request.user:
-            return Response(
-                {"error": "You are not allowed to update this organization."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-        serializer = self.get_serializer(item, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def partial_update(self, request: Request, pk: str | None = None) -> Response:
+        pass
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if not item.created_by == request.user:
-            return Response(
-                {"error": "You are not allowed to delete this organization."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        self.perform_destroy(item)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class OrganizationApplicationStatusViewSet(
-    viewsets.ModelViewSet[OrganizationApplicationStatus]
-):
-    queryset = OrganizationApplicationStatus.objects.all()
-    serializer_class = OrganizationApplicationStatusSerializer
-    pagination_class = CustomPagination
+        pass
 
 
 class OrganizationApplicationViewSet(viewsets.ModelViewSet[OrganizationApplication]):
@@ -186,4 +142,16 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
 class GroupTopicViewSet(viewsets.ModelViewSet[GroupTopic]):
     queryset = GroupTopic.objects.all()
     serializer_class = GroupTopicSerializer
+    pagination_class = CustomPagination
+
+
+class StatusViewSet(viewsets.ModelViewSet[Status]):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+    pagination_class = CustomPagination
+
+
+class StatusTypeViewSet(viewsets.ModelViewSet[StatusType]):
+    queryset = StatusType.objects.all()
+    serializer_class = StatusTypeSerializer
     pagination_class = CustomPagination

@@ -8,9 +8,6 @@ app_name = "entities"
 router = DefaultRouter()
 
 router.register(r"organizations", views.OrganizationViewSet, basename="organization")
-router.register(
-    r"organization_application_statuses", views.OrganizationApplicationStatusViewSet
-)
 router.register(r"organization_applications", views.OrganizationApplicationViewSet)
 router.register(r"organization_events", views.OrganizationEventViewSet)
 router.register(r"organization_members", views.OrganizationMemberViewSet)
@@ -22,6 +19,8 @@ router.register(r"group_events", views.GroupEventViewSet)
 router.register(r"group_members", views.GroupMemberViewSet)
 router.register(r"group_resources", views.GroupResourceViewSet)
 router.register(r"group_topics", views.GroupTopicViewSet)
+router.register(r"status", views.StatusViewSet)
+router.register(r"status_types", views.StatusTypeViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

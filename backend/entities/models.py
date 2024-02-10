@@ -26,9 +26,9 @@ from django.db import models
 from backend.mixins.models import CreationDeletionMixin
 
 
-class Organization(CreationDeletionMixin):
+class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     tagline = models.CharField(max_length=255, blank=True)
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
@@ -38,17 +38,14 @@ class Organization(CreationDeletionMixin):
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
+    status = models.IntegerField(default=1)
+    status_updated = models.DateTimeField(blank=True, null=True)
+    acceptance_date = models.DateTimeField(blank=True, null=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
     total_flags = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.name
-
-
-class OrganizationApplicationStatus(models.Model):
-    status_name = models.CharField(max_length=255)
-
-    def __str__(self) -> str:
-        return self.status_name
 
 
 class OrganizationApplication(models.Model):
@@ -64,6 +61,7 @@ class OrganizationApplication(models.Model):
     )
     creation_date = models.DateTimeField(auto_now_add=True)
     status_updated = models.DateTimeField(auto_now=True)
+    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
 
     def __str__(self) -> str:
         return f"{self.creation_date}"
@@ -165,3 +163,21 @@ class GroupTopic(models.Model):
 
     def __str__(self) -> str:
         return f"{self.id}"
+
+
+class Status(models.Model):
+    status_type = models.ForeignKey("StatusType", on_delete=models.CASCADE)
+    org_id = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="org_status"
+    )
+    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.org_id.name} - {self.status_type.name}"
+
+
+class StatusType(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.name
