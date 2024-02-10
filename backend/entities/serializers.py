@@ -34,10 +34,12 @@ from .models import (
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
-        exclude = ["status_updated", "acceptance_date", "deletion_date"]
+        exclude = ["deletion_date"]
         extra_kwargs = {
             "created_by": {"read_only": True},
             "social_accounts": {"required": False},
+            "status_updated": {"read_only": True},
+            "acceptance_date": {"read_only": True},
         }
 
 
