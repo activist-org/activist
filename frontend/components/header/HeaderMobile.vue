@@ -18,11 +18,20 @@
         />
         <SidebarRight>
           <div class="flex-col space-y-2">
-            <DropdownCreate class="w-full" :location=DropdownLocation.SIDEMENU />
-            <DropdownInfo class="w-full" :location=DropdownLocation.SIDEMENU />
-            <DropdownUserOptions class="w-full" :location=DropdownLocation.SIDEMENU />
+            <DropdownCreate
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
+            <DropdownInfo
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
+            <DropdownUserOptions
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
           </div>
-      </SidebarRight>
+        </SidebarRight>
       </div>
     </div>
   </header>

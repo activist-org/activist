@@ -8,33 +8,32 @@
       'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
         active && !isSideLeftMenu,
       'text-light-text dark:text-dark-text': !active,
-      'relative z-0 font-medium text-left space-x-2': isSideLeftMenu, 
+      'relative z-0 font-medium text-left space-x-2': isSideLeftMenu,
     }"
   >
     <Icon
       v-if="iconName"
       :name="iconName"
       size="1em"
-      :class="{'flex-shrink-0 w-5 h-5': isSideLeftMenu}"
+      :class="{ 'flex-shrink-0 w-5 h-5': isSideLeftMenu }"
     />
     <Transition>
       <component
         v-if="
-          !isSideLeftMenu
-          || sidebar.collapsed == false
-          || sidebar.collapsedSwitch == false
+          !isSideLeftMenu ||
+          sidebar.collapsed == false ||
+          sidebar.collapsedSwitch == false
         "
         :is="infoLabel.is"
-        v-bind="infoLabel"          
+        v-bind="infoLabel"
       >
-        {{ label }}                 
+        {{ label }}
       </component>
-    </Transition>      
+    </Transition>
   </component>
 </template>
-  
-<script setup lang="ts">
 
+<script setup lang="ts">
 const props = defineProps<{
   isSideLeftMenu?: boolean | undefined;
   isButton: boolean;
@@ -50,35 +49,33 @@ const sidebar = useSidebar();
 const infoComponent = computed(() => {
   return props.isButton
     ? {
-        is: 'button',
+        is: "button",
         onclick: props.handlerClick,
         ariaLabel: props.ariaLabel,
       }
     : {
-        is: 'li',
-      }
+        is: "li",
+      };
 });
 
 const infoLabel = computed(() => {
   return props.isButton
     ? {
-        is: 'p',
-        class: 'pl-2 pr-2',
+        is: "p",
+        class: "pl-2 pr-2",
       }
-    : props.isSideLeftMenu 
+    : props.isSideLeftMenu
       ? {
-          is: 'p',
-          class: 'select-none whitespace-nowrap hover:light-menu-selection',
+          is: "p",
+          class: "select-none whitespace-nowrap hover:light-menu-selection",
         }
-      : props.iconName 
+      : props.iconName
         ? {
-            is: 'p',
-            class: 'pl-2 pr-2',
+            is: "p",
+            class: "pl-2 pr-2",
           }
         : {
-          is: 'span',
-          }
+            is: "span",
+          };
 });
-
 </script>
-  

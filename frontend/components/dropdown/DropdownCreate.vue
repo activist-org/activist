@@ -1,18 +1,15 @@
 <template>
   <DropdownBase
-    :location = location
+    :location="location"
     menuButtonAriaLabel="components.sidebar-left-footer.create-aria-label"
     menuButtonIcon="bi:plus-circle"
     :menuButtonLabel="$t(`components.sidebar-left-footer.create`)"
     :isMenuButtonUppercase="false"
   >
-    <DropdownItemsLayout
-      :location = location
-      :options = createOpt
-    />
+    <DropdownItemsLayout :location="location" :options="createOpt" />
   </DropdownBase>
 </template>
-  
+
 <script setup lang="ts">
 import { DropdownLocation } from "~/types/location";
 import type { MenuSelector } from "~/types/menu-selector";
@@ -51,6 +48,4 @@ const createOpt: MenuSelector[] = [
     selected: false,
   },
 ];
-
 </script>
-  

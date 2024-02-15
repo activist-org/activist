@@ -1,6 +1,6 @@
 <template>
   <DropdownBase
-    :location = location
+    :location="location"
     menuButtonAriaLabel="components.selector-theme.open-dropdown-aria-label"
     :menuButtonIcon="menuButtonIcon"
     :menuButtonLabel="$t(`components.selector-theme.label`)"
@@ -37,12 +37,12 @@ defineProps<{
 const colorMode = useColorMode();
 
 const menuButtonIcon = computed(() => {
-  if (colorMode.preference == 'system') {
-    return "bi:circle-half"
-  } else if (colorMode.preference == 'light') {
-    return "bi:sun"
-  } else return "bi:moon"
-})
+  if (colorMode.preference == "system") {
+    return "bi:circle-half";
+  } else if (colorMode.preference == "light") {
+    return "bi:sun";
+  } else return "bi:moon";
+});
 
 const labelsOpt = [
   {
@@ -62,10 +62,10 @@ const labelsOpt = [
     iconName: "bi:moon",
     label: "components.selector-theme.dark",
     ariaLabel: "$t('components.selector-theme.dark-aria-label')",
-  }
+  },
 ];
 
 function handlerClick(optColorMode: string): void {
-  colorMode.preference = optColorMode
+  colorMode.preference = optColorMode;
 }
 </script>

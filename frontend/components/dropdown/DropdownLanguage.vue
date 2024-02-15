@@ -1,6 +1,6 @@
 <template>
   <DropdownBase
-    :location = location
+    :location="location"
     menuButtonAriaLabel="components.selector-language.open-dropdown-aria-label"
     menuButtonIcon="bi:globe"
     :menuButtonLabel="$i18n.locale"

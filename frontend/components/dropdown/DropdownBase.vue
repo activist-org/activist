@@ -6,19 +6,21 @@
         class="inline-flex w-full py-2 px-4 font-semibold select-none rounded-md style-btn"
         :class="{
           'pl-6': isSideMenu,
-          'flex items-center pl-1 rounded-md style-menu-option-cta': isSideLeftMenu,
+          'flex items-center pl-1 rounded-md style-menu-option-cta':
+            isSideLeftMenu,
         }"
         :aria-label="$t(`${menuButtonAriaLabel}`)"
       >
         <div
           class="flex justify-between items-center text-sm space-x-2"
           :class="{
-          'relative z-0 w-full pl-[0.625rem] font-medium text-left': isSideLeftMenu
-        }"
+            'relative z-0 w-full pl-[0.625rem] font-medium text-left':
+              isSideLeftMenu,
+          }"
         >
           <div class="flex items-center space-x-2">
             <Icon
-              :name=menuButtonIcon
+              :name="menuButtonIcon"
               :class="{
                 'flex-shrink-0 w-5 h-5 text-center': isSideLeftMenu,
               }"
@@ -27,14 +29,14 @@
             <Transition name="text">
               <p
                 v-if="
-                  !isSideLeftMenu
-                  || sidebar.collapsed == false
-                  || sidebar.collapsedSwitch == false
+                  !isSideLeftMenu ||
+                  sidebar.collapsed == false ||
+                  sidebar.collapsedSwitch == false
                 "
                 :class="{
                   'sr-only lg:not-sr-only': !isSideLeftMenu,
                   '!not-sr-only !ml-3': isSideMenu,
-                  'uppercase': isMenuButtonUppercase,
+                  uppercase: isMenuButtonUppercase,
                   'font-bold': isMenuButtonBold,
                   'select-none': isSideLeftMenu,
                 }"
@@ -46,9 +48,9 @@
           <Transition name="chevron">
             <Icon
               v-if="
-                !isSideLeftMenu
-                || sidebar.collapsed == false
-                || sidebar.collapsedSwitch == false
+                !isSideLeftMenu ||
+                sidebar.collapsed == false ||
+                sidebar.collapsedSwitch == false
               "
               class="right-3"
               :class="{
@@ -60,7 +62,6 @@
               :name="isSideLeftMenu ? 'bi:chevron-up' : 'bi:chevron-down'"
             />
           </Transition>
-          
         </div>
       </MenuButton>
     </div>
@@ -75,7 +76,8 @@
       <MenuItems
         class="rounded-md"
         :class="{
-          'absolute right-0 mt-2 shadow-lg origin-top-right divide-y bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text': !isSideLeftMenu,
+          'absolute right-0 mt-2 shadow-lg origin-top-right divide-y bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text':
+            !isSideLeftMenu,
           '!static': isSideMenu || isSideLeftMenu,
           'p-1 mt-1 bg-light-header dark:bg-dark-header': isSideLeftMenu,
         }"
@@ -90,7 +92,6 @@
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
 import { DropdownLocation } from "~/types/location";
 
-
 const props = defineProps<{
   location?: DropdownLocation;
   menuButtonAriaLabel: string;
@@ -103,11 +104,11 @@ const props = defineProps<{
 const sidebar = useSidebar();
 
 const isSideLeftMenu = computed(() => {
-  return props.location === DropdownLocation.SIDELEFTMENU
+  return props.location === DropdownLocation.SIDELEFTMENU;
 });
 
 const isSideMenu = computed(() => {
-  return props.location === DropdownLocation.SIDEMENU
+  return props.location === DropdownLocation.SIDEMENU;
 });
 </script>
 

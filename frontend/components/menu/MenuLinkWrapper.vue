@@ -21,10 +21,9 @@ export interface Props {
   selected: boolean;
   linkClasses?: string | undefined;
   isPaddings: boolean;
-};
+}
 
 withDefaults(defineProps<Props>(), {
   isPaddings: true,
 });
-
 </script>

@@ -5,14 +5,19 @@
     <div
       class="flex flex-col justify-center w-full p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header elem-shadow-sm"
     >
-      <DropdownCreate class="w-full" :location=DropdownLocation.SIDELEFTMENU />
-      <DropdownInfo class="w-full" :location=DropdownLocation.SIDELEFTMENU />
-      <DropdownUserOptions class="w-full" :location=DropdownLocation.SIDELEFTMENU />
+      <DropdownCreate
+        class="w-full"
+        :location="DropdownLocation.SIDELEFTMENU"
+      />
+      <DropdownInfo class="w-full" :location="DropdownLocation.SIDELEFTMENU" />
+      <DropdownUserOptions
+        class="w-full"
+        :location="DropdownLocation.SIDELEFTMENU"
+      />
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
 import { DropdownLocation } from "~/types/location";
-
 </script>

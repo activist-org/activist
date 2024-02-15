@@ -5,7 +5,7 @@
     >
       <span class="pl-1">
         <Icon v-if="iconURL" class="flex-shrink-0 w-5 h-5" :name="iconURL" />
-      </span> 
+      </span>
       <Transition>
         <p
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"

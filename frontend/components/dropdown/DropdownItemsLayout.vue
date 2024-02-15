@@ -14,7 +14,7 @@
     >
       <MenuItem v-slot="{ active }" class="flex">
         <MenuItemLabel
-          :isSideLeftMenu = isSideLeftMenu
+          :isSideLeftMenu="isSideLeftMenu"
           :isButton="false"
           :label="$t(`${opt.label}`)"
           :iconName="opt.iconURL"
@@ -36,11 +36,10 @@ const props = defineProps<{
 }>();
 
 const isSideLeftMenu = computed(() => {
-  return props.location === DropdownLocation.SIDELEFTMENU
+  return props.location === DropdownLocation.SIDELEFTMENU;
 });
 
 const isSideMenu = computed(() => {
-  return props.location === DropdownLocation.SIDEMENU
+  return props.location === DropdownLocation.SIDEMENU;
 });
-
 </script>
