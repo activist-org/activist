@@ -22,7 +22,7 @@
         '-mr-[0.55rem]': contentScrollable,
       }"
     >
-      <SearchBar class="mt-1" :location=DropdownLocation.SIDEMENU />
+      <SearchBar class="mt-1" :location=DropdownLocation.SIDEBAR />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
         v-if="
