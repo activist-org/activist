@@ -16,12 +16,21 @@
           v-if="!isSearchExpanded"
           class="flex items-center w-6 h-8 absolute top-[0.3rem] m-auto left-0 right-0 overflow-clip"
         />
+        <SidebarRight>
+          <div class="flex-col space-y-2">
+            <DropdownCreate class="w-full" :location=DropdownLocation.SIDEMENU />
+            <DropdownInfo class="w-full" :location=DropdownLocation.SIDEMENU />
+            <DropdownUserOptions class="w-full" :location=DropdownLocation.SIDEMENU />
+          </div>
+      </SidebarRight>
       </div>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
+import { DropdownLocation } from "~/types/location";
+
 const isSearchExpanded = ref(false);
 
 const toggleSearchExpanded = () => {
