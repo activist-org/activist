@@ -72,4 +72,5 @@ defineProps<{
   organization?: Organization;
   event?: Event;
 }>();
+
 </script>

@@ -1,4 +1,3 @@
-<!-- Brief note to self: Refactor code to minimize duplication/redundancy. Add CSS styling to align with Figma design. Add support for the export default names and components. Confirm verbiage we'd like to use in the various share options i.e body of messages i.e email, sms, etc-->
 <template>
     <ModalBase>
         <template #normalDisplay>
@@ -77,10 +76,9 @@
                                         <Icon name="bi:qr-code-scan" size="2em"
                                             :alt="$t('components.modal-qr-code.img-alt-text')" />
                                     </div>
-                                    <span
-                                        style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
+                                    <div class="flex space-x-2 lg:space-x-3">
                                         View QR code
-                                    </span>
+                                    </div>
                                 </div>
                             </template>
                             <template #modalDisplay>
@@ -89,46 +87,46 @@
                             </template>
                         </ModalBase>
                     </div>
-                    <div class="flex space-x-2 lg:space-x-3">
-                        <s-mastodon :window-features="windowFeatures" :share-options="shareOptions"
-                            :use-native-behavior="useNativeBehavior" @popup-close="onClose" @popup-open="onOpen"
-                            @popup-block="onBlock" @popup-focus="onFocus">
-                            <div
-                                style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-                                <div style="width: 28px; height: 28px; position: relative">
-                                    <svg width="32" height="32" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M11.1909 12.1951C13.2058 11.9557 14.9602 10.7205 15.1807 9.59184C15.5281 7.81389 15.4994 5.25305 15.4994 5.25305C15.4994 1.78217 13.2139 0.764795 13.2139 0.764795C12.0615 0.23818 10.0826 0.0167234 8.02678 0H7.97627C5.92041 0.0167234 3.94286 0.23818 2.79039 0.764795C2.79039 0.764795 0.504754 1.78217 0.504754 5.25305C0.504754 5.46347 0.503661 5.68479 0.502523 5.91519C0.499363 6.55506 0.495857 7.26496 0.514458 8.00596C0.597458 11.4003 1.13991 14.7456 4.2941 15.5762C5.74843 15.9592 6.99707 16.0394 8.0027 15.9844C9.82637 15.8838 10.8501 15.3369 10.8501 15.3369L10.79 14.0204C10.79 14.0204 9.48674 14.4292 8.02314 14.3794C6.57306 14.3299 5.04223 14.2238 4.8077 12.4524C4.78604 12.2968 4.77521 12.1304 4.77521 11.9557C4.77521 11.9557 6.19869 12.3019 8.0027 12.3841C9.10579 12.4345 10.1403 12.3198 11.1909 12.1951ZM12.8034 9.72502H11.13V5.64588C11.13 4.786 10.7664 4.34955 10.039 4.34955C9.23486 4.34955 8.83182 4.86729 8.83182 5.89104V8.12379H7.16825V5.89104C7.16825 4.86729 6.76512 4.34955 5.96093 4.34955C5.2336 4.34955 4.86997 4.786 4.86997 5.64588V9.72502H3.19653V5.52235C3.19653 4.66342 3.41634 3.98086 3.85785 3.47588C4.31314 2.9709 4.90939 2.71204 5.64955 2.71204C6.5059 2.71204 7.15439 3.03952 7.58317 3.69458L7.99999 4.38981L8.4169 3.69458C8.84559 3.03952 9.49409 2.71204 10.3505 2.71204C11.0906 2.71204 11.6868 2.9709 12.1422 3.47588C12.5836 3.98086 12.8034 4.66342 12.8034 5.52235V9.72502Z"
-                                            fill="black" />
-                                    </svg>
-                                </div>
-                                <div
-                                    style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
-                                    Mastodon
-                                </div>
-                            </div>
-                        </s-mastodon>
-                        <s-facebook-messenger :window-features="windowFeatures" :share-options="shareOptions"
-                            :use-native-behavior="useNativeBehavior" @popup-close="onClose" @popup-open="onOpen"
-                            @popup-block="onBlock" @popup-focus="onFocus">
-                            <div
-                                style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-                                <div style="width: 28px; height: 28px; position: relative">
-                                    <svg width="32" height="32" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M0 7.76C0 3.30112 3.49336 0 8 0C12.5066 0 16 3.30112 16 7.76C16 12.2189 12.5066 15.52 8 15.52C7.19053 15.52 6.41392 15.4131 5.68424 15.2125C5.5424 15.1734 5.39157 15.1845 5.25696 15.2438L3.66907 15.9448C3.25371 16.1282 2.78485 15.8328 2.77093 15.3789L2.72736 13.9558C2.722 13.7805 2.64312 13.6166 2.51245 13.4997C0.95584 12.1076 0 10.0923 0 7.76ZM5.54604 6.3011L3.19604 10.0294C2.97052 10.3872 3.41033 10.7904 3.74724 10.5348L6.27153 8.61899C6.44228 8.48939 6.67825 8.4887 6.84972 8.61731L8.71884 10.0192C9.27969 10.4398 10.0802 10.2921 10.454 9.69902L12.804 5.97067C13.0295 5.61286 12.5897 5.20966 12.2528 5.46534L9.72849 7.3811C9.55772 7.5107 9.32177 7.51139 9.15028 7.38275L7.28121 5.98094C6.72033 5.5603 5.91985 5.70798 5.54604 6.3011Z"
-                                            fill="black" />
-                                    </svg>
-                                </div>
-                                <div
-                                    style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
-                                    Messenger
-                                </div>
-                            </div>
-                        </s-facebook-messenger>
-                        <div @click="copyToClipboard('Share Brandenburg Gate Climate Demo!', 'http://localhost:3000/en/events/1')"
+                    <!-- <div class="flex space-x-2 lg:space-x-3"> -->
+                        <!-- <s-mastodon :window-features="windowFeatures" :share-options="shareOptions" -->
+                            <!-- :use-native-behavior="useNativeBehavior" @popup-close="onClose" @popup-open="onOpen" -->
+                            <!-- @popup-block="onBlock" @popup-focus="onFocus"> -->
+                            <!-- <div -->
+                                <!-- style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex"> -->
+                                <!-- <div style="width: 28px; height: 28px; position: relative"> -->
+                                    <!-- <svg width="32" height="32" viewBox="0 0 16 16" fill="none" -->
+                                        <!-- xmlns="http://www.w3.org/2000/svg"> -->
+                                        <!-- <path -->
+                                            <!-- d="M11.1909 12.1951C13.2058 11.9557 14.9602 10.7205 15.1807 9.59184C15.5281 7.81389 15.4994 5.25305 15.4994 5.25305C15.4994 1.78217 13.2139 0.764795 13.2139 0.764795C12.0615 0.23818 10.0826 0.0167234 8.02678 0H7.97627C5.92041 0.0167234 3.94286 0.23818 2.79039 0.764795C2.79039 0.764795 0.504754 1.78217 0.504754 5.25305C0.504754 5.46347 0.503661 5.68479 0.502523 5.91519C0.499363 6.55506 0.495857 7.26496 0.514458 8.00596C0.597458 11.4003 1.13991 14.7456 4.2941 15.5762C5.74843 15.9592 6.99707 16.0394 8.0027 15.9844C9.82637 15.8838 10.8501 15.3369 10.8501 15.3369L10.79 14.0204C10.79 14.0204 9.48674 14.4292 8.02314 14.3794C6.57306 14.3299 5.04223 14.2238 4.8077 12.4524C4.78604 12.2968 4.77521 12.1304 4.77521 11.9557C4.77521 11.9557 6.19869 12.3019 8.0027 12.3841C9.10579 12.4345 10.1403 12.3198 11.1909 12.1951ZM12.8034 9.72502H11.13V5.64588C11.13 4.786 10.7664 4.34955 10.039 4.34955C9.23486 4.34955 8.83182 4.86729 8.83182 5.89104V8.12379H7.16825V5.89104C7.16825 4.86729 6.76512 4.34955 5.96093 4.34955C5.2336 4.34955 4.86997 4.786 4.86997 5.64588V9.72502H3.19653V5.52235C3.19653 4.66342 3.41634 3.98086 3.85785 3.47588C4.31314 2.9709 4.90939 2.71204 5.64955 2.71204C6.5059 2.71204 7.15439 3.03952 7.58317 3.69458L7.99999 4.38981L8.4169 3.69458C8.84559 3.03952 9.49409 2.71204 10.3505 2.71204C11.0906 2.71204 11.6868 2.9709 12.1422 3.47588C12.5836 3.98086 12.8034 4.66342 12.8034 5.52235V9.72502Z" -->
+                                            <!-- fill="black" /> -->
+                                    <!-- </svg> -->
+                                <!-- </div> -->
+                                <!-- <div -->
+                                    <!-- style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word"> -->
+                                    <!-- Mastodon -->
+                                <!-- </div> -->
+                            <!-- </div> -->
+                        <!-- </s-mastodon> -->
+                        <!-- <s-facebook-messenger :window-features="windowFeatures" :share-options="shareOptions" -->
+                            <!-- :use-native-behavior="useNativeBehavior" @popup-close="onClose" @popup-open="onOpen" -->
+                            <!-- @popup-block="onBlock" @popup-focus="onFocus"> -->
+                            <!-- <div -->
+                                <!-- style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex"> -->
+                                <!-- <div style="width: 28px; height: 28px; position: relative"> -->
+                                    <!-- <svg width="32" height="32" viewBox="0 0 16 16" fill="none" -->
+                                        <!-- xmlns="http://www.w3.org/2000/svg"> -->
+                                        <!-- <path -->
+                                            <!-- d="M0 7.76C0 3.30112 3.49336 0 8 0C12.5066 0 16 3.30112 16 7.76C16 12.2189 12.5066 15.52 8 15.52C7.19053 15.52 6.41392 15.4131 5.68424 15.2125C5.5424 15.1734 5.39157 15.1845 5.25696 15.2438L3.66907 15.9448C3.25371 16.1282 2.78485 15.8328 2.77093 15.3789L2.72736 13.9558C2.722 13.7805 2.64312 13.6166 2.51245 13.4997C0.95584 12.1076 0 10.0923 0 7.76ZM5.54604 6.3011L3.19604 10.0294C2.97052 10.3872 3.41033 10.7904 3.74724 10.5348L6.27153 8.61899C6.44228 8.48939 6.67825 8.4887 6.84972 8.61731L8.71884 10.0192C9.27969 10.4398 10.0802 10.2921 10.454 9.69902L12.804 5.97067C13.0295 5.61286 12.5897 5.20966 12.2528 5.46534L9.72849 7.3811C9.55772 7.5107 9.32177 7.51139 9.15028 7.38275L7.28121 5.98094C6.72033 5.5603 5.91985 5.70798 5.54604 6.3011Z" -->
+                                            <!-- fill="black" /> -->
+                                    <!-- </svg> -->
+                                <!-- </div> -->
+                                <!-- <div -->
+                                    <!-- style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word"> -->
+                                    <!-- Messenger -->
+                                <!-- </div> -->
+                            <!-- </div> -->
+                        <!-- </s-facebook-messenger> -->
+                        <div @click="copyToClipboard(props?.event?.name ? props?.event?.name : props?.organization?.name ? props?.organization?.name : '', getCurrentUrl())"
                             class="cursor-pointer"
                             style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
                             <div style="width: 28px; height: 28px; position: relative">
@@ -154,12 +152,12 @@
                             </div>
                             <div
                                 style="color: rgba(0, 0, 0, 0.85); font-size: 20px; font-family: Red Hat Text; font-weight: 600; word-wrap: break-word">
-                                Copy Link
+                                Copy
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <!-- </div> -->
         </template>
     </ModalBase>
 </template>
@@ -170,7 +168,7 @@ import ModalBase from "~/components/modal/ModalBase.vue";
 import { STelegram, STwitter, SEmail, SMastodon, SFacebookMessenger } from 'vue-socials';
 import type { Event } from "~/types/event";
 import type { Organization } from "~/types/organization";
-// import entityProps from "~/frontend/utils/ModalSharePage.vue";
+import { OrganizeImportsMode } from "typescript";
 
 const props = defineProps<{
     cta: BtnAction["cta"];
@@ -181,16 +179,16 @@ const props = defineProps<{
     // group?: Group; // add group when we have it
 }>();
 
-const checkEntityType = () => {
+const getEntityType = () => {
     if (props.event) {
-        return setData(props.event);
+        return setEntityInfo(props.event);
     } else if (props.organization) {
-        return setData(props.organization);
+        return setEntityInfo(props.organization);
     }
-    // add group when we have it
 };
 
-const setData = (data: Event | Organization) => {
+const setEntityInfo = (data: typeof props.event | typeof props.organization) => {
+    if(!data) return;
     return {
         subject: `Share ${data.name}!`,
         body: `Check out ${data.name}!`,
@@ -205,27 +203,24 @@ const getCurrentUrl = () => {
     return url.substring(0, url.lastIndexOf("/"));
 };
 
-const windowFeatures = {};
-
 const shareOptions = {
-    url: checkEntityType()?.url || "https://activist.org/en",
-    text: checkEntityType()?.text || "Check this out!",
+    url: getCurrentUrl() || "https://activist.org/en",
+    text: getEntityType()?.text || "Check this out!",
     hashtags: ['activism', 'organizing'],
     via: 'activist_org',
     mail: '',
     cc: [''],
     bcc: [''],
-    subject: checkEntityType()?.subject || "Share this!",
-    body: `${checkEntityType()?.body}   ${checkEntityType()?.url}` || "Check this out!",
+    subject: getEntityType()?.subject || "Share this!",
+    body: `${getEntityType()?.body}   ${getEntityType()?.url}` || "Check this out!",
     redirectUri: 'https://www.domain.com/',
-    appId: 123456789,
-    to: undefined,
-    number: '+1(312)758-7765',
+    // appId: 842766727626496, Facebook Messenger App ID
 };
 
 const useNativeBehavior = false;
 const contentCopied = ref(false);
 
+// No specific actions should be taken on these events, but we can customize the behavior if needed
 const nativeBehaviorOptions = {
     onClose: () => { },
     onOpen: () => { },
@@ -233,17 +228,15 @@ const nativeBehaviorOptions = {
     onFocus: () => { },
 };
 
-const copyToClipboard = (name: string, url: string) => {
-    navigator.clipboard.writeText(`${name} ${url}`)
-        .then(() => {
-            console.log(`Copied text to clipboard: ${name} ${url}`);
-            contentCopied.value = true;
-            setTimeout(() => { contentCopied.value = true }, 100)
-        })
-        .catch((error) => {
-            console.error(`Could not copy text: ${error}`);
-            contentCopied.value = false;
-        });
+const copyToClipboard = async (name: string, url: string) => {
+    try {
+        await navigator.clipboard.writeText(`${name} ${url}`);
+        contentCopied.value = true;
+        setTimeout(() => { contentCopied.value = false }, 3000)
+    } catch(error) {
+        console.error(`Could not copy text: ${error}`);
+        contentCopied.value = false;
+    };
 };
 
 </script>

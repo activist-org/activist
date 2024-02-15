@@ -1,4 +1,5 @@
-import { STelegram } from 'vue-socials'
+import { defineProps } from 'vue';
+import { STelegram, STwitter, SEmail, SMastodon, SFacebookMessenger } from 'vue-socials';
 
 import type { Event } from "~/types/event";
 import type { Organization } from "~/types/organization";
@@ -11,7 +12,7 @@ export const entityProps = defineProps<{
 
 const contentCopied = ref(false);
 
-const checkEntityType = () => {
+export const checkEntityType = () => {
     if (entityProps.event) {
         return setData(entityProps.event);
     } else if (entityProps.organization) {
@@ -48,10 +49,17 @@ export const copyToClipboard = (name: string, url: string) => {
     });
 };
 
-export default {
+const socialShareData =  {
   name: 'STelegramSharing',
-  
   components: { STelegram },
+//   <!-- name: 'STwitterSharing', -->
+//   <!-- components: { STwitter }, -->
+//   <!-- name: 'SEmailSharing', -->
+//   <!-- components: { SEmail }, -->
+//   <!-- name: 'SMastodonSharing', -->
+//   <!-- components: { SMastodon }, -->
+//   <!-- name: 'SFacebookMessengerSharing', -->
+//   <!-- components: { SFacebookMessenger }, -->
   
   data() {
     return {
@@ -71,15 +79,7 @@ export default {
         to: undefined,
         number: '+1(312)758-7765',
     },  
-    useNativeBehavior: false
-    // {
-    //   windowFeatures: {},
-    //   shareOptions: {
-        // url: 'https://github.com/',
-        // text: 'Text',
-    //   },
-    //   useNativeBehavior: false,
-    // }
+    useNativeBehavior: false,
   }
 },
   
@@ -91,6 +91,7 @@ export default {
   }
 };
 
+export default entityProps;
 // <!-- <script> -->
 // <!-- // import { defineComponent } from "vue"; -->
 // <!-- //  -->
