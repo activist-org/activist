@@ -12,8 +12,13 @@ import MapLibreGlDirections, {
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
+const props = defineProps<{
+  markerColors: string[];
+  eventNames: string[];
+  eventLocations: string[];
+}>();
+
 const i18n = useI18n();
-const props = defineProps<{ markerColors: string[] }>();
 const colorMode = useColorMode();
 
 const isTouchDevice =
@@ -41,134 +46,165 @@ function isWebglSupported() {
   return false;
 }
 
+const mapTextColor = colorMode.preference == "dark" ? "white" : "black";
+
 onMounted(() => {
-  if (!isWebglSupported()) {
-    alert(i18n.t("components.media-map.maplibre-gl-alert"));
-  } else {
-    const map = new maplibregl.Map({
-      container: "map",
-      style: {
-        version: 8,
-        sources: {
-          "raster-tiles": {
-            type: "raster",
-            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-            tileSize: 256,
-            attribution:
-              '<a href="https://www.openstreetmap.org/about" target="_blank">Data &copy; OpenStreetMap contributors</a>',
-          },
-        },
-        layers: [
-          {
-            id: "background",
-            type: "background",
-            paint: {
-              "background-color":
-                colorMode.preference == "dark" ? "#131316" : "#F6F8FA",
+  const nominatimLocationRequest =
+    "https://nominatim.openstreetmap.org/search?q=Brandenburg%20Gate%20Berlin&format=json";
+
+  fetch(nominatimLocationRequest)
+    .then((response) => response.json())
+    .then((data) => {
+      const location = data[0];
+      if (!isWebglSupported()) {
+        alert(i18n.t("components.media-map.maplibre-gl-alert"));
+      } else {
+        const map = new maplibregl.Map({
+          container: "map",
+          style: {
+            version: 8,
+            sources: {
+              "raster-tiles": {
+                type: "raster",
+                tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+                tileSize: 256,
+                attribution:
+                  '<a href="https://www.openstreetmap.org/about" target="_blank">Data &copy; OpenStreetMap contributors</a>',
+              },
             },
+            layers: [
+              {
+                id: "background",
+                type: "background",
+                paint: {
+                  "background-color":
+                    colorMode.preference == "dark" ? "#131316" : "#F6F8FA",
+                },
+              },
+              {
+                id: "simple-tiles",
+                type: "raster",
+                source: "raster-tiles",
+                minzoom: 0,
+                maxzoom: 24,
+              },
+            ],
           },
-          {
-            id: "simple-tiles",
-            type: "raster",
-            source: "raster-tiles",
-            minzoom: 0,
-            maxzoom: 24,
-          },
-        ],
-      },
-      center: [13.38, 52.5168],
-      zoom: 15,
-      pitch: 20,
-    });
+          center: [parseFloat(location["lon"]), parseFloat(location["lat"])],
+          zoom: 15,
+          pitch: 20,
+        });
 
-    map.addControl(
-      new maplibregl.NavigationControl({
-        visualizePitch: true,
-      }),
-      "top-left"
-    );
-    map.addControl(new maplibregl.FullscreenControl());
-    map.addControl(
-      new maplibregl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-      })
-    );
+        map.addControl(
+          new maplibregl.NavigationControl({
+            visualizePitch: true,
+          }),
+          "top-left"
+        );
+        map.addControl(new maplibregl.FullscreenControl());
+        map.addControl(
+          new maplibregl.GeolocateControl({
+            positionOptions: {
+              enableHighAccuracy: true,
+            },
+            trackUserLocation: true,
+          })
+        );
 
-    new maplibregl.Marker({ color: `${props.markerColors[0]}` })
-      .setLngLat([13.3778, 52.5163])
-      .addTo(map);
+        const popup = new maplibregl.Popup({
+          className: "map-popup",
+          offset: 25,
+        }).setHTML(
+          `<div style="
+            text-align: center;
+            color: ${mapTextColor};"
+          >
+            <div style="font-size: 13px;">${props.eventNames[0]}</div>
+            <div style="color: grey;">${props.eventLocations[0]}</div>
+          </div>`
+        );
 
-    map.on("load", () => {
-      const layers = layersFactory(
-        isTouchDevice ? 1.5 : 1,
-        isTouchDevice ? 2 : 1
-      );
+        new maplibregl.Marker({
+          color: `${props.markerColors[0]}`,
+        })
+          .setLngLat([parseFloat(location["lon"]), parseFloat(location["lat"])])
+          .setPopup(popup)
+          .addTo(map);
 
-      const directions = new MapLibreGlDirections(map, {
-        requestOptions: {
-          alternatives: "true",
-        },
-        layers,
-      });
+        map.on("load", () => {
+          const layers = layersFactory(
+            isTouchDevice ? 1.5 : 1,
+            isTouchDevice ? 2 : 1
+          );
 
-      directions.interactive = true;
+          const directions = new MapLibreGlDirections(map, {
+            requestOptions: {
+              alternatives: "true",
+            },
+            layers,
+          });
 
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "x") {
-          directions.clear();
-        }
-      });
+          directions.interactive = true;
 
-      const clearDirectionsTextColor =
-        colorMode.preference == "dark" ? "white" : "black";
-
-      // const clearDirectionsControl = `
-      //   <div style="
-      //     background-color: rgba(255, 255, 255, 1);
-      //     padding: 1px 5px;
-      //     margin: 10px;
-      //     border-radius: 5px;
-      //     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-      //     color: ${clearDirectionsTextColor};
-      //   ">
-      //     Click to clear directions
-      //   </div>
-      // `;
-
-      const clearDirectionsHotkeyControl = `
-        <div style="
-          background-color: rgba(255, 255, 255, 1);
-          padding: 1px 5px;
-          margin: 10px;
-          border-radius: 5px;
-          box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-          color: ${clearDirectionsTextColor};
-        ">
-          Press x to clear directions
-        </div>
-      `;
-      map.addControl(
-        {
-          onAdd: function () {
-            const div = document.createElement("div");
-            if (window.innerWidth >= 768) {
-              div.innerHTML = clearDirectionsHotkeyControl;
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "x") {
+              directions.clear();
             }
-            // if (window.innerWidth < 768) {
-            //   div.innerHTML = clearDirectionsControl;
-            // } else {
-            //   div.innerHTML = clearDirectionsHotkeyControl;
-            // }
-            return div;
-          },
-          onRemove: function () {},
-        },
-        "bottom-left"
-      );
+          });
+
+          // const clearDirectionsControl = `
+          //   <div style="
+          //     background-color: rgba(255, 255, 255, 1);
+          //     padding: 1px 5px;
+          //     margin: 10px;
+          //     border-radius: 5px;
+          //     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+          //     color: ${mapTextColor};"
+          //   >
+          //     Clear directions
+          //   </div>
+          // `;
+
+          const clearDirectionsHotkeyControl = `
+          <div style="
+            background-color: rgba(255, 255, 255, 1);
+            padding: 1px 5px;
+            margin: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+            color: ${mapTextColor};"
+          >
+            Clear directions [x]
+          </div>
+        `;
+
+          if (window.innerWidth >= 768) {
+            map.addControl(
+              {
+                onAdd: function () {
+                  const div = document.createElement("div");
+                  // if (window.innerWidth < 768) {
+                  //   div.innerHTML = clearDirectionsControl;
+                  // } else {
+                  //   div.innerHTML = clearDirectionsHotkeyControl;
+                  // }
+                  div.innerHTML = clearDirectionsHotkeyControl;
+                  return div;
+                },
+                onRemove: function () {},
+              },
+              "bottom-left"
+            );
+          }
+        });
+      }
     });
-  }
 });
 </script>
+
+<style>
+/* To assure that the close button is visible in light and dark mode. */
+.map-popup {
+  color: grey;
+}
+</style>

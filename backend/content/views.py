@@ -8,8 +8,9 @@ from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 from backend.paginator import CustomPagination
 
-from .models import Image, Resource, ResourceTopic, Task, Topic, TopicFormat
+from .models import Faq, Image, Resource, ResourceTopic, Task, Topic, TopicFormat
 from .serializers import (
+    FaqSerializer,
     ImageSerializer,
     ResourceSerializer,
     ResourceTopicSerializer,
@@ -17,6 +18,18 @@ from .serializers import (
     TopicFormatSerializer,
     TopicSerializer,
 )
+
+
+class FaqViewSet(viewsets.ModelViewSet[Faq]):
+    queryset = Faq.objects.all()
+    serializer_class = FaqSerializer
+    pagination_class = CustomPagination
+
+
+class ImageViewSet(viewsets.ModelViewSet[Image]):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    pagination_class = CustomPagination
 
 
 class ResourceViewSet(viewsets.ModelViewSet[Resource]):
@@ -118,9 +131,4 @@ class ResourceTopicViewSet(viewsets.ModelViewSet[ResourceTopic]):
 class TopicFormatViewSet(viewsets.ModelViewSet[TopicFormat]):
     queryset = TopicFormat.objects.all()
     serializer_class = TopicFormatSerializer
-    pagination_class = CustomPagination
-
-class ImageViewSet(viewsets.ModelViewSet[Image]):
-    queryset = Image.objects.all()
-    serializer_class = ImageSerializer
     pagination_class = CustomPagination

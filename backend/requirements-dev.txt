@@ -36,7 +36,7 @@ coverage[toml]==7.3.2
     # via pytest-cov
 distlib==0.3.7
     # via virtualenv
-django==4.2.7
+django==4.2.10
     # via
     #   -r requirements.txt
     #   django-cors-headers
@@ -184,7 +184,7 @@ typing-extensions==4.8.0
     #   django-stubs-ext
     #   djangorestframework-stubs
     #   mypy
-tzdata==2023.3
+tzdata==2023.4
     # via
     #   -r requirements.txt
     #   django

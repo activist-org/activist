@@ -8,7 +8,7 @@
       sidebar.collapsed = true;
       setContentScrollable();
     "
-    class="absolute z-10 flex-col hidden h-full transition-all duration-500 border-r bg-light-distinct dark:bg-dark-distinct md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm"
+    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,

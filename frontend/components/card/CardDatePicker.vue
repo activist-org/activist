@@ -36,7 +36,6 @@
       />
     </div>
     <DatePicker
-      v-model="dateArray"
       :first-day-of-week="2"
       trim-weeks
       expanded

@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  ctaLabel: String;
-  ctaAriaLabel: String;
+  ctaLabel: string;
+  ctaAriaLabel: string;
 }>();
 </script>

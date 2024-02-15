@@ -79,6 +79,8 @@
           "
           class="w-full h-[17.5rem]"
           :markerColors="event.type === 'learn' ? ['#2176AE'] : ['#BA3D3B']"
+          :eventNames="[event.name]"
+          :eventLocations="[event.inPersonLocation]"
         />
       </div>
       <CardGetInvolved
