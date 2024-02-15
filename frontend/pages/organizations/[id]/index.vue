@@ -39,6 +39,7 @@
           <p
             class="text-lg font-bold select-none width-5/6 whitespace-nowrap hover:light-menu-selection"
           >
+            <span class="sr-only">{{ $t("_global.navigate-to") }}</span>
             {{ $t(button.label) }}
           </p>
         </div>
