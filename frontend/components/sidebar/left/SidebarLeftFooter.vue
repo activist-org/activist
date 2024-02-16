@@ -14,7 +14,7 @@
           @keyup.enter="closeOtherMenus(index)"
           @click="closeOtherMenus(index)"
           :ref="
-            (el) =>
+            (el: Element | ComponentPublicInstance | null) =>
               (disclosureButtons[index] = { close, el: el as HTMLElement })
           "
           class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
