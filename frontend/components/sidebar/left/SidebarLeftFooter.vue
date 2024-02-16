@@ -13,7 +13,10 @@
         <DisclosureButton
           @keyup.enter="closeOtherMenus(index)"
           @click="closeOtherMenus(index)"
-          :ref="(el) => (disclosureButtons[index] = { close, el })"
+          :ref="
+            (el) =>
+              (disclosureButtons[index] = { close, el: el as HTMLElement })
+          "
           class="flex items-center w-full pl-1 rounded-md style-menu-option-cta"
           :aria-label="$t(`${subMenu.ariaLabel}`)"
         >
@@ -73,12 +76,12 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import type { Ref } from "vue";
 import type { BarMenu } from "~/types/menu-selector";
 
-type DisclosureButton = {
+type DisclosureButtonType = {
   close: (ref?: Ref | HTMLElement) => void;
   el: Ref | HTMLElement;
 };
 
-const disclosureButtons = ref<DisclosureButton[]>([]);
+const disclosureButtons = ref<DisclosureButtonType[]>([]);
 
 const disclosurePanels = ref<(Element | ComponentPublicInstance | null)[]>([]);
 
@@ -89,7 +92,7 @@ const closeOtherMenus = (id: number) => {
 
   // Focus on the first item in disclosurePanels when opening.
   // Focus on the disclosureButton when closing.
-  if (disclosurePanels.value[id]?.childNodes) {
+  if (disclosurePanels.value[id]?.childNodes instanceof HTMLElement) {
     disclosurePanels.value[id]?.childNodes[1].focus();
   } else {
     disclosureButtons.value[id]?.el?.$el.focus();
