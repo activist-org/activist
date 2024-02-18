@@ -213,8 +213,6 @@
   "components.footer.source-code": "Source Code",
   "components.footer.version-number": "v0.0.1",
   "components.form-radio-group.custom-numeric-value-placeholder": "Enter number",
-  "components.friendly-captcha.i-am-human": "I am human",
-  "components.friendly-captcha.label": "FriendlyCaptcha",
   "components.grid-app-shields.app-store": "App Store",
   "components.grid-app-shields.download-on-the": "Download on the",
   "components.grid-app-shields.f-droid": "F-Droid",
