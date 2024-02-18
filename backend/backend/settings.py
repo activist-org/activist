@@ -7,12 +7,12 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+
 import os
 from pathlib import Path
 
 import django_stubs_ext
 import dotenv
-from django.core.management.utils import get_random_secret_key
 from rest_framework import viewsets
 from rest_framework.settings import api_settings
 
@@ -151,8 +151,6 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-SECRET_KEY = get_random_secret_key()
 
 REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": [

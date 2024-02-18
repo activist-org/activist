@@ -14,6 +14,7 @@ router.register(r"tasks", views.TaskViewSet)
 router.register(r"topics", views.TopicViewSet)
 router.register(r"resource_topics", views.ResourceTopicViewSet)
 router.register(r"topic_formats", views.TopicFormatViewSet)
+router.register(r"faq", views.FaqViewSet)
 
 
 urlpatterns = [

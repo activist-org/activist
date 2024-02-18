@@ -256,6 +256,19 @@ You can then visit http://localhost:8000/ to see the development backend build o
 </p>
 </details>
 
+<!-- <a id="component-stories"></a>
+
+### Component stories [`⇧`](#contents)
+
+activist uses [histoire](https://histoire.dev/) for stories so that frontend components and their documentation are all written in Vue. To view the stories, enter the following in the command line:
+
+```bash
+cd frontend
+yarn run story:dev
+```
+
+From there you'll be able to visit http://localhost:6006/ to view the documentation. Contributions are very welcome! -->
+
 <a id="style-guide"></a>
 
 ## Style guide [`⇧`](#contents)

@@ -57,9 +57,7 @@ class User(AbstractUser, CreationDeletionMixin):
     verification_partner = models.ForeignKey(
         "User", on_delete=models.SET_NULL, null=True
     )
-    user_icon = models.ForeignKey(
-        "content.Image", on_delete=models.SET_NULL, null=True
-    )
+    user_icon = models.ForeignKey("content.Image", on_delete=models.SET_NULL, null=True)
     social_accounts = ArrayField(
         models.CharField(max_length=255), null=True, blank=True
     )

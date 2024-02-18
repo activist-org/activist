@@ -6,6 +6,7 @@ This file contains models for the content app.
 Contents:
     - Discussion
     - DiscussionEntry
+    - Faq
     - Resource
     - Task
     - Topic
@@ -48,6 +49,18 @@ class DiscussionEntry(models.Model):
 
     def __str__(self) -> str:
         return f"{self.id}"
+
+
+class Faq(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    question = models.TextField(max_length=500)
+    answer = models.TextField(max_length=500)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Resource(models.Model):

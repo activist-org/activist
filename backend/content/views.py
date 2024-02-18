@@ -11,6 +11,7 @@ from backend.paginator import CustomPagination
 from .models import (
     Discussion,
     DiscussionEntry,
+    Faq,
     Image,
     Resource,
     ResourceTopic,
@@ -21,6 +22,7 @@ from .models import (
 from .serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
+    FaqSerializer,
     ImageSerializer,
     ResourceSerializer,
     ResourceTopicSerializer,
@@ -174,6 +176,12 @@ class DiscussionEntryViewSet:
 
         self.perform_destroy(item)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class FaqViewSet(viewsets.ModelViewSet[Faq]):
+    queryset = Faq.objects.all()
+    serializer_class = FaqSerializer
+    pagination_class = CustomPagination
 
 
 class ImageViewSet(viewsets.ModelViewSet[Image]):

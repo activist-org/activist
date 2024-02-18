@@ -2,7 +2,7 @@ export interface Event {
   name: string;
   tagline: string;
   organizations: string[];
-  type: string;
+  type: "action" | "learn";
   topic: string;
   description: string;
   getInvolvedDescription: string;
