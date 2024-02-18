@@ -11,7 +11,44 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import Image, Resource, ResourceTopic, Task, Topic, TopicFormat
+from .models import (
+    Discussion,
+    DiscussionEntry,
+    Image,
+    Resource,
+    ResourceTopic,
+    Task,
+    Topic,
+    TopicFormat,
+)
+
+
+class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
+    class Meta:
+        model = Discussion
+        fields = [
+            "id",
+            "created_by",
+            "org_id",
+            "group_id",
+            "event_id",
+            "category",
+            "creation_date",
+            "deletion_date",
+        ]
+
+
+class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
+    class Meta:
+        model = DiscussionEntry
+        fields = [
+            "id",
+            "discussion_id",
+            "user_id",
+            "text",
+            "creation_date",
+            "deletion_date",
+        ]
 
 
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
@@ -96,6 +133,7 @@ class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
         validate_object_existence(Format, data["format_id"])
 
         return data
+
 
 class ImageSerializer(serializers.ModelSerializer[Image]):
     class Meta:

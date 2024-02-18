@@ -17,7 +17,6 @@ If you have questions or would like to communicate with the team, please [join u
 - [Learning the tech stack](#learning-the-tech)
 - [Development environment](#dev-env)
 - [Style guide](#style-guide)
-- [Linting](#linting)
 - [Issues and projects](#issues-projects)
 - [Bug reports](#bug-reports)
 - [Feature requests](#feature-requests)
@@ -138,6 +137,7 @@ activist is very open to contributions from people in the early stages of their 
 > - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) # for collaboration
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 > - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+> - [Ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
 >
 > </p>
 > </details>
@@ -261,12 +261,6 @@ You can then visit http://localhost:8000/ to see the development backend build o
 ## Style guide [`⇧`](#contents)
 
 Please see the [activist style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
-
-<a id="linting"></a>
-
-## Linting [`⇧`](#contents)
-
-For the backend [pylint-django](https://github.com/PyCQA/pylint-django) is installed via the required packages to assure that errors are reported correctly within a Django development environment.
 
 <a id="issues-projects"></a>
 

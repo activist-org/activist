@@ -49,7 +49,6 @@ DJANGO_SETTINGS_MODULE = "backend.settings"
 python_files = "tests.py test_*.py *_tests.py"
 addopts = "--nomigrations --cov=. --cov-report=html --cov-report=term"
 
-
 [tool.coverage.run]
 omit = [
     "*/migrations/*",
@@ -69,15 +68,11 @@ exclude = [
     "authentication/factories.py",
     "content/factories.py",
     "entities/factories.py",
-    "events/factories.py"
+    "events/factories.py",
 ]
+
 [[tool.mypy.overrides]]
-module = [
-    "authentication.*",
-    "content.*",
-    "entities.*",
-    "events.*"
-]
+module = ["authentication.*", "content.*", "entities.*", "events.*"]
 follow_imports = "skip"
 
 [tool.django-stubs]

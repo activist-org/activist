@@ -5,6 +5,7 @@
     "heybourn.headwind",
     "ms-vsliveshare.vsliveshare",
     "Vue.volar",
-    "Vue.vscode-typescript-vue-plugin"
+    "Vue.vscode-typescript-vue-plugin",
+    "charliermarsh.ruff"
   ]
 }
