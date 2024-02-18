@@ -38,8 +38,8 @@
       leave-to-class="opacity-0 transform scale-95"
     >
       <MenuItems
-        class="absolute right-0 mt-2 border shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none border-light-text dark:border-dark-text"
-        :class="{ '!static !border-0': location === 'sideMenu' }"
+        class="absolute right-0 mt-2 shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text"
+        :class="{ '!static': location === 'sideMenu' }"
       >
         <ul class="px-2 py-2">
           <NuxtLink

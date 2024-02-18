@@ -8,7 +8,7 @@
       {{ $t("components.landing-tech-banner.open-source-header") }}
     </h2>
     <p
-      class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full xl:text-xl text-transform: text-light-special-text dark:text-dark-special-text"
+      class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full xl:text-xl text-transform: text-light-distinct-text dark:text-dark-distinct-text"
     >
       {{ $t("components.landing-tech-banner.open-source-tagline") }}
     </p>

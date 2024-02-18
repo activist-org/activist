@@ -9,28 +9,28 @@
     <div class="h-full grid grid-cols-2 gap-3 lg:gap-4 lg:grid-cols-4">
       <CardMetric
         :text="$t('_global.events')"
-        number="123"
+        :number="metrics['total events']"
         textColor="text-light-text dark:text-dark-text"
         borderColor="border-light-text dark:border-dark-text"
         backgroundColor="bg-light-distinct dark:bg-dark-distinct hover:bg-light-highlight dark:hover:bg-dark-highlight active:bg-light-distinct active:dark:bg-dark-distinct"
       />
       <CardMetric
         :text="$t('components.card-metrics-overview.action')"
-        number="100"
+        :number="metrics['action events']"
         textColor="text-light-text dark:text-dark-action-red"
         borderColor="border-light-text dark:border-dark-action-red"
         backgroundColor="bg-light-action-red/60 dark:bg-dark-action-red/20 hover:bg-light-action-red/50 hover:dark:bg-dark-action-red/30 active:bg-light-action-red/60 active:dark:bg-dark-action-red/20"
       />
       <CardMetric
         :text="$t('components.card-metrics-overview.learn')"
-        number="23"
+        :number="metrics['learn events']"
         textColor="text-light-text dark:text-dark-learn-blue"
         borderColor="border-light-text dark:border-dark-learn-blue"
         backgroundColor="bg-light-learn-blue/60 dark:bg-dark-learn-blue/20 hover:bg-light-learn-blue/50 hover:dark:bg-dark-learn-blue/30 active:bg-light-learn-blue/60 active:dark:bg-dark-learn-blue/20"
       />
       <CardMetric
         :text="$t('components.card-metrics-overview.new-organizations')"
-        number="10"
+        :number="metrics['new orgs']"
         textColor="text-light-text dark:text-dark-accepted-green"
         borderColor="border-light-text dark:border-dark-accepted-green"
         backgroundColor="bg-light-accepted-green/60 dark:bg-dark-accepted-green/20 hover:bg-light-accepted-green/50 dark:hover:bg-dark-accepted-green/30 active:bg-light-accepted-green/60 active:dark:bg-dark-accepted-green/20"
@@ -40,7 +40,11 @@
 </template>
 
 <script setup lang="ts">
+interface Metrics {
+  [key: string]: number;
+}
+
 defineProps<{
-  metrics: string[];
+  metrics: Metrics;
 }>();
 </script>

@@ -11,8 +11,12 @@
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
           class="select-none whitespace-nowrap hover:light-menu-selection"
         >
+          <span class="sr-only">{{ $t("_global.navigate-to") }}</span>
           {{ $t(label) }}
         </p>
+        <span v-else class="sr-only"
+          >{{ $t("_global.navigate-to") }} {{ $t(label) }}</span
+        >
       </Transition>
     </div>
   </MenuLinkWrapper>

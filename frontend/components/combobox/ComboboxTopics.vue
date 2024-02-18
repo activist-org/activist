@@ -13,7 +13,7 @@
               @focus="handleInputFocus"
               @blur="inputFocussed = false"
               class="py-2 pl-4 border rounded-lg style-cta selection:bg-light-highlight dark:selection:bg-white/20"
-              :displayValue="(_) => $t(displayValue())"
+              :displayValue="displayValueHandler"
             />
             <div
               class="absolute inset-y-0 right-0 flex items-center pr-3 text-light-text dark:text-dark-cta-orange"
@@ -34,7 +34,7 @@
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
-              class="relative px-4 py-2 cursor-default select-none text-light-special-text dark:text-dark-special-text"
+              class="relative px-4 py-2 cursor-default select-none text-light-distinct-text dark:text-dark-distinct-text"
             >
               {{ $t("components.combobox-topics.no-matching-topics") }}
             </div>
@@ -87,6 +87,8 @@ import {
 } from "@headlessui/vue";
 import { GLOBAL_TOPICS } from "~/types/topics";
 
+const i18n = useI18n();
+
 const topics = [{ id: 1, name: "_global.topics.all-topics" }];
 
 let nextId = topics.length + 1;
@@ -118,6 +120,10 @@ function displayValue() {
       : selectedTopic.value.name;
   }
 }
+
+const displayValueHandler = () => {
+  return i18n.t(displayValue());
+};
 
 function handleInputFocus(e: Event) {
   // A timeout to make sure the dropdown exist before checking.

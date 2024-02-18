@@ -179,10 +179,9 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a `.env` file and start your docker images with the following:
+4. Start your docker images with the following:
 
    ```bash
-   cp .env.example .env
    docker compose up
 
    # Or with new dependencies:
@@ -196,6 +195,9 @@ git remote add upstream https://github.com/activist-org/activist.git
 
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
+
+> [!TIP]
+> For those using LLM coding assistants, [LLMPROMPT.txt](https://github.com/activist-org/activist/blob/main/LLMPROMPT.txt) contains a good prompt to paste as context or add to your settings.
 
 <a id="using-yarn-or-python"></a>
 
@@ -227,7 +229,7 @@ Our backend depends on a connection to a postgres DB, therefore we need to setup
 docker compose up db
 ```
 
-In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env` file first.
+In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env.dev` file first.
 
 ```bash
 # Current
@@ -253,6 +255,19 @@ You can then visit http://localhost:8000/ to see the development backend build o
 
 </p>
 </details>
+
+<!-- <a id="component-stories"></a>
+
+### Component stories [`⇧`](#contents)
+
+activist uses [histoire](https://histoire.dev/) for stories so that frontend components and their documentation are all written in Vue. To view the stories, enter the following in the command line:
+
+```bash
+cd frontend
+yarn run story:dev
+```
+
+From there you'll be able to visit http://localhost:6006/ to view the documentation. Contributions are very welcome! -->
 
 <a id="style-guide"></a>
 
