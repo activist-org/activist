@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   alias: {
     "@": resolve(__dirname, "./"),
   },
-  plugins: [],
+  plugins: ["~/plugins/i18n-head.ts"],
   modules: [
     "@nuxt/content",
     "nuxt-icon",
