@@ -32,7 +32,7 @@ from .serializers import (
 )
 
 
-class DiscussionViewSet:
+class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
     queryset = Discussion.objects.all()
     serializer_class = DiscussionSerializer
     pagination_class = CustomPagination
@@ -53,10 +53,11 @@ class DiscussionViewSet:
         )
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        query = self.get_queryset(id=pk)
+        queryset = self.get_queryset()
+        item = queryset.filter(id=pk).first()
 
-        serializer = self.get_serializer(query)
-        return Response(serializer.data)
+        serializer = self.get_serializer(item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def list(self, request: Request) -> Response:
         if request.user.is_authenticated:
@@ -105,7 +106,7 @@ class DiscussionViewSet:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class DiscussionEntryViewSet:
+class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
     queryset = DiscussionEntry.objects.all()
     serializer_class = DiscussionEntrySerializer
     pagination_class = CustomPagination
@@ -126,10 +127,11 @@ class DiscussionEntryViewSet:
         )
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        query = self.get_queryset(id=pk)
+        queryset = self.get_queryset()
+        item = queryset.filter(id=pk).first()
 
-        serializer = self.get_serializer(query)
-        return Response(serializer.data)
+        serializer = self.get_serializer(item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def list(self, request: Request) -> Response:
         if request.user.is_authenticated:
