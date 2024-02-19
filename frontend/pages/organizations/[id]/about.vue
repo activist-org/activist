@@ -86,7 +86,7 @@
       <!-- <CardDiscussionEntry :is-private="false" :discussion="discussion" /> -->
 
       <h3 class="text-left responsive-h3 font-display">
-        {{ $t("pages.organizations.events.discussion") }}
+        {{ $t("_global.discussion") }}
       </h3>
       <hr />
 
