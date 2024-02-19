@@ -77,16 +77,32 @@
         :social-links="organization.socialLinks"
         :userIsAdmin="true"
       />
-      <!-- <CardDonate
+
+      <CardDonate
         :userIsAdmin="true"
         :donationPrompt="organization.donationPrompt"
-      /> -->
+      />
+
+      <!-- <CardDiscussionEntry :is-private="false" :discussion="discussion" /> -->
+
+      <h3 class="text-left responsive-h3 font-display">
+        {{ $t("pages.organizations.events.discussion") }}
+      </h3>
+      <hr />
+
+      <CardDiscussionText
+        :is-private="false"
+        :discussion-texts="testDiscussionTexts"
+      />
+      <CardDiscussionInput :discussion-input="testDiscussionInput" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import type { DiscussionInput } from "~/types/card-discussion-input";
+import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Organization } from "~/types/organization";
 
 definePageMeta({
@@ -103,6 +119,35 @@ const route = useRoute();
 // TODO: for testing purpose, should be removed.
 const upVotes = ref(123);
 const downVotes = ref(123);
+
+const testDiscussionTexts: DiscussionText[] = [
+  {
+    // authorImg?: "string",
+    author: "Name",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
+    votes: 123,
+    date: new Date(Date.now()),
+  },
+  {
+    // authorImg?: "string",
+    author: "Name",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
+    votes: 123,
+    date: new Date(Date.now()),
+  },
+];
+
+const testDiscussionInput: DiscussionInput = {
+  name: "Name",
+  // location?: string,
+  supporters: 1,
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
+  category: "Category 1",
+  highRisk: false,
+};
 
 const testOrganization: Organization = {
   name: "tech from below",
