@@ -21,6 +21,26 @@
         hidden: !menuOpen,
       }"
     >
+      <button
+        @click="toggleMenuState"
+        class="absolute left-3 top-3 w-6 h-6"
+        :aria-label="$t('components.btn-action.close-navigation-aria-label')"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="stroke-dark-distinct dark:stroke-light-distinct"
+          fill="currentColor"
+          stroke="currentColor"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
       <slot></slot>
     </div>
   </div>
@@ -29,20 +49,13 @@
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
 
-const target = ref();
+const target = ref<HTMLElement | null>(null);
 const menuOpen = ref(false);
-const ignoreElRef = ref();
+const ignoreElRef = ref<HTMLElement | null>(null);
 
 const toggleMenuState = () => {
   menuOpen.value = !menuOpen.value;
 };
 
-onClickOutside(
-  target.value,
-  () => {
-    if (!menuOpen.value) return;
-    toggleMenuState();
-  },
-  { ignore: [ignoreElRef.value] }
-);
+onClickOutside(target, toggleMenuState, { ignore: [ignoreElRef] });
 </script>

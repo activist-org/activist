@@ -86,6 +86,7 @@
   "components.btn-action-dropdown.qr-code-options-aria-label": "View format options for downloading a QR code",
   "components.btn-action.attend": "Attend",
   "components.btn-action.attend-aria-label": "Attend this event",
+  "components.btn-action.close-navigation-aria-label": "Close navigation",
   "components.btn-action.downvote-application-aria-label": "Vote to not support the organization joining activist",
   "components.btn-action.filter-discussion-category-aria-label": "Filter for the type of discussion",
   "components.btn-action.invite-someone": "Invite someone",
