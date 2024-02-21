@@ -2,7 +2,7 @@
   <div>
     <button
       @click="$emit('toggle')"
-      class="relative z-50 group focus-brand"
+      class="relative z-40 focus-brand"
       :aria-label="
         $t('components.sidebar-right-toggle.sidebar-collapse-aria-label')
       "
