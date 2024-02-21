@@ -1,4 +1,4 @@
-// Injects the lang attribute in all nuxt <Head></Head> components
+// Injects the lang attribute in all nuxt <Head></Head> components.
 export default defineNuxtPlugin((nuxtApp) => {
   const router = nuxtApp.vueApp.config.globalProperties.$router;
   router.afterEach((to) => {
