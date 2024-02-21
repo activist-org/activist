@@ -1,5 +1,5 @@
 <template>
-  <SidebarRightHamburger
+  <SidebarRightToggle
     @toggle="toggleMenuState"
     ref="ignoreElRef"
     class="flex items-center h-full"
@@ -21,26 +21,6 @@
         hidden: !menuOpen,
       }"
     >
-      <button
-        @click="toggleMenuState"
-        class="absolute left-3 top-3 w-6 h-6"
-        :aria-label="$t('components.btn-action.close-navigation-aria-label')"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="stroke-dark-distinct dark:stroke-light-distinct"
-          fill="currentColor"
-          stroke="currentColor"
-          stroke-width="1.5"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18 18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
       <slot></slot>
     </div>
   </div>
@@ -57,5 +37,9 @@ const toggleMenuState = () => {
   menuOpen.value = !menuOpen.value;
 };
 
-onClickOutside(target, toggleMenuState, { ignore: [ignoreElRef] });
+const closeMenuState = () => {
+  menuOpen.value = false;
+};
+
+onClickOutside(target, closeMenuState, { ignore: [ignoreElRef] });
 </script>

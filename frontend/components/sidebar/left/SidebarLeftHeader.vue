@@ -35,28 +35,25 @@
             sidebar.toggleCollapsedSwitch();
             emit('toggle-pressed');
           "
-          class="flex items-center justify-center transition duration-100 w-7 h-7 text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text dark:hover:text-dark-text focus-brand outline-offset-0"
+          class="flex items-center justify-center transition duration-100 w-7 h-7 focus-brand outline-offset-0"
+          :class="{
+            'pr-[2px]': sidebar.collapsedSwitch == false,
+            'pl-[2px]': sidebar.collapsedSwitch == true,
+          }"
           :aria-label="
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')
           "
         >
-          <div
-            :class="{
-              'pr-[2px]': sidebar.collapsedSwitch == false,
-              'pl-[2px]': sidebar.collapsedSwitch == true,
-            }"
-          >
-            <Icon
-              v-if="sidebar.collapsedSwitch == false"
-              name="bi:chevron-bar-left"
-              size="1.4em"
-            />
-            <Icon
-              v-if="sidebar.collapsedSwitch == true"
-              name="bi:chevron-bar-right"
-              size="1.4em"
-            />
-          </div>
+          <SidebarToggle
+            v-if="sidebar.collapsedSwitch == false"
+            chevronDirection="left"
+            iconSize="1.4em"
+          />
+          <SidebarToggle
+            v-if="sidebar.collapsedSwitch == true"
+            chevronDirection="right"
+            iconSize="1.4em"
+          />
         </button>
       </div>
     </div>
