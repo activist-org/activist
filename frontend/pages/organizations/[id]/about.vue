@@ -6,7 +6,7 @@
       <Title>{{ organization.name }}</Title>
     </Head>
     <HeaderAppPage :organization="organization">
-      <div class="flex space-x-2 lg:space-x-3">
+      <div class="flex space-x-2 lg:space-x-3 pb-3 lg:pb-4">
         <BtnAction
           class="w-max"
           :cta="true"
@@ -43,7 +43,7 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="pt-3 pb-6 space-y-6 lg:pt-4">
+    <div class="pb-6 space-y-6">
       <div
         class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0"
         :class="{
