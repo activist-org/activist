@@ -10,7 +10,7 @@
       :key="opt.id"
       :to="opt.routeURL"
       :selected="opt.selected"
-      :isPaddings="isSideLeftMenu ? true : false"
+      :isAddStyles="false"
     >
       <MenuItem v-slot="{ active }" class="flex">
         <MenuItemLabel

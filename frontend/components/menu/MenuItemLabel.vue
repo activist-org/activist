@@ -2,13 +2,15 @@
   <component
     :is="infoComponent.is"
     v-bind="infoComponent"
-    class="flex items-center text-sm w-full"
+    class="flex items-center text-sm w-full rounded-md"
     :class="{
-      'group [word-spacing:0.5em] rounded-md pl-4 pr-3 py-2': !isSideLeftMenu,
+      'group [word-spacing:0.5em] pl-4 pr-3 py-2': !isSideLeftMenu,
       'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
         active && !isSideLeftMenu,
-      'text-light-text dark:text-dark-text': !active,
-      'relative z-0 font-medium text-left space-x-2': isSideLeftMenu,
+      'text-light-text dark:text-dark-text':
+        !active || (active && isSideLeftMenu),
+      'relative z-0 font-medium text-left space-x-2 p-2': isSideLeftMenu,
+      'bg-light-highlight dark:bg-dark-highlight': active && isSideLeftMenu,
     }"
   >
     <Icon
