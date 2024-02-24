@@ -82,13 +82,3 @@ const event: Event = {
 };
 
 </script>
-
-<!-- <script> -->
-//  export default {
-  //  methods: {
-    //  openShareModal() {
-      //  alert('Share Modal should open');
-    //  },
-  //  },
-//  };
-<!-- </script> -->
