@@ -192,8 +192,8 @@
                   props?.event?.name
                     ? props?.event?.name
                     : props?.organization?.name
-                      ? props?.organization?.name
-                      : '',
+                    ? props?.organization?.name
+                    : '',
                   getCurrentUrl()
                 )
               "

@@ -21,12 +21,12 @@
         <path :d="props.iconPath" />
       </svg>
     </div>
-    <div :textStyle="props.textStyle"> {{ props.text }}</div>
+    <div :textStyle="props.textStyle">{{ props.text }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps } from "vue";
 
 const iconStyle = {
   width: "28px",

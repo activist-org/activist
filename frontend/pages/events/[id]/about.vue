@@ -114,5 +114,4 @@ const event: Event = {
   imageURL: "/images/tech-from-below.svg",
   socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
 };
-
 </script>
