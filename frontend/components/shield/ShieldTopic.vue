@@ -1,12 +1,13 @@
 <template>
   <div
-    class="flex items-center justify-between border w-max h-max cursor-pointer style-cta elem-shadow-sm space-x-2"
+    class="flex items-center justify-between border cursor-pointer w-max h-max style-cta elem-shadow-sm space-x-2"
     :class="{
       'style-cta': active,
       'style-cta-secondary': !active,
       'pl-2 pr-3 rounded-full': !isSelector,
       'py-1 sm:py-0 rounded-lg pl-4 pr-5 sm:pl-2 sm:pr-3': isSelector,
     }"
+    tabindex="0"
   >
     <div class="flex items-center" :class="{ 'max-sm:flex-grow': isSelector }">
       <Icon class="flex-shrink-0 w-5 h-5 my-1" name="bi:globe" size="1em" />

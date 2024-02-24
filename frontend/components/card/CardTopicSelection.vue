@@ -3,22 +3,27 @@
     <p class="font-medium responsive-h3 text-light-text dark:text-dark-text">
       {{ $t("components.card-topic-selection.header") }}
     </p>
+    <p class="text-light-text dark:text-dark-text">
+      {{ $t("components.card-topic-selection.subtext-organization") }}
+    </p>
     <input
       v-model="query"
       @focus="inputFocus = true"
+      @keydown="resetTabIndex()"
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="w-full py-2 pl-4 rounded-md text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header elem-shadow-sm focus-brand"
+      class="w-full py-2 pl-4 topicInput rounded-md text-light-distinct-text dark:text-dark-distinct-text bg-light-content dark:bg-dark-content elem-shadow-sm focus-brand"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
         v-for="t of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
+        @keydown="keydownEvent($event)"
         :key="t.value"
         :topic="t.label"
-        class="max-sm:w-full"
+        class="topic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
       />
@@ -34,9 +39,10 @@
         v-for="t of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
+        @keydown="mobileKeyboardEvent($event)"
         :key="t.value + '-selected-only'"
         :topic="t.label"
-        class="max-sm:w-full"
+        class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
       />
@@ -47,9 +53,10 @@
         )"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
+        @keydown="mobileKeyboardEvent($event)"
         :key="t.value"
         :topic="t.label"
-        class="max-sm:w-full"
+        class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
       />
@@ -87,6 +94,113 @@ const props = defineProps({
 const moreOptionsShown = ref(false);
 const inputFocus = ref(false);
 const emit = defineEmits(["update:modelValue"]);
+
+const resetTabIndex = () => {
+  const topic: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+  const mobileTopic: HTMLElement[] = Array.from(
+    document.querySelectorAll(".mobileTopic")
+  );
+
+  topic.forEach((topic) => (topic.tabIndex = -1));
+  topic[0].tabIndex = 0;
+  mobileTopic.forEach((topic) => (topic.tabIndex = -1));
+  mobileTopic[0].tabIndex = 0;
+};
+
+let index = 0;
+const keydownEvent = (e: KeyboardEvent) => {
+  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+
+  switch (e.code) {
+    case "ArrowUp":
+    case "ArrowLeft":
+      e.preventDefault();
+      if (index > 0) {
+        index--;
+      } else {
+        index = topics.length - 1;
+      }
+      break;
+    case "ArrowDown":
+    case "ArrowRight":
+      e.preventDefault();
+      if (index < topics.length - 1) {
+        index++;
+      } else {
+        index = 0;
+      }
+      break;
+    case "Enter":
+      e.preventDefault();
+      if (topics[index].classList.contains("style-cta-secondary")) {
+        if (index < topics.length - 1) {
+          index++;
+        }
+      } else {
+        if (index > 0) {
+          index--;
+        } else {
+          index = 0;
+        }
+      }
+      break;
+    case "Tab":
+      index = 0;
+      break;
+  }
+
+  topics.forEach((topic) => (topic.tabIndex = -1));
+  topics[index].tabIndex = 0;
+  topics[index].focus();
+};
+
+const mobileKeyboardEvent = (e: KeyboardEvent) => {
+  const topics: HTMLElement[] = Array.from(
+    document.querySelectorAll(".mobileTopic")
+  );
+
+  switch (e.code) {
+    case "ArrowUp":
+    case "ArrowLeft":
+      e.preventDefault();
+      if (index > 0) {
+        index--;
+      } else {
+        index = topics.length - 1;
+      }
+      break;
+    case "ArrowDown":
+    case "ArrowRight":
+      e.preventDefault();
+      if (index < topics.length - 1) {
+        index++;
+      } else {
+        index = 0;
+      }
+      break;
+    case "Enter":
+      e.preventDefault();
+      if (topics[index].classList.contains("style-cta-secondary")) {
+        if (index < topics.length - 1) {
+          index++;
+        }
+      } else {
+        if (index > 0) {
+          index--;
+        } else {
+          index = 0;
+        }
+      }
+      break;
+    case "Tab":
+      index = 0;
+      break;
+  }
+
+  topics.forEach((topic) => (topic.tabIndex = -1));
+  topics[index].tabIndex = 0;
+  topics[index].focus();
+};
 
 const value = computed<Topic[]>({
   get() {

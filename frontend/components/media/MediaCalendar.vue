@@ -2,7 +2,7 @@
   <form class="w-full h-full rounded-[0.45em] elem-shadow-sm">
     <Calendar
       :first-day-of-week="2"
-      :color="cMode"
+      :color="colorModePreference"
       trim-weeks
       expanded
       :attributes="attributes"
@@ -19,7 +19,7 @@ const year = date.getFullYear();
 const month = date.getMonth();
 
 const colorMode = useColorMode();
-const cMode = colorMode.preference == "light" ? "light" : "dark";
+const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
 
 const attributes = ref([
   {

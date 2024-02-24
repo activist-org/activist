@@ -13,7 +13,7 @@
         {{ error.statusCode }}
       </div>
       <div
-        class="bg-light-special-text dark:bg-dark-special-text md:w-[2px] md:h-[200px] w-[120px] h-[2px]"
+        class="bg-light-distinct-text dark:bg-dark-distinct-text md:w-[2px] md:h-[200px] w-[120px] h-[2px]"
       ></div>
       <div
         class="text-left flex flex-col items-center md:items-start max-w-[350px]"
@@ -24,7 +24,7 @@
           {{ $t("pages.error.message") }}
         </div>
         <div
-          class="flex flex-wrap justify-center my-8 break-all md:my-6 md:text-lg text-light-special-text dark:text-dark-special-text"
+          class="flex flex-wrap justify-center my-8 break-all md:my-6 md:text-lg text-light-distinct-text dark:text-dark-distinct-text"
         >
           {{ error.message }}
         </div>

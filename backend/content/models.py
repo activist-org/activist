@@ -9,6 +9,7 @@ Contents:
     - Topic
     - ResourceTopic
     - TopicFormat
+    - Image
 """
 from uuid import uuid4
 
@@ -16,6 +17,18 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin
+
+
+class Faq(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    question = models.TextField(max_length=500)
+    answer = models.TextField(max_length=500)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Resource(models.Model):
@@ -69,6 +82,15 @@ class ResourceTopic(models.Model):
 class TopicFormat(models.Model):
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
     format_id = models.ForeignKey("events.Format", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class Image(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    image_location = models.ImageField(upload_to="images/")
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.id}"

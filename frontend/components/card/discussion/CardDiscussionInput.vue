@@ -97,7 +97,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-special-text dark:placeholder-dark-special-text dark:text-dark-text dark:bg-dark-distinct focus-brand"
+          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-distinct-text dark:placeholder-dark-distinct-text dark:text-dark-text dark:bg-dark-distinct focus-brand"
           :placeholder="$t('components.card-discussion-input.leave-comment')"
         ></textarea>
       </div>

@@ -15,7 +15,7 @@
         {{ organization.name }}
       </h1>
       <h2
-        class="text-lg font-bold text-center responsive-h2 text-light-special-text dark:text-dark-special-text"
+        class="text-lg font-bold text-center responsive-h2 text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ organization.tagline }}
       </h2>
@@ -39,6 +39,7 @@
           <p
             class="text-lg font-bold select-none width-5/6 whitespace-nowrap hover:light-menu-selection"
           >
+            <span class="sr-only">{{ $t("_global.navigate-to") }}</span>
             {{ $t(button.label) }}
           </p>
         </div>

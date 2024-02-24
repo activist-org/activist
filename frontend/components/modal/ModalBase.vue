@@ -28,7 +28,7 @@
         <button
           v-if="imageModal"
           @click="closeModal"
-          class="absolute right-0 p-1 mt-8 mr-24 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
+          class="absolute right-0 p-1 mt-8 mr-24 rounded-full text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
           <Icon class="w-10 h-10" name="bi:x-circle-fill" />
@@ -36,7 +36,7 @@
         <div v-else class="relative">
           <button
             @click="closeModal"
-            class="absolute right-0 p-1 rounded-full text-light-special-text dark:text-dark-special-text hover:text-light-text hover:dark:text-dark-text focus-brand"
+            class="absolute right-0 p-1 rounded-full text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand"
           >
             <Icon class="w-10 h-10" name="bi:x-circle-fill" />
           </button>

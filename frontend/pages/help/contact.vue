@@ -199,6 +199,9 @@
                 spellcheck="false"
               ></textarea>
             </div>
+            <div class="flex flex-col space-y-2">
+              <FriendlyCaptcha />
+            </div>
             <button
               class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10"
               :class="{

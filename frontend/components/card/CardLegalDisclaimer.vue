@@ -17,7 +17,7 @@
         class="py-2 mt-2 border-t focus-within:border-0 border-light-section-div dark:border-dark-section-div"
       >
         <p
-          class="text-left select-text text-light-special-text dark:text-dark-special-text"
+          class="text-left select-text text-light-distinct-text dark:text-dark-distinct-text"
         >
           {{ disclaimer }}
         </p>

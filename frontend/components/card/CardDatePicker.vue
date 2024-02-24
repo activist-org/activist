@@ -23,7 +23,7 @@
         mode="Time"
         is24hr
         hide-time-header
-        :color="cMode"
+        :color="colorModePreference"
         class="date-picker-width elem-shadow-sm bg-light-header dark:bg-dark-header"
       />
       <DatePicker
@@ -31,16 +31,15 @@
         mode="Time"
         is24hr
         hide-time-header
-        :color="cMode"
+        :color="colorModePreference"
         class="date-picker-width elem-shadow-sm bg-light-header dark:bg-dark-header"
       />
     </div>
     <DatePicker
-      v-model="dateArray"
       :first-day-of-week="2"
       trim-weeks
       expanded
-      :color="cMode"
+      :color="colorModePreference"
       :attributes="attributes"
       transparent
     ></DatePicker>
@@ -55,7 +54,7 @@ const date1 = "2021-02-28T18:20:00.000Z";
 const date2 = "2021-02-28T18:20:00.000Z";
 
 const colorMode = useColorMode();
-const cMode = colorMode.preference == "light" ? "light" : "dark";
+const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
 
 const attributes = ref([
   {

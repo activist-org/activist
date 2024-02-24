@@ -5,7 +5,7 @@
       'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct':
         modelValue === value && !customColor,
       [customColorClass]: modelValue === value && customColor,
-      'bg-light-header text-light-special-text dark:text-dark-special-text dark:bg-dark-header':
+      'bg-light-header text-light-distinct-text dark:text-dark-distinct-text dark:bg-dark-header':
         modelValue !== value,
     }"
   >

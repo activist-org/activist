@@ -18,7 +18,7 @@
         {{ $t("pages._global.our-network") }}
       </h3>
       <p
-        class="responsive-py-1 text-light-special-text dark:text-dark-special-text"
+        class="responsive-py-1 text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ $t("pages.supporters.index.section-1-tagline") }}
       </p>

@@ -6,7 +6,7 @@
     </template>
     <template #modalDisplay>
       <div
-        class="flex w-[90%] justify-between grow items-center my-2.5 text-left transition duration-200 rounded-md select-none text-light-special-text dark:text-dark-special-text focus-inside bg-light-header dark:bg-dark-header elem-shadow-sm py-1 px-2"
+        class="flex w-[90%] justify-between grow items-center my-2.5 text-left transition duration-200 rounded-md select-none text-light-distinct-text dark:text-dark-distinct-text focus-inside bg-light-header dark:bg-dark-header elem-shadow-sm py-1 px-2"
       >
         <div class="flex items-center pl-1 space-x-2">
           <Icon name="bi:search" size="1em" />

@@ -6,7 +6,7 @@
       <Title>{{ event.name }}</Title>
     </Head>
     <HeaderAppPage :event="event">
-      <div class="flex space-x-2 lg:space-x-3">
+      <div class="flex space-x-2 lg:space-x-3 pb-3 lg:pb-4">
         <BtnRouteInternal
           class="w-max"
           :cta="true"
@@ -35,17 +35,31 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="pt-3 pb-6 space-y-6 lg:pt-4">
+    <div class="pb-6 space-y-6">
       <div
-        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="lg:grid space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0"
+        :class="{
+          'lg:space-x-6 lg:mr-6': !textExpanded,
+        }"
       >
-        <CardAbout class="lg:col-span-2" aboutType="event" :event="event" />
+        <CardAbout
+          @expand-reduce-text="expandReduceText"
+          :class="{
+            'lg:col-span-2': !textExpanded,
+            'lg:col-span-3': textExpanded,
+          }"
+          aboutType="event"
+          :event="event"
+        />
         <MediaMap
-          v-if="event.inPersonLocation"
-          class="w-full h-full"
-          :addresses="[event.inPersonLocation]"
-          :type="event.type"
-          :title="event.name"
+          v-if="
+            (event.inPersonLocation && !textExpanded) ||
+            (event.inPersonLocation && isUnderLargeBP)
+          "
+          class="w-full h-[17.5rem]"
+          :markerColors="event.type === 'learn' ? ['#2176AE'] : ['#BA3D3B']"
+          :eventNames="[event.name]"
+          :eventLocations="[event.inPersonLocation]"
         />
       </div>
       <CardGetInvolved
@@ -62,6 +76,26 @@ import type { Event } from "~/types/event";
 
 definePageMeta({
   layout: "sidebar",
+});
+
+const textExpanded = ref(false);
+const expandReduceText = () => {
+  textExpanded.value = !textExpanded.value;
+};
+
+const isUnderLargeBP = ref(false);
+
+const checkUnderLargeBP = () => {
+  isUnderLargeBP.value = window.innerWidth < 1024;
+};
+
+const handleResize = () => {
+  checkUnderLargeBP();
+};
+
+onMounted(() => {
+  window.addEventListener("resize", handleResize);
+  handleResize(); // initial check
 });
 
 const event: Event = {
