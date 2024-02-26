@@ -1,6 +1,6 @@
 <template>
   <header
-    class="w-full pl-1 transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
+    class="w-full pl-1 transition-all motion-reduce:transition-none duration-500 bg-light-distinct dark:bg-dark-distinct"
   >
     <div class="flex items-center pt-3 pb-2 pl-[0.85rem] pr-6">
       <div

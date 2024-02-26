@@ -14,7 +14,9 @@
       </div>
     </div>
     <div class="responsive-py-5 responsive-px-5">
-      <h3 class="transition-all duration-500 responsive-h2">
+      <h3
+        class="transition-all motion-reduce:transition-none duration-500 responsive-h2"
+      >
         {{ $t("pages.docs.index.section-1-subheader") }}
       </h3>
       <p
