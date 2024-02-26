@@ -5,7 +5,7 @@
         {{ $t("components._global.donate") }}
       </h3>
       <div
-        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
+        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight motion-reduce:transition-none dark:hover:text-dark-highlight"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"

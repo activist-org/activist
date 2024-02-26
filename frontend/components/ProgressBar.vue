@@ -4,7 +4,7 @@
   >
     <div
       :class="[
-        'h-full transition-width ease-in duration-500',
+        'h-full transition-width motion-reduce:transition-none ease-in duration-500',
         {
           'bg-light-placeholder dark:bg-dark-placeholder': type === 'default',
           'bg-light-action-red dark:bg-dark-action-red': type === 'action',

@@ -82,6 +82,9 @@ export default <Partial<Config>>{
           instagram: "rgba(129, 52, 175, 1)",
         },
       },
+      transitionProperty: {
+        width: "width",
+      },
     },
   },
 };
