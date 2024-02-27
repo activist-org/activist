@@ -68,7 +68,7 @@
   "_global.topics.women": "Women's Rights",
   "_global.trademark-policy": "Trademark policy",
   "components._global.connect": "Connect",
-  "components._global.copyright": "Copyright \u00a9 2023 activist.",
+  "components._global.copyright": "Copyright \u00a9 {year} activist.",
   "components._global.donate": "Donate",
   "components._global.enter-password": "Enter your password",
   "components._global.github": "GitHub",
