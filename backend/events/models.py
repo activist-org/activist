@@ -14,6 +14,7 @@ Contents:
     - EventRole
     - EventTask
     - EventTopic
+    - EventTag
 """
 from uuid import uuid4
 
@@ -122,6 +123,14 @@ class EventTask(models.Model):
 class EventTopic(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class EventTag(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    tag_id = models.ForeignKey("content.Tag", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
