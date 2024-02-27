@@ -10,8 +10,45 @@ from utils.utils import (
     validate_empty,
     validate_object_existence,
 )
+from .models import (
+    Discussion,
+    DiscussionEntry,
+    Faq,
+    Image,
+    Resource,
+    ResourceTopic,
+    Task,
+    Topic,
+    TopicFormat,
+)
 
-from .models import Faq, Image, Resource, ResourceTopic, Task, Topic, TopicFormat
+
+class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
+    class Meta:
+        model = Discussion
+        fields = [
+            "id",
+            "created_by",
+            "org_id",
+            "group_id",
+            "event_id",
+            "category",
+            "creation_date",
+            "deletion_date",
+        ]
+
+
+class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
+    class Meta:
+        model = DiscussionEntry
+        fields = [
+            "id",
+            "discussion_id",
+            "user_id",
+            "text",
+            "creation_date",
+            "deletion_date",
+        ]
 
 
 class FaqSerializer(serializers.ModelSerializer[Faq]):

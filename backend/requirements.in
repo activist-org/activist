@@ -6,13 +6,13 @@
 #
 
 Django
+django-cors-headers
 django-stubs
 django-stubs-ext
 djangorestframework
 djangorestframework-stubs
 drf-spectacular
-python-dotenv
-psycopg2-binary
 gunicorn
-django-cors-headers
 pillow
+psycopg2-binary
+python-dotenv

@@ -132,6 +132,7 @@ We would be happy to discuss granting you further rights as a contributor after 
 > - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) # for collaboration
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 > - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+> - [Ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
 >
 > </p>
 > </details>
