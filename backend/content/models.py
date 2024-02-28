@@ -80,7 +80,7 @@ class Tag(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.id}"
 
 
 class ResourceTopic(models.Model):
