@@ -107,12 +107,12 @@ class TopicFormat(models.Model):
         return f"{self.id}"
 
 
-class DiscussionTag(models.Model):
-    discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
+# class DiscussionTag(models.Model):
+#     discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+#     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
-    def __str__(self) -> str:
-        return f"{self.id}"
+#     def __str__(self) -> str:
+#         return f"{self.id}"
     
 
 class Image(models.Model):
