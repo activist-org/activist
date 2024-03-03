@@ -18,6 +18,14 @@
         />
         <SidebarRight>
           <div class="flex-col space-y-2">
+            <DropdownTheme
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
+            <DropdownLanguage
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
             <DropdownCreate
               class="w-full"
               :location="DropdownLocation.SIDEMENU"
@@ -39,6 +47,8 @@
 
 <script setup lang="ts">
 import { DropdownLocation } from "~/types/location";
+import DropdownLanguage from "../dropdown/DropdownLanguage.vue";
+import DropdownTheme from "../dropdown/DropdownTheme.vue";
 
 const isSearchExpanded = ref(false);
 

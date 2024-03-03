@@ -74,7 +74,7 @@
       leave-to-class="opacity-0 transform scale-95"
     >
       <MenuItems
-        class="rounded-md"
+        class="rounded-md focus-brand"
         :class="{
           'absolute right-0 mt-2 shadow-lg origin-top-right divide-y bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text':
             !isSideLeftMenu,

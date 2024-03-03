@@ -4,13 +4,11 @@
     v-bind="infoComponent"
     class="flex items-center text-sm w-full rounded-md"
     :class="{
-      'group [word-spacing:0.5em] pl-4 pr-3 py-2': !isSideLeftMenu,
+      'group pl-4 pr-3 py-2': !isSideLeftMenu,
       'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
-        active && !isSideLeftMenu,
-      'text-light-text dark:text-dark-text':
-        !active || (active && isSideLeftMenu),
+        active,
+      'text-light-text dark:text-dark-text': !active,
       'relative z-0 font-medium text-left space-x-2 p-2': isSideLeftMenu,
-      'bg-light-highlight dark:bg-dark-highlight': active && isSideLeftMenu,
     }"
   >
     <Icon
@@ -67,17 +65,18 @@ const infoLabel = computed(() => {
         class: "pl-2 pr-2",
       }
     : props.isSideLeftMenu
-      ? {
-          is: "p",
-          class: "select-none whitespace-nowrap hover:light-menu-selection",
-        }
-      : props.iconName
-        ? {
-            is: "p",
-            class: "pl-2 pr-2",
-          }
-        : {
-            is: "span",
-          };
+    ? {
+        is: "p",
+        class:
+          "select-none whitespace-nowrap hover:light-menu-selection dark:hover:dark-menu-selection",
+      }
+    : props.iconName
+    ? {
+        is: "p",
+        class: "pl-2 pr-2",
+      }
+    : {
+        is: "span",
+      };
 });
 </script>
