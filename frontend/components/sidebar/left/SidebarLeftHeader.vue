@@ -35,10 +35,10 @@
             sidebar.toggleCollapsedSwitch();
             emit('toggle-pressed');
           "
-          class="flex items-center justify-center transition duration-100 w-7 h-7 focus-brand outline-offset-0"
+          class="flex items-center justify-center transition duration-200 w-7 h-7 focus-brand outline-offset-0 motion-reduce:transition-none"
           :class="{
             'pr-0.5 -rotate-180': sidebar.collapsedSwitch == false,
-            'pl-0.5': sidebar.collapsedSwitch == true,
+            'pl-0.5 pb-1': sidebar.collapsedSwitch == true,
           }"
           :aria-label="
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')

@@ -8,12 +8,10 @@
       "
     >
       <div
-        :class="[
-          'w-6 h-6 transition-transform transform duration-100 motion-reduce:transition-none',
-          {
-            'rotate-180': menuOpen,
-          },
-        ]"
+        class="flex items-center justify-center w-6 h-6 transition-transform transform duration-200 motion-reduce:transition-none"
+        :class="{
+          'rotate-180 pb-1': menuOpen,
+        }"
       >
         <SidebarToggle chevronDirection="left" iconSize="1.4em" />
       </div>
