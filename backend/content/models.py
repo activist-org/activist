@@ -7,8 +7,11 @@ Contents:
     - Resource
     - Task
     - Topic
+    - Tag
     - ResourceTopic
+    - ResourceTag
     - TopicFormat
+    - DiscussionTag
     - Image
 """
 from uuid import uuid4
@@ -71,9 +74,26 @@ class Topic(models.Model):
         return self.name
 
 
+class Tag(models.Model):
+    id = models.IntegerField(primary_key=True)
+    text = models.CharField(max_length=255)
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class ResourceTopic(models.Model):
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+    
+
+class ResourceTag(models.Model):
+    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
+    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -86,6 +106,14 @@ class TopicFormat(models.Model):
     def __str__(self) -> str:
         return f"{self.id}"
 
+
+# class DiscussionTag(models.Model):
+#     discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+#     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
+
+#     def __str__(self) -> str:
+#         return f"{self.id}"
+    
 
 class Image(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
