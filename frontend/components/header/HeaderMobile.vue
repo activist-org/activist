@@ -47,8 +47,6 @@
 
 <script setup lang="ts">
 import { DropdownLocation } from "~/types/location";
-import DropdownLanguage from "../dropdown/DropdownLanguage.vue";
-import DropdownTheme from "../dropdown/DropdownTheme.vue";
 
 const isSearchExpanded = ref(false);
 
