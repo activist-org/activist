@@ -89,7 +89,7 @@ class ResourceTopic(models.Model):
 
     def __str__(self) -> str:
         return f"{self.id}"
-    
+
 
 class ResourceTag(models.Model):
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
@@ -113,7 +113,7 @@ class TopicFormat(models.Model):
 
 #     def __str__(self) -> str:
 #         return f"{self.id}"
-    
+
 
 class Image(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
