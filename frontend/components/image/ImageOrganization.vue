@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-center w-full h-full border rounded-md bg-light-content border-light-section-div dark:border-dark-section-div"
+    class="flex justify-center w-full h-full border rounded-md bg-light-layer-0 border-light-section-div dark:border-dark-section-div"
   >
     <img v-if="imgURL" :src="imgURL" />
     <!-- Note: Placeholder image for if no image is provided. -->

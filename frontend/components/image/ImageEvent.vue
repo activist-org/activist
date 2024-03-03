@@ -12,7 +12,7 @@
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
-      class="flex w-[80%] h-full rounded-r-md bg-light-content dark:bg-dark-content justify-center items-center text-light-text dark:text-dark-text"
+      class="flex w-[80%] h-full rounded-r-md bg-light-layer-0 dark:bg-dark-layer-0 justify-center items-center text-light-text dark:text-dark-text"
     >
       <Icon name="bi:calendar-check" class="mb-1 w-[75%] h-[75%]" />
     </div>

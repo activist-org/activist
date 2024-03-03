@@ -67,7 +67,7 @@
         >
           <a href="/" class="flex items-center">
             <div
-              class="flex items-center justify-center w-8 h-8 border rounded-full border-light-section-div dark:border-dark-section-div bg-light-content dark:bg-dark-content"
+              class="flex items-center justify-center w-8 h-8 border rounded-full border-light-section-div dark:border-dark-section-div bg-light-layer-0 dark:bg-dark-layer-0"
             >
               <Icon name="bi:person" size="1.5em" />
             </div>

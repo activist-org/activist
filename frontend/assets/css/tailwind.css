@@ -124,7 +124,7 @@
   }
 
   .style-btn {
-    @apply text-light-text bg-light-content hover:bg-light-highlight active:bg-light-content dark:text-dark-text dark:bg-dark-content dark:hover:bg-dark-highlight dark:active:bg-dark-content focus-brand elem-shadow-sm dark:border dark:border-dark-text;
+    @apply text-light-text bg-light-layer-0 hover:bg-light-highlight active:bg-light-layer-0 dark:text-dark-text dark:bg-dark-layer-0 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-0 focus-brand elem-shadow-sm dark:border dark:border-dark-text;
   }
 
   .style-cta {

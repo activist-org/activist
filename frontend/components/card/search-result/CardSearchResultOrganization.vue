@@ -2,7 +2,7 @@
   <div class="relative flex flex-col w-full md:flex-row">
     <div class="flex justify-center w-full md:w-fit">
       <div
-        class="border w-fit border-light-section-div dark:border-dark-section-div bg-light-content dark:bg-dark-content"
+        class="border w-fit border-light-section-div dark:border-dark-section-div bg-light-layer-0 dark:bg-dark-layer-0"
         :class="{
           'rounded-lg': organization.imageURL,
           'rounded-3xl': !organization.imageURL,

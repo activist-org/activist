@@ -42,7 +42,7 @@
       leave-to-class="opacity-0 transform scale-95"
     >
       <MenuItems
-        class="absolute right-0 mt-2 shadow-lg origin-top-right divide-y rounded-md bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text"
+        class="absolute right-0 mt-2 shadow-lg origin-top-right divide-y rounded-md bg-light-layer-0 dark:bg-dark-layer-0 ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text"
         :class="{ '!static': location === 'sideMenu' }"
       >
         <div class="px-2 py-2">
