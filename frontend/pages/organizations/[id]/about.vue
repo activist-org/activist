@@ -19,27 +19,11 @@
             components.btn-action.support-organization-aria-label
           "
         />
-        <BtnAction
-          class="hidden md:block w-max"
+        <ModalSharePage
           :cta="true"
           label="components.btn-action.share-organization"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="
-            components.btn-action.share-organization-aria-label
-          "
-        />
-        <BtnAction
-          class="md:hidden w-max"
-          :cta="true"
-          label="components.btn-action.share"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="
-            components.btn-action.share-organization-aria-label
-          "
+          ariaLabel="components.btn-action.share-organization-aria-label"
+          :organization="organization"
         />
       </div>
     </HeaderAppPage>
