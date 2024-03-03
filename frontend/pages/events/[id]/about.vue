@@ -27,32 +27,11 @@
           :counter="event.supporters"
           ariaLabel="components.btn-action.support-event-aria-label"
         />
-        <BtnAction
-          class="md:hidden w-fit"
-          :cta="true"
-          fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.25em"
-          :counter="event.supporters"
-          ariaLabel="components.btn-action.support-event-aria-label"
-        />
-        <BtnAction
-          class="hidden md:block w-max"
+        <ModalSharePage
           :cta="true"
           label="components.btn-action.share-event"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
           ariaLabel="components.btn-action.share-event-aria-label"
-        />
-        <BtnAction
-          class="md:hidden w-fit"
-          :cta="true"
-          label="components.btn-action.share"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="components.btn-action.share-event-aria-label"
+          :event="event"
         />
       </div>
     </HeaderAppPage>

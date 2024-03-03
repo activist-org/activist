@@ -6,22 +6,23 @@ If yes, combine them in a `_global` sub name at the lowest matching name level o
 """
 
 
-from collections import Counter
 import json
-from pathlib import Path
 import string
+from collections import Counter
+from pathlib import Path
 
 this_directory = str(Path(__file__).parent.resolve())
 
 with open(f"{this_directory}/en-US.json") as f:
     en_us_json_dict = json.loads(f.read())
 
+
 def lower_and_remove_punctuation(value):
     return value.lower().translate(str.maketrans("", "", string.punctuation))
 
+
 all_json_values = [
-    lower_and_remove_punctuation(value=v)
-    for v in list(en_us_json_dict.values())
+    lower_and_remove_punctuation(value=v) for v in list(en_us_json_dict.values())
 ]
 
 json_repeat_value_counts = {
@@ -33,7 +34,8 @@ for repeat_value in json_repeat_value_counts:
     i18n_keys = [
         k
         for k, v in en_us_json_dict.items()
-        if repeat_value == lower_and_remove_punctuation(value=v) and k[-len("_lower"):] != "_lower"
+        if repeat_value == lower_and_remove_punctuation(value=v)
+        and k[-len("_lower") :] != "_lower"
     ]
 
     # Needed as we're removing keys that are set to lowercase above.
@@ -55,7 +57,7 @@ for repeat_value in json_repeat_value_counts:
 
             common_character = False
 
-        if common_prefix := '.'.join(common_prefix.split('.')[:-1]):
+        if common_prefix := ".".join(common_prefix.split(".")[:-1]):
             print(f"Suggested new key: {common_prefix}._global.IDENTIFIER_KEY")
         else:
             print("Suggested new key: _global.IDENTIFIER_KEY")
@@ -75,7 +77,9 @@ if json_repeat_value_counts:
         value_to_be = "values are"
 
     print("")
-    raise ValueError(f"{len(json_repeat_value_counts)} repeat i18n {value_to_be} present. Please combine given the suggestions above.")
+    raise ValueError(
+        f"{len(json_repeat_value_counts)} repeat i18n {value_to_be} present. Please combine given the suggestions above."
+    )
 
 else:
     print("\nSuccess: no repeat i18n values found.")
