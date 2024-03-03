@@ -6,10 +6,10 @@ If yes, combine them in a `_global` sub name at the lowest matching name level o
 """
 
 
-from collections import Counter
 import json
-from pathlib import Path
 import string
+from collections import Counter
+from pathlib import Path
 
 this_directory = str(Path(__file__).parent.resolve())
 
