@@ -35,25 +35,16 @@
             sidebar.toggleCollapsedSwitch();
             emit('toggle-pressed');
           "
-          class="flex items-center justify-center transition duration-100 w-7 h-7 focus-brand outline-offset-0"
+          class="flex items-center justify-center transition duration-200 w-7 h-7 focus-brand outline-offset-0 motion-reduce:transition-none"
           :class="{
-            'pr-[2px]': sidebar.collapsedSwitch == false,
-            'pl-[2px]': sidebar.collapsedSwitch == true,
+            'pr-0.5 -rotate-180': sidebar.collapsedSwitch == false,
+            'pl-0.5 pb-1': sidebar.collapsedSwitch == true,
           }"
           :aria-label="
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')
           "
         >
-          <SidebarToggle
-            v-if="sidebar.collapsedSwitch == false"
-            chevronDirection="left"
-            iconSize="1.4em"
-          />
-          <SidebarToggle
-            v-if="sidebar.collapsedSwitch == true"
-            chevronDirection="right"
-            iconSize="1.4em"
-          />
+          <SidebarToggle chevronDirection="right" iconSize="1.4em" />
         </button>
       </div>
     </div>
