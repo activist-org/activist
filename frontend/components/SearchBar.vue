@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="location == 'sidebar'"
+    v-if="location == SearchBarLocation.SIDEBAR"
     class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 rounded-md select-none text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-link-text focus-within:border-2 dark:focus-within:border-dark-link-text focus-within:mb-[-3px] bg-light-header dark:bg-dark-header elem-shadow-sm"
   >
     <div class="flex items-center pl-1 space-x-2">
@@ -78,9 +78,10 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { SearchBarLocation } from "~/types/location";
 
 export interface Props {
-  location: "sidebar" | "header";
+  location: SearchBarLocation;
   expanded?: boolean;
 }
 
