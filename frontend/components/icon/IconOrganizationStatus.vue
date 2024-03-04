@@ -1,8 +1,5 @@
 <template>
-  <ModalOrganizationStatus
-    :status="status"
-    :organization="organization"
-  />
+  <ModalOrganizationStatus :status="status" :organization="organization" />
 </template>
 
 <script setup lang="ts">
