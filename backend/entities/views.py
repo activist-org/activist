@@ -4,6 +4,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
+from datetime import datetime
+
 from backend.paginator import CustomPagination
 
 from .models import (
@@ -110,6 +112,38 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
 
+    def list (self, request: Request) -> Response:
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            instance = serializer.save()
+            data = {"message": f"New Group created with id: {instance.id}"}
+            return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def retrieve(self, request: Request, pk: int) -> Response:
+        instance = get_object_or_404(Group, pk=pk)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+    
+    def partial_update(self, request: Request, pk: int) -> Response:
+        instance = get_object_or_404(Group, pk=pk)
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            data = {"message": f'Group {pk} has been updated'}
+            return Response(data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request: Request, pk: int) -> Response:
+        instance = get_object_or_404(Group, pk=pk)
+        instance.delete()
+        data = {"message": f'Group {pk} has been deleted successfully'}
+        return Response(data, status=status.HTTP_204_NO_CONTENT)
+    
 
 class OrganizationTaskViewSet(viewsets.ModelViewSet[OrganizationTask]):
     queryset = OrganizationTask.objects.all()
