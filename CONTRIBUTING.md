@@ -240,26 +240,26 @@ DATABASE_HOST=localhost
 
 From here we need the project's dependencies, with the practice being to create a virtual environment first within your local activist directory and then install the dependencies within it:
 
-- On Unix or MacOS, run:
+On Unix or MacOS, run:
 
-  ```bash
-  python3 -m venv venv  # make an environment named venv
-  source venv/bin/activate # activate the environment
-  ```
+```bash
+python3 -m venv venv  # make an environment named venv
+source venv/bin/activate # activate the environment
+```
 
-- On Windows (using Command Prompt), run:
+On Windows (using Command Prompt), run:
 
-  ```bash
-  python -m venv venv
-  venv\Scripts\activate.bat
-  ```
+```bash
+python -m venv venv
+venv\Scripts\activate.bat
+```
 
-  After activating the virtual environment, install the required dependencies by running:
+After activating the virtual environment, install the required dependencies by running:
 
-  ```bash
-  pip install --upgrade pip  # make sure that pip is at the latest version
-  pip install -r backend/requirements-dev.txt  # install dependencies
-  ```
+```bash
+pip install --upgrade pip  # make sure that pip is at the latest version
+pip install -r backend/requirements-dev.txt  # install dependencies
+```
 
 Now you can apply database migrations and start the local server.
 
