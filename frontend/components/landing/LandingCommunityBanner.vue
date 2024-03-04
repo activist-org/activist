@@ -10,7 +10,7 @@
         href="https://github.com/activist-org/activist"
         target="_blank"
       >
-        <Icon name="cib:github" size="1em" />
+        <Icon name="simple-icons:github" size="1.1em" />
         <p class="sr-only sm:not-sr-only">
           {{ $t("components._global.github") }}
         </p>
@@ -30,7 +30,7 @@
         href="https://instagram.com/activist_org"
         target="_blank"
       >
-        <Icon name="cib:instagram" size="1em" />
+        <Icon name="simple-icons:instagram" size="1em" />
         <p class="sr-only sm:not-sr-only">
           {{ $t("components._global.instagram") }}
         </p>
