@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-center w-full py-8 space-y-3 xl:space-y-4 sm:py-12 md:py-16 lg:py-24 xl:py-28 text-light-text dark:text-dark-text bg-light-distinct dark:bg-dark-distinct"
+    class="flex flex-col items-center justify-center w-full py-8 space-y-3 xl:space-y-4 sm:py-12 md:py-16 lg:py-24 xl:py-28 text-light-text dark:text-dark-text bg-light-layer-1 dark:bg-dark-layer-1"
   >
     <h2
       class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full xl:text-4xl"

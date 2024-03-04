@@ -35,7 +35,7 @@
         :class="{
           'bg-light-header text-light-distinct-text dark:bg-dark-header dark:text-dark-distinct-text':
             !showAdditionalInput,
-          'bg-light-menu-selection text-light-distinct dark:bg-dark-menu-selection dark:text-dark-distinct':
+          'bg-light-menu-selection text-light-layer-1 dark:bg-dark-menu-selection dark:text-dark-layer-1':
             showAdditionalInput,
         }"
       >

@@ -102,7 +102,7 @@
                 v-model="name"
                 @blur="validateName"
                 id="name"
-                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
+                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text"
                 :class="{
                   'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !nameValidated,
@@ -133,7 +133,7 @@
                 v-model="email"
                 @blur="validateEmail"
                 id="email"
-                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
+                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text"
                 :class="{
                   'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !emailValidated,
@@ -161,7 +161,7 @@
                 v-model="subject"
                 @blur="validateSubject"
                 id="subject"
-                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
+                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text"
                 :class="{
                   'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !subjectValidated,
@@ -187,7 +187,7 @@
                 v-model="message"
                 @blur="validateMessage"
                 id="message"
-                class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-distinct focus:dark:bg-dark-distinct text-light-text dark:text-dark-text"
+                class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text"
                 :class="{
                   'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !messageValidated,

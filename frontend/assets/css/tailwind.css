@@ -28,7 +28,7 @@
   }
 
   .card-style {
-    @apply card-style-base bg-light-distinct dark:bg-dark-distinct;
+    @apply card-style-base bg-light-layer-1 dark:bg-dark-layer-1;
   }
 
   .elem-on-card-style {
@@ -144,7 +144,7 @@
   }
 
   .style-menu-option-cta {
-    @apply bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct hover:bg-light-menu-selection/80 dark:hover:bg-dark-menu-selection/80 focus-brand;
+    @apply bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1 hover:bg-light-menu-selection/80 dark:hover:bg-dark-menu-selection/80 focus-brand;
   }
 
   .style-warn {

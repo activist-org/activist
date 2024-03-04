@@ -3,7 +3,7 @@
     <Listbox v-model="selectedFilter">
       <div class="relative mt-1">
         <ListboxButton
-          class="relative py-2 pl-4 pr-10 text-left rounded-lg cursor-pointer w-36 elem-shadow-sm focus-brand bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct sm:text-sm"
+          class="relative py-2 pl-4 pr-10 text-left rounded-lg cursor-pointer w-36 elem-shadow-sm focus-brand bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1 sm:text-sm"
         >
           <span class="block truncate">{{ selectedFilter }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -16,7 +16,7 @@
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="absolute right-0 py-1 mt-1 overflow-auto text-base shadow-lg max-h-60 w-max rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct focus-brand ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="absolute right-0 py-1 mt-1 overflow-auto text-base shadow-lg max-h-60 w-max rounded-md bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1 focus-brand ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
             <ListboxOption
               v-for="option in filterOptions"
@@ -31,7 +31,7 @@
                 :class="{
                   'bg-light-highlight dark:bg-dark-header text-light-cta-orange dark:text-dark-distinct-text':
                     active,
-                  'text-light-distinct dark:text-dark-distinct': !active,
+                  'text-light-layer-1 dark:text-dark-layer-1': !active,
                 }"
               >
                 <span class="block truncate">{{ option }}</span>

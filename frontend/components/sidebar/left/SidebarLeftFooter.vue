@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="w-full p-1 transition-all motion-reduce:transition-none duration-500 bg-light-distinct dark:bg-dark-distinct"
+    class="w-full p-1 transition-all motion-reduce:transition-none duration-500 bg-light-layer-1 dark:bg-dark-layer-1"
   >
     <div
       class="flex flex-col justify-center w-full p-1 space-y-1 rounded-md bg-light-header dark:bg-dark-header elem-shadow-sm"

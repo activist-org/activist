@@ -24,7 +24,7 @@ export default <Partial<Config>>{
         light: {
           header: "rgba(240, 240, 235, 1)",
           "layer-0": "rgba(255, 255, 255, 1)",
-          distinct: "rgba(246, 248, 250, 1)",
+          "layer-1": "rgba(246, 248, 250, 1)",
           "section-div": "rgba(216, 222, 228, 1)",
           text: "rgba(0, 0, 0, 0.85)",
           "text-over-header": "rgba(36, 36, 35, 1)",
@@ -51,7 +51,7 @@ export default <Partial<Config>>{
         dark: {
           header: "rgba(22, 27, 34, 1)",
           "layer-0": "rgba(6, 8, 15, 1)",
-          distinct: "rgba(19, 19, 22, 1)",
+          "layer-1": "rgba(19, 19, 22, 1)",
           "section-div": "rgba(43, 50, 59, 1)",
           text: "rgba(255, 255, 255, 0.8)",
           "text-over-header": "rgba(208, 209, 211, 1)",

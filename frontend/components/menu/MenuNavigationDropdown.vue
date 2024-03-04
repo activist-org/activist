@@ -5,7 +5,7 @@
   >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="relative flex items-center w-full py-2 pl-5 text-left align-middle text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct elem-shadow-sm focus-brand"
+        class="relative flex items-center w-full py-2 pl-5 text-left align-middle text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1 elem-shadow-sm focus-brand"
       >
         <Icon
           :name="selectedMenuItem.iconURL"
@@ -45,11 +45,11 @@
                 :class="{
                   'bg-light-header dark:bg-dark-section-div text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
                     selected && active,
-                  'bg-light-distinct dark:bg-dark-distinct text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
+                  'bg-light-layer-1 dark:bg-dark-layer-1 text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
                     selected && !active,
-                  'bg-light-highlight dark:bg-dark-highlight text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
+                  'bg-light-highlight dark:bg-dark-highlight text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1':
                     !selected && active,
-                  'text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct':
+                  'text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1':
                     !active && menuEntry.active,
                   'text-light-distinct-text dark:text-dark-distinct-text fill-light-distinct-text dark:fill-dark-distinct-text':
                     !active && !menuEntry.active,
