@@ -31,7 +31,12 @@
     >
       {{ headerName }}
     </h1>
-    <IconOrganizationStatus v-if="headerStatus" :status="headerStatus" />
+    <IconOrganizationStatus
+      v-if="headerStatus"
+      :status="headerStatus"
+      :organization="organization"
+      :discussionTexts="discussionTexts"
+    />
   </div>
   <div
     class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow lg:items-center"
@@ -48,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Event } from "~/types/event";
 import type { Organization } from "~/types/organization";
 
@@ -55,6 +61,7 @@ const props = defineProps<{
   header?: string;
   tagline?: string;
   organization?: Organization;
+  discussionTexts: DiscussionText[];
   event?: Event;
   underDevelopment?: boolean;
 }>();
