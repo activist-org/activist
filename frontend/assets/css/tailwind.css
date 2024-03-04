@@ -7,7 +7,7 @@
 
 @layer base {
   body {
-    @apply bg-light-header dark:bg-dark-header;
+    @apply bg-light-layer-2 dark:bg-dark-layer-2;
   }
   * {
     @apply scrollbar scrollbar-w-2 scrollbar-thumb-light-distinct-text dark:scrollbar-thumb-dark-distinct-text scrollbar-track-transparent scrollbar-thumb-rounded-md;
@@ -32,7 +32,7 @@
   }
 
   .elem-on-card-style {
-    @apply card-style-base bg-light-header dark:bg-dark-header hover:bg-light-highlight active:bg-light-header dark:hover:bg-dark-highlight dark:active:bg-dark-header dark:border dark:border-dark-text elem-shadow-sm;
+    @apply card-style-base bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight active:bg-light-layer-2 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-2 dark:border dark:border-dark-text elem-shadow-sm;
   }
 
   .elem-shadow-sm {
@@ -132,7 +132,7 @@
   }
 
   .style-cta-secondary {
-    @apply text-light-text border border-light-text dark:text-dark-text dark:border-dark-text fill-light-text dark:fill-dark-text bg-light-header dark:bg-dark-header hover:bg-light-highlight-darker active:bg-light-header dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-header focus-brand;
+    @apply text-light-text border border-light-text dark:text-dark-text dark:border-dark-text fill-light-text dark:fill-dark-text bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight-darker active:bg-light-layer-2 dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-layer-2 focus-brand;
   }
 
   .style-learn {

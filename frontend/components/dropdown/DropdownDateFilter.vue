@@ -29,7 +29,7 @@
               <li
                 class="relative py-2 pl-10 pr-4 cursor-default select-none"
                 :class="{
-                  'bg-light-highlight dark:bg-dark-header text-light-cta-orange dark:text-dark-distinct-text':
+                  'bg-light-highlight dark:bg-dark-layer-2 text-light-cta-orange dark:text-dark-distinct-text':
                     active,
                   'text-light-layer-1 dark:text-dark-layer-1': !active,
                 }"

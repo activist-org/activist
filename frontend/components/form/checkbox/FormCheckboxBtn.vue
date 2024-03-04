@@ -5,7 +5,7 @@
       'bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1':
         modelValue && !customColor,
       [customColorClass]: modelValue && customColor,
-      'bg-light-header text-light-distinct-text dark:text-dark-distinct-text dark:bg-dark-header':
+      'bg-light-layer-2 text-light-distinct-text dark:text-dark-distinct-text dark:bg-dark-layer-2':
         !modelValue,
       'hover:bg-light-hover dark:hover:bg-dark-hover': !modelValue,
     }"

@@ -15,7 +15,7 @@
                 'border-light-text dark:border-dark-text',
                 selected
                   ? 'bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1 hover:bg-light-menu-selection/90 dark:hover:bg-dark-menu-selection/90'
-                  : 'bg-light-header dark:bg-dark-header text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight',
+                  : 'bg-light-layer-2 dark:bg-dark-layer-2 text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight',
               ]"
               :to="localePath(selector.routeURL)"
             >

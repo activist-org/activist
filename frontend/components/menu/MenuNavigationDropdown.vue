@@ -43,7 +43,7 @@
               <li
                 class="relative flex items-center py-2 pl-5 align-middle cursor-default select-none"
                 :class="{
-                  'bg-light-header dark:bg-dark-section-div text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
+                  'bg-light-layer-2 dark:bg-dark-section-div text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
                     selected && active,
                   'bg-light-layer-1 dark:bg-dark-layer-1 text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
                     selected && !active,

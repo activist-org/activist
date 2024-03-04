@@ -1,7 +1,7 @@
 <template>
   <header
     ref="header"
-    class="relative sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md bg-light-header dark:bg-dark-header"
+    class="relative sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md bg-light-layer-2 dark:bg-dark-layer-2"
   >
     <div class="h-full">
       <div class="flex justify-between h-full px-4 gap-2">
