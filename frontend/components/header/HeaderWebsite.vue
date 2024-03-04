@@ -24,8 +24,11 @@
       </div>
       <SidebarRight>
         <div class="flex-col space-y-2">
-          <DropdownTheme class="w-full" location="sideMenu" />
-          <DropdownLanguage class="w-full" location="sideMenu" />
+          <DropdownTheme class="w-full" :location="DropdownLocation.SIDEMENU" />
+          <DropdownLanguage
+            class="w-full"
+            :location="DropdownLocation.SIDEMENU"
+          />
         </div>
       </SidebarRight>
     </div>
@@ -68,6 +71,8 @@
 </template>
 
 <script setup lang="ts">
+import { DropdownLocation } from "~/types/location";
+
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
 

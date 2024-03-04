@@ -27,7 +27,7 @@
   </div>
   <div class="flex items-baseline gap-2 md:gap-4">
     <h1
-      class="pt-4 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
+      class="pt-4 font-bold transition-all motion-reduce:transition-none duration-500 responsive-h1 text-light-text dark:text-dark-text"
     >
       {{ headerName }}
     </h1>
@@ -38,7 +38,7 @@
   >
     <h2
       v-if="headerTagline"
-      class="transition-all duration-500 responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
+      class="transition-all motion-reduce:transition-none duration-500 responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
     >
       {{ headerTagline }}
     </h2>

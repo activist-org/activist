@@ -9,9 +9,9 @@
       :header="$t('pages.home.index.header')"
       :tagline="$t('pages.home.index.subheader')"
     >
-      <ComboboxTopics />
+      <ComboboxTopics class="pb-3 lg:pb-4" />
     </HeaderAppPage>
-    <div class="pt-3 pb-6 space-y-6 md:pt-4">
+    <div class="pb-6 space-y-6">
       <div
         class="flex flex-col lg:grid space-y-6 lg:grid-cols-7 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-6"
       >

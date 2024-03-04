@@ -2,8 +2,11 @@
   "recommendations": [
     "batisteo.vscode-django",
     "bradlc.vscode-tailwindcss",
+    "charliermarsh.ruff",
+    "esbenp.prettier-vscode",
     "heybourn.headwind",
     "ms-vsliveshare.vsliveshare",
+    "streetsidesoftware.code-spell-checker",
     "Vue.volar",
     "Vue.vscode-typescript-vue-plugin"
   ]

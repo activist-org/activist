@@ -51,7 +51,9 @@
         {{ $t("components.footer._global.powered-by-netlify") }}
       </a>
       <div class="mt-2 text-light-text dark:text-dark-text">
-        {{ $t("components._global.copyright") }}
+        {{
+          $t("components._global.copyright", { year: new Date().getFullYear() })
+        }}
       </div>
     </div>
     <!-- Note: Content Sections Right -->

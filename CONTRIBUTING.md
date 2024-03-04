@@ -407,6 +407,10 @@ Documentation is an invaluable way to contribute to coding projects as it allows
 
 Thank you for your interest in improving activist's accessibility. We want our platform to not only be usable for all people, but also to provide a welcoming environment within the development community for all. This section lists a few points to account for when checking accessibility constraints during development:
 
+### Transitions
+
+Users who have motion sickness have the ability to disable transitions and animations on their devices, but our code also has to conform to not trigger them when this mode is enabled. In all cases where a `transition-METHOD` or `animation-METHOD` is used via Tailwind, please also include `motion-reduce:transition-none` and `motion-reduce:animate-none` respectively.
+
 ### Tab focusing
 
 Tab focusing sadly doesn't work out of the box for many browsers. Chrome works great, but the following changes are needed for browsers to function properly with tabs. We'll test activist against browsers with these settings with the assumption that people who need tab for more control of the interface will be able to activate them.

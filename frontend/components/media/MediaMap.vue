@@ -46,8 +46,6 @@ function isWebglSupported() {
   return false;
 }
 
-const mapTextColor = colorMode.preference == "dark" ? "white" : "black";
-
 onMounted(() => {
   const nominatimLocationRequest =
     "https://nominatim.openstreetmap.org/search?q=Brandenburg%20Gate%20Berlin&format=json";
@@ -112,12 +110,11 @@ onMounted(() => {
         );
 
         const popup = new maplibregl.Popup({
-          className: "map-popup",
           offset: 25,
         }).setHTML(
           `<div style="
             text-align: center;
-            color: ${mapTextColor};"
+            color: grey;"
           >
             <div style="font-size: 13px;">${props.eventNames[0]}</div>
             <div style="color: grey;">${props.eventLocations[0]}</div>
@@ -159,7 +156,7 @@ onMounted(() => {
           //     margin: 10px;
           //     border-radius: 5px;
           //     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-          //     color: ${mapTextColor};"
+          //     color: grey;"
           //   >
           //     Clear directions
           //   </div>
@@ -172,7 +169,7 @@ onMounted(() => {
             margin: 10px;
             border-radius: 5px;
             box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: ${mapTextColor};"
+            color: grey;"
           >
             Clear directions [x]
           </div>
@@ -201,10 +198,3 @@ onMounted(() => {
     });
 });
 </script>
-
-<style>
-/* To assure that the close button is visible in light and dark mode. */
-.map-popup {
-  color: grey;
-}
-</style>

@@ -4760,9 +4760,9 @@ ioredis@^5.3.2:
     standard-as-callback "^2.1.0"
 
 ip@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/ip/-/ip-2.0.0.tgz"
-  integrity sha512-WKa+XuLG1A1R0UWhl2+1XQSi+fZWMsYKffMZTTYsiZaUD8k2yDAj5atimTUD2TZkyCkNEeYE5NhFZmupOGtjYQ==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ip/-/ip-2.0.1.tgz#e8f3595d33a3ea66490204234b77636965307105"
+  integrity sha512-lJUL9imLTNi1ZfXT+DU6rBBdbiKGBuay9B6xGSPVjUeQwaH1RIGqef8RZkUtHioLmSNpPR5M4HVKJGm1j8FWVQ==
 
 ipaddr.js@1.9.1:
   version "1.9.1"
@@ -9019,6 +9019,11 @@ vue-screen-utils@^1.0.0-beta.13:
   version "1.0.0-beta.13"
   resolved "https://registry.npmjs.org/vue-screen-utils/-/vue-screen-utils-1.0.0-beta.13.tgz"
   integrity sha512-EJ/8TANKhFj+LefDuOvZykwMr3rrLFPLNb++lNBqPOpVigT2ActRg6icH9RFQVm4nHwlHIHSGm5OY/Clar9yIg==
+
+vue-socials@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/vue-socials/-/vue-socials-2.0.4.tgz#fc1e2c0cb0e9cd483b3afc59459de5ef87fa7719"
+  integrity sha512-jmMRklJexBwFOiaoXV30n3FF3HnRgO95ucBKwVUdop6Ux0JT1LYGqOH1sq6WOut6za+o8NfBS+z5yiah6GFFcg==
 
 vue-template-compiler@^2.7.14:
   version "2.7.16"

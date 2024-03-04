@@ -6,7 +6,7 @@
       <Title>{{ event.name }}</Title>
     </Head>
     <HeaderAppPage :event="event">
-      <div class="flex space-x-2 lg:space-x-3">
+      <div class="flex space-x-2 lg:space-x-3 pb-3 lg:pb-4">
         <BtnRouteInternal
           class="w-max"
           :cta="true"
@@ -27,36 +27,15 @@
           :counter="event.supporters"
           ariaLabel="components.btn-action.support-event-aria-label"
         />
-        <BtnAction
-          class="md:hidden w-fit"
-          :cta="true"
-          fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.25em"
-          :counter="event.supporters"
-          ariaLabel="components.btn-action.support-event-aria-label"
-        />
-        <BtnAction
-          class="hidden md:block w-max"
+        <ModalSharePage
           :cta="true"
           label="components.btn-action.share-event"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
           ariaLabel="components.btn-action.share-event-aria-label"
-        />
-        <BtnAction
-          class="md:hidden w-fit"
-          :cta="true"
-          label="components.btn-action.share"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="components.btn-action.share-event-aria-label"
+          :event="event"
         />
       </div>
     </HeaderAppPage>
-    <div class="pt-3 pb-6 space-y-6 lg:pt-4">
+    <div class="pb-6 space-y-6">
       <div
         class="lg:grid space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0"
         :class="{

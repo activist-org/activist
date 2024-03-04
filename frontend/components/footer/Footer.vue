@@ -15,8 +15,8 @@ const connectLinks = [
   {
     name: "components._global.github",
     url: "https://github.com/activist-org/activist",
-    iconName: "cib:github",
-    iconSize: "1em",
+    iconName: "simple-icons:github",
+    iconSize: "1.05em",
   },
   {
     name: "components._global.matrix",
@@ -27,7 +27,7 @@ const connectLinks = [
   {
     name: "components._global.instagram",
     url: "https://instagram.com/activist_org",
-    iconName: "cib:instagram",
+    iconName: "simple-icons:instagram",
     iconSize: "1em",
   },
 ];
