@@ -9,7 +9,7 @@
           @on-search-toggle="toggleSearchExpanded"
           class="my-1.5"
           :class="{ 'w-full': isSearchExpanded }"
-          location="header"
+          :location="SearchBarLocation.HEADER"
           :expanded="isSearchExpanded"
         />
         <IconActivist
@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { DropdownLocation } from "~/types/location";
+import { DropdownLocation, SearchBarLocation } from "~/types/location";
 
 const isSearchExpanded = ref(false);
 
