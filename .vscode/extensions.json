@@ -7,7 +7,6 @@
     "heybourn.headwind",
     "ms-vsliveshare.vsliveshare",
     "streetsidesoftware.code-spell-checker",
-    "Vue.volar",
-    "Vue.vscode-typescript-vue-plugin"
+    "Vue.volar"
   ]
 }
