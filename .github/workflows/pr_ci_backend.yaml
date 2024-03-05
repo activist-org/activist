@@ -21,8 +21,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade uv
-          uv venv venv
+          uv venv
           uv pip install -r backend/requirements-dev.txt
+
+      - name: Activate virtualenv
+        run: |
+          . .venv/bin/activate
+          echo PATH=$PATH >> $GITHUB_ENV
 
       - name: Run ruff format - Formatting check
         run: ruff ./backend
