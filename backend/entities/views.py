@@ -70,12 +70,25 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update(self, request: Request, pk: str | None = None) -> Response:
-        pass
+        """
+        - can only be deleted by the created_by user
+        """
 
     def partial_update(self, request: Request, pk: str | None = None) -> Response:
         pass
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:
+        """
+        Destroy method for organization
+
+        - Keep total flags
+        - Keep the name
+        - set status to deleted
+        - use the date of deletion
+
+        - can only be deleted by the created_by user
+        """
+
         pass
 
 

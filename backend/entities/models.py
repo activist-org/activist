@@ -38,7 +38,7 @@ class Organization(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
-    status = models.IntegerField(default=1)
+    status = models.ForeignKey("Status", default=1)
     status_updated = models.DateTimeField(blank=True, null=True)
     acceptance_date = models.DateTimeField(blank=True, null=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
