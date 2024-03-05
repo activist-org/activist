@@ -33,7 +33,6 @@ class Discussion(models.Model):
     # vote_id = models.ForeignKey("events.Vote", on_delete=models.CASCADE)  # To be created
     category = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.id}"
