@@ -43,6 +43,8 @@ class SupportSerializer(serializers.ModelSerializer[Support]):
                 ),
                 code="invalid_entities_relation",
             )
+        
+        validate_creation_and_deletion_dates(data)
 
         return data
 
@@ -57,7 +59,7 @@ class UserSerializer(serializers.ModelSerializer[User]):
         validate_empty(data["name"], "name")
         validate_empty(data["user_name"], "user_name")
 
-        pattern = r"^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{8,}$"
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$" 
 
         if not re.match(pattern, data["password"]):
             raise serializers.ValidationError(

@@ -22,6 +22,7 @@ from backend.mixins.models import CreationDeletionMixin
 
 
 class SupportEntityType(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
@@ -61,9 +62,11 @@ class User(AbstractUser, CreationDeletionMixin):
     social_accounts = ArrayField(
         models.CharField(max_length=255), null=True, blank=True
     )
-    total_flags = models.IntegerField(default=0)
     private = models.BooleanField(default=False)
     high_risk = models.BooleanField(default=False)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    deletion_date = models.DateTimeField(null=True, blank=True) 
+    total_flags = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.username
