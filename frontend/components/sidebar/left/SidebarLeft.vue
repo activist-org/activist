@@ -22,7 +22,7 @@
         '-mr-[0.55rem]': contentScrollable,
       }"
     >
-      <SearchBar class="mt-1" :location="DropdownLocation.SIDEBAR" />
+      <SearchBar class="mt-1" :location="SearchBarLocation.SIDEBAR" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
         v-if="
@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { SidebarType } from "~/types/sidebar-type";
-import { DropdownLocation } from "~/types/location";
+import { SearchBarLocation } from "~/types/location";
 
 defineProps<{
   name?: string;
