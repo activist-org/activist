@@ -8,7 +8,7 @@
       "
     >
       <div
-        class="flex items-center justify-center w-6 h-6 transition-transform transform duration-200 motion-reduce:transition-none"
+        class="flex items-center justify-center w-6 h-6 transition-transform transform duration-200"
         :class="{
           'rotate-180 pb-1': menuOpen,
         }"
