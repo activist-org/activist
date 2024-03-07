@@ -429,7 +429,7 @@ Thank you for your interest in improving activist's accessibility. We want our p
 
 ### Transitions
 
-Users who have motion sickness have the ability to disable transitions and animations on their devices, but our code also has to conform to not trigger them when this mode is enabled. In all cases where a `transition-METHOD` or `animation-METHOD` is used via Tailwind, please also include `motion-reduce:transition-none` and `motion-reduce:animate-none` respectively.
+Users who have motion sickness have the ability to disable transitions and animations on their devices. We use the external dependency [reduced-motion](https://github.com/lucianmurmurache/reduced-motion) to disable transitions and animations in this case.
 
 ### Tab focusing
 
