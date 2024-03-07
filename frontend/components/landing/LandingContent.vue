@@ -58,7 +58,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-24 xl:py-28 lg:space-x-20 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header"
+    class="flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-24 xl:py-28 lg:space-x-20 xl:space-x-32 2xl:space-x-40 text-light-text dark:text-dark-text bg-light-layer-2 dark:bg-dark-layer-2"
   >
     <!-- Note: image left of content. -->
     <div class="hidden lg:block w-60 h-60 xl:w-72 xl:h-72">

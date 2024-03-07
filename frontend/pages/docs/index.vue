@@ -1,11 +1,11 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ $t("_global.documentation") }}</Title>
     </Head>
-    <div class="bg-light-distinct dark:bg-dark-distinct">
+    <div class="bg-light-layer-1 dark:bg-dark-layer-1">
       <div class="flex flex-col w-full responsive-py-4 responsive-px-5">
         <HeaderAppPage
           :header="$t('_global.documentation')"

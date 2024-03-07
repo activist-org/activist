@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-between w-full h-2 border-b md:h-8 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="flex items-center justify-between w-full h-2 border-b md:h-8 bg-light-layer-2 dark:bg-dark-layer-2 border-light-section-div dark:border-dark-section-div"
   >
     <div
       :class="[

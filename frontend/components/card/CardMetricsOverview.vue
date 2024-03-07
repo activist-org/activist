@@ -12,7 +12,7 @@
         :number="metrics['total events']"
         textColor="text-light-text dark:text-dark-text"
         borderColor="border-light-text dark:border-dark-text"
-        backgroundColor="bg-light-distinct dark:bg-dark-distinct hover:bg-light-highlight dark:hover:bg-dark-highlight active:bg-light-distinct active:dark:bg-dark-distinct"
+        backgroundColor="bg-light-layer-1 dark:bg-dark-layer-1 hover:bg-light-highlight dark:hover:bg-dark-highlight active:bg-light-layer-1 active:dark:bg-dark-layer-1"
       />
       <CardMetric
         :text="$t('components.card-metrics-overview.action')"

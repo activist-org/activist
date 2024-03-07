@@ -1,6 +1,6 @@
 <template>
   <HeaderWebsite />
-  <div class="flex h-full bg-light-content dark:bg-dark-content">
+  <div class="flex h-full bg-light-layer-0 dark:bg-dark-layer-0">
     <Head>
       <Title>{{ $t("pages.error.title") }}</Title>
     </Head>

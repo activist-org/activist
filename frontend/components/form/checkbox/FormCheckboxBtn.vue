@@ -2,10 +2,10 @@
   <div
     class="relative flex items-center font-bold border border-r-0 h-9 border-light-interactive dark:border-dark-interactive last:border-r first:rounded-l-md last:rounded-r-md"
     :class="{
-      'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct':
+      'bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1':
         modelValue && !customColor,
       [customColorClass]: modelValue && customColor,
-      'bg-light-header text-light-distinct-text dark:text-dark-distinct-text dark:bg-dark-header':
+      'bg-light-layer-2 text-light-distinct-text dark:text-dark-distinct-text dark:bg-dark-layer-2':
         !modelValue,
       'hover:bg-light-hover dark:hover:bg-dark-hover': !modelValue,
     }"

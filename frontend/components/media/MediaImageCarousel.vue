@@ -9,7 +9,7 @@
     <swiper-slide
       v-for="[idx, img] of imageUrls.entries()"
       :key="idx"
-      class="flex justify-center items-center bg-light-header dark:bg-dark-header"
+      class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
     >
       <img class="object-cover h-[17.5rem] object-center" :src="img" />
     </swiper-slide>
