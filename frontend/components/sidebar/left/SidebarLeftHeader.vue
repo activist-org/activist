@@ -24,7 +24,7 @@
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
             class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-32 h-8 z-1 overflow-clip"
-            color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-distinct-text-over-header hover:dark:fill-dark-distinct-text-over-header"
+            color="fill-light-text-over-layer-2 dark:fill-dark-text-over-layer-2 hover:fill-light-distinct-text-over-layer-2 hover:dark:fill-dark-distinct-text-over-layer-2"
           />
         </Transition>
       </div>
