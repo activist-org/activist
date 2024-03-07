@@ -5,7 +5,7 @@
         {{ $t("components._global.connect") }}
       </h3>
       <div
-        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight motion-reduce:transition-none dark:hover:text-dark-highlight"
+        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:hover:text-dark-highlight"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"
@@ -26,7 +26,7 @@
     >
       <li v-for="link in socialLinksRef">
         <div
-          class="flex items-center break-all cursor-pointer gap-3 transition-all motion-reduce:transition-none"
+          class="flex items-center break-all cursor-pointer gap-3 transition-all"
           :class="{
             'hover:text-social-email': link.includes('email'),
             'hover:text-social-mastodon': link.includes('mastodon'),

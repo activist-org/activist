@@ -22,7 +22,7 @@
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="hotkeyIndicators"
-        class="flex pr-1 space-x-1 transition-opacity motion-reduce:transition-none transition-duration-200"
+        class="flex pr-1 space-x-1 transition-opacity transition-duration-200"
       >
         <div
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text"

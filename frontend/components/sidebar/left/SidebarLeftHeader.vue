@@ -1,6 +1,6 @@
 <template>
   <header
-    class="w-full pl-1 transition-all motion-reduce:transition-none duration-500 bg-light-layer-1 dark:bg-dark-layer-1"
+    class="w-full pl-1 transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1"
   >
     <div class="flex items-center pt-3 pb-2 pl-[0.85rem] pr-6">
       <div
@@ -35,7 +35,7 @@
             sidebar.toggleCollapsedSwitch();
             emit('toggle-pressed');
           "
-          class="flex items-center justify-center transition duration-200 w-7 h-7 focus-brand outline-offset-0 motion-reduce:transition-none"
+          class="flex items-center justify-center transition duration-200 w-7 h-7 focus-brand outline-offset-0"
           :class="{
             'pr-0.5 -rotate-180': sidebar.collapsedSwitch == false,
             'pl-0.5 pb-1': sidebar.collapsedSwitch == true,

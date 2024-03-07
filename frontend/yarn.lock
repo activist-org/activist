@@ -7394,6 +7394,11 @@ redis-parser@^3.0.0:
   dependencies:
     redis-errors "^1.0.0"
 
+reduced-motion@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/reduced-motion/-/reduced-motion-1.0.2.tgz#f1f748e001d933d654ac67b4cf321d33b9bd0b99"
+  integrity sha512-lqubewGSy5qV44ASGlSvo2Z+RicD9Zasq4HfvYFSqn3PIbZVsLAnYIZNOi4qzMFb8dXKpA0nfoSTlD/n1qPHZA==
+
 regenerator-runtime@^0.14.0:
   version "0.14.1"
   resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.14.1.tgz"

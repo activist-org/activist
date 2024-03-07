@@ -177,9 +177,3 @@
     @apply opacity-50;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .loading-pulse {
-    animation: none;
-  }
-}
