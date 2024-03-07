@@ -6,7 +6,7 @@
       <Title>{{ event.name }}</Title>
     </Head>
     <HeaderAppPage :event="event">
-      <div class="flex space-x-2 lg:space-x-3 pb-3 lg:pb-4">
+      <div class="flex pb-3 space-x-2 lg:space-x-3 lg:pb-4">
         <BtnRouteInternal
           class="w-max"
           :cta="true"

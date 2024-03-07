@@ -2,7 +2,7 @@
   <component
     :is="infoComponent.is"
     v-bind="infoComponent"
-    class="flex items-center text-sm w-full rounded-md"
+    class="flex items-center w-full text-sm rounded-md"
     :class="{
       'group pl-4 pr-3 py-2': !isSideLeftMenu,
       'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':

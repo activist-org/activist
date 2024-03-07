@@ -3,7 +3,7 @@
     <div>
       <MenuButton
         v-slot="{ open }"
-        class="inline-flex w-full py-2 px-4 font-semibold select-none rounded-md style-btn"
+        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md style-btn"
         :class="{
           'pl-6': isSideMenu,
           'flex items-center pl-1 rounded-md style-menu-option-cta':
@@ -12,7 +12,7 @@
         :aria-label="$t(`${menuButtonAriaLabel}`)"
       >
         <div
-          class="flex justify-between items-center text-sm space-x-2"
+          class="flex items-center justify-between text-sm space-x-2"
           :class="{
             'relative z-0 w-full pl-[0.625rem] font-medium text-left':
               isSideLeftMenu,
