@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="selectedMenuItem"
-    class="fixed z-20 w-full h-10 md:hidden bg-light-menu-selection dark:bg-dark-menu-selection"
+    class="fixed z-[9] w-full h-10 md:hidden bg-light-menu-selection dark:bg-dark-menu-selection"
   >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
