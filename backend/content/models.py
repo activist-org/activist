@@ -4,6 +4,7 @@ Content Models
 This file contains models for the content app.
 
 Contents:
+    - Faq
     - Resource
     - Task
     - Topic
@@ -25,7 +26,6 @@ from backend.mixins.models import CreationDeletionMixin
 class Faq(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
     question = models.TextField(max_length=500)
     answer = models.TextField(max_length=500)
     last_updated = models.DateTimeField(auto_now=True)
@@ -38,8 +38,8 @@ class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    topics = ArrayField(models.CharField(max_length=255), default=list, blank=True)
-    category = models.CharField(max_length=255, blank=True)
+    topics = ArrayField(models.CharField(max_length=255), default=list, blank=True, null=True)
+    category = models.CharField(max_length=255, blank=True, null=True)
     url = models.URLField(max_length=255)
     private = models.BooleanField(default=True)
     creation_date = models.DateTimeField(auto_now_add=True)

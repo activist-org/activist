@@ -44,8 +44,6 @@ class SupportSerializer(serializers.ModelSerializer[Support]):
                 code="invalid_entities_relation",
             )
         
-        validate_creation_and_deletion_dates(data)
-
         return data
 
 

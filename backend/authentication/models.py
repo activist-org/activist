@@ -50,11 +50,11 @@ class Support(models.Model):
 class User(AbstractUser, CreationDeletionMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user_name = models.CharField(max_length=255)
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, blank=True, null = True)
     password = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     verified = models.BooleanField(default=False)
-    verification_method = models.CharField(max_length=30, blank=True)
+    verification_method = models.CharField(max_length=30, blank=True, null=True)
     verification_partner = models.ForeignKey(
         "User", on_delete=models.SET_NULL, null=True
     )

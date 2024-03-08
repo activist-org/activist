@@ -26,13 +26,13 @@ from backend.mixins.models import CreationDeletionMixin
 class Event(CreationDeletionMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255, blank=True)
+    tagline = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
-    online_location_link = models.CharField(max_length=255, blank=True)
-    offline_location_lat = models.FloatField(null=True, blank=True)
-    offline_location_long = models.FloatField(null=True, blank=True)
+    online_location_link = models.CharField(max_length=255, blank=True, null=True)
+    offline_location_lat = models.FloatField(null=True, blank=True, null=True)
+    offline_location_long = models.FloatField(null=True, blank=True, null=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     created_by = models.ForeignKey(

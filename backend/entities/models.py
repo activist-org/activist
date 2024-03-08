@@ -5,7 +5,8 @@ This file contains models for the entities app.
 
 Contents:
     - Organization
-    - OrganizationApplicationStatus
+    - StatusEntityType
+    - Status
     - OrganizationApplication
     - OrganizationEvent
     - OrganizationMember
@@ -29,7 +30,7 @@ from backend.mixins.models import CreationDeletionMixin
 class Organization(CreationDeletionMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255, blank=True)
+    tagline = models.CharField(max_length=255, blank=True, null=True)
     org_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -44,6 +45,7 @@ class Organization(CreationDeletionMixin):
         models.CharField(max_length=255),
         default=list,
         blank=True,
+        null = True
     )
     high_risk = models.BooleanField(default=False)
     status = models.IntegerField(default=1)
@@ -54,20 +56,37 @@ class Organization(CreationDeletionMixin):
 
     def __str__(self) -> str:
         return self.name
+    
+
+class StatusEntityType(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.name
+    
+
+class Status(models.Model):
+    id = models.IntegerField(primary_key=True)
+    status_type = models.ForeignKey(StatusEntityType, on_delete=models.CASCADE)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.name  
 
 
 class OrganizationApplication(models.Model):
     id = models.IntegerField(primary_key=True)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    status = models.IntegerField(default=1)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     orgs_in_favor = ArrayField(
-        models.IntegerField(null=True, blank=True), default=list, blank=True
+        models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )
     orgs_against = ArrayField(
-        models.IntegerField(null=True, blank=True), default=list, blank=True
+        models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )
     creation_date = models.DateTimeField(auto_now_add=True)
-    status_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.creation_date}"
@@ -104,7 +123,7 @@ class Group(CreationDeletionMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255, blank=True)
+    tagline = models.CharField(max_length=255, blank=True, null=True)
     group_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -114,7 +133,7 @@ class Group(CreationDeletionMixin):
     created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
-        models.CharField(max_length=255), default=list, blank=True
+        models.CharField(max_length=255), default=list, blank=True, null=True
     )
     category = models.CharField(max_length=255)
     creation_date = models.DateTimeField(auto_now_add=True)
