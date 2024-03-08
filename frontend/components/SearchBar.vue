@@ -1,7 +1,7 @@
 <template>
   <div
-    v-if="location == 'sidebar'"
-    class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 rounded-md select-none text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-link-text focus-within:border-2 dark:focus-within:border-dark-link-text focus-within:mb-[-3px] bg-light-header dark:bg-dark-header elem-shadow-sm"
+    v-if="location == SearchBarLocation.SIDEBAR"
+    class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 rounded-md select-none text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-link-text focus-within:border-2 dark:focus-within:border-dark-link-text focus-within:mb-[-3px] bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm"
   >
     <div class="flex items-center pl-1 space-x-2">
       <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
@@ -22,7 +22,7 @@
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="hotkeyIndicators"
-        class="flex pr-1 space-x-1 transition-opacity motion-reduce:transition-none transition-duration-200"
+        class="flex pr-1 space-x-1 transition-opacity transition-duration-200"
       >
         <div
           class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text"
@@ -58,7 +58,7 @@
   </div>
   <div
     v-else
-    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-distinct-text dark:border-dark-distinct-text text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange"
+    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-layer-2 dark:bg-dark-layer-2 border-light-distinct-text dark:border-dark-distinct-text text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange"
   >
     <Icon
       @click="emit('on-search-toggle')"
@@ -78,9 +78,10 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { SearchBarLocation } from "~/types/location";
 
 export interface Props {
-  location: "sidebar" | "header";
+  location: SearchBarLocation;
   expanded?: boolean;
 }
 

@@ -87,7 +87,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red focus-brand focus:border-none font-bold placeholder:text-light-action-red dark:placeholder:text-dark-action-red dark:text-dark-text bg-light-content dark:bg-dark-content"
+          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red focus-brand focus:border-none placeholder:text-light-action-red dark:placeholder:text-dark-action-red dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
           :placeholder="
             $t('components.card-discussion-input.leave-comment-highRisk')
           "
@@ -97,7 +97,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-distinct-text dark:placeholder-dark-distinct-text dark:text-dark-text dark:bg-dark-distinct focus-brand"
+          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div dark:border-dark-section-div placeholder-light-distinct-text dark:placeholder-dark-distinct-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 focus-brand"
           :placeholder="$t('components.card-discussion-input.leave-comment')"
         ></textarea>
       </div>

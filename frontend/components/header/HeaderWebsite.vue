@@ -1,10 +1,10 @@
 <template>
   <header
     ref="header"
-    class="relative sticky top-0 z-10 duration-500 drop-shadow-md"
+    class="sticky top-0 z-10 duration-500 drop-shadow-md"
     :class="{
-      'bg-light-header dark:bg-dark-header': headerOpacity == 1,
-      'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
+      'bg-light-layer-2 dark:bg-dark-layer-2': headerOpacity == 1,
+      'bg-light-layer-2/80 dark:bg-dark-layer-2/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
   >
@@ -100,6 +100,7 @@ onUnmounted(() => {
 
 <style>
 .header {
+  transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
 }
 </style>

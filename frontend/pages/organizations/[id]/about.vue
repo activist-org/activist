@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ organization.name }}</Title>
@@ -9,7 +9,7 @@
       :organization="organization"
       :discussionTexts="testDiscussionTexts"
     >
-      <div class="flex space-x-2 lg:space-x-3 pb-3 lg:pb-4">
+      <div class="flex pb-3 space-x-2 lg:space-x-3 lg:pb-4">
         <BtnAction
           class="w-max"
           :cta="true"

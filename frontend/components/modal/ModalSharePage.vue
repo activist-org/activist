@@ -12,14 +12,14 @@
       />
     </template>
     <template #modalDisplay>
-      <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
+      <div class="px-2 pt-1 pb-2 lg:px-4 lg:pb-4 lg:pt-2">
         <DialogTitle class="font-display">
-          <p class="responsive-h2 font-bold">
+          <p class="font-bold responsive-h2">
             {{ $t("components.modal-share-page.header") }}
           </p>
         </DialogTitle>
         <div
-          class="grid grid-cols-4 grid-rows-2 content-start w-4/5 gap-4 lg:gap-8 pt-4 lg:pt-6"
+          class="content-start w-4/5 pt-4 grid grid-cols-4 grid-rows-2 gap-4 lg:gap-8 lg:pt-6"
         >
           <s-telegram
             @popup-close="onClose"

@@ -1,7 +1,7 @@
 <template>
   <header
     ref="header"
-    class="relative sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md bg-light-header dark:bg-dark-header"
+    class="sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md bg-light-layer-2 dark:bg-dark-layer-2"
   >
     <div class="h-full">
       <div class="flex justify-between h-full px-4 gap-2">
@@ -9,7 +9,7 @@
           @on-search-toggle="toggleSearchExpanded"
           class="my-1.5"
           :class="{ 'w-full': isSearchExpanded }"
-          location="header"
+          :location="SearchBarLocation.HEADER"
           :expanded="isSearchExpanded"
         />
         <IconActivist
@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { DropdownLocation } from "~/types/location";
+import { DropdownLocation, SearchBarLocation } from "~/types/location";
 
 const isSearchExpanded = ref(false);
 

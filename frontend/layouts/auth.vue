@@ -16,7 +16,7 @@
       </div>
     </div>
     <div
-      class="h-full text-light-text dark:text-dark-text bg-light-distinct dark:bg-dark-distinct"
+      class="h-full text-light-text dark:text-dark-text bg-light-layer-1 dark:bg-dark-layer-1"
     >
       <div class="justify-end hidden px-8 py-4 space-x-6 md:flex">
         <DropdownLanguage />

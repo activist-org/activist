@@ -7,7 +7,7 @@
   />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
     <div
-      class="bg-light-content dark:bg-dark-content"
+      class="bg-light-layer-0 dark:bg-dark-layer-0"
       :class="{
         'md:pl-16 xl:pl-56':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,

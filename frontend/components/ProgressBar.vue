@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex items-center justify-between w-full h-2 border-b md:h-8 bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="flex items-center justify-between w-full h-2 border-b md:h-8 bg-light-layer-2 dark:bg-dark-layer-2 border-light-section-div dark:border-dark-section-div"
   >
     <div
       :class="[
-        'h-full transition-width motion-reduce:transition-none ease-in duration-500',
+        'h-full transition-width ease-in duration-500',
         {
           'bg-light-placeholder dark:bg-dark-placeholder': type === 'default',
           'bg-light-action-red dark:bg-dark-action-red': type === 'action',

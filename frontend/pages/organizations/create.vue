@@ -25,7 +25,7 @@
             <input
               v-model="formData.name"
               id="name"
-              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
               type="text"
               name="name"
               :placeholder="
@@ -40,7 +40,7 @@
             <input
               v-model="formData.location"
               id="location"
-              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
               type="text"
               name="location"
               :placeholder="
@@ -56,7 +56,7 @@
           <textarea
             v-model="formData.description"
             id="description"
-            class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+            class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
             name="description"
             :placeholder="
               $t('pages.organizations.create.description-placeholder')
@@ -70,7 +70,7 @@
           <input
             v-model="formData.tagline"
             id="tagline"
-            class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+            class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
             name="tagline"
             :placeholder="$t('pages.organizations.create.tagline-placeholder')"
           />

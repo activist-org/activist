@@ -10,7 +10,7 @@
     </div>
     <div
       v-if="isLoading"
-      class="p-4 text-xl font-semibold rounded-full md:text-2xl animate-pulse motion-reduce:animate-none bg-light-highlight dark:bg-dark-highlight"
+      class="p-4 text-xl font-semibold rounded-full md:text-2xl animate-pulse bg-light-highlight dark:bg-dark-highlight"
     ></div>
     <div
       v-if="count"
