@@ -2,7 +2,7 @@
   <PageBreadcrumbs class="mt-4" :organization="organization" :event="event" />
   <div
     v-if="underDevelopment"
-    class="flex w-full py-1 pl-4 mt-3 border bg-light-warn-yellow/40 border-light-text rounded-md text-light-text dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow dark:border-dark-warn-yellow"
+    class="flex flex-col lg:flex-row w-full py-1 pl-4 mt-3 border bg-light-warn-yellow/40 border-light-text rounded-md text-light-text dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow dark:border-dark-warn-yellow"
   >
     <p>
       🚧&nbsp;&nbsp;{{
