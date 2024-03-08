@@ -19,14 +19,10 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
         model = Faq
         fields = ["id", "question", "org_id", "answer", "last_updated"]
 
-
-class ImageSerializer(serializers.ModelSerializer[Image]):
-    class Meta:
-        model = Image
-        fields = "__all__"
-
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        # TODO: not sure what validation should be performance.
+        validate_empty(data["question"], "question")
+        validate_object_existence("entities.Organization", data["org_id"])
+
         return data
 
 
@@ -124,4 +120,14 @@ class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
         validate_object_existence(Topic, data["topic_id"])
         validate_object_existence(Format, data["format_id"])
 
+        return data
+
+
+class ImageSerializer(serializers.ModelSerializer[Image]):
+    class Meta:
+        model = Image
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        # TODO: not sure what validation should be performance.
         return data
