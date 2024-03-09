@@ -41,7 +41,13 @@
     class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow lg:items-center"
   >
     <h2
-      v-if="headerTagline"
+      v-if="organization && organization.status === 'pending'"
+      class="transition-all duration-500 responsive-h4 text-light-warn-yellow dark:text-dark-warn-yellow"
+    >
+      {{ $t("components.header-app-page.status-pending") }}
+    </h2>
+    <h2
+      v-else-if="headerTagline"
       class="transition-all duration-500 responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
     >
       {{ headerTagline }}
@@ -52,7 +58,6 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Event } from "~/types/event";
 import type { Organization } from "~/types/organization";
 
@@ -60,7 +65,6 @@ const props = defineProps<{
   header?: string;
   tagline?: string;
   organization?: Organization;
-  discussionTexts: DiscussionText[];
   event?: Event;
   underDevelopment?: boolean;
 }>();

@@ -17,14 +17,16 @@
           />
         </svg>
         <TooltipBase
-          class="invisible mt-3 -ml-36"
+          class="invisible mt-3 -ml-36 max-w-96"
           :text="
-            organization.name +
-            ' joined activist on ' +
-            // organization +
-            ' based on the support of ' +
-            organization.supporters +
-            ' organizations already on activist. Click here to see their application.'
+            $t(
+              'components.modal-organization-status.approved-tooltip-hover-text',
+              {
+                org_name: organization.name,
+                year: new Date().toISOString().slice(0, 10),
+                num_supporters: 6,
+              }
+            )
           "
         />
       </div>
@@ -36,21 +38,22 @@
             {{ organization.name }}'s Application
           </p>
         </DialogTitle>
+        <p
+          class="text-light-accepted-green dark:text-dark-accepted-green responsive-h4 pt-2"
+        >
+          {{ $t("components.modal-organization-status.status-accepted") }}
+        </p>
         <div class="py-6 space-y-6">
-          <h3 class="text-left responsive-h3 font-display">
-            {{ $t("_global.discussion") }}
-          </h3>
-          <hr />
           <CardOrgApplicationVote
             title="Votes in favor"
-            :is-voting-disabled="true"
+            :isVotingDisabled="true"
             :organizations="modalOrganizationStatusData!.organizationsInFavor"
-            :up-votes="modalOrganizationStatusData!.upVotes"
-            :down-votes="modalOrganizationStatusData!.downVotes"
+            :upVotes="modalOrganizationStatusData!.upVotes"
+            :downVotes="modalOrganizationStatusData!.downVotes"
           />
-          <CardDiscussionText
-            :is-private="false"
-            :discussion-texts="modalOrganizationStatusData!.discussionTexts"
+          <Discussion
+            :discussionTexts="modalOrganizationStatusData!.discussionTexts"
+            :organization="organization"
           />
         </div>
       </div>

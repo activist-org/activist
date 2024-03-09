@@ -19,10 +19,11 @@
         />
       </svg>
       <TooltipBase
-        class="invisible mt-3 -ml-36"
+        class="invisible mt-3 -ml-36 max-w-96"
         :text="
-          organization.name +
-          ' is still waiting for approval from other organizations to join activists.'
+          $t('components.icon-organization-status.pending-tooltip-hover-text', {
+            org_name: organization.name,
+          })
         "
       />
     </div>

@@ -34,8 +34,8 @@
         @down-vote="downVotes++"
         title="Votes in favor"
         :organizations="organizationsInFavor"
-        :up-votes="upVotes"
-        :down-votes="downVotes"
+        :upVotes="upVotes"
+        :downVotes="downVotes"
       />
       <div
         class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0"
@@ -61,7 +61,7 @@
         :organization="organization"
       />
       <CardConnect
-        :social-links="organization.socialLinks"
+        :socialLinks="organization.socialLinks"
         :userIsAdmin="true"
       />
       <CardDonate
@@ -69,21 +69,13 @@
         :userIsAdmin="true"
         :donationPrompt="organization.donationPrompt"
       />
-
-      <h3 class="text-left responsive-h3 font-display">
-        {{ $t("_global.discussion") }}
-      </h3>
-      <hr />
-
-      <CardDiscussionText
-        :is-private="false"
-        :discussion-texts="testDiscussionTexts"
-      />
-
-      <CardDiscussionInput
-        v-if="organization.status === 'pending'"
-        :discussion-input="testDiscussionInput"
-      />
+      <div v-if="organization.status === 'pending'" class="space-y-6">
+        <Discussion
+          :discussionInput="testDiscussionInput"
+          :discussionTexts="testDiscussionTexts"
+          :organization="organization"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -110,14 +102,6 @@ const upVotes = ref(123);
 const downVotes = ref(123);
 
 const testDiscussionTexts: DiscussionText[] = [
-  {
-    // authorImg?: "string",
-    author: "Name",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
-    votes: 123,
-    date: new Date(Date.now()),
-  },
   {
     // authorImg?: "string",
     author: "Name",
@@ -177,8 +161,8 @@ onMounted(() => {
 
 provide("modalOrganizationStatusData", {
   discussionTexts: testDiscussionTexts,
-  organizationsInFavor,
-  upVotes,
-  downVotes,
+  organizationsInFavor: organizationsInFavor,
+  upVotes: 6,
+  downVotes: 4,
 });
 </script>

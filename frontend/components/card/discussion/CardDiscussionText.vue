@@ -1,6 +1,5 @@
 <template>
   <div
-    v-for="discussionText in discussionTexts"
     class="flex flex-col justify-center w-full px-3 py-4 space-y-2 md:grow lg:px-5 md:py-3 card-style md:justify-start"
   >
     <div class="flex items-center space-x-1">
@@ -36,6 +35,6 @@ import type { DiscussionText } from "~/types/card-discussion-text";
 
 defineProps<{
   isPrivate?: boolean;
-  discussionTexts: DiscussionText;
+  discussionText: DiscussionText;
 }>();
 </script>
