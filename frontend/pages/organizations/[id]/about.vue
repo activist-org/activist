@@ -5,10 +5,7 @@
     <Head>
       <Title>{{ organization.name }}</Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
-      :discussionTexts="testDiscussionTexts"
-    >
+    <HeaderAppPage :organization="organization">
       <div class="flex pb-3 space-x-2 lg:space-x-3 lg:pb-4">
         <BtnAction
           class="w-max"
@@ -129,6 +126,14 @@ const testDiscussionTexts: DiscussionText[] = [
     votes: 123,
     date: new Date(Date.now()),
   },
+  {
+    // authorImg?: "string",
+    author: "Name",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
+    votes: 123,
+    date: new Date(Date.now()),
+  },
 ];
 
 const testDiscussionInput: DiscussionInput = {
@@ -143,7 +148,7 @@ const testDiscussionInput: DiscussionInput = {
 
 const testOrganization: Organization = {
   name: "tech from below",
-  status: "pending",
+  status: "approved",
   tagline: "Technologie von und für soziale Bewegungen",
   location: "Berlin, Germany",
   description:
@@ -168,5 +173,12 @@ onMounted(() => {
   if (status !== undefined) {
     organization.status = status;
   }
+});
+
+provide("modalOrganizationStatusData", {
+  discussionTexts: testDiscussionTexts,
+  organizationsInFavor,
+  upVotes,
+  downVotes,
 });
 </script>

@@ -35,7 +35,6 @@
       v-if="headerStatus"
       :status="headerStatus"
       :organization="organization"
-      :discussionTexts="discussionTexts"
     />
   </div>
   <div
