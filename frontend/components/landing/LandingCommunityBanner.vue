@@ -10,30 +10,30 @@
         href="https://github.com/activist-org/activist"
         target="_blank"
       >
-        <Icon name="simple-icons:github" size="1.1em" />
-        <p class="sr-only sm:not-sr-only">
-          {{ $t("components._global.github") }}
-        </p>
+        <MetaTagSocialMedia
+        iconName = "simple-icons:github"
+        :text="$t('components._global.github')"
+        />
       </a>
       <a
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://matrix.to/#/#activist_community:matrix.org"
         target="_blank"
       >
-        <Icon name="IconMatrix" size="1.061em" />
-        <p class="sr-only sm:not-sr-only">
-          {{ $t("components._global.matrix") }}
-        </p>
+        <MetaTagSocialMedia
+        iconName = "simple-icons:matrix"
+        :text="$t('components._global.matrix')"
+        />
       </a>
       <a
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://instagram.com/activist_org"
         target="_blank"
       >
-        <Icon name="simple-icons:instagram" size="1em" />
-        <p class="sr-only sm:not-sr-only">
-          {{ $t("components._global.instagram") }}
-        </p>
+        <MetaTagSocialMedia
+        iconName = "simple-icons:instagram"
+        :text="$t('components._global.instagram')"
+        />
       </a>
     </div>
   </div>
