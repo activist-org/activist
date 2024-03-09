@@ -1,4 +1,5 @@
 # mypy: disable-error-code="override"
+from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -61,7 +62,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         org = self.queryset.filter(pk=pk).first()
         if org:
             serializer = self.get_serializer(org)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response({"error": "Organization not found"}, status.HTTP_404_NOT_FOUND)
 
@@ -74,22 +75,41 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         - can only be deleted by the created_by user
         """
 
+        org = self.queryset.filter(pk=pk).first()
+        if request.user != org.created_by:
+            return Response(
+                {"error": "You are not authorized to update this organization"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = self.get_serializer(org, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_200_OK)
+
     def partial_update(self, request: Request, pk: str | None = None) -> Response:
         pass
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:
-        """
-        Destroy method for organization
+        if request.user != self.queryset.filter(pk=pk).first():
+            return Response(
+                {"error": "You are not authorized to delete this organization"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
 
-        - Keep total flags
-        - Keep the name
-        - set status to deleted
-        - use the date of deletion
+        self.queryset.filter(pk=pk).update(
+            status=Status.objects.get(3),  # 3 is the id of the deleted status
+            deletion_date=timezone.now(),
+            high_risk=False,
+            status_updated=None,
+            tagline="",
+            description="",
+            social_accounts=[],
+        )
 
-        - can only be deleted by the created_by user
-        """
-
-        pass
+        return Response(
+            {"message": "Organization deleted successfully"}, status.HTTP_200_OK
+        )
 
 
 class OrganizationApplicationViewSet(viewsets.ModelViewSet[OrganizationApplication]):
