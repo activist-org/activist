@@ -135,6 +135,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         validate_flags_number(data)
         validate_creation_and_deletion_dates(data)
         validate_object_existence(User, data["created_by"])
+        validate_object_existence(Organization, data["org_id"])
 
         return data
 

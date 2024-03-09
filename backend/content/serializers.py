@@ -11,7 +11,7 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import Faq, Image, Resource, ResourceTopic, Task, Topic, TopicFormat, Tag
+from .models import Faq, Image, Resource, ResourceTopic, ResourceTag,  Task, Topic, TopicFormat, Tag
 
 
 class FaqSerializer(serializers.ModelSerializer[Faq]):
@@ -36,6 +36,7 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
             "category",
             "url",
             "private",
+            "created_by",
             "creation_date",
             "last_updated",
             "total_flags",
@@ -47,7 +48,7 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
                 raise serializers.ValidationError(
                     _("Total flags must be an integer value.")
                 )
-                
+            
         return data
 
 
@@ -59,7 +60,6 @@ class TaskSerializer(serializers.ModelSerializer[Task]):
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
-        validate_empty(data["location"], "location")
         validate_creation_and_deletion_dates(data)
 
         return data
@@ -111,6 +111,17 @@ class ResourceTopicSerializer(serializers.ModelSerializer[ResourceTopic]):
         return data
 
 
+class ResourceTagSerializer(serializers.ModelSerializer[ResourceTag]):
+    class Meta:
+        model = ResourceTag
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_object_existence(Resource, data["resource_id"])
+        validate_object_existence(Tag, data["tag_id"])
+
+        return data
+
 class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
     class Meta:
         model = TopicFormat
@@ -121,6 +132,19 @@ class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
         validate_object_existence(Format, data["format_id"])
 
         return data
+
+# TODO: implement the Discussion models and then import them here, as also the DiscussionTag model.
+    
+# class DiscussionTagSerializer(serializers.ModelSerializer[DiscussionTag]):
+#     class Meta:
+#         model = DiscussionTag
+#         fields = "__all__"
+
+#     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+#         validate_object_existence(Discussion, data["discussion_id"])
+#         validate_object_existence(Tag, data["tag_id"])
+
+#         return data
 
 
 class ImageSerializer(serializers.ModelSerializer[Image]):

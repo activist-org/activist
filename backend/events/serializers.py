@@ -19,6 +19,7 @@ from .models import (
     EventFormat,
     EventResource,
     EventRole,
+    EventTag,
     EventTask,
     EventTopic,
     Format,
@@ -59,7 +60,12 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 ),
                 code="invalid_value",
             )
-
+        
+        if data["start_time"] > data["end_time"]:
+            raise serializers.ValidationError(
+                _("The start time cannot be after the end time."), code="invalid_value"
+            )
+        
         validate_creation_and_deletion_dates(data)
         validate_object_existence(User, data["created_by"])
 
@@ -177,3 +183,15 @@ class EventTopicSerializer(serializers.ModelSerializer[EventTopic]):
         validate_object_existence(Topic, data["topic_id"])
 
         return data
+    
+
+class EventTagSerializer(serializers.ModelSerializer[EventTag]):
+    class Meta:
+        model = EventTag
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Topic, data["tag_id"])
+
+        return data 

@@ -5,8 +5,6 @@ This file contains models for the entities app.
 
 Contents:
     - Organization
-    - StatusEntityType
-    - Status
     - OrganizationApplication
     - OrganizationEvent
     - OrganizationMember
@@ -48,8 +46,8 @@ class Organization(CreationDeletionMixin):
         null = True
     )
     high_risk = models.BooleanField(default=False)
-    status = models.IntegerField(default=1)
-    status_updated = models.DateTimeField(auto_now=True)
+    # status = models.IntegerField(default=1)
+    # status_updated = models.DateTimeField(auto_now=True)
     acceptance_date = models.DateTimeField()
     deletion_date = models.DateTimeField(null=True, blank=True)
     total_flags = models.IntegerField(default=0)
@@ -58,28 +56,18 @@ class Organization(CreationDeletionMixin):
         return self.name
     
 
-class StatusEntityType(models.Model):
+class OrganizationApplicationStatus(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=255)
+    status_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
-        return self.name
+        return self.status_name
     
-
-class Status(models.Model):
-    id = models.IntegerField(primary_key=True)
-    status_type = models.ForeignKey(StatusEntityType, on_delete=models.CASCADE)
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return self.name  
-
 
 class OrganizationApplication(models.Model):
     id = models.IntegerField(primary_key=True)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
+    status = models.ForeignKey("OrganizationApplicationStatus", on_delete=models.CASCADE)
     orgs_in_favor = ArrayField(
         models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )
@@ -87,6 +75,7 @@ class OrganizationApplication(models.Model):
         models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )
     creation_date = models.DateTimeField(auto_now_add=True)
+    status_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.creation_date}"
