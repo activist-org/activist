@@ -21,7 +21,7 @@
       <DialogPanel
         :class="{
           'flex flex-col items-center': imageModal,
-          'pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style text-light-text dark:text-dark-text container p-5 cursor-default':
+          'pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style-base bg-light-layer-0 dark:bg-dark-layer-0 text-light-text dark:text-dark-text container p-5 cursor-default':
             !imageModal,
         }"
       >

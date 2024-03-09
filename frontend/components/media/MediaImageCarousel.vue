@@ -21,7 +21,7 @@ import { register } from "swiper/element/bundle";
 register();
 
 const colorMode = useColorMode();
-const imageColor = colorMode.preference;
+const imageColor = colorMode.value;
 
 const imageUrls = [
   `/images/content_pages/art/get_active_${imageColor}.png`,

@@ -28,6 +28,15 @@
       </div>
     </HeaderAppPage>
     <div class="pb-6 space-y-6">
+      <CardOrgApplicationVote
+        v-if="organization.status === 'pending'"
+        @up-vote="upVotes++"
+        @down-vote="downVotes++"
+        title="Votes in favor"
+        :organizations="organizationsInFavor"
+        :upVotes="upVotes"
+        :downVotes="downVotes"
+      />
       <div
         class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0"
         :class="{
@@ -47,30 +56,34 @@
           <MediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
         </div>
       </div>
-      <CardOrgApplicationVote
-        v-if="organization.status === 'pending'"
-        @up-vote="upVotes++"
-        @down-vote="downVotes++"
-        title="Votes in favor"
-        :organizations="organizationsInFavor"
-        :up-votes="upVotes"
-        :down-votes="downVotes"
+      <CardGetInvolved
+        v-if="organization.status === 'approved'"
+        :organization="organization"
       />
-      <CardGetInvolved :organization="organization" />
       <CardConnect
-        :social-links="organization.socialLinks"
+        :socialLinks="organization.socialLinks"
         :userIsAdmin="true"
       />
-      <!-- <CardDonate
+      <CardDonate
+        v-if="organization.status === 'approved'"
         :userIsAdmin="true"
         :donationPrompt="organization.donationPrompt"
-      /> -->
+      />
+      <div v-if="organization.status === 'pending'" class="space-y-6">
+        <Discussion
+          :discussionInput="testDiscussionInput"
+          :discussionTexts="testDiscussionTexts"
+          :organization="organization"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import type { DiscussionInput } from "~/types/card-discussion-input";
+import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Organization } from "~/types/organization";
 
 definePageMeta({
@@ -87,6 +100,35 @@ const route = useRoute();
 // TODO: for testing purpose, should be removed.
 const upVotes = ref(123);
 const downVotes = ref(123);
+
+const testDiscussionTexts: DiscussionText[] = [
+  {
+    // authorImg?: "string",
+    author: "Name",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
+    votes: 123,
+    date: new Date(Date.now()),
+  },
+  {
+    // authorImg?: "string",
+    author: "Name",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
+    votes: 123,
+    date: new Date(Date.now()),
+  },
+];
+
+const testDiscussionInput: DiscussionInput = {
+  name: "Name",
+  // location?: string,
+  supporters: 1,
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
+  category: "Category 1",
+  highRisk: false,
+};
 
 const testOrganization: Organization = {
   name: "tech from below",
@@ -115,5 +157,12 @@ onMounted(() => {
   if (status !== undefined) {
     organization.status = status;
   }
+});
+
+provide("modalOrganizationStatusData", {
+  discussionTexts: testDiscussionTexts,
+  organizationsInFavor: organizationsInFavor,
+  upVotes: 6,
+  downVotes: 4,
 });
 </script>

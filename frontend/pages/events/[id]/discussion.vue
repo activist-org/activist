@@ -24,9 +24,10 @@
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
-      <CardDiscussionText :discussionText="discussionText" />
-      <CardDiscussionText :discussionText="discussionText" />
-      <CardDiscussionInput :discussionInput="discussionInput" />
+      <Discussion
+        :discussionInput="discussionInput"
+        :discussionTexts="[discussionText, discussionText]"
+      />
     </div>
   </div>
 </template>
