@@ -42,7 +42,7 @@
 - [Our goals](#our-goals)
 - [Contributing](#contributing)
 - [Environment setup](#environment-setup)
-- [Design and accessability](design-a11y)
+- [Design and accessability](#design-a11y)
 - [Platform features](#platform-features)
 - [Securely hosted](#securely-hosted)
 - [Community governance](#community-governance)
