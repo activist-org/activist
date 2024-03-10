@@ -30,8 +30,10 @@
             'rounded-b-md': o === dropdownOptions[dropdownOptions.length - 1],
           }"
         >
-          <a
+          <button
             @click="dropdownOptionsCallback(o)"
+            @keypress.enter="dropdownOptionsCallback(o)"
+            tabindex="0"
             :class="{
               'bg-light-cta-orange/80 dark:bg-dark-cta-orange/40 text-light-text  dark:text-dark-cta-orange':
                 active,
@@ -39,7 +41,7 @@
             }"
           >
             {{ o }}
-          </a>
+          </button>
         </MenuItem>
       </MenuItems>
     </Menu>
