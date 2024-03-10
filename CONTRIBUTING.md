@@ -301,6 +301,8 @@ Please see the [activist style guide](https://github.com/activist-org/activist/b
 
 For the backend [pylint-django](https://github.com/PyCQA/pylint-django) is installed via the required packages to assure that errors are reported correctly within a Django development environment.
 
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/)
+
 <a id="issues-projects"></a>
 
 ## Issues and projects [`⇧`](#contents)
