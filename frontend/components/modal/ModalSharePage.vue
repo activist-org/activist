@@ -129,6 +129,28 @@
                 getCurrentUrl()
               )
             "
+            @keypress.space="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
+            @keypress.enter="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
+            tabindex="0"
+            role="button"
           >
             <MetaTagSocialMedia
               v-if="!contentCopied"

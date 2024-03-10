@@ -8,7 +8,7 @@
         'bg-light-learn-blue dark:bg-dark-learn-blue': eventType == 'learn',
       }"
     ></div>
-    <img v-if="imgURL" class="object-cover" :src="imgURL" />
+    <img v-if="imgURL" class="object-cover" :src="imgURL" :alt="alt" />
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
@@ -23,5 +23,6 @@
 defineProps<{
   eventType: "action" | "learn";
   imgURL?: string;
+  alt?: string;
 }>();
 </script>

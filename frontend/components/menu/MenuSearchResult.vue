@@ -1,7 +1,10 @@
 <template>
   <div
     @mouseleave="showTooltip = false"
+    @blur="showTooltip = false"
     ref="quickActionBtnAndMenu"
+    tabindex="0"
+    role="button"
     class="p-2"
   >
     <button

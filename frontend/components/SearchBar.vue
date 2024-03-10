@@ -6,16 +6,23 @@
     <div class="flex items-center pl-1 space-x-2">
       <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
       <Transition name="search">
-        <input
+        <div
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @focus="onFocus"
-          @blur="onFocusLost"
-          ref="input"
-          class="w-16 h-5 bg-transparent outline-none"
-          :class="{ 'focus:w-5/6': isInputFocused }"
-          type="text"
-          :placeholder="$t('_global.search')"
-        />
+        >
+          <label for="input-search" class="sr-only">{{
+            $t("_global.search")
+          }}</label>
+          <input
+            @focus="onFocus"
+            @blur="onFocusLost"
+            ref="input"
+            id="input-search"
+            class="w-16 h-5 bg-transparent outline-none"
+            :class="{ 'focus:w-5/6': isInputFocused }"
+            type="text"
+            :placeholder="$t('_global.search')"
+          />
+        </div>
       </Transition>
     </div>
     <Transition name="shortcuts">
@@ -66,11 +73,13 @@
       :name="expanded ? 'bi:x-lg' : 'bi:search'"
       size="1em"
     />
+    <label for="expanded-search-input">{{ $t("_global.search") }}</label>
     <input
       v-if="expanded"
+      id="expanded-search-input"
       class="bg-transparent focus:outline-none"
       type="text"
-      placeholder="Search"
+      :placeholder="$t('_global.search')"
     />
     <Icon v-if="expanded" class="absolute right-3" name="bi:filter" />
   </div>

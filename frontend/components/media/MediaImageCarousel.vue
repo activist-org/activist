@@ -11,7 +11,7 @@
       :key="idx"
       class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
     >
-      <img class="object-cover h-[17.5rem] object-center" :src="img" />
+      <img class="object-cover h-[17.5rem] object-center" :src="img" alt="" />
     </swiper-slide>
   </swiper-container>
 </template>
