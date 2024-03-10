@@ -11,10 +11,10 @@
         target="_blank"
       >
         <MetaTagSocialMedia
-        iconName = "simple-icons:github"
-        :text="$t('components._global.github')"
-        iconSize="1.1em"
-        textStyleClass="sr-only sm:not-sr-only"
+          iconName="simple-icons:github"
+          :text="$t('components._global.github')"
+          iconSize="1.1em"
+          textStyleClass="sr-only sm:not-sr-only"
         />
       </a>
       <a
@@ -23,10 +23,10 @@
         target="_blank"
       >
         <MetaTagSocialMedia
-        iconName = "IconMatrix"
-        :text="$t('components._global.matrix')"
-        iconSize="1.061em"
-        textStyleClass="sr-only sm:not-sr-only"
+          iconName="IconMatrix"
+          :text="$t('components._global.matrix')"
+          iconSize="1.061em"
+          textStyleClass="sr-only sm:not-sr-only"
         />
       </a>
       <a
@@ -35,10 +35,10 @@
         target="_blank"
       >
         <MetaTagSocialMedia
-        iconName = "simple-icons:instagram"
-        :text="$t('components._global.instagram')"
-        iconSize="1em"
-        textStyleClass="sr-only sm:not-sr-only"
+          iconName="simple-icons:instagram"
+          :text="$t('components._global.instagram')"
+          iconSize="1em"
+          textStyleClass="sr-only sm:not-sr-only"
         />
       </a>
     </div>

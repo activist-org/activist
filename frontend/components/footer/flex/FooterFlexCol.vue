@@ -50,7 +50,7 @@
             >
               <MetaTagSocialMedia
                 class="text-2xl sm:text-base"
-                :iconName = "connect.iconName"
+                :iconName="connect.iconName"
                 :text="$t(connect.name)"
                 textStyleClass="sr-only sm:not-sr-only"
               />

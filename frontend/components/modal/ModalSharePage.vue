@@ -74,10 +74,10 @@
             />
           </s-twitter>
           <s-email class="focus-brand" :share-options="shareOptions">
-            <MetaTagSocialMedia 
-              class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text" 
-              iconName="bi:envelope" 
-              text="Email" 
+            <MetaTagSocialMedia
+              class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
+              iconName="bi:envelope"
+              text="Email"
               iconSize="1.5em"
             />
           </s-email>

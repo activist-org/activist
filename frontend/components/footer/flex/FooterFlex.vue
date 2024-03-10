@@ -74,7 +74,7 @@
           >
             <MetaTagSocialMedia
               class="!gap-2"
-              :iconName = "connect.iconName"
+              :iconName="connect.iconName"
               :text="$t(connect.name)"
               :iconSize="connect.iconSize"
             />
