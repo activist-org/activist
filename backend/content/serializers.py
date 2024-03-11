@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from events.models import Format
-from PIL import Image
+from PIL import Image as PilImage
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
@@ -170,7 +170,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             )
         
         try:
-            with Image.open(data["image_location"]) as img:
+            with PilImage.open(data["image_location"]) as img:
                 img.verify()
         except Exception:
             raise serializers.ValidationError(
