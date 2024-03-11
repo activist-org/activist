@@ -2,7 +2,7 @@ import datetime
 
 import factory
 
-from .models import Faq, Resource, ResourceTopic, Task, Topic, TopicFormat
+from .models import Faq, Resource, ResourceTopic, ResourceTag, Tag, Task, Topic, TopicFormat
 
 
 class FaqFactory(factory.django.DjangoModelFactory):
@@ -28,6 +28,15 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     last_updated = factory.LazyFunction(datetime.datetime.now)
 
 
+class TagFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Tag
+
+    text = factory.Faker("text")
+    creation_date = factory.LazyFunction(datetime.datetime.now)
+    deprecation_date = factory.Faker("date")
+
+
 class TaskFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Task
@@ -35,8 +44,8 @@ class TaskFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     description = factory.Faker("text")
     tags = factory.List([factory.Faker("word") for _ in range(10)])
-    creation_date = factory.LazyFunction(datetime.datetime.now)
-    deletion_date = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.Faker("date_time_this_decade", before_now=True)
+    deletion_date = factory.Faker("date_time_this_decade", before_now=False)
 
 
 class TopicFactory(factory.django.DjangoModelFactory):
@@ -62,4 +71,5 @@ class TopicFormatFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = TopicFormat
 
+    topic_id = factory.SubFactory(TopicFactory)
     format_id = factory.SubFactory("events.factories.FormatFactory")
