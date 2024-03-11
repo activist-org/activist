@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from events.models import Format
+from PIL import Image
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
@@ -150,8 +151,32 @@ class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
 class ImageSerializer(serializers.ModelSerializer[Image]):
     class Meta:
         model = Image
-        fields = "__all__"
+        fields = ["id", "image_location", "creation_date"]
+        read_only_fields = ["id", "creation_date"]
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        # TODO: not sure what validation should be performance.
+
+        if not data["image_location"].name.endswith((".jpg", ".jpeg", ".png")):
+            raise serializers.ValidationError(
+                _("The image must be in .jpg, .jpeg, or .png format."), 
+                code="invalid_file"
+            )
+        
+        # TODO: check what is the maximum size of an image that we want to allow.
+        if data["image_location"].size > 10485760:
+            raise serializers.ValidationError(
+                _("The image must be less than 10MB in size."), 
+                code="invalid_file"
+            )
+        
+        try:
+            with Image.open(data["image_location"]) as img:
+                img.verify()
+        except Exception:
+            raise serializers.ValidationError(
+                _("The image is not valid."), 
+                code="corrupted_file"
+            )
+       
         return data
+        
