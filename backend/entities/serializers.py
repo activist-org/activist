@@ -65,7 +65,7 @@ class OrganizationApplicationSerializer(
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["status"], "status")
-        validate_creation_and_deletion_dates(data)
+        validate_object_existence(Organization, data["org_id"])
 
         return data
 
