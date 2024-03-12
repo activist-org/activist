@@ -48,7 +48,7 @@
   }
 
   .focus-brand {
-    @apply rounded-sm focus:ring-2 focus:ring-light-link-text dark:focus:ring-dark-link-text focus:outline-none focus:border-light-link-text dark:focus:border-dark-link-text;
+    @apply rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-light-link-text dark:focus-visible:ring-dark-link-text focus-visible:border-light-link-text dark:focus-visible:border-dark-link-text;
   }
 
   .focus-inside {
