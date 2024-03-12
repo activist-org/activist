@@ -1,9 +1,8 @@
 from typing import Dict, Union
 
-from datetime import datetime
+from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
 from rest_framework import serializers
-
 from authentication.models import User
 from content.models import Resource, Task, Topic
 from utils.utils import (
@@ -62,10 +61,8 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 code="invalid_value",
             )
         
-        if isinstance(data["start_time"], str):
-            data["start_time"] = datetime.strptime(data["start_time"], "%Y-%m-%dT%H:%M:%SZ")
-        if isinstance(data["end_time"], str):
-            data["end_time"] = datetime.strptime(data["end_time"], "%Y-%m-%dT%H:%M:%SZ")
+        data["start_time"] = parse_datetime(data["start_time"]) 
+        data["end_time"] = parse_datetime(data["end_time"])
         
         if data["start_time"] > data["end_time"]:
             raise serializers.ValidationError(
