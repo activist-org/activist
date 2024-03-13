@@ -47,7 +47,8 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
         if total_flags := data.get("total_flags") is not None:
             if not isinstance(total_flags, int):
                 raise serializers.ValidationError(
-                    _("Total flags must be an integer value.")
+                    _("Total flags must be an integer value."),
+                    code="invalid_field_type",
                 )
             
         return data
@@ -77,12 +78,14 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
 
         if data["active"] is True and data["deprecation_date"] is not None:
             raise serializers.ValidationError(
-                "Active topics cannot have a deprecation date."
+                _("Active topics cannot have a deprecation date."),
+                code="active_topic_with_deprecation_error"
             )
 
         if data["active"] is False and data["deprecation_date"] is None:
             raise serializers.ValidationError(
-                "Inactive topics must have a deprecation date."
+                _("Deprecated topics must have a deprecation date."),
+                code="inactive_topic_no_deprecation_error"
             )
 
         validate_creation_and_deprecation_dates(data)
