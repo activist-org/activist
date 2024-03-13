@@ -1,9 +1,10 @@
 from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
+from events.models import Format
+
 from rest_framework import serializers
 
-from events.models import Format
 from PIL import Image as PilImage
 from utils.utils import (
     validate_creation_and_deletion_dates,
@@ -12,7 +13,17 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import Faq, Image, Resource, ResourceTopic, ResourceTag,  Task, Topic, TopicFormat, Tag
+from .models import (
+    Faq,
+    Image,
+    Resource,
+    ResourceTopic,
+    ResourceTag,
+    Task,
+    Topic,
+    TopicFormat,
+    Tag,
+)
 
 
 class FaqSerializer(serializers.ModelSerializer[Faq]):
@@ -50,7 +61,7 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
                     _("Total flags must be an integer value."),
                     code="invalid_field_type",
                 )
-            
+
         return data
 
 
@@ -79,19 +90,20 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
         if data["active"] is True and data["deprecation_date"] is not None:
             raise serializers.ValidationError(
                 _("Active topics cannot have a deprecation date."),
-                code="active_topic_with_deprecation_error"
+                code="active_topic_with_deprecation_error",
             )
 
         if data["active"] is False and data["deprecation_date"] is None:
             raise serializers.ValidationError(
                 _("Deprecated topics must have a deprecation date."),
-                code="inactive_topic_no_deprecation_error"
+                code="inactive_topic_no_deprecation_error",
             )
 
         validate_creation_and_deprecation_dates(data)
 
         return data
-    
+
+
 class TagSerializer(serializers.ModelSerializer[Tag]):
     class Meta:
         model = Tag
@@ -126,6 +138,7 @@ class ResourceTagSerializer(serializers.ModelSerializer[ResourceTag]):
 
         return data
 
+
 class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
     class Meta:
         model = TopicFormat
@@ -137,8 +150,9 @@ class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
 
         return data
 
+
 # TODO: implement the Discussion models and then import them here, as also the DiscussionTag model.
-    
+
 # class DiscussionTagSerializer(serializers.ModelSerializer[DiscussionTag]):
 #     class Meta:
 #         model = DiscussionTag
@@ -158,7 +172,6 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         read_only_fields = ["id", "creation_date"]
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-
         image_extensions = [".jpg", ".jpeg", ".png"]
         img_format = ""
 
@@ -168,15 +181,13 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                 img_format = img.format.lower()
         except Exception:
             raise serializers.ValidationError(
-                _("The image is not valid."), 
-                code="corrupted_file"
+                _("The image is not valid."), code="corrupted_file"
             )
-        
+
         if img_format not in image_extensions:
             raise serializers.ValidationError(
-                _("The image must be in jpg, jpeg or png format."), 
-                code="invalid_extension"
+                _("The image must be in jpg, jpeg or png format."),
+                code="invalid_extension",
             )
-        
+
         return data
-        

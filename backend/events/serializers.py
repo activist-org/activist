@@ -60,15 +60,15 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 ),
                 code="invalid_value",
             )
-        
-        data["start_time"] = parse_datetime(data["start_time"]) 
+
+        data["start_time"] = parse_datetime(data["start_time"])
         data["end_time"] = parse_datetime(data["end_time"])
-        
+
         if data["start_time"] > data["end_time"]:
             raise serializers.ValidationError(
                 _("The start time cannot be after the end time."), code="invalid_value"
             )
-        
+
         validate_creation_and_deletion_dates(data)
         validate_object_existence(User, data["created_by"])
 
@@ -186,7 +186,7 @@ class EventTopicSerializer(serializers.ModelSerializer[EventTopic]):
         validate_object_existence(Topic, data["topic_id"])
 
         return data
-    
+
 
 class EventTagSerializer(serializers.ModelSerializer[EventTag]):
     class Meta:
@@ -197,4 +197,4 @@ class EventTagSerializer(serializers.ModelSerializer[EventTag]):
         validate_object_existence(Event, data["event_id"])
         validate_object_existence(Topic, data["tag_id"])
 
-        return data 
+        return data
