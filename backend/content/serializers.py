@@ -156,27 +156,24 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
 
-        if not data["image_location"].name.endswith((".jpg", ".jpeg", ".png")):
-            raise serializers.ValidationError(
-                _("The image must be in .jpg, .jpeg, or .png format."), 
-                code="invalid_file"
-            )
-        
-        # TODO: check what is the maximum size of an image that we want to allow.
-        if data["image_location"].size > 10485760:
-            raise serializers.ValidationError(
-                _("The image must be less than 10MB in size."), 
-                code="invalid_file"
-            )
-        
+        image_extensions = [".jpg", ".jpeg", ".png"]
+        img_format = ""
+
         try:
             with PilImage.open(data["image_location"]) as img:
                 img.verify()
+                img_format = img.format.lower()
         except Exception:
             raise serializers.ValidationError(
                 _("The image is not valid."), 
                 code="corrupted_file"
             )
-       
+        
+        if img_format not in image_extensions:
+            raise serializers.ValidationError(
+                _("The image must be in jpg, jpeg or png format."), 
+                code="invalid_extension"
+            )
+        
         return data
         
