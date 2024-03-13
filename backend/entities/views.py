@@ -140,7 +140,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
     
     def destroy(self, request: Request, pk: int) -> Response:
         instance = get_object_or_404(Group, pk=pk)
-        instance.delete()
+        instance.deletion_date = datetime.now()
         data = {"message": f'Group {pk} has been deleted successfully'}
         return Response(data, status=status.HTTP_204_NO_CONTENT)
     
