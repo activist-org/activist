@@ -26,11 +26,14 @@ from backend.mixins.models import CreationDeletionMixin
 class Event(CreationDeletionMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255, blank=True)
+    tagline = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
-    online_location_link = models.CharField(max_length=255, blank=True)
+    online_location_link = models.CharField(max_length=255, blank=True, null=True)
+    # offline_location_id = models.ForeignKey(
+    #     "Location", on_delete=models.CASCADE, null=True
+    # )
     offline_location_lat = models.FloatField(null=True, blank=True)
     offline_location_long = models.FloatField(null=True, blank=True)
     start_time = models.DateTimeField()
@@ -41,6 +44,8 @@ class Event(CreationDeletionMixin):
     event_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
     )
+    creation_date = models.DateTimeField(auto_now_add=True)
+    deletion_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
         return self.name

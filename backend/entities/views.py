@@ -150,6 +150,34 @@ class OrganizationMemberViewSet(viewsets.ModelViewSet[OrganizationMember]):
     queryset = OrganizationMember.objects.all()
     serializer_class = OrganizationMemberSerializer
     pagination_class = CustomPagination
+    
+    def create(self, request: Request, *args: str, **kwargs: int) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            instance = serializer.save()
+            data = {"message": f"New Organization Member created with id: {instance.id}"}
+            return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = get_object_or_404(OrganizationMember, pk=kwargs["pk"])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = get_object_or_404(OrganizationMember, pk=kwargs["pk"])
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            data = {"message": f'Organization {kwargs["pk"]} has been updated'}
+            return Response(data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = get_object_or_404(OrganizationMember, pk=kwargs["pk"])
+        instance.delete()
+        data = {"message": f'Organization {kwargs["pk"]} has been deleted successfully'}
+        return Response(data, status=status.HTTP_204_NO_CONTENT)
 
 
 class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
