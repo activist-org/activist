@@ -60,13 +60,10 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 ),
                 code="invalid_value",
             )
-
-        data["start_time"] = parse_datetime(data["start_time"])
-        data["end_time"] = parse_datetime(data["end_time"])
-
-        if data["start_time"] > data["end_time"]:
+        
+        if data["start_time"] >= data["end_time"]:
             raise serializers.ValidationError(
-                _("The start time cannot be after the end time."), code="invalid_value"
+                _("The start time cannot be after the end time."), code="invalid_time_order"
             )
 
         validate_creation_and_deletion_dates(data)
