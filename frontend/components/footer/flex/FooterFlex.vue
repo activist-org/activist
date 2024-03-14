@@ -72,8 +72,12 @@
             :href="connect.url"
             target="_blank"
           >
-            <Icon :name="connect.iconName" :size="connect.iconSize" />
-            <p>{{ $t(connect.name) }}</p>
+            <MetaTagSocialMedia
+              class="!gap-2"
+              :iconName="connect.iconName"
+              :text="$t(connect.name)"
+              :iconSize="connect.iconSize"
+            />
           </a>
         </template>
       </div>

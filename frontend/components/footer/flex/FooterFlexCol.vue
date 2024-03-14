@@ -48,10 +48,12 @@
               :href="connect.url"
               target="_blank"
             >
-              <Icon :name="connect.iconName" class="text-2xl sm:text-base" />
-              <p class="sr-only sm:not-sr-only">
-                {{ $t(connect.name) }}
-              </p>
+              <MetaTagSocialMedia
+                class="text-2xl sm:text-base"
+                :iconName="connect.iconName"
+                :text="$t(connect.name)"
+                textUtilityClasses="sr-only sm:not-sr-only"
+              />
             </a>
           </template>
         </div>

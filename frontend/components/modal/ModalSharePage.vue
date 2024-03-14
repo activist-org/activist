@@ -33,8 +33,10 @@
             :native-behavior-options="nativeBehaviorOptions"
           >
             <MetaTagSocialMedia
+              class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
               iconName="simple-icons:telegram"
               :text="$t('components.meta-social-media-tag.telegram')"
+              iconSize="1.5em"
             />
           </s-telegram>
           <s-mastodon
@@ -48,8 +50,10 @@
             :use-native-behavior="useNativeBehavior"
           >
             <MetaTagSocialMedia
+              class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
               iconName="simple-icons:mastodon"
               :text="$t('components.meta-social-media-tag.mastodon')"
+              iconSize="1.5em"
             />
           </s-mastodon>
           <s-twitter
@@ -63,18 +67,27 @@
             :use-native-behavior="useNativeBehavior"
           >
             <MetaTagSocialMedia
+              class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
               iconName="simple-icons:twitter"
               text="@activist_org"
+              iconSize="1.5em"
             />
           </s-twitter>
           <s-email class="focus-brand" :share-options="shareOptions">
-            <MetaTagSocialMedia iconName="bi:envelope" text="Email" />
+            <MetaTagSocialMedia
+              class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
+              iconName="bi:envelope"
+              text="Email"
+              iconSize="1.5em"
+            />
           </s-email>
           <ModalBase>
             <template #normalDisplay>
               <MetaTagSocialMedia
+                class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
                 iconName="bi:qr-code-scan"
                 :text="$t('components.meta-social-media-tag.qr-code')"
+                iconSize="1.5em"
               />
             </template>
             <template #modalDisplay>
@@ -98,8 +111,10 @@
               :use-native-behavior="useNativeBehavior"
             >
               <MetaTagSocialMedia
+                class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
                 iconName="simple-icons:messenger"
                 :text="$t('components.meta-social-media-tag.messenger')"
+                iconSize="1.5em"
               />
             </s-facebook-messenger>
             <s-facebook
@@ -114,8 +129,10 @@
               :native-behavior-options="nativeBehaviorOptions"
             >
               <MetaTagSocialMedia
+                class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
                 iconName="simple-icons:facebook"
                 :text="$t('components.meta-social-media-tag.facebook')"
+                iconSize="1.5em"
               />
             </s-facebook> -->
           <div
@@ -132,14 +149,17 @@
           >
             <MetaTagSocialMedia
               v-if="!contentCopied"
+              class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
               iconName="bi:link-45deg"
               :text="$t('components.meta-social-media-tag.copy-link')"
+              iconSize="1.5em"
             />
             <MetaTagSocialMedia
               v-if="contentCopied"
               class="text-light-accepted-green dark:text-dark-accepted-green hover:text-light-accepted-green dark:hover:text-dark-accepted-green"
               iconName="bi:check2-square"
               :text="$t('components.meta-social-media-tag.copied')"
+              iconSize="1.5em"
             />
           </div>
         </div>
