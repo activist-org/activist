@@ -125,12 +125,15 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def retrieve(self, request: Request, pk: int) -> Response:
-        instance = get_object_or_404(Group, pk=pk)
+        instance = self.queryset.filter(id=pk)
         serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+        if not instance:
+            data = {"message": f'Group {pk} not found'}
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def partial_update(self, request: Request, pk: int) -> Response:
-        instance = get_object_or_404(Group, pk=pk)
+        instance = self.queryset.filter(pk=pk)
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -139,7 +142,10 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request: Request, pk: int) -> Response:
-        instance = get_object_or_404(Group, pk=pk)
+        instance = self.queryset.filter(id=pk)
+        if not instance:
+            data = {"message": f'Group {pk} not found'}
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
         instance.deletion_date = datetime.now()
         data = {"message": f'Group {pk} has been deleted successfully'}
         return Response(data, status=status.HTTP_204_NO_CONTENT)
