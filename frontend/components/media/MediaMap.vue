@@ -123,9 +123,10 @@ onMounted(() => {
 
         const marker = new maplibregl.Marker({
           color: `${props.markerColors[0]}`,
-        })
-        marker.addClassName('cursor-pointer')
-        marker.setLngLat([parseFloat(location["lon"]), parseFloat(location["lat"])])
+        });
+        marker.addClassName("cursor-pointer");
+        marker
+          .setLngLat([parseFloat(location["lon"]), parseFloat(location["lat"])])
           .setPopup(popup)
           .addTo(map);
 
