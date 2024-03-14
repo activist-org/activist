@@ -112,42 +112,39 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
 
-    def list (self, request: Request) -> Response:
+    def list (self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def create(self, request: Request) -> Response:
+    def create(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             instance = serializer.save()
-            data = {"message": f"New Group created with id: {instance.id}"}
+            data = {"message": f"New Group created with id: {instance.id} - instance {instance}"}
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def retrieve(self, request: Request, pk: int) -> Response:
-        instance = self.queryset.filter(id=pk)
+    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = get_object_or_404(Group, pk=[kwargs["pk"]])
         serializer = self.get_serializer(instance)
-        if not instance:
-            data = {"message": f'Group {pk} not found'}
-            return Response(data, status=status.HTTP_404_NOT_FOUND)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def partial_update(self, request: Request, pk: int) -> Response:
-        instance = self.queryset.filter(pk=pk)
+    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = self.queryset.filter(pk=kwargs["pk"])
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            data = {"message": f'Group {pk} has been updated'}
+            data = {"message": f'Group {kwargs["pk"]} has been updated'}
             return Response(data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def destroy(self, request: Request, pk: int) -> Response:
-        instance = self.queryset.filter(id=pk)
-        if not instance:
-            data = {"message": f'Group {pk} not found'}
-            return Response(data, status=status.HTTP_404_NOT_FOUND)
+    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = get_object_or_404(Group, pk=kwargs["pk"])
+        # if not instance:
+        #     data = {"message": f'Group {kwargs["pk"]} not found. Try another id.'}
+        #     return Response(data, status=status.HTTP_404_NOT_FOUND)
         instance.deletion_date = datetime.now()
-        data = {"message": f'Group {pk} has been deleted successfully'}
+        data = {"message": f'Group {kwargs["pk"]} has been deleted successfully'}
         return Response(data, status=status.HTTP_204_NO_CONTENT)
     
 
