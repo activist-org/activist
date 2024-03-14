@@ -61,7 +61,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 code="invalid_value",
             )
         
-        if data["start_time"] >= data["end_time"] and data["end_time"] and data["start_time"]:
+        if data["start_time"] >= data["end_time"]:
             raise serializers.ValidationError(
                 _("The start time cannot be after the end time."), code="invalid_time_order"
             )
