@@ -52,7 +52,7 @@
                 class="text-2xl sm:text-base"
                 :iconName="connect.iconName"
                 :text="$t(connect.name)"
-                textStyleClass="sr-only sm:not-sr-only"
+                textUtilityClasses="sr-only sm:not-sr-only"
               />
             </a>
           </template>

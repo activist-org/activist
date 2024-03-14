@@ -6,39 +6,42 @@
       class="flex justify-center text-lg space-x-12 sm:space-x-8 xl:space-x-12 xl:text-xl"
     >
       <a
-        class="flex items-center space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+        class="hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://github.com/activist-org/activist"
         target="_blank"
       >
         <MetaTagSocialMedia
+          class="!gap-2"
           iconName="simple-icons:github"
           :text="$t('components._global.github')"
           iconSize="1.1em"
-          textStyleClass="sr-only sm:not-sr-only"
+          textUtilityClasses="sr-only sm:not-sr-only"
         />
       </a>
       <a
-        class="flex items-center space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+        class="hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://matrix.to/#/#activist_community:matrix.org"
         target="_blank"
       >
         <MetaTagSocialMedia
+          class="!gap-2"
           iconName="IconMatrix"
           :text="$t('components._global.matrix')"
           iconSize="1.061em"
-          textStyleClass="sr-only sm:not-sr-only"
+          textUtilityClasses="sr-only sm:not-sr-only"
         />
       </a>
       <a
-        class="flex items-center space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+        class="hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://instagram.com/activist_org"
         target="_blank"
       >
         <MetaTagSocialMedia
+          class="!gap-2"
           iconName="simple-icons:instagram"
           :text="$t('components._global.instagram')"
           iconSize="1em"
-          textStyleClass="sr-only sm:not-sr-only"
+          textUtilityClasses="sr-only sm:not-sr-only"
         />
       </a>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center w-full h-full cursor-pointer gap-3">
     <Icon :name="props.iconName" :size="props.iconSize" />
-    <p :class="props.textStyleClass">{{ props.text }}</p>
+    <p :class="props.textUtilityClasses">{{ props.text }}</p>
   </div>
 </template>
 
@@ -12,6 +12,6 @@ const props = defineProps<{
   iconName: string;
   text: string;
   iconSize: string;
-  textStyleClass: string;
+  textUtilityClasses?: string;
 }>();
 </script>
