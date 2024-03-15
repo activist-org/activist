@@ -33,7 +33,7 @@ class Organization(CreationDeletionMixin):
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
     )
     about_images = models.ManyToManyField(
-        "content.Image", related_name="about_images", blank=True
+        "content.Image", related_name="about_images", blank=True, null=True
     )
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
@@ -117,7 +117,7 @@ class Group(CreationDeletionMixin):
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
     )
     about_images = models.ManyToManyField(
-        "content.Image", related_name="about_img", blank=True
+        "content.Image", related_name="about_img", blank=True, null=True
     )
     created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     description = models.TextField(max_length=500)

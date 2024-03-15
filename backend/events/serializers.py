@@ -81,7 +81,6 @@ class FormatSerializer(serializers.ModelSerializer[Event]):
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
         validate_creation_and_deprecation_dates(data)
-        validate_creation_and_deletion_dates(data)
 
         return data
 
@@ -133,6 +132,11 @@ class EventAttendeeStatusSerializer(serializers.ModelSerializer[EventAttendeeSta
     class Meta:
         model = EventAttendeeStatus
         fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_empty(data["status_name"], "status_name")
+
+        return data
 
 
 class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
