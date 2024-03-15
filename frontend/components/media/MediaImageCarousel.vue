@@ -1,4 +1,4 @@
-<template>
+<template> 
   <swiper-container
     class="w-full h-full swiper card-style overflow-clip"
     :slidesPerView="1"

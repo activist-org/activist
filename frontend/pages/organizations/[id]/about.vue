@@ -53,7 +53,7 @@
           :organization="organization"
         />
         <div class="w-full h-full">
-          <MediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
+          <ModalMediaImageCarousel/>
         </div>
       </div>
       <CardGetInvolved
