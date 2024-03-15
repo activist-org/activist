@@ -11,7 +11,7 @@
       :key="idx"
       class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
     >
-    <img :class="['object-cover', 'object-center', fullscreen ? 'h-screen' : 'h-[17.5rem]']" :src="img" />
+    <img :class="['object-cover', 'object-center', fullscreen ? 'size-11/12' : 'h-[17.5rem]']" :src="img" />
     </swiper-slide>
   </swiper-container>
 </template>
