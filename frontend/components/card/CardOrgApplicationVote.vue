@@ -18,7 +18,11 @@
           <img
             :src="organization.imageURL"
             class="w-12 h-full"
-            :alt="organization.name + ' logo'"
+            :alt="
+              $t('components._global.entity-logo', {
+                entity_name: organization.name,
+              })
+            "
           />
         </div>
       </div>

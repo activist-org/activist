@@ -15,7 +15,11 @@
         <ImageOrganization
           class="elem-shadow-sm"
           :imgURL="logoUrl"
-          :alt="name + ' logo'"
+          :alt="
+            $t('components._global.entity-logo', {
+              entity_name: name,
+            })
+          "
         />
       </div>
       <div
@@ -30,7 +34,11 @@
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"
-          :alt="name + ' logo'"
+          :alt="
+            $t('components._global.entity-logo', {
+              entity_name: name,
+            })
+          "
         />
       </div>
       <ul

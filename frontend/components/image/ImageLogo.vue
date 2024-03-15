@@ -10,13 +10,13 @@
           <LogoWikimediaDE
             class="w-[200px] h-[200px] lg:w-[250px] lg:h-[250px] group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
-          <span class="sr-only">WikimediaDE</span>
+          <span class="sr-only">Wikimedia Germany</span>
         </div>
         <div v-if="imageName == 'WikimediaRS'">
           <LogoWikimediaRS
             class="w-[200px] h-[200px] scale-[0.7] lg:w-[250px] lg:h-[250px] group-hover:fill-light-text dark:group-hover:fill-dark-text"
           />
-          <span class="sr-only">WikimediaRS</span>
+          <span class="sr-only">Wikimedia Serbia</span>
         </div>
         <div v-if="imageName == 'ImpactHub'">
           <LogoImpactHub

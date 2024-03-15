@@ -9,7 +9,11 @@
       <ImageEvent
         :eventType="event.type"
         :imgURL="event?.imageURL"
-        :alt="event?.name"
+        :alt="
+          $t('components._global.entity-logo', {
+            entity_name: event?.name,
+          })
+        "
       />
     </div>
     <div class="flex flex-col items-center gap-2">

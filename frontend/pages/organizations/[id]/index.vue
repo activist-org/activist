@@ -6,7 +6,14 @@
       <Title>{{ organization.name }} </Title>
     </Head>
     <div class="w-3/4 h-[260px] mx-auto">
-      <ImageOrganization :imgURL="organization?.imageURL" />
+      <ImageOrganization
+        :imgURL="organization?.imageURL"
+        :alt="
+          $t('components._global.entity-logo', {
+            entity_name: organization?.name,
+          })
+        "
+      />
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1
