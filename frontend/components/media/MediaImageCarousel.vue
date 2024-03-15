@@ -11,14 +11,19 @@
       :key="idx"
       class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
     >
-      <img class="object-cover h-[17.5rem] object-center" :src="img" />
+    <img :class="['object-cover', 'object-center', fullscreen ? 'h-screen' : 'h-[17.5rem]']" :src="img" />
     </swiper-slide>
   </swiper-container>
 </template>
 
 <script setup lang="ts">
+import { defineProps } from "vue";
 import { register } from "swiper/element/bundle";
 register();
+
+const props = defineProps({
+  fullscreen: Boolean,
+})
 
 const colorMode = useColorMode();
 const imageColor = colorMode.value;
