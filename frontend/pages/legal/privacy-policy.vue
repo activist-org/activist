@@ -65,46 +65,16 @@
       <p>
         {{ $t("pages.legal.privacy-policy.section-7-paragraph-1") }}
       </p>
-      <p class="pb-2 lg:pb-4">
-        {{ $t("pages._global.interested-in-helping") }}
-        <a
-          class="items-center focus-brand link-text"
-          href="https://github.com/orgs/activist-org"
-          target="_blank"
-        >
-          {{ $t("pages._global.on-github") }}
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        {{ $t("pages._global.contribute-request-feature") }}
-        <a
-          class="items-center focus-brand link-text"
-          href="https://matrix.to/#/#activist_community:matrix.org"
-          target="_blank"
-        >
-          {{ $t("pages._global.public-matrix-chat-rooms") }}
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        {{ $t("pages._global.share-ideas-say-hi") }}
-      </p>
-      <div
-        class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
-      >
+      <PageCommunityFooter>
         <BtnRouteInternal
+          class="w-full"
           :cta="false"
           label="components.btn-route-internal.return-home"
           linkTo="/"
           fontSize="lg"
           ariaLabel="components.btn-route-internal.return-home-aria-label"
         />
-      </div>
+      </PageCommunityFooter>
     </PageDocs>
   </div>
 </template>

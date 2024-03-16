@@ -38,7 +38,7 @@
       <p>
         {{ $t("pages.about.roadmap.section-1-paragraph-1") }}
       </p>
-      <p class="pb-2 lg:pb-4">
+      <div>
         {{ $t("pages.about.roadmap.section-1-paragraph-2-1") }}
         <a
           class="items-center focus-brand link-text"
@@ -53,23 +53,53 @@
           />
         </a>
         {{ $t("pages.about.roadmap.section-1-paragraph-2-3") }}
-        <a
-          class="items-center focus-brand link-text"
-          href="https://matrix.to/#/#activist_community:matrix.org"
-          target="_blank"
-        >
-          {{ $t("pages.about.roadmap.section-1-paragraph-2-4") }}
-          <Icon
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        {{ $t("pages._global.share-ideas-say-hi") }}
-      </p>
-      <div
-        class="grid grid-cols-1 max-w-[70%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[80%] grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 mx-auto sm:mx-0 sm:grid-cols-2 sm:grid-rows-1"
-      >
+        {{ $t("pages.about.roadmap.section-1-paragraph-2-4") }}
+        <ul class="pl-4 list-disc pt-2 space-y-1">
+          <li>
+            <a
+              class="items-center focus-brand link-text"
+              href="https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22"
+              target="_blank"
+            >
+              {{ $t("pages.about.roadmap.section-1-paragraph-2-4-1") }}
+              <Icon
+                name="bi:box-arrow-up-right"
+                size="1em"
+                style="vertical-align: baseline"
+              />
+            </a>
+          </li>
+          <li>
+            <a
+              class="items-center focus-brand link-text"
+              href="https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Afeature"
+              target="_blank"
+            >
+              {{ $t("pages.about.roadmap.section-1-paragraph-2-4-2") }}
+              <Icon
+                name="bi:box-arrow-up-right"
+                size="1em"
+                style="vertical-align: baseline"
+              />
+            </a>
+          </li>
+          <li>
+            <a
+              class="items-center focus-brand link-text"
+              href="https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Abug"
+              target="_blank"
+            >
+              {{ $t("pages.about.roadmap.section-1-paragraph-2-4-3") }}
+              <Icon
+                name="bi:box-arrow-up-right"
+                size="1em"
+                style="vertical-align: baseline"
+              />
+            </a>
+          </li>
+        </ul>
+      </div>
+      <PageCommunityFooter>
         <BtnRouteExternal
           class="w-full"
           :cta="true"
@@ -88,7 +118,7 @@
           fontSize="lg"
           ariaLabel="components.btn-route-internal.return-home-aria-label"
         />
-      </div>
+      </PageCommunityFooter>
     </PageDocs>
   </div>
 </template>

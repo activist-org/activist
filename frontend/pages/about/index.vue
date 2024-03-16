@@ -42,7 +42,7 @@ const cards: DocsEntry[] = [
   },
   {
     id: 2,
-    url: "impress",
+    url: "imprint",
     title: "_global.imprint",
     description: "pages.about.index.imprint-description",
     imgURL: "/images/content_pages/icons/bootstrap_info_circle",
