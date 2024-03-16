@@ -39,7 +39,9 @@ class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    topics = ArrayField(models.CharField(max_length=255), default=list, blank=True, null=True)
+    topics = ArrayField(
+        models.CharField(max_length=255), default=list, blank=True, null=True
+    )
     category = models.CharField(max_length=255, blank=True, null=True)
     url = models.URLField(max_length=255)
     private = models.BooleanField(default=True)
@@ -120,7 +122,9 @@ class TopicFormat(models.Model):
 
 class Image(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    image_location = models.ImageField(upload_to="images/", validators=[validate_image_file_extension])
+    image_location = models.ImageField(
+        upload_to="images/", validators=[validate_image_file_extension]
+    )
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

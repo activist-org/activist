@@ -3,6 +3,7 @@ from typing import Dict, Union
 from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
 from rest_framework import serializers
+
 from authentication.models import User
 from content.models import Resource, Task, Topic
 from utils.utils import (
@@ -60,10 +61,11 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 ),
                 code="invalid_value",
             )
-        
-        if data["start_time"] >= data["end_time"]:
+
+        if parse_datetime(data["start_time"]) > parse_datetime(data["end_time"]):  # type: ignore
             raise serializers.ValidationError(
-                _("The start time cannot be after the end time."), code="invalid_time_order"
+                _("The start time cannot be after the end time."),
+                code="invalid_time_order",
             )
 
         validate_creation_and_deletion_dates(data)

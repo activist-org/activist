@@ -35,16 +35,24 @@ class Support(models.Model):
     supporter_type = models.ForeignKey(
         "SupportEntityType", on_delete=models.CASCADE, related_name="supporter"
     )
-    supporter_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="supporter")
+    supporter_content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, related_name="supporter"
+    )
     supporter_object_id = models.UUIDField()
-    supporter_entity = GenericForeignKey("supporter_content_type", "supporter_object_id")
+    supporter_entity = GenericForeignKey(
+        "supporter_content_type", "supporter_object_id"
+    )
 
     supported_type = models.ForeignKey(
         "SupportEntityType", on_delete=models.CASCADE, related_name="supported"
     )
-    supported_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="supported")
+    supported_content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, related_name="supported"
+    )
     supported_object_id = models.UUIDField()
-    supported_entity = GenericForeignKey("supported_content_type", "supported_object_id")
+    supported_entity = GenericForeignKey(
+        "supported_content_type", "supported_object_id"
+    )
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -68,7 +76,7 @@ class User(AbstractUser, CreationDeletionMixin):
     private = models.BooleanField(default=False)
     high_risk = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(null=True, blank=True) 
+    deletion_date = models.DateTimeField(null=True, blank=True)
     total_flags = models.IntegerField(default=0)
 
     def __str__(self) -> str:
