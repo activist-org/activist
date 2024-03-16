@@ -9,6 +9,7 @@
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://github.com/activist-org/activist"
         target="_blank"
+        :aria-label="$t('components._global.github')"
       >
         <Icon name="simple-icons:github" size="1.1em" />
         <p class="sr-only sm:not-sr-only">
@@ -19,6 +20,7 @@
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://matrix.to/#/#activist_community:matrix.org"
         target="_blank"
+        :aria-label="$t('components._global.matrix')"
       >
         <Icon name="IconMatrix" size="1.061em" />
         <p class="sr-only sm:not-sr-only">
@@ -29,6 +31,7 @@
         class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://instagram.com/activist_org"
         target="_blank"
+        :aria-label="$t('components._global.instagram')"
       >
         <Icon name="simple-icons:instagram" size="1em" />
         <p class="sr-only sm:not-sr-only">

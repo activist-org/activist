@@ -47,6 +47,7 @@
               :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
               target="_blank"
+              :aria-label="$t(connect.name)"
             >
               <Icon :name="connect.iconName" class="text-2xl sm:text-base" />
               <p class="sr-only sm:not-sr-only">

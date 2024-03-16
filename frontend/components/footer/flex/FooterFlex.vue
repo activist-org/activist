@@ -71,6 +71,7 @@
             :class="{ 'mt-3': index === 0 }"
             :href="connect.url"
             target="_blank"
+            :aria-label="$t(connect.name)"
           >
             <Icon :name="connect.iconName" :size="connect.iconSize" />
             <p>{{ $t(connect.name) }}</p>
