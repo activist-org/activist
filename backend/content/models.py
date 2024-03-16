@@ -40,15 +40,14 @@ class Resource(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     topics = ArrayField(
-        models.CharField(max_length=255), default=list, blank=True, null=True
+        models.CharField(max_length=255), default=list, blank=True
     )
-    category = models.CharField(max_length=255, blank=True, null=True)
+    category = models.CharField(max_length=255, blank=True)
     url = models.URLField(max_length=255)
     private = models.BooleanField(default=True)
     created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    total_flags = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.name
@@ -58,9 +57,7 @@ class Task(CreationDeletionMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    tags = ArrayField(models.CharField(max_length=255), default=list, null=True)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
+    tags = ArrayField(models.CharField(max_length=255), default=list, blank=True)
 
     def __str__(self) -> str:
         return self.name

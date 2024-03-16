@@ -65,19 +65,16 @@ class User(AbstractUser, CreationDeletionMixin):
     password = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     verified = models.BooleanField(default=False)
-    verification_method = models.CharField(max_length=30, blank=True, null=True)
+    verification_method = models.CharField(max_length=30, blank=True)
     verification_partner = models.ForeignKey(
         "User", on_delete=models.SET_NULL, null=True
     )
     user_icon = models.ForeignKey("content.Image", on_delete=models.SET_NULL, null=True)
     social_accounts = ArrayField(
-        models.CharField(max_length=255), null=True, blank=True
+        models.CharField(max_length=255), blank=True
     )
     private = models.BooleanField(default=False)
     high_risk = models.BooleanField(default=False)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
-    total_flags = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.username
