@@ -2,7 +2,7 @@
   <div
     class="flex justify-center w-full h-full border rounded-md bg-light-layer-0 border-light-section-div dark:border-dark-section-div"
   >
-    <img v-if="imgURL" :src="imgURL" />
+    <img v-if="imgURL" :src="imgURL" :alt="alt" />
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
@@ -16,5 +16,6 @@
 <script setup lang="ts">
 defineProps<{
   imgURL?: string;
+  alt?: string;
 }>();
 </script>

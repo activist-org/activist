@@ -6,7 +6,15 @@
       <Title>{{ event.name }} </Title>
     </Head>
     <div class="w-3/4 h-[260px] mx-auto">
-      <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
+      <ImageEvent
+        :eventType="event.type"
+        :imgURL="event?.imageURL"
+        :alt="
+          $t('components._global.entity-logo', {
+            entity_name: event?.name,
+          })
+        "
+      />
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1

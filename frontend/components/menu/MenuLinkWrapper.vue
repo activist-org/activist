@@ -20,7 +20,7 @@ export interface Props {
   to: string;
   selected: boolean;
   linkClasses?: string | undefined;
-  isAddStyles: boolean;
+  isAddStyles?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {

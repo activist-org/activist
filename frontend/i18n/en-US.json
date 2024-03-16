@@ -71,6 +71,7 @@
   "components._global.copyright": "Copyright \u00a9 {year} activist.",
   "components._global.donate": "Donate",
   "components._global.enter-password": "Enter your password",
+  "components._global.entity-logo": "{entity_name} logo",
   "components._global.github": "GitHub",
   "components._global.instagram": "Instagram",
   "components._global.matrix": "Matrix",

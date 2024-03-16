@@ -10,8 +10,12 @@
       >
         <div class="flex items-center pl-1 space-x-2">
           <Icon name="bi:search" size="1em" />
+          <label for="search-input" class="sr-only">{{
+            $t("_global.search")
+          }}</label>
           <input
             ref="input"
+            id="search-input"
             class="bg-transparent outline-none"
             type="text"
             size="100"

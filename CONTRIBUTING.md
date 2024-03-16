@@ -299,7 +299,9 @@ Please see the [activist style guide](https://github.com/activist-org/activist/b
 
 ## Linting [`⇧`](#contents)
 
-For the backend [pylint-django](https://github.com/PyCQA/pylint-django) is installed via the required packages to assure that errors are reported correctly within a Django development environment.
+For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
+
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support.
 
 <a id="issues-projects"></a>
 
