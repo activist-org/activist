@@ -123,7 +123,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status
         org.deletion_date = timezone.now()
         org.high_risk = False
-        org.status_updated = ""
+        org.status_updated = None
         org.tagline = ""
         org.description = ""
         org.social_accounts = []
