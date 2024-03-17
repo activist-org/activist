@@ -1,6 +1,7 @@
-from typing import Any, Dict, Union
+from typing import Dict, Union
 
 from django.utils.translation import gettext as _
+from PIL import Image as PilImage
 from rest_framework import serializers
 
 from events.models import Format
@@ -11,22 +12,28 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import Faq, Image, Resource, ResourceTopic, Task, Topic, TopicFormat
+from .models import (
+    Faq,
+    Image,
+    Resource,
+    ResourceTag,
+    ResourceTopic,
+    Tag,
+    Task,
+    Topic,
+    TopicFormat,
+)
 
 
 class FaqSerializer(serializers.ModelSerializer[Faq]):
     class Meta:
         model = Faq
-        fields = ["id", "name", "question", "org_id", "answer", "last_updated"]
-
-
-class ImageSerializer(serializers.ModelSerializer[Image]):
-    class Meta:
-        model = Image
-        fields = "__all__"
+        fields = ["id", "question", "org_id", "answer", "last_updated"]
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        # TODO: not sure what validation should be performance.
+        validate_empty(data["question"], "question")
+        validate_object_existence("entities.Organization", data["org_id"])
+
         return data
 
 
@@ -40,16 +47,10 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
             "category",
             "url",
             "private",
-            "total_flags",
+            "created_by",
+            "creation_date",
+            "last_updated",
         ]
-
-    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        if total_flags := data.get("total_flags") is not None:
-            if not isinstance(total_flags, int):
-                raise serializers.ValidationError(
-                    _("Total flags must be an integer value.")
-                )
-        return data
 
 
 class TaskSerializer(serializers.ModelSerializer[Task]):
@@ -60,7 +61,6 @@ class TaskSerializer(serializers.ModelSerializer[Task]):
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
-        validate_empty(data["location"], "location")
         validate_creation_and_deletion_dates(data)
 
         return data
@@ -77,15 +77,28 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
 
         if data["active"] is True and data["deprecation_date"] is not None:
             raise serializers.ValidationError(
-                "Active topics cannot have a deprecation date."
+                _("Active topics cannot have a deprecation date."),
+                code="active_topic_with_deprecation_error",
             )
 
         if data["active"] is False and data["deprecation_date"] is None:
             raise serializers.ValidationError(
-                "Inactive topics must have a deprecation date."
+                _("Deprecated topics must have a deprecation date."),
+                code="inactive_topic_no_deprecation_error",
             )
 
         validate_creation_and_deprecation_dates(data)
+
+        return data
+
+
+class TagSerializer(serializers.ModelSerializer[Tag]):
+    class Meta:
+        model = Tag
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_empty(data["text"], "text")
 
         return data
 
@@ -102,6 +115,18 @@ class ResourceTopicSerializer(serializers.ModelSerializer[ResourceTopic]):
         return data
 
 
+class ResourceTagSerializer(serializers.ModelSerializer[ResourceTag]):
+    class Meta:
+        model = ResourceTag
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_object_existence(Resource, data["resource_id"])
+        validate_object_existence(Tag, data["tag_id"])
+
+        return data
+
+
 class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
     class Meta:
         model = TopicFormat
@@ -110,5 +135,47 @@ class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Topic, data["topic_id"])
         validate_object_existence(Format, data["format_id"])
+
+        return data
+
+
+# TODO: implement the Discussion models and then import them here, as also the DiscussionTag model.
+
+# class DiscussionTagSerializer(serializers.ModelSerializer[DiscussionTag]):
+#     class Meta:
+#         model = DiscussionTag
+#         fields = "__all__"
+
+#     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+#         validate_object_existence(Discussion, data["discussion_id"])
+#         validate_object_existence(Tag, data["tag_id"])
+
+#         return data
+
+
+class ImageSerializer(serializers.ModelSerializer[Image]):
+    class Meta:
+        model = Image
+        fields = ["id", "image_location", "creation_date"]
+        read_only_fields = ["id", "creation_date"]
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        image_extensions = [".jpg", ".jpeg", ".png"]
+        img_format = ""
+
+        try:
+            with PilImage.open(data["image_location"]) as img:
+                img.verify()
+                img_format = img.format.lower()
+        except Exception:
+            raise serializers.ValidationError(
+                _("The image is not valid."), code="corrupted_file"
+            )
+
+        if img_format not in image_extensions:
+            raise serializers.ValidationError(
+                _("The image must be in jpg, jpeg or png format."),
+                code="invalid_extension",
+            )
 
         return data

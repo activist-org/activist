@@ -35,7 +35,6 @@ class UserFactory(factory.django.DjangoModelFactory):
     social_accounts = factory.List([factory.Faker("user_name") for _ in range(3)])
     private = factory.Faker("boolean")
     high_risk = factory.Faker("boolean")
-    total_flags = factory.Faker("random_int", min=0, max=100)
     creation_date = factory.Faker("date_time_this_decade", before_now=True)
     deletion_date = factory.Faker("date_time_this_decade", before_now=False)
 
