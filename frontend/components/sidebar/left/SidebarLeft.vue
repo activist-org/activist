@@ -12,13 +12,14 @@
       sidebar.collapsed = true;
       setContentScrollable();
     "
-    @blur="
+    @focusout="
       sidebar.collapsed = true;
-      setContentScrollable();
+      handleFocusOut($event);
     "
+    ref="sidebarElement"
     role="menu"
-    tabindex="0"
-    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1 md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm focus-brand"
+    tabindex="-1"
+    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1 md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
@@ -309,6 +310,19 @@ const contentScrollable = ref(false);
 function setContentScrollable(): void {
   contentScrollable.value =
     content.value.scrollHeight > content.value.clientHeight ? true : false;
+}
+
+const sidebarElement = ref<HTMLElement | null>(null);
+
+function handleFocusOut(event: FocusEvent) {
+  const focusedElement = event.relatedTarget as HTMLElement;
+  if (sidebarElement.value && sidebarElement.value.contains(focusedElement)) {
+    sidebar.collapsed = false;
+    setContentScrollable();
+  } else {
+    sidebar.collapsed = true;
+    setContentScrollable();
+  }
 }
 
 onMounted(() => {
