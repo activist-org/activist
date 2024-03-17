@@ -47,7 +47,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             "created_by",
             "event_icon",
             "creation_date",
-            "deletion_date"
+            "deletion_date",
         ]
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
@@ -57,11 +57,11 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             if self.instance and hasattr(self.instance, attr):
                 return getattr(self.instance, attr)
             return None
-        
+
         created_by = exists("created_by")
         start_time = exists("start_time")
         end_time = exists("end_time")
-        
+
         if created_by != getattr(self.instance, "created_by"):
             raise serializers.ValidationError(
                 _("You cannot update an event's coordinator."),

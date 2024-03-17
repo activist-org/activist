@@ -150,12 +150,14 @@ class OrganizationMemberViewSet(viewsets.ModelViewSet[OrganizationMember]):
     queryset = OrganizationMember.objects.all()
     serializer_class = OrganizationMemberSerializer
     pagination_class = CustomPagination
-    
+
     def create(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             instance = serializer.save()
-            data = {"message": f"New Organization Member created with id: {instance.id}"}
+            data = {
+                "message": f"New Organization Member created with id: {instance.id}"
+            }
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
