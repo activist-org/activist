@@ -13,6 +13,7 @@ from .models import (
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
+    StatusType,
 )
 
 admin.site.register(Group)
@@ -27,3 +28,4 @@ admin.site.register(OrganizationMember)
 admin.site.register(OrganizationResource)
 admin.site.register(OrganizationTask)
 admin.site.register(OrganizationTopic)
+admin.site.register(StatusType)

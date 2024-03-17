@@ -15,7 +15,6 @@ Contents:
 from uuid import uuid4
 
 from django.contrib.auth.models import AbstractUser
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin
@@ -57,10 +56,6 @@ class User(AbstractUser, CreationDeletionMixin):
     verification_partner = models.ForeignKey(
         "User", on_delete=models.SET_NULL, null=True
     )
-    social_accounts = ArrayField(
-        models.CharField(max_length=255), null=True, blank=True
-    )
-    total_flags = models.IntegerField(default=0)
     private = models.BooleanField(default=False)
     high_risk = models.BooleanField(default=False)
 

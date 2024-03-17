@@ -59,7 +59,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        org = self.queryset.filter(pk=pk).first()
+        org = self.queryset.filter(id=pk).first()
         if org:
             serializer = self.get_serializer(org)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -71,11 +71,12 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update(self, request: Request, pk: str | None = None) -> Response:
-        """
-        - can only be deleted by the created_by user
-        """
+        org = self.queryset.filter(id=pk).first()
+        if org is None:
+            return Response(
+                {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
+            )
 
-        org = self.queryset.filter(pk=pk).first()
         if request.user != org.created_by:
             return Response(
                 {"error": "You are not authorized to update this organization"},
@@ -88,24 +89,45 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(serializer.data, status.HTTP_200_OK)
 
     def partial_update(self, request: Request, pk: str | None = None) -> Response:
-        pass
+        org = self.queryset.filter(id=pk).first()
+        if org is None:
+            return Response(
+                {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != org.created_by:
+            return Response(
+                {"error": "You are not authorized to update this organization"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = self.get_serializer(org, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_200_OK)
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:
-        if request.user != self.queryset.filter(pk=pk).first():
+        org = self.queryset.filter(id=pk).first()
+        print(pk, org)
+        if org is None:
+            return Response(
+                {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != org.created_by:
             return Response(
                 {"error": "You are not authorized to delete this organization"},
                 status.HTTP_401_UNAUTHORIZED,
             )
 
-        self.queryset.filter(pk=pk).update(
-            status=Status.objects.get(3),  # 3 is the id of the deleted status
-            deletion_date=timezone.now(),
-            high_risk=False,
-            status_updated=None,
-            tagline="",
-            description="",
-            social_accounts=[],
-        )
+        org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status
+        org.deletion_date = timezone.now()
+        org.high_risk = False
+        org.status_updated = None
+        org.tagline = ""
+        org.description = ""
+        org.social_accounts = []
+        org.save()
 
         return Response(
             {"message": "Organization deleted successfully"}, status.HTTP_200_OK

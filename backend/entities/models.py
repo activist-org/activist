@@ -30,15 +30,13 @@ class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
     tagline = models.CharField(max_length=255, blank=True)
-    created_by = models.ForeignKey(
-        "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
-    )
+    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
-    status = models.ForeignKey("Status", default=1)
+    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
     status_updated = models.DateTimeField(blank=True, null=True)
     acceptance_date = models.DateTimeField(blank=True, null=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
