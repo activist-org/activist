@@ -42,7 +42,7 @@
 - [Our goals](#our-goals)
 - [Contributing](#contributing)
 - [Environment setup](#environment-setup)
-- [Design and accessability](design-a11y)
+- [Design and accessability](#design-a11y)
 - [Platform features](#platform-features)
 - [Securely hosted](#securely-hosted)
 - [Community governance](#community-governance)
@@ -128,10 +128,11 @@ We would be happy to discuss granting you further rights as a contributor after 
 >
 > - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
 > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+> - [charliermarsh.ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
+> - [esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 > - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
-> - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) # for collaboration
+> - [streetsidesoftware.code-spell-checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-> - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 >
 > </p>
 > </details>

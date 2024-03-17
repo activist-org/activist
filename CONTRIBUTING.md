@@ -126,7 +126,7 @@ activist is very open to contributions from people in the early stages of their 
 
 > [!IMPORTANT]
 >
-> <details><summary><strong>Suggested IDE extensions</strong></summary>
+> <details><summary>Suggested IDE extensions</summary>
 >
 > <p>
 >
@@ -134,10 +134,11 @@ activist is very open to contributions from people in the early stages of their 
 >
 > - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
 > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+> - [charliermarsh.ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
+> - [esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 > - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
-> - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) # for collaboration
+> - [streetsidesoftware.code-spell-checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-> - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 >
 > </p>
 > </details>
@@ -238,10 +239,30 @@ DATABASE_HOST=db
 DATABASE_HOST=localhost
 ```
 
-Now you can open up a new terminal to apply database migrations and start the local server:
+From here we need the project's dependencies, with the practice being to create a virtual environment first within your local activist directory and then install the dependencies within it:
 
-> [!NOTE]
-> Make sure to install the dependencies first. Best practice is to create a virtual environment first and then install the dependencies. Our dependencies are inside the `requirements.txt` file and can be installed via `pip install -r requirements-dev.txt`
+On Unix or MacOS, run:
+
+```bash
+python3 -m venv venv  # make an environment named venv
+source venv/bin/activate # activate the environment
+```
+
+On Windows (using Command Prompt), run:
+
+```bash
+python -m venv venv
+venv\Scripts\activate.bat
+```
+
+After activating the virtual environment, install the required dependencies by running:
+
+```bash
+pip install --upgrade pip  # make sure that pip is at the latest version
+pip install -r backend/requirements-dev.txt  # install dependencies
+```
+
+Now you can apply database migrations and start the local server.
 
 ```bash
 # In the root activist directory:
@@ -279,7 +300,9 @@ Please see the [activist style guide](https://github.com/activist-org/activist/b
 
 ## Linting [`⇧`](#contents)
 
-For the backend [pylint-django](https://github.com/PyCQA/pylint-django) is installed via the required packages to assure that errors are reported correctly within a Django development environment.
+For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
+
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support.
 
 <a id="issues-projects"></a>
 
@@ -409,7 +432,7 @@ Thank you for your interest in improving activist's accessibility. We want our p
 
 ### Transitions
 
-Users who have motion sickness have the ability to disable transitions and animations on their devices, but our code also has to conform to not trigger them when this mode is enabled. In all cases where a `transition-METHOD` or `animation-METHOD` is used via Tailwind, please also include `motion-reduce:transition-none` and `motion-reduce:animate-none` respectively.
+Users who have motion sickness have the ability to disable transitions and animations on their devices. We use the external dependency [reduced-motion](https://github.com/lucianmurmurache/reduced-motion) to disable transitions and animations in this case.
 
 ### Tab focusing
 

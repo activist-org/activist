@@ -20,6 +20,9 @@
         <div
           v-if="filter.expandable"
           @click="filter.reveal = !filter.reveal"
+          @keypress.enter="filter.reveal = !filter.reveal"
+          role="button"
+          tabindex="0"
           class="flex items-center mb-2 cursor-pointer w-fit"
         >
           <h3 v-if="filter.title" class="text-lg font-bold font-display">

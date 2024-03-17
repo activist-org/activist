@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ $t("_global.grow-organization") }}</Title>
@@ -72,25 +72,7 @@
           <p>
             {{ $t("pages.docs.grow-organization.section-1-paragraph-4") }}
           </p>
-          <p class="pb-2 md:pb-4">
-            {{ $t("pages.docs.grow-organization.section-1-paragraph-5-1") }}
-            <a
-              class="items-center focus-brand link-text"
-              href="https://matrix.to/#/#activist_community:matrix.org"
-              target="_blank"
-            >
-              {{ $t("pages._global.public-matrix-chat-rooms") }}
-              <Icon
-                name="bi:box-arrow-up-right"
-                size="1em"
-                style="vertical-align: baseline"
-              />
-            </a>
-            {{ $t("pages.docs.grow-organization.section-1-paragraph-5-3") }}
-          </p>
-          <div
-            class="grid grid-cols-1 max-w-[70%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] 2xl:max-w-[80%] grid-rows-2 gap-y-4 sm:gap-y-0 sm:gap-x-4 md:gap-x-6 xl:gap-x-8 mx-auto sm:mx-0 sm:grid-cols-2 sm:grid-rows-1"
-          >
+          <PageCommunityFooter>
             <BtnRouteExternal
               class="w-full"
               :cta="true"
@@ -109,7 +91,7 @@
               fontSize="lg"
               ariaLabel="components.btn-route-internal.return-home-aria-label"
             />
-          </div>
+          </PageCommunityFooter>
         </div>
       </div>
     </div>

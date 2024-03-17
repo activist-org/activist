@@ -13,7 +13,7 @@
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="w-full py-2 pl-4 topicInput rounded-md text-light-distinct-text dark:text-dark-distinct-text bg-light-content dark:bg-dark-content elem-shadow-sm focus-brand"
+      class="w-full py-2 pl-4 topicInput rounded-md text-light-distinct-text dark:text-dark-distinct-text bg-light-layer-0 dark:bg-dark-layer-0 elem-shadow-sm focus-brand"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
@@ -61,7 +61,7 @@
         :isSelector="true"
       />
     </ul>
-    <a
+    <button
       @click="
         moreOptionsShown =
           inputFocus == true ? (moreOptionsShown = false) : !moreOptionsShown;
@@ -75,7 +75,7 @@
       <div v-else>
         {{ $t("components.card-topic-selection.hide-all-topics") }}
       </div>
-    </a>
+    </button>
   </div>
 </template>
 

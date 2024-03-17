@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <div
       class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"

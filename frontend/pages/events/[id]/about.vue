@@ -1,12 +1,12 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ event.name }}</Title>
     </Head>
     <HeaderAppPage :event="event">
-      <div class="flex space-x-2 lg:space-x-3 pb-3 lg:pb-4">
+      <div class="flex pb-3 space-x-2 lg:space-x-3 lg:pb-4">
         <BtnRouteInternal
           class="w-max"
           :cta="true"
@@ -27,32 +27,11 @@
           :counter="event.supporters"
           ariaLabel="components.btn-action.support-event-aria-label"
         />
-        <BtnAction
-          class="md:hidden w-fit"
-          :cta="true"
-          fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.25em"
-          :counter="event.supporters"
-          ariaLabel="components.btn-action.support-event-aria-label"
-        />
-        <BtnAction
-          class="hidden md:block w-max"
+        <ModalSharePage
           :cta="true"
           label="components.btn-action.share-event"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
           ariaLabel="components.btn-action.share-event-aria-label"
-        />
-        <BtnAction
-          class="md:hidden w-fit"
-          :cta="true"
-          label="components.btn-action.share"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="components.btn-action.share-event-aria-label"
+          :event="event"
         />
       </div>
     </HeaderAppPage>

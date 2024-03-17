@@ -1,6 +1,12 @@
 <template>
   <!-- Normal display on the page. -->
-  <div @click="openModal" class="h-fit">
+  <div
+    @click="openModal"
+    @keydown.enter="openModal"
+    tabindex="0"
+    role="button"
+    class="h-fit"
+  >
     <slot name="normalDisplay" />
   </div>
   <!-- Modal pop up from page element. -->
@@ -21,7 +27,7 @@
       <DialogPanel
         :class="{
           'flex flex-col items-center': imageModal,
-          'pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style text-light-text dark:text-dark-text container p-5 cursor-default':
+          'pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style-base bg-light-layer-0 dark:bg-dark-layer-0 text-light-text dark:text-dark-text container p-5 cursor-default':
             !imageModal,
         }"
       >
@@ -44,6 +50,9 @@
         <div
           v-if="imageModal"
           @click="closeModal"
+          @keypress.esc="closeModal"
+          tabindex="0"
+          role="button"
           class="flex flex-col items-center justify-center focus-brand"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >

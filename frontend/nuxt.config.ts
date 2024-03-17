@@ -50,6 +50,7 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: "",
   },
+  css: ["reduced-motion/css"],
   tailwindcss: {
     cssPath: "~/assets/css/tailwind.css",
     configPath: "tailwind.config.ts",

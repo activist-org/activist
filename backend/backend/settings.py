@@ -173,3 +173,34 @@ SPECTACULAR_SETTINGS = {
 
 # Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
 api_settings.reload()
+
+# Logging Configuration
+# https://docs.djangoproject.com/en/4.2/topics/logging/
+
+LOGGING = {
+    "version": 1.0,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "WARNING",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "propagate": True,
+        },
+    },
+}

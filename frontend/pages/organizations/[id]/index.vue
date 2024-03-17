@@ -1,12 +1,19 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ organization.name }} </Title>
     </Head>
     <div class="w-3/4 h-[260px] mx-auto">
-      <ImageOrganization :imgURL="organization?.imageURL" />
+      <ImageOrganization
+        :imgURL="organization?.imageURL"
+        :alt="
+          $t('components._global.entity-logo', {
+            entity_name: organization?.name,
+          })
+        "
+      />
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1

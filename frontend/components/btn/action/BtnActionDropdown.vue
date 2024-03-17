@@ -18,7 +18,7 @@
         <Icon :name="dropdownIcon" :size="iconSize" />
       </MenuButton>
       <MenuItems
-        class="absolute right-0 z-40 rounded-md bg-light-distinct dark:bg-dark-distinct elem-shadow-lg ring-1 ring-black/5 top-14 focus:outline-none"
+        class="absolute right-0 z-40 rounded-md bg-light-layer-1 dark:bg-dark-layer-1 elem-shadow-lg ring-1 ring-black/5 top-14 focus:outline-none"
       >
         <MenuItem
           v-for="o in dropdownOptions"
@@ -30,8 +30,10 @@
             'rounded-b-md': o === dropdownOptions[dropdownOptions.length - 1],
           }"
         >
-          <a
+          <button
             @click="dropdownOptionsCallback(o)"
+            @keypress.enter="dropdownOptionsCallback(o)"
+            tabindex="0"
             :class="{
               'bg-light-cta-orange/80 dark:bg-dark-cta-orange/40 text-light-text  dark:text-dark-cta-orange':
                 active,
@@ -39,7 +41,7 @@
             }"
           >
             {{ o }}
-          </a>
+          </button>
         </MenuItem>
       </MenuItems>
     </Menu>

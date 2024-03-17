@@ -22,6 +22,7 @@ from backend.mixins.models import CreationDeletionMixin
 
 
 class SupportEntityType(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
@@ -49,7 +50,7 @@ class Support(models.Model):
 class User(AbstractUser, CreationDeletionMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user_name = models.CharField(max_length=255)
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
     password = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     verified = models.BooleanField(default=False)
@@ -59,9 +60,8 @@ class User(AbstractUser, CreationDeletionMixin):
     )
     user_icon = models.ForeignKey("content.Image", on_delete=models.SET_NULL, null=True)
     social_accounts = ArrayField(
-        models.CharField(max_length=255), null=True, blank=True
+        models.CharField(max_length=255), blank=True, null=True
     )
-    total_flags = models.IntegerField(default=0)
     private = models.BooleanField(default=False)
     high_risk = models.BooleanField(default=False)
 

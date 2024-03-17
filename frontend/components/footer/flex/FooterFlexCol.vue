@@ -47,11 +47,14 @@
               :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
               target="_blank"
+              :aria-label="$t(connect.name)"
             >
-              <Icon :name="connect.iconName" class="text-2xl sm:text-base" />
-              <p class="sr-only sm:not-sr-only">
-                {{ $t(connect.name) }}
-              </p>
+              <MetaTagSocialMedia
+                class="text-2xl sm:text-base"
+                :iconName="connect.iconName"
+                :text="$t(connect.name)"
+                textUtilityClasses="sr-only sm:not-sr-only"
+              />
             </a>
           </template>
         </div>
@@ -134,7 +137,9 @@
         {{ $t("components.footer._global.powered-by-netlify") }}
       </a>
       <div class="mt-2 text-light-text dark:text-dark-text">
-        {{ $t("components._global.copyright") }}
+        {{
+          $t("components._global.copyright", { year: new Date().getFullYear() })
+        }}
       </div>
     </div>
   </div>

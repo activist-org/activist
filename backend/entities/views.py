@@ -1,10 +1,10 @@
-from django.shortcuts import get_object_or_404
+# mypy: disable-error-code="override"
+from django.utils import timezone
 from rest_framework import status, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
-
-from datetime import datetime
 
 from backend.paginator import CustomPagination
 
@@ -16,12 +16,13 @@ from .models import (
     GroupTopic,
     Organization,
     OrganizationApplication,
-    OrganizationApplicationStatus,
     OrganizationEvent,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
+    Status,
+    StatusType,
 )
 from .serializers import (
     GroupEventSerializer,
@@ -30,13 +31,14 @@ from .serializers import (
     GroupSerializer,
     GroupTopicSerializer,
     OrganizationApplicationSerializer,
-    OrganizationApplicationStatusSerializer,
     OrganizationEventSerializer,
     OrganizationMemberSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationTaskSerializer,
     OrganizationTopicSerializer,
+    StatusSerializer,
+    StatusTypeSerializer,
 )
 
 
@@ -45,42 +47,91 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
+    permission_classes = [
+        IsAuthenticated,
+    ]
 
-    def create(self, request: Request, *args: str, **kwargs: int) -> Response:
+    def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            instance = serializer.save()
-            data = {"message": f"New Organization created with id: {instance.id}"}
-            return Response(data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        org = serializer.save(created_by=request.user)
+        OrganizationApplication.objects.create(org_id=org)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
-        instance = get_object_or_404(Organization, pk=kwargs["pk"])
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+    def retrieve(self, request: Request, pk: str | None = None) -> Response:
+        org = self.queryset.filter(id=pk).first()
+        if org:
+            serializer = self.get_serializer(org)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        instance = get_object_or_404(Organization, pk=kwargs["pk"])
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            data = {"message": f'Organization {kwargs["pk"]} has been updated'}
-            return Response(data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Organization not found"}, status.HTTP_404_NOT_FOUND)
 
-    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
-        instance = get_object_or_404(Organization, pk=kwargs["pk"])
-        instance.delete()
-        data = {"message": f'Organization {kwargs["pk"]} has been deleted successfully'}
-        return Response(data, status=status.HTTP_204_NO_CONTENT)
+    def list(self, request: Request) -> Response:
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def update(self, request: Request, pk: str | None = None) -> Response:
+        org = self.queryset.filter(id=pk).first()
+        if org is None:
+            return Response(
+                {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
+            )
 
-class OrganizationApplicationStatusViewSet(
-    viewsets.ModelViewSet[OrganizationApplicationStatus]
-):
-    queryset = OrganizationApplicationStatus.objects.all()
-    serializer_class = OrganizationApplicationStatusSerializer
-    pagination_class = CustomPagination
+        if request.user != org.created_by:
+            return Response(
+                {"error": "You are not authorized to update this organization"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = self.get_serializer(org, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def partial_update(self, request: Request, pk: str | None = None) -> Response:
+        org = self.queryset.filter(id=pk).first()
+        if org is None:
+            return Response(
+                {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != org.created_by:
+            return Response(
+                {"error": "You are not authorized to update this organization"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = self.get_serializer(org, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def destroy(self, request: Request, pk: str | None = None) -> Response:
+        org = self.queryset.filter(id=pk).first()
+        print(pk, org)
+        if org is None:
+            return Response(
+                {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != org.created_by:
+            return Response(
+                {"error": "You are not authorized to delete this organization"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
+        org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status
+        org.deletion_date = timezone.now()
+        org.high_risk = False
+        org.status_updated = None
+        org.tagline = ""
+        org.description = ""
+        org.social_accounts = []
+        org.save()
+
+        return Response(
+            {"message": "Organization deleted successfully"}, status.HTTP_200_OK
+        )
 
 
 class OrganizationApplicationViewSet(viewsets.ModelViewSet[OrganizationApplication]):
@@ -119,35 +170,38 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
     def create(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            instance = serializer.save()
-            data = {"message": f"New Group created with id: {instance.id} - instance {instance}"}
+            group = serializer.save(created_by=request.user)
+            data = {"message": f"New Group created: {serializer.data}"}
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
-        instance = get_object_or_404(Group, pk=[kwargs["pk"]])
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        group = self.queryset.filter(id=kwargs["pk"])
+        if group:
+            serializer = self.get_serializer(group)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"error": f"Group not found"}, status=status.HTTP_404_NOT_FOUND)
     
     def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        instance = self.queryset.filter(pk=kwargs["pk"])
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        group = self.queryset.filter(id=kwargs["pk"])
+        if group is not None:
+            return Response({"error: Group not found"}, status.HTTP_404_NOT_FOUND)
+        
+        if request.user != group.created_by:
+            return Response({"error": "You are not authorized to update this group"}, status.HTTP_401_UNAUTHORIZED)
+        
+        serializer = self.get_serializer(group, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            data = {"message": f'Group {kwargs["pk"]} has been updated'}
-            return Response(data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK)
     
     def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
-        instance = get_object_or_404(Group, pk=kwargs["pk"])
-        # if not instance:
-        #     data = {"message": f'Group {kwargs["pk"]} not found. Try another id.'}
-        #     return Response(data, status=status.HTTP_404_NOT_FOUND)
-        instance.deletion_date = datetime.now()
-        data = {"message": f'Group {kwargs["pk"]} has been deleted successfully'}
-        return Response(data, status=status.HTTP_204_NO_CONTENT)
+        group = self.queryset.filter(id=kwargs["pk"])
+        if group:
+            group.deletion_date = timezone.now()
+            return Response({"message": "Group deleted successfully"}, status=status.HTTP_200_OK)
+        return Response({"error": f"Group not found"}, status=status.HTTP_404_NOT_FOUND)
     
-
 class OrganizationTaskViewSet(viewsets.ModelViewSet[OrganizationTask]):
     queryset = OrganizationTask.objects.all()
     serializer_class = OrganizationTaskSerializer
@@ -181,4 +235,16 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
 class GroupTopicViewSet(viewsets.ModelViewSet[GroupTopic]):
     queryset = GroupTopic.objects.all()
     serializer_class = GroupTopicSerializer
+    pagination_class = CustomPagination
+
+
+class StatusViewSet(viewsets.ModelViewSet[Status]):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+    pagination_class = CustomPagination
+
+
+class StatusTypeViewSet(viewsets.ModelViewSet[StatusType]):
+    queryset = StatusType.objects.all()
+    serializer_class = StatusTypeSerializer
     pagination_class = CustomPagination

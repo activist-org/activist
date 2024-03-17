@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ $t("_global.faq") }}</Title>
@@ -25,7 +25,7 @@
             href="https://matrix.to/#/#activist_community:matrix.org"
             target="_blank"
           >
-            {{ $t("pages._global.public-matrix-chat-rooms") }}
+            {{ $t("_global.public-matrix-chat-rooms") }}
             <Icon
               name="bi:box-arrow-up-right"
               size="1em"
@@ -71,17 +71,16 @@
         </a>
         {{ $t("pages.help.faq.section-4-paragraph-2-3") }}
       </p>
-      <div
-        class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
-      >
+      <PageCommunityFooter>
         <BtnRouteInternal
+          class="w-full"
           :cta="false"
           label="components.btn-route-internal.return-home"
           linkTo="/"
           fontSize="lg"
           ariaLabel="components.btn-route-internal.return-home-aria-label"
         />
-      </div>
+      </PageCommunityFooter>
     </PageDocs>
   </div>
 </template>

@@ -6,34 +6,46 @@
       class="flex justify-center text-lg space-x-12 sm:space-x-8 xl:space-x-12 xl:text-xl"
     >
       <a
-        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
+        class="hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://github.com/activist-org/activist"
         target="_blank"
+        :aria-label="$t('components._global.github')"
       >
-        <Icon name="cib:github" size="1em" />
-        <p class="sr-only sm:not-sr-only">
-          {{ $t("components._global.github") }}
-        </p>
+        <MetaTagSocialMedia
+          class="!gap-2"
+          iconName="simple-icons:github"
+          :text="$t('components._global.github')"
+          iconSize="1.1em"
+          textUtilityClasses="sr-only sm:not-sr-only"
+        />
       </a>
       <a
-        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
+        class="hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://matrix.to/#/#activist_community:matrix.org"
         target="_blank"
+        :aria-label="$t('components._global.matrix')"
       >
-        <Icon name="IconMatrix" size="1.061em" />
-        <p class="sr-only sm:not-sr-only">
-          {{ $t("components._global.matrix") }}
-        </p>
+        <MetaTagSocialMedia
+          class="!gap-2"
+          iconName="IconMatrix"
+          :text="$t('components._global.matrix')"
+          iconSize="1.061em"
+          textUtilityClasses="sr-only sm:not-sr-only"
+        />
       </a>
       <a
-        class="flex items-center space-x-3 hover:text-light-text dark:hover:text-dark-text focus-brand"
+        class="hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://instagram.com/activist_org"
         target="_blank"
+        :aria-label="$t('components._global.instagram')"
       >
-        <Icon name="cib:instagram" size="1em" />
-        <p class="sr-only sm:not-sr-only">
-          {{ $t("components._global.instagram") }}
-        </p>
+        <MetaTagSocialMedia
+          class="!gap-2"
+          iconName="simple-icons:instagram"
+          :text="$t('components._global.instagram')"
+          iconSize="1em"
+          textUtilityClasses="sr-only sm:not-sr-only"
+        />
       </a>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <header
-    class="w-full pl-1 transition-all motion-reduce:transition-none duration-500 bg-light-distinct dark:bg-dark-distinct"
+    class="w-full pl-1 transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1"
   >
     <div class="flex items-center pt-3 pb-2 pl-[0.85rem] pr-6">
       <div
@@ -24,7 +24,7 @@
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
             class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-32 h-8 z-1 overflow-clip"
-            color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-distinct-text-over-header hover:dark:fill-dark-distinct-text-over-header"
+            color="fill-light-text-over-layer-2 dark:fill-dark-text-over-layer-2 hover:fill-light-distinct-text-over-layer-2 hover:dark:fill-dark-distinct-text-over-layer-2"
           />
         </Transition>
       </div>
@@ -35,25 +35,16 @@
             sidebar.toggleCollapsedSwitch();
             emit('toggle-pressed');
           "
-          class="flex items-center justify-center transition duration-100 w-7 h-7 focus-brand outline-offset-0"
+          class="flex items-center justify-center transition duration-200 w-7 h-7 focus-brand outline-offset-0"
           :class="{
-            'pr-[2px]': sidebar.collapsedSwitch == false,
-            'pl-[2px]': sidebar.collapsedSwitch == true,
+            'pr-0.5 -rotate-180': sidebar.collapsedSwitch == false,
+            'pl-0.5 pb-1': sidebar.collapsedSwitch == true,
           }"
           :aria-label="
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')
           "
         >
-          <SidebarToggle
-            v-if="sidebar.collapsedSwitch == false"
-            chevronDirection="left"
-            iconSize="1.4em"
-          />
-          <SidebarToggle
-            v-if="sidebar.collapsedSwitch == true"
-            chevronDirection="right"
-            iconSize="1.4em"
-          />
+          <SidebarToggle chevronDirection="right" iconSize="1.4em" />
         </button>
       </div>
     </div>

@@ -2,7 +2,7 @@
   <vue-friendly-captcha
     @done="verifyCaptcha"
     sitekey="<sitekey>"
-    :dark="($colorMode.preference = 'dark')"
+    :dark="$colorMode.preference === 'dark'"
     language="en"
   />
 </template>

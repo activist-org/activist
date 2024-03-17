@@ -25,7 +25,15 @@
           }"
           class="flex items-center justify-center"
         >
-          <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
+          <ImageEvent
+            :eventType="event.type"
+            :imgURL="event?.imageURL"
+            :alt="
+              $t('components._global.entity-logo', {
+                entity_name: event.name,
+              })
+            "
+          />
         </div>
       </div>
     </div>

@@ -30,7 +30,7 @@
         >
           <ComboboxOptions
             id="isVisibleElement"
-            class="absolute w-full mt-1 overflow-auto text-base max-h-60 rounded-md bg-light-distinct dark:bg-dark-distinct elem-shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="absolute w-full mt-1 overflow-auto text-base max-h-60 rounded-md bg-light-layer-1 dark:bg-dark-layer-1 elem-shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"

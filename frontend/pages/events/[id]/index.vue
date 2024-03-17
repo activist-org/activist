@@ -1,12 +1,20 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ event.name }} </Title>
     </Head>
     <div class="w-3/4 h-[260px] mx-auto">
-      <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
+      <ImageEvent
+        :eventType="event.type"
+        :imgURL="event?.imageURL"
+        :alt="
+          $t('components._global.entity-logo', {
+            entity_name: event?.name,
+          })
+        "
+      />
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1

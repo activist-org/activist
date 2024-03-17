@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ event.name }}&nbsp;{{ $t("_global.discussions_lower") }}</Title>
@@ -24,9 +24,10 @@
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
-      <CardDiscussionText :discussionText="discussionText" />
-      <CardDiscussionText :discussionText="discussionText" />
-      <CardDiscussionInput :discussionInput="discussionInput" />
+      <Discussion
+        :discussionInput="discussionInput"
+        :discussionTexts="[discussionText, discussionText]"
+      />
     </div>
   </div>
 </template>

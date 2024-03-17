@@ -15,7 +15,15 @@
           v-else
           class="border rounded border-light-section-div dark:border-dark-section-div"
         >
-          <img :src="organization.imageURL" class="w-12 h-full" />
+          <img
+            :src="organization.imageURL"
+            class="w-12 h-full"
+            :alt="
+              $t('components._global.entity-logo', {
+                entity_name: organization.name,
+              })
+            "
+          />
         </div>
       </div>
     </div>
@@ -24,7 +32,7 @@
         @click="$emit('up-vote')"
         class="flex mr-5"
         :cta="true"
-        :label="`${upVotes}`"
+        :counter="`${upVotes}`"
         fontSize="sm"
         leftIcon="bi:arrow-up"
         iconSize="1.25em"
@@ -35,7 +43,7 @@
         @click="$emit('down-vote')"
         class="flex"
         :cta="true"
-        :label="`${downVotes}`"
+        :counter="`${downVotes}`"
         fontSize="sm"
         leftIcon="bi:arrow-down"
         iconSize="1.25em"

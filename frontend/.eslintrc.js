@@ -1,6 +1,7 @@
 module.exports = {
   parser: "vue-eslint-parser",
   extends: [
+    "plugin:vuejs-accessibility/recommended",
     "eslint:recommended",
     "plugin:vue/vue3-recommended",
     "plugin:vue/base",
@@ -51,6 +52,17 @@ module.exports = {
           "OTHER_ATTR",
         ],
         alphabetical: false,
+      },
+    ],
+    "vuejs-accessibility/label-has-for": [
+      "error",
+      {
+        components: ["VLabel"],
+        controlComponents: ["VInput"],
+        required: {
+          some: ["nesting", "id"],
+        },
+        allowChildren: false,
       },
     ],
   },

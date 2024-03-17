@@ -25,7 +25,8 @@
       v-if="iconName === 'bi:camera-video'"
       class="block md:hidden lg:block"
       :href="value"
-    ></a>
+      >{{ value }}</a
+    >
     <p v-else class="block md:hidden lg:block">
       {{ value }}
     </p>
