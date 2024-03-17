@@ -17,6 +17,7 @@ Contents:
     - GroupResource
     - GroupTopic
 """
+
 from uuid import uuid4
 
 from django.contrib.postgres.fields import ArrayField
@@ -43,8 +44,8 @@ class Organization(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
-    # status = models.IntegerField(default=1)
-    # status_updated = models.DateTimeField(auto_now=True)
+    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
+    status_updated = models.DateTimeField(auto_now=True, null=True)
     acceptance_date = models.DateTimeField()
     deletion_date = models.DateTimeField(null=True, blank=True)
 

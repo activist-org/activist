@@ -15,6 +15,7 @@ Contents:
 from uuid import uuid4
 
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin

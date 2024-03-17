@@ -21,6 +21,7 @@ from .models import (
     GroupTopic,
     Organization,
     OrganizationApplication,
+    OrganizationApplicationStatus,
     OrganizationEvent,
     OrganizationMember,
     OrganizationResource,
@@ -42,14 +43,6 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "acceptance_date": {"read_only": True},
         }
         fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_empty(data["name"], "name")
-        validate_empty(data["description"], "description")
-        validate_flags_number(data)
-        # validate_object_existence(User, data["created_by"]) TODO: BUG check if validate_object_existence can be fixed since causing errors during post requests
-
-        return data
 
 
 class OrganizationApplicationStatusSerializer(

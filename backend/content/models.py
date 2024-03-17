@@ -15,6 +15,7 @@ Contents:
     - DiscussionTag
     - Image
 """
+
 from uuid import uuid4
 
 from django.contrib.postgres.fields import ArrayField
@@ -39,9 +40,7 @@ class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    topics = ArrayField(
-        models.CharField(max_length=255), default=list, blank=True
-    )
+    topics = ArrayField(models.CharField(max_length=255), default=list, blank=True)
     category = models.CharField(max_length=255, blank=True)
     url = models.URLField(max_length=255)
     private = models.BooleanField(default=True)
