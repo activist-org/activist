@@ -126,7 +126,7 @@ activist is very open to contributions from people in the early stages of their 
 
 > [!IMPORTANT]
 >
-> <details><summary><strong>Suggested IDE extensions</strong></summary>
+> <details><summary>Suggested IDE extensions</summary>
 >
 > <p>
 >
@@ -134,10 +134,11 @@ activist is very open to contributions from people in the early stages of their 
 >
 > - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
 > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+> - [charliermarsh.ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
+> - [esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 > - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
-> - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) # for collaboration
+> - [streetsidesoftware.code-spell-checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-> - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 >
 > </p>
 > </details>
