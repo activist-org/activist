@@ -17,6 +17,7 @@ Contents:
     - GroupResource
     - GroupTopic
 """
+
 from uuid import uuid4
 
 from django.contrib.postgres.fields import ArrayField
@@ -27,7 +28,7 @@ from backend.mixins.models import CreationDeletionMixin
 
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     tagline = models.CharField(max_length=255, blank=True)
     org_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
@@ -43,8 +44,8 @@ class Organization(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
-    # status = models.IntegerField(default=1)
-    # status_updated = models.DateTimeField(auto_now=True)
+    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
+    status_updated = models.DateTimeField(auto_now=True, null=True)
     acceptance_date = models.DateTimeField()
     deletion_date = models.DateTimeField(null=True, blank=True)
 
@@ -74,6 +75,7 @@ class OrganizationApplication(models.Model):
     )
     creation_date = models.DateTimeField(auto_now_add=True)
     status_updated = models.DateTimeField(auto_now=True)
+    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
 
     def __str__(self) -> str:
         return f"{self.creation_date}"
@@ -180,3 +182,21 @@ class GroupTopic(models.Model):
 
     def __str__(self) -> str:
         return f"{self.id}"
+
+
+class Status(models.Model):
+    status_type = models.ForeignKey("StatusType", on_delete=models.CASCADE)
+    org_id = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="org_status"
+    )
+    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.org_id.name} - {self.status_type.name}"
+
+
+class StatusType(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.name
