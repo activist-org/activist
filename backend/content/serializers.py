@@ -1,4 +1,4 @@
-from typing import Any, Dict, Union
+from typing import Dict, Union
 
 from django.utils.translation import gettext as _
 from PIL import Image as PilImage
@@ -50,18 +50,7 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
             "created_by",
             "creation_date",
             "last_updated",
-            "total_flags",
         ]
-
-    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        if total_flags := data.get("total_flags") is not None:
-            if not isinstance(total_flags, int):
-                raise serializers.ValidationError(
-                    _("Total flags must be an integer value."),
-                    code="invalid_field_type",
-                )
-
-        return data
 
 
 class TaskSerializer(serializers.ModelSerializer[Task]):
