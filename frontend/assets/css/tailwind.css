@@ -7,10 +7,10 @@
 
 @layer base {
   body {
-    @apply bg-light-header dark:bg-dark-header;
+    @apply bg-light-layer-2 dark:bg-dark-layer-2;
   }
   * {
-    @apply scrollbar scrollbar-w-1.5 scrollbar-thumb-light-special-text dark:scrollbar-thumb-dark-special-text scrollbar-track-transparent scrollbar-thumb-rounded-md;
+    @apply scrollbar scrollbar-w-2 scrollbar-thumb-light-distinct-text dark:scrollbar-thumb-dark-distinct-text scrollbar-track-transparent scrollbar-thumb-rounded-md;
   }
 }
 
@@ -19,16 +19,20 @@
     @apply 3xl:bg-pink-500 2xl:bg-violet-500 xl:bg-blue-500 lg:bg-green-500 md:bg-yellow-500 sm:bg-orange-500 bg-red-500;
   }
 
+  .btn-base-class {
+    @apply px-4 py-2 font-semibold text-center select-none focus-brand w-fit elem-shadow-sm;
+  }
+
   .card-style-base {
     @apply rounded-md sm:rounded-lg elem-shadow-sm;
   }
 
   .card-style {
-    @apply card-style-base bg-light-distinct dark:bg-dark-distinct;
+    @apply card-style-base bg-light-layer-1 dark:bg-dark-layer-1;
   }
 
   .elem-on-card-style {
-    @apply card-style-base bg-light-header dark:bg-dark-header hover:bg-light-highlight active:bg-light-header dark:hover:bg-dark-highlight dark:active:bg-dark-header dark:border dark:border-dark-text elem-shadow-sm;
+    @apply card-style-base bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight active:bg-light-layer-2 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-2 dark:border dark:border-dark-text elem-shadow-sm;
   }
 
   .elem-shadow-sm {
@@ -44,7 +48,7 @@
   }
 
   .focus-brand {
-    @apply rounded-sm focus:ring-2 focus:ring-light-link-text dark:focus:ring-dark-link-text focus:outline-none focus:border-light-link-text dark:focus:border-dark-link-text;
+    @apply rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-light-link-text dark:focus-visible:ring-dark-link-text focus-visible:border-light-link-text dark:focus-visible:border-dark-link-text;
   }
 
   .focus-inside {
@@ -120,7 +124,7 @@
   }
 
   .style-btn {
-    @apply text-light-text bg-light-content hover:bg-light-highlight active:bg-light-content dark:text-dark-text dark:bg-dark-content dark:hover:bg-dark-highlight dark:active:bg-dark-content focus-brand elem-shadow-sm dark:border dark:border-dark-text;
+    @apply text-light-text bg-light-layer-0 hover:bg-light-highlight active:bg-light-layer-0 dark:text-dark-text dark:bg-dark-layer-0 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-0 focus-brand elem-shadow-sm dark:border dark:border-dark-text;
   }
 
   .style-cta {
@@ -128,7 +132,7 @@
   }
 
   .style-cta-secondary {
-    @apply text-light-text border border-light-text dark:text-dark-text dark:border-dark-text fill-light-text dark:fill-dark-text bg-light-header dark:bg-dark-header hover:bg-light-highlight-darker active:bg-light-header dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-header focus-brand;
+    @apply text-light-text border border-light-text dark:text-dark-text dark:border-dark-text fill-light-text dark:fill-dark-text bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight-darker active:bg-light-layer-2 dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-layer-2 focus-brand;
   }
 
   .style-learn {
@@ -140,7 +144,7 @@
   }
 
   .style-menu-option-cta {
-    @apply bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct fill-light-distinct dark:fill-dark-distinct hover:bg-light-menu-selection/80 dark:hover:bg-dark-menu-selection/80 focus-brand;
+    @apply bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1 hover:bg-light-menu-selection/80 dark:hover:bg-dark-menu-selection/80 focus-brand;
   }
 
   .style-warn {
@@ -152,7 +156,7 @@
   }
 
   .has-tooltip:hover .tooltip {
-    @apply visible z-50;
+    @apply visible z-40;
   }
 }
 

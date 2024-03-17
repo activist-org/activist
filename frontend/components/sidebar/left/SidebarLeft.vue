@@ -1,23 +1,38 @@
 <template>
   <aside
-    @mouseover="sidebar.collapsed = false"
-    @mouseleave="sidebar.collapsed = true"
-    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-distinct dark:bg-dark-distinct md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm"
+    @mouseover="
+      sidebar.collapsed = false;
+      setContentScrollable();
+    "
+    @focus="
+      sidebar.collapsed = false;
+      setContentScrollable();
+    "
+    @mouseleave="
+      sidebar.collapsed = true;
+      setContentScrollable();
+    "
+    @blur="
+      sidebar.collapsed = true;
+      setContentScrollable();
+    "
+    role="menu"
+    tabindex="0"
+    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1 md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm focus-brand"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
     }"
   >
-    <SidebarLeftHeader />
-    <!-- -mr and pr are used to position the scrollbar to the right of the sidebar. -->
+    <SidebarLeftHeader @toggle-pressed="setContentScrollable()" />
     <div
-      class="h-full overflow-x-hidden overflow-y-scroll"
+      ref="content"
+      class="h-full overflow-x-hidden"
       :class="{
-        '-mr-[0.8rem]': isFirefox,
-        '-mr-[0.8rem] pr-[0.45rem]': !isFirefox,
+        '-mr-[0.55rem]': contentScrollable,
       }"
     >
-      <SearchBar class="mt-1" location="sidebar" />
+      <SearchBar class="mt-1" :location="SearchBarLocation.SIDEBAR" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
         v-if="
@@ -44,6 +59,7 @@
 
 <script setup lang="ts">
 import { SidebarType } from "~/types/sidebar-type";
+import { SearchBarLocation } from "~/types/location";
 
 defineProps<{
   name?: string;
@@ -287,10 +303,20 @@ const getFiltersByPageType = computed(() => {
   return filters;
 });
 
-const isFirefox = ref(false);
+const content = ref();
+const contentScrollable = ref(false);
+
+function setContentScrollable(): void {
+  contentScrollable.value =
+    content.value.scrollHeight > content.value.clientHeight ? true : false;
+}
+
 onMounted(() => {
-  isFirefox.value = window.navigator.userAgent
-    .toLowerCase()
-    .includes("firefox");
+  window.addEventListener("resize", setContentScrollable);
+  setContentScrollable();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", setContentScrollable);
 });
 </script>

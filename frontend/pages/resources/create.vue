@@ -2,7 +2,7 @@
   <div class="w-full text-light-text dark:text-dark-text">
     <ProgressBar type="default" :progress="1" :start="1" :end="1" />
     <div class="flex flex-col px-4 xl:px-8">
-      <PageBreadcrumbs class="mt-2" :breadcrumbs="breadcrumbs" />
+      <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="font-bold responsive-h2">
           {{ $t("pages._global.information") }}
@@ -13,10 +13,10 @@
       </div>
       <form
         @submit.prevent="submit"
-        class="pt-4 flex flex-col w-full justify-center items-center"
+        class="flex flex-col items-center justify-center w-full pt-4"
       >
         <div
-          class="flex w-full justify-between mx-14 px-5 card-style gap-6 py-6"
+          class="flex justify-between w-full px-5 py-6 mx-14 card-style gap-6"
         >
           <div class="w-1/2">
             <label for="name" class="block font-medium responsive-h3"
@@ -25,7 +25,7 @@
             <input
               v-model="formData.name"
               id="name"
-              class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
               type="text"
               name="name"
               :placeholder="
@@ -40,26 +40,26 @@
             <input
               v-model="formData.link"
               id="location"
-              class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
               type="text"
               name="location"
               :placeholder="$t('pages.resources.create.link-placeholder')"
             />
           </div>
         </div>
-        <div class="mx-14 w-full card-style mt-5 px-5 py-6">
+        <div class="w-full px-5 py-6 mt-5 mx-14 card-style">
           <label for="description" class="block font-medium responsive-h3"
             >{{ $t("pages.resources.create.description") }}*</label
           >
           <textarea
             v-model="formData.description"
             id="description"
-            class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+            class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
             name="description"
             :placeholder="$t('pages.resources.create.description-placeholder')"
           ></textarea>
         </div>
-        <div class="mx-14 w-full flex card-style mt-5">
+        <div class="flex w-full mt-5 mx-14 card-style">
           <div class="flex-1 px-5 py-6">
             <label for="location" class="block font-medium responsive-h3">
               {{ $t("pages._global.location") }}*
@@ -67,7 +67,7 @@
             <textarea
               v-model="formData.location"
               id="location"
-              class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
               name="location"
               :placeholder="$t('pages.resources.create.location-placeholder')"
             ></textarea>
@@ -79,7 +79,7 @@
             <textarea
               v-model="formData.organization"
               id="organization"
-              class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
               name="organization"
               :placeholder="
                 $t('pages.resources.create.organization-placeholder')
@@ -88,9 +88,9 @@
           </div>
         </div>
         <CardTopicSelection v-model="formData.topics" class="mt-5" />
-        <div class="mx-14 flex flex-col w-full mt-5">
+        <div class="flex flex-col w-full mt-5 mx-14">
           <div class="my-5">
-            <BtnLabeled
+            <BtnAction
               type="submit"
               :cta="true"
               class="flex"
@@ -116,7 +116,7 @@ const formData = ref({
   description: "",
   link: "",
   organization: "",
-  topics: ["justice", "activism"],
+  topics: [""],
 });
 
 const submit = async () => {

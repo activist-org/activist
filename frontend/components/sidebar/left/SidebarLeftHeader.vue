@@ -1,6 +1,6 @@
 <template>
   <header
-    class="w-full pl-1 transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
+    class="w-full pl-1 transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1"
   >
     <div class="flex items-center pt-3 pb-2 pl-[0.85rem] pr-6">
       <div
@@ -24,36 +24,27 @@
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
             class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-32 h-8 z-1 overflow-clip"
-            color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-special-text-over-header hover:dark:fill-dark-special-text-over-header"
+            color="fill-light-text-over-layer-2 dark:fill-dark-text-over-layer-2 hover:fill-light-distinct-text-over-layer-2 hover:dark:fill-dark-distinct-text-over-layer-2"
           />
         </Transition>
       </div>
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
       <div @mouseover.stop class="absolute -right-0">
         <button
-          @click="sidebar.toggleCollapsedSwitch()"
-          class="flex items-center justify-center transition duration-100 w-7 h-7 text-light-special-text dark:text-dark-special-text hover:text-light-text dark:hover:text-dark-text focus-brand outline-offset-0"
+          @click="
+            sidebar.toggleCollapsedSwitch();
+            emit('toggle-pressed');
+          "
+          class="flex items-center justify-center transition duration-200 w-7 h-7 focus-brand outline-offset-0"
+          :class="{
+            'pr-0.5 -rotate-180': sidebar.collapsedSwitch == false,
+            'pl-0.5 pb-1': sidebar.collapsedSwitch == true,
+          }"
           :aria-label="
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')
           "
         >
-          <div
-            :class="{
-              'pr-[2px]': sidebar.collapsedSwitch == false,
-              'pl-[2px]': sidebar.collapsedSwitch == true,
-            }"
-          >
-            <Icon
-              v-if="sidebar.collapsedSwitch == false"
-              name="bi:chevron-bar-left"
-              size="1.4em"
-            />
-            <Icon
-              v-if="sidebar.collapsedSwitch == true"
-              name="bi:chevron-bar-right"
-              size="1.4em"
-            />
-          </div>
+          <SidebarToggle chevronDirection="right" iconSize="1.4em" />
         </button>
       </div>
     </div>
@@ -62,6 +53,7 @@
 
 <script setup lang="ts">
 const sidebar = useSidebar();
+const emit = defineEmits(["toggle-pressed"]);
 </script>
 
 <style>

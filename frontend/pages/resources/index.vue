@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ $t("pages.resources.index.header-title") }}</Title>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ organization.name }}&nbsp;{{ $t("_global.team_lower") }}</Title>
@@ -12,15 +12,14 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.invite-someone"
+          label="components.btn-action.invite-someone"
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-labeled.invite-someone-org-aria-label"
+          ariaLabel="components.btn-action.invite-someone-org-aria-label"
         />
       </div>
     </HeaderAppPage>

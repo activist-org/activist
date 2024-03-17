@@ -13,19 +13,19 @@
       </div>
       <form
         @submit.prevent="submit"
-        class="pt-4 flex flex-col w-full justify-center items-center"
+        class="flex flex-col items-center justify-center w-full pt-4"
       >
         <div
-          class="flex w-full justify-between mx-14 px-5 card-style gap-6 py-6"
+          class="flex justify-between w-full px-5 py-6 gap-6 mx-14 card-style"
         >
           <div class="w-1/2">
             <label for="name" class="block font-medium responsive-h3"
-              >{{ $t("pages.organizations.create.organization-name") }}*</label
+              >{{ $t("_global.organization-name") }}*</label
             >
             <input
               v-model="formData.name"
               id="name"
-              class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
               type="text"
               name="name"
               :placeholder="
@@ -40,7 +40,7 @@
             <input
               v-model="formData.location"
               id="location"
-              class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
               type="text"
               name="location"
               :placeholder="
@@ -49,43 +49,43 @@
             />
           </div>
         </div>
-        <div class="mx-14 w-full card-style mt-5 px-5 py-6">
+        <div class="w-full px-5 py-6 mt-5 mx-14 card-style">
           <label for="description" class="block font-medium responsive-h3"
             >{{ $t("pages.organizations.create.description") }}*</label
           >
           <textarea
             v-model="formData.description"
             id="description"
-            class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+            class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
             name="description"
             :placeholder="
               $t('pages.organizations.create.description-placeholder')
             "
           ></textarea>
         </div>
-        <div class="mx-14 w-full card-style mt-5 px-5 py-6">
+        <div class="w-full px-5 py-6 mt-5 mx-14 card-style">
           <label for="tagline" class="block font-medium responsive-h3">{{
             $t("pages.organizations.create.tagline")
           }}</label>
           <input
             v-model="formData.tagline"
             id="tagline"
-            class="px-4 py-2 mt-2 w-full border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+            class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0"
             name="tagline"
             :placeholder="$t('pages.organizations.create.tagline-placeholder')"
           />
         </div>
         <CardTopicSelection v-model="formData.topics" class="mt-5" />
-        <div class="mx-14 w-full mt-5">
+        <div class="w-full mt-5 mx-14">
           <CardConnect
             :social-links="formData.social_accounts"
             :userIsAdmin="true"
           />
         </div>
-        <div class="mx-14 flex flex-col w-full mt-5">
+        <div class="flex flex-col w-full mt-5 mx-14">
           <div class="flex space-x-2">
             <FormCheckbox />
-            <label for="terms" class="font-medium flex">
+            <label for="terms" class="flex font-medium">
               <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
               <a href="#" class="text-blue-500">{{
                 $t("pages._global.terms-of-service-pt-2")
@@ -94,7 +94,7 @@
             </label>
           </div>
           <div class="my-5">
-            <BtnLabeled
+            <BtnAction
               type="submit"
               :cta="true"
               class="flex"
@@ -120,7 +120,7 @@ const formData = ref({
   description: "",
   tagline: "",
   social_accounts: [],
-  topics: ["justice", "activism"],
+  topics: [],
 });
 
 const submit = async () => {

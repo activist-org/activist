@@ -1,51 +1,85 @@
 <template v-model="value">
-  <div class="flex-col space-y-3 w-full card-style px-5 py-6">
+  <div class="flex-col w-full px-5 py-6 space-y-3 card-style">
     <p class="font-medium responsive-h3 text-light-text dark:text-dark-text">
       {{ $t("components.card-topic-selection.header") }}
     </p>
+    <p class="text-light-text dark:text-dark-text">
+      {{ $t("components.card-topic-selection.subtext-organization") }}
+    </p>
     <input
       v-model="query"
+      @focus="inputFocus = true"
+      @keydown="resetTabIndex()"
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="pl-4 py-2 w-full text-light-special-text dark:text-dark-special-text bg-light-header dark:bg-dark-header rounded-md elem-shadow-sm focus-brand"
+      class="w-full py-2 pl-4 topicInput rounded-md text-light-distinct-text dark:text-dark-distinct-text bg-light-layer-0 dark:bg-dark-layer-0 elem-shadow-sm focus-brand"
     />
-    <TabGroup
-      manual
-      :defaultIndex="0"
-      class="flex flex-col gap-2 md:flex-row md:items-center"
+    <ul class="hidden gap-2 sm:flex sm:flex-wrap">
+      <ShieldTopic
+        v-for="t of filteredTopics"
+        @click="selectTopic(t)"
+        @keydown.enter.prevent="selectTopic(t)"
+        @keydown="keydownEvent($event)"
+        :key="t.value"
+        :topic="t.label"
+        class="topic max-sm:w-full"
+        :active="isActiveTopic(t.value)"
+        :isSelector="true"
+      />
+    </ul>
+    <ul
+      class="flex flex-col gap-2 sm:hidden"
+      :class="{
+        'pb-2': moreOptionsShown || inputFocus || filteredTopics.length,
+      }"
     >
-      <TabList>
-        <Tab
-          v-for="topic of filteredTopics"
-          @click="selectTopic(topic)"
-          @keydown.enter.prevent="selectTopic(topic)"
-          :key="topic.value"
-          :value="topic.value"
-          multiple
-          as="template"
-          class="flex justify-between px-4 md:px-2 py-2 gap-2 rounded-lg select-none cursor-pointer elem-shadow-sm"
-        >
-          <div
-            :class="{
-              'style-cta': isActiveTopic(topic.value),
-              'style-cta-secondary': !isActiveTopic(topic.value),
-            }"
-          >
-            <span class="flex items-center gap-2">
-              <Icon :name="topic.icon" size="20" />
-              {{ $t(topic.label) }}
-            </span>
-            <Icon v-if="isActiveTopic(topic.value)" name="bi:x-lg" size="20" />
-          </div>
-        </Tab>
-      </TabList>
-    </TabGroup>
+      <ShieldTopic
+        v-if="moreOptionsShown || inputFocus"
+        v-for="t of filteredTopics"
+        @click="selectTopic(t)"
+        @keydown.enter.prevent="selectTopic(t)"
+        @keydown="mobileKeyboardEvent($event)"
+        :key="t.value + '-selected-only'"
+        :topic="t.label"
+        class="mobileTopic max-sm:w-full"
+        :active="isActiveTopic(t.value)"
+        :isSelector="true"
+      />
+      <ShieldTopic
+        v-else
+        v-for="t of selectedTopicTags.sort((a, b) =>
+          a.value.localeCompare(b.value)
+        )"
+        @click="selectTopic(t)"
+        @keydown.enter.prevent="selectTopic(t)"
+        @keydown="mobileKeyboardEvent($event)"
+        :key="t.value"
+        :topic="t.label"
+        class="mobileTopic max-sm:w-full"
+        :active="isActiveTopic(t.value)"
+        :isSelector="true"
+      />
+    </ul>
+    <button
+      @click="
+        moreOptionsShown =
+          inputFocus == true ? (moreOptionsShown = false) : !moreOptionsShown;
+        inputFocus = false;
+      "
+      class="cursor-pointer link-text sm:hidden"
+    >
+      <div v-if="!moreOptionsShown && !inputFocus">
+        {{ $t("components.card-topic-selection.view-all-topics") }}
+      </div>
+      <div v-else>
+        {{ $t("components.card-topic-selection.hide-all-topics") }}
+      </div>
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Tab, TabGroup, TabList } from "@headlessui/vue";
 import type { Topic, TopicsTag } from "~/types/topics";
 import { GLOBAL_TOPICS } from "~/types/topics";
 
@@ -57,7 +91,116 @@ const props = defineProps({
   },
 });
 
+const moreOptionsShown = ref(false);
+const inputFocus = ref(false);
 const emit = defineEmits(["update:modelValue"]);
+
+const resetTabIndex = () => {
+  const topic: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+  const mobileTopic: HTMLElement[] = Array.from(
+    document.querySelectorAll(".mobileTopic")
+  );
+
+  topic.forEach((topic) => (topic.tabIndex = -1));
+  topic[0].tabIndex = 0;
+  mobileTopic.forEach((topic) => (topic.tabIndex = -1));
+  mobileTopic[0].tabIndex = 0;
+};
+
+let index = 0;
+const keydownEvent = (e: KeyboardEvent) => {
+  const topics: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
+
+  switch (e.code) {
+    case "ArrowUp":
+    case "ArrowLeft":
+      e.preventDefault();
+      if (index > 0) {
+        index--;
+      } else {
+        index = topics.length - 1;
+      }
+      break;
+    case "ArrowDown":
+    case "ArrowRight":
+      e.preventDefault();
+      if (index < topics.length - 1) {
+        index++;
+      } else {
+        index = 0;
+      }
+      break;
+    case "Enter":
+      e.preventDefault();
+      if (topics[index].classList.contains("style-cta-secondary")) {
+        if (index < topics.length - 1) {
+          index++;
+        }
+      } else {
+        if (index > 0) {
+          index--;
+        } else {
+          index = 0;
+        }
+      }
+      break;
+    case "Tab":
+      index = 0;
+      break;
+  }
+
+  topics.forEach((topic) => (topic.tabIndex = -1));
+  topics[index].tabIndex = 0;
+  topics[index].focus();
+};
+
+const mobileKeyboardEvent = (e: KeyboardEvent) => {
+  const topics: HTMLElement[] = Array.from(
+    document.querySelectorAll(".mobileTopic")
+  );
+
+  switch (e.code) {
+    case "ArrowUp":
+    case "ArrowLeft":
+      e.preventDefault();
+      if (index > 0) {
+        index--;
+      } else {
+        index = topics.length - 1;
+      }
+      break;
+    case "ArrowDown":
+    case "ArrowRight":
+      e.preventDefault();
+      if (index < topics.length - 1) {
+        index++;
+      } else {
+        index = 0;
+      }
+      break;
+    case "Enter":
+      e.preventDefault();
+      if (topics[index].classList.contains("style-cta-secondary")) {
+        if (index < topics.length - 1) {
+          index++;
+        }
+      } else {
+        if (index > 0) {
+          index--;
+        } else {
+          index = 0;
+        }
+      }
+      break;
+    case "Tab":
+      index = 0;
+      break;
+  }
+
+  topics.forEach((topic) => (topic.tabIndex = -1));
+  topics[index].tabIndex = 0;
+  topics[index].focus();
+};
 
 const value = computed<Topic[]>({
   get() {
@@ -82,12 +225,9 @@ const selectTopic = (topic: TopicsTag) => {
   value.value = updatedValue;
 };
 
-const topics = computed((): TopicsTag[] => {
-  return [
-    ...selectedTopicTags.value,
-    ...GLOBAL_TOPICS.filter((topic) => !isActiveTopic(topic.value)),
-  ];
-});
+function isActiveTopic(topic: Topic) {
+  return value.value.includes(topic);
+}
 
 const selectedTopicTags = computed(() => {
   return value.value
@@ -97,13 +237,18 @@ const selectedTopicTags = computed(() => {
     .filter((tag) => tag) as TopicsTag[];
 });
 
+const topics = computed((): TopicsTag[] => {
+  return [
+    ...selectedTopicTags.value.sort((a, b) => a.value.localeCompare(b.value)),
+    ...GLOBAL_TOPICS.filter((topic) => !isActiveTopic(topic.value)).sort(
+      (a, b) => a.value.localeCompare(b.value)
+    ),
+  ];
+});
+
 const filteredTopics = computed(() => {
   return topics.value.filter((topic) => {
     return topic.value.includes(query.value.trim().toLowerCase());
   });
 });
-
-function isActiveTopic(topic: Topic) {
-  return value.value.includes(topic);
-}
 </script>

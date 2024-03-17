@@ -15,7 +15,7 @@ def validate_creation_and_deletion_dates(data: Any) -> None:
     if data["creation_date"] < data["deletion_date"]:
         raise serializers.ValidationError(
             _("The field deletion_date cannot be before creation_date."),
-            code="date_order",
+            code="invalid_date_order",
         )
 
 
@@ -23,7 +23,7 @@ def validate_creation_and_deprecation_dates(data: Any) -> None:
     if data["deprecation_date"] < data["creation_date"]:
         raise serializers.ValidationError(
             _("The field deprecation_date cannot be before creation_date."),
-            code="date_order",
+            code="invalid_date_order",
         )
 
 
@@ -38,7 +38,7 @@ def validate_flags_number(data: Any) -> None:
 def validate_empty(value: Any, field_name: Any) -> None:
     if value == "" or value is None:
         raise serializers.ValidationError(
-            _(f"The field {field_name} has to be filled."), code="invalid_value"
+            _(f"The field {field_name} has to be filled."), code="empty_field"
         )
 
 

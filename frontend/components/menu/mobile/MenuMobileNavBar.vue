@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed bottom-0 z-20 w-full border-t md:hidden bg-light-header dark:bg-dark-header border-light-section-div dark:border-dark-section-div"
+    class="fixed bottom-0 z-20 w-full border-t md:hidden bg-light-layer-2 dark:bg-dark-layer-2 border-light-section-div dark:border-dark-section-div"
   >
     <nav>
       <ul class="flex">
@@ -20,9 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { menuItems } from "~/utils/navMenuItems";
-import { isRouteActive } from "~/utils/routeUtils";
-
 const isActive = (routeURL: string) => {
   return isRouteActive(routeURL);
 };

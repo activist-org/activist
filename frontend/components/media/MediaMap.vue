@@ -1,210 +1,202 @@
 <template>
-  <div class="map card-style">
-    <div
-      ref="map"
-      id="map-div"
-      class="w-full h-full select-none saturate-[1.15] dark:hue-rotate-180 dark:invert rounded-md sm:rounded-lg"
-      :alt="$t('components.media-map.img-alt-text')"
-    ></div>
-    <div
-      :key="rerenderKey"
-      class="flex flex-col items-center justify-center h-full px-5 pb-5 text-2xl text-center space-y-5 text-light-cta-orange dark:text-dark-cta-orange"
-      :class="{ hidden: !errorOccurred }"
-    >
-      <p>{{ $t("components.media-map.error-message") }}</p>
-      <p>{{ $t("components.media-map.sorry-message") }}</p>
-    </div>
-  </div>
+  <div
+    id="map"
+    class="card-style-base dark:brightness-95 dark:contrast-[90%] dark:hue-rotate-180 dark:invert"
+  ></div>
 </template>
 
 <script setup lang="ts">
-import type { MapOptions } from "leaflet";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import MapLibreGlDirections, {
+  layersFactory,
+} from "@maplibre/maplibre-gl-directions";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
-  addresses: string[];
-  title: string;
-  type: string;
+  markerColors: string[];
+  eventNames: string[];
+  eventLocations: string[];
 }>();
 
-const rerenderKey = ref(0);
-const map = ref();
+const i18n = useI18n();
+const colorMode = useColorMode();
 
-type Marker = {
-  address: string;
-  lat: number;
-  lon: number;
-};
+const isTouchDevice =
+  // `maxTouchPoints` isn't recognized by TS. Safe to ignore.
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  navigator.msMaxTouchPoints > 0 ||
+  "ontouchstart" in window ||
+  navigator.maxTouchPoints > 0;
 
-let errorOccurred: boolean = false;
-
-function handleMapError(error: Error) {
-  console.error(error);
-  errorOccurred = true;
-
-  // TODO: More helpful and better looking error messages.
-  rerenderKey.value += 1; // rerender the error div
-  map.value.style.opacity = 0;
-  map.value.style.position = "absolute";
-}
-
-function drawMap(avgLat: number, avgLon: number, markers: Marker[]) {
-  const mapOptions: MapOptions = {
-    center: [avgLat, avgLon],
-    zoom: 13,
-    attributionControl: false,
-  };
-
-  const leafletMap = L.map("map-div", mapOptions);
-
-  const layer = new L.TileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  );
-  leafletMap.addLayer(layer);
-
-  const colorMode = useColorMode();
-  let eventColor = "";
-  if (props.type === "action") {
-    if (colorMode.value == "dark") {
-      eventColor = "#DD7E6B";
-    } else {
-      eventColor = "#9A031E";
+function isWebglSupported() {
+  if (window.WebGLRenderingContext) {
+    const canvas = document.createElement("canvas");
+    try {
+      const context = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      if (context && typeof context.getParameter == "function") {
+        return true;
+      }
+    } catch (e) {
+      // WebGL is supported, but disabled.
     }
-  } else {
-    if (colorMode.value == "dark") {
-      eventColor = "#6D9EEB";
-    } else {
-      eventColor = "#006DAA";
-    }
+    return false;
   }
-
-  const markerHTMLStyles = `
-  background-color: ${eventColor};
-  width: 2rem;
-  height: 2rem;
-  display: block;
-  left: -1rem;
-  top: -1.5rem;
-  position: relative;
-  border-radius: 2rem 2rem 0;
-  transform: rotate(45deg);
-  border: 1px solid #D8DEE4`;
-
-  const mapIcon = L.divIcon({
-    className: "my-custom-pin",
-    iconAnchor: [0, 24],
-    popupAnchor: [0, -36],
-    html: `<span style="${markerHTMLStyles}" />`,
-  });
-
-  markers.map((marker: Marker) => {
-    const pin = L.marker([marker.lat, marker.lon], { icon: mapIcon });
-    // Add location pin to map.
-    pin.addTo(leafletMap);
-    pin.on("click", function () {
-      L.popup()
-        .setLatLng(pin.getLatLng())
-        .setContent(
-          `
-          <div class="flex bg-[#F6F8FA] rounded-lg">
-            <div class="flex flex-col w-3/5 px-2 pt-1 pb-2 space-y-1">
-              <p class="text-sm font-bold">${props.title}</p>
-              <p class="text-xs font-semibold">Date and time</p>
-              <p class="text-xs font-semibold">${marker.address}</p>
-              <a href="/home" class="attend-btn py-[0.5rem] px-[1.125rem] bg-[#F1993D] text-[#F6F8FA] font-medium rounded-md w-fit">
-                Attend
-              </a>
-            </div>
-            <div class="w-2/5 border-l-[24px] border-[#9A031E] bg-[#898688] rounded-r-md">
-              <img src=""/>
-            </div>
-          </div>
-        `
-        )
-        .openOn(leafletMap);
-    });
-  });
+  // WebGL not supported.
+  return false;
 }
-
-/*
-    NOTE: Below is an example of the code to use when the backend code
-    is up and running, removing most of the logic from the frontend.
-
-    const props = defineProps<{
-        locations: Marker[],
-        averageLat: number,
-        averageLon: number
-    }>();
-
-    onMounted(() => {
-        drawMap(props.averageLat, props.averageLon, props.locations);
-    });
-*/
 
 onMounted(() => {
-  const markers: Marker[] = [];
-  let averageLat: number = 0;
-  let averageLon: number = 0;
+  const nominatimLocationRequest =
+    "https://nominatim.openstreetmap.org/search?q=Brandenburg%20Gate%20Berlin&format=json";
 
-  props.addresses.forEach((address: string, index: number) => {
-    const formattedAddress = address.replace(/ /g, "+"); // replace spaces with +
+  fetch(nominatimLocationRequest)
+    .then((response) => response.json())
+    .then((data) => {
+      const location = data[0];
+      if (!isWebglSupported()) {
+        alert(i18n.t("components.media-map.maplibre-gl-alert"));
+      } else {
+        const map = new maplibregl.Map({
+          container: "map",
+          style: {
+            version: 8,
+            sources: {
+              "raster-tiles": {
+                type: "raster",
+                tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+                tileSize: 256,
+                attribution:
+                  '<a href="https://www.openstreetmap.org/about" target="_blank">Data &copy; OpenStreetMap contributors</a>',
+              },
+            },
+            layers: [
+              {
+                id: "background",
+                type: "background",
+                paint: {
+                  "background-color":
+                    colorMode.preference == "dark" ? "#131316" : "#F6F8FA",
+                },
+              },
+              {
+                id: "simple-tiles",
+                type: "raster",
+                source: "raster-tiles",
+                minzoom: 0,
+                maxzoom: 24,
+              },
+            ],
+          },
+          center: [parseFloat(location["lon"]), parseFloat(location["lat"])],
+          zoom: 15,
+          pitch: 20,
+        });
 
-    const osmURL =
-      "https://nominatim.openstreetmap.org/search?q=" +
-      formattedAddress +
-      "&format=json";
+        map.addControl(
+          new maplibregl.NavigationControl({
+            visualizePitch: true,
+          }),
+          "top-left"
+        );
+        map.addControl(new maplibregl.FullscreenControl());
+        map.addControl(
+          new maplibregl.GeolocateControl({
+            positionOptions: {
+              enableHighAccuracy: true,
+            },
+            trackUserLocation: true,
+          })
+        );
 
-    fetch(osmURL) // get the latitude and longitude of the address
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.length == 0) {
-          handleMapError(new Error("OSM: Provided address not found."));
-          return;
-        }
+        const popup = new maplibregl.Popup({
+          offset: 25,
+        }).setHTML(
+          `<div style="
+            text-align: center;
+            color: grey;"
+          >
+            <div style="font-size: 13px;">${props.eventNames[0]}</div>
+            <div style="color: grey;">${props.eventLocations[0]}</div>
+          </div>`
+        );
 
-        const latitude = data[0].lat;
-        const longitude = data[0].lon;
+        const marker = new maplibregl.Marker({
+          color: `${props.markerColors[0]}`,
+        });
+        marker.addClassName("cursor-pointer");
+        marker
+          .setLngLat([parseFloat(location["lon"]), parseFloat(location["lat"])])
+          .setPopup(popup)
+          .addTo(map);
 
-        markers[index] = { address: address, lat: latitude, lon: longitude };
-        averageLat += +latitude;
-        averageLon += +longitude;
+        map.on("load", () => {
+          const layers = layersFactory(
+            isTouchDevice ? 1.5 : 1,
+            isTouchDevice ? 2 : 1
+          );
 
-        if (index == props.addresses.length - 1) {
-          // Calculate  averages for centerpoint of map.
-          averageLat /= props.addresses.length;
-          averageLon /= props.addresses.length;
-          drawMap(averageLat, averageLon, markers);
-        }
-      })
-      .catch((error: Error) => {
-        handleMapError(error);
-      });
-  });
+          const directions = new MapLibreGlDirections(map, {
+            requestOptions: {
+              alternatives: "true",
+            },
+            layers,
+          });
+
+          directions.interactive = true;
+
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "x") {
+              directions.clear();
+            }
+          });
+
+          // const clearDirectionsControl = `
+          //   <div style="
+          //     background-color: rgba(255, 255, 255, 1);
+          //     padding: 1px 5px;
+          //     margin: 10px;
+          //     border-radius: 5px;
+          //     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+          //     color: grey;"
+          //   >
+          //     Clear directions
+          //   </div>
+          // `;
+
+          const clearDirectionsHotkeyControl = `
+          <div style="
+            background-color: rgba(255, 255, 255, 1);
+            padding: 1px 5px;
+            margin: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+            color: grey;"
+          >
+            Clear directions [x]
+          </div>
+        `;
+
+          if (window.innerWidth >= 768) {
+            map.addControl(
+              {
+                onAdd: function () {
+                  const div = document.createElement("div");
+                  // if (window.innerWidth < 768) {
+                  //   div.innerHTML = clearDirectionsControl;
+                  // } else {
+                  //   div.innerHTML = clearDirectionsHotkeyControl;
+                  // }
+                  div.innerHTML = clearDirectionsHotkeyControl;
+                  return div;
+                },
+                onRemove: function () {},
+              },
+              "bottom-left"
+            );
+          }
+        });
+      }
+    });
 });
 </script>
-
-<style>
-.leaflet-container a.leaflet-popup-close-button {
-  color: #f6f8fa;
-}
-
-.leaflet-container a.attend-btn {
-  color: #f6f8fa;
-}
-
-.leaflet-container p {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.leaflet-popup-content-wrapper {
-  border-radius: 5px;
-}
-
-.leaflet-popup-content {
-  margin: 0rem;
-  width: 100%;
-  height: 100%;
-}
-</style>

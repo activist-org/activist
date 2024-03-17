@@ -51,7 +51,9 @@
         {{ $t("components.footer._global.powered-by-netlify") }}
       </a>
       <div class="mt-2 text-light-text dark:text-dark-text">
-        {{ $t("components._global.copyright") }}
+        {{
+          $t("components._global.copyright", { year: new Date().getFullYear() })
+        }}
       </div>
     </div>
     <!-- Note: Content Sections Right -->
@@ -69,9 +71,14 @@
             :class="{ 'mt-3': index === 0 }"
             :href="connect.url"
             target="_blank"
+            :aria-label="$t(connect.name)"
           >
-            <Icon :name="connect.iconName" :size="connect.iconSize" />
-            <p>{{ $t(connect.name) }}</p>
+            <MetaTagSocialMedia
+              class="!gap-2"
+              :iconName="connect.iconName"
+              :text="$t(connect.name)"
+              :iconSize="connect.iconSize"
+            />
           </a>
         </template>
       </div>

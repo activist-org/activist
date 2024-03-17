@@ -1,15 +1,15 @@
 <template>
-  <div class="flex flex-col w-full md:flex-row relative">
+  <div class="relative flex flex-col w-full md:flex-row">
     <div class="flex justify-center w-full md:w-fit">
       <div
-        class="border rounded-full w-fit border-light-section-div dark:border-dark-section-div bg-light-content dark:bg-dark-content"
+        class="border rounded-full w-fit border-light-section-div dark:border-dark-section-div bg-light-layer-0 dark:bg-dark-layer-0"
       >
         <div
           :class="{
             'w-[150px] h-[150px]': reduced,
             'w-[200px] h-[200px]': !reduced,
           }"
-          class="flex justify-center items-center fill-light-text dark:fill-dark-text"
+          class="flex items-center justify-center fill-light-text dark:fill-dark-text"
         >
           <Icon class="w-[75%] h-[75%]" name="bi:person" />
         </div>

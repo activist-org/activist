@@ -179,10 +179,9 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a `.env` file and start your docker images with the following:
+4. Start your docker images with the following:
 
    ```bash
-   cp .env.example .env
    docker compose up
 
    # Or with new dependencies:
@@ -197,6 +196,99 @@ git remote add upstream https://github.com/activist-org/activist.git
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
 
+> [!TIP]
+> For those using LLM coding assistants, [LLMPROMPT.txt](https://github.com/activist-org/activist/blob/main/LLMPROMPT.txt) contains a good prompt to paste as context or add to your settings.
+
+<a id="using-yarn-or-python"></a>
+
+### Using Yarn or Python
+
+Dockerized environments are resource intensive - specifically for some Windows users - and may take a very long time to load. If you would like to get just the frontend or backend up and running, please follow the steps below:
+
+<details><summary><strong>Frontend: Yarn</strong></summary>
+<p>
+
+```bash
+# In the root activist directory:
+cd frontend
+yarn install
+yarn run dev
+```
+
+You can then visit http://localhost:3000/ to see the development frontend build once the server is up and running.
+
+</p>
+</details>
+
+<details><summary><strong>Backend: Python</strong></summary>
+<p>
+
+Our backend depends on a connection to a postgres DB, therefore we need to setup the database first. Here our best option is to still use docker to create a postgres DB with the following command:
+
+```bash
+docker compose up db
+```
+
+In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env.dev` file first.
+
+```bash
+# Current
+DATABASE_HOST=db
+# Changed
+DATABASE_HOST=localhost
+```
+
+From here we need the project's dependencies, with the practice being to create a virtual environment first within your local activist directory and then install the dependencies within it:
+
+On Unix or MacOS, run:
+
+```bash
+python3 -m venv venv  # make an environment named venv
+source venv/bin/activate # activate the environment
+```
+
+On Windows (using Command Prompt), run:
+
+```bash
+python -m venv venv
+venv\Scripts\activate.bat
+```
+
+After activating the virtual environment, install the required dependencies by running:
+
+```bash
+pip install --upgrade pip  # make sure that pip is at the latest version
+pip install -r backend/requirements-dev.txt  # install dependencies
+```
+
+Now you can apply database migrations and start the local server.
+
+```bash
+# In the root activist directory:
+cd backend
+pyhton manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
+
+You can then visit http://localhost:8000/ to see the development backend build once the server is up and running.
+
+</p>
+</details>
+
+<!-- <a id="component-stories"></a>
+
+### Component stories [`⇧`](#contents)
+
+activist uses [histoire](https://histoire.dev/) for stories so that frontend components and their documentation are all written in Vue. To view the stories, enter the following in the command line:
+
+```bash
+cd frontend
+yarn run story:dev
+```
+
+From there you'll be able to visit http://localhost:6006/ to view the documentation. Contributions are very welcome! -->
+
 <a id="style-guide"></a>
 
 ## Style guide [`⇧`](#contents)
@@ -207,7 +299,9 @@ Please see the [activist style guide](https://github.com/activist-org/activist/b
 
 ## Linting [`⇧`](#contents)
 
-For the backend [pylint-django](https://github.com/PyCQA/pylint-django) is installed via the required packages to assure that errors are reported correctly within a Django development environment.
+For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
+
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support.
 
 <a id="issues-projects"></a>
 
@@ -334,6 +428,10 @@ Documentation is an invaluable way to contribute to coding projects as it allows
 ## Accessibility [`⇧`](#contents)
 
 Thank you for your interest in improving activist's accessibility. We want our platform to not only be usable for all people, but also to provide a welcoming environment within the development community for all. This section lists a few points to account for when checking accessibility constraints during development:
+
+### Transitions
+
+Users who have motion sickness have the ability to disable transitions and animations on their devices. We use the external dependency [reduced-motion](https://github.com/lucianmurmurache/reduced-motion) to disable transitions and animations in this case.
 
 ### Tab focusing
 

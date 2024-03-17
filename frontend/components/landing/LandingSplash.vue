@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex-1 w-full pt-10 pb-8 space-y-4 bg-light-distinct dark:bg-dark-distinct text-light-text dark:text-dark-text sm:pt-12 sm:pb-10 md:pt-16 md:pb-12 lg:pb-14 lg:pt-20 xl:pt-24 xl:pb-16 2xl:pt-28 2xl:pb-18 sm:space-y-9 xl:space-y-10"
+    class="flex-1 w-full pt-10 pb-8 space-y-4 bg-light-layer-1 dark:bg-dark-layer-1 text-light-text dark:text-dark-text sm:pt-12 sm:pb-10 md:pt-16 md:pb-12 lg:pb-14 lg:pt-20 xl:pt-24 xl:pb-16 2xl:pt-28 2xl:pb-18 sm:space-y-9 xl:space-y-10"
   >
     <div class="flex justify-center">
       <h1
@@ -17,12 +17,12 @@
       </p>
     </div>
     <div class="flex justify-center rounded-md">
-      <BtnLabeled
+      <BtnRouteExternal
         :cta="true"
-        label="components.btn-labeled.request-access"
+        label="components.btn-route-external.request-access"
         linkTo="https://tally.so/r/nprxbq"
         fontSize="xl"
-        ariaLabel="components.btn-labeled.request-access-aria-label"
+        ariaLabel="components.btn-route-external.request-access-aria-label"
       />
     </div>
   </div>

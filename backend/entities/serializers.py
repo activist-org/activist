@@ -41,6 +41,23 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
         }
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_empty(data["name"], "name")
+        validate_empty(data["description"], "description")
+        validate_flags_number(data)
+        # validate_object_existence(User, data["created_by"]) TODO: BUG check if validate_object_existence can be fixed since causing errors during post requests
+
+        return data
+
+
+class OrganizationApplicationStatusSerializer(
+    serializers.ModelSerializer[OrganizationApplicationStatus]
+):
+    class Meta:
+        model = OrganizationApplicationStatus
+        fields = "__all__"
 
 
 class OrganizationApplicationSerializer(
@@ -52,7 +69,7 @@ class OrganizationApplicationSerializer(
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["status"], "status")
-        validate_creation_and_deletion_dates(data)
+        validate_object_existence(Organization, data["org_id"])
 
         return data
 
@@ -116,12 +133,11 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
-        validate_empty(data["tagline"], "tagline")
-        validate_empty(data["social_accounts"], "social_accounts")
         validate_empty(data["created_by"], "created_by")
         validate_flags_number(data)
         validate_creation_and_deletion_dates(data)
         validate_object_existence(User, data["created_by"])
+        validate_object_existence(Organization, data["org_id"])
 
         return data
 

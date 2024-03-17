@@ -5,7 +5,7 @@
         {{ $t("components._global.connect") }}
       </h3>
       <div
-        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
+        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:hover:text-dark-highlight"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"
@@ -70,13 +70,12 @@
       >
         <Popover v-slot="{ close }" class="relative">
           <PopoverButton as="div">
-            <BtnLabeled
+            <BtnAction
               :cta="true"
-              linkTo="placeholder-link"
-              label="components.btn-labeled.new-account"
+              label="components.btn-action.new-account"
               fontSize="sm"
               leftIcon="bi:plus-lg"
-              ariaLabel="components.btn-labeled.new-account-aria-label"
+              ariaLabel="components._global.new-account-aria-label"
             />
           </PopoverButton>
           <transition
@@ -91,10 +90,18 @@
               <PopupNewField
                 @on-cta-clicked="emit('on-new-account', account)"
                 @on-close-clicked="onClose(close)"
-                :title="'Add Account'"
-                :fieldNamePrompt="'Link to account'"
-                :ctaBtnLabel="'Add'"
-                :ctaBtnAriaLabel="'Add a new field'"
+                :title="$t('components.card-connect.app-account-popup-title')"
+                :fieldNamePrompt="
+                  $t(
+                    'components.card-connect.app-account-popup-field-name-prompt'
+                  )
+                "
+                :ctaBtnLabel="
+                  $t('components.card-connect.app-account-popup-cta-btn-label')
+                "
+                :ctaBtnAriaLabel="
+                  $t('components._global.new-account-aria-label')
+                "
               />
             </PopoverPanel>
           </transition>
@@ -108,7 +115,7 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 
 const props = defineProps<{
-  socialLinks: string[];
+  socialLinks?: string[];
   userIsAdmin?: boolean;
 }>();
 

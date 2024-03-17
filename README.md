@@ -42,7 +42,7 @@
 - [Our goals](#our-goals)
 - [Contributing](#contributing)
 - [Environment setup](#environment-setup)
-- [Design and accessability](design-a11y)
+- [Design and accessability](#design-a11y)
 - [Platform features](#platform-features)
 - [Securely hosted](#securely-hosted)
 - [Community governance](#community-governance)
@@ -173,10 +173,9 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a `.env` file and start your docker images with the following:
+4. Start your docker images with the following:
 
    ```bash
-   cp .env.example .env
    docker compose up
 
    # Or with new dependencies:
@@ -189,7 +188,10 @@ git remote add upstream https://github.com/activist-org/activist.git
 5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
 > [!NOTE]
-> Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
+> Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#using-yarn-or-python).
+
+> [!TIP]
+> For those using LLM coding assistants, [LLMPROMPT.txt](https://github.com/activist-org/activist/blob/main/LLMPROMPT.txt) contains a good prompt to paste as context or add to your settings.
 
 <a id="tech-stack"></a>
 
@@ -355,7 +357,7 @@ We would like to thank all the great software that made activist's development p
 
 - Countless [Nuxt modules](https://nuxt.com/modules)
 - [OpenStreetMap](https://www.openstreetmap.org)
-- [Leaflet](https://leafletjs.com/)
+- [MapLibre](https://maplibre.org/)
 
 ### Our partners
 

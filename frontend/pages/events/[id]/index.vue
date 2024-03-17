@@ -1,12 +1,20 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ event.name }} </Title>
     </Head>
     <div class="w-3/4 h-[260px] mx-auto">
-      <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
+      <ImageEvent
+        :eventType="event.type"
+        :imgURL="event?.imageURL"
+        :alt="
+          $t('components._global.entity-logo', {
+            entity_name: event?.name,
+          })
+        "
+      />
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1
@@ -15,15 +23,15 @@
         {{ event.name }}
       </h1>
       <h2
-        class="text-lg font-bold responsive-h2 text-light-special-text dark:text-dark-special-text"
+        class="text-lg font-bold responsive-h2 text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ event.tagline }}
       </h2>
     </div>
     <div class="flex flex-col items-center w-full gap-4">
       <MenuLinkWrapper
-        v-for="button in eventButtons"
-        :key="button"
+        v-for="[i, button] of eventButtons.entries()"
+        :key="i"
         :to="localPath(button.routeURL)"
         :selected="button.selected"
       >
@@ -39,19 +47,20 @@
           <p
             class="text-lg font-bold select-none width-5/6 whitespace-nowrap hover:light-menu-selection"
           >
+            <span class="sr-only">{{ $t("_global.navigate-to") }}</span>
             {{ $t(button.label) }}
           </p>
         </div>
       </MenuLinkWrapper>
-      <BtnLabeled
+      <BtnRouteInternal
         class="w-max"
         :cta="true"
         linkTo="/"
-        label="components.btn-labeled.offer-to-help"
+        label="components.btn-route-internal.offer-to-help"
         fontSize="base"
         rightIcon="bi:arrow-right"
         iconSize="1.25em"
-        ariaLabel="components.btn-labeled.offer-to-help-aria-label"
+        ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
       />
     </div>
   </div>

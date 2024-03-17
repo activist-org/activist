@@ -1,6 +1,6 @@
 <template>
   <HeaderWebsite />
-  <div class="flex h-full bg-light-content dark:bg-dark-content">
+  <div class="flex h-full bg-light-layer-0 dark:bg-dark-layer-0">
     <Head>
       <Title>{{ $t("pages.error.title") }}</Title>
     </Head>
@@ -13,7 +13,7 @@
         {{ error.statusCode }}
       </div>
       <div
-        class="bg-light-special-text dark:bg-dark-special-text md:w-[2px] md:h-[200px] w-[120px] h-[2px]"
+        class="bg-light-distinct-text dark:bg-dark-distinct-text md:w-[2px] md:h-[200px] w-[120px] h-[2px]"
       ></div>
       <div
         class="text-left flex flex-col items-center md:items-start max-w-[350px]"
@@ -24,16 +24,16 @@
           {{ $t("pages.error.message") }}
         </div>
         <div
-          class="flex flex-wrap justify-center my-8 break-all md:my-6 md:text-lg text-light-special-text dark:text-dark-special-text"
+          class="flex flex-wrap justify-center my-8 break-all md:my-6 md:text-lg text-light-distinct-text dark:text-dark-distinct-text"
         >
           {{ error.message }}
         </div>
-        <BtnLabeled
+        <BtnRouteInternal
           :cta="true"
-          label="components.btn-labeled.return-home"
+          label="components.btn-route-internal.return-home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-labeled.return-home-aria-label"
+          ariaLabel="components.btn-route-internal.return-home-aria-label"
         />
       </div>
     </div>

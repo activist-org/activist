@@ -2,12 +2,12 @@ export interface Event {
   name: string;
   tagline: string;
   organizations: string[];
-  type: string;
+  type: "action" | "learn";
   topic: string;
   description: string;
   getInvolvedDescription: string;
   inPersonLocation?: string;
-  onlineLocation?: sting;
+  onlineLocation?: string;
   date: datetime;
   supporters: number;
   imageURL?: string;

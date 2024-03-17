@@ -14,8 +14,8 @@
                 'justify-center flex px-3 py-1 border-l-[1px] border-y-[1px] w-full',
                 'border-light-text dark:border-dark-text',
                 selected
-                  ? 'bg-light-menu-selection dark:bg-dark-menu-selection text-light-distinct dark:text-dark-distinct hover:bg-light-menu-selection/90 dark:hover:bg-dark-menu-selection/90'
-                  : 'bg-light-header dark:bg-dark-header text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight',
+                  ? 'bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1 hover:bg-light-menu-selection/90 dark:hover:bg-dark-menu-selection/90'
+                  : 'bg-light-layer-2 dark:bg-dark-layer-2 text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight',
               ]"
               :to="localePath(selector.routeURL)"
             >
@@ -30,7 +30,6 @@
 
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
-import { computed } from "vue";
 import type { SubPageSelector } from "~/types/sub-page-selector";
 const localePath = useLocalePath();
 

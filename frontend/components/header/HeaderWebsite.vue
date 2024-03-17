@@ -1,10 +1,10 @@
 <template>
   <header
     ref="header"
-    class="relative sticky top-0 z-10 duration-500 drop-shadow-md"
+    class="sticky top-0 z-10 duration-500 drop-shadow-md"
     :class="{
-      'bg-light-header dark:bg-dark-header': headerOpacity == 1,
-      'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
+      'bg-light-layer-2 dark:bg-dark-layer-2': headerOpacity == 1,
+      'bg-light-layer-2/80 dark:bg-dark-layer-2/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
   >
@@ -24,8 +24,11 @@
       </div>
       <SidebarRight>
         <div class="flex-col space-y-2">
-          <DropdownTheme class="w-full" location="sideMenu" />
-          <DropdownLanguage class="w-full" location="sideMenu" />
+          <DropdownTheme class="w-full" :location="DropdownLocation.SIDEMENU" />
+          <DropdownLanguage
+            class="w-full"
+            :location="DropdownLocation.SIDEMENU"
+          />
         </div>
       </SidebarRight>
     </div>
@@ -44,21 +47,21 @@
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
             <DropdownTheme />
             <DropdownLanguage />
-            <BtnLabeled
+            <BtnRouteInternal
               class="hidden lg:block"
               :cta="true"
-              label="components.btn-labeled.get-in-touch"
+              label="components.btn-route-internal.get-in-touch"
               linkTo="/help/contact"
               fontSize="sm"
-              ariaLabel="components.btn-labeled.get-in-touch-aria-label"
+              ariaLabel="components.btn-route-internal.get-in-touch-aria-label"
             />
-            <BtnLabeled
+            <BtnRouteInternal
               class="hidden md:block lg:hidden"
               :cta="true"
-              label="components.btn-labeled.get-in-touch"
+              label="components.btn-route-internal.get-in-touch"
               linkTo="/help/contact"
               fontSize="xs"
-              ariaLabel="components.btn-labeled.get-in-touch-aria-label"
+              ariaLabel="components.btn-route-internal.get-in-touch-aria-label"
             />
           </div>
         </div>
@@ -68,16 +71,10 @@
 </template>
 
 <script setup lang="ts">
+import { DropdownLocation } from "~/types/location";
+
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
-
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
-});
 
 function handleScroll() {
   const scrollY = window.scrollY;
@@ -91,10 +88,19 @@ function handleScroll() {
   }
   prevScrollY.value = scrollY;
 }
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <style>
 .header {
+  transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
 }
 </style>

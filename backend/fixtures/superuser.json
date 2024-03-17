@@ -21,6 +21,7 @@
       "verified": false,
       "verification_method": "",
       "verification_partner": null,
+      "social_accounts": [],
       "private": false,
       "high_risk": false,
       "groups": [],

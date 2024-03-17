@@ -1,1 +1,5 @@
 blank_issues_enabled: false
+contact_links:
+  - name: Community discussion channels
+    url: https://matrix.to/#/#activist_community:matrix.org
+    about: Join us in our public Matrix chat rooms!

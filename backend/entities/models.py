@@ -5,7 +5,6 @@ This file contains models for the entities app.
 
 Contents:
     - Organization
-    - OrganizationApplicationStatus
     - OrganizationApplication
     - OrganizationEvent
     - OrganizationMember
@@ -30,32 +29,48 @@ class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
     tagline = models.CharField(max_length=255, blank=True)
-    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    org_icon = models.OneToOneField(
+        "content.Image", on_delete=models.CASCADE, null=True, blank=True
+    )
+    about_images = models.ManyToManyField(
+        "content.Image", related_name="about_images", blank=True
+    )
+    created_by = models.ForeignKey(
+        "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
+    )
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
-    status_updated = models.DateTimeField(blank=True, null=True)
-    acceptance_date = models.DateTimeField(blank=True, null=True)
-    deletion_date = models.DateTimeField(blank=True, null=True)
-    total_flags = models.IntegerField(default=0)
+    # status = models.IntegerField(default=1)
+    # status_updated = models.DateTimeField(auto_now=True)
+    acceptance_date = models.DateTimeField()
+    deletion_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
 
 
+class OrganizationApplicationStatus(models.Model):
+    id = models.IntegerField(primary_key=True)
+    status_name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.status_name
+
+
 class OrganizationApplication(models.Model):
+    id = models.IntegerField(primary_key=True)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     status = models.ForeignKey(
-        "OrganizationApplicationStatus", on_delete=models.CASCADE, default=1
+        "OrganizationApplicationStatus", on_delete=models.CASCADE
     )
     orgs_in_favor = ArrayField(
-        models.IntegerField(null=True, blank=True), default=list, blank=True
+        models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )
     orgs_against = ArrayField(
-        models.IntegerField(null=True, blank=True), default=list, blank=True
+        models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )
     creation_date = models.DateTimeField(auto_now_add=True)
     status_updated = models.DateTimeField(auto_now=True)
@@ -97,13 +112,18 @@ class Group(CreationDeletionMixin):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
+    group_icon = models.OneToOneField(
+        "content.Image", on_delete=models.CASCADE, null=True, blank=True
+    )
+    about_images = models.ManyToManyField(
+        "content.Image", related_name="about_img", blank=True
+    )
+    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
     )
-    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     category = models.CharField(max_length=255)
-    total_flags = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.name

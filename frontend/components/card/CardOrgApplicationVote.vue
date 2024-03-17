@@ -1,7 +1,7 @@
 <template>
-  <div class="card-style px-10 py-5">
+  <div class="px-10 py-5 card-style">
     <h3 class="text-left responsive-h3 font-display">{{ title }}</h3>
-    <div class="py-3 flex flex-row">
+    <div class="flex flex-row py-3">
       <div
         v-for="organization in availableOrganizations"
         class="mr-5 fill-light-text dark:fill-dark-text"
@@ -15,31 +15,39 @@
           v-else
           class="border rounded border-light-section-div dark:border-dark-section-div"
         >
-          <img :src="organization.imageURL" class="w-12 h-full" />
+          <img
+            :src="organization.imageURL"
+            class="w-12 h-full"
+            :alt="
+              $t('components._global.entity-logo', {
+                entity_name: organization.name,
+              })
+            "
+          />
         </div>
       </div>
     </div>
     <div class="flex">
-      <BtnLabeled
+      <BtnAction
         @click="$emit('up-vote')"
         class="flex mr-5"
         :cta="true"
-        :label="`${upVotes}`"
+        :counter="`${upVotes}`"
         fontSize="sm"
         leftIcon="bi:arrow-up"
         iconSize="1.25em"
-        ariaLabel="components.btn-labeled.upvote-application-aria-label"
+        ariaLabel="components.btn-action.upvote-application-aria-label"
         :disabled="isVotingDisabled"
       />
-      <BtnLabeled
+      <BtnAction
         @click="$emit('down-vote')"
         class="flex"
         :cta="true"
-        :label="`${downVotes}`"
+        :counter="`${downVotes}`"
         fontSize="sm"
         leftIcon="bi:arrow-down"
         iconSize="1.25em"
-        ariaLabel="components.btn-labeled.downvote-application-aria-label"
+        ariaLabel="components.btn-action.downvote-application-aria-label"
         :disabled="isVotingDisabled"
       />
     </div>

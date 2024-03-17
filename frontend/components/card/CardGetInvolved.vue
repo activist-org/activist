@@ -8,23 +8,23 @@
         <Icon name="bi:pencil-square" size="1.2em" />
       </div>
       <div class="flex pt-2 space-x-2 lg:absolute lg:right-0 lg:pt-0">
-        <BtnLabeled
+        <BtnRouteInternal
           v-if="organization && organization.workingGroups"
           :cta="true"
           :linkTo="'/organizations/' + id + '/groups'"
-          label="components.btn-labeled.view-all-groups"
+          label="components.btn-route-internal.view-all-groups"
           fontSize="sm"
-          ariaLabel="components.btn-labeled.view-all-groups-aria-label"
+          ariaLabel="components.btn-route-internal.view-all-groups-aria-label"
         />
-        <BtnLabeled
+        <BtnRouteInternal
           v-if="organization"
           :cta="true"
           linkTo="/"
-          label="components.btn-labeled.join-organization"
+          label="components.btn-route-internal.join-organization"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.join-organization-aria-label"
+          ariaLabel="components.btn-route-internal.join-organization-aria-label"
         />
       </div>
     </div>
@@ -50,17 +50,17 @@
       <p>
         {{ $t("components.card-get-involved.legal-disclaimer-subtext") }}
       </p>
-      <CardLegalDisclaimer :disclaimer="disclaimer" />
+      <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" />
       <div class="flex pt-2 w-max">
-        <BtnLabeled
+        <BtnRouteInternal
           class="w-full"
           :cta="true"
           linkTo="/"
-          label="components.btn-labeled.offer-to-help"
+          label="components.btn-route-internal.offer-to-help"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.offer-to-help-aria-label"
+          ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
       </div>
     </div>

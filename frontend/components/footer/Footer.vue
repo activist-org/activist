@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="responsive-px-5 responsive-py-5 bg-light-header dark:bg-dark-header text-light-special-text dark:text-dark-special-text"
+    class="responsive-px-5 responsive-py-5 bg-light-layer-2 dark:bg-dark-layer-2 text-light-distinct-text dark:text-dark-distinct-text"
   >
     <!-- Note: Content Sections Top for Mobile -->
     <FooterFlexCol class="flex flex-col lg:hidden" :links="links" />
@@ -15,8 +15,8 @@ const connectLinks = [
   {
     name: "components._global.github",
     url: "https://github.com/activist-org/activist",
-    iconName: "cib:github",
-    iconSize: "1em",
+    iconName: "simple-icons:github",
+    iconSize: "1.05em",
   },
   {
     name: "components._global.matrix",
@@ -27,7 +27,7 @@ const connectLinks = [
   {
     name: "components._global.instagram",
     url: "https://instagram.com/activist_org",
-    iconName: "cib:instagram",
+    iconName: "simple-icons:instagram",
     iconSize: "1em",
   },
 ];
@@ -62,7 +62,7 @@ const organizationLinks = [
   },
   {
     name: "_global.imprint",
-    url: "/about/impress",
+    url: "/about/imprint",
   },
 ];
 

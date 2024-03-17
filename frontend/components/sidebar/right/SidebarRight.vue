@@ -1,5 +1,5 @@
 <template>
-  <SidebarRightHamburger
+  <SidebarRightToggle
     @toggle="toggleMenuState"
     ref="ignoreElRef"
     class="flex items-center h-full"
@@ -8,7 +8,7 @@
   <div
     ref="target"
     id="drawer-navigation"
-    class="fixed top-0 right-0 z-40 h-screen pt-12 overflow-y-auto border-l bg-light-distinct transition-[max-width] overflow-x-hidden duration-200 border-light-section-div dark:bg-dark-distinct dark:border-dark-section-div elem-shadow-sm"
+    class="fixed top-0 right-0 z-30 h-screen pt-12 overflow-y-auto border-l bg-light-layer-1 transition-[max-width] overflow-x-hidden duration-200 border-light-section-div dark:bg-dark-layer-1 dark:border-dark-section-div elem-shadow-sm"
     :class="{
       'max-w-0 px-0': !menuOpen,
       'max-w-[16rem] px-4': menuOpen,
@@ -28,21 +28,22 @@
 
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
+import { watch } from "vue";
 
-const target = ref();
+const target = ref<HTMLElement | null>(null);
 const menuOpen = ref(false);
-const ignoreElRef = ref();
+const ignoreElRef = ref<HTMLElement | null>(null);
 
 const toggleMenuState = () => {
   menuOpen.value = !menuOpen.value;
 };
 
-onClickOutside(
-  target,
-  () => {
-    if (!menuOpen.value) return;
-    toggleMenuState();
-  },
-  { ignore: [ignoreElRef] }
-);
+const closeMenuState = () => {
+  menuOpen.value = false;
+};
+
+const route = useRoute();
+watch(() => route.path, closeMenuState);
+
+onClickOutside(target, closeMenuState, { ignore: [ignoreElRef] });
 </script>

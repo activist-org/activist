@@ -1,39 +1,34 @@
 <template>
   <TooltipBase class="rounded-md">
     <div class="flex-col space-y-2">
-      <BtnLabeled
+      <BtnAction
         @keydown="onTabPress((isLastItem = false), (event = $event))"
         class="flex max-h-[40px] w-full"
-        label="components.btn-labeled.support"
+        label="components.btn-action.support"
         leftIcon="IconSupport"
-        linkTo=""
         fontSize="lg"
-        :ariaLabel="$t('components.btn-labeled.support-event-aria-label')"
+        :ariaLabel="$t('components.btn-action.support-event-aria-label')"
       />
-      <BtnLabeled
+      <BtnAction
         class="flex max-h-[40px] w-full items-center"
-        label="components.btn-labeled.attend"
+        label="components.btn-action.attend"
         leftIcon="IconJoin"
-        linkTo=""
         fontSize="lg"
-        :ariaLabel="$t('components.btn-labeled.attend-aria-label')"
+        :ariaLabel="$t('components.btn-action.attend-aria-label')"
       />
-      <BtnLabeled
+      <BtnAction
         @keydown="onTabPress((isLastItem = true), (event = $event))"
         class="flex max-h-[40px] w-full items-center"
-        label="components.btn-labeled.share"
+        label="components.btn-action.share"
         leftIcon="bi:box-arrow-up"
-        linkTo=""
         fontSize="lg"
-        :ariaLabel="$t('components.btn-labeled.share-event-aria-label')"
+        :ariaLabel="$t('components.btn-action.share-event-aria-label')"
       />
     </div>
   </TooltipBase>
 </template>
 
 <script setup lang="ts">
-import useTabNavigationEmit from "~/composables/useTabNavigationEmit";
-
 defineProps<{
   location?: string;
 }>();

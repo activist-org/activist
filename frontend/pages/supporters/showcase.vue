@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ $t("pages._global.our-supporters") }}</Title>
@@ -16,9 +16,10 @@
           class="focus-brand link-text"
           :to="localePath('/supporters/join')"
         >
-          {{ $t("pages.supporters.showcase.section-1-paragraph-1-2") }}
-        </NuxtLink>
-        .
+          {{
+            $t("pages.supporters.showcase.section-1-paragraph-1-2")
+          }} </NuxtLink
+        >.
       </p>
       <h2 class="font-bold responsive-py-1 responsive-h3">
         {{ $t("pages.supporters.showcase.section-2-subheader") }}
@@ -52,7 +53,7 @@
       </h3>
       <p>{{ $t("pages.supporters.showcase.section-2-2-paragraph-1") }}</p>
       <!-- <ul class="py-4 pl-4 space-y-2"></ul> -->
-      <p class="text-light-special-text dark:text-dark-special-text">
+      <p class="text-light-distinct-text dark:text-dark-distinct-text">
         {{ $t("pages.supporters.showcase.section-2-2-thanks") }}
       </p>
       <h2 class="font-bold responsive-py-1 responsive-h3">
@@ -74,9 +75,19 @@
         </a>
         . {{ $t("pages.supporters.showcase.section-3-paragraph-1-3") }}
       </p>
-      <div class="flex items-center justify-center">
+      <div class="flex items-center justify-center pb-6 xl:pb-8">
         <GridSupporters class="mt-6 xl:mt-8" />
       </div>
+      <PageCommunityFooter>
+        <BtnRouteInternal
+          class="w-full"
+          :cta="false"
+          label="components.btn-route-internal.return-home"
+          linkTo="/"
+          fontSize="lg"
+          ariaLabel="components.btn-route-internal.return-home-aria-label"
+        />
+      </PageCommunityFooter>
     </div>
   </div>
 </template>

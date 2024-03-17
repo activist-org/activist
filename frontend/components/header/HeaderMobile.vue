@@ -1,12 +1,7 @@
 <template>
   <header
     ref="header"
-    class="relative sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md"
-    :class="{
-      'bg-light-header dark:bg-dark-header': headerOpacity == 1,
-      'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
-      'invisible opacity-0': headerOpacity == 0,
-    }"
+    class="sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md bg-light-layer-2 dark:bg-dark-layer-2"
   >
     <div class="h-full">
       <div class="flex justify-between h-full px-4 gap-2">
@@ -14,52 +9,48 @@
           @on-search-toggle="toggleSearchExpanded"
           class="my-1.5"
           :class="{ 'w-full': isSearchExpanded }"
-          location="header"
+          :location="SearchBarLocation.HEADER"
           :expanded="isSearchExpanded"
         />
         <IconActivist
           v-if="!isSearchExpanded"
           class="flex items-center w-6 h-8 absolute top-[0.3rem] m-auto left-0 right-0 overflow-clip"
         />
+        <SidebarRight>
+          <div class="flex-col space-y-2">
+            <DropdownTheme
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
+            <DropdownLanguage
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
+            <DropdownCreate
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
+            <DropdownInfo
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
+            <DropdownUserOptions
+              class="w-full"
+              :location="DropdownLocation.SIDEMENU"
+            />
+          </div>
+        </SidebarRight>
       </div>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
+import { DropdownLocation, SearchBarLocation } from "~/types/location";
+
 const isSearchExpanded = ref(false);
 
 const toggleSearchExpanded = () => {
   isSearchExpanded.value = !isSearchExpanded.value;
 };
-
-const headerOpacity: Ref<number> = ref(1);
-const prevScrollY: Ref<number> = ref(0);
-
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
-});
-
-function handleScroll() {
-  const scrollY = window.scrollY;
-
-  if (scrollY > document.getElementsByTagName("header")[0].clientHeight) {
-    if (scrollY > prevScrollY.value) {
-      headerOpacity.value = 0;
-    } else headerOpacity.value = 0.8;
-  } else {
-    headerOpacity.value = 1;
-  }
-  prevScrollY.value = scrollY;
-}
 </script>
-
-<style>
-.header {
-  -webkit-transform: translate3d(0, 0, 0);
-}
-</style>

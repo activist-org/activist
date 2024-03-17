@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col w-full space-y-3 px-5 py-4 card-style">
+  <form class="flex flex-col w-full px-5 py-4 space-y-3 card-style">
     <h1 class="text-2xl">
       <strong>{{ $t("components.card-date-picker.date") }} *</strong>
     </h1>
@@ -23,24 +23,23 @@
         mode="Time"
         is24hr
         hide-time-header
-        :color="cMode"
-        class="date-picker-width elem-shadow-sm bg-light-header dark:bg-dark-header"
+        :color="colorModePreference"
+        class="date-picker-width elem-shadow-sm bg-light-layer-2 dark:bg-dark-layer-2"
       />
       <DatePicker
         v-model="date2"
         mode="Time"
         is24hr
         hide-time-header
-        :color="cMode"
-        class="date-picker-width elem-shadow-sm bg-light-header dark:bg-dark-header"
+        :color="colorModePreference"
+        class="date-picker-width elem-shadow-sm bg-light-layer-2 dark:bg-dark-layer-2"
       />
     </div>
     <DatePicker
-      v-model="dateArray"
       :first-day-of-week="2"
       trim-weeks
       expanded
-      :color="cMode"
+      :color="colorModePreference"
       :attributes="attributes"
       transparent
     ></DatePicker>
@@ -55,7 +54,7 @@ const date1 = "2021-02-28T18:20:00.000Z";
 const date2 = "2021-02-28T18:20:00.000Z";
 
 const colorMode = useColorMode();
-const cMode = colorMode.preference == "light" ? "light" : "dark";
+const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
 
 const attributes = ref([
   {

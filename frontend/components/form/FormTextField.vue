@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center pl-[12px] pr-[10px] py-2 max-h-[40px] space-x-2 text-left border rounded select-none text-light-special-text dark:text-dark-special-text"
+    class="flex items-center pl-[12px] pr-[10px] py-2 max-h-[40px] space-x-2 text-left border rounded select-none text-light-distinct-text dark:text-dark-distinct-text"
     :class="{
       'border-light-action-red dark:border-dark-action-red': error,
       'border-light-interactive dark:border-dark-interactive': !error,
@@ -11,7 +11,7 @@
       @blur="emit('blurred')"
       @focus="emit('focused')"
       :id="uuid"
-      class="w-full h-5 bg-transparent outline-none placeholder:text-light-special-text dark:placeholder:text-dark-special-text"
+      class="w-full h-5 bg-transparent outline-none placeholder:text-light-distinct-text dark:placeholder:text-dark-distinct-text"
       :value="modelValue"
       :placeholder="placeholder"
       :type="refInputType"
@@ -19,7 +19,11 @@
     <span
       v-for="(i, index) in icons"
       @click="handleIconClick(i)"
+      @keypress.space="handleIconClick(i)"
+      @keypress.enter="handleIconClick(i)"
       :key="index"
+      role="button"
+      tabindex="0"
       class="cursor-pointer"
     >
       <Icon

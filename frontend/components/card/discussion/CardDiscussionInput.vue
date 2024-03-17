@@ -1,26 +1,26 @@
 <template>
-  <div class="flex flex-col w-full md:flex-row card-style px-3 py-4">
+  <div class="flex flex-col w-full px-3 py-4 md:flex-row card-style">
     <div class="flex-col pt-3 space-y-3 md:pl-2 md:space-y-4 md:grow md:pt-0">
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <div class="w-min md:w-min">
-            <BtnLabeled
-              class="w-small flex mt-1"
+            <BtnAction
+              class="flex mt-1 w-small"
               :cta="true"
               :label="$t('components.card-discussion-input.write')"
               fontSize="sm"
               iconSize="1.25em"
-              ariaLabel="components.btn-labeled.support-organization-aria-label"
+              ariaLabel="components.card-discussion-input.write-aria-label"
             />
           </div>
           <div class="w-min md:w-min">
-            <BtnLabeled
-              class="w-small flex mt-1"
+            <BtnAction
+              class="flex mt-1 w-small"
               :cta="false"
               :label="$t('components.card-discussion-input.preview')"
               fontSize="sm"
               iconSize="1.25em"
-              ariaLabel="components.btn-labeled.support-organization-aria-label"
+              ariaLabel="components.card-discussion-input.preview-aria-label"
             />
           </div>
         </div>
@@ -87,7 +87,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red focus-brand focus:border-none font-bold placeholder:text-light-action-red dark:placeholder:text-dark-action-red dark:text-dark-text bg-light-content dark:bg-dark-content"
+          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red focus-brand focus:border-none placeholder:text-light-action-red dark:placeholder:text-dark-action-red dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
           :placeholder="
             $t('components.card-discussion-input.leave-comment-highRisk')
           "
@@ -97,7 +97,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div placeholder-light-special-text dark:placeholder-dark-special-text dark:text-dark-text dark:bg-dark-distinct focus-brand"
+          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div dark:border-dark-section-div placeholder-light-distinct-text dark:placeholder-dark-distinct-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 focus-brand"
           :placeholder="$t('components.card-discussion-input.leave-comment')"
         ></textarea>
       </div>
@@ -106,12 +106,14 @@
           {{ $t("components.card-discussion-input.markdown-support") }}
           <Icon class="mx-1" name="bi:markdown" size="1.25em"></Icon>
         </p>
-        <div class="flex space-x-3 items-center">
+        <div class="flex items-center space-x-3">
           <Button
             @mouseenter="showTooltip = true"
+            @focus="showTooltip = true"
             @mouseleave="showTooltip = false"
+            @blur="showTooltip = false"
             @click="showTooltip = showTooltip == true ? false : true"
-            class="relative flex rounded-lg w-16 h-10 elem-shadow-sm focus-brand justify-center items-center"
+            class="relative flex items-center justify-center w-16 h-10 rounded-lg elem-shadow-sm focus-brand"
             :class="{
               'style-action': discussionInput.highRisk,
               'style-warn': !discussionInput.highRisk,
@@ -128,13 +130,13 @@
               class="-mt-64 md:-mt-56"
             />
           </Button>
-          <BtnLabeled
-            class="inline-flex justify-center items-center w-small"
+          <BtnAction
+            class="inline-flex items-center justify-center w-small"
             :cta="true"
             :label="$t('components.card-discussion-input.comment')"
             fontSize="sm"
             iconSize="1.25em"
-            ariaLabel="components.btn-labeled.support-organization-aria-label"
+            ariaLabel="components.card-discussion-input.comment-aria-label"
           />
         </div>
       </div>

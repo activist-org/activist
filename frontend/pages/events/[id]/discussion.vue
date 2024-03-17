@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ event.name }}&nbsp;{{ $t("_global.discussions_lower") }}</Title>
@@ -12,22 +12,22 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="hidden md:block w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.share-discussion"
+          label="components.btn-action.share-discussion"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.25em"
-          ariaLabel="components.btn-labeled.share-discussion-aria-label"
+          ariaLabel="components.btn-action.share-discussion-aria-label"
         />
       </div>
     </HeaderAppPage>
     <div class="pt-3 pb-6 space-y-6 md:pt-4">
-      <CardDiscussionText :discussionText="discussionText" />
-      <CardDiscussionText :discussionText="discussionText" />
-      <CardDiscussionInput :discussionInput="discussionInput" />
+      <Discussion
+        :discussionInput="discussionInput"
+        :discussionTexts="[discussionText, discussionText]"
+      />
     </div>
   </div>
 </template>

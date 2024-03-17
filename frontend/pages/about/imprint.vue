@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ $t("_global.imprint") }}</Title>
@@ -19,7 +19,7 @@
           size="1.25em"
         />
         <p>
-          {{ $t("pages.about.impress.subheader-1") }}
+          {{ $t("pages.about.imprint.subheader-1") }}
           <a class="items-center focus-brand link-text" href="/help/contact">
             {{ $t("pages._global.contact-page") }}
             <Icon
@@ -28,18 +28,18 @@
               style="vertical-align: baseline"
             />
           </a>
-          {{ $t("pages.about.impress.subheader-3") }}
+          {{ $t("pages.about.imprint.subheader-3") }}
         </p>
       </div>
       <p>
-        {{ $t("pages.about.impress.section-1-paragraph-1") }}
+        {{ $t("pages.about.imprint.section-1-paragraph-1") }}
       </p>
       <p>
-        {{ $t("pages.about.impress.section-1-paragraph-2") }}
+        {{ $t("pages.about.imprint.section-1-paragraph-2") }}
       </p>
       <ul>
         <li>
-          <strong>{{ $t("pages.about.impress.inquiries") }}</strong>
+          <strong>{{ $t("pages.about.imprint.inquiries") }}</strong>
         </li>
         <li>
           <a class="focus-brand link-text" href="mailto:team@activist.org">
@@ -47,20 +47,19 @@
           </a>
         </li>
       </ul>
-      <p class="pb-2 lg:pb-4">
-        {{ $t("pages.about.impress.message") }}
+      <p>
+        {{ $t("pages.about.imprint.message") }}
       </p>
-      <div
-        class="flex flex-col items-center space-y-2 md:items-left sm:space-x-4 sm:space-y-0 sm:flex-row"
-      >
-        <BtnLabeled
+      <PageCommunityFooter>
+        <BtnRouteInternal
+          class="w-full"
           :cta="false"
-          label="components.btn-labeled.return-home"
+          label="components.btn-route-internal.return-home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-labeled.return-home-aria-label"
+          ariaLabel="components.btn-route-internal.return-home-aria-label"
         />
-      </div>
+      </PageCommunityFooter>
     </PageDocs>
   </div>
 </template>

@@ -1,6 +1,3 @@
-import { onMounted, onUnmounted, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
-
 const createMenuEntry = (
   label: string,
   basePath: string,

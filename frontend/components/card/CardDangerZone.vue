@@ -43,7 +43,7 @@
         </div>
         <div class="mt-5">
           <button
-            class="w-auto px-3 py-2 rounded-md text-light-distinct dark:text-dark-distinct bg-light-text dark:bg-dark-text hover:bg-light-action-red dark:hover:bg-dark-action-red"
+            class="w-auto px-3 py-2 rounded-md text-light-layer-1 dark:text-dark-layer-1 bg-light-text dark:bg-dark-text hover:bg-light-action-red dark:hover:bg-dark-action-red"
             type="button"
             :aria-label="ctaBtnAriaLabel"
           >
@@ -58,7 +58,7 @@
 <script setup lang="ts">
 defineProps<{
   description: string;
-  ctaBtnText: { type: string; required: true };
+  ctaBtnText: string;
   ctaBtnAriaLabel: string;
 }>();
 </script>

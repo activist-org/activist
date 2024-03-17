@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-1 transition-all duration-500 text-light-text dark:text-dark-text bg-light-header dark:bg-dark-header elem-shadow-sm rounded-md py-2"
+    class="py-2 mx-1 transition-all duration-500 text-light-text dark:text-dark-text bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm rounded-md"
   >
     <div class="flex flex-col items-center">
       <div
@@ -11,9 +11,16 @@
           'w-10 h-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
-        :alt="name + ' logo'"
       >
-        <ImageOrganization class="elem-shadow-sm" :imgURL="logoUrl" />
+        <ImageOrganization
+          class="elem-shadow-sm"
+          :imgURL="logoUrl"
+          :alt="
+            $t('components._global.entity-logo', {
+              entity_name: name,
+            })
+          "
+        />
       </div>
       <div
         v-else-if="sidebarType === SidebarType.EVENT_PAGE"
@@ -23,9 +30,16 @@
           'w-10 h-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
-        :alt="name + ' logo'"
       >
-        <ImageEvent class="elem-shadow-sm" eventType="action" />
+        <ImageEvent
+          class="elem-shadow-sm"
+          eventType="action"
+          :alt="
+            $t('components._global.entity-logo', {
+              entity_name: name,
+            })
+          "
+        />
       </div>
       <ul
         class="flex flex-col w-full px-1 mb-1"
@@ -54,7 +68,6 @@
 </template>
 
 <script setup lang="ts">
-import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { SidebarType } from "~/types/sidebar-type";
 
 defineProps<{

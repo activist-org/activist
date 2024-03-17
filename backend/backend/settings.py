@@ -7,12 +7,12 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+
 import os
 from pathlib import Path
 
 import django_stubs_ext
 import dotenv
-from django.core.management.utils import get_random_secret_key
 from rest_framework import viewsets
 from rest_framework.settings import api_settings
 
@@ -152,8 +152,6 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-SECRET_KEY = get_random_secret_key()
-
 REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": [
         "rest_framework.throttling.AnonRateThrottle",
@@ -175,3 +173,34 @@ SPECTACULAR_SETTINGS = {
 
 # Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
 api_settings.reload()
+
+# Logging Configuration
+# https://docs.djangoproject.com/en/4.2/topics/logging/
+
+LOGGING = {
+    "version": 1.0,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "WARNING",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "propagate": True,
+        },
+    },
+}

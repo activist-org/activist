@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ event.name }}&nbsp;{{ $t("_global.settings_lower") }}</Title>
@@ -11,19 +11,21 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnLabeled
+        <BtnAction
           class="w-max"
           :cta="true"
-          linkTo="/"
-          label="components.btn-labeled.save-settings"
+          label="components.btn-action.save-settings"
           fontSize="sm"
-          ariaLabel="components.btn-labeled.save-settings-aria-label"
+          ariaLabel="components.btn-action.save-settings-aria-label"
         />
       </div>
     </HeaderAppPage>
     <CardDangerZone
-      description="Here's where you can delete this event. Please note that this is not a reversible action - all event data, support and resources will be permanently lost. If you have questions on this event please contact us on our contact page. We'd be happy to help!"
-      ctaBtnText="Permanently delete event"
+      :description="$t('components.card-danger-zone.event-description')"
+      :ctaBtnText="$t('components.card-danger-zone.event-cta-btn-text')"
+      :ctaBtnAriaLabel="
+        $t('components.card-danger-zone.event-cta-btn-aria-label')
+      "
     />
   </div>
 </template>

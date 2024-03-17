@@ -1,11 +1,11 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
   >
     <Head>
       <Title>{{ $t("_global.about") }}</Title>
     </Head>
-    <div class="bg-light-distinct dark:bg-dark-distinct">
+    <div class="bg-light-layer-1 dark:bg-dark-layer-1">
       <div class="flex flex-col w-full responsive-py-4 responsive-px-5">
         <HeaderAppPage
           :header="$t('_global.about')"
@@ -18,7 +18,7 @@
         {{ $t("pages.about.index.section-1-subheader") }}
       </h3>
       <p
-        class="responsive-py-1 text-light-special-text dark:text-dark-special-text"
+        class="responsive-py-1 text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ $t("pages.about.index.section-1-tagline") }}
       </p>
@@ -42,7 +42,7 @@ const cards: DocsEntry[] = [
   },
   {
     id: 2,
-    url: "impress",
+    url: "imprint",
     title: "_global.imprint",
     description: "pages.about.index.imprint-description",
     imgURL: "/images/content_pages/icons/bootstrap_info_circle",
