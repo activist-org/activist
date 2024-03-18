@@ -24,7 +24,7 @@
       <slot />
     </div>
     <Footer
-      class="pb-24 md:pb-12"
+      class="pb-24 md:pb-12 transition-padding duration-500"
       :class="{
         'md:pl-24 xl:pl-64':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
