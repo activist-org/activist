@@ -44,6 +44,7 @@
       >
         <CardAbout
           @expand-reduce-text="expandReduceText"
+          class="mb-6 lg:mb-0"
           :class="{
             'lg:col-span-2': !textExpanded,
             'lg:col-span-3': textExpanded,
