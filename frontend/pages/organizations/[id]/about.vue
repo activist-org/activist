@@ -53,7 +53,7 @@
           :organization="organization"
         />
         <div class="w-full h-full">
-          <ModalMediaImageCarousel/>
+          <ModalMediaImageCarousel />
         </div>
       </div>
       <CardGetInvolved
