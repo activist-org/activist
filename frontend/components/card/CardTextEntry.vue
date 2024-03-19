@@ -1,10 +1,8 @@
 <template>
   <div class="px-5 py-5 card-style">
     <div class="flex flex-col gap-3">
-      <label for="feedback">
-        <h3 class="text-left responsive-h3 font-display">
-          {{ header }}
-        </h3>
+      <label for="feedback" class="text-left responsive-h3 font-display">
+        {{ header }}
       </label>
       <p v-if="description">
         {{ description }}

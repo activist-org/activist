@@ -11,9 +11,16 @@
           'w-10 h-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
-        :alt="name + ' logo'"
       >
-        <ImageOrganization class="elem-shadow-sm" :imgURL="logoUrl" />
+        <ImageOrganization
+          class="elem-shadow-sm"
+          :imgURL="logoUrl"
+          :alt="
+            $t('components._global.entity-logo', {
+              entity_name: name,
+            })
+          "
+        />
       </div>
       <div
         v-else-if="sidebarType === SidebarType.EVENT_PAGE"
@@ -23,9 +30,16 @@
           'w-10 h-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
-        :alt="name + ' logo'"
       >
-        <ImageEvent class="elem-shadow-sm" eventType="action" />
+        <ImageEvent
+          class="elem-shadow-sm"
+          eventType="action"
+          :alt="
+            $t('components._global.entity-logo', {
+              entity_name: name,
+            })
+          "
+        />
       </div>
       <ul
         class="flex flex-col w-full px-1 mb-1"

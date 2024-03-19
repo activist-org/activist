@@ -15,9 +15,8 @@
       <p>
         {{ $t("pages.supporters.join.section-1-paragraph-1-1") }}
         <NuxtLink class="focus-brand link-text" :to="localePath('/supporters')">
-          {{ $t("pages.supporters.join.section-1-paragraph-1-2") }}
-        </NuxtLink>
-        .
+          {{ $t("pages.supporters.join.section-1-paragraph-1-2") }} </NuxtLink
+        >.
       </p>
       <h2 class="font-bold responsive-h4">
         {{ $t("pages.supporters.join.section-2-subheader") }}
@@ -71,7 +70,7 @@
         {{ $t("pages.supporters.join.section-6-subheader") }}
       </h2>
       <p>
-        {{ $t("pages.supporters.join.section-6-paragraph-1-1") }}
+        {{ $t("_global.visit-our") }}
         <a
           class="focus-brand link-text"
           href="https://explore.transifex.com/activist-org/activist"

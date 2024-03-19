@@ -19,10 +19,19 @@
       />
     </div>
     <div v-if="allowCustomValue" class="flex flex-1 w-full">
+      <label
+        v-if="showAdditionalInput"
+        :for="customValueType"
+        class="sr-only"
+        >{{
+          $t("components.form-radio-group.custom-numeric-value-placeholder")
+        }}</label
+      >
       <input
         v-if="showAdditionalInput"
         v-model="customValue"
         @input="inputDebounce"
+        :id="customValueType"
         class="flex-1 w-full pl-4 pr-2 font-bold border border-r-0 outline-none border-light-interactive rounded-l-md bg-light-layer-2 dark:bg-dark-layer-2 dark:border-dark-interactive text-light-distinct-text dark:text-dark-distinct-text"
         :type="customValueType"
         :placeholder="

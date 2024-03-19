@@ -19,7 +19,11 @@
     <span
       v-for="(i, index) in icons"
       @click="handleIconClick(i)"
+      @keypress.space="handleIconClick(i)"
+      @keypress.enter="handleIconClick(i)"
       :key="index"
+      role="button"
+      tabindex="0"
       class="cursor-pointer"
     >
       <Icon

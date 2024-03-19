@@ -15,7 +15,15 @@
           v-else
           class="border rounded border-light-section-div dark:border-dark-section-div"
         >
-          <img :src="organization.imageURL" class="w-12 h-full" />
+          <img
+            :src="organization.imageURL"
+            class="w-12 h-full"
+            :alt="
+              $t('components._global.entity-logo', {
+                entity_name: organization.name,
+              })
+            "
+          />
         </div>
       </div>
     </div>

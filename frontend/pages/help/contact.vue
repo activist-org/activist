@@ -29,7 +29,7 @@
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("pages._global.public-matrix-chat-rooms") }}
+              {{ $t("_global.public-matrix-chat-rooms") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -46,7 +46,7 @@
               class="items-center focus-brand link-text"
               href="https://matrix.to/#/#activist_community:matrix.org"
             >
-              {{ $t("pages._global.public-matrix-chat-rooms") }}
+              {{ $t("_global.public-matrix-chat-rooms") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -58,7 +58,7 @@
               class="items-center focus-brand link-text"
               href="https://github.com/activist-org/activist"
             >
-              {{ $t("pages._global.on-github") }}
+              {{ $t("components.page-community-footer.invite-text-2-2") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
@@ -238,7 +238,7 @@
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("pages._global.public-matrix-chat-rooms") }}
+              {{ $t("_global.public-matrix-chat-rooms") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"

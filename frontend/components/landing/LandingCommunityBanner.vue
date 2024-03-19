@@ -9,6 +9,7 @@
         class="hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://github.com/activist-org/activist"
         target="_blank"
+        :aria-label="$t('components._global.github')"
       >
         <MetaTagSocialMedia
           class="!gap-2"
@@ -22,6 +23,7 @@
         class="hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://matrix.to/#/#activist_community:matrix.org"
         target="_blank"
+        :aria-label="$t('components._global.matrix')"
       >
         <MetaTagSocialMedia
           class="!gap-2"
@@ -35,6 +37,7 @@
         class="hover:text-light-text dark:hover:text-dark-text focus-brand"
         href="https://instagram.com/activist_org"
         target="_blank"
+        :aria-label="$t('components._global.instagram')"
       >
         <MetaTagSocialMedia
           class="!gap-2"

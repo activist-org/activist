@@ -1,6 +1,12 @@
 <template>
   <!-- Normal display on the page. -->
-  <div @click="openModal" class="h-fit">
+  <div
+    @click="openModal"
+    @keydown.enter="openModal"
+    tabindex="0"
+    role="button"
+    class="h-fit"
+  >
     <slot name="normalDisplay" />
   </div>
   <!-- Modal pop up from page element. -->
@@ -44,6 +50,9 @@
         <div
           v-if="imageModal"
           @click="closeModal"
+          @keypress.esc="closeModal"
+          tabindex="0"
+          role="button"
           class="flex flex-col items-center justify-center focus-brand"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >

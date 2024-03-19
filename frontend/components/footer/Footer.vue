@@ -62,7 +62,7 @@ const organizationLinks = [
   },
   {
     name: "_global.imprint",
-    url: "/about/impress",
+    url: "/about/imprint",
   },
 ];
 

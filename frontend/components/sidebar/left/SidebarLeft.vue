@@ -4,11 +4,21 @@
       sidebar.collapsed = false;
       setContentScrollable();
     "
+    @focus="
+      sidebar.collapsed = false;
+      setContentScrollable();
+    "
     @mouseleave="
       sidebar.collapsed = true;
       setContentScrollable();
     "
-    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1 md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm"
+    @blur="
+      sidebar.collapsed = true;
+      setContentScrollable();
+    "
+    role="menu"
+    tabindex="0"
+    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1 md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm focus-brand"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,

@@ -1,6 +1,15 @@
-from .factories import SupportEntityTypeFactory, SupportFactory, UserFactory, UserResourceFactory, UserTaskFactory, UserTopicFactory
+import pytest
+from .factories import (
+    SupportEntityTypeFactory,
+    SupportFactory,
+    UserFactory,
+    UserResourceFactory,
+    UserTaskFactory,
+    UserTopicFactory,
+)
 
 
+@pytest.mark.django_db
 def test_str_methods() -> None:
     support_entity_type = SupportEntityTypeFactory.build()
     support = SupportFactory.build()

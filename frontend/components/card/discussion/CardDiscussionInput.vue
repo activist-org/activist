@@ -109,7 +109,9 @@
         <div class="flex items-center space-x-3">
           <Button
             @mouseenter="showTooltip = true"
+            @focus="showTooltip = true"
             @mouseleave="showTooltip = false"
+            @blur="showTooltip = false"
             @click="showTooltip = showTooltip == true ? false : true"
             class="relative flex items-center justify-center w-16 h-10 rounded-lg elem-shadow-sm focus-brand"
             :class="{

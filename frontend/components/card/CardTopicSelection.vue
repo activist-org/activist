@@ -61,7 +61,7 @@
         :isSelector="true"
       />
     </ul>
-    <a
+    <button
       @click="
         moreOptionsShown =
           inputFocus == true ? (moreOptionsShown = false) : !moreOptionsShown;
@@ -75,7 +75,7 @@
       <div v-else>
         {{ $t("components.card-topic-selection.hide-all-topics") }}
       </div>
-    </a>
+    </button>
   </div>
 </template>
 

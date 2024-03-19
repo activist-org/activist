@@ -1,5 +1,6 @@
 from typing import Dict, Union
 
+from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
@@ -19,6 +20,7 @@ from .models import (
     EventFormat,
     EventResource,
     EventRole,
+    EventTag,
     EventTask,
     EventTopic,
     Format,
@@ -60,6 +62,12 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 code="invalid_value",
             )
 
+        if parse_datetime(data["start_time"]) > parse_datetime(data["end_time"]):  # type: ignore
+            raise serializers.ValidationError(
+                _("The start time cannot be after the end time."),
+                code="invalid_time_order",
+            )
+
         validate_creation_and_deletion_dates(data)
         validate_object_existence(User, data["created_by"])
 
@@ -75,7 +83,6 @@ class FormatSerializer(serializers.ModelSerializer[Event]):
         validate_empty(data["name"], "name")
         validate_empty(data["description"], "description")
         validate_creation_and_deprecation_dates(data)
-        validate_creation_and_deletion_dates(data)
 
         return data
 
@@ -128,6 +135,11 @@ class EventAttendeeStatusSerializer(serializers.ModelSerializer[EventAttendeeSta
         model = EventAttendeeStatus
         fields = "__all__"
 
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_empty(data["status_name"], "status_name")
+
+        return data
+
 
 class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
     class Meta:
@@ -175,5 +187,17 @@ class EventTopicSerializer(serializers.ModelSerializer[EventTopic]):
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Event, data["event_id"])
         validate_object_existence(Topic, data["topic_id"])
+
+        return data
+
+
+class EventTagSerializer(serializers.ModelSerializer[EventTag]):
+    class Meta:
+        model = EventTag
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_object_existence(Event, data["event_id"])
+        validate_object_existence(Topic, data["tag_id"])
 
         return data
