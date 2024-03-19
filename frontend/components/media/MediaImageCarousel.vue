@@ -1,4 +1,4 @@
-<template> 
+<template>
   <swiper-container
     class="w-full h-full swiper card-style overflow-clip"
     :slidesPerView="1"
@@ -11,7 +11,15 @@
       :key="idx"
       class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
     >
-    <img :class="['object-cover', 'object-center', fullscreen ? 'w-4/5 h-4/5' : 'h-[17.5rem]']" :src="img" />
+      <img
+        :class="[
+          'object-cover',
+          'object-center',
+          props.fullscreen ? 'w-4/5 h-4/5' : 'h-[17.5rem]',
+        ]"
+        :src="img"
+        alt="Media image carousel"
+      />
     </swiper-slide>
   </swiper-container>
 </template>
@@ -23,7 +31,7 @@ register();
 
 const props = defineProps({
   fullscreen: Boolean,
-})
+});
 
 const colorMode = useColorMode();
 const imageColor = colorMode.value;
