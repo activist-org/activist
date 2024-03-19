@@ -37,7 +37,7 @@
     </HeaderAppPage>
     <div class="pb-6 space-y-6">
       <div
-        class="lg:grid space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0"
+        class="lg:grid lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0"
         :class="{
           'lg:space-x-6 lg:mr-6': !textExpanded,
         }"
