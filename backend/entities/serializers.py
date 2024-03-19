@@ -35,14 +35,26 @@ from .models import (
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
-        exclude = ["deletion_date"]
         extra_kwargs = {
             "created_by": {"read_only": True},
             "social_accounts": {"required": False},
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
         }
-        fields = "__all__"
+        fields = [
+            "id",
+            "name",
+            "tagline",
+            "org_icon",
+            "about_images",
+            "created_by",
+            "description",
+            "social_accounts",
+            "high_risk",
+            "status",
+            "status_updated",
+            "acceptance_date",
+        ]
 
 
 class OrganizationApplicationStatusSerializer(
