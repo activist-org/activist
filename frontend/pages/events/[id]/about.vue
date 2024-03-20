@@ -37,13 +37,14 @@
     </HeaderAppPage>
     <div class="pb-6 space-y-6">
       <div
-        class="lg:grid space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0"
+        class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
           'lg:space-x-6 lg:mr-6': !textExpanded,
         }"
       >
         <CardAbout
           @expand-reduce-text="expandReduceText"
+          class="mb-6 lg:mb-0"
           :class="{
             'lg:col-span-2': !textExpanded,
             'lg:col-span-3': textExpanded,
