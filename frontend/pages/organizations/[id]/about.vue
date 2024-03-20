@@ -56,7 +56,6 @@
           <ModalUploadImage>
             <template #normalDisplay>
               <button
-                @click="console.log('Add media')"
                 class="absolute right-2 bottom-2 z-10 text-white/85 border-white border-opacity-80 bg-black bg-opacity-80 border-solid border rounded-lg"
               >
                 <Icon

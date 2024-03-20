@@ -7,7 +7,8 @@
       <div>
         <img v-if="previewImage" :src="previewImage" class="uploading-image" alt="preview image"/>
         <label for="upload-image" class="font-bold responsive-h4">Upload Image</label>
-        <input @change=uploadImage id="upload-image" type="file" accept="image/jpeg">
+        <input @change="uploadImage" id="upload-image" type="file" accept="image/jpeg">
+        <button v-if="previewImage" @click="saveImage" class="bg-primary rounded-lg p-2">Save</button>
       </div>
     </template>
   </ModalBase>
@@ -30,4 +31,7 @@ const uploadImage = (e: Event) => {
     }
   };
 };
+const saveImage = () => {
+  console.log('save image', previewImage.value);
+}
 </script>
