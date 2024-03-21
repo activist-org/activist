@@ -66,26 +66,17 @@
         </div>
       </MenuButton>
     </div>
-    <transition
-      enter-active-class="transition duration-100 ease-out"
-      enter-from-class="opacity-0 transform scale-95"
-      enter-to-class="opacity-100 transform scale-100"
-      leave-active-class="transition duration-75 ease-in"
-      leave-from-class="opacity-100 transform scale-100"
-      leave-to-class="opacity-0 transform scale-95"
+    <MenuItems
+      class="rounded-md focus-brand"
+      :class="{
+        'absolute right-0 mt-2 shadow-lg origin-top-right divide-y bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text':
+          !isSideLeftMenu,
+        '!static': isSideMenu || isSideLeftMenu,
+        'p-1 mt-1 bg-light-layer-2 dark:bg-dark-layer-2': isSideLeftMenu,
+      }"
     >
-      <MenuItems
-        class="rounded-md focus-brand"
-        :class="{
-          'absolute right-0 mt-2 shadow-lg origin-top-right divide-y bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text':
-            !isSideLeftMenu,
-          '!static': isSideMenu || isSideLeftMenu,
-          'p-1 mt-1 bg-light-layer-2 dark:bg-dark-layer-2': isSideLeftMenu,
-        }"
-      >
-        <slot />
-      </MenuItems>
-    </transition>
+      <slot />
+    </MenuItems>
   </Menu>
 </template>
 
