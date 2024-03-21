@@ -84,6 +84,7 @@ export default <Partial<Config>>{
       },
       transitionProperty: {
         width: "width",
+        padding: "padding",
       },
     },
   },

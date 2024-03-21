@@ -2,6 +2,7 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
+        @focus="expandOnFocus"
         v-slot="{ open }"
         class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md style-btn"
         :class="{
@@ -110,6 +111,12 @@ const isSideLeftMenu = computed(() => {
 const isSideMenu = computed(() => {
   return props.location === DropdownLocation.SIDEMENU;
 });
+
+const expandOnFocus = () => {
+  if (sidebar.collapsed === true) {
+    sidebar.collapsed = false;
+  }
+};
 </script>
 
 <style>
