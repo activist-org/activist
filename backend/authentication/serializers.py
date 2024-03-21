@@ -3,6 +3,7 @@ from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
 from rest_framework import serializers
+from rest_framework.response import Response
 
 from content.models import Resource, Task, Topic
 from utils.utils import (
@@ -106,3 +107,48 @@ class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
         validate_object_existence(Topic, data["topic_id"])
 
         return data
+
+
+class SignupSerializer(serializers.ModelSerializer[User]):
+    password_confirmed = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ("user_name", "password", "password_confirmed")
+
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+        validate_empty(data.get("user_name"), "user_name")
+        validate_empty(data.get("password"), "password")
+        validate_empty(data.get("password_confirmed"), "password_confirmed")
+        # TODO: email validation on the future
+
+        pattern = (
+            r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$"
+        )
+
+        if not re.match(pattern, data["password"]):
+            raise serializers.ValidationError(
+                _(
+                    "The field password must be at least 12 characters long and contain at least one special character."
+                ),
+                code="invalid_password",
+            )
+
+        if data["password"] != data["password_confirmed"]:
+            raise serializers.ValidationError(
+                _("The passwords did not match. Please try again."),
+                code="invalid_password_confirmation",
+            )
+
+        return data
+
+    def create(self, validated_data: Dict[str, Union[str, Any]]) -> Response:
+        user = User(
+            username=validated_data["user_name"], password=validated_data["password"]
+        )
+
+        user.user_name = validated_data["user_name"]
+        user.save()
+
+        return user
