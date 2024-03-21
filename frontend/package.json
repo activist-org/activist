@@ -6,7 +6,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test:e2e": "cypress run"
   },
   "devDependencies": {
     "@headlessui/vue": "^1.7.16",
@@ -23,6 +24,7 @@
     "@types/zxcvbn": "^4.4.4",
     "@vueuse/core": "^10.7.0",
     "@vueuse/nuxt": "^10.7.0",
+    "cypress": "^13.6.6",
     "eslint": "^8.51.0",
     "eslint-plugin-vue": "^9.17.0",
     "eslint-plugin-vuejs-accessibility": "^2.2.1",
