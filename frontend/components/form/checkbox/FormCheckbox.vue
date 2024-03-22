@@ -3,17 +3,17 @@
     <input
       @keydown="tabToFirstTopic($event)"
       :id="uuid"
-      class="cursor-pointer mb-0 peer appearance-none w-[1.375rem] h-[1.375rem] border border-light-menu-selection rounded-sm bg-light-button dark:bg-dark-button dark:border-dark-menu-selection focus-brand"
+      class="border-light-menu-selection bg-light-button dark:bg-dark-button dark:border-dark-menu-selection focus-brand peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border"
       type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"
     />
     <div
-      class="pointer-events-none w-[1rem] h-[1rem] hidden absolute left-[0.2rem] bg-light-menu-selection dark:bg-dark-menu-selection peer-checked:block rounded-sm"
+      class="bg-light-menu-selection dark:bg-dark-menu-selection pointer-events-none absolute left-[0.2rem] hidden h-[1rem] w-[1rem] rounded-sm peer-checked:block"
     ></div>
     <label
       v-if="label"
-      class="ml-2 text-lg cursor-pointer select-none"
+      class="ml-2 cursor-pointer select-none text-lg"
       :for="uuid"
     >
       {{ label }}

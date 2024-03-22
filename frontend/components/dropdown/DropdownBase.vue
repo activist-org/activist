@@ -4,18 +4,18 @@
       <MenuButton
         @focus="expandOnFocus"
         v-slot="{ open }"
-        class="inline-flex w-full px-4 py-2 font-semibold select-none rounded-md style-btn"
+        class="style-btn inline-flex w-full select-none rounded-md px-4 py-2 font-semibold"
         :class="{
           'pl-6': isSideMenu,
-          'flex items-center pl-1 rounded-md style-menu-option-cta':
+          'style-menu-option-cta flex items-center rounded-md pl-1':
             isSideLeftMenu,
         }"
         :aria-label="$t(`${menuButtonAriaLabel}`)"
       >
         <div
-          class="flex items-center justify-between text-sm space-x-2"
+          class="flex items-center justify-between space-x-2 text-sm"
           :class="{
-            'relative z-0 w-full pl-[0.625rem] font-medium text-left':
+            'relative z-0 w-full pl-[0.625rem] text-left font-medium':
               isSideLeftMenu,
           }"
         >
@@ -23,7 +23,7 @@
             <Icon
               :name="menuButtonIcon"
               :class="{
-                'flex-shrink-0 w-5 h-5 text-center': isSideLeftMenu,
+                'h-5 w-5 flex-shrink-0 text-center': isSideLeftMenu,
               }"
               :size="isSideLeftMenu ? '1em' : ''"
             />
@@ -67,12 +67,12 @@
       </MenuButton>
     </div>
     <MenuItems
-      class="rounded-md focus-brand"
+      class="focus-brand rounded-md"
       :class="{
-        'absolute right-0 mt-2 shadow-lg origin-top-right divide-y bg-light-content dark:bg-dark-content ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text':
+        'bg-light-content dark:bg-dark-content dark:border-dark-text absolute right-0 mt-2 origin-top-right divide-y shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border':
           !isSideLeftMenu,
         '!static': isSideMenu || isSideLeftMenu,
-        'p-1 mt-1 bg-light-layer-2 dark:bg-dark-layer-2': isSideLeftMenu,
+        'bg-light-layer-2 dark:bg-dark-layer-2 mt-1 p-1': isSideLeftMenu,
       }"
     >
       <slot />

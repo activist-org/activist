@@ -1,12 +1,12 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col px-4 xl:px-8"
   >
     <Head>
       <Title>{{ event.name }}</Title>
     </Head>
     <HeaderAppPage :event="event">
-      <div class="flex pb-3 space-x-2 lg:space-x-3 lg:pb-4">
+      <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteInternal
           class="w-max"
           :cta="true"
@@ -18,7 +18,7 @@
           ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
         <BtnAction
-          class="hidden md:block w-max"
+          class="hidden w-max md:block"
           :cta="true"
           label="components.btn-action.support"
           fontSize="sm"
@@ -35,11 +35,11 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="pb-6 space-y-6">
+    <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
-          'lg:space-x-6 lg:mr-6': !textExpanded,
+          'lg:mr-6 lg:space-x-6': !textExpanded,
         }"
       >
         <CardAbout
@@ -57,7 +57,7 @@
             (event.inPersonLocation && !textExpanded) ||
             (event.inPersonLocation && isUnderLargeBP)
           "
-          class="w-full h-[17.5rem]"
+          class="h-[17.5rem] w-full"
           :markerColors="event.type === 'learn' ? ['#2176AE'] : ['#BA3D3B']"
           :eventNames="[event.name]"
           :eventLocations="[event.inPersonLocation]"

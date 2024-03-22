@@ -1,8 +1,8 @@
 <template>
   <Disclosure v-slot="{ open }" as="div" class="card-style">
-    <DisclosureButton class="w-full px-4 py-2 focus-brand rounded-md">
+    <DisclosureButton class="focus-brand w-full rounded-md px-4 py-2">
       <div
-        class="flex items-center select-none gap-3 text-light-text dark:text-dark-text"
+        class="text-light-text dark:text-dark-text flex select-none items-center gap-3"
       >
         <p>{{ faqEntry.question }}</p>
         <Icon name="bi:pencil-square" size="1.2em" />
@@ -11,9 +11,9 @@
         <Icon v-else name="bi:chevron-down" />
       </div>
       <DisclosurePanel
-        class="py-2 mt-2 border-t focus-within:border-0 border-light-section-div dark:border-dark-section-div"
+        class="border-light-section-div dark:border-dark-section-div mt-2 border-t py-2 focus-within:border-0"
       >
-        <p class="text-left select-text text-light-text dark:text-dark-text">
+        <p class="text-light-text dark:text-dark-text select-text text-left">
           {{ faqEntry.answer }}
         </p>
       </DisclosurePanel>

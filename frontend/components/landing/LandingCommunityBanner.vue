@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex flex-col w-full space-y-1 sm:space-y-2 xl:space-y-4 responsive-py-4 bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text"
+    class="responsive-py-4 bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text flex w-full flex-col space-y-1 sm:space-y-2 xl:space-y-4"
   >
     <div
-      class="flex justify-center text-lg space-x-12 sm:space-x-8 xl:space-x-12 xl:text-xl"
+      class="flex justify-center space-x-12 text-lg sm:space-x-8 xl:space-x-12 xl:text-xl"
     >
       <a
         class="hover:text-light-text dark:hover:text-dark-text focus-brand"

@@ -1,24 +1,24 @@
 <template>
   <div
     v-if="selectedMenuItem"
-    class="fixed z-[9] w-full h-10 md:hidden bg-light-menu-selection dark:bg-dark-menu-selection"
+    class="bg-light-menu-selection dark:bg-dark-menu-selection fixed z-[9] h-10 w-full md:hidden"
   >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="relative flex items-center w-full py-2 pl-5 text-left align-middle text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1 elem-shadow-sm focus-brand"
+        class="text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1 elem-shadow-sm focus-brand relative flex w-full items-center py-2 pl-5 text-left align-middle"
       >
         <Icon
           :name="selectedMenuItem.iconURL"
-          class="w-5 h-5 mr-4 align-middle"
+          class="mr-4 h-5 w-5 align-middle"
           aria-hidden="true"
         />
         <span>{{ $t(selectedMenuItem.label) }}</span>
         <span
-          class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
           <Icon
             name="bi:chevron-expand"
-            class="w-5 h-5 mr-2 align-middle"
+            class="mr-2 h-5 w-5 align-middle"
             aria-hidden="true"
         /></span>
       </ListboxButton>
@@ -41,7 +41,7 @@
           >
             <NuxtLink @click="handleItemClick(menuEntry)">
               <li
-                class="relative flex items-center py-2 pl-5 align-middle cursor-default select-none"
+                class="relative flex cursor-default select-none items-center py-2 pl-5 align-middle"
                 :class="{
                   'bg-light-layer-2 dark:bg-dark-section-div text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
                     selected && active,
@@ -57,7 +57,7 @@
               >
                 <Icon
                   :name="menuEntry.iconURL"
-                  class="w-5 h-5 mr-4 align-middle"
+                  class="mr-4 h-5 w-5 align-middle"
                   aria-hidden="true"
                 />
                 <span

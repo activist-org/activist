@@ -6,34 +6,34 @@
       <Title>{{ $t("_global.get-active") }}</Title>
     </Head>
     <div
-      class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
+      class="responsive-py-4 responsive-px-5 flex w-full flex-col items-center"
     >
       <!-- Note: image on top of content for mobile. -->
       <img
         v-if="$colorMode.value == 'light'"
-        class="w-full md:hidden h-1/6"
+        class="h-1/6 w-full md:hidden"
         src="/images/content_pages/mockups/get_active_light.png"
         :alt="$t('pages.docs.get-active.modal-image-alt-text')"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        class="w-full md:hidden h-1/6"
+        class="h-1/6 w-full md:hidden"
         src="/images/content_pages/mockups/get_active_dark.png"
         :alt="$t('pages.docs.get-active.modal-image-alt-text')"
       />
-      <div class="w-10/12 gap-16 2xl:grid 2xl:grid-cols-2 md:w-full">
+      <div class="w-10/12 gap-16 md:w-full 2xl:grid 2xl:grid-cols-2">
         <ModalImage
           imageURL="/images/content_pages/mockups/get_active"
           imageAltText="pages.docs.get-active.modal-image-alt-text"
         />
         <div
-          class="items-center text-left space-y-4 2xl:col-span-1 2xl:row-start-1 md:items-start"
+          class="items-center space-y-4 text-left md:items-start 2xl:col-span-1 2xl:row-start-1"
         >
           <PageBreadcrumbs />
-          <h1 class="pb-2 font-bold responsive-h1">
+          <h1 class="responsive-h1 pb-2 font-bold">
             {{ $t("pages.docs.get-active.header") }}
           </h1>
-          <div class="flex flex-row py-2 space-x-3">
+          <div class="flex flex-row space-x-3 py-2">
             <Icon
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
               name="bi:info-circle-fill"
@@ -42,7 +42,7 @@
             <p>
               {{ $t("pages._global.see-the") }}
               <a
-                class="items-center focus-brand link-text"
+                class="focus-brand link-text items-center"
                 href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=2475%3A19102&t=ytDrcE8K3RrfCxM6-1"
                 target="_blank"
               >
@@ -60,10 +60,10 @@
             {{ $t("pages.docs.get-active.section-1-paragraph-1") }}
           </p>
           <p>{{ $t("pages.docs.get-active.section-2-paragraph-1") }}:</p>
-          <ul class="pl-6 list-disc xl:pl-10">
+          <ul class="list-disc pl-6 xl:pl-10">
             <li>
               {{ $t("pages.docs.get-active.section-2-list-1-item-1") }}
-              <ul class="pl-4 list-disc xl:pl-6">
+              <ul class="list-disc pl-4 xl:pl-6">
                 <li>
                   {{ $t("pages.docs.get-active.section-2-list-1-item-1-1") }}
                 </li>
@@ -71,7 +71,7 @@
             </li>
             <li>
               {{ $t("pages.docs.get-active.section-2-list-1-item-2") }}
-              <ul class="pl-4 list-disc xl:pl-6">
+              <ul class="list-disc pl-4 xl:pl-6">
                 <li>
                   {{ $t("pages.docs.get-active.section-2-list-1-item-2-1") }}
                 </li>
@@ -79,7 +79,7 @@
             </li>
             <li>
               {{ $t("pages.docs.get-active.section-2-list-1-item-3") }}
-              <ul class="pl-4 list-disc xl:pl-6">
+              <ul class="list-disc pl-4 xl:pl-6">
                 <li>
                   {{ $t("pages.docs.get-active.section-2-list-1-item-3-1") }}
                 </li>

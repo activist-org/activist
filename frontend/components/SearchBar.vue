@@ -1,10 +1,10 @@
 <template>
   <div
     v-if="location == SearchBarLocation.SIDEBAR"
-    class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 rounded-md select-none text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-link-text focus-within:border-2 dark:focus-within:border-dark-link-text focus-within:mb-[-3px] bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm"
+    class="text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-link-text dark:focus-within:border-dark-link-text bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm mx-2 flex grow select-none items-center justify-between rounded-md py-1 pl-[12px] text-left transition duration-200 focus-within:mb-[-3px] focus-within:border-2"
   >
-    <div class="flex items-center pl-1 space-x-2">
-      <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
+    <div class="flex items-center space-x-2 pl-1">
+      <Icon class="my-1 h-4 w-4 flex-shrink-0" name="bi:search" size="1em" />
       <Transition name="search">
         <div
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
@@ -17,7 +17,7 @@
             @blur="onFocusLost"
             ref="input"
             id="input-search"
-            class="w-16 h-5 bg-transparent outline-none"
+            class="h-5 w-16 bg-transparent outline-none"
             :class="{ 'focus:w-5/6': isInputFocused }"
             type="text"
             :placeholder="$t('_global.search')"
@@ -29,10 +29,10 @@
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="hotkeyIndicators"
-        class="flex pr-1 space-x-1 transition-opacity transition-duration-200"
+        class="transition-duration-200 flex space-x-1 pr-1 transition-opacity"
       >
         <div
-          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text"
+          class="has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text flex rounded-md px-2 py-[0.125rem] text-center text-sm"
         >
           <TooltipBase
             class="invisible -mt-8"
@@ -42,7 +42,7 @@
         </div>
         <div
           v-if="$device.isMacOS"
-          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text"
+          class="has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text flex rounded-md px-2 py-[0.125rem] text-center text-sm"
         >
           <TooltipBase
             class="invisible -mt-8"
@@ -52,7 +52,7 @@
         </div>
         <div
           v-else
-          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text"
+          class="has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text flex rounded-md px-2 py-[0.125rem] text-center text-sm"
         >
           <TooltipBase
             class="invisible -mt-8"
@@ -65,11 +65,11 @@
   </div>
   <div
     v-else
-    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-layer-2 dark:bg-dark-layer-2 border-light-distinct-text dark:border-dark-distinct-text text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange"
+    class="bg-light-layer-2 dark:bg-dark-layer-2 border-light-distinct-text dark:border-dark-distinct-text text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-cta-orange dark:focus-within:border-dark-cta-orange relative inline-flex select-none items-center space-x-2 rounded-md border py-1 pl-[12px] pr-[10px] text-left focus-within:border-2"
   >
     <Icon
       @click="emit('on-search-toggle')"
-      class="flex-shrink-0 w-4 h-4 my-1"
+      class="my-1 h-4 w-4 flex-shrink-0"
       :name="expanded ? 'bi:x-lg' : 'bi:search'"
       size="1em"
     />

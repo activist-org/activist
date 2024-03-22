@@ -1,10 +1,10 @@
 <template>
   <NuxtLink
-    class="flex w-full px-3 py-3 group card-style space-x-4 lg:px-4 hover:bg-light-highlight dark:hover:bg-dark-highlight"
+    class="card-style hover:bg-light-highlight dark:hover:bg-dark-highlight group flex w-full space-x-4 px-3 py-3 lg:px-4"
     :to="localPath(url)"
   >
     <div
-      class="flex items-center justify-center w-20 h-20 rounded-full bg-light-menu-selection dark:bg-dark-menu-selection sm:w-24 sm:h-24 group-hover:opacity-90"
+      class="bg-light-menu-selection dark:bg-dark-menu-selection flex h-20 w-20 items-center justify-center rounded-full group-hover:opacity-90 sm:h-24 sm:w-24"
     >
       <!-- Swap image color so that it shows up on a menu selection background. -->
       <img
@@ -21,9 +21,9 @@
       />
     </div>
     <div
-      class="flex-col grow w-min space-y-2 lg:space-y-4 text-light-text dark:text-dark-text"
+      class="text-light-text dark:text-dark-text w-min grow flex-col space-y-2 lg:space-y-4"
     >
-      <p class="font-bold responsive-h4">{{ $t(title) }}</p>
+      <p class="responsive-h4 font-bold">{{ $t(title) }}</p>
       <p>{{ $t(description) }}</p>
     </div>
   </NuxtLink>

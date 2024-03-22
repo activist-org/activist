@@ -1,6 +1,6 @@
 <template>
   <div
-    class="max-w-full px-3 py-4 text-center border-2 cursor-pointer select-none card-style grid place-content-center rounded-2xl min-width-fit min-height-fit"
+    class="card-style min-width-fit min-height-fit grid max-w-full cursor-pointer select-none place-content-center rounded-2xl border-2 px-3 py-4 text-center"
     :class="[textColor, borderColor, backgroundColor]"
   >
     <div

@@ -6,34 +6,34 @@
       <Title>{{ $t("_global.grow-organization") }}</Title>
     </Head>
     <div
-      class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
+      class="responsive-py-4 responsive-px-5 flex w-full flex-col items-center"
     >
       <!-- Note: image on top of content for mobile. -->
       <img
         v-if="$colorMode.value == 'light'"
-        class="w-full md:hidden h-1/6"
+        class="h-1/6 w-full md:hidden"
         src="/images/content_pages/mockups/grow_organization_light.png"
         :alt="$t('pages.docs.grow-organization.modal-image-alt-text')"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        class="w-full md:hidden h-1/6"
+        class="h-1/6 w-full md:hidden"
         src="/images/content_pages/mockups/grow_organization_dark.png"
         :alt="$t('pages.docs.grow-organization.modal-image-alt-text')"
       />
-      <div class="w-10/12 gap-16 2xl:grid 2xl:grid-cols-2 md:w-full">
+      <div class="w-10/12 gap-16 md:w-full 2xl:grid 2xl:grid-cols-2">
         <ModalImage
           imageURL="/images/content_pages/mockups/grow_organization"
           imageAltText="pages.docs.grow-organization.modal-image-alt-text"
         />
         <div
-          class="items-center text-left space-y-4 2xl:col-span-1 2xl:row-start-1 md:items-start"
+          class="items-center space-y-4 text-left md:items-start 2xl:col-span-1 2xl:row-start-1"
         >
           <PageBreadcrumbs />
-          <h1 class="pb-2 font-bold responsive-h1">
+          <h1 class="responsive-h1 pb-2 font-bold">
             {{ $t("pages.docs.grow-organization.header") }}
           </h1>
-          <div class="flex flex-row py-2 space-x-3">
+          <div class="flex flex-row space-x-3 py-2">
             <Icon
               class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
               name="bi:info-circle-fill"
@@ -42,7 +42,7 @@
             <p>
               {{ $t("pages._global.see-the") }}
               <a
-                class="items-center focus-brand link-text"
+                class="focus-brand link-text items-center"
                 href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=517%3A4852&t=ytDrcE8K3RrfCxM6-1"
                 target="_blank"
               >

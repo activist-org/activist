@@ -1,5 +1,5 @@
 <template>
-  <form class="w-full h-full rounded-[0.45em] elem-shadow-sm">
+  <form class="elem-shadow-sm h-full w-full rounded-[0.45em]">
     <Calendar
       :first-day-of-week="2"
       :color="colorModePreference"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex items-center font-bold border border-r-0 h-9 border-light-interactive dark:border-dark-interactive last:border-r first:rounded-l-md last:rounded-r-md"
+    class="border-light-interactive dark:border-dark-interactive relative flex h-9 items-center border border-r-0 font-bold first:rounded-l-md last:rounded-r-md last:border-r"
     :class="{
       'bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1':
         modelValue && !customColor,
@@ -19,7 +19,7 @@
     />
     <label
       v-if="label"
-      class="flex items-center justify-center w-full h-full cursor-pointer select-none"
+      class="flex h-full w-full cursor-pointer select-none items-center justify-center"
       :for="uuid"
     >
       {{ label }}
