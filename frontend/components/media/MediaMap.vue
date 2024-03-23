@@ -11,7 +11,6 @@ import MapLibreGlDirections, {
 } from "@maplibre/maplibre-gl-directions";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { colors } from "src/directions/layers";
 
 const props = defineProps<{
   markerColors: string[];
@@ -29,13 +28,6 @@ const isTouchDevice =
   navigator.msMaxTouchPoints > 0 ||
   "ontouchstart" in window ||
   navigator.maxTouchPoints > 0;
-
-const profileColors = {
-  foot: colors.routelineFoot,
-  car: colors.routelineCar,
-  bike: colors.routelineBike,
-};
-
 
 function isWebglSupported() {
   if (window.WebGLRenderingContext) {
@@ -155,6 +147,9 @@ onMounted(() => {
           console.log('DIRECTIONS', directions);
 
           directions.interactive = true;
+          directions.hoverable = true;
+          directions.allowRouteSwitch = true;
+          directions.configuration.profile = "foot";
 
           document.addEventListener("keydown", (event) => {
             if (event.key === "x") {
