@@ -53,7 +53,6 @@ onMounted(() => {
   fetch(nominatimLocationRequest)
     .then((response) => response.json())
     .then((data) => {
-      console.log('MAP DATA', data);
       const location = data[0];
       if (!isWebglSupported()) {
         alert(i18n.t("components.media-map.maplibre-gl-alert"));
@@ -125,7 +124,7 @@ onMounted(() => {
         const marker = new maplibregl.Marker({
           color: `${props.markerColors[0]}`,
         });
-        console.log('MARKER', marker);
+
         marker.addClassName("cursor-pointer");
         marker
           .setLngLat([parseFloat(location["lon"]), parseFloat(location["lat"])])
@@ -144,7 +143,6 @@ onMounted(() => {
             },
             layers,
           });
-          console.log('DIRECTIONS', directions);
 
           directions.interactive = true;
           directions.hoverable = true;
