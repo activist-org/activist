@@ -13,10 +13,10 @@
     >
       <img
         class="object-cover object-center"
-        :class="[
+        :class="{
           'w-4/5 h-4/5': props.fullscreen,
           'h-[17.5rem]': !props.fullscreen,
-        ]"
+        }"
         :src="img"
         alt="Media image carousel"
       />
