@@ -16,7 +16,7 @@
       </div>
     </div>
     <div
-      class="text-light-text dark:text-dark-text bg-light-layer-1 dark:bg-dark-layer-1 h-full"
+      class="h-full bg-light-layer-1 text-light-text dark:bg-dark-layer-1 dark:text-dark-text"
     >
       <div class="hidden justify-end space-x-6 px-8 py-4 md:flex">
         <DropdownLanguage />
@@ -31,7 +31,7 @@
       </div>
       <div class="w-full flex-1 space-y-4 pb-4 pt-16 md:pb-8 md:pt-28">
         <div class="flex items-center justify-center p-4">
-          <h1 class="responsive-h1 font-display text-center font-bold">
+          <h1 class="responsive-h1 text-center font-display font-bold">
             {{ $t(page.message) }}
           </h1>
         </div>

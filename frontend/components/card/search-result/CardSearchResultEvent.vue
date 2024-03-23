@@ -2,7 +2,7 @@
   <div class="relative flex w-full flex-col md:flex-row">
     <div class="flex w-full justify-center md:w-fit">
       <div
-        class="border-light-section-div dark:border-dark-section-div h-min rounded-md border"
+        class="h-min rounded-md border border-light-section-div dark:border-dark-section-div"
       >
         <img
           v-if="event.imageURL"

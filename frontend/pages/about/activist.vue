@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("pages._global.about-us") }}</Title>
@@ -14,7 +14,7 @@
       </h1>
       <div class="flex flex-row space-x-3 py-2">
         <Icon
-          class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
+          class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
           name="bi:info-circle-fill"
           size="1.25em"
         />

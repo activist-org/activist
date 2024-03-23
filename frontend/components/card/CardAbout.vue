@@ -12,13 +12,13 @@
           emit('expand-reduce-text');
           expand_reduce_text();
         "
-        class="text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand absolute right-0 rounded-full p-1"
+        class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
       >
         <Icon class="h-10 w-10" name="bi:x-circle-fill" />
       </button>
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
-          <h3 class="responsive-h3 font-display text-left">
+          <h3 class="responsive-h3 text-left font-display">
             {{ $t("_global.about") }}
           </h3>
           <Icon name="bi:pencil-square" size="1.2em" />
@@ -56,7 +56,7 @@
                   emit('expand-reduce-text');
                   expand_reduce_text();
                 "
-                class="text-light-link-text dark:text-dark-link-text focus-brand mt-1 font-semibold"
+                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
                 :aria-label="$t('components.card-about.full-text-aria-label')"
               >
                 {{ $t("components.card-about.full-text") }}
@@ -67,7 +67,7 @@
                   emit('expand-reduce-text');
                   expand_reduce_text();
                 "
-                class="text-light-link-text dark:text-dark-link-text focus-brand mt-1 font-semibold"
+                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
                 :aria-label="$t('components.card-about.reduce-text-aria-label')"
               >
                 {{ $t("components.card-about.reduce-text") }}
@@ -103,7 +103,7 @@
                   emit('expand-reduce-text');
                   expand_reduce_text();
                 "
-                class="text-light-link-text dark:text-dark-link-text focus-brand mt-1 font-semibold"
+                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
                 :aria-label="$t('components.card-about.full-text-aria-label')"
               >
                 {{ $t("components.card-about.full-text") }}
@@ -114,7 +114,7 @@
                   emit('expand-reduce-text');
                   expand_reduce_text();
                 "
-                class="text-light-link-text dark:text-dark-link-text focus-brand mt-1 font-semibold"
+                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
                 :aria-label="$t('components.card-about.reduce-text-aria-label')"
               >
                 {{ $t("components.card-about.reduce-text") }}
