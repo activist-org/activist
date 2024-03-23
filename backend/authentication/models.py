@@ -28,6 +28,7 @@ from backend.mixins.models import CreationDeletionMixin
 
 
 class SupportEntityType(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
@@ -101,7 +102,7 @@ class UserModel(AbstractUser, PermissionsMixin, CreationDeletionMixin):
     )
     user_icon = models.ForeignKey("content.Image", on_delete=models.SET_NULL, null=True)
     social_accounts = ArrayField(
-        models.CharField(max_length=255), null=True, blank=True
+        models.CharField(max_length=255), blank=True, null=True
     )
     private = models.BooleanField(default=False)
     high_risk = models.BooleanField(default=False)

@@ -126,7 +126,7 @@ activist is very open to contributions from people in the early stages of their 
 
 > [!IMPORTANT]
 >
-> <details><summary><strong>Suggested IDE extensions</strong></summary>
+> <details><summary>Suggested IDE extensions</summary>
 >
 > <p>
 >
@@ -134,10 +134,10 @@ activist is very open to contributions from people in the early stages of their 
 >
 > - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
 > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-> - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
-> - [ms-vsliveshare.vsliveshare](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) # for collaboration
+> - [charliermarsh.ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
+> - [esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+> - [streetsidesoftware.code-spell-checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-> - [Vue.vscode-typescript-vue-plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 >
 > </p>
 > </details>
@@ -182,13 +182,13 @@ git remote add upstream https://github.com/activist-org/activist.git
 4. Start your docker images with the following:
 
    ```bash
-   docker compose up
+   docker compose --env-file .env.dev up
 
    # Or with new dependencies:
-   # docker compose up --build
+   # docker compose --env-file .env.dev up --build
 
    # And to stop the containers when you're done working:
-   # docker compose down
+   # docker compose --env-file .env.dev down
    ```
 
 5. You can visit <http://localhost:3000/> to see the development build once the container is up and running.
@@ -226,7 +226,7 @@ You can then visit http://localhost:3000/ to see the development frontend build 
 Our backend depends on a connection to a postgres DB, therefore we need to setup the database first. Here our best option is to still use docker to create a postgres DB with the following command:
 
 ```bash
-docker compose up db
+docker compose --env-file .env.dev up db
 ```
 
 In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env.dev` file first.
@@ -299,7 +299,9 @@ Please see the [activist style guide](https://github.com/activist-org/activist/b
 
 ## Linting [`⇧`](#contents)
 
-For the backend [pylint-django](https://github.com/PyCQA/pylint-django) is installed via the required packages to assure that errors are reported correctly within a Django development environment.
+For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
+
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support.
 
 <a id="issues-projects"></a>
 

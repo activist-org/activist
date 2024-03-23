@@ -2,7 +2,7 @@
   <ModalBase>
     <template #normalDisplay>
       <BtnAction
-        class="hidden md:block w-max"
+        class="hidden w-max md:block"
         :cta="props.cta"
         :label="props.label"
         :aria-label="props.ariaLabel"
@@ -12,14 +12,14 @@
       />
     </template>
     <template #modalDisplay>
-      <div class="px-2 pt-1 pb-2 lg:px-4 lg:pb-4 lg:pt-2">
+      <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
         <DialogTitle class="font-display">
-          <p class="font-bold responsive-h2">
+          <p class="responsive-h2 font-bold">
             {{ $t("components.modal-share-page.header") }}
           </p>
         </DialogTitle>
         <div
-          class="content-start w-4/5 pt-4 grid grid-cols-4 grid-rows-2 gap-4 lg:gap-8 lg:pt-6"
+          class="grid w-4/5 grid-cols-4 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
         >
           <s-telegram
             @popup-close="onClose"
@@ -33,8 +33,10 @@
             :native-behavior-options="nativeBehaviorOptions"
           >
             <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               iconName="simple-icons:telegram"
               :text="$t('components.meta-social-media-tag.telegram')"
+              iconSize="1.5em"
             />
           </s-telegram>
           <s-mastodon
@@ -48,8 +50,10 @@
             :use-native-behavior="useNativeBehavior"
           >
             <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               iconName="simple-icons:mastodon"
               :text="$t('components.meta-social-media-tag.mastodon')"
+              iconSize="1.5em"
             />
           </s-mastodon>
           <s-twitter
@@ -63,18 +67,27 @@
             :use-native-behavior="useNativeBehavior"
           >
             <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               iconName="simple-icons:twitter"
               text="@activist_org"
+              iconSize="1.5em"
             />
           </s-twitter>
           <s-email class="focus-brand" :share-options="shareOptions">
-            <MetaTagSocialMedia iconName="bi:envelope" text="Email" />
+            <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              iconName="bi:envelope"
+              text="Email"
+              iconSize="1.5em"
+            />
           </s-email>
           <ModalBase>
             <template #normalDisplay>
               <MetaTagSocialMedia
+                class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
                 iconName="bi:qr-code-scan"
                 :text="$t('components.meta-social-media-tag.qr-code')"
+                iconSize="1.5em"
               />
             </template>
             <template #modalDisplay>
@@ -98,8 +111,10 @@
               :use-native-behavior="useNativeBehavior"
             >
               <MetaTagSocialMedia
+                class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
                 iconName="simple-icons:messenger"
                 :text="$t('components.meta-social-media-tag.messenger')"
+                iconSize="1.5em"
               />
             </s-facebook-messenger>
             <s-facebook
@@ -114,8 +129,10 @@
               :native-behavior-options="nativeBehaviorOptions"
             >
               <MetaTagSocialMedia
+                class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
                 iconName="simple-icons:facebook"
                 :text="$t('components.meta-social-media-tag.facebook')"
+                iconSize="1.5em"
               />
             </s-facebook> -->
           <div
@@ -129,17 +146,42 @@
                 getCurrentUrl()
               )
             "
+            @keypress.space="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
+            @keypress.enter="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
+            tabindex="0"
+            role="button"
           >
             <MetaTagSocialMedia
               v-if="!contentCopied"
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               iconName="bi:link-45deg"
               :text="$t('components.meta-social-media-tag.copy-link')"
+              iconSize="1.5em"
             />
             <MetaTagSocialMedia
               v-if="contentCopied"
-              class="text-light-accepted-green dark:text-dark-accepted-green hover:text-light-accepted-green dark:hover:text-dark-accepted-green"
+              class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
               iconName="bi:check2-square"
               :text="$t('components.meta-social-media-tag.copied')"
+              iconSize="1.5em"
             />
           </div>
         </div>

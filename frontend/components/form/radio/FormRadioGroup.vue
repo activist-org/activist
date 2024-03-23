@@ -18,12 +18,21 @@
         :customColor="option.customColor"
       />
     </div>
-    <div v-if="allowCustomValue" class="flex flex-1 w-full">
+    <div v-if="allowCustomValue" class="flex w-full flex-1">
+      <label
+        v-if="showAdditionalInput"
+        :for="customValueType"
+        class="sr-only"
+        >{{
+          $t("components.form-radio-group.custom-numeric-value-placeholder")
+        }}</label
+      >
       <input
         v-if="showAdditionalInput"
         v-model="customValue"
         @input="inputDebounce"
-        class="flex-1 w-full pl-4 pr-2 font-bold border border-r-0 outline-none border-light-interactive rounded-l-md bg-light-layer-2 dark:bg-dark-layer-2 dark:border-dark-interactive text-light-distinct-text dark:text-dark-distinct-text"
+        :id="customValueType"
+        class="w-full flex-1 rounded-l-md border border-r-0 border-light-interactive bg-light-layer-2 pl-4 pr-2 font-bold text-light-distinct-text outline-none dark:border-dark-interactive dark:bg-dark-layer-2 dark:text-dark-distinct-text"
         :type="customValueType"
         :placeholder="
           $t('components.form-radio-group.custom-numeric-value-placeholder')
@@ -31,7 +40,7 @@
       />
       <button
         @click="toggleAdditionalInput"
-        class="rounded-r-md relative min-w-[3rem] h-9 border border-light-interactive dark:border-dark-interactive focus-brand"
+        class="focus-brand relative h-9 min-w-[3rem] rounded-r-md border border-light-interactive dark:border-dark-interactive"
         :class="{
           'bg-light-layer-2 text-light-distinct-text dark:bg-dark-layer-2 dark:text-dark-distinct-text':
             !showAdditionalInput,

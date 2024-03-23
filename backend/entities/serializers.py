@@ -27,26 +27,23 @@ from .models import (
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
+    Status,
+    StatusType,
 )
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
+        exclude = ["deletion_date"]
+        extra_kwargs = {
+            "created_by": {"read_only": True},
+            "social_accounts": {"required": False},
+            "status_updated": {"read_only": True},
+            "acceptance_date": {"read_only": True},
+        }
         fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_empty(data["name"], "name")
-        validate_empty(data["tagline"], "tagline")
-        validate_empty(data["social_accounts"], "social_accounts")
-        validate_empty(data["location"], "location")
-        validate_empty(data["description"], "description")
-        validate_empty(data["topic"], "topic")
-        validate_flags_number(data)
-        # validate_object_existence(UserModel, data["created_by"]) TODO: BUG check if validate_object_existence can be fixed since causing errors during post requests
-
-        return data
-
+        
 
 class OrganizationApplicationStatusSerializer(
     serializers.ModelSerializer[OrganizationApplicationStatus]
@@ -65,7 +62,7 @@ class OrganizationApplicationSerializer(
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["status"], "status")
-        validate_creation_and_deletion_dates(data)
+        validate_object_existence(Organization, data["org_id"])
 
         return data
 
@@ -129,12 +126,9 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_empty(data["name"], "name")
-        validate_empty(data["tagline"], "tagline")
-        validate_empty(data["social_accounts"], "social_accounts")
         validate_empty(data["created_by"], "created_by")
         validate_flags_number(data)
         validate_creation_and_deletion_dates(data)
-        validate_object_existence(UserModel, data["created_by"])
 
         return data
 
@@ -210,3 +204,15 @@ class GroupTopicSerializer(serializers.ModelSerializer[GroupTopic]):
         validate_object_existence(Topic, data["topic_id"])
 
         return data
+
+
+class StatusSerializer(serializers.ModelSerializer[Status]):
+    class Meta:
+        model = Status
+        fields = "__all__"
+
+
+class StatusTypeSerializer(serializers.ModelSerializer[StatusType]):
+    class Meta:
+        model = StatusType
+        fields = "__all__"

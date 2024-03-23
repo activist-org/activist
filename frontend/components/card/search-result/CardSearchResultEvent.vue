@@ -1,14 +1,14 @@
 <template>
-  <div class="relative flex flex-col w-full md:flex-row">
-    <div class="flex justify-center w-full md:w-fit">
+  <div class="relative flex w-full flex-col md:flex-row">
+    <div class="flex w-full justify-center md:w-fit">
       <div
-        class="border rounded-md border-light-section-div dark:border-dark-section-div h-min"
+        class="h-min rounded-md border border-light-section-div dark:border-dark-section-div"
       >
         <img
           v-if="event.imageURL"
           :class="{
-            'w-[150px] h-[150px]': reduced,
-            'w-[200px] h-[200px]': !reduced,
+            'h-[150px] w-[150px]': reduced,
+            'h-[200px] w-[200px]': !reduced,
           }"
           :src="event.imageURL"
           :alt="
@@ -20,17 +20,25 @@
         <div
           v-else
           :class="{
-            'w-[150px] h-[150px]': reduced,
-            'w-[200px] h-[200px]': !reduced,
+            'h-[150px] w-[150px]': reduced,
+            'h-[200px] w-[200px]': !reduced,
           }"
           class="flex items-center justify-center"
         >
-          <ImageEvent :eventType="event.type" :imgURL="event?.imageURL" />
+          <ImageEvent
+            :eventType="event.type"
+            :imgURL="event?.imageURL"
+            :alt="
+              $t('components._global.entity-logo', {
+                entity_name: event.name,
+              })
+            "
+          />
         </div>
       </div>
     </div>
     <div
-      class="flex-col pt-3 md:pl-4 lg:pl-6 md:grow md:pt-0"
+      class="flex-col pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6"
       :class="{
         'space-y-2': reduced,
         'space-y-3 md:space-y-4': !reduced,
@@ -38,15 +46,15 @@
     >
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
-          <h2 class="font-bold responsive-h3">
+          <h2 class="responsive-h3 font-bold">
             {{ event.name }}
           </h2>
           <MenuSearchResult
-            class="max-md:absolute max-md:top-0 max-md:right-0"
+            class="max-md:absolute max-md:right-0 max-md:top-0"
             searchResultType="event"
           />
         </div>
-        <div class="items-center hidden space-x-3 md:flex lg:space-x-5">
+        <div class="hidden items-center space-x-3 md:flex lg:space-x-5">
           <MetaTagLocation
             v-if="event?.inPersonLocation"
             :location="event?.inPersonLocation"
@@ -76,7 +84,7 @@
           <MetaTagDate :date="event?.date.toLocaleDateString()" />
         </div>
         <div
-          class="flex justify-center space-x-3 lg:space-x-4 md:justify-start"
+          class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
         >
           <MetaTagOrganization :organizations="event.organizations" />
           <MetaTagSupporters

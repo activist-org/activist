@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col px-5 py-5 space-y-3 card-style">
+  <div class="card-style flex flex-col space-y-3 px-5 py-5">
     <div class="flex items-center gap-5">
-      <h3 class="text-left responsive-h3 font-display">
+      <h3 class="responsive-h3 text-left font-display">
         {{ $t("components._global.donate") }}
       </h3>
       <div
-        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:hover:text-dark-highlight"
+        class="cursor-pointer break-all rounded-lg p-1 transition-all hover:text-light-highlight dark:hover:text-dark-highlight"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"

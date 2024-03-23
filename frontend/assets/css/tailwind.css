@@ -10,21 +10,21 @@
     @apply bg-light-layer-2 dark:bg-dark-layer-2;
   }
   * {
-    @apply scrollbar scrollbar-w-2 scrollbar-thumb-light-distinct-text dark:scrollbar-thumb-dark-distinct-text scrollbar-track-transparent scrollbar-thumb-rounded-md;
+    @apply scrollbar scrollbar-track-transparent scrollbar-thumb-light-distinct-text scrollbar-thumb-rounded-md scrollbar-w-2 dark:scrollbar-thumb-dark-distinct-text;
   }
 }
 
 @layer components {
   .bg-breakpoint-test {
-    @apply 3xl:bg-pink-500 2xl:bg-violet-500 xl:bg-blue-500 lg:bg-green-500 md:bg-yellow-500 sm:bg-orange-500 bg-red-500;
+    @apply bg-red-500 sm:bg-orange-500 md:bg-yellow-500 lg:bg-green-500 xl:bg-blue-500 2xl:bg-violet-500 3xl:bg-pink-500;
   }
 
   .btn-base-class {
-    @apply px-4 py-2 font-semibold text-center select-none focus-brand w-fit elem-shadow-sm;
+    @apply focus-brand elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
   }
 
   .card-style-base {
-    @apply rounded-md sm:rounded-lg elem-shadow-sm;
+    @apply elem-shadow-sm rounded-md sm:rounded-lg;
   }
 
   .card-style {
@@ -32,7 +32,7 @@
   }
 
   .elem-on-card-style {
-    @apply card-style-base bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight active:bg-light-layer-2 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-2 dark:border dark:border-dark-text elem-shadow-sm;
+    @apply card-style-base elem-shadow-sm bg-light-layer-2 hover:bg-light-highlight active:bg-light-layer-2 dark:border dark:border-dark-text dark:bg-dark-layer-2 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-2;
   }
 
   .elem-shadow-sm {
@@ -48,15 +48,15 @@
   }
 
   .focus-brand {
-    @apply rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-light-link-text dark:focus-visible:ring-dark-link-text focus-visible:border-light-link-text dark:focus-visible:border-dark-link-text;
+    @apply rounded-sm focus:outline-none focus-visible:border-light-link-text focus-visible:ring-2 focus-visible:ring-light-link-text dark:focus-visible:border-dark-link-text dark:focus-visible:ring-dark-link-text;
   }
 
   .focus-inside {
-    @apply rounded-sm focus-within:ring-2 focus-within:ring-light-link-text dark:focus-within:ring-dark-link-text focus-within:outline-none focus-within:border-light-link-text dark:focus-within:border-dark-link-text;
+    @apply rounded-sm focus-within:border-light-link-text focus-within:outline-none focus-within:ring-2 focus-within:ring-light-link-text dark:focus-within:border-dark-link-text dark:focus-within:ring-dark-link-text;
   }
 
   .link-text {
-    @apply text-light-link-text dark:text-dark-link-text hover:text-light-link-text-hover dark:hover:text-dark-link-text-hover;
+    @apply text-light-link-text hover:text-light-link-text-hover dark:text-dark-link-text dark:hover:text-dark-link-text-hover;
   }
 
   .responsive-h1 {
@@ -120,35 +120,35 @@
   }
 
   .style-action {
-    @apply text-light-text dark:text-light-action-red dark:bg-dark-action-red/10 dark:border-dark-action-red bg-light-action-red border border-light-text hover:bg-light-action-red/80 active:bg-light-action-red dark:hover:bg-dark-action-red/25 dark:active:bg-dark-action-red/10 focus-brand;
+    @apply focus-brand border border-light-text bg-light-action-red text-light-text hover:bg-light-action-red/80 active:bg-light-action-red dark:border-dark-action-red dark:bg-dark-action-red/10 dark:text-light-action-red dark:hover:bg-dark-action-red/25 dark:active:bg-dark-action-red/10;
   }
 
   .style-btn {
-    @apply text-light-text bg-light-layer-0 hover:bg-light-highlight active:bg-light-layer-0 dark:text-dark-text dark:bg-dark-layer-0 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-0 focus-brand elem-shadow-sm dark:border dark:border-dark-text;
+    @apply focus-brand elem-shadow-sm bg-light-layer-0 text-light-text hover:bg-light-highlight active:bg-light-layer-0 dark:border dark:border-dark-text dark:bg-dark-layer-0 dark:text-dark-text dark:hover:bg-dark-highlight dark:active:bg-dark-layer-0;
   }
 
   .style-cta {
-    @apply text-light-text border border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10 focus-brand;
+    @apply focus-brand border border-light-text bg-light-cta-orange fill-light-text  text-light-text hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10;
   }
 
   .style-cta-secondary {
-    @apply text-light-text border border-light-text dark:text-dark-text dark:border-dark-text fill-light-text dark:fill-dark-text bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight-darker active:bg-light-layer-2 dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-layer-2 focus-brand;
+    @apply focus-brand border border-light-text bg-light-layer-2 fill-light-text text-light-text hover:bg-light-highlight-darker active:bg-light-layer-2 dark:border-dark-text dark:bg-dark-layer-2 dark:fill-dark-text dark:text-dark-text dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-layer-2;
   }
 
   .style-learn {
-    @apply text-light-text dark:text-light-learn-blue dark:bg-dark-learn-blue/10 dark:border-dark-learn-blue bg-light-learn-blue border border-light-text hover:bg-light-learn-blue/80 active:bg-light-learn-blue dark:hover:bg-dark-learn-blue/25 dark:active:bg-dark-learn-blue/10 focus-brand;
+    @apply focus-brand border border-light-text bg-light-learn-blue text-light-text hover:bg-light-learn-blue/80 active:bg-light-learn-blue dark:border-dark-learn-blue dark:bg-dark-learn-blue/10 dark:text-light-learn-blue dark:hover:bg-dark-learn-blue/25 dark:active:bg-dark-learn-blue/10;
   }
 
   .style-menu-option {
-    @apply text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight focus-brand;
+    @apply focus-brand fill-light-text text-light-text hover:bg-light-highlight dark:fill-dark-text dark:text-dark-text dark:hover:bg-dark-highlight;
   }
 
   .style-menu-option-cta {
-    @apply bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1 hover:bg-light-menu-selection/80 dark:hover:bg-dark-menu-selection/80 focus-brand;
+    @apply focus-brand bg-light-menu-selection fill-light-layer-1 text-light-layer-1 hover:bg-light-menu-selection/80 dark:bg-dark-menu-selection dark:fill-dark-layer-1 dark:text-dark-layer-1 dark:hover:bg-dark-menu-selection/80;
   }
 
   .style-warn {
-    @apply text-light-text dark:text-light-warn-yellow dark:bg-dark-warn-yellow/10 dark:border-dark-warn-yellow bg-light-warn-yellow border border-light-text hover:bg-light-warn-yellow/80 active:bg-light-warn-yellow dark:hover:bg-dark-warn-yellow/25 dark:active:bg-dark-warn-yellow/10 focus-brand;
+    @apply focus-brand border border-light-text bg-light-warn-yellow text-light-text hover:bg-light-warn-yellow/80 active:bg-light-warn-yellow dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/10 dark:text-light-warn-yellow dark:hover:bg-dark-warn-yellow/25 dark:active:bg-dark-warn-yellow/10;
   }
 
   .tooltip {

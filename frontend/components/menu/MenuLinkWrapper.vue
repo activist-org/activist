@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    class="relative flex items-center justify-center w-full text-sm text-left transition duration-200 rounded-md basis-full font-md group focus-brand"
+    class="font-md focus-brand group relative flex w-full basis-full items-center justify-center rounded-md text-left text-sm transition duration-200"
     :class="{
       'style-menu-option-cta': selected,
       'style-menu-option': !selected && isAddStyles,
@@ -20,7 +20,7 @@ export interface Props {
   to: string;
   selected: boolean;
   linkClasses?: string | undefined;
-  isAddStyles: boolean;
+  isAddStyles?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {

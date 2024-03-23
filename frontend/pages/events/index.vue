@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="bg-light-layer-0 px-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("pages.events.index.header-title") }} </Title>
@@ -13,7 +13,7 @@
         <ShieldTopic topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
-    <div v-for="event in events" class="pt-3 pb-6 space-y-6 md:pt-4">
+    <div v-for="event in events" class="space-y-6 pb-6 pt-3 md:pt-4">
       <CardSearchResult
         searchResultType="event"
         :isPrivate="false"

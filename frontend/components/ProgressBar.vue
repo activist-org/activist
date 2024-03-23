@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex items-center justify-between w-full h-2 border-b md:h-8 bg-light-layer-2 dark:bg-dark-layer-2 border-light-section-div dark:border-dark-section-div"
+    class="flex h-2 w-full items-center justify-between border-b border-light-section-div bg-light-layer-2 dark:border-dark-section-div dark:bg-dark-layer-2 md:h-8"
   >
     <div
       :class="[
-        'h-full transition-width ease-in duration-500',
+        'h-full transition-width duration-500 ease-in',
         {
           'bg-light-placeholder dark:bg-dark-placeholder': type === 'default',
           'bg-light-action-red dark:bg-dark-action-red': type === 'action',
@@ -14,7 +14,7 @@
       :style="{ width: `${percent}%` }"
     ></div>
     <NuxtLink
-      class="items-center hidden h-full px-3 md:flex space-x-3 bg-light-cta-orange hover:bg-light-cta-orange/80 dark:bg-dark-cta-orange/10 dark:hover:bg-dark-cta-orange/25 text-light-text dark:text-dark-cta-orange"
+      class="hidden h-full items-center space-x-3 bg-light-cta-orange px-3 text-light-text hover:bg-light-cta-orange/80 dark:bg-dark-cta-orange/10 dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25 md:flex"
       :to="localePath('/')"
       :aria-label="$t('components.progress-bar.close-process-aria-label')"
     >

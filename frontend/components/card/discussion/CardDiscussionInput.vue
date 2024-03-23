@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col w-full px-3 py-4 md:flex-row card-style">
-    <div class="flex-col pt-3 space-y-3 md:pl-2 md:space-y-4 md:grow md:pt-0">
+  <div class="card-style flex w-full flex-col px-3 py-4 md:flex-row">
+    <div class="flex-col space-y-3 pt-3 md:grow md:space-y-4 md:pl-2 md:pt-0">
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <div class="w-min md:w-min">
             <BtnAction
-              class="flex mt-1 w-small"
+              class="w-small mt-1 flex"
               :cta="true"
               :label="$t('components.card-discussion-input.write')"
               fontSize="sm"
@@ -15,7 +15,7 @@
           </div>
           <div class="w-min md:w-min">
             <BtnAction
-              class="flex mt-1 w-small"
+              class="w-small mt-1 flex"
               :cta="false"
               :label="$t('components.card-discussion-input.preview')"
               fontSize="sm"
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div
-          class="flex items-center w-full mt-2 space-x-1 md:flex-row md:w-fit lg:space-x-3"
+          class="mt-2 flex w-full items-center space-x-1 md:w-fit md:flex-row lg:space-x-3"
         >
           <Icon
             @click="at()"
@@ -87,7 +87,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm rounded-lg border border-light-action-red dark:border-dark-action-red focus-brand focus:border-none placeholder:text-light-action-red dark:placeholder:text-dark-action-red dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+          class="focus-brand block w-full rounded-lg border border-light-action-red bg-light-layer-0 p-2.5 text-sm placeholder:text-light-action-red focus:border-none dark:border-dark-action-red dark:bg-dark-layer-0 dark:text-dark-text dark:placeholder:text-dark-action-red"
           :placeholder="
             $t('components.card-discussion-input.leave-comment-highRisk')
           "
@@ -97,7 +97,7 @@
         <textarea
           id="message"
           rows="4"
-          class="block p-2.5 w-full text-sm text-light-text rounded-lg border border-light-section-div dark:border-dark-section-div placeholder-light-distinct-text dark:placeholder-dark-distinct-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 focus-brand"
+          class="focus-brand block w-full rounded-lg border border-light-section-div bg-light-layer-0 p-2.5 text-sm text-light-text placeholder-light-distinct-text dark:border-dark-section-div dark:bg-dark-layer-0 dark:text-dark-text dark:placeholder-dark-distinct-text"
           :placeholder="$t('components.card-discussion-input.leave-comment')"
         ></textarea>
       </div>
@@ -109,9 +109,11 @@
         <div class="flex items-center space-x-3">
           <Button
             @mouseenter="showTooltip = true"
+            @focus="showTooltip = true"
             @mouseleave="showTooltip = false"
+            @blur="showTooltip = false"
             @click="showTooltip = showTooltip == true ? false : true"
-            class="relative flex items-center justify-center w-16 h-10 rounded-lg elem-shadow-sm focus-brand"
+            class="elem-shadow-sm focus-brand relative flex h-10 w-16 items-center justify-center rounded-lg"
             :class="{
               'style-action': discussionInput.highRisk,
               'style-warn': !discussionInput.highRisk,
@@ -129,7 +131,7 @@
             />
           </Button>
           <BtnAction
-            class="inline-flex items-center justify-center w-small"
+            class="w-small inline-flex items-center justify-center"
             :cta="true"
             :label="$t('components.card-discussion-input.comment')"
             fontSize="sm"

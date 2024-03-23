@@ -50,6 +50,7 @@ class Event(CreationDeletionMixin):
 
 
 class Format(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -61,6 +62,7 @@ class Format(models.Model):
 
 
 class Role(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
     is_custom = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
@@ -93,6 +95,7 @@ class EventFormat(models.Model):
 
 
 class EventAttendeeStatus(models.Model):
+    id = models.IntegerField(primary_key=True)
     status_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:

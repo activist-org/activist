@@ -1,11 +1,11 @@
 <template>
   <div
-    class="relative flex items-center font-bold border border-r-0 h-9 border-light-interactive dark:border-dark-interactive last:border-r first:rounded-l-md last:rounded-r-md"
+    class="relative flex h-9 items-center border border-r-0 border-light-interactive font-bold first:rounded-l-md last:rounded-r-md last:border-r dark:border-dark-interactive"
     :class="{
-      'bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1':
+      'bg-light-menu-selection text-light-layer-1 dark:bg-dark-menu-selection dark:text-dark-layer-1':
         modelValue && !customColor,
       [customColorClass]: modelValue && customColor,
-      'bg-light-layer-2 text-light-distinct-text dark:text-dark-distinct-text dark:bg-dark-layer-2':
+      'bg-light-layer-2 text-light-distinct-text dark:bg-dark-layer-2 dark:text-dark-distinct-text':
         !modelValue,
       'hover:bg-light-hover dark:hover:bg-dark-hover': !modelValue,
     }"
@@ -19,7 +19,7 @@
     />
     <label
       v-if="label"
-      class="flex items-center justify-center w-full h-full cursor-pointer select-none"
+      class="flex h-full w-full cursor-pointer select-none items-center justify-center"
       :for="uuid"
     >
       {{ label }}

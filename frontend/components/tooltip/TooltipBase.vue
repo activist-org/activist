@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex flex-col rounded space-y-1 shadow-zinc-700 bg-light-layer-1 dark:bg-dark-layer-1 text-light-text dark:text-dark-text tooltip"
+    class="tooltip flex flex-col space-y-1 rounded bg-light-layer-1 text-light-text shadow-zinc-700 dark:bg-dark-layer-1 dark:text-dark-text"
     :class="{
-      'px-2 py-1 elem-shadow-sm w-max': !slots.default,
-      'px-3 py-2 elem-shadow-md w-min': slots.default,
+      'elem-shadow-sm w-max px-2 py-1': !slots.default,
+      'elem-shadow-md w-min px-3 py-2': slots.default,
     }"
   >
     <div v-if="header" class="responsive-h5">

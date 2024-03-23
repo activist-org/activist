@@ -1,34 +1,48 @@
 <template>
   <div
-    class="py-2 mx-1 transition-all duration-500 text-light-text dark:text-dark-text bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm rounded-md"
+    class="elem-shadow-sm mx-1 rounded-md bg-light-layer-2 py-2 text-light-text transition-all duration-500 dark:bg-dark-layer-2 dark:text-dark-text"
   >
     <div class="flex flex-col items-center">
       <div
         v-if="sidebarType === SidebarType.ORGANIZATION_PAGE"
         :class="{
-          'w-32 h-32':
+          'h-32 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'w-10 h-10':
+          'h-10 w-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
-        :alt="name + ' logo'"
       >
-        <ImageOrganization class="elem-shadow-sm" :imgURL="logoUrl" />
+        <ImageOrganization
+          class="elem-shadow-sm"
+          :imgURL="logoUrl"
+          :alt="
+            $t('components._global.entity-logo', {
+              entity_name: name,
+            })
+          "
+        />
       </div>
       <div
         v-else-if="sidebarType === SidebarType.EVENT_PAGE"
         :class="{
-          'w-32 h-32':
+          'h-32 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-          'w-10 h-10':
+          'h-10 w-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
-        :alt="name + ' logo'"
       >
-        <ImageEvent class="elem-shadow-sm" eventType="action" />
+        <ImageEvent
+          class="elem-shadow-sm"
+          eventType="action"
+          :alt="
+            $t('components._global.entity-logo', {
+              entity_name: name,
+            })
+          "
+        />
       </div>
       <ul
-        class="flex flex-col w-full px-1 mb-1"
+        class="mb-1 flex w-full flex-col px-1"
         :class="{
           'mt-4':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,

@@ -1,14 +1,14 @@
 <template>
   <div
-    class="flex flex-col justify-center w-full px-3 py-4 space-y-2 md:grow lg:px-5 md:py-3 card-style md:justify-start"
+    class="card-style flex w-full flex-col justify-center space-y-2 px-3 py-4 md:grow md:justify-start md:py-3 lg:px-5"
   >
     <div class="flex items-center space-x-1">
       <!-- Image Logic Not Yet Implemented. For now placeholder image is a circle colored using placeholder colors.-->
       <div
-        class="w-8 h-8 rounded-full dark:bg-dark-placeholder bg-light-placeholder"
+        class="h-8 w-8 rounded-full bg-light-placeholder dark:bg-dark-placeholder"
       ></div>
       <div class="flex items-baseline space-x-1">
-        <h1 class="pl-2 font-bold responsive-h5">
+        <h1 class="responsive-h5 pl-2 font-bold">
           {{ discussionText.author }}
         </h1>
         <p>{{ $t("components.card-discussion-text.on") }}</p>
