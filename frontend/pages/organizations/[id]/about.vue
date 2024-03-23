@@ -52,7 +52,7 @@
           aboutType="organization"
           :organization="organization"
         />
-        <div class=""h-full w-full relative">
+        <div class="h-full w-full relative">
           <ModalUploadImage>
             <template #normalDisplay>
               <button
