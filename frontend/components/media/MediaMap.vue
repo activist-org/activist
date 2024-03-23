@@ -138,6 +138,7 @@ onMounted(() => {
           );
 
           const directions = new MapLibreGlDirections(map, {
+            profile: "foot",
             requestOptions: {
               alternatives: "true",
             },
@@ -145,9 +146,6 @@ onMounted(() => {
           });
 
           directions.interactive = true;
-          directions.hoverable = true;
-          directions.allowRouteSwitch = true;
-          directions.configuration.profile = "foot";
 
           document.addEventListener("keydown", (event) => {
             if (event.key === "x") {
