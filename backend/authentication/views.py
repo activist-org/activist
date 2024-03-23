@@ -83,6 +83,13 @@ class DeleteUserView(APIView):
 
     def delete(self, request: Request, pk: int) -> Response:
         user = UserModel.objects.get(pk=pk)
+
+        if user is None:
+            return Response(
+                {"message": "User does not exist"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
         user.delete()
 
         return Response(
