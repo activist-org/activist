@@ -3,14 +3,12 @@
     class="flex h-2 w-full items-center justify-between border-b border-light-section-div bg-light-layer-2 dark:border-dark-section-div dark:bg-dark-layer-2 md:h-8"
   >
     <div
-      :class="[
-        'h-full transition-width duration-500 ease-in',
-        {
-          'bg-light-placeholder dark:bg-dark-placeholder': type === 'default',
-          'bg-light-action-red dark:bg-dark-action-red': type === 'action',
-          'bg-light-learn-blue dark:bg-dark-learn-blue': type === 'learn',
-        },
-      ]"
+      class="h-full transition-width duration-500 ease-in"
+      :class="{
+        'bg-light-placeholder dark:bg-dark-placeholder': type === 'default',
+        'bg-light-action-red dark:bg-dark-action-red': type === 'action',
+        'bg-light-learn-blue dark:bg-dark-learn-blue': type === 'learn',
+      }"
       :style="{ width: `${percent}%` }"
     ></div>
     <NuxtLink
