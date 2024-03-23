@@ -10,7 +10,7 @@ from .models import (
     GroupTopic,
     Organization,
     OrganizationApplication,
-    OrganizationApplicationStatus,
+    # OrganizationApplicationStatus,
     OrganizationEvent,
     OrganizationMember,
     OrganizationResource,
@@ -31,11 +31,11 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     high_risk = factory.Faker("boolean")
 
 
-class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = OrganizationApplicationStatus
+# class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
+#     class Meta:
+#         model = OrganizationApplicationStatus
 
-    status_name = factory.Faker("word")
+#     status_name = factory.Faker("word")
 
 
 class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
@@ -43,7 +43,7 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
         model = OrganizationApplication
 
     org_id = factory.SubFactory(OrganizationFactory)
-    status = factory.SubFactory(OrganizationApplicationStatusFactory)
+    # status = factory.SubFactory(OrganizationApplicationStatusFactory)
     orgs_in_favor = factory.List([factory.Faker("word") for _ in range(10)])
     orgs_against = factory.List([factory.Faker("word") for _ in range(10)])
     creation_date = factory.LazyFunction(datetime.datetime.now)

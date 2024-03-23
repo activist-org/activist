@@ -61,12 +61,13 @@ class UserSerializer(serializers.ModelSerializer[User]):
         if not re.match(pattern, data["password"]):
             raise serializers.ValidationError(
                 _(
-                    "The field password must be at least 8 characters long and contain at least one special character."
+                    "The field password must be at least 12 characters long and contain at least one special character, one uppercase letter and one lowercase letter, and numbers."
                 ),
                 code="invalid_password",
             )
 
-        validate_creation_and_deletion_dates(data)
+        if "creation_date" in data:
+            validate_creation_and_deletion_dates(data)
 
         return data
 

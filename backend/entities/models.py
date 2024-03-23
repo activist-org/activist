@@ -44,29 +44,29 @@ class Organization(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
-    status_updated = models.DateTimeField(auto_now=True, null=True)
-    acceptance_date = models.DateTimeField()
+    # status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
+    # status_updated = models.DateTimeField(auto_now=True, null=True)
+    acceptance_date = models.DateTimeField(null=True, blank=True)
     deletion_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
 
 
-class OrganizationApplicationStatus(models.Model):
-    id = models.IntegerField(primary_key=True)
-    status_name = models.CharField(max_length=255)
+# class OrganizationApplicationStatus(models.Model):
+#     id = models.IntegerField(primary_key=True)
+#     status_name = models.CharField(max_length=255)
 
-    def __str__(self) -> str:
-        return self.status_name
+#     def __str__(self) -> str:
+#         return self.status_name
 
 
 class OrganizationApplication(models.Model):
     id = models.IntegerField(primary_key=True)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    status = models.ForeignKey(
-        "OrganizationApplicationStatus", on_delete=models.CASCADE
-    )
+    # status = models.ForeignKey(
+    #     "OrganizationApplicationStatus", on_delete=models.CASCADE
+    # )
     orgs_in_favor = ArrayField(
         models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )

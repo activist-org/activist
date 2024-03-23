@@ -21,7 +21,7 @@ from .models import (
     GroupTopic,
     Organization,
     OrganizationApplication,
-    OrganizationApplicationStatus,
+    # OrganizationApplicationStatus,
     OrganizationEvent,
     OrganizationMember,
     OrganizationResource,
@@ -51,18 +51,18 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "description",
             "social_accounts",
             "high_risk",
-            "status",
-            "status_updated",
+            # "status",
+            # "status_updated",
             "acceptance_date",
         ]
 
 
-class OrganizationApplicationStatusSerializer(
-    serializers.ModelSerializer[OrganizationApplicationStatus]
-):
-    class Meta:
-        model = OrganizationApplicationStatus
-        fields = "__all__"
+# class OrganizationApplicationStatusSerializer(
+#     serializers.ModelSerializer[OrganizationApplicationStatus]
+# ):
+#     class Meta:
+#         model = OrganizationApplicationStatus
+#         fields = "__all__"
 
 
 class OrganizationApplicationSerializer(
@@ -136,15 +136,6 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         model = Group
         fields = "__all__"
 
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_empty(data["name"], "name")
-        validate_empty(data["created_by"], "created_by")
-        validate_flags_number(data)
-        validate_creation_and_deletion_dates(data)
-        validate_object_existence(User, data["created_by"])
-        validate_object_existence(Organization, data["org_id"])
-
-        return data
 
 
 class OrganizationTaskSerializer(serializers.ModelSerializer[OrganizationTask]):
