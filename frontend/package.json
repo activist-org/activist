@@ -29,6 +29,7 @@
     "cypress": "^13.6.6",
     "cypress-axe": "^1.5.0",
     "eslint": "^8.51.0",
+    "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-vue": "^9.17.0",
     "eslint-plugin-vuejs-accessibility": "^2.2.1",
     "nuxt": "^3.8.2",
