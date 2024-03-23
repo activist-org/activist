@@ -18,6 +18,7 @@ Contents:
     - GroupResource
     - GroupTopic
 """
+
 from uuid import uuid4
 
 from django.contrib.postgres.fields import ArrayField
@@ -31,7 +32,9 @@ class Organization(CreationDeletionMixin):
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     created_by = models.ForeignKey(
-        "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
+        "authentication.UserModel",
+        related_name="created_orgs",
+        on_delete=models.CASCADE,
     )
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
@@ -87,7 +90,7 @@ class OrganizationEvent(models.Model):
 
 class OrganizationMember(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)
@@ -113,7 +116,7 @@ class Group(CreationDeletionMixin):
     social_accounts = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
     )
-    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     category = models.CharField(max_length=255)
     total_flags = models.IntegerField(default=0)
     group_icon = models.OneToOneField(
@@ -156,7 +159,7 @@ class GroupEvent(models.Model):
 
 class GroupMember(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)

@@ -14,6 +14,7 @@ Contents:
     - DiscussionTag
     - Image
 """
+
 from uuid import uuid4
 
 from django.contrib.postgres.fields import ArrayField
@@ -43,7 +44,7 @@ class Resource(models.Model):
     url = models.URLField(max_length=255)
     total_flags = models.IntegerField(default=0)
     private = models.BooleanField(default=True)
-    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 

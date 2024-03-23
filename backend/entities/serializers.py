@@ -3,7 +3,7 @@ from typing import Dict, Union
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
-from authentication.models import User
+from authentication.models import UserModel
 from content.models import Resource, Task, Topic
 from events.models import Event
 from utils.utils import (
@@ -43,7 +43,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         validate_empty(data["description"], "description")
         validate_empty(data["topic"], "topic")
         validate_flags_number(data)
-        # validate_object_existence(User, data["created_by"]) TODO: BUG check if validate_object_existence can be fixed since causing errors during post requests
+        # validate_object_existence(UserModel, data["created_by"]) TODO: BUG check if validate_object_existence can be fixed since causing errors during post requests
 
         return data
 
@@ -105,7 +105,7 @@ class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMembe
             )
 
         validate_object_existence(Organization, data["org_id"])
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
 
         return data
 
@@ -134,7 +134,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         validate_empty(data["created_by"], "created_by")
         validate_flags_number(data)
         validate_creation_and_deletion_dates(data)
-        validate_object_existence(User, data["created_by"])
+        validate_object_existence(UserModel, data["created_by"])
 
         return data
 
@@ -183,7 +183,7 @@ class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Group, data["group_id"])
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
 
         return data
 

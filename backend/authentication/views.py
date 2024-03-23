@@ -1,11 +1,19 @@
 from rest_framework import status, viewsets
-from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
-from rest_framework.views import Response
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from backend.paginator import CustomPagination
 
-from .models import Support, SupportEntityType, User, UserResource, UserTask, UserTopic
+from .models import (
+    Support,
+    SupportEntityType,
+    UserModel,
+    UserResource,
+    UserTask,
+    UserTopic,
+)
 from .serializers import (
     SignupSerializer,
     SupportEntityTypeSerializer,
@@ -29,8 +37,8 @@ class SupportViewSet(viewsets.ModelViewSet[Support]):
     serializer_class = SupportSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet[User]):
-    queryset = User.objects.all()
+class UserViewSet(viewsets.ModelViewSet[UserModel]):
+    queryset = UserModel.objects.all()
     pagination_class = CustomPagination
     serializer_class = UserSerializer
 
@@ -53,15 +61,24 @@ class UserTopicViewSet(viewsets.ModelViewSet[UserTopic]):
     serializer_class = UserTopicSerializer
 
 
-class SignupView(CreateAPIView):
-    queryset = User.objects.all()
+class SignupView(APIView):
+    queryset = UserModel.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = SignupSerializer
 
-    def delete(self, request):
-        try:
-            user = User.objects.get(id=request.data.get("id"))
-        except User.DoesNotExist:
+    def post(self, request: Request) -> Response:
+        serializer = SignupSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "User was created successful"},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def delete(self, request: Request) -> Response:
+        user = UserModel.objects.filter(id=request.data.get("id")).first()
+        if user is None:
             return Response(
                 {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
             )

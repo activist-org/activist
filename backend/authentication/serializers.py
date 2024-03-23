@@ -3,7 +3,6 @@ from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
 from rest_framework import serializers
-from rest_framework.response import Response
 
 from content.models import Resource, Task, Topic
 from utils.utils import (
@@ -12,7 +11,14 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import Support, SupportEntityType, User, UserResource, UserTask, UserTopic
+from .models import (
+    Support,
+    SupportEntityType,
+    UserModel,
+    UserResource,
+    UserTask,
+    UserTopic,
+)
 
 
 class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
@@ -48,9 +54,9 @@ class SupportSerializer(serializers.ModelSerializer[Support]):
         return data
 
 
-class UserSerializer(serializers.ModelSerializer[User]):
+class UserSerializer(serializers.ModelSerializer[UserModel]):
     class Meta:
-        model = User
+        model = UserModel
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
@@ -79,7 +85,7 @@ class UserResourceSerializer(serializers.ModelSerializer[UserResource]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
         validate_object_existence(Resource, data["resource_id"])
 
         return data
@@ -91,7 +97,7 @@ class UserTaskSerializer(serializers.ModelSerializer[UserTask]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
         validate_object_existence(Task, data["task_id"])
 
         return data
@@ -103,52 +109,55 @@ class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
         validate_object_existence(Topic, data["topic_id"])
 
         return data
 
 
-class SignupSerializer(serializers.ModelSerializer[User]):
+class SignupSerializer(serializers.ModelSerializer[UserModel]):
     password_confirmed = serializers.CharField(write_only=True)
-    password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
-        fields = ("user_name", "password", "password_confirmed")
+        model = UserModel
+        fields = ("username", "password", "password_confirmed", "email")
+        extra_kwargs = {"password": {"write_only": True}}
 
-    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        validate_empty(data.get("user_name"), "user_name")
-        validate_empty(data.get("password"), "password")
-        validate_empty(data.get("password_confirmed"), "password_confirmed")
-        # TODO: email validation on the future
+        def validate(
+            self, data: Dict[str, Union[str, Any]]
+        ) -> Dict[str, Union[str, Any]]:
+            validate_empty(data.get("user_name"), "user_name")
+            validate_empty(data.get("password"), "password")
+            validate_empty(data.get("password_confirmed"), "password_confirmed")
+            # TODO: email validation on the future
 
-        pattern = (
-            r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$"
-        )
-
-        if not re.match(pattern, data["password"]):
-            raise serializers.ValidationError(
-                _(
-                    "The field password must be at least 12 characters long and contain at least one special character."
-                ),
-                code="invalid_password",
+            pattern = (
+                r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$"
             )
 
-        if data["password"] != data["password_confirmed"]:
-            raise serializers.ValidationError(
-                _("The passwords did not match. Please try again."),
-                code="invalid_password_confirmation",
-            )
+            if not re.match(pattern, data["password"]):
+                raise serializers.ValidationError(
+                    _(
+                        "The field password must be at least 12 characters long and contain at least one special character."
+                    ),
+                    code="invalid_password",
+                )
 
-        return data
+            if data["password"] != data["password_confirmed"]:
+                raise serializers.ValidationError(
+                    _("The passwords did not match. Please try again."),
+                    code="invalid_password_confirmation",
+                )
 
-    def create(self, validated_data: Dict[str, Union[str, Any]]) -> Response:
-        user = User(
-            username=validated_data["user_name"], password=validated_data["password"]
+            return data
+
+    def create(self, validated_data: Dict[str, Union[str, Any]]) -> UserModel:
+        validated_data.pop("password_confirmed")
+
+        user = UserModel.objects.create(
+            username=validated_data["username"],
+            password=validated_data["password"],
         )
-
-        user.user_name = validated_data["user_name"]
         user.save()
 
         return user
