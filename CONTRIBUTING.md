@@ -182,10 +182,10 @@ git remote add upstream https://github.com/activist-org/activist.git
 4. Start your docker images with the following:
 
    ```bash
-   docker compose up
+   docker compose --env-file .env.dev up
 
    # Or with new dependencies:
-   # docker compose up --build
+   # docker compose --env-file .env.dev up --build
 
    # And to stop the containers when you're done working:
    # docker compose down
@@ -226,7 +226,7 @@ You can then visit http://localhost:3000/ to see the development frontend build 
 Our backend depends on a connection to a postgres DB, therefore we need to setup the database first. Here our best option is to still use docker to create a postgres DB with the following command:
 
 ```bash
-docker compose up db
+docker compose --env-file .env.dev up db
 ```
 
 In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env.dev` file first.
