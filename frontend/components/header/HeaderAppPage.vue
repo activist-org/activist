@@ -2,7 +2,7 @@
   <PageBreadcrumbs class="mt-4" :organization="organization" :event="event" />
   <div
     v-if="underDevelopment"
-    class="flex flex-col lg:flex-row w-full py-1 pl-4 mt-3 border bg-light-warn-yellow/40 border-light-text rounded-md text-light-text dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow dark:border-dark-warn-yellow"
+    class="bg-light-warn-yellow/40 border-light-text text-light-text dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow dark:border-dark-warn-yellow mt-3 flex w-full flex-col rounded-md border py-1 pl-4 lg:flex-row"
   >
     <p>
       🚧&nbsp;&nbsp;{{
@@ -10,7 +10,7 @@
       }}&nbsp;
     </p>
     <a
-      class="flex items-center space-x-1 focus-brand link-text"
+      class="focus-brand link-text flex items-center space-x-1"
       href="https://github.com/activist-org/activist"
       target="_blank"
     >
@@ -27,7 +27,7 @@
   </div>
   <div class="flex items-baseline gap-2 md:gap-4">
     <h1
-      class="pt-4 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
+      class="responsive-h1 text-light-text dark:text-dark-text pt-4 font-bold transition-all duration-500"
     >
       {{ headerName }}
     </h1>
@@ -38,17 +38,17 @@
     />
   </div>
   <div
-    class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow lg:items-center"
+    class="flex w-full grow flex-col items-start justify-between space-y-4 pt-2 lg:flex-row lg:items-center lg:space-y-0 xl:pt-4"
   >
     <h2
       v-if="organization && organization.status === 'pending'"
-      class="transition-all duration-500 responsive-h4 text-light-warn-yellow dark:text-dark-warn-yellow"
+      class="responsive-h4 text-light-warn-yellow dark:text-dark-warn-yellow transition-all duration-500"
     >
       {{ $t("components.header-app-page.status-pending") }}
     </h2>
     <h2
       v-else-if="headerTagline"
-      class="transition-all duration-500 responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
+      class="responsive-h4 text-light-distinct-text dark:text-dark-distinct-text transition-all duration-500"
     >
       {{ headerTagline }}
     </h2>

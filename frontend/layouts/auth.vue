@@ -1,27 +1,27 @@
 <template>
   <HeaderWebsite class="md:hidden" />
-  <div class="h-screen grid grid-cols-1 md:grid-cols-2">
+  <div class="grid h-screen grid-cols-1 md:grid-cols-2">
     <Head>
       <Title>{{ $t(page.title) }}</Title>
     </Head>
     <div class="relative hidden md:block">
-      <div class="flex items-center justify-center w-full h-full">
+      <div class="flex h-full w-full items-center justify-center">
         <div
-          class="relative z-0 w-64 h-16 mb-6 overflow-y-hidden xl:h-24 xl:w-96"
+          class="relative z-0 mb-6 h-16 w-64 overflow-y-hidden xl:h-24 xl:w-96"
         >
           <LogoActivist
-            class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+            class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
           />
         </div>
       </div>
     </div>
     <div
-      class="h-full text-light-text dark:text-dark-text bg-light-layer-1 dark:bg-dark-layer-1"
+      class="text-light-text dark:text-dark-text bg-light-layer-1 dark:bg-dark-layer-1 h-full"
     >
-      <div class="justify-end hidden px-8 py-4 space-x-6 md:flex">
+      <div class="hidden justify-end space-x-6 px-8 py-4 md:flex">
         <DropdownLanguage />
         <BtnRouteInternal
-          class="flex items-center max-h-[38px] lg:max-h-[46px]"
+          class="flex max-h-[38px] items-center lg:max-h-[46px]"
           :label="page.label"
           :linkTo="page.link"
           :cta="true"
@@ -29,9 +29,9 @@
           :ariaLabel="page.ariaLabel"
         />
       </div>
-      <div class="flex-1 w-full pt-16 pb-4 md:pt-28 md:pb-8 space-y-4">
+      <div class="w-full flex-1 space-y-4 pb-4 pt-16 md:pb-8 md:pt-28">
         <div class="flex items-center justify-center p-4">
-          <h1 class="font-bold text-center responsive-h1 font-display">
+          <h1 class="responsive-h1 font-display text-center font-bold">
             {{ $t(page.message) }}
           </h1>
         </div>

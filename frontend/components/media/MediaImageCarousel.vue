@@ -1,6 +1,6 @@
 <template>
   <swiper-container
-    class="w-full h-full swiper card-style overflow-clip"
+    class="swiper card-style h-full w-full overflow-clip"
     :slidesPerView="1"
     :spaceBetween="0"
     :loop="true"
@@ -9,13 +9,13 @@
     <swiper-slide
       v-for="[idx, img] of imageUrls.entries()"
       :key="idx"
-      class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
+      class="bg-light-layer-2 dark:bg-dark-layer-2 flex items-center justify-center"
     >
       <img
+        class="object-cover object-center"
         :class="[
-          'object-cover',
-          'object-center',
-          props.fullscreen ? 'w-4/5 h-4/5' : 'h-[17.5rem]',
+          'w-4/5 h-4/5': props.fullscreen
+          'h-[17.5rem]': !props.fullscreen,
         ]"
         :src="img"
         alt="Media image carousel"

@@ -1,24 +1,16 @@
 <template>
   <aside
-    @mouseover="
-      sidebar.collapsed = false;
-      setContentScrollable();
+    @mouseover="collapseSidebar(false)"
+    @focus="collapseSidebar(false)"
+    @mouseleave="collapseSidebar(true)"
+    @focusout="
+      collapseSidebar(true);
+      handleFocusOut($event);
     "
-    @focus="
-      sidebar.collapsed = false;
-      setContentScrollable();
-    "
-    @mouseleave="
-      sidebar.collapsed = true;
-      setContentScrollable();
-    "
-    @blur="
-      sidebar.collapsed = true;
-      setContentScrollable();
-    "
+    ref="sidebarWrapper"
     role="menu"
     tabindex="0"
-    class="absolute z-10 flex-col hidden h-full border-r transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1 md:flex border-light-section-div dark:border-dark-section-div elem-shadow-sm focus-brand"
+    class="bg-light-layer-1 dark:bg-dark-layer-1 border-light-section-div dark:border-dark-section-div elem-shadow-sm focus-brand absolute z-10 hidden h-full flex-col border-r transition-all duration-500 md:flex"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
@@ -309,6 +301,22 @@ const contentScrollable = ref(false);
 function setContentScrollable(): void {
   contentScrollable.value =
     content.value.scrollHeight > content.value.clientHeight ? true : false;
+}
+
+const sidebarWrapper = ref<HTMLElement | null>(null);
+
+function collapseSidebar(collapse: boolean): void {
+  sidebar.collapsed = collapse;
+  setContentScrollable();
+}
+
+function handleFocusOut(event: FocusEvent) {
+  const focusedElement = event.relatedTarget as HTMLElement;
+  if (sidebarWrapper.value && sidebarWrapper.value.contains(focusedElement)) {
+    collapseSidebar(false);
+  } else {
+    collapseSidebar(true);
+  }
 }
 
 onMounted(() => {
