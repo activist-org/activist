@@ -1,15 +1,15 @@
 <template>
   <MenuLinkWrapper :to="routeURL" :selected="selected">
     <div
-      class="relative z-0 flex items-center w-full text-sm font-medium text-left space-x-2"
+      class="relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
     >
       <span class="pl-1">
-        <Icon v-if="iconURL" class="flex-shrink-0 w-5 h-5" :name="iconURL" />
+        <Icon v-if="iconURL" class="h-5 w-5 flex-shrink-0" :name="iconURL" />
       </span>
       <Transition>
         <p
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          class="select-none whitespace-nowrap hover:light-menu-selection"
+          class="hover:light-menu-selection select-none whitespace-nowrap"
         >
           <span class="sr-only">{{ $t("_global.navigate-to") }}</span>
           {{ $t(label) }}

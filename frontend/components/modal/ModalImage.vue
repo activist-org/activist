@@ -2,7 +2,7 @@
   <ModalBase imageModal>
     <template #normalDisplay>
       <button
-        class="hidden p-4 cursor-pointer md:block md:float-right md:w-1/3 2xl:w-full 2xl:col-span-1 h-min focus-brand"
+        class="focus-brand hidden h-min cursor-pointer p-4 md:float-right md:block md:w-1/3 2xl:col-span-1 2xl:w-full"
         :aria-label="$t('components.modal-image.open-modal-aria-label')"
       >
         <img
@@ -20,13 +20,13 @@
     <template #modalDisplay>
       <img
         v-if="$colorMode.value == 'light'"
-        class="object-contain w-4/5"
+        class="w-4/5 object-contain"
         :src="imageURL + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        class="object-contain w-4/5"
+        class="w-4/5 object-contain"
         :src="imageURL + '_dark.png'"
         :alt="$t(imageAltText)"
       />

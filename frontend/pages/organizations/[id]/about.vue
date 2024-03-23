@@ -1,12 +1,12 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col px-4 xl:px-8"
   >
     <Head>
       <Title>{{ organization.name }}</Title>
     </Head>
     <HeaderAppPage :organization="organization">
-      <div class="flex pb-3 space-x-2 lg:space-x-3 lg:pb-4">
+      <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnAction
           class="w-max"
           :cta="true"
@@ -27,7 +27,7 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="pb-6 space-y-6">
+    <div class="space-y-6 pb-6">
       <CardOrgApplicationVote
         v-if="organization.status === 'pending'"
         @up-vote="upVotes++"
@@ -38,9 +38,9 @@
         :downVotes="downVotes"
       />
       <div
-        class="pb-6 grid grid-cols-1 grid-rows-2 space-y-6 lg:grid-cols-3 lg:grid-rows-1 lg:pb-0 lg:space-y-0"
+        class="grid grid-cols-1 grid-rows-2 space-y-6 pb-6 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0 lg:pb-0"
         :class="{
-          'lg:space-x-6 lg:mr-6': !textExpanded,
+          'lg:mr-6 lg:space-x-6': !textExpanded,
         }"
       >
         <CardAbout
@@ -52,7 +52,7 @@
           aboutType="organization"
           :organization="organization"
         />
-        <div class="w-full h-full relative">
+        <div class=""h-full w-full relative">
           <ModalUploadImage>
             <template #normalDisplay>
               <button
@@ -65,7 +65,6 @@
               </button>
             </template>
           </ModalUploadImage>
-          
           <MediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
         </div>
       </div>

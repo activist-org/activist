@@ -18,7 +18,7 @@
         :customColor="option.customColor"
       />
     </div>
-    <div v-if="allowCustomValue" class="flex flex-1 w-full">
+    <div v-if="allowCustomValue" class="flex w-full flex-1">
       <label
         v-if="showAdditionalInput"
         :for="customValueType"
@@ -32,7 +32,7 @@
         v-model="customValue"
         @input="inputDebounce"
         :id="customValueType"
-        class="flex-1 w-full pl-4 pr-2 font-bold border border-r-0 outline-none border-light-interactive rounded-l-md bg-light-layer-2 dark:bg-dark-layer-2 dark:border-dark-interactive text-light-distinct-text dark:text-dark-distinct-text"
+        class="border-light-interactive bg-light-layer-2 dark:bg-dark-layer-2 dark:border-dark-interactive text-light-distinct-text dark:text-dark-distinct-text w-full flex-1 rounded-l-md border border-r-0 pl-4 pr-2 font-bold outline-none"
         :type="customValueType"
         :placeholder="
           $t('components.form-radio-group.custom-numeric-value-placeholder')
@@ -40,7 +40,7 @@
       />
       <button
         @click="toggleAdditionalInput"
-        class="rounded-r-md relative min-w-[3rem] h-9 border border-light-interactive dark:border-dark-interactive focus-brand"
+        class="border-light-interactive dark:border-dark-interactive focus-brand relative h-9 min-w-[3rem] rounded-r-md border"
         :class="{
           'bg-light-layer-2 text-light-distinct-text dark:bg-dark-layer-2 dark:text-dark-distinct-text':
             !showAdditionalInput,

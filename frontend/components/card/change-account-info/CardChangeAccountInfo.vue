@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-center card-style md:justify-start">
-    <div class="flex flex-col w-full p-2 sm:px-5 sm:py-3 h-fit">
+  <div class="card-style flex justify-center md:justify-start">
+    <div class="flex h-fit w-full flex-col p-2 sm:px-5 sm:py-3">
       <slot />
-      <div class="flex items-center pt-4 space-x-6">
+      <div class="flex items-center space-x-6 pt-4">
         <FriendlyCaptcha />
         <BtnAction
           class="flex max-h-[48px] md:max-h-[40px]"

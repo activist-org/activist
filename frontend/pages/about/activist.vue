@@ -9,10 +9,10 @@
       imgURL="/images/content_pages/icons/activist_icon"
       imgAltText="_global.activist-icon-img-alt-text"
     >
-      <h1 class="pb-2 font-bold responsive-h1">
+      <h1 class="responsive-h1 pb-2 font-bold">
         {{ $t("pages.about.activist.header") }}
       </h1>
-      <div class="flex flex-row py-2 space-x-3">
+      <div class="flex flex-row space-x-3 py-2">
         <Icon
           class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
           name="bi:info-circle-fill"
@@ -21,7 +21,7 @@
         <p>
           {{ $t("pages._global.see-the") }}
           <a
-            class="items-center focus-brand link-text"
+            class="focus-brand link-text items-center"
             href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=805%3A231&t=vNWHCPdiq5EbPaO9-1"
             target="_blank"
           >

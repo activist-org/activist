@@ -130,7 +130,6 @@ We would be happy to discuss granting you further rights as a contributor after 
 > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
 > - [charliermarsh.ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
 > - [esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-> - [heybourn.headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)
 > - [streetsidesoftware.code-spell-checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 >

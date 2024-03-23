@@ -2,18 +2,18 @@
   <!-- Note: Content Sections Left and Right for Desktop (xl) -->
   <div class="flex flex-row justify-start">
     <!-- Note: Content Sections Left -->
-    <div class="mt-0 justify-items-start w-[80%] flex flex-col">
+    <div class="mt-0 flex w-[80%] flex-col justify-items-start">
       <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
-      <div class="relative z-0 h-10 overflow-y-hidden w-36 focus-inside">
+      <div class="focus-inside relative z-0 h-10 w-36 overflow-y-hidden">
         <LogoActivist
-          class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+          class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
         />
       </div>
-      <p class="mt-3 text-light-text dark:text-dark-text">
+      <p class="text-light-text dark:text-dark-text mt-3">
         {{ $t("components.footer._global.activist-tagline") }}
       </p>
       <!-- Note: Platform Links -->
-      <div class="flex justify-start mt-2">
+      <div class="mt-2 flex justify-start">
         <template v-for="(platform, index) in links.platformLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink
@@ -33,7 +33,7 @@
         </template>
       </div>
       <!-- Note: Legal Links -->
-      <div class="flex mt-5">
+      <div class="mt-5 flex">
         <template v-for="(policy, index) in links.legalLinks">
           <div class="hover:text-light-text dark:hover:text-dark-text">
             <NuxtLink class="focus-brand" :to="localePath(policy.url)">
@@ -44,13 +44,13 @@
         </template>
       </div>
       <a
-        class="mt-2 w-fit hover:text-light-text dark:hover:text-dark-text focus-brand"
+        class="hover:text-light-text dark:hover:text-dark-text focus-brand mt-2 w-fit"
         href="https://www.netlify.com/"
         target="_blank"
       >
         {{ $t("components.footer._global.powered-by-netlify") }}
       </a>
-      <div class="mt-2 text-light-text dark:text-dark-text">
+      <div class="text-light-text dark:text-dark-text mt-2">
         {{
           $t("components._global.copyright", { year: new Date().getFullYear() })
         }}
@@ -58,16 +58,16 @@
     </div>
     <!-- Note: Content Sections Right -->
     <div
-      class="flex justify-end w-full lg:space-x-6 xl:space-x-8 2xl:space-x-24"
+      class="flex w-full justify-end lg:space-x-6 xl:space-x-8 2xl:space-x-24"
     >
       <!-- Note: Connect Links -->
       <div>
-        <p class="text-xl font-medium text-light-text dark:text-dark-text">
+        <p class="text-light-text dark:text-dark-text text-xl font-medium">
           {{ $t("components._global.connect") }}
         </p>
         <template v-for="(connect, index) in links.connectLinks">
           <a
-            class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+            class="hover:text-light-text dark:hover:text-dark-text focus-brand mt-2 flex items-center space-x-2 text-base"
             :class="{ 'mt-3': index === 0 }"
             :href="connect.url"
             target="_blank"
@@ -84,12 +84,12 @@
       </div>
       <!-- Note: Resources Links -->
       <div>
-        <p class="text-xl font-medium text-light-text dark:text-dark-text">
+        <p class="text-light-text dark:text-dark-text text-xl font-medium">
           {{ $t("_global.resources") }}
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p
-            class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
+            class="hover:text-light-text dark:hover:text-dark-text mt-2 text-base"
             :class="{ 'mt-3': index === 0 }"
           >
             <NuxtLink class="focus-brand" :to="localePath(resource.url)">
@@ -100,12 +100,12 @@
       </div>
       <!-- Note: Organization Links -->
       <div>
-        <p class="text-xl font-medium text-light-text dark:text-dark-text">
+        <p class="text-light-text dark:text-dark-text text-xl font-medium">
           {{ $t("_global.organization") }}
         </p>
         <template v-for="(oLink, index) in links.organizationLinks">
           <p
-            class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
+            class="hover:text-light-text dark:hover:text-dark-text mt-2 text-base"
             :class="{ 'mt-3': index === 0 }"
           >
             <NuxtLink class="focus-brand" :to="localePath(oLink.url)">

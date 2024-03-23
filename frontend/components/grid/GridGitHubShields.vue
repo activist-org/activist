@@ -1,13 +1,13 @@
 <template>
-  <div class="grid grid-flow-row gap-3 md:gap-5 sm:grid-flow-col w-fit">
+  <div class="grid w-fit grid-flow-row gap-3 sm:grid-flow-col md:gap-5">
     <ShieldGitHub
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist"
       :isLoading="isLoading"
     >
       <Icon name="simple-icons:github" size="2em" />
-      <div class="pb-1 ml-4 place-self-center">
-        <div class="font-semibold text-xs leading-4 ml-0.5">
+      <div class="ml-4 place-self-center pb-1">
+        <div class="ml-0.5 text-xs font-semibold leading-4">
           {{ $t("components.grid-github-shields.visit-us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">

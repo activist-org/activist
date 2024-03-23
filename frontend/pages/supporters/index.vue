@@ -6,7 +6,7 @@
       <Title>{{ $t("_global.supporters") }}</Title>
     </Head>
     <div class="bg-light-layer-1 dark:bg-dark-layer-1">
-      <div class="flex flex-col w-full responsive-py-4 responsive-px-5">
+      <div class="responsive-py-4 responsive-px-5 flex w-full flex-col">
         <HeaderAppPage
           :header="$t('_global.supporters')"
           :tagline="$t('pages.supporters.index.subheader')"
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="responsive-py-5 responsive-px-5">
-      <h3 class="transition-all duration-500 responsive-h2">
+      <h3 class="responsive-h2 transition-all duration-500">
         {{ $t("pages._global.our-network") }}
       </h3>
       <p

@@ -9,7 +9,7 @@
       imgURL="/images/content_pages/icons/bootstrap_trademark"
       imgAltText="pages.legal._global.trademark-policy-alt-text"
     >
-      <h1 class="pb-2 font-bold responsive-h1">Trademark Policy</h1>
+      <h1 class="responsive-h1 pb-2 font-bold">Trademark Policy</h1>
       <p
         class="responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
       >
@@ -35,7 +35,7 @@
         .
         {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-2") }}
       </p>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.trademark-policy.section-2-subheader") }}
       </h2>
       <ul class="ml-6 list-disc">
@@ -64,7 +64,7 @@
           {{ $t("pages.legal.trademark-policy.section-2-list-1-item-8") }}
         </li>
       </ul>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.trademark-policy.section-3-subheader") }}
       </h2>
       <p>
@@ -78,7 +78,7 @@
           {{ $t("pages.legal.trademark-policy.section-3-list-1-item-2") }}
         </li>
       </ul>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.trademark-policy.section-4-subheader") }}
       </h2>
       <ul class="ml-6 list-disc">
@@ -86,7 +86,7 @@
           {{ $t("pages.legal.trademark-policy.section-4-list-1-item-1") }}
         </li>
       </ul>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.trademark-policy.section-5-subheader") }}
       </h2>
       <p>

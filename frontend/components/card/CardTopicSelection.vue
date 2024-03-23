@@ -1,6 +1,6 @@
 <template v-model="value">
-  <div class="flex-col w-full px-5 py-6 space-y-3 card-style">
-    <p class="font-medium responsive-h3 text-light-text dark:text-dark-text">
+  <div class="card-style w-full flex-col space-y-3 px-5 py-6">
+    <p class="responsive-h3 text-light-text dark:text-dark-text font-medium">
       {{ $t("components.card-topic-selection.header") }}
     </p>
     <p class="text-light-text dark:text-dark-text">
@@ -13,7 +13,7 @@
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card-topic-selection.selector-placeholder')"
-      class="w-full py-2 pl-4 topicInput rounded-md text-light-distinct-text dark:text-dark-distinct-text bg-light-layer-0 dark:bg-dark-layer-0 elem-shadow-sm focus-brand"
+      class="topicInput text-light-distinct-text dark:text-dark-distinct-text bg-light-layer-0 dark:bg-dark-layer-0 elem-shadow-sm focus-brand w-full rounded-md py-2 pl-4"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic
@@ -67,7 +67,7 @@
           inputFocus == true ? (moreOptionsShown = false) : !moreOptionsShown;
         inputFocus = false;
       "
-      class="cursor-pointer link-text sm:hidden"
+      class="link-text cursor-pointer sm:hidden"
     >
       <div v-if="!moreOptionsShown && !inputFocus">
         {{ $t("components.card-topic-selection.view-all-topics") }}

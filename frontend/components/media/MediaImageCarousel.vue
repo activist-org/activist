@@ -1,6 +1,6 @@
 <template>
   <swiper-container
-    class="w-full h-full swiper card-style overflow-clip"
+    class="swiper card-style h-full w-full overflow-clip"
     :slidesPerView="1"
     :spaceBetween="0"
     :loop="true"
@@ -9,9 +9,9 @@
     <swiper-slide
       v-for="[idx, img] of imageUrls.entries()"
       :key="idx"
-      class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
+      class="bg-light-layer-2 dark:bg-dark-layer-2 flex items-center justify-center"
     >
-      <img class="object-cover h-[17.5rem] object-center" :src="img" alt="" />
+      <img class="h-[17.5rem] object-cover object-center" :src="img" alt="" />
     </swiper-slide>
   </swiper-container>
 </template>
