@@ -153,7 +153,7 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
 
 ## Formatting [`⇧`](#contents)
 
-The activist frontend uses [Prettier](https://prettier.io/) to format the code and [Headwind](https://github.com/heybourn/headwind) to sort Tailwind CSS classes. Backend code that's written in Python should be formatted using [black](https://github.com/psf/black). The team suggests that you set up your environment to autoformat using te these formatters on save. We have workflows to check formatting for pull requests and will notify you if something's wrong :)
+The activist frontend uses [Prettier](https://prettier.io/) to format the code and [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) to sort Tailwind CSS classes. Backend code that's written in Python should be formatted using [black](https://github.com/psf/black). The team suggests that you set up your environment to autoformat using te these formatters on save. We have workflows to check formatting for pull requests and will notify you if something's wrong :)
 
 <a id="colors"></a>
 
