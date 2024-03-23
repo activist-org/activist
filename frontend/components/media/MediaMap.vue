@@ -36,6 +36,7 @@ const profileColors = {
   bike: colors.routelineBike,
 };
 
+
 function isWebglSupported() {
   if (window.WebGLRenderingContext) {
     const canvas = document.createElement("canvas");
