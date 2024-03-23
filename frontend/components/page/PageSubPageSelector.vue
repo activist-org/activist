@@ -14,8 +14,8 @@
                 'flex w-full justify-center border-y-[1px] border-l-[1px] px-3 py-1',
                 'border-light-text dark:border-dark-text',
                 selected
-                  ? 'bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1 hover:bg-light-menu-selection/90 dark:hover:bg-dark-menu-selection/90'
-                  : 'bg-light-layer-2 dark:bg-dark-layer-2 text-light-text dark:text-dark-text hover:bg-light-highlight dark:hover:bg-dark-highlight',
+                  ? 'bg-light-menu-selection text-light-layer-1 hover:bg-light-menu-selection/90 dark:bg-dark-menu-selection dark:text-dark-layer-1 dark:hover:bg-dark-menu-selection/90'
+                  : 'bg-light-layer-2 text-light-text hover:bg-light-highlight dark:bg-dark-layer-2 dark:text-dark-text dark:hover:bg-dark-highlight',
               ]"
               :to="localePath(selector.routeURL)"
             >

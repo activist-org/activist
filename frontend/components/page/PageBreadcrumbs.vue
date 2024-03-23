@@ -4,38 +4,38 @@
       <li
         v-for="(breadcrumb, index) in displayBreadcrumbs"
         :key="index"
-        class="font-display flex items-center"
+        class="flex items-center font-display"
       >
         <NuxtLink
           v-if="index === 0"
-          class="text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text focus-brand mx-[0.35rem]"
+          class="focus-brand mx-[0.35rem] text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
           :to="localePath('/')"
         >
           &#60;
         </NuxtLink>
         <span
           v-else
-          class="text-light-distinct-text dark:text-dark-distinct-text mx-[0.45rem] mb-[0.2rem]"
+          class="mx-[0.45rem] mb-[0.2rem] text-light-distinct-text dark:text-dark-distinct-text"
           >|</span
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <a
             v-if="Number.isInteger(Number(breadcrumb)) && event"
-            class="text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text focus-brand"
+            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :href="makeURL(breadcrumb)"
           >
             {{ event.name }}
           </a>
           <a
             v-else-if="Number.isInteger(Number(breadcrumb)) && organization"
-            class="text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text focus-brand"
+            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :href="makeURL(breadcrumb)"
           >
             {{ organization.name }}
           </a>
           <a
             v-else
-            class="text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text focus-brand"
+            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :href="makeURL(breadcrumb)"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
@@ -43,7 +43,7 @@
         </span>
         <span v-else>
           <a
-            class="text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text focus-brand"
+            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :href="makeURL(breadcrumb)"
             aria-current="page"
           >

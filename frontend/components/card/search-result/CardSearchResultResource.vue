@@ -2,7 +2,7 @@
   <div class="relative flex w-full flex-col md:flex-row">
     <div class="flex w-full justify-center md:w-fit">
       <div
-        class="border-light-section-div dark:border-dark-section-div bg-light-layer-0 dark:bg-dark-layer-0 w-fit rounded-lg border"
+        class="w-fit rounded-lg border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
       >
         <img
           v-if="resource.imageURL"
@@ -20,7 +20,7 @@
             'h-[150px] w-[150px]': reduced,
             'h-[200px] w-[200px]': !reduced,
           }"
-          class="fill-light-text dark:fill-dark-text flex items-center justify-center"
+          class="flex items-center justify-center fill-light-text dark:fill-dark-text"
         >
           <Icon name="IconResource" class="h-[75%] w-[75%]" />
         </div>

@@ -1,10 +1,10 @@
 <template>
   <div class="h-4">
     <div
-      class="bg-light-distinct-text dark:bg-dark-distinct-text h-1 rounded-md"
+      class="h-1 rounded-md bg-light-distinct-text dark:bg-dark-distinct-text"
     >
       <div
-        class="transition-width h-1 rounded-md duration-500 ease-in"
+        class="h-1 rounded-md transition-width duration-500 ease-in"
         :class="!!passwordValue.length ? `${color}` : ''"
         :style="`width: ${width}%;`"
       ></div>
@@ -13,9 +13,9 @@
       class="float-right mt-1 text-xs"
       :class="{
         'text-light-distinct-text dark:text-dark-distinct-text':
-          color !== 'bg-light-text dark-bg-dark-text',
+          color !== 'dark-bg-dark-text bg-light-text',
         'text-light-text dark:text-dark-text':
-          color === 'bg-light-text dark-bg-dark-text',
+          color === 'dark-bg-dark-text bg-light-text',
       }"
     >
       {{ $t("components.password-strength.title") }}:

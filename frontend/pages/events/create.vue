@@ -1,5 +1,5 @@
 <template>
-  <div class="text-light-text dark:text-dark-text w-full">
+  <div class="w-full text-light-text dark:text-dark-text">
     <ProgressBar type="default" :progress="1" :start="1" :end="1" />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" :breadcrumbs="breadcrumbs" />

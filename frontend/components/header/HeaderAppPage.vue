@@ -2,7 +2,7 @@
   <PageBreadcrumbs class="mt-4" :organization="organization" :event="event" />
   <div
     v-if="underDevelopment"
-    class="bg-light-warn-yellow/40 border-light-text text-light-text dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow dark:border-dark-warn-yellow mt-3 flex w-full flex-col rounded-md border py-1 pl-4 lg:flex-row"
+    class="mt-3 flex w-full flex-col rounded-md border border-light-text bg-light-warn-yellow/40 py-1 pl-4 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow lg:flex-row"
   >
     <p>
       🚧&nbsp;&nbsp;{{
@@ -27,7 +27,7 @@
   </div>
   <div class="flex items-baseline gap-2 md:gap-4">
     <h1
-      class="responsive-h1 text-light-text dark:text-dark-text pt-4 font-bold transition-all duration-500"
+      class="responsive-h1 pt-4 font-bold text-light-text transition-all duration-500 dark:text-dark-text"
     >
       {{ headerName }}
     </h1>
@@ -42,13 +42,13 @@
   >
     <h2
       v-if="organization && organization.status === 'pending'"
-      class="responsive-h4 text-light-warn-yellow dark:text-dark-warn-yellow transition-all duration-500"
+      class="responsive-h4 text-light-warn-yellow transition-all duration-500 dark:text-dark-warn-yellow"
     >
       {{ $t("components.header-app-page.status-pending") }}
     </h2>
     <h2
       v-else-if="headerTagline"
-      class="responsive-h4 text-light-distinct-text dark:text-dark-distinct-text transition-all duration-500"
+      class="responsive-h4 text-light-distinct-text transition-all duration-500 dark:text-dark-distinct-text"
     >
       {{ headerTagline }}
     </h2>

@@ -13,7 +13,7 @@
   <Dialog @close="closeModal" class="relative z-40" :open="isOpen">
     <div
       @click="closeModal"
-      class="bg-light-popup dark:bg-dark-popup fixed inset-0 cursor-pointer"
+      class="fixed inset-0 cursor-pointer bg-light-popup dark:bg-dark-popup"
       aria-hidden="true"
     />
     <div
@@ -27,14 +27,14 @@
       <DialogPanel
         :class="{
           'flex flex-col items-center': imageModal,
-          'card-style-base bg-light-layer-0 dark:bg-dark-layer-0 text-light-text dark:text-dark-text container h-full w-full max-w-4xl cursor-default overflow-y-auto p-5 pl-6 md:h-auto':
+          'card-style-base container h-full w-full max-w-4xl cursor-default overflow-y-auto bg-light-layer-0 p-5 pl-6 text-light-text dark:bg-dark-layer-0 dark:text-dark-text md:h-auto':
             !imageModal,
         }"
       >
         <button
           v-if="imageModal"
           @click="closeModal"
-          class="text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1"
+          class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
           <Icon class="h-10 w-10" name="bi:x-circle-fill" />
@@ -42,7 +42,7 @@
         <div v-else class="relative">
           <button
             @click="closeModal"
-            class="text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand absolute right-0 rounded-full p-1"
+            class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
           >
             <Icon class="h-10 w-10" name="bi:x-circle-fill" />
           </button>

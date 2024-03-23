@@ -3,7 +3,7 @@
     <div class="flex space-x-3">
       <button
         v-for="t in tags"
-        class="bg-light-layer-2 dark:bg-dark-layer-2 border-light-text dark:border-dark-text text-light-text dark:text-dark-text elem-shadow-sm focus-brand flex rounded-md border-[1.25px] px-3 py-1 hover:bg-black/10 dark:hover:bg-white/20"
+        class="elem-shadow-sm focus-brand flex rounded-md border-[1.25px] border-light-text bg-light-layer-2 px-3 py-1 text-light-text hover:bg-black/10 dark:border-dark-text dark:bg-dark-layer-2 dark:text-dark-text dark:hover:bg-white/20"
       >
         {{ t }}
       </button>

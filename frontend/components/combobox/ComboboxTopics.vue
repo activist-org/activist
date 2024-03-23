@@ -12,11 +12,11 @@
               @keyup.enter="inputFocussed = false"
               @focus="handleInputFocus"
               @blur="inputFocussed = false"
-              class="style-cta selection:bg-light-highlight rounded-lg border py-2 pl-4 dark:selection:bg-white/20"
+              class="style-cta rounded-lg border py-2 pl-4 selection:bg-light-highlight dark:selection:bg-white/20"
               :displayValue="displayValueHandler"
             />
             <div
-              class="text-light-text dark:text-dark-cta-orange absolute inset-y-0 right-0 flex items-center pr-3"
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-light-text dark:text-dark-cta-orange"
             >
               <Icon name="bi:chevron-expand" />
             </div>
@@ -30,11 +30,11 @@
         >
           <ComboboxOptions
             id="isVisibleElement"
-            class="bg-light-layer-1 dark:bg-dark-layer-1 elem-shadow-lg absolute mt-1 max-h-60 w-full overflow-auto rounded-md text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="elem-shadow-lg absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-layer-1 text-base ring-1 ring-black/5 focus:outline-none dark:bg-dark-layer-1 sm:text-sm"
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
-              class="text-light-distinct-text dark:text-dark-distinct-text relative cursor-default select-none px-4 py-2"
+              class="relative cursor-default select-none px-4 py-2 text-light-distinct-text dark:text-dark-distinct-text"
             >
               {{ $t("components.combobox-topics.no-matching-topics") }}
             </div>

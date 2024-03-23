@@ -8,7 +8,7 @@
   <div
     ref="target"
     id="drawer-navigation"
-    class="bg-light-layer-1 border-light-section-div dark:bg-dark-layer-1 dark:border-dark-section-div elem-shadow-sm fixed right-0 top-0 z-30 h-screen overflow-y-auto overflow-x-hidden border-l pt-12 transition-[max-width] duration-200"
+    class="elem-shadow-sm fixed right-0 top-0 z-30 h-screen overflow-y-auto overflow-x-hidden border-l border-light-section-div bg-light-layer-1 pt-12 transition-[max-width] duration-200 dark:border-dark-section-div dark:bg-dark-layer-1"
     :class="{
       'max-w-0 px-0': !menuOpen,
       'max-w-[16rem] px-4': menuOpen,
