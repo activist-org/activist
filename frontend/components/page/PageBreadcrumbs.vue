@@ -4,18 +4,18 @@
       <li
         v-for="(breadcrumb, index) in displayBreadcrumbs"
         :key="index"
-        class="flex items-center font-display"
+        class="font-display flex items-center"
       >
         <NuxtLink
           v-if="index === 0"
-          class="mx-[0.35rem] text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text focus-brand"
+          class="text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text focus-brand mx-[0.35rem]"
           :to="localePath('/')"
         >
           &#60;
         </NuxtLink>
         <span
           v-else
-          class="mx-[0.45rem] mb-[0.2rem] text-light-distinct-text dark:text-dark-distinct-text"
+          class="text-light-distinct-text dark:text-dark-distinct-text mx-[0.45rem] mb-[0.2rem]"
           >|</span
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">

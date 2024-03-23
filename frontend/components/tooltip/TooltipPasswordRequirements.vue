@@ -1,21 +1,21 @@
 <template>
   <TooltipBase
-    class="transition ease-in-out delay-150 min-w-[200px] md:min-w-[450px] pt-2 pb-4 z-20"
+    class="z-20 min-w-[200px] pb-4 pt-2 transition delay-150 ease-in-out md:min-w-[450px]"
   >
-    <span class="px-2 mb-2">{{
+    <span class="mb-2 px-2">{{
       $t("components.tooltip-password-requirements.password-rules-message")
     }}</span>
     <div
       v-for="(rule, index) in rules"
       :key="`password-rule-${index}`"
-      class="flex items-center px-2 space-x-2"
+      class="flex items-center space-x-2 px-2"
     >
       <Icon
         :name="rule.isValid ? 'bi:check-circle-fill' : 'bi:x-circle-fill'"
         size="0.9em"
         :style="{ color: rule.isValid ? '#198754' : '#BA3D3B' }"
       />
-      <span class="text-sm truncate">{{
+      <span class="truncate text-sm">{{
         $t(passwordRequirementsDict[rule.message])
       }}</span>
     </div>

@@ -1,6 +1,6 @@
 <template>
-  <div id="qr-code" class="flex flex-col w-max">
-    <div class="relative flex justify-center w-max">
+  <div id="qr-code" class="flex w-max flex-col">
+    <div class="relative flex w-max justify-center">
       <svg
         id="result-qr"
         :width="`${computedWidth}`"

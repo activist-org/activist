@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col justify-center mx-1 transition-all duration-500">
+  <div class="mx-1 flex flex-col justify-center transition-all duration-500">
     <div
-      class="p-1 space-y-1 rounded-md bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm"
+      class="bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm space-y-1 rounded-md p-1"
     >
       <!-- In the v-for don't select Home. -->
       <SidebarLeftSelector

@@ -1,11 +1,11 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between px-8 py-8 gap-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col items-center justify-between gap-8 px-8 py-8"
   >
     <Head>
       <Title>{{ event.name }} </Title>
     </Head>
-    <div class="w-3/4 h-[260px] mx-auto">
+    <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
         :eventType="event.type"
         :imgURL="event?.imageURL"
@@ -18,17 +18,17 @@
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1
-        class="text-3xl font-bold text-center responsive-h1 text-light-text dark:text-dark-text"
+        class="responsive-h1 text-light-text dark:text-dark-text text-center text-3xl font-bold"
       >
         {{ event.name }}
       </h1>
       <h2
-        class="text-lg font-bold responsive-h2 text-light-distinct-text dark:text-dark-distinct-text"
+        class="responsive-h2 text-light-distinct-text dark:text-dark-distinct-text text-lg font-bold"
       >
         {{ event.tagline }}
       </h2>
     </div>
-    <div class="flex flex-col items-center w-full gap-4">
+    <div class="flex w-full flex-col items-center gap-4">
       <MenuLinkWrapper
         v-for="[i, button] of eventButtons.entries()"
         :key="i"
@@ -36,16 +36,16 @@
         :selected="button.selected"
       >
         <div
-          class="flex items-center w-full text-sm font-medium text-left space-x-2"
+          class="flex w-full items-center space-x-2 text-left text-sm font-medium"
         >
           <span class="width-1/6"
             ><Icon
               v-if="button.iconURL"
               :name="button.iconURL"
-              class="flex-shrink-0 w-5 h-5"
+              class="h-5 w-5 flex-shrink-0"
           /></span>
           <p
-            class="text-lg font-bold select-none width-5/6 whitespace-nowrap hover:light-menu-selection"
+            class="width-5/6 hover:light-menu-selection select-none whitespace-nowrap text-lg font-bold"
           >
             <span class="sr-only">{{ $t("_global.navigate-to") }}</span>
             {{ $t(button.label) }}

@@ -11,12 +11,12 @@
     >
       <div
         v-if="!emailSent"
-        class="items-center text-left space-y-4 md:items-start"
+        class="items-center space-y-4 text-left md:items-start"
       >
-        <h1 class="pb-2 font-bold responsive-h1">
+        <h1 class="responsive-h1 pb-2 font-bold">
           {{ $t("pages.help.contact.header") }}
         </h1>
-        <div class="flex flex-row py-2 space-x-3">
+        <div class="flex flex-row space-x-3 py-2">
           <Icon
             class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             name="bi:info-circle-fill"
@@ -25,7 +25,7 @@
           <p>
             {{ $t("pages.help.faq.subheader-1") }}
             <a
-              class="items-center focus-brand link-text"
+              class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
@@ -43,7 +43,7 @@
           <p>
             {{ $t("pages.help.contact.section-1-paragraph-1-1") }}
             <a
-              class="items-center focus-brand link-text"
+              class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
             >
               {{ $t("_global.public-matrix-chat-rooms") }}
@@ -55,7 +55,7 @@
             </a>
             {{ $t("pages.help.contact.section-1-paragraph-1-3") }}
             <a
-              class="items-center focus-brand link-text"
+              class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist"
             >
               {{ $t("components.page-community-footer.invite-text-2-2") }}
@@ -70,7 +70,7 @@
           <p>
             {{ $t("pages.help.contact.section-1-paragraph-2-1") }}
             <a
-              class="items-center focus-brand link-text"
+              class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               target="_blank"
             >
@@ -102,7 +102,7 @@
                 v-model="name"
                 @blur="validateName"
                 id="name"
-                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text"
+                class="placeholder:dark:dark-placeholder placeholder:light-placeholder bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text rounded-md p-2 placeholder:italic"
                 :class="{
                   'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !nameValidated,
@@ -133,7 +133,7 @@
                 v-model="email"
                 @blur="validateEmail"
                 id="email"
-                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text"
+                class="placeholder:dark:dark-placeholder placeholder:light-placeholder bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text rounded-md p-2 placeholder:italic"
                 :class="{
                   'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !emailValidated,
@@ -161,7 +161,7 @@
                 v-model="subject"
                 @blur="validateSubject"
                 id="subject"
-                class="p-2 rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text"
+                class="placeholder:dark:dark-placeholder placeholder:light-placeholder bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text rounded-md p-2 placeholder:italic"
                 :class="{
                   'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !subjectValidated,
@@ -187,7 +187,7 @@
                 v-model="message"
                 @blur="validateMessage"
                 id="message"
-                class="p-2 resize-none rounded-md placeholder:dark:dark-placeholder placeholder:light-placeholder placeholder:italic bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text"
+                class="placeholder:dark:dark-placeholder placeholder:light-placeholder bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text resize-none rounded-md p-2 placeholder:italic"
                 :class="{
                   'outline-light-action-red dark:outline-dark-action-red outline outline-2':
                     !messageValidated,
@@ -203,7 +203,7 @@
               <FriendlyCaptcha />
             </div>
             <button
-              class="flex items-center px-4 py-2 font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10"
+              class="focus-brand elem-shadow-sm text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 flex w-fit select-none items-center rounded-md border px-4 py-2 text-center font-semibold xl:rounded-lg"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
                 'hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10':
@@ -220,12 +220,12 @@
       </div>
       <div
         v-else
-        class="flex flex-col items-center justify-center pb-8 text-center md:items-start md:text-start space-y-4 md:space-y-6"
+        class="flex flex-col items-center justify-center space-y-4 pb-8 text-center md:items-start md:space-y-6 md:text-start"
       >
-        <h1 class="pb-2 font-bold responsive-h1">
+        <h1 class="responsive-h1 pb-2 font-bold">
           {{ $t("pages.help.contact.thanks-1") }}
         </h1>
-        <div class="flex flex-row py-2 text-start space-x-3">
+        <div class="flex flex-row space-x-3 py-2 text-start">
           <Icon
             class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
             name="bi:info-circle-fill"
@@ -234,7 +234,7 @@
           <p>
             {{ $t("pages.help.faq.subheader-1") }}
             <a
-              class="items-center focus-brand link-text"
+              class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >

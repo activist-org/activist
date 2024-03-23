@@ -1,17 +1,17 @@
 <template>
   <div
-    class="flex items-center justify-between border cursor-pointer w-max h-max style-cta elem-shadow-sm space-x-2"
+    class="style-cta elem-shadow-sm flex h-max w-max cursor-pointer items-center justify-between space-x-2 border"
     :class="{
       'style-cta': active,
       'style-cta-secondary': !active,
-      'pl-2 pr-3 rounded-full': !isSelector,
-      'py-1 sm:py-0 rounded-lg pl-4 pr-5 sm:pl-2 sm:pr-3': isSelector,
+      'rounded-full pl-2 pr-3': !isSelector,
+      'rounded-lg py-1 pl-4 pr-5 sm:py-0 sm:pl-2 sm:pr-3': isSelector,
     }"
     tabindex="0"
   >
     <div class="flex items-center" :class="{ 'max-sm:flex-grow': isSelector }">
-      <Icon class="flex-shrink-0 w-5 h-5 my-1" name="bi:globe" size="1em" />
-      <p class="pl-2 text-base font-bold text-center select-none">
+      <Icon class="my-1 h-5 w-5 flex-shrink-0" name="bi:globe" size="1em" />
+      <p class="select-none pl-2 text-center text-base font-bold">
         {{ $t(topic) }}
       </p>
     </div>

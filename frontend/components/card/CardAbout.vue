@@ -1,6 +1,6 @@
 <template>
-  <div class="px-5 py-5 card-style">
-    <div class="relative flex-col w-full gap-5">
+  <div class="card-style px-5 py-5">
+    <div class="relative w-full flex-col gap-5">
       <ModalQRCode
         v-if="organization && !expandText"
         :entityName="organization.name"
@@ -12,13 +12,13 @@
           emit('expand-reduce-text');
           expand_reduce_text();
         "
-        class="absolute right-0 p-1 rounded-full text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand"
+        class="text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand absolute right-0 rounded-full p-1"
       >
-        <Icon class="w-10 h-10" name="bi:x-circle-fill" />
+        <Icon class="h-10 w-10" name="bi:x-circle-fill" />
       </button>
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
-          <h3 class="text-left responsive-h3 font-display">
+          <h3 class="responsive-h3 font-display text-left">
             {{ $t("_global.about") }}
           </h3>
           <Icon name="bi:pencil-square" size="1.2em" />
@@ -30,7 +30,7 @@
               :organizations="event.organizations"
             ></MetaTagOrganization>
           </div>
-          <div class="flex flex-col gap-3 md:gap-8 sm:flex-row sm:items-center">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center md:gap-8">
             <div class="flex items-center gap-2">
               <Icon name="bx:bxs-map" size="1.2em" />
               <p>{{ event.inPersonLocation }}</p>
@@ -56,7 +56,7 @@
                   emit('expand-reduce-text');
                   expand_reduce_text();
                 "
-                class="mt-1 font-semibold text-light-link-text dark:text-dark-link-text focus-brand"
+                class="text-light-link-text dark:text-dark-link-text focus-brand mt-1 font-semibold"
                 :aria-label="$t('components.card-about.full-text-aria-label')"
               >
                 {{ $t("components.card-about.full-text") }}
@@ -67,7 +67,7 @@
                   emit('expand-reduce-text');
                   expand_reduce_text();
                 "
-                class="mt-1 font-semibold text-light-link-text dark:text-dark-link-text focus-brand"
+                class="text-light-link-text dark:text-dark-link-text focus-brand mt-1 font-semibold"
                 :aria-label="$t('components.card-about.reduce-text-aria-label')"
               >
                 {{ $t("components.card-about.reduce-text") }}
@@ -103,7 +103,7 @@
                   emit('expand-reduce-text');
                   expand_reduce_text();
                 "
-                class="mt-1 font-semibold text-light-link-text dark:text-dark-link-text focus-brand"
+                class="text-light-link-text dark:text-dark-link-text focus-brand mt-1 font-semibold"
                 :aria-label="$t('components.card-about.full-text-aria-label')"
               >
                 {{ $t("components.card-about.full-text") }}
@@ -114,7 +114,7 @@
                   emit('expand-reduce-text');
                   expand_reduce_text();
                 "
-                class="mt-1 font-semibold text-light-link-text dark:text-dark-link-text focus-brand"
+                class="text-light-link-text dark:text-dark-link-text focus-brand mt-1 font-semibold"
                 :aria-label="$t('components.card-about.reduce-text-aria-label')"
               >
                 {{ $t("components.card-about.reduce-text") }}

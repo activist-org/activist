@@ -9,7 +9,7 @@
       imgURL="/images/content_pages/icons/bootstrap_shield_check"
       imgAltText="pages.legal._global.privacy-policy-alt-text"
     >
-      <h1 class="pb-2 font-bold responsive-h1">
+      <h1 class="responsive-h1 pb-2 font-bold">
         {{ $t("_global.privacy-policy") }}
       </h1>
       <p
@@ -26,25 +26,25 @@
       <p>
         {{ $t("pages.legal.privacy-policy.section-1-paragraph-3") }}
       </p>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.privacy-policy.section-2-subheader") }}
       </h2>
       <p>
         {{ $t("pages.legal.privacy-policy.section-2-paragraph-1") }}
       </p>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.privacy-policy.section-3-subheader") }}
       </h2>
       <p>
         {{ $t("pages.legal.privacy-policy.section-3-paragraph-1") }}
       </p>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.privacy-policy.section-4-subheader") }}
       </h2>
       <p>
         {{ $t("pages.legal.privacy-policy.section-4-paragraph-1") }}
       </p>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.privacy-policy.section-5-subheader") }}
       </h2>
       <p>
@@ -53,13 +53,13 @@
       <p>
         {{ $t("pages.legal.privacy-policy.section-5-paragraph-2") }}
       </p>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.privacy-policy.section-6-subheader") }}
       </h2>
       <p>
         {{ $t("pages.legal.privacy-policy.section-6-paragraph-1") }}
       </p>
-      <h2 class="font-bold responsive-h3">
+      <h2 class="responsive-h3 font-bold">
         {{ $t("pages.legal.privacy-policy.section-7-subheader") }}
       </h2>
       <p>

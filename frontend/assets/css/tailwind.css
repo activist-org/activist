@@ -16,15 +16,15 @@
 
 @layer components {
   .bg-breakpoint-test {
-    @apply 3xl:bg-pink-500 2xl:bg-violet-500 xl:bg-blue-500 lg:bg-green-500 md:bg-yellow-500 sm:bg-orange-500 bg-red-500;
+    @apply 3xl:bg-pink-500 bg-red-500 sm:bg-orange-500 md:bg-yellow-500 lg:bg-green-500 xl:bg-blue-500 2xl:bg-violet-500;
   }
 
   .btn-base-class {
-    @apply px-4 py-2 font-semibold text-center select-none focus-brand w-fit elem-shadow-sm;
+    @apply focus-brand elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
   }
 
   .card-style-base {
-    @apply rounded-md sm:rounded-lg elem-shadow-sm;
+    @apply elem-shadow-sm rounded-md sm:rounded-lg;
   }
 
   .card-style {
@@ -32,7 +32,7 @@
   }
 
   .elem-on-card-style {
-    @apply card-style-base bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight active:bg-light-layer-2 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-2 dark:border dark:border-dark-text elem-shadow-sm;
+    @apply card-style-base bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight active:bg-light-layer-2 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-2 dark:border-dark-text elem-shadow-sm dark:border;
   }
 
   .elem-shadow-sm {
@@ -48,11 +48,11 @@
   }
 
   .focus-brand {
-    @apply rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-light-link-text dark:focus-visible:ring-dark-link-text focus-visible:border-light-link-text dark:focus-visible:border-dark-link-text;
+    @apply focus-visible:ring-light-link-text dark:focus-visible:ring-dark-link-text focus-visible:border-light-link-text dark:focus-visible:border-dark-link-text rounded-sm focus:outline-none focus-visible:ring-2;
   }
 
   .focus-inside {
-    @apply rounded-sm focus-within:ring-2 focus-within:ring-light-link-text dark:focus-within:ring-dark-link-text focus-within:outline-none focus-within:border-light-link-text dark:focus-within:border-dark-link-text;
+    @apply focus-within:ring-light-link-text dark:focus-within:ring-dark-link-text focus-within:border-light-link-text dark:focus-within:border-dark-link-text rounded-sm focus-within:outline-none focus-within:ring-2;
   }
 
   .link-text {
@@ -120,23 +120,23 @@
   }
 
   .style-action {
-    @apply text-light-text dark:text-light-action-red dark:bg-dark-action-red/10 dark:border-dark-action-red bg-light-action-red border border-light-text hover:bg-light-action-red/80 active:bg-light-action-red dark:hover:bg-dark-action-red/25 dark:active:bg-dark-action-red/10 focus-brand;
+    @apply text-light-text dark:text-light-action-red dark:bg-dark-action-red/10 dark:border-dark-action-red bg-light-action-red border-light-text hover:bg-light-action-red/80 active:bg-light-action-red dark:hover:bg-dark-action-red/25 dark:active:bg-dark-action-red/10 focus-brand border;
   }
 
   .style-btn {
-    @apply text-light-text bg-light-layer-0 hover:bg-light-highlight active:bg-light-layer-0 dark:text-dark-text dark:bg-dark-layer-0 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-0 focus-brand elem-shadow-sm dark:border dark:border-dark-text;
+    @apply text-light-text bg-light-layer-0 hover:bg-light-highlight active:bg-light-layer-0 dark:text-dark-text dark:bg-dark-layer-0 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-0 focus-brand elem-shadow-sm dark:border-dark-text dark:border;
   }
 
   .style-cta {
-    @apply text-light-text border border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange  fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10 focus-brand;
+    @apply text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text  dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10 focus-brand border;
   }
 
   .style-cta-secondary {
-    @apply text-light-text border border-light-text dark:text-dark-text dark:border-dark-text fill-light-text dark:fill-dark-text bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight-darker active:bg-light-layer-2 dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-layer-2 focus-brand;
+    @apply text-light-text border-light-text dark:text-dark-text dark:border-dark-text fill-light-text dark:fill-dark-text bg-light-layer-2 dark:bg-dark-layer-2 hover:bg-light-highlight-darker active:bg-light-layer-2 dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-layer-2 focus-brand border;
   }
 
   .style-learn {
-    @apply text-light-text dark:text-light-learn-blue dark:bg-dark-learn-blue/10 dark:border-dark-learn-blue bg-light-learn-blue border border-light-text hover:bg-light-learn-blue/80 active:bg-light-learn-blue dark:hover:bg-dark-learn-blue/25 dark:active:bg-dark-learn-blue/10 focus-brand;
+    @apply text-light-text dark:text-light-learn-blue dark:bg-dark-learn-blue/10 dark:border-dark-learn-blue bg-light-learn-blue border-light-text hover:bg-light-learn-blue/80 active:bg-light-learn-blue dark:hover:bg-dark-learn-blue/25 dark:active:bg-dark-learn-blue/10 focus-brand border;
   }
 
   .style-menu-option {
@@ -148,7 +148,7 @@
   }
 
   .style-warn {
-    @apply text-light-text dark:text-light-warn-yellow dark:bg-dark-warn-yellow/10 dark:border-dark-warn-yellow bg-light-warn-yellow border border-light-text hover:bg-light-warn-yellow/80 active:bg-light-warn-yellow dark:hover:bg-dark-warn-yellow/25 dark:active:bg-dark-warn-yellow/10 focus-brand;
+    @apply text-light-text dark:text-light-warn-yellow dark:bg-dark-warn-yellow/10 dark:border-dark-warn-yellow bg-light-warn-yellow border-light-text hover:bg-light-warn-yellow/80 active:bg-light-warn-yellow dark:hover:bg-dark-warn-yellow/25 dark:active:bg-dark-warn-yellow/10 focus-brand border;
   }
 
   .tooltip {

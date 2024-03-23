@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-fit">
+  <div class="h-fit w-full">
     <TabGroup
       v-model="currentTabIndex"
       @change="changeTab"
@@ -11,7 +11,7 @@
           <template #default="{ selected }">
             <NuxtLink
               :class="[
-                'justify-center flex px-3 py-1 border-l-[1px] border-y-[1px] w-full',
+                'flex w-full justify-center border-y-[1px] border-l-[1px] px-3 py-1',
                 'border-light-text dark:border-dark-text',
                 selected
                   ? 'bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1 hover:bg-light-menu-selection/90 dark:hover:bg-dark-menu-selection/90'
