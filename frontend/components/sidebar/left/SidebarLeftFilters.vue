@@ -10,7 +10,7 @@
       <Icon class="mt-[0.125em]" name="bi:filter" size="2em" />
     </div>
     <div
-      class="text-light-text dark:text-dark-text opacity-0 transition"
+      class="text-light-text opacity-0 transition dark:text-dark-text"
       :class="{
         '!opacity-100':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,

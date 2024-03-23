@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-light-layer-2 dark:bg-dark-layer-2 border-light-section-div dark:border-dark-section-div elem-shadow-sm rounded-md border p-2 sm:p-3"
+    class="elem-shadow-sm rounded-md border border-light-section-div bg-light-layer-2 p-2 dark:border-dark-section-div dark:bg-dark-layer-2 sm:p-3"
   >
     <div class="flex items-center space-x-3">
       <Icon v-if="(item.itemType = 'group')" name="bi:people" size="1.5em" />
@@ -25,7 +25,7 @@
       {{ item.description }}
     </p>
     <div
-      class="bg-light-placeholder dark:bg-dark-placeholder h-32 w-full rounded-md"
+      class="h-32 w-full rounded-md bg-light-placeholder dark:bg-dark-placeholder"
     >
       <img :src="item.imgURL" :alt="$t('components.feed-item.img-alt-text')" />
     </div>

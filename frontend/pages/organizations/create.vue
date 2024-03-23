@@ -1,5 +1,5 @@
 <template>
-  <div class="text-light-text dark:text-dark-text w-full">
+  <div class="w-full text-light-text dark:text-dark-text">
     <ProgressBar type="default" :progress="1" :start="1" :end="1" />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" :breadcrumbs="breadcrumbs" />
@@ -25,7 +25,7 @@
             <input
               v-model="formData.name"
               id="name"
-              class="border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0 mt-2 w-full rounded-md border px-4 py-2"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="name"
               :placeholder="
@@ -40,7 +40,7 @@
             <input
               v-model="formData.location"
               id="location"
-              class="border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0 mt-2 w-full rounded-md border px-4 py-2"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="location"
               :placeholder="
@@ -56,7 +56,7 @@
           <textarea
             v-model="formData.description"
             id="description"
-            class="border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0 mt-2 w-full rounded-md border px-4 py-2"
+            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="description"
             :placeholder="
               $t('pages.organizations.create.description-placeholder')
@@ -70,7 +70,7 @@
           <input
             v-model="formData.tagline"
             id="tagline"
-            class="border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0 mt-2 w-full rounded-md border px-4 py-2"
+            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="tagline"
             :placeholder="$t('pages.organizations.create.tagline-placeholder')"
           />

@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="iconName === 'IconOrganization' || iconName === 'IconSupport'"
-    class="fill-light-text dark:fill-dark-text flex items-center gap-1"
+    class="flex items-center gap-1 fill-light-text dark:fill-dark-text"
   >
     <Icon
       v-if="iconName === 'IconOrganization'"
