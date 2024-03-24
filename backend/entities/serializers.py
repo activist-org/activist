@@ -7,9 +7,7 @@ from authentication.models import User
 from content.models import Resource, Task, Topic
 from events.models import Event
 from utils.utils import (
-    validate_creation_and_deletion_dates,
     validate_empty,
-    validate_flags_number,
     validate_object_existence,
 )
 

@@ -181,7 +181,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
             serializer = self.get_serializer(group)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Group.DoesNotExist:
-            return Response({"error": f"Group not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
     
     def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
         try:
@@ -194,7 +194,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
         except Group.DoesNotExist:
-            return Response({"error": f"Group not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
     
     def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
         try:
@@ -204,7 +204,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
             group.deletion_date = timezone.now()
             return Response({"message": "Group deleted successfully"}, status=status.HTTP_200_OK)
         except Group.DoesNotExist:
-            return Response({"error": f"Group not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
         
     
 class OrganizationTaskViewSet(viewsets.ModelViewSet[OrganizationTask]):
