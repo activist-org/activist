@@ -26,7 +26,6 @@ class EntitiesThrottleTest(BaseTestThrottle):
 def test_str_methods() -> None:
     organization = OrganizationFactory.build()
     organization_application = OrganizationApplicationFactory.build()
-    # organization_application_status = OrganizationApplicationStatusFactory.build()
     organization_event = OrganizationEventFactory.build()
     organization_member = OrganizationMemberFactory.build()
     organization_resource = OrganizationResourceFactory.build()
@@ -40,9 +39,6 @@ def test_str_methods() -> None:
 
     assert str(organization) == organization.name
     assert str(organization_application) == str(organization_application.creation_date)
-    # assert str(organization_application_status) == str(
-    #     organization_application_status.status_name
-    # )
     assert str(organization_event) == str(organization_event.id)
     assert str(organization_member) == str(organization_member.id)
     assert str(organization_resource) == str(organization_resource.id)

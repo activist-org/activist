@@ -21,14 +21,13 @@ from .models import (
     GroupTopic,
     Organization,
     OrganizationApplication,
-    # OrganizationApplicationStatus,
     OrganizationEvent,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
     Status,
-    StatusType,
+    StatusEntityType,
 )
 
 
@@ -51,18 +50,10 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "description",
             "social_accounts",
             "high_risk",
-            # "status",
-            # "status_updated",
+            "status",
+            "status_updated",
             "acceptance_date",
         ]
-
-
-# class OrganizationApplicationStatusSerializer(
-#     serializers.ModelSerializer[OrganizationApplicationStatus]
-# ):
-#     class Meta:
-#         model = OrganizationApplicationStatus
-#         fields = "__all__"
 
 
 class OrganizationApplicationSerializer(
@@ -217,7 +208,7 @@ class StatusSerializer(serializers.ModelSerializer[Status]):
         fields = "__all__"
 
 
-class StatusTypeSerializer(serializers.ModelSerializer[StatusType]):
+class StatusEntityTypeSerializer(serializers.ModelSerializer[StatusEntityType]):
     class Meta:
-        model = StatusType
+        model = StatusEntityType
         fields = "__all__"

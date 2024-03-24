@@ -22,7 +22,7 @@ from .models import (
     OrganizationTask,
     OrganizationTopic,
     Status,
-    StatusType,
+    StatusEntityType,
 )
 from .serializers import (
     GroupEventSerializer,
@@ -38,7 +38,7 @@ from .serializers import (
     OrganizationTaskSerializer,
     OrganizationTopicSerializer,
     StatusSerializer,
-    StatusTypeSerializer,
+    StatusEntityTypeSerializer,
 )
 
 
@@ -55,7 +55,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         org = serializer.save(created_by=request.user)
-        # OrganizationApplication.objects.create(org_id=org)
+        OrganizationApplication.objects.create(org_id=org)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
@@ -120,7 +120,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
                 status.HTTP_401_UNAUTHORIZED,
             )
 
-        org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status
+        org.status = StatusEntityType.objects.get(id=3)  # 3 is the id of the deleted status
         org.deletion_date = timezone.now()
         org.high_risk = False
         org.status_updated = None
@@ -249,7 +249,7 @@ class StatusViewSet(viewsets.ModelViewSet[Status]):
     pagination_class = CustomPagination
 
 
-class StatusTypeViewSet(viewsets.ModelViewSet[StatusType]):
-    queryset = StatusType.objects.all()
-    serializer_class = StatusTypeSerializer
+class StatusEntityTypeViewSet(viewsets.ModelViewSet[StatusEntityType]):
+    queryset = StatusEntityType.objects.all()
+    serializer_class = StatusEntityTypeSerializer
     pagination_class = CustomPagination
