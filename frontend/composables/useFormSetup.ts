@@ -1,7 +1,7 @@
 export default function useFormInput(
   props: Record<string, unknown>,
   emit: any,
-  isDebounceEnabled?: boolean
+  isDebounceEnabled?: boolean,
 ): { updateValue: (event: Event) => void } {
   const inputDebounce = useDebounceFn((val: any) => {
     emit("update:modelValue", val);

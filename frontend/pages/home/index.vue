@@ -60,7 +60,7 @@ import type { Resource } from "~/types/resource";
 import type { User } from "~/types/user";
 
 const { data: organizations } = await useFetch(
-  "http://127.0.0.1:8000/organizations"
+  "http://127.0.0.1:8000/organizations",
 );
 
 console.log(organizations);

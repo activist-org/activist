@@ -86,7 +86,7 @@ onMounted(() => {
 
 function isLocaleSegment(segment: string) {
   return locales.value.some((locale) =>
-    typeof locale === "string" ? locale === segment : locale.code === segment
+    typeof locale === "string" ? locale === segment : locale.code === segment,
   );
 }
 

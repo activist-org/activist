@@ -32,7 +32,7 @@ const { data: events } = await useFetch(
   "http://localhost:8000/v1/entities/events/",
   {
     method: "GET",
-  }
+  },
 );
 
 // import type { Event } from "~/types/event";

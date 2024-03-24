@@ -31,7 +31,7 @@ addRouteMiddleware(
   },
   {
     global: true,
-  }
+  },
 );
 
 nuxtApp.hook("page:finish", () => {

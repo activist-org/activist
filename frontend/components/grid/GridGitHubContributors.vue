@@ -75,7 +75,7 @@ async function fetchDataFromGitHubAPI(page: number, numPerPage: number = 30) {
   isLoading.value = true;
   try {
     const response = await fetch(
-      `https://api.github.com/repos/activist-org/activist/contributors?per_page=${numPerPage}&page=${page}`
+      `https://api.github.com/repos/activist-org/activist/contributors?per_page=${numPerPage}&page=${page}`,
     );
     const data = await response.json();
 
@@ -90,7 +90,7 @@ async function fetchDataFromGitHubAPI(page: number, numPerPage: number = 30) {
           htmlUrl: item.html_url,
           loginID: item.login,
         };
-      })
+      }),
     );
   } catch (error) {
     console.error(error);

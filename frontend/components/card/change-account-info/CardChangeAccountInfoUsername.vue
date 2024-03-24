@@ -24,7 +24,7 @@
             class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
-                'components.card-change-account-info.username.enter-new-username'
+                'components.card-change-account-info.username.enter-new-username',
               )
             "
           />

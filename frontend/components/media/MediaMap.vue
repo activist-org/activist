@@ -97,7 +97,7 @@ onMounted(() => {
           new maplibregl.NavigationControl({
             visualizePitch: true,
           }),
-          "top-left"
+          "top-left",
         );
         map.addControl(new maplibregl.FullscreenControl());
         map.addControl(
@@ -106,7 +106,7 @@ onMounted(() => {
               enableHighAccuracy: true,
             },
             trackUserLocation: true,
-          })
+          }),
         );
 
         const popup = new maplibregl.Popup({
@@ -118,7 +118,7 @@ onMounted(() => {
           >
             <div style="font-size: 13px;">${props.eventNames[0]}</div>
             <div style="color: grey;">${props.eventLocations[0]}</div>
-          </div>`
+          </div>`,
         );
 
         const marker = new maplibregl.Marker({
@@ -133,7 +133,7 @@ onMounted(() => {
         map.on("load", () => {
           const layers = layersFactory(
             isTouchDevice ? 1.5 : 1,
-            isTouchDevice ? 2 : 1
+            isTouchDevice ? 2 : 1,
           );
 
           const directions = new MapLibreGlDirections(map, {
@@ -192,7 +192,7 @@ onMounted(() => {
                 },
                 onRemove: function () {},
               },
-              "bottom-left"
+              "bottom-left",
             );
           }
         });

@@ -2,7 +2,7 @@ const createMenuEntry = (
   label: string,
   basePath: string,
   iconURL: string,
-  active: boolean
+  active: boolean,
 ) => {
   const { locale, locales } = useI18n();
   const router = useRouter();
@@ -34,7 +34,7 @@ const useMenuEntriesState = () => {
       "_global.events",
       "organizations",
       "bi:calendar-check",
-      true
+      true,
     ),
     createMenuEntry("_global.groups", "organizations", "IconGroup", true),
     createMenuEntry("_global.resources", "organizations", "IconResource", true),
@@ -47,7 +47,7 @@ const useMenuEntriesState = () => {
       "_global.discussions",
       "organizations",
       "octicon:comment-discussion-24",
-      true
+      true,
     ),
   ]);
 
@@ -61,7 +61,7 @@ const useMenuEntriesState = () => {
       "_global.discussion",
       "events",
       "octicon:comment-discussion-24",
-      true
+      true,
     ),
   ]);
 
@@ -78,7 +78,7 @@ const useMenuEntriesState = () => {
 
     for (const button of buttons.value) {
       button.selected = currentPath.value.endsWith(
-        button.routeURL.split("/").pop()!
+        button.routeURL.split("/").pop()!,
       );
     }
   };

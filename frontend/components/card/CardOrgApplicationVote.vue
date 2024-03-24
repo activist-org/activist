@@ -109,6 +109,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const maximumCountOrganizations = 10;
 const availableOrganizations = computed(() =>
-  props.organizations.slice(0, maximumCountOrganizations)
+  props.organizations.slice(0, maximumCountOrganizations),
 );
 </script>

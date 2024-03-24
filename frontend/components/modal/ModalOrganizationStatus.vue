@@ -25,7 +25,7 @@
                 org_name: organization.name,
                 year: new Date().toISOString().slice(0, 10),
                 num_supporters: 6,
-              }
+              },
             )
           "
         />

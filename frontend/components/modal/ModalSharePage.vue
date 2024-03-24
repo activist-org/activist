@@ -143,7 +143,7 @@
                   : props?.organization?.name
                     ? props?.organization?.name
                     : '',
-                getCurrentUrl()
+                getCurrentUrl(),
               )
             "
             @keypress.space="
@@ -153,7 +153,7 @@
                   : props?.organization?.name
                     ? props?.organization?.name
                     : '',
-                getCurrentUrl()
+                getCurrentUrl(),
               )
             "
             @keypress.enter="
@@ -163,7 +163,7 @@
                   : props?.organization?.name
                     ? props?.organization?.name
                     : '',
-                getCurrentUrl()
+                getCurrentUrl(),
               )
             "
             tabindex="0"
@@ -215,7 +215,7 @@ const getEntityType = () => {
 };
 
 const setEntityInfo = (
-  data: typeof props.event | typeof props.organization
+  data: typeof props.event | typeof props.organization,
 ) => {
   if (!data) return;
   return {

@@ -1,6 +1,6 @@
 export default function useFormCheckboxRadio(
   value: string | string[],
-  emit: (event: "update:modelValue", ...args: any[]) => void
+  emit: (event: "update:modelValue", ...args: any[]) => void,
 ) {
   const selectedValue = ref<string | string[]>(value);
   const customValue = ref<string>("");
@@ -61,7 +61,7 @@ export default function useFormCheckboxRadio(
     () => value,
     (newValue) => {
       selectedValue.value = newValue;
-    }
+    },
   );
 
   return {

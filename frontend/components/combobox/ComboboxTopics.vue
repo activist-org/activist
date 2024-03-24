@@ -107,8 +107,8 @@ const filteredTopics = computed(() =>
         topic.name
           .toLowerCase()
           .replace(/\s+/g, "")
-          .includes(query.value.toLowerCase().replace(/\s+/g, ""))
-      )
+          .includes(query.value.toLowerCase().replace(/\s+/g, "")),
+      ),
 );
 
 function displayValue() {

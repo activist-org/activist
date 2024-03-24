@@ -35,7 +35,7 @@ const { data: organizations } = await useFetch(
   "http://localhost:8000/v1/entities/organizations/",
   {
     method: "GET",
-  }
+  },
 );
 
 // import type { Organization } from "~/types/organization";

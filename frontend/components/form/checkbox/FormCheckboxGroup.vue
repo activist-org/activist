@@ -61,6 +61,6 @@ const emit = defineEmits(["update:modelValue"]);
 
 const { isSelected, toggleCheckbox } = useFormCheckboxRadio(
   props.modelValue,
-  emit
+  emit,
 );
 </script>

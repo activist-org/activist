@@ -135,7 +135,7 @@ const submit = async () => {
         high_risk: false,
         total_flags: 0,
       }),
-    }
+    },
   );
 
   //TODO: FEATURE - push notification with toast should be added here

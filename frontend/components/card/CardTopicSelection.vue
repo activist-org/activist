@@ -49,7 +49,7 @@
       <ShieldTopic
         v-else
         v-for="t of selectedTopicTags.sort((a, b) =>
-          a.value.localeCompare(b.value)
+          a.value.localeCompare(b.value),
         )"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
@@ -98,7 +98,7 @@ const emit = defineEmits(["update:modelValue"]);
 const resetTabIndex = () => {
   const topic: HTMLElement[] = Array.from(document.querySelectorAll(".topic"));
   const mobileTopic: HTMLElement[] = Array.from(
-    document.querySelectorAll(".mobileTopic")
+    document.querySelectorAll(".mobileTopic"),
   );
 
   topic.forEach((topic) => (topic.tabIndex = -1));
@@ -156,7 +156,7 @@ const keydownEvent = (e: KeyboardEvent) => {
 
 const mobileKeyboardEvent = (e: KeyboardEvent) => {
   const topics: HTMLElement[] = Array.from(
-    document.querySelectorAll(".mobileTopic")
+    document.querySelectorAll(".mobileTopic"),
   );
 
   switch (e.code) {
@@ -241,7 +241,7 @@ const topics = computed((): TopicsTag[] => {
   return [
     ...selectedTopicTags.value.sort((a, b) => a.value.localeCompare(b.value)),
     ...GLOBAL_TOPICS.filter((topic) => !isActiveTopic(topic.value)).sort(
-      (a, b) => a.value.localeCompare(b.value)
+      (a, b) => a.value.localeCompare(b.value),
     ),
   ];
 });

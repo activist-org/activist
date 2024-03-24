@@ -105,7 +105,7 @@ const getSize = () => ({
 });
 
 const computedWidth = computed(
-  () => `${codeSize.value + quietZone.value * 2 + 2}`
+  () => `${codeSize.value + quietZone.value * 2 + 2}`,
 );
 const computedHeight = computed(
   () =>
@@ -114,7 +114,7 @@ const computedHeight = computed(
       quietZone.value * 2 +
       fontSize.value +
       textPaddingY.value * 2
-    }`
+    }`,
 );
 const viewBox = computed(
   () =>
@@ -125,7 +125,7 @@ const viewBox = computed(
       quietZone.value * 2 +
       fontSize.value +
       textPaddingY.value * 2
-    }`
+    }`,
 );
 
 defineExpose({ getSize });

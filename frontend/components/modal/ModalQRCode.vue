@@ -150,7 +150,7 @@ function drawInlineSVG(
   ctx: any,
   width: number,
   height: number,
-  callback: any
+  callback: any,
 ) {
   const svgURL = new XMLSerializer().serializeToString(svgElement);
   const img = new Image();

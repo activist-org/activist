@@ -21,7 +21,9 @@
       {{ $t("components.password-strength.title") }}:
       {{
         $t(
-          !!passwordValue.length ? text : "components.password-strength.invalid"
+          !!passwordValue.length
+            ? text
+            : "components.password-strength.invalid",
         )
       }}
     </div>
@@ -71,7 +73,7 @@ const SCORE_THRESHOLDS: number[] = [6, 9, 11.5, 13.5, 15];
 const score = computed(() => {
   const guessLog: number = zxcvbn(props.passwordValue).guesses_log10;
   const scoreIndex = SCORE_THRESHOLDS.findIndex(
-    (threshold) => guessLog < threshold
+    (threshold) => guessLog < threshold,
   );
 
   return scoreIndex >= 0 ? scoreIndex : SCORE_THRESHOLDS.length - 1;

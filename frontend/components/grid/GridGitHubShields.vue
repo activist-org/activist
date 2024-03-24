@@ -51,7 +51,7 @@ async function fetchDataFromGitHubAPI() {
   isLoading.value = true;
   try {
     const response = await fetch(
-      "https://api.github.com/repos/activist-org/activist"
+      "https://api.github.com/repos/activist-org/activist",
     );
     const data = await response.json();
     GitHubData.forks_count = data.forks_count;

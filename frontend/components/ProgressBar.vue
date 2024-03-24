@@ -39,6 +39,6 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const percent = computed(
-  () => ((props.progress - props.start) / (props.end - props.start)) * 100
+  () => ((props.progress - props.start) / (props.end - props.start)) * 100,
 );
 </script>

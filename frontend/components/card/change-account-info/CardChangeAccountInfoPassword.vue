@@ -16,7 +16,7 @@
           <label for="current-password" class="responsive-h4 pb-2 font-bold"
             >{{
               $t(
-                "components.card-change-account-info.password.current-password"
+                "components.card-change-account-info.password.current-password",
               )
             }}
             *</label
@@ -26,7 +26,7 @@
             class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
-                'components.card-change-account-info.password.enter-current-password'
+                'components.card-change-account-info.password.enter-current-password',
               )
             "
           />
@@ -43,7 +43,7 @@
             class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
-                'components.card-change-account-info.password.enter-new-password'
+                'components.card-change-account-info.password.enter-new-password',
               )
             "
           />
@@ -57,7 +57,7 @@
             class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
-                'components.card-change-account-info.password.enter-repeat-password'
+                'components.card-change-account-info.password.enter-repeat-password',
               )
             "
           />

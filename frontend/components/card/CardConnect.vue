@@ -93,7 +93,7 @@
                 :title="$t('components.card-connect.app-account-popup-title')"
                 :fieldNamePrompt="
                   $t(
-                    'components.card-connect.app-account-popup-field-name-prompt'
+                    'components.card-connect.app-account-popup-field-name-prompt',
                   )
                 "
                 :ctaBtnLabel="
