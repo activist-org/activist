@@ -7,7 +7,7 @@ const config = {
   semi: true,
   singleQuote: false,
   plugins: ["prettier-plugin-tailwindcss"],
-  tailwindCondig: "./frontend/tailwind.config.ts"
+  tailwindConfig: "./frontend/tailwind.config.ts"
 };
 
 module.exports = config;
