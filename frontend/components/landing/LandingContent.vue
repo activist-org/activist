@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="text-light-text dark:text-dark-text flex items-center justify-center py-8 sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
+    class="flex items-center justify-center py-8 text-light-text dark:text-dark-text sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
   >
     <div
       class="flex w-full flex-col items-center space-y-3 sm:w-10/12 lg:max-w-sm lg:items-start xl:max-w-md xl:space-y-4"
@@ -25,7 +25,7 @@
         {{ $t(header) }}
       </h2>
       <p
-        class="text-transform: text-light-distinct-text dark:text-dark-distinct-text w-10/12 text-center text-base uppercase tracking-wider sm:w-full sm:text-left sm:text-lg xl:text-xl"
+        class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-light-distinct-text dark:text-dark-distinct-text sm:w-full sm:text-left sm:text-lg xl:text-xl"
       >
         {{ $t(tagline) }}
       </p>
@@ -58,7 +58,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="text-light-text dark:text-dark-text bg-light-layer-2 dark:bg-dark-layer-2 flex items-center justify-center py-8 sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
+    class="flex items-center justify-center bg-light-layer-2 py-8 text-light-text dark:bg-dark-layer-2 dark:text-dark-text sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
   >
     <!-- Note: image left of content. -->
     <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
@@ -95,7 +95,7 @@
         {{ $t(header) }}
       </h2>
       <p
-        class="text-transform: text-light-distinct-text dark:text-dark-distinct-text w-10/12 text-center text-base uppercase tracking-wider sm:w-full sm:text-left sm:text-lg xl:text-xl"
+        class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-light-distinct-text dark:text-dark-distinct-text sm:w-full sm:text-left sm:text-lg xl:text-xl"
       >
         {{ $t(tagline) }}
       </p>
@@ -115,7 +115,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'top'"
-    class="text-light-text dark:text-dark-text flex items-center justify-center pb-10 pt-16 sm:pb-16 md:pb-20 xl:py-24"
+    class="flex items-center justify-center pb-10 pt-16 text-light-text dark:text-dark-text sm:pb-16 md:pb-20 xl:py-24"
   >
     <div class="flex flex-col items-center space-y-3 xl:space-y-4">
       <h2
@@ -124,7 +124,7 @@
         {{ $t(header) }}
       </h2>
       <p
-        class="text-transform: text-light-distinct-text dark:text-dark-distinct-text w-10/12 text-center text-base uppercase tracking-wider sm:w-full sm:text-lg xl:text-xl"
+        class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-light-distinct-text dark:text-dark-distinct-text sm:w-full sm:text-lg xl:text-xl"
       >
         {{ $t(tagline) }}
       </p>
@@ -158,7 +158,7 @@
       </div>
       <p
         v-if="subText"
-        class="text-light-distinct-text dark:text-dark-distinct-text mx-12 pt-8 text-center md:max-w-md lg:max-w-lg xl:pt-12"
+        class="mx-12 pt-8 text-center text-light-distinct-text dark:text-dark-distinct-text md:max-w-md lg:max-w-lg xl:pt-12"
       >
         {{ $t(subText) }}
       </p>

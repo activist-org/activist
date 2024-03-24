@@ -9,7 +9,7 @@
           class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
         />
       </div>
-      <p class="text-light-text dark:text-dark-text mt-3">
+      <p class="mt-3 text-light-text dark:text-dark-text">
         {{ $t("components.footer._global.activist-tagline") }}
       </p>
       <!-- Note: Platform Links -->
@@ -44,13 +44,13 @@
         </template>
       </div>
       <a
-        class="hover:text-light-text dark:hover:text-dark-text focus-brand mt-2 w-fit"
+        class="focus-brand mt-2 w-fit hover:text-light-text dark:hover:text-dark-text"
         href="https://www.netlify.com/"
         target="_blank"
       >
         {{ $t("components.footer._global.powered-by-netlify") }}
       </a>
-      <div class="text-light-text dark:text-dark-text mt-2">
+      <div class="mt-2 text-light-text dark:text-dark-text">
         {{
           $t("components._global.copyright", { year: new Date().getFullYear() })
         }}
@@ -62,12 +62,12 @@
     >
       <!-- Note: Connect Links -->
       <div>
-        <p class="text-light-text dark:text-dark-text text-xl font-medium">
+        <p class="text-xl font-medium text-light-text dark:text-dark-text">
           {{ $t("components._global.connect") }}
         </p>
         <template v-for="(connect, index) in links.connectLinks">
           <a
-            class="hover:text-light-text dark:hover:text-dark-text focus-brand mt-2 flex items-center space-x-2 text-base"
+            class="focus-brand mt-2 flex items-center space-x-2 text-base hover:text-light-text dark:hover:text-dark-text"
             :class="{ 'mt-3': index === 0 }"
             :href="connect.url"
             target="_blank"
@@ -84,12 +84,12 @@
       </div>
       <!-- Note: Resources Links -->
       <div>
-        <p class="text-light-text dark:text-dark-text text-xl font-medium">
+        <p class="text-xl font-medium text-light-text dark:text-dark-text">
           {{ $t("_global.resources") }}
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p
-            class="hover:text-light-text dark:hover:text-dark-text mt-2 text-base"
+            class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
             :class="{ 'mt-3': index === 0 }"
           >
             <NuxtLink class="focus-brand" :to="localePath(resource.url)">
@@ -100,12 +100,12 @@
       </div>
       <!-- Note: Organization Links -->
       <div>
-        <p class="text-light-text dark:text-dark-text text-xl font-medium">
+        <p class="text-xl font-medium text-light-text dark:text-dark-text">
           {{ $t("_global.organization") }}
         </p>
         <template v-for="(oLink, index) in links.organizationLinks">
           <p
-            class="hover:text-light-text dark:hover:text-dark-text mt-2 text-base"
+            class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
             :class="{ 'mt-3': index === 0 }"
           >
             <NuxtLink class="focus-brand" :to="localePath(oLink.url)">

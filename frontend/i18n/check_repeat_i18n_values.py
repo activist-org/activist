@@ -5,7 +5,6 @@ Run `python i18n_check_repeat_values.py` to check if the en-US.json file has rep
 If yes, combine them in a `_global` sub name at the lowest matching name level of `en-US.json`.
 """
 
-
 import json
 import string
 from collections import Counter

@@ -2,7 +2,7 @@
   <div class="card-style px-5 py-5">
     <div class="relative flex flex-col lg:flex-row">
       <div class="flex items-center gap-5">
-        <h3 class="responsive-h3 font-display text-left">
+        <h3 class="responsive-h3 text-left font-display">
           {{ $t("components.card-get-involved.header") }}
         </h3>
         <Icon name="bi:pencil-square" size="1.2em" />

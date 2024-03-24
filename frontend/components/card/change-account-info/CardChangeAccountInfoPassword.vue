@@ -23,7 +23,7 @@
           >
           <input
             id="current-password"
-            class="border-light-text dark:border-dark-text peer rounded-sm border bg-transparent px-3 py-1"
+            class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
                 'components.card-change-account-info.password.enter-current-password'
@@ -40,7 +40,7 @@
           >
           <input
             id="password"
-            class="border-light-text dark:border-dark-text peer rounded-sm border bg-transparent px-3 py-1"
+            class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
                 'components.card-change-account-info.password.enter-new-password'
@@ -54,7 +54,7 @@
           >
           <input
             id="confirm-password"
-            class="border-light-text dark:border-dark-text peer rounded-sm border bg-transparent px-3 py-1"
+            class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
                 'components.card-change-account-info.password.enter-repeat-password'

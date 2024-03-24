@@ -1,9 +1,9 @@
 <template>
   <div
-    class="bg-light-action-red/30 dark:bg-dark-action-red/20 border-light-action-red dark:border-dark-action-red card-style-base text-light-text dark:text-dark-text border px-5 py-5"
+    class="card-style-base border border-light-action-red bg-light-action-red/30 px-5 py-5 text-light-text dark:border-dark-action-red dark:bg-dark-action-red/20 dark:text-dark-text"
   >
     <div class="flex flex-col gap-5">
-      <h3 class="responsive-h3 font-display text-left font-bold">
+      <h3 class="responsive-h3 text-left font-display font-bold">
         {{ $t("components.card-danger-zone.header") }}
       </h3>
       <p>{{ description }}</p>
@@ -13,7 +13,7 @@
         >
           <div class="flex flex-col gap-2">
             <label
-              class="text-light-text dark:text-dark-text responsive-h4 font-bold"
+              class="responsive-h4 font-bold text-light-text dark:text-dark-text"
               for="username"
               :placeholder="
                 $t('components.card-danger-zone.username-placeholder')
@@ -23,12 +23,12 @@
             </label>
             <input
               id="username"
-              class="border-light-text dark:border-dark-text rounded-md border bg-transparent px-3 py-1 focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
+              class="rounded-md border border-light-text bg-transparent px-3 py-1 focus:outline-none focus:ring-1 focus:ring-black dark:border-dark-text dark:focus:ring-white"
             />
           </div>
           <div class="flex flex-col gap-2">
             <label
-              class="text-light-text dark:text-dark-text responsive-h4 font-bold"
+              class="responsive-h4 font-bold text-light-text dark:text-dark-text"
               for="password"
               :placeholder="$t('components._global.enter-password')"
             >
@@ -36,14 +36,14 @@
             </label>
             <input
               id="password"
-              class="border-light-text dark:border-dark-text rounded-md border bg-transparent px-3 py-1 focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
+              class="rounded-md border border-light-text bg-transparent px-3 py-1 focus:outline-none focus:ring-1 focus:ring-black dark:border-dark-text dark:focus:ring-white"
               type="password"
             />
           </div>
         </div>
         <div class="mt-5">
           <button
-            class="text-light-layer-1 dark:text-dark-layer-1 bg-light-text dark:bg-dark-text hover:bg-light-action-red dark:hover:bg-dark-action-red w-auto rounded-md px-3 py-2"
+            class="w-auto rounded-md bg-light-text px-3 py-2 text-light-layer-1 hover:bg-light-action-red dark:bg-dark-text dark:text-dark-layer-1 dark:hover:bg-dark-action-red"
             type="button"
             :aria-label="ctaBtnAriaLabel"
           >

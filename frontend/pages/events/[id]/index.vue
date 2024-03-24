@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col items-center justify-between gap-8 px-8 py-8"
+    class="flex flex-col items-center justify-between gap-8 bg-light-layer-0 px-8 py-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ event.name }} </Title>
@@ -18,12 +18,12 @@
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1
-        class="responsive-h1 text-light-text dark:text-dark-text text-center text-3xl font-bold"
+        class="responsive-h1 text-center text-3xl font-bold text-light-text dark:text-dark-text"
       >
         {{ event.name }}
       </h1>
       <h2
-        class="responsive-h2 text-light-distinct-text dark:text-dark-distinct-text text-lg font-bold"
+        class="responsive-h2 text-lg font-bold text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ event.tagline }}
       </h2>

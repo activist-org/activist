@@ -1,10 +1,10 @@
 <template>
   <div class="card-style px-10 py-5">
-    <h3 class="responsive-h3 font-display text-left">{{ title }}</h3>
+    <h3 class="responsive-h3 text-left font-display">{{ title }}</h3>
     <div class="flex flex-row py-3">
       <div
         v-for="organization in availableOrganizations"
-        class="fill-light-text dark:fill-dark-text mr-5"
+        class="mr-5 fill-light-text dark:fill-dark-text"
       >
         <Icon
           v-if="organization.imageURL === undefined"
@@ -13,7 +13,7 @@
         />
         <div
           v-else
-          class="border-light-section-div dark:border-dark-section-div rounded border"
+          class="rounded border border-light-section-div dark:border-dark-section-div"
         >
           <img
             :src="organization.imageURL"
