@@ -12,8 +12,6 @@ repos:
       - id: prettier
         files: ^frontend\/[^\/]+
         types_or: [vue, ts]
-        additional_dependencies:
-          - prettier-plugin-tailwindcss
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
