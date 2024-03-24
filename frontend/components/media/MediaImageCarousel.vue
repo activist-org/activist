@@ -5,6 +5,7 @@
     :spaceBetween="0"
     :loop="true"
     :pagination="{ clickable: true }"
+    :keyboard="true"
   >
     <swiper-slide
       v-for="[idx, img] of imageUrls.entries()"
