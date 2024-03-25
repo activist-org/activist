@@ -15,7 +15,7 @@
       <img
         class="object-cover object-center"
         :class="{
-          'w-4/5 h-4/5': props.fullscreen,
+          'h-4/5 w-4/5': props.fullscreen,
           'h-[17.5rem]': !props.fullscreen,
         }"
         :src="img"
