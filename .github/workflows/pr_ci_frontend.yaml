@@ -28,7 +28,7 @@ jobs:
       - name: Run Prettier - Formatting check
         working-directory: ./frontend
         run: |
-          yarn prettier . --check --config ../.prettier.config.ts --ignore-path ../.prettierignore
+          yarn prettier . --check --config ../prettier.config.ts --ignore-path ../.prettierignore
 
       - name: Run Type Check
         if: always()
