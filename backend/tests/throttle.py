@@ -1,9 +1,10 @@
 import pytest
-from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.test import override_settings
 from rest_framework import status
 from rest_framework.test import APIClient
+
+from authentication.models import UserModel
 
 
 class BaseTestThrottle:
@@ -56,7 +57,7 @@ class BaseTestThrottle:
         }
     )
     def test_auth_rate_throttle(self) -> None:
-        test_user = get_user_model().objects.create_user(
+        test_user = UserModel.objects.create(
             username="testuser", email="testuser@example.com", password="testpassword"
         )
 
