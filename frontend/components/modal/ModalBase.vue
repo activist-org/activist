@@ -1,4 +1,5 @@
 <template>
+  <!-- Normal display on the page. -->
   <div
     @click="openModal"
     @keydown.enter="openModal"
@@ -8,6 +9,7 @@
   >
     <slot name="normalDisplay" />
   </div>
+  <!-- Modal pop up from page element. -->
   <Dialog @close="closeModal" class="relative z-40" :open="isOpen">
     <div
       @click="closeModal"

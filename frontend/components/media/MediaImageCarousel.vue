@@ -15,18 +15,17 @@
       <img
         class="object-cover object-center"
         :class="{
-          'h-4/5 w-4/5': props.fullscreen,
+          'h-5/6 w-5/6': props.fullscreen,
           'h-[17.5rem]': !props.fullscreen,
         }"
         :src="img"
-        alt="Media image carousel"
+        :alt="$t('components.media-image-carousal.img-alt-text')"
       />
     </swiper-slide>
   </swiper-container>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
 import { register } from "swiper/element/bundle";
 register();
 

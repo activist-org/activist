@@ -4,24 +4,14 @@
       :fullscreen="false"
       :class="{ 'lg:hidden': textExpanded }"
     />
-
-    <button class="absolute bottom-2 right-2 z-10">
-      <Icon
-        class="h-12 w-12 rounded-lg border border-solid border-white border-opacity-80 bg-black bg-opacity-80"
-        name="bi:plus-lg"
-      />
-    </button>
-
     <ModalBase>
       <template #normalDisplay>
-        <button class="absolute right-2 top-2 z-10">
-          <Icon
-            class="h-12 w-12 rounded-lg border border-solid border-white border-opacity-80 bg-black bg-opacity-80"
-            name="ic:outline-fullscreen"
-          />
+        <button
+          class="focus-brand absolute right-2 top-2 z-10 rounded-lg border border-white/80 bg-black/80 p-1 text-white/80 hover:bg-black"
+        >
+          <Icon class="" name="bi:fullscreen" size="1.5em" />
         </button>
       </template>
-
       <template #modalDisplay>
         <MediaImageCarousel
           :fullscreen="true"
