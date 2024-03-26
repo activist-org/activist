@@ -5,13 +5,22 @@
     :spaceBetween="0"
     :loop="true"
     :pagination="{ clickable: true }"
+    :keyboard="true"
   >
     <swiper-slide
       v-for="[idx, img] of imageUrls.entries()"
       :key="idx"
       class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
     >
-      <img class="h-[17.5rem] object-cover object-center" :src="img" alt="" />
+      <img
+        class="object-cover object-center"
+        :class="{
+          'h-5/6 w-5/6': props.fullscreen,
+          'h-[17.5rem]': !props.fullscreen,
+        }"
+        :src="img"
+        :alt="$t('components.media-image-carousal.img-alt-text')"
+      />
     </swiper-slide>
   </swiper-container>
 </template>
@@ -19,6 +28,10 @@
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
 register();
+
+const props = defineProps({
+  fullscreen: Boolean,
+});
 
 const colorMode = useColorMode();
 const imageColor = colorMode.value;
