@@ -11,5 +11,6 @@ export default defineConfig({
 
       console.log("Cypress config:", config);
     },
+    baseUrl: "http://localhost:3000/en",
   },
 });
