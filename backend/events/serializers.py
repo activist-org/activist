@@ -31,35 +31,41 @@ from .models import (
 class EventSerializer(serializers.ModelSerializer[Event]):
     class Meta:
         model = Event
-        fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        required_fields = [
+        fields = [
+            "id",
             "name",
             "tagline",
             "type",
             "description",
             "get_involved_text",
+            "online_location_link",
+            # "offline_location_id",
+            "offline_location_lat",
+            "offline_location_long",
             "start_time",
             "end_time",
             "created_by",
+            "event_icon",
             "creation_date",
             "deletion_date",
-            "event_icon",
         ]
 
-        def isEmpty() -> bool:
-            for field in required_fields:
-                if data[field] == "" or data[field] is None:
-                    return True
-            return False
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        def exists(attr):
+            if attr in data:
+                return data[attr]
+            if self.instance and hasattr(self.instance, attr):
+                return getattr(self.instance, attr)
+            return None
 
-        if isEmpty():
+        created_by = exists("created_by")
+        start_time = exists("start_time")
+        end_time = exists("end_time")
+
+        if created_by != getattr(self.instance, "created_by"):
             raise serializers.ValidationError(
-                _(
-                    "Only the fields offline_location_lat and offline_location_long fields can be empty for Events."
-                ),
-                code="invalid_value",
+                _("You cannot update an event's coordinator."),
+                code="invalid",
             )
 
         if parse_datetime(data["start_time"]) > parse_datetime(data["end_time"]):  # type: ignore
