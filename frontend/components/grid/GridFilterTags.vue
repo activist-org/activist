@@ -6,10 +6,9 @@
           <div
             class="style-cta elem-shadow-sm flex h-max w-max cursor-pointer items-center justify-between space-x-2 border rounded-lg py-1 px-4 sm:py-0 sm:px-2"
             :class="{
-              'style-cta': checked,
-              'style-cta-secondary': !checked,
-            }"
-          >
+    'style-cta': checked,
+    'style-cta-secondary': !checked,
+  }">
             <div class="flex items-center">
               <p class="select-none text-center text-base font-bold">
                 {{ option }}
@@ -41,7 +40,7 @@ const keyboardEvent = (e: KeyboardEvent) => {
   const currentIndex = switches.value.findIndex(s => s === document.activeElement?.parentElement);
   const previousIndex = (currentIndex - 1 + switches.value.length) % switches.value.length;
   const nextIndex = (currentIndex + 1) % switches.value.length;
-  
+
   switch (e.code) {
     case "ArrowUp":
     case "ArrowLeft":
