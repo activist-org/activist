@@ -9,9 +9,7 @@
       :header="$t('pages.events.search.header-title')"
       :tagline="$t('pages.events.search.subheader')"
     >
-      <div class="flex flex-col space-x-3 sm:flex-row">
-        <ComboboxTopics />
-      </div>
+      <ComboboxTopics />
     </HeaderAppPage>
     <GridFilterTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
   </div>
