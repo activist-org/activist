@@ -231,7 +231,7 @@
   "components.grid-supporters.wikimedia-de-logo-aria-label": "Link to the website of Wikimedia Deutschland",
   "components.grid-supporters.wikimedia-rs-logo-aria-label": "Link to the website of Wikimedia Serbia",
   "components.header-app-page.status-pending": "Application status: Pending",
-  "components.header-app-page.under-development-1": "This page is currently under development. Please visit us at",
+  "components.header-app-page.under-development-1": "This page is currently under development. Please visit us on",
   "components.header-app-page.under-development-2": "if you'd like to help!",
   "components.icon-organization-status.pending-tooltip-hover-text": "{org_name} is still waiting for approval from other organizations to join activist.",
   "components.landing-splash.header": "Where we start.",

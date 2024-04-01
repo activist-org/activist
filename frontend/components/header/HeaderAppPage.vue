@@ -1,10 +1,14 @@
 <template>
-  <PageBreadcrumbs class="mt-4" :organization="organization" :event="event" />
+  <PageBreadcrumbs
+    class="mt-4 hidden md:block"
+    :organization="organization"
+    :event="event"
+  />
   <div
     v-if="underDevelopment"
-    class="mt-3 flex w-full flex-col rounded-md border border-light-text bg-light-warn-yellow/40 py-1 pl-4 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow lg:flex-row"
+    class="mt-3 flex w-full flex-wrap rounded-md border border-light-text bg-light-warn-yellow/40 py-1 pl-4 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow lg:flex-row"
   >
-    <p>
+    <p class="whitespace-nowrap">
       🚧&nbsp;&nbsp;{{
         $t("components.header-app-page.under-development-1")
       }}&nbsp;
@@ -14,7 +18,7 @@
       href="https://github.com/activist-org/activist"
       target="_blank"
     >
-      <p>github.com/activist-org/activist</p>
+      <p class="whitespace-nowrap">{{ $t("components._global.github") }}</p>
       <Icon
         class="mb-1"
         name="bi:box-arrow-up-right"
@@ -22,8 +26,9 @@
         style="vertical-align: baseline"
       />
     </a>
-    <p></p>
-    <p>&nbsp;{{ $t("components.header-app-page.under-development-2") }}</p>
+    <p class="whitespace-nowrap">
+      &nbsp;{{ $t("components.header-app-page.under-development-2") }}
+    </p>
   </div>
   <div class="flex items-baseline gap-2 md:gap-4">
     <h1
