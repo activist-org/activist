@@ -145,6 +145,14 @@ onMounted(() => {
 
           directions.interactive = true;
 
+          marker.getElement().addEventListener("mouseenter", () => {
+            directions.interactive = false;
+          });
+
+          marker.getElement().addEventListener("mouseleave", () => {
+            directions.interactive = true;
+          });
+
           document.addEventListener("keydown", (event) => {
             if (event.key === "x") {
               directions.clear();
