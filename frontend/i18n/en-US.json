@@ -269,6 +269,8 @@
   "components.modal-qr-code.section-2-list-1-item-3": "Sending them with materials for your organization",
   "components.modal-qr-code.subheader-2": "Ideas for OR code use include:",
   "components.modal-share-page.header": "Share this page",
+  "components.modal-share-page.offline": "Offline",
+  "components.modal-share-page.online": "Online",
   "components.page-breadcrumbs.aria-label": "Page breadcrumb navigation",
   "components.page-community-footer.invite-text-1": "Do you share our goals? Please join our community!",
   "components.page-community-footer.invite-text-2-1": "Visit us",

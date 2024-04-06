@@ -18,7 +18,7 @@
           ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
         <BtnAction
-          class="hidden w-max md:block"
+          class="w-max"
           :cta="true"
           label="components.btn-action.support"
           fontSize="sm"
