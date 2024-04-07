@@ -53,7 +53,7 @@
           :organization="organization"
         />
         <div class="w-full h-full relative">
-          <ModalUploadImage>
+          <ModalUploadOrganizationImages>
             <template #normalDisplay>
               <button
                 class="absolute right-2 bottom-2 z-10 text-white/85 border-white border-opacity-80 bg-black bg-opacity-80 border-solid border rounded-lg"
@@ -64,7 +64,7 @@
                 />
               </button>
             </template>
-          </ModalUploadImage>
+          </ModalUploadOrganizationImages>
           
           <MediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
         </div>

@@ -8,7 +8,7 @@
       'bg-light-layer-1 dark:bg-dark-layer-1': !isActive
     }"
   >
-    <label for="file-input" class="h-96 mt-6 block card-style flex items-center justify-center flex-col">
+    <label for="file-input" class="h-80 mt-6 block card-style flex items-center justify-center flex-col">
 
     <slot :isDropZoneActive="isActive" ></slot>
     <input id="file-input" class="hidden" type="file" multiple @change="onInputChange" />

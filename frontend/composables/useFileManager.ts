@@ -1,5 +1,7 @@
-export default function useFileManager() {
+export default function useFileManager(initialFiles: File[] = []) {
   const files = ref<UploadableFile[]>([]);
+  handleFiles(initialFiles); // Add initial files
+
   function handleFiles(newFiles: File[]) {
     const newUploadableFiles = [...newFiles]
       .map((file) => new UploadableFile(file))
