@@ -187,6 +187,7 @@ onMounted(() => {
                 if (window.innerWidth < 768) {
                   div.innerHTML = clearDirectionsControl;
                   div.addEventListener("touchend", () => directions.clear());
+                  div.addEventListener("click", () => directions.clear()); // for small desktops or tiling
                 } else {
                   div.innerHTML = clearDirectionsHotkeyControl;
                   div.addEventListener("click", () => directions.clear());
