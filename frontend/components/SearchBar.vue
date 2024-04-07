@@ -73,7 +73,9 @@
       :name="expanded ? 'bi:x-lg' : 'bi:search'"
       size="1em"
     />
-    <label for="expanded-search-input">{{ $t("_global.search") }}</label>
+    <label for="expanded-search-input" class="hidden md:block">{{
+      $t("_global.search")
+    }}</label>
     <input
       v-if="expanded"
       id="expanded-search-input"

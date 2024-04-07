@@ -48,9 +48,6 @@
           <MetaTagDate :date="resource.creationDate.toLocaleDateString()" />
         </div>
       </div>
-      <div class="flex justify-center md:justify-start">
-        <ShieldTopic v-if="!reduced" :topic="resource.topic" />
-      </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
           <MetaTagLocation :location="resource?.relatedLocation" />
@@ -65,6 +62,9 @@
             label="components.meta-tag-stars.label"
           />
         </div>
+      </div>
+      <div class="flex justify-center md:justify-start">
+        <ShieldTopic v-if="!reduced" :topic="resource.topic" />
       </div>
       <div class="flex justify-center md:justify-start">
         {{ resource.description }}

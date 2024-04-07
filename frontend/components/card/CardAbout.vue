@@ -49,7 +49,7 @@
             >
               {{ event.description }}
             </p>
-            <div class="flex justify-end">
+            <div class="flex justify-center">
               <button
                 v-if="!expandText && descriptionExpandable"
                 @click="
@@ -96,7 +96,7 @@
             >
               {{ organization.description }}
             </p>
-            <div class="flex justify-end">
+            <div class="flex justify-center">
               <button
                 v-if="!expandText && descriptionExpandable"
                 @click="
