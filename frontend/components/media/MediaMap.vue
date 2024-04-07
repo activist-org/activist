@@ -153,56 +153,55 @@ onMounted(() => {
             directions.interactive = true;
           });
 
-          document.addEventListener("keydown", (event) => {
-            if (event.key === "x") {
-              directions.clear();
-            }
-          });
-
-          // const clearDirectionsControl = `
-          //   <div style="
-          //     background-color: rgba(255, 255, 255, 1);
-          //     padding: 1px 5px;
-          //     margin: 10px;
-          //     border-radius: 5px;
-          //     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-          //     color: grey;"
-          //   >
-          //     Clear directions
-          //   </div>
-          // `;
+          const clearDirectionsControl = `
+            <div style="
+              background-color: rgba(255, 255, 255, 1);
+              padding: 1px 5px;
+              border-radius: 5px;
+              box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+              color: grey;
+              cursor: pointer"
+            >
+              Clear directions
+            </div>
+          `;
 
           const clearDirectionsHotkeyControl = `
           <div style="
             background-color: rgba(255, 255, 255, 1);
             padding: 1px 5px;
-            margin: 10px;
             border-radius: 5px;
             box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: grey;"
+            color: grey;
+            cursor: pointer;"
           >
             Clear directions [x]
           </div>
         `;
 
-          if (window.innerWidth >= 768) {
-            map.addControl(
-              {
-                onAdd: function () {
-                  const div = document.createElement("div");
-                  // if (window.innerWidth < 768) {
-                  //   div.innerHTML = clearDirectionsControl;
-                  // } else {
-                  //   div.innerHTML = clearDirectionsHotkeyControl;
-                  // }
+          map.addControl(
+            {
+              onAdd: function () {
+                const div = document.createElement("div");
+                div.className = "maplibregl-ctrl";
+                if (window.innerWidth < 768) {
+                  div.innerHTML = clearDirectionsControl;
+                  div.addEventListener("touchend", () => directions.clear());
+                } else {
                   div.innerHTML = clearDirectionsHotkeyControl;
-                  return div;
-                },
-                onRemove: function () {},
+                  div.addEventListener("click", () => directions.clear());
+                  document.addEventListener("keydown", (event) => {
+                    if (event.key === "x") {
+                      directions.clear();
+                    }
+                  });
+                }
+                return div;
               },
-              "bottom-left"
-            );
-          }
+              onRemove: function () {},
+            },
+            "bottom-left"
+          );
         });
       }
     });
