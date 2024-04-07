@@ -3,7 +3,7 @@
     <ModalOrganizationStatus :organization="organization" />
   </span>
   <span v-else>
-    <div class="w-5 sm:w-6 md:w-7 xl:w-9 has-tooltip">
+    <div class="has-tooltip w-5 sm:w-6 md:w-7 xl:w-9">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
         <path
           class="fill-light-warn-yellow dark:fill-dark-warn-yellow"
@@ -19,7 +19,7 @@
         />
       </svg>
       <TooltipBase
-        class="invisible mt-3 -ml-36 max-w-96"
+        class="invisible -ml-36 mt-3 max-w-96"
         :text="
           $t('components.icon-organization-status.pending-tooltip-hover-text', {
             org_name: organization.name,

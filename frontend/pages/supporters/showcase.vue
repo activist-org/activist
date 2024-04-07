@@ -5,9 +5,9 @@
     <Head>
       <Title>{{ $t("pages._global.our-supporters") }}</Title>
     </Head>
-    <div class="flex flex-col space-y-4 responsive-py-4 responsive-px-5">
+    <div class="responsive-py-4 responsive-px-5 flex flex-col space-y-4">
       <PageBreadcrumbs />
-      <h1 class="font-bold responsive-h1">
+      <h1 class="responsive-h1 font-bold">
         {{ $t("pages._global.our-supporters") }}
       </h1>
       <p class="pt-2 lg:pt-4 xl:pt-6">
@@ -21,10 +21,10 @@
           }} </NuxtLink
         >.
       </p>
-      <h2 class="font-bold responsive-py-1 responsive-h3">
+      <h2 class="responsive-py-1 responsive-h3 font-bold">
         {{ $t("pages.supporters.showcase.section-2-subheader") }}
       </h2>
-      <h3 class="font-bold responsive-h4">
+      <h3 class="responsive-h4 font-bold">
         {{ $t("pages.supporters.showcase.section-2-1-subheader") }}
       </h3>
       <p class="space-x-1">
@@ -48,7 +48,7 @@
         />
       </p>
       <GridGitHubContributors />
-      <h3 class="pt-4 font-bold responsive-h4">
+      <h3 class="responsive-h4 pt-4 font-bold">
         {{ $t("pages.supporters.showcase.section-2-2-subheader") }}
       </h3>
       <p>{{ $t("pages.supporters.showcase.section-2-2-paragraph-1") }}</p>
@@ -56,13 +56,13 @@
       <p class="text-light-distinct-text dark:text-dark-distinct-text">
         {{ $t("pages.supporters.showcase.section-2-2-thanks") }}
       </p>
-      <h2 class="font-bold responsive-py-1 responsive-h3">
+      <h2 class="responsive-py-1 responsive-h3 font-bold">
         {{ $t("pages.supporters.showcase.section-3-subheader") }}
       </h2>
       <p>
         {{ $t("pages.supporters.showcase.section-3-paragraph-1-1") }}
         <a
-          class="items-center focus-brand link-text"
+          class="focus-brand link-text items-center"
           href="https://www.wikimedia.de/unlock"
           target="_blank"
         >

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-wrap w-full"
+    class="flex w-full flex-wrap"
     :class="{ 'flex-col': checkboxComponent === 'FormCheckbox' }"
   >
     <component

@@ -8,7 +8,7 @@
     <button
       @click="toggleTooltip"
       @keydown.shift.tab="onShiftTab"
-      class="relative flex items-center justify-center w-8 h-8 rounded-full style-cta md:w-6 md:h-6 elem-shadow-sm"
+      class="style-cta elem-shadow-sm relative flex h-8 w-8 items-center justify-center rounded-full md:h-6 md:w-6"
     >
       <Icon name="bi:three-dots-vertical" size="1.25em" />
       <TooltipMenuSearchResultEvent
@@ -17,7 +17,7 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        class="absolute max-md:top-8 max-md:right-0 lg:bottom-6 lg:left-4"
+        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
       />
       <TooltipMenuSearchResultOrganization
         v-if="searchResultType === 'organization'"
@@ -25,7 +25,7 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        class="absolute max-md:top-8 max-md:right-0 lg:bottom-6 lg:left-4"
+        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
       />
       <TooltipMenuSearchResultResource
         v-if="searchResultType === 'resource'"
@@ -33,7 +33,7 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        class="absolute max-md:top-8 max-md:right-0 lg:bottom-6 lg:left-4"
+        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
       />
       <TooltipMenuSearchResultUser
         v-if="searchResultType === 'user'"
@@ -41,7 +41,7 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        class="absolute max-md:top-8 max-md:right-0 lg:bottom-6 lg:left-4"
+        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
       />
     </button>
   </div>

@@ -1,11 +1,11 @@
 <template>
   <div
-    class="flex items-center pl-[12px] pr-[10px] py-2 h-9 space-x-2 text-left border rounded-md select-none bg-light-layer-2 dark:bg-dark-layer-2 border-light-interactive dark:border-dark-interactive text-light-distinct-text dark:text-dark-distinct-text"
+    class="bg-light-layer-2 dark:bg-dark-layer-2 border-light-interactive dark:border-dark-interactive text-light-distinct-text dark:text-dark-distinct-text flex h-9 select-none items-center space-x-2 rounded-md border py-2 pl-[12px] pr-[10px] text-left"
   >
-    <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
+    <Icon class="my-1 h-4 w-4 flex-shrink-0" name="bi:search" size="1em" />
     <input
       :id="uuid"
-      class="w-full h-5 bg-transparent outline-none placeholder:font-bold"
+      class="h-5 w-full bg-transparent outline-none placeholder:font-bold"
       :onInput="updateValue"
       :value="modelValue"
       :placeholder="$t(placeholder)"

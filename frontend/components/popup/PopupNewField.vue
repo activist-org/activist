@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex flex-col px-4 pt-2 pb-3 elem-shadow-md space-y-2 card-style bg-light-layer-1 dark:bg-dark-layer-1 w-fit"
+    class="elem-shadow-md card-style bg-light-layer-1 dark:bg-dark-layer-1 flex w-fit flex-col space-y-2 px-4 pb-3 pt-2"
   >
     <div class="relative flex">
-      <p class="pl-1 responsive-h5">
+      <p class="responsive-h5 pl-1">
         {{ title }}
       </p>
       <div
@@ -11,9 +11,9 @@
         @keypress.enter="emit('on-close-clicked')"
         role="button"
         tabindex="0"
-        class="absolute right-0 mr-1 text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text"
+        class="text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text absolute right-0 mr-1"
       >
-        <Icon class="w-6 h-6" name="bi:x-circle-fill" />
+        <Icon class="h-6 w-6" name="bi:x-circle-fill" />
       </div>
     </div>
     <label for="popup-input" class="sr-only"> {{ fieldNamePrompt }}</label>
@@ -21,7 +21,7 @@
       v-model="inputValue"
       ref="input"
       id="popup-input"
-      class="h-8 p-2 bg-transparent border rounded-sm w-52 border-light-text dark:border-dark-text focus-brand"
+      class="border-light-text dark:border-dark-text focus-brand h-8 w-52 rounded-sm border bg-transparent p-2"
       type="text"
       :placeholder="fieldNamePrompt"
     />
@@ -29,7 +29,7 @@
     <textarea
       v-if="descriptionPrompt"
       id="popup-textarea"
-      class="p-1 bg-transparent border rounded-sm resize-none border-light-text dark:border-dark-text focus-brand min-w-[75%] min-h-[50%]"
+      class="border-light-text dark:border-dark-text focus-brand min-h-[50%] min-w-[75%] resize-none rounded-sm border bg-transparent p-1"
       name="message"
       rows="3"
       cols="10"

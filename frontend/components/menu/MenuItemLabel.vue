@@ -2,20 +2,20 @@
   <component
     :is="infoComponent.is"
     v-bind="infoComponent"
-    class="flex items-center w-full text-sm rounded-md"
+    class="flex w-full items-center rounded-md text-sm"
     :class="{
-      'group pl-4 pr-3 py-2': !isSideLeftMenu,
+      'group py-2 pl-4 pr-3': !isSideLeftMenu,
       'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
         active,
       'text-light-text dark:text-dark-text': !active,
-      'relative z-0 font-medium text-left space-x-2 p-2': isSideLeftMenu,
+      'relative z-0 space-x-2 p-2 text-left font-medium': isSideLeftMenu,
     }"
   >
     <Icon
       v-if="iconName"
       :name="iconName"
       size="1em"
-      :class="{ 'flex-shrink-0 w-5 h-5': isSideLeftMenu }"
+      :class="{ 'h-5 w-5 flex-shrink-0': isSideLeftMenu }"
     />
     <Transition>
       <component

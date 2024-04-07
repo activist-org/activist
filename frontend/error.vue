@@ -1,30 +1,30 @@
 <template>
   <HeaderWebsite />
-  <div class="flex h-full bg-light-layer-0 dark:bg-dark-layer-0">
+  <div class="bg-light-layer-0 dark:bg-dark-layer-0 flex h-full">
     <Head>
       <Title>{{ $t("pages.error.title") }}</Title>
     </Head>
     <div
-      class="relative my-[10%] mx-auto items-center justify-center md:text-left text-center container flex flex-col md:flex-row md:space-x-8 xl:space-x-12 space-x-0 space-y-10 md:space-y-0"
+      class="container relative mx-auto my-[10%] flex flex-col items-center justify-center space-x-0 space-y-10 text-center md:flex-row md:space-x-8 md:space-y-0 md:text-left xl:space-x-12"
     >
       <div
-        class="md:text-[175px] lg:text-[200px] text-light-text dark:text-dark-text text-[125px] flex flex-wrap font-black font-['Copperplate_Gothic_Light']"
+        class="text-light-text dark:text-dark-text flex flex-wrap font-['Copperplate_Gothic_Light'] text-[125px] font-black md:text-[175px] lg:text-[200px]"
       >
         {{ error.statusCode }}
       </div>
       <div
-        class="bg-light-distinct-text dark:bg-dark-distinct-text md:w-[2px] md:h-[200px] w-[120px] h-[2px]"
+        class="bg-light-distinct-text dark:bg-dark-distinct-text h-[2px] w-[120px] md:h-[200px] md:w-[2px]"
       ></div>
       <div
-        class="text-left flex flex-col items-center md:items-start max-w-[350px]"
+        class="flex max-w-[350px] flex-col items-center text-left md:items-start"
       >
         <div
-          class="text-lg md:text-xl text-light-text dark:text-dark-text font-['Copperplate_Gothic_Light'] mt-4 md:mt-0 flex flex-wrap"
+          class="text-light-text dark:text-dark-text mt-4 flex flex-wrap font-['Copperplate_Gothic_Light'] text-lg md:mt-0 md:text-xl"
         >
           {{ $t("pages.error.message") }}
         </div>
         <div
-          class="flex flex-wrap justify-center my-8 break-all md:my-6 md:text-lg text-light-distinct-text dark:text-dark-distinct-text"
+          class="text-light-distinct-text dark:text-dark-distinct-text my-8 flex flex-wrap justify-center break-all md:my-6 md:text-lg"
         >
           {{ error.message }}
         </div>

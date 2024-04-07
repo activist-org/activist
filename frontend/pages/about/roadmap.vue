@@ -9,10 +9,10 @@
       imgURL="/images/content_pages/icons/arcticons_bike_location"
       imgAltText="pages.about._global.roadmap-img-alt-text"
     >
-      <h1 class="pb-2 font-bold responsive-h1">
+      <h1 class="responsive-h1 pb-2 font-bold">
         {{ $t("_global.roadmap") }}
       </h1>
-      <div class="flex flex-row py-2 space-x-3">
+      <div class="flex flex-row space-x-3 py-2">
         <Icon
           class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
           name="bi:info-circle-fill"
@@ -21,7 +21,7 @@
         <p>
           {{ $t("pages._global.visit-source-code-pt-1") }}
           <a
-            class="items-center focus-brand link-text"
+            class="focus-brand link-text items-center"
             href="https://github.com/activist-org/activist"
             target="_blank"
           >
@@ -41,7 +41,7 @@
       <div>
         {{ $t("pages.about.roadmap.section-1-paragraph-2-1") }}
         <a
-          class="items-center focus-brand link-text"
+          class="focus-brand link-text items-center"
           href="https://github.com/orgs/activist-org/projects/1"
           target="_blank"
         >
@@ -54,10 +54,10 @@
         </a>
         {{ $t("pages.about.roadmap.section-1-paragraph-2-3") }}
         {{ $t("pages.about.roadmap.section-1-paragraph-2-4") }}
-        <ul class="pl-4 list-disc pt-2 space-y-1">
+        <ul class="list-disc space-y-1 pl-4 pt-2">
           <li>
             <a
-              class="items-center focus-brand link-text"
+              class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22"
               target="_blank"
             >
@@ -71,7 +71,7 @@
           </li>
           <li>
             <a
-              class="items-center focus-brand link-text"
+              class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Afeature"
               target="_blank"
             >
@@ -85,7 +85,7 @@
           </li>
           <li>
             <a
-              class="items-center focus-brand link-text"
+              class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Abug"
               target="_blank"
             >

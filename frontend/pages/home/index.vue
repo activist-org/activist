@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 px-4 xl:px-8"
   >
     <Head>
       <Title>{{ $t("_global.home") }}</Title>
@@ -11,9 +11,9 @@
     >
       <ComboboxTopics class="pb-3 lg:pb-4" />
     </HeaderAppPage>
-    <div class="pb-6 space-y-6">
+    <div class="space-y-6 pb-6">
       <div
-        class="flex flex-col lg:grid space-y-6 lg:grid-cols-7 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-6"
+        class="flex flex-col space-y-6 lg:mr-6 lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:space-x-6 lg:space-y-0"
       >
         <CardMetricsOverview
           class="lg:col-span-5"
@@ -24,7 +24,7 @@
             'new orgs': 10,
           }"
         />
-        <MediaCalendar class="w-full h-full lg:col-span-2" />
+        <MediaCalendar class="h-full w-full lg:col-span-2" />
       </div>
       <CardSearchResult
         searchResultType="event"

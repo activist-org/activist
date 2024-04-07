@@ -1,10 +1,10 @@
 <template>
   <div class="h-4">
     <div
-      class="h-1 bg-light-distinct-text dark:bg-dark-distinct-text rounded-md"
+      class="bg-light-distinct-text dark:bg-dark-distinct-text h-1 rounded-md"
     >
       <div
-        class="h-1 transition-width ease-in duration-500 rounded-md"
+        class="transition-width h-1 rounded-md duration-500 ease-in"
         :class="!!passwordValue.length ? `${color}` : ''"
         :style="`width: ${width}%;`"
       ></div>

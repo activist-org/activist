@@ -1,10 +1,10 @@
 <template>
   <header
     ref="header"
-    class="sticky top-0 z-10 w-full h-12 md:hidden duration-500 drop-shadow-md bg-light-layer-2 dark:bg-dark-layer-2"
+    class="bg-light-layer-2 dark:bg-dark-layer-2 sticky top-0 z-10 h-12 w-full drop-shadow-md duration-500 md:hidden"
   >
     <div class="h-full">
-      <div class="flex justify-between h-full px-4 gap-2">
+      <div class="flex h-full justify-between gap-2 px-4">
         <SearchBar
           @on-search-toggle="toggleSearchExpanded"
           class="my-1.5"
@@ -14,7 +14,7 @@
         />
         <IconActivist
           v-if="!isSearchExpanded"
-          class="flex items-center w-6 h-8 absolute top-[0.3rem] m-auto left-0 right-0 overflow-clip"
+          class="absolute left-0 right-0 top-[0.3rem] m-auto flex h-8 w-6 items-center overflow-clip"
         />
         <SidebarRight>
           <div class="flex-col space-y-2">

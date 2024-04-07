@@ -1,9 +1,9 @@
 <template>
   <footer
-    class="w-full p-1 transition-all duration-500 bg-light-layer-1 dark:bg-dark-layer-1"
+    class="bg-light-layer-1 dark:bg-dark-layer-1 w-full p-1 transition-all duration-500"
   >
     <div
-      class="flex flex-col justify-center w-full p-1 space-y-1 rounded-md bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm"
+      class="bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm flex w-full flex-col justify-center space-y-1 rounded-md p-1"
     >
       <DropdownCreate
         class="w-full"

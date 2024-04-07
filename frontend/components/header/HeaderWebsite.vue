@@ -1,7 +1,7 @@
 <template>
   <header
     ref="header"
-    class="sticky top-0 z-10 duration-500 drop-shadow-md"
+    class="sticky top-0 z-10 drop-shadow-md duration-500"
     :class="{
       'bg-light-layer-2 dark:bg-dark-layer-2': headerOpacity == 1,
       'bg-light-layer-2/80 dark:bg-dark-layer-2/80': headerOpacity == 0.8,
@@ -12,11 +12,11 @@
     <div class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
         <div
-          class="absolute top-0 left-0 z-0 flex items-center justify-center w-full h-full"
+          class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center"
         >
           <div>
             <LogoActivist
-              class="flex items-center justify-center h-full z-1 overflow-clip"
+              class="z-1 flex h-full items-center justify-center overflow-clip"
               :is-mobile="true"
             />
           </div>
@@ -33,12 +33,12 @@
       </SidebarRight>
     </div>
     <!-- Note: desktop header -->
-    <div class="hidden py-3 mx-auto md:block">
-      <div class="flex items-center justify-between responsive-px-5">
+    <div class="mx-auto hidden py-3 md:block">
+      <div class="responsive-px-5 flex items-center justify-between">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
             <LogoActivist
-              class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+              class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
             />
           </div>
           <BtnRoadMap label="Roadmap" linkTo="/about/roadmap" />

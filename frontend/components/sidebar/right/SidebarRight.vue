@@ -2,13 +2,13 @@
   <SidebarRightToggle
     @toggle="toggleMenuState"
     ref="ignoreElRef"
-    class="flex items-center h-full"
+    class="flex h-full items-center"
     :menuOpen="menuOpen"
   />
   <div
     ref="target"
     id="drawer-navigation"
-    class="fixed top-0 right-0 z-30 h-screen pt-12 overflow-y-auto border-l bg-light-layer-1 transition-[max-width] overflow-x-hidden duration-200 border-light-section-div dark:bg-dark-layer-1 dark:border-dark-section-div elem-shadow-sm"
+    class="bg-light-layer-1 border-light-section-div dark:bg-dark-layer-1 dark:border-dark-section-div elem-shadow-sm fixed right-0 top-0 z-30 h-screen overflow-y-auto overflow-x-hidden border-l pt-12 transition-[max-width] duration-200"
     :class="{
       'max-w-0 px-0': !menuOpen,
       'max-w-[16rem] px-4': menuOpen,
@@ -16,7 +16,7 @@
     tabindex="-1"
   >
     <div
-      class="w-56 h-full py-4"
+      class="h-full w-56 py-4"
       :class="{
         hidden: !menuOpen,
       }"
