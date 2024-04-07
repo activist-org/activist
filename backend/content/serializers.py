@@ -10,6 +10,7 @@ from utils.utils import (
     validate_empty,
     validate_object_existence,
 )
+
 from .models import (
     Discussion,
     DiscussionEntry,
@@ -44,7 +45,7 @@ class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
         fields = [
             "id",
             "discussion_id",
-            "user_id",
+            "created_by",
             "text",
             "creation_date",
             "deletion_date",

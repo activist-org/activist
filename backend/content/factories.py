@@ -2,7 +2,7 @@ import datetime
 
 import factory
 
-from .models import Resource, ResourceTopic, Faq, Task, Topic, TopicFormat
+from .models import Faq, Resource, ResourceTopic, Task, Topic, TopicFormat
 
 
 class FaqFactory(factory.django.DjangoModelFactory):
