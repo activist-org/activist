@@ -32,7 +32,7 @@ django-stubs-ext==4.2.5
     # via
     #   -r requirements.in
     #   django-stubs
-djangorestframework==3.14.0
+djangorestframework==3.15.1
     # via
     #   -r requirements.in
     #   drf-spectacular
@@ -56,14 +56,12 @@ mypy-extensions==1.0.0
     # via mypy
 packaging==23.2
     # via gunicorn
-pillow==10.2.0
+pillow==10.3.0
     # via -r requirements.in
 psycopg2-binary==2.9.9
     # via -r requirements.in
 python-dotenv==1.0.0
     # via -r requirements.in
-pytz==2023.3.post1
-    # via djangorestframework
 pyyaml==6.0.1
     # via drf-spectacular
 referencing==0.30.2
