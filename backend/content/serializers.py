@@ -13,6 +13,8 @@ from utils.utils import (
 )
 
 from .models import (
+    Discussion,
+    DiscussionEntry,
     Faq,
     Image,
     Resource,
@@ -23,6 +25,34 @@ from .models import (
     Topic,
     TopicFormat,
 )
+
+
+class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
+    class Meta:
+        model = Discussion
+        fields = [
+            "id",
+            "created_by",
+            "org_id",
+            "group_id",
+            "event_id",
+            "category",
+            "creation_date",
+            "deletion_date",
+        ]
+
+
+class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
+    class Meta:
+        model = DiscussionEntry
+        fields = [
+            "id",
+            "discussion_id",
+            "created_by",
+            "text",
+            "creation_date",
+            "deletion_date",
+        ]
 
 
 class FaqSerializer(serializers.ModelSerializer[Faq]):
