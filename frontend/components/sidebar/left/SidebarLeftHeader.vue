@@ -1,8 +1,8 @@
 <template>
   <header
-    class="w-full pl-1 transition-all duration-500 bg-light-distinct dark:bg-dark-distinct"
+    class="w-full bg-light-layer-1 pl-1 transition-all duration-500 dark:bg-dark-layer-1"
   >
-    <div class="flex items-center pt-3 pb-2 pl-[0.85rem] pr-6">
+    <div class="flex items-center pb-2 pl-[0.85rem] pr-6 pt-3">
       <div
         class="relative z-0 h-8"
         :class="{
@@ -12,7 +12,7 @@
         }"
       >
         <IconActivist
-          class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-[1.3em] h-8 z-1 overflow-clip"
+          class="z-1 absolute inset-0 flex h-8 w-[1.3em] flex-shrink-0 items-center justify-center overflow-clip"
           :class="{
             hidden:
               sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -23,8 +23,8 @@
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
-            class="absolute inset-0 flex items-center justify-center flex-shrink-0 w-32 h-8 z-1 overflow-clip"
-            color="fill-light-text-over-header dark:fill-dark-text-over-header hover:fill-light-distinct-text-over-header hover:dark:fill-dark-distinct-text-over-header"
+            class="z-1 absolute inset-0 flex h-8 w-32 flex-shrink-0 items-center justify-center overflow-clip"
+            color="fill-light-text-over-layer-2 dark:fill-dark-text-over-layer-2 hover:fill-light-distinct-text-over-layer-2 hover:dark:fill-dark-distinct-text-over-layer-2"
           />
         </Transition>
       </div>
@@ -35,28 +35,16 @@
             sidebar.toggleCollapsedSwitch();
             emit('toggle-pressed');
           "
-          class="flex items-center justify-center transition duration-100 w-7 h-7 text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text dark:hover:text-dark-text focus-brand outline-offset-0"
+          class="focus-brand flex h-7 w-7 items-center justify-center outline-offset-0 transition duration-200"
+          :class="{
+            '-rotate-180 pr-0.5': sidebar.collapsedSwitch == false,
+            'pb-1 pl-0.5': sidebar.collapsedSwitch == true,
+          }"
           :aria-label="
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')
           "
         >
-          <div
-            :class="{
-              'pr-[2px]': sidebar.collapsedSwitch == false,
-              'pl-[2px]': sidebar.collapsedSwitch == true,
-            }"
-          >
-            <Icon
-              v-if="sidebar.collapsedSwitch == false"
-              name="bi:chevron-bar-left"
-              size="1.4em"
-            />
-            <Icon
-              v-if="sidebar.collapsedSwitch == true"
-              name="bi:chevron-bar-right"
-              size="1.4em"
-            />
-          </div>
+          <SidebarToggle chevronDirection="right" iconSize="1.4em" />
         </button>
       </div>
     </div>

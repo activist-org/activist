@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("pages.blog.title") }}</Title>

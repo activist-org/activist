@@ -1,11 +1,11 @@
 <template>
-  <div class="px-5 py-5 card-style">
+  <div class="card-style px-5 py-5">
     <div class="flex items-center gap-5">
-      <h3 class="text-left responsive-h3 font-display">
+      <h3 class="responsive-h3 text-left font-display">
         {{ $t("components._global.connect") }}
       </h3>
       <div
-        class="p-1 break-all rounded-lg cursor-pointer transition-all hover:text-light-highlight dark:transition-all dark:hover:text-dark-highlight"
+        class="cursor-pointer break-all rounded-lg p-1 transition-all hover:text-light-highlight dark:hover:text-dark-highlight"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"
@@ -22,11 +22,11 @@
       </div>
     </div>
     <ul
-      class="flex flex-col items-start mt-3 gap-2 md:flex-row md:items-center md:gap-6"
+      class="mt-3 flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-6"
     >
       <li v-for="link in socialLinksRef">
         <div
-          class="flex items-center break-all cursor-pointer gap-3 transition-all"
+          class="flex cursor-pointer items-center gap-3 break-all transition-all"
           :class="{
             'hover:text-social-email': link.includes('email'),
             'hover:text-social-mastodon': link.includes('mastodon'),

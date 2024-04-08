@@ -1,13 +1,13 @@
 <template>
   <div>
-    <ul class="flex flex-wrap justify-center md:justify-normal gap-4">
+    <ul class="flex flex-wrap justify-center gap-4 md:justify-normal">
       <li v-for="item in githubData" :key="item.loginID">
         <NuxtLink
-          class="flex flex-col items-center w-20 focus-brand space-y-1"
+          class="focus-brand flex w-20 flex-col items-center space-y-1"
           :to="localePath(item.htmlUrl)"
         >
           <img
-            class="w-16 h-16 rounded-full ring-2 hover:ring-light-cta-orange hover:ring-2 hover:ring-offset-2 ring-light-section-div dark:ring-dark-section-div dark:hover:ring-light-cta-orange dark:hover:ring-offset-dark-content"
+            class="h-16 w-16 rounded-full ring-2 ring-light-section-div hover:ring-2 hover:ring-light-cta-orange hover:ring-offset-2 dark:ring-dark-section-div dark:hover:ring-light-cta-orange dark:hover:ring-offset-dark-layer-0"
             :src="item.avatarUrl"
             :alt="
               $t('components.grid-github-contributors.img-alt-text') +
@@ -16,7 +16,7 @@
             "
           />
           <p
-            class="w-full text-sm text-center truncate text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
+            class="w-full truncate text-center text-sm text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
           >
             {{ item.loginID }}
           </p>
@@ -25,13 +25,13 @@
       <li v-if="hasMoreContributors">
         <button
           @click="onClickLoadMoreContributors"
-          class="flex flex-col items-center w-20 focus-brand space-y-1"
+          class="focus-brand flex w-20 flex-col items-center space-y-1"
           :aria-label="
             $t('components.grid-github-contributors.load-more-aria-label')
           "
         >
           <span
-            class="flex items-center justify-center w-16 h-16 rounded-full ring-2 hover:ring-light-cta-orange hover:ring-2 hover:ring-offset-2 ring-light-section-div dark:ring-dark-section-div dark:hover:ring-light-cta-orange dark:hover:ring-offset-dark-content bg-light-section-div dark:bg-dark-section-div"
+            class="flex h-16 w-16 items-center justify-center rounded-full bg-light-section-div ring-2 ring-light-section-div hover:ring-2 hover:ring-light-cta-orange hover:ring-offset-2 dark:bg-dark-section-div dark:ring-dark-section-div dark:hover:ring-light-cta-orange dark:hover:ring-offset-dark-layer-0"
             :alt="
               $t('components.grid-github-contributors.load-more-img-alt-text')
             "
@@ -43,7 +43,7 @@
             />
           </span>
           <p
-            class="w-full text-sm text-center truncate text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
+            class="w-full truncate text-center text-sm text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
           >
             {{ $t("components.grid-github-contributors.load-more") }}
           </p>

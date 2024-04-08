@@ -1,31 +1,38 @@
 <template>
   <div
-    v-if="location == 'sidebar'"
-    class="flex justify-between grow items-center pl-[12px] py-1 mx-2 text-left transition duration-200 rounded-md select-none text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-link-text focus-within:border-2 dark:focus-within:border-dark-link-text focus-within:mb-[-3px] bg-light-header dark:bg-dark-header elem-shadow-sm"
+    v-if="location == SearchBarLocation.SIDEBAR"
+    class="elem-shadow-sm mx-2 flex grow select-none items-center justify-between rounded-md bg-light-layer-2 py-1 pl-[12px] text-left text-light-distinct-text transition duration-200 focus-within:mb-[-3px] focus-within:border-2 focus-within:border-light-link-text dark:bg-dark-layer-2 dark:text-dark-distinct-text dark:focus-within:border-dark-link-text"
   >
-    <div class="flex items-center pl-1 space-x-2">
-      <Icon class="flex-shrink-0 w-4 h-4 my-1" name="bi:search" size="1em" />
+    <div class="flex items-center space-x-2 pl-1">
+      <Icon class="my-1 h-4 w-4 flex-shrink-0" name="bi:search" size="1em" />
       <Transition name="search">
-        <input
+        <div
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @focus="onFocus"
-          @blur="onFocusLost"
-          ref="input"
-          class="w-16 h-5 bg-transparent outline-none"
-          :class="{ 'focus:w-5/6': isInputFocused }"
-          type="text"
-          :placeholder="$t('_global.search')"
-        />
+        >
+          <label for="input-search" class="sr-only">{{
+            $t("_global.search")
+          }}</label>
+          <input
+            @focus="onFocus"
+            @blur="onFocusLost"
+            ref="input"
+            id="input-search"
+            class="h-5 w-16 bg-transparent outline-none"
+            :class="{ 'focus:w-5/6': isInputFocused }"
+            type="text"
+            :placeholder="$t('_global.search')"
+          />
+        </div>
       </Transition>
     </div>
     <Transition name="shortcuts">
       <div
         v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="hotkeyIndicators"
-        class="flex pr-1 space-x-1 transition-opacity transition-duration-200"
+        class="transition-duration-200 flex space-x-1 pr-1 transition-opacity"
       >
         <div
-          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text"
+          class="has-tooltip flex rounded-md bg-light-highlight px-2 py-[0.125rem] text-center text-sm text-light-distinct-text dark:bg-dark-highlight dark:text-dark-distinct-text"
         >
           <TooltipBase
             class="invisible -mt-8"
@@ -35,7 +42,7 @@
         </div>
         <div
           v-if="$device.isMacOS"
-          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text"
+          class="has-tooltip flex rounded-md bg-light-highlight px-2 py-[0.125rem] text-center text-sm text-light-distinct-text dark:bg-dark-highlight dark:text-dark-distinct-text"
         >
           <TooltipBase
             class="invisible -mt-8"
@@ -45,7 +52,7 @@
         </div>
         <div
           v-else
-          class="flex px-2 py-[0.125rem] text-sm text-center rounded-md has-tooltip bg-light-highlight dark:bg-dark-highlight text-light-distinct-text dark:text-dark-distinct-text"
+          class="has-tooltip flex rounded-md bg-light-highlight px-2 py-[0.125rem] text-center text-sm text-light-distinct-text dark:bg-dark-highlight dark:text-dark-distinct-text"
         >
           <TooltipBase
             class="invisible -mt-8"
@@ -58,19 +65,23 @@
   </div>
   <div
     v-else
-    class="relative inline-flex items-center pl-[12px] pr-[10px] py-1 space-x-2 text-left border rounded-md select-none bg-light-header dark:bg-dark-header border-light-distinct-text dark:border-dark-distinct-text text-light-distinct-text dark:text-dark-distinct-text focus-within:border-light-cta-orange focus-within:border-2 dark:focus-within:border-dark-cta-orange"
+    class="relative inline-flex select-none items-center space-x-2 rounded-md border border-light-distinct-text bg-light-layer-2 py-1 pl-[12px] pr-[10px] text-left text-light-distinct-text focus-within:border-2 focus-within:border-light-cta-orange dark:border-dark-distinct-text dark:bg-dark-layer-2 dark:text-dark-distinct-text dark:focus-within:border-dark-cta-orange"
   >
     <Icon
       @click="emit('on-search-toggle')"
-      class="flex-shrink-0 w-4 h-4 my-1"
+      class="my-1 h-4 w-4 flex-shrink-0"
       :name="expanded ? 'bi:x-lg' : 'bi:search'"
       size="1em"
     />
+    <label for="expanded-search-input" class="hidden md:block">{{
+      $t("_global.search")
+    }}</label>
     <input
       v-if="expanded"
+      id="expanded-search-input"
       class="bg-transparent focus:outline-none"
       type="text"
-      placeholder="Search"
+      :placeholder="$t('_global.search')"
     />
     <Icon v-if="expanded" class="absolute right-3" name="bi:filter" />
   </div>
@@ -78,9 +89,10 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { SearchBarLocation } from "~/types/location";
 
 export interface Props {
-  location: "sidebar" | "header";
+  location: SearchBarLocation;
   expanded?: boolean;
 }
 

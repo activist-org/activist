@@ -1,10 +1,10 @@
 <template>
   <header
     ref="header"
-    class="relative sticky top-0 z-10 duration-500 drop-shadow-md"
+    class="sticky top-0 z-10 drop-shadow-md duration-500"
     :class="{
-      'bg-light-header dark:bg-dark-header': headerOpacity == 1,
-      'bg-light-header/80 dark:bg-dark-header/80': headerOpacity == 0.8,
+      'bg-light-layer-2 dark:bg-dark-layer-2': headerOpacity == 1,
+      'bg-light-layer-2/80 dark:bg-dark-layer-2/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
   >
@@ -12,11 +12,11 @@
     <div class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
         <div
-          class="absolute top-0 left-0 z-0 flex items-center justify-center w-full h-full"
+          class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center"
         >
           <div>
             <LogoActivist
-              class="flex items-center justify-center h-full z-1 overflow-clip"
+              class="z-1 flex h-full items-center justify-center overflow-clip"
               :is-mobile="true"
             />
           </div>
@@ -24,18 +24,21 @@
       </div>
       <SidebarRight>
         <div class="flex-col space-y-2">
-          <DropdownTheme class="w-full" location="sideMenu" />
-          <DropdownLanguage class="w-full" location="sideMenu" />
+          <DropdownTheme class="w-full" :location="DropdownLocation.SIDEMENU" />
+          <DropdownLanguage
+            class="w-full"
+            :location="DropdownLocation.SIDEMENU"
+          />
         </div>
       </SidebarRight>
     </div>
     <!-- Note: desktop header -->
-    <div class="hidden py-3 mx-auto md:block">
-      <div class="flex items-center justify-between responsive-px-5">
+    <div class="mx-auto hidden py-3 md:block">
+      <div class="responsive-px-5 flex items-center justify-between">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
             <LogoActivist
-              class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+              class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
             />
           </div>
           <BtnRoadMap label="Roadmap" linkTo="/about/roadmap" />
@@ -68,6 +71,8 @@
 </template>
 
 <script setup lang="ts">
+import { DropdownLocation } from "~/types/location";
+
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
 
@@ -95,6 +100,7 @@ onUnmounted(() => {
 
 <style>
 .header {
+  transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
 }
 </style>

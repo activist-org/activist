@@ -153,7 +153,7 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
 
 ## Formatting [`⇧`](#contents)
 
-The activist frontend uses [Prettier](https://prettier.io/) to format the code and [Headwind](https://github.com/heybourn/headwind) to sort Tailwind CSS classes. Backend code that's written in Python should be formatted using [ruff](https://docs.astral.sh/ruff/formatter/). The team suggests that you set up your environment to autoformat using te these formatters on save. We have workflows to check formatting for pull requests and will notify you if something's wrong :)
+The activist frontend uses [Prettier](https://prettier.io/) to format the code and [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) to sort Tailwind CSS classes. Backend code that's written in Python should be formatted using [black](https://github.com/psf/black). The team suggests that you set up your environment to autoformat using te these formatters on save. We have workflows to check formatting for pull requests and will notify you if something's wrong :)
 
 <a id="colors"></a>
 
@@ -165,7 +165,7 @@ Note that for all colors we need to apply both the light and dark mode variants.
 
 ```html
 <!-- This div has a background that reacts to the color mode. -->
-<div class="bg-light-header dark:bg-dark-header"></div>
+<div class="bg-light-layer-2 dark:bg-dark-layer-2"></div>
 ```
 
 Note further that Tailwind allows for alpha components for opacity to be applied to colors directly within the class declaration. We thus do not need to save versions of colors with transparency unless they are inherently used with an alpha less than one. An example of a color that has an inherent non-one alpha is `light-text` (`"rgba(0, 0, 0, 0.85)"`). To apply an alpha component to a color in Tailwind you follow it with a slash and the alpha that should be used as in the following example:

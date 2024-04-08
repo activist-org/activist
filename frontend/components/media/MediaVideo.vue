@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex items-center justify-center w-full h-full card-style bg-light-placeholder dark:bg-dark-placeholder"
+    class="card-style flex h-full w-full items-center justify-center bg-light-placeholder dark:bg-dark-placeholder"
   >
     <div
-      class="p-6 rounded-full md:p-8 bg-light-distinct-text dark:bg-dark-menu-selection"
+      class="rounded-full bg-light-distinct-text p-6 dark:bg-dark-menu-selection md:p-8"
     >
       <Icon
         name="bi:camera-video"

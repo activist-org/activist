@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full grid grid-cols-1 gap-5 md:gap-8 md:grid-cols-2 h-fit">
+  <div class="grid h-fit w-full grid-cols-1 gap-5 md:grid-cols-2 md:gap-8">
     <CardDocsEntry
       v-for="card in cards"
       :key="card.id"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
       <Title
@@ -26,7 +26,7 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="py-4 space-y-3">
+    <div class="space-y-3 py-4">
       <CardSearchResult
         searchResultType="resource"
         :reduced="true"

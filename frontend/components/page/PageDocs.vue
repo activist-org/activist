@@ -1,21 +1,21 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-content dark:bg-dark-content"
+    class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <div
-      class="flex flex-col items-center w-full responsive-py-4 responsive-px-5"
+      class="responsive-py-4 responsive-px-5 flex w-full flex-col items-center"
     >
       <!-- Note: image on top of content. -->
       <img
-        class="h-40 mb-4 md:hidden sm:h-52"
+        class="mb-4 h-40 sm:h-52 md:hidden"
         :src="imgURL + '_' + $colorMode.value + '.png'"
         :alt="$t(imgAltText)"
       />
-      <div class="w-10/12 grid grid-cols-1 md:w-full 2xl:grid-cols-2">
-        <div class="items-center text-left space-y-4 md:items-start">
+      <div class="grid w-10/12 grid-cols-1 md:w-full 2xl:grid-cols-2">
+        <div class="items-center space-y-4 text-left md:items-start">
           <!-- Note: image floating right of content. -->
           <img
-            class="hidden float-right p-4 h-52 md:block 2xl:hidden lg:h-64"
+            class="float-right hidden h-52 p-4 md:block lg:h-64 2xl:hidden"
             :src="imgURL + '_' + $colorMode.value + '.png'"
             :alt="$t(imgAltText)"
           />
@@ -25,7 +25,7 @@
         <div class="flex justify-end pr-32">
           <!-- Note: image right of content. -->
           <img
-            class="hidden 2xl:block h-72"
+            class="hidden h-72 2xl:block"
             :src="imgURL + '_' + $colorMode.value + '.png'"
             :alt="$t(imgAltText)"
           />

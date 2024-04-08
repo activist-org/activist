@@ -1,19 +1,19 @@
 <template>
   <div
-    class="flex flex-col items-center justify-center w-full py-8 space-y-3 xl:space-y-4 sm:py-12 md:py-16 lg:py-24 xl:py-28 text-light-text dark:text-dark-text bg-light-distinct dark:bg-dark-distinct"
+    class="flex w-full flex-col items-center justify-center space-y-3 bg-light-layer-1 py-8 text-light-text dark:bg-dark-layer-1 dark:text-dark-text sm:py-12 md:py-16 lg:py-24 xl:space-y-4 xl:py-28"
   >
     <h2
-      class="w-10/12 text-2xl font-semibold text-center sm:text-3xl sm:w-full xl:text-4xl"
+      class="w-10/12 text-center text-2xl font-semibold sm:w-full sm:text-3xl xl:text-4xl"
     >
       {{ $t("components.landing-tech-banner.open-source-header") }}
     </h2>
     <p
-      class="w-10/12 text-base tracking-wider text-center uppercase sm:text-lg sm:w-full xl:text-xl text-transform: text-light-distinct-text dark:text-dark-distinct-text"
+      class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-light-distinct-text dark:text-dark-distinct-text sm:w-full sm:text-lg xl:text-xl"
     >
       {{ $t("components.landing-tech-banner.open-source-tagline") }}
     </p>
     <p
-      class="w-10/12 pb-2 text-sm text-center sm:text-base sm:max-w-lg lg:max-w-xl"
+      class="w-10/12 pb-2 text-center text-sm sm:max-w-lg sm:text-base lg:max-w-xl"
     >
       {{ $t("components.landing-tech-banner.open-source-text") }}
     </p>

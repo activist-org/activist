@@ -1,10 +1,10 @@
 <template>
   <div
-    class="relative flex rounded-md md:absolute xl:rounded-lg elem-shadow-sm"
+    class="elem-shadow-sm relative flex rounded-md md:absolute xl:rounded-lg"
   >
     <button
       @click="emit('main-btn-clicked')"
-      class="rounded-r-none shadow-none btn-base-class rounded-l-md xl:rounded-l-lg"
+      class="btn-base-class rounded-l-md rounded-r-none shadow-none xl:rounded-l-lg"
       :class="btnDynamicClass"
       :aria-label="$t(ariaLabel)"
     >
@@ -12,34 +12,36 @@
     </button>
     <Menu>
       <MenuButton
-        class="border-l-0 rounded-l-none shadow-none btn-base-class rounded-r-md xl:rounded-r-lg"
+        class="btn-base-class rounded-l-none rounded-r-md border-l-0 shadow-none xl:rounded-r-lg"
         :class="btnDynamicClass"
       >
         <Icon :name="dropdownIcon" :size="iconSize" />
       </MenuButton>
       <MenuItems
-        class="absolute right-0 z-40 rounded-md bg-light-distinct dark:bg-dark-distinct elem-shadow-lg ring-1 ring-black/5 top-14 focus:outline-none"
+        class="elem-shadow-lg absolute right-0 top-14 z-40 rounded-md bg-light-layer-1 ring-1 ring-black/5 focus:outline-none dark:bg-dark-layer-1"
       >
         <MenuItem
           v-for="o in dropdownOptions"
           :key="o"
           v-slot="{ active }"
-          class="block px-4 py-2 text-sm cursor-pointer"
+          class="block cursor-pointer px-4 py-2 text-sm"
           :class="{
             'rounded-t-md': o === dropdownOptions[0],
             'rounded-b-md': o === dropdownOptions[dropdownOptions.length - 1],
           }"
         >
-          <a
+          <button
             @click="dropdownOptionsCallback(o)"
+            @keypress.enter="dropdownOptionsCallback(o)"
+            tabindex="0"
             :class="{
-              'bg-light-cta-orange/80 dark:bg-dark-cta-orange/40 text-light-text  dark:text-dark-cta-orange':
+              'bg-light-cta-orange/80 text-light-text dark:bg-dark-cta-orange/40  dark:text-dark-cta-orange':
                 active,
               'text-light-text dark:text-dark-text': !active,
             }"
           >
             {{ o }}
-          </a>
+          </button>
         </MenuItem>
       </MenuItems>
     </Menu>

@@ -1,18 +1,18 @@
 <template>
-  <div class="flex flex-col px-5 py-4 space-y-3 card-style">
-    <div class="flex items-center w-full">
-      <h3 class="text-left responsive-h3 font-display grow">
+  <div class="card-style flex flex-col space-y-3 px-5 py-4">
+    <div class="flex w-full items-center">
+      <h3 class="responsive-h3 grow text-left font-display">
         {{ $t("components.card-metics-overview.header") }}
       </h3>
       <DropdownDateFilter />
     </div>
-    <div class="h-full grid grid-cols-2 gap-3 lg:gap-4 lg:grid-cols-4">
+    <div class="grid h-full grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
       <CardMetric
         :text="$t('_global.events')"
         :number="metrics['total events']"
         textColor="text-light-text dark:text-dark-text"
         borderColor="border-light-text dark:border-dark-text"
-        backgroundColor="bg-light-distinct dark:bg-dark-distinct hover:bg-light-highlight dark:hover:bg-dark-highlight active:bg-light-distinct active:dark:bg-dark-distinct"
+        backgroundColor="bg-light-layer-1 dark:bg-dark-layer-1 hover:bg-light-highlight dark:hover:bg-dark-highlight active:bg-light-layer-1 active:dark:bg-dark-layer-1"
       />
       <CardMetric
         :text="$t('components.card-metrics-overview.action')"

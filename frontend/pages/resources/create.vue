@@ -4,7 +4,7 @@
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
-        <h1 class="font-bold responsive-h2">
+        <h1 class="responsive-h2 font-bold">
           {{ $t("pages._global.information") }}
         </h1>
         <p class="mt-4">
@@ -13,19 +13,19 @@
       </div>
       <form
         @submit.prevent="submit"
-        class="flex flex-col items-center justify-center w-full pt-4"
+        class="flex w-full flex-col items-center justify-center pt-4"
       >
         <div
-          class="flex justify-between w-full px-5 py-6 mx-14 card-style gap-6"
+          class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
         >
           <div class="w-1/2">
-            <label for="name" class="block font-medium responsive-h3"
+            <label for="name" class="responsive-h3 block font-medium"
               >{{ $t("pages._global.name-label") }}*</label
             >
             <input
               v-model="formData.name"
               id="name"
-              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="name"
               :placeholder="
@@ -34,52 +34,52 @@
             />
           </div>
           <div class="w-1/2">
-            <label for="location" class="block font-medium responsive-h3"
+            <label for="location" class="responsive-h3 block font-medium"
               >{{ $t("pages.resources.create.link") }}*</label
             >
             <input
               v-model="formData.link"
               id="location"
-              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="location"
               :placeholder="$t('pages.resources.create.link-placeholder')"
             />
           </div>
         </div>
-        <div class="w-full px-5 py-6 mt-5 mx-14 card-style">
-          <label for="description" class="block font-medium responsive-h3"
+        <div class="card-style mx-14 mt-5 w-full px-5 py-6">
+          <label for="description" class="responsive-h3 block font-medium"
             >{{ $t("pages.resources.create.description") }}*</label
           >
           <textarea
             v-model="formData.description"
             id="description"
-            class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="description"
             :placeholder="$t('pages.resources.create.description-placeholder')"
           ></textarea>
         </div>
-        <div class="flex w-full mt-5 mx-14 card-style">
+        <div class="card-style mx-14 mt-5 flex w-full">
           <div class="flex-1 px-5 py-6">
-            <label for="location" class="block font-medium responsive-h3">
+            <label for="location" class="responsive-h3 block font-medium">
               {{ $t("pages._global.location") }}*
             </label>
             <textarea
               v-model="formData.location"
               id="location"
-              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               name="location"
               :placeholder="$t('pages.resources.create.location-placeholder')"
             ></textarea>
           </div>
           <div class="flex-1 px-5 py-6">
-            <label for="location" class="block font-medium responsive-h3">
+            <label for="location" class="responsive-h3 block font-medium">
               {{ $t("_global.organization") }}*
             </label>
             <textarea
               v-model="formData.organization"
               id="organization"
-              class="w-full px-4 py-2 mt-2 border rounded-md border-light-section-div dark:border-dark-section-div bg:light-content dark:bg-dark-content"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               name="organization"
               :placeholder="
                 $t('pages.resources.create.organization-placeholder')
@@ -88,7 +88,7 @@
           </div>
         </div>
         <CardTopicSelection v-model="formData.topics" class="mt-5" />
-        <div class="flex flex-col w-full mt-5 mx-14">
+        <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="my-5">
             <BtnAction
               type="submit"

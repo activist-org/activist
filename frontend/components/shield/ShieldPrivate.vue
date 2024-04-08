@@ -1,14 +1,14 @@
 <template>
   <div
-    class="flex items-center px-4 py-2 text-base font-semibold text-center border select-none rounded-md xl:rounded-lg focus-brand w-fit elem-shadow-sm text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 sm:text-lg xl:text-xl xl:px-6 xl:py-3"
+    class="focus-brand elem-shadow-sm flex w-fit select-none items-center rounded-md border border-light-text bg-light-cta-orange fill-light-text px-4 py-2 text-center text-base font-semibold text-light-text dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange dark:text-dark-cta-orange sm:text-lg xl:rounded-lg xl:px-6 xl:py-3 xl:text-xl"
     :class="{
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',
       'text-base': fontSize == 'base',
       'text-lg': fontSize == 'lg',
-      'text-base sm:text-lg xl:text-xl xl:px-6 xl:py-3': fontSize == 'xl',
-      'text-base sm:text-lg xl:text-2xl xl:px-6 xl:py-3': fontSize == '2xl',
-      'text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3': fontSize == '3xl',
+      'text-base sm:text-lg xl:px-6 xl:py-3 xl:text-xl': fontSize == 'xl',
+      'text-base sm:text-lg xl:px-6 xl:py-3 xl:text-2xl': fontSize == '2xl',
+      'text-base sm:text-lg xl:px-6 xl:py-3 xl:text-3xl': fontSize == '3xl',
     }"
   >
     <Icon
@@ -16,7 +16,7 @@
       :name="type === 'group' ? 'IconGroup' : 'bi:eye-slash'"
       :size="iconSize"
     />
-    <span class="hidden mx-auto ml-2 md:block">{{
+    <span class="mx-auto ml-2 hidden md:block">{{
       $t("components.shield-private.private")
     }}</span>
   </div>

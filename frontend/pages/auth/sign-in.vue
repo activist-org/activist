@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 2xl:px-36 xl:px-24 md:px-8 sm:px-6">
+  <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form class="space-y-4">
       <div class="col">
         <FormTextField
@@ -23,7 +23,7 @@
         <FriendlyCaptcha />
         <BtnAction
           @click="signIn"
-          class="flex items-center justify-center truncate max-h-[48px] md:max-h-[40px] w-[116px] md:w-[96px]"
+          class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
           :label="$t('_global.sign-in')"
           :cta="true"
           fontSize="lg"
@@ -34,7 +34,7 @@
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
         <NuxtLink
           :to="localePath('/auth/sign-up')"
-          class="ml-2 font-extrabold link-text"
+          class="link-text ml-2 font-extrabold"
           >{{ $t("_global.sign-up") }}</NuxtLink
         >
       </div>

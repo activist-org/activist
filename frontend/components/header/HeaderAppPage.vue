@@ -1,20 +1,24 @@
 <template>
-  <PageBreadcrumbs class="mt-4" :organization="organization" :event="event" />
+  <PageBreadcrumbs
+    class="mt-4 hidden md:block"
+    :organization="organization"
+    :event="event"
+  />
   <div
     v-if="underDevelopment"
-    class="flex w-full py-1 pl-4 mt-3 border bg-light-warn-yellow/40 border-light-text rounded-md text-light-text dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow dark:border-dark-warn-yellow"
+    class="mt-3 flex w-full flex-wrap rounded-md border border-light-text bg-light-warn-yellow/40 py-1 pl-4 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow lg:flex-row"
   >
-    <p>
+    <p class="whitespace-nowrap">
       🚧&nbsp;&nbsp;{{
         $t("components.header-app-page.under-development-1")
       }}&nbsp;
     </p>
     <a
-      class="flex items-center space-x-1 focus-brand link-text"
+      class="focus-brand link-text flex items-center space-x-1"
       href="https://github.com/activist-org/activist"
       target="_blank"
     >
-      <p>github.com/activist-org/activist</p>
+      <p class="whitespace-nowrap">{{ $t("components._global.github") }}</p>
       <Icon
         class="mb-1"
         name="bi:box-arrow-up-right"
@@ -22,23 +26,34 @@
         style="vertical-align: baseline"
       />
     </a>
-    <p></p>
-    <p>&nbsp;{{ $t("components.header-app-page.under-development-2") }}</p>
+    <p class="whitespace-nowrap">
+      &nbsp;{{ $t("components.header-app-page.under-development-2") }}
+    </p>
   </div>
   <div class="flex items-baseline gap-2 md:gap-4">
     <h1
-      class="pt-4 font-bold transition-all duration-500 responsive-h1 text-light-text dark:text-dark-text"
+      class="responsive-h1 pt-4 font-bold text-light-text transition-all duration-500 dark:text-dark-text"
     >
       {{ headerName }}
     </h1>
-    <IconOrganizationStatus v-if="headerStatus" :status="headerStatus" />
+    <IconOrganizationStatus
+      v-if="headerStatus"
+      :status="headerStatus"
+      :organization="organization"
+    />
   </div>
   <div
-    class="flex flex-col items-start justify-between w-full pt-2 space-y-4 lg:space-y-0 xl:pt-4 lg:flex-row grow lg:items-center"
+    class="flex w-full grow flex-col items-start justify-between space-y-4 pt-2 lg:flex-row lg:items-center lg:space-y-0 xl:pt-4"
   >
     <h2
-      v-if="headerTagline"
-      class="transition-all duration-500 responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
+      v-if="organization && organization.status === 'pending'"
+      class="responsive-h4 text-light-warn-yellow transition-all duration-500 dark:text-dark-warn-yellow"
+    >
+      {{ $t("components.header-app-page.status-pending") }}
+    </h2>
+    <h2
+      v-else-if="headerTagline"
+      class="responsive-h4 text-light-distinct-text transition-all duration-500 dark:text-dark-distinct-text"
     >
       {{ headerTagline }}
     </h2>

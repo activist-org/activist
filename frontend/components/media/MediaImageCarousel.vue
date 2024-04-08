@@ -1,22 +1,26 @@
 <template>
   <swiper-container
-    class="w-full h-full swiper card-style"
+    class="swiper card-style h-full w-full overflow-clip"
     :slidesPerView="1"
-    :spaceBetween="30"
+    :spaceBetween="0"
     :loop="true"
     :pagination="{ clickable: true }"
-    :navigation="true"
+    :keyboard="true"
   >
     <swiper-slide
-      v-for="n in 7"
-      :key="n"
-      class="bg-light-placeholder dark:bg-dark-placeholder text-light-distinct dark:text-dark-distinct"
+      v-for="[idx, img] of imageUrls.entries()"
+      :key="idx"
+      class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
     >
-      <p
-        class="flex items-center justify-center h-full text-2xl font-bold select-none"
-      >
-        {{ n }}
-      </p>
+      <img
+        class="object-cover object-center"
+        :class="{
+          'h-5/6 w-5/6': props.fullscreen,
+          'h-[17.5rem]': !props.fullscreen,
+        }"
+        :src="img"
+        :alt="$t('components.media-image-carousal.img-alt-text')"
+      />
     </swiper-slide>
   </swiper-container>
 </template>
@@ -24,19 +28,27 @@
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
 register();
+
+const props = defineProps({
+  fullscreen: Boolean,
+});
+
+const colorMode = useColorMode();
+const imageColor = colorMode.value;
+
+const imageUrls = [
+  `/images/content_pages/art/get_active_${imageColor}.png`,
+  `/images/content_pages/art/get_organized_${imageColor}.png`,
+  `/images/content_pages/art/grow_organization_${imageColor}.png`,
+];
 </script>
 
 <style>
-swiper-container::part(button-prev),
-swiper-container::part(button-next) {
-  @apply focus-brand text-light-cta-orange hover:text-light-cta-orange/80 dark:text-dark-cta-orange dark:hover:text-dark-cta-orange/80;
+swiper-container::part(bullet) {
+  @apply focus-brand  bg-light-cta-orange/80 dark:bg-dark-cta-orange/80;
 }
 
 swiper-container::part(bullet-active) {
   @apply focus-brand bg-light-cta-orange dark:bg-dark-cta-orange;
-}
-
-swiper-container::part(bullet) {
-  @apply focus-brand hover:bg-light-cta-orange/80 dark:hover:bg-dark-cta-orange/80;
 }
 </style>

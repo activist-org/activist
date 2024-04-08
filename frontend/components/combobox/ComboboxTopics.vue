@@ -3,7 +3,7 @@
     <Combobox v-model="selectedTopic">
       <div class="relative">
         <div
-          class="relative flex w-full overflow-hidden rounded-lg cursor-default elem-shadow-sm focus-brand"
+          class="elem-shadow-sm focus-brand relative flex w-full cursor-default overflow-hidden rounded-lg"
         >
           <ComboboxButton>
             <ComboboxInput
@@ -12,7 +12,7 @@
               @keyup.enter="inputFocussed = false"
               @focus="handleInputFocus"
               @blur="inputFocussed = false"
-              class="py-2 pl-4 border rounded-lg style-cta selection:bg-light-highlight dark:selection:bg-white/20"
+              class="style-cta rounded-lg border py-2 pl-4 selection:bg-light-highlight dark:selection:bg-white/20"
               :displayValue="displayValueHandler"
             />
             <div
@@ -30,11 +30,11 @@
         >
           <ComboboxOptions
             id="isVisibleElement"
-            class="absolute w-full mt-1 overflow-auto text-base max-h-60 rounded-md bg-light-distinct dark:bg-dark-distinct elem-shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="elem-shadow-lg absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-layer-1 text-base ring-1 ring-black/5 focus:outline-none dark:bg-dark-layer-1 sm:text-sm"
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
-              class="relative px-4 py-2 cursor-default select-none text-light-distinct-text dark:text-dark-distinct-text"
+              class="relative cursor-default select-none px-4 py-2 text-light-distinct-text dark:text-dark-distinct-text"
             >
               {{ $t("components.combobox-topics.no-matching-topics") }}
             </div>
@@ -47,7 +47,7 @@
               :value="topic"
             >
               <li
-                class="relative py-2 pl-10 pr-4 cursor-default select-none"
+                class="relative cursor-default select-none py-2 pl-10 pr-4"
                 :class="{
                   'bg-light-cta-orange/80 text-light-text dark:bg-dark-cta-orange/40 dark:text-dark-cta-orange':
                     active,

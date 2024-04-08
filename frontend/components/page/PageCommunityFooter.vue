@@ -1,0 +1,63 @@
+<template>
+  <div class="flex-col">
+    <p class="responsive-h4 font-bold">
+      {{ $t("components.page-community-footer.invite-text-1") }}
+    </p>
+    <ul class="list-disc space-y-1 pb-1 pl-4 pt-3">
+      <li>
+        {{ $t("components.page-community-footer.invite-text-2-1") }}
+        <a
+          class="focus-brand link-text items-center"
+          href="https://github.com/orgs/activist-org"
+          target="_blank"
+        >
+          {{ $t("components.page-community-footer.invite-text-2-2") }}
+          <Icon
+            name="bi:box-arrow-up-right"
+            size="1em"
+            style="vertical-align: baseline"
+          />
+        </a>
+        {{ $t("components.page-community-footer.invite-text-2-3") }}
+      </li>
+      <li>
+        {{ $t("components.page-community-footer.invite-text-3-1") }}
+        <a
+          class="focus-brand link-text items-center"
+          href="https://matrix.to/#/#activist_community:matrix.org"
+          target="_blank"
+        >
+          {{ $t("_global.public-matrix-chat-rooms") }}
+          <Icon
+            name="bi:box-arrow-up-right"
+            size="1em"
+            style="vertical-align: baseline"
+          />
+        </a>
+        {{ $t("components.page-community-footer.invite-text-3-3") }}
+      </li>
+      <li>
+        {{ $t("_global.visit-our") }}
+        <a
+          class="focus-brand link-text items-center"
+          href="https://explore.transifex.com/activist-org/activist/"
+          target="_blank"
+        >
+          {{ $t("components.page-community-footer.invite-text-4-2") }}
+          <Icon
+            name="bi:box-arrow-up-right"
+            size="1em"
+            style="vertical-align: baseline"
+          />
+        </a>
+        {{ $t("components.page-community-footer.invite-text-4-3") }}
+      </li>
+    </ul>
+  </div>
+  <div
+    class="mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[70%] md:gap-x-6 lg:max-w-[60%] xl:max-w-[50%] xl:gap-x-8 2xl:max-w-[80%]"
+  >
+    <!-- Slot is formatted to accept buttons for the bottom of the page. -->
+    <slot />
+  </div>
+</template>

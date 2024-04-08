@@ -14,7 +14,9 @@ Contents:
     - EventRole
     - EventTask
     - EventTopic
+    - EventTag
 """
+
 from uuid import uuid4
 
 from django.db import models
@@ -46,6 +48,7 @@ class Event(CreationDeletionMixin):
 
 
 class Format(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -57,6 +60,7 @@ class Format(models.Model):
 
 
 class Role(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255)
     is_custom = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
@@ -89,6 +93,7 @@ class EventFormat(models.Model):
 
 
 class EventAttendeeStatus(models.Model):
+    id = models.IntegerField(primary_key=True)
     status_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
@@ -122,6 +127,14 @@ class EventTask(models.Model):
 class EventTopic(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class EventTag(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    tag_id = models.ForeignKey("content.Tag", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
