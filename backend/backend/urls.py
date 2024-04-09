@@ -21,55 +21,14 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("v1/auth/", include("authentication.urls", namespace="authentication")),
-    path("v1/content/", include("content.urls", namespace="content")),
-    path("v1/entities/", include("entities.urls", namespace="entities")),
-    path("v1/events/", include("events.urls", namespace="events")),
-    # API DOCUMENTATION
     path("v1/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path(
-        "v1/schema/auth/",
-        SpectacularAPIView.as_view(urlconf="authentication.urls"),
-        name="schema-auth",
-    ),
-    path(
-        "v1/schema/content/",
-        SpectacularAPIView.as_view(urlconf="content.urls"),
-        name="schema-content",
-    ),
-    path(
-        "v1/schema/entities/",
-        SpectacularAPIView.as_view(urlconf="entities.urls"),
-        name="schema-entities",
-    ),
-    path(
-        "v1/schema/events/",
-        SpectacularAPIView.as_view(urlconf="events.urls"),
-        name="schema-events",
-    ),
     path(
         "v1/schema/swagger-ui/",
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),
-    path(
-        "v1/schema/swagger-ui/auth/",
-        SpectacularSwaggerView.as_view(url_name="schema-auth"),
-        name="swagger-ui-auth",
-    ),
-    path(
-        "v1/schema/swagger-ui/content/",
-        SpectacularSwaggerView.as_view(url_name="schema-content"),
-        name="swagger-ui-content",
-    ),
-    path(
-        "v1/schema/swagger-ui/entities/",
-        SpectacularSwaggerView.as_view(url_name="schema-entities"),
-        name="swagger-ui-entities",
-    ),
-    path(
-        "v1/schema/swagger-ui/events/",
-        SpectacularSwaggerView.as_view(url_name="schema-events"),
-        name="swagger-ui-events",
-    ),
+    path("v1/auth/", include("authentication.urls", namespace="authentication")),
+    path("v1/content/", include("content.urls", namespace="content")),
+    path("v1/entities/", include("entities.urls", namespace="entities")),
+    path("v1/events/", include("events.urls", namespace="events")),
 ]
