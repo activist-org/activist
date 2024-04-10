@@ -169,11 +169,10 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
     
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            group = serializer.save(created_by=request.user)
-            data = {"message": f"New Group created: {serializer.data}"}
-            return Response(data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        group = serializer.save(created_by=request.user)
+        data = {"message": f"New Group created: {serializer.data}"}
+        return Response(data, status=status.HTTP_201_CREATED)
     
     def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
         try:
@@ -201,7 +200,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
             group = self.queryset.get(id=kwargs["pk"])
             if request.user != group.created_by:
                 return Response({"error": "You are not authorized to delete this group"}, status.HTTP_401_UNAUTHORIZED)
-            group.deletion_date = timezone.now()
+            group.delete()
             return Response({"message": "Group deleted successfully"}, status=status.HTTP_200_OK)
         except Group.DoesNotExist:
             return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
