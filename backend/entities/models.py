@@ -7,12 +7,14 @@ Contents:
     - Organization
     - OrganizationApplication
     - OrganizationEvent
+    - OrganizationImage
     - OrganizationMember
     - OrganizationResource
     - Group
     - OrganizationTask
     - OrganizationTopic
     - GroupEvent
+    - GroupImage
     - GroupMember
     - GroupResource
     - GroupTopic
@@ -32,9 +34,6 @@ class Organization(models.Model):
     tagline = models.CharField(max_length=255, blank=True)
     org_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
-    )
-    about_images = models.ManyToManyField(
-        "content.Image", related_name="about_images", blank=True
     )
     created_by = models.ForeignKey(
         "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
@@ -89,6 +88,15 @@ class OrganizationEvent(models.Model):
         return f"{self.id}"
 
 
+class OrganizationImage(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    image_id = models.ForeignKey("content.Image", on_delete=models.CASCADE)
+    sequence_index = models.IntegerField()
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class OrganizationMember(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
@@ -115,9 +123,6 @@ class Group(CreationDeletionMixin):
     tagline = models.CharField(max_length=255, blank=True)
     group_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
-    )
-    about_images = models.ManyToManyField(
-        "content.Image", related_name="about_img", blank=True
     )
     created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
     description = models.TextField(max_length=500)
@@ -152,6 +157,15 @@ class OrganizationTopic(models.Model):
 class GroupEvent(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class GroupImage(models.Model):
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    image_id = models.ForeignKey("content.Image", on_delete=models.CASCADE)
+    sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
         return f"{self.id}"

@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from authentication.models import User
-from content.models import Resource, Task, Topic
+from content.models import Image, Resource, Task, Topic
 from events.models import Event
 from utils.utils import (
     validate_creation_and_deletion_dates,
@@ -16,6 +16,7 @@ from utils.utils import (
 from .models import (
     Group,
     GroupEvent,
+    GroupImage,
     GroupMember,
     GroupResource,
     GroupTopic,
@@ -23,6 +24,7 @@ from .models import (
     OrganizationApplication,
     OrganizationApplicationStatus,
     OrganizationEvent,
+    OrganizationImage,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
@@ -82,6 +84,18 @@ class OrganizationEventSerializer(serializers.ModelSerializer[OrganizationEvent]
 
         validate_object_existence(Organization, data["org_id"])
         validate_object_existence(Event, data["event_id"])
+
+        return data
+
+
+class OrganizationImageSerializer(serializers.ModelSerializer[OrganizationImage]):
+    class Meta:
+        model = OrganizationImage
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_object_existence(Organization, data["org_id"])
+        validate_object_existence(Image, data["image_id"])
 
         return data
 
@@ -167,6 +181,18 @@ class GroupEventSerializer(serializers.ModelSerializer[GroupEvent]):
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Group, data["group_id"])
         validate_object_existence(Event, data["event_id"])
+
+        return data
+
+
+class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
+    class Meta:
+        model = GroupImage
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        validate_object_existence(Group, data["group_id"])
+        validate_object_existence(Image, data["image_id"])
 
         return data
 
