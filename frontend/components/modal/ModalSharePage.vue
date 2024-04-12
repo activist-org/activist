@@ -85,6 +85,23 @@
                 iconSize="1.5em"
               />
             </s-email>
+            <s-facebook
+              @popup-close="onClose"
+              @popup-open="onOpen"
+              @popup-block="onBlock"
+              @popup-focus="onFocus"
+              :href="getCurrentUrl()"
+              :window-features="windowFeatures"
+              :share-options="shareOptionsFacebook"
+              :use-native-behavior="useNativeBehavior"
+            >
+              <MetaTagSocialMedia
+                class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
+                iconName="simple-icons:facebook"
+                :text="$t('components.meta-social-media-tag.facebook')"
+                iconSize="1.5em"
+              />
+            </s-facebook>
             <div
               @click="
                 copyToClipboard(
@@ -180,31 +197,14 @@
                 :text="$t('components.meta-social-media-tag.messenger')"
                 iconSize="1.5em"
               />
-            </s-facebook-messenger>
-            <s-facebook
-              @popup-close="onClose"
-              @popup-open="onOpen"
-              @popup-block="onBlock"
-              @popup-focus="onFocus"
-              :href="getCurrentUrl()"
-              :window-features="windowFeatures"
-              :share-options="shareOptions"
-              :use-native-behavior="useNativeBehavior"
-              :native-behavior-options="nativeBehaviorOptions"
-            >
-              <MetaTagSocialMedia
-                class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
-                iconName="simple-icons:facebook"
-                :text="$t('components.meta-social-media-tag.facebook')"
-                iconSize="1.5em"
-              />
-            </s-facebook> -->
+            </s-facebook-messenger> -->
       </div>
     </template>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { SEmail, SMastodon, STelegram, STwitter, SFacebook } from "vue-socials";
 import ModalBase from "~/components/modal/ModalBase.vue";
 import type { BtnAction } from "~/types/btn-props";
 import type { Event } from "~/types/event";
@@ -243,6 +243,12 @@ const setEntityInfo = (
 const getCurrentUrl = () => {
   const url = window.location.href;
   return url.substring(0, url.lastIndexOf("/"));
+};
+
+const shareOptionsFacebook = {
+  url: getCurrentUrl() || "https://activist.org/en",
+  quote: getEntityType()?.text || "Check this out!",
+  hashtag: "#activism, #organizing"
 };
 
 const shareOptions = {
