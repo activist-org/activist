@@ -90,13 +90,12 @@
               @popup-open="onOpen"
               @popup-block="onBlock"
               @popup-focus="onFocus"
-              :href="getCurrentUrl()"
               :window-features="windowFeatures"
-              :share-options="shareOptionsFacebook"
+              :share-options="shareOptions"
               :use-native-behavior="useNativeBehavior"
             >
               <MetaTagSocialMedia
-                class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
+                class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
                 iconName="simple-icons:facebook"
                 :text="$t('components.meta-social-media-tag.facebook')"
                 iconSize="1.5em"
@@ -245,16 +244,12 @@ const getCurrentUrl = () => {
   return url.substring(0, url.lastIndexOf("/"));
 };
 
-const shareOptionsFacebook = {
-  url: getCurrentUrl() || "https://activist.org/en",
-  quote: getEntityType()?.text || "Check this out!",
-  hashtag: "#activism, #organizing"
-};
-
 const shareOptions = {
   url: getCurrentUrl() || "https://activist.org/en",
   text: getEntityType()?.text || "Check this out!",
+  quote: getEntityType()?.text || "Check this out!",
   hashtags: ["activism", "organizing"],
+  hashtag: "#activism, #organizing",
   via: "activist_org",
   mail: "",
   cc: [""],
