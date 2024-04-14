@@ -72,7 +72,7 @@ gunicorn==21.2.0
     # via -r requirements.txt
 identify==2.5.35
     # via pre-commit
-idna==3.4
+idna==3.7
     # via
     #   -r requirements.txt
     #   requests

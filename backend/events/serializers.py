@@ -4,7 +4,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
-from authentication.models import User
+from authentication.models import UserModel
 from content.models import Resource, Task, Topic
 from utils.utils import (
     validate_creation_and_deletion_dates,
@@ -69,7 +69,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             )
 
         validate_creation_and_deletion_dates(data)
-        validate_object_existence(User, data["created_by"])
+        validate_object_existence(UserModel, data["created_by"])
 
         return data
 
@@ -110,7 +110,7 @@ class EventAttendeeSerializer(serializers.ModelSerializer[EventAttendee]):
         validate_empty(data["user_id"], "user_id")
         validate_empty(data["role_id"], "role_id")
         validate_object_existence(Event, data["event_id"])
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
         validate_object_existence(Role, data["role_id"])
 
         return data

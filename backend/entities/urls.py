@@ -22,7 +22,7 @@ router.register(r"group_members", views.GroupMemberViewSet)
 router.register(r"group_resources", views.GroupResourceViewSet)
 router.register(r"group_topics", views.GroupTopicViewSet)
 router.register(r"status", views.StatusViewSet)
-router.register(r"status_types", views.StatusTypeViewSet)
+router.register(r"status_types", views.StatusEntityTypeViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

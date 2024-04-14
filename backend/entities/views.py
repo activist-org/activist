@@ -11,38 +11,34 @@ from backend.paginator import CustomPagination
 from .models import (
     Group,
     GroupEvent,
-    GroupImage,
     GroupMember,
     GroupResource,
     GroupTopic,
     Organization,
     OrganizationApplication,
     OrganizationEvent,
-    OrganizationImage,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
     Status,
-    StatusType,
+    StatusEntityType,
 )
 from .serializers import (
     GroupEventSerializer,
-    GroupImageSerializer,
     GroupMemberSerializer,
     GroupResourceSerializer,
     GroupSerializer,
     GroupTopicSerializer,
     OrganizationApplicationSerializer,
     OrganizationEventSerializer,
-    OrganizationImageSerializer,
     OrganizationMemberSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationTaskSerializer,
     OrganizationTopicSerializer,
+    StatusEntityTypeSerializer,
     StatusSerializer,
-    StatusTypeSerializer,
 )
 
 
@@ -112,6 +108,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:
         org = self.queryset.filter(id=pk).first()
+        print(pk, org)
         if org is None:
             return Response(
                 {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
@@ -123,7 +120,9 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
                 status.HTTP_401_UNAUTHORIZED,
             )
 
-        org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status
+        org.status = StatusEntityType.objects.get(
+            id=3
+        )  # 3 is the id of the deleted status
         org.deletion_date = timezone.now()
         org.high_risk = False
         org.status_updated = None
@@ -149,26 +148,84 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[OrganizationEvent]):
     pagination_class = CustomPagination
 
 
-class OrganizationImageViewSet(viewsets.ModelViewSet[OrganizationImage]):
-    queryset = OrganizationImage.objects.all()
-    serializer_class = OrganizationImageSerializer
-
-
 class OrganizationMemberViewSet(viewsets.ModelViewSet[OrganizationMember]):
     queryset = OrganizationMember.objects.all()
     serializer_class = OrganizationMemberSerializer
     pagination_class = CustomPagination
 
+ 
+class OrganizationImageViewSet(viewsets.ModelViewSet[OrganizationImage]):
+    queryset = OrganizationImage.objects.all()
+    serializer_class = OrganizationImageSerializer
 
+    
 class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
     queryset = OrganizationResource.objects.all()
     serializer_class = OrganizationResourceSerializer
     pagination_class = CustomPagination
-
+    
+    
+class GroupImageViewSet(viewsets.ModelViewSet[GroupImage]):
+    queryset = GroupImage.objects.all()
+    serializer_class = GroupImageSerializer
+    pagination_class = CustomPagination
 
 class GroupViewSet(viewsets.ModelViewSet[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    pagination_class = CustomPagination
+
+    def list(self, request: Request, *args: str, **kwargs: int) -> Response:
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(created_by=request.user)
+        data = {"message": f"New Group created: {serializer.data}"}
+        return Response(data, status=status.HTTP_201_CREATED)
+
+    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
+        group = self.queryset.get(id=kwargs["pk"])
+        serializer = self.get_serializer(group)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        group = self.queryset.filter(id=kwargs["pk"]).first()
+
+        if group is None:
+            return Response(
+                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        if request.user != group.created_by:
+            return Response(
+                {"error": "You are not authorized to update this group"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = self.get_serializer(group, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
+        group = self.queryset.filter(id=kwargs["pk"]).first()
+
+        if group is None:
+            return Response(
+                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        if request.user != group.created_by:
+            return Response(
+                {"error": "You are not authorized to delete this group"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+        group.delete()
+        return Response(
+            {"message": "Group deleted successfully"}, status=status.HTTP_200_OK
+        )
 
 
 class OrganizationTaskViewSet(viewsets.ModelViewSet[OrganizationTask]):
@@ -186,12 +243,6 @@ class OrganizationTopicViewSet(viewsets.ModelViewSet[OrganizationTopic]):
 class GroupEventViewSet(viewsets.ModelViewSet[GroupEvent]):
     queryset = GroupEvent.objects.all()
     serializer_class = GroupEventSerializer
-    pagination_class = CustomPagination
-
-
-class GroupImageViewSet(viewsets.ModelViewSet[GroupImage]):
-    queryset = GroupImage.objects.all()
-    serializer_class = GroupImageSerializer
     pagination_class = CustomPagination
 
 
@@ -219,7 +270,7 @@ class StatusViewSet(viewsets.ModelViewSet[Status]):
     pagination_class = CustomPagination
 
 
-class StatusTypeViewSet(viewsets.ModelViewSet[StatusType]):
-    queryset = StatusType.objects.all()
-    serializer_class = StatusTypeSerializer
+class StatusEntityTypeViewSet(viewsets.ModelViewSet[StatusEntityType]):
+    queryset = StatusEntityType.objects.all()
+    serializer_class = StatusEntityTypeSerializer
     pagination_class = CustomPagination

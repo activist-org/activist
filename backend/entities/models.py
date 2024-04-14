@@ -27,7 +27,6 @@ from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin
 
-
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
@@ -35,8 +34,13 @@ class Organization(models.Model):
     org_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
     )
+    about_images = models.ManyToManyField(
+        "content.Image", related_name="about_images", blank=True
+    )
     created_by = models.ForeignKey(
-        "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
+        "authentication.UserModel",
+        related_name="created_orgs",
+        on_delete=models.CASCADE,
     )
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
@@ -66,6 +70,10 @@ class OrganizationApplication(models.Model):
     status = models.ForeignKey(
         "OrganizationApplicationStatus", on_delete=models.CASCADE
     )
+
+class OrganizationApplication(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
     orgs_in_favor = ArrayField(
         models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )
@@ -74,7 +82,6 @@ class OrganizationApplication(models.Model):
     )
     creation_date = models.DateTimeField(auto_now_add=True)
     status_updated = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
 
     def __str__(self) -> str:
         return f"{self.creation_date}"
@@ -96,10 +103,13 @@ class OrganizationImage(models.Model):
     def __str__(self) -> str:
         return f"{self.id}"
 
-
 class OrganizationMember(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+
+class OrganizationMember(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)
@@ -116,7 +126,8 @@ class OrganizationResource(models.Model):
         return f"{self.id}"
 
 
-class Group(CreationDeletionMixin):
+
+class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -124,12 +135,17 @@ class Group(CreationDeletionMixin):
     group_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
     )
-    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    about_images = models.ManyToManyField(
+        "content.Image", related_name="about_img", blank=True
+    )
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
     )
     category = models.CharField(max_length=255)
+    creation_date = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self) -> str:
         return self.name
@@ -162,6 +178,7 @@ class GroupEvent(models.Model):
         return f"{self.id}"
 
 
+
 class GroupImage(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     image_id = models.ForeignKey("content.Image", on_delete=models.CASCADE)
@@ -174,6 +191,10 @@ class GroupImage(models.Model):
 class GroupMember(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+
+class GroupMember(models.Model):
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)
@@ -205,11 +226,18 @@ class Status(models.Model):
     )
     user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
 
+    status_type = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE)
+    org_id = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="org_status"
+    )
+    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+
+
     def __str__(self) -> str:
         return f"{self.org_id.name} - {self.status_type.name}"
 
 
-class StatusType(models.Model):
+class StatusEntityType(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:

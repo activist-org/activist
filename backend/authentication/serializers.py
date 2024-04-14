@@ -1,6 +1,9 @@
+import logging
 import re
 from typing import Any, Dict, Union
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
@@ -11,7 +14,17 @@ from utils.utils import (
     validate_object_existence,
 )
 
-from .models import Support, SupportEntityType, User, UserResource, UserTask, UserTopic
+from .models import (
+    Support,
+    SupportEntityType,
+    UserModel,
+    UserResource,
+    UserTask,
+    UserTopic,
+)
+
+USER = get_user_model()
+logger = logging.getLogger(__name__)
 
 
 class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
@@ -47,9 +60,9 @@ class SupportSerializer(serializers.ModelSerializer[Support]):
         return data
 
 
-class UserSerializer(serializers.ModelSerializer[User]):
+class UserSerializer(serializers.ModelSerializer[UserModel]):
     class Meta:
-        model = User
+        model = UserModel
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
@@ -61,12 +74,13 @@ class UserSerializer(serializers.ModelSerializer[User]):
         if not re.match(pattern, data["password"]):
             raise serializers.ValidationError(
                 _(
-                    "The field password must be at least 8 characters long and contain at least one special character."
+                    "The field password must be at least 12 characters long and contain at least one special character, one uppercase letter and one lowercase letter, and numbers."
                 ),
                 code="invalid_password",
             )
 
-        validate_creation_and_deletion_dates(data)
+        if "creation_date" in data:
+            validate_creation_and_deletion_dates(data)
 
         return data
 
@@ -77,7 +91,7 @@ class UserResourceSerializer(serializers.ModelSerializer[UserResource]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
         validate_object_existence(Resource, data["resource_id"])
 
         return data
@@ -89,7 +103,7 @@ class UserTaskSerializer(serializers.ModelSerializer[UserTask]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
         validate_object_existence(Task, data["task_id"])
 
         return data
@@ -101,7 +115,50 @@ class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
         validate_object_existence(Topic, data["topic_id"])
 
         return data
+
+
+class SignupSerializer(serializers.ModelSerializer[User]):
+    password_confirmed = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = USER
+        fields = ("username", "password", "password_confirmed", "email")
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
+
+        logger.error(data["password"])
+        logger.error(re.match(pattern, data["password"]))
+
+        if not re.match(pattern, data["password"]):
+            logger.error("Password does not meet the requirements.")
+            raise serializers.ValidationError(
+                _(
+                    "The field password must be at least 12 characters long and contain at least one special character."
+                ),
+                code="invalid_password",
+            )
+
+        if data["password"] != data["password_confirmed"]:
+            raise serializers.ValidationError(
+                _("The passwords did not match. Please try again."),
+                code="invalid_password_confirmation",
+            )
+
+        return data
+
+    def create(self, validated_data: Dict[str, Union[str, Any]]) -> User:
+        validated_data.pop("password_confirmed")
+
+        user = UserModel.objects.create(
+            username=validated_data["username"],
+            password=validated_data["password"],
+        )
+        user.save()
+
+        return user

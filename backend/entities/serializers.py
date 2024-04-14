@@ -3,55 +3,56 @@ from typing import Dict, Union
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
-from authentication.models import User
+from authentication.models import UserModel
 from content.models import Resource, Task, Topic
 from events.models import Event
 from utils.utils import (
-    validate_creation_and_deletion_dates,
     validate_empty,
-    validate_flags_number,
     validate_object_existence,
 )
 
 from .models import (
     Group,
     GroupEvent,
-    GroupImage,
     GroupMember,
     GroupResource,
     GroupTopic,
     Organization,
     OrganizationApplication,
-    OrganizationApplicationStatus,
     OrganizationEvent,
-    OrganizationImage,
     OrganizationMember,
+    OrganizationImage,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
     Status,
-    StatusType,
+    StatusEntityType,
 )
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
-        exclude = ["deletion_date"]
         extra_kwargs = {
             "created_by": {"read_only": True},
             "social_accounts": {"required": False},
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
         }
-
-
-class OrganizationApplicationStatusSerializer(
-    serializers.ModelSerializer[OrganizationApplicationStatus]
-):
-    class Meta:
-        model = OrganizationApplicationStatus
-        fields = "__all__"
+        fields = [
+            "id",
+            "name",
+            "tagline",
+            "org_icon",
+            "about_images",
+            "created_by",
+            "description",
+            "social_accounts",
+            "high_risk",
+            "status",
+            "status_updated",
+            "acceptance_date",
+        ]
 
 
 class OrganizationApplicationSerializer(
@@ -88,12 +89,6 @@ class OrganizationEventSerializer(serializers.ModelSerializer[OrganizationEvent]
         return data
 
 
-class OrganizationImageSerializer(serializers.ModelSerializer[OrganizationImage]):
-    class Meta:
-        model = OrganizationImage
-        fields = "__all__"
-
-
 class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMember]):
     class Meta:
         model = OrganizationMember
@@ -109,9 +104,15 @@ class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMembe
             )
 
         validate_object_existence(Organization, data["org_id"])
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
 
         return data
+      
+      
+class OrganizationImageSerializer(serializers.ModelSerializer[OrganizationImage]):
+    class Meta:
+        model = OrganizationImage
+        fields = "__all__"
 
 
 class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationResource]):
@@ -130,16 +131,6 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     class Meta:
         model = Group
         fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_empty(data["name"], "name")
-        validate_empty(data["created_by"], "created_by")
-        validate_flags_number(data)
-        validate_creation_and_deletion_dates(data)
-        validate_object_existence(User, data["created_by"])
-        validate_object_existence(Organization, data["org_id"])
-
-        return data
 
 
 class OrganizationTaskSerializer(serializers.ModelSerializer[OrganizationTask]):
@@ -179,12 +170,6 @@ class GroupEventSerializer(serializers.ModelSerializer[GroupEvent]):
         return data
 
 
-class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
-    class Meta:
-        model = GroupImage
-        fields = "__all__"
-
-
 class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
     class Meta:
         model = GroupMember
@@ -192,7 +177,7 @@ class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         validate_object_existence(Group, data["group_id"])
-        validate_object_existence(User, data["user_id"])
+        validate_object_existence(UserModel, data["user_id"])
 
         return data
 
@@ -227,7 +212,8 @@ class StatusSerializer(serializers.ModelSerializer[Status]):
         fields = "__all__"
 
 
-class StatusTypeSerializer(serializers.ModelSerializer[StatusType]):
+class StatusEntityTypeSerializer(serializers.ModelSerializer[StatusEntityType]):
     class Meta:
-        model = StatusType
+        model = StatusEntityType
         fields = "__all__"
+        
