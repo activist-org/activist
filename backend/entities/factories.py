@@ -5,26 +5,20 @@ import factory
 from .models import (
     Group,
     GroupEvent,
+    GroupImage,
     GroupMember,
     GroupResource,
     GroupTopic,
     Organization,
     OrganizationApplication,
+    OrganizationApplicationStatus,
     OrganizationEvent,
+    OrganizationImage,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
-    Status,
-    StatusEntityType,
 )
-
-
-class StatusEntityTypeFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = StatusEntityType
-
-    name = factory.Faker("word")
 
 
 class OrganizationFactory(factory.django.DjangoModelFactory):
@@ -37,7 +31,13 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     social_accounts = factory.List([factory.Faker("word") for _ in range(10)])
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     high_risk = factory.Faker("boolean")
-    status = factory.SubFactory(StatusEntityTypeFactory)
+
+
+class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = OrganizationApplicationStatus
+
+    status_name = factory.Faker("word")
 
 
 class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
@@ -45,7 +45,7 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
         model = OrganizationApplication
 
     org_id = factory.SubFactory(OrganizationFactory)
-    status = factory.SubFactory(StatusEntityTypeFactory)
+    status = factory.SubFactory(OrganizationApplicationStatusFactory)
     orgs_in_favor = factory.List([factory.Faker("word") for _ in range(10)])
     orgs_against = factory.List([factory.Faker("word") for _ in range(10)])
     creation_date = factory.LazyFunction(datetime.datetime.now)
@@ -58,6 +58,14 @@ class OrganizationEventFactory(factory.django.DjangoModelFactory):
 
     org_id = factory.SubFactory(OrganizationFactory)
     event_id = factory.SubFactory("events.factories.EventFactory")
+
+
+class OrganizationImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = OrganizationImage
+
+    org_id = factory.SubFactory(OrganizationFactory)
+    image_id = factory.SubFactory("content.factories.ImageFactory")
 
 
 class OrganizationMemberFactory(factory.django.DjangoModelFactory):
@@ -118,6 +126,14 @@ class GroupEventFactory(factory.django.DjangoModelFactory):
     event_id = factory.SubFactory("events.factories.EventFactory")
 
 
+class GroupImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = GroupImage
+
+    group_id = factory.SubFactory(GroupFactory)
+    image_id = factory.SubFactory("content.factories.ImageFactory")
+
+
 class GroupMemberFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = GroupMember
@@ -141,12 +157,3 @@ class GroupTopicFactory(factory.django.DjangoModelFactory):
 
     group_id = factory.SubFactory(GroupFactory)
     topic_id = factory.SubFactory("content.factories.TopicFactory")
-
-
-class StatusFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Status
-
-    status_type = factory.SubFactory(StatusEntityTypeFactory)
-    org_id = factory.SubFactory(OrganizationFactory)
-    user_id = factory.SubFactory("authentication.factories.UserFactory")

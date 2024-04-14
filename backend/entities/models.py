@@ -7,12 +7,14 @@ Contents:
     - Organization
     - OrganizationApplication
     - OrganizationEvent
+    - OrganizationImage
     - OrganizationMember
     - OrganizationResource
     - Group
     - OrganizationTask
     - OrganizationTopic
     - GroupEvent
+    - GroupImage
     - GroupMember
     - GroupResource
     - GroupTopic
@@ -46,11 +48,19 @@ class Organization(models.Model):
     high_risk = models.BooleanField(default=False)
     status = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE, default=1)
     status_updated = models.DateTimeField(auto_now=True, null=True)
-    acceptance_date = models.DateTimeField(null=True, blank=True)
+    acceptance_date = models.DateTimeField()
     deletion_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
+
+
+class OrganizationApplicationStatus(models.Model):
+    id = models.IntegerField(primary_key=True)
+    status_name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.status_name
 
 
 class OrganizationApplication(models.Model):
@@ -72,6 +82,15 @@ class OrganizationApplication(models.Model):
 class OrganizationEvent(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class OrganizationImage(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    image_id = models.ForeignKey("content.Image", on_delete=models.CASCADE)
+    sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -146,6 +165,15 @@ class GroupEvent(models.Model):
         return f"{self.id}"
 
 
+class GroupImage(models.Model):
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    image_id = models.ForeignKey("content.Image", on_delete=models.CASCADE)
+    sequence_index = models.IntegerField()
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class GroupMember(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
@@ -178,10 +206,16 @@ class Status(models.Model):
     org_id = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="org_status"
     )
+    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+
+    status_type = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE)
+    org_id = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="org_status"
+    )
     user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"{self.org_id.name} - {self.status_type.name}"
+        return f"{self.org_id.name} - {self.status_type}"
 
 
 class StatusEntityType(models.Model):

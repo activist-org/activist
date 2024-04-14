@@ -14,12 +14,14 @@ from utils.utils import (
 from .models import (
     Group,
     GroupEvent,
+    GroupImage,
     GroupMember,
     GroupResource,
     GroupTopic,
     Organization,
     OrganizationApplication,
     OrganizationEvent,
+    OrganizationImage,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
@@ -108,6 +110,12 @@ class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMembe
         return data
 
 
+class OrganizationImageSerializer(serializers.ModelSerializer[OrganizationImage]):
+    class Meta:
+        model = OrganizationImage
+        fields = "__all__"
+
+
 class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationResource]):
     class Meta:
         model = OrganizationResource
@@ -123,6 +131,12 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
 class GroupSerializer(serializers.ModelSerializer[Group]):
     class Meta:
         model = Group
+        fields = "__all__"
+
+
+class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
+    class Meta:
+        model = GroupImage
         fields = "__all__"
 
 
