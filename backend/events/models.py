@@ -32,6 +32,9 @@ class Event(CreationDeletionMixin):
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
     online_location_link = models.CharField(max_length=255, blank=True)
+    # offline_location_id = models.ForeignKey(
+    #     "Location", on_delete=models.CASCADE, null=True
+    # )
     offline_location_lat = models.FloatField(null=True, blank=True)
     offline_location_long = models.FloatField(null=True, blank=True)
     start_time = models.DateTimeField()

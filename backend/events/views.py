@@ -1,10 +1,14 @@
-from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
+from rest_framework import status, viewsets
+from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework.throttling import (
     AnonRateThrottle,
     UserRateThrottle,
 )
 
 from backend.paginator import CustomPagination
+from entities.models import OrganizationMember
 
 from .models import (
     Event,
@@ -37,6 +41,52 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
     serializer_class = EventSerializer
     pagination_class = CustomPagination
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
+
+    def list(self, request: Request, *args: str, **kwagrs: int) -> Response:
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request: Request, *args: str, **kwargs: int) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        member = get_object_or_404(
+            OrganizationMember, user_id=request.data["created_by"]
+        )
+        if member.is_admin and serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = get_object_or_404(Event, pk=kwargs["pk"])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = get_object_or_404(Event, pk=kwargs["pk"])
+        serializer = self.get_serializer(instance, data=request.data)
+        member = get_object_or_404(
+            OrganizationMember, user_id=request.data["created_by"]
+        )
+        if member.is_admin and serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = get_object_or_404(Event, pk=kwargs["pk"])
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        member = get_object_or_404(
+            OrganizationMember, user_id=request.data["created_by"]
+        )
+        if member.is_admin and serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
+        instance = get_object_or_404(Event, pk=kwargs["pk"])
+        instance.delete()
+        return Response(status=status.HTTP_201_CREATED)
 
 
 class FormatViewSet(viewsets.ModelViewSet[Format]):
