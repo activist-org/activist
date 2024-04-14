@@ -37,7 +37,9 @@ class Organization(models.Model):
         "content.Image", related_name="about_images", blank=True
     )
     created_by = models.ForeignKey(
-        "authentication.User", related_name="created_orgs", on_delete=models.CASCADE
+        "authentication.UserModel",
+        related_name="created_orgs",
+        on_delete=models.CASCADE,
     )
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
@@ -91,7 +93,7 @@ class OrganizationEvent(models.Model):
 
 class OrganizationMember(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)
@@ -119,7 +121,7 @@ class Group(CreationDeletionMixin):
     about_images = models.ManyToManyField(
         "content.Image", related_name="about_img", blank=True
     )
-    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
@@ -159,7 +161,7 @@ class GroupEvent(models.Model):
 
 class GroupMember(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)
@@ -189,7 +191,7 @@ class Status(models.Model):
     org_id = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="org_status"
     )
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.org_id.name} - {self.status_type.name}"
