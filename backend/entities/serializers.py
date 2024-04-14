@@ -126,7 +126,6 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         fields = "__all__"
 
 
-
 class OrganizationTaskSerializer(serializers.ModelSerializer[OrganizationTask]):
     class Meta:
         model = OrganizationTask

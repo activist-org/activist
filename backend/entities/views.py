@@ -37,8 +37,8 @@ from .serializers import (
     OrganizationSerializer,
     OrganizationTaskSerializer,
     OrganizationTopicSerializer,
-    StatusSerializer,
     StatusEntityTypeSerializer,
+    StatusSerializer,
 )
 
 
@@ -120,7 +120,9 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
                 status.HTTP_401_UNAUTHORIZED,
             )
 
-        org.status = StatusEntityType.objects.get(id=3)  # 3 is the id of the deleted status
+        org.status = StatusEntityType.objects.get(
+            id=3
+        )  # 3 is the id of the deleted status
         org.deletion_date = timezone.now()
         org.high_risk = False
         org.status_updated = None
@@ -163,49 +165,59 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
 
-    def list (self, request: Request, *args: str, **kwargs: int) -> Response:
+    def list(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        group = serializer.save(created_by=request.user)
+        serializer.save(created_by=request.user)
         data = {"message": f"New Group created: {serializer.data}"}
         return Response(data, status=status.HTTP_201_CREATED)
-    
+
     def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
-        try:
-            group = self.queryset.get(id=kwargs["pk"])
-            serializer = self.get_serializer(group)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Group.DoesNotExist:
-            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
-    
+        group = self.queryset.get(id=kwargs["pk"])
+        serializer = self.get_serializer(group)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        try:
-            group = self.queryset.get(id=kwargs["pk"])
-            if request.user != group.created_by:
-                return Response({"error": "You are not authorized to update this group"}, status.HTTP_401_UNAUTHORIZED)
-            
-            serializer = self.get_serializer(group, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-        except Group.DoesNotExist:
-            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
-    
+        group = self.queryset.filter(id=kwargs["pk"]).first()
+
+        if group is None:
+            return Response(
+                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        if request.user != group.created_by:
+            return Response(
+                {"error": "You are not authorized to update this group"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = self.get_serializer(group, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
-        try:
-            group = self.queryset.get(id=kwargs["pk"])
-            if request.user != group.created_by:
-                return Response({"error": "You are not authorized to delete this group"}, status.HTTP_401_UNAUTHORIZED)
-            group.delete()
-            return Response({"message": "Group deleted successfully"}, status=status.HTTP_200_OK)
-        except Group.DoesNotExist:
-            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
-        
-    
+        group = self.queryset.filter(id=kwargs["pk"]).first()
+
+        if group is None:
+            return Response(
+                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        if request.user != group.created_by:
+            return Response(
+                {"error": "You are not authorized to delete this group"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+        group.delete()
+        return Response(
+            {"message": "Group deleted successfully"}, status=status.HTTP_200_OK
+        )
+
+
 class OrganizationTaskViewSet(viewsets.ModelViewSet[OrganizationTask]):
     queryset = OrganizationTask.objects.all()
     serializer_class = OrganizationTaskSerializer

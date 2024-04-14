@@ -16,7 +16,7 @@ from .models import (
     OrganizationTask,
     OrganizationTopic,
     Status,
-    StatusEntityType
+    StatusEntityType,
 )
 
 
