@@ -86,10 +86,10 @@
               />
             </s-email>
             <s-facebook
-              @popup-close="onClose"
-              @popup-open="onOpen"
-              @popup-block="onBlock"
-              @popup-focus="onFocus"
+              popup-close="onClose"
+              popup-open="onOpen"
+              popup-block="onBlock"
+              popup-focus="onFocus"
               :window-features="windowFeatures"
               :share-options="shareOptions"
               :use-native-behavior="useNativeBehavior"
@@ -203,7 +203,7 @@
 </template>
 
 <script setup lang="ts">
-import { SEmail, SMastodon, STelegram, STwitter, SFacebook } from "vue-socials";
+import { SEmail, SFacebook, SMastodon, STelegram, STwitter } from "vue-socials";
 import ModalBase from "~/components/modal/ModalBase.vue";
 import type { BtnAction } from "~/types/btn-props";
 import type { Event } from "~/types/event";
