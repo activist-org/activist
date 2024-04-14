@@ -1,3 +1,4 @@
+import logging
 import re
 from typing import Any, Dict, Union
 
@@ -23,6 +24,7 @@ from .models import (
 )
 
 USER = get_user_model()
+logger = logging.getLogger(__name__)
 
 
 class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
@@ -126,33 +128,28 @@ class SignupSerializer(serializers.ModelSerializer[User]):
         fields = ("username", "password", "password_confirmed", "email")
         extra_kwargs = {"password": {"write_only": True}}
 
-        def validate(
-            self, data: Dict[str, Union[str, Any]]
-        ) -> Dict[str, Union[str, Any]]:
-            validate_empty(data.get("user_name"), "user_name")
-            validate_empty(data.get("password"), "password")
-            validate_empty(data.get("password_confirmed"), "password_confirmed")
-            # TODO: email validation on the future
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
 
-            pattern = (
-                r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$"
+        logger.error(data["password"])
+        logger.error(re.match(pattern, data["password"]))
+
+        if not re.match(pattern, data["password"]):
+            logger.error("Password does not meet the requirements.")
+            raise serializers.ValidationError(
+                _(
+                    "The field password must be at least 12 characters long and contain at least one special character."
+                ),
+                code="invalid_password",
             )
 
-            if not re.match(pattern, data["password"]):
-                raise serializers.ValidationError(
-                    _(
-                        "The field password must be at least 12 characters long and contain at least one special character."
-                    ),
-                    code="invalid_password",
-                )
+        if data["password"] != data["password_confirmed"]:
+            raise serializers.ValidationError(
+                _("The passwords did not match. Please try again."),
+                code="invalid_password_confirmation",
+            )
 
-            if data["password"] != data["password_confirmed"]:
-                raise serializers.ValidationError(
-                    _("The passwords did not match. Please try again."),
-                    code="invalid_password_confirmation",
-                )
-
-            return data
+        return data
 
     def create(self, validated_data: Dict[str, Union[str, Any]]) -> User:
         validated_data.pop("password_confirmed")

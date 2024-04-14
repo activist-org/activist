@@ -42,8 +42,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
         }
-        fields = "__all__"
-        
+
 
 class OrganizationApplicationStatusSerializer(
     serializers.ModelSerializer[OrganizationApplicationStatus]
