@@ -5,7 +5,7 @@
         {{ $t("components._global.connect") }}
       </h3>
       <div
-        class="cursor-pointer break-all rounded-lg p-1 transition-all hover:text-light-highlight dark:hover:text-dark-highlight"
+        class="cursor-pointer break-all rounded-lg p-1 text-light-distinct-text transition-all hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"
@@ -26,13 +26,7 @@
     >
       <li v-for="link in socialLinksRef">
         <div
-          class="flex cursor-pointer items-center gap-3 break-all transition-all"
-          :class="{
-            'hover:text-social-email': link.includes('email'),
-            'hover:text-social-mastodon': link.includes('mastodon'),
-            'hover:text-social-facebook': link.includes('facebook'),
-            'hover:text-social-instagram': link.includes('instagram'),
-          }"
+          class="flex cursor-pointer items-center gap-3 break-all text-light-distinct-text transition-all hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
         >
           <Icon
             v-if="editModeEnabled"
@@ -40,7 +34,6 @@
             name="bi:x-lg"
             size="1em"
           />
-          <Icon v-if="link.includes('email')" name="bi:envelope" size="1.2em" />
           <Icon
             v-else-if="link.includes('mastodon')"
             name="bi:mastodon"
@@ -88,7 +81,7 @@
           >
             <PopoverPanel class="absolute bottom-0 mb-12">
               <PopupNewField
-                @on-cta-clicked="emit('on-new-account', account)"
+                @on-cta-clicked="emit('on-new-account')"
                 @on-close-clicked="onClose(close)"
                 :title="$t('components.card-connect.app-account-popup-title')"
                 :fieldNamePrompt="

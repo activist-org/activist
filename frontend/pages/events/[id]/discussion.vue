@@ -12,38 +12,53 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          class="hidden w-max md:block"
+        <ModalSharePage
           :cta="true"
-          label="components.btn-action.share-discussion"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="components.btn-action.share-discussion-aria-label"
+          label="components._global.share-event"
+          ariaLabel="components._global.share-event-aria-label"
+          :event="event"
         />
       </div>
     </HeaderAppPage>
     <div class="space-y-6 pb-6 pt-3 md:pt-4">
       <Discussion
         :discussionInput="discussionInput"
-        :discussionTexts="[discussionText, discussionText]"
+        :discussionEntries="[discussionEntry, discussionEntry]"
+        :organizations="event.organizations"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { DiscussionEntry } from "~/types/card-discussion-entry";
 import type { DiscussionInput } from "~/types/card-discussion-input";
-import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Event } from "~/types/event";
+import type { Organization } from "~/types/organization";
+
 definePageMeta({
   layout: "sidebar",
 });
 
+const organization: Organization = {
+  name: "Berlin Climate Org",
+  status: "approved",
+  tagline: "Fighting Climate Change",
+  location: "Berlin, Germany",
+  description:
+    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
+  topic: "Environment",
+  members: 3,
+  supporters: 60,
+  workingGroups: ["Fundraising", "Campaigning"],
+  socialLinks: ["climate-org@mastodon", "climate-org@email"],
+  donationPrompt: "Hey thanks!",
+};
+
 const event: Event = {
   name: "Brandenburg Gate Climate Demo",
   tagline: "There is no Planet B",
-  organizations: ["Berlin Climate Org"],
+  organizations: [organization],
   type: "action",
   topic: "Environment",
   description:
@@ -57,7 +72,8 @@ const event: Event = {
   socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
 };
 
-const discussionText: DiscussionText = {
+const discussionEntry: DiscussionEntry = {
+  id: 1,
   author: "John A. Tester",
   content:
     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",

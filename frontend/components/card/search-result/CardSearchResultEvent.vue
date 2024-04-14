@@ -14,7 +14,7 @@
           :alt="
             $t('components.card-search-result-event.img-alt-text') +
             ' ' +
-            resource.name
+            event.name
           "
         />
         <div

@@ -39,7 +39,7 @@
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
         fontSize="xl"
-        :ariaLabel="btnAriaLabel1"
+        :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : ''"
       />
     </div>
     <!-- Note: image right of content. -->

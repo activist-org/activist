@@ -5,7 +5,7 @@
         class="w-max"
         :cta="props.cta"
         :label="props.label"
-        :aria-label="props.ariaLabel"
+        :ariaLabel="props.ariaLabel"
         fontSize="sm"
         leftIcon="bi:box-arrow-up"
         iconSize="1.25em"
@@ -26,10 +26,10 @@
             class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
           >
             <s-telegram
-              @popup-close="onClose"
-              @popup-open="onOpen"
-              @popup-block="onBlock"
-              @popup-focus="onFocus"
+              popup-close="onClose"
+              popup-open="onOpen"
+              popup-block="onBlock"
+              popup-focus="onFocus"
               class="focus-brand"
               :window-features="windowFeatures"
               :share-options="shareOptions"
@@ -44,10 +44,10 @@
               />
             </s-telegram>
             <s-mastodon
-              @popup-close="onClose"
-              @popup-open="onOpen"
-              @popup-block="onBlock"
-              @popup-focus="onFocus"
+              popup-close="onClose"
+              popup-open="onOpen"
+              popup-block="onBlock"
+              popup-focus="onFocus"
               class="focus-brand"
               :window-features="windowFeatures"
               :share-options="shareOptions"
@@ -61,10 +61,10 @@
               />
             </s-mastodon>
             <s-twitter
-              @popup-close="onClose"
-              @popup-open="onOpen"
-              @popup-block="onBlock"
-              @popup-focus="onFocus"
+              popup-close="onClose"
+              popup-open="onOpen"
+              popup-block="onBlock"
+              popup-focus="onFocus"
               class="focus-brand"
               :window-features="windowFeatures"
               :share-options="shareOptions"
@@ -276,11 +276,11 @@ const windowFeatures = {};
 
 const copyToClipboard = async (name: string, url: string) => {
   try {
-    await navigator.clipboard.writeText(`${name} ${url}`);
+    await navigator.clipboard.writeText(url);
     contentCopied.value = true;
     setTimeout(() => {
       contentCopied.value = false;
-    }, 3000);
+    }, 2000);
   } catch (error) {
     console.error(`Could not copy text: ${error}`);
     contentCopied.value = false;

@@ -5,7 +5,7 @@
     <Icon class="my-1 h-4 w-4 flex-shrink-0" name="bi:search" size="1em" />
     <input
       :id="uuid"
-      class="h-5 w-full bg-transparent outline-none placeholder:font-bold"
+      class="h-5 w-full bg-transparent outline-none"
       :onInput="updateValue"
       :value="modelValue"
       :placeholder="$t(placeholder)"

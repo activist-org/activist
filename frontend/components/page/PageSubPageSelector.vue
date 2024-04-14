@@ -1,11 +1,6 @@
 <template>
   <div class="h-fit w-full">
-    <TabGroup
-      v-model="currentTabIndex"
-      @change="changeTab"
-      manual
-      :default-index="defaultIndex"
-    >
+    <TabGroup @change="changeTab" manual :default-index="defaultIndex">
       <TabList class="flex flex-row">
         <Tab v-for="selector in selectors" :key="selector.id" class="w-full">
           <template #default="{ selected }">

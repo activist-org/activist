@@ -21,7 +21,7 @@
           <h3 class="responsive-h3 text-left font-display">
             {{ $t("_global.about") }}
           </h3>
-          <Icon name="bi:pencil-square" size="1.2em" />
+          <IconEdit />
         </div>
         <div v-if="event" class="flex-col space-y-3">
           <ShieldTopic :topic="event.topic" />

@@ -2,10 +2,13 @@
   <div class="card-style px-5 py-5">
     <div class="relative flex flex-col lg:flex-row">
       <div class="flex items-center gap-5">
-        <h3 class="responsive-h3 text-left font-display">
-          {{ $t("components.card-get-involved.header") }}
+        <h3 v-if="organization" class="responsive-h3 text-left font-display">
+          {{ $t("components.card-get-involved.get-involved") }}
         </h3>
-        <Icon name="bi:pencil-square" size="1.2em" />
+        <h3 v-else class="responsive-h3 text-left font-display">
+          {{ $t("components.card-get-involved.participate") }}
+        </h3>
+        <IconEdit />
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal

@@ -32,7 +32,7 @@
           sidebarType === SidebarType.EVENT_PAGE
         "
         class="my-3"
-        :name="placeholderName"
+        :name="placeholderName ? placeholderName : 'Name'"
         :sidebarType="sidebarType"
         :logoUrl="placeholderLogo"
       />
@@ -50,8 +50,9 @@
 </template>
 
 <script setup lang="ts">
-import { SidebarType } from "~/types/sidebar-type";
+import type { Filters } from "~/types/filters";
 import { SearchBarLocation } from "~/types/location";
+import { SidebarType } from "~/types/sidebar-type";
 
 defineProps<{
   name?: string;
@@ -284,15 +285,16 @@ const filters = {
   },
 };
 
-const getFiltersByPageType = computed(() => {
+const getFiltersByPageType = computed<Filters>(() => {
+  const filteredFilters: Filters = {};
   for (const filter in filters) {
     const f = filters[filter as keyof typeof filters];
     if (!f.sidebarType.includes(sidebarType)) {
-      delete filters[filter as keyof typeof filters];
+      delete filteredFilters[filter as keyof typeof filters];
     }
   }
 
-  return filters;
+  return filteredFilters;
 });
 
 const content = ref();

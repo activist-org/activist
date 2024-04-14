@@ -5,8 +5,7 @@
         class="flex select-none items-center gap-3 text-light-text dark:text-dark-text"
       >
         <p>{{ faqEntry.question }}</p>
-        <Icon name="bi:pencil-square" size="1.2em" />
-
+        <IconEdit />
         <Icon v-if="open" name="bi:chevron-up" />
         <Icon v-else name="bi:chevron-down" />
       </div>

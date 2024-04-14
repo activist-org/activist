@@ -37,7 +37,7 @@
       {{ headerName }}
     </h1>
     <IconOrganizationStatus
-      v-if="headerStatus"
+      v-if="headerStatus && organization"
       :status="headerStatus"
       :organization="organization"
     />

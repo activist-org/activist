@@ -33,16 +33,18 @@
           />
         </div>
         <div
+          v-if="user.location"
           class="hidden w-full items-center space-x-3 md:flex md:w-fit lg:space-x-5"
         >
-          <MetaTagLocation :location="user?.location" />
+          <MetaTagLocation :location="user.location" />
         </div>
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div
+          v-if="user.location"
           class="flex w-full items-center justify-center space-x-3 md:hidden"
         >
-          <MetaTagLocation :location="user?.location" />
+          <MetaTagLocation :location="user.location" />
         </div>
         <div
           class="flex justify-center space-x-3 md:justify-start lg:space-x-4"

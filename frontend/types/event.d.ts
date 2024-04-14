@@ -1,7 +1,7 @@
 export interface Event {
   name: string;
   tagline: string;
-  organizations: string[];
+  organizations: Organization[];
   type: "action" | "learn";
   topic: string;
   description: string;

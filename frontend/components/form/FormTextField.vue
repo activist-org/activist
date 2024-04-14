@@ -11,7 +11,7 @@
       @blur="emit('blurred')"
       @focus="emit('focused')"
       :id="uuid"
-      class="h-5 w-full bg-transparent outline-none placeholder:text-light-distinct-text dark:placeholder:text-dark-distinct-text"
+      class="h-5 w-full bg-transparent placeholder-light-distinct-text outline-none dark:placeholder-dark-distinct-text"
       :value="modelValue"
       :placeholder="placeholder"
       :type="refInputType"

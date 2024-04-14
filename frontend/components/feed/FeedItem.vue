@@ -25,7 +25,7 @@
       {{ item.description }}
     </p>
     <div
-      class="h-32 w-full rounded-md bg-light-placeholder dark:bg-dark-placeholder"
+      class="h-32 w-full rounded-md bg-light-distinct-text dark:bg-dark-distinct-text"
     >
       <img :src="item.imgURL" :alt="$t('components.feed-item.img-alt-text')" />
     </div>

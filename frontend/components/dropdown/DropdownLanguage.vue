@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
-import type { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
+import type { LocaleObject } from "@nuxtjs/i18n";
 import { DropdownLocation } from "~/types/location";
 
 defineProps<{
@@ -43,7 +43,7 @@ function getLocaleCode(locale: string | LocaleObject) {
 }
 
 function getLocaleName(locale: string | LocaleObject) {
-  return typeof locale === "string" ? locale : locale.name;
+  return typeof locale === "string" ? locale : String(locale.name);
 }
 
 const availableLocales = computed(() => {

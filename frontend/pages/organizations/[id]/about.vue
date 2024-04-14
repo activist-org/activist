@@ -21,8 +21,8 @@
         />
         <ModalSharePage
           :cta="true"
-          label="components.btn-action.share-organization"
-          ariaLabel="components.btn-action.share-organization-aria-label"
+          label="components._global.share-organization"
+          ariaLabel="components._global.share-organization-aria-label"
           :organization="organization"
         />
       </div>
@@ -72,7 +72,7 @@
       <div v-if="organization.status === 'pending'" class="space-y-6">
         <Discussion
           :discussionInput="testDiscussionInput"
-          :discussionTexts="testDiscussionTexts"
+          :discussionTexts="discussionEntries"
           :organization="organization"
         />
       </div>
@@ -82,8 +82,8 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import type { DiscussionEntry } from "~/types/card-discussion-entry";
 import type { DiscussionInput } from "~/types/card-discussion-input";
-import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Organization } from "~/types/organization";
 
 definePageMeta({
@@ -101,9 +101,10 @@ const route = useRoute();
 const upVotes = ref(123);
 const downVotes = ref(123);
 
-const testDiscussionTexts: DiscussionText[] = [
+const discussionEntries: DiscussionEntry[] = [
   {
     // authorImg?: "string",
+    id: 1,
     author: "Name",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
@@ -112,6 +113,7 @@ const testDiscussionTexts: DiscussionText[] = [
   },
   {
     // authorImg?: "string",
+    id: 1,
     author: "Name",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
@@ -160,7 +162,7 @@ onMounted(() => {
 });
 
 provide("modalOrganizationStatusData", {
-  discussionTexts: testDiscussionTexts,
+  discussionEntries: discussionEntries,
   organizationsInFavor: organizationsInFavor,
   upVotes: 6,
   downVotes: 4,

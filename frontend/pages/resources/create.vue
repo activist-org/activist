@@ -87,7 +87,7 @@
             ></textarea>
           </div>
         </div>
-        <CardTopicSelection v-model="formData.topics" class="mt-5" />
+        <CardTopicSelection class="mt-5" />
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="my-5">
             <BtnAction

@@ -1,9 +1,6 @@
 <template>
   <div class="relative">
-    <MediaImageCarousel
-      :fullscreen="false"
-      :class="{ 'lg:hidden': textExpanded }"
-    />
+    <MediaImageCarousel :fullscreen="false" />
     <ModalBase>
       <template #normalDisplay>
         <button
@@ -13,10 +10,7 @@
         </button>
       </template>
       <template #modalDisplay>
-        <MediaImageCarousel
-          :fullscreen="true"
-          :class="{ 'lg:hidden': textExpanded }"
-        />
+        <MediaImageCarousel :fullscreen="true" />
       </template>
     </ModalBase>
   </div>

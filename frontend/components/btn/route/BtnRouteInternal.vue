@@ -10,6 +10,7 @@
       :leftIcon="leftIcon"
       :rightIcon="rightIcon"
       :iconSize="iconSize"
+      :hideLabelOnMobile="hideLabelOnMobile"
     />
   </NuxtLink>
 </template>

@@ -26,26 +26,23 @@
           iconSize="1.35em"
           ariaLabel="components.btn-route-internal.new-discussion-aria-label"
         />
-        <BtnAction
-          class="hidden w-max md:block"
+        <ModalSharePage
           :cta="true"
-          label="components.btn-action.share-discussion"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="components.btn-action.share-discussion-aria-label"
+          label="components._global.share-organization"
+          ariaLabel="components._global.share-organization-aria-label"
+          :organization="organization"
         />
       </div>
     </HeaderAppPage>
     <div class="space-y-6 pb-6 pt-3 md:pt-4">
-      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
-      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
+      <CardDiscussion :isPrivate="false" :discussion="discussion" />
+      <CardDiscussion :isPrivate="false" :discussion="discussion" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/card-discussion-entry";
+import type { Discussion } from "~/types/card-discussion";
 import type { Organization } from "~/types/organization";
 
 definePageMeta({
@@ -68,7 +65,7 @@ const organization: Organization = {
   donationPrompt: "Hey thanks!",
 };
 
-const discussion: DiscussionEntry = {
+const discussion: Discussion = {
   title: "Title of discussion ",
   author: "John A. Tester",
   category: "Category",

@@ -13,7 +13,7 @@
   <Dialog @close="closeModal" class="relative z-40" :open="isOpen">
     <div
       @click="closeModal"
-      class="fixed inset-0 cursor-pointer bg-light-popup dark:bg-dark-popup"
+      class="fixed inset-0 cursor-pointer bg-light-layer-0/90 dark:bg-dark-layer-0/90"
       aria-hidden="true"
     />
     <div
