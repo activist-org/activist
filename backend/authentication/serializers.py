@@ -1,6 +1,8 @@
 import re
 from typing import Any, Dict, Union
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
@@ -19,6 +21,8 @@ from .models import (
     UserTask,
     UserTopic,
 )
+
+USER = get_user_model()
 
 
 class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
@@ -114,11 +118,11 @@ class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
         return data
 
 
-class SignupSerializer(serializers.ModelSerializer[UserModel]):
+class SignupSerializer(serializers.ModelSerializer[User]):
     password_confirmed = serializers.CharField(write_only=True)
 
     class Meta:
-        model = UserModel
+        model = USER
         fields = ("username", "password", "password_confirmed", "email")
         extra_kwargs = {"password": {"write_only": True}}
 
@@ -150,7 +154,7 @@ class SignupSerializer(serializers.ModelSerializer[UserModel]):
 
             return data
 
-    def create(self, validated_data: Dict[str, Union[str, Any]]) -> UserModel:
+    def create(self, validated_data: Dict[str, Union[str, Any]]) -> User:
         validated_data.pop("password_confirmed")
 
         user = UserModel.objects.create(

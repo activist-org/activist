@@ -1,3 +1,7 @@
+from uuid import UUID
+
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
@@ -24,6 +28,8 @@ from .serializers import (
     UserTopicSerializer,
 )
 
+USER = get_user_model()
+
 
 class SupportEntityTypeViewSet(viewsets.ModelViewSet[SupportEntityType]):
     queryset = SupportEntityType.objects.all()
@@ -37,8 +43,8 @@ class SupportViewSet(viewsets.ModelViewSet[Support]):
     serializer_class = SupportSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet[UserModel]):
-    queryset = UserModel.objects.all()
+class UserViewSet(viewsets.ModelViewSet[User]):
+    queryset = USER.objects.all()
     pagination_class = CustomPagination
     serializer_class = UserSerializer
 
@@ -81,7 +87,7 @@ class DeleteUserView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (IsAuthenticated,)
 
-    def delete(self, request: Request, pk: int) -> Response:
+    def delete(self, request: Request, pk: UUID | str) -> Response:
         user = UserModel.objects.get(pk=pk)
 
         if user is None:
