@@ -19,7 +19,7 @@
     <div
       class="cursor-pointer"
       :class="{
-        'fixed top-0 z-10 flex flex-col items-center w-full h-screen overflow-hidden':
+        'fixed top-0 z-10 flex h-screen w-full flex-col items-center overflow-hidden':
           imageModal,
         'fixed inset-0 flex w-screen items-center justify-center': !imageModal,
       }"
@@ -27,24 +27,24 @@
       <DialogPanel
         :class="{
           'flex flex-col items-center': imageModal,
-          'pl-6 h-full md:h-auto overflow-y-auto w-full max-w-4xl card-style-base bg-light-layer-0 dark:bg-dark-layer-0 text-light-text dark:text-dark-text container p-5 cursor-default':
+          'card-style-base container h-full w-full max-w-4xl cursor-default overflow-y-auto bg-light-layer-0 p-5 pl-6 text-light-text dark:bg-dark-layer-0 dark:text-dark-text md:h-auto':
             !imageModal,
         }"
       >
         <button
           v-if="imageModal"
           @click="closeModal"
-          class="absolute right-0 p-1 mt-8 mr-24 rounded-full text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand"
+          class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
-          <Icon class="w-10 h-10" name="bi:x-circle-fill" />
+          <Icon class="h-10 w-10" name="bi:x-circle-fill" />
         </button>
         <div v-else class="relative">
           <button
             @click="closeModal"
-            class="absolute right-0 p-1 rounded-full text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text focus-brand"
+            class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
           >
-            <Icon class="w-10 h-10" name="bi:x-circle-fill" />
+            <Icon class="h-10 w-10" name="bi:x-circle-fill" />
           </button>
         </div>
         <div
@@ -53,7 +53,7 @@
           @keypress.esc="closeModal"
           tabindex="0"
           role="button"
-          class="flex flex-col items-center justify-center focus-brand"
+          class="focus-brand flex flex-col items-center justify-center"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
           <slot name="modalDisplay" />

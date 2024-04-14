@@ -2,7 +2,7 @@
   <ModalBase>
     <template #normalDisplay>
       <button
-        class="absolute right-0 flex items-center justify-center w-10 h-10 cursor-pointer rounded-md sm:w-16 sm:h-16 elem-on-card-style focus-brand"
+        class="elem-on-card-style focus-brand absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md sm:h-16 sm:w-16"
         :aria-label="$t('components.modal-qr-code.open-modal-aria-label')"
       >
         <div class="sm:hidden">
@@ -23,15 +23,15 @@
     </template>
     <template #modalDisplay>
       <DialogTitle class="flex justify-between font-display">
-        <p class="text-3xl font-bold md:responsive-h2">
+        <p class="md:responsive-h2 text-3xl font-bold">
           {{ $t("components.modal-qr-code.header") }}
         </p>
       </DialogTitle>
       <div
-        class="flex flex-col items-center pb-6 space-y-6 md:grid md:grid-cols-2 md:grid-rows-1 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0 lg:space-x-6 lg:mr-14 lg:pr-8"
+        class="flex flex-col items-center space-y-6 pb-6 md:grid md:grid-cols-2 md:grid-rows-1 lg:mr-14 lg:grid-cols-3 lg:grid-rows-1 lg:space-x-6 lg:space-y-0 lg:pr-8"
       >
         <div
-          class="items-center pt-2 font-medium text-left col-span-2 space-y-4"
+          class="col-span-2 items-center space-y-4 pt-2 text-left font-medium"
         >
           <p>
             {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}
@@ -44,7 +44,7 @@
           <p>
             {{ $t("components.modal-qr-code.subheader-2") }}
           </p>
-          <ul class="pl-6 list-disc md:pl-8">
+          <ul class="list-disc pl-6 md:pl-8">
             <li>
               {{ $t("components.modal-qr-code.section-2-list-1-item-1") }}
             </li>
@@ -60,7 +60,7 @@
           </p> -->
           <BtnActionDropdown
             @main-btn-clicked="handleMainBtnClicked"
-            class="hidden md:block w-fit"
+            class="hidden w-fit md:block"
             :cta="true"
             :label="$t('components.btn-action-dropdown.download-qr-code')"
             fontSize="lg"
@@ -76,12 +76,12 @@
             "
           />
         </div>
-        <div class="px-4 md:pl-8 md:pb-2">
-          <QRCode ref="qrcode" class="select-none rounded-3xl elem-shadow-md" />
+        <div class="px-4 md:pb-2 md:pl-8">
+          <QRCode ref="qrcode" class="elem-shadow-md select-none rounded-3xl" />
         </div>
         <BtnActionDropdown
           @main-btn-clicked="handleMainBtnClicked"
-          class="md:hidden w-fit"
+          class="w-fit md:hidden"
           :cta="true"
           :label="$t('components.btn-action-dropdown.download-qr-code')"
           fontSize="lg"

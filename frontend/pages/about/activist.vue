@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("pages._global.about-us") }}</Title>
@@ -9,19 +9,19 @@
       imgURL="/images/content_pages/icons/activist_icon"
       imgAltText="_global.activist-icon-img-alt-text"
     >
-      <h1 class="pb-2 font-bold responsive-h1">
+      <h1 class="responsive-h1 pb-2 font-bold">
         {{ $t("pages.about.activist.header") }}
       </h1>
-      <div class="flex flex-row py-2 space-x-3">
+      <div class="flex flex-row space-x-3 py-2">
         <Icon
-          class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
+          class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
           name="bi:info-circle-fill"
           size="1.25em"
         />
         <p>
           {{ $t("pages._global.see-the") }}
           <a
-            class="items-center focus-brand link-text"
+            class="focus-brand link-text items-center"
             href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=805%3A231&t=vNWHCPdiq5EbPaO9-1"
             target="_blank"
           >

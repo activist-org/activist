@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-2 border rounded-md bg-light-layer-2 dark:bg-dark-layer-2 border-light-section-div dark:border-dark-section-div sm:p-3 elem-shadow-sm"
+    class="elem-shadow-sm rounded-md border border-light-section-div bg-light-layer-2 p-2 dark:border-dark-section-div dark:bg-dark-layer-2 sm:p-3"
   >
     <div class="flex items-center space-x-3">
       <Icon v-if="(item.itemType = 'group')" name="bi:people" size="1.5em" />
@@ -19,13 +19,13 @@
         name="bi:instagram"
         size="1.5em"
       />
-      <h4 class="font-bold responsive-h5">{{ item.title }}</h4>
+      <h4 class="responsive-h5 font-bold">{{ item.title }}</h4>
     </div>
     <p class="pb-3">
       {{ item.description }}
     </p>
     <div
-      class="w-full h-32 rounded-md bg-light-placeholder dark:bg-dark-placeholder"
+      class="h-32 w-full rounded-md bg-light-placeholder dark:bg-dark-placeholder"
     >
       <img :src="item.imgURL" :alt="$t('components.feed-item.img-alt-text')" />
     </div>

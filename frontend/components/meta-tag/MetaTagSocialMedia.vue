@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center w-full h-full cursor-pointer gap-3">
+  <div class="flex h-full w-full cursor-pointer items-center gap-3">
     <Icon :name="props.iconName" :size="props.iconSize" />
     <p :class="props.textUtilityClasses">{{ props.text }}</p>
   </div>

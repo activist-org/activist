@@ -5,7 +5,6 @@ Run `python i18n_check_unused_keys.py` to check if the en-US.json file has keys 
 If yes, then remove those keys from the `en-US.json`.
 """
 
-
 import json
 import os
 from pathlib import Path

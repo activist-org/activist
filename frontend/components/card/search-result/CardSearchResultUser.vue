@@ -1,22 +1,22 @@
 <template>
-  <div class="relative flex flex-col w-full md:flex-row">
-    <div class="flex justify-center w-full md:w-fit">
+  <div class="relative flex w-full flex-col md:flex-row">
+    <div class="flex w-full justify-center md:w-fit">
       <div
-        class="border rounded-full w-fit border-light-section-div dark:border-dark-section-div bg-light-layer-0 dark:bg-dark-layer-0"
+        class="w-fit rounded-full border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
       >
         <div
           :class="{
-            'w-[150px] h-[150px]': reduced,
-            'w-[200px] h-[200px]': !reduced,
+            'h-[150px] w-[150px]': reduced,
+            'h-[200px] w-[200px]': !reduced,
           }"
           class="flex items-center justify-center fill-light-text dark:fill-dark-text"
         >
-          <Icon class="w-[75%] h-[75%]" name="bi:person" />
+          <Icon class="h-[75%] w-[75%]" name="bi:person" />
         </div>
       </div>
     </div>
     <div
-      class="flex-col pt-3 md:pl-4 lg:pl-6 md:grow md:pt-0"
+      class="flex-col pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6"
       :class="{
         'space-y-2': reduced,
         'space-y-3 md:space-y-4': !reduced,
@@ -24,28 +24,28 @@
     >
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
-          <h2 class="font-bold responsive-h3">
+          <h2 class="responsive-h3 font-bold">
             {{ user.name }}
           </h2>
           <MenuSearchResult
-            class="max-md:absolute max-md:top-0 max-md:right-0"
+            class="max-md:absolute max-md:right-0 max-md:top-0"
             search-result-type="user"
           />
         </div>
         <div
-          class="items-center hidden w-full space-x-3 md:flex md:w-fit lg:space-x-5"
+          class="hidden w-full items-center space-x-3 md:flex md:w-fit lg:space-x-5"
         >
           <MetaTagLocation :location="user?.location" />
         </div>
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div
-          class="flex items-center justify-center w-full space-x-3 md:hidden"
+          class="flex w-full items-center justify-center space-x-3 md:hidden"
         >
           <MetaTagLocation :location="user?.location" />
         </div>
         <div
-          class="flex justify-center space-x-3 lg:space-x-4 md:justify-start"
+          class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
         >
           <MetaTagSupporters
             :supporters="user.supporters"

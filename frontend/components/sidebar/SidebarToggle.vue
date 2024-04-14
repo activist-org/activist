@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-distinct-text dark:text-light-distinct-text rounded-md hover:text-light-text dark:hover:text-dark-text"
+    class="rounded-md text-light-distinct-text hover:text-light-text dark:text-light-distinct-text dark:hover:text-dark-text"
   >
     <Icon
       v-if="chevronDirection == 'left'"

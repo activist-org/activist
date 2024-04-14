@@ -1,13 +1,13 @@
 <template>
-  <div class="px-5 py-5 card-style">
+  <div class="card-style px-5 py-5">
     <div class="relative flex flex-col lg:flex-row">
       <div class="flex items-center gap-5">
-        <h3 class="text-left responsive-h3 font-display">
+        <h3 class="responsive-h3 text-left font-display">
           {{ $t("components.card-get-involved.header") }}
         </h3>
         <Icon name="bi:pencil-square" size="1.2em" />
       </div>
-      <div class="flex pt-2 space-x-2 lg:absolute lg:right-0 lg:pt-0">
+      <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
           v-if="organization && organization.workingGroups"
           :cta="true"
@@ -43,7 +43,7 @@
         </p>
       </div>
     </div>
-    <div v-else-if="event" class="pt-3 space-y-3">
+    <div v-else-if="event" class="space-y-3 pt-3">
       <p>
         {{ event.getInvolvedDescription }}
       </p>
@@ -51,7 +51,7 @@
         {{ $t("components.card-get-involved.legal-disclaimer-subtext") }}
       </p>
       <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" />
-      <div class="flex pt-2 w-max">
+      <div class="flex w-max pt-2">
         <BtnRouteInternal
           class="w-full"
           :cta="true"

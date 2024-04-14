@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center pl-[12px] pr-[10px] py-2 max-h-[40px] space-x-2 text-left border rounded select-none text-light-distinct-text dark:text-dark-distinct-text"
+    class="flex max-h-[40px] select-none items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left text-light-distinct-text dark:text-dark-distinct-text"
     :class="{
       'border-light-action-red dark:border-dark-action-red': error,
       'border-light-interactive dark:border-dark-interactive': !error,
@@ -11,7 +11,7 @@
       @blur="emit('blurred')"
       @focus="emit('focused')"
       :id="uuid"
-      class="w-full h-5 bg-transparent outline-none placeholder:text-light-distinct-text dark:placeholder:text-dark-distinct-text"
+      class="h-5 w-full bg-transparent outline-none placeholder:text-light-distinct-text dark:placeholder:text-dark-distinct-text"
       :value="modelValue"
       :placeholder="placeholder"
       :type="refInputType"

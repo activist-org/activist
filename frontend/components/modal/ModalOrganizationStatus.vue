@@ -1,7 +1,7 @@
 <template>
   <ModalBase>
     <template #normalDisplay>
-      <div class="w-5 sm:w-6 md:w-7 xl:w-9 has-tooltip cursor-pointer">
+      <div class="has-tooltip w-5 cursor-pointer sm:w-6 md:w-7 xl:w-9">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
           <path
             class="fill-light-accepted-green dark:fill-dark-accepted-green"
@@ -17,7 +17,7 @@
           />
         </svg>
         <TooltipBase
-          class="invisible mt-3 -ml-36 max-w-96"
+          class="invisible -ml-36 mt-3 max-w-96"
           :text="
             $t(
               'components.modal-organization-status.approved-tooltip-hover-text',
@@ -32,18 +32,18 @@
       </div>
     </template>
     <template #modalDisplay>
-      <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2 max-h-[80vh]">
+      <div class="max-h-[80vh] px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
         <DialogTitle class="font-display">
           <p class="responsive-h2 font-bold">
             {{ organization.name }}'s Application
           </p>
         </DialogTitle>
         <p
-          class="text-light-accepted-green dark:text-dark-accepted-green responsive-h4 pt-2"
+          class="responsive-h4 pt-2 text-light-accepted-green dark:text-dark-accepted-green"
         >
           {{ $t("components.modal-organization-status.status-accepted") }}
         </p>
-        <div class="py-6 space-y-6">
+        <div class="space-y-6 py-6">
           <CardOrgApplicationVote
             title="Votes in favor"
             :isVotingDisabled="true"

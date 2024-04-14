@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="w-full -my-4 opacity-0"
+      class="-my-4 w-full opacity-0"
       :class="{
-        '!opacity-100 flex items-center justify-center my-0 rounded-md style-cta elem-shadow-sm':
+        'style-cta elem-shadow-sm my-0 flex items-center justify-center rounded-md !opacity-100':
           sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
       <Icon class="mt-[0.125em]" name="bi:filter" size="2em" />
     </div>
     <div
-      class="opacity-0 text-light-text dark:text-dark-text transition"
+      class="text-light-text opacity-0 transition dark:text-dark-text"
       :class="{
         '!opacity-100':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -23,20 +23,20 @@
           @keypress.enter="filter.reveal = !filter.reveal"
           role="button"
           tabindex="0"
-          class="flex items-center mb-2 cursor-pointer w-fit"
+          class="mb-2 flex w-fit cursor-pointer items-center"
         >
-          <h3 v-if="filter.title" class="text-lg font-bold font-display">
+          <h3 v-if="filter.title" class="font-display text-lg font-bold">
             {{ filter.title }}
           </h3>
           <Icon
-            class="flex-shrink-0 my-1 mb-1 ml-4"
+            class="my-1 mb-1 ml-4 flex-shrink-0"
             :class="{ 'rotate-180': filter.reveal }"
             name="bi:chevron-down"
             size="1.25em"
           />
         </div>
-        <div v-else class="flex items-center mb-2 w-fit">
-          <h3 v-if="filter.title" class="text-lg font-bold font-display">
+        <div v-else class="mb-2 flex w-fit items-center">
+          <h3 v-if="filter.title" class="font-display text-lg font-bold">
             {{ filter.title }}
           </h3>
         </div>

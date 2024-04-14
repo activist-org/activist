@@ -3,9 +3,9 @@
   <div class="flex flex-col items-center justify-center space-y-5">
     <div class="flex flex-col items-center justify-center space-y-2">
       <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
-      <div class="relative z-0 h-10 overflow-y-hidden w-36 focus-inside">
+      <div class="focus-inside relative z-0 h-10 w-36 overflow-y-hidden">
         <LogoActivist
-          class="absolute inset-0 flex items-center justify-center z-1 overflow-clip"
+          class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
         />
       </div>
       <p class="text-light-text dark:text-dark-text">
@@ -33,17 +33,17 @@
       </div>
     </div>
     <div
-      class="max-w-xl text-center grid gap-0 sm:text-left justify-items-center sm:grid-cols-3 sm:gap-12 md:gap-16"
+      class="grid max-w-xl justify-items-center gap-0 text-center sm:grid-cols-3 sm:gap-12 sm:text-left md:gap-16"
     >
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium text-light-text dark:text-dark-text">
           {{ $t("components._global.connect") }}
         </p>
-        <div class="flex mt-1 gap-10 sm:mt-0 sm:flex-col sm:gap-0">
+        <div class="mt-1 flex gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
             <a
-              class="flex items-center mt-2 text-base space-x-2 hover:text-light-text dark:hover:text-dark-text focus-brand"
+              class="focus-brand mt-2 flex items-center space-x-2 text-base hover:text-light-text dark:hover:text-dark-text"
               :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
               target="_blank"
@@ -62,11 +62,11 @@
       <!-- Note: Resources Links -->
       <div>
         <p
-          class="mt-6 text-xl font-medium sm:mt-0 text-light-text dark:text-dark-text"
+          class="mt-6 text-xl font-medium text-light-text dark:text-dark-text sm:mt-0"
         >
           {{ $t("_global.resources") }}
         </p>
-        <div class="flex flex-wrap justify-center sm:flex-col gap-x-1 sm:gap-0">
+        <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
           <template v-for="(resource, index) in links.resourcesLinks">
             <p
               class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
@@ -77,7 +77,7 @@
               </NuxtLink>
               <span
                 v-if="index < links.resourcesLinks.length - 1"
-                class="px-2 flex-inline sm:hidden"
+                class="flex-inline px-2 sm:hidden"
               >
                 •
               </span>
@@ -88,11 +88,11 @@
       <!-- Note: Organization Links -->
       <div>
         <p
-          class="mt-6 text-xl font-medium sm:mt-0 text-light-text dark:text-dark-text"
+          class="mt-6 text-xl font-medium text-light-text dark:text-dark-text sm:mt-0"
         >
           {{ $t("_global.organization") }}
         </p>
-        <div class="flex flex-wrap justify-center sm:flex-col gap-x-1 sm:gap-0">
+        <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
           <template v-for="(oLink, index) in links.organizationLinks">
             <p
               class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
@@ -103,7 +103,7 @@
               </NuxtLink>
               <span
                 v-if="index < links.organizationLinks.length - 1"
-                class="px-2 flex-inline sm:hidden"
+                class="flex-inline px-2 sm:hidden"
               >
                 •
               </span>
@@ -122,7 +122,7 @@
             </NuxtLink>
             <span
               v-if="index < links.legalLinks.length - 1"
-              class="px-2 flex-inline"
+              class="flex-inline px-2"
             >
               •
             </span>

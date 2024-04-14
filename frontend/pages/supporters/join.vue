@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("pages._global.become-supporter") }}</Title>
@@ -9,7 +9,7 @@
       imgURL="/images/content_pages/icons/join_icon"
       imgAltText="pages.supporters._global.join-img-alt-text"
     >
-      <h1 class="font-bold responsive-h1">
+      <h1 class="responsive-h1 font-bold">
         {{ $t("pages._global.become-supporter") }}
       </h1>
       <p>
@@ -18,7 +18,7 @@
           {{ $t("pages.supporters.join.section-1-paragraph-1-2") }} </NuxtLink
         >.
       </p>
-      <h2 class="font-bold responsive-h4">
+      <h2 class="responsive-h4 font-bold">
         {{ $t("pages.supporters.join.section-2-subheader") }}
       </h2>
       <p>
@@ -37,13 +37,13 @@
         </a>
         {{ $t("pages._global.visit-source-code-pt-3") }}
       </p>
-      <h2 class="font-bold responsive-h4">
+      <h2 class="responsive-h4 font-bold">
         {{ $t("pages.supporters.join.section-3-subheader") }}
       </h2>
       <p>
         {{ $t("pages.supporters.join.section-3-paragraph-1-1") }}
       </p>
-      <h2 class="font-bold responsive-h4">
+      <h2 class="responsive-h4 font-bold">
         {{ $t("pages.supporters.join.section-4-subheader") }}
       </h2>
       <p>
@@ -56,7 +56,7 @@
         </NuxtLink>
         {{ $t("pages.supporters.join.section-4-paragraph-1-3") }}
       </p>
-      <h2 class="font-bold responsive-h4">
+      <h2 class="responsive-h4 font-bold">
         {{ $t("pages.supporters.join.section-5-subheader") }}
       </h2>
       <p>
@@ -66,7 +66,7 @@
         </NuxtLink>
         .
       </p>
-      <h2 class="font-bold responsive-h4">
+      <h2 class="responsive-h4 font-bold">
         {{ $t("pages.supporters.join.section-6-subheader") }}
       </h2>
       <p>

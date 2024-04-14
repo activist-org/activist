@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("_global.imprint") }}</Title>
@@ -9,18 +9,18 @@
       imgURL="/images/content_pages/icons/bootstrap_info_circle"
       imgAltText="pages.about._global.imprint-img-alt-text"
     >
-      <h1 class="pb-2 font-bold responsive-h1">
+      <h1 class="responsive-h1 pb-2 font-bold">
         {{ $t("_global.imprint") }}
       </h1>
-      <div class="flex flex-row py-2 space-x-3">
+      <div class="flex flex-row space-x-3 py-2">
         <Icon
-          class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
+          class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
           name="bi:info-circle-fill"
           size="1.25em"
         />
         <p>
           {{ $t("pages.about.imprint.subheader-1") }}
-          <a class="items-center focus-brand link-text" href="/help/contact">
+          <a class="focus-brand link-text items-center" href="/help/contact">
             {{ $t("pages._global.contact-page") }}
             <Icon
               name="bi:box-arrow-up-right"

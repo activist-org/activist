@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
       <Title>{{ $t("pages.organizations.search.header-title") }}</Title>
@@ -9,9 +9,7 @@
       :header="$t('pages.organizations.search.header-title')"
       :tagline="$t('pages.organizations.search.subheader')"
     >
-      <div class="flex flex-col space-x-3 sm:flex-row">
-        <ShieldTopic topic="My topics dropdown" />
-      </div>
+      <ComboboxTopics />
     </HeaderAppPage>
     <GridFilterTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
   </div>

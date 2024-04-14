@@ -4,11 +4,11 @@
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" :breadcrumbs="breadcrumbs" />
       <div class="mt-4">
-        <h1 class="font-bold responsive-h2">
+        <h1 class="responsive-h2 font-bold">
           {{ $t("pages._global.information") }}
         </h1>
       </div>
-      <div class="w-1/2 pt-3 pb-6 space-y-6 md:pt-4">
+      <div class="w-1/2 space-y-6 pb-6 pt-3 md:pt-4">
         <CardDatePicker />
       </div>
     </div>

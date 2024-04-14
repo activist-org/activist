@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 xl:px-8 text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
       <Title
@@ -17,7 +17,7 @@
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
-          class="hidden md:block w-max"
+          class="hidden w-max md:block"
           :cta="true"
           linkTo="/"
           label="components.btn-route-internal.new-discussion"
@@ -27,7 +27,7 @@
           ariaLabel="components.btn-route-internal.new-discussion-aria-label"
         />
         <BtnAction
-          class="hidden md:block w-max"
+          class="hidden w-max md:block"
           :cta="true"
           label="components.btn-action.share-discussion"
           fontSize="sm"
@@ -37,7 +37,7 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="pt-3 pb-6 space-y-6 md:pt-4">
+    <div class="space-y-6 pb-6 pt-3 md:pt-4">
       <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
       <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
     </div>

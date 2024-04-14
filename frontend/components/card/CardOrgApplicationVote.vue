@@ -1,6 +1,6 @@
 <template>
-  <div class="px-10 py-5 card-style">
-    <h3 class="text-left responsive-h3 font-display">{{ title }}</h3>
+  <div class="card-style px-10 py-5">
+    <h3 class="responsive-h3 text-left font-display">{{ title }}</h3>
     <div class="flex flex-row py-3">
       <div
         v-for="organization in availableOrganizations"
@@ -13,11 +13,11 @@
         />
         <div
           v-else
-          class="border rounded border-light-section-div dark:border-dark-section-div"
+          class="rounded border border-light-section-div dark:border-dark-section-div"
         >
           <img
             :src="organization.imageURL"
-            class="w-12 h-full"
+            class="h-full w-12"
             :alt="
               $t('components._global.entity-logo', {
                 entity_name: organization.name,
@@ -30,7 +30,7 @@
     <div class="flex">
       <BtnAction
         @click="$emit('up-vote')"
-        class="flex mr-5"
+        class="mr-5 flex"
         :cta="true"
         :counter="`${upVotes}`"
         fontSize="sm"
