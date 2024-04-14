@@ -273,8 +273,6 @@
   "components.modal-share-page.header": "Share this page",
   "components.modal-share-page.offline": "Offline",
   "components.modal-share-page.online": "Online",
-  "components.modal-share.share-discussion": "Share discussion",
-  "components.modal-share.share-discussion-aria-label": "View options to share this discussion",
   "components.page-breadcrumbs.aria-label": "Page breadcrumb navigation",
   "components.page-community-footer.invite-text-1": "Do you share our goals? Please join our community!",
   "components.page-community-footer.invite-text-2-1": "Visit us",
