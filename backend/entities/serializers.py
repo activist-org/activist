@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from authentication.models import User
-from content.models import Image, Resource, Task, Topic
+from content.models import Resource, Task, Topic
 from events.models import Event
 from utils.utils import (
     validate_creation_and_deletion_dates,
@@ -92,12 +92,6 @@ class OrganizationImageSerializer(serializers.ModelSerializer[OrganizationImage]
     class Meta:
         model = OrganizationImage
         fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(Organization, data["org_id"])
-        validate_object_existence(Image, data["image_id"])
-
-        return data
 
 
 class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMember]):
@@ -189,12 +183,6 @@ class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
     class Meta:
         model = GroupImage
         fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(Group, data["group_id"])
-        validate_object_existence(Image, data["image_id"])
-
-        return data
 
 
 class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):

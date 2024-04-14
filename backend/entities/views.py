@@ -112,7 +112,6 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:
         org = self.queryset.filter(id=pk).first()
-        print(pk, org)
         if org is None:
             return Response(
                 {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
@@ -153,7 +152,6 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[OrganizationEvent]):
 class OrganizationImageViewSet(viewsets.ModelViewSet[OrganizationImage]):
     queryset = OrganizationImage.objects.all()
     serializer_class = OrganizationImageSerializer
-    pagination_class = CustomPagination
 
 
 class OrganizationMemberViewSet(viewsets.ModelViewSet[OrganizationMember]):
@@ -171,7 +169,6 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
 class GroupViewSet(viewsets.ModelViewSet[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    pagination_class = CustomPagination
 
 
 class OrganizationTaskViewSet(viewsets.ModelViewSet[OrganizationTask]):
