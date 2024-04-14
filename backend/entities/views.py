@@ -11,12 +11,14 @@ from backend.paginator import CustomPagination
 from .models import (
     Group,
     GroupEvent,
+    GroupImage,
     GroupMember,
     GroupResource,
     GroupTopic,
     Organization,
     OrganizationApplication,
     OrganizationEvent,
+    OrganizationImage,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
@@ -26,12 +28,14 @@ from .models import (
 )
 from .serializers import (
     GroupEventSerializer,
+    GroupImageSerializer,
     GroupMemberSerializer,
     GroupResourceSerializer,
     GroupSerializer,
     GroupTopicSerializer,
     OrganizationApplicationSerializer,
     OrganizationEventSerializer,
+    OrganizationImageSerializer,
     OrganizationMemberSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
@@ -153,22 +157,23 @@ class OrganizationMemberViewSet(viewsets.ModelViewSet[OrganizationMember]):
     serializer_class = OrganizationMemberSerializer
     pagination_class = CustomPagination
 
- 
+
 class OrganizationImageViewSet(viewsets.ModelViewSet[OrganizationImage]):
     queryset = OrganizationImage.objects.all()
     serializer_class = OrganizationImageSerializer
 
-    
+
 class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
     queryset = OrganizationResource.objects.all()
     serializer_class = OrganizationResourceSerializer
     pagination_class = CustomPagination
-    
-    
+
+
 class GroupImageViewSet(viewsets.ModelViewSet[GroupImage]):
     queryset = GroupImage.objects.all()
     serializer_class = GroupImageSerializer
     pagination_class = CustomPagination
+
 
 class GroupViewSet(viewsets.ModelViewSet[Group]):
     queryset = Group.objects.all()

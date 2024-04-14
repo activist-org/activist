@@ -14,14 +14,15 @@ from utils.utils import (
 from .models import (
     Group,
     GroupEvent,
+    GroupImage,
     GroupMember,
     GroupResource,
     GroupTopic,
     Organization,
     OrganizationApplication,
     OrganizationEvent,
-    OrganizationMember,
     OrganizationImage,
+    OrganizationMember,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
@@ -107,8 +108,8 @@ class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMembe
         validate_object_existence(UserModel, data["user_id"])
 
         return data
-      
-      
+
+
 class OrganizationImageSerializer(serializers.ModelSerializer[OrganizationImage]):
     class Meta:
         model = OrganizationImage
@@ -130,6 +131,12 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
 class GroupSerializer(serializers.ModelSerializer[Group]):
     class Meta:
         model = Group
+        fields = "__all__"
+
+
+class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
+    class Meta:
+        model = GroupImage
         fields = "__all__"
 
 
@@ -216,4 +223,3 @@ class StatusEntityTypeSerializer(serializers.ModelSerializer[StatusEntityType]):
     class Meta:
         model = StatusEntityType
         fields = "__all__"
-        

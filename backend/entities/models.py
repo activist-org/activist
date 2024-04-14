@@ -25,7 +25,6 @@ from uuid import uuid4
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from backend.mixins.models import CreationDeletionMixin
 
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -47,7 +46,7 @@ class Organization(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
+    status = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE, default=1)
     status_updated = models.DateTimeField(auto_now=True, null=True)
     acceptance_date = models.DateTimeField()
     deletion_date = models.DateTimeField(null=True, blank=True)
@@ -65,15 +64,8 @@ class OrganizationApplicationStatus(models.Model):
 
 
 class OrganizationApplication(models.Model):
-    id = models.IntegerField(primary_key=True)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    status = models.ForeignKey(
-        "OrganizationApplicationStatus", on_delete=models.CASCADE
-    )
-
-class OrganizationApplication(models.Model):
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
+    status = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE, default=1)
     orgs_in_favor = ArrayField(
         models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )
@@ -103,9 +95,6 @@ class OrganizationImage(models.Model):
     def __str__(self) -> str:
         return f"{self.id}"
 
-class OrganizationMember(models.Model):
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
 
 class OrganizationMember(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
@@ -126,7 +115,6 @@ class OrganizationResource(models.Model):
         return f"{self.id}"
 
 
-
 class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
@@ -145,7 +133,6 @@ class Group(models.Model):
     )
     category = models.CharField(max_length=255)
     creation_date = models.DateTimeField(auto_now_add=True)
-
 
     def __str__(self) -> str:
         return self.name
@@ -178,7 +165,6 @@ class GroupEvent(models.Model):
         return f"{self.id}"
 
 
-
 class GroupImage(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     image_id = models.ForeignKey("content.Image", on_delete=models.CASCADE)
@@ -187,10 +173,6 @@ class GroupImage(models.Model):
     def __str__(self) -> str:
         return f"{self.id}"
 
-
-class GroupMember(models.Model):
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
 
 class GroupMember(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -220,7 +202,7 @@ class GroupTopic(models.Model):
 
 
 class Status(models.Model):
-    status_type = models.ForeignKey("StatusType", on_delete=models.CASCADE)
+    status_type = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE)
     org_id = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="org_status"
     )
@@ -232,9 +214,8 @@ class Status(models.Model):
     )
     user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
 
-
     def __str__(self) -> str:
-        return f"{self.org_id.name} - {self.status_type.name}"
+        return f"{self.org_id.name} - {self.status_type}"
 
 
 class StatusEntityType(models.Model):
