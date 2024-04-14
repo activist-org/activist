@@ -10,13 +10,21 @@ from .models import (
     GroupTopic,
     Organization,
     OrganizationApplication,
-    OrganizationApplicationStatus,
     OrganizationEvent,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
+    Status,
+    StatusEntityType,
 )
+
+
+class StatusEntityTypeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = StatusEntityType
+
+    name = factory.Faker("word")
 
 
 class OrganizationFactory(factory.django.DjangoModelFactory):
@@ -29,13 +37,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     social_accounts = factory.List([factory.Faker("word") for _ in range(10)])
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     high_risk = factory.Faker("boolean")
-
-
-class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = OrganizationApplicationStatus
-
-    status_name = factory.Faker("word")
+    status = factory.SubFactory(StatusEntityTypeFactory)
 
 
 class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
@@ -43,7 +45,7 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
         model = OrganizationApplication
 
     org_id = factory.SubFactory(OrganizationFactory)
-    status = factory.SubFactory(OrganizationApplicationStatusFactory)
+    status = factory.SubFactory(StatusEntityTypeFactory)
     orgs_in_favor = factory.List([factory.Faker("word") for _ in range(10)])
     orgs_against = factory.List([factory.Faker("word") for _ in range(10)])
     creation_date = factory.LazyFunction(datetime.datetime.now)
@@ -139,3 +141,12 @@ class GroupTopicFactory(factory.django.DjangoModelFactory):
 
     group_id = factory.SubFactory(GroupFactory)
     topic_id = factory.SubFactory("content.factories.TopicFactory")
+
+
+class StatusFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Status
+
+    status_type = factory.SubFactory(StatusEntityTypeFactory)
+    org_id = factory.SubFactory(OrganizationFactory)
+    user_id = factory.SubFactory("authentication.factories.UserFactory")

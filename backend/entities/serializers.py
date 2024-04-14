@@ -7,9 +7,7 @@ from authentication.models import UserModel
 from content.models import Resource, Task, Topic
 from events.models import Event
 from utils.utils import (
-    validate_creation_and_deletion_dates,
     validate_empty,
-    validate_flags_number,
     validate_object_existence,
 )
 
@@ -21,35 +19,39 @@ from .models import (
     GroupTopic,
     Organization,
     OrganizationApplication,
-    OrganizationApplicationStatus,
     OrganizationEvent,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
     OrganizationTopic,
     Status,
-    StatusType,
+    StatusEntityType,
 )
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
-        exclude = ["deletion_date"]
         extra_kwargs = {
             "created_by": {"read_only": True},
             "social_accounts": {"required": False},
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
         }
-
-
-class OrganizationApplicationStatusSerializer(
-    serializers.ModelSerializer[OrganizationApplicationStatus]
-):
-    class Meta:
-        model = OrganizationApplicationStatus
-        fields = "__all__"
+        fields = [
+            "id",
+            "name",
+            "tagline",
+            "org_icon",
+            "about_images",
+            "created_by",
+            "description",
+            "social_accounts",
+            "high_risk",
+            "status",
+            "status_updated",
+            "acceptance_date",
+        ]
 
 
 class OrganizationApplicationSerializer(
@@ -122,14 +124,6 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     class Meta:
         model = Group
         fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_empty(data["name"], "name")
-        validate_empty(data["created_by"], "created_by")
-        validate_flags_number(data)
-        validate_creation_and_deletion_dates(data)
-
-        return data
 
 
 class OrganizationTaskSerializer(serializers.ModelSerializer[OrganizationTask]):
@@ -211,7 +205,7 @@ class StatusSerializer(serializers.ModelSerializer[Status]):
         fields = "__all__"
 
 
-class StatusTypeSerializer(serializers.ModelSerializer[StatusType]):
+class StatusEntityTypeSerializer(serializers.ModelSerializer[StatusEntityType]):
     class Meta:
-        model = StatusType
+        model = StatusEntityType
         fields = "__all__"

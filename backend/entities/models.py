@@ -23,8 +23,6 @@ from uuid import uuid4
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from backend.mixins.models import CreationDeletionMixin
-
 
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -46,29 +44,18 @@ class Organization(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     high_risk = models.BooleanField(default=False)
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
+    status = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE, default=1)
     status_updated = models.DateTimeField(auto_now=True, null=True)
-    acceptance_date = models.DateTimeField()
+    acceptance_date = models.DateTimeField(null=True, blank=True)
     deletion_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
 
 
-class OrganizationApplicationStatus(models.Model):
-    id = models.IntegerField(primary_key=True)
-    status_name = models.CharField(max_length=255)
-
-    def __str__(self) -> str:
-        return self.status_name
-
-
 class OrganizationApplication(models.Model):
-    id = models.IntegerField(primary_key=True)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    status = models.ForeignKey(
-        "OrganizationApplicationStatus", on_delete=models.CASCADE
-    )
+    status = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE, default=1)
     orgs_in_favor = ArrayField(
         models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
     )
@@ -77,7 +64,6 @@ class OrganizationApplication(models.Model):
     )
     creation_date = models.DateTimeField(auto_now_add=True)
     status_updated = models.DateTimeField(auto_now=True)
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
 
     def __str__(self) -> str:
         return f"{self.creation_date}"
@@ -110,7 +96,7 @@ class OrganizationResource(models.Model):
         return f"{self.id}"
 
 
-class Group(CreationDeletionMixin):
+class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -127,6 +113,7 @@ class Group(CreationDeletionMixin):
         models.CharField(max_length=255), default=list, blank=True
     )
     category = models.CharField(max_length=255)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.name
@@ -187,7 +174,7 @@ class GroupTopic(models.Model):
 
 
 class Status(models.Model):
-    status_type = models.ForeignKey("StatusType", on_delete=models.CASCADE)
+    status_type = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE)
     org_id = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="org_status"
     )
@@ -197,7 +184,7 @@ class Status(models.Model):
         return f"{self.org_id.name} - {self.status_type.name}"
 
 
-class StatusType(models.Model):
+class StatusEntityType(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
