@@ -1,10 +1,10 @@
 <template>
   <DropdownBase
     :location="location"
-    menuButtonAriaLabel="components.selector-language.open-dropdown-aria-label"
     menuButtonIcon="bi:globe"
     :menuButtonLabel="$i18n.locale"
     :isMenuButtonUppercase="true"
+    menuButtonAriaLabel="components.selector-language.open-dropdown-aria-label"
   >
     <ul class="px-2 py-2">
       <NuxtLink

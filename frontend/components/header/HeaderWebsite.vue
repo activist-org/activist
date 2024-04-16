@@ -8,7 +8,7 @@
       'invisible opacity-0': headerOpacity == 0,
     }"
   >
-    <!-- Note: mobile header -->
+    <!-- Note: Mobile header including SidebarRight. -->
     <div class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
         <div
@@ -32,7 +32,7 @@
         </div>
       </SidebarRight>
     </div>
-    <!-- Note: desktop header -->
+    <!-- Note: Desktop header. -->
     <div class="mx-auto hidden py-3 md:block">
       <div class="responsive-px-5 flex items-center justify-between">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">

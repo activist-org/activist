@@ -6,5 +6,6 @@
 defineProps<{
   stars: number;
   label: string;
+  iconSize?: string;
 }>();
 </script>

@@ -5,7 +5,6 @@
         v-if="organization && !expandText"
         :entityName="organization.name"
       />
-      <ModalQRCode v-if="event && !expandText" :entityName="event.name" />
       <button
         v-if="expandText"
         @click="
@@ -25,21 +24,6 @@
         </div>
         <div v-if="event" class="flex-col space-y-3">
           <ShieldTopic :topic="event.topic" />
-          <div class="flex items-center gap-3">
-            <MetaTagOrganization
-              :organizations="event.organizations"
-            ></MetaTagOrganization>
-          </div>
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-center md:gap-8">
-            <div class="flex items-center gap-2">
-              <Icon name="bx:bxs-map" size="1.2em" />
-              <p>{{ event.inPersonLocation }}</p>
-            </div>
-            <div class="flex items-center gap-3">
-              <Icon name="bi:calendar-plus" size="1.2em" />
-              <p>{{ event.date }}</p>
-            </div>
-          </div>
           <div>
             <p
               ref="description"
@@ -78,14 +62,11 @@
         <div v-if="organization" class="flex-col space-y-3">
           <ShieldTopic :topic="organization.topic" />
           <div class="flex items-center gap-3">
-            <div class="flex items-center gap-2">
-              <Icon name="bx:bxs-map" size="1.2em" />
-              <p>{{ organization.location }}</p>
-            </div>
-            <div class="flex items-center gap-2">
-              <Icon name="bi:people" size="1.2em" />
-              <p>{{ organization.members }}</p>
-            </div>
+            <MetaTagLocation :location="organization.location" />
+            <MetaTagMembers
+              :members="organization.members"
+              :label="$t('components._global.members_lower')"
+            />
           </div>
           <div>
             <p

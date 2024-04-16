@@ -26,7 +26,7 @@
           label="components.btn-route-internal.join-organization"
           fontSize="sm"
           rightIcon="bi:arrow-right"
-          iconSize="1.25em"
+          iconSize="1.45em"
           ariaLabel="components.btn-route-internal.join-organization-aria-label"
         />
       </div>
@@ -37,7 +37,10 @@
           {{ $t("components.card-get-involved.working-groups-subtext") }}
           {{ organization.name }}:
         </p>
-        <Feed :feedItemURLs="organization.workingGroups" />
+        <Feed
+          :feedItemNames="organization.workingGroups"
+          :feedItemURLs="organization.workingGroups"
+        />
       </div>
       <div v-else>
         <p>
@@ -62,7 +65,7 @@
           label="components.btn-route-internal.offer-to-help"
           fontSize="sm"
           rightIcon="bi:arrow-right"
-          iconSize="1.25em"
+          iconSize="1.45em"
           ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
       </div>

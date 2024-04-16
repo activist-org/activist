@@ -1,10 +1,10 @@
 <template>
   <DropdownBase
     :location="location"
-    menuButtonAriaLabel="components.sidebar-left-footer.create-aria-label"
     menuButtonIcon="bi:plus-circle"
     :menuButtonLabel="$t(`components.sidebar-left-footer.create`)"
     :isMenuButtonUppercase="false"
+    menuButtonAriaLabel="components.sidebar-left-footer.create-aria-label"
   >
     <DropdownItemsLayout :location="location" :options="createOpt" />
   </DropdownBase>

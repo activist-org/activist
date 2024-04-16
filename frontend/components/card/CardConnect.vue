@@ -68,6 +68,7 @@
               label="components.btn-action.new-account"
               fontSize="sm"
               leftIcon="bi:plus-lg"
+              iconSize="1.35em"
               ariaLabel="components._global.new-account-aria-label"
             />
           </PopoverButton>
@@ -87,6 +88,11 @@
                 :fieldNamePrompt="
                   $t(
                     'components.card-connect.app-account-popup-field-name-prompt'
+                  )
+                "
+                :fieldLabelPrompt="
+                  $t(
+                    'components.card-connect.app-account-popup-field-label-prompt'
                   )
                 "
                 :ctaBtnLabel="

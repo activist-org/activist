@@ -20,7 +20,7 @@
         >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.name-label") }}*</label
+              >{{ $t("pages.resources.create.title") }}*</label
             >
             <input
               v-model="formData.name"
@@ -62,7 +62,7 @@
         <div class="card-style mx-14 mt-5 flex w-full">
           <div class="flex-1 px-5 py-6">
             <label for="location" class="responsive-h3 block font-medium">
-              {{ $t("pages._global.location") }}*
+              {{ $t("pages._global.location") }}
             </label>
             <textarea
               v-model="formData.location"
@@ -88,7 +88,7 @@
           </div>
         </div>
         <CardTopicSelection class="mt-5" />
-        <div class="mx-14 mt-5 flex w-full flex-col">
+        <div class="mx-14 flex w-full flex-col">
           <div class="my-5">
             <BtnAction
               type="submit"

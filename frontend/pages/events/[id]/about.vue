@@ -14,7 +14,7 @@
           label="components.btn-route-internal.offer-to-help"
           fontSize="sm"
           rightIcon="bi:arrow-right"
-          iconSize="1.25em"
+          iconSize="1.45em"
           ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
         <BtnAction
@@ -23,15 +23,16 @@
           label="components.btn-action.support"
           fontSize="sm"
           leftIcon="IconSupport"
-          iconSize="1.25em"
+          iconSize="1.45em"
           :counter="event.supporters"
+          :hideLabelOnMobile="true"
           ariaLabel="components.btn-action.support-event-aria-label"
         />
         <ModalSharePage
           :cta="true"
           label="components._global.share-event"
-          ariaLabel="components._global.share-event-aria-label"
           :event="event"
+          ariaLabel="components._global.share-event-aria-label"
         />
       </div>
     </HeaderAppPage>
@@ -42,7 +43,7 @@
           'lg:mr-6 lg:space-x-6': !textExpanded,
         }"
       >
-        <CardAbout
+        <CardDetails
           @expand-reduce-text="expandReduceText"
           class="mb-6 lg:mb-0"
           :class="{
@@ -63,6 +64,7 @@
           :eventLocations="[event.inPersonLocation]"
         />
       </div>
+      <CardAbout aboutType="event" :event="event" />
       <CardGetInvolved
         :event="event"
         disclaimer="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
@@ -109,6 +111,7 @@ const event: Event = {
     "Aute aliqua reprehenderit ex ut commodo nostrud et excepteur. Sunt amet velit sunt fugiat et excepteur dolore pariatur nisi non. Exercitation aute aute culpa commodo commodo ea Lorem aliquip id duis. Laboris nostrud ullamco ea voluptate et anim id adipisicing sint reprehenderit incididunt elit. Est fugiat pariatur elit culpa in incididunt eu esse cupidatat minim. Deserunt duis culpa minim Lorem consectetur quis fugiat ipsum nostrud voluptate veniam do. Reprehenderit duis officia in enim anim elit.",
   getInvolvedDescription:
     "Sint cillum excepteur sint cupidatat do consectetur excepteur nisi veniam. Sint id in sit eiusmod Lorem commodo minim culpa id cupidatat consectetur. Labore nisi est officia sunt occaecat.",
+  attending: 10000,
   inPersonLocation: "Brandenburg Gate, Berlin",
   date: new Date().toISOString().slice(0, 10),
   supporters: 30,
