@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="feedItemURLs"
+    v-if="feedItemURLs && feedItemNames"
     class="mt-3 flex items-center justify-start space-x-3"
   >
     <div
