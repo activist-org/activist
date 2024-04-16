@@ -5,10 +5,11 @@
         class="w-max"
         :cta="props.cta"
         :label="props.label"
-        :ariaLabel="props.ariaLabel"
         fontSize="sm"
         leftIcon="bi:box-arrow-up"
-        iconSize="1.25em"
+        iconSize="1.45em"
+        :hideLabelOnMobile="true"
+        :ariaLabel="props.ariaLabel"
       />
     </template>
     <template #modalDisplay>

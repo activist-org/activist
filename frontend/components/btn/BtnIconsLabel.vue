@@ -1,6 +1,12 @@
 <template>
-  <div class="flex items-center justify-center">
-    <Icon v-if="leftIcon" class="mr-2" :name="leftIcon" :size="iconSize" />
+  <div class="h-fill flex items-center justify-center">
+    <Icon
+      v-if="leftIcon"
+      class="mr-2"
+      :class="{ 'max-md:mr-0': hideLabelOnMobile }"
+      :name="leftIcon"
+      :size="iconSize"
+    />
     <span
       v-if="label"
       class="mx-auto"

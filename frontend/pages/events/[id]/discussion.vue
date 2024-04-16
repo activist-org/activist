@@ -15,8 +15,8 @@
         <ModalSharePage
           :cta="true"
           label="components._global.share-event"
-          ariaLabel="components._global.share-event-aria-label"
           :event="event"
+          ariaLabel="components._global.share-event-aria-label"
         />
       </div>
     </HeaderAppPage>

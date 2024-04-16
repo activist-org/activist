@@ -25,6 +25,14 @@
       type="text"
       :placeholder="fieldNamePrompt"
     />
+    <input
+      v-model="inputValue"
+      ref="input"
+      id="popup-input"
+      class="focus-brand h-8 w-52 rounded-sm border border-light-text bg-transparent p-2 dark:border-dark-text"
+      type="text"
+      :placeholder="fieldLabelPrompt"
+    />
     <label for="popup-textarea" class="sr-only"> {{ descriptionPrompt }}</label>
     <textarea
       v-if="descriptionPrompt"
@@ -48,6 +56,7 @@
         :label="ctaBtnLabel"
         fontSize="sm"
         leftIcon="bi:plus-lg"
+        iconSize="1.35em"
         :ariaLabel="ctaBtnAriaLabel"
       />
     </div>
@@ -58,6 +67,7 @@
 defineProps<{
   title: string;
   fieldNamePrompt: string;
+  fieldLabelPrompt?: string;
   descriptionPrompt?: string;
   ctaBtnLabel: string;
   ctaBtnAriaLabel: string;

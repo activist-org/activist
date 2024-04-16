@@ -36,8 +36,8 @@
         fontSize="sm"
         leftIcon="bi:arrow-up"
         iconSize="1.25em"
-        ariaLabel="components.btn-action.upvote-application-aria-label"
         :disabled="isVotingDisabled"
+        ariaLabel="components.btn-action.upvote-application-aria-label"
       />
       <BtnAction
         @click="$emit('down-vote')"
@@ -47,8 +47,8 @@
         fontSize="sm"
         leftIcon="bi:arrow-down"
         iconSize="1.25em"
-        ariaLabel="components.btn-action.downvote-application-aria-label"
         :disabled="isVotingDisabled"
+        ariaLabel="components.btn-action.downvote-application-aria-label"
       />
     </div>
   </div>

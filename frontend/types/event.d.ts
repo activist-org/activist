@@ -6,6 +6,7 @@ export interface Event {
   topic: string;
   description: string;
   getInvolvedDescription: string;
+  attending?: number;
   inPersonLocation?: string;
   onlineLocation?: string;
   date: datetime;

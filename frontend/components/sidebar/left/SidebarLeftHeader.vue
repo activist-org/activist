@@ -44,7 +44,7 @@
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')
           "
         >
-          <SidebarToggle chevronDirection="right" iconSize="1.4em" />
+          <SidebarLeftToggle chevronDirection="right" iconSize="1.4em" />
         </button>
       </div>
     </div>

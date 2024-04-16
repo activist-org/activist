@@ -1,10 +1,10 @@
 <template>
   <DropdownBase
     :location="location"
-    menuButtonAriaLabel="components.selector-theme.open-dropdown-aria-label"
     :menuButtonIcon="menuButtonIcon"
     :menuButtonLabel="$t(`components.selector-theme.label`)"
     :isMenuButtonUppercase="false"
+    menuButtonAriaLabel="components.selector-theme.open-dropdown-aria-label"
   >
     <div class="px-2 py-2">
       <MenuItem
@@ -16,9 +16,9 @@
           :isButton="true"
           :handlerClick="() => handlerClick(opt.optColorMode)"
           :iconName="opt.iconName"
-          :ariaLabel="opt.ariaLabel"
           :label="$t(`${opt.label}`)"
           :active="active"
+          :ariaLabel="opt.ariaLabel"
         />
       </MenuItem>
     </div>

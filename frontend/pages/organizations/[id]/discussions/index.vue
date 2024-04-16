@@ -29,8 +29,8 @@
         <ModalSharePage
           :cta="true"
           label="components._global.share-organization"
-          ariaLabel="components._global.share-organization-aria-label"
           :organization="organization"
+          ariaLabel="components._global.share-organization-aria-label"
         />
       </div>
     </HeaderAppPage>

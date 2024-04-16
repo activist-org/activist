@@ -93,7 +93,7 @@
                   'text-light-text dark:text-dark-text': nameValidated,
                 }"
                 for="name"
-                >{{ $t("pages._global.name-label") }}
+                >{{ $t("pages.help.contact.name") }}
                 <span v-if="!nameValidated">{{
                   $t("pages.help.contact.error-empty")
                 }}</span></label

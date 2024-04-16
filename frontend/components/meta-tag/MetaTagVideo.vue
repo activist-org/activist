@@ -6,5 +6,6 @@
 defineProps<{
   link: string;
   label: string;
+  iconSize?: string;
 }>();
 </script>

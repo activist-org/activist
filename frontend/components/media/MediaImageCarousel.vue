@@ -1,6 +1,6 @@
 <template>
   <swiper-container
-    class="swiper card-style h-full w-full overflow-clip"
+    class="swiper card-style h-full w-full cursor-pointer overflow-clip"
     :slidesPerView="1"
     :spaceBetween="0"
     :loop="true"
