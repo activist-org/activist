@@ -21,7 +21,6 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text")
     topics = factory.List([factory.Faker("word") for _ in range(5)])
     url = factory.Faker("url")
-    total_flags = factory.Faker("random_int", min=0, max=100)
     private = factory.Faker("boolean")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(datetime.datetime.now)
