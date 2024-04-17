@@ -27,11 +27,6 @@ charset-normalizer==3.3.2
     #   requests
 click==8.1.7
     # via pip-tools
-colorama==0.4.6
-    # via
-    #   build
-    #   click
-    #   pytest
 coverage[toml]==7.4.4
     # via pytest-cov
 distlib==0.3.8
@@ -68,7 +63,7 @@ faker==24.7.1
     # via factory-boy
 filelock==3.13.3
     # via virtualenv
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements.txt
 identify==2.5.35
     # via pre-commit
@@ -182,10 +177,6 @@ typing-extensions==4.8.0
     #   django-stubs-ext
     #   djangorestframework-stubs
     #   mypy
-tzdata==2024.1
-    # via
-    #   -r requirements.txt
-    #   django
 uritemplate==4.1.1
     # via
     #   -r requirements.txt
