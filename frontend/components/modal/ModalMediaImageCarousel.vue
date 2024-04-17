@@ -4,9 +4,9 @@
     <ModalBase>
       <template #normalDisplay>
         <button
-          class="focus-brand absolute right-2 top-2 z-10 rounded-lg border border-white/80 bg-black/80 p-1 text-white/80 hover:bg-black"
+          class="focus-brand absolute right-2 top-2 z-10 hidden rounded-lg border border-white/80 bg-black/80 p-1 text-white/80 hover:bg-black md:block"
         >
-          <Icon class="" name="bi:fullscreen" size="1.5em" />
+          <Icon name="bi:fullscreen" size="1.5em" />
         </button>
       </template>
       <template #modalDisplay>

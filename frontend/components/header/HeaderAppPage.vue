@@ -6,31 +6,42 @@
   />
   <div
     v-if="underDevelopment"
-    class="mt-3 flex w-full flex-wrap rounded-md border border-light-text bg-light-warn-yellow/40 py-1 pl-4 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow lg:flex-row"
+    class="mt-3 flex w-full flex-wrap rounded-md border border-light-text bg-light-warn-yellow/40 px-3 py-1 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow lg:flex-row"
   >
-    <div class="flex flex-col md:flex-row">
-      <p>
-        🚧&nbsp;&nbsp;{{
-          $t("components.header-app-page.under-development-1")
-        }}&nbsp;
-      </p>
-      <p class="flex">
-        {{ $t("components.header-app-page.under-development-2") }}&nbsp;
-        <a
-          class="focus-brand link-text flex items-center space-x-1"
-          href="https://github.com/activist-org/activist"
-          target="_blank"
-        >
-          <p>{{ $t("components._global.github") }}</p>
-          <Icon
-            class="mb-1"
-            name="bi:box-arrow-up-right"
-            size="1em"
-            style="vertical-align: baseline"
-          />
-        </a>
-        &nbsp;{{ $t("components.header-app-page.under-development-3") }}
-      </p>
+    <div class="flex space-x-3">
+      <p>🚧</p>
+      <div class="flex flex-col space-y-1">
+        <p>{{ $t("components.header-app-page.under-development") }}</p>
+        <div class="flex space-x-3">
+          <a
+            class="focus-brand link-text flex items-center space-x-1"
+            href="https://github.com/activist-org/activist"
+            target="_blank"
+          >
+            <p>{{ $t("components._global.github") }}</p>
+            <Icon
+              class="mb-1"
+              name="bi:box-arrow-up-right"
+              size="1em"
+              style="vertical-align: baseline"
+            />
+          </a>
+          <p>•</p>
+          <a
+            class="focus-brand link-text flex items-center space-x-1"
+            href="https://matrix.to/#/#activist_community:matrix.org"
+            target="_blank"
+          >
+            <p>{{ $t("components._global.matrix") }}</p>
+            <Icon
+              class="mb-1"
+              name="bi:box-arrow-up-right"
+              size="1em"
+              style="vertical-align: baseline"
+            />
+          </a>
+        </div>
+      </div>
     </div>
   </div>
   <div class="flex items-baseline gap-2 md:gap-4">
