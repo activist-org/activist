@@ -65,7 +65,7 @@ faker==24.7.1
     # via factory-boy
 filelock==3.13.3
     # via virtualenv
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements.txt
 identify==2.5.35
     # via pre-commit

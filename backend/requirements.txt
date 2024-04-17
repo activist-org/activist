@@ -40,7 +40,7 @@ djangorestframework-stubs==3.14.4
     # via -r requirements.in
 drf-spectacular==0.26.5
     # via -r requirements.in
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements.in
 idna==3.7
     # via requests
