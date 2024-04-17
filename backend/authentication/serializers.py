@@ -1,4 +1,3 @@
-import logging
 import re
 from typing import Any, Dict, Union
 
@@ -7,11 +6,8 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
-from content.models import Resource, Task, Topic
 from utils.utils import (
     validate_creation_and_deletion_dates,
-    validate_empty,
-    validate_object_existence,
 )
 
 from .models import (
@@ -24,7 +20,6 @@ from .models import (
 )
 
 USER = get_user_model()
-logger = logging.getLogger(__name__)
 
 
 class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
@@ -33,8 +28,6 @@ class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        validate_empty(data["name"], "name")
-
         if len(data["name"]) < 3:
             raise serializers.ValidationError(
                 _("The field name must be at least 3 characters long."),
@@ -66,9 +59,6 @@ class UserSerializer(serializers.ModelSerializer[UserModel]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        validate_empty(data["password"], "password")
-        validate_empty(data["user_name"], "user_name")
-
         pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
 
         if not re.match(pattern, data["password"]):
@@ -90,35 +80,17 @@ class UserResourceSerializer(serializers.ModelSerializer[UserResource]):
         model = UserResource
         fields = "__all__"
 
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(UserModel, data["user_id"])
-        validate_object_existence(Resource, data["resource_id"])
-
-        return data
-
 
 class UserTaskSerializer(serializers.ModelSerializer[UserTask]):
     class Meta:
         model = UserTask
         fields = "__all__"
 
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(UserModel, data["user_id"])
-        validate_object_existence(Task, data["task_id"])
-
-        return data
-
 
 class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
     class Meta:
         model = UserTopic
         fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_object_existence(UserModel, data["user_id"])
-        validate_object_existence(Topic, data["topic_id"])
-
-        return data
 
 
 class SignupSerializer(serializers.ModelSerializer[User]):
@@ -132,11 +104,7 @@ class SignupSerializer(serializers.ModelSerializer[User]):
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
 
-        logger.error(data["password"])
-        logger.error(re.match(pattern, data["password"]))
-
         if not re.match(pattern, data["password"]):
-            logger.error("Password does not meet the requirements.")
             raise serializers.ValidationError(
                 _(
                     "The field password must be at least 12 characters long and contain at least one special character."

@@ -32,9 +32,7 @@ class Discussion(models.Model):
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
     group_id = models.ForeignKey("entities.Group", on_delete=models.CASCADE)
-    # movement_id = models.ForeignKey("entities.Movement", on_delete=models.CASCADE)  # To be created
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
-    # vote_id = models.ForeignKey("events.Vote", on_delete=models.CASCADE)  # To be created
     category = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(null=True, blank=True)
@@ -138,12 +136,12 @@ class TopicFormat(models.Model):
         return f"{self.id}"
 
 
-# class DiscussionTag(models.Model):
-#     discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
-#     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
+class DiscussionTag(models.Model):
+    discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
-#     def __str__(self) -> str:
-#         return f"{self.id}"
+    def __str__(self) -> str:
+        return f"{self.id}"
 
 
 class Image(models.Model):
