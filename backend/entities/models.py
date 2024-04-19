@@ -206,12 +206,6 @@ class Status(models.Model):
     org_id = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="org_status"
     )
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
-
-    status_type = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE)
-    org_id = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, related_name="org_status"
-    )
     user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
