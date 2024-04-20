@@ -99,7 +99,9 @@ class SignupSerializer(serializers.ModelSerializer[User]):
     class Meta:
         model = USER
         fields = ("username", "password", "password_confirmed", "email")
-        extra_kwargs = {"password": {"write_only": True}}
+        extra_kwargs = {
+            "password": {"write_only": True},
+        }
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
@@ -123,9 +125,10 @@ class SignupSerializer(serializers.ModelSerializer[User]):
     def create(self, validated_data: Dict[str, Union[str, Any]]) -> User:
         validated_data.pop("password_confirmed")
 
-        user = UserModel.objects.create(
+        user = UserModel.objects.create_user(
             username=validated_data["username"],
             password=validated_data["password"],
+            email=validated_data["email"],
         )
         user.save()
 

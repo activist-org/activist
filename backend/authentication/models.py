@@ -101,6 +101,7 @@ class UserModel(AbstractUser, PermissionsMixin, CreationDeletionMixin):
         "authentication.UserModel", on_delete=models.SET_NULL, null=True
     )
     user_icon = models.ForeignKey("content.Image", on_delete=models.SET_NULL, null=True)
+    email = models.EmailField(unique=True)
     social_accounts = ArrayField(
         models.CharField(max_length=255), blank=True, null=True
     )
