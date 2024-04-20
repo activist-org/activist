@@ -309,8 +309,10 @@ const content = ref();
 const sidebarContentScrollable = ref(false);
 
 function setSidebarContentScrollable(): void {
-  sidebarContentScrollable.value =
-    content.value.scrollHeight > content.value.clientHeight ? true : false;
+  setTimeout(() => {
+    sidebarContentScrollable.value =
+      content.value.scrollHeight > content.value.clientHeight ? true : false;
+  }, 50);
 }
 
 const sidebarWrapper = ref<HTMLElement | null>(null);
