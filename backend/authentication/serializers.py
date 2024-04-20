@@ -122,7 +122,7 @@ class SignupSerializer(serializers.ModelSerializer[User]):
 
         return data
 
-    def create(self, validated_data: Dict[str, Union[str, Any]]) -> Any:
+    def create(self, validated_data: Dict[str, Union[str, Any]]) -> User:
         validated_data.pop("password_confirmed")
 
         user = UserModel.objects.create_user(
