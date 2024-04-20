@@ -32,18 +32,20 @@ class SupportFactory(factory.django.DjangoModelFactory):
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = UserModel
+        exclude = ("plaintext_password",)
 
     username = factory.Faker("user_name")
     name = factory.Faker("name")
-    password = factory.Faker("password")
     description = factory.Faker("text", max_nb_chars=500)
     verified = factory.Faker("boolean")
     verification_method = factory.Faker("word")
+    email = factory.Faker("email")
     social_accounts = factory.List([factory.Faker("user_name") for _ in range(3)])
     private = factory.Faker("boolean")
     high_risk = factory.Faker("boolean")
     creation_date = factory.Faker("date_time_this_decade", before_now=True)
     deletion_date = factory.Faker("date_time_this_decade", before_now=False)
+    plaintext_password = factory.PostGenerationMethodCall("set_password", "password")
 
     # Workaround for the build method
     # Does not work with the create method at the moment

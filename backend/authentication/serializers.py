@@ -1,7 +1,7 @@
 import re
 from typing import Any, Dict, Union
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 from rest_framework import serializers
@@ -130,3 +130,31 @@ class SignupSerializer(serializers.ModelSerializer[User]):
         user.save()
 
         return user
+
+
+class LoginSerializer(serializers.Serializer[UserModel]):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+        username = UserModel.objects.filter(email=data.get("email")).first()
+
+        if username is None:
+            raise serializers.ValidationError(
+                _("Invalid credentials. Please try again."),
+                code="invalid_credentials",
+            )
+
+        user = authenticate(
+            username=username,
+            password=data.get("password"),
+        )
+
+        if user is None:
+            raise serializers.ValidationError(
+                _("Invalid credentials. Please try again."),
+                code="invalid_credentials",
+            )
+
+        data["user"] = user
+        return data
