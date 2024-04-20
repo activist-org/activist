@@ -9,12 +9,14 @@
     class="mt-3 w-full rounded-md border border-light-text bg-light-warn-yellow/40 px-3 py-1 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow"
   >
     <p class="flex flex-wrap">
-      🚧&nbsp;&nbsp;{{ $t("components.header-app-page.under-development-1")
-      }}<a
+      🚧&nbsp;&nbsp;{{
+        $t("components.header-app-page.under-development-1")
+      }}
+      &nbsp;<a
         class="focus-brand link-text"
         href="https://github.com/activist-org/activist"
         target="_blank"
-        >&nbsp;{{ $t("components._global.github") }}</a
+        >{{ $t("components._global.github") }}</a
       >&nbsp;{{ $t("components.header-app-page.under-development-2") }}&nbsp;
       <a
         class="focus-brand link-text"
