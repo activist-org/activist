@@ -153,3 +153,7 @@ class Image(models.Model):
 
     def __str__(self) -> str:
         return f"{self.id}"
+
+
+class IsoCodeMap(models.Model):
+    code = models.CharField(max_length=2)

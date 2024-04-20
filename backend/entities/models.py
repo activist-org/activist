@@ -157,6 +157,15 @@ class OrganizationTopic(models.Model):
         return f"{self.id}"
 
 
+class OrganizationText(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    iso = models.ForeignKey("content.IsoCodeMap", on_delete=models.CASCADE)
+    primary = models.BooleanField(default=False)
+    description = models.TextField(max_length=500)
+    get_involved = models.TextField(max_length=500)
+    donate = models.TextField(max_length=500)
+
+
 class GroupEvent(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
@@ -199,6 +208,14 @@ class GroupTopic(models.Model):
 
     def __str__(self) -> str:
         return f"{self.id}"
+
+
+class GroupText(models.Model):
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    iso = models.ForeignKey("content.IsoCodeMap", on_delete=models.CASCADE)
+    primary = models.BooleanField(default=False)
+    description = models.TextField(max_length=500)
+    get_involved = models.TextField(max_length=500)
 
 
 class Status(models.Model):
