@@ -12,25 +12,15 @@
       🚧&nbsp;&nbsp;{{
         $t("components.header-app-page.under-development-1")
       }}&nbsp;<a
-        class="focus-brand link-text flex items-center space-x-1"
+        class="focus-brand link-text"
         href="https://github.com/activist-org/activist"
         target="_blank"
-        ><p>{{ $t("components._global.github") }}</p>
-        <Icon
-          class="mb-1"
-          name="bi:box-arrow-up-right"
-          size="1em"
-          style="vertical-align: baseline" /></a
+        >{{ $t("components._global.github") }}</a
       >&nbsp;{{ $t("components.header-app-page.under-development-2") }}&nbsp;<a
-        class="focus-brand link-text flex items-center space-x-1"
+        class="focus-brand link-text"
         href="https://matrix.to/#/#activist_community:matrix.org"
         target="_blank"
-        ><p>{{ $t("components._global.matrix") }}</p>
-        <Icon
-          class="mb-1"
-          name="bi:box-arrow-up-right"
-          size="1em"
-          style="vertical-align: baseline" /></a
+        >{{ $t("components._global.matrix") }}</a
       >&nbsp;{{ $t("components.header-app-page.under-development-3") }}
     </p>
   </div>
