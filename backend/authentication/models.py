@@ -78,7 +78,7 @@ class CustomAccountManager(BaseUserManager[User]):
         username: str,
         password: str,
         **other_fields: bool,
-    ) -> Any:
+    ) -> User:
         if not email:
             raise ValueError(("You must provide an email address"))
 
