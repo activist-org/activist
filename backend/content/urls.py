@@ -19,4 +19,5 @@ router.register(r"faq", views.FaqViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("iso_codes/", views.IsoCodeMapListAPIView.as_view(), name="iso_codes"),
 ]
