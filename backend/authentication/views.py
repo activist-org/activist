@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.models import User
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -19,6 +19,7 @@ from .models import (
     UserTopic,
 )
 from .serializers import (
+    LoginSerializer,
     SignupSerializer,
     SupportEntityTypeSerializer,
     SupportSerializer,
@@ -80,6 +81,22 @@ class SignupView(APIView):
         return Response(
             {"message": "User was created successful"},
             status=status.HTTP_201_CREATED,
+        )
+
+
+class LoginView(APIView):
+    serializer_class = LoginSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request: Request) -> Response:
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        login(request, serializer.validated_data.get("user"))
+
+        return Response(
+            {"message": "User was logged in successful"},
+            status=status.HTTP_200_OK,
         )
 
 
