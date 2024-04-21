@@ -18,6 +18,7 @@
     "@nuxtjs/i18n": "^8.3.0",
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@pinia/nuxt": "^0.5.1",
+    "@playwright/test": "^1.43.1",
     "@types/node": "^20.12.5",
     "@types/uuid": "^9.0.8",
     "@types/zxcvbn": "^4.4.4",
@@ -37,6 +38,7 @@
     "vue-tsc": "^2.0.11"
   },
   "dependencies": {
+    "@axe-core/playwright": "^4.9.0",
     "@maplibre/maplibre-gl-directions": "^0.6.1",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/plausible": "^1.0.0",
