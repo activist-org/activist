@@ -35,20 +35,18 @@ def test_str_methods() -> None:
 
 @pytest.mark.django_db
 def test_signup(client: Client) -> None:
-    """Test the signup function.
+    """
+    Test the signup function.
 
     Scenarios:
-
     1. Password strength fails
     2. Password confirmation fails
     3. User is created successfully
-       - Check response status code
-       - Check if user exists in the DB
-       - Check if user password is hashed
-         (simple check if the password in the DB is the same as the raw password)
+        - Check response status code
+        - Check if user exists in the DB
+        - Check if user password is hashed
     4. User already exists / Username already exists
     5. Different User with the same email already exists
-
     """
     # Setup
     fake = Faker()
@@ -106,6 +104,7 @@ def test_signup(client: Client) -> None:
 
     assert response.status_code == 201
     assert UserModel.objects.filter(username=username).exists()
+    # Assert that the password within the dashboard is hashed and not the original string.
     assert UserModel.objects.get(username=username).password != strong_password
 
     # 4. User already exists
@@ -135,9 +134,10 @@ def test_signup(client: Client) -> None:
     assert response.status_code == 400
     assert not UserModel.objects.filter(username=second_username).exists()
 
-    
+
 def test_login(client: Client) -> None:
-    """Test login view.
+    """
+    Test login view.
 
     Scenarios:
     1. User is logged in successfully
@@ -168,4 +168,3 @@ def test_login(client: Client) -> None:
         data={"email": "unknown_user@example.com", "password": "Password@123!?"},
     )
     assert response.status_code == 400
-
