@@ -7,7 +7,7 @@
     @mouseleave="sidebarHover = false"
     @blur="sidebarHover = false"
   />
-  <div class="flex flex-col md:h-screen md:overflow-y-scroll">
+  <div class="flex flex-col overflow-x-hidden md:h-screen md:overflow-y-scroll">
     <div
       class="bg-light-layer-0 pt-8 transition-padding duration-500 dark:bg-dark-layer-0 md:pt-0"
       :class="{
