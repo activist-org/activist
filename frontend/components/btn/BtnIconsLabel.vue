@@ -1,7 +1,18 @@
 <template>
-  <div class="flex items-center justify-center">
-    <Icon v-if="leftIcon" class="mr-2" :name="leftIcon" :size="iconSize" />
-    <span v-if="label" class="mx-auto">{{ $t(label) }}</span>
+  <div class="h-fill flex items-center justify-center">
+    <Icon
+      v-if="leftIcon"
+      class="mr-2"
+      :class="{ 'max-md:mr-0': hideLabelOnMobile }"
+      :name="leftIcon"
+      :size="iconSize"
+    />
+    <span
+      v-if="label"
+      class="mx-auto"
+      :class="{ 'hidden md:block': hideLabelOnMobile }"
+      >{{ $t(label) }}</span
+    >
     <div v-else class="-mx-1"></div>
     <Icon v-if="rightIcon" class="ml-2" :name="rightIcon" :size="iconSize" />
     <div
@@ -20,5 +31,6 @@ defineProps<{
   rightIcon?: string;
   iconSize?: string;
   counter?: number;
+  hideLabelOnMobile?: boolean;
 }>();
 </script>

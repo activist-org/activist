@@ -5,7 +5,7 @@
     <div
       class="h-full transition-width duration-500 ease-in"
       :class="{
-        'bg-light-placeholder dark:bg-dark-placeholder': type === 'default',
+        'bg-light-distinct-text dark:bg-dark-distinct-text': type === 'default',
         'bg-light-action-red dark:bg-dark-action-red': type === 'action',
         'bg-light-learn-blue dark:bg-dark-learn-blue': type === 'learn',
       }"

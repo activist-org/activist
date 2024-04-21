@@ -7,3 +7,9 @@
     <slot></slot>
   </a>
 </template>
+
+<script setup lang="ts">
+defineProps<{
+  href: string;
+}>();
+</script>

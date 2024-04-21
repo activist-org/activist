@@ -5,5 +5,6 @@
 <script setup lang="ts">
 defineProps<{
   date: string;
+  iconSize?: string;
 }>();
 </script>

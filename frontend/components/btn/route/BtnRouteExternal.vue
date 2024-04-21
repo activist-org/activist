@@ -11,6 +11,7 @@
       :leftIcon="leftIcon"
       :rightIcon="rightIcon"
       :iconSize="iconSize"
+      :hideLabelOnMobile="hideLabelOnMobile"
     />
   </a>
 </template>

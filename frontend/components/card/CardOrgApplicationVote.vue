@@ -32,23 +32,23 @@
         @click="$emit('up-vote')"
         class="mr-5 flex"
         :cta="true"
-        :counter="`${upVotes}`"
+        :counter="upVotes"
         fontSize="sm"
         leftIcon="bi:arrow-up"
         iconSize="1.25em"
-        ariaLabel="components.btn-action.upvote-application-aria-label"
         :disabled="isVotingDisabled"
+        ariaLabel="components.btn-action.upvote-application-aria-label"
       />
       <BtnAction
         @click="$emit('down-vote')"
         class="flex"
         :cta="true"
-        :counter="`${downVotes}`"
+        :counter="downVotes"
         fontSize="sm"
         leftIcon="bi:arrow-down"
         iconSize="1.25em"
-        ariaLabel="components.btn-action.downvote-application-aria-label"
         :disabled="isVotingDisabled"
+        ariaLabel="components.btn-action.downvote-application-aria-label"
       />
     </div>
   </div>

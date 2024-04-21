@@ -41,7 +41,7 @@
           <p class="-mt-[0.075rem]">/</p>
         </div>
         <div
-          v-if="$device.isMacOS"
+          v-if="isMacOS"
           class="has-tooltip flex rounded-md bg-light-highlight px-2 py-[0.125rem] text-center text-sm text-light-distinct-text dark:bg-dark-highlight dark:text-dark-distinct-text"
         >
           <TooltipBase
@@ -73,7 +73,9 @@
       :name="expanded ? 'bi:x-lg' : 'bi:search'"
       size="1em"
     />
-    <label for="expanded-search-input">{{ $t("_global.search") }}</label>
+    <label for="expanded-search-input" class="hidden md:block">{{
+      $t("_global.search")
+    }}</label>
     <input
       v-if="expanded"
       id="expanded-search-input"
@@ -93,6 +95,8 @@ export interface Props {
   location: SearchBarLocation;
   expanded?: boolean;
 }
+
+const { isMacOS } = useDevice();
 
 withDefaults(defineProps<Props>(), {
   expanded: false,

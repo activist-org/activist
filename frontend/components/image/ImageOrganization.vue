@@ -6,7 +6,7 @@
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
-      class="flex h-full w-full items-center justify-center rounded-r-md border bg-light-placeholder text-light-layer-1 dark:bg-dark-placeholder dark:text-dark-layer-1"
+      class="flex h-full w-full items-center justify-center rounded-r-md border bg-light-distinct-text text-light-layer-1 dark:bg-dark-distinct-text dark:text-dark-layer-1"
     >
       <Icon class="mb-1" name="bi:people" />
     </div>

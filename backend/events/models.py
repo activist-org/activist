@@ -37,7 +37,9 @@ class Event(CreationDeletionMixin):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     created_by = models.ForeignKey(
-        "authentication.User", related_name="created_events", on_delete=models.CASCADE
+        "authentication.UserModel",
+        related_name="created_events",
+        on_delete=models.CASCADE,
     )
     event_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
@@ -74,7 +76,7 @@ class Role(models.Model):
 
 class EventAttendee(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     role_id = models.ForeignKey("Role", on_delete=models.CASCADE, null=True, blank=True)
     attendee_status = models.ForeignKey(
         "EventAttendeeStatus", on_delete=models.CASCADE, default=1

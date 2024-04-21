@@ -1,10 +1,25 @@
 <template>
-  <MetaTag iconName="bi:people" :value="String(members)" :label="label" />
+  <MetaTag
+    iconName="bi:people"
+    :value="`${categorizeNumber(members)}`"
+    :label="label"
+  />
 </template>
 
 <script setup lang="ts">
 defineProps<{
   members: number;
-  label: string;
+  label?: string;
+  iconSize?: string;
 }>();
+
+function categorizeNumber(num: number): string {
+  if (num < 10) {
+    return "<10";
+  } else {
+    const lowerBound = Math.floor(num / 10) * 10;
+    const upperBound = lowerBound + 10;
+    return `${lowerBound}-${upperBound}`;
+  }
+}
 </script>

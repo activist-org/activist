@@ -2,7 +2,14 @@ from typing import Any
 
 import factory
 
-from .models import Support, SupportEntityType, User, UserResource, UserTask, UserTopic
+from .models import (
+    Support,
+    SupportEntityType,
+    UserModel,
+    UserResource,
+    UserTask,
+    UserTopic,
+)
 
 
 class SupportEntityTypeFactory(factory.django.DjangoModelFactory):
@@ -24,9 +31,9 @@ class SupportFactory(factory.django.DjangoModelFactory):
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = User
+        model = UserModel
 
-    user_name = factory.Faker("user_name")
+    username = factory.Faker("user_name")
     name = factory.Faker("name")
     password = factory.Faker("password")
     description = factory.Faker("text", max_nb_chars=500)

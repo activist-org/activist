@@ -87,7 +87,7 @@
         <textarea
           id="message"
           rows="4"
-          class="focus-brand block w-full rounded-lg border border-light-action-red bg-light-layer-0 p-2.5 text-sm placeholder:text-light-action-red focus:border-none dark:border-dark-action-red dark:bg-dark-layer-0 dark:text-dark-text dark:placeholder:text-dark-action-red"
+          class="focus-brand block w-full rounded-lg border border-light-action-red bg-light-layer-0 p-2.5 text-sm placeholder-light-action-red focus:border-none dark:border-dark-action-red dark:bg-dark-layer-0 dark:text-dark-text dark:placeholder-dark-action-red"
           :placeholder="
             $t('components.card-discussion-input.leave-comment-highRisk')
           "
@@ -143,12 +143,15 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { DiscussionInput } from "~/types/card-discussion-input";
 const showTooltip = ref(false);
+
 defineProps<{
   discussionInput: DiscussionInput;
 }>();
+
 const at = () => {
   console.log("click on at");
 };

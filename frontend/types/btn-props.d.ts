@@ -4,6 +4,7 @@ export interface BtnBase {
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   iconSize?: string;
   ariaLabel: string;
+  hideLabelOnMobile?: boolean;
 }
 
 withDefaults(defineProps<BtnBase>(), {

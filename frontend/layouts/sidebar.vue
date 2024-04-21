@@ -9,12 +9,19 @@
   />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
     <div
-      class="bg-light-layer-0 transition-padding duration-500 dark:bg-dark-layer-0"
+      class="bg-light-layer-0 pt-8 transition-padding duration-500 dark:bg-dark-layer-0 md:pt-0"
       :class="{
         'md:pl-16 xl:pl-56':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
         'md:pl-16 xl:pl-16':
           sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        // 'md:pl-20 xl:pl-60':
+        //   (sidebar.collapsed == false || sidebar.collapsedSwitch == false) &&
+        //   sidebarContentScrollable,
+        // 'md:pl-20 xl:pl-20':
+        //   sidebar.collapsed == true &&
+        //   sidebar.collapsedSwitch == true &&
+        //   sidebarContentScrollable,
         'blur-sm xl:blur-none':
           sidebar.collapsedSwitch == true &&
           sidebar.collapsed == false &&

@@ -1,7 +1,6 @@
 <template>
   <div class="relative flex flex-row items-center justify-start">
     <input
-      @keydown="tabToFirstTopic($event)"
       :id="uuid"
       class="bg-light-button dark:bg-dark-button focus-brand peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-light-menu-selection dark:border-dark-menu-selection"
       type="checkbox"

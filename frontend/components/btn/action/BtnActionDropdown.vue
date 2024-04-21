@@ -8,7 +8,12 @@
       :class="btnDynamicClass"
       :aria-label="$t(ariaLabel)"
     >
-      <BtnIconsLabel :label="label" :leftIcon="leftIcon" :iconSize="iconSize" />
+      <BtnIconsLabel
+        :label="label"
+        :leftIcon="leftIcon"
+        :iconSize="iconSize"
+        :hideLabelOnMobile="hideLabelOnMobile"
+      />
     </button>
     <Menu>
       <MenuButton

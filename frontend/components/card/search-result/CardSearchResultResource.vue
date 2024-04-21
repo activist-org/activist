@@ -6,7 +6,10 @@
       >
         <img
           v-if="resource.imageURL"
-          :class="recued ? 'h-[150px] w-[150px]' : 'h-[200px] w-[200px]'"
+          :class="{
+            'h-[150px] w-[150px]': reduced,
+            'h-[200px] w-[200px]': !reduced,
+          }"
           :src="resource.imageURL"
           :alt="
             $t('components.card-search-result-resource.img-alt-text') +
@@ -43,17 +46,20 @@
             search-result-type="resource"
           />
         </div>
-        <div class="hidden items-center space-x-3 md:flex lg:space-x-5">
-          <MetaTagLocation :location="resource?.relatedLocation" />
+        <div
+          v-if="resource.relatedLocation"
+          class="hidden items-center space-x-3 md:flex lg:space-x-5"
+        >
+          <MetaTagLocation :location="resource.relatedLocation" />
           <MetaTagDate :date="resource.creationDate.toLocaleDateString()" />
         </div>
       </div>
-      <div class="flex justify-center md:justify-start">
-        <ShieldTopic v-if="!reduced" :topic="resource.topic" />
-      </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
-        <div class="flex items-center justify-center space-x-4 md:hidden">
-          <MetaTagLocation :location="resource?.relatedLocation" />
+        <div
+          v-if="resource.relatedLocation"
+          class="flex items-center justify-center space-x-4 md:hidden"
+        >
+          <MetaTagLocation :location="resource.relatedLocation" />
           <MetaTagDate :date="resource.creationDate.toLocaleDateString()" />
         </div>
         <div
@@ -65,6 +71,9 @@
             label="components.meta-tag-stars.label"
           />
         </div>
+      </div>
+      <div class="flex justify-center md:justify-start">
+        <ShieldTopic v-if="!reduced" :topic="resource.topic" />
       </div>
       <div class="flex justify-center md:justify-start">
         {{ resource.description }}

@@ -2,10 +2,13 @@
   <div class="card-style px-5 py-5">
     <div class="relative flex flex-col lg:flex-row">
       <div class="flex items-center gap-5">
-        <h3 class="responsive-h3 text-left font-display">
-          {{ $t("components.card-get-involved.header") }}
+        <h3 v-if="organization" class="responsive-h3 text-left font-display">
+          {{ $t("components.card-get-involved.get-involved") }}
         </h3>
-        <Icon name="bi:pencil-square" size="1.2em" />
+        <h3 v-else class="responsive-h3 text-left font-display">
+          {{ $t("components.card-get-involved.participate") }}
+        </h3>
+        <IconEdit />
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
@@ -23,7 +26,7 @@
           label="components.btn-route-internal.join-organization"
           fontSize="sm"
           rightIcon="bi:arrow-right"
-          iconSize="1.25em"
+          iconSize="1.45em"
           ariaLabel="components.btn-route-internal.join-organization-aria-label"
         />
       </div>
@@ -34,7 +37,10 @@
           {{ $t("components.card-get-involved.working-groups-subtext") }}
           {{ organization.name }}:
         </p>
-        <Feed :feedItemURLs="organization.workingGroups" />
+        <Feed
+          :feedItemNames="organization.workingGroups"
+          :feedItemURLs="organization.workingGroups"
+        />
       </div>
       <div v-else>
         <p>
@@ -59,7 +65,7 @@
           label="components.btn-route-internal.offer-to-help"
           fontSize="sm"
           rightIcon="bi:arrow-right"
-          iconSize="1.25em"
+          iconSize="1.45em"
           ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
       </div>

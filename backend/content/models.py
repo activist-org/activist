@@ -4,6 +4,8 @@ Content Models
 This file contains models for the content app.
 
 Contents:
+    - Discussion
+    - DiscussionEntry
     - Faq
     - Resource
     - Task
@@ -25,6 +27,32 @@ from django.db import models
 from backend.mixins.models import CreationDeletionMixin
 
 
+class Discussion(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
+    group_id = models.ForeignKey("entities.Group", on_delete=models.CASCADE)
+    event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
+    category = models.CharField(max_length=255, blank=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    deletion_date = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class DiscussionEntry(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    text = models.CharField(max_length=255, blank=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    deletion_date = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class Faq(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
@@ -44,7 +72,7 @@ class Resource(models.Model):
     category = models.CharField(max_length=255, blank=True)
     url = models.URLField(max_length=255)
     private = models.BooleanField(default=True)
-    created_by = models.ForeignKey("authentication.User", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
@@ -108,12 +136,12 @@ class TopicFormat(models.Model):
         return f"{self.id}"
 
 
-# class DiscussionTag(models.Model):
-#     discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
-#     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
+class DiscussionTag(models.Model):
+    discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
-#     def __str__(self) -> str:
-#         return f"{self.id}"
+    def __str__(self) -> str:
+        return f"{self.id}"
 
 
 class Image(models.Model):

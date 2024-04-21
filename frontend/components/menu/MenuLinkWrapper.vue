@@ -19,7 +19,7 @@ const localePath = useLocalePath();
 export interface Props {
   to: string;
   selected: boolean;
-  linkClasses?: string | undefined;
+  linkClasses?: Record<string, boolean>;
   isAddStyles?: boolean;
 }
 

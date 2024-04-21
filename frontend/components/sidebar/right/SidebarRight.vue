@@ -1,5 +1,5 @@
 <template>
-  <SidebarRightToggle
+  <SidebarRightHamburger
     @toggle="toggleMenuState"
     ref="ignoreElRef"
     class="flex h-full items-center"

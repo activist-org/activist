@@ -10,6 +10,7 @@
       :rightIcon="rightIcon"
       :iconSize="iconSize"
       :counter="counter"
+      :hideLabelOnMobile="hideLabelOnMobile"
     />
   </button>
 </template>

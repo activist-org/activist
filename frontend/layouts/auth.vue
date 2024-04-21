@@ -21,7 +21,7 @@
       <div class="hidden justify-end space-x-6 px-8 py-4 md:flex">
         <DropdownLanguage />
         <BtnRouteInternal
-          class="flex max-h-[38px] items-center lg:max-h-[46px]"
+          class="flex max-h-[30px] items-center lg:max-h-[38px]"
           :label="page.label"
           :linkTo="page.link"
           :cta="true"

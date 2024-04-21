@@ -32,7 +32,7 @@ django-stubs-ext==4.2.5
     # via
     #   -r requirements.in
     #   django-stubs
-djangorestframework==3.14.0
+djangorestframework==3.15.1
     # via
     #   -r requirements.in
     #   drf-spectacular
@@ -40,9 +40,9 @@ djangorestframework-stubs==3.14.4
     # via -r requirements.in
 drf-spectacular==0.26.5
     # via -r requirements.in
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements.in
-idna==3.4
+idna==3.7
     # via requests
 inflection==0.5.1
     # via drf-spectacular
@@ -56,14 +56,12 @@ mypy-extensions==1.0.0
     # via mypy
 packaging==23.2
     # via gunicorn
-pillow==10.2.0
+pillow==10.3.0
     # via -r requirements.in
 psycopg2-binary==2.9.9
     # via -r requirements.in
 python-dotenv==1.0.0
     # via -r requirements.in
-pytz==2023.3.post1
-    # via djangorestframework
 pyyaml==6.0.1
     # via drf-spectacular
 referencing==0.30.2
@@ -76,7 +74,7 @@ rpds-py==0.12.0
     # via
     #   jsonschema
     #   referencing
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via django
 types-pytz==2023.3.1.1
     # via django-stubs
@@ -92,8 +90,6 @@ typing-extensions==4.8.0
     #   django-stubs-ext
     #   djangorestframework-stubs
     #   mypy
-tzdata==2024.1
-    # via django
 uritemplate==4.1.1
     # via drf-spectacular
 urllib3==2.0.7

@@ -5,6 +5,7 @@ import factory
 from .models import (
     Group,
     GroupEvent,
+    GroupImage,
     GroupMember,
     GroupResource,
     GroupTopic,
@@ -12,6 +13,7 @@ from .models import (
     OrganizationApplication,
     OrganizationApplicationStatus,
     OrganizationEvent,
+    OrganizationImage,
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
@@ -56,6 +58,14 @@ class OrganizationEventFactory(factory.django.DjangoModelFactory):
 
     org_id = factory.SubFactory(OrganizationFactory)
     event_id = factory.SubFactory("events.factories.EventFactory")
+
+
+class OrganizationImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = OrganizationImage
+
+    org_id = factory.SubFactory(OrganizationFactory)
+    image_id = factory.SubFactory("content.factories.ImageFactory")
 
 
 class OrganizationMemberFactory(factory.django.DjangoModelFactory):
@@ -114,6 +124,14 @@ class GroupEventFactory(factory.django.DjangoModelFactory):
 
     group_id = factory.SubFactory(GroupFactory)
     event_id = factory.SubFactory("events.factories.EventFactory")
+
+
+class GroupImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = GroupImage
+
+    group_id = factory.SubFactory(GroupFactory)
+    image_id = factory.SubFactory("content.factories.ImageFactory")
 
 
 class GroupMemberFactory(factory.django.DjangoModelFactory):
