@@ -190,7 +190,7 @@ git remote add upstream https://github.com/activist-org/activist.git
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#using-yarn-or-python).
 
-6. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly formatted against our linter and formatters:
+6. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
 
    ```bash
    # In the project root:

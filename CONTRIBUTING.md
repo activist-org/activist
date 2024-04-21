@@ -369,7 +369,7 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
    git checkout -b <topic-branch-name>
    ```
 
-3. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly formatted against our linter and formatters:
+3. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
 
    ```bash
    # In the project root:
