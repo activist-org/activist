@@ -306,7 +306,11 @@ const getFiltersByPageType = computed<Filters>(() => {
 });
 
 const content = ref();
-const sidebarContentScrollable = ref(false);
+
+const sidebarContentScrollable = useState<boolean>(
+  "sidebarContentScrollable",
+  () => false
+);
 
 function setSidebarContentScrollable(): void {
   setTimeout(() => {
