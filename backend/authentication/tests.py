@@ -12,6 +12,9 @@ from .models import UserModel
 from django.test import Client
 from faker import Faker
 
+from .models import UserModel
+from django.test import Client
+
 
 @pytest.mark.django_db
 def test_str_methods() -> None:
@@ -131,3 +134,38 @@ def test_signup(client: Client) -> None:
     )
     assert response.status_code == 400
     assert not UserModel.objects.filter(username=second_username).exists()
+
+    
+def test_login(client: Client) -> None:
+    """Test login view.
+
+    Scenarios:
+    1. User is logged in successfully
+    2. User exists but password is incorrect
+    3. User does not exists and tries to login
+    """
+    # Setup
+    plaintext_password = "Activist@123!?"
+    user = UserFactory(plaintext_password=plaintext_password)
+
+    # 1. User is logged in successfully
+    response = client.post(
+        path="/v1/auth/login/",
+        data={"email": user.email, "password": plaintext_password},
+    )
+    assert response.status_code == 200
+
+    # 2. User exists but password is incorrect
+    response = client.post(
+        path="/v1/auth/login/",
+        data={"email": user.email, "password": "Strong_But_Incorrect?!123"},
+    )
+    assert response.status_code == 400
+
+    # 2. User does not exists and tries to login
+    response = client.post(
+        path="/v1/auth/login/",
+        data={"email": "unknown_user@example.com", "password": "Password@123!?"},
+    )
+    assert response.status_code == 400
+

@@ -124,6 +124,7 @@ onMounted(() => {
         const marker = new maplibregl.Marker({
           color: `${props.markerColors[0]}`,
         });
+
         marker.addClassName("cursor-pointer");
         marker
           .setLngLat([parseFloat(location["lon"]), parseFloat(location["lat"])])
@@ -137,6 +138,10 @@ onMounted(() => {
           );
 
           const directions = new MapLibreGlDirections(map, {
+            api: "https://router.project-osrm.org/route/v1",
+            profile: "foot",
+            // profile: "bike",
+            // profile: "driving",
             requestOptions: {
               alternatives: "true",
             },
