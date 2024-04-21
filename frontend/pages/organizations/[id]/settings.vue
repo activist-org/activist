@@ -24,13 +24,17 @@
         />
       </div>
     </HeaderAppPage>
-    <CardDangerZone
-      :description="$t('components.card-danger-zone.delete-organization-text')"
-      :ctaBtnText="$t('components.card-danger-zone.delete-organization-cta')"
-      :ctaBtnAriaLabel="
-        $t('components.card-danger-zone.delete-organization-cta-aria-label')
-      "
-    />
+    <div class="space-y-6 pb-6">
+      <CardDangerZone
+        :description="
+          $t('components.card-danger-zone.delete-organization-text')
+        "
+        :ctaBtnText="$t('components.card-danger-zone.delete-organization-cta')"
+        :ctaBtnAriaLabel="
+          $t('components.card-danger-zone.delete-organization-cta-aria-label')
+        "
+      />
+    </div>
   </div>
 </template>
 

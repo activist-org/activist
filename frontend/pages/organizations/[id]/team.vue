@@ -23,6 +23,7 @@
         />
       </div>
     </HeaderAppPage>
+    <div class="space-y-3 py-4"></div>
   </div>
 </template>
 

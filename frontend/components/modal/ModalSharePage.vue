@@ -208,27 +208,30 @@ import { SEmail, SFacebook, SMastodon, STelegram, STwitter } from "vue-socials";
 import ModalBase from "~/components/modal/ModalBase.vue";
 import type { BtnAction } from "~/types/btn-props";
 import type { Event } from "~/types/event";
+import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
   label: BtnAction["label"];
   ariaLabel: BtnAction["ariaLabel"];
-  event?: Event;
   organization?: Organization;
-  // group?: Group; // add group when we have it
+  group?: Group;
+  event?: Event;
 }>();
 
 const getEntityType = () => {
-  if (props.event) {
-    return setEntityInfo(props.event);
-  } else if (props.organization) {
+  if (props.organization) {
     return setEntityInfo(props.organization);
+  } else if (props.group) {
+    return setEntityInfo(props.group);
+  } else if (props.event) {
+    return setEntityInfo(props.event);
   }
 };
 
 const setEntityInfo = (
-  data: typeof props.event | typeof props.organization
+  data: typeof props.organization | typeof props.group | typeof props.event
 ) => {
   if (!data) return;
   return {

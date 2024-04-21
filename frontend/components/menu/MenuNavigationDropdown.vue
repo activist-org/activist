@@ -84,8 +84,8 @@ import {
 import type MenuEntry from "~/types/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
 
-const route = useRoute();
 const { locale } = useI18n();
+const route = useRoute();
 
 function currentRoutePathIncludes(path: string): boolean {
   const { locale } = useI18n();

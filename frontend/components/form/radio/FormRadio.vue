@@ -24,6 +24,8 @@ export interface Props {
   error?: string;
 }
 
+const uuid = uuidv4();
+
 const props = withDefaults(defineProps<Props>(), {
   label: "",
   error: "",
@@ -31,5 +33,4 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit);
-const uuid = uuidv4();
 </script>

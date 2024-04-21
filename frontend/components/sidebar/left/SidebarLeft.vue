@@ -66,9 +66,9 @@ defineProps<{
   name?: string;
 }>();
 
+const { locale } = useI18n();
 const sidebar = useSidebar();
 const route = useRoute();
-const { locale } = useI18n();
 
 function currentRoutePathIncludes(path: string): boolean {
   const { locale } = useI18n();

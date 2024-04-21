@@ -23,7 +23,7 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="pt-4">
+    <div class="py-4">
       <div v-for="f in faqEntries" class="mb-4">
         <CardFAQEntry :faqEntry="f" />
       </div>
@@ -38,6 +38,22 @@ import type { Organization } from "~/types/organization";
 definePageMeta({
   layout: "sidebar",
 });
+
+const organization: Organization = {
+  name: "tech from below",
+  status: "approved",
+  tagline: "Technologie von und für soziale Bewegungen",
+  location: "Berlin, Germany",
+  description:
+    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
+  topic: "Technology and Privacy",
+  members: 3,
+  supporters: 60,
+  imageURL: "/images/tech-from-below.svg",
+  workingGroups: ["meetup", "code-night"],
+  socialLinks: ["tfb@mastodon", "tfb@email"],
+  donationPrompt: "Hey thanks!",
+};
 
 const faqEntry_01: FaqEntry = {
   question: "FAQ question text 01",
@@ -56,20 +72,4 @@ const faqEntry_03: FaqEntry = {
 };
 
 const faqEntries = [faqEntry_01, faqEntry_02, faqEntry_03];
-
-const organization: Organization = {
-  name: "tech from below",
-  status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 60,
-  imageURL: "/images/tech-from-below.svg",
-  workingGroups: ["meetup", "code-night"],
-  socialLinks: ["tfb@mastodon", "tfb@email"],
-  donationPrompt: "Hey thanks!",
-};
 </script>

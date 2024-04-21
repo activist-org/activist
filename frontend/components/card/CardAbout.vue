@@ -5,6 +5,7 @@
         v-if="organization && !expandText"
         :entityName="organization.name"
       />
+      <ModalQRCode v-if="group && !expandText" :entityName="group.name" />
       <button
         v-if="expandText"
         @click="
@@ -21,43 +22,6 @@
             {{ $t("_global.about") }}
           </h3>
           <IconEdit />
-        </div>
-        <div v-if="event" class="flex-col space-y-3">
-          <ShieldTopic :topic="event.topic" />
-          <div>
-            <p
-              ref="description"
-              :class="{
-                'line-clamp-2': !expandText,
-              }"
-            >
-              {{ event.description }}
-            </p>
-            <div class="flex justify-center">
-              <button
-                v-if="!expandText && descriptionExpandable"
-                @click="
-                  emit('expand-reduce-text');
-                  expand_reduce_text();
-                "
-                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
-                :aria-label="$t('components.card-about.full-text-aria-label')"
-              >
-                {{ $t("components.card-about.full-text") }}
-              </button>
-              <button
-                v-else-if="descriptionExpandable"
-                @click="
-                  emit('expand-reduce-text');
-                  expand_reduce_text();
-                "
-                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
-                :aria-label="$t('components.card-about.reduce-text-aria-label')"
-              >
-                {{ $t("components.card-about.reduce-text") }}
-              </button>
-            </div>
-          </div>
         </div>
         <div v-if="organization" class="flex-col space-y-3">
           <ShieldTopic :topic="organization.topic" />
@@ -103,6 +67,87 @@
             </div>
           </div>
         </div>
+        <div v-else-if="group" class="flex-col space-y-3">
+          <ShieldTopic :topic="group.topic" />
+          <div class="flex items-center gap-3">
+            <MetaTagLocation :location="group.location" />
+            <MetaTagMembers
+              :members="group.members"
+              :label="$t('components._global.members_lower')"
+            />
+          </div>
+          <div>
+            <p
+              ref="description"
+              :class="{
+                'line-clamp-3': !expandText,
+              }"
+            >
+              {{ group.description }}
+            </p>
+            <div class="flex justify-center">
+              <button
+                v-if="!expandText && descriptionExpandable"
+                @click="
+                  emit('expand-reduce-text');
+                  expand_reduce_text();
+                "
+                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+                :aria-label="$t('components.card-about.full-text-aria-label')"
+              >
+                {{ $t("components.card-about.full-text") }}
+              </button>
+              <button
+                v-else-if="descriptionExpandable"
+                @click="
+                  emit('expand-reduce-text');
+                  expand_reduce_text();
+                "
+                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+                :aria-label="$t('components.card-about.reduce-text-aria-label')"
+              >
+                {{ $t("components.card-about.reduce-text") }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-else-if="event" class="flex-col space-y-3">
+          <ShieldTopic :topic="event.topic" />
+          <div>
+            <p
+              ref="description"
+              :class="{
+                'line-clamp-2': !expandText,
+              }"
+            >
+              {{ event.description }}
+            </p>
+            <div class="flex justify-center">
+              <button
+                v-if="!expandText && descriptionExpandable"
+                @click="
+                  emit('expand-reduce-text');
+                  expand_reduce_text();
+                "
+                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+                :aria-label="$t('components.card-about.full-text-aria-label')"
+              >
+                {{ $t("components.card-about.full-text") }}
+              </button>
+              <button
+                v-else-if="descriptionExpandable"
+                @click="
+                  emit('expand-reduce-text');
+                  expand_reduce_text();
+                "
+                class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+                :aria-label="$t('components.card-about.reduce-text-aria-label')"
+              >
+                {{ $t("components.card-about.reduce-text") }}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -110,10 +155,12 @@
 
 <script setup lang="ts">
 import type { Event } from "~/types/event";
+import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
 
 defineProps<{
   organization?: Organization;
+  group?: Group;
   event?: Event;
 }>();
 

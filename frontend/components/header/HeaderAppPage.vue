@@ -2,6 +2,7 @@
   <PageBreadcrumbs
     class="mt-4 hidden md:block"
     :organization="organization"
+    :group="group"
     :event="event"
   />
   <div
@@ -78,12 +79,14 @@
 
 <script setup lang="ts">
 import type { Event } from "~/types/event";
+import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
 
 const props = defineProps<{
   header?: string;
   tagline?: string;
   organization?: Organization;
+  group?: Group;
   event?: Event;
   underDevelopment?: boolean;
 }>();
@@ -96,6 +99,9 @@ if (props.organization) {
   headerName = props.organization.name;
   headerTagline = props.organization.tagline;
   headerStatus = props.organization.status;
+} else if (props.group) {
+  headerName = props.group.name;
+  headerTagline = props.group.tagline;
 } else if (props.event) {
   headerName = props.event.name;
   headerTagline = props.event.tagline;
