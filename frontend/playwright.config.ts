@@ -9,8 +9,18 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+
+// Environment configurations
+const environments = {
+  local: 'http://127.0.0.1:3000',
+  prod: 'https://activist.org'
+};
+
+// Determine the environment from the command line or default to 'local'
+const ENV = (process.env.TEST_ENV || 'local') as keyof typeof environments;
+
 export default defineConfig({
-  testDir: './tests',
+  testDir: './tests/specs',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -24,13 +34,13 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: environments[ENV],
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
 
-  /* Configure projects for major browsers */
+  /* Configure projects for major desktop browsers */
   projects: [
     {
       name: 'chromium',
@@ -46,17 +56,30 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
+    {
+      name: 'Microsoft Edge',
+      use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    },
 
     /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] },
+    },
+    {
+      name: 'Mobile Samsung',
+      use: { ...devices['Galaxy S20'] },
+    },
+    {
+      name: 'Mobile iPad',
+      use: { ...devices['iPad (gen 8)'] },
+    },
 
+    /* Test against branded browsers. */
     /* Test against branded browsers. */
     // {
     //   name: 'Microsoft Edge',
@@ -67,7 +90,6 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
-
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',
