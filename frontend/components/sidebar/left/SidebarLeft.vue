@@ -14,14 +14,22 @@
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
+      'w-60':
+        (!sidebar.collapsed || sidebar.collapsedSwitch == false) &&
+        sidebarContentScrollable,
+      'w-20':
+        sidebar.collapsed &&
+        sidebar.collapsedSwitch == true &&
+        sidebarContentScrollable,
     }"
   >
-    <SidebarLeftHeader @toggle-pressed="setContentScrollable()" />
+    <SidebarLeftHeader @toggle-pressed="setSidebarContentScrollable()" />
     <div
       ref="content"
       class="h-full overflow-x-hidden"
       :class="{
-        '-mr-[0.55rem]': contentScrollable,
+        'overflow-y-auto':
+          !sidebar.collapsed || sidebar.collapsedSwitch == false,
       }"
     >
       <SearchBar class="mt-1" :location="SearchBarLocation.SIDEBAR" />
@@ -45,7 +53,7 @@
         :filters="getFiltersByPageType"
       />
     </div>
-    <SidebarLeftFooter />
+    <SidebarLeftFooter :sidebarContentScrollable="sidebarContentScrollable" />
   </aside>
 </template>
 
@@ -58,9 +66,9 @@ defineProps<{
   name?: string;
 }>();
 
+const { locale } = useI18n();
 const sidebar = useSidebar();
 const route = useRoute();
-const { locale } = useI18n();
 
 function currentRoutePathIncludes(path: string): boolean {
   const { locale } = useI18n();
@@ -298,18 +306,24 @@ const getFiltersByPageType = computed<Filters>(() => {
 });
 
 const content = ref();
-const contentScrollable = ref(false);
 
-function setContentScrollable(): void {
-  contentScrollable.value =
-    content.value.scrollHeight > content.value.clientHeight ? true : false;
+const sidebarContentScrollable = useState<boolean>(
+  "sidebarContentScrollable",
+  () => false
+);
+
+function setSidebarContentScrollable(): void {
+  setTimeout(() => {
+    sidebarContentScrollable.value =
+      content.value.scrollHeight > content.value.clientHeight ? true : false;
+  }, 50);
 }
 
 const sidebarWrapper = ref<HTMLElement | null>(null);
 
 function collapseSidebar(collapse: boolean): void {
   sidebar.collapsed = collapse;
-  setContentScrollable();
+  setSidebarContentScrollable();
 }
 
 function handleFocusOut(event: FocusEvent) {
@@ -322,11 +336,11 @@ function handleFocusOut(event: FocusEvent) {
 }
 
 onMounted(() => {
-  window.addEventListener("resize", setContentScrollable);
-  setContentScrollable();
+  window.addEventListener("resize", setSidebarContentScrollable);
+  setSidebarContentScrollable();
 });
 
 onUnmounted(() => {
-  window.removeEventListener("resize", setContentScrollable);
+  window.removeEventListener("resize", setSidebarContentScrollable);
 });
 </script>

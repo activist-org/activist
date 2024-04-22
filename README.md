@@ -53,7 +53,7 @@
 
 # Our goals [`⇧`](#contents)
 
-The activist community is creating a global platform where movements grow and people are inspired join in political actions. We want to update how power is distributed in our society by removing barriers and enabling more people to safely engage in activism.
+The activist community is creating a global platform where movements grow and people are inspired to join in political actions. We want to update how power is distributed in our society by removing barriers and enabling more people to safely engage in activism.
 
 <a id="topics"></a>
 
@@ -139,7 +139,7 @@ We would be happy to discuss granting you further rights as a contributor after 
 2. To setup your development environment, first install [Docker](https://docs.docker.com/install) and [Docker Compose](https://docs.docker.com/compose).
 
 > [!NOTE]
-> If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
+> If you are new to Docker, activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
 3. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the repo, clone your fork, and configure the remotes:
 
@@ -189,6 +189,20 @@ git remote add upstream https://github.com/activist-org/activist.git
 
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#using-yarn-or-python).
+
+6. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
+
+   ```bash
+   # In the project root:
+   pre-commit install
+   ```
+
+> [!NOTE]
+> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+>
+> ```bash
+> pip install pre-commit
+> ```
 
 > [!TIP]
 > For those using LLM coding assistants, [LLMPROMPT.txt](https://github.com/activist-org/activist/blob/main/LLMPROMPT.txt) contains a good prompt to paste as context or add to your settings.

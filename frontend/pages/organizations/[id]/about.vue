@@ -82,7 +82,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
 import type { DiscussionEntry } from "~/types/card-discussion-entry";
 import type { DiscussionInput } from "~/types/card-discussion-input";
 import type { Organization } from "~/types/organization";
@@ -91,12 +90,12 @@ definePageMeta({
   layout: "sidebar",
 });
 
+const route = useRoute();
+
 const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
-
-const route = useRoute();
 
 // TODO: for testing purpose, should be removed.
 const upVotes = ref(123);

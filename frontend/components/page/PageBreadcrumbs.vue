@@ -34,6 +34,24 @@
             {{ organization.name }}
           </a>
           <a
+            v-else-if="
+              Number.isInteger(Number(breadcrumb)) && group && index == 1
+            "
+            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            :href="makeURL(breadcrumb)"
+          >
+            {{ group.organization }}
+          </a>
+          <a
+            v-else-if="
+              Number.isInteger(Number(breadcrumb)) && group && index == 3
+            "
+            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            :href="makeURL(breadcrumb)"
+          >
+            {{ group.name }}
+          </a>
+          <a
             v-else
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :href="makeURL(breadcrumb)"
@@ -57,12 +75,14 @@
 
 <script setup lang="ts">
 import type { Event } from "~/types/event";
+import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
 const { locales } = useI18n();
 const localePath = useLocalePath();
 
 defineProps<{
   organization?: Organization;
+  group?: Group;
   event?: Event;
 }>();
 

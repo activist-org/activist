@@ -78,7 +78,7 @@ class CustomAccountManager(BaseUserManager[User]):
         username: str,
         password: str,
         **other_fields: bool,
-    ) -> Any:
+    ) -> User:
         if not email:
             raise ValueError(("You must provide an email address"))
 
@@ -98,9 +98,10 @@ class UserModel(AbstractUser, PermissionsMixin, CreationDeletionMixin):
     verified = models.BooleanField(default=False)
     verification_method = models.CharField(max_length=30, blank=True)
     verification_partner = models.ForeignKey(
-        "UserModel", on_delete=models.SET_NULL, null=True
+        "authentication.UserModel", on_delete=models.SET_NULL, null=True
     )
     user_icon = models.ForeignKey("content.Image", on_delete=models.SET_NULL, null=True)
+    email = models.EmailField(unique=True)
     social_accounts = ArrayField(
         models.CharField(max_length=255), blank=True, null=True
     )
@@ -113,7 +114,7 @@ class UserModel(AbstractUser, PermissionsMixin, CreationDeletionMixin):
     REQUIRED_FIELDS = ["email"]
 
     def __str__(self) -> str:
-        return self.name
+        return self.username
 
 
 class UserResource(models.Model):
