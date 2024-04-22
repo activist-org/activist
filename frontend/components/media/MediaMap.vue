@@ -138,9 +138,11 @@ onMounted(() => {
           );
 
           const directions = new MapLibreGlDirections(map, {
-            api: "https://router.project-osrm.org/route/v1",
+            api: "https://routing.openstreetmap.de/routed-foot/route/v1/",
             profile: "foot",
+            // api: "https://routing.openstreetmap.de/routed-bike/route/v1/",
             // profile: "bike",
+            // api: "https://routing.openstreetmap.de/routed-car/route/v1/",
             // profile: "driving",
             requestOptions: {
               alternatives: "true",
