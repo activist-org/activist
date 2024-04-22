@@ -59,7 +59,7 @@ import {
 } from "@headlessui/vue";
 
 const filterOptions = [
-  "Lase week",
+  "Last week",
   "Last 30 days",
   "Last 60 days",
   "Last year",
