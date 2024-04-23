@@ -1,5 +1,5 @@
-import { type Page, type Locator } from '@playwright/test';
-import BasePage from './BasePage';
+import { type Page, type Locator } from "@playwright/test";
+import BasePage from "./BasePage";
 
 export default class LandingPage extends BasePage {
   public static readonly locators = {
@@ -13,7 +13,7 @@ export default class LandingPage extends BasePage {
   };
 
   constructor(page: Page) {
-    super(page, 'Activist.org Landing Page', '/');
+    super(page, "Activist.org Landing Page", "/");
   }
 
   public getLocator(key: keyof typeof LandingPage.locators): Locator {

@@ -1,11 +1,11 @@
-import type { Page } from '@playwright/test';
+import type { Page } from "@playwright/test";
 
 export default abstract class BasePage {
   protected readonly pageName: string;
   protected readonly pageURL: string;
   protected readonly page: Page;
 
-  constructor(page: Page, pageName: string, pageURL = '/') {
+  constructor(page: Page, pageName: string, pageURL = "/") {
     this.page = page;
     this.pageName = pageName;
     this.pageURL = pageURL;

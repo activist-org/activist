@@ -1,6 +1,6 @@
 // tests/fixtures/page-fixtures.ts
-import { test as baseTest } from '@playwright/test';
-import LandingPage from '../page-objects/LandingPage';
+import { test as baseTest } from "@playwright/test";
+import LandingPage from "../page-objects/LandingPage";
 
 export const test = baseTest.extend<{ landingPage: LandingPage }>({
   landingPage: async ({ page }, use) => {
@@ -9,5 +9,5 @@ export const test = baseTest.extend<{ landingPage: LandingPage }>({
   },
 });
 
-export { expect } from '@playwright/test';
+export { expect } from "@playwright/test";
 export { LandingPage };
