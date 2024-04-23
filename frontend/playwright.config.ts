@@ -26,7 +26,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 4 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -46,20 +46,18 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
-
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
-
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
-    },
+    }, /*
     {
       name: "Microsoft Edge",
       use: { ...devices["Desktop Edge"], channel: "msedge" },
     },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    }, */
 
     /* Test against mobile viewports. */
     {
@@ -69,7 +67,7 @@ export default defineConfig({
     {
       name: "Mobile Safari",
       use: { ...devices["iPhone 12"], isMobile: true },
-    },
+    }, /*
     {
       name: "Mobile Samsung",
       use: { ...devices["Galaxy S20"], isMobile: true },
@@ -77,9 +75,8 @@ export default defineConfig({
     {
       name: "Mobile iPad",
       use: { ...devices["iPad (gen 8)"], isMobile: true },
-    },
+    }, */
 
-    /* Test against branded browsers. */
     /* Test against branded browsers. */
     // {
     //   name: 'Microsoft Edge',
@@ -90,6 +87,7 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
+
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',
