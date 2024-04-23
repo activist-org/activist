@@ -30,7 +30,7 @@ jobs:
           DEBUG: ${{ secrets.DEBUG }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         ports:
-          - ${{ secrets.FRONTEND_PORT }}:${{ secrets.FRONTEND_PORT }}
+          - 5432:5432
         options: --env-file .env.dev up --build
 
     steps:
