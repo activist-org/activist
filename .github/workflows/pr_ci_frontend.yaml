@@ -26,6 +26,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Clean up any existing containers
+        run: |
+          docker stop $(docker ps -aq) || true
+          docker rm $(docker ps -aq) || true
+
+      - name: Check Port Availability
+        run: |
+          ! nc -z localhost ${{ secrets.FRONTEND_PORT }} && \
+          ! nc -z localhost ${{ secrets.BACKEND_PORT }} && \
+          ! nc -z localhost 5432
+
       - name: Set up Docker Compose
         run: |
           echo "FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}" >> .env
