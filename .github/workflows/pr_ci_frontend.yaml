@@ -56,6 +56,12 @@ jobs:
       - name: Setup Node environment
         uses: actions/setup-node@v4
 
+      - name: Clear Yarn cache
+        run: yarn cache clean
+
+      - name: Clean workspace
+        run: rm -rf node_modules
+
       - name: Install dependencies via Yarn
         uses: borales/actions-yarn@v5
         with:
