@@ -13,14 +13,14 @@ jobs:
     environment: dev
 
     services:
-      postgres:  # Database service example
+      postgres:
         image: postgres:15
         env:
           POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
           POSTGRES_USER: ${{ secrets.DATABASE_USER }}
           POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         ports:
-          - 5432:5432  # Using the default PostgreSQL port
+          - 5432:5432
 
     steps:
       - name: Checkout
@@ -55,12 +55,6 @@ jobs:
 
       - name: Setup Node environment
         uses: actions/setup-node@v4
-
-      - name: Clear Yarn cache
-        run: yarn cache clean
-
-      - name: Clean workspace
-        run: rm -rf node_modules
 
       - name: Adjust permissions
         run: sudo chown -R $USER:$USER . && sudo chmod -R 777 .
