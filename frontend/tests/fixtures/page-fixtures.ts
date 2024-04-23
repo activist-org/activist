@@ -10,3 +10,4 @@ export const test = baseTest.extend<{ landingPage: LandingPage }>({
 });
 
 export { expect } from '@playwright/test';
+export { LandingPage };
