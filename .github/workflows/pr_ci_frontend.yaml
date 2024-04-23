@@ -44,13 +44,16 @@ jobs:
         with:
           cmd: eslint . --ext .js,.vue
           dir: "frontend"
+
       - name: Install Playwright Browsers
         working-directory: ./frontend
-        run: yarn playwright install --with-deps
+        run: |
+          yarn playwright install --with-deps
 
       - name: Run Playwright tests
         working-directory: ./frontend
-        run: yarn playwright test
+        run: |
+          yarn playwright test
 
       - name: Upload Playwright report
         if: always()
