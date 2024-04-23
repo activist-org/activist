@@ -49,7 +49,7 @@ export default defineConfig({
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
-    }, /*
+    } /*
     {
       name: "Microsoft Edge",
       use: { ...devices["Desktop Edge"], channel: "msedge" },
@@ -57,7 +57,7 @@ export default defineConfig({
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
-    }, */
+    }, */,
 
     /* Test against mobile viewports. */
     {
@@ -67,7 +67,7 @@ export default defineConfig({
     {
       name: "Mobile Safari",
       use: { ...devices["iPhone 12"], isMobile: true },
-    }, /*
+    } /*
     {
       name: "Mobile Samsung",
       use: { ...devices["Galaxy S20"], isMobile: true },
@@ -75,7 +75,7 @@ export default defineConfig({
     {
       name: "Mobile iPad",
       use: { ...devices["iPad (gen 8)"], isMobile: true },
-    }, */
+    }, */,
 
     /* Test against branded browsers. */
     // {
