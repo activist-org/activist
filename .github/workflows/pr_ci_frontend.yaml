@@ -60,6 +60,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
+        working-directory: ./frontend
         run: yarn install --frozen-lockfile
 
       - name: Install Prettier
