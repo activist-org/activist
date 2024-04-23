@@ -49,6 +49,7 @@ jobs:
         working-directory: ./frontend
         run: |
           yarn playwright install --with-deps
+          yarn playwright install msedge
 
       - name: Run Playwright tests
         working-directory: ./frontend
