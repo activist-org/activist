@@ -1,5 +1,6 @@
 name: pr_ci_frontend
 on:
+  push:
   pull_request:
     branches:
       - main
@@ -43,3 +44,18 @@ jobs:
         with:
           cmd: eslint . --ext .js,.vue
           dir: "frontend"
+      - name: Install Playwright Browsers
+        working-directory: ./frontend
+        run: yarn playwright install --with-deps
+
+      - name: Run Playwright tests
+        working-directory: ./frontend
+        run: yarn playwright test
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 30
