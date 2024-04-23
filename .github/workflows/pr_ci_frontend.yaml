@@ -68,7 +68,7 @@ jobs:
       - name: Install dependencies via Yarn
         uses: borales/actions-yarn@v5
         with:
-          cmd: install
+          cmd: install --frozen-lockfile --check-files
           dir: "frontend"
 
       - name: Install Prettier
