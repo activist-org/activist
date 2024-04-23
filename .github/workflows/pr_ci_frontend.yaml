@@ -26,12 +26,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Clean up any existing containers
+        run: |
+          docker stop $(docker ps -aq) || true
+          docker rm $(docker ps -aq) || true
+
+      - name: Check Port Availability
+        run: |
+          ! nc -z localhost ${{ secrets.FRONTEND_PORT }} && \
+          ! nc -z localhost ${{ secrets.BACKEND_PORT }} && \
+          ! nc -z localhost 5432
+
       - name: Set up Docker Compose
         run: |
           echo "FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}" >> .env
           echo "BACKEND_PORT=${{ secrets.BACKEND_PORT }}" >> .env
           echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
-          echo "DATABASE_HOST=postgres" >> .env
+          echo "DATABASE_HOST=postgres" >> .env  # Using the service name from the services section
           echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
           echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
           echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
@@ -42,24 +53,23 @@ jobs:
       - name: Run Docker Compose
         run: docker-compose -f docker-compose.yml up -d
 
-      - name: Setup Node.js
+      - name: Setup Node environment
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '20'
           cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Install dependencies
+      - name: Install Prettier
         working-directory: ./frontend
-        run: |
-          yarn install --frozen-lockfile
+        run: yarn add prettier
 
       - name: Run Prettier - Formatting check
         working-directory: ./frontend
         run: |
-          yarn prettier --check .
+          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
 
       - name: Run Type Check
         working-directory: ./frontend
