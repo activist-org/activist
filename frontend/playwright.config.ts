@@ -94,10 +94,4 @@ export default defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
-  webServer: {
-    command: "docker compose --env-file ../.env.dev up --build",
-    port: 3000,
-    timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
-  },
 });

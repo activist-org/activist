@@ -6,54 +6,65 @@ on:
       - main
     types: [opened, reopened, synchronize]
 
+env:
+  NODE_VERSION: '14'
+
 jobs:
   frontend:
     name: Run PR Frontend Check
     runs-on: ubuntu-latest
+    environment: dev
+
+    services:
+      app:  # This is the service for the web server needed for Playwright tests
+        image: docker-compose.yml
+        env:
+          FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
+          BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+          DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+          DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
+          DEBUG: ${{ secrets.DEBUG }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        ports:
+          - ${{ secrets.FRONTEND_PORT }}:${{ secrets.FRONTEND_PORT }}
+        options: --env-file .env.dev up --build
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node environment
         uses: actions/setup-node@v4
-
-      - name: Install Yarn
-        uses: borales/actions-yarn@v5
         with:
-          cmd: install
-          dir: "frontend"
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install Prettier
-        run: yarn add prettier
+      - name: Install Yarn and dependencies
+        working-directory: ./frontend
+        run: yarn install
 
       - name: Run Prettier - Formatting check
         working-directory: ./frontend
-        run: |
-          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
+        run: yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
 
       - name: Run Type Check
-        if: always()
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: nuxi typecheck
-          dir: "frontend"
+        working-directory: ./frontend
+        run: yarn nuxi typecheck
 
       - name: Run eslint - Linting
-        if: always()
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: eslint . --ext .js,.vue
-          dir: "frontend"
+        working-directory: ./frontend
+        run: yarn eslint . --ext .js,.vue
 
       - name: Install Playwright Browsers
         working-directory: ./frontend
-        run: |
-          yarn playwright install --with-deps
+        run: yarn playwright install --with-deps
 
       - name: Run Playwright tests
         working-directory: ./frontend
-        run: |
-          yarn playwright test
+        run: yarn playwright test
 
       - name: Upload Playwright report
         if: always()
