@@ -9,7 +9,7 @@
         <NuxtLink
           v-if="index === 0"
           class="focus-brand mx-[0.35rem] text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
-          :to="localePath('/')"
+          :to="localePath('/home')"
         >
           &#60;
         </NuxtLink>

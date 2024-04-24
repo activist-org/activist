@@ -36,7 +36,7 @@ const createOpt: MenuSelector[] = [
   {
     id: 3,
     label: "components._global.new-group",
-    routeURL: "/",
+    routeURL: "/groups/create",
     iconURL: "IconGroup",
     selected: false,
   },

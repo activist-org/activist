@@ -87,7 +87,7 @@
             ></textarea>
           </div>
         </div>
-        <CardTopicSelection class="mt-5" />
+        <CardTopicSelection class="mt-5" pageType="resource" />
         <div class="mx-14 flex w-full flex-col">
           <div class="my-5">
             <BtnAction

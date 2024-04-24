@@ -5,10 +5,10 @@
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages.organizations.create.header") }}
+          {{ $t("pages.groups.create.header") }}
         </h1>
         <p class="mt-4">
-          {{ $t("pages.organizations.create.subtext") }}
+          {{ $t("pages.groups.create.subtext") }}
         </p>
       </div>
       <form
@@ -20,7 +20,7 @@
         >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("_global.organization-name") }}*</label
+              >{{ $t("pages.groups.create.group-name") }}*</label
             >
             <input
               v-model="formData.name"
@@ -28,9 +28,7 @@
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="name"
-              :placeholder="
-                $t('pages.organizations.create.organization-name-placeholder')
-              "
+              :placeholder="$t('pages.groups.create.group-name-placeholder')"
             />
           </div>
           <div class="w-1/2">
@@ -43,9 +41,7 @@
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="location"
-              :placeholder="
-                $t('pages.organizations.create.location-placeholder')
-              "
+              :placeholder="$t('pages.groups.create.location-placeholder')"
             />
           </div>
         </div>
@@ -58,9 +54,7 @@
             id="description"
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="description"
-            :placeholder="
-              $t('pages.organizations.create.description-placeholder')
-            "
+            :placeholder="$t('pages.groups.create.description-placeholder')"
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
@@ -72,13 +66,13 @@
             id="tagline"
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="tagline"
-            :placeholder="$t('pages.organizations.create.tagline-placeholder')"
+            :placeholder="$t('pages.groups.create.tagline-placeholder')"
           />
         </div>
         <CardTopicSelection
           v-model="formData.topics"
           class="mt-5"
-          pageType="organization"
+          pageType="group"
         />
         <div class="mx-14 mt-5 w-full">
           <CardConnect
@@ -102,9 +96,9 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="pages.organizations.create.complete-application"
+              label="pages.groups.create.create-group"
               fontSize="lg"
-              ariaLabel="pages.organizations.create.complete-application-aria-label"
+              ariaLabel="pages.groups.create.create-group-aria-label"
             />
           </div>
         </div>
