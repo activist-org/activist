@@ -1,6 +1,5 @@
 name: pr_ci_frontend
 on:
-  push:
   pull_request:
     branches:
       - main
