@@ -5,10 +5,10 @@
         class="w-max"
         :cta="props.cta"
         :label="props.label"
+        :hideLabelOnMobile="true"
         fontSize="sm"
         leftIcon="bi:box-arrow-up"
         iconSize="1.45em"
-        :hideLabelOnMobile="true"
         :ariaLabel="props.ariaLabel"
       />
     </template>

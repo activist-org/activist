@@ -1,7 +1,13 @@
-export function getBtnDynamicClass(cta: boolean, fontSize: string) {
+export function getBtnDynamicClass(
+  cta: boolean,
+  fontSize: string,
+  disabled: boolean
+) {
   return computed(() => ({
-    "style-cta": cta === true,
-    "style-cta-secondary": cta === false,
+    "style-cta": cta === true && disabled === false,
+    "style-cta-secondary": cta === false && disabled === false,
+    "style-cta-disabled": cta === true && disabled === true,
+    "style-cta-secondary-disabled": cta === false && disabled === true,
     "text-xs": fontSize === "xs",
     "text-sm": fontSize === "sm",
     "text-base": fontSize === "base",

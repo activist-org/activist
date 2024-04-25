@@ -10,9 +10,9 @@
     >
       <BtnIconsLabel
         :label="label"
+        :hideLabelOnMobile="hideLabelOnMobile"
         :leftIcon="leftIcon"
         :iconSize="iconSize"
-        :hideLabelOnMobile="hideLabelOnMobile"
       />
     </button>
     <Menu>
@@ -60,7 +60,11 @@ import { getBtnDynamicClass } from "~/utils/btnUtils";
 
 const props = defineProps<BtnActionDropdown>();
 
-const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
+const btnDynamicClass = getBtnDynamicClass(
+  props.cta,
+  props.fontSize,
+  props.disabled
+);
 
 const emit = defineEmits(["main-btn-clicked"]);
 </script>

@@ -27,10 +27,10 @@
 <script setup lang="ts">
 defineProps<{
   label?: string;
+  hideLabelOnMobile?: boolean;
   leftIcon?: string;
   rightIcon?: string;
   iconSize?: string;
   counter?: number;
-  hideLabelOnMobile?: boolean;
 }>();
 </script>

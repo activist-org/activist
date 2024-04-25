@@ -21,11 +21,11 @@
           class="w-max"
           :cta="true"
           label="components.btn-action.support"
+          :hideLabelOnMobile="true"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="event.supporters"
-          :hideLabelOnMobile="true"
           ariaLabel="components.btn-action.support-event-aria-label"
         />
         <ModalSharePage
