@@ -96,11 +96,11 @@ const props = defineProps<{
 const sidebar = useSidebar();
 
 const isSideLeftMenu = computed(() => {
-  return props.location === DropdownLocation.SIDELEFTMENU;
+  return props.location === DropdownLocation.SIDE_LEFT_MENU;
 });
 
 const isSideMenu = computed(() => {
-  return props.location === DropdownLocation.SIDEMENU;
+  return props.location === DropdownLocation.SIDE_MENU;
 });
 
 const expandOnFocus = () => {

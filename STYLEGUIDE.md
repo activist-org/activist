@@ -217,9 +217,9 @@ Localization keys should be defined based on their component or page within the 
   - Ex: `"components.shield-topic.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `ShieldTopic` component
     - `"CONTENT_REFERENCE"` in this case would be a reference to the name of a topic like `"environment"`
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
-  - Ex: if you're defining a key within `SidebarLeftFooter`:
-    - ✅ `"components.sidebar-left-footer.CONTENT_REFERENCE"`
-    - ❌ `"components.sidebar.left.sidebar-left-footer.CONTENT_REFERENCE"`
+  - Ex: if you're defining a key within `DropdownCreate`:
+    - ✅ `"components.dropdown-create.CONTENT_REFERENCE"`
+    - ❌ `"components.dropdown.dropdown-create.CONTENT_REFERENCE"`
 - Define keys based on the lowest level component or other entity in which they're used
   - Ex: you're working on the about page for organizations and there's a `BtnAction` that's getting a localization key:
     - ✅ `"components.btn-action.CONTENT_REFERENCE"`
