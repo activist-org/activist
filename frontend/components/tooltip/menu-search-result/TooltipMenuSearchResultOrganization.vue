@@ -11,7 +11,7 @@
       />
       <BtnRouteInternal
         class="flex max-h-[40px] w-full"
-        label="components.btn-route-internal.join"
+        label="components._global.join"
         leftIcon="IconJoin"
         linkTo="/"
         fontSize="lg"
