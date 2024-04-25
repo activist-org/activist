@@ -229,6 +229,8 @@
   "components.footer.source-code": "Source Code",
   "components.footer.version-number": "v0.0.1",
   "components.form-radio-group.custom-numeric-value-placeholder": "Enter number",
+  "components.friendly-captcha.captcha-disabled": "Dev: Disabled",
+  "components.friendly-captcha.captcha-disabled-aria-label": "Currently in development mode, so the captcha is disabled",
   "components.grid-app-shields.app-store": "App Store",
   "components.grid-app-shields.download-on-the": "Download on the",
   "components.grid-app-shields.f-droid": "F-Droid",
