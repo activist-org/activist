@@ -53,8 +53,17 @@
           aboutType="organization"
           :organization="organization"
         />
-        <div class="h-full w-full">
-          <ModalMediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
+        <div class="relative h-full w-full">
+          <ModalUploadImages>
+            <template #normalDisplay>
+              <button
+                class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-[0.125rem] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+              >
+                <Icon name="bi:plus-lg" size="2em" />
+              </button>
+            </template>
+          </ModalUploadImages>
+          <MediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
         </div>
       </div>
       <CardGetInvolved
