@@ -7,5 +7,6 @@
 <script setup lang="ts">
 defineProps<{
   organizations: string[];
+  iconSize?: string;
 }>();
 </script>

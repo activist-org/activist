@@ -1,11 +1,11 @@
 <template>
   <div
     v-if="selectedMenuItem"
-    class="bg-light-menu-selection dark:bg-dark-menu-selection fixed z-[9] h-10 w-full md:hidden"
+    class="fixed z-20 h-10 w-full bg-light-menu-selection dark:bg-dark-menu-selection md:hidden"
   >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1 elem-shadow-sm focus-brand relative flex w-full items-center py-2 pl-5 text-left align-middle"
+        class="elem-shadow-sm focus-brand relative flex w-full items-center fill-light-layer-1 py-2 pl-5 text-left align-middle text-light-layer-1 dark:fill-dark-layer-1 dark:text-dark-layer-1"
       >
         <Icon
           :name="selectedMenuItem.iconURL"
@@ -28,7 +28,7 @@
         leave-to-class="opacity-0"
       >
         <ListboxOptions
-          class="bg-light-menu-selection dark:bg-dark-menu-selection focus-brand"
+          class="focus-brand bg-light-menu-selection dark:bg-dark-menu-selection"
         >
           <ListboxOption
             v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
@@ -43,15 +43,15 @@
               <li
                 class="relative flex cursor-default select-none items-center py-2 pl-5 align-middle"
                 :class="{
-                  'bg-light-layer-2 dark:bg-dark-section-div text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
+                  'bg-light-layer-2 fill-light-text text-light-text dark:bg-dark-section-div dark:fill-dark-text dark:text-dark-text':
                     selected && active,
-                  'bg-light-layer-1 dark:bg-dark-layer-1 text-light-text dark:text-dark-text fill-light-text dark:fill-dark-text':
+                  'bg-light-layer-1 fill-light-text text-light-text dark:bg-dark-layer-1 dark:fill-dark-text dark:text-dark-text':
                     selected && !active,
-                  'bg-light-highlight dark:bg-dark-highlight text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1':
+                  'bg-light-highlight fill-light-layer-1 text-light-layer-1 dark:bg-dark-highlight dark:fill-dark-layer-1 dark:text-dark-layer-1':
                     !selected && active,
-                  'text-light-layer-1 dark:text-dark-layer-1 fill-light-layer-1 dark:fill-dark-layer-1':
+                  'fill-light-layer-1 text-light-layer-1 dark:fill-dark-layer-1 dark:text-dark-layer-1':
                     !active && menuEntry.active,
-                  'text-light-distinct-text dark:text-dark-distinct-text fill-light-distinct-text dark:fill-dark-distinct-text':
+                  'fill-light-distinct-text text-light-distinct-text dark:fill-dark-distinct-text dark:text-dark-distinct-text':
                     !active && !menuEntry.active,
                 }"
               >
@@ -84,8 +84,8 @@ import {
 import type MenuEntry from "~/types/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
 
-const route = useRoute();
 const { locale } = useI18n();
+const route = useRoute();
 
 function currentRoutePathIncludes(path: string): boolean {
   const { locale } = useI18n();

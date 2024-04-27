@@ -1,10 +1,8 @@
 export interface DiscussionEntry {
-  title: string;
+  id: number;
+  authorImg?: string;
   author: string;
-  category: string;
-  text: string;
-  upVoters: number;
-  participants: number;
-  messages: number;
-  creationDate: datetime;
+  content: string;
+  votes: number;
+  date: datetime;
 }

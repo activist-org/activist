@@ -10,18 +10,26 @@
     ref="sidebarWrapper"
     role="menu"
     tabindex="0"
-    class="bg-light-layer-1 dark:bg-dark-layer-1 border-light-section-div dark:border-dark-section-div elem-shadow-sm focus-brand absolute z-10 hidden h-full flex-col border-r transition-all duration-500 md:flex"
+    class="elem-shadow-sm focus-brand absolute z-10 hidden h-full flex-col border-r border-light-section-div bg-light-layer-1 transition-all duration-500 dark:border-dark-section-div dark:bg-dark-layer-1 md:flex"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
+      'w-60':
+        (!sidebar.collapsed || sidebar.collapsedSwitch == false) &&
+        sidebarContentScrollable,
+      'w-20':
+        sidebar.collapsed &&
+        sidebar.collapsedSwitch == true &&
+        sidebarContentScrollable,
     }"
   >
-    <SidebarLeftHeader @toggle-pressed="setContentScrollable()" />
+    <SidebarLeftHeader @toggle-pressed="setSidebarContentScrollable()" />
     <div
       ref="content"
       class="h-full overflow-x-hidden"
       :class="{
-        '-mr-[0.55rem]': contentScrollable,
+        'overflow-y-auto':
+          !sidebar.collapsed || sidebar.collapsedSwitch == false,
       }"
     >
       <SearchBar class="mt-1" :location="SearchBarLocation.SIDEBAR" />
@@ -32,7 +40,7 @@
           sidebarType === SidebarType.EVENT_PAGE
         "
         class="my-3"
-        :name="placeholderName"
+        :name="placeholderName ? placeholderName : 'Name'"
         :sidebarType="sidebarType"
         :logoUrl="placeholderLogo"
       />
@@ -45,21 +53,22 @@
         :filters="getFiltersByPageType"
       />
     </div>
-    <SidebarLeftFooter />
+    <SidebarLeftFooter :sidebarContentScrollable="sidebarContentScrollable" />
   </aside>
 </template>
 
 <script setup lang="ts">
-import { SidebarType } from "~/types/sidebar-type";
+import type { Filters } from "~/types/filters";
 import { SearchBarLocation } from "~/types/location";
+import { SidebarType } from "~/types/sidebar-type";
 
 defineProps<{
   name?: string;
 }>();
 
+const { locale } = useI18n();
 const sidebar = useSidebar();
 const route = useRoute();
-const { locale } = useI18n();
 
 function currentRoutePathIncludes(path: string): boolean {
   const { locale } = useI18n();
@@ -284,30 +293,37 @@ const filters = {
   },
 };
 
-const getFiltersByPageType = computed(() => {
+const getFiltersByPageType = computed<Filters>(() => {
+  const filteredFilters: Filters = {};
   for (const filter in filters) {
     const f = filters[filter as keyof typeof filters];
     if (!f.sidebarType.includes(sidebarType)) {
-      delete filters[filter as keyof typeof filters];
+      delete filteredFilters[filter as keyof typeof filters];
     }
   }
 
-  return filters;
+  return filteredFilters;
 });
 
 const content = ref();
-const contentScrollable = ref(false);
 
-function setContentScrollable(): void {
-  contentScrollable.value =
-    content.value.scrollHeight > content.value.clientHeight ? true : false;
+const sidebarContentScrollable = useState<boolean>(
+  "sidebarContentScrollable",
+  () => false
+);
+
+function setSidebarContentScrollable(): void {
+  setTimeout(() => {
+    sidebarContentScrollable.value =
+      content.value.scrollHeight > content.value.clientHeight ? true : false;
+  }, 50);
 }
 
 const sidebarWrapper = ref<HTMLElement | null>(null);
 
 function collapseSidebar(collapse: boolean): void {
   sidebar.collapsed = collapse;
-  setContentScrollable();
+  setSidebarContentScrollable();
 }
 
 function handleFocusOut(event: FocusEvent) {
@@ -320,11 +336,11 @@ function handleFocusOut(event: FocusEvent) {
 }
 
 onMounted(() => {
-  window.addEventListener("resize", setContentScrollable);
-  setContentScrollable();
+  window.addEventListener("resize", setSidebarContentScrollable);
+  setSidebarContentScrollable();
 });
 
 onUnmounted(() => {
-  window.removeEventListener("resize", setContentScrollable);
+  window.removeEventListener("resize", setSidebarContentScrollable);
 });
 </script>

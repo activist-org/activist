@@ -145,7 +145,7 @@ activist is very open to contributions from people in the early stages of their 
 2. To setup your development environment, first install [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/).
 
 > [!NOTE]
-> If you are new to Docker, as an alternative activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
+> If you are new to Docker, activist recommends installing [Docker Desktop](https://docs.docker.com/desktop/). Docker Desktop comes with many Docker tools and a straightforward user interface.
 
 3. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the [activist repo](https://github.com/activist-org/activist), clone your fork, and configure the remotes:
 
@@ -182,13 +182,13 @@ git remote add upstream https://github.com/activist-org/activist.git
 4. Start your docker images with the following:
 
    ```bash
-   docker compose up
+   docker compose --env-file .env.dev up
 
    # Or with new dependencies:
-   # docker compose up --build
+   # docker compose --env-file .env.dev up --build
 
    # And to stop the containers when you're done working:
-   # docker compose down
+   # docker compose --env-file .env.dev down
    ```
 
 5. You can visit <http://localhost:3000/> to see the development build once the container is up and running.
@@ -226,7 +226,7 @@ You can then visit http://localhost:3000/ to see the development frontend build 
 Our backend depends on a connection to a postgres DB, therefore we need to setup the database first. Here our best option is to still use docker to create a postgres DB with the following command:
 
 ```bash
-docker compose up db
+docker compose --env-file .env.dev up db
 ```
 
 In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env.dev` file first.
@@ -369,14 +369,15 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
    git checkout -b <topic-branch-name>
    ```
 
-3. Install [pre-commit](https://pre-commit.com/) to ensure during development that each of your commits is properly formatted against our linter and formatters:
+3. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
 
    ```bash
+   # In the project root:
    pre-commit install
    ```
 
 > [!NOTE]
-> pre-commit is Python package that can be install via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
 >
 > ```bash
 > pip install pre-commit

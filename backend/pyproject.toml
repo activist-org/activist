@@ -1,16 +1,21 @@
 [tool.ruff]
 # Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
-select = [
-    "E", # pycodestyle errors
-    "F", # pyflakes
-    "I", # isort
-]
+
+[tool.ruff.lint]
 
 fixable = ["I"]
 
 ignore = [
     "E501", # line too long, handled by black
 ]
+
+select = [
+    "E", # pycodestyle errors
+    "F", # pyflakes
+    "I", # isort
+]
+
+mccabe = [10]
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
@@ -34,13 +39,6 @@ exclude = [
     "venv",
 ]
 
-# Same as Black.
-line-length = 88
-
-[tool.ruff.mccabe]
-# Unlike Flake8, default to a complexity level of 10.
-max-complexity = 10
-
 [tool.isort]
 line_length = 88
 
@@ -48,7 +46,6 @@ line_length = 88
 DJANGO_SETTINGS_MODULE = "backend.settings"
 python_files = "tests.py test_*.py *_tests.py"
 addopts = "--nomigrations --cov=. --cov-report=html --cov-report=term"
-
 
 [tool.coverage.run]
 omit = [
@@ -69,15 +66,11 @@ exclude = [
     "authentication/factories.py",
     "content/factories.py",
     "entities/factories.py",
-    "events/factories.py"
+    "events/factories.py",
 ]
+
 [[tool.mypy.overrides]]
-module = [
-    "authentication.*",
-    "content.*",
-    "entities.*",
-    "events.*"
-]
+module = ["authentication.*", "content.*", "entities.*", "events.*"]
 follow_imports = "skip"
 
 [tool.django-stubs]

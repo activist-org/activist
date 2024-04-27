@@ -1,11 +1,11 @@
 <template>
   <div class="card-style px-5 py-5">
     <div class="flex items-center gap-5">
-      <h3 class="responsive-h3 font-display text-left">
+      <h3 class="responsive-h3 text-left font-display">
         {{ $t("components._global.connect") }}
       </h3>
       <div
-        class="hover:text-light-highlight dark:hover:text-dark-highlight cursor-pointer break-all rounded-lg p-1 transition-all"
+        class="cursor-pointer break-all rounded-lg p-1 text-light-text transition-all hover:text-light-distinct-text dark:text-dark-text dark:hover:text-dark-distinct-text"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"
@@ -26,13 +26,7 @@
     >
       <li v-for="link in socialLinksRef">
         <div
-          class="flex cursor-pointer items-center gap-3 break-all transition-all"
-          :class="{
-            'hover:text-social-email': link.includes('email'),
-            'hover:text-social-mastodon': link.includes('mastodon'),
-            'hover:text-social-facebook': link.includes('facebook'),
-            'hover:text-social-instagram': link.includes('instagram'),
-          }"
+          class="flex cursor-pointer items-center gap-3 break-all text-light-text transition-all hover:text-light-distinct-text dark:text-dark-text dark:hover:text-dark-distinct-text"
         >
           <Icon
             v-if="editModeEnabled"
@@ -40,7 +34,6 @@
             name="bi:x-lg"
             size="1em"
           />
-          <Icon v-if="link.includes('email')" name="bi:envelope" size="1.2em" />
           <Icon
             v-else-if="link.includes('mastodon')"
             name="bi:mastodon"
@@ -75,6 +68,7 @@
               label="components.btn-action.new-account"
               fontSize="sm"
               leftIcon="bi:plus-lg"
+              iconSize="1.35em"
               ariaLabel="components._global.new-account-aria-label"
             />
           </PopoverButton>
@@ -88,12 +82,17 @@
           >
             <PopoverPanel class="absolute bottom-0 mb-12">
               <PopupNewField
-                @on-cta-clicked="emit('on-new-account', account)"
+                @on-cta-clicked="emit('on-new-account')"
                 @on-close-clicked="onClose(close)"
                 :title="$t('components.card-connect.app-account-popup-title')"
                 :fieldNamePrompt="
                   $t(
                     'components.card-connect.app-account-popup-field-name-prompt'
+                  )
+                "
+                :fieldLabelPrompt="
+                  $t(
+                    'components.card-connect.app-account-popup-field-label-prompt'
                   )
                 "
                 :ctaBtnLabel="

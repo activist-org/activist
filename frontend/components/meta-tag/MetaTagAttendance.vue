@@ -1,7 +1,7 @@
 <template>
   <MetaTag
     iconName="bi:person-fill-check"
-    :value="String(numAttending)"
+    :value="numAttending.toLocaleString()"
     :label="label"
   />
 </template>
@@ -10,5 +10,6 @@
 defineProps<{
   numAttending: number;
   label: string;
+  iconSize?: string;
 }>();
 </script>

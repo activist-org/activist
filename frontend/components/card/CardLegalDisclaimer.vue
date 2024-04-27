@@ -6,7 +6,7 @@
   >
     <DisclosureButton class="focus-brand rounded-md px-4 py-2">
       <div
-        class="text-light-text dark:text-dark-text flex select-none items-center gap-3"
+        class="flex select-none items-center gap-3 text-light-text dark:text-dark-text"
       >
         <Icon name="IconLegal" class="fill-light-text dark:fill-dark-text" />
         <p>{{ $t("components.card-legal-disclaimer.header") }}</p>
@@ -14,10 +14,10 @@
         <Icon v-else name="bi:chevron-down" />
       </div>
       <DisclosurePanel
-        class="border-light-section-div dark:border-dark-section-div mt-2 border-t py-2 focus-within:border-0"
+        class="mt-2 border-t border-light-section-div py-2 focus-within:border-0 dark:border-dark-section-div"
       >
         <p
-          class="text-light-distinct-text dark:text-dark-distinct-text select-text text-left"
+          class="select-text text-left text-light-distinct-text dark:text-dark-distinct-text"
         >
           {{ disclaimer }}
         </p>

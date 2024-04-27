@@ -10,7 +10,7 @@
       <Icon class="mt-[0.125em]" name="bi:filter" size="2em" />
     </div>
     <div
-      class="text-light-text dark:text-dark-text opacity-0 transition"
+      class="text-light-text opacity-0 transition dark:text-dark-text"
       :class="{
         '!opacity-100':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -69,7 +69,7 @@
           </KeepAlive>
           <FormSearch
             v-if="filter.type === 'search'"
-            v-model="selectedValues[filter.name]"
+            v-model="selectedSearchValues[filter.name]"
             :key="key"
             :name="filter.name"
             :placeholder="$t(filter.placeholder)"
@@ -81,30 +81,16 @@
 </template>
 
 <script setup lang="ts">
+import type { Filters } from "~/types/filters";
+
 const sidebar = useSidebar();
-
-import type { CheckboxOption } from "../../form/checkbox/FormCheckboxGroup.vue";
-
-interface Filter {
-  title: string;
-  name: string;
-  type: "radio" | "checkbox" | "search";
-  items: CheckboxOption[];
-  style?: string;
-  allowCustomValue?: boolean;
-  pageType?: string[];
-  searchInput?: boolean;
-  placeholder: string;
-  expandable?: boolean;
-  reveal?: boolean;
-}
-
-interface Filters {
-  [key: string]: Filter;
-}
 
 interface SelectedValues {
   [key: string]: string | string[];
+}
+
+interface SelectedSearchValues {
+  [key: string]: [string, number];
 }
 
 const props = defineProps({
@@ -117,9 +103,17 @@ const props = defineProps({
 const filters = ref(props.filters);
 
 const selectedValues: Ref<SelectedValues> = ref({});
+const selectedSearchValues: Ref<SelectedSearchValues> = ref({});
 
 watch(selectedValues.value, (newVal) => {
   console.log("selectedValues changed");
+  console.log(newVal);
+
+  // TODO: Filter items based on selected filters.
+});
+
+watch(selectedSearchValues.value, (newVal) => {
+  console.log("selectedSearchValues changed");
   console.log(newVal);
 
   // TODO: Filter items based on selected filters.

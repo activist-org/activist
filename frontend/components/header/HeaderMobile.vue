@@ -1,7 +1,7 @@
 <template>
   <header
     ref="header"
-    class="bg-light-layer-2 dark:bg-dark-layer-2 sticky top-0 z-10 h-12 w-full drop-shadow-md duration-500 md:hidden"
+    class="sticky top-0 z-50 h-12 w-full bg-light-layer-2 drop-shadow-md duration-500 dark:bg-dark-layer-2 md:hidden"
   >
     <div class="h-full">
       <div class="flex h-full justify-between gap-2 px-4">
@@ -20,23 +20,25 @@
           <div class="flex-col space-y-2">
             <DropdownTheme
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownLanguage
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownCreate
+              v-if="userIsSignedIn"
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownInfo
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownUserOptions
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
+              :userIsSignedIn="userIsSignedIn"
             />
           </div>
         </SidebarRight>
@@ -48,6 +50,7 @@
 <script setup lang="ts">
 import { DropdownLocation, SearchBarLocation } from "~/types/location";
 
+const userIsSignedIn = false;
 const isSearchExpanded = ref(false);
 
 const toggleSearchExpanded = () => {

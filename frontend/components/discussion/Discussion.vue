@@ -1,27 +1,29 @@
 <template>
   <div class="space-y-6">
     <DiscussionHeader />
-    <CardDiscussionText
-      v-for="discussionText in discussionTexts"
-      :key="discussionText"
-      :isPrivate="false"
-      :discussionText="discussionText"
-    />
+    <div v-if="discussionEntries" class="space-y-6">
+      <CardDiscussionEntry
+        v-for="discussionEntry in discussionEntries"
+        :key="discussionEntry.id"
+        :isPrivate="false"
+        :discussionEntry="discussionEntry"
+      />
+    </div>
     <CardDiscussionInput
-      v-if="organization && organization.status == 'pending'"
+      v-if="organizations && discussionInput"
       :discussionInput="discussionInput"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { DiscussionEntry } from "~/types/card-discussion-entry";
 import type { DiscussionInput } from "~/types/card-discussion-input";
-import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Organization } from "~/types/organization";
 
 defineProps<{
-  discussionInput: DiscussionInput;
-  discussionTexts: DiscussionText[];
-  organization?: Organization;
+  discussionInput?: DiscussionInput;
+  discussionEntries?: DiscussionEntry[];
+  organizations?: Organization[];
 }>();
 </script>

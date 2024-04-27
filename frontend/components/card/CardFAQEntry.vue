@@ -2,21 +2,31 @@
   <Disclosure v-slot="{ open }" as="div" class="card-style">
     <DisclosureButton class="focus-brand w-full rounded-md px-4 py-2">
       <div
-        class="text-light-text dark:text-dark-text flex select-none items-center gap-3"
+        class="flex gap-3"
+        :class="{ 'items-center': !open, 'items-start': open }"
       >
-        <p>{{ faqEntry.question }}</p>
-        <Icon name="bi:pencil-square" size="1.2em" />
-
-        <Icon v-if="open" name="bi:chevron-up" />
-        <Icon v-else name="bi:chevron-down" />
+        <div>
+          <Icon v-if="open" name="bi:chevron-up" />
+          <Icon v-else name="bi:chevron-down" />
+        </div>
+        <div class="flex-col">
+          <div
+            class="flex select-none items-center gap-3 text-light-text dark:text-dark-text"
+          >
+            <p>{{ faqEntry.question }}</p>
+            <IconEdit />
+          </div>
+          <DisclosurePanel
+            class="mt-2 border-t border-light-section-div py-2 focus-within:border-0 dark:border-dark-section-div"
+          >
+            <p
+              class="select-text text-left text-light-text dark:text-dark-text"
+            >
+              {{ faqEntry.answer }}
+            </p>
+          </DisclosurePanel>
+        </div>
       </div>
-      <DisclosurePanel
-        class="border-light-section-div dark:border-dark-section-div mt-2 border-t py-2 focus-within:border-0"
-      >
-        <p class="text-light-text dark:text-dark-text select-text text-left">
-          {{ faqEntry.answer }}
-        </p>
-      </DisclosurePanel>
     </DisclosureButton>
   </Disclosure>
 </template>

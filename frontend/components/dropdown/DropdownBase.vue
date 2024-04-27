@@ -69,10 +69,10 @@
     <MenuItems
       class="focus-brand rounded-md"
       :class="{
-        'bg-light-content dark:bg-dark-content dark:border-dark-text absolute right-0 mt-2 origin-top-right divide-y shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border':
+        'absolute right-0 mt-2 origin-top-right divide-y bg-light-layer-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text dark:bg-dark-layer-0':
           !isSideLeftMenu,
         '!static': isSideMenu || isSideLeftMenu,
-        'bg-light-layer-2 dark:bg-dark-layer-2 mt-1 p-1': isSideLeftMenu,
+        'mt-1 bg-light-layer-2 p-1 dark:bg-dark-layer-2': isSideLeftMenu,
       }"
     >
       <slot />
@@ -96,11 +96,11 @@ const props = defineProps<{
 const sidebar = useSidebar();
 
 const isSideLeftMenu = computed(() => {
-  return props.location === DropdownLocation.SIDELEFTMENU;
+  return props.location === DropdownLocation.SIDE_LEFT_MENU;
 });
 
 const isSideMenu = computed(() => {
-  return props.location === DropdownLocation.SIDEMENU;
+  return props.location === DropdownLocation.SIDE_MENU;
 });
 
 const expandOnFocus = () => {

@@ -17,4 +17,7 @@ router.register(r"user_topics", views.UserTopicViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("signup/", views.SignupView.as_view(), name="signup"),
+    path("delete/", views.DeleteUserView.as_view(), name="delete"),
+    path("login/", views.LoginView.as_view(), name="login"),
 ]

@@ -8,6 +8,7 @@
   >
     <BtnIconsLabel
       :label="label"
+      :hideLabelOnMobile="hideLabelOnMobile"
       :leftIcon="leftIcon"
       :rightIcon="rightIcon"
       :iconSize="iconSize"
@@ -21,5 +22,9 @@ import { getBtnDynamicClass } from "~/utils/btnUtils";
 
 const props = defineProps<BtnRoute>();
 
-const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
+const btnDynamicClass = getBtnDynamicClass(
+  props.cta,
+  props.fontSize,
+  props.disabled
+);
 </script>

@@ -1,13 +1,20 @@
 <template>
   <DropdownBase
     :location="location"
-    menuButtonAriaLabel="components.sidebar-left-footer.username-aria-label"
     menuButtonIcon="bi:person-circle"
-    :menuButtonLabel="$t(`components.sidebar-left-footer.username`)"
+    :menuButtonLabel="
+      userIsSignedIn
+        ? $t(`components.dropdown-user-options.username`)
+        : $t(`components._global.join`)
+    "
     :isMenuButtonUppercase="false"
     :isMenuButtonBold="true"
+    menuButtonAriaLabel="components.dropdown-user-options.username-aria-label"
   >
-    <DropdownItemsLayout :location="location" :options="userOpt" />
+    <DropdownItemsLayout
+      :location="location"
+      :options="userIsSignedIn ? userOptionsSignedIn : userOptionsSignedOut"
+    />
   </DropdownBase>
 </template>
 
@@ -17,26 +24,27 @@ import type { MenuSelector } from "~/types/menu-selector";
 
 defineProps<{
   location?: DropdownLocation;
+  userIsSignedIn: boolean;
 }>();
 
-const userOpt: MenuSelector[] = [
+const userOptionsSignedIn: MenuSelector[] = [
   {
     id: 1,
-    label: "components.sidebar-left-selector.label.your-profile",
+    label: "components.dropdown-user-options.your-profile",
     routeURL: "/",
     iconURL: "bi:person-circle",
     selected: false,
   },
   {
     id: 2,
-    label: "components.sidebar-left-selector.label.your-events",
+    label: "components.dropdown-user-options.your-events",
     routeURL: "/",
     iconURL: "bi:calendar-check",
     selected: false,
   },
   {
     id: 3,
-    label: "components.sidebar-left-selector.label.your-orgs",
+    label: "components.dropdown-user-options.your-orgs",
     routeURL: "/",
     iconURL: "IconOrganization",
     selected: false,
@@ -57,9 +65,26 @@ const userOpt: MenuSelector[] = [
   },
   {
     id: 6,
-    label: "components.sidebar-left-selector.label.sign-out",
+    label: "components.dropdown-user-options.sign-out",
     routeURL: "/",
     iconURL: "bi:box-arrow-left",
+    selected: false,
+  },
+];
+
+const userOptionsSignedOut: MenuSelector[] = [
+  {
+    id: 1,
+    label: "_global.sign-up",
+    routeURL: "/auth/sign-up",
+    iconURL: "IconJoin",
+    selected: false,
+  },
+  {
+    id: 1,
+    label: "_global.sign-in",
+    routeURL: "/auth/sign-in",
+    iconURL: "bi:person-circle",
     selected: false,
   },
 ];

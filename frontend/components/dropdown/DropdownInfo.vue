@@ -1,12 +1,12 @@
 <template>
   <DropdownBase
     :location="location"
-    menuButtonAriaLabel="components.sidebar-left-footer.info-aria-label"
     menuButtonIcon="bi:info-circle"
-    :menuButtonLabel="$t(`components.sidebar-left-footer.info`)"
+    :menuButtonLabel="$t(`components.dropdown-info.info`)"
     :isMenuButtonUppercase="false"
+    menuButtonAriaLabel="components.dropdown-info.info-aria-label"
   >
-    <DropdownItemsLayout :location="location" :options="infoOpt" />
+    <DropdownItemsLayout :location="location" :options="infoOptions" />
   </DropdownBase>
 </template>
 
@@ -18,7 +18,7 @@ defineProps<{
   location?: DropdownLocation;
 }>();
 
-const infoOpt: MenuSelector[] = [
+const infoOptions: MenuSelector[] = [
   {
     id: 1,
     label: "_global.help",

@@ -37,6 +37,9 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vueuse/nuxt",
   ],
+  content: {
+    watch: false,
+  },
   imports: {
     dirs: ["./stores"],
   },

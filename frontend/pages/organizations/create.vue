@@ -1,8 +1,8 @@
 <template>
-  <div class="text-light-text dark:text-dark-text w-full">
+  <div class="w-full text-light-text dark:text-dark-text">
     <ProgressBar type="default" :progress="1" :start="1" :end="1" />
     <div class="flex flex-col px-4 xl:px-8">
-      <PageBreadcrumbs class="mt-2" :breadcrumbs="breadcrumbs" />
+      <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="responsive-h2 font-bold">
           {{ $t("pages.organizations.create.header") }}
@@ -25,7 +25,7 @@
             <input
               v-model="formData.name"
               id="name"
-              class="border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0 mt-2 w-full rounded-md border px-4 py-2"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="name"
               :placeholder="
@@ -40,7 +40,7 @@
             <input
               v-model="formData.location"
               id="location"
-              class="border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0 mt-2 w-full rounded-md border px-4 py-2"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="location"
               :placeholder="
@@ -56,7 +56,7 @@
           <textarea
             v-model="formData.description"
             id="description"
-            class="border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0 mt-2 w-full rounded-md border px-4 py-2"
+            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="description"
             :placeholder="
               $t('pages.organizations.create.description-placeholder')
@@ -65,17 +65,21 @@
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="tagline" class="responsive-h3 block font-medium">{{
-            $t("pages.organizations.create.tagline")
+            $t("pages._global.create.tagline")
           }}</label>
           <input
             v-model="formData.tagline"
             id="tagline"
-            class="border-light-section-div dark:border-dark-section-div bg:light-layer-0 dark:bg-dark-layer-0 mt-2 w-full rounded-md border px-4 py-2"
+            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="tagline"
             :placeholder="$t('pages.organizations.create.tagline-placeholder')"
           />
         </div>
-        <CardTopicSelection v-model="formData.topics" class="mt-5" />
+        <CardTopicSelection
+          v-model="formData.topics"
+          class="mt-5"
+          pageType="organization"
+        />
         <div class="mx-14 mt-5 w-full">
           <CardConnect
             :social-links="formData.social_accounts"

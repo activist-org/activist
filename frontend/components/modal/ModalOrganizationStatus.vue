@@ -39,7 +39,7 @@
           </p>
         </DialogTitle>
         <p
-          class="text-light-accepted-green dark:text-dark-accepted-green responsive-h4 pt-2"
+          class="responsive-h4 pt-2 text-light-accepted-green dark:text-dark-accepted-green"
         >
           {{ $t("components.modal-organization-status.status-accepted") }}
         </p>
@@ -52,7 +52,7 @@
             :downVotes="modalOrganizationStatusData!.downVotes"
           />
           <Discussion
-            :discussionTexts="modalOrganizationStatusData!.discussionTexts"
+            :discussionEntries="modalOrganizationStatusData!.discussionEntries"
             :organization="organization"
           />
         </div>
@@ -63,11 +63,11 @@
 
 <script setup lang="ts">
 import ModalBase from "~/components/modal/ModalBase.vue";
-import type { DiscussionText } from "~/types/card-discussion-text";
+import type { DiscussionEntry } from "~/types/card-discussion-entry";
 import type { Organization } from "~/types/organization";
 
 const modalOrganizationStatusData = inject<{
-  discussionTexts: DiscussionText[];
+  discussionEntries: DiscussionEntry[];
   organizationsInFavor: Organization[];
   upVotes: number;
   downVotes: number;

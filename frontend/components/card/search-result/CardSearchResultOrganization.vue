@@ -2,7 +2,7 @@
   <div class="relative flex w-full flex-col md:flex-row">
     <div class="flex w-full justify-center md:w-fit">
       <div
-        class="border-light-section-div dark:border-dark-section-div bg-light-layer-0 dark:bg-dark-layer-0 w-fit border"
+        class="w-fit border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
         :class="{
           'rounded-lg': organization.imageURL,
           'rounded-3xl': !organization.imageURL,
@@ -27,7 +27,7 @@
             'h-[150px] w-[150px]': reduced,
             'h-[200px] w-[200px]': !reduced,
           }"
-          class="text-light-text dark:text-dark-text flex items-center justify-center"
+          class="flex items-center justify-center text-light-text dark:text-dark-text"
         >
           <Icon name="IconOrganization" class="h-[100%] w-[100%]" />
         </div>
@@ -54,9 +54,6 @@
           <MetaTagLocation :location="organization.location" />
         </div>
       </div>
-      <div class="flex justify-center md:justify-start">
-        <ShieldTopic v-if="!reduced" :topic="organization.topic" />
-      </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
           <MetaTagLocation :location="organization.location" />
@@ -73,6 +70,9 @@
             label="components.meta-tag.supporters_lower"
           />
         </div>
+      </div>
+      <div class="flex justify-center md:justify-start">
+        <ShieldTopic v-if="!reduced" :topic="organization.topic" />
       </div>
       <div class="flex justify-center md:justify-start">
         {{ organization.description }}

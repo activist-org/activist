@@ -22,5 +22,10 @@ export default function useTabNavigationEmit(emit: EmitType) {
       emit("tab");
     }
   };
-  return { onTabPress };
+
+  const handleTabPress = (isLastItem: boolean, event: KeyboardEvent) => {
+    onTabPress(isLastItem, event);
+  };
+
+  return { handleTabPress };
 }

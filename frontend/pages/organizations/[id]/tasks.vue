@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col px-4 xl:px-8"
+    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
       <Title
@@ -25,6 +25,7 @@
         />
       </div>
     </HeaderAppPage>
+    <div class="space-y-3 py-4"></div>
   </div>
 </template>
 

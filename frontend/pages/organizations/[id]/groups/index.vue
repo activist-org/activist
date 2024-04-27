@@ -1,51 +1,42 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col px-4 xl:px-8"
+    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{
-          $t("_global.discussions_lower")
-        }}</Title
+        >{{ organization.name }}&nbsp;{{ $t("_global.groups_lower") }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.discussions_lower')"
-      :tagline="$t('pages.organizations.discussions.tagline')"
+      :header="organization.name + ' ' + $t('_global.groups_lower')"
+      :tagline="$t('pages.organizations.groups.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
-          class="hidden w-max md:block"
+          class="w-max"
           :cta="true"
           linkTo="/"
-          label="components.btn-route-internal.new-discussion"
+          label="components._global.new-group"
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-route-internal.new-discussion-aria-label"
-        />
-        <BtnAction
-          class="hidden w-max md:block"
-          :cta="true"
-          label="components.btn-action.share-discussion"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.25em"
-          ariaLabel="components.btn-action.share-discussion-aria-label"
+          ariaLabel="components.btn-route-internal.new-group-aria-label"
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-6 pb-6 pt-3 md:pt-4">
-      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
-      <CardDiscussionEntry :isPrivate="false" :discussion="discussion" />
+    <div class="space-y-3 py-4">
+      <CardSearchResult
+        searchResultType="organization"
+        :reduced="true"
+        :organization="group"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/card-discussion-entry";
 import type { Organization } from "~/types/organization";
 
 definePageMeta({
@@ -68,14 +59,14 @@ const organization: Organization = {
   donationPrompt: "Hey thanks!",
 };
 
-const discussion: DiscussionEntry = {
-  title: "Title of discussion ",
-  author: "John A. Tester",
-  category: "Category",
-  text: "I love to test!",
-  upVoters: 123,
-  participants: 3,
-  messages: 3,
-  creationDate: new Date(),
+const group: Organization = {
+  name: "friends of tech",
+  status: "approved",
+  tagline: "We're just friends!",
+  location: "Kalamazoo, MI",
+  description: "Friends!!",
+  topic: "test",
+  members: 10,
+  supporters: 15,
 };
 </script>

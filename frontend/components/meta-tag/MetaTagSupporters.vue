@@ -6,5 +6,6 @@
 defineProps<{
   supporters: number;
   label: string;
+  iconSize?: string;
 }>();
 </script>

@@ -1,11 +1,11 @@
 <template>
   <div
-    class="border-light-interactive dark:border-dark-interactive relative flex h-9 items-center border border-r-0 font-bold first:rounded-l-md last:rounded-r-md last:border-r"
+    class="relative flex h-9 items-center border border-r-0 border-light-interactive font-bold first:rounded-l-md last:rounded-r-md last:border-r dark:border-dark-interactive"
     :class="{
-      'bg-light-menu-selection dark:bg-dark-menu-selection text-light-layer-1 dark:text-dark-layer-1':
+      'bg-light-menu-selection text-light-layer-1 dark:bg-dark-menu-selection dark:text-dark-layer-1':
         modelValue && !customColor,
       [customColorClass]: modelValue && customColor,
-      'bg-light-layer-2 text-light-distinct-text dark:text-dark-distinct-text dark:bg-dark-layer-2':
+      'bg-light-layer-2 text-light-distinct-text dark:bg-dark-layer-2 dark:text-dark-distinct-text':
         !modelValue,
       'hover:bg-light-hover dark:hover:bg-dark-hover': !modelValue,
     }"

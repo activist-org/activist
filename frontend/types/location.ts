@@ -1,7 +1,7 @@
 export enum DropdownLocation {
   SIDEBAR = "sidebar",
-  SIDEMENU = "sideMenu",
-  SIDELEFTMENU = "sideLeftMenu",
+  SIDE_MENU = "sideMenu",
+  SIDE_LEFT_MENU = "sideLeftMenu",
 }
 
 export enum SearchBarLocation {

@@ -1,42 +1,48 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col px-4 xl:px-8"
+    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{ $t("_global.groups_lower") }}</Title
+        >{{ organization.name }}&nbsp;{{
+          $t("_global.discussions_lower")
+        }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.groups_lower')"
-      :tagline="$t('pages.organizations.groups.tagline')"
+      :header="organization.name + ' ' + $t('_global.discussions_lower')"
+      :tagline="$t('pages.organizations.discussions.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
-          class="w-max"
+          class="hidden w-max md:block"
           :cta="true"
           linkTo="/"
-          label="components._global.new-group"
+          label="components.btn-route-internal.new-discussion"
           fontSize="sm"
           leftIcon="bi:plus-lg"
           iconSize="1.35em"
-          ariaLabel="components.btn-route-internal.new-group-aria-label"
+          ariaLabel="components.btn-route-internal.new-discussion-aria-label"
+        />
+        <ModalSharePage
+          :cta="true"
+          label="components._global.share-organization"
+          :organization="organization"
+          ariaLabel="components._global.share-organization-aria-label"
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-3 py-4">
-      <CardSearchResult
-        searchResultType="organization"
-        :reduced="true"
-        :organization="group"
-      />
+    <div class="space-y-6 pb-6 pt-3 md:pt-4">
+      <CardDiscussion :isPrivate="false" :discussion="discussion" />
+      <CardDiscussion :isPrivate="false" :discussion="discussion" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { Discussion } from "~/types/card-discussion";
 import type { Organization } from "~/types/organization";
 
 definePageMeta({
@@ -59,14 +65,14 @@ const organization: Organization = {
   donationPrompt: "Hey thanks!",
 };
 
-const group: Organization = {
-  name: "friends of tech",
-  status: "approved",
-  tagline: "We're just friends!",
-  location: "Kalamazoo, MI",
-  description: "Friends!!",
-  topic: "test",
-  members: 10,
-  supporters: 15,
+const discussion: Discussion = {
+  title: "Title of discussion ",
+  author: "John A. Tester",
+  category: "Category",
+  text: "I love to test!",
+  upVoters: 123,
+  participants: 3,
+  messages: 3,
+  creationDate: new Date(),
 };
 </script>

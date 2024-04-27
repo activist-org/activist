@@ -1,6 +1,7 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col items-center justify-between gap-8 px-8 py-8"
+    v-if="windowWidth < Breakpoint.SMALL"
+    class="flex flex-col items-center justify-between gap-8 bg-light-layer-0 px-8 py-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ organization.name }} </Title>
@@ -17,12 +18,12 @@
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1
-        class="responsive-h1 text-light-text dark:text-dark-text text-3xl font-bold"
+        class="responsive-h1 text-3xl font-bold text-light-text dark:text-dark-text"
       >
         {{ organization.name }}
       </h1>
       <h2
-        class="responsive-h2 text-light-distinct-text dark:text-dark-distinct-text text-center text-lg font-bold"
+        class="responsive-h2 text-center text-lg font-bold text-light-distinct-text dark:text-dark-distinct-text"
       >
         {{ organization.tagline }}
       </h2>
@@ -66,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { Breakpoint } from "~/types/breakpoints";
 import type { MenuSelector } from "~/types/menu-selector";
 import type { Organization } from "~/types/organization";
 
@@ -126,46 +127,56 @@ const organizationButtons: MenuSelector[] = [
   },
   {
     id: 6,
+    label: "_global.team",
+    routeURL: "/organizations/" + id + "/team",
+    iconURL: "bi:people",
+    selected: useRoute().path.split("/").pop() === "team" ? true : true,
+  },
+  {
+    id: 7,
+    label: "_global.affiliates",
+    routeURL: "/organizations/" + id + "/affiliates",
+    iconURL: "IconSupport",
+    selected: useRoute().path.split("/").pop() === "affiliates" ? true : true,
+  },
+  {
+    id: 8,
+    label: "_global.tasks",
+    routeURL: "/organizations/" + id + "/tasks",
+    iconURL: "bi:check-square",
+    selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
+  },
+  {
+    id: 9,
+    label: "_global.discussions",
+    routeURL: "/organizations/" + id + "/discussions",
+    iconURL: "octicon:comment-discussion-24",
+    selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
+  },
+  {
+    id: 10,
     label: "_global.settings",
     routeURL: "/organizations/" + id + "/settings",
     iconURL: "bi:gear",
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
   },
-  // {
-  //    id: 7,
-  //   label: "_global.affiliates",
-  //   routeURL: "/organizations/" + id + "/affiliates",
-  //   iconURL: "IconSupport",
-  //   selected: useRoute().path.split("/").pop() === "affiliates" ? true : true,
-  // },
-  // {
-  //    id: 8,
-  //   label: "_global.tasks",
-  //   routeURL: "/organizations/" + id + "/tasks",
-  //   iconURL: "bi:check-square",
-  //   selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
-  // },
-  // {
-  //    id: 9,
-  //   label: "_global.discussions",
-  //   routeURL: "/organizations/" + id + "/discussions",
-  //   iconURL: "octicon:comment-discussion-24",
-  //   selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
-  // },
 ];
 
+const windowWidth = ref(window.innerWidth);
+
 const handleResize = () => {
-  if (window.innerWidth > 640) {
-    window.removeEventListener("resize", handleResize);
+  windowWidth.value = window.innerWidth;
+  if (window.innerWidth > Breakpoint.SMALL) {
     navigateTo(`${id}/about`);
+    window.removeEventListener("resize", handleResize);
   }
 };
 
 onMounted(() => {
-  // Add event listener to handle resizing.
-  window.addEventListener("resize", handleResize);
-
   // Verify that the user is on a mobile device.
   handleResize();
+
+  // Add event listener to handle resizing.
+  window.addEventListener("resize", handleResize);
 });
 </script>

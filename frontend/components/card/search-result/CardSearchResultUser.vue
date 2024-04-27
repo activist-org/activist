@@ -2,14 +2,14 @@
   <div class="relative flex w-full flex-col md:flex-row">
     <div class="flex w-full justify-center md:w-fit">
       <div
-        class="border-light-section-div dark:border-dark-section-div bg-light-layer-0 dark:bg-dark-layer-0 w-fit rounded-full border"
+        class="w-fit rounded-full border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
       >
         <div
           :class="{
             'h-[150px] w-[150px]': reduced,
             'h-[200px] w-[200px]': !reduced,
           }"
-          class="fill-light-text dark:fill-dark-text flex items-center justify-center"
+          class="flex items-center justify-center fill-light-text dark:fill-dark-text"
         >
           <Icon class="h-[75%] w-[75%]" name="bi:person" />
         </div>
@@ -33,16 +33,18 @@
           />
         </div>
         <div
+          v-if="user.location"
           class="hidden w-full items-center space-x-3 md:flex md:w-fit lg:space-x-5"
         >
-          <MetaTagLocation :location="user?.location" />
+          <MetaTagLocation :location="user.location" />
         </div>
       </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div
+          v-if="user.location"
           class="flex w-full items-center justify-center space-x-3 md:hidden"
         >
-          <MetaTagLocation :location="user?.location" />
+          <MetaTagLocation :location="user.location" />
         </div>
         <div
           class="flex justify-center space-x-3 md:justify-start lg:space-x-4"

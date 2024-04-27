@@ -2,7 +2,7 @@
   <div class="relative flex w-full flex-col md:flex-row">
     <div class="flex w-full justify-center md:w-fit">
       <div
-        class="border-light-section-div dark:border-dark-section-div h-min rounded-md border"
+        class="h-min rounded-md border border-light-section-div dark:border-dark-section-div"
       >
         <img
           v-if="event.imageURL"
@@ -14,7 +14,7 @@
           :alt="
             $t('components.card-search-result-event.img-alt-text') +
             ' ' +
-            resource.name
+            event.name
           "
         />
         <div
@@ -67,9 +67,6 @@
           <MetaTagDate :date="event?.date.toLocaleDateString()" />
         </div>
       </div>
-      <div class="flex justify-center md:justify-start">
-        <ShieldTopic v-if="!reduced" :topic="event.topic" />
-      </div>
       <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
         <div class="flex items-center justify-center space-x-4 md:hidden">
           <MetaTagLocation
@@ -92,6 +89,9 @@
             label="components.meta-tag.supporters_lower"
           />
         </div>
+      </div>
+      <div class="flex justify-center md:justify-start">
+        <ShieldTopic v-if="!reduced" :topic="event.topic" />
       </div>
       <div class="flex justify-center md:justify-start">
         {{ event.description }}

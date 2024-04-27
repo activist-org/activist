@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("_global.get-organized") }}</Title>
@@ -8,6 +8,9 @@
     <div
       class="responsive-py-4 responsive-px-5 flex w-full flex-col items-center"
     >
+      <div class="flex w-10/12 items-start pb-2 md:w-full">
+        <PageBreadcrumbs class="md:hidden" />
+      </div>
       <!-- Note: image on top of content for mobile. -->
       <img
         v-if="$colorMode.value == 'light'"
@@ -29,13 +32,13 @@
         <div
           class="items-center space-y-4 text-left md:items-start 2xl:col-span-1 2xl:row-start-1"
         >
-          <PageBreadcrumbs />
+          <PageBreadcrumbs class="hidden md:block" />
           <h1 class="responsive-h1 pb-2 font-bold">
             {{ $t("pages.docs.get-organized.header") }}
           </h1>
           <div class="flex flex-row space-x-3 py-2">
             <Icon
-              class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
+              class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
               name="bi:info-circle-fill"
               size="1.25em"
             />

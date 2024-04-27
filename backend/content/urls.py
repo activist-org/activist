@@ -6,6 +6,9 @@ from . import views
 app_name = "content"
 
 router = DefaultRouter()
+router.register(r"discussion", views.DiscussionViewSet)
+router.register(r"discussion_entry", views.DiscussionEntryViewSet)
+router.register(r"images", views.ImageViewSet)
 router.register(r"resources", views.ResourceViewSet)
 router.register(r"tasks", views.TaskViewSet)
 router.register(r"topics", views.TopicViewSet)
@@ -16,4 +19,5 @@ router.register(r"faq", views.FaqViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("iso_codes/", views.IsoCodeMapListAPIView.as_view(), name="iso_codes"),
 ]

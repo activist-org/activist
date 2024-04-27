@@ -22,7 +22,7 @@
       </button>
     </template>
     <template #modalDisplay>
-      <DialogTitle class="font-display flex justify-between">
+      <DialogTitle class="flex justify-between font-display">
         <p class="md:responsive-h2 text-3xl font-bold">
           {{ $t("components.modal-qr-code.header") }}
         </p>

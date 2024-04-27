@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("_global.contact") }}</Title>
@@ -18,7 +18,7 @@
         </h1>
         <div class="flex flex-row space-x-3 py-2">
           <Icon
-            class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
+            class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
             name="bi:info-circle-fill"
             size="1.25em"
           />
@@ -93,7 +93,7 @@
                   'text-light-text dark:text-dark-text': nameValidated,
                 }"
                 for="name"
-                >{{ $t("pages._global.name-label") }}
+                >{{ $t("pages.help.contact.name") }}
                 <span v-if="!nameValidated">{{
                   $t("pages.help.contact.error-empty")
                 }}</span></label
@@ -102,9 +102,9 @@
                 v-model="name"
                 @blur="validateName"
                 id="name"
-                class="placeholder:dark:dark-placeholder placeholder:light-placeholder bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text rounded-md p-2 placeholder:italic"
+                class="rounded-md bg-light-highlight p-2 text-light-text placeholder-light-distinct-text focus:bg-light-layer-1 dark:bg-dark-highlight dark:text-dark-text dark:placeholder-dark-distinct-text focus:dark:bg-dark-layer-1"
                 :class="{
-                  'outline-light-action-red dark:outline-dark-action-red outline outline-2':
+                  'outline outline-2 outline-light-action-red dark:outline-dark-action-red':
                     !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
                 }"
@@ -133,9 +133,9 @@
                 v-model="email"
                 @blur="validateEmail"
                 id="email"
-                class="placeholder:dark:dark-placeholder placeholder:light-placeholder bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text rounded-md p-2 placeholder:italic"
+                class="rounded-md bg-light-highlight p-2 text-light-text placeholder-light-distinct-text focus:bg-light-layer-1 dark:bg-dark-highlight dark:text-dark-text dark:placeholder-dark-distinct-text focus:dark:bg-dark-layer-1"
                 :class="{
-                  'outline-light-action-red dark:outline-dark-action-red outline outline-2':
+                  'outline outline-2 outline-light-action-red dark:outline-dark-action-red':
                     !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
                 }"
@@ -161,9 +161,9 @@
                 v-model="subject"
                 @blur="validateSubject"
                 id="subject"
-                class="placeholder:dark:dark-placeholder placeholder:light-placeholder bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text rounded-md p-2 placeholder:italic"
+                class="rounded-md bg-light-highlight p-2 text-light-text placeholder-light-distinct-text focus:bg-light-layer-1 dark:bg-dark-highlight dark:text-dark-text dark:placeholder-dark-distinct-text focus:dark:bg-dark-layer-1"
                 :class="{
-                  'outline-light-action-red dark:outline-dark-action-red outline outline-2':
+                  'outline outline-2 outline-light-action-red dark:outline-dark-action-red':
                     !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
                 }"
@@ -187,9 +187,9 @@
                 v-model="message"
                 @blur="validateMessage"
                 id="message"
-                class="placeholder:dark:dark-placeholder placeholder:light-placeholder bg-light-highlight dark:bg-dark-highlight focus:bg-light-layer-1 focus:dark:bg-dark-layer-1 text-light-text dark:text-dark-text resize-none rounded-md p-2 placeholder:italic"
+                class="resize-none rounded-md bg-light-highlight p-2 text-light-text placeholder-light-distinct-text focus:bg-light-layer-1 dark:bg-dark-highlight dark:text-dark-text dark:placeholder-dark-distinct-text focus:dark:bg-dark-layer-1"
                 :class="{
-                  'outline-light-action-red dark:outline-dark-action-red outline outline-2':
+                  'outline outline-2 outline-light-action-red dark:outline-dark-action-red':
                     !messageValidated,
                   'outline-none focus:outline-none': messageValidated,
                 }"
@@ -203,7 +203,7 @@
               <FriendlyCaptcha />
             </div>
             <button
-              class="focus-brand elem-shadow-sm text-light-text border-light-text dark:text-dark-cta-orange dark:border-dark-cta-orange fill-light-text dark:fill-dark-cta-orange bg-light-cta-orange dark:bg-dark-cta-orange/10 flex w-fit select-none items-center rounded-md border px-4 py-2 text-center font-semibold xl:rounded-lg"
+              class="focus-brand elem-shadow-sm flex w-fit select-none items-center rounded-md border border-light-text bg-light-cta-orange fill-light-text px-4 py-2 text-center font-semibold text-light-text dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange dark:text-dark-cta-orange xl:rounded-lg"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
                 'hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10':
@@ -227,7 +227,7 @@
         </h1>
         <div class="flex flex-row space-x-3 py-2 text-start">
           <Icon
-            class="text-light-link-text dark:text-dark-link-text mt-[0.125rem]"
+            class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
             name="bi:info-circle-fill"
             size="1.25em"
           />

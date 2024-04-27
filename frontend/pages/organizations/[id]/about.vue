@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col px-4 xl:px-8"
+    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
       <Title>{{ organization.name }}</Title>
@@ -13,7 +13,7 @@
           label="components.btn-action.support"
           fontSize="sm"
           leftIcon="IconSupport"
-          iconSize="1.25em"
+          iconSize="1.45em"
           :counter="organization.supporters"
           ariaLabel="
             components.btn-action.support-organization-aria-label
@@ -21,9 +21,9 @@
         />
         <ModalSharePage
           :cta="true"
-          label="components.btn-action.share-organization"
-          ariaLabel="components.btn-action.share-organization-aria-label"
+          label="components._global.share-organization"
           :organization="organization"
+          ariaLabel="components._global.share-organization-aria-label"
         />
       </div>
     </HeaderAppPage>
@@ -38,13 +38,14 @@
         :downVotes="downVotes"
       />
       <div
-        class="grid grid-cols-1 grid-rows-2 space-y-6 pb-6 lg:grid-cols-3 lg:grid-rows-1 lg:space-y-0 lg:pb-0"
+        class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
           'lg:mr-6 lg:space-x-6': !textExpanded,
         }"
       >
         <CardAbout
           @expand-reduce-text="expandReduceText"
+          class="mb-6 lg:mb-0"
           :class="{
             'lg:col-span-2': !textExpanded,
             'lg:col-span-3': textExpanded,
@@ -81,7 +82,7 @@
       <div v-if="organization.status === 'pending'" class="space-y-6">
         <Discussion
           :discussionInput="testDiscussionInput"
-          :discussionTexts="testDiscussionTexts"
+          :discussionTexts="discussionEntries"
           :organization="organization"
         />
       </div>
@@ -90,29 +91,29 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
+import type { DiscussionEntry } from "~/types/card-discussion-entry";
 import type { DiscussionInput } from "~/types/card-discussion-input";
-import type { DiscussionText } from "~/types/card-discussion-text";
 import type { Organization } from "~/types/organization";
 
 definePageMeta({
   layout: "sidebar",
 });
 
+const route = useRoute();
+
 const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
 
-const route = useRoute();
-
 // TODO: for testing purpose, should be removed.
 const upVotes = ref(123);
 const downVotes = ref(123);
 
-const testDiscussionTexts: DiscussionText[] = [
+const discussionEntries: DiscussionEntry[] = [
   {
     // authorImg?: "string",
+    id: 1,
     author: "Name",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
@@ -121,6 +122,7 @@ const testDiscussionTexts: DiscussionText[] = [
   },
   {
     // authorImg?: "string",
+    id: 1,
     author: "Name",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
@@ -150,7 +152,7 @@ const testOrganization: Organization = {
   members: 3,
   supporters: 60,
   imageURL: "/images/tech-from-below.svg",
-  workingGroups: ["meetup", "code-night"],
+  workingGroups: ["Core", "Meetup", "Code Night", "Organizing"],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   donationPrompt: "Hey thanks!",
 };
@@ -169,7 +171,7 @@ onMounted(() => {
 });
 
 provide("modalOrganizationStatusData", {
-  discussionTexts: testDiscussionTexts,
+  discussionEntries: discussionEntries,
   organizationsInFavor: organizationsInFavor,
   upVotes: 6,
   downVotes: 4,

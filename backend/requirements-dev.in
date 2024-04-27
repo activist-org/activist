@@ -10,10 +10,10 @@
 #
 -r requirements.txt
 
-pre-commit
-ruff
+factory-boy
 pip-tools
+pre-commit
 pytest
 pytest-cov
 pytest-django
-factory-boy
+ruff

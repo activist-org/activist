@@ -1,6 +1,6 @@
 <template>
   <div
-    class="elem-shadow-md card-style bg-light-layer-1 dark:bg-dark-layer-1 flex w-fit flex-col space-y-2 px-4 pb-3 pt-2"
+    class="elem-shadow-md card-style flex w-fit flex-col space-y-2 bg-light-layer-1 px-4 pb-3 pt-2 dark:bg-dark-layer-1"
   >
     <div class="relative flex">
       <p class="responsive-h5 pl-1">
@@ -11,7 +11,7 @@
         @keypress.enter="emit('on-close-clicked')"
         role="button"
         tabindex="0"
-        class="text-light-distinct-text dark:text-dark-distinct-text hover:text-light-text hover:dark:text-dark-text absolute right-0 mr-1"
+        class="absolute right-0 mr-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
       >
         <Icon class="h-6 w-6" name="bi:x-circle-fill" />
       </div>
@@ -21,15 +21,23 @@
       v-model="inputValue"
       ref="input"
       id="popup-input"
-      class="border-light-text dark:border-dark-text focus-brand h-8 w-52 rounded-sm border bg-transparent p-2"
+      class="focus-brand h-8 w-52 rounded-sm border border-light-text bg-transparent p-2 dark:border-dark-text"
       type="text"
       :placeholder="fieldNamePrompt"
+    />
+    <input
+      v-model="inputValue"
+      ref="input"
+      id="popup-input"
+      class="focus-brand h-8 w-52 rounded-sm border border-light-text bg-transparent p-2 dark:border-dark-text"
+      type="text"
+      :placeholder="fieldLabelPrompt"
     />
     <label for="popup-textarea" class="sr-only"> {{ descriptionPrompt }}</label>
     <textarea
       v-if="descriptionPrompt"
       id="popup-textarea"
-      class="border-light-text dark:border-dark-text focus-brand min-h-[50%] min-w-[75%] resize-none rounded-sm border bg-transparent p-1"
+      class="focus-brand min-h-[50%] min-w-[75%] resize-none rounded-sm border border-light-text bg-transparent p-1 dark:border-dark-text"
       name="message"
       rows="3"
       cols="10"
@@ -48,6 +56,7 @@
         :label="ctaBtnLabel"
         fontSize="sm"
         leftIcon="bi:plus-lg"
+        iconSize="1.35em"
         :ariaLabel="ctaBtnAriaLabel"
       />
     </div>
@@ -58,6 +67,7 @@
 defineProps<{
   title: string;
   fieldNamePrompt: string;
+  fieldLabelPrompt?: string;
   descriptionPrompt?: string;
   ctaBtnLabel: string;
   ctaBtnAriaLabel: string;

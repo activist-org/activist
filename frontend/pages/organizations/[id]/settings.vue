@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0 flex flex-col px-4 xl:px-8"
+    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
       <Title
@@ -24,10 +24,17 @@
         />
       </div>
     </HeaderAppPage>
-    <CardDangerZone
-      description="Here's where you can delete your account. Please note that this is not a reversible action - any permissions and settings that you have saved will be permanently lost. If you questions on your account please contact us on our contact page."
-      ctaBtnText="Permanently delete organization"
-    />
+    <div class="space-y-6 pb-6">
+      <CardDangerZone
+        :description="
+          $t('components.card-danger-zone.delete-organization-text')
+        "
+        :ctaBtnText="$t('components.card-danger-zone.delete-organization-cta')"
+        :ctaBtnAriaLabel="
+          $t('components.card-danger-zone.delete-organization-cta-aria-label')
+        "
+      />
+    </div>
   </div>
 </template>
 

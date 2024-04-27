@@ -165,7 +165,7 @@ Note that for all colors we need to apply both the light and dark mode variants.
 
 ```html
 <!-- This div has a background that reacts to the color mode. -->
-<div class="bg-light-header dark:bg-dark-header"></div>
+<div class="bg-light-layer-2 dark:bg-dark-layer-2"></div>
 ```
 
 Note further that Tailwind allows for alpha components for opacity to be applied to colors directly within the class declaration. We thus do not need to save versions of colors with transparency unless they are inherently used with an alpha less than one. An example of a color that has an inherent non-one alpha is `light-text` (`"rgba(0, 0, 0, 0.85)"`). To apply an alpha component to a color in Tailwind you follow it with a slash and the alpha that should be used as in the following example:
@@ -217,9 +217,9 @@ Localization keys should be defined based on their component or page within the 
   - Ex: `"components.shield-topic.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `ShieldTopic` component
     - `"CONTENT_REFERENCE"` in this case would be a reference to the name of a topic like `"environment"`
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
-  - Ex: if you're defining a key within `SidebarLeftFooter`:
-    - ✅ `"components.sidebar-left-footer.CONTENT_REFERENCE"`
-    - ❌ `"components.sidebar.left.sidebar-left-footer.CONTENT_REFERENCE"`
+  - Ex: if you're defining a key within `DropdownCreate`:
+    - ✅ `"components.dropdown-create.CONTENT_REFERENCE"`
+    - ❌ `"components.dropdown.dropdown-create.CONTENT_REFERENCE"`
 - Define keys based on the lowest level component or other entity in which they're used
   - Ex: you're working on the about page for organizations and there's a `BtnAction` that's getting a localization key:
     - ✅ `"components.btn-action.CONTENT_REFERENCE"`

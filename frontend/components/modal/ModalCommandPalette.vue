@@ -6,7 +6,7 @@
     </template>
     <template #modalDisplay>
       <div
-        class="text-light-distinct-text dark:text-dark-distinct-text focus-inside bg-light-layer-2 dark:bg-dark-layer-2 elem-shadow-sm my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md px-2 py-1 text-left transition duration-200"
+        class="focus-inside elem-shadow-sm my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-light-layer-2 px-2 py-1 text-left text-light-distinct-text transition duration-200 dark:bg-dark-layer-2 dark:text-dark-distinct-text"
       >
         <div class="flex items-center space-x-2 pl-1">
           <Icon name="bi:search" size="1em" />
@@ -23,14 +23,14 @@
           />
         </div>
       </div>
-      <DialogTitle class="font-display mt-5 flex justify-between">
+      <DialogTitle class="mt-5 flex justify-between font-display">
         <p class="md:responsive-h3 pb-3 text-3xl font-bold">
           {{ $t("components.modal-command-palette.pages-header") }}
         </p>
       </DialogTitle>
       <NuxtLink class="focus-brand flex rounded-md" :to="localePath('/home')">
         <div
-          class="hover:bg-light-highlight hover:dark:bg-dark-highlight group relative flex w-full items-center space-x-2 rounded-md px-2 py-1"
+          class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
         >
           <Icon name="bi:house" size="1em" :alt="$t('_global.home')" />
           <div>
@@ -45,7 +45,7 @@
       </NuxtLink>
       <NuxtLink class="focus-brand flex rounded-md" :to="localePath('/events')">
         <div
-          class="hover:bg-light-highlight hover:dark:bg-dark-highlight group relative flex w-full items-center space-x-2 rounded-md px-2 py-1"
+          class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
         >
           <Icon
             name="bi:calendar-check"
@@ -66,7 +66,7 @@
         :to="localePath('/notifications')"
       >
         <div
-          class="hover:bg-light-highlight hover:dark:bg-dark-highlight group relative flex w-full items-center space-x-2 rounded-md px-2 py-1"
+          class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
         >
           <Icon name="bi:bell" size="1em" :alt="$t('_global.notifications')" />
           <div>
@@ -83,7 +83,7 @@
         :to="localePath('/discussions')"
       >
         <div
-          class="hover:bg-light-highlight hover:dark:bg-dark-highlight group relative flex w-full items-center space-x-2 rounded-md px-2 py-1"
+          class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
         >
           <Icon
             name="octicon:comment-discussion-24"
@@ -99,7 +99,7 @@
           </div>
         </div>
       </NuxtLink>
-      <DialogTitle class="font-display mt-3 flex justify-between">
+      <DialogTitle class="mt-3 flex justify-between font-display">
         <p class="md:responsive-h3 pb-3 text-3xl font-bold">
           {{ $t("components._global.organizations") }}
         </p>
@@ -109,7 +109,7 @@
         :to="localePath('/organizations')"
       >
         <div
-          class="hover:bg-light-highlight hover:dark:bg-dark-highlight group relative flex w-full items-center space-x-2 rounded-md px-2 py-1"
+          class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
         >
           <Icon
             class="fill-light-text dark:fill-dark-text"
@@ -131,7 +131,7 @@
         :to="localePath('/organizations')"
       >
         <div
-          class="hover:bg-light-highlight hover:dark:bg-dark-highlight group relative flex w-full items-center space-x-2 rounded-md px-2 py-1"
+          class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
         >
           <Icon
             class="fill-light-text dark:fill-dark-text"
@@ -153,7 +153,7 @@
         :to="localePath('/organizations')"
       >
         <div
-          class="hover:bg-light-highlight hover:dark:bg-dark-highlight group relative flex w-full items-center space-x-2 rounded-md px-2 py-1"
+          class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
         >
           <Icon
             class="fill-light-text dark:fill-dark-text"
@@ -174,10 +174,11 @@
   </ModalBase>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 
 const { isMacOS } = useDevice();
+const localePath = useLocalePath();
 
 const { meta_k, ctrl_k } = useMagicKeys({
   passive: false,
@@ -200,6 +201,9 @@ whenever(ctrl_k, () => {
 
 const doWhenever = () => {
   // Trigger ModalBase @click="openModal".
-  document.getElementById("clickTarget").click();
+  const clickTarget = document.getElementById("clickTarget");
+  if (clickTarget) {
+    clickTarget.click();
+  }
 };
 </script>

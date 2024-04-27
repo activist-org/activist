@@ -5,5 +5,6 @@
 <script setup lang="ts">
 defineProps<{
   location: string;
+  iconSize?: string;
 }>();
 </script>

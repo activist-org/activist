@@ -3,7 +3,7 @@
     v-bind="{ ...$attrs, onChange: updateValue }"
     :id="uuid"
     class="field"
-    :checked="modelValue === value"
+    :checked="modelValue === true"
     type="radio"
   />
   <label v-if="label" :for="uuid">
@@ -24,6 +24,8 @@ export interface Props {
   error?: string;
 }
 
+const uuid = uuidv4();
+
 const props = withDefaults(defineProps<Props>(), {
   label: "",
   error: "",
@@ -31,5 +33,4 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit);
-const uuid = uuidv4();
 </script>

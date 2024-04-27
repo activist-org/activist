@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-light-text dark:text-dark-text bg-light-layer-0 dark:bg-dark-layer-0"
+    class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("pages.legal.trademark-policy.title") }}</Title>
@@ -9,7 +9,9 @@
       imgURL="/images/content_pages/icons/bootstrap_trademark"
       imgAltText="pages.legal._global.trademark-policy-alt-text"
     >
-      <h1 class="responsive-h1 pb-2 font-bold">Trademark Policy</h1>
+      <h1 class="responsive-h1 pb-2 font-bold">
+        {{ $t("_global.trademark-policy") }}
+      </h1>
       <p
         class="responsive-h4 text-light-distinct-text dark:text-dark-distinct-text"
       >
@@ -29,7 +31,7 @@
       </p>
       <p>
         {{ $t("pages.legal.trademark-policy.section-1-paragraph-5-1") }}
-        <a class="focus-brand link-text" href="mailto:team@activist.org">
+        <a class="focus-brand link-text -mr-1" href="mailto:team@activist.org">
           team@activist.org
         </a>
         .

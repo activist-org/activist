@@ -1,6 +1,6 @@
 <template>
   <header
-    class="bg-light-layer-1 dark:bg-dark-layer-1 w-full pl-1 transition-all duration-500"
+    class="w-full bg-light-layer-1 pl-1 transition-all duration-500 dark:bg-dark-layer-1"
   >
     <div class="flex items-center pb-2 pl-[0.85rem] pr-6 pt-3">
       <div
@@ -44,7 +44,7 @@
             $t('components.sidebar-left-header.sidebar-collapse-aria-label')
           "
         >
-          <SidebarToggle chevronDirection="right" iconSize="1.4em" />
+          <SidebarLeftToggle chevronDirection="right" iconSize="1.4em" />
         </button>
       </div>
     </div>
