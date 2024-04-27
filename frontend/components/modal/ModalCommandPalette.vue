@@ -174,10 +174,11 @@
   </ModalBase>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 
 const { isMacOS } = useDevice();
+const localePath = useLocalePath();
 
 const { meta_k, ctrl_k } = useMagicKeys({
   passive: false,
@@ -200,6 +201,9 @@ whenever(ctrl_k, () => {
 
 const doWhenever = () => {
   // Trigger ModalBase @click="openModal".
-  document.getElementById("clickTarget").click();
+  const clickTarget = document.getElementById("clickTarget");
+  if (clickTarget) {
+    clickTarget.click();
+  }
 };
 </script>

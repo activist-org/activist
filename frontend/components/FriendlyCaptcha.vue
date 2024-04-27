@@ -19,8 +19,12 @@
   </button>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import VueFriendlyCaptcha from "@somushq/vue3-friendly-captcha";
 
 const inDevMode = window.location.href.includes("localhost:3000");
+
+const verifyCaptcha = (response: boolean) => {
+  console.log("Captcha response:", response);
+};
 </script>

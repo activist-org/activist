@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="windowWidth < Breakpoint.SMALL"
     class="flex flex-col items-center justify-between gap-8 bg-light-layer-0 px-8 py-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
@@ -67,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { Breakpoint } from "~/types/breakpoints";
 import type { Event } from "~/types/event";
 import type { MenuSelector } from "~/types/menu-selector";
 
@@ -114,40 +115,42 @@ const eventButtons: MenuSelector[] = [
   },
   {
     id: 4,
+    label: "_global.tasks",
+    routeURL: "/events/" + id + "/tasks",
+    iconURL: "bi:check-square",
+    selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
+  },
+  {
+    id: 5,
+    label: "_global.discussions",
+    routeURL: "/events/" + id + "/discussions",
+    iconURL: "octicon:comment-discussion-24",
+    selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
+  },
+  {
+    id: 6,
     label: "_global.settings",
     routeURL: "/events/" + id + "/settings",
     iconURL: "bi:gear",
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
   },
-  // {
-  //   label: "_global.tasks",
-  //   routeURL: "/events/" + id + "/tasks",
-  //   iconURL: "bi:check-square",
-  //   selected: useRoute().path.split("/").pop() === "tasks" ? false : false,
-  //   active: false,
-  // },
-  // {
-  //   label: "_global.discussions",
-  //   routeURL: "/events/" + id + "/discussions",
-  //   iconURL: "octicon:comment-discussion-24",
-  //   selected:
-  //     useRoute().path.split("/").pop() === "discussions" ? false : false,
-  //   active: false,
-  // },
 ];
 
+const windowWidth = ref(window.innerWidth);
+
 const handleResize = () => {
-  if (window.innerWidth > 640) {
-    window.removeEventListener("resize", handleResize);
+  windowWidth.value = window.innerWidth;
+  if (window.innerWidth > Breakpoint.SMALL) {
     navigateTo(`${id}/about`);
+    window.removeEventListener("resize", handleResize);
   }
 };
 
 onMounted(() => {
-  // Add event listener to handle resizing.
-  window.addEventListener("resize", handleResize);
-
   // Verify that the user is on a mobile device.
   handleResize();
+
+  // Add event listener to handle resizing.
+  window.addEventListener("resize", handleResize);
 });
 </script>

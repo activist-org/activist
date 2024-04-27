@@ -10,7 +10,7 @@
   </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
 
@@ -25,7 +25,7 @@ const attributes = ref([
   {
     key: "today",
     dot: "orange",
-    dates: new Date(),
+    dates: [new Date()],
   },
   {
     highlight: {
