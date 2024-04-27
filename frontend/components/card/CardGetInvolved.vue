@@ -6,10 +6,10 @@
           v-if="organization || group"
           class="responsive-h3 text-left font-display"
         >
-          {{ $t("components.card-get-involved.get-involved") }}
+          {{ $t("components._global.get-involved") }}
         </h3>
         <h3 v-else class="responsive-h3 text-left font-display">
-          {{ $t("components.card-get-involved.participate") }}
+          {{ $t("components._global.participate") }}
         </h3>
         <IconEdit />
       </div>

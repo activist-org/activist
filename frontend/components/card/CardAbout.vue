@@ -21,7 +21,22 @@
           <h3 class="responsive-h3 text-left font-display">
             {{ $t("_global.about") }}
           </h3>
-          <IconEdit />
+          <ModalEditPageText
+            v-if="organization"
+            :sectionsToEdit="[
+              $t('_global.about'),
+              // $t('components._global.get-involved'),
+            ]"
+            :textsToEdit="[organization.description]"
+          />
+          <ModalEditPageText
+            v-if="event"
+            :sectionsToEdit="[
+              $t('_global.about'),
+              $t('components._global.participate'),
+            ]"
+            :textsToEdit="[event.description, event.getInvolvedDescription]"
+          />
         </div>
         <div v-if="organization" class="flex-col space-y-3">
           <ShieldTopic :topic="organization.topic" />
@@ -157,6 +172,7 @@
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
+import ModalEditPageText from "../modal/ModalEditPageText.vue";
 
 defineProps<{
   organization?: Organization;
