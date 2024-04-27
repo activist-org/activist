@@ -63,7 +63,7 @@ const props = defineProps<BtnActionDropdown>();
 const btnDynamicClass = getBtnDynamicClass(
   props.cta,
   props.fontSize,
-  props.disabled
+  props.isDisabled
 );
 
 const emit = defineEmits(["main-btn-clicked"]);

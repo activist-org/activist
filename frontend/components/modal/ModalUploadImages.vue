@@ -69,7 +69,7 @@
               leftIcon="bi:arrow-up"
               iconSize="1.25em"
               ariaLabel="components.btn-action.upvote-application-aria-label"
-              :disabled="files.length > 10"
+              :disabled="files.length >= uploadLimit"
             />
           </div>
         </div>
@@ -83,4 +83,12 @@ import { DialogTitle } from "@headlessui/vue";
 import draggable from "vuedraggable";
 
 const { files, handleFiles, removeFile } = useFileManager();
+
+export interface Props {
+  uploadLimit?: number;
+}
+
+withDefaults(defineProps<Props>(), {
+  uploadLimit: 10,
+});
 </script>

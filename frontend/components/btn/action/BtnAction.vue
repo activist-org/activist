@@ -24,6 +24,6 @@ const props = defineProps<BtnAction>();
 const btnDynamicClass = getBtnDynamicClass(
   props.cta,
   props.fontSize,
-  props.disabled
+  props.isDisabled
 );
 </script>

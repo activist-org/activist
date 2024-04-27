@@ -26,6 +26,6 @@ const localePath = useLocalePath();
 const btnDynamicClass = getBtnDynamicClass(
   props.cta,
   props.fontSize,
-  props.disabled
+  props.isDisabled
 );
 </script>

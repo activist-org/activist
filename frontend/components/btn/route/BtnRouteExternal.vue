@@ -25,6 +25,6 @@ const props = defineProps<BtnRoute>();
 const btnDynamicClass = getBtnDynamicClass(
   props.cta,
   props.fontSize,
-  props.disabled
+  props.isDisabled
 );
 </script>

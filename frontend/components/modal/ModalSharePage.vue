@@ -27,10 +27,10 @@
             class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
           >
             <s-telegram
-              popup-close="onClose"
-              popup-open="onOpen"
-              popup-block="onBlock"
-              popup-focus="onFocus"
+              @popup-close="nativeBehaviorOptions.onClose"
+              @popup-open="nativeBehaviorOptions.onOpen"
+              @popup-block="nativeBehaviorOptions.onBlock"
+              @popup-focus="nativeBehaviorOptions.onFocus"
               class="focus-brand"
               :window-features="windowFeatures"
               :share-options="shareOptions"
@@ -45,10 +45,10 @@
               />
             </s-telegram>
             <s-mastodon
-              popup-close="onClose"
-              popup-open="onOpen"
-              popup-block="onBlock"
-              popup-focus="onFocus"
+              @popup-close="nativeBehaviorOptions.onClose"
+              @popup-open="nativeBehaviorOptions.onOpen"
+              @popup-block="nativeBehaviorOptions.onBlock"
+              @popup-focus="nativeBehaviorOptions.onFocus"
               class="focus-brand"
               :window-features="windowFeatures"
               :share-options="shareOptions"
@@ -62,10 +62,10 @@
               />
             </s-mastodon>
             <s-twitter
-              popup-close="onClose"
-              popup-open="onOpen"
-              popup-block="onBlock"
-              popup-focus="onFocus"
+              @popup-close="nativeBehaviorOptions.onClose"
+              @popup-open="nativeBehaviorOptions.onOpen"
+              @popup-block="nativeBehaviorOptions.onBlock"
+              @popup-focus="nativeBehaviorOptions.onFocus"
               class="focus-brand"
               :window-features="windowFeatures"
               :share-options="shareOptions"
@@ -87,10 +87,10 @@
               />
             </s-email>
             <s-facebook
-              popup-close="onClose"
-              popup-open="onOpen"
-              popup-block="onBlock"
-              popup-focus="onFocus"
+              @popup-close="nativeBehaviorOptions.onClose"
+              @popup-open="nativeBehaviorOptions.onOpen"
+              @popup-block="nativeBehaviorOptions.onBlock"
+              @popup-focus="nativeBehaviorOptions.onFocus"
               :window-features="windowFeatures"
               :share-options="shareOptions"
               :use-native-behavior="useNativeBehavior"
