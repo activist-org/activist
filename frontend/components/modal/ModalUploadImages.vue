@@ -5,30 +5,32 @@
     </template>
     <template #modalDisplay>
       <div>
-        <DialogTitle class="font-display">
-          <p class="font-bold responsive-h2">
-            Upload Image
+        <DialogTitle>
+          <p class="responsive-h2 font-bold">
+            {{ $t("components.modal-upload-images.upload-images") }}
           </p>
         </DialogTitle>
-        <div class="mt-2">
-          <FileDropZone @files-dropped="handleFiles" v-slot="{ isDropZoneActive }">
-              <span v-if="isDropZoneActive">
-                  <span>Drop Them Here</span>
-                  <span class="smaller"> to add them</span>
-              </span>
-              <span v-else>
-                  <span>Drag Your Files Here</span>
-                  <span class="smaller">
-                      or <strong><em>click here</em></strong> to select files
-                  </span>
-              </span>
+        <div class="mt-4">
+          <FileDropZone
+            @files-dropped="handleFiles"
+            v-slot="{ isDropZoneActive }"
+          >
+            <span v-if="isDropZoneActive">{{
+              $t("components.modal-upload-images.drop-images")
+            }}</span>
+            <span v-else>{{
+              $t("components.modal-upload-images.drag-images")
+            }}</span>
           </FileDropZone>
-          <p>Number of files: {{ files.length }}</p>
+          <p class="py-2">
+            {{ $t("components.modal-upload-images.number-of-files") }}:
+            {{ files.length }}
+          </p>
           <p
             v-if="files.length > 10"
             class="text-light-action-red dark:text-dark-action-red"
           >
-            You are not allowed to have more than 10 pictures.
+            {{ $t("components.modal-upload-images.picture-limit") }}
           </p>
           <div>
             <draggable
@@ -39,25 +41,30 @@
               ghost-class="opacity-0"
             >
               <template #item="{ element: file }">
-                <span class="p-2">
+                <span class="pb-4">
                   <button
                     @click="removeFile(file)"
                     class="text-light-action-red dark:text-dark-action-red"
-                  >X</button>
+                  >
+                    <Icon name="bi:x" size="1.5em" />
+                  </button>
                   <img
                     :key="file.name"
                     :src="file.url"
-                    class="w-20 h-20 object-contain"
-                    :alt="'uploaded file' + file.name"
+                    class="h-20 w-20 object-contain"
+                    :alt="
+                      $t('components.modal-upload-images.upload-image') +
+                      ' ' +
+                      file.name
+                    "
                   />
                 </span>
               </template>
             </draggable>
             <BtnAction
-              @click="alert('aaa')"
-              class="flex mr-5"
+              @click="true"
               :cta="true"
-              :label="'Upload'"
+              :label="$t('components.modal-upload-images.upload')"
               fontSize="sm"
               leftIcon="bi:arrow-up"
               iconSize="1.25em"
@@ -72,10 +79,8 @@
 </template>
 
 <script setup lang="ts">
-import { DialogTitle } from '@headlessui/vue';
-import ModalBase from '~/components/modal/ModalBase.vue';
-import useFileManager from '~/composables/useFileManager';
-import draggable from 'vuedraggable';
+import { DialogTitle } from "@headlessui/vue";
+import draggable from "vuedraggable";
 
 const { files, handleFiles, removeFile } = useFileManager();
 </script>

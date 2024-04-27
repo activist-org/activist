@@ -1,6 +1,6 @@
 export default function useFileManager(initialFiles: File[] = []) {
   const files = ref<UploadableFile[]>([]);
-  handleFiles(initialFiles); // Add initial files
+  handleFiles(initialFiles); // add initial files
 
   function handleFiles(newFiles: File[]) {
     const newUploadableFiles = [...newFiles]
@@ -16,7 +16,9 @@ export default function useFileManager(initialFiles: File[] = []) {
   function removeFile(file: UploadableFile) {
     const index = files.value.indexOf(file);
 
-    if (index > -1) files.value.splice(index, 1);
+    if (index > -1) {
+      files.value.splice(index, 1);
+    }
   }
 
   return {

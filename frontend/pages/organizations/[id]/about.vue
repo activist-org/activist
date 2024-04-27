@@ -52,20 +52,16 @@
           aboutType="organization"
           :organization="organization"
         />
-        <div class="w-full h-full relative">
-          <ModalUploadOrganizationImages>
+        <div class="relative h-full w-full">
+          <ModalUploadImages>
             <template #normalDisplay>
               <button
-                class="absolute right-2 bottom-2 z-10 text-white/85 border-white border-opacity-80 bg-black bg-opacity-80 border-solid border rounded-lg"
+                class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-[0.125rem] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
               >
-                <Icon
-                  class="w-10 h-10 "
-                  name="bi:plus-lg"
-                />
+                <Icon name="bi:plus-lg" size="2em" />
               </button>
             </template>
-          </ModalUploadOrganizationImages>
-          
+          </ModalUploadImages>
           <MediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
         </div>
       </div>
