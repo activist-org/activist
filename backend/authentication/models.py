@@ -94,13 +94,15 @@ class UserModel(AbstractUser, PermissionsMixin, CreationDeletionMixin):
     username = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, blank=True)
     password = models.CharField(max_length=255)
-    description = models.TextField(max_length=500)
+    description = models.TextField(max_length=500, blank=True)
     verified = models.BooleanField(default=False)
     verification_method = models.CharField(max_length=30, blank=True)
     verification_partner = models.ForeignKey(
         "authentication.UserModel", on_delete=models.SET_NULL, null=True
     )
-    user_icon = models.ForeignKey("content.Image", on_delete=models.SET_NULL, null=True)
+    user_icon = models.ForeignKey(
+        "content.Image", on_delete=models.SET_NULL, blank=True, null=True
+    )
     email = models.EmailField(unique=True)
     social_accounts = ArrayField(
         models.CharField(max_length=255), blank=True, null=True

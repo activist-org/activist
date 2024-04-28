@@ -33,9 +33,6 @@ class Organization(models.Model):
     org_icon = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
     )
-    about_images = models.ManyToManyField(
-        "content.Image", related_name="about_images", blank=True
-    )
     created_by = models.ForeignKey(
         "authentication.UserModel",
         related_name="created_orgs",
@@ -45,6 +42,7 @@ class Organization(models.Model):
     social_accounts = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
     )
+    get_involved_url = models.URLField(blank=True)
     high_risk = models.BooleanField(default=False)
     status = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE, default=1)
     status_updated = models.DateTimeField(auto_now=True, null=True)
@@ -120,13 +118,11 @@ class Group(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
-    group_icon = models.OneToOneField(
-        "content.Image", on_delete=models.CASCADE, null=True, blank=True
-    )
     about_images = models.ManyToManyField(
         "content.Image", related_name="about_img", blank=True
     )
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    get_involved_url = models.URLField(blank=True)
     description = models.TextField(max_length=500)
     social_accounts = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
