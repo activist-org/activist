@@ -10,7 +10,7 @@
         </p>
       </DialogTitle>
       <div class="mt-4">
-        <FileDropZone
+        <ModalUploadImagesFileDropZone
           v-if="files.length != uploadLimit"
           @files-dropped="handleFiles"
           v-slot="{ isDropZoneActive }"
@@ -21,7 +21,7 @@
           <span v-else>{{
             $t("components.modal-upload-images.drag-images")
           }}</span>
-        </FileDropZone>
+        </ModalUploadImagesFileDropZone>
         <p class="py-2">
           {{ $t("components.modal-upload-images.number-of-files") }}:
           {{ files.length }}

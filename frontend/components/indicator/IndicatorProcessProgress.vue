@@ -14,10 +14,14 @@
     <NuxtLink
       class="hidden h-full items-center space-x-3 bg-light-cta-orange px-3 text-light-text hover:bg-light-cta-orange/80 dark:bg-dark-cta-orange/10 dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25 md:flex"
       :to="localePath('/')"
-      :aria-label="$t('components.progress-bar.close-process-aria-label')"
+      :aria-label="
+        $t('components.indicator-process-progress.close-process-aria-label')
+      "
     >
       <Icon name="bi:x-lg" />
-      <span>{{ $t("components.progress-bar.close-process") }}</span>
+      <span>{{
+        $t("components.indicator-process-progress.close-process")
+      }}</span>
     </NuxtLink>
   </div>
 </template>

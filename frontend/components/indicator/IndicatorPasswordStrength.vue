@@ -18,10 +18,12 @@
           color === 'dark-bg-dark-text bg-light-text',
       }"
     >
-      {{ $t("components.password-strength.title") }}:
+      {{ $t("components.indicator-password-strength.title") }}:
       {{
         $t(
-          !!passwordValue.length ? text : "components.password-strength.invalid"
+          !!passwordValue.length
+            ? text
+            : "components.indicator-password-strength.invalid"
         )
       }}
     </div>
@@ -45,23 +47,23 @@ const text = computed(() => passwordStrengthMap[score.value].text);
 const passwordStrengthMap: Record<number, { color: string; text: string }> = {
   0: {
     color: "bg-[#cc0000] dark:bg-[#e06666]",
-    text: "components.password-strength.very-weak",
+    text: "components.indicator-password-strength.very-weak",
   },
   1: {
     color: "bg-[#e69138] dark:bg-[#f6b26b]",
-    text: "components.password-strength.weak",
+    text: "components.indicator-password-strength.weak",
   },
   2: {
     color: "bg-[#f1c232] dark:bg-[#ffd966]",
-    text: "components.password-strength.medium",
+    text: "components.indicator-password-strength.medium",
   },
   3: {
     color: "bg-[#6aa84f] dark:bg-[#93c47d]",
-    text: "components.password-strength.strong",
+    text: "components.indicator-password-strength.strong",
   },
   4: {
     color: "bg-light-text dark:bg-dark-text",
-    text: "components.password-strength.very-strong",
+    text: "components.indicator-password-strength.very-strong",
   },
 };
 
