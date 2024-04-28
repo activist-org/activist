@@ -19,7 +19,7 @@
         />
       </div>
       <IndicatorPasswordStrength :password-value="passwordValue" />
-      <div class="flex space-x-2">
+      <div class="flex flex-col space-y-3">
         <FriendlyCaptcha />
         <BtnAction
           @click="signIn"

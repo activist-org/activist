@@ -51,24 +51,24 @@
           "
         />
       </div>
-      <div class="flex flex-row items-center">
-        <FormCheckbox
-          @update:modelValue="hasRed = $event"
-          :modelValue="hasRed"
-          value="yes"
-        />
-        <p class="flex flex-wrap pl-2">
-          {{ $t("pages._global.terms-of-service-pt-1") }}
-          <NuxtLink
-            :to="localePath('/legal/privacy-policy')"
-            target="_blank"
-            class="link-text ml-1 sm:block"
-            >{{ $t("pages._global.terms-of-service-pt-2") }}
-          </NuxtLink>
-        </p>
-      </div>
-      <div class="flex space-x-2">
+      <div class="flex flex-col space-y-3">
         <FriendlyCaptcha />
+        <div class="flex flex-row items-center">
+          <FormCheckbox
+            @update:modelValue="hasRed = $event"
+            :modelValue="hasRed"
+            value="yes"
+          />
+          <p class="flex flex-wrap pl-2">
+            {{ $t("pages._global.terms-of-service-pt-1") }}
+            <NuxtLink
+              :to="localePath('/legal/privacy-policy')"
+              target="_blank"
+              class="link-text ml-1 sm:block"
+              >{{ $t("pages._global.terms-of-service-pt-2") }}
+            </NuxtLink>
+          </p>
+        </div>
         <BtnAction
           @click="signUp"
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"

@@ -7,7 +7,7 @@
     >
       <Icon
         name="bi:camera-video"
-        :color="$colorMode.preference === 'dark' ? 'white' : 'black'"
+        :color="$colorMode.value === 'dark' ? 'white' : 'black'"
         size="75px"
       />
     </div>

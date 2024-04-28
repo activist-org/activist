@@ -2,13 +2,15 @@
   <vue-friendly-captcha
     v-if="!inDevMode"
     @done="verifyCaptcha"
+    class="h-14 rounded-md"
     :sitekey="`${FRIENDLY_CAPTCHA_KEY}`"
-    :dark="$colorMode.preference === 'dark'"
-    language="en"
+    :dark="$colorMode.value === 'dark'"
+    startMode="auto"
+    :language="locale"
   />
   <button
     v-else
-    class="style-btn flex h-[48px] items-center space-x-4 rounded-md px-3 text-lg md:h-[40px]"
+    class="style-btn flex w-full items-center space-x-4 rounded-md p-1 px-3 text-lg"
     :disabled="true"
     :aria-label="$t('components.friendly-captcha.captcha-disabled-aria-label')"
   >
@@ -27,4 +29,6 @@ const inDevMode = window.location.href.includes("localhost:3000");
 const verifyCaptcha = (response: boolean) => {
   console.log("Captcha response:", response);
 };
+
+const { locale } = useI18n();
 </script>
