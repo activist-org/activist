@@ -19,6 +19,7 @@ Contents:
 
 from uuid import uuid4
 
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin
@@ -34,6 +35,10 @@ class Event(CreationDeletionMixin):
     online_location_link = models.CharField(max_length=255, blank=True)
     offline_location_lat = models.FloatField(null=True, blank=True)
     offline_location_long = models.FloatField(null=True, blank=True)
+    get_involved_url = models.URLField(blank=True)
+    social_accounts = ArrayField(
+        models.CharField(max_length=255), default=list, blank=True
+    )
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     created_by = models.ForeignKey(
