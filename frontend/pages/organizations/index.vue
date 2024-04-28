@@ -35,7 +35,7 @@ definePageMeta({
 });
 
 const { data: organizations } = await useFetch(
-  "http://localhost:8000/v1/entities/organizations/",
+  `${BASE_URL}/entities/organizations/`,
   {
     method: "GET",
   }

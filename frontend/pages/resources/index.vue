@@ -31,10 +31,7 @@ definePageMeta({
   layout: "sidebar",
 });
 
-const { data: resources } = await useFetch(
-  "http://localhost:8000/v1/content/resources/",
-  {
-    method: "GET",
-  }
-);
+const { data: resources } = await useFetch(`${BASE_URL}/content/resources/`, {
+  method: "GET",
+});
 </script>

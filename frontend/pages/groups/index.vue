@@ -31,10 +31,7 @@ definePageMeta({
   layout: "sidebar",
 });
 
-const { data: groups } = await useFetch(
-  "http://localhost:8000/v1/entities/groups/",
-  {
-    method: "GET",
-  }
-);
+const { data: groups } = await useFetch(`${BASE_URL}/entities/groups/`, {
+  method: "GET",
+});
 </script>
