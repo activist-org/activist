@@ -29,11 +29,23 @@
             components.btn-action.support-group-aria-label
           "
         />
-        <ModalSharePage
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
+          class="w-max"
           :cta="true"
-          label="components._global.share-group"
+          :label="$t('components._global.share-group')"
+          :hideLabelOnMobile="true"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.45em"
+          :ariaLabel="$t('components._global.share-group-aria-label')"
+        />
+        <ModalSharePage
+          @closeModal="handleCloseModal"
+          :cta="true"
           :group="group"
-          ariaLabel="components._global.share-group-aria-label"
+          :isOpen="modalIsOpen"
         />
       </div>
     </HeaderAppPage>
@@ -90,4 +102,14 @@ const faqEntry_03: FaqEntry = {
 };
 
 const faqEntries = [faqEntry_01, faqEntry_02, faqEntry_03];
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
+};
 </script>

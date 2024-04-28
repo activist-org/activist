@@ -25,9 +25,17 @@
         :alt="$t('pages.docs.get-active.modal-image-alt-text')"
       />
       <div class="w-10/12 gap-16 md:w-full 2xl:grid 2xl:grid-cols-2">
-        <ModalImage
+        <ModalImageBtn
+          @click="openModal()"
+          @keydown.enter="openModal()"
           imageURL="/images/content_pages/mockups/get_active"
           imageAltText="pages.docs.get-active.modal-image-alt-text"
+        />
+        <ModalImage
+          @closeModal="handleCloseModal"
+          imageURL="/images/content_pages/mockups/get_active"
+          imageAltText="pages.docs.get-active.modal-image-alt-text"
+          :isOpen="modalIsOpen"
         />
         <div
           class="items-center space-y-4 text-left md:items-start 2xl:col-span-1 2xl:row-start-1"
@@ -120,3 +128,15 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
+};
+</script>

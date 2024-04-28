@@ -28,11 +28,23 @@
           :counter="event.supporters"
           ariaLabel="components.btn-action.support-event-aria-label"
         />
-        <ModalSharePage
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
+          class="w-max"
           :cta="true"
-          label="components._global.share-event"
+          :label="$t('components._global.share-event')"
+          :hideLabelOnMobile="true"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.45em"
+          :ariaLabel="$t('components._global.share-event-aria-label')"
+        />
+        <ModalSharePage
+          @closeModal="handleCloseModal"
+          :cta="true"
           :event="event"
-          ariaLabel="components._global.share-event-aria-label"
+          :isOpen="modalIsOpen"
         />
       </div>
     </HeaderAppPage>
@@ -117,5 +129,15 @@ const event: Event = {
   supporters: 30,
   imageURL: "/images/tech-from-below.svg",
   socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
+};
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
 };
 </script>

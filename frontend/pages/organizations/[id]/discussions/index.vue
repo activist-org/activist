@@ -26,11 +26,23 @@
           iconSize="1.35em"
           ariaLabel="components.btn-route-internal.new-discussion-aria-label"
         />
-        <ModalSharePage
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
+          class="w-max"
           :cta="true"
-          label="components._global.share-organization"
+          :label="$t('components._global.share-organization')"
+          :hideLabelOnMobile="true"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.45em"
+          :ariaLabel="$t('components._global.share-organization-aria-label')"
+        />
+        <ModalSharePage
+          @closeModal="handleCloseModal"
+          :cta="true"
           :organization="organization"
-          ariaLabel="components._global.share-organization-aria-label"
+          :isOpen="modalIsOpen"
         />
       </div>
     </HeaderAppPage>
@@ -74,5 +86,15 @@ const discussion: Discussion = {
   participants: 3,
   messages: 3,
   creationDate: new Date(),
+};
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
 };
 </script>

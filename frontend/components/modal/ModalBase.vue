@@ -1,18 +1,11 @@
 <template>
-  <!-- Normal display on the page. -->
-  <div
-    @click="openModal"
-    @keydown.enter="openModal"
-    tabindex="0"
-    role="button"
-    class="h-fit"
+  <Dialog
+    @close="closeModal()"
+    class="relative z-40"
+    :open="modalShouldClose == false ? modalIsOpen : false"
   >
-    <slot name="normalDisplay" />
-  </div>
-  <!-- Modal pop up from page element. -->
-  <Dialog @close="closeModal" class="relative z-40" :open="isOpen">
     <div
-      @click="closeModal"
+      @click="closeModal()"
       class="fixed inset-0 cursor-pointer bg-light-layer-0/95 dark:bg-dark-layer-0/95"
       aria-hidden="true"
     />
@@ -33,7 +26,7 @@
       >
         <button
           v-if="imageModal"
-          @click="closeModal"
+          @click="closeModal()"
           class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
@@ -41,7 +34,7 @@
         </button>
         <div v-else class="relative">
           <button
-            @click="closeModal"
+            @click="closeModal()"
             class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
           >
             <Icon class="h-10 w-10" name="bi:x-circle-fill" />
@@ -49,17 +42,17 @@
         </div>
         <div
           v-if="imageModal"
-          @click="closeModal"
-          @keypress.esc="closeModal"
+          @click="closeModal()"
+          @keypress.esc="closeModal()"
           tabindex="0"
           role="button"
           class="focus-brand flex flex-col items-center justify-center"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
-          <slot name="modalDisplay" />
+          <slot />
         </div>
         <div v-else>
-          <slot name="modalDisplay" />
+          <slot />
         </div>
       </DialogPanel>
     </div>
@@ -69,17 +62,18 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
 
-defineProps<{
+const props = defineProps<{
+  isOpen: boolean;
   imageModal?: boolean;
 }>();
 
-const isOpen = ref(false);
+const modalIsOpen = computed(() => props.isOpen);
+const modalShouldClose = ref(false);
 
-function openModal() {
-  isOpen.value = true;
-}
-
-function closeModal() {
-  isOpen.value = false;
-}
+const emit = defineEmits(["closeModal"]);
+const closeModal = () => {
+  modalShouldClose.value = true;
+  emit("closeModal");
+  modalShouldClose.value = false;
+};
 </script>

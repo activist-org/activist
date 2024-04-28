@@ -12,11 +12,23 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <ModalSharePage
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
+          class="w-max"
           :cta="true"
-          label="components._global.share-event"
+          :label="$t('components._global.share-event')"
+          :hideLabelOnMobile="true"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.45em"
+          :ariaLabel="$t('components._global.share-event-aria-label')"
+        />
+        <ModalSharePage
+          @closeModal="handleCloseModal"
+          :cta="true"
           :event="event"
-          ariaLabel="components._global.share-event-aria-label"
+          :isOpen="modalIsOpen"
         />
       </div>
     </HeaderAppPage>
@@ -88,5 +100,15 @@ const discussionInput: DiscussionInput = {
   description: "I love to test!",
   category: "Category",
   highRisk: false,
+};
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
 };
 </script>

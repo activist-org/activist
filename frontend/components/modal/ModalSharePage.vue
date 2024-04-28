@@ -1,205 +1,183 @@
 <template>
-  <ModalBase>
-    <template #normalDisplay>
-      <BtnAction
-        class="w-max"
-        :cta="props.cta"
-        :label="props.label"
-        :hideLabelOnMobile="true"
-        fontSize="sm"
-        leftIcon="bi:box-arrow-up"
-        iconSize="1.45em"
-        :ariaLabel="props.ariaLabel"
-      />
-    </template>
-    <template #modalDisplay>
-      <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
-        <DialogTitle class="font-display">
-          <p class="responsive-h2 font-bold">
-            {{ $t("components.modal-share-page.header") }}
-          </p>
-        </DialogTitle>
-        <div class="pt-6">
-          <p class="responsive-h4 font-bold">
-            {{ $t("components.modal-share-page.online") }}
-          </p>
-          <div
-            class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
+  <ModalBase
+    @closeModal="handleCloseModal"
+    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+  >
+    <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
+      <DialogTitle class="font-display">
+        <p class="responsive-h2 font-bold">
+          {{ $t("components.modal-share-page.header") }}
+        </p>
+      </DialogTitle>
+      <div class="pt-6">
+        <p class="responsive-h4 font-bold">
+          {{ $t("components.modal-share-page.online") }}
+        </p>
+        <div
+          class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
+        >
+          <s-telegram
+            @popup-close="nativeBehaviorOptions.onClose"
+            @popup-open="nativeBehaviorOptions.onOpen"
+            @popup-block="nativeBehaviorOptions.onBlock"
+            @popup-focus="nativeBehaviorOptions.onFocus"
+            class="focus-brand"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
           >
-            <s-telegram
-              @popup-close="nativeBehaviorOptions.onClose"
-              @popup-open="nativeBehaviorOptions.onOpen"
-              @popup-block="nativeBehaviorOptions.onBlock"
-              @popup-focus="nativeBehaviorOptions.onFocus"
-              class="focus-brand"
-              :window-features="windowFeatures"
-              :share-options="shareOptions"
-              :use-native-behavior="useNativeBehavior"
-              :native-behavior-options="nativeBehaviorOptions"
-            >
-              <MetaTagSocialMedia
-                class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-                iconName="simple-icons:telegram"
-                :text="$t('components.meta-social-media-tag.telegram')"
-                iconSize="1.5em"
-              />
-            </s-telegram>
-            <s-mastodon
-              @popup-close="nativeBehaviorOptions.onClose"
-              @popup-open="nativeBehaviorOptions.onOpen"
-              @popup-block="nativeBehaviorOptions.onBlock"
-              @popup-focus="nativeBehaviorOptions.onFocus"
-              class="focus-brand"
-              :window-features="windowFeatures"
-              :share-options="shareOptions"
-              :use-native-behavior="useNativeBehavior"
-            >
-              <MetaTagSocialMedia
-                class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-                iconName="simple-icons:mastodon"
-                :text="$t('components.meta-social-media-tag.mastodon')"
-                iconSize="1.5em"
-              />
-            </s-mastodon>
-            <s-twitter
-              @popup-close="nativeBehaviorOptions.onClose"
-              @popup-open="nativeBehaviorOptions.onOpen"
-              @popup-block="nativeBehaviorOptions.onBlock"
-              @popup-focus="nativeBehaviorOptions.onFocus"
-              class="focus-brand"
-              :window-features="windowFeatures"
-              :share-options="shareOptions"
-              :use-native-behavior="useNativeBehavior"
-            >
-              <MetaTagSocialMedia
-                class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-                iconName="simple-icons:twitter"
-                text="@activist_org"
-                iconSize="1.5em"
-              />
-            </s-twitter>
-            <s-email class="focus-brand" :share-options="shareOptions">
-              <MetaTagSocialMedia
-                class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-                iconName="bi:envelope"
-                text="Email"
-                iconSize="1.5em"
-              />
-            </s-email>
-            <s-facebook
-              @popup-close="nativeBehaviorOptions.onClose"
-              @popup-open="nativeBehaviorOptions.onOpen"
-              @popup-block="nativeBehaviorOptions.onBlock"
-              @popup-focus="nativeBehaviorOptions.onFocus"
-              :window-features="windowFeatures"
-              :share-options="shareOptions"
-              :use-native-behavior="useNativeBehavior"
-            >
-              <MetaTagSocialMedia
-                class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-                iconName="simple-icons:facebook"
-                :text="$t('components.meta-social-media-tag.facebook')"
-                iconSize="1.5em"
-              />
-            </s-facebook>
-            <div
-              @click="
-                copyToClipboard(
-                  props?.event?.name
-                    ? props?.event?.name
-                    : props?.organization?.name
-                      ? props?.organization?.name
-                      : '',
-                  getCurrentUrl()
-                )
-              "
-              @keypress.space="
-                copyToClipboard(
-                  props?.event?.name
-                    ? props?.event?.name
-                    : props?.organization?.name
-                      ? props?.organization?.name
-                      : '',
-                  getCurrentUrl()
-                )
-              "
-              @keypress.enter="
-                copyToClipboard(
-                  props?.event?.name
-                    ? props?.event?.name
-                    : props?.organization?.name
-                      ? props?.organization?.name
-                      : '',
-                  getCurrentUrl()
-                )
-              "
-              tabindex="0"
-              role="button"
-            >
-              <MetaTagSocialMedia
-                v-if="!contentCopied"
-                class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-                iconName="bi:link-45deg"
-                :text="$t('components.meta-social-media-tag.copy-link')"
-                iconSize="1.5em"
-              />
-              <MetaTagSocialMedia
-                v-if="contentCopied"
-                class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
-                iconName="bi:check2-square"
-                :text="$t('components.meta-social-media-tag.copied')"
-                iconSize="1.5em"
-              />
-            </div>
+            <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              iconName="simple-icons:telegram"
+              :text="$t('components.meta-social-media-tag.telegram')"
+              iconSize="1.5em"
+            />
+          </s-telegram>
+          <s-mastodon
+            @popup-close="nativeBehaviorOptions.onClose"
+            @popup-open="nativeBehaviorOptions.onOpen"
+            @popup-block="nativeBehaviorOptions.onBlock"
+            @popup-focus="nativeBehaviorOptions.onFocus"
+            class="focus-brand"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+          >
+            <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              iconName="simple-icons:mastodon"
+              :text="$t('components.meta-social-media-tag.mastodon')"
+              iconSize="1.5em"
+            />
+          </s-mastodon>
+          <s-twitter
+            @popup-close="nativeBehaviorOptions.onClose"
+            @popup-open="nativeBehaviorOptions.onOpen"
+            @popup-block="nativeBehaviorOptions.onBlock"
+            @popup-focus="nativeBehaviorOptions.onFocus"
+            class="focus-brand"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+          >
+            <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              iconName="simple-icons:twitter"
+              text="@activist_org"
+              iconSize="1.5em"
+            />
+          </s-twitter>
+          <s-email class="focus-brand" :share-options="shareOptions">
+            <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              iconName="bi:envelope"
+              text="Email"
+              iconSize="1.5em"
+            />
+          </s-email>
+          <s-facebook
+            @popup-close="nativeBehaviorOptions.onClose"
+            @popup-open="nativeBehaviorOptions.onOpen"
+            @popup-block="nativeBehaviorOptions.onBlock"
+            @popup-focus="nativeBehaviorOptions.onFocus"
+            class="focus-brand"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+          >
+            <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              iconName="simple-icons:facebook"
+              :text="$t('components.meta-social-media-tag.facebook')"
+              iconSize="1.5em"
+            />
+          </s-facebook>
+          <div
+            @click="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
+            @keypress.space="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
+            @keypress.enter="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
+            class="focus-brand"
+            tabindex="0"
+            role="button"
+          >
+            <MetaTagSocialMedia
+              v-if="!contentCopied"
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              iconName="bi:link-45deg"
+              :text="$t('components.meta-social-media-tag.copy-link')"
+              iconSize="1.5em"
+            />
+            <MetaTagSocialMedia
+              v-if="contentCopied"
+              class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
+              iconName="bi:check2-square"
+              :text="$t('components.meta-social-media-tag.copied')"
+              iconSize="1.5em"
+            />
           </div>
         </div>
-        <div class="pt-6">
-          <p class="responsive-h4 font-bold">
-            {{ $t("components.modal-share-page.offline") }}
-          </p>
-          <div
-            class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
-          >
-            <ModalBase>
-              <template #normalDisplay>
-                <MetaTagSocialMedia
-                  class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-                  iconName="bi:qr-code-scan"
-                  :text="$t('components.meta-social-media-tag.qr-code')"
-                  iconSize="1.5em"
-                />
-              </template>
-              <template #modalDisplay>
-                <ModalQRCode
-                  v-if="props.organization"
-                  :entityName="props?.organization?.name"
-                />
-                <ModalQRCode
-                  v-if="props.event"
-                  :entityName="props?.event?.name"
-                />
-              </template>
-            </ModalBase>
-          </div>
-        </div>
-        <!-- <s-facebook-messenger
-              @popup-close="onClose"
-              @popup-open="onOpen"
-              @popup-block="onBlock"
-              @popup-focus="onFocus"
-              :window-features="windowFeatures"
-              :share-options="shareOptions"
-              :use-native-behavior="useNativeBehavior"
-            >
-              <MetaTagSocialMedia
-                class="text-light-text dark:text-dark-text hover:text-light-distinct-text dark:hover:dark-distinct-text"
-                iconName="simple-icons:messenger"
-                :text="$t('components.meta-social-media-tag.messenger')"
-                iconSize="1.5em"
-              />
-            </s-facebook-messenger> -->
       </div>
-    </template>
+      <div class="pt-6">
+        <p class="responsive-h4 font-bold">
+          {{ $t("components.modal-share-page.offline") }}
+        </p>
+        <div
+          class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
+        >
+          <ModalQRCodeBtn
+            v-if="organization"
+            :organization="organization"
+            type="meta-tag"
+          />
+          <ModalQRCodeBtn v-if="group" :group="group" type="meta-tag" />
+          <ModalQRCodeBtn v-if="event" :event="event" type="meta-tag" />
+        </div>
+      </div>
+      <!-- <s-facebook-messenger
+        @popup-close="onClose"
+        @popup-open="onOpen"
+        @popup-block="onBlock"
+        @popup-focus="onFocus"
+        :window-features="windowFeatures"
+        :share-options="shareOptions"
+        :use-native-behavior="useNativeBehavior"
+      >
+        <MetaTagSocialMedia
+          class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+          iconName="simple-icons:messenger"
+          :text="$t('components.meta-social-media-tag.messenger')"
+          iconSize="1.5em"
+        />
+      </s-facebook-messenger> -->
+    </div>
   </ModalBase>
 </template>
 
@@ -213,12 +191,21 @@ import type { Organization } from "~/types/organization";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
-  label: BtnAction["label"];
-  ariaLabel: BtnAction["ariaLabel"];
   organization?: Organization;
   group?: Group;
   event?: Event;
+  isOpen: boolean;
 }>();
+
+const modalIsOpen = computed(() => props.isOpen);
+const modalShouldClose = ref(false);
+
+const emit = defineEmits(["closeModal"]);
+const handleCloseModal = () => {
+  modalShouldClose.value = true;
+  emit("closeModal");
+  modalShouldClose.value = false;
+};
 
 const getEntityType = () => {
   if (props.organization) {

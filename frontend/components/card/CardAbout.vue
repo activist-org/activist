@@ -1,11 +1,12 @@
 <template>
   <div class="card-style px-5 py-5">
-    <div class="relative w-full flex-col gap-5">
-      <ModalQRCode
+    <div class="relative w-full flex-col">
+      <ModalQRCodeBtn
         v-if="organization && !expandText"
-        :entityName="organization.name"
+        :organization="organization"
+        type="icon"
       />
-      <ModalQRCode v-if="group && !expandText" :entityName="group.name" />
+      <ModalQRCodeBtn v-if="group && !expandText" :group="group" type="icon" />
       <button
         v-if="expandText"
         @click="
@@ -21,21 +22,26 @@
           <h3 class="responsive-h3 text-left font-display">
             {{ $t("_global.about") }}
           </h3>
+          <IconEdit @click="openModal()" @keydown.enter="openModal()" />
           <ModalEditPageText
             v-if="organization"
+            @closeModal="handleCloseModal"
             :sectionsToEdit="[
               $t('_global.about'),
               // $t('components._global.get-involved'),
             ]"
             :textsToEdit="[organization.description]"
+            :isOpen="modalIsOpen"
           />
           <ModalEditPageText
             v-if="event"
+            @closeModal="handleCloseModal"
             :sectionsToEdit="[
               $t('_global.about'),
               $t('components._global.participate'),
             ]"
             :textsToEdit="[event.description, event.getInvolvedDescription]"
+            :isOpen="modalIsOpen"
           />
         </div>
         <div v-if="organization" class="flex-col space-y-3">
@@ -205,4 +211,14 @@ const expandText = ref(false);
 function expand_reduce_text() {
   expandText.value = !expandText.value;
 }
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
+};
 </script>

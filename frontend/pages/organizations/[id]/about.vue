@@ -19,11 +19,23 @@
             components.btn-action.support-organization-aria-label
           "
         />
-        <ModalSharePage
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
+          class="w-max"
           :cta="true"
-          label="components._global.share-organization"
+          :label="$t('components._global.share-organization')"
+          :hideLabelOnMobile="true"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.45em"
+          :ariaLabel="$t('components._global.share-organization-aria-label')"
+        />
+        <ModalSharePage
+          @closeModal="handleCloseModal"
+          :cta="true"
           :organization="organization"
-          ariaLabel="components._global.share-organization-aria-label"
+          :isOpen="modalIsOpen"
         />
       </div>
     </HeaderAppPage>
@@ -53,17 +65,8 @@
           aboutType="organization"
           :organization="organization"
         />
-        <div class="relative h-full w-full">
-          <ModalUploadImages>
-            <template #normalDisplay>
-              <button
-                class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-[0.125rem] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-              >
-                <Icon name="bi:plus-lg" size="2em" />
-              </button>
-            </template>
-          </ModalUploadImages>
-          <MediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
+        <div class="h-full w-full">
+          <MediaImageCarouselFull :class="{ 'lg:hidden': textExpanded }" />
         </div>
       </div>
       <CardGetInvolved
@@ -176,4 +179,14 @@ provide("modalOrganizationStatusData", {
   upVotes: 6,
   downVotes: 4,
 });
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
+};
 </script>

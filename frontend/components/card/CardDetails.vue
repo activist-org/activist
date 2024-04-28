@@ -1,7 +1,7 @@
 <template>
   <div class="card-style px-5 py-5">
-    <div class="relative w-full flex-col gap-5">
-      <ModalQRCode v-if="event" :entityName="event.name" />
+    <div class="relative w-full flex-col">
+      <ModalQRCodeBtn v-if="event" :event="event" type="icon" />
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="responsive-h3 text-left font-display">
@@ -9,7 +9,7 @@
           </h3>
           <IconEdit />
         </div>
-        <div v-if="event" class="flex-col space-y-5">
+        <div v-if="event" class="flex-col space-y-6 py-2">
           <div class="flex items-center gap-3">
             <MetaTagOrganization
               :organizations="event.organizations"
