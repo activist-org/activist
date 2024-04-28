@@ -34,7 +34,6 @@ const isActive = ref(false);
 let deactivateTimeoutKey: number | null = null;
 
 const activate = () => {
-  console.log("activate");
   isActive.value = true;
   if (deactivateTimeoutKey) clearTimeout(deactivateTimeoutKey);
 };

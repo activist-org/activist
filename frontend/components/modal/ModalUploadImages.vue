@@ -11,6 +11,7 @@
       </DialogTitle>
       <div class="mt-4">
         <FileDropZone
+          v-if="files.length != uploadLimit"
           @files-dropped="handleFiles"
           v-slot="{ isDropZoneActive }"
         >
@@ -26,10 +27,20 @@
           {{ files.length }}
         </p>
         <p
-          v-if="files.length > 10"
+          v-if="uploadLimit == 1 && files.length == uploadLimit"
           class="text-light-action-red dark:text-dark-action-red"
         >
-          {{ $t("components.modal-upload-images.picture-limit") }}
+          {{ $t("components.modal-upload-images.picture-limit-1") }}
+        </p>
+        <p
+          v-if="uploadLimit != 1 && files.length >= uploadLimit"
+          class="text-light-action-red dark:text-dark-action-red"
+        >
+          {{
+            $t("components.modal-upload-images.picture-limit-multiple", {
+              limit: uploadLimit,
+            })
+          }}
         </p>
         <div>
           <draggable
@@ -83,8 +94,8 @@ import draggable from "vuedraggable";
 const { files, handleFiles, removeFile } = useFileManager();
 
 export interface Props {
-  uploadLimit?: number;
   isOpen: boolean;
+  uploadLimit?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
