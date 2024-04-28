@@ -20,7 +20,7 @@
         />
       </svg>
       <TooltipBase
-        class="invisible -ml-36 mt-3 max-w-96"
+        class="invisible -ml-32 mt-3 max-w-56 md:-ml-36 md:max-w-96"
         :text="
           $t(
             'components.modal-organization-status.approved-tooltip-hover-text',
@@ -56,7 +56,7 @@
         />
       </svg>
       <TooltipBase
-        class="invisible -ml-36 mt-3 max-w-96"
+        class="invisible -ml-32 mt-3 max-w-56 md:-ml-36 md:max-w-96"
         :text="
           $t('components.icon-organization-status.pending-tooltip-hover-text', {
             org_name: organization.name,
