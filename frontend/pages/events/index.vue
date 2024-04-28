@@ -13,13 +13,16 @@
         <ShieldTopic topic="My topics dropdown" />
       </div>
     </HeaderAppPage>
-    <div v-for="event in events" class="space-y-6 pb-6 pt-3 md:pt-4">
-      <CardSearchResult
-        searchResultType="event"
-        :isPrivate="false"
-        :event="event"
-      />
+    <div v-if="events">
+      <div v-for="event in events" class="space-y-6 pb-6 pt-3 md:pt-4">
+        <CardSearchResult
+          searchResultType="event"
+          :isPrivate="false"
+          :event="event"
+        />
+      </div>
     </div>
+    <EmptyState v-else pageType="events" :permission="false" />
   </div>
 </template>
 
@@ -34,19 +37,4 @@ const { data: events } = await useFetch(
     method: "GET",
   }
 );
-
-// import type { Event } from "~/types/event";
-// const event: Event = {
-//   name: "Test Event",
-//   type: "action",
-//   tagline: "We love to test!",
-//   organizations: ["Testers LLC"],
-//   topic: "Testing and Designing",
-//   description: "This is a test event for testers.",
-//   getInvolvedDescription: "Wanna help test?",
-//   inPersonLocation: "Berlin",
-//   // onlineLocation: "Zoom Test Room",
-//   date: new Date(),
-//   supporters: 10,
-// };
 </script>

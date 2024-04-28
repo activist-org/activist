@@ -13,6 +13,16 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
+    <div v-if="resources">
+      <div v-for="resource in resources" class="space-y-6 pb-6 pt-3 md:pt-4">
+        <CardSearchResult
+          searchResultType="resource"
+          :isPrivate="false"
+          :resource="resource"
+        />
+      </div>
+    </div>
+    <EmptyState v-else pageType="resources" :permission="false" />
   </div>
 </template>
 
@@ -20,4 +30,11 @@
 definePageMeta({
   layout: "sidebar",
 });
+
+const { data: resources } = await useFetch(
+  "http://localhost:8000/v1/content/resources/",
+  {
+    method: "GET",
+  }
+);
 </script>

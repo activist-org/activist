@@ -101,7 +101,7 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="pages.groups.create.create-group"
+              label="_global.create-group"
               fontSize="lg"
               ariaLabel="pages.groups.create.create-group-aria-label"
             />

@@ -99,7 +99,7 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="pages.resources.create.complete-application"
+              label="_global.create-resource"
               fontSize="lg"
               ariaLabel="pages.resources.create.complete-application-aria-label"
             />

@@ -58,7 +58,7 @@
               class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist"
             >
-              {{ $t("components.page-community-footer.invite-text-2-2") }}
+              {{ $t("_global.on-github") }}
               <Icon
                 name="bi:box-arrow-up-right"
                 size="1em"
