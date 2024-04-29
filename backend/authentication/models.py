@@ -110,6 +110,10 @@ class UserModel(AbstractUser, PermissionsMixin, CreationDeletionMixin):
     private = models.BooleanField(default=False)
     high_risk = models.BooleanField(default=False)
 
+    # Django specific fields
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+
     objects = CustomAccountManager()  # type: ignore
 
     USERNAME_FIELD = "username"
