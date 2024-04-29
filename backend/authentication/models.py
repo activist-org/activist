@@ -48,7 +48,7 @@ class Support(models.Model):
     supported_entity = models.ForeignKey(
         "entities.Organization", on_delete=models.CASCADE, related_name="supported"
     )
-    support_date = models.DateTimeField(auto_now_add=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.id}"
