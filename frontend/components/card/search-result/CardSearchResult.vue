@@ -62,7 +62,7 @@
                 :eventType="eventType"
                 :imgURL="imageURL"
                 :alt="
-                  $t('components._global.entity-logo', {
+                  $t('components.card-search-result.event-img-alt-text', {
                     entity_name: name,
                   })
                 "
