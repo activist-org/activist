@@ -48,6 +48,7 @@ class Support(models.Model):
     supported_entity = models.ForeignKey(
         "entities.Organization", on_delete=models.CASCADE, related_name="supported"
     )
+    support_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -100,15 +101,13 @@ class UserModel(AbstractUser, PermissionsMixin, CreationDeletionMixin):
     verification_partner = models.ForeignKey(
         "authentication.UserModel", on_delete=models.SET_NULL, null=True
     )
-    user_icon = models.ForeignKey(
+    icon_url = models.ForeignKey(
         "content.Image", on_delete=models.SET_NULL, blank=True, null=True
     )
     email = models.EmailField(unique=True)
-    social_accounts = ArrayField(
-        models.CharField(max_length=255), blank=True, null=True
-    )
-    private = models.BooleanField(default=False)
-    high_risk = models.BooleanField(default=False)
+    social_links = ArrayField(models.CharField(max_length=255), blank=True, null=True)
+    is_private = models.BooleanField(default=False)
+    is_high_risk = models.BooleanField(default=False)
 
     objects = CustomAccountManager()  # type: ignore
 
