@@ -34,6 +34,7 @@ definePageMeta({
 });
 
 const event: Event = {
+  id: "1",
   name: "Brandenburg Gate Climate Demo",
   tagline: "There is no Planet B",
   organizations: ["Berlin Climate Org"],

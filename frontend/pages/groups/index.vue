@@ -15,11 +15,7 @@
     </HeaderAppPage>
     <div v-if="groups">
       <div v-for="group in groups" class="space-y-6 pb-6 pt-3 md:pt-4">
-        <CardSearchResult
-          searchResultType="organization"
-          :isPrivate="false"
-          :group="group"
-        />
+        <CardSearchResult :isPrivate="false" :group="group" />
       </div>
     </div>
     <EmptyState v-else pageType="groups" :permission="false" />

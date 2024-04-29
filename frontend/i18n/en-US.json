@@ -212,6 +212,8 @@
   "components.card-discussion-input.write-aria-label": "Switch to writing in the text field",
   "components.card-discussion-text.on": "on",
   "components.card-donate.template-text": "Thanks for your interest in supporting this organization! The button below will take you to our funding page where you can make a one time or recurring donation. Thanks again!",
+  "components.card-faq-entry.answer": "Answer",
+  "components.card-faq-entry.question": "Question",
   "components.card-get-involved.join-group-subtext": "Click \"Join group\" above to get involved in",
   "components.card-get-involved.join-organization-subtext": "Click \"Join organization\" above to get involved in",
   "components.card-get-involved.legal-disclaimer-subtext": "Please read the legal disclaimer below for more information on your rights during this event.",

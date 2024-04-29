@@ -40,7 +40,7 @@
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :href="makeURL(breadcrumb)"
           >
-            {{ group.organization }}
+            {{ group.organization.name }}
           </a>
           <a
             v-else-if="

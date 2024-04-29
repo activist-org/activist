@@ -43,7 +43,7 @@
           </h2>
           <MenuSearchResult
             class="max-md:absolute max-md:right-0 max-md:top-0"
-            search-result-type="resource"
+            :resource="resource"
           />
         </div>
         <div

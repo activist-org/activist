@@ -45,6 +45,7 @@ definePageMeta({
 });
 
 const organization: Organization = {
+  id: "1",
   name: "tech from below",
   status: "approved",
   tagline: "Technologie von und für soziale Bewegungen",
@@ -61,6 +62,7 @@ const organization: Organization = {
 };
 
 const event: Event = {
+  id: "1",
   name: "bimonthly tech meetup",
   tagline: "let's fix some bugs!",
   organizations: ["org1", "org2"],

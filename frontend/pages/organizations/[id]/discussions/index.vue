@@ -26,24 +26,6 @@
           iconSize="1.35em"
           ariaLabel="components.btn-route-internal.new-discussion-aria-label"
         />
-        <BtnAction
-          @click="openModal()"
-          @keydown.enter="openModal()"
-          class="w-max"
-          :cta="true"
-          :label="$t('components._global.share-organization')"
-          :hideLabelOnMobile="true"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.45em"
-          :ariaLabel="$t('components._global.share-organization-aria-label')"
-        />
-        <ModalSharePage
-          @closeModal="handleCloseModal"
-          :cta="true"
-          :organization="organization"
-          :isOpen="modalIsOpen"
-        />
       </div>
     </HeaderAppPage>
     <div class="space-y-6 pb-6 pt-3 md:pt-4">
@@ -62,6 +44,7 @@ definePageMeta({
 });
 
 const organization: Organization = {
+  id: "1",
   name: "tech from below",
   status: "approved",
   tagline: "Technologie von und für soziale Bewegungen",

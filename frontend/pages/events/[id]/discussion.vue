@@ -12,23 +12,15 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          @click="openModal()"
-          @keydown.enter="openModal()"
-          class="w-max"
+        <BtnRouteInternal
+          class="hidden w-max md:block"
           :cta="true"
-          :label="$t('components._global.share-event')"
-          :hideLabelOnMobile="true"
+          linkTo="/"
+          label="components.btn-route-internal.new-discussion"
           fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.45em"
-          :ariaLabel="$t('components._global.share-event-aria-label')"
-        />
-        <ModalSharePage
-          @closeModal="handleCloseModal"
-          :cta="true"
-          :event="event"
-          :isOpen="modalIsOpen"
+          leftIcon="bi:plus-lg"
+          iconSize="1.35em"
+          ariaLabel="components.btn-route-internal.new-discussion-aria-label"
         />
       </div>
     </HeaderAppPage>
@@ -53,6 +45,7 @@ definePageMeta({
 });
 
 const organization: Organization = {
+  id: "1",
   name: "Berlin Climate Org",
   status: "approved",
   tagline: "Fighting Climate Change",
@@ -68,6 +61,7 @@ const organization: Organization = {
 };
 
 const event: Event = {
+  id: "1",
   name: "Brandenburg Gate Climate Demo",
   tagline: "There is no Planet B",
   organizations: [organization],

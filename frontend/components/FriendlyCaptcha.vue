@@ -2,7 +2,7 @@
   <vue-friendly-captcha
     v-if="!inDevMode"
     @done="verifyCaptcha"
-    class="h-14 rounded-md"
+    class="rounded-md"
     :sitekey="`${FRIENDLY_CAPTCHA_KEY}`"
     :dark="$colorMode.value === 'dark'"
     startMode="auto"

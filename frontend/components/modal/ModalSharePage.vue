@@ -188,12 +188,16 @@ import type { BtnAction } from "~/types/btn-props";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
+import type { Resource } from "~/types/resource";
+import type { User } from "~/types/user";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
   organization?: Organization;
   group?: Group;
   event?: Event;
+  resource?: Resource;
+  user?: User;
   isOpen: boolean;
 }>();
 
@@ -231,6 +235,17 @@ const setEntityInfo = (
 
 // Function to grab the url to the base id of the event/org/group.
 const getCurrentUrl = () => {
+  if (props.organization) {
+    return `https://activist.org/organizations/${props.organization.id}`;
+  } else if (props.group) {
+    return `https://activist.org/organizations/${props.group.organization.id}/groups/${props.group.id}`;
+  } else if (props.event) {
+    return `https://activist.org/events/${props.event.id}`;
+  } else if (props.resource) {
+    return `${props.resource.resourceURL}`;
+  } else if (props.user) {
+    return `https://activist.org/users/${props.user.id}`;
+  }
   const url = window.location.href;
   return url.substring(0, url.lastIndexOf("/"));
 };

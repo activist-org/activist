@@ -29,7 +29,7 @@
           </h2>
           <MenuSearchResult
             class="max-md:absolute max-md:right-0 max-md:top-0"
-            search-result-type="user"
+            :user="user"
           />
         </div>
         <div

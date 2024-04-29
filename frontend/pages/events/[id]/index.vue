@@ -79,6 +79,7 @@ definePageMeta({
 const { id } = useRoute().params;
 const localPath = useLocalePath();
 const event: Event = {
+  id: "1",
   name: "Test Event",
   type: "action",
   tagline: "We love to test!",

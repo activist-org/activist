@@ -29,24 +29,6 @@
             components.btn-action.support-group-aria-label
           "
         />
-        <BtnAction
-          @click="openModal()"
-          @keydown.enter="openModal()"
-          class="w-max"
-          :cta="true"
-          :label="$t('components._global.share-group')"
-          :hideLabelOnMobile="true"
-          fontSize="sm"
-          leftIcon="bi:box-arrow-up"
-          iconSize="1.45em"
-          :ariaLabel="$t('components._global.share-group-aria-label')"
-        />
-        <ModalSharePage
-          @closeModal="handleCloseModal"
-          :cta="true"
-          :group="group"
-          :isOpen="modalIsOpen"
-        />
       </div>
     </HeaderAppPage>
     <div class="py-4">
@@ -69,6 +51,7 @@ definePageMeta({
 const groupSubPages = getGroupSubPages();
 
 const testGroup: Group = {
+  id: "1",
   name: "Code Night",
   organization: "tech from below",
   tagline: "Let's code!",
@@ -102,14 +85,4 @@ const faqEntry_03: FaqEntry = {
 };
 
 const faqEntries = [faqEntry_01, faqEntry_02, faqEntry_03];
-
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modalIsOpen.value = true;
-}
-
-const handleCloseModal = () => {
-  modalIsOpen.value = false;
-};
 </script>

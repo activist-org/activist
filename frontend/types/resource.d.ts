@@ -1,4 +1,5 @@
 export interface Resource {
+  id: string;
   name: string;
   organization: string;
   resourceURL: string;

@@ -88,6 +88,7 @@ const expandReduceText = () => {
 };
 
 const testGroup: Group = {
+  id: "1",
   name: "Code Night",
   organization: "tech from below",
   tagline: "Let's code!",

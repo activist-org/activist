@@ -1,7 +1,7 @@
 <template>
   <Dialog
     @close="closeModal()"
-    class="relative z-40"
+    class="relative z-50"
     :open="modalShouldClose == false ? modalIsOpen : false"
   >
     <div

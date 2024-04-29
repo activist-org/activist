@@ -37,6 +37,7 @@ definePageMeta({
 });
 
 const organization: Organization = {
+  id: "1",
   name: "tech from below",
   status: "approved",
   tagline: "Technologie von und für soziale Bewegungen",

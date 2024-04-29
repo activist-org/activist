@@ -12,44 +12,67 @@
     >
       <Icon name="bi:three-dots-vertical" size="1.25em" />
       <TooltipMenuSearchResultEvent
-        v-if="searchResultType === 'event'"
+        v-if="event"
         v-show="showTooltip"
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
         class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        :event="event"
       />
       <TooltipMenuSearchResultOrganization
-        v-if="searchResultType === 'organization'"
+        v-if="organization"
         v-show="showTooltip"
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
         class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        :organization="organization"
+      />
+      <TooltipMenuSearchResultGroup
+        v-if="group"
+        v-show="showTooltip"
+        @blur="showTooltip = false"
+        @tab="onTab"
+        @keydown.shift.tab.stop
+        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        :group="group"
       />
       <TooltipMenuSearchResultResource
-        v-if="searchResultType === 'resource'"
+        v-if="resource"
         v-show="showTooltip"
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
         class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        :resource="resource"
       />
       <TooltipMenuSearchResultUser
-        v-if="searchResultType === 'user'"
+        v-if="user"
         v-show="showTooltip"
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
         class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        :user="user"
       />
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { Event } from "~/types/event";
+import type { Group } from "~/types/group";
+import type { Organization } from "~/types/organization";
+import type { Resource } from "~/types/resource";
+import type { User } from "~/types/user";
+
 defineProps<{
-  searchResultType: "organization" | "event" | "resource" | "user";
+  organization?: Organization;
+  group?: Group;
+  event?: Event;
+  resource?: Resource;
+  user?: User;
 }>();
 
 const showTooltip = ref(false);

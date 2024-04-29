@@ -26,35 +26,18 @@
         />
         <MediaCalendar class="h-full w-full lg:col-span-2" />
       </div>
-      <CardSearchResult
-        searchResultType="event"
-        :isPrivate="false"
-        :event="event"
-      />
-      <CardSearchResult
-        searchResultType="organization"
-        :isPrivate="false"
-        :organization="organization"
-      />
-      <CardSearchResult
-        searchResultType="resource"
-        :isPrivate="false"
-        :resource="resource"
-      />
-      <CardSearchResult
-        searchResultType="user"
-        :isPrivate="false"
-        :user="user"
-      />
-      <CardChangeAccountInfoUsername />
-      <CardChangeAccountInfoPassword />
-      <CardChangeAccountInfoEmail />
+      <CardSearchResult :isPrivate="false" :event="event" />
+      <CardSearchResult :isPrivate="false" :organization="organization" />
+      <CardSearchResult :isPrivate="false" :group="group" />
+      <CardSearchResult :isPrivate="false" :resource="resource" />
+      <CardSearchResult :isPrivate="false" :user="user" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Event } from "~/types/event";
+import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
 import type { Resource } from "~/types/resource";
 import type { User } from "~/types/user";
@@ -69,30 +52,8 @@ definePageMeta({
   layout: "sidebar",
 });
 
-const resource: Resource = {
-  name: "Test Resource",
-  organization: "Testers LLC",
-  resourceURL: "www.test.com",
-  description: "Test resource :D",
-  topic: "Tools",
-  relatedLocation: "Berlin",
-  creationDate: new Date(),
-  stars: 5,
-};
-
-const organization: Organization = {
-  name: "tech from below",
-  status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin",
-  description: "This is the description of tech from below.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 30,
-  imageURL: "/images/tech-from-below.svg",
-};
-
 const event: Event = {
+  id: "1",
   name: "Test Event",
   type: "action",
   tagline: "We love to test!",
@@ -106,7 +67,46 @@ const event: Event = {
   supporters: 10,
 };
 
+const organization: Organization = {
+  id: "1",
+  name: "tech from below",
+  status: "approved",
+  tagline: "Technologie von und für soziale Bewegungen",
+  location: "Berlin",
+  description: "This is the description of tech from below.",
+  topic: "Technology and Privacy",
+  members: 3,
+  supporters: 30,
+  imageURL: "/images/tech-from-below.svg",
+};
+
+const group: Group = {
+  id: "1",
+  name: "Code Night",
+  organization: organization,
+  tagline: "Let's code!",
+  location: "Berlin",
+  description: "This is the description of Code Night.",
+  topic: "Technology and Privacy",
+  members: 3,
+  supporters: 30,
+  imageURL: "/images/tech-from-below.svg",
+};
+
+const resource: Resource = {
+  id: "1",
+  name: "Test Resource",
+  organization: "Testers LLC",
+  resourceURL: "www.test.com",
+  description: "Test resource :D",
+  topic: "Tools",
+  relatedLocation: "Berlin",
+  creationDate: new Date(),
+  stars: 5,
+};
+
 const user: User = {
+  id: "1",
   name: "John A. Tester",
   location: "Testerville, TN",
   supporters: 123,

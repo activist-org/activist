@@ -47,7 +47,7 @@
           </h2>
           <MenuSearchResult
             class="max-md:absolute max-md:right-0 max-md:top-0"
-            search-result-type="organization"
+            :organization="organization"
           />
         </div>
         <div class="hidden items-center space-x-3 md:flex lg:space-x-5">

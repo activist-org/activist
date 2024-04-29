@@ -15,11 +15,7 @@
     </HeaderAppPage>
     <div v-if="events">
       <div v-for="event in events" class="space-y-6 pb-6 pt-3 md:pt-4">
-        <CardSearchResult
-          searchResultType="event"
-          :isPrivate="false"
-          :event="event"
-        />
+        <CardSearchResult :isPrivate="false" :event="event" />
       </div>
     </div>
     <EmptyState v-else pageType="events" :permission="false" />
