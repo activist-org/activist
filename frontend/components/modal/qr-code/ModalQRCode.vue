@@ -11,17 +11,30 @@
     <div
       class="flex flex-col items-center space-y-6 pb-6 md:grid md:grid-cols-2 md:grid-rows-1 lg:mr-14 lg:grid-cols-3 lg:grid-rows-1 lg:space-x-6 lg:space-y-0 lg:pr-8"
     >
-      <div class="col-span-2 items-center space-y-4 pt-2 text-left font-medium">
+      <div class="col-span-2 items-center space-y-4 text-left font-medium">
         <p v-if="organization">
           {{
             $t("components.modal-qr-code.section-1-paragraph-1-organization")
-          }}
+          }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
         </p>
         <p v-else-if="group">
-          {{ $t("components.modal-qr-code.section-1-paragraph-1-group") }}
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-group") }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
         </p>
         <p v-else-if="event">
-          {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
+        </p>
+        <p v-else-if="resource">
+          {{
+            $t("components.modal-qr-code.section-1-paragraph-1-resource")
+          }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
+        </p>
+        <p v-else-if="user">
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-user") }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
         </p>
         <p>
           {{ $t("components.modal-qr-code.subheader-2") }}
@@ -62,6 +75,7 @@
         <ModalQRCodeImage
           ref="qrcode"
           class="elem-shadow-md select-none rounded-3xl"
+          :codeURL="linkURL"
         />
       </div>
       <BtnActionDropdown
@@ -87,16 +101,23 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
+import { useLinkURL } from "~/composables/useLinkURL";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
+import type { Resource } from "~/types/resource";
+import type { User } from "~/types/user";
 
 const props = defineProps<{
   organization?: Organization;
   group?: Group;
   event?: Event;
+  resource?: Resource;
+  user?: User;
   isOpen: boolean;
 }>();
+
+const { linkURL } = useLinkURL(props);
 
 const modalIsOpen = computed(() => props.isOpen);
 const modalShouldClose = ref(false);
@@ -172,6 +193,10 @@ if (props.organization) {
   entityName = props.group.name;
 } else if (props.event) {
   entityName = props.event.name;
+} else if (props.resource) {
+  entityName = props.resource.name;
+} else if (props.user) {
+  entityName = props.user.name;
 }
 
 const qrCodeFileName: string =

@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import type { FaqEntry } from "~/types/card-faq-entry";
+import type { FaqEntry } from "~/types/faq-entry";
 import ModalEditPageText from "../modal/ModalEditPageText.vue";
 
 defineProps<{

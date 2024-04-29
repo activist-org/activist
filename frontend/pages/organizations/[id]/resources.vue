@@ -26,51 +26,24 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-3 py-4">
-      <CardSearchResult
-        searchResultType="resource"
+    <div v-if="organization.resources" class="space-y-3 py-4">
+      <CardSearchResultResource
+        v-for="(r, i) in organization.resources"
+        :key="i"
         :reduced="true"
-        :resource="resource"
+        :resource="r"
       />
     </div>
+    <EmptyState v-else pageType="resources" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
+import { testTechOrg } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-const organization: Organization = {
-  id: "1",
-  name: "tech from below",
-  status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 60,
-  imageURL: "/images/tech-from-below.svg",
-  workingGroups: ["meetup", "code-night"],
-  socialLinks: ["tfb@mastodon", "tfb@email"],
-  donationPrompt: "Hey thanks!",
-};
-
-const resource: Resource = {
-  id: "1",
-  name: "Activist website",
-  organization: "activist.org",
-  resourceURL: "www.activist.org",
-  description:
-    "Let's build a platform where movements grow and people are inspired to act on the issues that affect us all...",
-  topic: "Sites",
-  relatedLocation: "Berlin, DE",
-  creationDate: new Date(),
-  stars: 100000000,
-};
+const organization = testTechOrg;
 </script>

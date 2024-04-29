@@ -35,48 +35,15 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/card-discussion-entry";
-import type { DiscussionInput } from "~/types/card-discussion-input";
-import type { Event } from "~/types/event";
-import type { Organization } from "~/types/organization";
+import type { DiscussionEntry } from "~/types/discussion-entry";
+import type { DiscussionInput } from "~/types/discussion-input";
+import { testClimateEvent } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-const organization: Organization = {
-  id: "1",
-  name: "Berlin Climate Org",
-  status: "approved",
-  tagline: "Fighting Climate Change",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Environment",
-  members: 3,
-  supporters: 60,
-  workingGroups: ["Fundraising", "Campaigning"],
-  socialLinks: ["climate-org@mastodon", "climate-org@email"],
-  donationPrompt: "Hey thanks!",
-};
-
-const event: Event = {
-  id: "1",
-  name: "Brandenburg Gate Climate Demo",
-  tagline: "There is no Planet B",
-  organizations: [organization],
-  type: "action",
-  topic: "Environment",
-  description:
-    "Aute aliqua reprehenderit ex ut commodo nostrud et excepteur. Sunt amet velit sunt fugiat et excepteur dolore pariatur nisi non. Exercitation aute aute culpa commodo commodo ea Lorem aliquip id duis. Laboris nostrud ullamco ea voluptate et anim id adipisicing sint reprehenderit incididunt elit. Est fugiat pariatur elit culpa in incididunt eu esse cupidatat minim. Deserunt duis culpa minim Lorem consectetur quis fugiat ipsum nostrud voluptate veniam do. Reprehenderit duis officia in enim anim elit.",
-  getInvolvedDescription:
-    "Sint cillum excepteur sint cupidatat do consectetur excepteur nisi veniam. Sint id in sit eiusmod Lorem commodo minim culpa id cupidatat consectetur. Labore nisi est officia sunt occaecat.",
-  inPersonLocation: "Brandenburg Gate, Berlin",
-  date: new Date().toISOString().slice(0, 10),
-  supporters: 30,
-  imageURL: "/images/tech-from-below.svg",
-  socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
-};
+const event = testClimateEvent;
 
 const discussionEntry: DiscussionEntry = {
   id: 1,
@@ -94,15 +61,5 @@ const discussionInput: DiscussionInput = {
   description: "I love to test!",
   category: "Category",
   highRisk: false,
-};
-
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modalIsOpen.value = true;
-}
-
-const handleCloseModal = () => {
-  modalIsOpen.value = false;
 };
 </script>

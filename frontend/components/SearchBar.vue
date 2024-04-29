@@ -96,13 +96,13 @@ export interface Props {
   expanded?: boolean;
 }
 
-const { isMacOS } = useDevice();
-
 withDefaults(defineProps<Props>(), {
   expanded: false,
 });
 
 const sidebar = useSidebar();
+const { isMacOS } = useDevice();
+
 const input = ref();
 const hotkeyIndicators = ref();
 const isInputFocused = ref(false);

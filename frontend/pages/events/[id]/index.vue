@@ -9,7 +9,7 @@
     <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
         :eventType="event.type"
-        :imgURL="event?.imageURL"
+        :imgURL="event.iconURL ? event.iconURL : ''"
         :alt="
           $t('components._global.entity-logo', {
             entity_name: event?.name,
@@ -69,28 +69,17 @@
 
 <script setup lang="ts">
 import { Breakpoint } from "~/types/breakpoints";
-import type { Event } from "~/types/event";
 import type { MenuSelector } from "~/types/menu-selector";
+import { testClimateEvent } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
+const event = testClimateEvent;
+
 const { id } = useRoute().params;
 const localPath = useLocalePath();
-const event: Event = {
-  id: "1",
-  name: "Test Event",
-  type: "action",
-  tagline: "We love to test!",
-  organizations: ["Testers LLC"],
-  topic: "Testing and Designing",
-  description: "This is a test event for testers.",
-  getInvolvedDescription: "Wanna help test?",
-  onlineLocation: "Zoom Test Room",
-  date: new Date(),
-  supporters: 10,
-};
 
 const eventButtons: MenuSelector[] = [
   {

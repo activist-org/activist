@@ -51,17 +51,18 @@
     >
       {{ headerName }}
     </h1>
-    <IconOrganizationStatus
+    <!-- <IconOrganizationStatus
       v-if="headerStatus && organization"
       :status="headerStatus"
       :organization="organization"
-    />
+    /> -->
   </div>
   <div
     class="flex w-full grow flex-col items-start justify-between space-y-4 pt-2 lg:flex-row lg:items-center lg:space-y-0 xl:pt-4"
   >
+    <!-- organization.status === 1 means it's application is pending. -->
     <h2
-      v-if="organization && organization.status === 'pending'"
+      v-if="organization && organization.status === 1"
       class="responsive-h4 text-light-warn-yellow transition-all duration-500 dark:text-dark-warn-yellow"
     >
       {{ $t("components.header-app-page.status-pending") }}
@@ -91,27 +92,39 @@ const props = defineProps<{
   underDevelopment?: boolean;
 }>();
 
-let headerName: string;
-let headerTagline: string;
-let headerStatus: string;
+const headerName = computed<string>(() => {
+  if (props.organization) {
+    return props.organization.name;
+  } else if (props.group) {
+    return props.group.name;
+  } else if (props.event) {
+    return props.event.name;
+  } else if (props.header) {
+    return props.header;
+  } else {
+    return "";
+  }
+});
 
-if (props.organization) {
-  headerName = props.organization.name;
-  headerTagline = props.organization.tagline;
-  headerStatus = props.organization.status;
-} else if (props.group) {
-  headerName = props.group.name;
-  headerTagline = props.group.tagline;
-} else if (props.event) {
-  headerName = props.event.name;
-  headerTagline = props.event.tagline;
-}
+const headerTagline = computed<string>(() => {
+  if (props.organization && props.organization.tagline) {
+    return props.organization.tagline;
+  } else if (props.group && props.group.tagline) {
+    return props.group.tagline;
+  } else if (props.event && props.event.tagline) {
+    return props.event.tagline;
+  } else if (props.tagline) {
+    return props.tagline;
+  } else {
+    return "";
+  }
+});
 
-if (props.header) {
-  headerName = props.header || "Default header";
-}
-
-if (props.tagline) {
-  headerTagline = props.tagline || "Default tagline";
-}
+// const headerStatus = computed<number>(() => {
+//   if (props.organization) {
+//     return props.organization.status;
+//   } else {
+//     return 1;
+//   }
+// });
 </script>

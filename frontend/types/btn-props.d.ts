@@ -28,7 +28,7 @@ export interface BtnActionDropdown extends BtnAction {
 }
 
 export interface BtnRoute extends BtnBase {
-  linkTo?: string;
+  linkTo: string;
   leftIcon?: string;
   rightIcon?: string;
 }

@@ -28,9 +28,19 @@
             @closeModal="handleCloseModal"
             :sectionsToEdit="[
               $t('_global.about'),
-              // $t('components._global.get-involved'),
+              $t('components._global.get-involved'),
             ]"
-            :textsToEdit="[organization.description]"
+            :textsToEdit="[descriptionText, getInvolvedText]"
+            :isOpen="modalIsOpen"
+          />
+          <ModalEditPageText
+            v-if="group"
+            @closeModal="handleCloseModal"
+            :sectionsToEdit="[
+              $t('_global.about'),
+              $t('components._global.get-involved'),
+            ]"
+            :textsToEdit="[descriptionText, getInvolvedText]"
             :isOpen="modalIsOpen"
           />
           <ModalEditPageText
@@ -40,18 +50,21 @@
               $t('_global.about'),
               $t('components._global.participate'),
             ]"
-            :textsToEdit="[event.description, event.getInvolvedDescription]"
+            :textsToEdit="[descriptionText, getInvolvedText]"
             :isOpen="modalIsOpen"
           />
         </div>
         <div v-if="organization" class="flex-col space-y-3">
-          <ShieldTopic :topic="organization.topic" />
+          <!-- <div class="flex items-center gap-3">
+            <ShieldTopic v-for="(t, i) in organization.topics" :key="i" :topic="t" />
+          </div> -->
+          <!-- <ShieldTopic :topic="organization.topic" /> -->
           <div class="flex items-center gap-3">
             <MetaTagLocation :location="organization.location" />
-            <MetaTagMembers
-              :members="organization.members"
+            <!-- <MetaTagMembers
+              :members="organization.members.length"
               :label="$t('components._global.members_lower')"
-            />
+            /> -->
           </div>
           <div>
             <p
@@ -89,13 +102,15 @@
           </div>
         </div>
         <div v-else-if="group" class="flex-col space-y-3">
-          <ShieldTopic :topic="group.topic" />
+          <!-- <div class="flex items-center gap-3">
+            <ShieldTopic v-for="(t, i) in group.topics" :key="i" :topic="t" />
+          </div> -->
           <div class="flex items-center gap-3">
             <MetaTagLocation :location="group.location" />
-            <MetaTagMembers
-              :members="group.members"
+            <!-- <MetaTagMembers
+              :members="group.members.length"
               :label="$t('components._global.members_lower')"
-            />
+            /> -->
           </div>
           <div>
             <p
@@ -133,7 +148,9 @@
           </div>
         </div>
         <div v-else-if="event" class="flex-col space-y-3">
-          <ShieldTopic :topic="event.topic" />
+          <!-- <div class="flex items-center gap-3">
+            <ShieldTopic v-for="(t, i) in event.topics" :key="i" :topic="t" />
+          </div> -->
           <div>
             <p
               ref="description"
@@ -180,11 +197,35 @@ import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
 import ModalEditPageText from "../modal/ModalEditPageText.vue";
 
-defineProps<{
+const props = defineProps<{
   organization?: Organization;
   group?: Group;
   event?: Event;
 }>();
+
+const descriptionText = computed<string>(() => {
+  if (props.organization && props.organization.description) {
+    return props.organization.description;
+  } else if (props.group && props.group.description) {
+    return props.group.description;
+  } else if (props.event && props.event.description) {
+    return props.event.description;
+  } else {
+    return "";
+  }
+});
+
+const getInvolvedText = computed<string>(() => {
+  if (props.organization && props.organization.getInvolved) {
+    return props.organization.getInvolved;
+  } else if (props.group && props.group.getInvolved) {
+    return props.group.getInvolved;
+  } else if (props.event && props.event.getInvolved) {
+    return props.event.getInvolved;
+  } else {
+    return "";
+  }
+});
 
 const description = ref();
 const descriptionExpandable = ref(false);

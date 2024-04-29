@@ -1,5 +1,5 @@
 <template>
-  <span v-if="status == 'approved'">
+  <span v-if="status == 2">
     <button
       @click="openModal()"
       @keydown.enter="openModal()"
@@ -71,7 +71,7 @@
 import type { Organization } from "~/types/organization";
 
 defineProps<{
-  status: string;
+  status: number;
   organization: Organization;
 }>();
 

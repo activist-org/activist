@@ -15,7 +15,7 @@
     </HeaderAppPage>
     <div v-if="groups">
       <div v-for="group in groups" class="space-y-6 pb-6 pt-3 md:pt-4">
-        <CardSearchResult :isPrivate="false" :group="group" />
+        <CardSearchResultGroup :isPrivate="false" :group="group" />
       </div>
     </div>
     <EmptyState v-else pageType="groups" :permission="false" />
@@ -27,7 +27,10 @@ definePageMeta({
   layout: "sidebar",
 });
 
-const { data: groups } = await useFetch(`${BASE_URL}/entities/groups/`, {
-  method: "GET",
-});
+const { data: groups } = await useFetch(
+  `${BASE_BACKEND_URL}/entities/groups/`,
+  {
+    method: "GET",
+  }
+);
 </script>

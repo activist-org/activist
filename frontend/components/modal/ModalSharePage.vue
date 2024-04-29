@@ -159,6 +159,12 @@
           />
           <ModalQRCodeBtn v-if="group" :group="group" type="meta-tag" />
           <ModalQRCodeBtn v-if="event" :event="event" type="meta-tag" />
+          <ModalQRCodeBtn
+            v-if="resource"
+            :resource="resource"
+            type="meta-tag"
+          />
+          <ModalQRCodeBtn v-if="user" :user="user" type="meta-tag" />
         </div>
       </div>
       <!-- <s-facebook-messenger
@@ -233,25 +239,25 @@ const setEntityInfo = (
   };
 };
 
-// Function to grab the url to the base id of the event/org/group.
+// Function to grab the url to the base id of the entity to share.
 const getCurrentUrl = () => {
   if (props.organization) {
-    return `https://activist.org/organizations/${props.organization.id}`;
+    return `${BASE_FRONTEND_URL}/organizations/${props.organization.id}`;
   } else if (props.group) {
-    return `https://activist.org/organizations/${props.group.organization.id}/groups/${props.group.id}`;
+    return `${BASE_FRONTEND_URL}/organizations/${props.group.organization.id}/groups/${props.group.id}`;
   } else if (props.event) {
-    return `https://activist.org/events/${props.event.id}`;
+    return `${BASE_FRONTEND_URL}/events/${props.event.id}`;
   } else if (props.resource) {
-    return `${props.resource.resourceURL}`;
+    return props.resource.resourceURL;
   } else if (props.user) {
-    return `https://activist.org/users/${props.user.id}`;
+    return `${BASE_FRONTEND_URL}/users/${props.user.id}`;
   }
   const url = window.location.href;
   return url.substring(0, url.lastIndexOf("/"));
 };
 
 const shareOptions = {
-  url: getCurrentUrl() || "https://activist.org/en",
+  url: getCurrentUrl() || `${BASE_FRONTEND_URL}`,
   text: getEntityType()?.text || "Check this out!",
   quote: getEntityType()?.text || "Check this out!",
   hashtags: ["activism", "organizing"],

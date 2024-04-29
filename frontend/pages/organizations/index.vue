@@ -18,8 +18,7 @@
         v-for="organization in organizations"
         class="space-y-6 pb-6 pt-3 md:pt-4"
       >
-        <CardSearchResult
-          searchResultType="organization"
+        <CardSearchResultOrganization
           :isPrivate="false"
           :organization="organization"
         />
@@ -35,7 +34,7 @@ definePageMeta({
 });
 
 const { data: organizations } = await useFetch(
-  `${BASE_URL}/entities/organizations/`,
+  `${BASE_BACKEND_URL}/entities/organizations/`,
   {
     method: "GET",
   }

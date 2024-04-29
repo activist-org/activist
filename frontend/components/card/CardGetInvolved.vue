@@ -15,7 +15,7 @@
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
-          v-if="organization && organization.workingGroups"
+          v-if="organization && organization.groups"
           :cta="true"
           :linkTo="'/organizations/' + id + '/groups'"
           label="components.btn-route-internal.view-all-groups"
@@ -45,14 +45,14 @@
       </div>
     </div>
     <div v-if="organization" class="mt-4">
-      <div v-if="organization.workingGroups">
+      <div v-if="organization.groups">
         <p>
           {{ $t("components.card-get-involved.working-groups-subtext") }}
           {{ organization.name }}:
         </p>
         <Feed
-          :feedItemNames="organization.workingGroups"
-          :feedItemURLs="organization.workingGroups"
+          :feedItemNames="organization.groups"
+          :feedItemURLs="organization.groups"
         />
       </div>
       <div v-else>
@@ -70,7 +70,7 @@
     </div>
     <div v-else-if="event" class="space-y-3 pt-3">
       <p>
-        {{ event.getInvolvedDescription }}
+        {{ event.getInvolved }}
       </p>
       <p>
         {{ $t("components.card-get-involved.legal-disclaimer-subtext") }}

@@ -15,7 +15,7 @@
     </HeaderAppPage>
     <div v-if="events">
       <div v-for="event in events" class="space-y-6 pb-6 pt-3 md:pt-4">
-        <CardSearchResult :isPrivate="false" :event="event" />
+        <CardSearchResultEvent :isPrivate="false" :event="event" />
       </div>
     </div>
     <EmptyState v-else pageType="events" :permission="false" />
@@ -28,7 +28,7 @@ definePageMeta({
 });
 
 const { data: events } = await useFetch(
-  `${BASE_URL}/entities/organization_events/`,
+  `${BASE_BACKEND_URL}/entities/organization_events/`,
   {
     method: "GET",
   }

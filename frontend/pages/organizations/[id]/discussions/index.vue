@@ -29,55 +29,22 @@
       </div>
     </HeaderAppPage>
     <div class="space-y-6 pb-6 pt-3 md:pt-4">
-      <CardDiscussion :isPrivate="false" :discussion="discussion" />
-      <CardDiscussion :isPrivate="false" :discussion="discussion" />
+      <CardDiscussion
+        v-for="(d, i) in organization.discussions"
+        :key="i"
+        :isPrivate="false"
+        :discussion="d"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Discussion } from "~/types/card-discussion";
-import type { Organization } from "~/types/organization";
+import { testTechOrg } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-const organization: Organization = {
-  id: "1",
-  name: "tech from below",
-  status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 60,
-  imageURL: "/images/tech-from-below.svg",
-  workingGroups: ["meetup", "code-night"],
-  socialLinks: ["tfb@mastodon", "tfb@email"],
-  donationPrompt: "Hey thanks!",
-};
-
-const discussion: Discussion = {
-  title: "Title of discussion ",
-  author: "John A. Tester",
-  category: "Category",
-  text: "I love to test!",
-  upVoters: 123,
-  participants: 3,
-  messages: 3,
-  creationDate: new Date(),
-};
-
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modalIsOpen.value = true;
-}
-
-const handleCloseModal = () => {
-  modalIsOpen.value = false;
-};
+const organization = testTechOrg;
 </script>

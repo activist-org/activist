@@ -12,18 +12,20 @@
         <div v-if="event" class="flex-col space-y-6 py-2">
           <div class="flex items-center gap-3">
             <MetaTagOrganization
-              :organizations="event.organizations"
-            ></MetaTagOrganization>
+              v-for="(o, i) in event.organizations"
+              :key="i"
+              :organization="o"
+            />
           </div>
-          <MetaTagAttendance
-            :numAttending="event.attending ? event.attending : 0"
-            label="attending"
-          />
+          <!-- <MetaTagAttendance
+            :numAttending="event.attendees ? event.attendees.length : 0"
+            :label="$t('components.card-details.attending')"
+          /> -->
           <MetaTagLocation
-            v-if="event.inPersonLocation"
-            :location="event.inPersonLocation"
+            v-if="event.offlineLocation"
+            :location="event.offlineLocation"
           />
-          <MetaTagDate :date="event.date" />
+          <MetaTagDate :date="event.startTime" />
         </div>
       </div>
     </div>
@@ -32,7 +34,6 @@
 
 <script setup lang="ts">
 import type { Event } from "~/types/event";
-import MetaTagAttendance from "../meta-tag/MetaTagAttendance.vue";
 
 defineProps<{
   event?: Event;
