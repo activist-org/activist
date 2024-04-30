@@ -19,6 +19,7 @@ class ResourceFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("name")
     description = factory.Faker("text")
+    topics = factory.List([factory.Faker("word") for _ in range(5)])
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
