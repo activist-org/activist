@@ -20,12 +20,14 @@
           id="textarea"
           class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
         />
-        <input
-          v-else
-          v-model="editedTexts[i]"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
-        />
+        <div v-else class="flex flex-col space-y-2">
+          <p>{{ $t("components.modal-edit-page-text.remember-https") }}</p>
+          <input
+            v-model="editedTexts[i]"
+            id="textarea"
+            class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
+          />
+        </div>
       </div>
       <BtnAction
         @click="true"

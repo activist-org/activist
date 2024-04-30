@@ -323,6 +323,7 @@
   "components.modal-command-palette.jump-to": "Jump to",
   "components.modal-command-palette.pages-header": "Pages",
   "components.modal-command-palette.upcoming-events": "Upcoming events",
+  "components.modal-edit-page-text.remember-https": "Please include the full URL with https so the link works properly.",
   "components.modal-edit-page-text.update-texts": "Update texts",
   "components.modal-edit-page-text.update-texts-aria-label": "Update all the texts shown on the given page",
   "components.modal-image.close-modal-aria-label": "Close the larger version of this image",
