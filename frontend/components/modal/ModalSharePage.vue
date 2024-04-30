@@ -93,6 +93,10 @@
               iconSize="1.5em"
             />
           </s-facebook>
+          <div class="flex h-full w-full cursor-pointer items-center gap-3">
+            <IconSignal/>
+            <p>Signal</p>
+          </div>
           <div
             @click="
               copyToClipboard(
@@ -196,6 +200,7 @@ import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
 import type { Resource } from "~/types/resource";
 import type { User } from "~/types/user";
+import IconSignal from "../icon/IconSignal.vue";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
