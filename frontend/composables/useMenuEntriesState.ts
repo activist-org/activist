@@ -1,9 +1,4 @@
-const createMenuEntry = (
-  label: string,
-  basePath: string,
-  iconURL: string,
-  active: boolean
-) => {
+const createMenuEntry = (label: string, basePath: string, iconURL: string) => {
   const { locale } = useI18n();
   const router = useRouter();
   const id = Number(router.currentRoute.value.params.id);
@@ -18,7 +13,6 @@ const createMenuEntry = (
     routeURL,
     iconURL,
     selected,
-    active,
     id,
   };
 };
@@ -29,40 +23,33 @@ const useMenuEntriesState = () => {
   let removeGuard = () => {};
 
   const organizationEntries = ref([
-    createMenuEntry("_global.about", "organizations", "bi:card-text", true),
-    createMenuEntry(
-      "_global.events",
-      "organizations",
-      "bi:calendar-check",
-      true
-    ),
-    createMenuEntry("_global.groups", "organizations", "IconGroup", true),
-    createMenuEntry("_global.resources", "organizations", "IconResource", true),
-    createMenuEntry("_global.faq", "organizations", "IconFAQ", true),
-    createMenuEntry("_global.team", "organizations", "bi:people", true),
-    createMenuEntry("_global.affiliates", "organizations", "IconSupport", true),
-    createMenuEntry("_global.tasks", "organizations", "bi:check-square", true),
+    createMenuEntry("_global.about", "organizations", "bi:card-text"),
+    createMenuEntry("_global.events", "organizations", "bi:calendar-check"),
+    createMenuEntry("_global.groups", "organizations", "IconGroup"),
+    createMenuEntry("_global.resources", "organizations", "IconResource"),
+    createMenuEntry("_global.faq", "organizations", "IconFAQ"),
+    createMenuEntry("_global.team", "organizations", "bi:people"),
+    createMenuEntry("_global.affiliates", "organizations", "IconSupport"),
+    createMenuEntry("_global.tasks", "organizations", "bi:check-square"),
     createMenuEntry(
       "_global.discussions",
       "organizations",
-      "octicon:comment-discussion-24",
-      true
+      "octicon:comment-discussion-24"
     ),
-    createMenuEntry("_global.settings", "organizations", "bi:gear", true),
+    createMenuEntry("_global.settings", "organizations", "bi:gear"),
   ]);
 
   const eventEntries = ref([
-    createMenuEntry("_global.about", "events", "bi:card-text", true),
-    createMenuEntry("_global.team", "events", "bi:people", true),
-    createMenuEntry("_global.resources", "events", "IconResource", true),
-    createMenuEntry("_global.tasks", "events", "bi:check-square", true),
+    createMenuEntry("_global.about", "events", "bi:card-text"),
+    createMenuEntry("_global.team", "events", "bi:people"),
+    createMenuEntry("_global.resources", "events", "IconResource"),
+    createMenuEntry("_global.tasks", "events", "bi:check-square"),
     createMenuEntry(
       "_global.discussion",
       "events",
-      "octicon:comment-discussion-24",
-      true
+      "octicon:comment-discussion-24"
     ),
-    createMenuEntry("_global.settings", "events", "bi:gear", true),
+    createMenuEntry("_global.settings", "events", "bi:gear"),
   ]);
 
   const updateCurrentPath = () => {
@@ -77,9 +64,17 @@ const useMenuEntriesState = () => {
     }
 
     for (const button of buttons.value) {
-      button.selected = currentPath.value.endsWith(
-        button.routeURL.split("/").pop()!
-      );
+      if (currentPath.value.includes("/groups/")) {
+        if (button.label === "_global.groups") {
+          button.selected = true;
+        } else {
+          button.selected = false;
+        }
+      } else {
+        button.selected = currentPath.value.endsWith(
+          button.routeURL.split("/").pop()!
+        );
+      }
     }
   };
 

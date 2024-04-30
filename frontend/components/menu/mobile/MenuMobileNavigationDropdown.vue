@@ -34,25 +34,18 @@
             v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
               ? menuEntryState.organizationEntry.value
               : menuEntryState.eventEntry.value"
-            v-slot="{ active, selected }"
+            v-slot="{ selected }"
             :key="menuEntry.id"
             :value="menuEntry"
-            :disabled="!menuEntry.active"
           >
             <NuxtLink @click="handleItemClick(menuEntry)">
               <li
                 class="relative flex cursor-default select-none items-center py-2 pl-5 align-middle"
                 :class="{
                   'bg-light-layer-2 fill-light-text text-light-text dark:bg-dark-section-div dark:fill-dark-text dark:text-dark-text':
-                    selected && active,
-                  'bg-light-layer-1 fill-light-text text-light-text dark:bg-dark-layer-1 dark:fill-dark-text dark:text-dark-text':
-                    selected && !active,
+                    selected,
                   'bg-light-highlight fill-light-layer-1 text-light-layer-1 dark:bg-dark-highlight dark:fill-dark-layer-1 dark:text-dark-layer-1':
-                    !selected && active,
-                  'fill-light-layer-1 text-light-layer-1 dark:fill-dark-layer-1 dark:text-dark-layer-1':
-                    !active && menuEntry.active,
-                  'fill-light-distinct-text text-light-distinct-text dark:fill-dark-distinct-text dark:text-dark-distinct-text':
-                    !active && !menuEntry.active,
+                    !selected,
                 }"
               >
                 <Icon

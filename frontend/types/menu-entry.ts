@@ -3,6 +3,5 @@ export default interface MenuEntry {
   routeURL: string;
   iconURL: string;
   selected: boolean;
-  active: boolean;
   id: number;
 }
