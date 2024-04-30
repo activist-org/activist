@@ -61,51 +61,42 @@
 import type { Filters } from "~/types/filters";
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
+import {
+  isCurrentRoutePathSubpageOf,
+  currentRoutePathIncludes,
+} from "~/utils/pathUtils";
 
 defineProps<{
   name?: string;
 }>();
 
-const { locale } = useI18n();
 const sidebar = useSidebar();
 const route = useRoute();
+const { currentRoute } = useRouter();
+const routeName = currentRoute.value.name;
 
-function currentRoutePathIncludes(path: string): boolean {
-  const { locale } = useI18n();
-
-  return route.path.includes(locale.value + path);
-}
-
-function isCurrentRoutePathSubpageOf(path: string) {
-  return (
-    route.path.length >
-      (route.path.split(locale.value + path, 1) + locale.value + path).length +
-        1 &&
-    route.path.split(locale.value + path).pop() !== "search" &&
-    route.path.split(locale.value + path).pop() !== "search/"
-  );
-}
+const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeName);
+const isEventPage = isCurrentRoutePathSubpageOf("events", routeName);
 
 const pathToSidebarTypeMap = [
-  { path: "/search", type: SidebarType.SEARCH },
-  { path: "/home", type: SidebarType.HOME },
+  { path: "search", type: SidebarType.SEARCH },
+  { path: "home", type: SidebarType.HOME },
   {
-    path: "/organizations",
-    type: isCurrentRoutePathSubpageOf("/organizations/")
+    path: "organizations",
+    type: isOrgPage
       ? SidebarType.ORGANIZATION_PAGE
       : SidebarType.FILTER_ORGANIZATIONS,
   },
   {
-    path: "/events",
-    type: isCurrentRoutePathSubpageOf("/events/")
-      ? SidebarType.EVENT_PAGE
-      : SidebarType.FILTER_EVENTS,
+    path: "events",
+    type: isEventPage ? SidebarType.EVENT_PAGE : SidebarType.FILTER_EVENTS,
   },
 ];
 
 const sidebarType =
-  pathToSidebarTypeMap.find((item) => currentRoutePathIncludes(item.path))
-    ?.type || SidebarType.MISC;
+  pathToSidebarTypeMap.find((item) =>
+    currentRoutePathIncludes(item.path, routeName)
+  )?.type || SidebarType.MISC;
 
 // TODO: Use real name of organization / event when available from backend.
 const placeholderName = route.path.split("/").at(-2)?.replaceAll("-", " ");

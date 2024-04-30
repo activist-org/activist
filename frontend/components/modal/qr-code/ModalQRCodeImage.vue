@@ -85,6 +85,10 @@
 <script setup lang="ts">
 import QrcodeVue from "qrcode.vue";
 
+const props = defineProps<{
+  codeURL?: string;
+}>();
+
 const fontSize = ref(24);
 const quietZone = ref(18);
 const textPaddingY = ref(14);
@@ -93,7 +97,10 @@ const logoBGRadius = ref(64);
 const logoSize = ref(40);
 const borderRadius = ref(24);
 
-const getPath = () => window.location.toString();
+const getPath = () =>
+  props.codeURL && props.codeURL !== ""
+    ? props.codeURL
+    : window.location.toString();
 
 const getSize = () => ({
   width: codeSize.value + quietZone.value * 2 + 2,

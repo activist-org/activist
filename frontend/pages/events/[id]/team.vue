@@ -23,31 +23,24 @@
         />
       </div>
     </HeaderAppPage>
+    <!-- <div v-if="event.members" class="space-y-3 py-4">
+      <CardSearchResultUser
+        v-for="(u, i) in event.members"
+        :key="i"
+        :isReduced="true"
+        :user="u"
+      />
+    </div>
+    <EmptyState v-else pageType="users" :permission="false" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/event";
+import { testClimateEvent } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-const event: Event = {
-  id: "1",
-  name: "Brandenburg Gate Climate Demo",
-  tagline: "There is no Planet B",
-  organizations: ["Berlin Climate Org"],
-  type: "action",
-  topic: "Environment",
-  description:
-    "Aute aliqua reprehenderit ex ut commodo nostrud et excepteur. Sunt amet velit sunt fugiat et excepteur dolore pariatur nisi non. Exercitation aute aute culpa commodo commodo ea Lorem aliquip id duis. Laboris nostrud ullamco ea voluptate et anim id adipisicing sint reprehenderit incididunt elit. Est fugiat pariatur elit culpa in incididunt eu esse cupidatat minim. Deserunt duis culpa minim Lorem consectetur quis fugiat ipsum nostrud voluptate veniam do. Reprehenderit duis officia in enim anim elit.",
-  getInvolvedDescription:
-    "Sint cillum excepteur sint cupidatat do consectetur excepteur nisi veniam. Sint id in sit eiusmod Lorem commodo minim culpa id cupidatat consectetur. Labore nisi est officia sunt occaecat.",
-  inPersonLocation: "Brandenburg Gate, Berlin",
-  date: new Date().toISOString().slice(0, 10),
-  supporters: 30,
-  imageURL: "/images/tech-from-below.svg",
-  socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
-};
+const event = testClimateEvent;
 </script>

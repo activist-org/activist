@@ -34,25 +34,18 @@
             v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
               ? menuEntryState.organizationEntry.value
               : menuEntryState.eventEntry.value"
-            v-slot="{ active, selected }"
+            v-slot="{ selected }"
             :key="menuEntry.id"
             :value="menuEntry"
-            :disabled="!menuEntry.active"
           >
             <NuxtLink @click="handleItemClick(menuEntry)">
               <li
                 class="relative flex cursor-default select-none items-center py-2 pl-5 align-middle"
                 :class="{
                   'bg-light-layer-2 fill-light-text text-light-text dark:bg-dark-section-div dark:fill-dark-text dark:text-dark-text':
-                    selected && active,
-                  'bg-light-layer-1 fill-light-text text-light-text dark:bg-dark-layer-1 dark:fill-dark-text dark:text-dark-text':
-                    selected && !active,
+                    selected,
                   'bg-light-highlight fill-light-layer-1 text-light-layer-1 dark:bg-dark-highlight dark:fill-dark-layer-1 dark:text-dark-layer-1':
-                    !selected && active,
-                  'fill-light-layer-1 text-light-layer-1 dark:fill-dark-layer-1 dark:text-dark-layer-1':
-                    !active && menuEntry.active,
-                  'fill-light-distinct-text text-light-distinct-text dark:fill-dark-distinct-text dark:text-dark-distinct-text':
-                    !active && !menuEntry.active,
+                    !selected,
                 }"
               >
                 <Icon
@@ -83,15 +76,39 @@ import {
 } from "@headlessui/vue";
 import type MenuEntry from "~/types/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
+import {
+  isCurrentRoutePathSubpageOf,
+  currentRoutePathIncludes,
+} from "~/utils/pathUtils";
 
-const { locale } = useI18n();
-const route = useRoute();
+const { currentRoute } = useRouter();
+const routeName = currentRoute.value.name;
 
-function currentRoutePathIncludes(path: string): boolean {
-  const { locale } = useI18n();
+const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeName);
+const isEventPage = isCurrentRoutePathSubpageOf("events", routeName);
 
-  return route.path.includes(locale.value + path);
-}
+const pathToSidebarTypeMap = [
+  { path: "search", type: SidebarType.SEARCH },
+  { path: "home", type: SidebarType.HOME },
+  {
+    path: "organizations",
+    type: isOrgPage
+      ? SidebarType.ORGANIZATION_PAGE
+      : SidebarType.FILTER_ORGANIZATIONS,
+  },
+  {
+    path: "events",
+    type: isEventPage ? SidebarType.EVENT_PAGE : SidebarType.FILTER_EVENTS,
+  },
+];
+
+const sidebarType =
+  pathToSidebarTypeMap.find((item) =>
+    currentRoutePathIncludes(item.path, routeName)
+  )?.type || SidebarType.MISC;
+const menuEntryState = useMenuEntriesState();
+const selectedMenuItem = ref<MenuEntry | undefined>(undefined);
+
 const handleItemClick = (menuEntry: MenuEntry) => {
   console.log("Clicked item:", menuEntry);
   console.log("Router:", useRouter());
@@ -100,42 +117,10 @@ const handleItemClick = (menuEntry: MenuEntry) => {
   console.log("Target route:", menuEntry.routeURL);
   router.push(menuEntry.routeURL);
 };
-function isCurrentRoutePathSubpageOf(path: string) {
-  return (
-    route.path.length >
-      (route.path.split(locale.value + path, 1) + locale.value + path).length +
-        1 &&
-    route.path.split(locale.value + path).pop() !== "search" &&
-    route.path.split(locale.value + path).pop() !== "search/"
-  );
-}
-
-const pathToSidebarTypeMap = [
-  { path: "/search", type: SidebarType.SEARCH },
-  { path: "/home", type: SidebarType.HOME },
-  {
-    path: "/organizations",
-    type: isCurrentRoutePathSubpageOf("/organizations/")
-      ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.FILTER_ORGANIZATIONS,
-  },
-  {
-    path: "/events",
-    type: isCurrentRoutePathSubpageOf("/events/")
-      ? SidebarType.EVENT_PAGE
-      : SidebarType.FILTER_EVENTS,
-  },
-];
-
-const sidebarType =
-  pathToSidebarTypeMap.find((item) => currentRoutePathIncludes(item.path))
-    ?.type || SidebarType.MISC;
-const menuEntryState = useMenuEntriesState();
-const selectedMenuItem = ref<MenuEntry | undefined>(undefined);
 
 watchEffect(() => {
   selectedMenuItem.value = useRouter().currentRoute.value.fullPath.includes(
-    "organizations"
+    "/organizations/"
   )
     ? menuEntryState.organizationEntry.value.find((e) => e.selected)
     : menuEntryState.eventEntry.value.find((e) => e.selected);

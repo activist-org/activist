@@ -49,17 +49,33 @@
     :event="event"
     :isOpen="modalIsOpen"
   />
+  <ModalQRCode
+    v-if="resource"
+    @closeModal="handleCloseModal"
+    :resource="resource"
+    :isOpen="modalIsOpen"
+  />
+  <ModalQRCode
+    v-if="user"
+    @closeModal="handleCloseModal"
+    :user="user"
+    :isOpen="modalIsOpen"
+  />
 </template>
 
 <script setup lang="ts">
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
+import type { Resource } from "~/types/resource";
+import type { User } from "~/types/user";
 
 defineProps<{
   organization?: Organization;
   group?: Group;
   event?: Event;
+  resource?: Resource;
+  user?: User;
   type: "icon" | "meta-tag";
 }>();
 

@@ -7,18 +7,29 @@
     </Head>
     <HeaderAppPage :organization="organization">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <BtnAction
+        <BtnRouteExternal
+          v-if="organization.getInvolvedURL"
+          class="w-max"
+          :cta="true"
+          :linkTo="organization.getInvolvedURL"
+          label="components.btn-route-internal.join-organization"
+          fontSize="sm"
+          rightIcon="bi:arrow-right"
+          iconSize="1.45em"
+          ariaLabel="components.btn-route-internal.join-organization-aria-label"
+        />
+        <!-- <BtnAction
           class="w-max"
           :cta="true"
           label="components.btn-action.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
-          :counter="organization.supporters"
+          :counter="organization.supporters.length"
           ariaLabel="
             components.btn-action.support-organization-aria-label
           "
-        />
+        /> -->
         <BtnAction
           @click="openModal()"
           @keydown.enter="openModal()"
@@ -40,15 +51,16 @@
       </div>
     </HeaderAppPage>
     <div class="space-y-6 pb-6">
-      <CardOrgApplicationVote
-        v-if="organization.status === 'pending'"
+      <!-- organization.status === 1 means it's application is pending. -->
+      <!-- <CardOrgApplicationVote
+        v-if="organization.status === 1"
         @up-vote="upVotes++"
         @down-vote="downVotes++"
         title="Votes in favor"
         :organizations="organizationsInFavor"
         :upVotes="upVotes"
         :downVotes="downVotes"
-      />
+      /> -->
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
@@ -69,20 +81,21 @@
           <MediaImageCarouselFull :class="{ 'lg:hidden': textExpanded }" />
         </div>
       </div>
+      <!-- organization.status === 2 means it's active. -->
       <CardGetInvolved
-        v-if="organization.status === 'approved'"
+        v-if="organization.status === 2"
         :organization="organization"
       />
       <CardConnect
         :socialLinks="organization.socialLinks"
         :userIsAdmin="true"
       />
-      <CardDonate
-        v-if="organization.status === 'approved'"
+      <!-- <CardDonate
+        v-if="organization.status === 2"
         :userIsAdmin="true"
         :donationPrompt="organization.donationPrompt"
-      />
-      <div v-if="organization.status === 'pending'" class="space-y-6">
+      /> -->
+      <div v-if="organization.status === 1" class="space-y-6">
         <Discussion
           :discussionInput="testDiscussionInput"
           :discussionTexts="discussionEntries"
@@ -94,15 +107,16 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/card-discussion-entry";
-import type { DiscussionInput } from "~/types/card-discussion-input";
-import type { Organization } from "~/types/organization";
+import type { DiscussionEntry } from "~/types/discussion-entry";
+import type { DiscussionInput } from "~/types/discussion-input";
+import { testTechOrg } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-const route = useRoute();
+const organization = testTechOrg;
+// const route = useRoute();
 
 const textExpanded = ref(false);
 const expandReduceText = () => {
@@ -110,8 +124,8 @@ const expandReduceText = () => {
 };
 
 // TODO: for testing purpose, should be removed.
-const upVotes = ref(123);
-const downVotes = ref(123);
+// const upVotes = ref(123);
+// const downVotes = ref(123);
 
 const discussionEntries: DiscussionEntry[] = [
   {
@@ -144,42 +158,25 @@ const testDiscussionInput: DiscussionInput = {
   highRisk: false,
 };
 
-const testOrganization: Organization = {
-  id: "1",
-  name: "tech from below",
-  status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 60,
-  imageURL: "/images/tech-from-below.svg",
-  workingGroups: ["Core", "Meetup", "Code Night", "Organizing"],
-  socialLinks: ["tfb@mastodon", "tfb@email"],
-  donationPrompt: "Hey thanks!",
-};
+// const organization = reactive<Organization>({ ...organization });
+// const organizationsInFavor = new Array(6)
+//   .fill(undefined)
+//   .map(() => organization);
 
-const organization = reactive<Organization>({ ...testOrganization });
-const organizationsInFavor = new Array(6)
-  .fill(undefined)
-  .map(() => testOrganization);
+// onMounted(() => {
+//   const status = parseInt(route.query.status.toString());
 
-onMounted(() => {
-  const status = route.query.status?.toString();
+//   if (status !== undefined) {
+//     organization.status = status;
+//   }
+// });
 
-  if (status !== undefined) {
-    organization.status = status;
-  }
-});
-
-provide("modalOrganizationStatusData", {
-  discussionEntries: discussionEntries,
-  organizationsInFavor: organizationsInFavor,
-  upVotes: 6,
-  downVotes: 4,
-});
+// provide("modalOrganizationStatusData", {
+//   discussionEntries: discussionEntries,
+//   organizationsInFavor: organizationsInFavor,
+//   upVotes: 6,
+//   downVotes: 4,
+// });
 
 const modalIsOpen = ref(false);
 

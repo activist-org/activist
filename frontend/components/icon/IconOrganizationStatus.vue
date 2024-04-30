@@ -1,5 +1,5 @@
 <template>
-  <span v-if="status == 'approved'">
+  <span v-if="status == 2">
     <button
       @click="openModal()"
       @keydown.enter="openModal()"
@@ -25,7 +25,7 @@
           $t(
             'components.modal-organization-status.approved-tooltip-hover-text',
             {
-              org_name: organization.name,
+              entity_name: organization.name,
               year: new Date().toISOString().slice(0, 10),
               num_supporters: 6,
             }
@@ -59,7 +59,7 @@
         class="invisible -ml-32 mt-3 max-w-56 md:-ml-36 md:max-w-96"
         :text="
           $t('components.icon-organization-status.pending-tooltip-hover-text', {
-            org_name: organization.name,
+            entity_name: organization.name,
           })
         "
       />
@@ -71,7 +71,7 @@
 import type { Organization } from "~/types/organization";
 
 defineProps<{
-  status: string;
+  status: number;
   organization: Organization;
 }>();
 

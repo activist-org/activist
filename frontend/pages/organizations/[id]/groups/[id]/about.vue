@@ -12,7 +12,18 @@
     </Head>
     <HeaderAppPage :group="group">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <BtnAction
+        <BtnRouteExternal
+          v-if="group.getInvolvedURL"
+          class="w-max"
+          :cta="true"
+          :linkTo="group.getInvolvedURL"
+          label="components.btn-route-internal.join-group"
+          fontSize="sm"
+          rightIcon="bi:arrow-right"
+          iconSize="1.45em"
+          ariaLabel="components.btn-route-internal.join-group-aria-label"
+        />
+        <!-- <BtnAction
           class="w-max"
           :cta="true"
           label="components.btn-action.support"
@@ -23,7 +34,7 @@
           ariaLabel="
             components.btn-action.support-group-aria-label
           "
-        />
+        /> -->
         <BtnAction
           @click="openModal()"
           @keydown.enter="openModal()"
@@ -67,14 +78,14 @@
       </div>
       <CardGetInvolved :group="group" />
       <CardConnect :socialLinks="group.socialLinks" :userIsAdmin="true" />
-      <CardDonate :userIsAdmin="true" :donationPrompt="group.donationPrompt" />
+      <!-- <CardDonate :userIsAdmin="true" :donationPrompt="group.donationPrompt" /> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/group";
 import { getGroupSubPages } from "~/utils/groupSubPages";
+import { testTechGroup1 } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
@@ -82,28 +93,12 @@ definePageMeta({
 
 const groupSubPages = getGroupSubPages();
 
+const group = testTechGroup1;
+
 const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
-
-const testGroup: Group = {
-  id: "1",
-  name: "Code Night",
-  organization: "tech from below",
-  tagline: "Let's code!",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 60,
-  imageURL: "/images/tech-from-below.svg",
-  socialLinks: ["tfb@mastodon", "tfb@email"],
-  donationPrompt: "Hey thanks!",
-};
-
-const group = reactive<Group>({ ...testGroup });
 
 const modalIsOpen = ref(false);
 

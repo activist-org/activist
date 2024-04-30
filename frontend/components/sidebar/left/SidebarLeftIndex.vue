@@ -85,7 +85,6 @@
             :routeURL="menuEntry.routeURL"
             :iconURL="menuEntry.iconURL"
             :selected="menuEntry.selected"
-            :active="menuEntry.active"
           />
         </li>
       </ul>

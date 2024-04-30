@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/card-discussion-entry";
+import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { Organization } from "~/types/organization";
 
 const props = defineProps<{

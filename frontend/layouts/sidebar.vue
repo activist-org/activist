@@ -1,6 +1,6 @@
 <template>
   <HeaderMobile />
-  <MenuNavigationDropdown />
+  <MenuMobileNavigationDropdown />
   <SidebarLeft
     @mouseover="sidebarHover = true"
     @focus="sidebarHover = true"

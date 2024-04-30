@@ -7,7 +7,7 @@
         class="mr-5 fill-light-text dark:fill-dark-text"
       >
         <Icon
-          v-if="organization.imageURL === undefined"
+          v-if="organization.iconURL === undefined"
           name="IconOrganization"
           size="3em"
         />
@@ -16,7 +16,7 @@
           class="rounded border border-light-section-div dark:border-dark-section-div"
         >
           <img
-            :src="organization.imageURL"
+            :src="organization.iconURL"
             class="h-full w-12"
             :alt="
               $t('components._global.entity-logo', {

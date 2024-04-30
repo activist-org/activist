@@ -26,90 +26,54 @@
         />
         <MediaCalendar class="h-full w-full lg:col-span-2" />
       </div>
-      <CardSearchResult :isPrivate="false" :event="event" />
-      <CardSearchResult :isPrivate="false" :organization="organization" />
-      <CardSearchResult :isPrivate="false" :group="group" />
-      <CardSearchResult :isPrivate="false" :resource="resource" />
-      <CardSearchResult :isPrivate="false" :user="user" />
+      <CardSearchResultEvent
+        :event="testClimateEvent"
+        :isReduced="true"
+        :isPrivate="false"
+      />
+      <CardSearchResultOrganization
+        :organization="testTechOrg"
+        :isReduced="true"
+        :isPrivate="false"
+      />
+      <CardSearchResultGroup
+        :group="testTechGroup1"
+        :isReduced="true"
+        :isPrivate="false"
+      />
+      <CardSearchResultResource
+        :resource="testResource"
+        :isReduced="true"
+        :isPrivate="false"
+      />
+      <CardSearchResultUser
+        :user="testUser"
+        :isReduced="true"
+        :isPrivate="false"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
-
-const { data: organizations } = await useFetch(
-  "http://127.0.0.1:8000/organizations"
-);
-
-console.log(organizations);
+import {
+  testClimateEvent,
+  testResource,
+  testTechGroup1,
+  testTechOrg,
+  testUser,
+} from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-const event: Event = {
-  id: "1",
-  name: "Test Event",
-  type: "action",
-  tagline: "We love to test!",
-  organizations: ["Testers LLC"],
-  topic: "Testing and Designing",
-  description: "This is a test event for testers.",
-  getInvolvedDescription: "Wanna help test?",
-  inPersonLocation: "Berlin",
-  // onlineLocation: "Zoom Test Room",
-  date: new Date(),
-  supporters: 10,
-};
+const { data: organizations } = await useFetch(
+  `${BASE_BACKEND_URL}/entities/organizations/`,
+  {
+    method: "GET",
+  }
+);
 
-const organization: Organization = {
-  id: "1",
-  name: "tech from below",
-  status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin",
-  description: "This is the description of tech from below.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 30,
-  imageURL: "/images/tech-from-below.svg",
-};
-
-const group: Group = {
-  id: "1",
-  name: "Code Night",
-  organization: organization,
-  tagline: "Let's code!",
-  location: "Berlin",
-  description: "This is the description of Code Night.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 30,
-  imageURL: "/images/tech-from-below.svg",
-};
-
-const resource: Resource = {
-  id: "1",
-  name: "Test Resource",
-  organization: "Testers LLC",
-  resourceURL: "www.test.com",
-  description: "Test resource :D",
-  topic: "Tools",
-  relatedLocation: "Berlin",
-  creationDate: new Date(),
-  stars: 5,
-};
-
-const user: User = {
-  id: "1",
-  name: "John A. Tester",
-  location: "Testerville, TN",
-  supporters: 123,
-  description: "I love to test!",
-};
+console.log(organizations);
 </script>

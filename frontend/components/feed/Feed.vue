@@ -14,11 +14,29 @@
 
 <script setup lang="ts">
 import { Breakpoint } from "~/types/breakpoints";
+import type { Organization } from "~/types/organization";
 
-defineProps<{
-  feedItemNames?: string[];
-  feedItemURLs?: string[];
+const props = defineProps<{
+  organization: Organization;
 }>();
+
+const feedItemNames = computed<string[]>(() => {
+  if (props.organization && props.organization.groups) {
+    return props.organization.groups.map((group) => group.name);
+  } else {
+    return [""];
+  }
+});
+
+const feedItemURLs = computed<string[]>(() => {
+  if (props.organization && props.organization.groups) {
+    return props.organization.groups.map(
+      (group) => `/organizations/${group.organization.id}/groups/${group.id}`
+    );
+  } else {
+    return [""];
+  }
+});
 
 const currentWidth = ref(window.innerWidth);
 const numberOfFeedItems = ref(1);

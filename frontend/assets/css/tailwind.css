@@ -152,7 +152,7 @@
   }
 
   .style-menu-option {
-    @apply focus-brand fill-light-text text-light-text hover:bg-light-highlight dark:fill-dark-text dark:text-dark-text dark:hover:bg-dark-highlight;
+    @apply focus-brand focus-brand fill-light-text text-light-text hover:bg-light-cta-orange/80 dark:fill-dark-text dark:text-dark-text dark:hover:bg-dark-cta-orange/25 dark:hover:text-dark-cta-orange;
   }
 
   .style-menu-option-cta {

@@ -108,6 +108,10 @@ class UserModel(AbstractUser, PermissionsMixin):
     is_high_risk = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
 
+    # Django specific fields
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+
     objects = CustomAccountManager()  # type: ignore
 
     USERNAME_FIELD = "username"

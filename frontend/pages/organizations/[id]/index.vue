@@ -8,7 +8,7 @@
     </Head>
     <div class="mx-auto h-[260px] w-3/4">
       <ImageOrganization
-        :imgURL="organization?.imageURL"
+        :imgURL="organization?.iconURL"
         :alt="
           $t('components._global.entity-logo', {
             entity_name: organization?.name,
@@ -69,26 +69,17 @@
 <script setup lang="ts">
 import { Breakpoint } from "~/types/breakpoints";
 import type { MenuSelector } from "~/types/menu-selector";
-import type { Organization } from "~/types/organization";
+
+import { testTechOrg } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
+const organization = testTechOrg;
+
 const { id } = useRoute().params;
 const localePath = useLocalePath();
-const organization: Organization = {
-  id: "1",
-  name: "tech from below",
-  status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin",
-  description: "This is the description of tech from below",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 30,
-  imageURL: "/images/tech-from-below.svg",
-};
 
 const organizationButtons: MenuSelector[] = [
   {

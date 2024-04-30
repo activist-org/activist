@@ -9,7 +9,7 @@
       <Transition>
         <p
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          class="hover:light-menu-selection select-none whitespace-nowrap"
+          class="select-none whitespace-nowrap"
         >
           <span class="sr-only">{{ $t("_global.navigate-to") }}</span>
           {{ $t(label) }}

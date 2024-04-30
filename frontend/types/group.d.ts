@@ -1,14 +1,36 @@
 export interface Group {
+  // group
   id: string;
   name: string;
+  tagline?: string;
   organization: Organization;
-  tagline: string;
+  createdBy: User;
+  // category?: string;
   location: string;
-  description: string;
-  topic: string;
-  members: number;
-  supporters: number;
-  imageURL?: string;
+  getInvolvedURL?: string;
   socialLinks?: string[];
-  donationPrompt?: string;
+  creationDate?: string;
+  // deletionDate?: string;
+  // group_event
+  // events?: Event[];
+  // group_image
+  images?: string[];
+  // group_member
+  // members?: User[];
+  // owners?: User[];
+  // admins?: User[];
+  // comms?: User[];
+  // group_resources
+  resources?: Resource[];
+  // group_text
+  description?: string;
+  getInvolved?: string;
+  // donationPrompt?: string;
+  // group_topic
+  // topics: string[];
+  // faq
+  faqEntries?: FaqEntry[];
+  // support
+  // supportingOrgs?: Organization[];
+  // supportingUsers?: User[];
 }

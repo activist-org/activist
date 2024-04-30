@@ -16,30 +16,24 @@
     >
       <div class="flex space-x-2 lg:space-x-3"></div>
     </HeaderAppPage>
+    <!-- <div v-if="organization.supportingUsers" class="space-y-3 py-4">
+      <CardSearchResultUser
+        v-for="(u, i) in organization.supportingUsers"
+        :key="i"
+        :isReduced="true"
+        :user="u"
+      />
+    </div>
+    <EmptyState v-else pageType="organizations" :permission="false" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/organization";
+import { testTechOrg } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-const organization: Organization = {
-  id: "1",
-  name: "tech from below",
-  status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 60,
-  imageURL: "/images/tech-from-below.svg",
-  workingGroups: ["meetup", "code-night"],
-  socialLinks: ["tfb@mastodon", "tfb@email"],
-  donationPrompt: "Hey thanks!",
-};
+const organization = testTechOrg;
 </script>
