@@ -158,17 +158,27 @@ const windowWidth = ref(window.innerWidth);
 
 const handleResize = () => {
   windowWidth.value = window.innerWidth;
-  if (window.innerWidth > Breakpoint.SMALL) {
-    navigateTo(`${id}/about`);
-    window.removeEventListener("resize", handleResize);
+  if (windowWidth.value > Breakpoint.SMALL) {
+    const { locale } = useI18n();
+    const currentRoute = useRoute();
+
+    console.log(`Hey 1: ${currentRoute.path}`);
+    if (
+      currentRoute.path !== `/${locale.value}/organizations/${id}/about` ||
+      currentRoute.path === `/${locale.value}/organizations/${id}/`
+    ) {
+      navigateTo(`/${locale.value}/organizations/${id}/about`);
+    }
   }
 };
 
 onMounted(() => {
-  // Verify that the user is on a mobile device.
   handleResize();
 
-  // Add event listener to handle resizing.
   window.addEventListener("resize", handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", handleResize);
 });
 </script>
