@@ -248,6 +248,7 @@
   "components.dropdown-create.new-organization": "New organization",
   "components.dropdown-info.info": "Info",
   "components.dropdown-info.info-aria-label": "Open to see options for learning more about activist and getting help",
+  "components.dropdown-user-options-join-activist": "Join activist",
   "components.dropdown-user-options.sign-out": "Sign out",
   "components.dropdown-user-options.username": "Username",
   "components.dropdown-user-options.username-aria-label": "Open to see user specific options",
