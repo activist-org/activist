@@ -5,7 +5,7 @@
     :menuButtonLabel="
       userIsSignedIn
         ? $t(`components.dropdown-user-options.username`)
-        : $t(`components.dropdown-user-options-join-activist`)
+        : $t(`components.dropdown-user-options.join-activist`)
     "
     :isMenuButtonUppercase="false"
     :isMenuButtonBold="true"
