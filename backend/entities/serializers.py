@@ -25,7 +25,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         model = Organization
         extra_kwargs = {
             "created_by": {"read_only": True},
-            "social_accounts": {"required": False},
+            "social_links": {"required": False},
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
         }
@@ -33,12 +33,11 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "id",
             "name",
             "tagline",
-            "org_icon",
-            "about_images",
+            "icon_url",
             "created_by",
             "description",
-            "social_accounts",
-            "high_risk",
+            "social_links",
+            "is_high_risk",
             "status",
             "status_updated",
             "acceptance_date",

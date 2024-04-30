@@ -14,6 +14,7 @@ from .models import (
     EventResource,
     EventRole,
     EventTask,
+    EventText,
     EventTopic,
     Format,
     Role,
@@ -26,6 +27,7 @@ from .serializers import (
     EventRoleSerializer,
     EventSerializer,
     EventTaskSerializer,
+    EventTextSerializer,
     EventTopicSerializer,
     FormatSerializer,
     RoleSerializer,
@@ -84,6 +86,12 @@ class EventRoleViewSet(viewsets.ModelViewSet[EventRole]):
 class EventTaskViewSet(viewsets.ModelViewSet[EventTask]):
     queryset = EventTask.objects.all()
     serializer_class = EventTaskSerializer
+    pagination_class = CustomPagination
+
+
+class EventTextViewSet(viewsets.ModelViewSet[EventText]):
+    queryset = EventText.objects.all()
+    serializer_class = EventTextSerializer
     pagination_class = CustomPagination
 
 

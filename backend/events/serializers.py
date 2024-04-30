@@ -18,6 +18,7 @@ from .models import (
     EventRole,
     EventTag,
     EventTask,
+    EventText,
     EventTopic,
     Format,
     Role,
@@ -96,6 +97,12 @@ class EventRoleSerializer(serializers.ModelSerializer[EventRole]):
 class EventTaskSerializer(serializers.ModelSerializer[EventTask]):
     class Meta:
         model = EventTask
+        fields = "__all__"
+
+
+class EventTextSerializer(serializers.ModelSerializer[EventText]):
+    class Meta:
+        model = EventText
         fields = "__all__"
 
 
