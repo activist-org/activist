@@ -135,6 +135,7 @@ def test_signup(client: Client) -> None:
     assert not UserModel.objects.filter(username=second_username).exists()
 
 
+@pytest.mark.django_db
 def test_login(client: Client) -> None:
     """
     Test login view.
