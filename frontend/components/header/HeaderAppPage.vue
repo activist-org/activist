@@ -7,7 +7,7 @@
   />
   <div
     v-if="underDevelopment"
-    class="mt-3 flex w-full flex-wrap rounded-md border border-light-text bg-light-warn-yellow/40 px-3 py-1 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow"
+    class="mt-5 flex w-full flex-wrap rounded-md border border-light-text bg-light-warn-yellow/40 px-3 py-1 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow"
   >
     <div class="flex space-x-3">
       <p>🚧</p>
