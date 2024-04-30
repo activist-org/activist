@@ -28,7 +28,7 @@ const useMenuEntriesState = () => {
     createMenuEntry("_global.groups", "organizations", "IconGroup"),
     createMenuEntry("_global.resources", "organizations", "IconResource"),
     createMenuEntry("_global.faq", "organizations", "IconFAQ"),
-    createMenuEntry("_global.team", "organizations", "bi:people"),
+    // createMenuEntry("_global.team", "organizations", "bi:people"),
     createMenuEntry("_global.affiliates", "organizations", "IconSupport"),
     createMenuEntry("_global.tasks", "organizations", "bi:check-square"),
     createMenuEntry(
