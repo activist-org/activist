@@ -35,7 +35,7 @@
       <CardSearchResultResource
         v-for="(r, i) in group.resources"
         :key="i"
-        :reduced="true"
+        :isReduced="true"
         :resource="r"
       />
     </div>
@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import { getGroupSubPages } from "~/utils/groupSubPages";
-import { testTechGroup } from "~/utils/testEntities";
+import { testTechGroup1 } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
@@ -53,5 +53,5 @@ definePageMeta({
 
 const groupSubPages = getGroupSubPages();
 
-const group = testTechGroup;
+const group = testTechGroup1;
 </script>

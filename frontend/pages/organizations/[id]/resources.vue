@@ -30,7 +30,7 @@
       <CardSearchResultResource
         v-for="(r, i) in organization.resources"
         :key="i"
-        :reduced="true"
+        :isReduced="true"
         :resource="r"
       />
     </div>

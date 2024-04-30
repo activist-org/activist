@@ -93,28 +93,28 @@ const props = defineProps<{
 }>();
 
 const headerName = computed<string>(() => {
-  if (props.organization) {
+  if (props.header) {
+    return props.header;
+  } else if (props.organization) {
     return props.organization.name;
   } else if (props.group) {
     return props.group.name;
   } else if (props.event) {
     return props.event.name;
-  } else if (props.header) {
-    return props.header;
   } else {
     return "";
   }
 });
 
 const headerTagline = computed<string>(() => {
-  if (props.organization && props.organization.tagline) {
+  if (props.tagline) {
+    return props.tagline;
+  } else if (props.organization && props.organization.tagline) {
     return props.organization.tagline;
   } else if (props.group && props.group.tagline) {
     return props.group.tagline;
   } else if (props.event && props.event.tagline) {
     return props.event.tagline;
-  } else if (props.tagline) {
-    return props.tagline;
   } else {
     return "";
   }

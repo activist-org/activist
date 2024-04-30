@@ -52,9 +52,24 @@ export const testClimateOrg: Organization = {
   faqEntries: faqEntries,
 };
 
-export const testTechGroup: Group = {
+export const testTechGroup1: Group = {
   id: "1",
   name: "Code Night",
+  createdBy: testUser,
+  organization: testClimateOrg,
+  tagline: "Let's code!",
+  location: "Berlin",
+  getInvolvedURL: "/",
+  description: "This is the description of Code Night.",
+  // topics: ["Technology and Privacy"],
+  // members: [testUser, testUser, testUser],
+  // supportingUsers: [testUser, testUser, testUser],
+  faqEntries: faqEntries,
+};
+
+export const testTechGroup2: Group = {
+  id: "2",
+  name: "Code Brunch",
   createdBy: testUser,
   organization: testClimateOrg,
   tagline: "Let's code!",
@@ -92,7 +107,7 @@ export const testTechOrg: Organization = {
   // members: [testUser, testUser],
   // supportingUsers: [testUser, testUser],
   iconURL: "/images/tech-from-below.svg",
-  groups: [testTechGroup, testTechGroup, testTechGroup, testTechGroup],
+  groups: [testTechGroup1, testTechGroup2],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   // donationPrompt: "Hey thanks!",
   discussions: [testDiscussion, testDiscussion],
@@ -106,6 +121,7 @@ export const testClimateEvent: Event = {
   createdBy: testUser,
   organizations: [testClimateOrg],
   type: "action",
+  getInvolvedURL: "/",
   // topics: ["Environment"],
   description:
     "Aute aliqua reprehenderit ex ut commodo nostrud et excepteur. Sunt amet velit sunt fugiat et excepteur dolore pariatur nisi non. Exercitation aute aute culpa commodo commodo ea Lorem aliquip id duis. Laboris nostrud ullamco ea voluptate et anim id adipisicing sint reprehenderit incididunt elit. Est fugiat pariatur elit culpa in incididunt eu esse cupidatat minim. Deserunt duis culpa minim Lorem consectetur quis fugiat ipsum nostrud voluptate veniam do. Reprehenderit duis officia in enim anim elit.",

@@ -28,7 +28,7 @@
       <CardSearchResultUser
         v-for="(u, i) in organization.members"
         :key="i"
-        :reduced="true"
+        :isReduced="true"
         :user="u"
       />
     </div>

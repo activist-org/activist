@@ -37,7 +37,7 @@
         :isPrivate="false"
       />
       <CardSearchResultGroup
-        :group="testTechGroup"
+        :group="testTechGroup1"
         :isReduced="true"
         :isPrivate="false"
       />
@@ -59,7 +59,7 @@
 import {
   testClimateEvent,
   testResource,
-  testTechGroup,
+  testTechGroup1,
   testTechOrg,
   testUser,
 } from "~/utils/testEntities";

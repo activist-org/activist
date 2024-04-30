@@ -27,18 +27,23 @@
       </div>
     </HeaderAppPage>
     <div class="space-y-3 py-4">
-      <CardSearchResultGroup :reduced="true" :group="group" />
+      <CardSearchResultGroup
+        v-for="(g, i) in organization.groups"
+        :key="i"
+        :group="g"
+        :isReduced="true"
+        :isPrivate="false"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { testTechGroup, testTechOrg } from "~/utils/testEntities";
+import { testTechOrg } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
 const organization = testTechOrg;
-const group = testTechGroup;
 </script>

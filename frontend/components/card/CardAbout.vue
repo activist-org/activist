@@ -26,21 +26,25 @@
           <ModalEditPageText
             v-if="organization"
             @closeModal="handleCloseModal"
+            :name="organization.name"
             :sectionsToEdit="[
               $t('_global.about'),
               $t('components._global.get-involved'),
+              $t('components._global.join-organization-link'),
             ]"
-            :textsToEdit="[descriptionText, getInvolvedText]"
+            :textsToEdit="[descriptionText, getInvolvedText, getInvolvedURL]"
             :isOpen="modalIsOpen"
           />
           <ModalEditPageText
             v-if="group"
             @closeModal="handleCloseModal"
+            :name="group.name"
             :sectionsToEdit="[
               $t('_global.about'),
               $t('components._global.get-involved'),
+              $t('components._global.join-group-link'),
             ]"
-            :textsToEdit="[descriptionText, getInvolvedText]"
+            :textsToEdit="[descriptionText, getInvolvedText, getInvolvedURL]"
             :isOpen="modalIsOpen"
           />
           <ModalEditPageText
@@ -49,8 +53,9 @@
             :sectionsToEdit="[
               $t('_global.about'),
               $t('components._global.participate'),
+              $t('components._global.offer-to-help-link'),
             ]"
-            :textsToEdit="[descriptionText, getInvolvedText]"
+            :textsToEdit="[descriptionText, getInvolvedText, getInvolvedURL]"
             :isOpen="modalIsOpen"
           />
         </div>
@@ -192,6 +197,11 @@
 </template>
 
 <script setup lang="ts">
+import {
+  useDescriptionText,
+  useGetInvolvedText,
+  useGetInvolvedURL,
+} from "~/composables/useAppPageTexts";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
@@ -203,29 +213,9 @@ const props = defineProps<{
   event?: Event;
 }>();
 
-const descriptionText = computed<string>(() => {
-  if (props.organization && props.organization.description) {
-    return props.organization.description;
-  } else if (props.group && props.group.description) {
-    return props.group.description;
-  } else if (props.event && props.event.description) {
-    return props.event.description;
-  } else {
-    return "";
-  }
-});
-
-const getInvolvedText = computed<string>(() => {
-  if (props.organization && props.organization.getInvolved) {
-    return props.organization.getInvolved;
-  } else if (props.group && props.group.getInvolved) {
-    return props.group.getInvolved;
-  } else if (props.event && props.event.getInvolved) {
-    return props.event.getInvolved;
-  } else {
-    return "";
-  }
-});
+const { descriptionText } = useDescriptionText(props);
+const { getInvolvedText } = useGetInvolvedText(props);
+const { getInvolvedURL } = useGetInvolvedURL(props);
 
 const description = ref();
 const descriptionExpandable = ref(false);

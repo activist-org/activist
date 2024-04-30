@@ -12,11 +12,11 @@
           class="w-max"
           :cta="true"
           :linkTo="organization.getInvolvedURL"
-          label="components.btn-route-internal.offer-to-help"
+          label="components.btn-route-internal.join-organization"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.45em"
-          ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
+          ariaLabel="components.btn-route-internal.join-organization-aria-label"
         />
         <!-- <BtnAction
           class="w-max"

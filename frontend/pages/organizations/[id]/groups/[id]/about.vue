@@ -17,11 +17,11 @@
           class="w-max"
           :cta="true"
           :linkTo="group.getInvolvedURL"
-          label="components.btn-route-internal.offer-to-help"
+          label="components.btn-route-internal.join-group"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.45em"
-          ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
+          ariaLabel="components.btn-route-internal.join-group-aria-label"
         />
         <!-- <BtnAction
           class="w-max"
@@ -85,7 +85,7 @@
 
 <script setup lang="ts">
 import { getGroupSubPages } from "~/utils/groupSubPages";
-import { testTechGroup } from "~/utils/testEntities";
+import { testTechGroup1 } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
@@ -93,7 +93,7 @@ definePageMeta({
 
 const groupSubPages = getGroupSubPages();
 
-const group = testTechGroup;
+const group = testTechGroup1;
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

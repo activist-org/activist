@@ -27,7 +27,7 @@
       <CardSearchResultUser
         v-for="(u, i) in event.members"
         :key="i"
-        :reduced="true"
+        :isReduced="true"
         :user="u"
       />
     </div>

@@ -30,7 +30,7 @@
       <CardSearchResultEvent
         v-for="(u, i) in organization.events"
         :key="i"
-        :reduced="true"
+        :isReduced="true"
         :event="u"
       />
     </div>

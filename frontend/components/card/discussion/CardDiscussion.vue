@@ -66,7 +66,7 @@
             >
               <Icon name="bi:person" size="1.5em" />
             </div>
-            <p class="ml-2">{{ discussion.createdBy }}</p>
+            <p class="ml-2">{{ discussion.createdBy.user_name }}</p>
           </a>
           <div class="ml-2 flex items-center">
             <MetaTagDate :date="new Date().toISOString().slice(0, 10)" />

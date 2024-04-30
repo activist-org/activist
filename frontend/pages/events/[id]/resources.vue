@@ -28,7 +28,7 @@
       <CardSearchResultResource
         v-for="(r, i) in event.resources"
         :key="i"
-        :reduced="true"
+        :isReduced="true"
         :resource="r"
       />
     </div>

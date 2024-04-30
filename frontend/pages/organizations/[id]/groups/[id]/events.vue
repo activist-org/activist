@@ -35,7 +35,7 @@
       <CardSearchResultEvent
         v-for="(u, i) in group.events"
         :key="i"
-        :reduced="true"
+        :isReduced="true"
         :event="u"
       />
     </div>
@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { testTechGroup } from "~/utils/testEntities";
+import { testTechGroup1 } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
@@ -52,5 +52,5 @@ definePageMeta({
 
 const groupSubPages = getGroupSubPages();
 
-const group = testTechGroup;
+const group = testTechGroup1;
 </script>
