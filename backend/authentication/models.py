@@ -24,8 +24,6 @@ from django.contrib.auth.models import (
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from backend.mixins.models import CreationDeletionMixin
-
 
 class SupportEntityType(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -90,7 +88,7 @@ class CustomAccountManager(BaseUserManager[User]):
         return user
 
 
-class UserModel(AbstractUser, PermissionsMixin, CreationDeletionMixin):
+class UserModel(AbstractUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     username = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, blank=True)
@@ -108,6 +106,7 @@ class UserModel(AbstractUser, PermissionsMixin, CreationDeletionMixin):
     social_links = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     is_private = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     objects = CustomAccountManager()  # type: ignore
 
