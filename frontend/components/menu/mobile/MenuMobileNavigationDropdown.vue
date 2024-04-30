@@ -76,15 +76,39 @@ import {
 } from "@headlessui/vue";
 import type MenuEntry from "~/types/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
+import {
+  isCurrentRoutePathSubpageOf,
+  currentRoutePathIncludes,
+} from "~/utils/pathUtils";
 
-const { locale } = useI18n();
-const route = useRoute();
+const { currentRoute } = useRouter();
+const routeName = currentRoute.value.name;
 
-function currentRoutePathIncludes(path: string): boolean {
-  const { locale } = useI18n();
+const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeName);
+const isEventPage = isCurrentRoutePathSubpageOf("events", routeName);
 
-  return route.path.includes(locale.value + path);
-}
+const pathToSidebarTypeMap = [
+  { path: "search", type: SidebarType.SEARCH },
+  { path: "home", type: SidebarType.HOME },
+  {
+    path: "organizations",
+    type: isOrgPage
+      ? SidebarType.ORGANIZATION_PAGE
+      : SidebarType.FILTER_ORGANIZATIONS,
+  },
+  {
+    path: "events",
+    type: isEventPage ? SidebarType.EVENT_PAGE : SidebarType.FILTER_EVENTS,
+  },
+];
+
+const sidebarType =
+  pathToSidebarTypeMap.find((item) =>
+    currentRoutePathIncludes(item.path, routeName)
+  )?.type || SidebarType.MISC;
+const menuEntryState = useMenuEntriesState();
+const selectedMenuItem = ref<MenuEntry | undefined>(undefined);
+
 const handleItemClick = (menuEntry: MenuEntry) => {
   console.log("Clicked item:", menuEntry);
   console.log("Router:", useRouter());
@@ -93,38 +117,6 @@ const handleItemClick = (menuEntry: MenuEntry) => {
   console.log("Target route:", menuEntry.routeURL);
   router.push(menuEntry.routeURL);
 };
-function isCurrentRoutePathSubpageOf(path: string) {
-  return (
-    route.path.length >
-      (route.path.split(locale.value + path, 1) + locale.value + path).length +
-        1 &&
-    route.path.split(locale.value + path).pop() !== "search" &&
-    route.path.split(locale.value + path).pop() !== "search/"
-  );
-}
-
-const pathToSidebarTypeMap = [
-  { path: "/search", type: SidebarType.SEARCH },
-  { path: "/home", type: SidebarType.HOME },
-  {
-    path: "/organizations",
-    type: isCurrentRoutePathSubpageOf("/organizations/")
-      ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.FILTER_ORGANIZATIONS,
-  },
-  {
-    path: "/events",
-    type: isCurrentRoutePathSubpageOf("/events/")
-      ? SidebarType.EVENT_PAGE
-      : SidebarType.FILTER_EVENTS,
-  },
-];
-
-const sidebarType =
-  pathToSidebarTypeMap.find((item) => currentRoutePathIncludes(item.path))
-    ?.type || SidebarType.MISC;
-const menuEntryState = useMenuEntriesState();
-const selectedMenuItem = ref<MenuEntry | undefined>(undefined);
 
 watchEffect(() => {
   selectedMenuItem.value = useRouter().currentRoute.value.fullPath.includes(
