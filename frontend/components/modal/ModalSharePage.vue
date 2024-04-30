@@ -242,22 +242,22 @@ const setEntityInfo = (
 // Function to grab the url to the base id of the entity to share.
 const getCurrentUrl = () => {
   if (props.organization) {
-    return `${BASE_FRONTEND_URL}/organizations/${props.organization.id}`;
+    return `/organizations/${props.organization.id}`;
   } else if (props.group) {
-    return `${BASE_FRONTEND_URL}/organizations/${props.group.organization.id}/groups/${props.group.id}`;
+    return `/organizations/${props.group.organization.id}/groups/${props.group.id}`;
   } else if (props.event) {
-    return `${BASE_FRONTEND_URL}/events/${props.event.id}`;
+    return `/events/${props.event.id}`;
   } else if (props.resource) {
     return props.resource.resourceURL;
   } else if (props.user) {
-    return `${BASE_FRONTEND_URL}/users/${props.user.id}`;
+    return `/users/${props.user.id}`;
   }
   const url = window.location.href;
   return url.substring(0, url.lastIndexOf("/"));
 };
 
 const shareOptions = {
-  url: getCurrentUrl() || `${BASE_FRONTEND_URL}`,
+  url: getCurrentUrl() || ``,
   text: getEntityType()?.text || "Check this out!",
   quote: getEntityType()?.text || "Check this out!",
   hashtags: ["activism", "organizing"],

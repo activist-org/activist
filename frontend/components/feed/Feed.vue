@@ -31,8 +31,7 @@ const feedItemNames = computed<string[]>(() => {
 const feedItemURLs = computed<string[]>(() => {
   if (props.organization && props.organization.groups) {
     return props.organization.groups.map(
-      (group) =>
-        `${BASE_FRONTEND_URL}/organizations/${group.organization.id}/groups/${group.id}`
+      (group) => `/organizations/${group.organization.id}/groups/${group.id}`
     );
   } else {
     return [""];

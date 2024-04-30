@@ -135,7 +135,7 @@ const selectedMenuItem = ref<MenuEntry | undefined>(undefined);
 
 watchEffect(() => {
   selectedMenuItem.value = useRouter().currentRoute.value.fullPath.includes(
-    "organizations"
+    "/organizations/"
   )
     ? menuEntryState.organizationEntry.value.find((e) => e.selected)
     : menuEntryState.eventEntry.value.find((e) => e.selected);

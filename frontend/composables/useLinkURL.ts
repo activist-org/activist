@@ -13,15 +13,15 @@ export function useLinkURL(props: {
 }) {
   const linkURL = computed<string>(() => {
     if (props.organization) {
-      return `${BASE_FRONTEND_URL}/organizations/${props.organization.id}`;
+      return `/organizations/${props.organization.id}`;
     } else if (props.group) {
-      return `${BASE_FRONTEND_URL}/organizations/${props.group.organization.id}/groups/${props.group.id}`;
+      return `/organizations/${props.group.organization.id}/groups/${props.group.id}`;
     } else if (props.event) {
-      return `${BASE_FRONTEND_URL}/events/${props.event.id}`;
+      return `/events/${props.event.id}`;
     } else if (props.resource) {
       return props.resource.resourceURL;
     } else if (props.user) {
-      return `${BASE_FRONTEND_URL}/users/${props.user.id}`;
+      return `/users/${props.user.id}`;
     } else {
       return "";
     }
