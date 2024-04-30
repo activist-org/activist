@@ -77,15 +77,21 @@ import {
 import type MenuEntry from "~/types/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
 import {
-  isCurrentRoutePathSubpageOf,
   currentRoutePathIncludes,
-} from "~/utils/pathUtils";
+  isCurrentRoutePathSubpageOf,
+} from "~/utils/routeUtils";
 
 const { currentRoute } = useRouter();
 const routeName = currentRoute.value.name;
+let routeToCheck = routeName;
+if (routeToCheck) {
+  routeToCheck = routeToCheck.toString();
+} else {
+  routeToCheck = "";
+}
 
-const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeName);
-const isEventPage = isCurrentRoutePathSubpageOf("events", routeName);
+const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeToCheck);
+const isEventPage = isCurrentRoutePathSubpageOf("events", routeToCheck);
 
 const pathToSidebarTypeMap = [
   { path: "search", type: SidebarType.SEARCH },
@@ -104,7 +110,7 @@ const pathToSidebarTypeMap = [
 
 const sidebarType =
   pathToSidebarTypeMap.find((item) =>
-    currentRoutePathIncludes(item.path, routeName)
+    currentRoutePathIncludes(item.path, routeToCheck)
   )?.type || SidebarType.MISC;
 const menuEntryState = useMenuEntriesState();
 const selectedMenuItem = ref<MenuEntry | undefined>(undefined);

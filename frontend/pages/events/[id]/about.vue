@@ -34,8 +34,8 @@
           @keydown.enter="openModal()"
           class="w-max"
           :cta="true"
-          :label="$t('components._global.share-event')"
-          :hideLabelOnMobile="true"
+          :label="$t(shareButtonLabel)"
+          :hideLabelOnMobile="false"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.45em"
@@ -88,6 +88,7 @@
 </template>
 
 <script setup lang="ts">
+import { Breakpoint } from "~/types/breakpoints";
 import { testClimateEvent } from "~/utils/testEntities";
 
 definePageMeta({
@@ -101,6 +102,23 @@ const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
 
+const currentWidth = ref(window.innerWidth);
+let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+const shareButtonLabel = ref("");
+
+function updateShareBtnLabel() {
+  if (currentWidth.value < Breakpoint.SMALL) {
+    shareButtonLabel.value = "components.btn-action.share";
+  } else {
+    shareButtonLabel.value = "components._global.share-group";
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("resize", handleResize);
+  updateShareBtnLabel();
+});
+
 const isUnderLargeBP = ref(false);
 
 const checkUnderLargeBP = () => {
@@ -109,6 +127,11 @@ const checkUnderLargeBP = () => {
 
 const handleResize = () => {
   checkUnderLargeBP();
+
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout);
+  }
+  resizeTimeout = setTimeout(updateShareBtnLabel, 100);
 };
 
 onMounted(() => {

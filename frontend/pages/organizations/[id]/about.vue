@@ -35,8 +35,8 @@
           @keydown.enter="openModal()"
           class="w-max"
           :cta="true"
-          :label="$t('components._global.share-organization')"
-          :hideLabelOnMobile="true"
+          :label="$t(shareButtonLabel)"
+          :hideLabelOnMobile="false"
           fontSize="sm"
           leftIcon="bi:box-arrow-up"
           iconSize="1.45em"
@@ -107,6 +107,7 @@
 </template>
 
 <script setup lang="ts">
+import { Breakpoint } from "~/types/breakpoints";
 import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { DiscussionInput } from "~/types/discussion-input";
 import { testTechOrg } from "~/utils/testEntities";
@@ -122,6 +123,30 @@ const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
+
+const currentWidth = ref(window.innerWidth);
+let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+const shareButtonLabel = ref("");
+
+function updateShareBtnLabel() {
+  if (currentWidth.value < Breakpoint.SMALL) {
+    shareButtonLabel.value = "components.btn-action.share";
+  } else {
+    shareButtonLabel.value = "components._global.share-organization";
+  }
+}
+
+const handleResize = () => {
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout);
+  }
+  resizeTimeout = setTimeout(updateShareBtnLabel, 100);
+};
+
+onMounted(() => {
+  window.addEventListener("resize", handleResize);
+  updateShareBtnLabel();
+});
 
 // TODO: for testing purpose, should be removed.
 // const upVotes = ref(123);

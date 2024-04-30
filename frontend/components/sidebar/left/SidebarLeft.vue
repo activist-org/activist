@@ -62,9 +62,9 @@ import type { Filters } from "~/types/filters";
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
 import {
-  isCurrentRoutePathSubpageOf,
   currentRoutePathIncludes,
-} from "~/utils/pathUtils";
+  isCurrentRoutePathSubpageOf,
+} from "~/utils/routeUtils";
 
 defineProps<{
   name?: string;
@@ -74,9 +74,15 @@ const sidebar = useSidebar();
 const route = useRoute();
 const { currentRoute } = useRouter();
 const routeName = currentRoute.value.name;
+let routeToCheck = routeName;
+if (routeToCheck) {
+  routeToCheck = routeToCheck.toString();
+} else {
+  routeToCheck = "";
+}
 
-const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeName);
-const isEventPage = isCurrentRoutePathSubpageOf("events", routeName);
+const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeToCheck);
+const isEventPage = isCurrentRoutePathSubpageOf("events", routeToCheck);
 
 const pathToSidebarTypeMap = [
   { path: "search", type: SidebarType.SEARCH },
@@ -95,7 +101,7 @@ const pathToSidebarTypeMap = [
 
 const sidebarType =
   pathToSidebarTypeMap.find((item) =>
-    currentRoutePathIncludes(item.path, routeName)
+    currentRoutePathIncludes(item.path, routeToCheck)
   )?.type || SidebarType.MISC;
 
 // TODO: Use real name of organization / event when available from backend.
