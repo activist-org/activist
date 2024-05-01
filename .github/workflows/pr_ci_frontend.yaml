@@ -60,7 +60,7 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies via Yarn
-        uses: borales/actions-yarn@v5
+        uses: borales/actions-yarn@v4
         with:
           cmd: install
           dir: "frontend"
@@ -80,14 +80,14 @@ jobs:
 
       - name: Run Type Check
         if: always()
-        uses: borales/actions-yarn@v5
+        uses: borales/actions-yarn@v4
         with:
           cmd: nuxi typecheck
           dir: "frontend"
 
       - name: Run eslint - Linting
         if: always()
-        uses: borales/actions-yarn@v5
+        uses: borales/actions-yarn@v4
         with:
           cmd: eslint . --ext .js,.vue
           dir: "frontend"
