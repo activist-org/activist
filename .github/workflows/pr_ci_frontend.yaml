@@ -54,50 +54,60 @@ jobs:
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
 
       - name: Run Docker Compose
-        run: docker-compose -f docker-compose.yml up -d
+        run: docker-compose -f docker-compose.yml up --build -d
 
       - name: Setup Node environment
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies via Yarn
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install --immutable --force --frozen-lockfile
-          dir: "frontend"
-
       #- name: Install dependencies via Yarn
-        #working-directory: ./frontend
-        #run: |
-          #sudo yarn install
+        #uses: borales/actions-yarn@v5
+        #with:
+          #cmd: install --immutable --force --frozen-lockfile
+          #dir: "frontend"
+
+      - name: Install dependencies via Yarn
+        working-directory: ./frontend
+        run: |
+          sudo yarn install
 
       - name: Install Prettier
-        run: yarn add prettier
+        run: sudo yarn add prettier
 
       - name: Run Prettier - Formatting check
         working-directory: ./frontend
         run: |
-          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
+          sudo yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
 
+      #- name: Run Type Check
+        #if: always()
+        #uses: borales/actions-yarn@v5
+        #with:
+          #cmd: nuxi typecheck
+          #dir: "frontend"
       - name: Run Type Check
+        working-directory: ./frontend
         if: always()
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: nuxi typecheck
-          dir: "frontend"
+        run: |
+          sudo yarn nuxi typecheck
 
+      #- name: Run eslint - Linting
+        #if: always()
+        #uses: borales/actions-yarn@v5
+        #with:
+          #cmd: eslint . --ext .js,.vue
+          #dir: "frontend"
       - name: Run eslint - Linting
+        working-directory: ./frontend
         if: always()
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: eslint . --ext .js,.vue
-          dir: "frontend"
+        run: |
+          sudo yarn eslint . --ext .js,.vue
 
       - name: Install Playwright Browsers
         working-directory: ./frontend
         run: |
-          yarn playwright install --with-deps
+          sudo yarn playwright install --with-deps
 
       - name: Wait for web server to be ready
         working-directory: ./frontend
@@ -107,7 +117,7 @@ jobs:
       - name: Run Playwright tests
         working-directory: ./frontend
         run: |
-          yarn playwright test
+          sudo yarn playwright test
 
       - name: Upload Playwright report
         if: always()
