@@ -64,7 +64,7 @@ jobs:
       - name: Install dependencies via Yarn
         working-directory: ./frontend
         run: |
-          sudo chown -R $USER:$GROUP node_modules
+          sudo chown -R $USER:$GROUP /home/runner/work/***/***/frontend/node_modules
           yarn install
 
       - name: Install Prettier
