@@ -112,7 +112,7 @@ jobs:
       - name: Wait for web server to be ready
         working-directory: ./frontend
         run: |
-          curl --retry 5 --retry-delay 5 --retry-all-errors http://localhost:${{ secrets.FRONTEND_PORT }}
+          curl --retry 15 --retry-delay 5 --retry-all-errors http://localhost:${{ secrets.FRONTEND_PORT }}
 
       - name: Run Playwright tests
         working-directory: ./frontend
