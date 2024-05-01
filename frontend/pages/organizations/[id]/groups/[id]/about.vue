@@ -101,28 +101,29 @@ const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
 
-const currentWidth = ref(window.innerWidth);
-let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+const windowWidth = ref(window.innerWidth);
 const shareButtonLabel = ref("");
 
 function updateShareBtnLabel() {
-  if (currentWidth.value < Breakpoint.SMALL) {
+  windowWidth.value = window.innerWidth;
+  if (windowWidth.value < Breakpoint.SMALL) {
     shareButtonLabel.value = "components.btn-action.share";
   } else {
     shareButtonLabel.value = "components._global.share-group";
   }
 }
 
-const handleResize = () => {
-  if (resizeTimeout) {
-    clearTimeout(resizeTimeout);
-  }
-  resizeTimeout = setTimeout(updateShareBtnLabel, 100);
-};
-
 onMounted(() => {
-  window.addEventListener("resize", handleResize);
+  window.addEventListener("resize", updateShareBtnLabel);
   updateShareBtnLabel();
+});
+
+onUpdated(() => {
+  updateShareBtnLabel();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateShareBtnLabel);
 });
 
 const modalIsOpen = ref(false);
