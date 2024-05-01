@@ -849,10 +849,10 @@
   resolved "https://registry.npmjs.org/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz"
   integrity sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
 
-"@maplibre/maplibre-gl-directions@^0.6.1":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@maplibre/maplibre-gl-directions/-/maplibre-gl-directions-0.6.2.tgz#74d3bde87f5872fa5547024ada03dfdd04d5adb9"
-  integrity sha512-hibKTdGzTjJM+QncRkxcjvwRHll8d6kyItop2iDniA9QkSvGqs2OyBr+lOs294SbdaaB/478zqTd7xRyWI0LQQ==
+"@maplibre/maplibre-gl-directions@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@maplibre/maplibre-gl-directions/-/maplibre-gl-directions-0.7.0.tgz#487d49b960616a565075959391b51cf365ac80f9"
+  integrity sha512-3mU+uy0BlqaSk+sCc1pzN/qHkkHswDdMH7VTrvDqU4m1/LKY0GqB4HXrlUIzm2VGsn6Y+/f2AHxBXw5Ogewrng==
   dependencies:
     "@placemarkio/polyline" "^1.2.0"
     nanoid "^5.0.6"
