@@ -59,10 +59,16 @@ jobs:
       - name: Setup Node environment
         uses: actions/setup-node@v4
 
+      - name: Clean yarn cache
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: cache clean
+          dir: "frontend"
+
       - name: Install dependencies via Yarn
         uses: borales/actions-yarn@v4
         with:
-          cmd: install
+          cmd: install --frozen-lockfile --force
           dir: "frontend"
 
       #- name: Install dependencies via Yarn
