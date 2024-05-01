@@ -178,6 +178,10 @@ onMounted(() => {
   window.addEventListener("resize", handleResize);
 });
 
+onUpdated(() => {
+  handleResize();
+});
+
 onUnmounted(() => {
   window.removeEventListener("resize", handleResize);
 });

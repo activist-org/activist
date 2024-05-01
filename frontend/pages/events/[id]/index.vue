@@ -146,8 +146,11 @@ const handleResize = () => {
 
 onMounted(() => {
   handleResize();
-
   window.addEventListener("resize", handleResize);
+});
+
+onUpdated(() => {
+  handleResize();
 });
 
 onUnmounted(() => {
