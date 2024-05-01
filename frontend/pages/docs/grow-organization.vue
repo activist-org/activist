@@ -25,9 +25,18 @@
         :alt="$t('pages.docs.grow-organization.modal-image-alt-text')"
       />
       <div class="w-10/12 gap-16 md:w-full 2xl:grid 2xl:grid-cols-2">
-        <ModalImage
+        <ModalImageBtn
+          @click="openModal()"
+          @keydown.enter="openModal()"
+          class="hidden md:block"
           imageURL="/images/content_pages/mockups/grow_organization"
           imageAltText="pages.docs.grow-organization.modal-image-alt-text"
+        />
+        <ModalImage
+          @closeModal="handleCloseModal"
+          imageURL="/images/content_pages/mockups/grow_organization"
+          imageAltText="pages.docs.grow-organization.modal-image-alt-text"
+          :isOpen="modalIsOpen"
         />
         <div
           class="items-center space-y-4 text-left md:items-start 2xl:col-span-1 2xl:row-start-1"
@@ -80,7 +89,7 @@
               class="w-full"
               :cta="true"
               label="components.btn-route-external.request-access"
-              linkTo="https://tally.so/r/nprxbq"
+              :linkTo="REQUEST_ACCESS_URL"
               fontSize="lg"
               ariaLabel="
                 components.btn-route-external.request-access-aria-label
@@ -100,3 +109,15 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
+};
+</script>

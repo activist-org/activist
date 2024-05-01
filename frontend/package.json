@@ -66,6 +66,7 @@
     "uuid": "^9.0.1",
     "v-calendar": "^3.1.1",
     "vue-socials": "^2.0.5",
+    "vuedraggable": "~4.1.0",
     "zxcvbn": "^4.4.2"
   }
 }

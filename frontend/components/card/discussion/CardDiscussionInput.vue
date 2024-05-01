@@ -145,7 +145,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionInput } from "~/types/card-discussion-input";
+import type { DiscussionInput } from "~/types/discussion-input";
 const showTooltip = ref(false);
 
 defineProps<{

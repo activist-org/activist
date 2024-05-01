@@ -20,23 +20,25 @@
           <div class="flex-col space-y-2">
             <DropdownTheme
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownLanguage
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownCreate
+              v-if="userIsSignedIn"
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownInfo
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownUserOptions
               class="w-full"
-              :location="DropdownLocation.SIDEMENU"
+              :location="DropdownLocation.SIDE_MENU"
+              :userIsSignedIn="userIsSignedIn"
             />
           </div>
         </SidebarRight>
@@ -48,6 +50,7 @@
 <script setup lang="ts">
 import { DropdownLocation, SearchBarLocation } from "~/types/location";
 
+const userIsSignedIn = false;
 const isSearchExpanded = ref(false);
 
 const toggleSearchExpanded = () => {

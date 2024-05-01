@@ -30,11 +30,8 @@ class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
     tagline = models.CharField(max_length=255, blank=True)
-    org_icon = models.OneToOneField(
+    icon_url = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, null=True, blank=True
-    )
-    about_images = models.ManyToManyField(
-        "content.Image", related_name="about_images", blank=True
     )
     created_by = models.ForeignKey(
         "authentication.UserModel",
@@ -42,10 +39,11 @@ class Organization(models.Model):
         on_delete=models.CASCADE,
     )
     description = models.TextField(max_length=500)
-    social_accounts = ArrayField(
+    social_links = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
     )
-    high_risk = models.BooleanField(default=False)
+    get_involved_url = models.URLField(blank=True)
+    is_high_risk = models.BooleanField(default=False)
     status = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE, default=1)
     status_updated = models.DateTimeField(auto_now=True, null=True)
     acceptance_date = models.DateTimeField()
@@ -66,14 +64,13 @@ class OrganizationApplicationStatus(models.Model):
 class OrganizationApplication(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     status = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE, default=1)
-    orgs_in_favor = ArrayField(
-        models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
+    orgs_in_favor = models.ManyToManyField(
+        "entities.Organization", related_name="in_favor", blank=True
     )
-    orgs_against = ArrayField(
-        models.IntegerField(null=True, blank=True), default=list, blank=True, null=True
+    orgs_against = models.ManyToManyField(
+        "entities.Organization", related_name="against", blank=True
     )
     creation_date = models.DateTimeField(auto_now_add=True)
-    status_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.creation_date}"
@@ -120,15 +117,13 @@ class Group(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
-    group_icon = models.OneToOneField(
-        "content.Image", on_delete=models.CASCADE, null=True, blank=True
-    )
     about_images = models.ManyToManyField(
         "content.Image", related_name="about_img", blank=True
     )
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    get_involved_url = models.URLField(blank=True)
     description = models.TextField(max_length=500)
-    social_accounts = ArrayField(
+    social_links = ArrayField(
         models.CharField(max_length=255), default=list, blank=True
     )
     category = models.CharField(max_length=255)
@@ -163,7 +158,7 @@ class OrganizationText(models.Model):
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
     get_involved = models.TextField(max_length=500)
-    donate = models.TextField(max_length=500)
+    donate_prompt = models.TextField(max_length=500)
 
 
 class GroupEvent(models.Model):
@@ -216,6 +211,7 @@ class GroupText(models.Model):
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
     get_involved = models.TextField(max_length=500)
+    donate_prompt = models.TextField(max_length=500)
 
 
 class Status(models.Model):

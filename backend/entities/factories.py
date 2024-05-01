@@ -28,9 +28,9 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     description = factory.Faker("text")
-    social_accounts = factory.List([factory.Faker("word") for _ in range(10)])
+    social_links = factory.List([factory.Faker("word") for _ in range(10)])
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    high_risk = factory.Faker("boolean")
+    is_high_risk = factory.Faker("boolean")
 
 
 class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
@@ -95,7 +95,7 @@ class GroupFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     description = factory.Faker("text")
-    social_accounts = factory.List([factory.Faker("word") for _ in range(10)])
+    social_links = factory.List([factory.Faker("word") for _ in range(10)])
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(datetime.datetime.now)
     deletion_date = factory.LazyFunction(datetime.datetime.now)

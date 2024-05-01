@@ -17,13 +17,13 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/card-discussion-entry";
-import type { DiscussionInput } from "~/types/card-discussion-input";
+import type { DiscussionEntry } from "~/types/discussion-entry";
+import type { DiscussionInput } from "~/types/discussion-input";
 import type { Organization } from "~/types/organization";
 
 defineProps<{
-  discussionInput?: DiscussionInput;
   discussionEntries?: DiscussionEntry[];
+  discussionInput?: DiscussionInput;
   organizations?: Organization[];
 }>();
 </script>

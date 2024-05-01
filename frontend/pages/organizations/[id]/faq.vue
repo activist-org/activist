@@ -23,53 +23,21 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="py-4">
-      <div v-for="f in faqEntries" class="mb-4">
+    <div v-if="organization.faqEntries" class="py-4">
+      <div v-for="f in organization.faqEntries" class="mb-4">
         <CardFAQEntry :faqEntry="f" />
       </div>
     </div>
+    <EmptyState v-else pageType="faq" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { FaqEntry } from "~/types/card-faq-entry";
-import type { Organization } from "~/types/organization";
+import { testTechOrg } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
 
-const organization: Organization = {
-  name: "tech from below",
-  status: "approved",
-  tagline: "Technologie von und für soziale Bewegungen",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 60,
-  imageURL: "/images/tech-from-below.svg",
-  workingGroups: ["meetup", "code-night"],
-  socialLinks: ["tfb@mastodon", "tfb@email"],
-  donationPrompt: "Hey thanks!",
-};
-
-const faqEntry_01: FaqEntry = {
-  question: "FAQ question text 01",
-  answer:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna.",
-};
-const faqEntry_02: FaqEntry = {
-  question: "FAQ question text 02",
-  answer:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna.",
-};
-const faqEntry_03: FaqEntry = {
-  question: "FAQ question text 03",
-  answer:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna.",
-};
-
-const faqEntries = [faqEntry_01, faqEntry_02, faqEntry_03];
+const organization = testTechOrg;
 </script>

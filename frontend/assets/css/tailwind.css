@@ -23,6 +23,10 @@
     @apply focus-brand elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
   }
 
+  .btn-disabled {
+    @apply focus-off elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
+  }
+
   .card-style-base {
     @apply elem-shadow-sm rounded-md sm:rounded-lg;
   }
@@ -131,8 +135,16 @@
     @apply focus-brand border border-light-text bg-light-cta-orange fill-light-text  text-light-text hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10;
   }
 
+  .style-cta-disabled {
+    @apply focus-brand cursor-not-allowed border border-light-text/50 bg-light-cta-orange/50  fill-light-text/50 text-light-text/50 shadow-none   dark:border-dark-cta-orange/50 dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange/50 dark:text-dark-cta-orange/50;
+  }
+
   .style-cta-secondary {
     @apply focus-brand border border-light-text bg-light-layer-2 fill-light-text text-light-text hover:bg-light-highlight-darker active:bg-light-layer-2 dark:border-dark-text dark:bg-dark-layer-2 dark:fill-dark-text dark:text-dark-text dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-layer-2;
+  }
+
+  .style-cta-secondary-disabled {
+    @apply focus-brand cursor-not-allowed border border-light-text/50 bg-light-layer-2/75 fill-light-text/50 text-light-text/50 shadow-none  dark:border-dark-text/50 dark:bg-dark-layer-2 dark:fill-dark-text/50 dark:text-dark-text/50;
   }
 
   .style-learn {
@@ -140,7 +152,7 @@
   }
 
   .style-menu-option {
-    @apply focus-brand fill-light-text text-light-text hover:bg-light-highlight dark:fill-dark-text dark:text-dark-text dark:hover:bg-dark-highlight;
+    @apply focus-brand focus-brand fill-light-text text-light-text hover:bg-light-cta-orange/80 dark:fill-dark-text dark:text-dark-text dark:hover:bg-dark-cta-orange/25 dark:hover:text-dark-cta-orange;
   }
 
   .style-menu-option-cta {

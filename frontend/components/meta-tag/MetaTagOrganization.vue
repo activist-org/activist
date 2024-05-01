@@ -1,12 +1,16 @@
 <template>
-  <div v-for="organization in organizations">
-    <MetaTag iconName="IconOrganization" :value="organization" class="pr-2" />
-  </div>
+  <MetaTag
+    iconName="IconOrganization"
+    :value="organization.name"
+    class="pr-2"
+  />
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/organization";
+
 defineProps<{
-  organizations: string[];
+  organization: Organization;
   iconSize?: string;
 }>();
 </script>

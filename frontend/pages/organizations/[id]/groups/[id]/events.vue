@@ -17,40 +17,34 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <BtnAction
+        <!-- <BtnAction
           class="w-max"
           :cta="true"
           label="components.btn-action.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
-          :counter="group.supporters"
+          :counter="group.supportingUsers"
           ariaLabel="
             components.btn-action.support-group-aria-label
           "
-        />
-        <ModalSharePage
-          :cta="true"
-          label="components._global.share-group"
-          :group="group"
-          ariaLabel="components._global.share-group-aria-label"
-        />
+        /> -->
       </div>
     </HeaderAppPage>
-    <div class="space-y-3 py-4">
-      <CardSearchResult
-        searchResultType="event"
-        :reduced="true"
-        :event="event"
+    <!-- <div v-if="group.events" class="space-y-3 py-4">
+      <CardSearchResultEvent
+        v-for="(u, i) in group.events"
+        :key="i"
+        :isReduced="true"
+        :event="u"
       />
     </div>
+    <EmptyState v-else pageType="events" :permission="false" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
-import { getGroupSubPages } from "~/utils/groupSubPages";
+import { testTechGroup1 } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
@@ -58,33 +52,5 @@ definePageMeta({
 
 const groupSubPages = getGroupSubPages();
 
-const testGroup: Group = {
-  name: "Code Night",
-  organization: "tech from below",
-  tagline: "Let's code!",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 60,
-  imageURL: "/images/tech-from-below.svg",
-  socialLinks: ["tfb@mastodon", "tfb@email"],
-  donationPrompt: "Hey thanks!",
-};
-
-const group = reactive<Group>({ ...testGroup });
-
-const event: Event = {
-  name: "bimonthly tech meetup",
-  tagline: "let's fix some bugs!",
-  organizations: ["org1", "org2"],
-  type: "learn",
-  topic: "Hackathon",
-  description: "let's fix some bugs!",
-  getInvolvedDescription: "squash some bugs!",
-  inPersonLocation: "Berlin, Germany",
-  supporters: 234,
-  date: new Date(),
-};
+const group = testTechGroup1;
 </script>

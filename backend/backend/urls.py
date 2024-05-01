@@ -15,12 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+import os
+
 from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+ADMIN_PATH = os.getenv("ADMIN_PATH")
+
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path(f"{ADMIN_PATH}", admin.site.urls),
     path("v1/auth/", include("authentication.urls", namespace="authentication")),
     path("v1/content/", include("content.urls", namespace="content")),
     path("v1/entities/", include("entities.urls", namespace="entities")),

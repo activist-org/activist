@@ -1,6 +1,11 @@
 <template>
   <div class="w-full text-light-text dark:text-dark-text">
-    <ProgressBar type="default" :progress="1" :start="1" :end="1" />
+    <IndicatorProcessProgress
+      type="default"
+      :progress="1"
+      :start="1"
+      :end="1"
+    />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
@@ -65,7 +70,7 @@
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="tagline" class="responsive-h3 block font-medium">{{
-            $t("pages.organizations.create.tagline")
+            $t("pages._global.create.tagline")
           }}</label>
           <input
             v-model="formData.tagline"
@@ -75,7 +80,11 @@
             :placeholder="$t('pages.organizations.create.tagline-placeholder')"
           />
         </div>
-        <CardTopicSelection v-model="formData.topics" class="mt-5" />
+        <CardTopicSelection
+          v-model="formData.topics"
+          class="mt-5"
+          pageType="organization"
+        />
         <div class="mx-14 mt-5 w-full">
           <CardConnect
             :social-links="formData.social_accounts"

@@ -30,7 +30,7 @@
         {{ $t(tagline) }}
       </p>
       <p
-        class="w-10/12 pb-2 text-center text-sm sm:w-full sm:text-left sm:text-base"
+        class="w-10/12 pb-2 text-center text-sm sm:w-full sm:text-left sm:text-base md:text-lg"
       >
         {{ $t(text) }}
       </p>
@@ -100,7 +100,7 @@
         {{ $t(tagline) }}
       </p>
       <p
-        class="w-10/12 pb-2 text-center text-sm sm:w-full sm:text-left sm:text-base"
+        class="w-10/12 pb-2 text-center text-sm sm:w-full sm:text-left sm:text-base md:text-lg"
       >
         {{ $t(text) }}
       </p>
@@ -129,7 +129,7 @@
         {{ $t(tagline) }}
       </p>
       <p
-        class="mx-12 w-10/12 pb-2 text-center text-sm sm:text-base md:w-full md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+        class="mx-12 w-10/12 pb-2 text-center text-sm sm:text-base md:w-full md:max-w-lg md:text-lg lg:max-w-xl"
       >
         {{ $t(text) }}
       </p>

@@ -19,6 +19,7 @@ Contents:
 
 from uuid import uuid4
 
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin
@@ -28,22 +29,27 @@ class Event(CreationDeletionMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
+    created_by = models.ForeignKey(
+        "authentication.UserModel",
+        related_name="created_events",
+        on_delete=models.CASCADE,
+    )
+    icon_url = models.ForeignKey(
+        "content.Image", on_delete=models.CASCADE, blank=True, null=True
+    )
     type = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     get_involved_text = models.TextField(max_length=500)
     online_location_link = models.CharField(max_length=255, blank=True)
     offline_location_lat = models.FloatField(null=True, blank=True)
     offline_location_long = models.FloatField(null=True, blank=True)
+    get_involved_url = models.URLField(blank=True)
+    social_links = ArrayField(
+        models.CharField(max_length=255), default=list, blank=True
+    )
+    is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    created_by = models.ForeignKey(
-        "authentication.UserModel",
-        related_name="created_events",
-        on_delete=models.CASCADE,
-    )
-    event_icon = models.OneToOneField(
-        "content.Image", on_delete=models.CASCADE, null=True, blank=True
-    )
 
     def __str__(self) -> str:
         return self.name
@@ -121,6 +127,19 @@ class EventRole(models.Model):
 class EventTask(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class EventText(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    iso = models.ForeignKey(
+        "content.ISOCodeMap", on_delete=models.CASCADE, related_name="iso_code"
+    )
+    primary = models.BooleanField()
+    description = models.TextField(max_length=500)
+    get_involved = models.TextField(max_length=500)
 
     def __str__(self) -> str:
         return f"{self.id}"

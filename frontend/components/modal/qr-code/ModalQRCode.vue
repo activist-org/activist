@@ -1,87 +1,61 @@
 <template>
-  <ModalBase>
-    <template #normalDisplay>
-      <button
-        class="elem-on-card-style focus-brand absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md sm:h-16 sm:w-16"
-        :aria-label="$t('components.modal-qr-code.open-modal-aria-label')"
-      >
-        <div class="sm:hidden">
-          <Icon
-            name="bi:qr-code-scan"
-            size="2em"
-            :alt="$t('components.modal-qr-code.img-alt-text')"
-          />
-        </div>
-        <div class="hidden sm:block">
-          <Icon
-            name="bi:qr-code-scan"
-            size="3em"
-            :alt="$t('components.modal-qr-code.img-alt-text')"
-          />
-        </div>
-      </button>
-    </template>
-    <template #modalDisplay>
-      <DialogTitle class="flex justify-between font-display">
-        <p class="md:responsive-h2 text-3xl font-bold">
-          {{ $t("components.modal-qr-code.header") }}
+  <ModalBase
+    @closeModal="handleCloseModal"
+    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+  >
+    <DialogTitle class="flex justify-between font-display">
+      <p class="md:responsive-h2 text-3xl font-bold">
+        {{ $t("components.modal-qr-code.header") }}
+      </p>
+    </DialogTitle>
+    <div
+      class="flex flex-col items-center space-y-6 pb-6 md:grid md:grid-cols-2 md:grid-rows-1 lg:mr-14 lg:grid-cols-3 lg:grid-rows-1 lg:space-x-6 lg:space-y-0 lg:pr-8"
+    >
+      <div class="col-span-2 items-center space-y-4 text-left font-medium">
+        <p v-if="organization">
+          {{
+            $t("components.modal-qr-code.section-1-paragraph-1-organization")
+          }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
         </p>
-      </DialogTitle>
-      <div
-        class="flex flex-col items-center space-y-6 pb-6 md:grid md:grid-cols-2 md:grid-rows-1 lg:mr-14 lg:grid-cols-3 lg:grid-rows-1 lg:space-x-6 lg:space-y-0 lg:pr-8"
-      >
-        <div
-          class="col-span-2 items-center space-y-4 pt-2 text-left font-medium"
-        >
-          <p>
-            {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}
-          </p>
-          <p v-if="false">
-            {{
-              $t("components.modal-qr-code.section-1-paragraph-1-organization")
-            }}
-          </p>
-          <p>
-            {{ $t("components.modal-qr-code.subheader-2") }}
-          </p>
-          <ul class="list-disc pl-6 md:pl-8">
-            <li>
-              {{ $t("components.modal-qr-code.section-2-list-1-item-1") }}
-            </li>
-            <li>
-              {{ $t("components.modal-qr-code.section-2-list-1-item-2") }}
-            </li>
-            <li>
-              {{ $t("components.modal-qr-code.section-2-list-1-item-3") }}
-            </li>
-          </ul>
-          <!-- <p>
+        <p v-else-if="group">
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-group") }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
+        </p>
+        <p v-else-if="event">
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-event") }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
+        </p>
+        <p v-else-if="resource">
+          {{
+            $t("components.modal-qr-code.section-1-paragraph-1-resource")
+          }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
+        </p>
+        <p v-else-if="user">
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-user") }}&nbsp;
+          {{ $t("components.modal-qr-code.section-1-paragraph-1-2") }}
+        </p>
+        <p>
+          {{ $t("components.modal-qr-code.subheader-2") }}
+        </p>
+        <ul class="list-disc pl-6 md:pl-8">
+          <li>
+            {{ $t("components.modal-qr-code.section-2-list-1-item-1") }}
+          </li>
+          <li>
+            {{ $t("components.modal-qr-code.section-2-list-1-item-2") }}
+          </li>
+          <li>
+            {{ $t("components.modal-qr-code.section-2-list-1-item-3") }}
+          </li>
+        </ul>
+        <!-- <p>
             {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
           </p> -->
-          <BtnActionDropdown
-            @main-btn-clicked="handleMainBtnClicked"
-            class="hidden w-fit md:block"
-            :cta="true"
-            :label="$t('components.btn-action-dropdown.download-qr-code')"
-            fontSize="lg"
-            iconSize="1.25em"
-            dropdownIcon="bi:chevron-down"
-            :dropdownOptions="availableFormats"
-            :dropdownOptionsCallback="downloadQRCode"
-            ariaLabel="
-              $t('components.btn-action-dropdown.download-qr-code-aria-label')
-            "
-            :ariaLabelDropdown="
-              $t('components.btn-action-dropdown.qr-code-options-aria-label')
-            "
-          />
-        </div>
-        <div class="px-4 md:pb-2 md:pl-8">
-          <QRCode ref="qrcode" class="elem-shadow-md select-none rounded-3xl" />
-        </div>
         <BtnActionDropdown
           @main-btn-clicked="handleMainBtnClicked"
-          class="w-fit md:hidden"
+          class="hidden w-fit md:block"
           :cta="true"
           :label="$t('components.btn-action-dropdown.download-qr-code')"
           fontSize="lg"
@@ -89,20 +63,71 @@
           dropdownIcon="bi:chevron-down"
           :dropdownOptions="availableFormats"
           :dropdownOptionsCallback="downloadQRCode"
-          :ariaLabel="
-            $t('components.btn-action-dropdown.download-qr-code-aria-label')
-          "
+          ariaLabel="
+              $t('components.btn-action-dropdown.download-qr-code-aria-label')
+            "
           :ariaLabelDropdown="
             $t('components.btn-action-dropdown.qr-code-options-aria-label')
           "
         />
       </div>
-    </template>
+      <div class="px-4 md:pb-2 md:pl-8">
+        <ModalQRCodeImage
+          ref="qrcode"
+          class="elem-shadow-md select-none rounded-3xl"
+          :codeURL="linkURL"
+        />
+      </div>
+      <BtnActionDropdown
+        @main-btn-clicked="handleMainBtnClicked"
+        class="w-fit md:hidden"
+        :cta="true"
+        :label="$t('components.btn-action-dropdown.download-qr-code')"
+        fontSize="lg"
+        iconSize="1.25em"
+        dropdownIcon="bi:chevron-down"
+        :dropdownOptions="availableFormats"
+        :dropdownOptionsCallback="downloadQRCode"
+        :ariaLabel="
+          $t('components.btn-action-dropdown.download-qr-code-aria-label')
+        "
+        :ariaLabelDropdown="
+          $t('components.btn-action-dropdown.qr-code-options-aria-label')
+        "
+      />
+    </div>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
+import { useLinkURL } from "~/composables/useLinkURL";
+import type { Event } from "~/types/event";
+import type { Group } from "~/types/group";
+import type { Organization } from "~/types/organization";
+import type { Resource } from "~/types/resource";
+import type { User } from "~/types/user";
+
+const props = defineProps<{
+  organization?: Organization;
+  group?: Group;
+  event?: Event;
+  resource?: Resource;
+  user?: User;
+  isOpen: boolean;
+}>();
+
+const { linkURL } = useLinkURL(props);
+
+const modalIsOpen = computed(() => props.isOpen);
+const modalShouldClose = ref(false);
+
+const emit = defineEmits(["closeModal"]);
+const handleCloseModal = () => {
+  modalShouldClose.value = true;
+  emit("closeModal");
+  modalShouldClose.value = false;
+};
 
 const qrcode = ref();
 
@@ -141,10 +166,6 @@ const availableFormats: Ref<string[]> = computed(() => {
   ];
 });
 
-const props = defineProps<{
-  entityName: string;
-}>();
-
 function drawInlineSVG(
   svgElement: any,
   ctx: any,
@@ -165,8 +186,21 @@ const handleMainBtnClicked = () => {
   downloadQRCode("PNG");
 };
 
+let entityName = "";
+if (props.organization) {
+  entityName = props.organization.name;
+} else if (props.group) {
+  entityName = props.group.name;
+} else if (props.event) {
+  entityName = props.event.name;
+} else if (props.resource) {
+  entityName = props.resource.name;
+} else if (props.user) {
+  entityName = props.user.name;
+}
+
 const qrCodeFileName: string =
-  "qr_code_" + props.entityName.toLowerCase().replaceAll(" ", "_");
+  "qr_code_" + entityName.toLowerCase().replaceAll(" ", "_");
 
 function downloadQRCode(format: string) {
   const svgData = document.querySelector("#result-qr")!;

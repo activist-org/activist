@@ -5,7 +5,7 @@
     <BtnAction
       class="mt-1 hidden h-min md:flex"
       :cta="true"
-      :counter="discussion.upVoters"
+      :counter="discussion.upVoters.length"
       fontSize="sm"
       leftIcon="bi:arrow-up"
       iconSize="1.25em"
@@ -19,7 +19,7 @@
               {{ discussion.title }}
             </h2>
             <div class="flex items-center space-x-3 md:hidden md:w-fit">
-              <MetaTagMembers :members="discussion.participants" />
+              <MetaTagMembers :members="discussion.participants.length" />
               <MetaTag
                 iconName="bi:chat-left"
                 :value="String(discussion.messages)"
@@ -49,7 +49,7 @@
         <div
           class="hidden w-full items-center space-x-3 md:flex md:w-fit lg:space-x-5"
         >
-          <MetaTagMembers :members="discussion.participants" />
+          <MetaTagMembers :members="discussion.participants.length" />
           <MetaTag
             iconName="bi:chat-left"
             :value="String(discussion.messages)"
@@ -66,7 +66,7 @@
             >
               <Icon name="bi:person" size="1.5em" />
             </div>
-            <p class="ml-2">{{ discussion.author }}</p>
+            <p class="ml-2">{{ discussion.createdBy.user_name }}</p>
           </a>
           <div class="ml-2 flex items-center">
             <MetaTagDate :date="new Date().toISOString().slice(0, 10)" />
@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Discussion } from "~/types/card-discussion";
+import type { Discussion } from "~/types/discussion";
 
 defineProps<{
   isPrivate?: boolean;

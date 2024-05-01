@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DocsEntry } from "~/types/card-docs-entry";
+import type { DocsEntry } from "~/types/docs-entry";
 
 const cards: DocsEntry[] = [
   {
@@ -56,7 +56,7 @@ const cards: DocsEntry[] = [
     description: "pages.docs.index.grow-organization-description",
     imgURL: "/images/content_pages/art/grow_organization",
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages._global.grow-org-img-alt-text",
+    imgAltText: "pages._global.grow-organization-img-alt-text",
   },
 ];
 </script>

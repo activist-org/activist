@@ -1,10 +1,11 @@
 export interface BtnBase {
   cta?: boolean;
   label?: string;
+  hideLabelOnMobile?: boolean;
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   iconSize?: string;
+  isDisabled?: boolean;
   ariaLabel: string;
-  hideLabelOnMobile?: boolean;
 }
 
 withDefaults(defineProps<BtnBase>(), {
@@ -27,7 +28,7 @@ export interface BtnActionDropdown extends BtnAction {
 }
 
 export interface BtnRoute extends BtnBase {
-  linkTo?: string;
+  linkTo: string;
   leftIcon?: string;
   rightIcon?: string;
 }

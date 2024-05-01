@@ -1,11 +1,12 @@
 <template>
   <div class="card-style px-5 py-5">
-    <div class="relative w-full flex-col gap-5">
-      <ModalQRCode
+    <div class="relative w-full flex-col">
+      <ModalQRCodeBtn
         v-if="organization && !expandText"
-        :entityName="organization.name"
+        :organization="organization"
+        type="icon"
       />
-      <ModalQRCode v-if="group && !expandText" :entityName="group.name" />
+      <ModalQRCodeBtn v-if="group && !expandText" :group="group" type="icon" />
       <button
         v-if="expandText"
         @click="
@@ -21,16 +22,54 @@
           <h3 class="responsive-h3 text-left font-display">
             {{ $t("_global.about") }}
           </h3>
-          <IconEdit />
+          <IconEdit @click="openModal()" @keydown.enter="openModal()" />
+          <ModalEditPageText
+            v-if="organization"
+            @closeModal="handleCloseModal"
+            :name="organization.name"
+            :sectionsToEdit="[
+              $t('_global.about'),
+              $t('components._global.get-involved'),
+              $t('components._global.join-organization-link'),
+            ]"
+            :textsToEdit="[descriptionText, getInvolvedText, getInvolvedURL]"
+            :isOpen="modalIsOpen"
+          />
+          <ModalEditPageText
+            v-if="group"
+            @closeModal="handleCloseModal"
+            :name="group.name"
+            :sectionsToEdit="[
+              $t('_global.about'),
+              $t('components._global.get-involved'),
+              $t('components._global.join-group-link'),
+            ]"
+            :textsToEdit="[descriptionText, getInvolvedText, getInvolvedURL]"
+            :isOpen="modalIsOpen"
+          />
+          <ModalEditPageText
+            v-if="event"
+            @closeModal="handleCloseModal"
+            :sectionsToEdit="[
+              $t('_global.about'),
+              $t('components._global.participate'),
+              $t('components._global.offer-to-help-link'),
+            ]"
+            :textsToEdit="[descriptionText, getInvolvedText, getInvolvedURL]"
+            :isOpen="modalIsOpen"
+          />
         </div>
         <div v-if="organization" class="flex-col space-y-3">
-          <ShieldTopic :topic="organization.topic" />
+          <!-- <div class="flex items-center gap-3">
+            <ShieldTopic v-for="(t, i) in organization.topics" :key="i" :topic="t" />
+          </div> -->
+          <!-- <ShieldTopic :topic="organization.topic" /> -->
           <div class="flex items-center gap-3">
             <MetaTagLocation :location="organization.location" />
-            <MetaTagMembers
-              :members="organization.members"
+            <!-- <MetaTagMembers
+              :members="organization.members.length"
               :label="$t('components._global.members_lower')"
-            />
+            /> -->
           </div>
           <div>
             <p
@@ -68,13 +107,15 @@
           </div>
         </div>
         <div v-else-if="group" class="flex-col space-y-3">
-          <ShieldTopic :topic="group.topic" />
+          <!-- <div class="flex items-center gap-3">
+            <ShieldTopic v-for="(t, i) in group.topics" :key="i" :topic="t" />
+          </div> -->
           <div class="flex items-center gap-3">
             <MetaTagLocation :location="group.location" />
-            <MetaTagMembers
-              :members="group.members"
+            <!-- <MetaTagMembers
+              :members="group.members.length"
               :label="$t('components._global.members_lower')"
-            />
+            /> -->
           </div>
           <div>
             <p
@@ -112,7 +153,9 @@
           </div>
         </div>
         <div v-else-if="event" class="flex-col space-y-3">
-          <ShieldTopic :topic="event.topic" />
+          <!-- <div class="flex items-center gap-3">
+            <ShieldTopic v-for="(t, i) in event.topics" :key="i" :topic="t" />
+          </div> -->
           <div>
             <p
               ref="description"
@@ -154,15 +197,25 @@
 </template>
 
 <script setup lang="ts">
+import {
+  useDescriptionText,
+  useGetInvolvedText,
+  useGetInvolvedURL,
+} from "~/composables/useAppPageTexts";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
+import ModalEditPageText from "../modal/ModalEditPageText.vue";
 
-defineProps<{
+const props = defineProps<{
   organization?: Organization;
   group?: Group;
   event?: Event;
 }>();
+
+const { descriptionText } = useDescriptionText(props);
+const { getInvolvedText } = useGetInvolvedText(props);
+const { getInvolvedURL } = useGetInvolvedURL(props);
 
 const description = ref();
 const descriptionExpandable = ref(false);
@@ -189,4 +242,14 @@ const expandText = ref(false);
 function expand_reduce_text() {
   expandText.value = !expandText.value;
 }
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
+};
 </script>

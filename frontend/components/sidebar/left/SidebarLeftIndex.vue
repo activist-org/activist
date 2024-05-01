@@ -5,6 +5,7 @@
     <div class="flex flex-col items-center">
       <div
         v-if="sidebarType === SidebarType.ORGANIZATION_PAGE"
+        class="relative"
         :class="{
           'h-32 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -12,6 +13,18 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
+        <button
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @click="openModal()"
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+        >
+          <Icon name="bi:plus-lg" size="1em" />
+        </button>
+        <ModalUploadImages
+          @closeModal="handleCloseModal"
+          :isOpen="modalIsOpen"
+          :uploadLimit="1"
+        />
         <ImageOrganization
           class="elem-shadow-sm"
           :imgURL="logoUrl"
@@ -24,6 +37,7 @@
       </div>
       <div
         v-else-if="sidebarType === SidebarType.EVENT_PAGE"
+        class="relative"
         :class="{
           'h-32 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -31,6 +45,18 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
+        <button
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @click="openModal()"
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+        >
+          <Icon name="bi:plus-lg" size="1em" />
+        </button>
+        <ModalUploadImages
+          @closeModal="handleCloseModal"
+          :isOpen="modalIsOpen"
+          :uploadLimit="1"
+        />
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"
@@ -59,7 +85,6 @@
             :routeURL="menuEntry.routeURL"
             :iconURL="menuEntry.iconURL"
             :selected="menuEntry.selected"
-            :active="menuEntry.active"
           />
         </li>
       </ul>
@@ -78,4 +103,14 @@ defineProps<{
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
+};
 </script>

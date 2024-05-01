@@ -36,7 +36,7 @@
         tagline="pages.index.grow-organization-tagline"
         text="pages.index.grow-organization-text"
         imageURL="/images/content_pages/art/grow_organization"
-        imageAltText="pages._global.grow-org-img-alt-text"
+        imageAltText="pages._global.grow-organization-img-alt-text"
         btnText1="components.btn-route-internal.learn-more"
         btnURL1="/docs/grow-organization"
         btnAriaLabel1="components.btn-route-internal.grow-organization-aria-label"

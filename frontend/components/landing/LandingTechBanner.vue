@@ -5,7 +5,7 @@
     <h2
       class="w-10/12 text-center text-2xl font-semibold sm:w-full sm:text-3xl xl:text-4xl"
     >
-      {{ $t("components.landing-tech-banner.open-source-header") }}
+      {{ $t("components.landing-tech-banner.open-header") }}
     </h2>
     <p
       class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-light-distinct-text dark:text-dark-distinct-text sm:w-full sm:text-lg xl:text-xl"
@@ -13,7 +13,7 @@
       {{ $t("components.landing-tech-banner.open-source-tagline") }}
     </p>
     <p
-      class="w-10/12 pb-2 text-center text-sm sm:max-w-lg sm:text-base lg:max-w-xl"
+      class="w-10/12 pb-2 text-center text-sm sm:max-w-lg sm:text-base md:text-lg lg:max-w-xl"
     >
       {{ $t("components.landing-tech-banner.open-source-text") }}
     </p>

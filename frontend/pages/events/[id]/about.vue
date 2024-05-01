@@ -7,32 +7,45 @@
     </Head>
     <HeaderAppPage :event="event">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <BtnRouteInternal
+        <BtnRouteExternal
+          v-if="event.getInvolvedURL"
           class="w-max"
           :cta="true"
-          linkTo="/"
+          :linkTo="event.getInvolvedURL"
           label="components.btn-route-internal.offer-to-help"
           fontSize="sm"
           rightIcon="bi:arrow-right"
           iconSize="1.45em"
           ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
-        <BtnAction
+        <!-- <BtnAction
           class="w-max"
           :cta="true"
           label="components.btn-action.support"
+          :hideLabelOnMobile="true"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
-          :counter="event.supporters"
-          :hideLabelOnMobile="true"
+          :counter="event.supportingUsers.length"
           ariaLabel="components.btn-action.support-event-aria-label"
+        /> -->
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
+          class="w-max"
+          :cta="true"
+          :label="$t(shareButtonLabel)"
+          :hideLabelOnMobile="false"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.45em"
+          :ariaLabel="$t('components._global.share-event-aria-label')"
         />
         <ModalSharePage
+          @closeModal="handleCloseModal"
           :cta="true"
-          label="components._global.share-event"
           :event="event"
-          ariaLabel="components._global.share-event-aria-label"
+          :isOpen="modalIsOpen"
         />
       </div>
     </HeaderAppPage>
@@ -54,14 +67,11 @@
           :event="event"
         />
         <MediaMap
-          v-if="
-            (event.inPersonLocation && !textExpanded) ||
-            (event.inPersonLocation && isUnderLargeBP)
-          "
+          v-if="event.offlineLocation && !textExpanded"
           class="h-[17.5rem] w-full"
           :markerColors="event.type === 'learn' ? ['#2176AE'] : ['#BA3D3B']"
           :eventNames="[event.name]"
-          :eventLocations="[event.inPersonLocation]"
+          :eventLocations="[event.offlineLocation]"
         />
       </div>
       <CardAbout aboutType="event" :event="event" />
@@ -75,47 +85,53 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/event";
+import { Breakpoint } from "~/types/breakpoints";
+import { testClimateEvent } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
 });
+
+const event = testClimateEvent;
 
 const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
 
-const isUnderLargeBP = ref(false);
+const windowWidth = ref(window.innerWidth);
 
-const checkUnderLargeBP = () => {
-  isUnderLargeBP.value = window.innerWidth < 1024;
-};
+const shareButtonLabel = ref("");
 
-const handleResize = () => {
-  checkUnderLargeBP();
-};
+function updateShareBtnLabel() {
+  windowWidth.value = window.innerWidth;
+  if (windowWidth.value < Breakpoint.SMALL) {
+    shareButtonLabel.value = "components.btn-action.share";
+  } else {
+    shareButtonLabel.value = "components._global.share-group";
+  }
+}
 
 onMounted(() => {
-  window.addEventListener("resize", handleResize);
-  handleResize(); // initial check
+  window.addEventListener("resize", updateShareBtnLabel);
+  updateShareBtnLabel();
 });
 
-const event: Event = {
-  name: "Brandenburg Gate Climate Demo",
-  tagline: "There is no Planet B",
-  organizations: ["Berlin Climate Org", "Testing Corp"],
-  type: "action",
-  topic: "Environment",
-  description:
-    "Aute aliqua reprehenderit ex ut commodo nostrud et excepteur. Sunt amet velit sunt fugiat et excepteur dolore pariatur nisi non. Exercitation aute aute culpa commodo commodo ea Lorem aliquip id duis. Laboris nostrud ullamco ea voluptate et anim id adipisicing sint reprehenderit incididunt elit. Est fugiat pariatur elit culpa in incididunt eu esse cupidatat minim. Deserunt duis culpa minim Lorem consectetur quis fugiat ipsum nostrud voluptate veniam do. Reprehenderit duis officia in enim anim elit.",
-  getInvolvedDescription:
-    "Sint cillum excepteur sint cupidatat do consectetur excepteur nisi veniam. Sint id in sit eiusmod Lorem commodo minim culpa id cupidatat consectetur. Labore nisi est officia sunt occaecat.",
-  attending: 10000,
-  inPersonLocation: "Brandenburg Gate, Berlin",
-  date: new Date().toISOString().slice(0, 10),
-  supporters: 30,
-  imageURL: "/images/tech-from-below.svg",
-  socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
+onUpdated(() => {
+  updateShareBtnLabel();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateShareBtnLabel);
+});
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
 };
 </script>

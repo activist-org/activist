@@ -14,7 +14,16 @@
             class="flex select-none items-center gap-3 text-light-text dark:text-dark-text"
           >
             <p>{{ faqEntry.question }}</p>
-            <IconEdit />
+            <IconEdit @click.stop="openModal()" @keydown.enter="openModal()" />
+            <ModalEditPageText
+              @closeModal="handleCloseModal"
+              :sectionsToEdit="[
+                $t('components.card-faq-entry.question'),
+                $t('components.card-faq-entry.answer'),
+              ]"
+              :textsToEdit="[faqEntry.question, faqEntry.answer]"
+              :isOpen="modalIsOpen"
+            />
           </div>
           <DisclosurePanel
             class="mt-2 border-t border-light-section-div py-2 focus-within:border-0 dark:border-dark-section-div"
@@ -33,9 +42,20 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import type { FaqEntry } from "~/types/card-faq-entry";
+import type { FaqEntry } from "~/types/faq-entry";
+import ModalEditPageText from "../modal/ModalEditPageText.vue";
 
 defineProps<{
   faqEntry: FaqEntry;
 }>();
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
+};
 </script>

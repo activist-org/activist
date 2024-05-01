@@ -12,7 +12,18 @@
     </Head>
     <HeaderAppPage :group="group">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <BtnAction
+        <BtnRouteExternal
+          v-if="group.getInvolvedURL"
+          class="w-max"
+          :cta="true"
+          :linkTo="group.getInvolvedURL"
+          label="components.btn-route-internal.join-group"
+          fontSize="sm"
+          rightIcon="bi:arrow-right"
+          iconSize="1.45em"
+          ariaLabel="components.btn-route-internal.join-group-aria-label"
+        />
+        <!-- <BtnAction
           class="w-max"
           :cta="true"
           label="components.btn-action.support"
@@ -23,12 +34,24 @@
           ariaLabel="
             components.btn-action.support-group-aria-label
           "
+        /> -->
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
+          class="w-max"
+          :cta="true"
+          :label="$t(shareButtonLabel)"
+          :hideLabelOnMobile="false"
+          fontSize="sm"
+          leftIcon="bi:box-arrow-up"
+          iconSize="1.45em"
+          :ariaLabel="$t('components._global.share-group-aria-label')"
         />
         <ModalSharePage
+          @closeModal="handleCloseModal"
           :cta="true"
-          label="components._global.share-group"
           :group="group"
-          ariaLabel="components._global.share-group-aria-label"
+          :isOpen="modalIsOpen"
         />
       </div>
     </HeaderAppPage>
@@ -50,19 +73,20 @@
           :group="group"
         />
         <div class="h-full w-full">
-          <ModalMediaImageCarousel :class="{ 'lg:hidden': textExpanded }" />
+          <MediaImageCarouselFull :class="{ 'lg:hidden': textExpanded }" />
         </div>
       </div>
       <CardGetInvolved :group="group" />
       <CardConnect :socialLinks="group.socialLinks" :userIsAdmin="true" />
-      <CardDonate :userIsAdmin="true" :donationPrompt="group.donationPrompt" />
+      <!-- <CardDonate :userIsAdmin="true" :donationPrompt="group.donationPrompt" /> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/group";
+import { Breakpoint } from "~/types/breakpoints";
 import { getGroupSubPages } from "~/utils/groupSubPages";
+import { testTechGroup1 } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",
@@ -70,25 +94,45 @@ definePageMeta({
 
 const groupSubPages = getGroupSubPages();
 
+const group = testTechGroup1;
+
 const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
 
-const testGroup: Group = {
-  name: "Code Night",
-  organization: "tech from below",
-  tagline: "Let's code!",
-  location: "Berlin, Germany",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
-  topic: "Technology and Privacy",
-  members: 3,
-  supporters: 60,
-  imageURL: "/images/tech-from-below.svg",
-  socialLinks: ["tfb@mastodon", "tfb@email"],
-  donationPrompt: "Hey thanks!",
-};
+const windowWidth = ref(window.innerWidth);
+const shareButtonLabel = ref("");
 
-const group = reactive<Group>({ ...testGroup });
+function updateShareBtnLabel() {
+  windowWidth.value = window.innerWidth;
+  if (windowWidth.value < Breakpoint.SMALL) {
+    shareButtonLabel.value = "components.btn-action.share";
+  } else {
+    shareButtonLabel.value = "components._global.share-group";
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("resize", updateShareBtnLabel);
+  updateShareBtnLabel();
+});
+
+onUpdated(() => {
+  updateShareBtnLabel();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateShareBtnLabel);
+});
+
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modalIsOpen.value = true;
+}
+
+const handleCloseModal = () => {
+  modalIsOpen.value = false;
+};
 </script>

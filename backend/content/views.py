@@ -65,7 +65,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
     def list(self, request: Request) -> Response:
         if request.user.is_authenticated:
             query = self.queryset.filter(
-                Q(private=False) | Q(private=True, created_by=request.user)
+                Q(is_private=False) | Q(is_private=True, created_by=request.user)
             )
         else:
             query = self.queryset.filter()
@@ -144,7 +144,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
     def list(self, request: Request) -> Response:
         if request.user.is_authenticated:
             query = self.queryset.filter(
-                Q(private=False) | Q(private=True, created_by=request.user)
+                Q(is_private=False) | Q(is_private=True, created_by=request.user)
             )
         else:
             query = self.queryset.filter()
@@ -222,10 +222,10 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         if request.user.is_authenticated:
             query = self.queryset.filter(
-                Q(private=False) | Q(private=True, created_by=request.user), id=pk
+                Q(is_private=False) | Q(is_private=True, created_by=request.user), id=pk
             )
         else:
-            query = self.queryset.filter(Q(private=False), id=pk)
+            query = self.queryset.filter(Q(is_private=False), id=pk)
 
         serializer = self.get_serializer(query)
         return Response(serializer.data)
@@ -233,10 +233,10 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
     def list(self, request: Request) -> Response:
         if request.user.is_authenticated:
             query = self.queryset.filter(
-                Q(private=False) | Q(private=True, created_by=request.user)
+                Q(is_private=False) | Q(is_private=True, created_by=request.user)
             )
         else:
-            query = self.queryset.filter(private=False)
+            query = self.queryset.filter(is_private=False)
 
         serializer = self.get_serializer(query, many=True)
         return self.get_paginated_response(self.paginate_queryset(serializer.data))

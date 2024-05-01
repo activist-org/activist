@@ -1,31 +1,31 @@
 [
   {
     "model": "authentication.usermodel",
-    "pk": "86af7145-0e2a-4378-8989-23e8849f6cd2",
+    "pk": "7664552d-e9cb-49f8-9683-a58acdd4f504",
     "fields": {
-      "last_login": null,
+      "last_login": "2024-04-29T17:30:54.946Z",
       "is_superuser": true,
       "first_name": "",
       "last_name": "",
-      "email": "admin@activist.org",
       "is_staff": true,
-      "is_active": true,
-      "date_joined": "2024-04-17T19:35:50.201Z",
-      "creation_date": "2024-04-17T19:35:50.361Z",
+      "date_joined": "2024-04-29T17:30:42.975Z",
+      "creation_date": "2024-04-29T17:30:43.127Z",
       "deletion_date": null,
       "username": "admin",
       "name": "",
-      "password": "pbkdf2_sha256$600000$rH7QkitsSJ05g7v19UKWOG$yDQpxTjLyzKeIOG1Q8gwkXYP/noo15vIS0u43qT6YO0=",
+      "password": "pbkdf2_sha256$600000$ET0H01Ea4DhmDbLHfTSMJd$+tJ/5v898Kmp/8Y7R4zU2/BGB53Kd/S1U+G08W4kZaY=",
       "description": "",
       "verified": false,
       "verification_method": "",
-      "verification_partner": null,
+      "verification_partner": "7664552d-e9cb-49f8-9683-a58acdd4f504",
       "user_icon": null,
-      "social_accounts": null,
+      "email": "admin@activist.org",
+      "social_accounts": "[]",
       "private": false,
       "high_risk": false,
+      "is_active": true,
+      "is_admin": true,
       "groups": [],
       "user_permissions": []
     }
-  }
-]
+  ]

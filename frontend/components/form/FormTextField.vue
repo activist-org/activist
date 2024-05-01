@@ -12,6 +12,9 @@
       @focus="emit('focused')"
       :id="uuid"
       class="h-5 w-full bg-transparent placeholder-light-distinct-text outline-none dark:placeholder-dark-distinct-text"
+      :class="{
+        'py-3': !icons,
+      }"
       :value="modelValue"
       :placeholder="placeholder"
       :type="refInputType"

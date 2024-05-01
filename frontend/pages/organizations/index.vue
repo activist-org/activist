@@ -13,16 +13,18 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <div
-      v-for="organization in organizations"
-      class="space-y-6 pb-6 pt-3 md:pt-4"
-    >
-      <CardSearchResult
-        searchResultType="organization"
-        :isPrivate="false"
-        :organization="organization"
-      />
+    <div v-if="organizations">
+      <div
+        v-for="organization in organizations"
+        class="space-y-6 pb-6 pt-3 md:pt-4"
+      >
+        <CardSearchResultOrganization
+          :isPrivate="false"
+          :organization="organization"
+        />
+      </div>
     </div>
+    <EmptyState v-else pageType="organizations" :permission="false" />
   </div>
 </template>
 
@@ -32,22 +34,9 @@ definePageMeta({
 });
 
 const { data: organizations } = await useFetch(
-  "http://localhost:8000/v1/entities/organizations/",
+  `${BASE_BACKEND_URL}/entities/organizations/`,
   {
     method: "GET",
   }
 );
-
-// import type { Organization } from "~/types/organization";
-// const organization: Organization = {
-//   name: "tech from below",
-//   status: "approved",
-//   tagline: "Technologie von und für soziale Bewegungen",
-//   location: "Berlin",
-//   description: "This is the description of tech from below.",
-//   topic: "Technology and Privacy",
-//   members: 3,
-//   supporters: 30,
-//   imageURL: "/images/tech-from-below.svg",
-// };
 </script>

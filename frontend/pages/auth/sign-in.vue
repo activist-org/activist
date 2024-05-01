@@ -18,8 +18,8 @@
           :icons="['bi:eye-fill']"
         />
       </div>
-      <PasswordStrengthIndicator :password-value="passwordValue" />
-      <div class="flex space-x-2">
+      <IndicatorPasswordStrength :password-value="passwordValue" />
+      <div class="flex flex-col space-y-3">
         <FriendlyCaptcha />
         <BtnAction
           @click="signIn"

@@ -24,10 +24,13 @@
       </div>
       <SidebarRight>
         <div class="flex-col space-y-2">
-          <DropdownTheme class="w-full" :location="DropdownLocation.SIDEMENU" />
+          <DropdownTheme
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+          />
           <DropdownLanguage
             class="w-full"
-            :location="DropdownLocation.SIDEMENU"
+            :location="DropdownLocation.SIDE_MENU"
           />
         </div>
       </SidebarRight>

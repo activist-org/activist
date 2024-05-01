@@ -3,8 +3,20 @@
     <p class="responsive-h3 font-medium text-light-text dark:text-dark-text">
       {{ $t("components.card-topic-selection.header") }}
     </p>
-    <p class="text-light-text dark:text-dark-text">
+    <p
+      v-if="pageType == 'organization'"
+      class="text-light-text dark:text-dark-text"
+    >
       {{ $t("components.card-topic-selection.subtext-organization") }}
+    </p>
+    <p v-if="pageType == 'group'" class="text-light-text dark:text-dark-text">
+      {{ $t("components.card-topic-selection.subtext-group") }}
+    </p>
+    <p
+      v-if="pageType == 'resource'"
+      class="text-light-text dark:text-dark-text"
+    >
+      {{ $t("components.card-topic-selection.subtext-resource") }}
     </p>
     <input
       v-model="query"
@@ -88,6 +100,10 @@ const props = defineProps({
     type: Array as PropType<Topic[]>,
     required: true,
     default: () => [],
+  },
+  pageType: {
+    type: String as PropType<"group" | "event" | "organization" | "resource">,
+    required: true,
   },
 });
 
