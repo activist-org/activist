@@ -2,7 +2,7 @@ import { expect, test, LandingPage } from "../fixtures/page-fixtures";
 import AxeBuilder from "@axe-core/playwright";
 
 test.describe("Landing Page", () => {
-  // Initialize page before each test, wait for the landing splash to be visible
+  // Initialize page before each test, wait for the landing splash to be visible.
   test.beforeEach(async ({ landingPage }) => {
     await landingPage.goto("/en");
     const landingSplash = await landingPage.getLocator("LANDING_SPLASH");

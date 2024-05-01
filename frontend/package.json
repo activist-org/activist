@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@axe-core/playwright": "^4.9.0",
-    "@maplibre/maplibre-gl-directions": "^0.6.1",
+    "@maplibre/maplibre-gl-directions": "^0.7.0",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/plausible": "^1.0.0",
     "@popperjs/core": "^2.11.8",
