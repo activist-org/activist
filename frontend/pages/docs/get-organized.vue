@@ -81,7 +81,7 @@
               class="w-full"
               :cta="true"
               label="components.btn-route-external.request-access"
-              linkTo="https://tally.so/r/nprxbq"
+              :linkTo="REQUEST_ACCESS_URL"
               fontSize="lg"
               ariaLabel="
                 components.btn-route-external.request-access-aria-label
