@@ -1,6 +1,6 @@
 <template>
   <button
-    class="focus-brand hidden h-min cursor-pointer p-4 md:float-right md:block md:w-1/3 2xl:col-span-1 2xl:w-full"
+    class="focus-brand h-min cursor-pointer p-4 md:float-right md:w-1/3 2xl:col-span-1 2xl:w-full"
     :aria-label="$t('components.modal-image.open-modal-aria-label')"
   >
     <img

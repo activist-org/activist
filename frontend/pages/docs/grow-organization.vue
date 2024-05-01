@@ -28,6 +28,7 @@
         <ModalImageBtn
           @click="openModal()"
           @keydown.enter="openModal()"
+          class="hidden md:block"
           imageURL="/images/content_pages/mockups/grow_organization"
           imageAltText="pages.docs.grow-organization.modal-image-alt-text"
         />

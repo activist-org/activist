@@ -28,6 +28,7 @@
         <ModalImageBtn
           @click="openModal()"
           @keydown.enter="openModal()"
+          class="hidden md:block"
           imageURL="/images/content_pages/mockups/get_organized"
           imageAltText="pages.docs.get-organized.modal-image-alt-text"
         />

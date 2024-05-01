@@ -174,7 +174,6 @@ const handleResize = () => {
 
 onMounted(() => {
   handleResize();
-
   window.addEventListener("resize", handleResize);
 });
 

@@ -7,7 +7,6 @@
       'p-2': isAddStyles,
     }"
     :to="localePath(`${to}`)"
-    event="click"
   >
     <slot></slot>
   </NuxtLink>

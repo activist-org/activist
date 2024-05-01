@@ -28,6 +28,7 @@
         <ModalImageBtn
           @click="openModal()"
           @keydown.enter="openModal()"
+          class="hidden md:block"
           imageURL="/images/content_pages/mockups/get_active"
           imageAltText="pages.docs.get-active.modal-image-alt-text"
         />

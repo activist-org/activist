@@ -1,11 +1,12 @@
 <template>
   <HeaderMobile />
-  <MenuMobileNavigationDropdown />
+  <MenuMobileNavigationDropdown class="md:hidden" />
   <SidebarLeft
     @mouseover="sidebarHover = true"
     @focus="sidebarHover = true"
     @mouseleave="sidebarHover = false"
     @blur="sidebarHover = false"
+    class="hidden md:block"
   />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
     <div
@@ -44,7 +45,7 @@
       }"
     />
   </div>
-  <MenuMobileNavBar />
+  <MenuMobileNavBar class="md:hidden" />
 </template>
 
 <script setup lang="ts">
