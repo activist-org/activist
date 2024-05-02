@@ -36,7 +36,7 @@ test.describe("Landing Page", () => {
       "REQUEST_ACCESS_LINK"
     );
     expect(await requestAccessLink.getAttribute("href")).toBe(
-      "https://tally.so/r/nprxbq"
+      LandingPage.urls.REQUEST_ACCESS_URL
     );
   });
 

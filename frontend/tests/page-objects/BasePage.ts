@@ -11,6 +11,10 @@ export default abstract class BasePage {
     this.pageURL = pageURL;
   }
 
+  public static readonly urls = {
+    REQUEST_ACCESS_URL: "https://app.formbricks.com/s/clvn9ywe21css8wqpt1hee57a",
+  };
+
   public get getPage(): Page {
     return this.page;
   }
