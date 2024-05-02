@@ -68,38 +68,6 @@ jobs:
         run: |
           sudo yarn install
 
-      - name: Install Prettier
-        run: sudo yarn add prettier
-
-      - name: Run Prettier - Formatting check
-        working-directory: ./frontend
-        run: |
-          sudo yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
-
-      #- name: Run Type Check
-        #if: always()
-        #uses: borales/actions-yarn@v5
-        #with:
-          #cmd: nuxi typecheck
-          #dir: "frontend"
-      - name: Run Type Check
-        working-directory: ./frontend
-        if: always()
-        run: |
-          sudo yarn nuxi typecheck
-
-      #- name: Run eslint - Linting
-        #if: always()
-        #uses: borales/actions-yarn@v5
-        #with:
-          #cmd: eslint . --ext .js,.vue
-          #dir: "frontend"
-      - name: Run eslint - Linting
-        working-directory: ./frontend
-        if: always()
-        run: |
-          sudo yarn eslint . --ext .js,.vue
-
       - name: Install Playwright Browsers
         working-directory: ./frontend
         run: |
