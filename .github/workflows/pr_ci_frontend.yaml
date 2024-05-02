@@ -117,7 +117,7 @@ jobs:
       - name: Run Playwright tests
         working-directory: ./frontend
         run: |
-          sudo yarn playwright test
+          sudo yarn playwright test --reporter=html
 
       - name: Upload Playwright report
         if: always()
