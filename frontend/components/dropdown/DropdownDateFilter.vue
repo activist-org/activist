@@ -7,7 +7,7 @@
         >
           <span class="block truncate">{{ selectedFilter }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-3">
-            <Icon name="bi:chevron-expand" />
+            <Icon :name="IconMap.CHEVRON_EXPAND" />
           </span>
         </ListboxButton>
         <transition
@@ -39,7 +39,7 @@
                   v-if="selected"
                   class="absolute inset-y-0 left-0 flex items-center pl-3 text-light-cta-orange dark:text-dark-distinct-text"
                 >
-                  <Icon name="bi:check-lg" />
+                  <Icon :name="IconMap.CHECK" />
                 </span>
               </li>
             </ListboxOption>
@@ -57,6 +57,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
+import { IconMap } from "~/types/icon-map";
 
 const filterOptions = [
   "Last week",

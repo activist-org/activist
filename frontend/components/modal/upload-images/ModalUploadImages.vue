@@ -56,7 +56,7 @@
                   @click="removeFile(file)"
                   class="text-light-action-red dark:text-dark-action-red"
                 >
-                  <Icon name="bi:x" size="1.5em" />
+                  <Icon :name="IconMap.X_SM" size="1.5em" />
                 </button>
                 <img
                   :key="file.name"
@@ -76,7 +76,7 @@
             :cta="true"
             :label="$t('components.modal-upload-images.upload')"
             fontSize="sm"
-            leftIcon="bi:arrow-up"
+            :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
             ariaLabel="components.btn-action.upvote-application-aria-label"
             :disabled="files.length >= uploadLimit"
@@ -90,6 +90,7 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 import draggable from "vuedraggable";
+import { IconMap } from "~/types/icon-map";
 
 const { files, handleFiles, removeFile } = useFileManager();
 

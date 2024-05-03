@@ -265,7 +265,7 @@ The activist team is happy to help if there's any confusion with the above rules
 
 Please define all routes for images and icons in the respective [url registry utils file](https://github.com/activist-org/activist/blob/main/frontend/utils/imageURLRegistry.s.ts) and [icon map enum](https://github.com/activist-org/activist/blob/main/frontend/types/icon-map.ts).
 
-activist uses [nuxt-icon](https://github.com/nuxt-modules/icon) for all icons. Icons are defined via `<Icon name="IconMap.ICON_NAME"/>` components, with [Icônes](https://icones.js.org/) being a good place to look for [Iconify](https://iconify.design/) based files to import. The `<Icon/>` component also has a `size` argument that `em` based arguments can be passed to. There's also a `color` argument, but colors are handled with Tailwind CSS via the `text-COLOR` class argument.
+activist uses [nuxt-icon](https://github.com/nuxt-modules/icon) for all icons. Icons are defined via `<Icon :name="IconMap.ICON_REF"/>` components, with [Icônes](https://icones.js.org/) being a good place to look for [Iconify](https://iconify.design/) based files to import. The `<Icon/>` component also has a `size` argument that `em` based arguments can be passed to. There's also a `color` argument, but colors are handled with Tailwind CSS via the `text-COLOR` class argument.
 
 Custom icons for activist can further be found in the [Icon directory of the frontend components](https://github.com/activist-org/activist/tree/main/frontend/components/Icon). These icons can also be referenced via the `<Icon>` component via their file name (ex: `<Icon name="IconSupport">` for the grasped hands we use). For Tailwind coloration note that we need to use `fill-COLOR` for the custom activist icons rather than `text-COLOR`.
 

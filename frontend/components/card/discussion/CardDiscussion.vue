@@ -7,7 +7,7 @@
       :cta="true"
       :counter="discussion.upVoters.length"
       fontSize="sm"
-      leftIcon="bi:arrow-up"
+      :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
       ariaLabel="components.btn-action.upvote-discussion-aria-label"
     />
@@ -21,7 +21,7 @@
             <div class="flex items-center space-x-3 md:hidden md:w-fit">
               <MetaTagMembers :members="discussion.participants.length" />
               <MetaTag
-                iconName="bi:chat-left"
+                :iconName="IconMap.CHAT"
                 :value="String(discussion.messages)"
               />
             </div>
@@ -32,7 +32,7 @@
               :cta="true"
               :label="`${discussion.upVoters}`"
               fontSize="sm"
-              leftIcon="bi:arrow-up"
+              :leftIcon="IconMap.ARROW_UP"
               iconSize="1.25em"
               ariaLabel="components.btn-action.upvote-discussion-aria-label"
             />
@@ -51,7 +51,7 @@
         >
           <MetaTagMembers :members="discussion.participants.length" />
           <MetaTag
-            iconName="bi:chat-left"
+            :iconName="IconMap.CHAT"
             :value="String(discussion.messages)"
           />
         </div>
@@ -64,7 +64,7 @@
             <div
               class="flex h-8 w-8 items-center justify-center rounded-full border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
             >
-              <Icon name="bi:person" size="1.5em" />
+              <Icon :name="IconMap.PERSON" size="1.5em" />
             </div>
             <p class="ml-2">{{ discussion.createdBy.user_name }}</p>
           </NuxtLink>
@@ -79,6 +79,7 @@
 
 <script setup lang="ts">
 import type { Discussion } from "~/types/discussion";
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   isPrivate?: boolean;

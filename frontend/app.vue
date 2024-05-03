@@ -70,7 +70,6 @@ whenever(ctrl_k, () => {
 
 const routeToPageType = ref("");
 const updateRouteTo = (route: string) => {
-  console.log(`Hey heading to: ${route}`);
   routeToPageType.value = route;
 };
 </script>

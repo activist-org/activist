@@ -63,7 +63,7 @@
           :linkTo="organization.getInvolvedURL"
           label="components.btn-route-internal.join-organization"
           fontSize="sm"
-          rightIcon="bi:arrow-right"
+          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="components.btn-route-internal.join-organization-aria-label"
         />
@@ -73,7 +73,7 @@
           :linkTo="group.getInvolvedURL"
           label="components.btn-route-internal.join-group"
           fontSize="sm"
-          rightIcon="bi:arrow-right"
+          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="components.btn-route-internal.join-group-aria-label"
         />
@@ -125,7 +125,7 @@
           linkTo="/"
           label="components.btn-route-internal.offer-to-help"
           fontSize="sm"
-          rightIcon="bi:arrow-right"
+          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
@@ -142,6 +142,7 @@ import {
 } from "~/composables/useAppPageTexts";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
+import { IconMap } from "~/types/icon-map";
 import type { Organization } from "~/types/organization";
 
 const props = defineProps<{

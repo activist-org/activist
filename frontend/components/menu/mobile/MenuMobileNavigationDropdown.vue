@@ -17,7 +17,7 @@
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
           <Icon
-            name="bi:chevron-expand"
+            :name="IconMap.CHEVRON_EXPAND"
             class="mr-2 h-5 w-5 align-middle"
             aria-hidden="true"
         /></span>
@@ -74,6 +74,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
+import { IconMap } from "~/types/icon-map";
 import type MenuEntry from "~/types/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
 import {
@@ -97,10 +98,10 @@ const routeName = computed(() => {
 });
 
 const isOrgPage = computed(() =>
-  isCurrentRoutePathSubpageOf("organizations", routeName.value)
+  isCurrentRoutePathSubpageOf("organizations", routeName.value.toString())
 );
 const isEventPage = computed(() =>
-  isCurrentRoutePathSubpageOf("events", routeName.value)
+  isCurrentRoutePathSubpageOf("events", routeName.value.toString())
 );
 
 const pathToSidebarTypeMap = [
@@ -131,7 +132,7 @@ watch([isOrgPage, isEventPage], () => {
 
 const sidebarType = computed(() => {
   const matchingPath = pathToSidebarTypeMap.find((item) =>
-    currentRoutePathIncludes(item.path, routeName.value)
+    currentRoutePathIncludes(item.path, routeName.value.toString())
   );
   return matchingPath?.type || SidebarType.MISC;
 });

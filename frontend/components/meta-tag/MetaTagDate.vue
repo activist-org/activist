@@ -1,8 +1,10 @@
 <template>
-  <MetaTag iconName="bi:calendar-event" :value="date" />
+  <MetaTag :iconName="IconMap.DATE" :value="date" />
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 defineProps<{
   date: string;
   iconSize?: string;

@@ -19,7 +19,7 @@
           :cta="true"
           label="components.btn-action.new-task"
           fontSize="sm"
-          leftIcon="bi:plus-lg"
+          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="components.btn-action.new-task-aria-label"
         />
@@ -32,8 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { testTechOrg } from "~/utils/testEntities";
 import useRouteToName from "~/composables/useRouteToName";
+import { IconMap } from "~/types/icon-map";
+import { testTechOrg } from "~/utils/testEntities";
 
 definePageMeta({
   layout: "sidebar",

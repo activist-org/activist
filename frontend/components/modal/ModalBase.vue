@@ -30,14 +30,14 @@
           class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
           :aria-label="$t('components.modal-image.close-modal-aria-label')"
         >
-          <Icon class="h-10 w-10" name="bi:x-circle-fill" />
+          <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
         </button>
         <div v-else class="relative">
           <button
             @click="closeModal()"
             class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
           >
-            <Icon class="h-10 w-10" name="bi:x-circle-fill" />
+            <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
           </button>
         </div>
         <div
@@ -61,6 +61,7 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   isOpen: boolean;

@@ -41,7 +41,7 @@
           <div class="flex flex-row space-x-3 py-2">
             <Icon
               class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
-              name="bi:info-circle-fill"
+              :name="IconMap.CIRCLE_INFO"
               size="1.25em"
             />
             <p>
@@ -53,7 +53,7 @@
               >
                 {{ $t("pages.docs.get-organized.subheader-2") }}
                 <Icon
-                  name="bi:box-arrow-up-right"
+                  :name="IconMap.EXTERNAL_LINK"
                   size="1em"
                   style="vertical-align: baseline"
                 />
@@ -98,6 +98,7 @@
 
 <script setup lang="ts">
 import useRouteToName from "~/composables/useRouteToName";
+import { IconMap } from "~/types/icon-map";
 
 const emit = defineEmits(["routeToName"]);
 useRouteToName(emit);

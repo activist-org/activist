@@ -19,7 +19,7 @@
           :linkTo="group.getInvolvedURL"
           label="components.btn-route-internal.join-group"
           fontSize="sm"
-          rightIcon="bi:arrow-right"
+          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="components.btn-route-internal.join-group-aria-label"
         />
@@ -43,7 +43,7 @@
           :label="$t(shareButtonLabel)"
           :hideLabelOnMobile="false"
           fontSize="sm"
-          leftIcon="bi:box-arrow-up"
+          :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
           :ariaLabel="$t('components._global.share-group-aria-label')"
         />
@@ -84,10 +84,11 @@
 </template>
 
 <script setup lang="ts">
+import useRouteToName from "~/composables/useRouteToName";
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 import { testTechGroup1 } from "~/utils/testEntities";
-import useRouteToName from "~/composables/useRouteToName";
 
 definePageMeta({
   layout: "sidebar",

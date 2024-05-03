@@ -85,10 +85,10 @@ const routeName = computed(() => {
 });
 
 const isOrgPage = computed(() =>
-  isCurrentRoutePathSubpageOf("organizations", routeName.value)
+  isCurrentRoutePathSubpageOf("organizations", routeName.value.toString())
 );
 const isEventPage = computed(() =>
-  isCurrentRoutePathSubpageOf("events", routeName.value)
+  isCurrentRoutePathSubpageOf("events", routeName.value.toString())
 );
 
 const pathToSidebarTypeMap = [
@@ -119,7 +119,7 @@ watch([isOrgPage, isEventPage], () => {
 
 const sidebarType = computed(() => {
   const matchingPath = pathToSidebarTypeMap.find((item) =>
-    currentRoutePathIncludes(item.path, routeName.value)
+    currentRoutePathIncludes(item.path, routeName.value.toString())
   );
   return matchingPath?.type || SidebarType.MISC;
 });
@@ -314,7 +314,7 @@ const getFiltersByPageType = computed<Filters>(() => {
   const filteredFilters: Filters = {};
   for (const filter in filters) {
     const f = filters[filter as keyof typeof filters];
-    if (!f.sidebarType.includes(sidebarType)) {
+    if (!f.sidebarType.includes(sidebarType.value)) {
       delete filteredFilters[filter as keyof typeof filters];
     }
   }

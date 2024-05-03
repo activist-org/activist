@@ -14,7 +14,7 @@
           :linkTo="organization.getInvolvedURL"
           label="components.btn-route-internal.join-organization"
           fontSize="sm"
-          rightIcon="bi:arrow-right"
+          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="components.btn-route-internal.join-organization-aria-label"
         />
@@ -38,7 +38,7 @@
           :label="$t(shareButtonLabel)"
           :hideLabelOnMobile="false"
           fontSize="sm"
-          leftIcon="bi:box-arrow-up"
+          :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
           :ariaLabel="$t('components._global.share-organization-aria-label')"
         />
@@ -107,11 +107,12 @@
 </template>
 
 <script setup lang="ts">
+import useRouteToName from "~/composables/useRouteToName";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { DiscussionInput } from "~/types/discussion-input";
+import { IconMap } from "~/types/icon-map";
 import { testTechOrg } from "~/utils/testEntities";
-import useRouteToName from "~/composables/useRouteToName";
 
 definePageMeta({
   layout: "sidebar",

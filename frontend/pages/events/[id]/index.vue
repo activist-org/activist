@@ -59,7 +59,7 @@
         linkTo="/"
         label="components.btn-route-internal.offer-to-help"
         fontSize="base"
-        rightIcon="bi:arrow-right"
+        :rightIcon="IconMap.ARROW_RIGHT"
         iconSize="1.25em"
         ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
       />
@@ -68,10 +68,11 @@
 </template>
 
 <script setup lang="ts">
+import useRouteToName from "~/composables/useRouteToName";
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu-selector";
 import { testClimateEvent } from "~/utils/testEntities";
-import useRouteToName from "~/composables/useRouteToName";
 
 definePageMeta({
   layout: "sidebar",
@@ -90,42 +91,42 @@ const eventButtons: MenuSelector[] = [
     id: 1,
     label: "_global.about",
     routeURL: "/events/" + id + "/about",
-    iconURL: "bi:card-text",
+    iconURL: `${IconMap.ABOUT}`,
     selected: useRoute().path.split("/").pop() === "about" ? true : true,
   },
   {
     id: 2,
     label: "_global.team",
     routeURL: "/events/" + id + "/team",
-    iconURL: "bi:people",
+    iconURL: `${IconMap.PEOPLE}`,
     selected: useRoute().path.split("/").pop() === "team" ? true : true,
   },
   {
     id: 3,
     label: "_global.resources",
     routeURL: "/events/" + id + "/resources",
-    iconURL: "IconResource",
+    iconURL: `${IconMap.RESOURCE}`,
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
   },
   {
     id: 4,
     label: "_global.tasks",
     routeURL: "/events/" + id + "/tasks",
-    iconURL: "bi:check-square",
+    iconURL: `${IconMap.TASK}`,
     selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
   },
   {
     id: 5,
     label: "_global.discussions",
     routeURL: "/events/" + id + "/discussions",
-    iconURL: "octicon:comment-discussion-24",
+    iconURL: `${IconMap.DISCUSSION}`,
     selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
   },
   {
     id: 6,
     label: "_global.settings",
     routeURL: "/events/" + id + "/settings",
-    iconURL: "bi:gear",
+    iconURL: `${IconMap.SETTINGS}`,
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
   },
 ];

@@ -1,7 +1,7 @@
 <template>
   <DropdownBase
     :location="location"
-    menuButtonIcon="bi:info-circle"
+    :menuButtonIcon="IconMap.CIRCLE_INFO"
     :menuButtonLabel="$t(`components.dropdown-info.info`)"
     :isMenuButtonUppercase="false"
     menuButtonAriaLabel="components.dropdown-info.info-aria-label"
@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { DropdownLocation } from "~/types/location";
 import type { MenuSelector } from "~/types/menu-selector";
 
@@ -23,21 +24,21 @@ const infoOptions: MenuSelector[] = [
     id: 1,
     label: "_global.help",
     routeURL: "/help",
-    iconURL: "bi:question-circle",
+    iconURL: `${IconMap.CIRCLE_QUESTION}`,
     selected: false,
   },
   {
     id: 2,
     label: "_global.documentation",
     routeURL: "/docs",
-    iconURL: "bi:layout-text-sidebar-reverse",
+    iconURL: `${IconMap.DOCS}`,
     selected: false,
   },
   {
     id: 3,
     label: "_global.legal",
     routeURL: "/legal",
-    iconURL: "IconLegal",
+    iconURL: `${IconMap.LEGAL}`,
     selected: false,
   },
 ];

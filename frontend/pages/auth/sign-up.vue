@@ -24,7 +24,7 @@
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
-          :icons="['bi:eye-fill']"
+          :icons="[IconMap.VISIBLE]"
           :error="!isAllRulesValid && isBlurred"
         />
       </div>
@@ -46,8 +46,8 @@
           :model-value="confirmPasswordValue"
           :icons="
             isPasswordMatch
-              ? ['bi:check-lg', 'bi:eye-fill']
-              : ['bi:x-lg', 'bi:eye-fill']
+              ? [IconMap.CHECK, IconMap.VISIBLE]
+              : [IconMap.X_LG, IconMap.VISIBLE]
           "
         />
       </div>
@@ -91,8 +91,9 @@
 </template>
 
 <script setup lang="ts">
-import type { PasswordRules } from "~/types/password-rules";
 import useRouteToName from "~/composables/useRouteToName";
+import { IconMap } from "~/types/icon-map";
+import type { PasswordRules } from "~/types/password-rules";
 
 definePageMeta({
   layout: "auth",

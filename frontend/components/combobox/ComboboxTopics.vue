@@ -18,7 +18,7 @@
             <div
               class="absolute inset-y-0 right-0 flex items-center pr-3 text-light-text dark:text-dark-cta-orange"
             >
-              <Icon name="bi:chevron-expand" />
+              <Icon :name="IconMap.CHEVRON_EXPAND" />
             </div>
           </ComboboxButton>
         </div>
@@ -65,7 +65,7 @@
                     'text-light-cta-orange dark:text-dark-cta-orange': !active,
                   }"
                 >
-                  <Icon name="bi:check-lg" />
+                  <Icon :name="IconMap.CHECK" />
                 </span>
               </li>
             </ComboboxOption>
@@ -85,6 +85,7 @@ import {
   ComboboxOptions,
   TransitionRoot,
 } from "@headlessui/vue";
+import { IconMap } from "~/types/icon-map";
 import { GLOBAL_TOPICS } from "~/types/topics";
 
 const i18n = useI18n();

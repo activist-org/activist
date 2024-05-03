@@ -22,7 +22,7 @@
             <p>{{ $t("components._global.github") }}</p>
             <Icon
               class="mb-1"
-              name="bi:box-arrow-up-right"
+              :name="IconMap.EXTERNAL_LINK"
               size="1em"
               style="vertical-align: baseline"
             />
@@ -36,7 +36,7 @@
             <p>{{ $t("components._global.matrix") }}</p>
             <Icon
               class="mb-1"
-              name="bi:box-arrow-up-right"
+              :name="IconMap.EXTERNAL_LINK"
               size="1em"
               style="vertical-align: baseline"
             />
@@ -81,6 +81,7 @@
 <script setup lang="ts">
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
+import { IconMap } from "~/types/icon-map";
 import type { Organization } from "~/types/organization";
 
 const props = defineProps<{

@@ -28,6 +28,7 @@
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
 import { computed } from "vue";
+import { IconMap } from "~/types/icon-map";
 import { DropdownLocation } from "~/types/location";
 
 defineProps<{
@@ -38,28 +39,28 @@ const colorMode = useColorMode();
 
 const menuButtonIcon = computed(() => {
   if (colorMode.preference == "system") {
-    return "bi:circle-half";
+    return `${IconMap.COLOR_MODE_SYSTEM}`;
   } else if (colorMode.preference == "light") {
-    return "bi:sun";
-  } else return "bi:moon";
+    return `${IconMap.COLOR_MODE_LIGHT}`;
+  } else return `${IconMap.COLOR_MODE_DARK}`;
 });
 
 const labelsOpt = [
   {
     optColorMode: "system",
-    iconName: "bi:circle-half",
+    iconName: `${IconMap.COLOR_MODE_SYSTEM}`,
     label: "components.selector-theme.system",
     ariaLabel: "$t('components.selector-theme.system-aria-label')",
   },
   {
     optColorMode: "light",
-    iconName: "bi:sun",
+    iconName: `${IconMap.COLOR_MODE_LIGHT}`,
     label: "components.selector-theme.light",
     ariaLabel: "$t('components.selector-theme.light-aria-label')",
   },
   {
     optColorMode: "dark",
-    iconName: "bi:moon",
+    iconName: `${IconMap.COLOR_MODE_DARK}`,
     label: "components.selector-theme.dark",
     ariaLabel: "$t('components.selector-theme.dark-aria-label')",
   },

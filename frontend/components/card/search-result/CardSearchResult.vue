@@ -47,7 +47,7 @@
               }"
               class="flex items-center justify-center text-light-text dark:text-dark-text"
             >
-              <Icon name="IconOrganization" class="h-[75%] w-[75%]" />
+              <Icon :name="IconMap.ORGANIZATION" class="h-[75%] w-[75%]" />
             </div>
             <div
               v-else-if="event"
@@ -81,7 +81,7 @@
               }"
               class="flex items-center justify-center fill-light-text dark:fill-dark-text"
             >
-              <Icon class="h-[75%] w-[75%]" name="bi:person" />
+              <Icon class="h-[75%] w-[75%]" :name="IconMap.PERSON" />
             </div>
           </div>
         </NuxtLink>
@@ -101,7 +101,7 @@
               }"
               class="flex items-center justify-center fill-light-text dark:fill-dark-text"
             >
-              <Icon name="IconResource" class="h-[75%] w-[75%]" />
+              <Icon :name="IconMap.RESOURCE" class="h-[75%] w-[75%]" />
             </div>
           </div>
         </a>
@@ -218,6 +218,7 @@
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
+import { IconMap } from "~/types/icon-map";
 import type { Organization } from "~/types/organization";
 import type { Resource } from "~/types/resource";
 import type { User } from "~/types/user";

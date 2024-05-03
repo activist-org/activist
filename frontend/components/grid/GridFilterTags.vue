@@ -25,7 +25,7 @@
                 {{ tag }}
               </p>
             </div>
-            <Icon v-if="checked" name="bi:x-lg" size="20" />
+            <Icon v-if="checked" :name="IconMap.X_LG" size="20" />
           </div>
         </Switch>
       </div>
@@ -36,6 +36,7 @@
 <script setup lang="ts">
 import { Switch } from "@headlessui/vue";
 import { ref } from "vue";
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   tags: string[];

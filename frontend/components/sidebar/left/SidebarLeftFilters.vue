@@ -7,7 +7,7 @@
           sidebar.collapsed == true && sidebar.collapsedSwitch == true,
       }"
     >
-      <Icon class="mt-[0.125em]" name="bi:filter" size="2em" />
+      <Icon class="mt-[0.125em]" :name="IconMap.FILTER" size="2em" />
     </div>
     <div
       class="text-light-text opacity-0 transition dark:text-dark-text"
@@ -31,7 +31,7 @@
           <Icon
             class="my-1 mb-1 ml-4 flex-shrink-0"
             :class="{ 'rotate-180': filter.reveal }"
-            name="bi:chevron-down"
+            :name="IconMap.CHEVRON_DOWN"
             size="1.25em"
           />
         </div>
@@ -82,6 +82,7 @@
 
 <script setup lang="ts">
 import type { Filters } from "~/types/filters";
+import { IconMap } from "~/types/icon-map";
 
 const sidebar = useSidebar();
 

@@ -30,7 +30,7 @@
         >
           {{ $t("pages._global.visit-source-code-pt-2") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -78,7 +78,7 @@
         >
           {{ $t("pages.supporters.join.section-6-paragraph-1-2") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -91,6 +91,7 @@
 
 <script setup lang="ts">
 import useRouteToName from "~/composables/useRouteToName";
+import { IconMap } from "~/types/icon-map";
 
 const emit = defineEmits(["routeToName"]);
 useRouteToName(emit);

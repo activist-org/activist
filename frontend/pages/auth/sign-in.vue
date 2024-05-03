@@ -15,7 +15,7 @@
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
-          :icons="['bi:eye-fill']"
+          :icons="[IconMap.VISIBLE]"
         />
       </div>
       <IndicatorPasswordStrength :password-value="passwordValue" />
@@ -44,6 +44,7 @@
 
 <script setup lang="ts">
 import useRouteToName from "~/composables/useRouteToName";
+import { IconMap } from "~/types/icon-map";
 
 definePageMeta({
   layout: "auth",
