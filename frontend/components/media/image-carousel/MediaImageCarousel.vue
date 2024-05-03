@@ -46,9 +46,9 @@ const colorMode = useColorMode();
 const imageColor = colorMode.value;
 
 const imageUrls = [
-  `/images/content_pages/art/get_active_${imageColor}.png`,
-  `/images/content_pages/art/get_organized_${imageColor}.png`,
-  `/images/content_pages/art/grow_organization_${imageColor}.png`,
+  `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
+  `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
+  `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
 ];
 
 const modalIsOpen = ref(false);

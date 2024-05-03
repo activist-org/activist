@@ -6,7 +6,7 @@
       <Title>{{ $t("_global.imprint") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/bootstrap_info_circle"
+      :imgURL="BOOTSTRAP_INFO_CIRCLE_URL"
       imgAltText="pages.about._global.imprint-img-alt-text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">

@@ -84,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { Breakpoint } from "~/types/breakpoints";
+import { BreakpointMap } from "~/types/breakpoint-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 import { testTechGroup1 } from "~/utils/testEntities";
 import useRouteToName from "~/composables/useRouteToName";
@@ -110,7 +110,7 @@ const shareButtonLabel = ref("");
 
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
-  if (windowWidth.value < Breakpoint.SMALL) {
+  if (windowWidth.value < BreakpointMap.SMALL) {
     shareButtonLabel.value = "components.btn-action.share";
   } else {
     shareButtonLabel.value = "components._global.share-group";

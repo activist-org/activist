@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { Breakpoint } from "~/types/breakpoints";
+import { BreakpointMap } from "~/types/breakpoint-map";
 import type { Organization } from "~/types/organization";
 
 const props = defineProps<{
@@ -44,13 +44,13 @@ let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const updateWidth = () => {
   currentWidth.value = window.innerWidth;
-  if (currentWidth.value < Breakpoint.SMALL) {
+  if (currentWidth.value < BreakpointMap.SMALL) {
     numberOfFeedItems.value = 1;
-  } else if (currentWidth.value < Breakpoint.LARGE) {
+  } else if (currentWidth.value < BreakpointMap.LARGE) {
     numberOfFeedItems.value = 2;
-  } else if (currentWidth.value < Breakpoint.XL) {
+  } else if (currentWidth.value < BreakpointMap.XL) {
     numberOfFeedItems.value = 3;
-  } else if (currentWidth.value < Breakpoint.XXXL) {
+  } else if (currentWidth.value < BreakpointMap.XXXL) {
     numberOfFeedItems.value = 4;
   } else {
     numberOfFeedItems.value = 5;

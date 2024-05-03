@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="windowWidth < Breakpoint.SMALL"
+    v-if="windowWidth < BreakpointMap.SMALL"
     class="flex flex-col items-center justify-between gap-8 bg-light-layer-0 px-8 py-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { Breakpoint } from "~/types/breakpoints";
+import { BreakpointMap } from "~/types/breakpoint-map";
 import type { MenuSelector } from "~/types/menu-selector";
 import { testClimateEvent } from "~/utils/testEntities";
 import useRouteToName from "~/composables/useRouteToName";
@@ -134,7 +134,7 @@ const windowWidth = ref(window.innerWidth);
 
 const handleResize = () => {
   windowWidth.value = window.innerWidth;
-  if (windowWidth.value > Breakpoint.SMALL) {
+  if (windowWidth.value > BreakpointMap.SMALL) {
     const { locale } = useI18n();
     const currentRoute = useRoute();
 

@@ -6,7 +6,7 @@
       <Title>{{ $t("pages._global.about-us") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/activist_icon"
+      imgURL="/icons/activist/activist_icon"
       imgAltText="_global.activist-icon-img-alt-text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">

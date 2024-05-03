@@ -107,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { Breakpoint } from "~/types/breakpoints";
+import { BreakpointMap } from "~/types/breakpoint-map";
 import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { DiscussionInput } from "~/types/discussion-input";
 import { testTechOrg } from "~/utils/testEntities";
@@ -133,7 +133,7 @@ const shareButtonLabel = ref("");
 
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
-  if (windowWidth.value < Breakpoint.SMALL) {
+  if (windowWidth.value < BreakpointMap.SMALL) {
     shareButtonLabel.value = "components.btn-action.share";
   } else {
     shareButtonLabel.value = "components._global.share-organization";

@@ -6,7 +6,7 @@
       <Title>{{ $t("_global.contact") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/bootstrap_envelope"
+      :imgURL="BOOTSTRAP_ENVELOPE_URL"
       imgAltText="pages.help._global.contact-img-alt-text"
     >
       <div

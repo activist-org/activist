@@ -6,7 +6,7 @@
       <Title>{{ $t("pages.legal.trademark-policy.title") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/bootstrap_trademark"
+      :imgURL="BOOTSTRAP_TRADEMARK_URL"
       imgAltText="pages.legal._global.trademark-policy-alt-text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">

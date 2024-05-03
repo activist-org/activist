@@ -6,7 +6,7 @@
       <Title>{{ $t("_global.roadmap") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/arcticons_bike_location"
+      :imgURL="ARCTICONS_BIKE_LOCATION"
       imgAltText="pages.about._global.roadmap-img-alt-text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">

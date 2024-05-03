@@ -8,12 +8,12 @@
 //   theme: {
 //     title: "Component Stories • activist",
 //     logo: {
-//       square: "/images/content_pages/icons/activist_icon_light.png",
-//       light: "/images/activist_logo_light.png",
-//       dark: "/images/activist_logo_dark.png",
+//       square: `${ACTIVIST_ICON_LIGHT_URL}`,
+//       light: `${ACTIVIST_LOGO_LIGHT_URL}`,
+//       dark: `${ACTIVIST_LOGO_DARK_URL}`,
 //     },
-//     logoHref: "https://activist.org",
-//     favicon: "/favicons/favicon.svg",
+//     logoHref: `${ACTIVIST_URL}`,
+//     favicon: `${FAVICON_URL}`,
 //     colors: {
 //       primary: {
 //         50: "#FAE1C6",
