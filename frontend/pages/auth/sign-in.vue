@@ -55,10 +55,6 @@ useRouteToName(emit);
 
 const localePath = useLocalePath();
 
-definePageMeta({
-  layout: "auth",
-});
-
 const userNameValue = ref("");
 const passwordValue = ref("");
 
