@@ -31,4 +31,6 @@ jobs:
 
             - [ ] The TypeScript and formatting workflows within the [PR checks](https://github.com/activist-org/activist/pull/${{ github.event.pull_request.number }}/checks) do not indicate new errors in the files changed
 
+            - [ ] The Playwright end to end and Zap penetration tests have been ran and are passing (if necessary)
+
             - [ ] The [CHANGELOG](https://github.com/activist-org/activist/blob/main/CHANGELOG.md) has been updated with a description of the changes for the upcoming release and the corresponding issue (if necessary)
