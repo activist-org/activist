@@ -51,9 +51,12 @@ definePageMeta({
 const userNameValue = ref("");
 const passwordValue = ref("");
 
+interface LoginResponse {
+  data: {};
+}
+
 const signIn = async () => {
-  //
-  const { data: responseData } = await $fetch(
+  const { data: responseData } = await $fetch<LoginResponse>(
     `http://localhost:8000/v1/auth/login/`,
     {
       method: "POST",
@@ -62,7 +65,7 @@ const signIn = async () => {
         password: passwordValue.value,
       }),
       onResponse({ request, response, options }) {
-        // Handle the response
+        // Handle the response.
         console.log(
           "Response:",
           response.status,
