@@ -1,6 +1,6 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <form class="space-y-4">
+    <form @submit.prevent="signIn" class="space-y-4">
       <div class="col">
         <FormTextField
           @update:model-value="userNameValue = $event"
@@ -22,7 +22,6 @@
       <div class="flex flex-col space-y-3">
         <FriendlyCaptcha />
         <BtnAction
-          @click="signIn"
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
           :label="$t('_global.sign-in')"
           :cta="true"
@@ -35,8 +34,8 @@
         <NuxtLink
           :to="localePath('/auth/sign-up')"
           class="link-text ml-2 font-extrabold"
-          >{{ $t("_global.sign-up") }}</NuxtLink
-        >
+          >{{ $t("_global.sign-up") }}
+        </NuxtLink>
       </div>
     </form>
   </div>
@@ -58,7 +57,30 @@ const localePath = useLocalePath();
 const userNameValue = ref("");
 const passwordValue = ref("");
 
-const signIn = () => {
-  //
+interface LoginResponse {
+  data: {};
+}
+
+const signIn = async () => {
+  const { data: responseData } = await $fetch<LoginResponse>(
+    `http://localhost:8000/v1/auth/login/`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        username: userNameValue.value,
+        password: passwordValue.value,
+      }),
+      onResponse({ request, response, options }) {
+        // Handle the response.
+        console.log(
+          "Response:",
+          response.status,
+          response.statusText,
+          response._data
+        );
+      },
+    }
+  );
+  console.log();
 };
 </script>
