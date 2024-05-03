@@ -33,9 +33,5 @@
 <script setup lang="ts">
 import { testClimateEvent } from "~/utils/testEntities";
 
-definePageMeta({
-  layout: "sidebar",
-});
-
 const event = testClimateEvent;
 </script>

@@ -10,13 +10,13 @@
         <Icon
           v-if="userIsAdmin && !editModeEnabled"
           @click="toggleEditMode"
-          name="bi:pencil-square"
+          :name="IconMap.EDIT"
           size="1.2em"
         />
         <Icon
           v-else-if="userIsAdmin && editModeEnabled"
           @click="toggleEditMode"
-          name="bi:x-lg"
+          :name="IconMap.X_LG"
           size="1.2em"
         />
       </div>
@@ -31,25 +31,25 @@
           <Icon
             v-if="editModeEnabled"
             @click="emit('on-account-removed', link)"
-            name="bi:x-lg"
+            :name="IconMap.EDIT"
             size="1em"
           />
           <Icon
             v-else-if="link.includes('mastodon')"
-            name="bi:mastodon"
+            :name="IconMap.MASTODON"
             size="1.2em"
           />
           <Icon
             v-else-if="link.includes('facebook')"
-            name="bi:facebook"
+            :name="IconMap.FACEBOOK"
             size="1.2em"
           />
           <Icon
             v-else-if="link.includes('instagram')"
-            name="bi:instagram"
+            :name="IconMap.INSTAGRAM"
             size="1.2em"
           />
-          <Icon v-else name="bi:link-45deg" size="1.2em" />
+          <Icon v-else :name="IconMap.LINK" size="1.2em" />
           <div class="font-semibold">
             {{ link }}
           </div>
@@ -67,7 +67,7 @@
               :cta="true"
               label="components.btn-action.new-account"
               fontSize="sm"
-              leftIcon="bi:plus-lg"
+              :leftIcon="IconMap.PLUS"
               iconSize="1.35em"
               ariaLabel="components._global.new-account-aria-label"
             />
@@ -112,6 +112,7 @@
 
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   socialLinks?: string[];

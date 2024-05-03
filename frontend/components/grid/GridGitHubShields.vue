@@ -5,7 +5,7 @@
       href="https://github.com/activist-org/activist"
       :isLoading="isLoading"
     >
-      <Icon name="simple-icons:github" size="2em" />
+      <Icon :name="IconMap.GITHUB" size="2em" />
       <div class="ml-4 place-self-center pb-1">
         <div class="ml-0.5 text-xs font-semibold leading-4">
           {{ $t("components.grid-github-shields.visit-us") }}
@@ -22,7 +22,7 @@
       :isLoading="isLoading"
       :count="GitHubData.forks_count"
     >
-      <Icon name="octicon:repo-forked-24" size="2em" />
+      <Icon :name="IconMap.FORK" size="2em" />
     </ShieldGitHub>
     <ShieldGitHub
       class="fill-light-text dark:fill-dark-text"
@@ -31,12 +31,14 @@
       :isLoading="isLoading"
       :count="GitHubData.stargazers_count"
     >
-      <Icon name="octicon:star-24" size="2em" />
+      <Icon :name="IconMap.STAR" size="2em" />
     </ShieldGitHub>
   </div>
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const isLoading = ref(false);
 const GitHubData = reactive({
   forks_count: 0,

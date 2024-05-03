@@ -160,7 +160,7 @@ export default defineNuxtConfig({
         {
           hid: "og:image",
           property: "og:image",
-          content: "/images/activistOpenGraphImage.png",
+          content: "/images/activist/activistOpenGraphImage.png",
         },
         { property: "og:image:width", content: "1200" },
         { property: "og:image:height", content: "630" },
@@ -185,7 +185,7 @@ export default defineNuxtConfig({
         {
           hid: "twitter:image",
           name: "twitter:image",
-          content: "/images/activistTwitterOpenGraphImage.png",
+          content: "/images/activist/activistTwitterOpenGraphImage.png",
         },
       ],
       link: [
@@ -194,11 +194,11 @@ export default defineNuxtConfig({
           type: "image/svg+xml",
           href: "favicons/favicon.svg",
         },
-        {
-          rel: "icon",
-          type: "image/png",
-          href: "favicons/faviconLight.png",
-        },
+        // {
+        //   rel: "icon",
+        //   type: "image/png",
+        //   href: "favicons/faviconLight.png",
+        // },
         {
           hid: "canonical",
           rel: "canonical",

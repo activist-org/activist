@@ -6,7 +6,7 @@
       <Title>{{ $t("_global.contact") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/bootstrap_envelope"
+      :imgURL="BOOTSTRAP_ENVELOPE_URL"
       imgAltText="pages.help._global.contact-img-alt-text"
     >
       <div
@@ -19,7 +19,7 @@
         <div class="flex flex-row space-x-3 py-2">
           <Icon
             class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
-            name="bi:info-circle-fill"
+            :name="IconMap.CIRCLE_INFO"
             size="1.25em"
           />
           <p>
@@ -31,7 +31,7 @@
             >
               {{ $t("_global.public-matrix-chat-rooms") }}
               <Icon
-                name="bi:box-arrow-up-right"
+                :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
@@ -48,7 +48,7 @@
             >
               {{ $t("_global.public-matrix-chat-rooms") }}
               <Icon
-                name="bi:box-arrow-up-right"
+                :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
@@ -60,7 +60,7 @@
             >
               {{ $t("_global.on-github") }}
               <Icon
-                name="bi:box-arrow-up-right"
+                :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
@@ -76,7 +76,7 @@
             >
               {{ $t("pages.help.contact.section-1-paragraph-2-2") }}
               <Icon
-                name="bi:box-arrow-up-right"
+                :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               /> </a
@@ -228,7 +228,7 @@
         <div class="flex flex-row space-x-3 py-2 text-start">
           <Icon
             class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
-            name="bi:info-circle-fill"
+            :name="IconMap.CIRCLE_INFO"
             size="1.25em"
           />
           <p>
@@ -240,7 +240,7 @@
             >
               {{ $t("_global.public-matrix-chat-rooms") }}
               <Icon
-                name="bi:box-arrow-up-right"
+                :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
@@ -264,6 +264,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const name = ref("");
 const email = ref("");
 const message = ref("");

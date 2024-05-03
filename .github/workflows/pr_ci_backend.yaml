@@ -13,26 +13,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python environment
+      - name: Set up Python Environment
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade uv
           uv venv
           uv pip install -r backend/requirements-dev.txt
 
-      - name: Activate virtualenv
+      - name: Activate Virtual Environment
         run: |
           . .venv/bin/activate
           echo PATH=$PATH >> $GITHUB_ENV
 
-      - name: Run ruff format - Formatting check
+      - name: Run Ruff Format - Formatting Check
         run: ruff ./backend
 
-      - name: Run ruff - Linting and import sorting check
+      - name: Run Ruff - Linting and Import Sorting Check
         if: always()
         run: ruff ./backend
 

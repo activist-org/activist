@@ -7,7 +7,7 @@
       class="focus-inside elem-shadow-sm my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-light-layer-2 px-2 py-1 text-left text-light-distinct-text transition duration-200 dark:bg-dark-layer-2 dark:text-dark-distinct-text"
     >
       <div class="flex items-center space-x-2 pl-1">
-        <Icon name="bi:search" size="1em" />
+        <Icon :name="IconMap.SEARCH" size="1em" />
         <label for="search-input" class="sr-only">{{
           $t("_global.search")
         }}</label>
@@ -30,7 +30,7 @@
       <div
         class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
       >
-        <Icon name="bi:house" size="1em" :alt="$t('_global.home')" />
+        <Icon :name="IconMap.HOME" size="1em" :alt="$t('_global.home')" />
         <div>
           {{ $t("_global.home") }}
           <span
@@ -46,7 +46,7 @@
         class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
       >
         <Icon
-          name="bi:calendar-check"
+          :name="IconMap.EVENT"
           size="1em"
           :alt="$t('components.modal-command-palette.upcoming-events')"
         />
@@ -66,7 +66,11 @@
       <div
         class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
       >
-        <Icon name="bi:bell" size="1em" :alt="$t('_global.notifications')" />
+        <Icon
+          :name="IconMap.BELL"
+          size="1em"
+          :alt="$t('_global.notifications')"
+        />
         <div>
           {{ $t("_global.notifications") }}
           <span
@@ -84,7 +88,7 @@
         class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
       >
         <Icon
-          name="octicon:comment-discussion-24"
+          :name="IconMap.DISCUSSION"
           size="1em"
           :alt="$t('_global.discussions')"
         />
@@ -111,7 +115,7 @@
       >
         <Icon
           class="fill-light-text dark:fill-dark-text"
-          name="IconOrganization"
+          :name="IconMap.ORGANIZATION"
           size="1em"
           :alt="$t('_global.organization-name')"
         />
@@ -133,7 +137,7 @@
       >
         <Icon
           class="fill-light-text dark:fill-dark-text"
-          name="IconOrganization"
+          :name="IconMap.ORGANIZATION"
           size="1em"
           :alt="$t('_global.organization-name')"
         />
@@ -155,7 +159,7 @@
       >
         <Icon
           class="fill-light-text dark:fill-dark-text"
-          name="IconOrganization"
+          :name="IconMap.ORGANIZATION"
           size="1em"
           :alt="$t('_global.organization-name')"
         />
@@ -172,6 +176,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const props = defineProps<{
   isOpen: boolean;
 }>();

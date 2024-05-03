@@ -10,7 +10,7 @@ activist tries to follow [semantic versioning](https://semver.org/), a MAJOR.MIN
 
 Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 
-# [Upcoming] activist 0.1.0
+## [Upcoming] activist 0.1.0
 
 ### 🚀 Deployment
 

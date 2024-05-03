@@ -17,7 +17,7 @@
           :cta="true"
           label="components.btn-action.invite-someone"
           fontSize="sm"
-          leftIcon="bi:plus-lg"
+          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="components.btn-action.invite-someone-event-aria-label"
         />
@@ -36,11 +36,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { testClimateEvent } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const event = testClimateEvent;
 </script>

@@ -13,15 +13,8 @@
       </div>
       <!-- Note: image on top of content for mobile. -->
       <img
-        v-if="$colorMode.value == 'light'"
         class="h-1/6 w-full md:hidden"
-        src="/images/content_pages/mockups/get_organized_light.png"
-        :alt="$t('pages.docs.get-organized.modal-image-alt-text')"
-      />
-      <img
-        v-else-if="$colorMode.value == 'dark'"
-        class="h-1/6 w-full md:hidden"
-        src="/images/content_pages/mockups/get_organized_dark.png"
+        :src="GET_ORGANIZED_MOCKUP_URL + `_${$colorMode.value}.png`"
         :alt="$t('pages.docs.get-organized.modal-image-alt-text')"
       />
       <div class="w-10/12 gap-16 md:w-full 2xl:grid 2xl:grid-cols-2">
@@ -29,12 +22,12 @@
           @click="openModal()"
           @keydown.enter="openModal()"
           class="hidden md:block"
-          imageURL="/images/content_pages/mockups/get_organized"
+          :imageURL="GET_ORGANIZED_MOCKUP_URL"
           imageAltText="pages.docs.get-organized.modal-image-alt-text"
         />
         <ModalImage
           @closeModal="handleCloseModal"
-          imageURL="/images/content_pages/mockups/get_organized"
+          :imageURL="GET_ORGANIZED_MOCKUP_URL"
           imageAltText="pages.docs.get-organized.modal-image-alt-text"
           :isOpen="modalIsOpen"
         />
@@ -48,7 +41,7 @@
           <div class="flex flex-row space-x-3 py-2">
             <Icon
               class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
-              name="bi:info-circle-fill"
+              :name="IconMap.CIRCLE_INFO"
               size="1.25em"
             />
             <p>
@@ -60,7 +53,7 @@
               >
                 {{ $t("pages.docs.get-organized.subheader-2") }}
                 <Icon
-                  name="bi:box-arrow-up-right"
+                  :name="IconMap.EXTERNAL_LINK"
                   size="1em"
                   style="vertical-align: baseline"
                 />
@@ -104,6 +97,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const modalIsOpen = ref(false);
 
 function openModal() {

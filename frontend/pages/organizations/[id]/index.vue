@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="windowWidth < Breakpoint.SMALL"
+    v-if="windowWidth < BreakpointMap.SMALL"
     class="flex flex-col items-center justify-between gap-8 bg-light-layer-0 px-8 py-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
@@ -58,7 +58,7 @@
         linkTo="/"
         label="components.btn-route-internal.offer-to-help"
         fontSize="base"
-        rightIcon="bi:arrow-right"
+        :rightIcon="IconMap.ARROW_RIGHT"
         iconSize="1.25em"
         ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
       />
@@ -67,14 +67,10 @@
 </template>
 
 <script setup lang="ts">
-import { Breakpoint } from "~/types/breakpoints";
+import { BreakpointMap } from "~/types/breakpoint-map";
+import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu-selector";
-
 import { testTechOrg } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const organization = testTechOrg;
 
@@ -86,70 +82,70 @@ const organizationButtons: MenuSelector[] = [
     id: 1,
     label: "_global.about",
     routeURL: "/organizations/" + id + "/about",
-    iconURL: "bi:card-text",
+    iconURL: `${IconMap.ABOUT}`,
     selected: useRoute().path.split("/").pop() === "about" ? true : true,
   },
   {
     id: 2,
     label: "_global.events",
     routeURL: "/organizations/" + id + "/events",
-    iconURL: "bi:calendar-check",
+    iconURL: `${IconMap.EVENT}`,
     selected: useRoute().path.split("/").pop() === "events" ? true : true,
   },
   {
     id: 3,
     label: "_global.groups",
     routeURL: "/organizations/" + id + "/groups",
-    iconURL: "IconGroup",
+    iconURL: `${IconMap.GROUP}`,
     selected: useRoute().path.split("/").pop() === "groups" ? true : true,
   },
   {
     id: 4,
     label: "_global.resources",
     routeURL: "/organizations/" + id + "/resources",
-    iconURL: "IconResource",
+    iconURL: `${IconMap.RESOURCE}`,
     selected: useRoute().path.split("/").pop() === "resources" ? true : true,
   },
   {
     id: 5,
     label: "_global.faq",
     routeURL: "/organizations/" + id + "/faq",
-    iconURL: "IconFAQ",
+    iconURL: `${IconMap.FAQ}`,
     selected: useRoute().path.split("/").pop() === "faq" ? true : true,
   },
   // {
   //   id: X,
   //   label: "_global.team",
   //   routeURL: "/organizations/" + id + "/team",
-  //   iconURL: "bi:people",
+  //   iconURL: `${IconMap.PEOPLE}`,
   //   selected: useRoute().path.split("/").pop() === "team" ? true : true,
   // },
   {
     id: 6,
     label: "_global.affiliates",
     routeURL: "/organizations/" + id + "/affiliates",
-    iconURL: "IconSupport",
+    iconURL: `${IconMap.SUPPORT}`,
     selected: useRoute().path.split("/").pop() === "affiliates" ? true : true,
   },
   {
     id: 7,
     label: "_global.tasks",
     routeURL: "/organizations/" + id + "/tasks",
-    iconURL: "bi:check-square",
+    iconURL: `${IconMap.TASK}`,
     selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
   },
   {
     id: 8,
     label: "_global.discussions",
     routeURL: "/organizations/" + id + "/discussions",
-    iconURL: "octicon:comment-discussion-24",
+    iconURL: `${IconMap.DISCUSSION}`,
     selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
   },
   {
     id: 9,
     label: "_global.settings",
     routeURL: "/organizations/" + id + "/settings",
-    iconURL: "bi:gear",
+    iconURL: `${IconMap.SETTINGS}`,
     selected: useRoute().path.split("/").pop() === "settings" ? true : true,
   },
 ];
@@ -158,11 +154,10 @@ const windowWidth = ref(window.innerWidth);
 
 const handleResize = () => {
   windowWidth.value = window.innerWidth;
-  if (windowWidth.value > Breakpoint.SMALL) {
+  if (windowWidth.value > BreakpointMap.SMALL) {
     const { locale } = useI18n();
     const currentRoute = useRoute();
 
-    console.log(`Hey 1: ${currentRoute.path}`);
     if (
       currentRoute.path !== `/${locale.value}/organizations/${id}/about` ||
       currentRoute.path === `/${locale.value}/organizations/${id}/`

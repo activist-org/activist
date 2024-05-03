@@ -9,7 +9,6 @@
               :cta="true"
               :label="$t('components.card-discussion-input.write')"
               fontSize="sm"
-              iconSize="1.25em"
               ariaLabel="components.card-discussion-input.write-aria-label"
             />
           </div>
@@ -19,7 +18,6 @@
               :cta="false"
               :label="$t('components.card-discussion-input.preview')"
               fontSize="sm"
-              iconSize="1.25em"
               ariaLabel="components.card-discussion-input.preview-aria-label"
             />
           </div>
@@ -30,55 +28,55 @@
           <Icon
             @click="at()"
             class="cursor-pointer"
-            name="bi:at"
+            :name="IconMap.AT"
             size="1.75em"
           />
           <Icon
             @click="heading()"
             class="cursor-pointer"
-            name="bi:h-square"
+            :name="IconMap.TEXT_HEADER"
             size="1.5em"
           />
           <Icon
             @click="bold()"
             class="cursor-pointer"
-            name="bi:type-bold"
+            :name="IconMap.TEXT_BOLD"
             size="1.75em"
           />
           <Icon
             @click="italic()"
             class="cursor-pointer"
-            name="bi:type-italic"
+            :name="IconMap.TEXT_ITALIC"
             size="1.75em"
           />
           <Icon
             @click="blockquote()"
             class="cursor-pointer"
-            name="bi:blockquote-left"
+            :name="IconMap.TEXT_QUOTE"
             size="1.75em"
           />
           <Icon
             @click="link()"
             class="cursor-pointer"
-            name="bi:link-45deg"
+            :name="IconMap.LINK"
             size="1.75em"
           />
           <!-- <Icon
             @click="attach()"
             class="cursor-pointer"
-            name="bi:paperclip"
+            :name="IconMap.ATTACH"
             size="1.6em"
           /> -->
           <Icon
             @click="listul()"
             class="cursor-pointer"
-            name="bi:list-ul"
+            :name="IconMap.LIST_UNORDERED"
             size="1.75em"
           />
           <Icon
             @click="listol()"
             class="cursor-pointer"
-            name="bi:list-ol"
+            :name="IconMap.LIST_ORDERED"
             size="1.75em"
           />
         </div>
@@ -104,7 +102,7 @@
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
           {{ $t("components.card-discussion-input.markdown-support") }}
-          <Icon class="mx-1" name="bi:markdown" size="1.25em"></Icon>
+          <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
         </p>
         <div class="flex items-center space-x-3">
           <Button
@@ -121,10 +119,10 @@
           >
             <Icon
               v-if="discussionInput.highRisk"
-              name="bi:exclamation-octagon"
+              :name="IconMap.WARN_OCTAGON"
               size="1.4em"
             />
-            <Icon v-else name="bi:exclamation-triangle" size="1.4em" />
+            <Icon v-else :name="IconMap.WARN_TRIANGLE" size="1.4em" />
             <TooltipDiscussionWarning
               v-show="showTooltip"
               class="-mt-64 md:-mt-56"
@@ -135,7 +133,6 @@
             :cta="true"
             :label="$t('components.card-discussion-input.comment')"
             fontSize="sm"
-            iconSize="1.25em"
             ariaLabel="components.card-discussion-input.comment-aria-label"
           />
         </div>
@@ -146,6 +143,8 @@
 
 <script setup lang="ts">
 import type { DiscussionInput } from "~/types/discussion-input";
+import { IconMap } from "~/types/icon-map";
+
 const showTooltip = ref(false);
 
 defineProps<{

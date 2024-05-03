@@ -31,9 +31,5 @@
 <script setup lang="ts">
 import { testTechOrg } from "~/utils/testEntities";
 
-definePageMeta({
-  layout: "sidebar",
-});
-
 const organization = testTechOrg;
 </script>

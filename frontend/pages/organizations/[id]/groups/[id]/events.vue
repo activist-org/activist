@@ -46,10 +46,6 @@
 <script setup lang="ts">
 import { testTechGroup1 } from "~/utils/testEntities";
 
-definePageMeta({
-  layout: "sidebar",
-});
-
 const groupSubPages = getGroupSubPages();
 
 const group = testTechGroup1;

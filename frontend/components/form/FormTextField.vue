@@ -30,13 +30,13 @@
       class="cursor-pointer"
     >
       <Icon
-        v-if="i === 'bi:eye-fill' && refInputType === 'password'"
+        v-if="i === IconMap.VISIBLE && refInputType === 'password'"
         :name="i"
         size="1.4em"
       />
       <Icon
-        v-else-if="i === 'bi:eye-fill' && refInputType === 'text'"
-        name="bi:eye-slash-fill"
+        v-else-if="i === IconMap.VISIBLE && refInputType === 'text'"
+        :name="IconMap.HIDDEN"
         size="1.4em"
       />
       <Icon v-else :name="i" size="1.2em" :color="getIconColor(i)" />
@@ -47,6 +47,7 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import useFormInput from "~/composables/useFormSetup";
+import { IconMap } from "~/types/icon-map";
 
 export interface Props {
   placeholder?: string;
@@ -74,15 +75,15 @@ const changeInputType = () => {
 };
 
 const handleIconClick = (icon: string) => {
-  if (icon === "bi:eye-fill") {
+  if (icon === IconMap.VISIBLE) {
     changeInputType();
   }
 };
 
 const getIconColor = (icon: string) => {
-  if (icon === "bi:check-lg") {
+  if (icon === `${IconMap.CHECK}`) {
     return "#3BA55C";
-  } else if (icon === "bi:x-lg") {
+  } else if (icon === `${IconMap.X_LG}`) {
     return "#BA3D3B";
   } else {
     return "#5A5A5A";

@@ -64,10 +64,6 @@ import {
   testUser,
 } from "~/utils/testEntities";
 
-definePageMeta({
-  layout: "sidebar",
-});
-
 const { data: organizations } = await useFetch(
   `${BASE_BACKEND_URL}/entities/organizations/`,
   {

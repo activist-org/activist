@@ -1,7 +1,7 @@
 <template>
   <DropdownBase
     :location="location"
-    menuButtonIcon="bi:plus-circle"
+    :menuButtonIcon="IconMap.CIRCLE_PLUS"
     :menuButtonLabel="$t(`components.dropdown-create.create`)"
     :isMenuButtonUppercase="false"
     menuButtonAriaLabel="components.dropdown-create.create-aria-label"
@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { DropdownLocation } from "~/types/location";
 import type { MenuSelector } from "~/types/menu-selector";
 
@@ -23,7 +24,7 @@ const createOptions: MenuSelector[] = [
     id: 1,
     label: "components._global.new-event",
     routeURL: "/events/create",
-    iconURL: "bi:calendar-check",
+    iconURL: `${IconMap.EVENT}`,
     selected: false,
   },
   {

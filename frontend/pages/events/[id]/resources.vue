@@ -18,7 +18,7 @@
           linkTo="/"
           label="components._global.new-resource"
           fontSize="sm"
-          leftIcon="bi:plus-lg"
+          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="components.btn-route-internal.new-resource-aria-label"
         />
@@ -37,11 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { testClimateEvent } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const event = testClimateEvent;
 </script>

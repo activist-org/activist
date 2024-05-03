@@ -14,7 +14,7 @@
     :disabled="true"
     :aria-label="$t('components.friendly-captcha.captcha-disabled-aria-label')"
   >
-    <Icon name="bi:shield-fill-check" size="28px" />
+    <Icon :name="IconMap.SHIELD" size="28px" />
     <p class="font-bold">
       {{ $t("components.friendly-captcha.captcha-disabled") }}
     </p>
@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import VueFriendlyCaptcha from "@somushq/vue3-friendly-captcha";
+import { IconMap } from "~/types/icon-map";
 
 const inDevMode = window.location.href.includes("localhost:3000");
 

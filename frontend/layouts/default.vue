@@ -1,5 +1,5 @@
 <template>
   <HeaderWebsite />
-  <slot />
-  <Footer />
+  <NuxtPage />
+  <FooterWebsite />
 </template>

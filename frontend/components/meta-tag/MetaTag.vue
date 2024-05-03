@@ -25,7 +25,7 @@
       :name="iconName"
       :size="iconSize ? iconSize : '1.25em'"
     />
-    <a v-if="iconName === 'bi:camera-video'" :href="value">{{ value }}</a>
+    <a v-if="iconName === IconMap.VIDEO" :href="value">{{ value }}</a>
     <p v-else>
       {{ value }}
     </p>
@@ -36,6 +36,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 defineProps<{
   iconName: string;
   value: string;

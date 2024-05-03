@@ -60,7 +60,11 @@
                 'absolute right-2': isSideLeftMenu,
               }"
               :size="isSideLeftMenu ? '1rem' : ''"
-              :name="isSideLeftMenu ? 'bi:chevron-up' : 'bi:chevron-down'"
+              :name="
+                isSideLeftMenu
+                  ? `${IconMap.CHEVRON_UP}`
+                  : `${IconMap.CHEVRON_DOWN}`
+              "
             />
           </Transition>
         </div>
@@ -82,6 +86,7 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
+import { IconMap } from "~/types/icon-map";
 import { DropdownLocation } from "~/types/location";
 
 const props = defineProps<{

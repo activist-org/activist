@@ -13,7 +13,7 @@
         >
           {{ $t("_global.on-github") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -29,7 +29,7 @@
         >
           {{ $t("_global.public-matrix-chat-rooms") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -45,7 +45,7 @@
         >
           {{ $t("components.page-community-footer.invite-text-4-2") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -63,7 +63,7 @@
         >
           {{ $t("_global.public-matrix-chat-rooms") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -79,7 +79,7 @@
         >
           {{ $t("components._global.github") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -97,6 +97,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 export interface Props {
   header?: string;
   helpNeeded?: boolean;

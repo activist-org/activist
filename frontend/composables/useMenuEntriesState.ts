@@ -1,3 +1,5 @@
+import { IconMap } from "~/types/icon-map";
+
 const createMenuEntry = (label: string, basePath: string, iconURL: string) => {
   const { locale } = useI18n();
   const router = useRouter();
@@ -23,33 +25,37 @@ const useMenuEntriesState = () => {
   let removeGuard = () => {};
 
   const organizationEntries = ref([
-    createMenuEntry("_global.about", "organizations", "bi:card-text"),
-    createMenuEntry("_global.events", "organizations", "bi:calendar-check"),
-    createMenuEntry("_global.groups", "organizations", "IconGroup"),
-    createMenuEntry("_global.resources", "organizations", "IconResource"),
-    createMenuEntry("_global.faq", "organizations", "IconFAQ"),
-    // createMenuEntry("_global.team", "organizations", "bi:people"),
-    createMenuEntry("_global.affiliates", "organizations", "IconSupport"),
-    createMenuEntry("_global.tasks", "organizations", "bi:check-square"),
+    createMenuEntry("_global.about", "organizations", `${IconMap.ABOUT}`),
+    createMenuEntry("_global.events", "organizations", `${IconMap.EVENT}`),
+    createMenuEntry("_global.groups", "organizations", `${IconMap.GROUP}`),
+    createMenuEntry(
+      "_global.resources",
+      "organizations",
+      `${IconMap.RESOURCE}`
+    ),
+    createMenuEntry("_global.faq", "organizations", `${IconMap.FAQ}`),
+    // createMenuEntry("_global.team", "organizations", `${IconMap.PEOPLE}`),
+    createMenuEntry(
+      "_global.affiliates",
+      "organizations",
+      `${IconMap.SUPPORT}`
+    ),
+    createMenuEntry("_global.tasks", "organizations", `${IconMap.TASK}`),
     createMenuEntry(
       "_global.discussions",
       "organizations",
-      "octicon:comment-discussion-24"
+      `${IconMap.DISCUSSION}`
     ),
-    createMenuEntry("_global.settings", "organizations", "bi:gear"),
+    createMenuEntry("_global.settings", "organizations", `${IconMap.SETTINGS}`),
   ]);
 
   const eventEntries = ref([
-    createMenuEntry("_global.about", "events", "bi:card-text"),
-    createMenuEntry("_global.team", "events", "bi:people"),
-    createMenuEntry("_global.resources", "events", "IconResource"),
-    createMenuEntry("_global.tasks", "events", "bi:check-square"),
-    createMenuEntry(
-      "_global.discussion",
-      "events",
-      "octicon:comment-discussion-24"
-    ),
-    createMenuEntry("_global.settings", "events", "bi:gear"),
+    createMenuEntry("_global.about", "events", `${IconMap.ABOUT}`),
+    createMenuEntry("_global.team", "events", `${IconMap.PEOPLE}`),
+    createMenuEntry("_global.resources", "events", `${IconMap.RESOURCE}`),
+    createMenuEntry("_global.tasks", "events", `${IconMap.TASK}`),
+    createMenuEntry("_global.discussion", "events", `${IconMap.DISCUSSION}`),
+    createMenuEntry("_global.settings", "events", `${IconMap.SETTINGS}`),
   ]);
 
   const updateCurrentPath = () => {

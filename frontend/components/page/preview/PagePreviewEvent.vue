@@ -1,3 +1,3 @@
 <template>
-  <div></div>
+  <PageContent imgURL="" imgAltText=""></PageContent>
 </template>

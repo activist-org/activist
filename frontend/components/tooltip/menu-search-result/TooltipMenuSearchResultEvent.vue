@@ -25,7 +25,7 @@
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
         label="components.btn-action.share"
-        leftIcon="bi:box-arrow-up"
+        :leftIcon="IconMap.SHARE"
         fontSize="lg"
         :ariaLabel="$t('components._global.share-event-aria-label')"
       />
@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 import type { Event } from "~/types/event";
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   event: Event;

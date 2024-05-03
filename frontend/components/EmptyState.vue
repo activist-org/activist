@@ -2,7 +2,10 @@
   <div
     class="flex w-full flex-col items-center bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
-    <PageContent :imgURL="imgURL" :imgAltText="imgAltText">
+    <PageContent
+      :imgURL="BOOTSTRAP_CLOUD_MOON_URL"
+      imgAltText="components.empty-state.img-alt-text"
+    >
       <div>
         <!-- Header -->
         <span v-if="pageType == 'organizations'" class="responsive-h2">{{
@@ -123,7 +126,4 @@ defineProps<{
     | "discussions";
   permission: boolean;
 }>();
-
-const imgURL = "/images/content_pages/icons/bootstrap_cloud_moon";
-const imgAltText = "components.empty-state.img-alt-text";
 </script>

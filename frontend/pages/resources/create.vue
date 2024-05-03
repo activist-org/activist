@@ -111,10 +111,6 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "sidebar",
-});
-
 const formData = ref({
   name: "",
   location: "",

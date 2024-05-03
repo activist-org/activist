@@ -4,7 +4,11 @@
     class="elem-shadow-sm mx-2 flex grow select-none items-center justify-between rounded-md bg-light-layer-2 py-1 pl-[12px] text-left text-light-distinct-text transition duration-200 focus-within:mb-[-3px] focus-within:border-2 focus-within:border-light-link-text dark:bg-dark-layer-2 dark:text-dark-distinct-text dark:focus-within:border-dark-link-text"
   >
     <div class="flex items-center space-x-2 pl-1">
-      <Icon class="my-1 h-4 w-4 flex-shrink-0" name="bi:search" size="1em" />
+      <Icon
+        class="my-1 h-4 w-4 flex-shrink-0"
+        :name="IconMap.SEARCH"
+        size="1em"
+      />
       <Transition name="search">
         <div
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
@@ -70,25 +74,26 @@
     <Icon
       @click="emit('on-search-toggle')"
       class="my-1 h-4 w-4 flex-shrink-0"
-      :name="expanded ? 'bi:x-lg' : 'bi:search'"
+      :name="expanded ? `${IconMap.X_LG}` : `${IconMap.SEARCH}`"
       size="1em"
     />
     <label for="expanded-search-input" class="hidden md:block">{{
       $t("_global.search")
     }}</label>
     <input
-      v-if="expanded"
       id="expanded-search-input"
       class="bg-transparent focus:outline-none"
+      :class="{ hidden: !expanded }"
       type="text"
       :placeholder="$t('_global.search')"
     />
-    <Icon v-if="expanded" class="absolute right-3" name="bi:filter" />
+    <Icon v-if="expanded" class="absolute right-3" :name="IconMap.FILTER" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { IconMap } from "~/types/icon-map";
 import { SearchBarLocation } from "~/types/location";
 
 export interface Props {

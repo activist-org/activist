@@ -1,3 +1,4 @@
+import { IconMap } from "~/types/icon-map";
 import type { SubPageSelector } from "~/types/sub-page-selector";
 
 export function getGroupSubPages(): SubPageSelector[] {
@@ -11,7 +12,7 @@ export function getGroupSubPages(): SubPageSelector[] {
   const groupAboutPageSelector: SubPageSelector = {
     id: 0,
     label: i18n.t("_global.about"),
-    iconName: "bi:card-text",
+    iconName: `${IconMap.ABOUT}`,
     routeURL: `/organizations/${organizationId}/groups/${groupId}/about`,
     selected: false,
   };
@@ -19,7 +20,7 @@ export function getGroupSubPages(): SubPageSelector[] {
   const groupEventPageSelector: SubPageSelector = {
     id: 1,
     label: i18n.t("_global.events"),
-    iconName: "bi:calendar-check",
+    iconName: `${IconMap.EVENT}`,
     routeURL: `/organizations/${organizationId}/groups/${groupId}/events`,
     selected: false,
   };

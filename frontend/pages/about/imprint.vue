@@ -6,7 +6,7 @@
       <Title>{{ $t("_global.imprint") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/bootstrap_info_circle"
+      :imgURL="BOOTSTRAP_INFO_CIRCLE_URL"
       imgAltText="pages.about._global.imprint-img-alt-text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">
@@ -15,19 +15,22 @@
       <div class="flex flex-row space-x-3 py-2">
         <Icon
           class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
-          name="bi:info-circle-fill"
+          :name="IconMap.CIRCLE_INFO"
           size="1.25em"
         />
         <p>
           {{ $t("pages.about.imprint.subheader-1") }}
-          <a class="focus-brand link-text items-center" href="/help/contact">
+          <NuxtLink
+            class="focus-brand link-text items-center"
+            to="/help/contact"
+          >
             {{ $t("pages._global.contact-page") }}
             <Icon
-              name="bi:box-arrow-up-right"
+              :name="IconMap.EXTERNAL_LINK"
               size="1em"
               style="vertical-align: baseline"
             />
-          </a>
+          </NuxtLink>
           {{ $t("pages.about.imprint.subheader-3") }}
         </p>
       </div>
@@ -63,3 +66,7 @@
     </PageDocs>
   </div>
 </template>
+
+<script script setup="ts">
+import { IconMap } from "~/types/icon-map";
+</script>

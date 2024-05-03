@@ -48,8 +48,8 @@
             showAdditionalInput,
         }"
       >
-        <Icon v-if="!showAdditionalInput" name="bi:hash" size="1.5em" />
-        <Icon v-else name="bi:x-lg" size="1.35em" />
+        <Icon v-if="!showAdditionalInput" :name="IconMap.HASH" size="1.5em" />
+        <Icon v-else :name="IconMap.X_LG" size="1.35em" />
       </button>
     </div>
   </div>
@@ -57,6 +57,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { IconMap } from "~/types/icon-map";
 
 // TODO: This type should be defined for the props definition type from FromRadioButton and FromRadio.
 /**

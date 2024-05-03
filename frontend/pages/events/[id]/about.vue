@@ -14,7 +14,7 @@
           :linkTo="event.getInvolvedURL"
           label="components.btn-route-internal.offer-to-help"
           fontSize="sm"
-          rightIcon="bi:arrow-right"
+          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
         />
@@ -37,7 +37,7 @@
           :label="$t(shareButtonLabel)"
           :hideLabelOnMobile="false"
           fontSize="sm"
-          leftIcon="bi:box-arrow-up"
+          :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
           :ariaLabel="$t('components._global.share-event-aria-label')"
         />
@@ -85,12 +85,9 @@
 </template>
 
 <script setup lang="ts">
-import { Breakpoint } from "~/types/breakpoints";
+import { BreakpointMap } from "~/types/breakpoint-map";
+import { IconMap } from "~/types/icon-map";
 import { testClimateEvent } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const event = testClimateEvent;
 
@@ -105,7 +102,7 @@ const shareButtonLabel = ref("");
 
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
-  if (windowWidth.value < Breakpoint.SMALL) {
+  if (windowWidth.value < BreakpointMap.SMALL) {
     shareButtonLabel.value = "components.btn-action.share";
   } else {
     shareButtonLabel.value = "components._global.share-group";

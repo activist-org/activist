@@ -15,7 +15,7 @@
         "
         class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
       >
-        <Icon class="h-10 w-10" name="bi:x-circle-fill" />
+        <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
       </button>
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
@@ -204,6 +204,7 @@ import {
 } from "~/composables/useAppPageTexts";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
+import { IconMap } from "~/types/icon-map";
 import type { Organization } from "~/types/organization";
 import ModalEditPageText from "../modal/ModalEditPageText.vue";
 

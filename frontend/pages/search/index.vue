@@ -16,9 +16,3 @@
     <GridFilterTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
   </div>
 </template>
-
-<script setup lang="ts">
-definePageMeta({
-  layout: "sidebar",
-});
-</script>

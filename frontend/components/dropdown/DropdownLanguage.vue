@@ -1,7 +1,7 @@
 <template>
   <DropdownBase
     :location="location"
-    menuButtonIcon="bi:globe"
+    :menuButtonIcon="IconMap.GLOBE"
     :menuButtonLabel="$i18n.locale"
     :isMenuButtonUppercase="true"
     menuButtonAriaLabel="components.selector-language.open-dropdown-aria-label"
@@ -27,6 +27,7 @@
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
 import type { LocaleObject } from "@nuxtjs/i18n";
+import { IconMap } from "~/types/icon-map";
 import { DropdownLocation } from "~/types/location";
 
 defineProps<{

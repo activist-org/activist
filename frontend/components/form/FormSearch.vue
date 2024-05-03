@@ -2,7 +2,11 @@
   <div
     class="flex h-9 select-none items-center space-x-2 rounded-md border border-light-interactive bg-light-layer-2 py-2 pl-[12px] pr-[10px] text-left text-light-distinct-text dark:border-dark-interactive dark:bg-dark-layer-2 dark:text-dark-distinct-text"
   >
-    <Icon class="my-1 h-4 w-4 flex-shrink-0" name="bi:search" size="1em" />
+    <Icon
+      class="my-1 h-4 w-4 flex-shrink-0"
+      :name="IconMap.SEARCH"
+      size="1em"
+    />
     <input
       :id="uuid"
       class="h-5 w-full bg-transparent outline-none"
@@ -17,6 +21,7 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import useFormInput from "~/composables/useFormSetup";
+import { IconMap } from "~/types/icon-map";
 
 export interface Props {
   placeholder?: string;

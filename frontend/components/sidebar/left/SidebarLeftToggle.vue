@@ -4,18 +4,20 @@
   >
     <Icon
       v-if="chevronDirection == 'left'"
-      name="bi:chevron-bar-left"
+      :name="IconMap.CHEVRON_BAR_LEFT"
       :size="iconSize"
     />
     <Icon
       v-if="chevronDirection == 'right'"
-      name="bi:chevron-bar-right"
+      :name="IconMap.CHEVRON_BAR_RIGHT"
       :size="iconSize"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 defineProps<{
   chevronDirection: "left" | "right";
   iconSize: string;

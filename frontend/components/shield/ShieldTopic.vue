@@ -10,16 +10,22 @@
     tabindex="0"
   >
     <div class="flex items-center" :class="{ 'max-sm:flex-grow': isSelector }">
-      <Icon class="my-1 h-5 w-5 flex-shrink-0" name="bi:globe" size="1em" />
+      <Icon
+        class="my-1 h-5 w-5 flex-shrink-0"
+        :name="IconMap.GLOBE"
+        size="1em"
+      />
       <p class="select-none pl-2 text-center text-base font-bold">
         {{ $t(topic) }}
       </p>
     </div>
-    <Icon v-if="active && isSelector" name="bi:x-lg" size="20" />
+    <Icon v-if="active && isSelector" :name="IconMap.X_LG" size="20" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 export interface Props {
   topic: string;
   active?: boolean;

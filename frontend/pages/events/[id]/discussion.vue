@@ -18,7 +18,7 @@
           linkTo="/"
           label="components.btn-route-internal.new-discussion"
           fontSize="sm"
-          leftIcon="bi:plus-lg"
+          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="components.btn-route-internal.new-discussion-aria-label"
         />
@@ -37,11 +37,8 @@
 <script setup lang="ts">
 import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { DiscussionInput } from "~/types/discussion-input";
+import { IconMap } from "~/types/icon-map";
 import { testClimateEvent } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const event = testClimateEvent;
 

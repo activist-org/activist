@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 
-definePageMeta({
-  layout: "sidebar",
-});
-
 const { id } = useRoute().params;
 
 const handleResize = () => {

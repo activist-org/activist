@@ -28,7 +28,7 @@
       @click="openModal()"
       class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
-      <Icon name="bi:plus-lg" size="1.5em" />
+      <Icon :name="IconMap.PLUS" size="1.5em" />
     </button>
     <ModalUploadImages @closeModal="handleCloseModal" :isOpen="modalIsOpen" />
   </div>
@@ -36,19 +36,21 @@
 
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
-register();
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps({
   fullscreen: Boolean,
 });
 
+register();
+
 const colorMode = useColorMode();
 const imageColor = colorMode.value;
 
 const imageUrls = [
-  `/images/content_pages/art/get_active_${imageColor}.png`,
-  `/images/content_pages/art/get_organized_${imageColor}.png`,
-  `/images/content_pages/art/grow_organization_${imageColor}.png`,
+  `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
+  `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
+  `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
 ];
 
 const modalIsOpen = ref(false);

@@ -6,7 +6,7 @@
       <Title>{{ $t("pages._global.become-supporter") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/join_icon"
+      :imgURL="BOOTSTRAP_MODIFIED_JOIN_ICON_URL"
       imgAltText="pages.supporters._global.join-img-alt-text"
     >
       <h1 class="responsive-h1 font-bold">
@@ -30,7 +30,7 @@
         >
           {{ $t("pages._global.visit-source-code-pt-2") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -78,7 +78,7 @@
         >
           {{ $t("pages.supporters.join.section-6-paragraph-1-2") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -90,5 +90,7 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const localePath = useLocalePath();
 </script>
