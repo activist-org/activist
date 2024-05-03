@@ -20,14 +20,17 @@
         />
         <p>
           {{ $t("pages.about.imprint.subheader-1") }}
-          <a class="focus-brand link-text items-center" href="/help/contact">
+          <NuxtLink
+            class="focus-brand link-text items-center"
+            to="/help/contact"
+          >
             {{ $t("pages._global.contact-page") }}
             <Icon
               name="bi:box-arrow-up-right"
               size="1em"
               style="vertical-align: baseline"
             />
-          </a>
+          </NuxtLink>
           {{ $t("pages.about.imprint.subheader-3") }}
         </p>
       </div>

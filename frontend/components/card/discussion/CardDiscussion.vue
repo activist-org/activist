@@ -60,14 +60,14 @@
         <div
           class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
         >
-          <a href="/" class="flex items-center">
+          <NuxtLink to="/" class="flex items-center">
             <div
               class="flex h-8 w-8 items-center justify-center rounded-full border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
             >
               <Icon name="bi:person" size="1.5em" />
             </div>
             <p class="ml-2">{{ discussion.createdBy.user_name }}</p>
-          </a>
+          </NuxtLink>
           <div class="ml-2 flex items-center">
             <MetaTagDate :date="new Date().toISOString().slice(0, 10)" />
           </div>

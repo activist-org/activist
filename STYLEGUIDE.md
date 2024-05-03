@@ -58,7 +58,9 @@ Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general s
 
 ### Page Routing
 
-Page routing should use the `<NuxtLink />` component wherever possible to assure that the platform maintains the localization path of the user. Beyond this, to update the UI we have a system of computed variables in place that are derived and emitted on each page to the base app and then drilled down to the layout and corresponding components. Please add the following lines to all script blocks in the `pages` directory:
+Page routing should use the `<NuxtLink />` component wherever possible to assure that the platform maintains the localization path of the user. If an external link via an `<a>` tag should be set, then please include `target="_blank"` to open a new tab (unless it's an email href).
+
+Beyond this, to update the UI we have a system of computed variables in place that are derived and emitted on each page to the base app and then drilled down to the layout and corresponding components. Please add the following lines to all script blocks in the `pages` directory:
 
 ```ts
 import useRouteToName from "~/composables/useRouteToName";
