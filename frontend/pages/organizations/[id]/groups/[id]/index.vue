@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
+import useRouteToName from "~/composables/useRouteToName";
 
 definePageMeta({
   layout: "sidebar",
 });
+
+const emit = defineEmits(["routeToName"]);
+useRouteToName(emit);
 
 const { id } = useRoute().params;
 

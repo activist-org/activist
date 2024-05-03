@@ -10,7 +10,7 @@
       :tagline="$t('pages.events.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <ShieldTopic topic="My topics dropdown" />
+        <ComboboxTopics />
       </div>
     </HeaderAppPage>
     <div v-if="events">
@@ -23,9 +23,14 @@
 </template>
 
 <script setup lang="ts">
+import useRouteToName from "~/composables/useRouteToName";
+
 definePageMeta({
   layout: "sidebar",
 });
+
+const emit = defineEmits(["routeToName"]);
+useRouteToName(emit);
 
 const { data: events } = await useFetch(
   `${BASE_BACKEND_URL}/entities/organization_events/`,

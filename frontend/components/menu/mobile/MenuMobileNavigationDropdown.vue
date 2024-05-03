@@ -81,46 +81,66 @@ import {
   isCurrentRoutePathSubpageOf,
 } from "~/utils/routeUtils";
 
-const { currentRoute } = useRouter();
-const routeName = currentRoute.value.name;
-let routeToCheck = routeName;
-if (routeToCheck) {
-  routeToCheck = routeToCheck.toString();
-} else {
-  routeToCheck = "";
-}
+const props = defineProps<{
+  pageType?: string;
+}>();
 
-const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeToCheck);
-const isEventPage = isCurrentRoutePathSubpageOf("events", routeToCheck);
+const { currentRoute } = useRouter();
+
+const routeName = computed(() => {
+  if (props.pageType) {
+    return props.pageType;
+  } else if (currentRoute.value.name) {
+    return currentRoute.value.name;
+  }
+  return "";
+});
+
+const isOrgPage = computed(() =>
+  isCurrentRoutePathSubpageOf("organizations", routeName.value)
+);
+const isEventPage = computed(() =>
+  isCurrentRoutePathSubpageOf("events", routeName.value)
+);
 
 const pathToSidebarTypeMap = [
   { path: "search", type: SidebarType.SEARCH },
   { path: "home", type: SidebarType.HOME },
   {
     path: "organizations",
-    type: isOrgPage
+    type: isOrgPage.value
       ? SidebarType.ORGANIZATION_PAGE
       : SidebarType.FILTER_ORGANIZATIONS,
   },
   {
     path: "events",
-    type: isEventPage ? SidebarType.EVENT_PAGE : SidebarType.FILTER_EVENTS,
+    type: isEventPage.value
+      ? SidebarType.EVENT_PAGE
+      : SidebarType.FILTER_EVENTS,
   },
 ];
 
-const sidebarType =
-  pathToSidebarTypeMap.find((item) =>
-    currentRoutePathIncludes(item.path, routeToCheck)
-  )?.type || SidebarType.MISC;
+watch([isOrgPage, isEventPage], () => {
+  pathToSidebarTypeMap[2].type = isOrgPage.value
+    ? SidebarType.ORGANIZATION_PAGE
+    : SidebarType.FILTER_ORGANIZATIONS;
+  pathToSidebarTypeMap[3].type = isEventPage.value
+    ? SidebarType.EVENT_PAGE
+    : SidebarType.FILTER_EVENTS;
+});
+
+const sidebarType = computed(() => {
+  const matchingPath = pathToSidebarTypeMap.find((item) =>
+    currentRoutePathIncludes(item.path, routeName.value)
+  );
+  return matchingPath?.type || SidebarType.MISC;
+});
+
 const menuEntryState = useMenuEntriesState();
 const selectedMenuItem = ref<MenuEntry | undefined>(undefined);
 
 const handleItemClick = (menuEntry: MenuEntry) => {
-  console.log("Clicked item:", menuEntry);
-  console.log("Router:", useRouter());
   const router = useRouter();
-  console.log("Current route:", router.currentRoute.value.fullPath);
-  console.log("Target route:", menuEntry.routeURL);
   router.push(menuEntry.routeURL);
 };
 

@@ -1,5 +1,7 @@
 <template>
-  <div
+  <!-- Note: Commented out until such a time when it's needed and triggered explicitly. -->
+  <div />
+  <!-- <div
     v-show="show"
     class="fixed inset-0 z-50 flex h-screen items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
   >
@@ -17,24 +19,24 @@
         :alt="$t('_global.activist-icon-img-alt-text')"
       />
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">
-const nuxtApp = useNuxtApp();
-const show = ref(false);
+// const nuxtApp = useNuxtApp();
+// const show = ref(false);
 
-addRouteMiddleware(
-  "global-loader",
-  () => {
-    show.value = true;
-  },
-  {
-    global: true,
-  }
-);
+// addRouteMiddleware(
+//   "global-loader",
+//   () => {
+//     show.value = true;
+//   },
+//   {
+//     global: true,
+//   }
+// );
 
-nuxtApp.hook("page:finish", () => {
-  show.value = false;
-});
+// nuxtApp.hook("page:finish", () => {
+//   show.value = false;
+// });
 </script>

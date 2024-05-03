@@ -31,9 +31,14 @@
 <script setup lang="ts">
 import { testClimateEvent } from "~/utils/testEntities";
 
+import useRouteToName from "~/composables/useRouteToName";
+
 definePageMeta({
   layout: "sidebar",
 });
+
+const emit = defineEmits(["routeToName"]);
+useRouteToName(emit);
 
 const event = testClimateEvent;
 </script>

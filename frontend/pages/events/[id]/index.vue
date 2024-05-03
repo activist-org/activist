@@ -71,10 +71,14 @@
 import { Breakpoint } from "~/types/breakpoints";
 import type { MenuSelector } from "~/types/menu-selector";
 import { testClimateEvent } from "~/utils/testEntities";
+import useRouteToName from "~/composables/useRouteToName";
 
 definePageMeta({
   layout: "sidebar",
 });
+
+const emit = defineEmits(["routeToName"]);
+useRouteToName(emit);
 
 const event = testClimateEvent;
 
@@ -134,7 +138,6 @@ const handleResize = () => {
     const { locale } = useI18n();
     const currentRoute = useRoute();
 
-    console.log(`Hey 1: ${currentRoute.path}`);
     if (
       currentRoute.path !== `/${locale.value}/events/${id}/about` ||
       currentRoute.path === `/${locale.value}/events/${id}/`

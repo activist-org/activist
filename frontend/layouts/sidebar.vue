@@ -1,12 +1,13 @@
 <template>
   <HeaderMobile />
-  <MenuMobileNavigationDropdown class="md:hidden" />
+  <MenuMobileNavigationDropdown class="md:hidden" :pageType="currentPageType" />
   <SidebarLeft
     @mouseover="sidebarHover = true"
     @focus="sidebarHover = true"
     @mouseleave="sidebarHover = false"
     @blur="sidebarHover = false"
     class="hidden md:block"
+    :pageType="currentPageType"
   />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
     <div
@@ -49,6 +50,12 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{
+  pageType: string;
+}>();
+
+const currentPageType = computed(() => props.pageType);
+
 const sidebar = useSidebar();
 let sidebarHover: boolean;
 

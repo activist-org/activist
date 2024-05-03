@@ -56,6 +56,17 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general suggestions on how to write Vue files.
 
+### Page Routing
+
+Page routing should use the `<NuxtLink />` component wherever possible to assure that the platform maintains the localization path of the user. Beyond this, to update the UI we have a system of computed variables in place that are derived and emitted on each page to the base app and then drilled down to the layout and corresponding components. Please add the following lines to all script blocks in the `pages` directory:
+
+```ts
+import useRouteToName from "~/composables/useRouteToName";
+
+const emit = defineEmits(["routeToName"]);
+useRouteToName(emit);
+```
+
 <a id="typescript"></a>
 
 ## TypeScript [`⇧`](#contents)

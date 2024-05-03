@@ -111,10 +111,14 @@ import { Breakpoint } from "~/types/breakpoints";
 import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { DiscussionInput } from "~/types/discussion-input";
 import { testTechOrg } from "~/utils/testEntities";
+import useRouteToName from "~/composables/useRouteToName";
 
 definePageMeta({
   layout: "sidebar",
 });
+
+const emit = defineEmits(["routeToName"]);
+useRouteToName(emit);
 
 const organization = testTechOrg;
 // const route = useRoute();

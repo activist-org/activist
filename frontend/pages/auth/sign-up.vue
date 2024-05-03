@@ -92,11 +92,16 @@
 
 <script setup lang="ts">
 import type { PasswordRules } from "~/types/password-rules";
-const localePath = useLocalePath();
+import useRouteToName from "~/composables/useRouteToName";
 
 definePageMeta({
   layout: "auth",
 });
+
+const emit = defineEmits(["routeToName"]);
+useRouteToName(emit);
+
+const localePath = useLocalePath();
 
 const userNameValue = ref("");
 const passwordValue = ref("");

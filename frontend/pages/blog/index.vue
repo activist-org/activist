@@ -7,3 +7,10 @@
     </Head>
   </div>
 </template>
+
+<script script setup="ts">
+import useRouteToName from "~/composables/useRouteToName";
+
+const emit = defineEmits(["routeToName"]);
+useRouteToName(emit);
+</script>

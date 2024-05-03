@@ -77,9 +77,9 @@
       $t("_global.search")
     }}</label>
     <input
-      v-if="expanded"
       id="expanded-search-input"
       class="bg-transparent focus:outline-none"
+      :class="{ hidden: !expanded }"
       type="text"
       :placeholder="$t('_global.search')"
     />

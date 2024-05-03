@@ -10,7 +10,7 @@
     ref="sidebarWrapper"
     role="menu"
     tabindex="0"
-    class="elem-shadow-sm focus-brand absolute z-10 flex h-full flex-col border-r border-light-section-div bg-light-layer-1 transition-all duration-500 dark:border-dark-section-div dark:bg-dark-layer-1"
+    class="elem-shadow-sm focus-brand absolute z-10 block h-full flex-col border-r border-light-section-div bg-light-layer-1 transition-all duration-500 dark:border-dark-section-div dark:bg-dark-layer-1 md:flex"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
@@ -66,44 +66,63 @@ import {
   isCurrentRoutePathSubpageOf,
 } from "~/utils/routeUtils";
 
-defineProps<{
+const props = defineProps<{
   name?: string;
+  pageType?: string;
 }>();
 
 const sidebar = useSidebar();
-
 const route = useRoute();
 const { currentRoute } = useRouter();
-const routeName = currentRoute.value.name;
-let routeToCheck = routeName;
-if (routeToCheck) {
-  routeToCheck = routeToCheck.toString();
-} else {
-  routeToCheck = "";
-}
 
-const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeToCheck);
-const isEventPage = isCurrentRoutePathSubpageOf("events", routeToCheck);
+const routeName = computed(() => {
+  if (props.pageType) {
+    return props.pageType;
+  } else if (currentRoute.value.name) {
+    return currentRoute.value.name;
+  }
+  return "";
+});
+
+const isOrgPage = computed(() =>
+  isCurrentRoutePathSubpageOf("organizations", routeName.value)
+);
+const isEventPage = computed(() =>
+  isCurrentRoutePathSubpageOf("events", routeName.value)
+);
 
 const pathToSidebarTypeMap = [
   { path: "search", type: SidebarType.SEARCH },
   { path: "home", type: SidebarType.HOME },
   {
     path: "organizations",
-    type: isOrgPage
+    type: isOrgPage.value
       ? SidebarType.ORGANIZATION_PAGE
       : SidebarType.FILTER_ORGANIZATIONS,
   },
   {
     path: "events",
-    type: isEventPage ? SidebarType.EVENT_PAGE : SidebarType.FILTER_EVENTS,
+    type: isEventPage.value
+      ? SidebarType.EVENT_PAGE
+      : SidebarType.FILTER_EVENTS,
   },
 ];
 
-const sidebarType =
-  pathToSidebarTypeMap.find((item) =>
-    currentRoutePathIncludes(item.path, routeToCheck)
-  )?.type || SidebarType.MISC;
+watch([isOrgPage, isEventPage], () => {
+  pathToSidebarTypeMap[2].type = isOrgPage.value
+    ? SidebarType.ORGANIZATION_PAGE
+    : SidebarType.FILTER_ORGANIZATIONS;
+  pathToSidebarTypeMap[3].type = isEventPage.value
+    ? SidebarType.EVENT_PAGE
+    : SidebarType.FILTER_EVENTS;
+});
+
+const sidebarType = computed(() => {
+  const matchingPath = pathToSidebarTypeMap.find((item) =>
+    currentRoutePathIncludes(item.path, routeName.value)
+  );
+  return matchingPath?.type || SidebarType.MISC;
+});
 
 // TODO: Use real name of organization / event when available from backend.
 const placeholderName = route.path.split("/").at(-2)?.replaceAll("-", " ");

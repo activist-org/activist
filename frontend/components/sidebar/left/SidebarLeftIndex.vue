@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col items-center">
       <div
-        v-if="sidebarType === SidebarType.ORGANIZATION_PAGE"
+        v-if="sidebarTypeToDisplay === SidebarType.ORGANIZATION_PAGE"
         class="relative"
         :class="{
           'h-32 w-32':
@@ -36,7 +36,7 @@
         />
       </div>
       <div
-        v-else-if="sidebarType === SidebarType.EVENT_PAGE"
+        v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
         class="relative"
         :class="{
           'h-32 w-32':
@@ -76,7 +76,8 @@
         }"
       >
         <li
-          v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
+          v-for="menuEntry in sidebarTypeToDisplay ===
+          SidebarType.ORGANIZATION_PAGE
             ? menuEntriesState.organizationEntry.value
             : menuEntriesState.eventEntry.value"
         >
@@ -95,11 +96,13 @@
 <script setup lang="ts">
 import { SidebarType } from "~/types/sidebar-type";
 
-defineProps<{
+const props = defineProps<{
   name: string;
   sidebarType: SidebarType.ORGANIZATION_PAGE | SidebarType.EVENT_PAGE;
   logoUrl?: string;
 }>();
+
+const sidebarTypeToDisplay = computed(() => props.sidebarType);
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
