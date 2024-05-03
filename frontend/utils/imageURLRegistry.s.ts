@@ -2,11 +2,11 @@
 export const FAVICON_URL = "/favicons/favicon.svg";
 
 export const ACTIVIST_ICON_LIGHT_URL =
-  "/icons/activist/ACTIVIST_ICON_LIGHT_URL.png";
+  "/icons/activist/activist_icon_light.png";
+export const ACTIVIST_ICON_DARK_URL = "/icons/activist/activist_icon_dark.png";
 export const ACTIVIST_LOGO_LIGHT_URL =
-  "/images/activist/ACTIVIST_LOGO_LIGHT_URL.png";
-export const ACTIVIST_LOGO_DARK_URL =
-  "/images/activist/ACTIVIST_LOGO_DARK_URL.png";
+  "/images/activist/activist_logo_light.png";
+export const ACTIVIST_LOGO_DARK_URL = "/images/activist/activist_logo_dark.png";
 
 export const ACTIVIST_OPEN_GRAPH_URL =
   "/images/activist/activistOpenGraphImage.png";
