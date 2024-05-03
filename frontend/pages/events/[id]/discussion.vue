@@ -35,18 +35,10 @@
 </template>
 
 <script setup lang="ts">
-import useRouteToName from "~/composables/useRouteToName";
 import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { DiscussionInput } from "~/types/discussion-input";
 import { IconMap } from "~/types/icon-map";
 import { testClimateEvent } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
 
 const event = testClimateEvent;
 

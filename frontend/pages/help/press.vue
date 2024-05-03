@@ -8,10 +8,3 @@
     <h1 class="p-4">This will be a press contact page</h1>
   </div>
 </template>
-
-<script script setup="ts">
-import useRouteToName from "~/composables/useRouteToName";
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
-</script>

@@ -37,16 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import useRouteToName from "~/composables/useRouteToName";
 import { IconMap } from "~/types/icon-map";
 import { testTechOrg } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
 
 const organization = testTechOrg;
 </script>

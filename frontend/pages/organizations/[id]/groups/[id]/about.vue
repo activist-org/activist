@@ -84,18 +84,10 @@
 </template>
 
 <script setup lang="ts">
-import useRouteToName from "~/composables/useRouteToName";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 import { testTechGroup1 } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
 
 const groupSubPages = getGroupSubPages();
 

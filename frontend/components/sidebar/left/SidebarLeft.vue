@@ -32,6 +32,8 @@
           !sidebar.collapsed || sidebar.collapsedSwitch == false,
       }"
     >
+      <p>{{ routeName }}</p>
+      <p>{{ sidebarType }}</p>
       <SearchBar class="mt-1" :location="SearchBarLocation.SIDEBAR" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
@@ -61,24 +63,18 @@
 import type { Filters } from "~/types/filters";
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
+import { Topic } from "~/types/topics";
 import {
   currentRoutePathIncludes,
   isCurrentRoutePathSubpageOf,
 } from "~/utils/routeUtils";
-
-const props = defineProps<{
-  name?: string;
-  pageType?: string;
-}>();
 
 const sidebar = useSidebar();
 const route = useRoute();
 const { currentRoute } = useRouter();
 
 const routeName = computed(() => {
-  if (props.pageType) {
-    return props.pageType;
-  } else if (currentRoute.value.name) {
+  if (currentRoute.value.name) {
     return currentRoute.value.name;
   }
   return "";
@@ -127,6 +123,15 @@ const sidebarType = computed(() => {
 // TODO: Use real name of organization / event when available from backend.
 const placeholderName = route.path.split("/").at(-2)?.replaceAll("-", " ");
 const placeholderLogo = "/images/tech-from-below.svg";
+
+const topicsArray: { label: string; value: string }[] = [];
+
+for (const key in Topic) {
+  if (Object.prototype.hasOwnProperty.call(Topic, key)) {
+    const value = Topic[key as keyof typeof Topic];
+    topicsArray.push({ label: key.toLowerCase(), value });
+  }
+}
 
 const filters = {
   daysAhead: {
@@ -221,92 +226,7 @@ const filters = {
     name: "topic",
     style: "simple",
     expandable: true,
-    items: [
-      {
-        label: "Environment",
-        value: "environment",
-      },
-      {
-        label: "Housing",
-        value: "housing",
-      },
-      {
-        label: "Refugees",
-        value: "refugees",
-      },
-      {
-        label: "LGBTQIA+",
-        value: "lgbtqia+",
-      },
-      {
-        label: "Racial Justice",
-        value: "racial justice",
-      },
-      {
-        label: "Women's Rights",
-        value: "women's rights",
-      },
-      {
-        label: "Children's Rights",
-        value: "children's rights",
-      },
-      {
-        label: "Elder Rights",
-        value: "elder rights",
-      },
-      {
-        label: "Animal Rights",
-        value: "animal rights",
-      },
-      {
-        label: "Labor Rights",
-        value: "labor rights",
-      },
-      {
-        label: "Education",
-        value: "education",
-      },
-      {
-        label: "Democracy",
-        value: "democracy",
-      },
-      {
-        label: "Health",
-        value: "health",
-      },
-      {
-        label: "Privacy",
-        value: "privacy",
-      },
-      {
-        label: "Peace",
-        value: "peace",
-      },
-      {
-        label: "Nutrition",
-        value: "nutrition",
-      },
-      {
-        label: "Accessibility",
-        value: "accessibility",
-      },
-      {
-        label: "Transparency",
-        value: "transparency",
-      },
-      {
-        label: "Expression",
-        value: "expression",
-      },
-      {
-        label: "Emergency Relief",
-        value: "emergency relief",
-      },
-      {
-        label: "Infrastructure",
-        value: "infrastructure",
-      },
-    ],
+    items: topicsArray,
   },
 };
 

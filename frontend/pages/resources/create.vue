@@ -111,15 +111,6 @@
 </template>
 
 <script setup lang="ts">
-import useRouteToName from "~/composables/useRouteToName";
-
-definePageMeta({
-  layout: "sidebar",
-});
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
-
 const formData = ref({
   name: "",
   location: "",

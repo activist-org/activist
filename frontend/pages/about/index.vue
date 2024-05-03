@@ -29,10 +29,6 @@
 
 <script setup lang="ts">
 import type { DocsEntry } from "~/types/docs-entry";
-import useRouteToName from "~/composables/useRouteToName";
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
 
 const cards: DocsEntry[] = [
   {

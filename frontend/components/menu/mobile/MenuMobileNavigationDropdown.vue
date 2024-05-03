@@ -82,16 +82,10 @@ import {
   isCurrentRoutePathSubpageOf,
 } from "~/utils/routeUtils";
 
-const props = defineProps<{
-  pageType?: string;
-}>();
-
 const { currentRoute } = useRouter();
 
 const routeName = computed(() => {
-  if (props.pageType) {
-    return props.pageType;
-  } else if (currentRoute.value.name) {
+  if (currentRoute.value.name) {
     return currentRoute.value.name;
   }
   return "";

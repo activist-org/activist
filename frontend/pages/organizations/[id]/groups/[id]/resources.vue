@@ -46,14 +46,6 @@
 <script setup lang="ts">
 import { getGroupSubPages } from "~/utils/groupSubPages";
 import { testTechGroup1 } from "~/utils/testEntities";
-import useRouteToName from "~/composables/useRouteToName";
-
-definePageMeta({
-  layout: "sidebar",
-});
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
 
 const groupSubPages = getGroupSubPages();
 

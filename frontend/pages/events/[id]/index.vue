@@ -68,18 +68,10 @@
 </template>
 
 <script setup lang="ts">
-import useRouteToName from "~/composables/useRouteToName";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu-selector";
 import { testClimateEvent } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
 
 const event = testClimateEvent;
 

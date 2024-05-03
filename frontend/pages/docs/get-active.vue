@@ -124,11 +124,7 @@
 </template>
 
 <script setup lang="ts">
-import useRouteToName from "~/composables/useRouteToName";
 import { IconMap } from "~/types/icon-map";
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
 
 const modalIsOpen = ref(false);
 

@@ -37,7 +37,7 @@
           </h1>
         </div>
       </div>
-      <slot />
+      <NuxtPage />
     </div>
   </div>
 </template>

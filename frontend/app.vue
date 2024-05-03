@@ -1,7 +1,7 @@
 <template>
   <Loading />
   <div>
-    <NuxtLayout :pageType="routeToPageType">
+    <NuxtLayout>
       <!-- Dummy target to receive click event. A click event triggers ModalCommandPalette. -->
       <div
         @click="openModal()"
@@ -15,7 +15,7 @@
         @closeModal="handleCloseModal"
         :isOpen="modalIsOpen"
       />
-      <NuxtPage @routeToName="updateRouteTo" />
+      <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
@@ -67,9 +67,4 @@ whenever(ctrl_k, () => {
     doWhenever();
   }
 });
-
-const routeToPageType = ref("");
-const updateRouteTo = (route: string) => {
-  routeToPageType.value = route;
-};
 </script>
