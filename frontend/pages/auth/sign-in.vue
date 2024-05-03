@@ -45,10 +45,6 @@
 import useRouteToName from "~/composables/useRouteToName";
 import { IconMap } from "~/types/icon-map";
 
-definePageMeta({
-  layout: "auth",
-});
-
 const emit = defineEmits(["routeToName"]);
 useRouteToName(emit);
 

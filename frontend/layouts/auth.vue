@@ -21,12 +21,13 @@
       <div class="hidden justify-end space-x-6 px-8 py-4 md:flex">
         <DropdownLanguage />
         <BtnRouteInternal
+          v-if="page.route != 'index'"
           class="flex max-h-[30px] items-center lg:max-h-[38px]"
-          :label="page.label"
-          :linkTo="page.link"
+          :label="page.btnLabel"
+          :linkTo="page.btnLink"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="page.ariaLabel"
+          :ariaLabel="page.btnAriaLabel"
         />
       </div>
       <div class="w-full flex-1 space-y-4 pb-4 pt-16 md:pb-8 md:pt-28">
@@ -46,16 +47,26 @@ const route = useRoute();
 
 const page = computed(() => {
   const isSignIn = route.fullPath?.includes("sign-in");
+  const isSignUp = route.fullPath?.includes("sign-up");
   return {
-    ariaLabel: isSignIn
-      ? "pages.auth.sign-in.index.aria-label"
-      : "pages.auth.sign-up.index.aria-label",
-    label: isSignIn ? "_global.sign-up" : "_global.sign-in",
-    link: isSignIn ? "/auth/sign-up" : "/auth/sign-in",
+    route: isSignIn ? "sign-in" : isSignUp ? "sign-up" : "index",
+    btnAriaLabel: isSignIn
+      ? "_global.auth.sign-up-aria-label"
+      : isSignUp
+        ? "_global.auth.sign-in-aria-label"
+        : "",
+    btnLabel: isSignIn ? "_global.sign-up" : isSignUp ? "_global.sign-in" : "",
+    btnLink: isSignIn ? "/auth/sign-up" : isSignUp ? "/auth/sign-in" : "",
     message: isSignIn
-      ? "pages.auth.sign-in.index.welcome-back"
-      : "pages.auth.sign-up.index.first-time-welcome",
-    title: isSignIn ? "_global.sign-in" : "_global.sign-up",
+      ? "layouts.auth.sign-in-welcome-back"
+      : isSignUp
+        ? "layouts.auth.sign-up-first-time-welcome"
+        : "layouts.auth.welcome",
+    title: isSignIn
+      ? "_global.sign-in"
+      : isSignUp
+        ? "_global.sign-up"
+        : "pages.auth.index.auth",
   };
 });
 </script>

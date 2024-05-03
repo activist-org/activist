@@ -95,10 +95,6 @@ import useRouteToName from "~/composables/useRouteToName";
 import { IconMap } from "~/types/icon-map";
 import type { PasswordRules } from "~/types/password-rules";
 
-definePageMeta({
-  layout: "auth",
-});
-
 const emit = defineEmits(["routeToName"]);
 useRouteToName(emit);
 
