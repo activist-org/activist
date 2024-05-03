@@ -32,8 +32,6 @@
           !sidebar.collapsed || sidebar.collapsedSwitch == false,
       }"
     >
-      <p>{{ routeName }}</p>
-      <p>{{ sidebarType }}</p>
       <SearchBar class="mt-1" :location="SearchBarLocation.SIDEBAR" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftIndex
