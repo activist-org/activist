@@ -4,6 +4,7 @@
   >
     <div class="flex justify-center">
       <h1
+        id="landing-splash-header"
         class="w-10/12 text-center font-display text-3xl font-bold leading-snug sm:text-4xl sm:leading-snug md:max-w-lg md:text-5xl md:leading-snug lg:font-bold xl:max-w-2xl xl:text-6xl xl:leading-snug"
       >
         {{ $t("components.landing-splash.header") }}
@@ -26,6 +27,7 @@
     </div>
     <div class="flex justify-center rounded-md">
       <BtnRouteExternal
+        id="request-access"
         :cta="true"
         label="components.btn-route-external.request-access"
         :linkTo="REQUEST_ACCESS_URL"
