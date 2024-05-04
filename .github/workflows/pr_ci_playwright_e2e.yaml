@@ -8,16 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
-          POSTGRES_USER: ${{ secrets.DATABASE_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-        ports:
-          - 5432:5432
-
     steps:
       - name: cleanup old checkout
         run: chmod +w -R ${GITHUB_WORKSPACE}; rm -rf ${GITHUB_WORKSPACE}/*;
@@ -32,36 +22,17 @@ jobs:
 
       - name: Check Port Availability
         run: |
-          ! nc -z localhost ${{ secrets.FRONTEND_PORT }} && \
-          ! nc -z localhost ${{ secrets.BACKEND_PORT }} && \
+          ! nc -z localhost 3000 && \
+          ! nc -z localhost 8000 && \
           ! nc -z localhost 5432
 
-      - name: Set up Docker Compose
-        run: |
-          echo "FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}" >> .env
-          echo "BACKEND_PORT=${{ secrets.BACKEND_PORT }}" >> .env
-          echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
-          echo "DATABASE_HOST=postgres" >> .env  # Using the service name from the services section
-          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
-          echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
-          echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
-          echo "DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }}" >> .env
-          echo "DEBUG=${{ secrets.DEBUG }}" >> .env
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-
       - name: Run Docker Compose
-        run: docker-compose -f docker-compose.yml up --build -d
+        run: docker compose --env-file .env.dev up --build -d
 
       - name: Setup Node environment
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      #- name: Install dependencies via Yarn
-        #uses: borales/actions-yarn@v5
-        #with:
-          #cmd: install --immutable --force --frozen-lockfile
-          #dir: "frontend"
 
       - name: Install dependencies via Yarn
         working-directory: ./frontend
@@ -76,7 +47,7 @@ jobs:
       - name: Wait for web server to be ready
         working-directory: ./frontend
         run: |
-          curl --retry 15 --retry-delay 5 --retry-all-errors http://localhost:${{ secrets.FRONTEND_PORT }}
+          curl --retry 15 --retry-delay 5 --retry-all-errors http://localhost:3000
 
       - name: Run Playwright tests
         working-directory: ./frontend
