@@ -29,11 +29,6 @@ jobs:
       - name: Run Docker Compose
         run: docker compose --env-file .env.dev up --build -d
 
-      - name: Wait for web server to be ready
-        working-directory: ./frontend
-        run: |
-          curl --retry 20 --retry-delay 5 --retry-all-errors http://localhost:3000
-
       - name: Setup Node environment
         uses: actions/setup-node@v4
         with:
@@ -48,6 +43,11 @@ jobs:
         working-directory: ./frontend
         run: |
           sudo yarn playwright install --with-deps
+
+      - name: Wait for web server to be ready
+        working-directory: ./frontend
+        run: |
+          curl --retry 20 --retry-delay 5 --retry-all-errors http://localhost:3000
 
       - name: Run Playwright tests
         working-directory: ./frontend
