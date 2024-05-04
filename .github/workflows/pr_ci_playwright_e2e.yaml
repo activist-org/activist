@@ -34,6 +34,11 @@ jobs:
         with:
           node-version: 20
 
+      - name: Clean Yarn cache
+        working-directory: ./frontend
+        run: |
+          sudo yarn cache clean
+
       - name: Install dependencies via Yarn
         working-directory: ./frontend
         run: |
@@ -45,9 +50,8 @@ jobs:
           sudo yarn playwright install --with-deps
 
       - name: Wait for web server to be ready
-        working-directory: ./frontend
         run: |
-          curl --retry 20 --retry-delay 5 --retry-all-errors http://localhost:3000
+          yarn wait-on http://localhost:3000
 
       - name: Run Playwright tests
         working-directory: ./frontend
