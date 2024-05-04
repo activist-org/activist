@@ -1,4 +1,3 @@
-// tests/fixtures/page-fixtures.ts
 import { test as baseTest } from "@playwright/test";
 import LandingPage from "../page-objects/LandingPage";
 
