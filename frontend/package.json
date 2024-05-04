@@ -47,6 +47,7 @@
     "@maplibre/maplibre-gl-directions": "^0.7.0",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/plausible": "^1.0.0",
+    "@opentelemetry/api": ">=1.0.0 <1.9.0",
     "@popperjs/core": "^2.11.8",
     "@somushq/vue3-friendly-captcha": "^1.0.2",
     "@types/geojson": "^7946.0.14",
@@ -71,6 +72,7 @@
     "v-calendar": "^3.1.1",
     "vue-socials": "^2.0.5",
     "vuedraggable": "~4.1.0",
+    "wait-on": "^7.2.0",
     "zxcvbn": "^4.4.2"
   }
 }
