@@ -75,7 +75,7 @@
         <ModalQRCodeImage
           ref="qrcode"
           class="elem-shadow-md select-none rounded-3xl"
-          :codeURL="linkURL"
+          :codeURL="BASE_FRONTEND_URL + linkURL"
         />
       </div>
       <BtnActionDropdown
