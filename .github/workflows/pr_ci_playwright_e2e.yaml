@@ -50,6 +50,7 @@ jobs:
           sudo yarn playwright install --with-deps
 
       - name: Wait for web server to be ready
+        working-directory: ./frontend
         run: |
           yarn wait-on http://localhost:3000
 
