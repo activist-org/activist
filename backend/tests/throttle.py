@@ -10,7 +10,6 @@ from authentication.models import UserModel
 class BaseTestThrottle:
     """
     Base class for testing throttling.
-    ----------------------------------
 
     This is a base class for testing throttling.
 

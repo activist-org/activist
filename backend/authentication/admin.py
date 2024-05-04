@@ -18,8 +18,11 @@ from .models import (
 
 
 class UserCreationForm(forms.ModelForm[UserModel]):
-    """A form for creating new users. Includes all the required
-    fields, plus a repeated password."""
+    """
+    A form for creating new users.
+
+    Includes all the required fields, plus a repeated password.
+    """
 
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(
@@ -48,9 +51,11 @@ class UserCreationForm(forms.ModelForm[UserModel]):
 
 
 class UserChangeForm(forms.ModelForm[UserModel]):
-    """A form for updating users. Includes all the fields on
-    the user, but replaces the password field with admin's
-    disabled password hash display field.
+    """
+    A form for updating users.
+
+    Includes all the fields on the user.
+    Replaces the password field with admin's disabled password hash display field.
     """
 
     password = ReadOnlyPasswordHashField()

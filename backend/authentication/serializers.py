@@ -1,3 +1,7 @@
+"""
+Serializers for the authentication app.
+"""
+
 import re
 from typing import Any, Dict, Union
 

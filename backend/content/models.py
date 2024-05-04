@@ -1,21 +1,5 @@
 """
-Content Models
-
-This file contains models for the content app.
-
-Contents:
-    - Discussion
-    - DiscussionEntry
-    - Faq
-    - Resource
-    - Task
-    - Topic
-    - Tag
-    - ResourceTopic
-    - ResourceTag
-    - TopicFormat
-    - DiscussionTag
-    - Image
+Models for the content app.
 """
 
 from uuid import uuid4

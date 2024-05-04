@@ -1,3 +1,7 @@
+"""
+Testing for the authentication app.
+"""
+
 import pytest
 from .factories import (
     SupportEntityTypeFactory,

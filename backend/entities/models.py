@@ -1,23 +1,5 @@
 """
-Entities Models
-
-This file contains models for the entities app.
-
-Contents:
-    - Organization
-    - OrganizationApplication
-    - OrganizationEvent
-    - OrganizationImage
-    - OrganizationMember
-    - OrganizationResource
-    - Group
-    - OrganizationTask
-    - OrganizationTopic
-    - GroupEvent
-    - GroupImage
-    - GroupMember
-    - GroupResource
-    - GroupTopic
+Models for the entities app.
 """
 
 from uuid import uuid4

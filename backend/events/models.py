@@ -1,20 +1,5 @@
 """
-Events Models
-
-This file contains models for the events app.
-
-Contents:
-    - Event
-    - Format
-    - Role
-    - EventAttendee
-    - EventFormat
-    - EventAttendeeStatus
-    - EventResource
-    - EventRole
-    - EventTask
-    - EventTopic
-    - EventTag
+Models for the events app.
 """
 
 from uuid import uuid4

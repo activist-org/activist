@@ -74,7 +74,9 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         return self.get_paginated_response(self.paginate_queryset(serializer.data))
 
     def update(self, request: Request, pk: str | None = None) -> Response:
-        """Just the created_by user can update the discussion"""
+        """
+        Just the created_by user can update the discussion.
+        """
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
@@ -100,8 +102,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:
         """
-        Deleted the whole discussion
-        - Only the created_by user can delete it
+        Deleted the whole discussion - requires created_by user.
         """
         item = self.get_object()
         if item.created_by != request.user:

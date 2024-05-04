@@ -1,5 +1,5 @@
-import { expect, test, LandingPage } from "../fixtures/page-fixtures";
 import AxeBuilder from "@axe-core/playwright";
+import { LandingPage, expect, test } from "../fixtures/page-fixtures";
 
 test.describe("Landing Page", () => {
   // Initialize page before each test, wait for the landing splash to be visible.
@@ -9,7 +9,7 @@ test.describe("Landing Page", () => {
     await landingSplash.waitFor({ state: "visible" });
   });
 
-  // Test accessibility of the landing page (skip this test for now)
+  // Test accessibility of the landing page (skip this test for now).
   test.skip("should not have any detectable accessibility issues", async ({
     landingPage,
   }, testInfo) => {

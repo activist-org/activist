@@ -1,3 +1,7 @@
+"""
+Testing for the events app.
+"""
+
 from django.urls import reverse
 from tests.throttle import BaseTestThrottle
 
