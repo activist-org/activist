@@ -50,12 +50,10 @@ const handleWindowSizeChange = () => {
 
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 
-const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(
-  sidebarHover.value
-);
-
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
   sidebarContentScrollable.value,
-  sidebarHover.value
+  sidebarHover
 );
+
+const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
 </script>
