@@ -16,98 +16,111 @@
           {{ $t("pages.groups.create.subtext") }}
         </p>
       </div>
-      <form
-        @submit.prevent="submit"
-        class="flex w-full flex-col items-center justify-center pt-4"
-      >
-        <div
-          class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
+      <FormKitRoot>
+        <FormKit
+          @submit="submit"
+          type="form"
+          class="flex w-full flex-col items-center justify-center pt-4"
+          :config="{ validationVisibility: 'submit' }"
         >
-          <div class="w-1/2">
-            <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("pages.groups.create.group-name") }}*</label
-            >
-            <input
-              v-model="formData.name"
-              id="name"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
-              type="text"
-              name="name"
-              :placeholder="$t('pages.groups.create.group-name-placeholder')"
-            />
-          </div>
-          <div class="w-1/2">
-            <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.location") }}*</label
-            >
-            <input
-              v-model="formData.location"
-              id="location"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
-              type="text"
-              name="location"
-              :placeholder="$t('pages.groups.create.location-placeholder')"
-            />
-          </div>
-        </div>
-        <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages.organizations.create.description") }}*</label
+          <div
+            class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
           >
-          <textarea
-            v-model="formData.description"
-            id="description"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
-            name="description"
-            :placeholder="$t('pages.groups.create.description-placeholder')"
-          ></textarea>
-        </div>
-        <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="tagline" class="responsive-h3 block font-medium">{{
-            $t("pages._global.create.tagline")
-          }}</label>
-          <input
-            v-model="formData.tagline"
-            id="tagline"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
-            name="tagline"
-            :placeholder="$t('pages.groups.create.tagline-placeholder')"
-          />
-        </div>
-        <CardTopicSelection
-          v-model="formData.topics"
-          class="mt-5"
-          pageType="group"
-        />
-        <div class="mx-14 mt-5 w-full">
-          <CardConnect
-            :social-links="formData.social_accounts"
-            :userIsAdmin="true"
-          />
-        </div>
-        <div class="mx-14 mt-5 flex w-full flex-col">
-          <div class="flex space-x-2">
-            <FormCheckbox />
-            <label for="terms" class="flex font-medium">
-              <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
-              <a href="#" class="text-blue-500">{{
-                $t("pages._global.terms-of-service-pt-2")
-              }}</a>
-              <p>.</p>
-            </label>
+            <div class="w-1/2">
+              <label for="name" class="responsive-h3 block font-medium">
+                {{  $t('pages.groups.create.group-name') }}*
+              </label>
+              <!-- name -->
+              <FormKit
+                v-model="formData.name"
+                id="name"
+                type="text"
+                name="name"
+                :placeholder="$t('pages.groups.create.group-name-placeholder')"
+                :class="'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'"
+                validation="required"
+              />
+            </div>
+            <div class="w-1/2">
+              <label for="location" class="responsive-h3 block font-medium">
+                {{  $t('pages._global.location') }}*
+              </label>
+              <!-- location -->
+              <FormKit
+                v-model="formData.location"
+                id="location"
+                type="text"
+                name="location"
+                :placeholder="$t('pages.groups.create.location-placeholder')"
+                :class="'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'"
+                validation="required"
+              />
+            </div>
           </div>
-          <div class="my-5">
-            <BtnAction
-              type="submit"
-              :cta="true"
-              class="flex"
-              label="_global.create-group"
-              fontSize="lg"
-              ariaLabel="pages.groups.create.create-group-aria-label"
+          <div class="card-style mx-14 mt-5 w-full px-5 py-6">
+            <label for="description" class="responsive-h3 block font-medium">
+                {{  $t('pages.organizations.create.description') }}*
+            </label>
+            <!-- description -->
+            <FormKit
+              v-model="formData.description"
+              id="description"
+              type="textarea"
+              name="description"
+              :placeholder="$t('pages.groups.create.description-placeholder')"
+              :class="'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'"
+              validation="required"
             />
           </div>
-        </div>
-      </form>
+          <div class="card-style mx-14 mt-5 w-full px-5 py-6">
+            <label for="tagline" class="responsive-h3 block font-medium">
+                {{  $t('pages._global.create.tagline') }}
+            </label>
+            <!-- tagline -->
+            <FormKit
+              v-model="formData.tagline"
+              id="tagline"
+              type="text"
+              name="tagline"
+              :placeholder="$t('pages.groups.create.tagline-placeholder')"
+              :class="'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'"
+            />
+          </div>
+          <CardTopicSelection
+            v-model="formData.topics"
+            class="mt-5"
+            pageType="group"
+          />
+          <div class="mx-14 mt-5 w-full">
+            <CardConnect
+              :social-links="formData.social_accounts"
+              :userIsAdmin="true"
+            />
+          </div>
+          <div class="mx-14 mt-5 flex w-full flex-col">
+            <div class="flex space-x-2">
+              <FormCheckbox />
+              <label for="terms" class="flex font-medium">
+                <p>{{ $t('pages._global.terms-of-service-pt-1') }}&nbsp;</p>
+                <a href="#" class="text-blue-500">
+                  {{ $t('pages._global.terms-of-service-pt-2') }}
+                </a>
+                <p>.</p>
+              </label>
+            </div>
+            <div class="my-5">
+              <BtnAction
+                type="submit"
+                :cta="true"
+                class="flex"
+                label="_global.create-group"
+                fontSize="lg"
+                ariaLabel="pages.groups.create.create-group-aria-label"
+              />
+            </div>
+          </div>
+        </FormKit>
+      </FormKitRoot>
     </div>
   </div>
 </template>
