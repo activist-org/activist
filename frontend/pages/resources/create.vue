@@ -16,83 +16,115 @@
           {{ $t("pages.resources.create.subtext") }}
         </p>
       </div>
-      <form
-        @submit.prevent="submit"
-        class="flex w-full flex-col items-center justify-center pt-4"
+      <FormKit
+        @submit="submit"
+        type="form"
+        :actions="false"
+        :classes="{
+          form: 'flex w-full flex-col items-center justify-center pt-4',
+        }"
+        :config="{ validationVisibility: 'submit' }"
       >
         <div
           class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
         >
           <div class="w-1/2">
-            <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("pages.resources.create.title") }}*</label
-            >
-            <input
+            <!-- name -->
+            <label for="name" class="responsive-h3 block font-medium">
+              {{ $t("pages.resources.create.title") }}*
+            </label>
+            <FormKit
               v-model="formData.name"
               id="name"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="name"
               :placeholder="
                 $t('pages.resources.create.resource-name-placeholder')
               "
+              :classes="{
+                input:
+                  'bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
+              }"
+              validation="required"
             />
           </div>
           <div class="w-1/2">
-            <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("pages.resources.create.link") }}*</label
-            >
-            <input
+            <!-- location -->
+            <label for="location" class="responsive-h3 block font-medium">
+              {{ $t("pages.resources.create.link") }}*
+            </label>
+            <FormKit
               v-model="formData.link"
               id="location"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="location"
               :placeholder="$t('pages.resources.create.link-placeholder')"
+              :classes="{
+                input:
+                  'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
+              }"
+              validation="required"
             />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages.resources.create.description") }}*</label
-          >
-          <textarea
+          <!-- description -->
+          <label for="description" class="responsive-h3 block font-medium">
+            {{ $t("pages.resources.create.description") }}*
+          </label>
+          <FormKit
             v-model="formData.description"
             id="description"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+            type="textarea"
             name="description"
             :placeholder="$t('pages.resources.create.description-placeholder')"
-          ></textarea>
+            :classes="{
+              input:
+                'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
+            }"
+            validation="required"
+          />
         </div>
         <div class="card-style mx-14 mt-5 flex w-full">
           <div class="flex-1 px-5 py-6">
+            <!-- location -->
             <label for="location" class="responsive-h3 block font-medium">
               {{ $t("pages._global.location") }}
             </label>
-            <textarea
+            <FormKit
               v-model="formData.location"
               id="location"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              type="textarea"
               name="location"
               :placeholder="$t('pages.resources.create.location-placeholder')"
-            ></textarea>
+              :classes="{
+                input:
+                  'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
+              }"
+            />
           </div>
           <div class="flex-1 px-5 py-6">
-            <label for="location" class="responsive-h3 block font-medium">
+            <!-- organization -->
+            <label for="organization" class="responsive-h3 block font-medium">
               {{ $t("_global.organization") }}*
             </label>
-            <textarea
+            <FormKit
               v-model="formData.organization"
               id="organization"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              type="textarea"
               name="organization"
-              :placeholder="
-                $t('pages.resources.create.organization-placeholder')
-              "
-            ></textarea>
+              :placeholder="$t('pages.resources.create.organization-placeholder')"
+              :classes="{
+                input: 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+              }"
+              validation="required"
+            />
           </div>
         </div>
-        <CardTopicSelection class="mt-5" pageType="resource" />
+        <CardTopicSelection
+          class="mt-5"
+          pageType="resource"
+        />
         <div class="mx-14 flex w-full flex-col">
           <div class="my-5">
             <BtnAction
@@ -105,7 +137,7 @@
             />
           </div>
         </div>
-      </form>
+      </FormKit>
     </div>
   </div>
 </template>

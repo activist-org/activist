@@ -1,5 +1,23 @@
 <template>
   <div class="relative flex flex-row items-center justify-start">
+    <!--
+    <FormKit
+      type="checkbox"
+      name="terms"
+      :id="uuid"
+      v-bind="{ ...$attrs, onChange: updateValue }"
+      validation="accepted"
+      validation-label="terms and conditions"
+      :checked="modelValue"
+      :classes="{
+        input:
+          'bg-light-button dark:bg-dark-button focus-brand peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-light-menu-selection dark:border-dark-menu-selection',
+      }"
+      :validation-message="{
+        accept: 'Please accept the terms and conditions.',
+      }"
+    />
+    -->
     <input
       :id="uuid"
       class="bg-light-button dark:bg-dark-button focus-brand peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-light-menu-selection dark:border-dark-menu-selection"

@@ -16,68 +16,84 @@
           {{ $t("pages.organizations.create.subtext") }}
         </p>
       </div>
-      <form
-        @submit.prevent="submit"
-        class="flex w-full flex-col items-center justify-center pt-4"
+      <FormKit
+        @submit="submit"
+        type="form"
+        :actions="false"
+        :classes="{
+          form: 'flex w-full flex-col items-center justify-center pt-4'
+        }"
+        :config="{ validationVisibility: 'submit' }"
       >
         <div
           class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
         >
           <div class="w-1/2">
-            <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("_global.organization-name") }}*</label
-            >
-            <input
+            <!-- name -->
+            <label for="name" class="responsive-h3 block font-medium">
+              {{ $t("_global.organization-name") }}*
+            </label>
+            <FormKit
               v-model="formData.name"
               id="name"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="name"
-              :placeholder="
-                $t('pages.organizations.create.organization-name-placeholder')
-              "
+              :placeholder="$t('pages.organizations.create.organization-name-placeholder')"
+              :classes="{
+                input: 'bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+              }"
+              validation="required"
             />
           </div>
           <div class="w-1/2">
-            <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.location") }}*</label
-            >
-            <input
+            <!-- location -->
+            <label for="location" class="responsive-h3 block font-medium">
+              {{ $t("pages._global.location") }}*
+            </label>
+            <FormKit
               v-model="formData.location"
               id="location"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="location"
-              :placeholder="
-                $t('pages.organizations.create.location-placeholder')
-              "
+              :placeholder="$t('pages.organizations.create.location-placeholder')"
+              :classes="{
+                input: 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+              }"
+              validation="required"
             />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages.organizations.create.description") }}*</label
-          >
-          <textarea
+          <!-- description -->
+          <label for="description" class="responsive-h3 block font-medium">
+            {{ $t("pages.organizations.create.description") }}*
+          </label>
+          <FormKit
             v-model="formData.description"
             id="description"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+            type="textarea"
             name="description"
-            :placeholder="
-              $t('pages.organizations.create.description-placeholder')
-            "
-          ></textarea>
+            :placeholder="$t('pages.organizations.create.description-placeholder')"
+            :classes="{
+              input: 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+            }"
+            validation="required"
+          />
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="tagline" class="responsive-h3 block font-medium">{{
-            $t("pages._global.create.tagline")
-          }}</label>
-          <input
+          <!-- tagline -->
+          <label for="tagline" class="responsive-h3 block font-medium">
+            {{ $t("pages._global.create.tagline") }}
+          </label>
+          <FormKit
             v-model="formData.tagline"
             id="tagline"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+            type="text"
             name="tagline"
             :placeholder="$t('pages.organizations.create.tagline-placeholder')"
+            :classes="{
+              input: 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+            }"
           />
         </div>
         <CardTopicSelection
@@ -96,9 +112,9 @@
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
               <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
-              <a href="#" class="text-blue-500">{{
-                $t("pages._global.terms-of-service-pt-2")
-              }}</a>
+              <a href="#" class="text-blue-500">
+                {{ $t("pages._global.terms-of-service-pt-2") }}
+              </a>
               <p>.</p>
             </label>
           </div>
@@ -113,7 +129,7 @@
             />
           </div>
         </div>
-      </form>
+      </FormKit>
     </div>
   </div>
 </template>
