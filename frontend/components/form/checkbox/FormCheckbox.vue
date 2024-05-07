@@ -6,7 +6,7 @@
       name="terms"
       :id="uuid"
       v-bind="{ ...$attrs, onChange: updateValue }"
-      validation="accepted"
+      validation="required"
       validation-label="terms and conditions"
       :checked="modelValue"
       :classes="{
@@ -16,7 +16,17 @@
       :validation-message="{
         accept: 'Please accept the terms and conditions.',
       }"
-    />
+    >
+      <template #label="context">
+        <span :class="context.classes.label">
+          <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
+          <a href="#" class="text-blue-500">
+            {{ $t("pages._global.terms-of-service-pt-2") }}
+          </a>
+          <p>.</p>
+        </span>
+      </template>
+    </FormKit>
     -->
     <input
       :id="uuid"
@@ -25,6 +35,13 @@
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"
     />
+    <label for="terms" class="flex font-medium ml-2">
+      <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
+      <a href="#" class="text-blue-500">
+        {{ $t("pages._global.terms-of-service-pt-2") }}
+      </a>
+      <p>.</p>
+    </label>
     <div
       class="pointer-events-none absolute left-[0.2rem] hidden h-[1rem] w-[1rem] rounded-sm bg-light-menu-selection peer-checked:block dark:bg-dark-menu-selection"
     ></div>
@@ -52,6 +69,10 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
   error: "",
 });
+
+function checkRequired() {
+  let isRequired
+}
 
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit);
