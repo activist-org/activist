@@ -78,10 +78,9 @@ PRs are always welcome to improve the developer experience and project infrastru
 Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are not enabled. This may change in the future. Strict type checks are not enabled to allow building the app outside `Docker`. Local and Netlify builds proceed despite TS errors with strict checks disabled.
 
 > [!NOTE]
-> For VS Code users: it is recommended to install these extensions to enable in-editor type-checking:
+> For VS Code users: it is recommended to install the following extension to enable in-editor type-checking:
 >
 > - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-> - [Volar TS](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 
 ### Vue Single File Component (.vue file) Guidelines
 
