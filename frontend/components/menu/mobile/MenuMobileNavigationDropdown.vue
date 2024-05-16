@@ -105,23 +105,21 @@ const pathToSidebarTypeMap = [
     path: "organizations",
     type: isOrgPage.value
       ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.FILTER_ORGANIZATIONS,
+      : SidebarType.ORGANIZATION_FILTER,
   },
   {
     path: "events",
-    type: isEventPage.value
-      ? SidebarType.EVENT_PAGE
-      : SidebarType.FILTER_EVENTS,
+    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENT_FILTER,
   },
 ];
 
 watch([isOrgPage, isEventPage], () => {
   pathToSidebarTypeMap[2].type = isOrgPage.value
     ? SidebarType.ORGANIZATION_PAGE
-    : SidebarType.FILTER_ORGANIZATIONS;
+    : SidebarType.ORGANIZATION_FILTER;
   pathToSidebarTypeMap[3].type = isEventPage.value
     ? SidebarType.EVENT_PAGE
-    : SidebarType.FILTER_EVENTS;
+    : SidebarType.EVENT_FILTER;
 });
 
 const sidebarType = computed(() => {

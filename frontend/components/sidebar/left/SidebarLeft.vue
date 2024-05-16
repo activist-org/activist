@@ -92,23 +92,21 @@ const pathToSidebarTypeMap = [
     path: "organizations",
     type: isOrgPage.value
       ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.FILTER_ORGANIZATIONS,
+      : SidebarType.ORGANIZATION_FILTER,
   },
   {
     path: "events",
-    type: isEventPage.value
-      ? SidebarType.EVENT_PAGE
-      : SidebarType.FILTER_EVENTS,
+    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENT_FILTER,
   },
 ];
 
 watch([isOrgPage, isEventPage], () => {
   pathToSidebarTypeMap[2].type = isOrgPage.value
     ? SidebarType.ORGANIZATION_PAGE
-    : SidebarType.FILTER_ORGANIZATIONS;
+    : SidebarType.ORGANIZATION_FILTER;
   pathToSidebarTypeMap[3].type = isEventPage.value
     ? SidebarType.EVENT_PAGE
-    : SidebarType.FILTER_EVENTS;
+    : SidebarType.EVENT_FILTER;
 });
 
 const sidebarType = computed(() => {
@@ -133,7 +131,7 @@ for (const key in Topic) {
 
 const filters = {
   daysAhead: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "Days ahead",
     name: "daysAhead",
     type: "radio",
@@ -155,7 +153,7 @@ const filters = {
     ],
   },
   eventType: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "Event type",
     name: "eventType",
     type: "checkbox",
@@ -174,7 +172,7 @@ const filters = {
     ],
   },
   locationType: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "Location",
     name: "locationType",
     type: "checkbox",
@@ -192,21 +190,21 @@ const filters = {
     ],
   },
   eventLocationSearch: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "",
     name: "eventLocationSearch",
     type: "search",
     placeholder: "components.sidebar-left.location-search-placeholder",
   },
   locationSearch: {
-    sidebarType: [SidebarType.FILTER_ORGANIZATIONS, SidebarType.SEARCH],
+    sidebarType: [SidebarType.ORGANIZATION_FILTER, SidebarType.SEARCH],
     title: "Location",
     name: "locationSearch",
     type: "search",
     placeholder: "components.sidebar-left.location-search-placeholder",
   },
   organizationSearch: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "Organization",
     name: "organizationSearch",
     type: "search",
@@ -214,9 +212,9 @@ const filters = {
   },
   topic: {
     sidebarType: [
-      SidebarType.FILTER_EVENTS,
-      SidebarType.FILTER_ORGANIZATIONS,
-      SidebarType.FILTER_RESOURCES,
+      SidebarType.EVENT_FILTER,
+      SidebarType.ORGANIZATION_FILTER,
+      SidebarType.RESOURCES_FILTER,
       SidebarType.SEARCH,
     ],
     title: "Topic",

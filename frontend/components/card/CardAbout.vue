@@ -75,7 +75,7 @@
             <p
               ref="description"
               :class="{
-                'line-clamp-3': !expandText,
+                'line-clamp-5': !expandText,
               }"
             >
               {{ organization.description }}
@@ -121,7 +121,7 @@
             <p
               ref="description"
               :class="{
-                'line-clamp-3': !expandText,
+                'line-clamp-5': !expandText,
               }"
             >
               {{ group.description }}
