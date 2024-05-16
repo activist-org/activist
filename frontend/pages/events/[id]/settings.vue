@@ -20,13 +20,16 @@
         />
       </div>
     </HeaderAppPage>
-    <CardDangerZone
-      :description="$t('components.card-danger-zone.event-description')"
-      :ctaBtnText="$t('components.card-danger-zone.event-cta-btn-text')"
-      :ctaBtnAriaLabel="
-        $t('components.card-danger-zone.event-cta-btn-aria-label')
-      "
-    />
+    <PagePreviewSettings />
+    <!-- <div class="space-y-6 pb-6">
+      <CardDangerZone
+        :description="$t('components.card-danger-zone.event-description')"
+        :ctaBtnText="$t('components.card-danger-zone.event-cta-btn-text')"
+        :ctaBtnAriaLabel="
+          $t('components.card-danger-zone.event-cta-btn-aria-label')
+        "
+      />
+    </div> -->
   </div>
 </template>
 
