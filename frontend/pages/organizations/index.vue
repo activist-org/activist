@@ -29,7 +29,9 @@
 </template>
 
 <script setup lang="ts">
-const { data: organizations } = await useFetch(
+import type { Organization } from "~/types/organization";
+
+const { data: organizations } = await useFetch<Organization[] | undefined>(
   `${BASE_BACKEND_URL}/entities/organizations/`,
   {
     method: "GET",

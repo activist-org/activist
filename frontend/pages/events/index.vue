@@ -14,8 +14,8 @@
       </div>
     </HeaderAppPage>
     <PagePreviewEvent />
-    <!-- <div v-if="events">
-      <div v-for="event in events" class="space-y-6 pb-6 pt-3 md:pt-4">
+    <!-- <div v-if="events.results.length > 0">
+      <div v-for="event in events.results" class="space-y-6 pb-6 pt-3 md:pt-4">
         <CardSearchResultEvent :isPrivate="false" :event="event" />
       </div>
     </div>
@@ -24,7 +24,9 @@
 </template>
 
 <script setup lang="ts">
-// const { data: events } = await useFetch(
+// import type { Event } from "~/types/event";
+
+// const { data: events } = await useFetch<Event[] | undefined>(
 //   `${BASE_BACKEND_URL}/entities/organization_events/`,
 //   {
 //     method: "GET",
