@@ -79,7 +79,7 @@ class SignupView(APIView):
         serializer.save()
 
         return Response(
-            {"message": "User was created successful"},
+            {"message": "User was created successfully"},
             status=status.HTTP_201_CREATED,
         )
 
@@ -95,7 +95,7 @@ class LoginView(APIView):
         login(request, serializer.validated_data.get("user"))
 
         return Response(
-            {"message": "User was logged in successful"},
+            {"message": "User was logged in successfully"},
             status=status.HTTP_200_OK,
         )
 
@@ -116,6 +116,6 @@ class DeleteUserView(APIView):
         user.delete()
 
         return Response(
-            {"message": "User was deleted successful"},
+            {"message": "User was deleted successfully"},
             status=status.HTTP_204_NO_CONTENT,
         )
