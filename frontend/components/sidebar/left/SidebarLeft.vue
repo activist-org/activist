@@ -23,7 +23,10 @@
         sidebarContentScrollable,
     }"
   >
-    <SidebarLeftHeader @toggle-pressed="setSidebarContentScrollable()" />
+    <SidebarLeftHeader
+      @toggle-pressed="setSidebarContentScrollable()"
+      :atTopShadow="applyTopShadow"
+    />
     <div
       ref="content"
       class="h-full overflow-x-hidden"
@@ -244,12 +247,20 @@ const sidebarContentScrollable = useState<boolean>(
   "sidebarContentScrollable",
   () => false
 );
+const applyTopShadow = ref(false);
 
 function setSidebarContentScrollable(): void {
   setTimeout(() => {
     sidebarContentScrollable.value =
       content.value.scrollHeight > content.value.clientHeight ? true : false;
   }, 50);
+  isAtTop();
+}
+
+function isAtTop(): void {
+  if (sidebarContentScrollable) {
+    applyTopShadow.value = !(content.value.scrollTop === 0);
+  }
 }
 
 const sidebarWrapper = ref<HTMLElement | null>(null);
