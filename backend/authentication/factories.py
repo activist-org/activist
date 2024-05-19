@@ -44,7 +44,6 @@ class UserFactory(factory.django.DjangoModelFactory):
     is_private = factory.Faker("boolean")
     is_high_risk = factory.Faker("boolean")
     creation_date = factory.Faker("date_time_this_decade", before_now=True)
-    deletion_date = factory.Faker("date_time_this_decade", before_now=False)
     plaintext_password = factory.PostGenerationMethodCall("set_password", "password")
 
     # Workaround for the build method

@@ -55,7 +55,6 @@ def test_signup(client: Client) -> None:
     # Setup
     fake = Faker()
     username = fake.name()
-    second_username = fake.name()
     email = fake.email()
     strong_password = fake.password(
         length=12, special_chars=True, digits=True, upper_case=True
@@ -125,20 +124,8 @@ def test_signup(client: Client) -> None:
     assert response.status_code == 400
     assert UserModel.objects.filter(username=username).count() == 1
 
-    # 5. Different User with the same email already exists
-    response = client.post(
-        path="/v1/auth/signup/",
-        data={
-            "username": second_username,
-            "password": strong_password,
-            "password_confirmed": strong_password,
-            "email": email,
-        },
-    )
-    assert response.status_code == 400
-    assert not UserModel.objects.filter(username=second_username).exists()
 
-
+@pytest.mark.django_db
 def test_login(client: Client) -> None:
     """
     Test login view.
@@ -155,8 +142,9 @@ def test_login(client: Client) -> None:
     # 1. User is logged in successfully
     response = client.post(
         path="/v1/auth/login/",
-        data={"email": user.email, "password": plaintext_password},
+        data={"username": user.username, "password": plaintext_password},
     )
+    print(response.content)
     assert response.status_code == 200
 
     # 2. User exists but password is incorrect

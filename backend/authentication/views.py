@@ -1,7 +1,12 @@
+import os
+import uuid
 from uuid import UUID
 
-from django.contrib.auth import get_user_model, login
-from django.contrib.auth.models import User
+import dotenv
+from django.contrib.auth import login
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
@@ -20,6 +25,7 @@ from .models import (
 )
 from .serializers import (
     LoginSerializer,
+    PasswordResetSerializer,
     SignupSerializer,
     SupportEntityTypeSerializer,
     SupportSerializer,
@@ -29,7 +35,10 @@ from .serializers import (
     UserTopicSerializer,
 )
 
-USER = get_user_model()
+dotenv.load_dotenv()
+
+FRONTEND_BASE_URL = os.getenv("VITE_FRONTEND_URL")
+ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
 
 
 class SupportEntityTypeViewSet(viewsets.ModelViewSet[SupportEntityType]):
@@ -44,8 +53,8 @@ class SupportViewSet(viewsets.ModelViewSet[Support]):
     serializer_class = SupportSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet[User]):
-    queryset = USER.objects.all()
+class UserViewSet(viewsets.ModelViewSet[UserModel]):
+    queryset = UserModel.objects.all()
     pagination_class = CustomPagination
     serializer_class = UserSerializer
 
@@ -74,12 +83,58 @@ class SignupView(APIView):
     serializer_class = SignupSerializer
 
     def post(self, request: Request) -> Response:
+        """Create a new user."""
         serializer = SignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        user: UserModel = serializer.save()
+
+        if user.email != "":
+            user.code = uuid.uuid4()
+
+            confirmation_link = f"{FRONTEND_BASE_URL}/confirm/{user.code}"
+            message = f"Welcome to activist.org, {user.username}!"
+            html_message = render_to_string(
+                template_name="signup_email.html",
+                context={
+                    "username": user.username,
+                    confirmation_link: confirmation_link,
+                },
+            )
+
+            send_mail(
+                subject="Welcome to activist.org",
+                message=message,
+                from_email=ACTIVIST_EMAIL,
+                recipient_list=[user.email],
+                html_message=html_message,
+                fail_silently=False,
+            )
+
+            user.save()
 
         return Response(
             {"message": "User was created successfully"},
+            status=status.HTTP_201_CREATED,
+        )
+
+    @extend_schema(parameters=[OpenApiParameter(name="code", type=str)])
+    def get(self, request: Request) -> Response:
+        """Confirm a user's email address."""
+        code = request.GET.get("code")
+        user = UserModel.objects.filter(code=code).first()
+
+        if user is None:
+            return Response(
+                {"message": "User does not exist"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        user.is_confirmed = True
+        user.code = ""
+        user.save()
+
+        return Response(
+            {"message": "Email is confirmed. You can now log in."},
             status=status.HTTP_201_CREATED,
         )
 
@@ -89,6 +144,10 @@ class LoginView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request: Request) -> Response:
+        """Log in a user.
+
+        Login is possible with either email or username
+        """
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -96,6 +155,64 @@ class LoginView(APIView):
 
         return Response(
             {"message": "User was logged in successfully"},
+            status=status.HTTP_200_OK,
+        )
+
+
+class PasswordResetView(APIView):
+    serializer_class = PasswordResetSerializer
+    permission_classes = (AllowAny,)
+    queryset = UserModel.objects.all()
+
+    @extend_schema(parameters=[OpenApiParameter(name="email", type=str)])
+    def get(self, request: Request) -> Response:
+        email = request.query_params.get("email")
+        user = UserModel.objects.filter(email=email).first()
+
+        if user is None:
+            return Response(
+                {
+                    "message": f"User does not exist {user}, {email}, {request.query_params}"
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        user.code = uuid.uuid4()
+
+        pwreset_link = f"{FRONTEND_BASE_URL}/pwreset/{user.code}"
+        message = "Reset your password at activist.org"
+        html_message = render_to_string(
+            template_name="pwreset_email.html",
+            context={"username": user.username, pwreset_link: pwreset_link},
+        )
+
+        send_mail(
+            subject="Reset your password at activist.org",
+            message=message,
+            from_email=ACTIVIST_EMAIL,
+            recipient_list=[user.email],
+            html_message=html_message,
+            fail_silently=False,
+        )
+
+        user.save()
+
+        return Response(
+            {"message": "Password reset email was sent successfully"},
+            status=status.HTTP_200_OK,
+        )
+
+    def post(self, request: Request) -> Response:
+        serializer = PasswordResetSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data
+
+        user.set_password(request.data.get("password"))
+        user.save()
+
+        return Response(
+            {"message": "Password was reset successfully"},
             status=status.HTTP_200_OK,
         )
 
