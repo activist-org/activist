@@ -115,7 +115,6 @@ onMounted(() => {
   updateShareBtnLabel();
 });
 
-
 onUpdated(() => {
   updateShareBtnLabel();
 });

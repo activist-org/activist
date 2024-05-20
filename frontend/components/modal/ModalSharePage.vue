@@ -1,5 +1,9 @@
 <template>
-  <ModalBase @closeModal="handleCloseModal" :isOpen="modalIsOpen" :modalName="modalName">
+  <ModalBase
+    @closeModal="handleCloseModal"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
+  >
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
         <p class="responsive-h2 font-bold">
