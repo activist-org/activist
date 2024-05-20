@@ -1,12 +1,14 @@
 <template>
   <MetaTag
-    iconName="bi:people"
+    :iconName="IconMap.PEOPLE"
     :value="`${categorizeNumber(members)}`"
     :label="label"
   />
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 defineProps<{
   members: number;
   label?: string;

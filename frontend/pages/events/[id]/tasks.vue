@@ -17,23 +17,21 @@
           :cta="true"
           label="components.btn-action.new-task"
           fontSize="sm"
-          leftIcon="bi:plus-lg"
+          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="components.btn-action.new-task-aria-label"
         />
       </div>
     </HeaderAppPage>
+    <PagePreviewTasks />
     <!-- <div v-if="event.tasks" class="space-y-3 py-4"></div>
     <EmptyState v-else pageType="tasks" :permission="false" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { testClimateEvent } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const event = testClimateEvent;
 </script>

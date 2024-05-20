@@ -6,7 +6,7 @@
         class="flex max-h-[40px] w-full"
         :cta="true"
         label="components._global.star"
-        leftIcon="bi:star"
+        :leftIcon="IconMap.STAR"
         fontSize="lg"
         :ariaLabel="$t('components._global.star')"
       /> -->
@@ -17,7 +17,7 @@
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
         label="components.btn-action.share"
-        leftIcon="bi:box-arrow-up"
+        :leftIcon="IconMap.SHARE"
         fontSize="lg"
         :ariaLabel="$t('components.btn-action.share')"
       />
@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import type { Resource } from "~/types/resource";
 
 defineProps<{

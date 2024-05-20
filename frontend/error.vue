@@ -38,7 +38,7 @@
       </div>
     </div>
   </div>
-  <Footer />
+  <FooterWebsite />
 </template>
 
 <script setup lang="ts">

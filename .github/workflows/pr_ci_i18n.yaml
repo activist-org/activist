@@ -17,7 +17,7 @@ jobs:
   i18n_check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo content
+      - name: Checkout Repo Content
         uses: actions/checkout@v4
 
       - name: Setup python
@@ -25,11 +25,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Execute check repeat i18n value script
+      - name: Execute Repeat i18n Value Script
         working-directory: ./frontend/i18n
         run: python check_repeat_i18n_values.py
 
-      - name: Execute check unused i18n key script
+      - name: Execute Unused i18n Key Script
         if: always()
         working-directory: ./frontend/i18n
         run: python check_unused_i18n_keys.py

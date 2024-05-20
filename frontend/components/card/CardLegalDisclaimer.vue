@@ -8,10 +8,13 @@
       <div
         class="flex select-none items-center gap-3 text-light-text dark:text-dark-text"
       >
-        <Icon name="IconLegal" class="fill-light-text dark:fill-dark-text" />
+        <Icon
+          :name="IconMap.LEGAL"
+          class="fill-light-text dark:fill-dark-text"
+        />
         <p>{{ $t("components.card-legal-disclaimer.header") }}</p>
-        <Icon v-if="open" name="bi:chevron-up" />
-        <Icon v-else name="bi:chevron-down" />
+        <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
+        <Icon v-else :name="IconMap.CHEVRON_DOWN" />
       </div>
       <DisclosurePanel
         class="mt-2 border-t border-light-section-div py-2 focus-within:border-0 dark:border-dark-section-div"
@@ -28,6 +31,7 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   disclaimer: string;

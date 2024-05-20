@@ -13,7 +13,7 @@
   >
     <Icon
       class="-my-1"
-      :name="type === 'group' ? 'IconGroup' : 'bi:eye-slash'"
+      :name="type === 'group' ? 'IconGroup' : IconMap.HIDDEN"
       :size="iconSize"
     />
     <span class="mx-auto ml-2 hidden md:block">{{
@@ -23,6 +23,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 export interface Props {
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   type?: "default" | "group";

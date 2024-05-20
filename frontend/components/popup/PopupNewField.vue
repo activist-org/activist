@@ -13,7 +13,7 @@
         tabindex="0"
         class="absolute right-0 mr-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
       >
-        <Icon class="h-6 w-6" name="bi:x-circle-fill" />
+        <Icon class="h-6 w-6" :name="IconMap.CIRCLE_X_FILL" />
       </div>
     </div>
     <label for="popup-input" class="sr-only"> {{ fieldNamePrompt }}</label>
@@ -55,7 +55,7 @@
         linkTo="placeholder-link"
         :label="ctaBtnLabel"
         fontSize="sm"
-        leftIcon="bi:plus-lg"
+        :leftIcon="IconMap.PLUS"
         iconSize="1.35em"
         :ariaLabel="ctaBtnAriaLabel"
       />
@@ -64,6 +64,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 defineProps<{
   title: string;
   fieldNamePrompt: string;

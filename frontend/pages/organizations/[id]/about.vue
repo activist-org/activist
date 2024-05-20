@@ -14,7 +14,7 @@
           :linkTo="organization.getInvolvedURL"
           label="components.btn-route-internal.join-organization"
           fontSize="sm"
-          rightIcon="bi:arrow-right"
+          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="components.btn-route-internal.join-organization-aria-label"
         />
@@ -38,7 +38,7 @@
           :label="$t(shareButtonLabel)"
           :hideLabelOnMobile="false"
           fontSize="sm"
-          leftIcon="bi:box-arrow-up"
+          :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
           :ariaLabel="$t('components._global.share-organization-aria-label')"
         />
@@ -107,14 +107,11 @@
 </template>
 
 <script setup lang="ts">
-import { Breakpoint } from "~/types/breakpoints";
+import { BreakpointMap } from "~/types/breakpoint-map";
 import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { DiscussionInput } from "~/types/discussion-input";
+import { IconMap } from "~/types/icon-map";
 import { testTechOrg } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const organization = testTechOrg;
 // const route = useRoute();
@@ -124,28 +121,29 @@ const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
 
-const currentWidth = ref(window.innerWidth);
-let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+const windowWidth = ref(window.innerWidth);
 const shareButtonLabel = ref("");
 
 function updateShareBtnLabel() {
-  if (currentWidth.value < Breakpoint.SMALL) {
+  windowWidth.value = window.innerWidth;
+  if (windowWidth.value < BreakpointMap.SMALL) {
     shareButtonLabel.value = "components.btn-action.share";
   } else {
     shareButtonLabel.value = "components._global.share-organization";
   }
 }
 
-const handleResize = () => {
-  if (resizeTimeout) {
-    clearTimeout(resizeTimeout);
-  }
-  resizeTimeout = setTimeout(updateShareBtnLabel, 100);
-};
-
 onMounted(() => {
-  window.addEventListener("resize", handleResize);
+  window.addEventListener("resize", updateShareBtnLabel);
   updateShareBtnLabel();
+});
+
+onUpdated(() => {
+  updateShareBtnLabel();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateShareBtnLabel);
 });
 
 // TODO: for testing purpose, should be removed.

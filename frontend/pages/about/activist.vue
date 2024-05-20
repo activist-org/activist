@@ -6,7 +6,7 @@
       <Title>{{ $t("pages._global.about-us") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/activist_icon"
+      imgURL="/icons/activist/activist_icon"
       imgAltText="_global.activist-icon-img-alt-text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">
@@ -15,7 +15,7 @@
       <div class="flex flex-row space-x-3 py-2">
         <Icon
           class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
-          name="bi:info-circle-fill"
+          :name="IconMap.CIRCLE_INFO"
           size="1.25em"
         />
         <p>
@@ -27,7 +27,7 @@
           >
             {{ $t("pages.about.activist.subheader-2") }}
             <Icon
-              name="bi:box-arrow-up-right"
+              :name="IconMap.EXTERNAL_LINK"
               size="1em"
               style="vertical-align: baseline"
             />
@@ -70,3 +70,7 @@
     </PageDocs>
   </div>
 </template>
+
+<script script setup="ts">
+import { IconMap } from "~/types/icon-map";
+</script>

@@ -10,7 +10,7 @@
     ref="sidebarWrapper"
     role="menu"
     tabindex="0"
-    class="elem-shadow-sm focus-brand absolute z-10 hidden h-full flex-col border-r border-light-section-div bg-light-layer-1 transition-all duration-500 dark:border-dark-section-div dark:bg-dark-layer-1 md:flex"
+    class="elem-shadow-sm focus-brand absolute z-10 block h-full flex-col border-r border-light-section-div bg-light-layer-1 transition-all duration-500 dark:border-dark-section-div dark:bg-dark-layer-1 md:flex"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
@@ -23,7 +23,10 @@
         sidebarContentScrollable,
     }"
   >
-    <SidebarLeftHeader @toggle-pressed="setSidebarContentScrollable()" />
+    <SidebarLeftHeader
+      @toggle-pressed="setSidebarContentScrollable()"
+      :atTopShadow="applyTopShadow"
+    />
     <div
       ref="content"
       class="h-full overflow-x-hidden"
@@ -61,56 +64,77 @@
 import type { Filters } from "~/types/filters";
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
+import { Topic } from "~/types/topics";
 import {
   currentRoutePathIncludes,
   isCurrentRoutePathSubpageOf,
 } from "~/utils/routeUtils";
 
-defineProps<{
-  name?: string;
-}>();
-
 const sidebar = useSidebar();
 const route = useRoute();
 const { currentRoute } = useRouter();
-const routeName = currentRoute.value.name;
-let routeToCheck = routeName;
-if (routeToCheck) {
-  routeToCheck = routeToCheck.toString();
-} else {
-  routeToCheck = "";
-}
 
-const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeToCheck);
-const isEventPage = isCurrentRoutePathSubpageOf("events", routeToCheck);
+const routeName = computed(() => {
+  if (currentRoute.value.name) {
+    return currentRoute.value.name;
+  }
+  return "";
+});
+
+const isOrgPage = computed(() =>
+  isCurrentRoutePathSubpageOf("organizations", routeName.value.toString())
+);
+const isEventPage = computed(() =>
+  isCurrentRoutePathSubpageOf("events", routeName.value.toString())
+);
 
 const pathToSidebarTypeMap = [
   { path: "search", type: SidebarType.SEARCH },
   { path: "home", type: SidebarType.HOME },
   {
     path: "organizations",
-    type: isOrgPage
+    type: isOrgPage.value
       ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.FILTER_ORGANIZATIONS,
+      : SidebarType.ORGANIZATION_FILTER,
   },
   {
     path: "events",
-    type: isEventPage ? SidebarType.EVENT_PAGE : SidebarType.FILTER_EVENTS,
+    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENT_FILTER,
   },
 ];
 
-const sidebarType =
-  pathToSidebarTypeMap.find((item) =>
-    currentRoutePathIncludes(item.path, routeToCheck)
-  )?.type || SidebarType.MISC;
+watch([isOrgPage, isEventPage], () => {
+  pathToSidebarTypeMap[2].type = isOrgPage.value
+    ? SidebarType.ORGANIZATION_PAGE
+    : SidebarType.ORGANIZATION_FILTER;
+  pathToSidebarTypeMap[3].type = isEventPage.value
+    ? SidebarType.EVENT_PAGE
+    : SidebarType.EVENT_FILTER;
+});
+
+const sidebarType = computed(() => {
+  const matchingPath = pathToSidebarTypeMap.find((item) =>
+    currentRoutePathIncludes(item.path, routeName.value.toString())
+  );
+  return matchingPath?.type || SidebarType.MISC;
+});
 
 // TODO: Use real name of organization / event when available from backend.
 const placeholderName = route.path.split("/").at(-2)?.replaceAll("-", " ");
 const placeholderLogo = "/images/tech-from-below.svg";
 
+const topicsArray: { label: string; value: string }[] = [];
+
+for (const key in Topic) {
+  if (Object.prototype.hasOwnProperty.call(Topic, key)) {
+    const value = Topic[key as keyof typeof Topic];
+    topicsArray.push({ label: key.toLowerCase(), value });
+  }
+}
+
 const filters = {
   daysAhead: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "Days ahead",
     name: "daysAhead",
     type: "radio",
@@ -132,7 +156,7 @@ const filters = {
     ],
   },
   eventType: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "Event type",
     name: "eventType",
     type: "checkbox",
@@ -151,7 +175,7 @@ const filters = {
     ],
   },
   locationType: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "Location",
     name: "locationType",
     type: "checkbox",
@@ -169,21 +193,21 @@ const filters = {
     ],
   },
   eventLocationSearch: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "",
     name: "eventLocationSearch",
     type: "search",
     placeholder: "components.sidebar-left.location-search-placeholder",
   },
   locationSearch: {
-    sidebarType: [SidebarType.FILTER_ORGANIZATIONS, SidebarType.SEARCH],
+    sidebarType: [SidebarType.ORGANIZATION_FILTER, SidebarType.SEARCH],
     title: "Location",
     name: "locationSearch",
     type: "search",
     placeholder: "components.sidebar-left.location-search-placeholder",
   },
   organizationSearch: {
-    sidebarType: [SidebarType.FILTER_EVENTS],
+    sidebarType: [SidebarType.EVENT_FILTER],
     title: "Organization",
     name: "organizationSearch",
     type: "search",
@@ -191,9 +215,9 @@ const filters = {
   },
   topic: {
     sidebarType: [
-      SidebarType.FILTER_EVENTS,
-      SidebarType.FILTER_ORGANIZATIONS,
-      SidebarType.FILTER_RESOURCES,
+      SidebarType.EVENT_FILTER,
+      SidebarType.ORGANIZATION_FILTER,
+      SidebarType.RESOURCES_FILTER,
       SidebarType.SEARCH,
     ],
     title: "Topic",
@@ -201,92 +225,7 @@ const filters = {
     name: "topic",
     style: "simple",
     expandable: true,
-    items: [
-      {
-        label: "Environment",
-        value: "environment",
-      },
-      {
-        label: "Housing",
-        value: "housing",
-      },
-      {
-        label: "Refugees",
-        value: "refugees",
-      },
-      {
-        label: "LGBTQIA+",
-        value: "lgbtqia+",
-      },
-      {
-        label: "Racial Justice",
-        value: "racial justice",
-      },
-      {
-        label: "Women's Rights",
-        value: "women's rights",
-      },
-      {
-        label: "Children's Rights",
-        value: "children's rights",
-      },
-      {
-        label: "Elder Rights",
-        value: "elder rights",
-      },
-      {
-        label: "Animal Rights",
-        value: "animal rights",
-      },
-      {
-        label: "Labor Rights",
-        value: "labor rights",
-      },
-      {
-        label: "Education",
-        value: "education",
-      },
-      {
-        label: "Democracy",
-        value: "democracy",
-      },
-      {
-        label: "Health",
-        value: "health",
-      },
-      {
-        label: "Privacy",
-        value: "privacy",
-      },
-      {
-        label: "Peace",
-        value: "peace",
-      },
-      {
-        label: "Nutrition",
-        value: "nutrition",
-      },
-      {
-        label: "Accessibility",
-        value: "accessibility",
-      },
-      {
-        label: "Transparency",
-        value: "transparency",
-      },
-      {
-        label: "Expression",
-        value: "expression",
-      },
-      {
-        label: "Emergency Relief",
-        value: "emergency relief",
-      },
-      {
-        label: "Infrastructure",
-        value: "infrastructure",
-      },
-    ],
+    items: topicsArray,
   },
 };
 
@@ -294,7 +233,7 @@ const getFiltersByPageType = computed<Filters>(() => {
   const filteredFilters: Filters = {};
   for (const filter in filters) {
     const f = filters[filter as keyof typeof filters];
-    if (!f.sidebarType.includes(sidebarType)) {
+    if (!f.sidebarType.includes(sidebarType.value)) {
       delete filteredFilters[filter as keyof typeof filters];
     }
   }
@@ -308,12 +247,20 @@ const sidebarContentScrollable = useState<boolean>(
   "sidebarContentScrollable",
   () => false
 );
+const applyTopShadow = ref(false);
 
 function setSidebarContentScrollable(): void {
   setTimeout(() => {
     sidebarContentScrollable.value =
       content.value.scrollHeight > content.value.clientHeight ? true : false;
   }, 50);
+  isAtTop();
+}
+
+function isAtTop(): void {
+  if (sidebarContentScrollable) {
+    applyTopShadow.value = !(content.value.scrollTop === 0);
+  }
 }
 
 const sidebarWrapper = ref<HTMLElement | null>(null);

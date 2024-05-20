@@ -11,7 +11,7 @@
       class="flex items-center space-x-2 px-2"
     >
       <Icon
-        :name="rule.isValid ? 'bi:check-circle-fill' : 'bi:x-circle-fill'"
+        :name="rule.isValid ? IconMap.CIRCLE_CHECK_FILL : IconMap.CIRCLE_X_FILL"
         size="0.9em"
         :style="{ color: rule.isValid ? '#198754' : '#BA3D3B' }"
       />
@@ -21,7 +21,9 @@
     </div>
   </TooltipBase>
 </template>
+
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import type { PasswordRules } from "~/types/password-rules";
 
 defineProps<{

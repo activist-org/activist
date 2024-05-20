@@ -1,55 +1,36 @@
 <template>
   <HeaderMobile />
-  <MenuMobileNavigationDropdown />
+  <MenuMobileNavigationDropdown class="md:hidden" />
   <SidebarLeft
     @mouseover="sidebarHover = true"
     @focus="sidebarHover = true"
     @mouseleave="sidebarHover = false"
     @blur="sidebarHover = false"
+    class="hidden md:block"
   />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
     <div
       class="bg-light-layer-0 pt-8 transition-padding duration-500 dark:bg-dark-layer-0 md:pt-0"
-      :class="{
-        'md:pl-16 xl:pl-56':
-          sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-        'md:pl-16 xl:pl-16':
-          sidebar.collapsed == true && sidebar.collapsedSwitch == true,
-        'md:pl-20 xl:pl-60':
-          (sidebar.collapsed == false || sidebar.collapsedSwitch == false) &&
-          sidebarContentScrollable,
-        'md:pl-20 xl:pl-20':
-          sidebar.collapsed == true &&
-          sidebar.collapsedSwitch == true &&
-          sidebarContentScrollable,
-        'blur-sm xl:blur-none':
-          sidebar.collapsedSwitch == true &&
-          sidebar.collapsed == false &&
-          sidebarHover == true,
-      }"
+      :class="sidebarContentDynamicClass"
     >
-      <slot />
+      <NuxtPage />
     </div>
-    <Footer
+    <FooterWebsite
       class="pb-24 transition-padding duration-500 md:pb-12"
-      :class="{
-        'md:pl-24 xl:pl-64':
-          sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-        'md:pl-24 xl:pl-24':
-          sidebar.collapsed == true && sidebar.collapsedSwitch == true,
-        'blur-sm xl:blur-none':
-          sidebar.collapsedSwitch == true &&
-          sidebar.collapsed == false &&
-          sidebarHover == true,
-      }"
+      :class="sidebarFooterDynamicClass"
     />
   </div>
-  <MenuMobileNavBar />
+  <MenuMobileNavBar class="md:hidden" />
 </template>
 
 <script setup lang="ts">
+import {
+  getSidebarContentDynamicClass,
+  getSidebarFooterDynamicClass,
+} from "~/utils/sidebarUtils";
+
 const sidebar = useSidebar();
-let sidebarHover: boolean;
+const sidebarHover = ref(false);
 
 onMounted(() => {
   window.addEventListener("resize", handleWindowSizeChange);
@@ -59,6 +40,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", handleWindowSizeChange);
 });
+
 const handleWindowSizeChange = () => {
   if (window.innerWidth < 1280) {
     sidebar.collapsed = true;
@@ -66,5 +48,12 @@ const handleWindowSizeChange = () => {
   }
 };
 
-const sidebarContentScrollable = useState("sidebarContentScrollable");
+const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
+
+const sidebarContentDynamicClass = getSidebarContentDynamicClass(
+  sidebarContentScrollable.value,
+  sidebarHover
+);
+
+const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
 </script>

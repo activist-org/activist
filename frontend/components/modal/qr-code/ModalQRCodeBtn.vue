@@ -8,14 +8,14 @@
   >
     <div class="sm:hidden">
       <Icon
-        name="bi:qr-code-scan"
+        :name="IconMap.QR_CODE"
         size="2em"
         :alt="$t('components.modal-qr-code.img-alt-text')"
       />
     </div>
     <div class="hidden sm:block">
       <Icon
-        name="bi:qr-code-scan"
+        :name="IconMap.QR_CODE"
         size="3em"
         :alt="$t('components.modal-qr-code.img-alt-text')"
       />
@@ -26,7 +26,7 @@
     @click="openModal()"
     @keydown.enter="openModal()"
     class="focus-brand dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-    iconName="bi:qr-code-scan"
+    :iconName="IconMap.QR_CODE"
     :text="$t('components.meta-social-media-tag.qr-code')"
     iconSize="1.5em"
     tabindex="0"
@@ -66,6 +66,7 @@
 <script setup lang="ts">
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
+import { IconMap } from "~/types/icon-map";
 import type { Organization } from "~/types/organization";
 import type { Resource } from "~/types/resource";
 import type { User } from "~/types/user";

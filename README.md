@@ -116,15 +116,17 @@ We would be happy to discuss granting you further rights as a contributor after 
 
 # Environment setup [`⇧`](#contents)
 
-1. First and foremost, please see the suggested IDE extensions in the dropdown below to make sure that your editor is set up properly.
+1. First and foremost, please see the suggested IDE setup in the dropdown below to make sure that your editor is ready for development.
 
 > [!IMPORTANT]
 >
-> <details><summary>Suggested IDE extensions</summary>
+> <details><summary>Suggested IDE setup</summary>
 >
 > <p>
 >
 > VS Code
+>
+> Install the following extensions:
 >
 > - [batisteo.vscode-django](https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django)
 > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
@@ -132,6 +134,12 @@ We would be happy to discuss granting you further rights as a contributor after 
 > - [esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 > - [streetsidesoftware.code-spell-checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+>
+> WebStorm
+>
+> - Check out the [Vue.js development docs](https://www.jetbrains.com/help/webstorm/vue-js.html)
+> - Make sure a [local Node.js interpreter](https://www.jetbrains.com/help/webstorm/developing-node-js-applications.html#ws_node_configure_local_node_interpreter) is configured in your project
+> - Make sure the [Vue.js plugin](https://github.com/JetBrains/intellij-plugins/tree/master/vuejs) and [JavaScript Debugger](https://www.jetbrains.com/help/webstorm/configuring-javascript-debugger.html) are enabled in the plugins page of the settings
 >
 > </p>
 > </details>

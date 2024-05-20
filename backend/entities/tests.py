@@ -1,3 +1,7 @@
+"""
+Testing for the entities app.
+"""
+
 from django.urls import reverse
 from tests.throttle import BaseTestThrottle
 

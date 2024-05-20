@@ -17,7 +17,7 @@
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
         label="components.btn-action.share"
-        leftIcon="bi:box-arrow-up"
+        :leftIcon="IconMap.SHARE"
         fontSize="lg"
         :ariaLabel="$t('components.btn-action.share-user-aria-label')"
       />
@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import type { User } from "~/types/user";
 
 defineProps<{

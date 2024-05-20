@@ -11,23 +11,25 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const connectLinks = [
   {
     name: "components._global.github",
     url: "https://github.com/activist-org/activist",
-    iconName: "simple-icons:github",
+    iconName: `${IconMap.GITHUB}`,
     iconSize: "1.05em",
   },
   {
     name: "components._global.matrix",
     url: "https://matrix.to/#/#activist_community:matrix.org",
-    iconName: "IconMatrix",
+    iconName: `${IconMap.MATRIX}`,
     iconSize: "1.061em",
   },
   {
     name: "components._global.instagram",
     url: "https://instagram.com/activist_org",
-    iconName: "simple-icons:instagram",
+    iconName: `${IconMap.INSTAGRAM}`,
     iconSize: "1em",
   },
 ];

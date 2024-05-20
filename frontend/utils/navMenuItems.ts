@@ -1,13 +1,15 @@
+import { IconMap } from "~/types/icon-map";
+
 export const menuItems = [
   {
     label: "_global.home",
     routeURL: "/home",
-    iconURL: "bi:house",
+    iconURL: `${IconMap.HOME}`,
   },
   {
     label: "_global.events",
     routeURL: "/events",
-    iconURL: "bi:calendar-check",
+    iconURL: `${IconMap.EVENT}`,
   },
   {
     label: "components._global.organizations",

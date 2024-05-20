@@ -28,7 +28,6 @@
 
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
-import { watch } from "vue";
 
 const route = useRoute();
 

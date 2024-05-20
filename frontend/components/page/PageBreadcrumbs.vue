@@ -19,54 +19,54 @@
           >|</span
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
-          <a
+          <NuxtLink
             v-if="Number.isInteger(Number(breadcrumb)) && event"
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
-            :href="makeURL(breadcrumb)"
+            :to="makeURL(breadcrumb)"
           >
             {{ event.name }}
-          </a>
-          <a
+          </NuxtLink>
+          <NuxtLink
             v-else-if="Number.isInteger(Number(breadcrumb)) && organization"
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
-            :href="makeURL(breadcrumb)"
+            :to="makeURL(breadcrumb)"
           >
             {{ organization.name }}
-          </a>
-          <a
+          </NuxtLink>
+          <NuxtLink
             v-else-if="
               Number.isInteger(Number(breadcrumb)) && group && index == 1
             "
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
-            :href="makeURL(breadcrumb)"
+            :to="makeURL(breadcrumb)"
           >
             {{ group.organization.name }}
-          </a>
-          <a
+          </NuxtLink>
+          <NuxtLink
             v-else-if="
               Number.isInteger(Number(breadcrumb)) && group && index == 3
             "
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
-            :href="makeURL(breadcrumb)"
+            :to="makeURL(breadcrumb)"
           >
             {{ group.name }}
-          </a>
-          <a
+          </NuxtLink>
+          <NuxtLink
             v-else
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
-            :href="makeURL(breadcrumb)"
+            :to="makeURL(breadcrumb)"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
-          </a>
+          </NuxtLink>
         </span>
         <span v-else>
-          <a
+          <NuxtLink
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
-            :href="makeURL(breadcrumb)"
+            :to="makeURL(breadcrumb)"
             aria-current="page"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
-          </a>
+          </NuxtLink>
         </span>
       </li>
     </ul>

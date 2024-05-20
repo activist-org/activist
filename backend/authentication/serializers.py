@@ -1,3 +1,7 @@
+"""
+Serializers for the authentication app.
+"""
+
 import re
 from typing import Any, Dict, Union
 
@@ -136,11 +140,11 @@ class SignupSerializer(serializers.ModelSerializer[User]):
 
 
 class LoginSerializer(serializers.Serializer[UserModel]):
-    email = serializers.EmailField()
+    username = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        username = UserModel.objects.filter(email=data.get("email")).first()
+        username = UserModel.objects.filter(username=data.get("username")).first()
 
         if username is None:
             raise serializers.ValidationError(

@@ -6,8 +6,8 @@
         :class="{ 'items-center': !open, 'items-start': open }"
       >
         <div>
-          <Icon v-if="open" name="bi:chevron-up" />
-          <Icon v-else name="bi:chevron-down" />
+          <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
+          <Icon v-else :name="IconMap.CHEVRON_DOWN" />
         </div>
         <div class="flex-col">
           <div
@@ -43,6 +43,7 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import type { FaqEntry } from "~/types/faq-entry";
+import { IconMap } from "~/types/icon-map";
 import ModalEditPageText from "../modal/ModalEditPageText.vue";
 
 defineProps<{

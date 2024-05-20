@@ -20,13 +20,13 @@
           linkTo="/"
           label="components._global.new-group"
           fontSize="sm"
-          leftIcon="bi:plus-lg"
+          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="components.btn-route-internal.new-group-aria-label"
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-3 py-4">
+    <div v-if="organization.groups" class="space-y-3 py-4">
       <CardSearchResultGroup
         v-for="(g, i) in organization.groups"
         :key="i"
@@ -35,15 +35,13 @@
         :isPrivate="false"
       />
     </div>
+    <EmptyState v-else pageType="organizations" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { testTechOrg } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const organization = testTechOrg;
 </script>

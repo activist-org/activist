@@ -22,7 +22,7 @@
       class="block"
       :cta="true"
       fontSize="sm"
-      leftIcon="bi:arrow-up"
+      :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
       :counter="discussionEntry.votes"
       ariaLabel="components.btn-action.upvote-discussion-aria-label"
@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import type { DiscussionEntry } from "~/types/discussion-entry";
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   isPrivate?: boolean;

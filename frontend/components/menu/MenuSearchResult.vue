@@ -10,7 +10,7 @@
       @keydown.shift.tab="onShiftTab"
       class="style-cta elem-shadow-sm relative flex h-8 w-8 items-center justify-center rounded-full md:h-6 md:w-6"
     >
-      <Icon name="bi:three-dots-vertical" size="1.25em" />
+      <Icon :name="IconMap.DOTS_THREE_VERTICAL" size="1.25em" />
       <TooltipMenuSearchResultEvent
         v-if="event"
         v-show="showTooltip"
@@ -63,6 +63,7 @@
 <script setup lang="ts">
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
+import { IconMap } from "~/types/icon-map";
 import type { Organization } from "~/types/organization";
 import type { Resource } from "~/types/resource";
 import type { User } from "~/types/user";

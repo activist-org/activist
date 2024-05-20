@@ -6,7 +6,7 @@
       <Title>{{ $t("_global.roadmap") }}</Title>
     </Head>
     <PageDocs
-      imgURL="/images/content_pages/icons/arcticons_bike_location"
+      :imgURL="ARCTICONS_BIKE_LOCATION"
       imgAltText="pages.about._global.roadmap-img-alt-text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">
@@ -15,7 +15,7 @@
       <div class="flex flex-row space-x-3 py-2">
         <Icon
           class="mt-[0.125rem] text-light-link-text dark:text-dark-link-text"
-          name="bi:info-circle-fill"
+          :name="IconMap.CIRCLE_INFO"
           size="1.25em"
         />
         <p>
@@ -27,7 +27,7 @@
           >
             {{ $t("pages._global.visit-source-code-pt-2") }}
             <Icon
-              name="bi:box-arrow-up-right"
+              :name="IconMap.EXTERNAL_LINK"
               size="1em"
               style="vertical-align: baseline"
             />
@@ -47,7 +47,7 @@
         >
           {{ $t("pages.about.roadmap.section-1-paragraph-2-2") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -63,7 +63,7 @@
             >
               {{ $t("pages.about.roadmap.section-1-paragraph-2-4-1") }}
               <Icon
-                name="bi:box-arrow-up-right"
+                :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
@@ -77,7 +77,7 @@
             >
               {{ $t("pages.about.roadmap.section-1-paragraph-2-4-2") }}
               <Icon
-                name="bi:box-arrow-up-right"
+                :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
@@ -91,7 +91,7 @@
             >
               {{ $t("pages.about.roadmap.section-1-paragraph-2-4-3") }}
               <Icon
-                name="bi:box-arrow-up-right"
+                :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
@@ -122,3 +122,7 @@
     </PageDocs>
   </div>
 </template>
+
+<script script setup="ts">
+import { IconMap } from "~/types/icon-map";
+</script>

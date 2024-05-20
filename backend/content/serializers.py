@@ -1,3 +1,7 @@
+"""
+Serializers for the content app.
+"""
+
 from typing import Dict, Union
 
 from django.utils.translation import gettext as _

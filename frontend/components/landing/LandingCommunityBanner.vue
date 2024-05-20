@@ -13,7 +13,7 @@
       >
         <MetaTagSocialMedia
           class="!gap-2"
-          iconName="simple-icons:github"
+          :iconName="IconMap.GITHUB"
           :text="$t('components._global.github')"
           iconSize="1.1em"
           textUtilityClasses="sr-only sm:not-sr-only"
@@ -27,7 +27,7 @@
       >
         <MetaTagSocialMedia
           class="!gap-2"
-          iconName="IconMatrix"
+          :iconName="IconMap.MATRIX"
           :text="$t('components._global.matrix')"
           iconSize="1.061em"
           textUtilityClasses="sr-only sm:not-sr-only"
@@ -41,7 +41,7 @@
       >
         <MetaTagSocialMedia
           class="!gap-2"
-          iconName="simple-icons:instagram"
+          :iconName="IconMap.INSTAGRAM"
           :text="$t('components._global.instagram')"
           iconSize="1em"
           textUtilityClasses="sr-only sm:not-sr-only"
@@ -50,3 +50,7 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+</script>

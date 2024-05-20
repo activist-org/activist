@@ -1,15 +1,5 @@
 """
-Authentication Models
-
-This file contains models for the authentication app.
-
-Contents:
-    - SupportEntityType
-    - Support
-    - UserModel
-    - UserResource
-    - UserTask
-    - UserTopic
+Models for the authentication app.
 """
 
 from typing import Any

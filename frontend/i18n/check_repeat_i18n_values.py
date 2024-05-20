@@ -17,7 +17,8 @@ with open(f"{this_directory}/en-US.json") as f:
 
 
 def lower_and_remove_punctuation(value):
-    return value.lower().translate(str.maketrans("", "", string.punctuation))
+    punctuation_no_exclamation = string.punctuation.replace("!", "")
+    return value.lower().translate(str.maketrans("", "", punctuation_no_exclamation))
 
 
 all_json_values = [

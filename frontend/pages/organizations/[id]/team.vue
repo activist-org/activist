@@ -17,13 +17,14 @@
           :cta="true"
           label="components.btn-action.invite-someone"
           fontSize="sm"
-          leftIcon="bi:plus-lg"
+          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="components.btn-action.invite-someone-org-aria-label"
         />
       </div>
     </HeaderAppPage>
     <div class="space-y-3 py-4"></div>
+    <PagePreviewTeam />
     <!-- <div v-if="organization.members" class="space-y-3 py-4">
       <CardSearchResultUser
         v-for="(u, i) in organization.members"
@@ -37,11 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { testTechOrg } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const organization = testTechOrg;
 </script>

@@ -36,13 +36,13 @@
         >
           {{ $t("pages.supporters.showcase.section-2-1-paragraph-1-2") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
         <Icon
-          name="bi:heart-fill"
+          :name="IconMap.HEART"
           size="1em"
           style="vertical-align: baseline"
         />
@@ -68,7 +68,7 @@
         >
           {{ $t("pages.supporters.showcase.section-3-paragraph-1-2") }}
           <Icon
-            name="bi:box-arrow-up-right"
+            :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
@@ -93,5 +93,7 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const localePath = useLocalePath();
 </script>

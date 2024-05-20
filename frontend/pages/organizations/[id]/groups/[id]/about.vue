@@ -19,7 +19,7 @@
           :linkTo="group.getInvolvedURL"
           label="components.btn-route-internal.join-group"
           fontSize="sm"
-          rightIcon="bi:arrow-right"
+          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="components.btn-route-internal.join-group-aria-label"
         />
@@ -43,7 +43,7 @@
           :label="$t(shareButtonLabel)"
           :hideLabelOnMobile="false"
           fontSize="sm"
-          leftIcon="bi:box-arrow-up"
+          :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
           :ariaLabel="$t('components._global.share-group-aria-label')"
         />
@@ -84,13 +84,10 @@
 </template>
 
 <script setup lang="ts">
-import { Breakpoint } from "~/types/breakpoints";
+import { BreakpointMap } from "~/types/breakpoint-map";
+import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 import { testTechGroup1 } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const groupSubPages = getGroupSubPages();
 
@@ -101,28 +98,30 @@ const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
 
-const currentWidth = ref(window.innerWidth);
-let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+const windowWidth = ref(window.innerWidth);
 const shareButtonLabel = ref("");
 
 function updateShareBtnLabel() {
-  if (currentWidth.value < Breakpoint.SMALL) {
+  windowWidth.value = window.innerWidth;
+  if (windowWidth.value < BreakpointMap.SMALL) {
     shareButtonLabel.value = "components.btn-action.share";
   } else {
     shareButtonLabel.value = "components._global.share-group";
   }
 }
 
-const handleResize = () => {
-  if (resizeTimeout) {
-    clearTimeout(resizeTimeout);
-  }
-  resizeTimeout = setTimeout(updateShareBtnLabel, 100);
-};
-
 onMounted(() => {
-  window.addEventListener("resize", handleResize);
+  window.addEventListener("resize", updateShareBtnLabel);
   updateShareBtnLabel();
+});
+
+
+onUpdated(() => {
+  updateShareBtnLabel();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateShareBtnLabel);
 });
 
 const modals = useModals();

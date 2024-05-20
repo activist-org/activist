@@ -6,8 +6,11 @@
   >
     <div>
       <DialogTitle>
-        <p class="responsive-h2 font-bold">
+        <p v-if="uploadLimit > 1" class="responsive-h2 font-bold">
           {{ $t("components.modal-upload-images.upload-images") }}
+        </p>
+        <p v-else class="responsive-h2 font-bold">
+          {{ $t("components.modal-upload-images.upload-an-image") }}
         </p>
       </DialogTitle>
       <div class="mt-4">
@@ -16,11 +19,17 @@
           @files-dropped="handleFiles"
           v-slot="{ isDropZoneActive }"
         >
-          <span v-if="isDropZoneActive">{{
+          <span v-if="isDropZoneActive && uploadLimit > 1">{{
             $t("components.modal-upload-images.drop-images")
           }}</span>
-          <span v-else>{{
+          <span v-else-if="isDropZoneActive && uploadLimit == 1">{{
+            $t("components.modal-upload-images.drop-image")
+          }}</span>
+          <span v-else-if="!isDropZoneActive && uploadLimit > 1">{{
             $t("components.modal-upload-images.drag-images")
+          }}</span>
+          <span v-else-if="!isDropZoneActive && uploadLimit == 1">{{
+            $t("components.modal-upload-images.drag-image")
           }}</span>
         </ModalUploadImagesFileDropZone>
         <p class="py-2">
@@ -57,7 +66,7 @@
                   @click="removeFile(file)"
                   class="text-light-action-red dark:text-dark-action-red"
                 >
-                  <Icon name="bi:x" size="1.5em" />
+                  <Icon :name="IconMap.X_SM" size="1.5em" />
                 </button>
                 <img
                   :key="file.name"
@@ -77,7 +86,7 @@
             :cta="true"
             :label="$t('components.modal-upload-images.upload')"
             fontSize="sm"
-            leftIcon="bi:arrow-up"
+            :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
             ariaLabel="components.btn-action.upvote-application-aria-label"
             :disabled="files.length >= uploadLimit"
@@ -91,6 +100,7 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 import draggable from "vuedraggable";
+import { IconMap } from "~/types/icon-map";
 
 const { files, handleFiles, removeFile } = useFileManager();
 

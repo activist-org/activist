@@ -23,10 +23,6 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "sidebar",
-});
-
 const { data: resources } = await useFetch(
   `${BASE_BACKEND_URL}/content/resources/`,
   {

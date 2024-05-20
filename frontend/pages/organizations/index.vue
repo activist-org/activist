@@ -29,11 +29,9 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "sidebar",
-});
+import type { Organization } from "~/types/organization";
 
-const { data: organizations } = await useFetch(
+const { data: organizations } = await useFetch<Organization[] | undefined>(
   `${BASE_BACKEND_URL}/entities/organizations/`,
   {
     method: "GET",

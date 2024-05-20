@@ -25,19 +25,19 @@ jobs:
       - name: Install Prettier
         run: yarn add prettier
 
-      - name: Run Prettier - Formatting check
+      - name: Run Prettier - Formatting Check
         working-directory: ./frontend
         run: |
           yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
 
-      - name: Run Type Check
+      - name: Run Nuxt Type Check
         if: always()
         uses: borales/actions-yarn@v4
         with:
           cmd: nuxi typecheck
           dir: "frontend"
 
-      - name: Run eslint - Linting
+      - name: Run ESLint - Linting
         if: always()
         uses: borales/actions-yarn@v4
         with:

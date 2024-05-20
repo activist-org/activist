@@ -61,7 +61,7 @@
           :label="$t('components.btn-action-dropdown.download-qr-code')"
           fontSize="lg"
           iconSize="1.25em"
-          dropdownIcon="bi:chevron-down"
+          :dropdownIcon="IconMap.CHEVRON_DOWN"
           :dropdownOptions="availableFormats"
           :dropdownOptionsCallback="downloadQRCode"
           ariaLabel="
@@ -76,7 +76,7 @@
         <ModalQRCodeImage
           ref="qrcode"
           class="elem-shadow-md select-none rounded-3xl"
-          :codeURL="linkURL"
+          :codeURL="BASE_FRONTEND_URL + linkURL"
         />
       </div>
       <BtnActionDropdown
@@ -86,7 +86,7 @@
         :label="$t('components.btn-action-dropdown.download-qr-code')"
         fontSize="lg"
         iconSize="1.25em"
-        dropdownIcon="bi:chevron-down"
+        :dropdownIcon="IconMap.CHEVRON_DOWN"
         :dropdownOptions="availableFormats"
         :dropdownOptionsCallback="downloadQRCode"
         :ariaLabel="
@@ -105,6 +105,7 @@ import { DialogTitle } from "@headlessui/vue";
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
+import { IconMap } from "~/types/icon-map";
 import type { Organization } from "~/types/organization";
 import type { Resource } from "~/types/resource";
 import type { User } from "~/types/user";

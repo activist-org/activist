@@ -1,3 +1,7 @@
+"""
+Serializers for the entities app.
+"""
+
 from rest_framework import serializers
 
 from .models import (

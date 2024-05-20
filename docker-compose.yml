@@ -23,6 +23,11 @@ services:
       - SECRET_KEY=${SECRET_KEY}
     depends_on:
       - db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:${BACKEND_PORT}/health/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   frontend:
     env_file:
@@ -36,6 +41,11 @@ services:
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
       - "24678:24678"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:${FRONTEND_PORT}/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   db:
     env_file:
@@ -48,3 +58,8 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DATABASE_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

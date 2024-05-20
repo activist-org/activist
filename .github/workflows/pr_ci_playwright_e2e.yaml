@@ -1,0 +1,68 @@
+name: pr_ci_playwright_e2e
+on:
+  workflow_dispatch:
+
+jobs:
+  frontend:
+    name: Run PR Frontend Check
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: cleanup old checkout
+        run: chmod +w -R ${GITHUB_WORKSPACE}; rm -rf ${GITHUB_WORKSPACE}/*;
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Clean up any existing containers
+        run: |
+          docker stop $(docker ps -aq) || true
+          docker rm $(docker ps -aq) || true
+
+      - name: Check Port Availability
+        run: |
+          ! nc -z localhost 3000 && \
+          ! nc -z localhost 8000 && \
+          ! nc -z localhost 5432
+
+      - name: Run Docker Compose
+        run: docker compose --env-file .env.dev up --build -d
+
+      - name: Setup Node environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Clean Yarn cache
+        working-directory: ./frontend
+        run: |
+          sudo yarn cache clean
+
+      - name: Install dependencies via Yarn
+        working-directory: ./frontend
+        run: |
+          sudo yarn install
+
+      - name: Install Playwright Browsers
+        working-directory: ./frontend
+        run: |
+          sudo yarn playwright install --with-deps
+
+      - name: Wait for web server to be ready
+        working-directory: ./frontend
+        run: |
+          yarn wait-on http://localhost:3000
+
+      - name: Run Playwright tests
+        working-directory: ./frontend
+        run: |
+          sudo yarn playwright test --reporter=html
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 30

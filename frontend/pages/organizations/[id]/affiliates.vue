@@ -16,6 +16,7 @@
     >
       <div class="flex space-x-2 lg:space-x-3"></div>
     </HeaderAppPage>
+    <PagePreviewAffiliates />
     <!-- <div v-if="organization.supportingUsers" class="space-y-3 py-4">
       <CardSearchResultUser
         v-for="(u, i) in organization.supportingUsers"
@@ -30,10 +31,6 @@
 
 <script setup lang="ts">
 import { testTechOrg } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const organization = testTechOrg;
 </script>

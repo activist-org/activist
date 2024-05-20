@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="selectedMenuItem"
-    class="fixed z-20 h-10 w-full bg-light-menu-selection dark:bg-dark-menu-selection md:hidden"
+    class="fixed z-20 h-10 w-full bg-light-menu-selection dark:bg-dark-menu-selection"
   >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
@@ -17,7 +17,7 @@
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
           <Icon
-            name="bi:chevron-expand"
+            :name="IconMap.CHEVRON_EXPAND"
             class="mr-2 h-5 w-5 align-middle"
             aria-hidden="true"
         /></span>
@@ -74,6 +74,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
+import { IconMap } from "~/types/icon-map";
 import type MenuEntry from "~/types/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
 import {
@@ -82,45 +83,57 @@ import {
 } from "~/utils/routeUtils";
 
 const { currentRoute } = useRouter();
-const routeName = currentRoute.value.name;
-let routeToCheck = routeName;
-if (routeToCheck) {
-  routeToCheck = routeToCheck.toString();
-} else {
-  routeToCheck = "";
-}
 
-const isOrgPage = isCurrentRoutePathSubpageOf("organizations", routeToCheck);
-const isEventPage = isCurrentRoutePathSubpageOf("events", routeToCheck);
+const routeName = computed(() => {
+  if (currentRoute.value.name) {
+    return currentRoute.value.name;
+  }
+  return "";
+});
+
+const isOrgPage = computed(() =>
+  isCurrentRoutePathSubpageOf("organizations", routeName.value.toString())
+);
+const isEventPage = computed(() =>
+  isCurrentRoutePathSubpageOf("events", routeName.value.toString())
+);
 
 const pathToSidebarTypeMap = [
   { path: "search", type: SidebarType.SEARCH },
   { path: "home", type: SidebarType.HOME },
   {
     path: "organizations",
-    type: isOrgPage
+    type: isOrgPage.value
       ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.FILTER_ORGANIZATIONS,
+      : SidebarType.ORGANIZATION_FILTER,
   },
   {
     path: "events",
-    type: isEventPage ? SidebarType.EVENT_PAGE : SidebarType.FILTER_EVENTS,
+    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENT_FILTER,
   },
 ];
 
-const sidebarType =
-  pathToSidebarTypeMap.find((item) =>
-    currentRoutePathIncludes(item.path, routeToCheck)
-  )?.type || SidebarType.MISC;
+watch([isOrgPage, isEventPage], () => {
+  pathToSidebarTypeMap[2].type = isOrgPage.value
+    ? SidebarType.ORGANIZATION_PAGE
+    : SidebarType.ORGANIZATION_FILTER;
+  pathToSidebarTypeMap[3].type = isEventPage.value
+    ? SidebarType.EVENT_PAGE
+    : SidebarType.EVENT_FILTER;
+});
+
+const sidebarType = computed(() => {
+  const matchingPath = pathToSidebarTypeMap.find((item) =>
+    currentRoutePathIncludes(item.path, routeName.value.toString())
+  );
+  return matchingPath?.type || SidebarType.MISC;
+});
+
 const menuEntryState = useMenuEntriesState();
 const selectedMenuItem = ref<MenuEntry | undefined>(undefined);
 
 const handleItemClick = (menuEntry: MenuEntry) => {
-  console.log("Clicked item:", menuEntry);
-  console.log("Router:", useRouter());
   const router = useRouter();
-  console.log("Current route:", router.currentRoute.value.fullPath);
-  console.log("Target route:", menuEntry.routeURL);
   router.push(menuEntry.routeURL);
 };
 

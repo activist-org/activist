@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col items-center">
       <div
-        v-if="sidebarType === SidebarType.ORGANIZATION_PAGE"
+        v-if="sidebarTypeToDisplay === SidebarType.ORGANIZATION_PAGE"
         class="relative"
         :class="{
           'h-32 w-32':
@@ -18,7 +18,7 @@
           @click="openModal()"
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         >
-          <Icon name="bi:plus-lg" size="1em" />
+          <Icon :name="IconMap.PLUS" size="1em" />
         </button>
         <ModalUploadImages
           @closeModal="handleCloseModal"
@@ -36,7 +36,7 @@
         />
       </div>
       <div
-        v-else-if="sidebarType === SidebarType.EVENT_PAGE"
+        v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
         class="relative"
         :class="{
           'h-32 w-32':
@@ -50,7 +50,7 @@
           @click="openModal()"
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         >
-          <Icon name="bi:plus-lg" size="1em" />
+          <Icon :name="IconMap.PLUS" size="1em" />
         </button>
         <ModalUploadImages
           @closeModal="handleCloseModal"
@@ -76,7 +76,8 @@
         }"
       >
         <li
-          v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
+          v-for="menuEntry in sidebarTypeToDisplay ===
+          SidebarType.ORGANIZATION_PAGE
             ? menuEntriesState.organizationEntry.value
             : menuEntriesState.eventEntry.value"
         >
@@ -93,13 +94,16 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { SidebarType } from "~/types/sidebar-type";
 
-defineProps<{
+const props = defineProps<{
   name: string;
   sidebarType: SidebarType.ORGANIZATION_PAGE | SidebarType.EVENT_PAGE;
   logoUrl?: string;
 }>();
+
+const sidebarTypeToDisplay = computed(() => props.sidebarType);
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();

@@ -20,12 +20,13 @@
           linkTo="/"
           label="components._global.new-event"
           fontSize="sm"
-          leftIcon="bi:plus-lg"
+          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="components.btn-route-internal.new-event-aria-label"
         />
       </div>
     </HeaderAppPage>
+    <PagePreviewEvent />
     <!-- <div v-if="organization.events" class="space-y-3 py-4">
       <CardSearchResultEvent
         v-for="(u, i) in organization.events"
@@ -39,11 +40,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { testTechOrg } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const organization = testTechOrg;
 </script>

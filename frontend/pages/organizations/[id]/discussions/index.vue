@@ -22,13 +22,14 @@
           linkTo="/"
           label="components.btn-route-internal.new-discussion"
           fontSize="sm"
-          leftIcon="bi:plus-lg"
+          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="components.btn-route-internal.new-discussion-aria-label"
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-6 pb-6 pt-3 md:pt-4">
+    <PagePreviewDiscussion />
+    <!-- <div v-if="organization.discussions" class="space-y-6 pb-6 pt-3 md:pt-4">
       <CardDiscussion
         v-for="(d, i) in organization.discussions"
         :key="i"
@@ -36,15 +37,13 @@
         :discussion="d"
       />
     </div>
+    <EmptyState v-else pageType="discussions" :permission="false" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
 import { testTechOrg } from "~/utils/testEntities";
-
-definePageMeta({
-  layout: "sidebar",
-});
 
 const organization = testTechOrg;
 </script>

@@ -18,7 +18,7 @@
         $t('components.indicator-process-progress.close-process-aria-label')
       "
     >
-      <Icon name="bi:x-lg" />
+      <Icon :name="IconMap.X_LG" />
       <span>{{
         $t("components.indicator-process-progress.close-process")
       }}</span>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-const localePath = useLocalePath();
+import { IconMap } from "~/types/icon-map";
 
 export interface Props {
   type?: "default" | "action" | "learn";
@@ -35,6 +35,8 @@ export interface Props {
   start?: number;
   end?: number;
 }
+
+const localePath = useLocalePath();
 
 const props = withDefaults(defineProps<Props>(), {
   type: "default",

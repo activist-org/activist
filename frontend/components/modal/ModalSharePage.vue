@@ -26,7 +26,7 @@
           >
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-              iconName="simple-icons:telegram"
+              :iconName="IconMap.TELEGRAM"
               :text="$t('components.meta-social-media-tag.telegram')"
               iconSize="1.5em"
             />
@@ -43,7 +43,7 @@
           >
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-              iconName="simple-icons:mastodon"
+              :iconName="IconMap.MASTODON"
               :text="$t('components.meta-social-media-tag.mastodon')"
               iconSize="1.5em"
             />
@@ -60,7 +60,7 @@
           >
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-              iconName="simple-icons:twitter"
+              :iconName="IconMap.TWITTER"
               text="@activist_org"
               iconSize="1.5em"
             />
@@ -68,7 +68,7 @@
           <s-email class="focus-brand" :share-options="shareOptions">
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-              iconName="bi:envelope"
+              :iconName="IconMap.ENVELOPE"
               text="Email"
               iconSize="1.5em"
             />
@@ -85,7 +85,7 @@
           >
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-              iconName="simple-icons:facebook"
+              :iconName="IconMap.FACEBOOK"
               :text="$t('components.meta-social-media-tag.facebook')"
               iconSize="1.5em"
             />
@@ -128,14 +128,14 @@
             <MetaTagSocialMedia
               v-if="!contentCopied"
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-              iconName="bi:link-45deg"
+              :iconName="IconMap.LINK"
               :text="$t('components.meta-social-media-tag.copy-link')"
               iconSize="1.5em"
             />
             <MetaTagSocialMedia
               v-if="contentCopied"
               class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
-              iconName="bi:check2-square"
+              :iconName="IconMap.SQUARE_CHECK"
               :text="$t('components.meta-social-media-tag.copied')"
               iconSize="1.5em"
             />
@@ -175,7 +175,7 @@
       >
         <MetaTagSocialMedia
           class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
-          iconName="simple-icons:messenger"
+          :iconName="IconMap.MESSENGER"
           :text="$t('components.meta-social-media-tag.messenger')"
           iconSize="1.5em"
         />
@@ -190,6 +190,7 @@ import ModalBase from "~/components/modal/ModalBase.vue";
 import type { BtnAction } from "~/types/btn-props";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
+import { IconMap } from "~/types/icon-map";
 import type { Organization } from "~/types/organization";
 import type { Resource } from "~/types/resource";
 import type { User } from "~/types/user";
