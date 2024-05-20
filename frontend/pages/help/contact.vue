@@ -69,17 +69,24 @@
           </p>
           <p>
             {{ $t("pages.help.contact.section-1-paragraph-2-1") }}
+            <a class="focus-brand link-text" href="mailto:team@activist.org">
+              team@activist.org
+              <Icon
+                :name="IconMap.EXTERNAL_LINK"
+                size="1em"
+                style="vertical-align: baseline" /></a
+            >.
+            {{ $t("pages.help.contact.section-1-paragraph-2-2") }}
             <a
               class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               target="_blank"
             >
-              {{ $t("pages.help.contact.section-1-paragraph-2-2") }}
+              {{ $t("pages.help.contact.section-1-paragraph-2-3") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
-                style="vertical-align: baseline"
-              /> </a
+                style="vertical-align: baseline" /></a
             >.
           </p>
         </div>
@@ -346,7 +353,7 @@ const sendEmail = async () => {
     message.value.trim().length > 0
   ) {
     await mail.send({
-      from: email.value,
+      from: "contact@activist.org",
       subject: `activist contact form: ${subject.value}`,
       text: message.value,
     });
