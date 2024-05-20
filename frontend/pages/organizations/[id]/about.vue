@@ -202,14 +202,17 @@ const testDiscussionInput: DiscussionInput = {
 //   upVotes: 6,
 //   downVotes: 4,
 // });
-
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>
