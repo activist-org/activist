@@ -16,13 +16,17 @@
 </template>
 
 <script setup lang="ts">
+const modals = useModals();
+const modalName = "ModalMediaImage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

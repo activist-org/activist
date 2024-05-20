@@ -1,7 +1,8 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
   >
     <div
       class="focus-inside elem-shadow-sm my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-light-layer-2 px-2 py-1 text-left text-light-distinct-text transition duration-200 dark:bg-dark-layer-2 dark:text-dark-distinct-text"
@@ -174,17 +175,20 @@
 <script setup lang="ts">
 const props = defineProps<{
   isOpen: boolean;
+  modalName: string;
 }>();
 
 const localePath = useLocalePath();
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+const modals = useModals();
+const modalName = props.modalName;
+let modalIsOpen = computed(() => props.isOpen);
 
-const emit = defineEmits(["closeModal"]);
-const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
-};
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
+
+function handleCloseModal() {
+  modals.closeModal(modalName);
+}
 </script>

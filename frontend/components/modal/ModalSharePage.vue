@@ -1,8 +1,5 @@
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
-  >
+  <ModalBase @closeModal="handleCloseModal" :isOpen="modalIsOpen" :modalName="modalName">
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
         <p class="responsive-h2 font-bold">
@@ -206,15 +203,16 @@ const props = defineProps<{
   user?: User;
   isOpen: boolean;
 }>();
+const modals = useModals();
+const modalName = "ModalSharePage";
+let modalIsOpen = computed(() => props.isOpen);
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
 
-const emit = defineEmits(["closeModal"]);
 const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  modals.closeModal(modalName);
 };
 
 const getEntityType = () => {

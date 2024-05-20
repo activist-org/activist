@@ -242,14 +242,17 @@ const expandText = ref(false);
 function expand_reduce_text() {
   expandText.value = !expandText.value;
 }
-
+const modals = useModals();
+const modalName = "ModalEditPageText";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>
