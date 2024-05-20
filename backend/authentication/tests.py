@@ -157,30 +157,45 @@ def test_login(client: Client) -> None:
     Test login view.
 
     Scenarios:
-    1. User is logged in successfully
-    2. User exists but password is incorrect
-    3. User does not exists and tries to login
+    1. User that signed up with email, that has not confirmed their email
+    2. User that signed up with email, confimred email address. Is logged in successfully
+    3. User exists but password is incorrect
+    4. User does not exists and tries to login
     """
     # Setup
     plaintext_password = "Activist@123!?"
     user = UserFactory(plaintext_password=plaintext_password)
 
-    # 1. User is logged in successfully
+    # 1. User that signed up with email, that has not confirmed their email
     response = client.post(
         path="/v1/auth/login/",
         data={"username": user.username, "password": plaintext_password},
     )
-    print(response.content)
+    assert response.status_code == 400
+
+    # 2. User that signed up with email, confimred email address. Is logged in successfully
+    user.is_confirmed = True
+    user.save()
+    response = client.post(
+        path="/v1/auth/login/",
+        data={"email": user.email, "password": plaintext_password},
+    )
+    assert response.status_code == 200
+    # login via username
+    response = client.post(
+        path="/v1/auth/login/",
+        data={"username": user.username, "password": plaintext_password},
+    )
     assert response.status_code == 200
 
-    # 2. User exists but password is incorrect
+    # 3. User exists but password is incorrect
     response = client.post(
         path="/v1/auth/login/",
         data={"email": user.email, "password": "Strong_But_Incorrect?!123"},
     )
     assert response.status_code == 400
 
-    # 2. User does not exists and tries to login
+    # 4. User does not exists and tries to login
     response = client.post(
         path="/v1/auth/login/",
         data={"email": "unknown_user@example.com", "password": "Password@123!?"},
@@ -194,8 +209,7 @@ def test_pwreset(client: Client) -> None:
     Test password reset view.
 
     Scenarios:
-    1. User exists and password reset is successful
-    2. User does not exist
+    1. Password reset email is sent successfully
     """
     # Setup
     plaintext_password = "Activist@123!?"
@@ -207,3 +221,4 @@ def test_pwreset(client: Client) -> None:
         data={"email": user.email},
     )
     assert response.status_code == 200
+    assert len(mail.outbox) == 1
