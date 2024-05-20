@@ -92,7 +92,7 @@ class SignupView(APIView):
             user.code = uuid.uuid4()
 
             confirmation_link = f"{FRONTEND_BASE_URL}/confirm/{user.code}"
-            message = f"Welcome to activist.org, {user.username}!"
+            message = f"Welcome to activist.org, {user.username}!, Please confirm your email address by clicking the link: {confirmation_link}"
             html_message = render_to_string(
                 template_name="signup_email.html",
                 context={

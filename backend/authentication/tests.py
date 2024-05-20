@@ -14,10 +14,12 @@ from .factories import (
 from .models import UserModel
 
 from django.test import Client
+from django.core import mail
 from faker import Faker
 
 from .models import UserModel
 from django.test import Client
+from uuid import UUID
 
 
 @pytest.mark.django_db
@@ -45,16 +47,17 @@ def test_signup(client: Client) -> None:
     Scenarios:
     1. Password strength fails
     2. Password confirmation fails
-    3. User is created successfully
+    3. User is created successfully with an email
         - Check response status code
         - Check if user exists in the DB
         - Check if user password is hashed
-    4. User already exists / Username already exists
-    5. Different User with the same email already exists
+    4. User already exists
+    5. User is created without an email
     """
     # Setup
     fake = Faker()
     username = fake.name()
+    second_username = fake.name()
     email = fake.email()
     strong_password = fake.password(
         length=12, special_chars=True, digits=True, upper_case=True
@@ -104,11 +107,16 @@ def test_signup(client: Client) -> None:
             "email": email,
         },
     )
-
+    user = UserModel.objects.filter(username=username).first()
     assert response.status_code == 201
-    assert UserModel.objects.filter(username=username).exists()
+    assert UserModel.objects.filter(username=username)
+    # code for Email confirmation is generated and is a UUID
+    assert isinstance(user.code, UUID)
+    assert user.is_confirmed is False
+    # Confirmation Email was sent
+    assert len(mail.outbox) == 1
     # Assert that the password within the dashboard is hashed and not the original string.
-    assert UserModel.objects.get(username=username).password != strong_password
+    assert user.password != strong_password
 
     # 4. User already exists
     response = client.post(
@@ -123,6 +131,23 @@ def test_signup(client: Client) -> None:
 
     assert response.status_code == 400
     assert UserModel.objects.filter(username=username).count() == 1
+
+    # 5. User is created without an email
+    response = client.post(
+        path="/v1/auth/signup/",
+        data={
+            "username": second_username,
+            "password": strong_password,
+            "password_confirmed": strong_password,
+        },
+    )
+
+    user = UserModel.objects.filter(username=second_username).first()
+    assert response.status_code == 201
+    assert UserModel.objects.filter(username=second_username).exists()
+    assert user.email == ""
+    assert user.is_confirmed is False
+    assert user.code is None
 
 
 @pytest.mark.django_db
@@ -160,3 +185,24 @@ def test_login(client: Client) -> None:
         data={"email": "unknown_user@example.com", "password": "Password@123!?"},
     )
     assert response.status_code == 400
+
+
+@pytest.mark.django_db
+def test_pwreset(client: Client) -> None:
+    """
+    Test password reset view.
+
+    Scenarios:
+    1. User exists and password reset is successful
+    2. User does not exist
+    """
+    # Setup
+    plaintext_password = "Activist@123!?"
+    user = UserFactory(plaintext_password=plaintext_password)
+
+    # 1. User exists and password reset is successful
+    response = client.get(
+        path="/v1/auth/pwreset/",
+        data={"email": user.email},
+    )
+    assert response.status_code == 200
