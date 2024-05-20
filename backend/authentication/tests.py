@@ -2,6 +2,7 @@
 Testing for the authentication app.
 """
 
+# mypy: ignore-errors
 import pytest
 from .factories import (
     SupportEntityTypeFactory,
