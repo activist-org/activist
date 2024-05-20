@@ -117,7 +117,7 @@ class SignupView(APIView):
             status=status.HTTP_201_CREATED,
         )
 
-    @extend_schema(parameters=[OpenApiParameter(name="code", type=str)])
+    @extend_schema(parameters=[OpenApiParameter(name="code", type=str, required=True)])
     def get(self, request: Request) -> Response:
         """Confirm a user's email address."""
         code = request.GET.get("code")
@@ -164,16 +164,14 @@ class PasswordResetView(APIView):
     permission_classes = (AllowAny,)
     queryset = UserModel.objects.all()
 
-    @extend_schema(parameters=[OpenApiParameter(name="email", type=str)])
+    @extend_schema(parameters=[OpenApiParameter(name="email", type=str, required=True)])
     def get(self, request: Request) -> Response:
         email = request.query_params.get("email")
         user = UserModel.objects.filter(email=email).first()
 
         if user is None:
             return Response(
-                {
-                    "message": f"User does not exist {user}, {email}, {request.query_params}"
-                },
+                {"message": "User does not exist"},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
