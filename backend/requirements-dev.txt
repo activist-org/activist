@@ -28,9 +28,7 @@ charset-normalizer==3.3.2
 click==8.1.7
     # via pip-tools
 coverage[toml]==7.4.4
-    # via
-    #   coverage
-    #   pytest-cov
+    # via pytest-cov
 distlib==0.3.8
     # via virtualenv
 django==4.2.11
@@ -142,7 +140,7 @@ referencing==0.30.2
     #   -r requirements.txt
     #   jsonschema
     #   jsonschema-specifications
-requests==2.31.0
+requests==2.32.0
     # via
     #   -r requirements.txt
     #   djangorestframework-stubs
