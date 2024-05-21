@@ -39,7 +39,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer. */
     trace: "on-first-retry",
     screenshot: {
-      mode: 'only-on-failure',
+      mode: "only-on-failure",
       fullPage: true,
     },
   },
@@ -75,7 +75,7 @@ export default defineConfig({
     {
       name: "Mobile iPad",
       use: { ...devices["iPad (gen 7 landscape)"], isMobile: true },
-    }
+    },
   ],
 
   /* Run your local dev server before starting the tests. */

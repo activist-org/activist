@@ -6,7 +6,8 @@ export default class HeaderWebsite extends BaseComponent {
     MOBILE_HEADER: "#mobile-header",
     DESKTOP_HEADER: "#desktop-header",
     ROADMAP_BUTTON: "#desktop-header #btn-roadmap",
-    GET_IN_TOUCH_BUTTON: "#btn-get-in-touch-large:visible, #btn-get-in-touch-medium:visible",
+    GET_IN_TOUCH_BUTTON:
+      "#btn-get-in-touch-large:visible, #btn-get-in-touch-medium:visible",
     THEME_DROPDOWN: ".dropdown-theme:visible",
     LANGUAGE_DROPDOWN: ".dropdown-language:visible",
   };
@@ -36,7 +37,10 @@ export default class HeaderWebsite extends BaseComponent {
     return this.getLocator("GET_IN_TOUCH_BUTTON");
   }
 
-  async selectDropdownOption(dropdown: Locator, optionText: string): Promise<void> {
+  async selectDropdownOption(
+    dropdown: Locator,
+    optionText: string
+  ): Promise<void> {
     await dropdown.click();
     await this.page.locator(`text=${optionText}`).click();
   }

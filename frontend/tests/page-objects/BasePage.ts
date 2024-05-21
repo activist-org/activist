@@ -29,7 +29,10 @@ export default abstract class BasePage {
     return viewportSize !== null && viewportSize.width < 768;
   }
 
-  public async waitForUrlChange(expectedUrlPattern: string | RegExp | ((url: URL) => boolean), options?: { timeout?: number }): Promise<void> {
+  public async waitForUrlChange(
+    expectedUrlPattern: string | RegExp | ((url: URL) => boolean),
+    options?: { timeout?: number }
+  ): Promise<void> {
     const timeout = options?.timeout || 10000;
     await this.page.waitForURL(expectedUrlPattern, { timeout });
   }
