@@ -46,6 +46,30 @@ function isWebglSupported() {
   return false;
 }
 
+const RouteOptionFoot = "<div>TEST123</div>>";
+
+const routeProfileOptions = {
+  FOOT: "foot",
+  BIKE: "bike",
+  DRIVING: "driving",
+  CAR: "car",
+};
+
+const routeProfileMap = [
+  {
+    profile: routeProfileOptions.FOOT,
+    api: `https://routing.openstreetmap.de/routed-${routeProfileOptions.FOOT}/route/v1/`,
+  },
+  {
+    profile: routeProfileOptions.BIKE,
+    api: `https://routing.openstreetmap.de/routed-${routeProfileOptions.BIKE}/route/v1/`,
+  },
+  {
+    profile: routeProfileOptions.DRIVING,
+    api: `https://routing.openstreetmap.de/routed-${routeProfileOptions.CAR}/route/v1/`,
+  },
+];
+
 onMounted(() => {
   const nominatimLocationRequest =
     "https://nominatim.openstreetmap.org/search?q=Brandenburg%20Gate%20Berlin&format=json";
@@ -138,12 +162,13 @@ onMounted(() => {
           );
 
           const directions = new MapLibreGlDirections(map, {
-            api: "https://routing.openstreetmap.de/routed-foot/route/v1/",
+            api: `https://routing.openstreetmap.de/routed-foot/route/v1/`,
             profile: "foot",
             // api: "https://routing.openstreetmap.de/routed-bike/route/v1/",
             // profile: "bike",
             // api: "https://routing.openstreetmap.de/routed-car/route/v1/",
             // profile: "driving",
+            // routeProfileMap,
             requestOptions: {
               alternatives: "true",
             },
