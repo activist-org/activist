@@ -1,5 +1,6 @@
 <template>
   <DropdownBase
+    class="dropdown-language"
     :location="location"
     :menuButtonIcon="IconMap.GLOBE"
     :menuButtonLabel="$i18n.locale"

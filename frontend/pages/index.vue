@@ -18,6 +18,7 @@
         btnText1="components.btn-route-internal.learn-more"
         btnURL1="/docs/get-active"
         btnAriaLabel1="components.btn-route-internal.get-active-aria-label"
+        btnId1="btn-get-active"
       />
       <LandingContent
         contentPosition="right"
@@ -29,6 +30,7 @@
         btnText1="components.btn-route-internal.learn-more"
         btnURL1="/docs/get-organized"
         btnAriaLabel1="components.btn-route-internal.get-organized-aria-label"
+        btnId1="btn-get-organized"
       />
       <LandingContent
         contentPosition="left"
@@ -40,6 +42,7 @@
         btnText1="components.btn-route-internal.learn-more"
         btnURL1="/docs/grow-organization"
         btnAriaLabel1="components.btn-route-internal.grow-organization-aria-label"
+        btnId1="btn-grow-organization"
       />
       <LandingTechBanner />
       <LandingContent
@@ -52,6 +55,7 @@
         btnText1="components.btn-route-internal.learn-more"
         btnURL1="/about/activist"
         btnAriaLabel1="pages.index.activist-section-btn-aria-label"
+        btnId1="btn-activist"
       />
       <LandingContent
         contentPosition="top"
@@ -66,6 +70,8 @@
         btnURL2="/supporters/showcase"
         btnAriaLabel2="pages.index.our-supporters-btn-view-aria-label"
         subText="pages.index.our-supporters-sub-text"
+        btnId1="btn-become-supporter"
+        btnId2="btn-our-supporters"
       />
     </div>
   </div>
