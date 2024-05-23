@@ -11,6 +11,7 @@
       <NuxtLink
         v-for="l in availableLocales"
         :key="getLocaleCode(l)"
+        class="dropdown-language-list-items"
         :to="switchLocalePath(getLocaleCode(l))"
       >
         <MenuItem v-slot="{ active }" class="flex">

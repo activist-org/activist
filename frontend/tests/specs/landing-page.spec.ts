@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { LandingPage, expect, test } from "../fixtures/page-fixtures";
+import locales from "../../locales";
 
 test.describe("Landing Page", () => {
   // Initialize page before each test, wait for the landing splash to be visible.
@@ -60,24 +61,31 @@ test.describe("Landing Page", () => {
 
   // Test that the theme dropdown is visible and functional.
   test("Theme dropdown is functional", async ({ landingPage }) => {
-    const themeDropdown = landingPage.header.themeDropdown;
-    await expect(themeDropdown).toBeVisible();
-    await landingPage.header.selectThemeOption("Light");
-    expect(await landingPage.getPage.getAttribute("html", "class")).toBe(
-      "light"
-    );
-    await landingPage.header.selectThemeOption("Dark");
-    expect(await landingPage.getPage.getAttribute("html", "class")).toBe(
-      "dark"
-    );
+    const themes = ["light", "dark"];
+    for (const theme of themes) {
+      await landingPage.header.selectThemeOption(theme);
+      const currentTheme = await landingPage.currentTheme();
+      expect(currentTheme).toContain(theme);
+    }
   });
 
   // Test that the language dropdown is visible and functional.
   test("Language dropdown is functional", async ({ landingPage }) => {
-    const languageDropdown = landingPage.header.languageDropdown;
-    await expect(languageDropdown).toBeVisible();
-    await landingPage.header.selectLanguageOption("English");
-    await landingPage.header.selectLanguageOption("Español");
+    const selectedLanguage = await landingPage.header.getSelectedLanguage();
+    const languageOptions = await landingPage.header.getLanguageOptions();
+
+    for (const locale of locales) {
+      if (locale.code === selectedLanguage) {
+        continue;
+      }
+      const optionText = locale.name;
+      const option = await landingPage.header.findLanguageOption(
+        languageOptions,
+        optionText
+      );
+      const langOptionIsVisible = await option?.isVisible();
+      expect(langOptionIsVisible).toBe(true);
+    }
   });
 
   /* *********************************************************** */
@@ -106,7 +114,6 @@ test.describe("Landing Page", () => {
 
   test('title should contain "activist"', async ({ landingPage }) => {
     const pageTitle = await landingPage.getPage.title();
-    console.log("Page Title:", pageTitle);
     expect(pageTitle).toContain("activist");
   });
 

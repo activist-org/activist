@@ -1,4 +1,5 @@
 import type { Page, Locator } from "@playwright/test";
+import { isMobile } from "../utils/utils";
 
 export default abstract class BaseComponent {
   protected readonly page: Page;
@@ -6,6 +7,10 @@ export default abstract class BaseComponent {
 
   constructor(page: Page) {
     this.page = page;
+  }
+
+  public async isMobile(): Promise<boolean> {
+    return isMobile(this.page);
   }
 
   protected setLocators(locators: Record<string, string>): void {

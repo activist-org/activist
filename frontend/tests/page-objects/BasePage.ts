@@ -1,4 +1,5 @@
 import type { Page, Locator } from "@playwright/test";
+import { isMobile } from "../utils/utils";
 export default abstract class BasePage {
   protected readonly pageName: string;
   protected readonly pageURL: string;
@@ -25,8 +26,7 @@ export default abstract class BasePage {
   }
 
   public async isMobile(): Promise<boolean> {
-    const viewportSize = await this.page.viewportSize();
-    return viewportSize !== null && viewportSize.width < 768;
+    return isMobile(this.page);
   }
 
   public async waitForUrlChange(
@@ -35,6 +35,10 @@ export default abstract class BasePage {
   ): Promise<void> {
     const timeout = options?.timeout || 10000;
     await this.page.waitForURL(expectedUrlPattern, { timeout });
+  }
+
+  public async currentTheme(): Promise<string> {
+    return (await this.page.locator("html").getAttribute("class")) ?? "";
   }
 
   protected setLocators(locators: Record<string, string>): void {
