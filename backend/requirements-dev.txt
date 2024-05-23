@@ -142,7 +142,7 @@ referencing==0.30.2
     #   -r requirements.txt
     #   jsonschema
     #   jsonschema-specifications
-requests==2.31.0
+requests==2.32.0
     # via
     #   -r requirements.txt
     #   djangorestframework-stubs
