@@ -154,46 +154,6 @@ onMounted(() => {
           })
         );
 
-        map.on('load', async () => {
-          console.log("map loaded");
-          // map.addImage("walking-icon", walkingImage, { sdf: true });
-
-         const testingWalkImage = await map.loadImage(WalkingIconPng);
-          map.addImage("walking-icon", testingWalkImage.data);
-          map.addSource("point", {
-            type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: [
-                {
-                  type: "Feature",
-                  geometry: {
-                    type: "Point",
-                    coordinates: [parseFloat(location["lon"]), parseFloat(location["lat"])],
-                  },
-                  properties: {
-                    title: props.eventNames[0],
-                    description: props.eventLocations[0],
-                  },
-                },
-              ],
-            },
-          });
-
-          map.addLayer({
-            id: "points",
-            type: "symbol",
-            source: "point",
-            layout: {
-              "icon-image": "walking-icon",
-              "icon-size": 0.6,
-              "icon-anchor": "top-left",
-              "icon-offset": [0, 10],
-              "icon-allow-overlap": true,
-            },
-          });
-        });
-
         const popup = new maplibregl.Popup({
           offset: 25,
         }).setHTML(
@@ -241,6 +201,45 @@ onMounted(() => {
             marker.getElement().addEventListener("mouseleave", () => {
               directions.interactive = true;
             });
+
+            const routeProfileControl = `
+            <div style="
+              background-image: url(${WalkingIconPng});
+              width: 140px;
+              height: 30px;
+              background-size: 140px 30px;
+              // padding: 1px 5px;
+              border-radius: 5px;
+              // box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+              cursor: pointer"
+              opacity: 5;
+            >
+            `;
+
+            map.addControl(
+              {
+                onAdd: function () {
+                  const div = document.createElement("div");
+                  div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
+                  if (window.innerWidth < 768) {
+                    div.innerHTML = routeProfileControl;
+                    div.addEventListener("click", () => {
+                      console.log("route profile image clicked");
+                      // routeProfileHandler();
+                    });
+                  } else {
+                    div.innerHTML = routeProfileControl;
+                    div.addEventListener("click", () => {
+                      console.log("route profile image clicked");
+                      // routeProfileHandler();
+                    });
+                  }
+                  return div;
+                },
+                onRemove: function () {},
+              },
+              "top-right"
+            );
 
             const clearDirectionsControl = `
             <div style="
