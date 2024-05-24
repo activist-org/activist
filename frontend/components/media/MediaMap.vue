@@ -46,8 +46,6 @@ function isWebglSupported() {
   return false;
 }
 
-const RouteOptionFoot = "<div>TEST123</div>>";
-
 const routeProfileOptions = {
   FOOT: "foot",
   BIKE: "bike",
@@ -55,20 +53,31 @@ const routeProfileOptions = {
   CAR: "car",
 };
 
+const routingAPI = "https://routing.openstreetmap.de/routed-";
+const routingAPIVersion = "/route/v1/";
+
 const routeProfileMap = [
   {
     profile: routeProfileOptions.FOOT,
-    api: `https://routing.openstreetmap.de/routed-${routeProfileOptions.FOOT}/route/v1/`,
+    api: `${routingAPI}${routeProfileOptions.FOOT}${routingAPIVersion}`,
   },
   {
     profile: routeProfileOptions.BIKE,
-    api: `https://routing.openstreetmap.de/routed-${routeProfileOptions.BIKE}/route/v1/`,
+    api: `${routingAPI}${routeProfileOptions.BIKE}${routingAPIVersion}`,
   },
   {
     profile: routeProfileOptions.DRIVING,
-    api: `https://routing.openstreetmap.de/routed-${routeProfileOptions.CAR}/route/v1/`,
+    api: `${routingAPI}${routeProfileOptions.CAR}${routingAPIVersion}`,
   },
 ];
+
+console.log("routeProfileMap", routeProfileMap[0]);
+
+const mapProfile = (profile: string) => {
+  return routeProfileMap.find(
+    (routeProfile) => routeProfile.profile === profile
+  );
+};
 
 onMounted(() => {
   const nominatimLocationRequest =
@@ -161,31 +170,27 @@ onMounted(() => {
             isTouchDevice ? 2 : 1
           );
 
-          const directions = new MapLibreGlDirections(map, {
-            api: `https://routing.openstreetmap.de/routed-foot/route/v1/`,
-            profile: "foot",
-            // api: "https://routing.openstreetmap.de/routed-bike/route/v1/",
-            // profile: "bike",
-            // api: "https://routing.openstreetmap.de/routed-car/route/v1/",
-            // profile: "driving",
-            // routeProfileMap,
-            requestOptions: {
-              alternatives: "true",
-            },
-            layers,
-          });
+          const selectedProfile = mapProfile(routeProfileOptions.FOOT);
 
-          directions.interactive = true;
+          if (selectedProfile) {
+            const directions = new MapLibreGlDirections(map, {
+              ...selectedProfile,
+              requestOptions: {
+                alternatives: "true",
+              },
+              layers,
+            });
 
-          marker.getElement().addEventListener("mouseenter", () => {
-            directions.interactive = false;
-          });
-
-          marker.getElement().addEventListener("mouseleave", () => {
             directions.interactive = true;
-          });
+            marker.getElement().addEventListener("mouseenter", () => {
+              directions.interactive = false;
+            });
 
-          const clearDirectionsControl = `
+            marker.getElement().addEventListener("mouseleave", () => {
+              directions.interactive = true;
+            });
+
+            const clearDirectionsControl = `
             <div style="
               background-color: rgba(255, 255, 255, 1);
               padding: 1px 5px;
@@ -198,7 +203,7 @@ onMounted(() => {
             </div>
           `;
 
-          const clearDirectionsHotkeyControl = `
+            const clearDirectionsHotkeyControl = `
           <div style="
             background-color: rgba(255, 255, 255, 1);
             padding: 1px 5px;
@@ -211,30 +216,31 @@ onMounted(() => {
           </div>
         `;
 
-          map.addControl(
-            {
-              onAdd: function () {
-                const div = document.createElement("div");
-                div.className = "maplibregl-ctrl";
-                if (window.innerWidth < 768) {
-                  div.innerHTML = clearDirectionsControl;
-                  div.addEventListener("touchend", () => directions.clear());
-                  div.addEventListener("click", () => directions.clear()); // for small desktops or tiling
-                } else {
-                  div.innerHTML = clearDirectionsHotkeyControl;
-                  div.addEventListener("click", () => directions.clear());
-                  document.addEventListener("keydown", (event) => {
-                    if (event.key === "x") {
-                      directions.clear();
-                    }
-                  });
-                }
-                return div;
+            map.addControl(
+              {
+                onAdd: function () {
+                  const div = document.createElement("div");
+                  div.className = "maplibregl-ctrl";
+                  if (window.innerWidth < 768) {
+                    div.innerHTML = clearDirectionsControl;
+                    div.addEventListener("touchend", () => directions.clear());
+                    div.addEventListener("click", () => directions.clear()); // for small desktops or tiling
+                  } else {
+                    div.innerHTML = clearDirectionsHotkeyControl;
+                    div.addEventListener("click", () => directions.clear());
+                    document.addEventListener("keydown", (event) => {
+                      if (event.key === "x") {
+                        directions.clear();
+                      }
+                    });
+                  }
+                  return div;
+                },
+                onRemove: function () {},
               },
-              onRemove: function () {},
-            },
-            "bottom-left"
-          );
+              "bottom-left"
+            );
+          }
         });
       }
     });
