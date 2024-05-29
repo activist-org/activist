@@ -69,7 +69,7 @@
           "
         />
       </div>
-      <div class="px-4 md:pb-2 md:pl-8 flex">
+      <div class="flex px-4 md:pb-2 md:pl-8">
         <button
           @click="onImageClick"
           @mouseenter="showTooltip = true"
@@ -80,8 +80,8 @@
           @touchend="showTooltip = false"
           @touchcancel="showTooltip = false"
           @pointerdown="showTooltip = true"
-          @pointerup="showtooltip = false"
-          class="focus-brand cursor-pointer"
+          @pointerup="showTooltip = false"
+          class="focus-brand flex cursor-pointer"
           :ariaLabel="$t('components.modal-qr-code.aria-label')"
         >
           <ModalQRCodeImage
@@ -89,11 +89,11 @@
             class="elem-shadow-md select-none rounded-3xl"
             :codeURL="BASE_FRONTEND_URL + linkURL"
           />
+          <TooltipBase
+            v-show="showTooltip"
+            :text="$t('components.modal-qr-code.tooltip')"
+          />
         </button>
-        <TooltipBase
-          v-show="showTooltip"
-          :text="$t('components.modal-qr-code.tooltip')"
-        />
       </div>
       <BtnActionDropdown
         @main-btn-clicked="handleMainBtnClicked"
@@ -222,7 +222,7 @@ if (props.organization) {
 const qrCodeFileName: string =
   "qr_code_" + entityName.toLowerCase().replaceAll(" ", "_");
 
-function addFontStyling(svgElement: SVGElement) {
+function addFontStyling(svgElement: Element) {
   const def = document.createElement("def");
   def.innerHTML = `<style>
   /* latin-ext */
@@ -247,13 +247,7 @@ function addFontStyling(svgElement: SVGElement) {
   svgElement.appendChild(def);
 }
 
-function getSVGDataUrl(svgElement: SVGElement): string {
-  addFontStyling(svgElement);
-  const svgURL = new XMLSerializer().serializeToString(svgElement);
-  return "data:image/svg+xml; charset=utf8, " + encodeURIComponent(svgURL);
-}
-
-function getPNGDataUrl(svgElement: SVGElement): Promise {
+function getPNGDataUrl(svgElement: Element): Promise<string> {
   addFontStyling(svgElement);
   const canvas = document.createElement("canvas");
   const size = qrPixelGraphicsSize.value;
@@ -267,11 +261,11 @@ function getPNGDataUrl(svgElement: SVGElement): Promise {
   });
 }
 
-function onImageClick(event: MouseEvent) {
+function onImageClick() {
   const svgData = document.querySelector("#result-qr");
   if (svgData !== null) {
     getPNGDataUrl(svgData).then((url) => {
-      const win = window.open();
+      const win = window.open()!;
       // win.document.write(`<iframe width="100%" height="100%" src="${url}"></iframe>`);
       win.document.write(`<style>
 * {
@@ -300,13 +294,10 @@ img {
             document.body.removeChild(downloadLink);
           }
         }, false);
-      <\/script>`);
+      <${"/"}script>`);
     });
   }
 }
-
-
-
 
 function downloadQRCode(format: string) {
   const svgData = document.querySelector("#result-qr")!;
@@ -366,5 +357,4 @@ function downloadQRCode(format: string) {
     });
   }
 }
-
 </script>
