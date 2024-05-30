@@ -96,9 +96,12 @@
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
               <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
-              <a href="#" class="text-blue-500">{{
-                $t("pages._global.terms-of-service-pt-2")
-              }}</a>
+              <NuxtLink
+                :to="localePath('/legal/privacy-policy')"
+                target="_blank"
+                class="link-text"
+                >{{ $t("pages._global.terms-of-service-pt-2") }}</NuxtLink
+              >
               <p>.</p>
             </label>
           </div>
@@ -119,6 +122,8 @@
 </template>
 
 <script setup lang="ts">
+const localePath = useLocalePath();
+
 const formData = ref({
   name: "",
   location: "",
