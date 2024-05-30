@@ -54,8 +54,9 @@
             {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
           </p> -->
         <BtnActionDropdown
+          v-if="medium"
           @main-btn-clicked="handleMainBtnClicked"
-          class="hidden w-fit md:block"
+          class="block w-fit"
           :cta="true"
           :label="$t('components.btn-action-dropdown.download-qr-code')"
           fontSize="lg"
@@ -79,8 +80,9 @@
         />
       </div>
       <BtnActionDropdown
+        v-if="!medium"
         @main-btn-clicked="handleMainBtnClicked"
-        class="w-fit md:hidden"
+        class="w-fit"
         :cta="true"
         :label="$t('components.btn-action-dropdown.download-qr-code')"
         fontSize="lg"
@@ -108,6 +110,9 @@ import { IconMap } from "~/types/icon-map";
 import type { Organization } from "~/types/organization";
 import type { Resource } from "~/types/resource";
 import type { User } from "~/types/user";
+import useBreakpoint from "~/composables/useBreakpoint";
+
+const medium = useBreakpoint("md");
 
 const props = defineProps<{
   organization?: Organization;

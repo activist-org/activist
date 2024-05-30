@@ -73,7 +73,7 @@
           :group="group"
         />
         <div class="h-full w-full">
-          <MediaImageCarouselFull :class="{ 'lg:hidden': textExpanded }" />
+          <MediaImageCarouselFull v-if="!textExpanded || !large" />
         </div>
       </div>
       <CardGetInvolved :group="group" />
@@ -88,6 +88,9 @@ import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 import { testTechGroup1 } from "~/utils/testEntities";
+import useBreakpoint from "~/composables/useBreakpoint";
+
+const large = useBreakpoint("lg");
 
 const groupSubPages = getGroupSubPages();
 

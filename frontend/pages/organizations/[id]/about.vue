@@ -78,7 +78,7 @@
           :organization="organization"
         />
         <div class="h-full w-full">
-          <MediaImageCarouselFull :class="{ 'lg:hidden': textExpanded }" />
+          <MediaImageCarouselFull v-if="!textExpanded || !large" />
         </div>
       </div>
       <!-- organization.status === 2 means it's active. -->
@@ -112,6 +112,9 @@ import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { DiscussionInput } from "~/types/discussion-input";
 import { IconMap } from "~/types/icon-map";
 import { testTechOrg } from "~/utils/testEntities";
+import useBreakpoint from "~/composables/useBreakpoint";
+
+const large = useBreakpoint("lg");
 
 const organization = testTechOrg;
 // const route = useRoute();

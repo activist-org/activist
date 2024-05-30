@@ -1,12 +1,13 @@
 <template>
   <HeaderMobile />
-  <MenuMobileNavigationDropdown v-if="windowWidth < BreakpointMap.MEDIUM" />
+  <MenuMobileNavigationDropdown v-if="!medium" />
   <SidebarLeft
-    v-if="windowWidth >= BreakpointMap.MEDIUM"
+    v-if="medium"
     @mouseover="sidebarHover = true"
     @focus="sidebarHover = true"
     @mouseleave="sidebarHover = false"
     @blur="sidebarHover = false"
+    class="block"
   />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
     <div
@@ -20,7 +21,7 @@
       :class="sidebarFooterDynamicClass"
     />
   </div>
-  <MenuMobileNavBar v-if="windowWidth < BreakpointMap.MEDIUM" />
+  <MenuMobileNavBar v-if="!medium" />
 </template>
 
 <script setup lang="ts">
@@ -28,7 +29,9 @@ import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
-import { BreakpointMap } from "~/types/breakpoint-map";
+import useBreakpoint from "~/composables/useBreakpoint";
+
+const medium = useBreakpoint("md");
 
 const sidebar = useSidebar();
 const sidebarHover = ref(false);
@@ -42,10 +45,7 @@ onUnmounted(() => {
   window.removeEventListener("resize", handleWindowSizeChange);
 });
 
-const windowWidth = ref(window.innerWidth);
-
 const handleWindowSizeChange = () => {
-  windowWidth.value = window.innerWidth;
   if (window.innerWidth < 1280) {
     sidebar.collapsed = true;
     sidebar.collapsedSwitch = true;

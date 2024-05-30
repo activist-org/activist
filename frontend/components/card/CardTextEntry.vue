@@ -10,8 +10,9 @@
       <div v-if="multiline">
         <!-- Mobile -->
         <textarea
+          v-if="!medium"
           id="feedback"
-          class="block w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:hidden md:resize-y md:overflow-hidden"
+          class="block w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
           type="text"
           rows="5"
           :placeholder="placeholder"
@@ -19,8 +20,9 @@
         ></textarea>
         <!-- Desktop -->
         <textarea
+          v-if="medium"
           id="feedback"
-          class="hidden w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:block md:resize-y md:overflow-hidden"
+          class="block w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
           type="text"
           rows="3"
           :placeholder="placeholder"
@@ -40,6 +42,9 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
+const medium = useBreakpoint("md");
+
 defineProps<{
   header: string;
   description: string;

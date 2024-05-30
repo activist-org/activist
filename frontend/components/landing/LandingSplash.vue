@@ -14,11 +14,11 @@
       <div
         class="w-10/12 text-center text-base sm:text-xl md:w-3/4 md:text-lg xl:text-2xl"
       >
-        <div class="hidden flex-col space-y-1 md:block xl:space-y-2">
+        <div v-if="medium" class="block flex-col space-y-1 xl:space-y-2">
           <p>{{ $t("components.landing-splash.message-1") }}</p>
           <p>{{ $t("components.landing-splash.message-2") }}</p>
         </div>
-        <p class="md:hidden">
+        <p v-else>
           {{ $t("components.landing-splash.message-1") }}&nbsp;{{
             $t("components.landing-splash.message-2")
           }}
@@ -37,3 +37,8 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
+const medium = useBreakpoint("md");
+</script>
