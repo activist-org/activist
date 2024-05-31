@@ -13,7 +13,9 @@ const breakpoints = useBreakpoints({
 });
 
 export default function useBreakpoint(
-  breakpointName: MaybeRefOrGetter<"sm" | "md" | "lg" | "xl" | "2xl" | "xxl" | "3xl" | "xxxl">
+  breakpointName: MaybeRefOrGetter<
+    "sm" | "md" | "lg" | "xl" | "2xl" | "xxl" | "3xl" | "xxxl"
+  >
 ): Ref<boolean> {
   return breakpoints.greaterOrEqual(breakpointName);
 }
