@@ -3,7 +3,8 @@
     class="card-style flex w-full flex-col px-3 py-4 md:grow md:flex-row md:py-3 lg:px-5"
   >
     <BtnAction
-      class="mt-1 hidden h-min md:flex"
+      v-if="medium"
+      class="mt-1 flex h-min"
       :cta="true"
       :counter="discussion.upVoters.length"
       fontSize="sm"
@@ -18,7 +19,7 @@
             <h2 class="responsive-h3 w-full font-bold">
               {{ discussion.title }}
             </h2>
-            <div class="flex items-center space-x-3 md:hidden md:w-fit">
+            <div v-if="!medium" class="flex items-center space-x-3 md:w-fit">
               <MetaTagMembers :members="discussion.participants.length" />
               <MetaTag
                 :iconName="IconMap.CHAT"
@@ -28,7 +29,8 @@
           </div>
           <div class="flex space-x-2">
             <BtnAction
-              class="mt-1 flex md:hidden"
+              v-if="!medium"
+              class="mt-1 flex"
               :cta="true"
               :label="`${discussion.upVoters}`"
               fontSize="sm"
@@ -47,7 +49,8 @@
           </div>
         </div>
         <div
-          class="hidden w-full items-center space-x-3 md:flex md:w-fit lg:space-x-5"
+          v-if="medium"
+          class="flex w-full items-center space-x-3 md:w-fit lg:space-x-5"
         >
           <MetaTagMembers :members="discussion.participants.length" />
           <MetaTag
@@ -78,8 +81,11 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import type { Discussion } from "~/types/discussion";
 import { IconMap } from "~/types/icon-map";
+
+const medium = useBreakpoint("md");
 
 defineProps<{
   isPrivate?: boolean;

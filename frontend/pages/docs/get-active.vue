@@ -9,19 +9,21 @@
       class="responsive-py-4 responsive-px-5 flex w-full flex-col items-center"
     >
       <div class="flex w-10/12 items-start pb-2 md:w-full">
-        <PageBreadcrumbs class="md:hidden" />
+        <PageBreadcrumbs v-if="!medium" />
       </div>
       <!-- Note: image on top of content for mobile. -->
       <img
-        class="h-1/6 w-full md:hidden"
+        v-if="!medium"
+        class="h-1/6 w-full"
         :src="GET_ACTIVE_MOCKUP_URL + `_${$colorMode.value}.png`"
         :alt="$t('pages.docs.get-active.modal-image-alt-text')"
       />
       <div class="w-10/12 gap-16 md:w-full 2xl:grid 2xl:grid-cols-2">
         <ModalImageBtn
+          v-if="medium"
           @click="openModal()"
           @keydown.enter="openModal()"
-          class="hidden md:block"
+          class="block"
           :imageURL="GET_ACTIVE_MOCKUP_URL"
           imageAltText="pages.docs.get-active.modal-image-alt-text"
         />
@@ -34,7 +36,7 @@
         <div
           class="items-center space-y-4 text-left md:items-start 2xl:col-span-1 2xl:row-start-1"
         >
-          <PageBreadcrumbs class="hidden md:block" />
+          <PageBreadcrumbs v-if="medium" class="block" />
           <h1 class="responsive-h1 pb-2 font-bold">
             {{ $t("pages.docs.get-active.header") }}
           </h1>
@@ -125,6 +127,9 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
+import useBreakpoint from "~/composables/useBreakpoint";
+
+const medium = useBreakpoint("md");
 
 const modalIsOpen = ref(false);
 
