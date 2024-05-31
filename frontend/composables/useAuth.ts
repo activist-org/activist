@@ -15,7 +15,7 @@ export const useAuth = () => {
           return;
         } else {
           localStorage.setItem("accessToken", response._data.token);
-          authUser.signInUser();
+          authUser.signInUser(["user"]);
           navigateTo(localePath("/home"));
         }
       },
