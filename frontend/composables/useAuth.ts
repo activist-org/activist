@@ -1,28 +1,33 @@
 interface LoginResponse {
-    data: {};
-  }
-
-const BASE_BACKEND_URL = "http://localhost:8000/v1";
+  data: {};
+}
 
 export const useAuth = () => {
-    const login = async (username: string, password: string) => {
-        await $fetch<LoginResponse>(`${BASE_BACKEND_URL}/auth/login/`, {
-            method: 'POST',
-            body: JSON.stringify({ username, password }),
-            onResponse: ({response}) => {
-                console.log(response);
-                localStorage.setItem("accessToken", response._data.token);
-            }
-        })
-    }
-    
-    const logout = async () => {
-        localStorage.removeItem("accessToken");
-    }
+  const localePath = useLocalePath();
+  const authUser = useUser();
+  const login = async (username: string, password: string) => {
+    await $fetch<LoginResponse>(`${BASE_BACKEND_URL}/auth/login/`, {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      onResponse: ({ response }) => {
+        if (response.status === 400) {
+          alert("Invalid login credentials");
+          return;
+        } else {
+          localStorage.setItem("accessToken", response._data.token);
+          authUser.signInUser();
+          navigateTo(localePath("/home"));
+        }
+      },
+    });
+  };
 
-    
-    return {
-        login,
-        logout
-    }
-}
+  const logout = async () => {
+    localStorage.removeItem("accessToken");
+  };
+
+  return {
+    login,
+    logout,
+  };
+};

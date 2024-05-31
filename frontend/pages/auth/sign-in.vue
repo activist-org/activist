@@ -33,7 +33,7 @@
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
         <NuxtLink
           :to="localePath('/auth/sign-up')"
-          class="ml-2 font-extrabold link-text"
+          class="link-text ml-2 font-extrabold"
           >{{ $t("_global.sign-up") }}
         </NuxtLink>
       </div>
@@ -49,14 +49,9 @@ const localePath = useLocalePath();
 const userNameValue = ref("");
 const passwordValue = ref("");
 
-interface LoginResponse {
-  data: {};
-}
-
-const {login} = useAuth();
+const { login } = useAuth();
 
 const signIn = async () => {
-  const response = await login(userNameValue.value, passwordValue.value);
-  console.log(response);
+  await login(userNameValue.value, passwordValue.value);
 };
 </script>

@@ -149,7 +149,7 @@ class LoginSerializer(serializers.Serializer[UserModel]):
 
         if username is None:
             raise serializers.ValidationError(
-                _("Invalid credentials. Please try again."),
+                ("Invalid credentials. Please try again."),
                 code="invalid_credentials",
             )
 
@@ -160,10 +160,10 @@ class LoginSerializer(serializers.Serializer[UserModel]):
 
         if user is None:
             raise serializers.ValidationError(
-                _("Invalid credentials. Please try again."),
+                ("Invalid credentials. Please try again."),
                 code="invalid_credentials",
             )
-        
+
         token, _ = Token.objects.get_or_create(user=user)
         data["token"] = token.key
         data["user"] = user

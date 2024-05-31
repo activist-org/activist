@@ -26,9 +26,11 @@ class Organization(models.Model):
     )
     get_involved_url = models.URLField(blank=True)
     is_high_risk = models.BooleanField(default=False)
-    status = models.ForeignKey("StatusEntityType", on_delete=models.CASCADE, default=1)
+    status = models.ForeignKey(
+        "StatusEntityType", on_delete=models.CASCADE, default=1, blank=True, null=True
+    )
     status_updated = models.DateTimeField(auto_now=True, null=True)
-    acceptance_date = models.DateTimeField()
+    acceptance_date = models.DateTimeField(null=True, blank=True)
     deletion_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:

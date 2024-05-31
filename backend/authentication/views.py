@@ -2,13 +2,13 @@ from uuid import UUID
 
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 from backend.paginator import CustomPagination
 
@@ -85,7 +85,8 @@ class SignupView(APIView):
             status=status.HTTP_201_CREATED,
         )
 
-@method_decorator(csrf_exempt, name='dispatch')
+
+@method_decorator(csrf_exempt, name="dispatch")
 class LoginView(APIView):
     serializer_class = LoginSerializer
     permission_classes = (AllowAny,)
@@ -97,7 +98,10 @@ class LoginView(APIView):
         login(request, serializer.validated_data.get("user"))
 
         return Response(
-            {"token":  serializer.validated_data.get("token"),"message": "User was logged in successfully"},
+            {
+                "token": serializer.validated_data.get("token"),
+                "message": "User was logged in successfully",
+            },
             status=status.HTTP_200_OK,
         )
 

@@ -7,5 +7,6 @@
 <script setup lang="ts">
 definePageMeta({
   layout: false,
+  middleware: ["user-only"],
 });
 </script>

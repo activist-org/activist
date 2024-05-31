@@ -1,11 +1,11 @@
 # mypy: disable-error-code="override"
 from django.utils import timezone
 from rest_framework import status, viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
-from rest_framework.authentication import TokenAuthentication
 
 from backend.paginator import CustomPagination
 
@@ -58,7 +58,6 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     authentication_classes = [
         TokenAuthentication,
     ]
-
 
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
