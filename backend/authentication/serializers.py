@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 from utils.utils import (
     validate_creation_and_deletion_dates,
@@ -162,6 +163,8 @@ class LoginSerializer(serializers.Serializer[UserModel]):
                 _("Invalid credentials. Please try again."),
                 code="invalid_credentials",
             )
-
+        
+        token, _ = Token.objects.get_or_create(user=user)
+        data["token"] = token.key
         data["user"] = user
         return data

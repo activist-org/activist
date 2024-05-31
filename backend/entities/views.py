@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
+from rest_framework.authentication import TokenAuthentication
 
 from backend.paginator import CustomPagination
 
@@ -54,6 +55,10 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     permission_classes = [
         IsAuthenticated,
     ]
+    authentication_classes = [
+        TokenAuthentication,
+    ]
+
 
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)

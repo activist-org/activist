@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-light-layer-0 px-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
+    class="px-8 bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
       <Title>{{ $t("pages.organizations.index.header-title") }}</Title>
@@ -16,7 +16,7 @@
     <div v-if="organizations">
       <div
         v-for="organization in organizations"
-        class="space-y-6 pb-6 pt-3 md:pt-4"
+        class="pt-3 pb-6 space-y-6 md:pt-4"
       >
         <CardSearchResultOrganization
           :isPrivate="false"
@@ -30,11 +30,11 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/organization";
+const token = localStorage.getItem("accessToken");
+console.log(localStorage.getItem("accessToken"));
 
-const { data: organizations } = await useFetch<Organization[] | undefined>(
-  `${BASE_BACKEND_URL}/entities/organizations/`,
-  {
-    method: "GET",
-  }
-);
+const res = await useAsyncData(async () => await fetchWithToken("http://localhost:8000/v1/entities/organizations/"));
+
+console.log(res.data)
+const organizations = res.data;
 </script>

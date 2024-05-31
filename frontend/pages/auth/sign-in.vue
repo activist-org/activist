@@ -33,7 +33,7 @@
         <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
         <NuxtLink
           :to="localePath('/auth/sign-up')"
-          class="link-text ml-2 font-extrabold"
+          class="ml-2 font-extrabold link-text"
           >{{ $t("_global.sign-up") }}
         </NuxtLink>
       </div>
@@ -53,26 +53,10 @@ interface LoginResponse {
   data: {};
 }
 
+const {login} = useAuth();
+
 const signIn = async () => {
-  const { data: responseData } = await $fetch<LoginResponse>(
-    `http://localhost:8000/v1/auth/login/`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        username: userNameValue.value,
-        password: passwordValue.value,
-      }),
-      onResponse({ request, response, options }) {
-        // Handle the response.
-        console.log(
-          "Response:",
-          response.status,
-          response.statusText,
-          response._data
-        );
-      },
-    }
-  );
-  console.log();
+  const response = await login(userNameValue.value, passwordValue.value);
+  console.log(response);
 };
 </script>
