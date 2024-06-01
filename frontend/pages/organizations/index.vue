@@ -13,7 +13,7 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <div v-if="organizations">
+    <div v-if="organizations.length > 0">
       <div
         v-for="organization in organizations"
         class="space-y-6 pb-6 pt-3 md:pt-4"
@@ -29,10 +29,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/organization";
+
 const res = await useAsyncData(
   async () => await fetchWithToken("/entities/organizations/", {})
 );
 
-console.log(res.data);
-const organizations = res.data;
+const organizations = res.data as unknown as Organization[];
 </script>
