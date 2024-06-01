@@ -144,8 +144,6 @@
   "components.btn-route-external.request-access-aria-label": "Request access to activist.org",
   "components.btn-route-external.suggest-a-feature": "Suggest a feature",
   "components.btn-route-external.suggest-a-feature-aria-label": "Go to GitHub to suggest a feature",
-  "components.btn-route-internal.apply-to-join": "Apply to join",
-  "components.btn-route-internal.apply-to-join-aria-label": "Go to the form to apply to have your organization on activist",
   "components.btn-route-internal.create-event": "Create event",
   "components.btn-route-internal.create-event-aria-label": "Go to the form to create a new event",
   "components.btn-route-internal.create-group-aria-label": "Go to the form to create a new group",
