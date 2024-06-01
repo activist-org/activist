@@ -113,6 +113,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["user-only"],
+});
+
 const formData = ref({
   name: "",
   location: "",

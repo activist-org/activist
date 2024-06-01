@@ -20,32 +20,28 @@
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <NuxtLink
-            v-if="Number.isInteger(Number(breadcrumb)) && event"
+            v-if="isValidUUID(breadcrumb) && event"
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :to="makeURL(breadcrumb)"
           >
             {{ event.name }}
           </NuxtLink>
           <NuxtLink
-            v-else-if="Number.isInteger(Number(breadcrumb)) && organization"
+            v-else-if="isValidUUID(breadcrumb) && organization"
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :to="makeURL(breadcrumb)"
           >
             {{ organization.name }}
           </NuxtLink>
           <NuxtLink
-            v-else-if="
-              Number.isInteger(Number(breadcrumb)) && group && index == 1
-            "
+            v-else-if="isValidUUID(breadcrumb) && group && index == 1"
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :to="makeURL(breadcrumb)"
           >
             {{ group.organization.name }}
           </NuxtLink>
           <NuxtLink
-            v-else-if="
-              Number.isInteger(Number(breadcrumb)) && group && index == 3
-            "
+            v-else-if="isValidUUID(breadcrumb) && group && index == 3"
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :to="makeURL(breadcrumb)"
           >
@@ -74,9 +70,11 @@
 </template>
 
 <script setup lang="ts">
+import { validate as isValidUUID } from "uuid";
 import type { Event } from "~/types/event";
 import type { Group } from "~/types/group";
 import type { Organization } from "~/types/organization";
+
 const { locales } = useI18n();
 const localePath = useLocalePath();
 

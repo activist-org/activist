@@ -13,7 +13,7 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <div v-if="organizations">
+    <div v-if="organizations.length > 0">
       <div
         v-for="organization in organizations"
         class="space-y-6 pb-6 pt-3 md:pt-4"
@@ -31,10 +31,9 @@
 <script setup lang="ts">
 import type { Organization } from "~/types/organization";
 
-const { data: organizations } = await useFetch<Organization[] | undefined>(
-  `${BASE_BACKEND_URL}/entities/organizations/`,
-  {
-    method: "GET",
-  }
+const res = await useAsyncData(
+  async () => await fetchWithToken("/entities/organizations/", {})
 );
+
+const organizations = res.data as unknown as Organization[];
 </script>
