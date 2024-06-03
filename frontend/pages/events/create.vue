@@ -24,3 +24,4 @@
 definePageMeta({
   middleware: ["user-only"],
 });
+</script>
