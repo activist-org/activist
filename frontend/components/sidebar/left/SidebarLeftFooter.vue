@@ -33,5 +33,5 @@ defineProps<{
   sidebarContentScrollable: boolean;
 }>();
 
-const userIsSignedIn = false;
+const { userIsSignedIn } = useUser();
 </script>

@@ -8,6 +8,7 @@ from typing import Any, Dict, Union
 from django.contrib.auth import authenticate, get_user_model
 from django.utils.translation import gettext as _
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 from utils.utils import (
     validate_creation_and_deletion_dates,
@@ -145,7 +146,7 @@ class LoginSerializer(serializers.Serializer[UserModel]):
 
         if user is None:
             raise serializers.ValidationError(
-                _("Invalid credentials. Please try again."),
+                ("Invalid credentials. Please try again."),
                 code="invalid_credentials",
             )
 
@@ -156,17 +157,22 @@ class LoginSerializer(serializers.Serializer[UserModel]):
 
         if authenticated_user is None:
             raise serializers.ValidationError(
-                _("Invalid credentials. Please try again."),
+                ("Invalid credentials. Please try again."),
                 code="invalid_credentials",
             )
 
         if authenticated_user.email != "" and authenticated_user.is_confirmed is False:
             raise serializers.ValidationError(
-                _("Please confirm your email address."),
+                ("Please confirm your email address."),
                 code="email_not_confirmed",
             )
 
         data["user"] = authenticated_user
+
+        token, _ = Token.objects.get_or_create(user=user)
+        data["token"] = token.key
+        data["user"] = user
+
         return data
 
 

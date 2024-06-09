@@ -1,6 +1,7 @@
 # mypy: disable-error-code="override"
 from django.utils import timezone
 from rest_framework import status, viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -24,7 +25,7 @@ from .models import (
     OrganizationTask,
     OrganizationTopic,
     Status,
-    StatusEntityType,
+    StatusType,
 )
 from .serializers import (
     GroupEventSerializer,
@@ -41,8 +42,8 @@ from .serializers import (
     OrganizationSerializer,
     OrganizationTaskSerializer,
     OrganizationTopicSerializer,
-    StatusEntityTypeSerializer,
     StatusSerializer,
+    StatusTypeSerializer,
 )
 
 
@@ -53,6 +54,9 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
     permission_classes = [
         IsAuthenticated,
+    ]
+    authentication_classes = [
+        TokenAuthentication,
     ]
 
     def create(self, request: Request) -> Response:
@@ -123,9 +127,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
                 status.HTTP_401_UNAUTHORIZED,
             )
 
-        org.status = StatusEntityType.objects.get(
-            id=3
-        )  # 3 is the id of the deleted status
+        org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status
         org.deletion_date = timezone.now()
         org.is_high_risk = False
         org.status_updated = None
@@ -274,7 +276,7 @@ class StatusViewSet(viewsets.ModelViewSet[Status]):
     pagination_class = CustomPagination
 
 
-class StatusEntityTypeViewSet(viewsets.ModelViewSet[StatusEntityType]):
-    queryset = StatusEntityType.objects.all()
-    serializer_class = StatusEntityTypeSerializer
+class StatusTypeViewSet(viewsets.ModelViewSet[StatusType]):
+    queryset = StatusType.objects.all()
+    serializer_class = StatusTypeSerializer
     pagination_class = CustomPagination

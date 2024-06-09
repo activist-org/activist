@@ -2,11 +2,18 @@ import os
 import uuid
 from uuid import UUID
 
+
 import dotenv
 from django.contrib.auth import login
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from drf_spectacular.utils import OpenApiParameter, extend_schema
+
+from django.contrib.auth import get_user_model, login
+from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
@@ -139,6 +146,7 @@ class SignupView(APIView):
         )
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class LoginView(APIView):
     serializer_class = LoginSerializer
     permission_classes = (AllowAny,)
@@ -154,7 +162,10 @@ class LoginView(APIView):
         login(request, serializer.validated_data.get("user"))
 
         return Response(
-            {"message": "User was logged in successfully"},
+            {
+                "token": serializer.validated_data.get("token"),
+                "message": "User was logged in successfully",
+            },
             status=status.HTTP_200_OK,
         )
 

@@ -1,9 +1,9 @@
 [
   {
     "model": "authentication.usermodel",
-    "pk": "7664552d-e9cb-49f8-9683-a58acdd4f504",
+    "pk": "d592c8b2-a16b-4c7a-8bf5-84ab756eea76",
     "fields": {
-      "last_login": "2024-04-29T17:30:54.946Z",
+      "last_login": null,
       "is_superuser": true,
       "first_name": "",
       "last_name": "",
@@ -12,7 +12,7 @@
       "creation_date": "2024-04-29T17:30:43.127Z",
       "username": "admin",
       "name": "",
-      "password": "pbkdf2_sha256$600000$ET0H01Ea4DhmDbLHfTSMJd$+tJ/5v898Kmp/8Y7R4zU2/BGB53Kd/S1U+G08W4kZaY=",
+      "password": "pbkdf2_sha256$600000$V4ADJJtADmbfpWmhbysc0v$9LBg11KagabWLdZ7W2c/GUfnrrJwf/xS4221vGt5T/Q=",
       "description": "",
       "verified": false,
       "verification_method": "",
@@ -20,7 +20,7 @@
       "email": "admin@activist.org",
       "is_high_risk": false,
       "is_active": true,
-      "is_admin": true,
+      "is_admin": false,
       "groups": [],
       "user_permissions": []
     }
