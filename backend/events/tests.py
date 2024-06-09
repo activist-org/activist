@@ -2,6 +2,7 @@
 Testing for the events app.
 """
 
+# mypy: ignore-errors
 from django.urls import reverse
 from tests.throttle import BaseTestThrottle
 

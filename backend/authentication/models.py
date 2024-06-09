@@ -2,6 +2,8 @@
 Models for the authentication app.
 """
 
+from __future__ import annotations
+
 from typing import Any
 from uuid import uuid4
 
@@ -9,7 +11,6 @@ from django.contrib.auth.models import (
     AbstractUser,
     BaseUserManager,
     PermissionsMixin,
-    User,
 )
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
@@ -42,7 +43,7 @@ class Support(models.Model):
         return f"{self.id}"
 
 
-class CustomAccountManager(BaseUserManager[User]):
+class CustomAccountManager(BaseUserManager["UserModel"]):
     def create_superuser(
         self,
         email: str,
@@ -63,16 +64,15 @@ class CustomAccountManager(BaseUserManager[User]):
 
     def create_user(
         self,
-        email: str,
         username: str,
         password: str,
-        **other_fields: bool,
-    ) -> User:
-        if not email:
-            raise ValueError(("You must provide an email address"))
+        email: str = "",
+        **other_fields: Any,
+    ) -> UserModel:
+        if email != "":
+            email = self.normalize_email(email)
 
-        email = self.normalize_email(email)
-        user: User = self.model(email=email, username=username, **other_fields)
+        user = self.model(email=email, username=username, **other_fields)
         user.set_password(password)
         user.save()
         return user
@@ -92,7 +92,9 @@ class UserModel(AbstractUser, PermissionsMixin):
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.SET_NULL, blank=True, null=True
     )
-    email = models.EmailField(unique=True)
+    verifictaion_code = models.UUIDField(blank=True, null=True)
+    email = models.EmailField(blank=True)
+    is_confirmed = models.BooleanField(default=False)
     social_links = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     is_private = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
@@ -105,7 +107,6 @@ class UserModel(AbstractUser, PermissionsMixin):
     objects = CustomAccountManager()  # type: ignore
 
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
 
     def __str__(self) -> str:
         return self.username

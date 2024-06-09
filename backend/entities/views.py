@@ -116,7 +116,6 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:
         org = self.queryset.filter(id=pk).first()
-        print(pk, org)
         if org is None:
             return Response(
                 {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
