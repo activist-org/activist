@@ -112,7 +112,7 @@ def test_signup(client: Client) -> None:
     assert response.status_code == 201
     assert UserModel.objects.filter(username=username)
     # code for Email confirmation is generated and is a UUID
-    assert isinstance(user.code, UUID)
+    assert isinstance(user.verifictaion_code, UUID)
     assert user.is_confirmed is False
     # Confirmation Email was sent
     assert len(mail.outbox) == 1
@@ -148,7 +148,7 @@ def test_signup(client: Client) -> None:
     assert UserModel.objects.filter(username=second_username).exists()
     assert user.email == ""
     assert user.is_confirmed is False
-    assert user.code is None
+    assert user.verifictaion_code is None
 
 
 @pytest.mark.django_db

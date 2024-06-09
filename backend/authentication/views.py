@@ -2,18 +2,13 @@ import os
 import uuid
 from uuid import UUID
 
-
 import dotenv
 from django.contrib.auth import login
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from drf_spectacular.utils import OpenApiParameter, extend_schema
-
-from django.contrib.auth import get_user_model, login
-from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
@@ -96,9 +91,9 @@ class SignupView(APIView):
         user: UserModel = serializer.save()
 
         if user.email != "":
-            user.code = uuid.uuid4()
+            user.verifictaion_code = uuid.uuid4()
 
-            confirmation_link = f"{FRONTEND_BASE_URL}/confirm/{user.code}"
+            confirmation_link = f"{FRONTEND_BASE_URL}/confirm/{user.verifictaion_code}"
             message = f"Welcome to activist.org, {user.username}!, Please confirm your email address by clicking the link: {confirmation_link}"
             html_message = render_to_string(
                 template_name="signup_email.html",
@@ -124,11 +119,13 @@ class SignupView(APIView):
             status=status.HTTP_201_CREATED,
         )
 
-    @extend_schema(parameters=[OpenApiParameter(name="code", type=str, required=True)])
+    @extend_schema(
+        parameters=[OpenApiParameter(name="verifictaion_code", type=str, required=True)]
+    )
     def get(self, request: Request) -> Response:
         """Confirm a user's email address."""
-        code = request.GET.get("code")
-        user = UserModel.objects.filter(code=code).first()
+        verifictaion_code = request.GET.get("verifictaion_code")
+        user = UserModel.objects.filter(verifictaion_code=verifictaion_code).first()
 
         if user is None:
             return Response(
@@ -137,7 +134,7 @@ class SignupView(APIView):
             )
 
         user.is_confirmed = True
-        user.code = ""
+        user.verifictaion_code = ""
         user.save()
 
         return Response(
@@ -186,9 +183,9 @@ class PasswordResetView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        user.code = uuid.uuid4()
+        user.verifictaion_code = uuid.uuid4()
 
-        pwreset_link = f"{FRONTEND_BASE_URL}/pwreset/{user.code}"
+        pwreset_link = f"{FRONTEND_BASE_URL}/pwreset/{user.verifictaion_code}"
         message = "Reset your password at activist.org"
         html_message = render_to_string(
             template_name="pwreset_email.html",

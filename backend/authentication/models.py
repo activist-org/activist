@@ -92,8 +92,8 @@ class UserModel(AbstractUser, PermissionsMixin):
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.SET_NULL, blank=True, null=True
     )
+    verifictaion_code = models.UUIDField(blank=True, null=True)
     email = models.EmailField(blank=True)
-    code = models.UUIDField(blank=True, null=True)
     is_confirmed = models.BooleanField(default=False)
     social_links = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     is_private = models.BooleanField(default=False)
