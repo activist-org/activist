@@ -98,8 +98,8 @@ class GroupFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text")
     social_links = factory.List([factory.Faker("word") for _ in range(10)])
     created_by = factory.SubFactory("authentication.factories.UserFactory")
+    terms_checked = factory.Faker("boolean")
     creation_date = factory.LazyFunction(datetime.datetime.now)
-    deletion_date = factory.LazyFunction(datetime.datetime.now)
 
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):

@@ -112,6 +112,7 @@ class Group(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     category = models.CharField(max_length=255)
+    terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
