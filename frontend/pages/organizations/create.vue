@@ -21,7 +21,7 @@
         type="form"
         :actions="false"
         :classes="{
-          form: 'flex w-full flex-col items-center justify-center pt-4'
+          form: 'flex w-full flex-col items-center justify-center pt-4',
         }"
         :config="{ validationVisibility: 'submit' }"
       >
@@ -38,9 +38,12 @@
               id="name"
               type="text"
               name="name"
-              :placeholder="$t('pages.organizations.create.organization-name-placeholder')"
+              :placeholder="
+                $t('pages.organizations.create.organization-name-placeholder')
+              "
               :classes="{
-                input: 'bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+                input:
+                  'bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
               }"
               validation="required"
             />
@@ -55,9 +58,12 @@
               id="location"
               type="text"
               name="location"
-              :placeholder="$t('pages.organizations.create.location-placeholder')"
+              :placeholder="
+                $t('pages.organizations.create.location-placeholder')
+              "
               :classes="{
-                input: 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+                input:
+                  'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
               }"
               validation="required"
             />
@@ -73,9 +79,12 @@
             id="description"
             type="textarea"
             name="description"
-            :placeholder="$t('pages.organizations.create.description-placeholder')"
+            :placeholder="
+              $t('pages.organizations.create.description-placeholder')
+            "
             :classes="{
-              input: 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+              input:
+                'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
             }"
             validation="required"
           />
@@ -92,7 +101,8 @@
             name="tagline"
             :placeholder="$t('pages.organizations.create.tagline-placeholder')"
             :classes="{
-              input: 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+              input:
+                'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
             }"
           />
         </div>

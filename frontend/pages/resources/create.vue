@@ -113,18 +113,18 @@
               id="organization"
               type="textarea"
               name="organization"
-              :placeholder="$t('pages.resources.create.organization-placeholder')"
+              :placeholder="
+                $t('pages.resources.create.organization-placeholder')
+              "
               :classes="{
-                input: 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0'
+                input:
+                  'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
               }"
               validation="required"
             />
           </div>
         </div>
-        <CardTopicSelection
-          class="mt-5"
-          pageType="resource"
-        />
+        <CardTopicSelection class="mt-5" pageType="resource" />
         <div class="mx-14 flex w-full flex-col">
           <div class="my-5">
             <BtnAction
