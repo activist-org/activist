@@ -1,7 +1,8 @@
 export default defineNuxtRouteMiddleware(async () => {
-  const { roles } = useUser();
+  const { userIsAdmin, userIsSignedIn } = useUser();
+  const localePath = useLocalePath();
 
-  if (!roles.includes("admin")) {
-    return alert("Hey! No!");
+  if (!userIsAdmin && userIsSignedIn) {
+    return navigateTo(localePath("/home"));
   }
 });
