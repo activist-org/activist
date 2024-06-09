@@ -120,13 +120,13 @@
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
             <FormCheckbox />
-            <label for="terms" class="flex font-medium">
+            <!-- <label for="terms" class="flex font-medium">
               <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
               <a href="#" class="text-blue-500">
                 {{ $t("pages._global.terms-of-service-pt-2") }}
               </a>
               <p>.</p>
-            </label>
+            </label> -->
           </div>
           <div class="my-5">
             <BtnAction
