@@ -30,6 +30,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text")
     social_links = factory.List([factory.Faker("word") for _ in range(10)])
     created_by = factory.SubFactory("authentication.factories.UserFactory")
+    terms_checked = factory.Faker("boolean")
     is_high_risk = factory.Faker("boolean")
 
 

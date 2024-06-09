@@ -25,6 +25,7 @@ class Organization(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     get_involved_url = models.URLField(blank=True)
+    terms_checked = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
     status = models.ForeignKey(
         "StatusType", on_delete=models.CASCADE, default=1, blank=True, null=True

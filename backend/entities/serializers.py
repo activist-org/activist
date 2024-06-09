@@ -45,7 +45,15 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "status",
             "status_updated",
             "acceptance_date",
+            "terms_checked",
         ]
+
+    def validate(self, data: dict) -> dict:
+        if data.get("terms_checked") is False:
+            raise serializers.ValidationError(
+                "You must accept the terms of service to create an organization."
+            )
+        return data
 
 
 class OrganizationApplicationSerializer(
