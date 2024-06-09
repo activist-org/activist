@@ -12,10 +12,10 @@
           'absolute bg-light-button dark:bg-dark-button peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-light-menu-selection dark:border-dark-menu-selection',
         label: 'ml-7 inline-block',
         checkedIndicator:
-          'pointer-events-none absolute left-[0.2rem] hidden h-[1rem] w-[1rem] rounded-sm bg-light-menu-selection peer-checked:block dark:bg-dark-menu-selection',
+          'pointer-events-none absolute left-[0.2rem] hidden h-[1rem] w-[1rem] rounded-sm bg-light-menu-selection peer-checked:block dark:bg-dark-menu-selection'
       }"
     >
-    <!-- figure out check box styling. formkit.config.ts SHOULD give the ability to use bootstrap icons, so would decorator be the empty box that is styled by input and then decoratorIcon would be the filled square -->
+    <!-- figure out check box styling. formkit.config.ts SHOULD give the ability to use bootstrap icons -->
       <template #label="context">
         <label :for="uuid" :class="context.classes.label">
           <p>

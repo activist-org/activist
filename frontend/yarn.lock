@@ -640,6 +640,13 @@
     "@formkit/utils" "1.6.5"
     "@formkit/validation" "1.6.5"
 
+"@formkit/icons@^1.6.5":
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/@formkit/icons/-/icons-1.6.5.tgz#90a751350f8fd8da3a3acd687ed2b8b263ab98f8"
+  integrity sha512-Owlw/aGi8R5koMKwq2j5bz59H/4bwscmGdgmRpAns7Fgm9ceZmbrYLcbV4t2m0NYnb+1X7IySP5UutEKt6yuPw==
+  dependencies:
+    "@formkit/core" "1.6.5"
+
 "@formkit/inputs@1.6.5":
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/@formkit/inputs/-/inputs-1.6.5.tgz#8a61bf4540f5371e6d6e27ce55c8674456cef984"

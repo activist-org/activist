@@ -42,7 +42,6 @@
               :classes="{
                 input:
                   'bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-                  validation: 'test-light-action-red dark:text-dark-action-red',
               }"
               validation="required|name"
             />
@@ -61,6 +60,7 @@
               :classes="{
                 input:
                   'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
+                validation: 'test-light-action-red dark:text-dark-action-red'
               }"
               validation="required|location"
             />
