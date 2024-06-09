@@ -8,8 +8,9 @@
       validation="accepted"
       validation-label="terms and conditions"
       :classes="{
-        decorator: '$reset absolute bg-light-button dark:bg-dark-button mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-light-menu-selection dark:border-dark-menu-selection',
+        input: 'absolute bg-light-button dark:bg-dark-button peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-light-menu-selection dark:border-dark-menu-selection',
         label: 'ml-7 inline-block',
+        checkedIndicator: 'pointer-events-none absolute left-[0.2rem] hidden h-[1rem] w-[1rem] rounded-sm bg-light-menu-selection peer-checked:block dark:bg-dark-menu-selection'
       }"
     >
       <template #label="context">
@@ -20,6 +21,7 @@
             </a>.*
           </p>
         </label>
+        <div :class="context.classes.checkedIndicator"></div>
       </template>
     </FormKit>
     <!--
@@ -39,16 +41,18 @@
       <p>.</p>
     </label>
     -->
+    <!--
     <div
       class="pointer-events-none absolute left-[0.2rem] hidden h-[1rem] w-[1rem] rounded-sm bg-light-menu-selection peer-checked:block dark:bg-dark-menu-selection"
     ></div>
     <label
       v-if="label"
-      class="ml-2 cursor-pointer select-none text-lg inline-block"
+      class="ml-2 inline-block cursor-pointer select-none text-lg"
       :for="uuid"
     >
       {{ label }}
     </label>
+    -->
   </div>
 </template>
 
