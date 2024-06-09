@@ -7,6 +7,8 @@ from uuid import uuid4
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
+from authentication.enums import StatusTypes
+
 
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -27,7 +29,11 @@ class Organization(models.Model):
     get_involved_url = models.URLField(blank=True)
     is_high_risk = models.BooleanField(default=False)
     status = models.ForeignKey(
-        "StatusType", on_delete=models.CASCADE, default=1, blank=True, null=True
+        "StatusType",
+        on_delete=models.CASCADE,
+        default=StatusTypes.PENDING,
+        blank=True,
+        null=True,
     )
     status_updated = models.DateTimeField(auto_now=True, null=True)
     acceptance_date = models.DateTimeField(null=True, blank=True)
