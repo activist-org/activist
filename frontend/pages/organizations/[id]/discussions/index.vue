@@ -28,7 +28,8 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-6 pb-6 pt-3 md:pt-4">
+    <PagePreviewDiscussion />
+    <!-- <div v-if="organization.discussions" class="space-y-6 pb-6 pt-3 md:pt-4">
       <CardDiscussion
         v-for="(d, i) in organization.discussions"
         :key="i"
@@ -36,6 +37,7 @@
         :discussion="d"
       />
     </div>
+    <EmptyState v-else pageType="discussions" :permission="false" /> -->
   </div>
 </template>
 

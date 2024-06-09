@@ -31,6 +31,7 @@
         /> -->
       </div>
     </HeaderAppPage>
+    <PagePreviewEvent />
     <!-- <div v-if="group.events" class="space-y-3 py-4">
       <CardSearchResultEvent
         v-for="(u, i) in group.events"

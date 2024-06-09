@@ -26,6 +26,7 @@
         />
       </div>
     </HeaderAppPage>
+    <PagePreviewEvent />
     <!-- <div v-if="organization.events" class="space-y-3 py-4">
       <CardSearchResultEvent
         v-for="(u, i) in organization.events"

@@ -24,39 +24,21 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-6 pb-6 pt-3 md:pt-4">
+    <PagePreviewDiscussion />
+    <!-- <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
       <Discussion
-        :discussionInput="discussionInput"
-        :discussionEntries="[discussionEntry, discussionEntry]"
+        :discussionInput="event.discussion"
+        :discussionEntries="[event.discussion?.entries]"
         :organizations="event.organizations"
       />
     </div>
+    <EmptyState v-else pageType="discussions" :permission="false" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/discussion-entry";
-import type { DiscussionInput } from "~/types/discussion-input";
 import { IconMap } from "~/types/icon-map";
 import { testClimateEvent } from "~/utils/testEntities";
 
 const event = testClimateEvent;
-
-const discussionEntry: DiscussionEntry = {
-  id: 1,
-  author: "John A. Tester",
-  content:
-    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
-  votes: 123,
-  date: new Date(),
-};
-
-const discussionInput: DiscussionInput = {
-  name: "Text ",
-  location: "Testerville, TN",
-  supporters: 123,
-  description: "I love to test!",
-  category: "Category",
-  highRisk: false,
-};
 </script>

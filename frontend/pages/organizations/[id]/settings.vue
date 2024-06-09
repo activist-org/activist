@@ -4,14 +4,12 @@
   >
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{
-          $t("_global.affiliates_lower")
-        }}</Title
+        >{{ organization.name }}&nbsp;{{ $t("_global.settings_lower") }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.affiliates_lower')"
+      :header="organization.name + ' ' + $t('_global.settings_lower')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -24,7 +22,8 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-6 pb-6">
+    <PagePreviewSettings />
+    <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="
           $t('components.card-danger-zone.delete-organization-text')
@@ -34,7 +33,7 @@
           $t('components.card-danger-zone.delete-organization-cta-aria-label')
         "
       />
-    </div>
+    </div> -->
   </div>
 </template>
 

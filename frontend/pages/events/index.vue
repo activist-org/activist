@@ -13,20 +13,23 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <div v-if="events">
-      <div v-for="event in events" class="space-y-6 pb-6 pt-3 md:pt-4">
+    <PagePreviewEvent />
+    <!-- <div v-if="events.results.length > 0">
+      <div v-for="event in events.results" class="space-y-6 pb-6 pt-3 md:pt-4">
         <CardSearchResultEvent :isPrivate="false" :event="event" />
       </div>
     </div>
-    <EmptyState v-else pageType="events" :permission="false" />
+    <EmptyState v-else pageType="events" :permission="false" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-const { data: events } = await useFetch(
-  `${BASE_BACKEND_URL}/entities/organization_events/`,
-  {
-    method: "GET",
-  }
-);
+// import type { Event } from "~/types/event";
+
+// const { data: events } = await useFetch<Event[] | undefined>(
+//   `${BASE_BACKEND_URL}/entities/organization_events/`,
+//   {
+//     method: "GET",
+//   }
+// );
 </script>

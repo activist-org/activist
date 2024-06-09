@@ -20,7 +20,7 @@ from .models import (
     OrganizationTask,
     OrganizationTopic,
     Status,
-    StatusEntityType,
+    StatusType,
 )
 
 
@@ -134,7 +134,7 @@ class StatusSerializer(serializers.ModelSerializer[Status]):
         fields = "__all__"
 
 
-class StatusEntityTypeSerializer(serializers.ModelSerializer[StatusEntityType]):
+class StatusTypeSerializer(serializers.ModelSerializer[StatusType]):
     class Meta:
-        model = StatusEntityType
+        model = StatusType
         fields = "__all__"

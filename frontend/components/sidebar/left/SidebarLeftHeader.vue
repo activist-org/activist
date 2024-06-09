@@ -1,6 +1,9 @@
 <template>
   <header
-    class="w-full bg-light-layer-1 pl-1 transition-all duration-500 dark:bg-dark-layer-1"
+    class="z-40 w-full bg-light-layer-1 pl-1 transition-all duration-500 dark:bg-dark-layer-1"
+    :class="{
+      'elem-shadow-sm': atTopShadow,
+    }"
   >
     <div class="flex items-center pb-2 pl-[0.85rem] pr-6 pt-3">
       <div
@@ -52,6 +55,10 @@
 </template>
 
 <script setup lang="ts">
+defineProps<{
+  atTopShadow: boolean;
+}>();
+
 const sidebar = useSidebar();
 const emit = defineEmits(["toggle-pressed"]);
 </script>

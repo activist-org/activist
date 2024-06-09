@@ -1,10 +1,11 @@
 export enum SidebarType {
-  SEARCH = "search",
   HOME = "home",
+  EVENT_FILTER = "filter events",
+  EVENT_PAGE = "event page",
   MISC = "misc",
-  EVENT_PAGE = "event",
-  FILTER_EVENTS = "filter events",
-  ORGANIZATION_PAGE = "organization",
-  FILTER_ORGANIZATIONS = "filter organizations",
-  FILTER_RESOURCES = "filter resources",
+  ORGANIZATION_FILTER = "filter organizations",
+  ORGANIZATION_PAGE = "organization page",
+  RESOURCES_FILTER = "filter resources",
+  SEARCH = "search",
+  USER_PAGE = "user page",
 }

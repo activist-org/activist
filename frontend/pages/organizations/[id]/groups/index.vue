@@ -26,7 +26,7 @@
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-3 py-4">
+    <div v-if="organization.groups" class="space-y-3 py-4">
       <CardSearchResultGroup
         v-for="(g, i) in organization.groups"
         :key="i"
@@ -35,6 +35,7 @@
         :isPrivate="false"
       />
     </div>
+    <EmptyState v-else pageType="organizations" :permission="false" />
   </div>
 </template>
 

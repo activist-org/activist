@@ -2,6 +2,8 @@ from uuid import UUID
 
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
@@ -79,11 +81,12 @@ class SignupView(APIView):
         serializer.save()
 
         return Response(
-            {"message": "User was created successful"},
+            {"message": "User was created successfully"},
             status=status.HTTP_201_CREATED,
         )
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class LoginView(APIView):
     serializer_class = LoginSerializer
     permission_classes = (AllowAny,)
@@ -95,7 +98,10 @@ class LoginView(APIView):
         login(request, serializer.validated_data.get("user"))
 
         return Response(
-            {"message": "User was logged in successful"},
+            {
+                "token": serializer.validated_data.get("token"),
+                "message": "User was logged in successfully",
+            },
             status=status.HTTP_200_OK,
         )
 
@@ -116,6 +122,6 @@ class DeleteUserView(APIView):
         user.delete()
 
         return Response(
-            {"message": "User was deleted successful"},
+            {"message": "User was deleted successfully"},
             status=status.HTTP_204_NO_CONTENT,
         )

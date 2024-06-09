@@ -5,8 +5,11 @@
   >
     <div>
       <DialogTitle>
-        <p class="responsive-h2 font-bold">
+        <p v-if="uploadLimit > 1" class="responsive-h2 font-bold">
           {{ $t("components.modal-upload-images.upload-images") }}
+        </p>
+        <p v-else class="responsive-h2 font-bold">
+          {{ $t("components.modal-upload-images.upload-an-image") }}
         </p>
       </DialogTitle>
       <div class="mt-4">
@@ -15,11 +18,17 @@
           @files-dropped="handleFiles"
           v-slot="{ isDropZoneActive }"
         >
-          <span v-if="isDropZoneActive">{{
+          <span v-if="isDropZoneActive && uploadLimit > 1">{{
             $t("components.modal-upload-images.drop-images")
           }}</span>
-          <span v-else>{{
+          <span v-else-if="isDropZoneActive && uploadLimit == 1">{{
+            $t("components.modal-upload-images.drop-image")
+          }}</span>
+          <span v-else-if="!isDropZoneActive && uploadLimit > 1">{{
             $t("components.modal-upload-images.drag-images")
+          }}</span>
+          <span v-else-if="!isDropZoneActive && uploadLimit == 1">{{
+            $t("components.modal-upload-images.drag-image")
           }}</span>
         </ModalUploadImagesFileDropZone>
         <p class="py-2">

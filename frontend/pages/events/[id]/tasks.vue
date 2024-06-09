@@ -23,6 +23,7 @@
         />
       </div>
     </HeaderAppPage>
+    <PagePreviewTasks />
     <!-- <div v-if="event.tasks" class="space-y-3 py-4"></div>
     <EmptyState v-else pageType="tasks" :permission="false" /> -->
   </div>

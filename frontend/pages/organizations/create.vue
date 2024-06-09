@@ -135,6 +135,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/organization";
+
+definePageMeta({
+  middleware: ["user-only"],
+});
+
 const formData = ref({
   name: "",
   location: "",
@@ -144,9 +150,12 @@ const formData = ref({
   topics: [],
 });
 
+const token = localStorage.getItem("accessToken");
+const localePath = useLocalePath();
+
 const submit = async () => {
-  const { data: responseData } = await useFetch(
-    "http://127.0.0.1:8000/v1/entities/organizations/",
+  const response = await useFetch(
+    `${BASE_BACKEND_URL}/entities/organizations/`,
     {
       method: "POST",
       body: JSON.stringify({
@@ -156,15 +165,20 @@ const submit = async () => {
         description: formData.value.description,
         social_accounts: ["https://twitter.com/activist_hq"],
         created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-        topics: formData.value.topics,
+        topics: ["test"],
         high_risk: false,
         total_flags: 0,
+        acceptance_date: new Date(),
       }),
+      headers: {
+        Authorization: `Token ${token}`,
+      },
     }
   );
 
   //TODO: FEATURE - push notification with toast should be added here
 
-  window.location.href = "/organizations";
+  const responseData = response.data.value as unknown as Organization;
+  navigateTo(localePath(`/organizations/${responseData.id}`));
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="w-full bg-light-layer-1 p-1 transition-all duration-500 dark:bg-dark-layer-1"
+    class="p-1 transition-all duration-500"
     :class="{
       'pr-4': sidebarContentScrollable,
     }"
@@ -33,5 +33,5 @@ defineProps<{
   sidebarContentScrollable: boolean;
 }>();
 
-const userIsSignedIn = false;
+const { userIsSignedIn } = useUser();
 </script>
