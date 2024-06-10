@@ -1,8 +1,9 @@
+<!-- TODO: needs to handle focus / tab-to events, get rid of focus ring -->
 <template>
   <div>
     <NuxtLink
       @click="handleItemClick"
-      class="focus-brand flex rounded-md"
+      class="flex rounded-md"
       :to="localePath(`/${configObject.path}`)"
     >
       <div

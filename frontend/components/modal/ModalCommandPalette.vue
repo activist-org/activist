@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: transition / animation? Maybe do this in ModalBase? -->
   <ModalBase
     @closeModal="handleCloseModal"
     :isOpen="modalShouldClose == false ? modalIsOpen : false"
@@ -7,7 +8,7 @@
     <div
       class="focus-inside elem-shadow-sm my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-light-layer-2 px-2 py-1 text-left text-light-distinct-text transition duration-200 dark:bg-dark-layer-2 dark:text-dark-distinct-text"
     >
-      <div class="flex items-center space-x-2 pl-1">
+      <div class="flex items-center space-x-2">
         <Icon :name="IconMap.SEARCH" size="1em" />
         <label for="search-input" class="sr-only">{{
           $t("_global.search")
@@ -29,9 +30,10 @@
     <!-- SEARCH RESULTS -->
     <!-- TODO: <CommandPaletteSearchResults results='searchResults' /> -->
     <div v-if="searchTerm != ''">searchTerm: {{ searchTerm }}</div>
+    <!-- useFuse() goes here -->
 
     <!-- DISPLAY ITEMS -->
-    <div class="max-h-[30rem] overflow-scroll">
+    <div class="max-h-[30rem] overflow-y-auto">
       <!-- PAGES -->
       <DialogTitle class="mt-5 flex justify-between font-display">
         <p class="md:responsive-h3 pb-3 text-3xl font-bold">
