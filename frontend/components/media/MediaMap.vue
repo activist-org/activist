@@ -1,3 +1,5 @@
+
+
 <template>
   <div
     id="map"
@@ -6,10 +8,15 @@
 </template>
 
 <script setup lang="ts">
+
+import { onMounted } from 'vue';
+import { useI18n } from "vue-i18n";
+import maplibregl from 'maplibre-gl';
+import direction-arrow from "frontend/public/icons/direction-arrow.png";
+import { useColorMode } from '@vueuse/core';
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
-import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
@@ -20,6 +27,8 @@ const props = defineProps<{
 
 const i18n = useI18n();
 const colorMode = useColorMode();
+
+
 
 const isTouchDevice =
   // `maxTouchPoints` isn't recognized by TS. Safe to ignore.
@@ -76,7 +85,8 @@ onMounted(() => {
                 type: "background",
                 paint: {
                   "background-color":
-                    colorMode.preference == "dark" ? "#131316" : "#F6F8FA",
+                    
+                  colorMode.value == "dark" ? "#131316" : "#F6F8FA",
                 },
               },
               {
@@ -108,6 +118,44 @@ onMounted(() => {
             trackUserLocation: true,
           })
         );
+        map.loadImage(direction-arrow).then((image) => {}
+        if (image) {
+          map.addImage("direction-arrow", image.data);
+        }
+      });
+
+      const layers = layersFactory();
+      layers.push({
+        id : "maplibre-gl-directions-routeline-direction-arrow",
+        type : "symbol",
+        source : "maplibre-gl-directions",
+        layout: {
+          "symbol-placement" : "line-center",
+          "icon-image" : "direction-arrow",
+          "icon-size" : ["interpolate",["exponential",1.5],["zoom"], 12, 0.85, 18, 1.4],
+        },
+
+        paint: {
+        "icon-opacity": 0.5,
+      },
+      filter: ["==", ["get", "route"], "SELECTED"],
+    });
+
+    map.on("load", () => {
+      directions = new MapLibreGlDirections(map, {
+        requestOptions: {
+          alternatives: "true",
+        },
+        layers,
+      });
+
+      directions.interactive = true;
+    });
+  });
+
+
+
+      })
 
         const popup = new maplibregl.Popup({
           offset: 25,
