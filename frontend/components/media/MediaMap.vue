@@ -124,7 +124,6 @@ const mapProfile = (profile: string) => {
 };
 
 let selectedRoute = mapProfile(routeProfileOptions.FOOT);
-
 console.log("default selectedRoute", selectedRoute);
 
 const routeProfileHandler = () => {
@@ -137,13 +136,13 @@ const routeProfileHandler = () => {
 };
 
 const setSelectedRoute = () => {
-  if(currentProfile === walkingRouteProfileControl) {
+  if (currentProfile === walkingRouteProfileControl) {
     selectedRoute = mapProfile(routeProfileOptions.FOOT);
   } else {
     selectedRoute = mapProfile(routeProfileOptions.BIKE);
   }
   return selectedRoute;
-}
+};
 
 console.log("currentProfile", currentProfile);
 
@@ -239,7 +238,7 @@ onMounted(() => {
           );
 
           const directions = new MapLibreGlDirections(map, {
-            ...selectedRoute = setSelectedRoute(),
+            ...(selectedRoute = setSelectedRoute()),
             requestOptions: {
               alternatives: "true",
             },
