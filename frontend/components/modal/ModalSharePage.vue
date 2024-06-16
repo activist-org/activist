@@ -93,6 +93,10 @@
               iconSize="1.5em"
             />
           </s-facebook>
+          <!-- <div class="flex h-full w-full cursor-pointer items-center gap-3">
+            <Icon :name="IconMap.SIGNAL" size="1.5em" />
+            <p>{{ $t("components._global.signal") }}</p>
+          </div> -->
           <div
             @click="
               copyToClipboard(
