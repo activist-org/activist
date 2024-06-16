@@ -105,6 +105,7 @@
   "components._global.share-organization": "Share organization",
   "components._global.share-organization-aria-label": "View options to share this organization with others",
   "components._global.star": "Star",
+  "components._global.signal": "Signal",
   "components.btn-action-dropdown.download-qr-code": "Download QR code",
   "components.btn-action-dropdown.download-qr-code-aria-label": "Download a QR code that links to this page",
   "components.btn-action-dropdown.qr-code-options-aria-label": "View format options for downloading a QR code",
