@@ -21,6 +21,22 @@
       <IndicatorPasswordStrength :password-value="passwordValue" />
       <div class="flex flex-col space-y-3">
         <FriendlyCaptcha />
+        <button
+          @click="navigateTo(localePath('/auth/reset-password'))"
+          @mouseover="hovered = true"
+          @focus="hovered = true"
+          @mouseleave="hovered = false"
+          @blur="hovered = false"
+          :disabled="isForgotPasswordDisabled"
+          class="text-start font-bold"
+          :class="{ 'link-text': !isForgotPasswordDisabled }"
+        >
+          Forgot your password?
+        </button>
+        <TooltipBase
+          v-if="isForgotPasswordDisabled && hovered"
+          text="For set new password, captcha check should passed"
+        />
         <BtnAction
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
           :label="$t('_global.sign-in')"
@@ -45,6 +61,10 @@
 import { IconMap } from "~/types/icon-map";
 
 const localePath = useLocalePath();
+
+// TODO: Please change with result of captcha check and remove the comment.
+const isForgotPasswordDisabled = false;
+const hovered = ref(false);
 
 const userNameValue = ref("");
 const passwordValue = ref("");

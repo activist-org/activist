@@ -45,7 +45,7 @@
           input-type="password"
           :model-value="confirmPasswordValue"
           :icons="
-            isPasswordMatch
+            isPasswordMatch(passwordValue, confirmPasswordValue)
               ? [IconMap.CHECK, IconMap.VISIBLE]
               : [IconMap.X_LG, IconMap.VISIBLE]
           "
@@ -92,7 +92,6 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-import type { PasswordRules } from "~/types/password-rules";
 
 const localePath = useLocalePath();
 
@@ -103,29 +102,8 @@ const hasRed = ref(false);
 const isBlurred = ref(false);
 const isFocused = ref(false);
 
-const isPasswordMatch = computed(() => {
-  if (passwordValue.value === "" || confirmPasswordValue.value === "") {
-    return false;
-  }
-  return passwordValue.value === confirmPasswordValue.value;
-});
-
-const rules = ref<PasswordRules[]>(passwordRules);
-const { ruleFunctions } = usePasswordRules();
-
-const checkRules = (value: { target: { value: string } }): void => {
-  const actualValue = value.target.value;
-  rules.value.forEach((rule) => {
-    if (ruleFunctions[rule.message]) {
-      rule.isValid = ruleFunctions[rule.message](actualValue);
-    }
-  });
-};
-
-// Checks the rules to make the tooltip invisible when all rules are valid.
-const isAllRulesValid = computed(() => {
-  return rules.value.every((rule) => rule.isValid);
-});
+const { rules, isAllRulesValid, checkRules, isPasswordMatch } =
+  usePasswordRules();
 
 const signUp = () => {};
 </script>
