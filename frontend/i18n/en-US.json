@@ -345,7 +345,7 @@
   "components.modal-qr-code.section-2-list-1-item-2": "Adding them to flyers or cards",
   "components.modal-qr-code.section-2-list-1-item-3": "Sending them with materials for your organization",
   "components.modal-qr-code.subheader-2": "Ideas for QR code use include:",
-  "components.modal-qr-code.tooltip": "Open image in a new tab",
+  "components.modal-qr-code.tooltip": "Open QR code in a new tab",
   "components.modal-qr-code.aria-label": "Open the QR code in a new tab",
   "components.modal-share-page.header": "Share this page",
   "components.modal-share-page.offline": "Offline",
