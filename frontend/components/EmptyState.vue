@@ -62,10 +62,10 @@
               v-if="pageType == 'organizations'"
               class="w-full"
               :cta="true"
-              label="components.btn-route-internal.apply-to-join"
+              label="_global.create-organization"
               linkTo="/organizations/create"
               fontSize="lg"
-              ariaLabel="components.btn-route-internal.apply-to-join-aria-label"
+              ariaLabel="components.btn-route-internal.create-organization-aria-label"
             />
             <BtnRouteInternal
               v-if="pageType == 'groups'"

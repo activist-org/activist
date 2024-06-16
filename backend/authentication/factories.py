@@ -39,12 +39,12 @@ class UserFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text", max_nb_chars=500)
     verified = factory.Faker("boolean")
     verification_method = factory.Faker("word")
+    verification_code = factory.Faker("uuid4")
     email = factory.Faker("email")
     social_links = factory.List([factory.Faker("user_name") for _ in range(3)])
     is_private = factory.Faker("boolean")
     is_high_risk = factory.Faker("boolean")
     creation_date = factory.Faker("date_time_this_decade", before_now=True)
-    deletion_date = factory.Faker("date_time_this_decade", before_now=False)
     plaintext_password = factory.PostGenerationMethodCall("set_password", "password")
 
     # Workaround for the build method

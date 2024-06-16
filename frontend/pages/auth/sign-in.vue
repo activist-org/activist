@@ -69,29 +69,9 @@ const hovered = ref(false);
 const userNameValue = ref("");
 const passwordValue = ref("");
 
-interface LoginResponse {
-  data: {};
-}
+const { login } = useAuth();
+
 const signIn = async () => {
-  const { data: responseData } = await $fetch<LoginResponse>(
-    `http://localhost:8000/v1/auth/login/`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        username: userNameValue.value,
-        password: passwordValue.value,
-      }),
-      onResponse({ request, response, options }) {
-        // Handle the response.
-        console.log(
-          "Response:",
-          response.status,
-          response.statusText,
-          response._data
-        );
-      },
-    }
-  );
-  console.log();
+  await login(userNameValue.value, passwordValue.value);
 };
 </script>

@@ -111,9 +111,16 @@ import { BreakpointMap } from "~/types/breakpoint-map";
 import type { DiscussionEntry } from "~/types/discussion-entry";
 import type { DiscussionInput } from "~/types/discussion-input";
 import { IconMap } from "~/types/icon-map";
-import { testTechOrg } from "~/utils/testEntities";
+import type { Organization } from "~/types/organization";
 
-const organization = testTechOrg;
+const { id } = useRoute().params;
+
+const res = await useAsyncData(
+  async () => await fetchWithToken(`/entities/organizations/${id}`, {})
+);
+
+const organization = res.data as unknown as Organization;
+
 // const route = useRoute();
 
 const textExpanded = ref(false);
