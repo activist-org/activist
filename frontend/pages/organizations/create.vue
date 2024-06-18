@@ -1,11 +1,6 @@
 <template>
   <div class="w-full text-light-text dark:text-dark-text">
-    <IndicatorProcessProgress
-      type="default"
-      :progress="1"
-      :start="1"
-      :end="1"
-    />
+    <IndicatorProcessProgress type="default" :progress="1" :start="1" :end="1" />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
@@ -16,57 +11,31 @@
           {{ $t("pages.organizations.create.subtext") }}
         </p>
       </div>
-      <FormKit
-        @submit="submit"
-        type="form"
-        :actions="false"
-        :classes="{
-          form: 'flex w-full flex-col items-center justify-center pt-4',
-        }"
-        :config="{ validationVisibility: 'submit' }"
-      >
-        <div
-          class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
-        >
+      <FormKit @submit="submit" :plugins="[zodPlugin]" type="form" :actions="false" :classes="{
+        form: 'flex w-full flex-col items-center justify-center pt-4',
+      }" :config="{ validationVisibility: 'submit' }">
+        <div class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6">
           <div class="w-1/2">
             <!-- name -->
             <label for="name" class="responsive-h3 block font-medium">
               {{ $t("_global.organization-name") }}*
             </label>
-            <FormKit
-              v-model="formData.name"
-              id="name"
-              type="text"
-              name="name"
-              :placeholder="
-                $t('pages.organizations.create.organization-name-placeholder')
-              "
-              :classes="{
+            <FormKit v-model="formData.name" id="name" type="text" name="name" :placeholder="$t('pages.organizations.create.organization-name-placeholder')
+              " :classes="{
                 input:
                   'bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-              }"
-              validation="required"
-            />
+              }" validation="required" />
           </div>
           <div class="w-1/2">
             <!-- location -->
             <label for="location" class="responsive-h3 block font-medium">
               {{ $t("pages._global.location") }}*
             </label>
-            <FormKit
-              v-model="formData.location"
-              id="location"
-              type="text"
-              name="location"
-              :placeholder="
-                $t('pages.organizations.create.location-placeholder')
-              "
-              :classes="{
+            <FormKit v-model="formData.location" id="location" type="text" name="location" :placeholder="$t('pages.organizations.create.location-placeholder')
+              " :classes="{
                 input:
                   'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-              }"
-              validation="required"
-            />
+              }" validation="required" />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
@@ -74,48 +43,26 @@
           <label for="description" class="responsive-h3 block font-medium">
             {{ $t("pages.organizations.create.description") }}*
           </label>
-          <FormKit
-            v-model="formData.description"
-            id="description"
-            type="textarea"
-            name="description"
-            :placeholder="
-              $t('pages.organizations.create.description-placeholder')
-            "
-            :classes="{
+          <FormKit v-model="formData.description" id="description" type="textarea" name="description" :placeholder="$t('pages.organizations.create.description-placeholder')
+            " :classes="{
               input:
                 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-            }"
-            validation="required"
-          />
+            }" validation="required" />
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <!-- tagline -->
           <label for="tagline" class="responsive-h3 block font-medium">
             {{ $t("pages._global.create.tagline") }}
           </label>
-          <FormKit
-            v-model="formData.tagline"
-            id="tagline"
-            type="text"
-            name="tagline"
-            :placeholder="$t('pages.organizations.create.tagline-placeholder')"
-            :classes="{
+          <FormKit v-model="formData.tagline" id="tagline" type="text" name="tagline"
+            :placeholder="$t('pages.organizations.create.tagline-placeholder')" :classes="{
               input:
                 'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-            }"
-          />
+            }" />
         </div>
-        <CardTopicSelection
-          v-model="formData.topics"
-          class="mt-5"
-          pageType="organization"
-        />
+        <CardTopicSelection v-model="formData.topics" class="mt-5" pageType="organization" />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect
-            :social-links="formData.social_accounts"
-            :userIsAdmin="true"
-          />
+          <CardConnect :social-links="formData.social_accounts" :userIsAdmin="true" />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
@@ -129,14 +76,8 @@
             </label> -->
           </div>
           <div class="my-5">
-            <BtnAction
-              type="submit"
-              :cta="true"
-              class="flex"
-              label="pages.organizations.create.complete-application"
-              fontSize="lg"
-              ariaLabel="pages.organizations.create.complete-application-aria-label"
-            />
+            <BtnAction type="submit" :cta="true" class="flex" label="pages.organizations.create.complete-application"
+              fontSize="lg" ariaLabel="pages.organizations.create.complete-application-aria-label" />
           </div>
         </div>
       </FormKit>
@@ -146,6 +87,8 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/organization";
+import { organizationSchema } from "~/forms/schemas/organizationSchema";
+import { createZodPlugin } from "@formkit/zod";
 
 definePageMeta({
   middleware: ["user-only"],
@@ -160,10 +103,11 @@ const formData = ref({
   topics: [],
 });
 
+
 const token = localStorage.getItem("accessToken");
 const localePath = useLocalePath();
 
-const submit = async () => {
+const [zodPlugin, submit] = createZodPlugin(organizationSchema, async () => {
   const response = await useFetch(
     `${BASE_BACKEND_URL}/entities/organizations/`,
     {
@@ -174,11 +118,9 @@ const submit = async () => {
         tagline: formData.value.tagline,
         description: formData.value.description,
         social_accounts: ["https://twitter.com/activist_hq"],
-        created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
         topics: ["test"],
         high_risk: false,
         total_flags: 0,
-        acceptance_date: new Date(),
       }),
       headers: {
         Authorization: `Token ${token}`,
@@ -189,6 +131,7 @@ const submit = async () => {
   //TODO: FEATURE - push notification with toast should be added here
 
   const responseData = response.data.value as unknown as Organization;
+  console.log(responseData);
   navigateTo(localePath(`/organizations/${responseData.id}`));
-};
+});
 </script>
