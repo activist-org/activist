@@ -59,7 +59,7 @@
             :modelValue="hasRed"
             value="yes"
           />
-          <p class="flex flex-wrap pl-2">
+          <!-- <p class="flex flex-wrap pl-2">
             {{ $t("pages._global.terms-of-service-pt-1") }}
             <NuxtLink
               :to="localePath('/legal/privacy-policy')"
@@ -67,7 +67,7 @@
               class="link-text ml-1 sm:block"
               >{{ $t("pages._global.terms-of-service-pt-2") }}
             </NuxtLink>
-          </p>
+          </p> -->
         </div>
         <BtnAction
           @click="signUp"

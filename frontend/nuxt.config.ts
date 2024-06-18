@@ -14,6 +14,7 @@ export default defineNuxtConfig({
   },
   plugins: ["~/plugins/i18n-head.ts"],
   modules: [
+    "@formkit/nuxt",
     "@nuxt/content",
     "nuxt-icon",
     [

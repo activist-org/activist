@@ -2,6 +2,8 @@
 Serializers for the entities app.
 """
 
+from typing import Any
+
 from rest_framework import serializers
 
 from .models import (
@@ -45,7 +47,15 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "status",
             "status_updated",
             "acceptance_date",
+            "terms_checked",
         ]
+
+    def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        if data.get("terms_checked") is False:
+            raise serializers.ValidationError(
+                "You must accept the terms of service to create an organization."
+            )
+        return data
 
 
 class OrganizationApplicationSerializer(
