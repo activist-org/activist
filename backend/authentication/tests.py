@@ -211,6 +211,7 @@ def test_pwreset(client: Client) -> None:
     Scenarios:
     1. Password reset email is sent successfully
     2. Password reset with invalid email
+    3. Password reset is performed successfully
     """
     # Setup
     faker = Faker()
@@ -231,3 +232,14 @@ def test_pwreset(client: Client) -> None:
         data={"email": "invalid_email@example.com"}
     )
     assert response.status_code == 404
+
+    # 3. Password reset is performed successfully
+    user.verification_code = uuid.uuid4()
+    user.save()
+    response = client.post(
+        path=f"/v1/auth/pwreset/{user.verification_code}/",
+        data={"password": new_password}
+    )
+    assert response.status_code == 200
+    user.refresh_from_db()
+    assert user.check_password(new_password)
