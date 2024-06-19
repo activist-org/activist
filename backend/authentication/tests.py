@@ -210,15 +210,24 @@ def test_pwreset(client: Client) -> None:
 
     Scenarios:
     1. Password reset email is sent successfully
+    2. Password reset with invalid email
     """
     # Setup
-    plaintext_password = "Activist@123!?"
-    user = UserFactory(plaintext_password=plaintext_password)
+    faker = Faker()
+    new_password = "Activist@123!?"
 
     # 1. User exists and password reset is successful
+    user = UserFactory()
     response = client.get(
         path="/v1/auth/pwreset/",
         data={"email": user.email},
     )
     assert response.status_code == 200
     assert len(mail.outbox) == 1
+
+    # 2. Password reset with invalid email
+    response = client.get(
+        path="/v1/auth/pwreset/",
+        data={"email": "invalid_email@example.com"}
+    )
+    assert response.status_code == 404
