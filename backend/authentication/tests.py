@@ -212,6 +212,7 @@ def test_pwreset(client: Client) -> None:
     1. Password reset email is sent successfully
     2. Password reset with invalid email
     3. Password reset is performed successfully
+    4. Password reset with invalid verification code
     """
     # Setup
     faker = Faker()
@@ -243,3 +244,10 @@ def test_pwreset(client: Client) -> None:
     assert response.status_code == 200
     user.refresh_from_db()
     assert user.check_password(new_password)
+
+    # 4. Password reset with invalid verification code
+    response = client.post(
+        path="/v1/auth/pwreset/invalid_code/",
+        data={"password": new_password},
+    )
+    assert response.status_code == 404
