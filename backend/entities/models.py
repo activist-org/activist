@@ -31,7 +31,7 @@ class Organization(models.Model):
     status = models.ForeignKey(
         "StatusType",
         on_delete=models.CASCADE,
-        default=StatusTypes.PENDING,
+        default=StatusTypes.PENDING.value,
         blank=True,
         null=True,
     )

@@ -209,10 +209,14 @@ class PasswordResetView(APIView):
         )
 
     def post(self, request: Request) -> Response:
-        serializer = PasswordResetSerializer(data=request.data)
+        data = {
+            "password": request.data.get("password"),
+            "code": request.query_params.get("code"),
+        }
+        serializer = PasswordResetSerializer(data=data)
         serializer.is_valid(raise_exception=True)
 
-        user = serializer.validated_data
+        user: UserModel = serializer.validated_data
 
         user.set_password(request.data.get("password"))
         user.save()
