@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div ref="contentRef" class="flex flex-col">
     <div
       class="-my-4 w-full opacity-0"
       :class="{
@@ -83,6 +83,7 @@
 <script setup lang="ts">
 import type { Filters } from "~/types/filters";
 import { IconMap } from "~/types/icon-map";
+import { ref, onMounted, defineEmits, watch } from 'vue';
 
 const sidebar = useSidebar();
 
@@ -105,6 +106,26 @@ const filters = ref(props.filters);
 
 const selectedValues: Ref<SelectedValues> = ref({});
 const selectedSearchValues: Ref<SelectedSearchValues> = ref({});
+
+const contentRef = ref(null);
+const isScrollable = ref(false);
+
+const emit = defineEmits(['update:isScrollable']);
+
+watch(isScrollable, (newValue) => {
+  emit('update:isScrollable', newValue);
+});
+
+onMounted(() => {
+  const checkScrollable = () => {
+    if (contentRef.value) {
+      isScrollable.value = contentRef.value.scrollHeight > contentRef.value.clientHeight;
+    }
+  };
+
+  checkScrollable();
+  window.addEventListener('resize', checkScrollable);
+});
 
 watch(selectedValues.value, (newVal) => {
   console.log("selectedValues changed");

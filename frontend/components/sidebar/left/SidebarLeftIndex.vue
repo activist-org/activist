@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="contentRef"
     class="elem-shadow-sm mx-1 rounded-md bg-light-layer-2 py-2 text-light-text transition-all duration-500 dark:bg-dark-layer-2 dark:text-dark-text"
   >
     <div class="flex flex-col items-center">
@@ -96,6 +97,7 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 import { SidebarType } from "~/types/sidebar-type";
+import { ref, onMounted, defineEmits, watch } from 'vue';
 
 const props = defineProps<{
   name: string;
@@ -109,6 +111,14 @@ const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
 
 const modalIsOpen = ref(false);
+const contentRef = ref(null);
+const isScrollable = ref(false);
+
+const emit = defineEmits(['update:isScrollable']);
+
+watch(isScrollable, (newValue) => {
+  emit('update:isScrollable', newValue);
+});
 
 function openModal() {
   modalIsOpen.value = true;
@@ -117,4 +127,15 @@ function openModal() {
 const handleCloseModal = () => {
   modalIsOpen.value = false;
 };
+
+onMounted(() => {
+  const checkScrollable = () => {
+    if (contentRef.value) {
+      isScrollable.value = contentRef.value.scrollHeight > contentRef.value.clientHeight;
+    }
+  };
+
+  checkScrollable();
+  window.addEventListener('resize', checkScrollable);
+});
 </script>
