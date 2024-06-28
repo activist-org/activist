@@ -46,6 +46,7 @@
         :name="placeholderName ? placeholderName : 'Name'"
         :sidebarType="sidebarType"
         :logoUrl="placeholderLogo"
+        @update:isScrollable="indexIsScrollable = $event"
       />
       <SidebarLeftFilters
         v-else
@@ -54,9 +55,13 @@
           'mx-2 py-3': sidebar.collapsed && sidebar.collapsedSwitch == true,
         }"
         :filters="getFiltersByPageType"
+        @update:isScrollable="filtersIsScrollable = $event"
       />
     </div>
-    <SidebarLeftFooter :sidebarContentScrollable="sidebarContentScrollable" />
+    <SidebarLeftFooter
+      :sidebarContentScrollable="sidebarContentScrollable"
+      :contentIsScrollable="indexIsScrollable || filtersIsScrollable"
+    />
   </aside>
 </template>
 
@@ -287,4 +292,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", setSidebarContentScrollable);
 });
+
+const indexIsScrollable = ref(false);
+const filtersIsScrollable = ref(false);
 </script>

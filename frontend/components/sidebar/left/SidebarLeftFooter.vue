@@ -3,6 +3,7 @@
     class="p-1 transition-all duration-500"
     :class="{
       'pr-4': sidebarContentScrollable,
+      'shadow-sm shadow-zinc-700': contentIsScrollable,
     }"
   >
     <div
@@ -31,6 +32,7 @@ import { DropdownLocation } from "~/types/location";
 
 defineProps<{
   sidebarContentScrollable: boolean;
+  contentIsScrollable: boolean;
 }>();
 
 const { userIsSignedIn } = useUser();
