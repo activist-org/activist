@@ -186,11 +186,15 @@ class LoginSerializer(serializers.Serializer[UserModel]):
 
 
 class PasswordResetSerializer(serializers.Serializer[UserModel]):
-    email = serializers.EmailField()
+    email = serializers.EmailField(required=False)
     password = serializers.CharField(write_only=True)
+    code = serializers.UUIDField(required=False)
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> UserModel:
-        user = UserModel.objects.filter(email=data.get("email")).first()
+        if data.get("code") is not None:
+            user = UserModel.objects.filter(verifictaion_code=data.get("code")).first()
+        else:
+            user = UserModel.objects.filter(email=data.get("email")).first()
 
         if user is None:
             raise serializers.ValidationError(

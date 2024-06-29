@@ -21,6 +21,7 @@ from faker import Faker
 from .models import UserModel
 from django.test import Client
 from uuid import UUID
+import uuid
 
 
 @pytest.mark.django_db
@@ -210,15 +211,43 @@ def test_pwreset(client: Client) -> None:
 
     Scenarios:
     1. Password reset email is sent successfully
+    2. Password reset with invalid email
+    3. Password reset is performed successfully
+    4. Password reset with invalid verification code
     """
     # Setup
-    plaintext_password = "Activist@123!?"
-    user = UserFactory(plaintext_password=plaintext_password)
+    old_password = "password123!?"
+    new_password = "Activist@123!?"
 
     # 1. User exists and password reset is successful
+    user = UserFactory(plaintext_password=old_password)
     response = client.get(
         path="/v1/auth/pwreset/",
         data={"email": user.email},
     )
     assert response.status_code == 200
     assert len(mail.outbox) == 1
+
+    # 2. Password reset with invalid email
+    response = client.get(
+        path="/v1/auth/pwreset/", data={"email": "invalid_email@example.com"}
+    )
+    assert response.status_code == 404
+
+    # 3. Password reset is performed successfully
+    user.verifictaion_code = uuid.uuid4()
+    user.save()
+    response = client.post(
+        path=f"/v1/auth/pwreset/?code={user.verifictaion_code}",
+        data={"password": new_password},
+    )
+    assert response.status_code == 200
+    user.refresh_from_db()
+    assert user.check_password(new_password)
+
+    # 4. Password reset with invalid verification code
+    response = client.post(
+        path="/v1/auth/pwreset/invalid_code/",
+        data={"password": new_password},
+    )
+    assert response.status_code == 404

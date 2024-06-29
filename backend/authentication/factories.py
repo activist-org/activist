@@ -41,7 +41,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text", max_nb_chars=500)
     verified = factory.Faker("boolean")
     verification_method = factory.Faker("word")
-    verification_code = factory.Faker("uuid4")
+    verifictaion_code = factory.Faker("uuid4")
     email = factory.Faker("email")
     social_links = factory.List([factory.Faker("user_name") for _ in range(3)])
     is_private = factory.Faker("boolean")
