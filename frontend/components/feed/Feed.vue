@@ -37,7 +37,7 @@ const orgGroups = resOrgGroups.data as unknown as OrganizationGroup[];
 const resGroups = await useAsyncData(
   async () =>
     await fetchWithToken(
-      `/entities/groups?group_id=${orgGroups.map((g) => g.group_id).join(",")}`,
+      `/entities/groups?group_id=${orgGroups.map((g) => g.groupID).join(",")}`,
       {}
     )
 );

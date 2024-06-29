@@ -22,6 +22,9 @@ export const useEventStore = defineStore("event", {
     socialLinks: [""],
     startTime: "",
 
+    // event_organizations
+    organizations: [],
+
     // event_text
     description: "",
     getInvolved: "",

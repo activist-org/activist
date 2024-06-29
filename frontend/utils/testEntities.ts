@@ -12,6 +12,7 @@ export const testUser: User = {
   name: "John A. Tester",
   location: "Testerville, TN",
   description: "I love to test!",
+  socialLinks: [""],
   // topics: ["Testing"],
 };
 
@@ -36,7 +37,7 @@ const faqEntries = [faqEntry_01, faqEntry_02, faqEntry_03];
 export const testClimateOrg: Organization = {
   id: "1",
   name: "Berlin Climate Org",
-  createdBy: testUser,
+  createdBy: "c7eb5449-fe45-4fb3-a4ee-25ed0bd0a675",
   status: 2,
   tagline: "Fighting Climate Change",
   location: "Berlin, Germany",
@@ -46,7 +47,11 @@ export const testClimateOrg: Organization = {
   // supportingUsers: [testUser, testUser],
   groups: ["Fundraising", "Campaigning"],
   socialLinks: ["climate-org@mastodon", "climate-org@email"],
-  // donationPrompt: "Hey thanks!",
+  iconURL: "URL/for/image",
+  organization_text_id: "06cb36a3-13c5-4518-b676-33ec734744ed",
+  description: "Testing how organizations work",
+  getInvolved: "Hey, get involved!",
+  donationPrompt: "Hey thanks!",
   faqEntries: faqEntries,
 };
 
@@ -62,6 +67,10 @@ export const testTechGroup1: Group = {
   // topics: ["Technology and Privacy"],
   // members: [testUser, testUser, testUser],
   // supportingUsers: [testUser, testUser, testUser],
+  socialLinks: [""],
+  creationDate: "",
+  getInvolved: "Hey, get involved!",
+  donationPrompt: "Thanks for your support!",
   faqEntries: faqEntries,
 };
 
@@ -77,6 +86,10 @@ export const testTechGroup2: Group = {
   // topics: ["Technology and Privacy"],
   // members: [testUser, testUser, testUser],
   // supportingUsers: [testUser, testUser, testUser],
+  socialLinks: [""],
+  creationDate: "",
+  getInvolved: "Hey, get involved!",
+  donationPrompt: "Thanks for your support!",
   faqEntries: faqEntries,
 };
 
@@ -95,7 +108,7 @@ export const testTechOrg: Organization = {
   id: "1",
   name: "tech from below",
   tagline: "Technologie von und für soziale Bewegungen",
-  createdBy: testUser,
+  createdBy: "c7eb5449-fe45-4fb3-a4ee-25ed0bd0a675",
   status: 2,
   location: "Berlin, Germany",
   getInvolvedURL: "/",
@@ -106,7 +119,10 @@ export const testTechOrg: Organization = {
   groups: [testTechGroup1, testTechGroup2],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   // donationPrompt: "Hey thanks!",
-  discussions: [testDiscussion, testDiscussion],
+  organization_text_id: "06cb36a3-13c5-4518-b676-33ec734744ed",
+  description: "Testing how organizations work",
+  getInvolved: "Hey, get involved!",
+  donationPrompt: "Hey thanks!",
   faqEntries: faqEntries,
 };
 
@@ -129,6 +145,7 @@ export const testClimateEvent: Event = {
   // supportingUsers: [user, user],
   // iconURL: "/images/an_image.svg",
   socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
+  loading: false,
 };
 
 export const testTechEvent: Event = {
@@ -142,8 +159,11 @@ export const testTechEvent: Event = {
   description: "Let's fix some bugs!",
   getInvolved: "Squash some bugs!",
   offlineLocation: "Berlin",
+  // attending: [user, user],
   startTime: new Date().toLocaleDateString(),
   // supportingUsers: [user, user, user],
+  socialLinks: [""],
+  loading: false,
 };
 
 export const testResource: Resource = {

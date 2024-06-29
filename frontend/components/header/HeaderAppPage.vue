@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/entities/organization";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -86,12 +87,14 @@ const props = defineProps<{
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
-const organization = useOrganizationStore();
+const organizationStore = useOrganizationStore();
+let organization: Organization;
 const group = useGroupStore();
 const event = useEventStore();
 
 if (props.pageType === "organization") {
-  await organization.fetchByID(id);
+  await organizationStore.fetchByID(id);
+  organization = organizationStore.organization;
 } else if (props.pageType === "group") {
   await group.fetchByID(id);
 } else if (props.pageType === "event") {
