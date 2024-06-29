@@ -1,4 +1,4 @@
-<!-- TODO: needs to handle focus / tab-to events, get rid of focus ring -->
+<!-- TODO: needs to handle focus / tab-to events, get rid of focus ring. -->
 <template>
   <div>
     <NuxtLink
@@ -12,10 +12,10 @@
         <Icon
           :name="IconMap[configObject.iconName as keyof typeof IconMap]"
           size="1em"
-          :alt="$t(`_global.${configObject.displayName}`)"
+          :alt="$t(`${configObject.displayName}`)"
         />
         <div>
-          {{ $t(`_global.${configObject.displayName}`) }}
+          {{ $t(`${configObject.displayName}`) }}
           <span
             class="link-text invisible absolute right-3 w-16 group-hover:visible"
           >
@@ -58,37 +58,37 @@ switch (props.itemType) {
   case "discussions":
     configObject.path = "discussions";
     configObject.iconName = "DISCUSSION";
-    configObject.displayName = "discussions";
+    configObject.displayName = "_global.discussions";
     break;
   case "events":
     configObject.path = "events";
     configObject.iconName = "EVENT";
-    configObject.displayName = "events_lower";
+    configObject.displayName = "_global.events_lower";
     break;
   case "notifications":
     configObject.path = "notifications";
     configObject.iconName = "BELL";
-    configObject.displayName = "notifications";
+    configObject.displayName = "_global.notifications";
     break;
   case "organizations":
     configObject.path = "organizations";
     configObject.iconName = "ORGANIZATION";
-    configObject.displayName = "organization-name";
+    configObject.displayName = "_global.organization-name";
     break;
   case "resources":
     configObject.path = "resources";
     configObject.iconName = "RESOURCE";
-    configObject.displayName = "resources_lower";
+    configObject.displayName = "_global.resources_lower";
     break;
   case "upcoming-events":
     configObject.path = "upcoming-events";
     configObject.iconName = "EVENT";
-    configObject.displayName = "upcoming-events";
+    configObject.displayName = "_global.upcoming-events";
     break;
   default:
     configObject.path = "home";
     configObject.iconName = "HOME";
-    configObject.displayName = "home";
+    configObject.displayName = "_global.home";
     break;
 }
 </script>
