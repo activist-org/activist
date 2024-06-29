@@ -93,6 +93,10 @@
               iconSize="1.5em"
             />
           </s-facebook>
+          <!-- <div class="flex h-full w-full cursor-pointer items-center gap-3">
+            <Icon :name="IconMap.SIGNAL" size="1.5em" />
+            <p>{{ $t("components._global.signal") }}</p>
+          </div> -->
           <div
             @click="
               copyToClipboard(
@@ -190,13 +194,13 @@
 <script setup lang="ts">
 import { SEmail, SFacebook, SMastodon, STelegram, STwitter } from "vue-socials";
 import ModalBase from "~/components/modal/ModalBase.vue";
+import type { User } from "~/types/auth/user";
 import type { BtnAction } from "~/types/btn-props";
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
+import type { Resource } from "~/types/content/resource";
+import type { Group } from "~/types/entities/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
 
 const props = defineProps<{
   cta: BtnAction["cta"];

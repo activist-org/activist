@@ -166,7 +166,7 @@
               :link="onlineLocation"
               label="components.meta-tag-video.view-video"
             />
-            <MetaTagDate :date="date" />
+            <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
         </div>
         <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
@@ -177,7 +177,7 @@
               :link="onlineLocation"
               label="components.meta-tag-video.view-video"
             />
-            <MetaTagDate :date="date" />
+            <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
           <div
             class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
@@ -216,12 +216,12 @@
 
 <script setup lang="ts">
 import { useLinkURL } from "~/composables/useLinkURL";
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
+import type { User } from "~/types/auth/user";
+import type { Resource } from "~/types/content/resource";
+import type { Group } from "~/types/entities/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
 
 const props = defineProps<{
   organization?: Organization;

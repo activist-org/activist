@@ -1,15 +1,15 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <form class="space-y-4">
+    <form @submit.prevent="signUp" @enter="signUp" class="space-y-4">
       <div class="col">
-        <FormTextField
+        <FormTextInput
           @update:model-value="userNameValue = $event"
           :placeholder="$t('pages.auth.sign-up.index.enter-user-name')"
           :model-value="userNameValue"
         />
       </div>
       <div>
-        <FormTextField
+        <FormTextInput
           @update:model-value="passwordValue = $event"
           @input="checkRules"
           @blurred="
@@ -38,14 +38,14 @@
         :rules="rules"
       />
       <div>
-        <FormTextField
+        <FormTextInput
           @update:model-value="confirmPasswordValue = $event"
           :placeholder="$t('_global.repeat-password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="confirmPasswordValue"
           :icons="
-            isPasswordMatch
+            isPasswordMatch(passwordValue, confirmPasswordValue)
               ? [IconMap.CHECK, IconMap.VISIBLE]
               : [IconMap.X_LG, IconMap.VISIBLE]
           "
@@ -70,7 +70,6 @@
           </p>
         </div>
         <BtnAction
-          @click="signUp"
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
           :label="'_global.sign-up'"
           :cta="true"
@@ -92,7 +91,6 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-import type { PasswordRules } from "~/types/password-rules";
 
 const localePath = useLocalePath();
 
@@ -103,29 +101,8 @@ const hasRed = ref(false);
 const isBlurred = ref(false);
 const isFocused = ref(false);
 
-const isPasswordMatch = computed(() => {
-  if (passwordValue.value === "" || confirmPasswordValue.value === "") {
-    return false;
-  }
-  return passwordValue.value === confirmPasswordValue.value;
-});
-
-const rules = ref<PasswordRules[]>(passwordRules);
-const { ruleFunctions } = usePasswordRules();
-
-const checkRules = (value: { target: { value: string } }): void => {
-  const actualValue = value.target.value;
-  rules.value.forEach((rule) => {
-    if (ruleFunctions[rule.message]) {
-      rule.isValid = ruleFunctions[rule.message](actualValue);
-    }
-  });
-};
-
-// Checks the rules to make the tooltip invisible when all rules are valid.
-const isAllRulesValid = computed(() => {
-  return rules.value.every((rule) => rule.isValid);
-});
+const { rules, isAllRulesValid, checkRules, isPasswordMatch } =
+  usePasswordRules();
 
 const signUp = () => {};
 </script>
