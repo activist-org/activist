@@ -195,7 +195,6 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         org.is_high_risk = False
         org.status_updated = None
         org.tagline = ""
-        org.description = ""
         org.social_links = []
         org.save()
 
