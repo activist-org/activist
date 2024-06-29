@@ -1,8 +1,8 @@
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
+import type { User } from "~/types/auth/user";
+import type { Resource } from "~/types/content/resource";
+import type { Group } from "~/types/entities/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 
 export function useLinkURL(props: {
   organization?: Organization;

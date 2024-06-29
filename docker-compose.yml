@@ -9,6 +9,9 @@ services:
     container_name: django_backend
     command: sh -c "python manage.py makemigrations &&
       python manage.py migrate &&
+      python manage.py loaddata fixtures/superuser.json &&
+      python manage.py loaddata fixtures/status_types.json &&
+      python manage.py loaddata fixtures/iso_code_map.json &&
       python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
@@ -21,6 +24,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
       - DEBUG=${DEBUG}
       - SECRET_KEY=${SECRET_KEY}
+      - VITE_FRONTEND_URL=${VITE_FRONTEND_URL}
     depends_on:
       - db
     healthcheck:

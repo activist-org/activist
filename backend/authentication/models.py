@@ -2,6 +2,8 @@
 Models for the authentication app.
 """
 
+from __future__ import annotations
+
 from typing import Any
 from uuid import uuid4
 
@@ -9,10 +11,46 @@ from django.contrib.auth.models import (
     AbstractUser,
     BaseUserManager,
     PermissionsMixin,
-    User,
 )
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+
+# MARK: Main Tables
+
+
+class CustomAccountManager(BaseUserManager["UserModel"]):
+    def create_superuser(
+        self,
+        email: str,
+        username: str,
+        password: str,
+        **other_fields: bool,
+    ) -> Any:
+        other_fields.setdefault("is_staff", True)
+        other_fields.setdefault("is_superuser", True)
+        other_fields.setdefault("is_active", True)
+
+        if other_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must be assigned to is_staff=True.")
+        if other_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must be assigned to is_superuser=True.")
+
+        return self.create_user(email, username, password, **other_fields)
+
+    def create_user(
+        self,
+        username: str,
+        password: str,
+        email: str = "",
+        **other_fields: Any,
+    ) -> UserModel:
+        if email != "":
+            email = self.normalize_email(email)
+
+        user = self.model(email=email, username=username, **other_fields)
+        user.set_password(password)
+        user.save()
+        return user
 
 
 class SupportEntityType(models.Model):
@@ -42,42 +80,6 @@ class Support(models.Model):
         return f"{self.id}"
 
 
-class CustomAccountManager(BaseUserManager[User]):
-    def create_superuser(
-        self,
-        email: str,
-        username: str,
-        password: str,
-        **other_fields: bool,
-    ) -> Any:
-        other_fields.setdefault("is_staff", True)
-        other_fields.setdefault("is_superuser", True)
-        other_fields.setdefault("is_active", True)
-
-        if other_fields.get("is_staff") is not True:
-            raise ValueError("Superuser must be assigned to is_staff=True.")
-        if other_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must be assigned to is_superuser=True.")
-
-        return self.create_user(email, username, password, **other_fields)
-
-    def create_user(
-        self,
-        email: str,
-        username: str,
-        password: str,
-        **other_fields: bool,
-    ) -> User:
-        if not email:
-            raise ValueError(("You must provide an email address"))
-
-        email = self.normalize_email(email)
-        user: User = self.model(email=email, username=username, **other_fields)
-        user.set_password(password)
-        user.save()
-        return user
-
-
 class UserModel(AbstractUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     username = models.CharField(max_length=255, unique=True)
@@ -92,7 +94,9 @@ class UserModel(AbstractUser, PermissionsMixin):
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.SET_NULL, blank=True, null=True
     )
-    email = models.EmailField(unique=True)
+    verification_code = models.UUIDField(blank=True, null=True)
+    email = models.EmailField(blank=True)
+    is_confirmed = models.BooleanField(default=False)
     social_links = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     is_private = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
@@ -102,13 +106,15 @@ class UserModel(AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    objects = CustomAccountManager()  # type: ignore
+    objects: CustomAccountManager = CustomAccountManager()  # type: ignore
 
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
 
     def __str__(self) -> str:
         return self.username
+
+
+# MARK: Bridge Tables
 
 
 class UserResource(models.Model):

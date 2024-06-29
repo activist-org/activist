@@ -33,6 +33,8 @@ from .serializers import (
     RoleSerializer,
 )
 
+# MARK: Main Tables
+
 
 class EventViewSet(viewsets.ModelViewSet[Event]):
     queryset = Event.objects.all()
@@ -53,21 +55,24 @@ class RoleViewSet(viewsets.ModelViewSet[Role]):
     pagination_class = CustomPagination
 
 
+# MARK: Bridge Tables
+
+
 class EventAttendeeViewSet(viewsets.ModelViewSet[EventAttendee]):
     queryset = EventAttendee.objects.all()
     serializer_class = EventAttendeeSerializer
     pagination_class = CustomPagination
 
 
-class EventFormatViewSet(viewsets.ModelViewSet[EventFormat]):
-    queryset = EventFormat.objects.all()
-    serializer_class = EventFormatSerializer
-    pagination_class = CustomPagination
-
-
 class EventAttendeeStatusViewSet(viewsets.ModelViewSet[EventAttendeeStatus]):
     queryset = EventAttendeeStatus.objects.all()
     serializer_class = EventAttendeeStatusSerializer
+    pagination_class = CustomPagination
+
+
+class EventFormatViewSet(viewsets.ModelViewSet[EventFormat]):
+    queryset = EventFormat.objects.all()
+    serializer_class = EventFormatSerializer
     pagination_class = CustomPagination
 
 
