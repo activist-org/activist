@@ -26,18 +26,7 @@ from .models import (
 USER = get_user_model()
 
 
-class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
-    class Meta:
-        model = SupportEntityType
-        fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        if len(data["name"]) < 3:
-            raise serializers.ValidationError(
-                _("The field name must be at least 3 characters long."),
-                code="invalid_name",
-            )
-        return data
+# MARK: Main Tables
 
 
 class SupportSerializer(serializers.ModelSerializer[Support]):
@@ -54,6 +43,20 @@ class SupportSerializer(serializers.ModelSerializer[Support]):
                 code="invalid_entities_relation",
             )
 
+        return data
+
+
+class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
+    class Meta:
+        model = SupportEntityType
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+        if len(data["name"]) < 3:
+            raise serializers.ValidationError(
+                _("The field name must be at least 3 characters long."),
+                code="invalid_name",
+            )
         return data
 
 
@@ -79,6 +82,9 @@ class UserSerializer(serializers.ModelSerializer[UserModel]):
         return data
 
 
+# MARK: Bridge Tables
+
+
 class UserResourceSerializer(serializers.ModelSerializer[UserResource]):
     class Meta:
         model = UserResource
@@ -95,6 +101,9 @@ class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
     class Meta:
         model = UserTopic
         fields = "__all__"
+
+
+# MARK: Methods
 
 
 class SignupSerializer(serializers.ModelSerializer[UserModel]):

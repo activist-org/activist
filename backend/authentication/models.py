@@ -15,32 +15,7 @@ from django.contrib.auth.models import (
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-
-class SupportEntityType(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=255)
-
-    def __str__(self) -> str:
-        return self.name
-
-
-class Support(models.Model):
-    supporter_type = models.ForeignKey(
-        "SupportEntityType", on_delete=models.CASCADE, related_name="supporter"
-    )
-    supporter_entity = models.ForeignKey(
-        "entities.Organization", on_delete=models.CASCADE, related_name="supporter"
-    )
-    supported_type = models.ForeignKey(
-        "SupportEntityType", on_delete=models.CASCADE, related_name="supported"
-    )
-    supported_entity = models.ForeignKey(
-        "entities.Organization", on_delete=models.CASCADE, related_name="supported"
-    )
-    creation_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
+# MARK: Main Tables
 
 
 class CustomAccountManager(BaseUserManager["UserModel"]):
@@ -78,6 +53,33 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         return user
 
 
+class SupportEntityType(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Support(models.Model):
+    supporter_type = models.ForeignKey(
+        "SupportEntityType", on_delete=models.CASCADE, related_name="supporter"
+    )
+    supporter_entity = models.ForeignKey(
+        "entities.Organization", on_delete=models.CASCADE, related_name="supporter"
+    )
+    supported_type = models.ForeignKey(
+        "SupportEntityType", on_delete=models.CASCADE, related_name="supported"
+    )
+    supported_entity = models.ForeignKey(
+        "entities.Organization", on_delete=models.CASCADE, related_name="supported"
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class UserModel(AbstractUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     username = models.CharField(max_length=255, unique=True)
@@ -92,7 +94,7 @@ class UserModel(AbstractUser, PermissionsMixin):
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.SET_NULL, blank=True, null=True
     )
-    verifictaion_code = models.UUIDField(blank=True, null=True)
+    verification_code = models.UUIDField(blank=True, null=True)
     email = models.EmailField(blank=True)
     is_confirmed = models.BooleanField(default=False)
     social_links = ArrayField(models.CharField(max_length=255), blank=True, null=True)
@@ -104,12 +106,15 @@ class UserModel(AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    objects = CustomAccountManager()  # type: ignore
+    objects: CustomAccountManager = CustomAccountManager()  # type: ignore
 
     USERNAME_FIELD = "username"
 
     def __str__(self) -> str:
         return self.username
+
+
+# MARK: Bridge Tables
 
 
 class UserResource(models.Model):

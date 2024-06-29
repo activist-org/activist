@@ -8,13 +8,13 @@
         class="cursor-pointer break-all rounded-lg p-1 text-light-text transition-all hover:text-light-distinct-text dark:text-dark-text dark:hover:text-dark-distinct-text"
       >
         <Icon
-          v-if="userIsAdmin && !editModeEnabled"
+          v-if="userIsSignedIn && !editModeEnabled"
           @click="toggleEditMode"
           :name="IconMap.EDIT"
           size="1.2em"
         />
         <Icon
-          v-else-if="userIsAdmin && editModeEnabled"
+          v-else-if="userIsSignedIn && editModeEnabled"
           @click="toggleEditMode"
           :name="IconMap.X_LG"
           size="1.2em"
@@ -112,15 +112,46 @@
 
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+import type { Organization } from "~/types/entities/organization";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
-  socialLinks?: string[];
-  userIsAdmin?: boolean;
+  pageType: "organization" | "group" | "event" | "other";
 }>();
 
+const { userIsSignedIn } = useUser();
+const paramsID = useRoute().params.id;
+const paramsIDGroup = useRoute().params.groupID;
+
+const id = typeof paramsID === "string" ? paramsID : undefined;
+const idGroup = typeof paramsIDGroup === "string" ? paramsIDGroup : undefined;
+
+const organizationStore = useOrganizationStore();
+let organization: Organization;
+const group = useGroupStore();
+const event = useEventStore();
+
+if (props.pageType == "organization") {
+  await organizationStore.fetchByID(id);
+  organization = organizationStore.organization;
+} else if (props.pageType == "group") {
+  await group.fetchByID(idGroup);
+} else if (props.pageType == "event") {
+  await event.fetchByID(id);
+}
+
 const editModeEnabled = ref(false);
-const socialLinksRef = computed(() => props.socialLinks);
+const socialLinksRef = computed<string[]>(() => {
+  if (props.pageType == "organization") {
+    return organization.socialLinks;
+  } else if (props.pageType == "group") {
+    return group.socialLinks;
+  } else if (props.pageType == "event") {
+    return event.socialLinks;
+  } else {
+    return [""];
+  }
+});
 
 const toggleEditMode = () => {
   editModeEnabled.value = !editModeEnabled.value;

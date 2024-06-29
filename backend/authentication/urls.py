@@ -7,13 +7,17 @@ app_name = "authentication"
 
 router = DefaultRouter()
 
-router.register(r"support_entity_types", views.SupportEntityTypeViewSet)
+# MARK: Main Tables
+
 router.register(r"supports", views.SupportViewSet)
 router.register(r"users", views.UserViewSet)
+
+# MARK: Bridge Tables
+
+router.register(r"support_entity_types", views.SupportEntityTypeViewSet)
 router.register(r"user_resources", views.UserResourceViewSet)
 router.register(r"user_tasks", views.UserTaskViewSet)
 router.register(r"user_topics", views.UserTopicViewSet)
-
 
 urlpatterns = [
     path("", include(router.urls)),

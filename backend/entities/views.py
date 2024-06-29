@@ -15,6 +15,7 @@ from .models import (
     GroupImage,
     GroupMember,
     GroupResource,
+    GroupText,
     GroupTopic,
     Organization,
     OrganizationApplication,
@@ -23,6 +24,7 @@ from .models import (
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
+    OrganizationText,
     OrganizationTopic,
     Status,
     StatusType,
@@ -33,6 +35,7 @@ from .serializers import (
     GroupMemberSerializer,
     GroupResourceSerializer,
     GroupSerializer,
+    GroupTextSerializer,
     GroupTopicSerializer,
     OrganizationApplicationSerializer,
     OrganizationEventSerializer,
@@ -41,10 +44,71 @@ from .serializers import (
     OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationTaskSerializer,
+    OrganizationTextSerializer,
     OrganizationTopicSerializer,
     StatusSerializer,
     StatusTypeSerializer,
 )
+
+# MARK: Main Tables
+
+
+class GroupViewSet(viewsets.ModelViewSet[Group]):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    pagination_class = CustomPagination
+
+    def list(self, request: Request, *args: str, **kwargs: int) -> Response:
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(created_by=request.user)
+        data = {"message": f"New Group created: {serializer.data}"}
+        return Response(data, status=status.HTTP_201_CREATED)
+
+    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
+        group = self.queryset.get(id=kwargs["pk"])
+        serializer = self.get_serializer(group)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        group = self.queryset.filter(id=kwargs["pk"]).first()
+
+        if group is None:
+            return Response(
+                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        if request.user != group.created_by:
+            return Response(
+                {"error": "You are not authorized to update this group"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = self.get_serializer(group, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
+        group = self.queryset.filter(id=kwargs["pk"]).first()
+
+        if group is None:
+            return Response(
+                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        if request.user != group.created_by:
+            return Response(
+                {"error": "You are not authorized to delete this group"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+        group.delete()
+        return Response(
+            {"message": "Group deleted successfully"}, status=status.HTTP_200_OK
+        )
 
 
 class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
@@ -67,8 +131,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        org = self.queryset.filter(id=pk).first()
-        if org:
+        if org := self.queryset.filter(id=pk).first():
             serializer = self.get_serializer(org)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -132,13 +195,57 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         org.is_high_risk = False
         org.status_updated = None
         org.tagline = ""
-        org.description = ""
         org.social_links = []
         org.save()
 
         return Response(
             {"message": "Organization deleted successfully"}, status.HTTP_200_OK
         )
+
+
+class StatusViewSet(viewsets.ModelViewSet[Status]):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+    pagination_class = CustomPagination
+
+
+# MARK: Bridge Tables
+
+
+class GroupEventViewSet(viewsets.ModelViewSet[GroupEvent]):
+    queryset = GroupEvent.objects.all()
+    serializer_class = GroupEventSerializer
+    pagination_class = CustomPagination
+
+
+class GroupImageViewSet(viewsets.ModelViewSet[GroupImage]):
+    queryset = GroupImage.objects.all()
+    serializer_class = GroupImageSerializer
+    pagination_class = CustomPagination
+
+
+class GroupMemberViewSet(viewsets.ModelViewSet[GroupMember]):
+    queryset = GroupMember.objects.all()
+    serializer_class = GroupMemberSerializer
+    pagination_class = CustomPagination
+
+
+class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
+    queryset = GroupResource.objects.all()
+    serializer_class = GroupResourceSerializer
+    pagination_class = CustomPagination
+
+
+class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):
+    queryset = GroupText.objects.all()
+    serializer_class = GroupTextSerializer
+    pagination_class = CustomPagination
+
+
+class GroupTopicViewSet(viewsets.ModelViewSet[GroupTopic]):
+    queryset = GroupTopic.objects.all()
+    serializer_class = GroupTopicSerializer
+    pagination_class = CustomPagination
 
 
 class OrganizationApplicationViewSet(viewsets.ModelViewSet[OrganizationApplication]):
@@ -170,109 +277,21 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
     pagination_class = CustomPagination
 
 
-class GroupImageViewSet(viewsets.ModelViewSet[GroupImage]):
-    queryset = GroupImage.objects.all()
-    serializer_class = GroupImageSerializer
-    pagination_class = CustomPagination
-
-
-class GroupViewSet(viewsets.ModelViewSet[Group]):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    pagination_class = CustomPagination
-
-    def list(self, request: Request, *args: str, **kwargs: int) -> Response:
-        serializer = self.get_serializer(self.queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def create(self, request: Request) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(created_by=request.user)
-        data = {"message": f"New Group created: {serializer.data}"}
-        return Response(data, status=status.HTTP_201_CREATED)
-
-    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
-        group = self.queryset.get(id=kwargs["pk"])
-        serializer = self.get_serializer(group)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        group = self.queryset.filter(id=kwargs["pk"]).first()
-
-        if group is None:
-            return Response(
-                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
-            )
-        if request.user != group.created_by:
-            return Response(
-                {"error": "You are not authorized to update this group"},
-                status.HTTP_401_UNAUTHORIZED,
-            )
-
-        serializer = self.get_serializer(group, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
-        group = self.queryset.filter(id=kwargs["pk"]).first()
-
-        if group is None:
-            return Response(
-                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
-            )
-        if request.user != group.created_by:
-            return Response(
-                {"error": "You are not authorized to delete this group"},
-                status.HTTP_401_UNAUTHORIZED,
-            )
-        group.delete()
-        return Response(
-            {"message": "Group deleted successfully"}, status=status.HTTP_200_OK
-        )
-
-
 class OrganizationTaskViewSet(viewsets.ModelViewSet[OrganizationTask]):
     queryset = OrganizationTask.objects.all()
     serializer_class = OrganizationTaskSerializer
     pagination_class = CustomPagination
 
 
+class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
+    queryset = OrganizationText.objects.all()
+    serializer_class = OrganizationTextSerializer
+    pagination_class = CustomPagination
+
+
 class OrganizationTopicViewSet(viewsets.ModelViewSet[OrganizationTopic]):
     queryset = OrganizationTopic.objects.all()
     serializer_class = OrganizationTopicSerializer
-    pagination_class = CustomPagination
-
-
-class GroupEventViewSet(viewsets.ModelViewSet[GroupEvent]):
-    queryset = GroupEvent.objects.all()
-    serializer_class = GroupEventSerializer
-    pagination_class = CustomPagination
-
-
-class GroupMemberViewSet(viewsets.ModelViewSet[GroupMember]):
-    queryset = GroupMember.objects.all()
-    serializer_class = GroupMemberSerializer
-    pagination_class = CustomPagination
-
-
-class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
-    queryset = GroupResource.objects.all()
-    serializer_class = GroupResourceSerializer
-    pagination_class = CustomPagination
-
-
-class GroupTopicViewSet(viewsets.ModelViewSet[GroupTopic]):
-    queryset = GroupTopic.objects.all()
-    serializer_class = GroupTopicSerializer
-    pagination_class = CustomPagination
-
-
-class StatusViewSet(viewsets.ModelViewSet[Status]):
-    queryset = Status.objects.all()
-    serializer_class = StatusSerializer
     pagination_class = CustomPagination
 
 

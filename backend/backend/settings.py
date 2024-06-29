@@ -181,6 +181,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
     ],
+    "EXCEPTION_HANDLER": "backend.exception_handler.bad_request_logger",
 }
 
 SPECTACULAR_SETTINGS = {

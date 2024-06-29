@@ -43,10 +43,7 @@ FRONTEND_BASE_URL = os.getenv("VITE_FRONTEND_URL")
 ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
 
 
-class SupportEntityTypeViewSet(viewsets.ModelViewSet[SupportEntityType]):
-    queryset = SupportEntityType.objects.all()
-    pagination_class = CustomPagination
-    serializer_class = SupportEntityTypeSerializer
+# MARK: Main Tables
 
 
 class SupportViewSet(viewsets.ModelViewSet[Support]):
@@ -59,6 +56,15 @@ class UserViewSet(viewsets.ModelViewSet[UserModel]):
     queryset = UserModel.objects.all()
     pagination_class = CustomPagination
     serializer_class = UserSerializer
+
+
+# MARK: Bridge Tables
+
+
+class SupportEntityTypeViewSet(viewsets.ModelViewSet[SupportEntityType]):
+    queryset = SupportEntityType.objects.all()
+    pagination_class = CustomPagination
+    serializer_class = SupportEntityTypeSerializer
 
 
 class UserResourceViewSet(viewsets.ModelViewSet[UserResource]):
@@ -79,6 +85,9 @@ class UserTopicViewSet(viewsets.ModelViewSet[UserTopic]):
     serializer_class = UserTopicSerializer
 
 
+# MARK: Methods
+
+
 class SignupView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (AllowAny,)
@@ -91,9 +100,9 @@ class SignupView(APIView):
         user: UserModel = serializer.save()
 
         if user.email != "":
-            user.verifictaion_code = uuid.uuid4()
+            user.verification_code = uuid.uuid4()
 
-            confirmation_link = f"{FRONTEND_BASE_URL}/confirm/{user.verifictaion_code}"
+            confirmation_link = f"{FRONTEND_BASE_URL}/confirm/{user.verification_code}"
             message = f"Welcome to activist.org, {user.username}!, Please confirm your email address by clicking the link: {confirmation_link}"
             html_message = render_to_string(
                 template_name="signup_email.html",
@@ -120,12 +129,12 @@ class SignupView(APIView):
         )
 
     @extend_schema(
-        parameters=[OpenApiParameter(name="verifictaion_code", type=str, required=True)]
+        parameters=[OpenApiParameter(name="verification_code", type=str, required=True)]
     )
     def get(self, request: Request) -> Response:
         """Confirm a user's email address."""
-        verifictaion_code = request.GET.get("verifictaion_code")
-        user = UserModel.objects.filter(verifictaion_code=verifictaion_code).first()
+        verification_code = request.GET.get("verification_code")
+        user = UserModel.objects.filter(verification_code=verification_code).first()
 
         if user is None:
             return Response(
@@ -134,7 +143,7 @@ class SignupView(APIView):
             )
 
         user.is_confirmed = True
-        user.verifictaion_code = ""
+        user.verification_code = ""
         user.save()
 
         return Response(
@@ -183,9 +192,9 @@ class PasswordResetView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        user.verifictaion_code = uuid.uuid4()
+        user.verification_code = uuid.uuid4()
 
-        pwreset_link = f"{FRONTEND_BASE_URL}/pwreset/{user.verifictaion_code}"
+        pwreset_link = f"{FRONTEND_BASE_URL}/pwreset/{user.verification_code}"
         message = "Reset your password at activist.org"
         html_message = render_to_string(
             template_name="pwreset_email.html",
