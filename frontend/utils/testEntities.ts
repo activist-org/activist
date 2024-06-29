@@ -1,10 +1,10 @@
-import type { Discussion } from "~/types/discussion";
-import type { Event } from "~/types/event";
-import type { FaqEntry } from "~/types/faq-entry";
-import type { Group } from "~/types/group";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
+import type { User } from "~/types/auth/user";
+import type { Discussion } from "~/types/content/discussion";
+import type { FaqEntry } from "~/types/content/faq-entry";
+import type { Resource } from "~/types/content/resource";
+import type { Group } from "~/types/entities/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 
 export const testUser: User = {
   id: "1",
@@ -41,8 +41,6 @@ export const testClimateOrg: Organization = {
   tagline: "Fighting Climate Change",
   location: "Berlin, Germany",
   getInvolvedURL: "/",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
   // topics: ["Environment"],
   // members: [testUser, testUser],
   // supportingUsers: [testUser, testUser],
@@ -101,8 +99,6 @@ export const testTechOrg: Organization = {
   status: 2,
   location: "Berlin, Germany",
   getInvolvedURL: "/",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
   // topics: ["Environment"],
   // members: [testUser, testUser],
   // supportingUsers: [testUser, testUser],

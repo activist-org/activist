@@ -34,6 +34,8 @@ from .serializers import (
     TopicSerializer,
 )
 
+# MARK: Main Tables
+
 
 class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
     queryset = Discussion.objects.all()
@@ -115,80 +117,6 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
-    queryset = DiscussionEntry.objects.all()
-    serializer_class = DiscussionEntrySerializer
-    pagination_class = CustomPagination
-    throttle_classes = [AnonRateThrottle, UserRateThrottle]
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def create(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            request.data["created_by"] = request.user
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(
-            {"error": "You are not allowed to create a discussion entry."},
-            status=status.HTTP_403_FORBIDDEN,
-        )
-
-    def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        queryset = self.get_queryset()
-        item = queryset.filter(id=pk).first()
-
-        serializer = self.get_serializer(item)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def list(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            query = self.queryset.filter(
-                Q(is_private=False) | Q(is_private=True, created_by=request.user)
-            )
-        else:
-            query = self.queryset.filter()
-
-        serializer = self.get_serializer(query, many=True)
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
-
-    def update(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"error": "You are not allowed to update this discussion entry."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-        serializer = self.get_serializer(item, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def partial_update(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"error": "You are not allowed to update this discussion entry."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-        serializer = self.get_serializer(item, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def destroy(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"error": "You are not allowed to delete this discussion entry."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        self.perform_destroy(item)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 class FaqViewSet(viewsets.ModelViewSet[Faq]):
     queryset = Faq.objects.all()
     serializer_class = FaqSerializer
@@ -199,6 +127,16 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     pagination_class = CustomPagination
+
+
+class IsoCodeMapListAPIView(ListAPIView[IsoCodeMap]):
+    queryset = IsoCodeMap.objects.all()
+    serializer_class = IsoCodeMapSerializer
+
+    def get(self, request: Request) -> Response:
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ResourceViewSet(viewsets.ModelViewSet[Resource]):
@@ -291,6 +229,83 @@ class TopicViewSet(viewsets.ModelViewSet[Topic]):
     pagination_class = CustomPagination
 
 
+# MARK: Bridge Tables
+
+
+class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
+    queryset = DiscussionEntry.objects.all()
+    serializer_class = DiscussionEntrySerializer
+    pagination_class = CustomPagination
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        if request.user.is_authenticated:
+            request.data["created_by"] = request.user
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(
+            {"error": "You are not allowed to create a discussion entry."},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    def retrieve(self, request: Request, pk: str | None = None) -> Response:
+        queryset = self.get_queryset()
+        item = queryset.filter(id=pk).first()
+
+        serializer = self.get_serializer(item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def list(self, request: Request) -> Response:
+        if request.user.is_authenticated:
+            query = self.queryset.filter(
+                Q(is_private=False) | Q(is_private=True, created_by=request.user)
+            )
+        else:
+            query = self.queryset.filter()
+
+        serializer = self.get_serializer(query, many=True)
+        return self.get_paginated_response(self.paginate_queryset(serializer.data))
+
+    def update(self, request: Request, pk: str | None = None) -> Response:
+        item = self.get_object()
+        if item.created_by != request.user:
+            return Response(
+                {"error": "You are not allowed to update this discussion entry."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        serializer = self.get_serializer(item, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def partial_update(self, request: Request, pk: str | None = None) -> Response:
+        item = self.get_object()
+        if item.created_by != request.user:
+            return Response(
+                {"error": "You are not allowed to update this discussion entry."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        serializer = self.get_serializer(item, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request: Request, pk: str | None = None) -> Response:
+        item = self.get_object()
+        if item.created_by != request.user:
+            return Response(
+                {"error": "You are not allowed to delete this discussion entry."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        self.perform_destroy(item)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class ResourceTopicViewSet(viewsets.ModelViewSet[ResourceTopic]):
     queryset = ResourceTopic.objects.all()
     serializer_class = ResourceTopicSerializer
@@ -301,13 +316,3 @@ class TopicFormatViewSet(viewsets.ModelViewSet[TopicFormat]):
     queryset = TopicFormat.objects.all()
     serializer_class = TopicFormatSerializer
     pagination_class = CustomPagination
-
-
-class IsoCodeMapListAPIView(ListAPIView[IsoCodeMap]):
-    queryset = IsoCodeMap.objects.all()
-    serializer_class = IsoCodeMapSerializer
-
-    def get(self, request: Request) -> Response:
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)

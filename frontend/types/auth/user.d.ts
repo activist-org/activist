@@ -1,5 +1,6 @@
+// MARK: Main Table
+
 export interface User {
-  // user
   id: string;
   user_name: string;
   name: string;
@@ -10,17 +11,28 @@ export interface User {
   // verificationMethod?: string;
   // verificationPartner?: User;
   email?: string;
-  socialLinks?: string[];
+  socialLinks: string[];
   // isPrivate: boolean;
   // isHighRisk: boolean;
   // creationDate: string;
-  // user_resource
-  // resources?: Resource[];
-  // user_task
-  // tasks?: Task[];
-  // user_topic
-  // topics?: string[];
   // support
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
+}
+
+// MARK: Bridge Tables
+
+export interface UserResource {
+  userID: string;
+  resourceID: string;
+}
+
+export interface UserTask {
+  userID: string;
+  taskID: string;
+}
+
+export interface UserTopic {
+  userID: string;
+  topicID: string;
 }
