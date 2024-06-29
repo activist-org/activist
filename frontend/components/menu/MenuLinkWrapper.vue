@@ -8,7 +8,7 @@
     }"
     :to="localePath(`${to}`)"
   >
-    <slot></slot>
+    <slot />
   </NuxtLink>
 </template>
 

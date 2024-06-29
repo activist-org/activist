@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 import { DropdownLocation } from "~/types/location";
-import type { MenuSelector } from "~/types/menu-selector";
+import type { MenuSelector } from "~/types/menu/menu-selector";
 
 defineProps<{
   location?: DropdownLocation;

@@ -28,6 +28,8 @@ from .models import (
     Role,
 )
 
+# MARK: Main Tables
+
 
 class EventSerializer(serializers.ModelSerializer[Event]):
     class Meta:
@@ -68,21 +70,24 @@ class RoleSerializer(serializers.ModelSerializer[Event]):
         return data
 
 
+# MARK: Bridge Tables
+
+
 class EventAttendeeSerializer(serializers.ModelSerializer[EventAttendee]):
     class Meta:
         model = EventAttendee
         fields = "__all__"
 
 
-class EventFormatSerializer(serializers.ModelSerializer[EventFormat]):
-    class Meta:
-        model = EventFormat
-        fields = "__all__"
-
-
 class EventAttendeeStatusSerializer(serializers.ModelSerializer[EventAttendeeStatus]):
     class Meta:
         model = EventAttendeeStatus
+        fields = "__all__"
+
+
+class EventFormatSerializer(serializers.ModelSerializer[EventFormat]):
+    class Meta:
+        model = EventFormat
         fields = "__all__"
 
 
@@ -95,6 +100,12 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 class EventRoleSerializer(serializers.ModelSerializer[EventRole]):
     class Meta:
         model = EventRole
+        fields = "__all__"
+
+
+class EventTagSerializer(serializers.ModelSerializer[EventTag]):
+    class Meta:
+        model = EventTag
         fields = "__all__"
 
 
@@ -113,10 +124,4 @@ class EventTextSerializer(serializers.ModelSerializer[EventText]):
 class EventTopicSerializer(serializers.ModelSerializer[EventTopic]):
     class Meta:
         model = EventTopic
-        fields = "__all__"
-
-
-class EventTagSerializer(serializers.ModelSerializer[EventTag]):
-    class Meta:
-        model = EventTag
         fields = "__all__"
