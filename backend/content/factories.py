@@ -4,6 +4,8 @@ import factory
 
 from .models import Faq, Resource, ResourceTopic, Task, Topic, TopicFormat
 
+# MARK: Main Tables
+
 
 class FaqFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -46,6 +48,9 @@ class TopicFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text")
     creation_date = factory.LazyFunction(datetime.datetime.now)
     deprecation_date = factory.Faker("date")
+
+
+# MARK: Bridge Tables
 
 
 class ResourceTopicFactory(factory.django.DjangoModelFactory):
