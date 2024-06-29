@@ -1,15 +1,15 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <form class="space-y-4">
+    <form @submit.prevent="signUp" @enter="signUp" class="space-y-4">
       <div class="col">
-        <FormTextField
+        <FormTextInput
           @update:model-value="userNameValue = $event"
           :placeholder="$t('pages.auth.sign-up.index.enter-user-name')"
           :model-value="userNameValue"
         />
       </div>
       <div>
-        <FormTextField
+        <FormTextInput
           @update:model-value="passwordValue = $event"
           @input="checkRules"
           @blurred="
@@ -38,7 +38,7 @@
         :rules="rules"
       />
       <div>
-        <FormTextField
+        <FormTextInput
           @update:model-value="confirmPasswordValue = $event"
           :placeholder="$t('_global.repeat-password')"
           :is-icon-visible="true"
@@ -70,7 +70,6 @@
           </p>
         </div>
         <BtnAction
-          @click="signUp"
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
           :label="'_global.sign-up'"
           :cta="true"

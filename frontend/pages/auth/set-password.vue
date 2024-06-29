@@ -1,12 +1,12 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form class="space-y-4">
-      <FormTextField
+      <FormTextInput
         @update:model-value="userNameValue = $event"
         :placeholder="$t('pages.auth.sign-in.index.enter-user-name')"
         :model-value="userNameValue"
       />
-      <FormTextField
+      <FormTextInput
         @update:model-value="passwordValue = $event"
         @input="checkRules"
         @blurred="
@@ -33,7 +33,7 @@
         "
         :rules="rules"
       />
-      <FormTextField
+      <FormTextInput
         @update:model-value="confirmPasswordValue = $event"
         :placeholder="$t('_global.repeat-password')"
         :is-icon-visible="true"

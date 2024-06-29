@@ -14,14 +14,8 @@
       </div>
     </HeaderAppPage>
     <div v-if="organizations.length > 0">
-      <div
-        v-for="organization in organizations"
-        class="space-y-6 pb-6 pt-3 md:pt-4"
-      >
-        <CardSearchResultOrganization
-          :isPrivate="false"
-          :organization="organization"
-        />
+      <div v-for="org in organizations" class="space-y-6 pb-6 pt-3 md:pt-4">
+        <CardSearchResultOrganization :isPrivate="false" :organization="org" />
       </div>
     </div>
     <EmptyState v-else pageType="organizations" :permission="false" />
@@ -29,11 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/organization";
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchAll();
 
-const res = await useAsyncData(
-  async () => await fetchWithToken("/entities/organizations/", {})
-);
-
-const organizations = res.data as unknown as Organization[];
+const { organizations } = organizationStore;
 </script>

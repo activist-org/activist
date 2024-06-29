@@ -119,12 +119,12 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 import { useLinkURL } from "~/composables/useLinkURL";
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
+import type { User } from "~/types/auth/user";
+import type { Resource } from "~/types/content/resource";
+import type { Group } from "~/types/entities/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
 
 const props = defineProps<{
   organization?: Organization;
