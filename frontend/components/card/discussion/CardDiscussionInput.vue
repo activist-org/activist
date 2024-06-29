@@ -142,7 +142,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionInput } from "~/types/discussion-input";
+import type { DiscussionInput } from "~/types/content/discussion";
 import { IconMap } from "~/types/icon-map";
 
 const showTooltip = ref(false);

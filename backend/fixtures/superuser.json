@@ -16,11 +16,12 @@
       "description": "",
       "verified": false,
       "verification_method": "",
-      "verification_partner": "7664552d-e9cb-49f8-9683-a58acdd4f504",
+      "verification_partner": null,
       "email": "admin@activist.org",
       "is_high_risk": false,
       "is_active": true,
       "is_admin": false,
+      "is_confirmed": true,
       "groups": [],
       "user_permissions": []
     }

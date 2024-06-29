@@ -15,6 +15,8 @@ from .models import (
     Role,
 )
 
+# MARK: Main Tables
+
 
 class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -58,6 +60,9 @@ class RoleFactory(factory.django.DjangoModelFactory):
     deprecation_date = factory.Faker("future_date", end_date="+30d")
 
 
+# MARK: Bridge Tables
+
+
 class EventAttendeeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = EventAttendee
@@ -68,19 +73,19 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
     attendee_status = factory.SubFactory("events.factories.EventAttendeeStatusFactory")
 
 
+class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventAttendeeStatus
+
+    status_name = factory.Faker("word")
+
+
 class EventFormatFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = EventFormat
 
     event_id = factory.SubFactory(EventFactory)
     format_id = factory.SubFactory(FormatFactory)
-
-
-class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = EventAttendeeStatus
-
-    status_name = factory.Faker("word")
 
 
 class EventResourceFactory(factory.django.DjangoModelFactory):

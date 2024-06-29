@@ -2,7 +2,7 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form class="space-y-4">
       <p>{{ $t("pages.auth.reset-password.index.reset-password-info") }}</p>
-      <FormTextField
+      <FormTextInput
         @update:model-value="input = $event"
         :placeholder="$t('_global.enter-username-mail')"
         :model-value="input"

@@ -75,7 +75,7 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 import { IconMap } from "~/types/icon-map";
-import type MenuEntry from "~/types/menu-entry";
+import type MenuEntry from "~/types/menu/menu-entry";
 import { SidebarType } from "~/types/sidebar-type";
 import {
   currentRoutePathIncludes,

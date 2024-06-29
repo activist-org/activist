@@ -6,18 +6,23 @@ from . import views
 app_name = "content"
 
 router = DefaultRouter()
+
+# MARK: Main Tables
+
 router.register(r"discussion", views.DiscussionViewSet)
-router.register(r"discussion_entry", views.DiscussionEntryViewSet)
+router.register(r"faq", views.FaqViewSet)
 router.register(r"images", views.ImageViewSet)
 router.register(r"resources", views.ResourceViewSet)
 router.register(r"tasks", views.TaskViewSet)
 router.register(r"topics", views.TopicViewSet)
+
+# MARK: Bridge Tables
+
+router.register(r"discussion_entry", views.DiscussionEntryViewSet)
 router.register(r"resource_topics", views.ResourceTopicViewSet)
 router.register(r"topic_formats", views.TopicFormatViewSet)
-router.register(r"faq", views.FaqViewSet)
-
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("iso_codes/", views.IsoCodeMapListAPIView.as_view(), name="iso_codes"),
+    path("iso_code_map/", views.IsoCodeMapListAPIView.as_view(), name="iso_code_map"),
 ]

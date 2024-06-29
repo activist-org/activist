@@ -2,14 +2,14 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form @submit.prevent="signIn" class="space-y-4">
       <div class="col">
-        <FormTextField
+        <FormTextInput
           @update:model-value="userNameValue = $event"
           :placeholder="$t('pages.auth.sign-in.index.enter-user-name')"
           :model-value="userNameValue"
         />
       </div>
       <div>
-        <FormTextField
+        <FormTextInput
           @update:model-value="passwordValue = $event"
           :placeholder="$t('components._global.enter-password')"
           :is-icon-visible="true"
@@ -35,7 +35,7 @@
         </button>
         <TooltipBase
           v-if="isForgotPasswordDisabled && hovered"
-          text="For set new password, captcha check should passed"
+          :text="$t('pages.auth.sign-in.forgot-password-captcha-tooltip')"
         />
         <BtnAction
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"

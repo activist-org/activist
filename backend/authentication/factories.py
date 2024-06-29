@@ -11,6 +11,8 @@ from .models import (
     UserTopic,
 )
 
+# MARK: Main Tables
+
 
 class SupportEntityTypeFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -59,6 +61,9 @@ class UserFactory(factory.django.DjangoModelFactory):
             return
         if extracted:
             pass
+
+
+# MARK: Bridge Tables
 
 
 class UserResourceFactory(factory.django.DjangoModelFactory):
