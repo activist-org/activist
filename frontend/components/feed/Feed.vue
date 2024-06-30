@@ -14,47 +14,26 @@
 
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
-import type { Group } from "~/types/entities/group";
-import type {
-  Organization,
-  OrganizationGroup,
-} from "~/types/entities/organization";
 
-const props = defineProps<{
-  organization: Organization;
-}>();
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
 
-const resOrgGroups = await useAsyncData(
-  async () =>
-    await fetchWithToken(
-      `/entities/organization_group?org_id=${props.organization.id}`,
-      {}
-    )
-);
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchByID(id);
 
-const orgGroups = resOrgGroups.data as unknown as OrganizationGroup[];
-
-const resGroups = await useAsyncData(
-  async () =>
-    await fetchWithToken(
-      `/entities/groups?group_id=${orgGroups.map((g) => g.groupID).join(",")}`,
-      {}
-    )
-);
-
-const groups = resGroups.data as unknown as Group[];
+const { organization } = organizationStore;
 
 const feedItemNames = computed<string[]>(() => {
-  if (props.organization && orgGroups) {
-    return groups.map((group) => group.name);
+  if (organization && organization.groups) {
+    return organization.groups.map((group) => group.name);
   } else {
     return [""];
   }
 });
 
 const feedItemURLs = computed<string[]>(() => {
-  if (props.organization && orgGroups) {
-    return groups.map(
+  if (organization && organization.groups) {
+    return organization.groups.map(
       (group) => `/organizations/${group.organization.id}/groups/${group.id}`
     );
   } else {

@@ -31,8 +31,6 @@ export const useOrganizationStore = defineStore("organization", {
       getInvolvedURL: "",
       socialLinks: [""],
       status: 1,
-
-      // organization_group
       groups: [],
 
       organization_text_id: "",
