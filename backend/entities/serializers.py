@@ -150,12 +150,6 @@ class OrganizationTaskSerializer(serializers.ModelSerializer[OrganizationTask]):
         fields = "__all__"
 
 
-class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
-    class Meta:
-        model = OrganizationText
-        fields = "__all__"
-
-
 class OrganizationTopicSerializer(serializers.ModelSerializer[OrganizationTopic]):
     class Meta:
         model = OrganizationTopic
