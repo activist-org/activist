@@ -86,10 +86,7 @@
           pageType="organization"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect
-            :social-links="formData.social_accounts"
-            :userIsAdmin="true"
-          />
+          <CardConnect pageType="other" />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
@@ -119,50 +116,32 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/organization";
+import type { OrganizationCreateFormData } from "~/types/entities/organization";
 
 definePageMeta({
   middleware: ["user-only"],
 });
 
-const formData = ref({
+const formData = ref<OrganizationCreateFormData>({
   name: "",
+  tagline: "",
   location: "",
   description: "",
-  tagline: "",
   social_accounts: [],
   topics: [],
 });
 
-const token = localStorage.getItem("accessToken");
 const localePath = useLocalePath();
+const organizationStore = useOrganizationStore();
 
 const submit = async () => {
-  const response = await useFetch(
-    `${BASE_BACKEND_URL}/entities/organizations/`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        name: formData.value.name,
-        location: formData.value.location,
-        tagline: formData.value.tagline,
-        description: formData.value.description,
-        social_accounts: ["https://twitter.com/activist_hq"],
-        created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-        topics: ["test"],
-        high_risk: false,
-        total_flags: 0,
-        acceptance_date: new Date(),
-      }),
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    }
-  );
+  const responseID = await organizationStore.create(formData.value);
 
-  //TODO: FEATURE - push notification with toast should be added here
-
-  const responseData = response.data.value as unknown as Organization;
-  navigateTo(localePath(`/organizations/${responseData.id}`));
+  if (responseID) {
+    navigateTo(localePath(`/organizations/${responseID}`));
+  } else {
+    // TODO: Push notification with toast should be added here.
+    false;
+  }
 };
 </script>

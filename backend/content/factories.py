@@ -4,6 +4,8 @@ import factory
 
 from .models import Faq, Resource, ResourceTopic, Task, Topic, TopicFormat
 
+# MARK: Main Tables
+
 
 class FaqFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -19,7 +21,6 @@ class ResourceFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("name")
     description = factory.Faker("text")
-    topics = factory.List([factory.Faker("word") for _ in range(5)])
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
@@ -47,6 +48,9 @@ class TopicFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text")
     creation_date = factory.LazyFunction(datetime.datetime.now)
     deprecation_date = factory.Faker("date")
+
+
+# MARK: Bridge Tables
 
 
 class ResourceTopicFactory(factory.django.DjangoModelFactory):

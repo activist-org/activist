@@ -4,7 +4,7 @@
     :href="href"
     target="_blank"
   >
-    <slot></slot>
+    <slot />
     <div v-if="text" class="text-lg font-semibold md:text-xl">
       {{ text }}
     </div>

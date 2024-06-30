@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-// import type { Event } from "~/types/event";
+// import type { Event } from "~/types/events/event";
 
 // const { data: events } = await useFetch<Event[] | undefined>(
 //   `${BASE_BACKEND_URL}/entities/organization_events/`,
