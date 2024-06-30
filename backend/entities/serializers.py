@@ -34,7 +34,15 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         fields = "__all__"
 
 
+class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
+    class Meta:
+        model = OrganizationText
+        fields = "__all__"
+
+
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
+    organization_text = OrganizationTextSerializer(read_only=True)
+
     class Meta:
         model = Organization
         extra_kwargs = {
@@ -55,6 +63,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "status",
             "status_updated",
             "acceptance_date",
+            "organization_text",
         ]
 
 
