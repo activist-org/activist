@@ -35,13 +35,15 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         if other_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must be assigned to is_superuser=True.")
 
-        return self.create_user(email, username, password, **other_fields)
+        return self.create_user(
+            email=email, username=username, password=password, **other_fields
+        )
 
     def create_user(
         self,
+        email: str,
         username: str,
         password: str,
-        email: str = "",
         **other_fields: Any,
     ) -> UserModel:
         if email != "":
