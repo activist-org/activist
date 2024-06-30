@@ -7,6 +7,7 @@ services:
     build:
       context: ./backend
     container_name: django_backend
+    restart: unless-stopped
     command: sh -c "python manage.py makemigrations &&
       python manage.py migrate &&
       python manage.py loaddata fixtures/superuser.json &&
