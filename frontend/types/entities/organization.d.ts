@@ -28,7 +28,6 @@ export interface Organization {
   // faq
   faqEntries?: FaqEntry[];
 
-  // organization_group
   groups?: Group[];
 
   // organization_resource
@@ -55,11 +54,6 @@ export interface Organization {
 export interface OrganizationEvent {
   orgID: string;
   eventID: string;
-}
-
-export interface OrganizationGroup {
-  orgID: string;
-  groupID: string;
 }
 
 export interface OrganizationImage {
@@ -172,7 +166,16 @@ export interface PiniaResOrganizationTexts {
 
 // MARK: Form Data
 
-export interface OrganizationTextFormData {
+export interface OrganizationCreateFormData {
+  name: string;
+  tagline: string;
+  location: string;
+  description: string;
+  social_accounts: string[];
+  topics: Topic[];
+}
+
+export interface OrganizationUpdateTextFormData {
   description: string;
   getInvolved: string;
   getInvolvedURL: string;

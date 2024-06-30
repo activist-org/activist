@@ -23,8 +23,13 @@ export const useGroupStore = defineStore("group", {
     donationPrompt: "",
   }),
   actions: {
+    // MARK: Create
+
+    async create() {},
+
+    // MARK: Fetch By ID
+
     async fetchByID(id: string | undefined) {
-      // MARK: API Calls
       this.loading = true;
 
       const [resGroup, resGroupOrg, resGroupTexts] = await Promise.all([
@@ -55,8 +60,6 @@ export const useGroupStore = defineStore("group", {
         ),
       ]);
 
-      // MARK: Result Parsing
-
       const groupRes = resGroup.data as unknown as PiniaResGroup;
       const groupOrgRes = resGroupOrg.data as unknown as PiniaResOrganization[];
       // const groupFAQRes = resGroupFAQ.data as unknown as PiniaResGroup;
@@ -70,8 +73,6 @@ export const useGroupStore = defineStore("group", {
       // const groups = groupRes._value;
       // const resources = groupRes._value;
       const texts = groupTextsRes._value.results[0];
-
-      // MARK: Assignment
 
       this.id = group.id;
       this.name = group.name;
@@ -87,5 +88,17 @@ export const useGroupStore = defineStore("group", {
 
       this.loading = false;
     },
+
+    // MARK: Fetch All
+
+    async fetchAll() {},
+
+    // MARK: Update
+
+    async update() {},
+
+    // MARK: Delete
+
+    async delete() {},
   },
 });
