@@ -14,6 +14,7 @@
       <ModalCommandPalette
         @closeModal="handleCloseModal"
         :isOpen="modalIsOpen"
+        :paletteData="paletteData"
       />
       <NuxtPage />
     </NuxtLayout>
@@ -22,6 +23,7 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { paletteData } from "@/components/modal/command-palette/CommandPaletteData";
 
 useHead({
   titleTemplate: (titleChunk: any) => {
@@ -68,3 +70,4 @@ whenever(ctrl_k, () => {
   }
 });
 </script>
+~/components/modal/command-palette/CommandPaletteData
