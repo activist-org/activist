@@ -46,13 +46,9 @@
 <script setup lang="ts">
 import type { Event } from "~/types/events/event";
 
-const props = defineProps<{
+defineProps<{
   event?: Event;
 }>();
-
-const { descriptionText } = useDescriptionText(props);
-const { getInvolvedText } = useGetInvolvedText(props);
-const { getInvolvedURL } = useGetInvolvedURL(props);
 
 const modals = useModals();
 const modalName = "ModalEditPageText";
