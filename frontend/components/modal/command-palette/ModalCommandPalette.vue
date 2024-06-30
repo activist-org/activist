@@ -147,11 +147,6 @@ function handleCloseModal() {
 const searchTerm = ref("");
 // const searchResults = []
 
-const emit = defineEmits(["closeModal"]);
-const handleCloseModal = () => {
-  emit("closeModal");
-};
-
 // Watch the searchTerm ref variable.
 watch(searchTerm, (newVal) => {
   console.log("searchTerm changed: " + newVal);
