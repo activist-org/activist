@@ -44,8 +44,11 @@
 </template>
 
 <script setup lang="ts">
+import type { FaqEntry } from "~/types/content/faq-entry";
+
 const props = defineProps<{
   name?: string;
+  faqEntry: FaqEntry;
   sectionsToEdit: string[];
   textsToEdit: string[];
   isOpen: boolean;
@@ -69,7 +72,7 @@ const translatedTexts = computed(() => {
 });
 
 const modals = useModals();
-const modalName = "ModalEditPageText";
+const modalName = "ModalEditFAQEntry";
 let modalIsOpen = computed(() => props.isOpen);
 
 onMounted(() => {
