@@ -166,7 +166,16 @@ export interface PiniaResOrganizationTexts {
 
 // MARK: Form Data
 
-export interface OrganizationTextFormData {
+export interface OrganizationCreateFormData {
+  name: string;
+  tagline: string;
+  location: string;
+  description: string;
+  social_accounts: string[];
+  topics: Topic[];
+}
+
+export interface OrganizationUpdateTextFormData {
   description: string;
   getInvolved: string;
   getInvolvedURL: string;
