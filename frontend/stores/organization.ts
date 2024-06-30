@@ -179,7 +179,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const orgs = responseOrgs.data as unknown as PiniaResOrganizations;
 
-      if (orgs) {
+      if (orgs._value) {
         const responseOrgTexts = (await Promise.all(
           orgs._value.map((org) =>
             useAsyncData(
@@ -221,8 +221,9 @@ export const useOrganizationStore = defineStore("organization", {
         );
 
         this.organizations = organizationsWithTexts;
-        this.loading = false;
       }
+
+      this.loading = false;
     },
 
     // MARK: Update
