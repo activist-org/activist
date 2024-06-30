@@ -1,5 +1,3 @@
-
-
 <template>
   <div
     id="map"
@@ -8,15 +6,10 @@
 </template>
 
 <script setup lang="ts">
-
-import { onMounted } from 'vue';
-import { useI18n } from "vue-i18n";
-import maplibregl from 'maplibre-gl';
-import direction-arrow from "frontend/public/icons/direction-arrow.png";
-import { useColorMode } from '@vueuse/core';
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
+import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
@@ -28,10 +21,8 @@ const props = defineProps<{
 const i18n = useI18n();
 const colorMode = useColorMode();
 
-
-
 const isTouchDevice =
-  // `maxTouchPoints` isn't recognized by TS. Safe to ignore.
+  // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   navigator.msMaxTouchPoints > 0 ||
@@ -54,6 +45,106 @@ function isWebglSupported() {
   // WebGL not supported.
   return false;
 }
+
+// MARK: Routing
+
+const bikeDirectionsIcon = `/icons/map/bike_directions_${colorMode.value}.png`;
+const walkDirectionsIcon = `/icons/map/walk_directions_${colorMode.value}.png`;
+
+interface RouteProfileOption {
+  FOOT: string;
+  BIKE: string;
+  DRIVING: string;
+  CAR: string;
+}
+
+const routeProfileOptions: RouteProfileOption = {
+  FOOT: "foot",
+  BIKE: "bike",
+  DRIVING: "driving",
+  CAR: "car",
+};
+
+interface RouteProfile {
+  profile: string;
+  api: string;
+}
+
+const routingAPI = "https://routing.openstreetmap.de/routed-";
+const routingAPIVersion = "/route/v1/";
+
+const routeProfileMap: RouteProfile[] = [
+  {
+    api: `${routingAPI}${routeProfileOptions.FOOT}${routingAPIVersion}`,
+    profile: routeProfileOptions.FOOT,
+  },
+  {
+    api: `${routingAPI}${routeProfileOptions.BIKE}${routingAPIVersion}`,
+    profile: routeProfileOptions.BIKE,
+  },
+  {
+    api: `${routingAPI}${routeProfileOptions.DRIVING}${routingAPIVersion}`,
+    profile: routeProfileOptions.DRIVING,
+  },
+];
+
+const walkingRouteProfileControl = `
+  <div
+    id=${routeProfileOptions.FOOT}
+    style="
+    background-image: url(${walkDirectionsIcon});
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer"
+    opacity: 5;
+  >
+  `;
+
+const bikeRouteProfileControl = `
+  <div
+    id=${routeProfileOptions.BIKE}
+    style="
+    background-image: url(${bikeDirectionsIcon});
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer"
+    opacity: 5;
+  >
+  `;
+
+let currentProfile = walkingRouteProfileControl;
+
+const mapProfile = (profile: string) => {
+  return routeProfileMap.find((item) => item.profile === profile);
+};
+
+let selectedRoute = mapProfile(routeProfileOptions.FOOT);
+
+const routeProfileHandler = () => {
+  if (currentProfile === walkingRouteProfileControl) {
+    currentProfile = bikeRouteProfileControl;
+  } else {
+    currentProfile = walkingRouteProfileControl;
+  }
+  return currentProfile;
+};
+
+const setSelectedRoute = () => {
+  if (currentProfile === walkingRouteProfileControl) {
+    selectedRoute = mapProfile(routeProfileOptions.FOOT);
+  } else {
+    selectedRoute = mapProfile(routeProfileOptions.BIKE);
+  }
+  return selectedRoute;
+};
+
+// MARK: Map Creation
 
 onMounted(() => {
   const nominatimLocationRequest =
@@ -85,8 +176,7 @@ onMounted(() => {
                 type: "background",
                 paint: {
                   "background-color":
-                    
-                  colorMode.value == "dark" ? "#131316" : "#F6F8FA",
+                    colorMode.preference == "dark" ? "#131316" : "#F6F8FA",
                 },
               },
               {
@@ -103,6 +193,8 @@ onMounted(() => {
           pitch: 20,
         });
 
+        // MARK: Basic Controls
+
         map.addControl(
           new maplibregl.NavigationControl({
             visualizePitch: true,
@@ -118,44 +210,6 @@ onMounted(() => {
             trackUserLocation: true,
           })
         );
-        map.loadImage(direction-arrow).then((image) => {}
-        if (image) {
-          map.addImage("direction-arrow", image.data);
-        }
-      });
-
-      const layers = layersFactory();
-      layers.push({
-        id : "maplibre-gl-directions-routeline-direction-arrow",
-        type : "symbol",
-        source : "maplibre-gl-directions",
-        layout: {
-          "symbol-placement" : "line-center",
-          "icon-image" : "direction-arrow",
-          "icon-size" : ["interpolate",["exponential",1.5],["zoom"], 12, 0.85, 18, 1.4],
-        },
-
-        paint: {
-        "icon-opacity": 0.5,
-      },
-      filter: ["==", ["get", "route"], "SELECTED"],
-    });
-
-    map.on("load", () => {
-      directions = new MapLibreGlDirections(map, {
-        requestOptions: {
-          alternatives: "true",
-        },
-        layers,
-      });
-
-      directions.interactive = true;
-    });
-  });
-
-
-
-      })
 
         const popup = new maplibregl.Popup({
           offset: 25,
@@ -179,19 +233,52 @@ onMounted(() => {
           .setPopup(popup)
           .addTo(map);
 
+        // Arrow icon for directions.
+        map
+          .loadImage("/icons/from_library/bootstrap_arrow_right.png")
+          .then((image) => {
+            console.log("Here1");
+            if (image) {
+              map.addImage("route-direction-arrow", image.data);
+            }
+
+            console.log("Here2", image.data);
+          });
+
         map.on("load", () => {
           const layers = layersFactory(
             isTouchDevice ? 1.5 : 1,
             isTouchDevice ? 2 : 1
           );
 
-          const directions = new MapLibreGlDirections(map, {
-            api: "https://routing.openstreetmap.de/routed-foot/route/v1/",
-            profile: "foot",
-            // api: "https://routing.openstreetmap.de/routed-bike/route/v1/",
-            // profile: "bike",
-            // api: "https://routing.openstreetmap.de/routed-car/route/v1/",
-            // profile: "driving",
+          // MARK: Directions Layer
+
+          // Add arrow to directions layer.
+          layers.push({
+            id: "maplibre-gl-directions-route-line-direction-arrow",
+            type: "symbol",
+            source: "maplibre-gl-directions",
+            layout: {
+              "symbol-placement": "line-center",
+              "icon-image": "route-direction-arrow",
+              "icon-size": [
+                "interpolate",
+                ["exponential", 1.5],
+                ["zoom"],
+                12,
+                0.85,
+                18,
+                1.4,
+              ],
+            },
+            paint: {
+              "icon-opacity": 1,
+            },
+            filter: ["==", ["get", "route"], "SELECTED"],
+          });
+
+          let directions = new MapLibreGlDirections(map, {
+            ...(selectedRoute = setSelectedRoute()),
             requestOptions: {
               alternatives: "true",
             },
@@ -199,7 +286,6 @@ onMounted(() => {
           });
 
           directions.interactive = true;
-
           marker.getElement().addEventListener("mouseenter", () => {
             directions.interactive = false;
           });
@@ -207,6 +293,57 @@ onMounted(() => {
           marker.getElement().addEventListener("mouseleave", () => {
             directions.interactive = true;
           });
+
+          // MARK: Profile Switcher
+
+          map.addControl(
+            {
+              onAdd: function () {
+                const div = document.createElement("div");
+                div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
+                div.innerHTML = currentProfile;
+
+                const updateSelectedProfile = () => {
+                  directions.destroy();
+                  div.innerHTML = routeProfileHandler();
+
+                  directions = new MapLibreGlDirections(map, {
+                    ...(selectedRoute = setSelectedRoute()),
+                    requestOptions: {
+                      alternatives: "true",
+                    },
+                    layers,
+                  });
+
+                  directions.interactive = true;
+                  marker.getElement().addEventListener("mouseenter", () => {
+                    directions.interactive = false;
+                  });
+
+                  marker.getElement().addEventListener("mouseleave", () => {
+                    directions.interactive = true;
+                  });
+                };
+
+                if (window.innerWidth < 768) {
+                  div.addEventListener("touched", updateSelectedProfile);
+                  div.addEventListener("click", updateSelectedProfile);
+                } else {
+                  div.addEventListener("click", updateSelectedProfile);
+                  document.addEventListener("keydown", (event) => {
+                    if (event.key === "x") {
+                      updateSelectedProfile();
+                    }
+                  });
+                }
+                return div;
+              },
+              onRemove: function () {},
+            },
+            "top-right"
+          );
+
+          // MARK: Clear Directions
 
           const clearDirectionsControl = `
             <div style="
