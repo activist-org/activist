@@ -21,9 +21,6 @@ const props = defineProps<{
 const i18n = useI18n();
 const colorMode = useColorMode();
 
-const bikeDirectionsIcon = `/icons/map/bike_directions_${colorMode.value}.png`;
-const walkDirectionsIcon = `/icons/map/walk_directions_${colorMode.value}.png`;
-
 const isTouchDevice =
   // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -48,6 +45,11 @@ function isWebglSupported() {
   // WebGL not supported.
   return false;
 }
+
+// MARK: Routing
+
+const bikeDirectionsIcon = `/icons/map/bike_directions_${colorMode.value}.png`;
+const walkDirectionsIcon = `/icons/map/walk_directions_${colorMode.value}.png`;
 
 interface RouteProfileOption {
   FOOT: string;
@@ -142,6 +144,8 @@ const setSelectedRoute = () => {
   return selectedRoute;
 };
 
+// MARK: Map Creation
+
 onMounted(() => {
   const nominatimLocationRequest =
     "https://nominatim.openstreetmap.org/search?q=Brandenburg%20Gate%20Berlin&format=json";
@@ -189,6 +193,8 @@ onMounted(() => {
           pitch: 20,
         });
 
+        // MARK: Basic Controls
+
         map.addControl(
           new maplibregl.NavigationControl({
             visualizePitch: true,
@@ -227,11 +233,49 @@ onMounted(() => {
           .setPopup(popup)
           .addTo(map);
 
+        // Arrow icon for directions.
+        map
+          .loadImage("/icons/from_library/bootstrap_arrow_right.png")
+          .then((image) => {
+            console.log("Here1");
+            if (image) {
+              map.addImage("route-direction-arrow", image.data);
+            }
+
+            console.log("Here2", image.data);
+          });
+
         map.on("load", () => {
           const layers = layersFactory(
             isTouchDevice ? 1.5 : 1,
             isTouchDevice ? 2 : 1
           );
+
+          // MARK: Directions Layer
+
+          // Add arrow to directions layer.
+          layers.push({
+            id: "maplibre-gl-directions-route-line-direction-arrow",
+            type: "symbol",
+            source: "maplibre-gl-directions",
+            layout: {
+              "symbol-placement": "line-center",
+              "icon-image": "route-direction-arrow",
+              "icon-size": [
+                "interpolate",
+                ["exponential", 1.5],
+                ["zoom"],
+                12,
+                0.85,
+                18,
+                1.4,
+              ],
+            },
+            paint: {
+              "icon-opacity": 1,
+            },
+            filter: ["==", ["get", "route"], "SELECTED"],
+          });
 
           let directions = new MapLibreGlDirections(map, {
             ...(selectedRoute = setSelectedRoute()),
@@ -249,6 +293,8 @@ onMounted(() => {
           marker.getElement().addEventListener("mouseleave", () => {
             directions.interactive = true;
           });
+
+          // MARK: Profile Switcher
 
           map.addControl(
             {
@@ -296,6 +342,8 @@ onMounted(() => {
             },
             "top-right"
           );
+
+          // MARK: Clear Directions
 
           const clearDirectionsControl = `
             <div style="
