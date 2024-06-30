@@ -28,7 +28,6 @@ export interface Organization {
   // faq
   faqEntries?: FaqEntry[];
 
-  // organization_group
   groups?: Group[];
 
   // organization_resource
@@ -55,11 +54,6 @@ export interface Organization {
 export interface OrganizationEvent {
   orgID: string;
   eventID: string;
-}
-
-export interface OrganizationGroup {
-  orgID: string;
-  groupID: string;
 }
 
 export interface OrganizationImage {

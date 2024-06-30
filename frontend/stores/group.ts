@@ -87,5 +87,6 @@ export const useGroupStore = defineStore("group", {
 
       this.loading = false;
     },
+    async fetchAll() {},
   },
 });
