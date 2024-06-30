@@ -32,8 +32,8 @@
 </template>
 
 <script setup lang="ts">
+import type { User } from "~/types/auth/user";
 import { IconMap } from "~/types/icon-map";
-import type { User } from "~/types/user";
 
 defineProps<{
   user: User;

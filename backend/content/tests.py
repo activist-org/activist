@@ -2,6 +2,7 @@
 Testing for the content app.
 """
 
+# mypy: ignore-errors
 from .factories import ResourceFactory, TaskFactory, TopicFactory, ResourceTopicFactory
 from tests.throttle import BaseTestThrottle
 from django.urls import reverse

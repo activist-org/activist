@@ -74,12 +74,12 @@
           :eventLocations="[event.offlineLocation]"
         />
       </div>
-      <CardAbout aboutType="event" :event="event" />
-      <CardGetInvolved
+      <CardAboutEvent aboutType="event" :event="event" />
+      <CardGetInvolvedEvent
         :event="event"
         disclaimer="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
       />
-      <CardConnect :social-links="event.socialLinks" :userIsAdmin="true" />
+      <CardConnect pageType="event" />
     </div>
   </div>
 </template>

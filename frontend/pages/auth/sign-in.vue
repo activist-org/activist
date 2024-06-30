@@ -2,14 +2,14 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form @submit.prevent="signIn" class="space-y-4">
       <div class="col">
-        <FormTextField
+        <FormTextInput
           @update:model-value="userNameValue = $event"
           :placeholder="$t('pages.auth.sign-in.index.enter-user-name')"
           :model-value="userNameValue"
         />
       </div>
       <div>
-        <FormTextField
+        <FormTextInput
           @update:model-value="passwordValue = $event"
           :placeholder="$t('components._global.enter-password')"
           :is-icon-visible="true"
@@ -21,6 +21,22 @@
       <IndicatorPasswordStrength :password-value="passwordValue" />
       <div class="flex flex-col space-y-3">
         <FriendlyCaptcha />
+        <button
+          @click="navigateTo(localePath('/auth/reset-password'))"
+          @mouseover="hovered = true"
+          @focus="hovered = true"
+          @mouseleave="hovered = false"
+          @blur="hovered = false"
+          :disabled="isForgotPasswordDisabled"
+          class="text-start font-bold"
+          :class="{ 'link-text': !isForgotPasswordDisabled }"
+        >
+          Forgot your password?
+        </button>
+        <TooltipBase
+          v-if="isForgotPasswordDisabled && hovered"
+          :text="$t('pages.auth.sign-in.forgot-password-captcha-tooltip')"
+        />
         <BtnAction
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
           :label="$t('_global.sign-in')"
@@ -46,33 +62,16 @@ import { IconMap } from "~/types/icon-map";
 
 const localePath = useLocalePath();
 
+// TODO: Please change with result of captcha check and remove the comment.
+const isForgotPasswordDisabled = false;
+const hovered = ref(false);
+
 const userNameValue = ref("");
 const passwordValue = ref("");
 
-interface LoginResponse {
-  data: {};
-}
+const { login } = useAuth();
 
 const signIn = async () => {
-  const { data: responseData } = await $fetch<LoginResponse>(
-    `http://localhost:8000/v1/auth/login/`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        username: userNameValue.value,
-        password: passwordValue.value,
-      }),
-      onResponse({ request, response, options }) {
-        // Handle the response.
-        console.log(
-          "Response:",
-          response.status,
-          response.statusText,
-          response._data
-        );
-      },
-    }
-  );
-  console.log();
+  await login(userNameValue.value, passwordValue.value);
 };
 </script>

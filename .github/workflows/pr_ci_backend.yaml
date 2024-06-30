@@ -30,11 +30,11 @@ jobs:
           echo PATH=$PATH >> $GITHUB_ENV
 
       - name: Run Ruff Format - Formatting Check
-        run: ruff ./backend
+        run: ruff check ./backend
 
       - name: Run Ruff - Linting and Import Sorting Check
         if: always()
-        run: ruff ./backend
+        run: ruff check ./backend
 
       - name: Run mypy - Static Type Checking
         if: always()

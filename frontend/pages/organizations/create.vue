@@ -86,10 +86,7 @@
           pageType="organization"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect
-            :social-links="formData.social_accounts"
-            :userIsAdmin="true"
-          />
+          <CardConnect pageType="other" />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
@@ -119,36 +116,32 @@
 </template>
 
 <script setup lang="ts">
-const formData = ref({
+import type { OrganizationCreateFormData } from "~/types/entities/organization";
+
+definePageMeta({
+  middleware: ["user-only"],
+});
+
+const formData = ref<OrganizationCreateFormData>({
   name: "",
+  tagline: "",
   location: "",
   description: "",
-  tagline: "",
   social_accounts: [],
   topics: [],
 });
 
+const localePath = useLocalePath();
+const organizationStore = useOrganizationStore();
+
 const submit = async () => {
-  const { data: responseData } = await useFetch(
-    "http://127.0.0.1:8000/v1/entities/organizations/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        name: formData.value.name,
-        location: formData.value.location,
-        tagline: formData.value.tagline,
-        description: formData.value.description,
-        social_accounts: ["https://twitter.com/activist_hq"],
-        created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-        topics: formData.value.topics,
-        high_risk: false,
-        total_flags: 0,
-      }),
-    }
-  );
+  const responseID = await organizationStore.create(formData.value);
 
-  //TODO: FEATURE - push notification with toast should be added here
-
-  window.location.href = "/organizations";
+  if (responseID) {
+    navigateTo(localePath(`/organizations/${responseID}`));
+  } else {
+    // TODO: Push notification with toast should be added here.
+    false;
+  }
 };
 </script>

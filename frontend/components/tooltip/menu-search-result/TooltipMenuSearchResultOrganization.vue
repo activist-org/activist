@@ -45,8 +45,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/entities/organization";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
 
 defineProps<{
   organization?: Organization;

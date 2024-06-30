@@ -33,8 +33,8 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/discussion-entry";
-import type { Organization } from "~/types/organization";
+import type { DiscussionEntry } from "~/types/content/discussion";
+import type { Organization } from "~/types/entities/organization";
 
 const props = defineProps<{
   organization: Organization;
