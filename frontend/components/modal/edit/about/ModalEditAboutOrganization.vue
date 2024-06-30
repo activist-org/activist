@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import type { OrganizationTextFormData } from "~/types/entities/organization";
+import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
 
 const props = defineProps<{
   isOpen: boolean;
@@ -65,7 +65,7 @@ await organizationStore.fetchByID(id);
 
 const { organization } = organizationStore;
 
-const formData = ref<OrganizationTextFormData>({
+const formData = ref<OrganizationUpdateTextFormData>({
   description: "",
   getInvolved: "",
   getInvolvedURL: "",

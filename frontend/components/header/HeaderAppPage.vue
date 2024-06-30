@@ -57,7 +57,7 @@
   >
     <!-- organization.status === 1 means it's application is pending. -->
     <h2
-      v-if="organization.id !== '' && organization.status === 1"
+      v-if="organization && organization.status === 1"
       class="responsive-h4 text-light-warn-yellow transition-all duration-500 dark:text-dark-warn-yellow"
     >
       {{ $t("components.header-app-page.status-pending") }}

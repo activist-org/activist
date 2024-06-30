@@ -30,9 +30,13 @@ export const useEventStore = defineStore("event", {
     getInvolved: "",
   }),
   actions: {
-    async fetchByID(id: string | undefined) {
-      // MARK: API Calls
+    // MARK: Create
 
+    async create() {},
+
+    // MARK: Fetch By ID
+
+    async fetchByID(id: string | undefined) {
       this.loading = true;
 
       const [resEvent, resEventTexts] = await Promise.all([
@@ -59,8 +63,6 @@ export const useEventStore = defineStore("event", {
         ),
       ]);
 
-      // MARK: Result Parsing
-
       const eventRes = resEvent.data as unknown as PiniaResEvent;
       // const eventFAQRes = resEventFAQ.data as unknown as PiniaResEvent;
       // const eventResourcesRes =
@@ -71,8 +73,6 @@ export const useEventStore = defineStore("event", {
       // const faq = eventRes._value;
       // const resources = eventRes._value;
       const texts = eventTextsRes._value.results[0];
-
-      // MARK: Assignment
 
       this.id = event.id;
       this.name = event.name;
@@ -87,5 +87,17 @@ export const useEventStore = defineStore("event", {
 
       this.loading = false;
     },
+
+    // MARK: Fetch All
+
+    async fetchAll() {},
+
+    // MARK: Update
+
+    async update() {},
+
+    // MARK: Delete
+
+    async delete() {},
   },
 });
