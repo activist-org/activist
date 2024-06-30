@@ -11,8 +11,6 @@ import MapLibreGlDirections, {
 } from "@maplibre/maplibre-gl-directions";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import WalkingIconPng from "~/assets/images/WalkingIconPng.png";
-import BiBicycle from "~/assets/images/BiBicycle.svg";
 
 const props = defineProps<{
   markerColors: string[];
@@ -23,8 +21,11 @@ const props = defineProps<{
 const i18n = useI18n();
 const colorMode = useColorMode();
 
+const bikeDirectionsIcon = `/icons/map/bike_directions_${colorMode.value}.png`;
+const walkDirectionsIcon = `/icons/map/walk_directions_${colorMode.value}.png`;
+
 const isTouchDevice =
-  // `maxTouchPoints` isn't recognized by TS. Safe to ignore.
+  // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   navigator.msMaxTouchPoints > 0 ||
@@ -86,36 +87,34 @@ const routeProfileMap: RouteProfile[] = [
 ];
 
 const walkingRouteProfileControl = `
-   <div 
-     id=${routeProfileOptions.FOOT}
-     style="
-     background-image: url(${WalkingIconPng});
-     width: 140px;
-     height: 30px;
-     background-size: 140px 30px;
-     // padding: 1px 5px;
-     border-radius: 5px;
-     // box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-     cursor: pointer"
-     opacity: 5;
-   >
-   `;
+  <div
+    id=${routeProfileOptions.FOOT}
+    style="
+    background-image: url(${walkDirectionsIcon});
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer"
+    opacity: 5;
+  >
+  `;
 
 const bikeRouteProfileControl = `
-     <div 
-       id=${routeProfileOptions.BIKE}
-       style="
-       background-image: url(${BiBicycle});
-       width: 32px;
-       height: 30px;
-       background-size: 32px 30px;
-       // padding: 1px 5px;
-       border-radius: 5px;
-       // box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-       cursor: pointer"
-       opacity: 5;
-     >
-     `;
+  <div
+    id=${routeProfileOptions.BIKE}
+    style="
+    background-image: url(${bikeDirectionsIcon});
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer"
+    opacity: 5;
+  >
+  `;
 
 let currentProfile = walkingRouteProfileControl;
 
@@ -124,7 +123,6 @@ const mapProfile = (profile: string) => {
 };
 
 let selectedRoute = mapProfile(routeProfileOptions.FOOT);
-console.log("default selectedRoute", selectedRoute);
 
 const routeProfileHandler = () => {
   if (currentProfile === walkingRouteProfileControl) {
@@ -143,8 +141,6 @@ const setSelectedRoute = () => {
   }
   return selectedRoute;
 };
-
-console.log("currentProfile", currentProfile);
 
 onMounted(() => {
   const nominatimLocationRequest =
@@ -237,7 +233,7 @@ onMounted(() => {
             isTouchDevice ? 2 : 1
           );
 
-          const directions = new MapLibreGlDirections(map, {
+          let directions = new MapLibreGlDirections(map, {
             ...(selectedRoute = setSelectedRoute()),
             requestOptions: {
               alternatives: "true",
@@ -262,8 +258,25 @@ onMounted(() => {
                 div.innerHTML = currentProfile;
 
                 const updateSelectedProfile = () => {
-                  directions.clear();
+                  directions.destroy();
                   div.innerHTML = routeProfileHandler();
+
+                  directions = new MapLibreGlDirections(map, {
+                    ...(selectedRoute = setSelectedRoute()),
+                    requestOptions: {
+                      alternatives: "true",
+                    },
+                    layers,
+                  });
+
+                  directions.interactive = true;
+                  marker.getElement().addEventListener("mouseenter", () => {
+                    directions.interactive = false;
+                  });
+
+                  marker.getElement().addEventListener("mouseleave", () => {
+                    directions.interactive = true;
+                  });
                 };
 
                 if (window.innerWidth < 768) {
