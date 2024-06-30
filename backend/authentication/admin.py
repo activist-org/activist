@@ -96,10 +96,9 @@ class UserAdmin(BaseUserAdmin):
                 "fields": [
                     "username",
                     "description",
-                    "private",
-                    "high_risk",
-                    "user_icon",
-                    "social_accounts",
+                    "is_private",
+                    "is_high_risk",
+                    "verfied",
                 ]
             },
         ),
