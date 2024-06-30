@@ -21,8 +21,11 @@ const props = defineProps<{
 const i18n = useI18n();
 const colorMode = useColorMode();
 
+const bikeDirectionsIcon = `/icons/map/bike_directions_${colorMode.value}.png`;
+const walkDirectionsIcon = `/icons/map/walk_directions_${colorMode.value}.png`;
+
 const isTouchDevice =
-  // `maxTouchPoints` isn't recognized by TS. Safe to ignore.
+  // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   navigator.msMaxTouchPoints > 0 ||
@@ -45,6 +48,99 @@ function isWebglSupported() {
   // WebGL not supported.
   return false;
 }
+
+interface RouteProfileOption {
+  FOOT: string;
+  BIKE: string;
+  DRIVING: string;
+  CAR: string;
+}
+
+const routeProfileOptions: RouteProfileOption = {
+  FOOT: "foot",
+  BIKE: "bike",
+  DRIVING: "driving",
+  CAR: "car",
+};
+
+interface RouteProfile {
+  profile: string;
+  api: string;
+}
+
+const routingAPI = "https://routing.openstreetmap.de/routed-";
+const routingAPIVersion = "/route/v1/";
+
+const routeProfileMap: RouteProfile[] = [
+  {
+    api: `${routingAPI}${routeProfileOptions.FOOT}${routingAPIVersion}`,
+    profile: routeProfileOptions.FOOT,
+  },
+  {
+    api: `${routingAPI}${routeProfileOptions.BIKE}${routingAPIVersion}`,
+    profile: routeProfileOptions.BIKE,
+  },
+  {
+    api: `${routingAPI}${routeProfileOptions.DRIVING}${routingAPIVersion}`,
+    profile: routeProfileOptions.DRIVING,
+  },
+];
+
+const walkingRouteProfileControl = `
+  <div
+    id=${routeProfileOptions.FOOT}
+    style="
+    background-image: url(${walkDirectionsIcon});
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer"
+    opacity: 5;
+  >
+  `;
+
+const bikeRouteProfileControl = `
+  <div
+    id=${routeProfileOptions.BIKE}
+    style="
+    background-image: url(${bikeDirectionsIcon});
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer"
+    opacity: 5;
+  >
+  `;
+
+let currentProfile = walkingRouteProfileControl;
+
+const mapProfile = (profile: string) => {
+  return routeProfileMap.find((item) => item.profile === profile);
+};
+
+let selectedRoute = mapProfile(routeProfileOptions.FOOT);
+
+const routeProfileHandler = () => {
+  if (currentProfile === walkingRouteProfileControl) {
+    currentProfile = bikeRouteProfileControl;
+  } else {
+    currentProfile = walkingRouteProfileControl;
+  }
+  return currentProfile;
+};
+
+const setSelectedRoute = () => {
+  if (currentProfile === walkingRouteProfileControl) {
+    selectedRoute = mapProfile(routeProfileOptions.FOOT);
+  } else {
+    selectedRoute = mapProfile(routeProfileOptions.BIKE);
+  }
+  return selectedRoute;
+};
 
 onMounted(() => {
   const nominatimLocationRequest =
@@ -137,13 +233,8 @@ onMounted(() => {
             isTouchDevice ? 2 : 1
           );
 
-          const directions = new MapLibreGlDirections(map, {
-            api: "https://routing.openstreetmap.de/routed-foot/route/v1/",
-            profile: "foot",
-            // api: "https://routing.openstreetmap.de/routed-bike/route/v1/",
-            // profile: "bike",
-            // api: "https://routing.openstreetmap.de/routed-car/route/v1/",
-            // profile: "driving",
+          let directions = new MapLibreGlDirections(map, {
+            ...(selectedRoute = setSelectedRoute()),
             requestOptions: {
               alternatives: "true",
             },
@@ -151,7 +242,6 @@ onMounted(() => {
           });
 
           directions.interactive = true;
-
           marker.getElement().addEventListener("mouseenter", () => {
             directions.interactive = false;
           });
@@ -159,6 +249,53 @@ onMounted(() => {
           marker.getElement().addEventListener("mouseleave", () => {
             directions.interactive = true;
           });
+
+          map.addControl(
+            {
+              onAdd: function () {
+                const div = document.createElement("div");
+                div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
+                div.innerHTML = currentProfile;
+
+                const updateSelectedProfile = () => {
+                  directions.destroy();
+                  div.innerHTML = routeProfileHandler();
+
+                  directions = new MapLibreGlDirections(map, {
+                    ...(selectedRoute = setSelectedRoute()),
+                    requestOptions: {
+                      alternatives: "true",
+                    },
+                    layers,
+                  });
+
+                  directions.interactive = true;
+                  marker.getElement().addEventListener("mouseenter", () => {
+                    directions.interactive = false;
+                  });
+
+                  marker.getElement().addEventListener("mouseleave", () => {
+                    directions.interactive = true;
+                  });
+                };
+
+                if (window.innerWidth < 768) {
+                  div.addEventListener("touched", updateSelectedProfile);
+                  div.addEventListener("click", updateSelectedProfile);
+                } else {
+                  div.addEventListener("click", updateSelectedProfile);
+                  document.addEventListener("keydown", (event) => {
+                    if (event.key === "x") {
+                      updateSelectedProfile();
+                    }
+                  });
+                }
+                return div;
+              },
+              onRemove: function () {},
+            },
+            "top-right"
+          );
 
           const clearDirectionsControl = `
             <div style="
