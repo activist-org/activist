@@ -1,7 +1,8 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
   >
     <DialogTitle class="flex justify-between font-display">
       <p class="md:responsive-h2 text-3xl font-bold">
@@ -136,15 +137,12 @@ const props = defineProps<{
 }>();
 
 const { linkURL } = useLinkURL(props);
+const modals = useModals();
+const modalName = "ModalsQRCode";
+const modalIsOpen = computed(() => modals.modals[modalName]?.isOpen ?? false);
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
-
-const emit = defineEmits(["closeModal"]);
 const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  modals.closeModal(modalName);
 };
 
 const showTooltip = ref(false);

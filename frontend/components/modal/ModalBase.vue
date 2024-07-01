@@ -1,9 +1,5 @@
 <template>
-  <Dialog
-    @close="closeModal()"
-    class="relative z-50"
-    :open="modalShouldClose == false ? modalIsOpen : false"
-  >
+  <Dialog @close="closeModal()" class="relative z-50" :open="modalIsOpen">
     <div
       @click="closeModal()"
       class="fixed inset-0 cursor-pointer bg-light-layer-0/95 dark:bg-dark-layer-0/95"
@@ -66,15 +62,18 @@ import { IconMap } from "~/types/icon-map";
 const props = defineProps<{
   isOpen: boolean;
   imageModal?: boolean;
+  modalName: string;
 }>();
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+const modals = useModals();
+const modalName = props.modalName;
+let modalIsOpen = computed(() => props.isOpen);
 
-const emit = defineEmits(["closeModal"]);
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
+
 const closeModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  modals.closeModal(modalName);
 };
 </script>
