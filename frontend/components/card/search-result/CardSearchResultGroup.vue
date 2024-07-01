@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/group";
+import type { Group } from "~/types/entities/group";
 
 defineProps<{
   group: Group;

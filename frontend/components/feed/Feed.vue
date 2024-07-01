@@ -14,23 +14,26 @@
 
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
-import type { Organization } from "~/types/organization";
 
-const props = defineProps<{
-  organization: Organization;
-}>();
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchByID(id);
+
+const { organization } = organizationStore;
 
 const feedItemNames = computed<string[]>(() => {
-  if (props.organization && props.organization.groups) {
-    return props.organization.groups.map((group) => group.name);
+  if (organization && organization.groups) {
+    return organization.groups.map((group) => group.name);
   } else {
     return [""];
   }
 });
 
 const feedItemURLs = computed<string[]>(() => {
-  if (props.organization && props.organization.groups) {
-    return props.organization.groups.map(
+  if (organization && organization.groups) {
+    return organization.groups.map(
       (group) => `/organizations/${group.organization.id}/groups/${group.id}`
     );
   } else {

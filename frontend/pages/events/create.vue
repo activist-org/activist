@@ -303,6 +303,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["user-only"],
+});
+
 const localePath = useLocalePath();
 
 const settingValue = ref("");

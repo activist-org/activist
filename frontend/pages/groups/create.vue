@@ -80,10 +80,7 @@
           pageType="group"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect
-            :social-links="formData.social_accounts"
-            :userIsAdmin="true"
-          />
+          <CardConnect pageType="other" />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
@@ -113,6 +110,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["user-only"],
+});
+
 const formData = ref({
   name: "",
   location: "",

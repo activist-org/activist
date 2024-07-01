@@ -17,9 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/discussion-entry";
-import type { DiscussionInput } from "~/types/discussion-input";
-import type { Organization } from "~/types/organization";
+import type {
+  DiscussionEntry,
+  DiscussionInput,
+} from "~/types/content/discussion";
+import type { Organization } from "~/types/entities/organization";
 
 defineProps<{
   discussionEntries?: DiscussionEntry[];

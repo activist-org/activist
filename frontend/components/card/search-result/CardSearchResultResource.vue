@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "~/types/resource";
+import type { Resource } from "~/types/content/resource";
 
 defineProps<{
   resource: Resource;

@@ -21,7 +21,7 @@
         hidden: !menuOpen,
       }"
     >
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

@@ -4,7 +4,7 @@
     :href="href"
     target="_blank"
   >
-    <slot></slot>
+    <slot />
   </a>
 </template>
 

@@ -24,8 +24,8 @@ class BaseTestThrottle:
     __test__ = False
     url = ""
     client = APIClient()
-    anon_throttle = 7
-    user_throttle = 10
+    anon_throttle = 20
+    user_throttle = 30
 
     @pytest.mark.django_db
     @override_settings(
