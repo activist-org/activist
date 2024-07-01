@@ -4,30 +4,38 @@ import type {
   PiniaResEventText,
 } from "~/types/events/event";
 
+interface EventStore {
+  loading: boolean;
+  event: Event;
+  events: Event[];
+}
+
 export const useEventStore = defineStore("event", {
   // MARK: Properties
 
-  state: (): Event => ({
+  state: (): EventStore => ({
     loading: false,
 
-    // event
-    id: "",
-    name: "",
-    tagline: "",
-    createdBy: "",
-    iconURL: "",
-    type: "learn",
-    offlineLocation: "",
-    getInvolvedURL: "",
-    socialLinks: [""],
-    startTime: "",
+    event: {
+      id: "",
+      name: "",
+      tagline: "",
+      createdBy: "",
+      iconURL: "",
+      type: "learn",
+      offlineLocation: "",
+      getInvolvedURL: "",
+      socialLinks: [""],
+      startTime: "",
 
-    // event_organizations
-    organizations: [],
+      // event_organizations
+      organizations: [],
 
-    // event_text
-    description: "",
-    getInvolved: "",
+      // event_text
+      description: "",
+      getInvolved: "",
+    },
+    events: [],
   }),
   actions: {
     // MARK: Create
@@ -74,16 +82,16 @@ export const useEventStore = defineStore("event", {
       // const resources = eventRes._value;
       const texts = eventTextsRes._value.results[0];
 
-      this.id = event.id;
-      this.name = event.name;
-      this.tagline = event.tagline;
-      this.iconURL = event.iconURL;
-      this.offlineLocation = event.offlineLocation;
-      this.getInvolvedURL = event.getInvolvedURL;
-      this.socialLinks = event.socialLinks;
+      this.event.id = event.id;
+      this.event.name = event.name;
+      this.event.tagline = event.tagline;
+      this.event.iconURL = event.iconURL;
+      this.event.offlineLocation = event.offlineLocation;
+      this.event.getInvolvedURL = event.getInvolvedURL;
+      this.event.socialLinks = event.socialLinks;
 
-      this.description = texts.description;
-      this.getInvolved = texts.getInvolved;
+      this.event.description = texts.description;
+      this.event.getInvolved = texts.getInvolved;
 
       this.loading = false;
     },

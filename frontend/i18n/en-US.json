@@ -523,7 +523,6 @@
   "pages.events.create.description-placeholder": "Please provide a description of the event for the community so that we can learn more about it",
   "pages.events.create.events-name-placeholder": "The name of the event",
   "pages.events.create.event-type": "Type",
-  "pages.events.create.event-type-placeholder": "(e.g. Learn, Action)",
   "pages.events.create.format": "Format",
   "pages.events.create.format-placeholder": "The format of the event (e.g. Protest, Seminar)",
   "pages.events.create.header-0": "Information",

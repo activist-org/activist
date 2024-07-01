@@ -88,10 +88,7 @@
             />
           </div>
           <div class="mx-14 mt-5 w-full">
-            <CardConnect
-              :social-links="formData.social_accounts"
-              :userIsAdmin="true"
-            />
+            <CardConnect pageType="event" />
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <label for="description" class="responsive-h3 block font-medium"
