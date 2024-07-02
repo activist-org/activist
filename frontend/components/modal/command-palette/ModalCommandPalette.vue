@@ -2,7 +2,8 @@
   <!-- TODO: Transition / animation? Maybe do this in ModalBase? -->
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
   >
     <!-- MARK: Search Box -->
     <div
@@ -26,7 +27,6 @@
         />
       </div>
     </div>
-
     <!-- MARK: Search Results -->
     <!-- TODO: <CommandPaletteSearchResults results='searchResults' />. -->
     <div v-if="searchTerm != ''">searchTerm: {{ searchTerm }}</div>
@@ -127,17 +127,25 @@ import { IconMap } from "~/types/icon-map";
 // need is the 'closeModal' emit in 'handleCloseModal'.
 const props = defineProps<{
   isOpen: boolean;
+  modalName: string;
 }>();
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+
+const localePath = useLocalePath();
+
+const modals = useModals();
+const modalName = props.modalName;
+let modalIsOpen = computed(() => props.isOpen);
+
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
+
+function handleCloseModal() {
+  modals.closeModal(modalName);
+}
 
 const searchTerm = ref("");
 // const searchResults = []
-
-const emit = defineEmits(["closeModal"]);
-const handleCloseModal = () => {
-  emit("closeModal");
-};
 
 // Watch the searchTerm ref variable.
 watch(searchTerm, (newVal) => {

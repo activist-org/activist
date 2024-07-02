@@ -56,7 +56,7 @@
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages.organizations.create.description") }}*</label
+            >{{ $t("pages._global.description") }}*</label
           >
           <textarea
             v-model="formData.description"
@@ -93,9 +93,12 @@
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
               <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
-              <a href="#" class="text-blue-500">{{
-                $t("pages._global.terms-of-service-pt-2")
-              }}</a>
+              <NuxtLink
+                :to="localePath('/legal/privacy-policy')"
+                target="_blank"
+                class="link-text"
+                >{{ $t("pages._global.terms-of-service-pt-2") }}</NuxtLink
+              >
               <p>.</p>
             </label>
           </div>
