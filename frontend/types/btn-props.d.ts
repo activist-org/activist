@@ -31,4 +31,5 @@ export interface BtnRoute extends BtnBase {
   linkTo: string;
   leftIcon?: string;
   rightIcon?: string;
+  id?: string;
 }

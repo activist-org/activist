@@ -38,6 +38,10 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer. */
     trace: "on-first-retry",
+    screenshot: {
+      mode: "only-on-failure",
+      fullPage: true,
+    },
   },
 
   /* Configure projects for major desktop browsers. */
@@ -49,15 +53,7 @@ export default defineConfig({
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
-    } /*
-    {
-      name: "Microsoft Edge",
-      use: { ...devices["Desktop Edge"], channel: "msedge" },
     },
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    }, */,
 
     /* Test against mobile viewports. */
     {
@@ -67,25 +63,19 @@ export default defineConfig({
     {
       name: "Mobile Safari",
       use: { ...devices["iPhone 12"], isMobile: true },
-    } /*
+    },
     {
       name: "Mobile Samsung",
-      use: { ...devices["Galaxy S20"], isMobile: true },
+      use: { ...devices["Galaxy S9+"], isMobile: true },
     },
     {
       name: "Mobile iPad",
-      use: { ...devices["iPad (gen 8)"], isMobile: true },
-    }, */,
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+      use: { ...devices["iPad (gen 7)"], isMobile: true },
+    },
+    {
+      name: "Mobile iPad",
+      use: { ...devices["iPad (gen 7 landscape)"], isMobile: true },
+    },
   ],
 
   /* Run your local dev server before starting the tests. */

@@ -35,6 +35,7 @@
         {{ $t(text) }}
       </p>
       <BtnRouteInternal
+        :id="btnId1"
         :cta="true"
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
@@ -105,6 +106,7 @@
         {{ $t(text) }}
       </p>
       <BtnRouteInternal
+        :id="btnId1"
         :cta="true"
         :label="`${btnText1}`"
         :linkTo="`${btnURL1}`"
@@ -137,6 +139,7 @@
         class="grid grid-cols-1 grid-rows-2 gap-y-4 sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:gap-x-6 xl:gap-x-8"
       >
         <BtnRouteInternal
+          :id="btnId1"
           class="w-full"
           :cta="true"
           :label="`${btnText1}`"
@@ -145,6 +148,7 @@
           :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : ''"
         />
         <BtnRouteInternal
+          :id="btnId2"
           class="w-full"
           :cta="false"
           :label="`${btnText2}`"
@@ -177,6 +181,8 @@ defineProps<{
   btnText1: string;
   btnURL1: string;
   btnAriaLabel1?: string;
+  btnId1?: string;
+  btnId2?: string;
   btnText2?: string;
   btnURL2?: string;
   btnAriaLabel2?: string;

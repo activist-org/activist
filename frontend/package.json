@@ -20,7 +20,7 @@
     "@nuxtjs/i18n": "^8.3.0",
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@pinia/nuxt": "^0.5.1",
-    "@playwright/test": "^1.43.1",
+    "@playwright/test": "^1.44.0",
     "@types/node": "^20.12.5",
     "@types/uuid": "^9.0.8",
     "@types/zxcvbn": "^4.4.4",
@@ -28,12 +28,11 @@
     "@vueuse/nuxt": "^10.9.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.0.0",
-    "eslint-plugin-cypress": "^2.15.2",
     "eslint-plugin-vue": "^9.24.1",
     "eslint-plugin-vuejs-accessibility": "^2.2.1",
     "nuxt": "^3.11.2",
     "nuxt-icon": "^0.6.10",
-    "playwright": "^1.43.1",
+    "playwright": "1.44.0",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",
     "rollup": "^4.14.1",
@@ -43,7 +42,7 @@
     "vue-tsc": "^2.0.11"
   },
   "dependencies": {
-    "@axe-core/playwright": "^4.9.0",
+    "@axe-core/playwright": "4.9.1",
     "@maplibre/maplibre-gl-directions": "^0.7.0",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/plausible": "^1.0.0",
@@ -59,7 +58,6 @@
     "maplibre-gl": "^4.0.0",
     "nuxt-mail": "^5.0.1",
     "pinia": "^2.1.6",
-    "playwright-core": "^1.43.1",
     "postcss": "^8.4.21",
     "qrcode": "^1.5.3",
     "qrcode.vue": "^3.4.1",
@@ -74,5 +72,8 @@
     "vuedraggable": "~4.1.0",
     "wait-on": "^7.2.0",
     "zxcvbn": "^4.4.2"
+  },
+  "resolutions": {
+    "playwright-core": "1.44.0"
   }
 }

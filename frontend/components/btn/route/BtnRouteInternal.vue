@@ -1,5 +1,6 @@
 <template>
   <NuxtLink
+    :id="id"
     :to="localePath(`${linkTo}`)"
     class="btn-base-class rounded-md xl:rounded-lg"
     :class="btnDynamicClass"
