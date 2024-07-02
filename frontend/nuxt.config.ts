@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { resolve } from "path";
-import head from "./nuxt.config/head";
-import locales from "./nuxt.config/locales";
-import modules from "./nuxt.config/modules";
+import head from "./head";
+import locales from "./locales";
+import modules from "./modules";
 
 export default defineNuxtConfig({
   app: {

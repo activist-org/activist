@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import locales from "../../nuxt.config/locales";
+import locales from "../../locales";
 import { LandingPage, expect, test } from "../fixtures/page-fixtures";
 
 test.describe("Landing Page", () => {
