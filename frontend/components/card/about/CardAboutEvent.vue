@@ -64,8 +64,10 @@ import CardAbout from "./CardAbout.vue";
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
-const event = useEventStore();
-await event.fetchByID(id);
+const eventStore = useEventStore();
+await eventStore.fetchByID(id);
+
+const { event } = eventStore;
 
 const description = ref();
 const descriptionExpandable = ref(false);

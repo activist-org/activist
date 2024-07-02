@@ -59,8 +59,10 @@ const props = defineProps<{
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
-const event = useEventStore();
-await event.fetchByID(id);
+const eventStore = useEventStore();
+await eventStore.fetchByID(id);
+
+const { event } = eventStore;
 
 const formData = ref({
   description: event.description,
