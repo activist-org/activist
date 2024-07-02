@@ -1,10 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { resolve } from "path";
-import locales from "./locales";
-import modules from "./modules";
-import head from "./head";
+import head from "./nuxt.config/head";
+import locales from "./nuxt.config/locales";
+import modules from "./nuxt.config/modules";
 
 export default defineNuxtConfig({
+  app: {
+    head,
+  },
+  modules: modules,
   ssr: false,
   typescript: {
     // strict: true,
@@ -17,7 +21,6 @@ export default defineNuxtConfig({
     "@": resolve(__dirname, "./"),
   },
   plugins: ["~/plugins/i18n-head.ts"],
-  modules: modules,
   content: {
     watch: false,
   },
@@ -76,8 +79,5 @@ export default defineNuxtConfig({
       isCustomElement: (tag) =>
         ["swiper-slide", "swiper-container"].includes(tag),
     },
-  },
-  app: {
-    head,
   },
 });

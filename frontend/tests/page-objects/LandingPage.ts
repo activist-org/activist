@@ -1,6 +1,6 @@
-import type { Page, Locator } from "@playwright/test";
-import BasePage from "./BasePage";
+import type { Locator, Page } from "@playwright/test";
 import HeaderWebsite from "../component-objects/HeaderWebsite";
+import BasePage from "./BasePage";
 
 export default class LandingPage extends BasePage {
   public static readonly locators = {
@@ -10,13 +10,14 @@ export default class LandingPage extends BasePage {
     GET_ORGANIZED_BUTTON: "#btn-get-organized",
     GROW_ORGANIZATION_BUTTON: "#btn-grow-organization",
     ABOUT_BUTTON: "#btn-activist",
+    BECOME_SUPPORTER_BUTTON: "btn-become-supporter",
     OUR_SUPPORTERS_BUTTON: "#btn-our-supporters",
   };
 
   readonly header: HeaderWebsite;
 
   constructor(page: Page) {
-    super(page, "Activist.org Landing Page", "/");
+    super(page, "Landing Page", "/");
     this.header = new HeaderWebsite(page);
     this.setLocators(LandingPage.locators);
   }
@@ -43,6 +44,10 @@ export default class LandingPage extends BasePage {
 
   get aboutButton(): Locator {
     return this.getLocator("ABOUT_BUTTON");
+  }
+
+  get becomeSupportersButton(): Locator {
+    return this.getLocator("BECOME_SUPPORTER_BUTTON");
   }
 
   get ourSupportersButton(): Locator {

@@ -1,12 +1,12 @@
 import AxeBuilder from "@axe-core/playwright";
+import locales from "../../nuxt.config/locales";
 import { LandingPage, expect, test } from "../fixtures/page-fixtures";
-import locales from "../../locales";
 
 test.describe("Landing Page", () => {
   // Initialize page before each test, wait for the landing splash to be visible.
   test.beforeEach(async ({ landingPage }) => {
     await landingPage.goto("/en");
-    const landingSplash = landingPage.landingSplash;
+    const { landingSplash } = landingPage;
     await landingSplash.waitFor({ state: "visible" });
   });
 
@@ -17,10 +17,10 @@ test.describe("Landing Page", () => {
   // Test that Header is visible if the viewport is large enough.
   test("Header should be visible", async ({ landingPage }) => {
     if (!(await landingPage.isMobile())) {
-      const desktopHeader = landingPage.header.desktopHeader;
+      const { desktopHeader } = landingPage.header;
       await expect(desktopHeader).toBeVisible();
     } else {
-      const mobileHeader = landingPage.header.mobileHeader;
+      const { mobileHeader } = landingPage.header;
       await expect(mobileHeader).toBeVisible();
     }
   });
@@ -93,7 +93,8 @@ test.describe("Landing Page", () => {
   /* *********************************************************** */
 
   // Test accessibility of the landing page (skip this test for now).
-  test.skip("should not have any detectable accessibility issues", async ({
+  // Note: Check to make sure that this is eventually done for light and dark modes.
+  test.skip("There are no detectable accessibility issues", async ({
     landingPage,
   }, testInfo) => {
     const results = await new AxeBuilder({ page: landingPage.getPage })
@@ -112,13 +113,15 @@ test.describe("Landing Page", () => {
   /* LANDING PAGE TESTS */
   /* *********************************************************** */
 
-  test('title should contain "activist"', async ({ landingPage }) => {
+  test('Title should contain "activist"', async ({ landingPage }) => {
     const pageTitle = await landingPage.getPage.title();
     expect(pageTitle).toContain("activist");
   });
 
-  test("should contain the request access link", async ({ landingPage }) => {
-    const requestAccessLink = landingPage.requestAccessLink;
+  test("Splash should contain the request access link", async ({
+    landingPage,
+  }) => {
+    const { requestAccessLink } = landingPage;
     expect(await requestAccessLink.getAttribute("href")).toBe(
       LandingPage.urls.REQUEST_ACCESS_URL
     );
