@@ -1,5 +1,6 @@
 <template>
   <DropdownBase
+    class="dropdown-theme"
     :location="location"
     :menuButtonIcon="menuButtonIcon"
     :menuButtonLabel="$t(`components.selector-theme.label`)"
