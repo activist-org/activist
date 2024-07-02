@@ -2,6 +2,8 @@
 Serializers for the entities app.
 """
 
+from typing import Any
+
 from rest_framework import serializers
 
 from .models import (
@@ -41,7 +43,8 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
-    organization_text = OrganizationTextSerializer(read_only=True)
+    org_text = OrganizationTextSerializer(read_only=True)
+    description = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = Organization
@@ -50,6 +53,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "social_links": {"required": False},
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
+            "description": {"write_only": True},
         }
         fields = [
             "id",
@@ -63,8 +67,19 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "status",
             "status_updated",
             "acceptance_date",
-            "organization_text",
+            "org_text",
+            "description",
         ]
+
+    def create(self, validated_data: dict[str, Any]) -> Organization:
+        description = validated_data.pop("description", None)
+        org = Organization.objects.create(**validated_data)
+        if org and description:
+            org_text = OrganizationText.objects.create(
+                org_id=org, description=description
+            )
+            org.org_text = org_text
+        return org
 
 
 class StatusSerializer(serializers.ModelSerializer[Status]):
