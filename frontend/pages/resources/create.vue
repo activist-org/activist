@@ -40,7 +40,7 @@
           </div>
           <div class="w-1/2">
             <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("pages.resources.create.link") }}*</label
+              >{{ $t("pages._global.link") }}*</label
             >
             <input
               v-model="formData.link"
