@@ -10,7 +10,7 @@
       <PageBreadcrumbs class="mt-2" />
       <div v-if="page === 0" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages.events.create.header-0") }}
+          {{ $t("pages._global.information") }}
         </h1>
         <p class="mt-4">
           {{ $t("pages.events.create.subtext-0") }}
@@ -92,7 +92,7 @@
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <label for="description" class="responsive-h3 block font-medium"
-              >{{ $t("pages.events.create.description") }}*</label
+              >{{ $t("pages._global.description") }}*</label
             >
             <textarea
               v-model="formData.description"
@@ -197,7 +197,7 @@
             </div>
             <div class="w-2/5">
               <label for="link" class="responsive-h3 block font-medium"
-                >{{ $t("pages.events.create.link") }}*</label
+                >{{ $t("pages._global.link") }}*</label
               >
               <input
                 v-model="formData.link"
@@ -271,7 +271,7 @@
             leftIcon="←"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="pages.events.create.button-left-aria-label"
+            ariaLabel="pages.events.create.go-to-previous-page"
           />
           <BtnAction
             v-if="!hasNextPage"
@@ -291,7 +291,7 @@
             rightIcon="→"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="pages.events.create.button-right-aria-label"
+            ariaLabel="pages.events.create.go-to-previous-page"
           />
         </div>
       </form>
