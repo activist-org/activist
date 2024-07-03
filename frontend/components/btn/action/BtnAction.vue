@@ -1,5 +1,6 @@
 <template>
   <button
+    :id="id"
     class="btn-base-class rounded-md xl:rounded-lg"
     :class="btnDynamicClass"
     :aria-label="$t(ariaLabel)"

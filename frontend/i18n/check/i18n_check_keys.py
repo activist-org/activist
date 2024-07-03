@@ -1,8 +1,9 @@
 """
-i18n Check Unused Keys
-
-Run `python i18n_check_unused_keys.py` to check if the en-US.json file has keys that are unused.
+Run to check if the en-US.json file has keys that are unused.
 If yes, then remove those keys from the `en-US.json`.
+
+Usage:
+    python i18n_check_keys.py
 """
 
 import json
@@ -10,7 +11,7 @@ import os
 from pathlib import Path
 
 this_directory = str(Path(__file__).parent.resolve())
-frontend_directory = "/".join(this_directory.split("/")[:-1])
+frontend_directory = "/".join(this_directory.split("/")[:-2])
 directories_to_skip = [
     this_directory,
     f"{frontend_directory}/.nuxt",
@@ -18,7 +19,7 @@ directories_to_skip = [
 ]
 file_types_to_check = [".vue", ".ts", ".js"]
 
-with open(f"{this_directory}/en-US.json") as f:
+with open(f"{this_directory}/../en-US.json") as f:
     en_us_json_dict = json.loads(f.read())
 
 files_to_check = []
@@ -50,4 +51,4 @@ if unused_keys := list(set(all_keys) - set(used_keys)):
     )
 
 else:
-    print("\nSuccess: all i18n keys are used in the project.")
+    print("\nSuccess: All i18n keys are used in the project.\n")

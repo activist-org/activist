@@ -181,7 +181,23 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Start your docker images with the following:
+4. Create a virtual environment for the backend, activate it and install dependencies:
+
+    ```bash
+    # Unix or MacOS:
+    python3 -m venv venv
+    source venv/bin/activate
+
+    # Windows:
+    python -m venv venv
+    venv\Scripts\activate.bat
+
+    # After activating venv:
+    pip install --upgrade pip
+    pip install -r backend/requirements-dev.txt
+    ```
+
+5. Start your docker images with the following:
 
    ```bash
    docker compose --env-file .env.dev up
@@ -193,12 +209,12 @@ git remote add upstream https://github.com/activist-org/activist.git
    # docker compose --env-file .env.dev down
    ```
 
-5. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
+6. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
 
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#using-yarn-or-python).
 
-6. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
+7. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
 
    ```bash
    # In the project root:

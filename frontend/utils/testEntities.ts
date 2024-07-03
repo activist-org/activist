@@ -145,7 +145,6 @@ export const testClimateEvent: Event = {
   // supportingUsers: [user, user],
   // iconURL: "/images/an_image.svg",
   socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
-  loading: false,
 };
 
 export const testTechEvent: Event = {
@@ -163,7 +162,6 @@ export const testTechEvent: Event = {
   startTime: new Date().toLocaleDateString(),
   // supportingUsers: [user, user, user],
   socialLinks: [""],
-  loading: false,
 };
 
 export const testResource: Resource = {

@@ -1,7 +1,8 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
   >
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
@@ -87,13 +88,15 @@ async function handleSubmit() {
   }
 }
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+const modals = useModals();
+const modalName = "ModalEditAboutOrganization";
+let modalIsOpen = computed(() => props.isOpen);
 
-const emit = defineEmits(["closeModal"]);
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
+
 const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  modals.closeModal(modalName);
 };
 </script>

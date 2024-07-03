@@ -1,8 +1,9 @@
 """
-i18n Check Repeat Values
-
-Run `python i18n_check_repeat_values.py` to check if the en-US.json file has repeat strings.
+Run to check if the en-US.json file has repeat strings.
 If yes, combine them in a `_global` sub name at the lowest matching name level of `en-US.json`.
+
+Usage:
+    python i18n_check_values.py
 """
 
 import json
@@ -12,7 +13,7 @@ from pathlib import Path
 
 this_directory = str(Path(__file__).parent.resolve())
 
-with open(f"{this_directory}/en-US.json") as f:
+with open(f"{this_directory}/../en-US.json") as f:
     en_us_json_dict = json.loads(f.read())
 
 
@@ -82,4 +83,4 @@ if json_repeat_value_counts:
     )
 
 else:
-    print("\nSuccess: no repeat i18n values found.")
+    print("\nSuccess: No repeat i18n values found.\n")

@@ -15,7 +15,8 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
   >
     <!-- MARK: Main element -->
     <div>
@@ -99,6 +100,7 @@ import { ref, computed, watch, defineProps, defineEmits } from "vue";
 const props = defineProps<{
   isOpen: boolean;
   paletteData: Command[];
+  modalName: string;
 }>();
 
 interface Command {
@@ -109,13 +111,29 @@ interface Command {
   action: () => void;
 }
 
+
 const modalIsOpen = computed(() => props.isOpen);
 const modalShouldClose = ref(false);
+
+const localePath = useLocalePath();
+
+const modals = useModals();
+const modalName = props.modalName;
+
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
+
+function handleCloseModal() {
+  modals.closeModal(modalName);
+}
+
 const searchTerm = ref("");
 const selectedCommand = ref<Command | null>(null);
 const filteredCommands = ref<Command[]>([]);
 
 const router = useRouter();
+// Note: We need to check to see if this emit is needed still.
 const emit = defineEmits(["closeModal"]);
 
 // Handle modal close

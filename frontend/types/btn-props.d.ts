@@ -1,5 +1,6 @@
 export interface BtnBase {
-  cta?: boolean;
+  id?: string;
+  cta: boolean;
   label?: string;
   hideLabelOnMobile?: boolean;
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
@@ -9,7 +10,6 @@ export interface BtnBase {
 }
 
 withDefaults(defineProps<BtnBase>(), {
-  cta: false,
   fontSize: "base",
   iconSize: "1em",
 });

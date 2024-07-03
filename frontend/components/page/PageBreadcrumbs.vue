@@ -76,6 +76,7 @@
 <script setup lang="ts">
 import { validate as isValidUUID } from "uuid";
 import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 
 const url = window.location.href;
 let pageType = "";
@@ -92,7 +93,8 @@ const idGroup = typeof paramsIDGroup === "string" ? paramsIDGroup : undefined;
 const organizationStore = useOrganizationStore();
 let organization: Organization;
 const group = useGroupStore();
-const event = useEventStore();
+const eventStore = useEventStore();
+let event: Event;
 
 if (
   url.includes("/organizations/") &&
@@ -109,10 +111,13 @@ if (
 } else if (
   url.includes("/events/") &&
   !url.includes("/organizations/") &&
-  !url.includes("/groups/")
+  !url.includes("/groups/") &&
+  !url.includes("/events/create") &&
+  !url.includes("/events/search")
 ) {
   pageType = "event";
-  await event.fetchByID(id);
+  await eventStore.fetchByID(id);
+  event = eventStore.event;
 }
 
 const breadcrumbs = ref<string[]>([]);

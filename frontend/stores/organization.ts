@@ -21,7 +21,6 @@ export const useOrganizationStore = defineStore("organization", {
   state: (): OrganizationStore => ({
     loading: false,
 
-    // organization
     organization: {
       id: "",
       name: "",

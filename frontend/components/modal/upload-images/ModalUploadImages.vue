@@ -1,7 +1,8 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
   >
     <div>
       <DialogTitle>
@@ -112,13 +113,11 @@ const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+const modals = useModals();
+const modalName = "ModalUploadImages";
+const modalIsOpen = computed(() => modals.modals[modalName]?.isOpen ?? false);
 
-const emit = defineEmits(["closeModal"]);
 const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  modals.closeModal(modalName);
 };
 </script>
