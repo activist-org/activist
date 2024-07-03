@@ -1,9 +1,9 @@
-<!-- TODO: Search works, but it's pickiing up the literal values of 'displayName' (eg. "_global.home"). 
+<!-- TODO: Search works, but it's pickiing up the literal values of 'displayName' (eg. "_global.home").
               Search should instead look through the rendered values. -->
 <!-- TODO: Figure out how to usefully implement the 'action' elements in the paletteData objects (CommandPaletteData.js).
               Right now they're not used, and we have three different ways to navigate to a target path.
               Keep the 'action' thingies because some time in the future we can use them for actions other than just
-                page navigation. 
+                page navigation.
 -->
 <!-- TODO: Find a way to use a single event handler to replace
               handleCommand
@@ -85,16 +85,16 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
 import { useRouter } from "vue-router";
+import { IconMap } from "~/types/icon-map";
 
 import {
   Combobox,
   ComboboxInput,
-  ComboboxOptions,
   ComboboxOption,
+  ComboboxOptions,
 } from "@headlessui/vue";
-import { ref, computed, watch, defineProps, defineEmits } from "vue";
+import { computed, defineEmits, defineProps, ref, watch } from "vue";
 
 // Define props with proper types
 const props = defineProps<{
@@ -111,8 +111,7 @@ interface Command {
   action: () => void;
 }
 
-
-const modalIsOpen = computed(() => props.isOpen);
+let modalIsOpen = computed(() => props.isOpen);
 const modalShouldClose = ref(false);
 
 const localePath = useLocalePath();
@@ -123,10 +122,6 @@ const modalName = props.modalName;
 onMounted(() => {
   modalIsOpen = computed(() => modals.modals[modalName].isOpen);
 });
-
-function handleCloseModal() {
-  modals.closeModal(modalName);
-}
 
 const searchTerm = ref("");
 const selectedCommand = ref<Command | null>(null);
@@ -139,7 +134,8 @@ const emit = defineEmits(["closeModal"]);
 // Handle modal close
 const handleCloseModal = () => {
   searchTerm.value = "";
-  emit("closeModal");
+  modals.closeModal(modalName);
+  // emit("closeModal");
 };
 
 const handleClick = (command: Command) => {
