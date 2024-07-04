@@ -14,7 +14,7 @@
       <ModalCommandPalette
         @closeModal="handleCloseModal"
         :isOpen="modalIsOpen"
-        :modalName="modalName"
+        :paletteData="commandPaletteData"
       />
       <NuxtPage />
     </NuxtLayout>
@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { commandPaletteData } from "~/types/command-palette";
 
 useHead({
   titleTemplate: (titleChunk: any) => {
@@ -30,7 +31,8 @@ useHead({
   },
 });
 const modals = useModals();
-const modalName = "generalModal";
+// const modalName = "generalModal";
+const modalName = "ModalCommandPalette";
 const modalIsOpen = ref(false);
 
 function openModal() {
@@ -54,7 +56,7 @@ const { meta_k, ctrl_k } = useMagicKeys({
 });
 
 const doWhenever = () => {
-  // Trigger ModalBase @click="openModal".
+  // Trigger ModalBase @click="openModal", above.
   const clickTarget = document.getElementById("clickTarget");
   if (clickTarget) {
     clickTarget.click();
