@@ -1,6 +1,6 @@
-// This could be in a Pinia store.
+// Note: This could be in a Pinia store.
 
-export const paletteData = [
+export const commandPaletteData = [
   {
     id: 7,
     category: "home",

@@ -1,6 +1,6 @@
 <!-- TODO: Search works, but it's picking up the literal values of 'displayName' (eg. "_global.home").
               Search should instead look through the rendered values. -->
-<!-- TODO: Figure out how to usefully implement the 'action' elements in the paletteData objects (CommandPaletteData.js).
+<!-- TODO: Figure out how to usefully implement the 'action' elements in the commandPaletteData objects (command-palette.ts).
               Right now they're not used, and we have three different ways to navigate to a target path.
               Keep the 'action' thingies because some time in the future we can use them for actions other than just
                 page navigation.
@@ -11,7 +11,7 @@
               handleEnter
 -->
 <!-- TODO: Sometimes router.push() loses the i18n part of the path (eg: /en/the.path.name)-->
-<!-- TODO: Get @click on ComboboxOption elements to work. Right now only handleEnter works. It looks like the @click event handler 
+<!-- TODO: Get @click on ComboboxOption elements to work. Right now only handleEnter works. It looks like the @click event handler
               on the ComboboxOption elements doesn't get rendered. It doesn't appear when 'inspecting' the element/s in the browser. -->
 
 <!-- Here is a link to command palette resources: https://www.commandpalette.org/ -->
@@ -48,7 +48,7 @@
           class="max-h-40 overflow-y-auto pt-2"
         >
           <!-- MARK: Individual search result/s. -->
-          <!-- TODO: There should be one, unifed way to handle selection, instead of 'handleClick' here -->
+          <!-- TODO: There should be one, unified way to handle selection, instead of 'handleClick' here -->
           <ComboboxOption
             v-for="command in filteredCommands"
             @click="handleClick(command)"
