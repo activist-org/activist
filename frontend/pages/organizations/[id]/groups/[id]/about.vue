@@ -62,7 +62,7 @@
           'lg:mr-6 lg:space-x-6': !textExpanded,
         }"
       >
-        <CardAbout
+        <CardAboutGroup
           @expand-reduce-text="expandReduceText"
           class="mb-6 lg:mb-0"
           :class="{
@@ -73,28 +73,41 @@
           :group="group"
         />
         <div class="h-full w-full">
-          <MediaImageCarouselFull v-if="!textExpanded || !large" />
+          <MediaImageCarouselFull v-if="!textExpanded || !aboveLargeBP" />
         </div>
       </div>
-      <CardGetInvolved :group="group" />
-      <CardConnect :socialLinks="group.socialLinks" :userIsAdmin="true" />
+      <CardGetInvolvedGroup :group="group" />
+      <CardConnect pageType="group" />
       <!-- <CardDonate :userIsAdmin="true" :donationPrompt="group.donationPrompt" /> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
+import type { Group } from "~/types/group";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
-import { testTechGroup1 } from "~/utils/testEntities";
-import useBreakpoint from "~/composables/useBreakpoint";
 
-const large = useBreakpoint("lg");
+// import type { Group, GroupText } from "~/types/entities/group";
+
+const aboveLargeBP = useBreakpoint("lg");
+
+const { id } = useRoute().params;
+
+const [resOrg, resOrgTexts] = await Promise.all([
+  useAsyncData(async () => await fetchWithToken(`/entities/groups/${id}`, {})),
+  useAsyncData(
+    async () => await fetchWithToken(`/entities/group_texts?org_id=${id}`, {})
+  ),
+]);
+
+const group = resOrg.data as unknown as Group;
+// const groupTexts = resOrgTexts.data as unknown as GroupText;
+// const texts = groupTexts;
 
 const groupSubPages = getGroupSubPages();
-
-const group = testTechGroup1;
 
 const textExpanded = ref(false);
 const expandReduceText = () => {
@@ -126,13 +139,17 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateShareBtnLabel);
 });
 
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

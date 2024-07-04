@@ -13,7 +13,7 @@
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
-          v-if="medium"
+          v-if="aboveMediumBP"
           class="block w-max"
           :cta="true"
           linkTo="/"
@@ -38,11 +38,11 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { IconMap } from "~/types/icon-map";
 import { testClimateEvent } from "~/utils/testEntities";
-import useBreakpoint from "~/composables/useBreakpoint";
 
-const medium = useBreakpoint("md");
+const aboveMediumBP = useBreakpoint("md");
 
 const event = testClimateEvent;
 </script>

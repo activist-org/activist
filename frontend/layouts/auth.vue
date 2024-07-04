@@ -1,10 +1,10 @@
 <template>
-  <HeaderWebsite v-if="!medium" />
+  <HeaderWebsite v-if="!aboveMediumBP" />
   <div class="grid h-screen grid-cols-1 md:grid-cols-2">
     <Head>
       <Title>{{ $t(page.title) }}</Title>
     </Head>
-    <div v-if="medium" class="relative">
+    <div v-if="aboveMediumBP" class="relative">
       <div class="flex h-full w-full items-center justify-center">
         <div
           class="relative z-0 mb-6 h-16 w-64 overflow-y-hidden xl:h-24 xl:w-96"
@@ -18,7 +18,7 @@
     <div
       class="h-full bg-light-layer-1 text-light-text dark:bg-dark-layer-1 dark:text-dark-text"
     >
-      <div v-if="medium" class="flex justify-end space-x-6 px-8 py-4">
+      <div v-if="aboveMediumBP" class="flex justify-end space-x-6 px-8 py-4">
         <DropdownLanguage />
         <BtnRouteInternal
           v-if="page.route != 'index'"
@@ -46,7 +46,7 @@
 const route = useRoute();
 import useBreakpoint from "~/composables/useBreakpoint";
 
-const medium = useBreakpoint("md");
+const aboveMediumBP = useBreakpoint("md");
 
 const page = computed(() => {
   const isSignIn = route.fullPath?.includes("sign-in");

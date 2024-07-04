@@ -8,9 +8,9 @@
         {{ description }}
       </p>
       <div v-if="multiline">
-        <!-- Mobile -->
+        <!-- MARK: Mobile -->
         <textarea
-          v-if="!medium"
+          v-if="!aboveMediumBP"
           id="feedback"
           class="block w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
           type="text"
@@ -18,9 +18,9 @@
           :placeholder="placeholder"
           :aria-label="textAreaAriaLabel"
         ></textarea>
-        <!-- Desktop -->
+        <!-- MARK: Desktop -->
         <textarea
-          v-if="medium"
+          v-if="aboveMediumBP"
           id="feedback"
           class="block w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
           type="text"
@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import useBreakpoint from "~/composables/useBreakpoint";
-const medium = useBreakpoint("md");
 
 defineProps<{
   header: string;
@@ -52,4 +51,6 @@ defineProps<{
   multiline: boolean;
   textAreaAriaLabel: string;
 }>();
+
+const aboveMediumBP = useBreakpoint("md");
 </script>

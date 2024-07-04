@@ -9,18 +9,18 @@
       class="responsive-py-4 responsive-px-5 flex w-full flex-col items-center"
     >
       <div class="flex w-10/12 items-start pb-2 md:w-full">
-        <PageBreadcrumbs v-if="!medium" />
+        <PageBreadcrumbs v-if="!aboveMediumBP" />
       </div>
       <!-- Note: image on top of content for mobile. -->
       <img
-        v-if="!medium"
+        v-if="!aboveMediumBP"
         class="h-1/6 w-full"
         :src="GET_ORGANIZED_MOCKUP_URL + `_${$colorMode.value}.png`"
         :alt="$t('pages.docs.get-organized.modal-image-alt-text')"
       />
       <div class="w-10/12 gap-16 md:w-full 2xl:grid 2xl:grid-cols-2">
         <ModalImageBtn
-          v-if="medium"
+          v-if="aboveMediumBP"
           @click="openModal()"
           @keydown.enter="openModal()"
           class="block"
@@ -36,7 +36,7 @@
         <div
           class="items-center space-y-4 text-left md:items-start 2xl:col-span-1 2xl:row-start-1"
         >
-          <PageBreadcrumbs v-if="medium" />
+          <PageBreadcrumbs v-if="aboveMediumBP" />
           <h1 class="responsive-h1 pb-2 font-bold">
             {{ $t("pages.docs.get-organized.header") }}
           </h1>
@@ -99,10 +99,10 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
 import useBreakpoint from "~/composables/useBreakpoint";
+import { IconMap } from "~/types/icon-map";
 
-const medium = useBreakpoint("md");
+const aboveMediumBP = useBreakpoint("md");
 
 const modalIsOpen = ref(false);
 

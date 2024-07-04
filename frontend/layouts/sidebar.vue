@@ -1,8 +1,8 @@
 <template>
   <HeaderMobile />
-  <MenuMobileNavigationDropdown v-if="!medium" />
+  <MenuMobileNavigationDropdown v-if="!aboveMediumBP" />
   <SidebarLeft
-    v-if="medium"
+    v-if="aboveMediumBP"
     @mouseover="sidebarHover = true"
     @focus="sidebarHover = true"
     @mouseleave="sidebarHover = false"
@@ -21,17 +21,17 @@
       :class="sidebarFooterDynamicClass"
     />
   </div>
-  <MenuMobileNavBar v-if="!medium" />
+  <MenuMobileNavBar v-if="!aboveMediumBP" />
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
-import useBreakpoint from "~/composables/useBreakpoint";
 
-const medium = useBreakpoint("md");
+const aboveMediumBP = useBreakpoint("md");
 
 const sidebar = useSidebar();
 const sidebarHover = ref(false);

@@ -1,5 +1,5 @@
-import { BreakpointMap } from "~/types/breakpoint-map";
 import { useBreakpoints } from "@vueuse/core";
+import { BreakpointMap } from "~/types/breakpoint-map";
 
 const breakpoints = useBreakpoints({
   sm: BreakpointMap.SMALL,
