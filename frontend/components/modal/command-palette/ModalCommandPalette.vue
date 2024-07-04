@@ -1,4 +1,4 @@
-<!-- TODO: Search works, but it's pickiing up the literal values of 'displayName' (eg. "_global.home").
+<!-- TODO: Search works, but it's picking up the literal values of 'displayName' (eg. "_global.home").
               Search should instead look through the rendered values. -->
 <!-- TODO: Figure out how to usefully implement the 'action' elements in the paletteData objects (CommandPaletteData.js).
               Right now they're not used, and we have three different ways to navigate to a target path.
@@ -99,11 +99,9 @@ import {
   ComboboxOptions,
 } from "@headlessui/vue";
 
-// Define props with proper types
 const props = defineProps<{
   isOpen: boolean;
   paletteData: Command[];
-  modalName: string;
 }>();
 
 interface Command {
@@ -114,10 +112,9 @@ interface Command {
   action: () => void;
 }
 
-let modalIsOpen = computed(() => props.isOpen);
-
 const modals = useModals();
-const modalName = props.modalName;
+const modalName = "ModalCommandPalette";
+let modalIsOpen = computed(() => props.isOpen);
 
 onMounted(() => {
   modalIsOpen = computed(() => modals.modals[modalName].isOpen);
@@ -129,7 +126,6 @@ const filteredCommands = ref<Command[]>([]);
 
 const router = useRouter();
 
-// Handle modal close
 const handleCloseModal = () => {
   searchTerm.value = "";
   modals.closeModal(modalName);
@@ -139,7 +135,6 @@ const handleClick = (command: Command) => {
   router.push(`/${command.path}`);
 };
 
-// Handle Enter key press
 const handleEnter = () => {
   if (selectedCommand.value) {
     // selectedCommand.value.action();

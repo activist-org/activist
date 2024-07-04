@@ -15,7 +15,6 @@
         @closeModal="handleCloseModal"
         :isOpen="modalIsOpen"
         :paletteData="paletteData"
-        :modalName="modalName"
       />
       <NuxtPage />
     </NuxtLayout>
@@ -32,7 +31,8 @@ useHead({
   },
 });
 const modals = useModals();
-const modalName = "generalModal";
+// const modalName = "generalModal";
+const modalName = "ModalCommandPalette";
 const modalIsOpen = ref(false);
 
 function openModal() {
@@ -56,7 +56,7 @@ const { meta_k, ctrl_k } = useMagicKeys({
 });
 
 const doWhenever = () => {
-  // Trigger ModalBase @click="openModal".
+  // Trigger ModalBase @click="openModal", above.
   const clickTarget = document.getElementById("clickTarget");
   if (clickTarget) {
     clickTarget.click();
@@ -74,4 +74,3 @@ whenever(ctrl_k, () => {
   }
 });
 </script>
-~/components/modal/command-palette/CommandPaletteData
