@@ -11,6 +11,10 @@
               handleEnter
 -->
 <!-- TODO: Sometimes router.push() loses the i18n part of the path (eg: /en/the.path.name)-->
+<!-- TODO: Get @click on ComboboxOption elements to work. Right now only handleEnter works. It looks like the @click event handler 
+              on the ComboboxOption elements doesn't get rendered. It doesn't appear when 'inspecting' the element/s in the browser. -->
+
+<!-- Here is a link to command palette resources: https://www.commandpalette.org/ -->
 
 <template>
   <ModalBase
@@ -94,7 +98,6 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/vue";
-import { computed, defineEmits, defineProps, ref, watch } from "vue";
 
 // Define props with proper types
 const props = defineProps<{
@@ -112,9 +115,6 @@ interface Command {
 }
 
 let modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
-
-const localePath = useLocalePath();
 
 const modals = useModals();
 const modalName = props.modalName;
@@ -128,14 +128,11 @@ const selectedCommand = ref<Command | null>(null);
 const filteredCommands = ref<Command[]>([]);
 
 const router = useRouter();
-// Note: We need to check to see if this emit is needed still.
-const emit = defineEmits(["closeModal"]);
 
 // Handle modal close
 const handleCloseModal = () => {
   searchTerm.value = "";
   modals.closeModal(modalName);
-  // emit("closeModal");
 };
 
 const handleClick = (command: Command) => {
@@ -147,17 +144,15 @@ const handleEnter = () => {
   if (selectedCommand.value) {
     // selectedCommand.value.action();
     router.push(`/${selectedCommand.value.path}`);
-    emit("closeModal");
   }
 };
 
-// Handle command selection
+// Handle command selection. Combobox @change event handler. Handles selected ComboBoxOption.
 // const handleCommand = (command: Command) => {
 const handleCommand = () => {
   if (selectedCommand.value) {
     // if (command && typeof command.action === "function") {
     //   command.action();
-    //   emit("closeModal");
     // } else {
     //   console.error(
     //     "Command action is not a function or command is null",
@@ -165,7 +160,6 @@ const handleCommand = () => {
     //   );
     // }
     router.push(`/${selectedCommand.value.path}`);
-    emit("closeModal");
   }
 };
 

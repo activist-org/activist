@@ -1,3 +1,5 @@
+// This could be in a Pinia store.
+
 export const paletteData = [
   {
     id: 7,
