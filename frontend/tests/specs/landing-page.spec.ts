@@ -11,18 +11,39 @@ test.describe("Landing Page", () => {
   });
 
   /* *********************************************************** */
+  /* ACCESSIBILITY TESTS */
+  /* *********************************************************** */
+
+  // Test accessibility of the landing page (skip this test for now).
+  // Note: Check to make sure that this is eventually done for light and dark modes.
+  test.skip("There are no detectable accessibility issues", async ({
+    landingPage,
+  }, testInfo) => {
+    const results = await new AxeBuilder({ page: landingPage.getPage })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze();
+
+    await testInfo.attach("accessibility-scan-results", {
+      body: JSON.stringify(results, null, 2),
+      contentType: "application/json",
+    });
+
+    expect(results.violations).toEqual([]);
+  });
+
+  /* *********************************************************** */
   /* HEADER TESTS */
   /* *********************************************************** */
 
-  // Test that the Header is visible on both mobile and desktop.
-  test("Header visibility on mobile and desktop", async ({ landingPage }) => {
+  // Test that the correct Header is visible on mobile or desktop.
+  test("The correct header element should be visible on mobile and desktop", async ({ landingPage }) => {
     const header = (await landingPage.isMobile())
       ? landingPage.header.mobileHeader
       : landingPage.header.desktopHeader;
     await expect(header).toBeVisible();
   });
 
-  // Test that the Roadmap button is visible and clickable only on Desktop.
+  // Test that the Roadmap button is visible and clickable only on Desktop Header.
   test("Roadmap button should be visible and clickable only on Desktop", async ({
     landingPage,
   }) => {
@@ -36,7 +57,7 @@ test.describe("Landing Page", () => {
     }
   });
 
-  // Test that the Get In Touch button is visible and clickable on Desktop.
+  // Test that the Get In Touch button is visible and clickable only on Desktop Header.
   test("Get In Touch button is functional", async ({ landingPage }) => {
     if (!(await landingPage.isMobile())) {
       await expect(landingPage.header.getInTouchButton).toBeVisible();
@@ -78,35 +99,16 @@ test.describe("Landing Page", () => {
   });
 
   /* *********************************************************** */
-  /* ACCESSIBILITY TESTS */
-  /* *********************************************************** */
-
-  // Test accessibility of the landing page (skip this test for now).
-  // Note: Check to make sure that this is eventually done for light and dark modes.
-  test.skip("There are no detectable accessibility issues", async ({
-    landingPage,
-  }, testInfo) => {
-    const results = await new AxeBuilder({ page: landingPage.getPage })
-      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-      .analyze();
-
-    await testInfo.attach("accessibility-scan-results", {
-      body: JSON.stringify(results, null, 2),
-      contentType: "application/json",
-    });
-
-    expect(results.violations).toEqual([]);
-  });
-
-  /* *********************************************************** */
   /* LANDING PAGE TESTS */
   /* *********************************************************** */
 
+  // Test that the title of the landing page contains "activist".
   test('Title should contain "activist"', async ({ landingPage }) => {
     const pageTitle = await landingPage.getPage.title();
     expect(pageTitle).toContain("activist");
   });
 
+  // Test that the landing page contains the request access link.
   test("Splash should contain the request access link", async ({
     landingPage,
   }) => {
@@ -116,6 +118,7 @@ test.describe("Landing Page", () => {
     );
   });
 
+  // Test that all important links are visible on the landing page.
   test("All important links should be visible on the landing page", async ({
     landingPage,
   }) => {
