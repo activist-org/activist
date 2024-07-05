@@ -10,7 +10,7 @@ export default class LandingPage extends BasePage {
     GET_ORGANIZED_BUTTON: "#btn-get-organized",
     GROW_ORGANIZATION_BUTTON: "#btn-grow-organization",
     ABOUT_BUTTON: "#btn-activist",
-    BECOME_SUPPORTER_BUTTON: "btn-become-supporter",
+    BECOME_SUPPORTER_BUTTON: "#btn-become-supporter",
     OUR_SUPPORTERS_BUTTON: "#btn-our-supporters",
   };
 
