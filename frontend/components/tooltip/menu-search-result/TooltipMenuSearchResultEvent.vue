@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/event";
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{
@@ -50,13 +50,17 @@ defineProps<{
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
 
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

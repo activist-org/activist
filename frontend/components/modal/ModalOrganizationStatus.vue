@@ -1,7 +1,8 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
   >
     <div class="max-h-[80vh] px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
@@ -32,22 +33,24 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/discussion-entry";
-import type { Organization } from "~/types/organization";
+import type { DiscussionEntry } from "~/types/content/discussion";
+import type { Organization } from "~/types/entities/organization";
 
 const props = defineProps<{
   organization: Organization;
   isOpen: boolean;
 }>();
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+const modals = useModals();
+const modalName = "ModalOrganizationStatus";
+let modalIsOpen = computed(() => props.isOpen);
 
-const emit = defineEmits(["closeModal"]);
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
+
 const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  modals.closeModal(modalName);
 };
 
 const modalOrganizationStatusData = inject<{

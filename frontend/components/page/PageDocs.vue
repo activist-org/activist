@@ -9,8 +9,9 @@
       :imgURL="imgURL"
       :imgAltText="imgAltText"
       :includeBreadcrumbs="true"
-      ><slot
-    /></PageContent>
+    >
+      <slot />
+    </PageContent>
   </div>
 </template>
 

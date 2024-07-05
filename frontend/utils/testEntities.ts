@@ -1,10 +1,10 @@
-import type { Discussion } from "~/types/discussion";
-import type { Event } from "~/types/event";
-import type { FaqEntry } from "~/types/faq-entry";
-import type { Group } from "~/types/group";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
+import type { User } from "~/types/auth/user";
+import type { Discussion } from "~/types/content/discussion";
+import type { FaqEntry } from "~/types/content/faq-entry";
+import type { Resource } from "~/types/content/resource";
+import type { Group } from "~/types/entities/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 
 export const testUser: User = {
   id: "1",
@@ -12,6 +12,7 @@ export const testUser: User = {
   name: "John A. Tester",
   location: "Testerville, TN",
   description: "I love to test!",
+  socialLinks: [""],
   // topics: ["Testing"],
 };
 
@@ -36,19 +37,21 @@ const faqEntries = [faqEntry_01, faqEntry_02, faqEntry_03];
 export const testClimateOrg: Organization = {
   id: "1",
   name: "Berlin Climate Org",
-  createdBy: testUser,
+  createdBy: "c7eb5449-fe45-4fb3-a4ee-25ed0bd0a675",
   status: 2,
   tagline: "Fighting Climate Change",
   location: "Berlin, Germany",
   getInvolvedURL: "/",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
   // topics: ["Environment"],
   // members: [testUser, testUser],
   // supportingUsers: [testUser, testUser],
   groups: ["Fundraising", "Campaigning"],
   socialLinks: ["climate-org@mastodon", "climate-org@email"],
-  // donationPrompt: "Hey thanks!",
+  iconURL: "URL/for/image",
+  organization_text_id: "06cb36a3-13c5-4518-b676-33ec734744ed",
+  description: "Testing how organizations work",
+  getInvolved: "Hey, get involved!",
+  donationPrompt: "Hey thanks!",
   faqEntries: faqEntries,
 };
 
@@ -64,6 +67,10 @@ export const testTechGroup1: Group = {
   // topics: ["Technology and Privacy"],
   // members: [testUser, testUser, testUser],
   // supportingUsers: [testUser, testUser, testUser],
+  socialLinks: [""],
+  creationDate: "",
+  getInvolved: "Hey, get involved!",
+  donationPrompt: "Thanks for your support!",
   faqEntries: faqEntries,
 };
 
@@ -79,6 +86,10 @@ export const testTechGroup2: Group = {
   // topics: ["Technology and Privacy"],
   // members: [testUser, testUser, testUser],
   // supportingUsers: [testUser, testUser, testUser],
+  socialLinks: [""],
+  creationDate: "",
+  getInvolved: "Hey, get involved!",
+  donationPrompt: "Thanks for your support!",
   faqEntries: faqEntries,
 };
 
@@ -97,12 +108,10 @@ export const testTechOrg: Organization = {
   id: "1",
   name: "tech from below",
   tagline: "Technologie von und für soziale Bewegungen",
-  createdBy: testUser,
+  createdBy: "c7eb5449-fe45-4fb3-a4ee-25ed0bd0a675",
   status: 2,
   location: "Berlin, Germany",
   getInvolvedURL: "/",
-  description:
-    "Nulla aliqua sit fugiat commodo excepteur deserunt dolor ullamco Lorem. Esse aliquip nisi ullamco pariatur velit officia. Eiusmod commodo nulla consequat minim laboris pariatur adipisicing. Veniam amet nostrud id cupidatat. Esse duis velit elit duis non labore adipisicing sunt eu nostrud. Occaecat mollit et do consectetur fugiat amet.",
   // topics: ["Environment"],
   // members: [testUser, testUser],
   // supportingUsers: [testUser, testUser],
@@ -110,7 +119,10 @@ export const testTechOrg: Organization = {
   groups: [testTechGroup1, testTechGroup2],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   // donationPrompt: "Hey thanks!",
-  discussions: [testDiscussion, testDiscussion],
+  organization_text_id: "06cb36a3-13c5-4518-b676-33ec734744ed",
+  description: "Testing how organizations work",
+  getInvolved: "Hey, get involved!",
+  donationPrompt: "Hey thanks!",
   faqEntries: faqEntries,
 };
 
@@ -146,8 +158,10 @@ export const testTechEvent: Event = {
   description: "Let's fix some bugs!",
   getInvolved: "Squash some bugs!",
   offlineLocation: "Berlin",
+  // attending: [user, user],
   startTime: new Date().toLocaleDateString(),
   // supportingUsers: [user, user, user],
+  socialLinks: [""],
 };
 
 export const testResource: Resource = {

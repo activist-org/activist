@@ -64,12 +64,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
+import type { User } from "~/types/auth/user";
+import type { Resource } from "~/types/content/resource";
+import type { Group } from "~/types/entities/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
 
 defineProps<{
   organization?: Organization;
@@ -80,13 +80,17 @@ defineProps<{
   type: "icon" | "meta-tag";
 }>();
 
+const modals = useModals();
+const modalName = "ModalsQRCode";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

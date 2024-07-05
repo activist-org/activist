@@ -16,6 +16,21 @@ from .models import (
     UserTopic,
 )
 
+# MARK: Main Tables
+
+# Remove default Group.
+admin.site.unregister(Group)
+admin.site.register(Support)
+
+# MARK: Bridge Tables
+
+admin.site.register(UserResource)
+admin.site.register(UserTask)
+admin.site.register(UserTopic)
+admin.site.register(SupportEntityType)
+
+# MARK: Methods
+
 
 class UserCreationForm(forms.ModelForm[UserModel]):
     """
@@ -81,10 +96,9 @@ class UserAdmin(BaseUserAdmin):
                 "fields": [
                     "username",
                     "description",
-                    "private",
-                    "high_risk",
-                    "user_icon",
-                    "social_accounts",
+                    "is_private",
+                    "is_high_risk",
+                    "verfied",
                 ]
             },
         ),
@@ -115,12 +129,5 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = []
 
 
-# Remove default Group
-admin.site.unregister(Group)
-admin.site.register(UserResource)
-admin.site.register(UserTask)
-admin.site.register(UserTopic)
-admin.site.register(SupportEntityType)
-admin.site.register(Support)
 # Now register the new UserAdmin...
 admin.site.register(UserModel, UserAdmin)

@@ -8,15 +8,15 @@
             {{ $t("components.card-details.header") }}
           </h3>
           <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-          <ModalEditPageText
+          <ModalEditAboutEvent
             v-if="event"
             @closeModal="handleCloseModal"
+            :event="event"
             :sectionsToEdit="[
               $t('_global.about'),
               $t('components._global.participate'),
               $t('components._global.offer-to-help-link'),
             ]"
-            :textsToEdit="[descriptionText, getInvolvedText, getInvolvedURL]"
             :isOpen="modalIsOpen"
           />
         </div>
@@ -44,28 +44,24 @@
 </template>
 
 <script setup lang="ts">
-import {
-  useDescriptionText,
-  useGetInvolvedText,
-  useGetInvolvedURL,
-} from "~/composables/useAppPageTexts";
-import type { Event } from "~/types/event";
+import type { Event } from "~/types/events/event";
 
-const props = defineProps<{
+defineProps<{
   event?: Event;
 }>();
 
-const { descriptionText } = useDescriptionText(props);
-const { getInvolvedText } = useGetInvolvedText(props);
-const { getInvolvedURL } = useGetInvolvedURL(props);
+const modals = useModals();
+const modalName = "ModalEditPageText";
 
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

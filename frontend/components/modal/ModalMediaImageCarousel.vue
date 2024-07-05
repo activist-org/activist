@@ -1,7 +1,8 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
   >
     <MediaImageCarousel :fullscreen="true" />
   </ModalBase>
@@ -12,13 +13,15 @@ const props = defineProps<{
   isOpen: boolean;
 }>();
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+const modals = useModals();
+const modalName = "ModalMediaImage";
+let modalIsOpen = computed(() => props.isOpen);
 
-const emit = defineEmits(["closeModal"]);
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
+
 const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  modals.closeModal(modalName);
 };
 </script>

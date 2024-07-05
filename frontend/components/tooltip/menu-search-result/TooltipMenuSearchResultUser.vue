@@ -32,8 +32,8 @@
 </template>
 
 <script setup lang="ts">
+import type { User } from "~/types/auth/user";
 import { IconMap } from "~/types/icon-map";
-import type { User } from "~/types/user";
 
 defineProps<{
   user: User;
@@ -42,13 +42,17 @@ defineProps<{
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
 
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

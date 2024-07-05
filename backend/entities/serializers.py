@@ -10,6 +10,7 @@ from .models import (
     GroupImage,
     GroupMember,
     GroupResource,
+    GroupText,
     GroupTopic,
     Organization,
     OrganizationApplication,
@@ -18,13 +19,30 @@ from .models import (
     OrganizationMember,
     OrganizationResource,
     OrganizationTask,
+    OrganizationText,
     OrganizationTopic,
     Status,
-    StatusEntityType,
+    StatusType,
 )
+
+# MARK: Main Tables
+
+
+class GroupSerializer(serializers.ModelSerializer[Group]):
+    class Meta:
+        model = Group
+        fields = "__all__"
+
+
+class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
+    class Meta:
+        model = OrganizationText
+        fields = "__all__"
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
+    organization_text = OrganizationTextSerializer(read_only=True)
+
     class Meta:
         model = Organization
         extra_kwargs = {
@@ -38,14 +56,60 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "name",
             "tagline",
             "icon_url",
+            "location",
             "created_by",
-            "description",
             "social_links",
             "is_high_risk",
             "status",
             "status_updated",
             "acceptance_date",
+            "organization_text",
         ]
+
+
+class StatusSerializer(serializers.ModelSerializer[Status]):
+    class Meta:
+        model = Status
+        fields = "__all__"
+
+
+# MARK: Bridge Tables
+
+
+class GroupEventSerializer(serializers.ModelSerializer[GroupEvent]):
+    class Meta:
+        model = GroupEvent
+        fields = "__all__"
+
+
+class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
+    class Meta:
+        model = GroupImage
+        fields = "__all__"
+
+
+class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
+    class Meta:
+        model = GroupMember
+        fields = "__all__"
+
+
+class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
+    class Meta:
+        model = GroupResource
+        fields = "__all__"
+
+
+class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
+    class Meta:
+        model = GroupText
+        fields = "__all__"
+
+
+class GroupTopicSerializer(serializers.ModelSerializer[GroupTopic]):
+    class Meta:
+        model = GroupTopic
+        fields = "__all__"
 
 
 class OrganizationApplicationSerializer(
@@ -80,18 +144,6 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
         fields = "__all__"
 
 
-class GroupSerializer(serializers.ModelSerializer[Group]):
-    class Meta:
-        model = Group
-        fields = "__all__"
-
-
-class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
-    class Meta:
-        model = GroupImage
-        fields = "__all__"
-
-
 class OrganizationTaskSerializer(serializers.ModelSerializer[OrganizationTask]):
     class Meta:
         model = OrganizationTask
@@ -104,37 +156,7 @@ class OrganizationTopicSerializer(serializers.ModelSerializer[OrganizationTopic]
         fields = "__all__"
 
 
-class GroupEventSerializer(serializers.ModelSerializer[GroupEvent]):
+class StatusTypeSerializer(serializers.ModelSerializer[StatusType]):
     class Meta:
-        model = GroupEvent
-        fields = "__all__"
-
-
-class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
-    class Meta:
-        model = GroupMember
-        fields = "__all__"
-
-
-class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
-    class Meta:
-        model = GroupResource
-        fields = "__all__"
-
-
-class GroupTopicSerializer(serializers.ModelSerializer[GroupTopic]):
-    class Meta:
-        model = GroupTopic
-        fields = "__all__"
-
-
-class StatusSerializer(serializers.ModelSerializer[Status]):
-    class Meta:
-        model = Status
-        fields = "__all__"
-
-
-class StatusEntityTypeSerializer(serializers.ModelSerializer[StatusEntityType]):
-    class Meta:
-        model = StatusEntityType
+        model = StatusType
         fields = "__all__"

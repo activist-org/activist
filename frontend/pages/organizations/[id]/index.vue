@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
-import type { MenuSelector } from "~/types/menu-selector";
+import type { MenuSelector } from "~/types/menu/menu-selector";
 import { testTechOrg } from "~/utils/testEntities";
 
 const organization = testTechOrg;

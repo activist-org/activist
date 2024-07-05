@@ -10,6 +10,8 @@ from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin
 
+# MARK: Main Tables
+
 
 class Discussion(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -18,18 +20,6 @@ class Discussion(models.Model):
     org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
     category = models.CharField(max_length=255, blank=True)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class DiscussionEntry(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    text = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(null=True, blank=True)
 
@@ -48,6 +38,21 @@ class Faq(models.Model):
         return self.question
 
 
+class Image(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    image_location = models.ImageField(
+        upload_to="images/", validators=[validate_image_file_extension]
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class IsoCodeMap(models.Model):
+    code = models.CharField(max_length=2)
+
+
 class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
@@ -62,6 +67,15 @@ class Resource(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class Tag(models.Model):
+    id = models.IntegerField(primary_key=True)
+    text = models.CharField(max_length=255)
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
 
 
 class Task(CreationDeletionMixin):
@@ -87,34 +101,16 @@ class Topic(models.Model):
         return self.name
 
 
-class Tag(models.Model):
-    id = models.IntegerField(primary_key=True)
-    text = models.CharField(max_length=255)
+# MARK: Bridge Tables
+
+
+class DiscussionEntry(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    text = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class ResourceTopic(models.Model):
-    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class ResourceTag(models.Model):
-    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class TopicFormat(models.Model):
-    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    format_id = models.ForeignKey("events.Format", on_delete=models.CASCADE)
+    deletion_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -128,16 +124,25 @@ class DiscussionTag(models.Model):
         return f"{self.id}"
 
 
-class Image(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    image_location = models.ImageField(
-        upload_to="images/", validators=[validate_image_file_extension]
-    )
-    creation_date = models.DateTimeField(auto_now_add=True)
+class ResourceTag(models.Model):
+    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
+    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
 
 
-class IsoCodeMap(models.Model):
-    code = models.CharField(max_length=2)
+class ResourceTopic(models.Model):
+    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
+    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class TopicFormat(models.Model):
+    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    format_id = models.ForeignKey("events.Format", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"

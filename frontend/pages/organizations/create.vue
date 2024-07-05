@@ -56,7 +56,7 @@
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages.organizations.create.description") }}*</label
+            >{{ $t("pages._global.description") }}*</label
           >
           <textarea
             v-model="formData.description"
@@ -86,19 +86,19 @@
           pageType="organization"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect
-            :social-links="formData.social_accounts"
-            :userIsAdmin="true"
-          />
+          <CardConnect pageType="other" />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
               <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
-              <a href="#" class="text-blue-500">{{
-                $t("pages._global.terms-of-service-pt-2")
-              }}</a>
+              <NuxtLink
+                :to="localePath('/legal/privacy-policy')"
+                target="_blank"
+                class="link-text"
+                >{{ $t("pages._global.terms-of-service-pt-2") }}</NuxtLink
+              >
               <p>.</p>
             </label>
           </div>
@@ -119,36 +119,32 @@
 </template>
 
 <script setup lang="ts">
-const formData = ref({
+import type { OrganizationCreateFormData } from "~/types/entities/organization";
+
+definePageMeta({
+  middleware: ["user-only"],
+});
+
+const formData = ref<OrganizationCreateFormData>({
   name: "",
+  tagline: "",
   location: "",
   description: "",
-  tagline: "",
   social_accounts: [],
   topics: [],
 });
 
+const localePath = useLocalePath();
+const organizationStore = useOrganizationStore();
+
 const submit = async () => {
-  const { data: responseData } = await useFetch(
-    "http://127.0.0.1:8000/v1/entities/organizations/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        name: formData.value.name,
-        location: formData.value.location,
-        tagline: formData.value.tagline,
-        description: formData.value.description,
-        social_accounts: ["https://twitter.com/activist_hq"],
-        created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-        topics: formData.value.topics,
-        high_risk: false,
-        total_flags: 0,
-      }),
-    }
-  );
+  const responseID = await organizationStore.create(formData.value);
 
-  //TODO: FEATURE - push notification with toast should be added here
-
-  window.location.href = "/organizations";
+  if (responseID) {
+    navigateTo(localePath(`/organizations/${responseID}`));
+  } else {
+    // TODO: Push notification with toast should be added here.
+    false;
+  }
 };
 </script>

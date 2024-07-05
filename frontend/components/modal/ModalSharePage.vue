@@ -1,7 +1,8 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
   >
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
@@ -93,6 +94,10 @@
               iconSize="1.5em"
             />
           </s-facebook>
+          <!-- <div class="flex h-full w-full cursor-pointer items-center gap-3">
+            <Icon :name="IconMap.SIGNAL" size="1.5em" />
+            <p>{{ $t("components._global.signal") }}</p>
+          </div> -->
           <div
             @click="
               copyToClipboard(
@@ -190,13 +195,13 @@
 <script setup lang="ts">
 import { SEmail, SFacebook, SMastodon, STelegram, STwitter } from "vue-socials";
 import ModalBase from "~/components/modal/ModalBase.vue";
+import type { User } from "~/types/auth/user";
 import type { BtnAction } from "~/types/btn-props";
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
+import type { Resource } from "~/types/content/resource";
+import type { Group } from "~/types/entities/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
@@ -207,15 +212,16 @@ const props = defineProps<{
   user?: User;
   isOpen: boolean;
 }>();
+const modals = useModals();
+const modalName = "ModalSharePage";
+let modalIsOpen = computed(() => props.isOpen);
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
 
-const emit = defineEmits(["closeModal"]);
 const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  modals.closeModal(modalName);
 };
 
 const getEntityType = () => {

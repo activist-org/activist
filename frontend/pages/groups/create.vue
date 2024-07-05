@@ -52,7 +52,7 @@
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages.organizations.create.description") }}*</label
+            >{{ $t("pages._global.description") }}*</label
           >
           <textarea
             v-model="formData.description"
@@ -80,10 +80,7 @@
           pageType="group"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect
-            :social-links="formData.social_accounts"
-            :userIsAdmin="true"
-          />
+          <CardConnect pageType="other" />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
@@ -113,6 +110,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["user-only"],
+});
+
 const formData = ref({
   name: "",
   location: "",

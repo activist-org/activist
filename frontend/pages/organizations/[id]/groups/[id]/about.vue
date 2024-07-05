@@ -86,11 +86,9 @@
 <script setup lang="ts">
 import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
-import type { Group } from "~/types/group";
+import type { Group, GroupText } from "~/types/entities/group";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
-
-// import type { Group, GroupText } from "~/types/entities/group";
 
 const aboveLargeBP = useBreakpoint("lg");
 
@@ -104,8 +102,8 @@ const [resOrg, resOrgTexts] = await Promise.all([
 ]);
 
 const group = resOrg.data as unknown as Group;
-// const groupTexts = resOrgTexts.data as unknown as GroupText;
-// const texts = groupTexts;
+const groupTexts = resOrgTexts.data as unknown as GroupText;
+const texts = groupTexts;
 
 const groupSubPages = getGroupSubPages();
 

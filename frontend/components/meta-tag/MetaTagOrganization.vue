@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/organization";
+import type { Organization } from "~/types/entities/organization";
 
 defineProps<{
   organization: Organization;
