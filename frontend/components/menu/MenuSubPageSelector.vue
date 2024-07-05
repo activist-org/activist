@@ -13,14 +13,14 @@
             }"
             :to="localePath(selector.routeURL)"
           >
-            <div class="md:hidden">
+            <div v-if="!aboveMediumBP">
               <Icon
                 v-if="selector.iconName"
                 :name="selector.iconName"
                 size="1em"
               />
             </div>
-            <p :class="{ 'hidden md:block': selector.iconName }">
+            <p v-if="!selector.iconName || aboveMediumBP">
               {{ selector.label }}
             </p>
           </NuxtLink>
@@ -32,12 +32,15 @@
 
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
+import useBreakpoint from "~/composables/useBreakpoint";
 import type { SubPageSelector } from "~/types/sub-page-selector";
 
 const props = defineProps<{
   selectors: SubPageSelector[];
   selectedRoute: number;
 }>();
+
+const aboveMediumBP = useBreakpoint("md");
 
 const localePath = useLocalePath();
 const nuxtApp = useNuxtApp();

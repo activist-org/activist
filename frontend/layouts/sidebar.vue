@@ -1,12 +1,13 @@
 <template>
   <HeaderMobile />
-  <MenuMobileNavigationDropdown class="md:hidden" />
+  <MenuMobileNavigationDropdown v-if="!aboveMediumBP" />
   <SidebarLeft
+    v-if="aboveMediumBP"
     @mouseover="sidebarHover = true"
     @focus="sidebarHover = true"
     @mouseleave="sidebarHover = false"
     @blur="sidebarHover = false"
-    class="hidden md:block"
+    class="block"
   />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
     <div
@@ -20,14 +21,17 @@
       :class="sidebarFooterDynamicClass"
     />
   </div>
-  <MenuMobileNavBar class="md:hidden" />
+  <MenuMobileNavBar v-if="!aboveMediumBP" />
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
+
+const aboveMediumBP = useBreakpoint("md");
 
 const sidebar = useSidebar();
 const sidebarHover = ref(false);

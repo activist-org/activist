@@ -1,7 +1,8 @@
 <template>
   <!-- Note: image on top of content. -->
   <img
-    class="mb-4 h-40 sm:h-52 md:hidden"
+    v-if="!aboveMediumBP"
+    class="mb-4 h-40 sm:h-52"
     :src="imgURL + '_' + $colorMode.value + '.png'"
     :alt="$t(imgAltText)"
   />
@@ -14,17 +15,19 @@
     <div class="items-center space-y-4 text-left md:items-start">
       <!-- Note: image floating right of content. -->
       <img
-        class="float-right hidden h-52 p-4 md:block lg:h-64 2xl:hidden"
+        v-if="aboveMediumBP && !above2xlBP"
+        class="float-right block h-52 p-4 lg:h-64"
         :src="imgURL + '_' + $colorMode.value + '.png'"
         :alt="$t(imgAltText)"
       />
-      <PageBreadcrumbs v-if="includeBreadcrumbs" class="hidden md:block" />
+      <PageBreadcrumbs v-if="includeBreadcrumbs && aboveMediumBP" />
       <slot />
     </div>
     <div class="flex justify-end pr-32">
       <!-- Note: image right of content. -->
       <img
-        class="hidden h-72 2xl:block"
+        v-if="above2xlBP"
+        class="block h-72"
         :src="imgURL + '_' + $colorMode.value + '.png'"
         :alt="$t(imgAltText)"
       />
@@ -33,11 +36,16 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
+
 export interface Props {
   imgURL: string;
   imgAltText: string;
   includeBreadcrumbs?: boolean;
 }
+
+const aboveMediumBP = useBreakpoint("md");
+const above2xlBP = useBreakpoint("2xl");
 
 withDefaults(defineProps<Props>(), {
   includeBreadcrumbs: false,

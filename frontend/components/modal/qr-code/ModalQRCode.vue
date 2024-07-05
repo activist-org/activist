@@ -55,8 +55,9 @@
             {{ $t("components.modal-qr-code.section-3-paragraph-1") }}
           </p> -->
         <BtnActionDropdown
+          v-if="aboveMediumBP"
           @main-btn-clicked="handleMainBtnClicked"
-          class="hidden w-fit md:block"
+          class="block w-fit"
           :cta="true"
           :label="$t('components.btn-action-dropdown.download-qr-code')"
           fontSize="lg"
@@ -97,8 +98,9 @@
         </button>
       </div>
       <BtnActionDropdown
+        v-if="!aboveMediumBP"
         @main-btn-clicked="handleMainBtnClicked"
-        class="w-fit md:hidden"
+        class="w-fit"
         :cta="true"
         :label="$t('components.btn-action-dropdown.download-qr-code')"
         fontSize="lg"
@@ -119,6 +121,7 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
+import useBreakpoint from "~/composables/useBreakpoint";
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
 import type { Resource } from "~/types/content/resource";
@@ -135,6 +138,8 @@ const props = defineProps<{
   user?: User;
   isOpen: boolean;
 }>();
+
+const aboveMediumBP = useBreakpoint("md");
 
 const { linkURL } = useLinkURL(props);
 const modals = useModals();

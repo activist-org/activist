@@ -13,7 +13,8 @@
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
-          class="hidden w-max md:block"
+          v-if="aboveMediumBP"
+          class="block w-max"
           :cta="true"
           linkTo="/"
           label="components.btn-route-internal.new-discussion"
@@ -37,8 +38,11 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { IconMap } from "~/types/icon-map";
 import { testClimateEvent } from "~/utils/testEntities";
+
+const aboveMediumBP = useBreakpoint("md");
 
 const event = testClimateEvent;
 </script>

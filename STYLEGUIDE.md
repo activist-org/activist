@@ -69,6 +69,30 @@ const emit = defineEmits(["routeToName"]);
 useRouteToName(emit);
 ```
 
+### Breakpoints
+
+activist uses Tailwind for CSS, and some parts of components will be conditionally rendered based on Tailwind breakpoints, but we want to avoid using it to show and hide whole components. The reason for this is that using CSS in this way means that unneeded TypeScript for the hidden components will still run on page load. Please use `useBreakpoint` for all conditional rendering of full components.
+
+- ✅ No TS ran:
+
+   ```vue
+    <template>
+      <MyComponent v-if="aboveMediumBP" />
+    </template>
+
+   <script setup lang="ts">
+   import useBreakpoint from "~/composables/useBreakpoint";
+   const aboveMediumBP = useBreakpoint("md");
+   </script>
+   ```
+- ❌ TS still ran:
+
+    ```vue
+    <template>
+      <MyComponent class="hidden md:block" />
+    </template>
+    ```
+
 <a id="typescript"></a>
 
 ## TypeScript [`⇧`](#contents)

@@ -10,7 +10,7 @@
     }"
   >
     <!-- MARK: Mobile Header -->
-    <div id="mobile-header" class="flex px-4 py-3 md:hidden">
+    <div v-if="!aboveMediumBP" class="flex px-4 py-3">
       <div class="z-0 mx-auto">
         <div
           class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center"
@@ -37,7 +37,7 @@
       </SidebarRight>
     </div>
     <!-- MARK: Desktop Header -->
-    <div id="desktop-header" class="mx-auto hidden py-3 md:block">
+    <div v-if="aboveMediumBP" id="desktop-header" class="mx-auto py-3">
       <div class="responsive-px-5 flex items-center justify-between">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
@@ -52,8 +52,9 @@
             <DropdownTheme />
             <DropdownLanguage />
             <BtnRouteInternal
+              v-if="aboveLargeBP"
               id="btn-get-in-touch-large"
-              class="hidden lg:block"
+              class="block"
               :cta="true"
               label="components.btn-route-internal.get-in-touch"
               linkTo="/help/contact"
@@ -61,8 +62,9 @@
               ariaLabel="components.btn-route-internal.get-in-touch-aria-label"
             />
             <BtnRouteInternal
+              v-else-if="aboveMediumBP"
               id="btn-get-in-touch-medium"
-              class="hidden md:block lg:hidden"
+              class="block"
               :cta="true"
               label="components.btn-route-internal.get-in-touch"
               linkTo="/help/contact"
@@ -77,7 +79,11 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { DropdownLocation } from "~/types/location";
+
+const aboveMediumBP = useBreakpoint("md");
+const aboveLargeBP = useBreakpoint("lg");
 
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
