@@ -136,6 +136,7 @@ test.describe("Landing Page", () => {
     await expect(landingPage.getOrganizedButton).toBeVisible();
     await expect(landingPage.growOrganizationButton).toBeVisible();
     await expect(landingPage.aboutButton).toBeVisible();
+    await expect(landingPage.becomeSupportersButton).toBeVisible();
     await expect(landingPage.ourSupportersButton).toBeVisible();
   });
 });

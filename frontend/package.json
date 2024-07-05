@@ -20,7 +20,7 @@
     "@nuxtjs/i18n": "^8.3.0",
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@pinia/nuxt": "^0.5.1",
-    "@playwright/test": "^1.44.0",
+    "@playwright/test": "^1.45.1",
     "@types/node": "^20.12.5",
     "@types/uuid": "^9.0.8",
     "@types/zxcvbn": "^4.4.4",
@@ -32,7 +32,7 @@
     "eslint-plugin-vuejs-accessibility": "^2.2.1",
     "nuxt": "^3.11.2",
     "nuxt-icon": "^0.6.10",
-    "playwright": "1.44.0",
+    "playwright": "1.45.1",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",
     "rollup": "^4.14.1",
@@ -74,6 +74,6 @@
     "zxcvbn": "^4.4.2"
   },
   "resolutions": {
-    "playwright-core": "1.44.0"
+    "playwright-core": "1.45.1"
   }
 }
