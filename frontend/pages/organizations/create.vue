@@ -1,4 +1,5 @@
 <template>
+  <Toaster />
   <div class="w-full text-light-text dark:text-dark-text">
     <IndicatorProcessProgress
       type="default"
@@ -117,6 +118,8 @@
 
 <script setup lang="ts">
 import type { OrganizationCreateFormData } from "~/types/entities/organization";
+import {Toaster, toast } from 'vue-sonner'
+import BtnAction from "~/components/btn/action/BtnAction.vue";
 
 definePageMeta({
   middleware: ["user-only"],
@@ -140,8 +143,7 @@ const submit = async () => {
   if (responseID) {
     navigateTo(localePath(`/organizations/${responseID}`));
   } else {
-    // TODO: Push notification with toast should be added here.
-    false;
+    toast.error('Something went wrong. Please try again later.');
   }
 };
 </script>

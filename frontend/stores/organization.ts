@@ -60,6 +60,7 @@ export const useOrganizationStore = defineStore("organization", {
             tagline: formData.tagline,
             social_accounts: formData.social_accounts,
             created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
+            description: formData.description,
             topics: formData.topics,
             high_risk: false,
             total_flags: 0,
@@ -73,24 +74,8 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgData = responseOrg.data.value as unknown as Organization;
 
-      const responseOrgText = await useFetch(
-        `${BASE_BACKEND_URL}/entities/organization_texts/`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            org_id: responseOrgData.id,
-            iso: 1,
-            description: formData.description,
-            get_involved: "",
-            donate_prompt: "",
-          }),
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
 
-      if (responseOrg && responseOrgText) {
+      if (responseOrg) {
         this.loading = false;
 
         return responseOrgData.id;
