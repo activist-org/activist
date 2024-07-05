@@ -36,7 +36,9 @@ test.describe("Landing Page", () => {
   /* *********************************************************** */
 
   // Test that the correct Header is visible on mobile or desktop.
-  test("The correct header element should be visible on mobile and desktop", async ({ landingPage }) => {
+  test("The correct header element should be visible on mobile and desktop", async ({
+    landingPage,
+  }) => {
     const header = (await landingPage.isMobile())
       ? landingPage.header.mobileHeader
       : landingPage.header.desktopHeader;
