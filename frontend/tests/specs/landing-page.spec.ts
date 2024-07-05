@@ -14,23 +14,12 @@ test.describe("Landing Page", () => {
   /* HEADER TESTS */
   /* *********************************************************** */
 
-  // Test that Header is visible if the viewport is large enough.
-  test("Header should be visible", async ({ landingPage }) => {
-    if (!(await landingPage.isMobile())) {
-      const { desktopHeader } = landingPage.header;
-      await expect(desktopHeader).toBeVisible();
-    } else {
-      const { mobileHeader } = landingPage.header;
-      await expect(mobileHeader).toBeVisible();
-    }
-  });
-
   // Test that the Header is visible on both mobile and desktop.
   test("Header visibility on mobile and desktop", async ({ landingPage }) => {
-    const headerVisibility = (await landingPage.isMobile())
+    const header = (await landingPage.isMobile())
       ? landingPage.header.mobileHeader
       : landingPage.header.desktopHeader;
-    await expect(headerVisibility).toBeVisible();
+    await expect(header).toBeVisible();
   });
 
   // Test that the Roadmap button is visible and clickable only on Desktop.
