@@ -4,7 +4,7 @@ import BaseComponent from "./BaseComponent";
 export default class TopicsDropdown extends BaseComponent {
   public static readonly locators = {
     TOPICS_DROPDOWN: "#topics-dropdown",
-    TOPICS_OPTIONS: "#topics-dropdown ul#isVisibleElement"
+    TOPICS_OPTIONS: "#topics-dropdown ul#isVisibleElement",
   };
 
   constructor(page: Page) {

@@ -3,8 +3,7 @@ import TopicsDropdown from "../component-objects/TopicsDropdown";
 import BasePage from "./BasePage";
 
 export default class HomePage extends BasePage {
-  public static readonly locators = {
-  };
+  public static readonly locators = {};
 
   readonly topicsDropdown: TopicsDropdown;
 
