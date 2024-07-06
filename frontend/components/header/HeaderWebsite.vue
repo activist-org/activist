@@ -10,7 +10,7 @@
     }"
   >
     <!-- MARK: Mobile Header -->
-    <div v-if="!aboveMediumBP" class="flex px-4 py-3">
+    <div v-if="!aboveMediumBP" id="mobile-header" class="flex px-4 py-3">
       <div class="z-0 mx-auto">
         <div
           class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center"
