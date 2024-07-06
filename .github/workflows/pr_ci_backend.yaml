@@ -8,7 +8,7 @@ on:
 env:
   SECRET_KEY: "ONLY_FOR_TESTING"
   DATABASE_PORT: 5432
-  DATABASE_HOST: postgres
+  DATABASE_HOST: localhost
   DATABASE_NAME: postgres
   DATABASE_USER: postgres
   DATABASE_PASSWORD: postgres
