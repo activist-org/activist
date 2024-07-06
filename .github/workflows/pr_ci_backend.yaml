@@ -19,11 +19,10 @@ jobs:
     services:
       postgres:
         image: postgres:13
-
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
+            POSTGRES_USER: ${{ env.DATABASE_USER }}
+            POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
+            POSTGRES_DB: ${{ env.DATABASE_NAME }}
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -64,3 +63,9 @@ jobs:
       - name: Run pytest - Unit Tests
         working-directory: ./backend
         run: pytest -vv
+
+      - name: Run Django Migrations - Database Migrations Check
+        working-directory: ./backend
+        run: |
+          python manage.py makemigrations
+          python manage.py migrate
