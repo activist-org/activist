@@ -16,7 +16,7 @@ test.describe("Landing Page", () => {
 
   // Test accessibility of the landing page (skip this test for now).
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test.skip("There are no detectable accessibility issues", async ({
+  test("There are no detectable accessibility issues", async ({
     landingPage,
   }, testInfo) => {
     const results = await new AxeBuilder({ page: landingPage.getPage })
