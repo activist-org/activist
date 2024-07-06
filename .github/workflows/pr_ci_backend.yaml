@@ -61,11 +61,11 @@ jobs:
         run: mypy ./backend --config-file ./backend/pyproject.toml
 
       - name: Run pytest - Unit Tests
-        working-directory: ./backend
-        run: pytest -vv
+        if: always()
+        run: pytest ./backend -vv
 
       - name: Run Django Migrations - Database Migrations Check
-        working-directory: ./backend
         run: |
-          python manage.py makemigrations
-          python manage.py migrate
+          . .venv/bin/activate
+          python ./backend/manage.py makemigrations
+          python ./backend/manage.py migrate
