@@ -192,7 +192,7 @@ class PasswordResetSerializer(serializers.Serializer[UserModel]):
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> UserModel:
         if data.get("code") is not None:
-            user = UserModel.objects.filter(verifictaion_code=data.get("code")).first()
+            user = UserModel.objects.filter(verification_code=data.get("code")).first()
         else:
             user = UserModel.objects.filter(email=data.get("email")).first()
 

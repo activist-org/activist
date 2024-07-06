@@ -235,10 +235,10 @@ def test_pwreset(client: Client) -> None:
     assert response.status_code == 404
 
     # 3. Password reset is performed successfully
-    user.verifictaion_code = uuid.uuid4()
+    user.verification_code = uuid.uuid4()
     user.save()
     response = client.post(
-        path=f"/v1/auth/pwreset/?code={user.verifictaion_code}",
+        path=f"/v1/auth/pwreset/?code={user.verification_code}",
         data={"password": new_password},
     )
     assert response.status_code == 200

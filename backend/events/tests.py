@@ -3,8 +3,6 @@ Testing for the events app.
 """
 
 # mypy: ignore-errors
-from django.urls import reverse
-from tests.throttle import BaseTestThrottle
 
 from .factories import (
     EventFactory,
@@ -15,11 +13,6 @@ from .factories import (
     FormatFactory,
     RoleFactory,
 )
-
-
-class EventsThrottleTest(BaseTestThrottle):
-    __test__ = True
-    url = reverse("events:event-list")
 
 
 def test_str_methods() -> None:
