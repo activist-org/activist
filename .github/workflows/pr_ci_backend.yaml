@@ -5,8 +5,29 @@ on:
       - main
     types: [opened, reopened, synchronize]
 
+env:
+  SECRET_KEY: "ONLY_FOR_TESTING"
+  DATABASE_PORT: 5432
+  DATABASE_HOST: postgres
+  DATABASE_NAME: postgres
+  DATABASE_USER: postgres
+  DATABASE_PASSWORD: postgres
+
+
 jobs:
   backend:
+    services:
+      postgres:
+        image: postgres:13
+
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     name: Run PR Backend Check
     runs-on: ubuntu-latest
     steps:
@@ -42,4 +63,4 @@ jobs:
 
       - name: Run pytest - Unit Tests
         working-directory: ./backend
-        run: pytest
+        run: pytest -vv
