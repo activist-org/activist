@@ -41,4 +41,5 @@ jobs:
         run: mypy ./backend --config-file ./backend/pyproject.toml
 
       - name: Run pytest - Unit Tests
+        working-directory: ./backend
         run: pytest
