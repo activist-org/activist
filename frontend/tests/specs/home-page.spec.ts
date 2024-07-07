@@ -8,9 +8,7 @@ test.describe("Home Page", () => {
     await topicsDropdown.waitFor({ state: "visible" });
   });
 
-  /* *********************************************************** */
-  /* ACCESSIBILITY TESTS */
-  /* *********************************************************** */
+  // MARK: Accessibility
 
   // Test accessibility of the home page (skip this test for now).
   // Note: Check to make sure that this is eventually done for light and dark modes.

@@ -10,9 +10,7 @@ test.describe("Landing Page", () => {
     await landingSplash.waitFor({ state: "visible" });
   });
 
-  /* *********************************************************** */
-  /* ACCESSIBILITY TESTS */
-  /* *********************************************************** */
+  // MARK: Accessibility
 
   // Test accessibility of the landing page (skip this test for now).
   // Note: Check to make sure that this is eventually done for light and dark modes.
@@ -31,9 +29,7 @@ test.describe("Landing Page", () => {
     expect(results.violations).toEqual([]);
   });
 
-  /* *********************************************************** */
-  /* HEADER TESTS */
-  /* *********************************************************** */
+  // MARK: Header
 
   // Test that the correct Header is visible on mobile or desktop.
   test("The correct header element should be visible on mobile and desktop", async ({
@@ -100,9 +96,7 @@ test.describe("Landing Page", () => {
     }
   });
 
-  /* *********************************************************** */
-  /* LANDING PAGE TESTS */
-  /* *********************************************************** */
+  // MARK: Landing Page
 
   // Test that the title of the landing page contains "activist".
   test('Title should contain "activist"', async ({ landingPage }) => {
