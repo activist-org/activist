@@ -117,9 +117,8 @@
 </template>
 
 <script setup lang="ts">
+import { Toaster, toast } from "vue-sonner";
 import type { OrganizationCreateFormData } from "~/types/entities/organization";
-import {Toaster, toast } from 'vue-sonner'
-import BtnAction from "~/components/btn/action/BtnAction.vue";
 
 definePageMeta({
   middleware: ["user-only"],
@@ -143,7 +142,7 @@ const submit = async () => {
   if (responseID) {
     navigateTo(localePath(`/organizations/${responseID}`));
   } else {
-    toast.error('Something went wrong. Please try again later.');
+    toast.error("Something went wrong. Please try again later.");
   }
 };
 </script>
