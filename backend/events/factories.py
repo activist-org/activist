@@ -25,8 +25,6 @@ class EventFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("name")
     tagline = factory.Faker("word")
     type = factory.Faker("word")
-    description = factory.Faker("text")
-    get_involved_text = factory.Faker("text")
     online_location_link = factory.Faker("url")
     offline_location_lat = factory.Faker("latitude")
     offline_location_long = factory.Faker("longitude")

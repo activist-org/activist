@@ -41,9 +41,9 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
 
     def create_user(
         self,
-        email: str,
         username: str,
         password: str,
+        email: str = "",
         **other_fields: Any,
     ) -> UserModel:
         if email != "":
