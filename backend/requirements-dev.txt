@@ -28,12 +28,10 @@ charset-normalizer==3.3.2
 click==8.1.7
     # via pip-tools
 coverage[toml]==7.4.4
-    # via
-    #   coverage
-    #   pytest-cov
+    # via pytest-cov
 distlib==0.3.8
     # via virtualenv
-django==4.2.11
+django==4.2.14
     # via
     #   -r requirements.txt
     #   django-cors-headers
