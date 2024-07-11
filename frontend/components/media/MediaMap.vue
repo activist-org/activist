@@ -29,6 +29,12 @@ const isTouchDevice =
   "ontouchstart" in window ||
   navigator.maxTouchPoints > 0;
 
+const appHeight = () => { 
+  document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
+}
+window.addEventListener('resize', appHeight)
+appHeight()
+  
 function isWebglSupported() {
   if (window.WebGLRenderingContext) {
     const canvas = document.createElement("canvas");
@@ -400,3 +406,20 @@ onMounted(() => {
     });
 });
 </script>
+
+
+<style scoped>
+:root {
+  --app-height: 100%;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    height: var(--app-height);
+}
+</style>
