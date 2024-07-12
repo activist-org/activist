@@ -2,20 +2,7 @@
   <Loading />
   <div>
     <NuxtLayout>
-      <!-- Dummy target to receive click event. A click event triggers ModalCommandPalette. -->
-      <div
-        @click="openModal()"
-        @keydown.enter="openModal()"
-        id="clickTarget"
-        class="hidden"
-        role="button"
-        tabIndex="0"
-      />
-      <ModalCommandPalette
-        @closeModal="handleCloseModal"
-        :isOpen="modalIsOpen"
-        :paletteData="commandPaletteData"
-      />
+      <ModalCommandPalette :paletteData="commandPaletteData" />
       <NuxtPage />
     </NuxtLayout>
   </div>
@@ -25,26 +12,14 @@
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { commandPaletteData } from "~/types/command-palette";
 
+// Changed titleChunk: any to titleChunk: string | undefined, in order to get rid of eslint warnings. Was type 'any'.
 useHead({
-  titleTemplate: (titleChunk: any) => {
+  titleTemplate: (titleChunk: string | undefined) => {
     return titleChunk ? `${titleChunk} • activist` : "activist";
   },
 });
-const modals = useModals();
-// const modalName = "generalModal";
-const modalName = "ModalCommandPalette";
-const modalIsOpen = ref(false);
 
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
-
+// Handle cntl / meta keystrokes to open modal.
 const { isMacOS } = useDevice();
 
 const { meta_k, ctrl_k } = useMagicKeys({
@@ -55,22 +30,23 @@ const { meta_k, ctrl_k } = useMagicKeys({
   },
 });
 
-const doWhenever = () => {
-  // Trigger ModalBase @click="openModal", above.
-  const clickTarget = document.getElementById("clickTarget");
-  if (clickTarget) {
-    clickTarget.click();
-  }
-};
-
 whenever(meta_k, () => {
   if (isMacOS) {
-    doWhenever();
+    openModal();
   }
 });
 whenever(ctrl_k, () => {
   if (!isMacOS) {
-    doWhenever();
+    openModal();
   }
 });
+
+const modals = useModals();
+const modalName = "ModalCommandPalette";
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
+}
 </script>
