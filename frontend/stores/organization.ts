@@ -73,7 +73,6 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgData = responseOrg.data.value as unknown as Organization;
 
-
       if (responseOrg) {
         this.loading = false;
 
