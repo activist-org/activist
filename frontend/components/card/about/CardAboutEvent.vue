@@ -64,8 +64,10 @@ import CardAbout from "./CardAbout.vue";
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
-const event = useEventStore();
-await event.fetchByID(id);
+const eventStore = useEventStore();
+await eventStore.fetchByID(id);
+
+const { event } = eventStore;
 
 const description = ref();
 const descriptionExpandable = ref(false);
@@ -93,13 +95,17 @@ function expand_reduce_text() {
   expandText.value = !expandText.value;
 }
 
+const modals = useModals();
+const modalName = "ModalEditAboutEvent";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

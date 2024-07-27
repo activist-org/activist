@@ -30,9 +30,12 @@
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium">{{
-            $t("pages.organizations.create.description") }}*</label>
-          <textarea v-model="formData.description" id="description"
+          <label for="description" class="responsive-h3 block font-medium"
+            >{{ $t("pages._global.description") }}*</label
+          >
+          <textarea
+            v-model="formData.description"
+            id="description"
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="description" :placeholder="$t('pages.organizations.create.description-placeholder')
               "></textarea>
@@ -54,9 +57,13 @@
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
               <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
-              <a href="#" class="text-blue-500">{{
-                $t("pages._global.terms-of-service-pt-2")
-                }}</a>
+              <NuxtLink
+                :to="localePath('/legal/privacy-policy')"
+                target="_blank"
+                class="link-text"
+                >{{ $t("pages._global.terms-of-service-pt-2") }}</NuxtLink
+              >
+
               <p>.</p>
             </label>
           </div>

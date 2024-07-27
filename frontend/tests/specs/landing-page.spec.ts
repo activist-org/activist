@@ -1,16 +1,20 @@
 import AxeBuilder from "@axe-core/playwright";
+import locales from "../../locales";
 import { LandingPage, expect, test } from "../fixtures/page-fixtures";
 
 test.describe("Landing Page", () => {
   // Initialize page before each test, wait for the landing splash to be visible.
   test.beforeEach(async ({ landingPage }) => {
     await landingPage.goto("/en");
-    const landingSplash = await landingPage.getLocator("LANDING_SPLASH");
+    const { landingSplash } = landingPage;
     await landingSplash.waitFor({ state: "visible" });
   });
 
+  // MARK: Accessibility
+
   // Test accessibility of the landing page (skip this test for now).
-  test.skip("should not have any detectable accessibility issues", async ({
+  // Note: Check to make sure that this is eventually done for light and dark modes.
+  test("There are no detectable accessibility issues", async ({
     landingPage,
   }, testInfo) => {
     const results = await new AxeBuilder({ page: landingPage.getPage })
@@ -25,29 +29,102 @@ test.describe("Landing Page", () => {
     expect(results.violations).toEqual([]);
   });
 
-  test('title should contain "activist"', async ({ landingPage }) => {
+  // MARK: Header
+
+  // Test that the correct Header is visible on mobile or desktop.
+  test("The correct header element should be visible on mobile and desktop", async ({
+    landingPage,
+  }) => {
+    const header = (await landingPage.isMobile())
+      ? landingPage.header.mobileHeader
+      : landingPage.header.desktopHeader;
+    await expect(header).toBeVisible();
+  });
+
+  // Test that the Roadmap button is visible and clickable only on Desktop Header.
+  test("Roadmap button should be visible and clickable only on Desktop", async ({
+    landingPage,
+  }) => {
+    if (!(await landingPage.isMobile())) {
+      await expect(landingPage.header.roadmapButton).toBeVisible();
+      await landingPage.header.navigateToRoadmap();
+      await landingPage.waitForUrlChange("**/about/roadmap");
+      expect(landingPage.getPage.url()).toContain("/about/roadmap");
+    } else {
+      await expect(landingPage.header.roadmapButton).toBeHidden();
+    }
+  });
+
+  // Test that the Get In Touch button is visible and clickable only on Desktop Header.
+  test("Get In Touch button is functional", async ({ landingPage }) => {
+    if (!(await landingPage.isMobile())) {
+      await expect(landingPage.header.getInTouchButton).toBeVisible();
+      await landingPage.header.getInTouchButton.click();
+      await landingPage.waitForUrlChange("**/contact");
+      expect(landingPage.getPage.url()).toContain("/contact");
+    } else {
+      await expect(landingPage.header.getInTouchButton).toBeHidden();
+    }
+  });
+
+  // Test that the theme dropdown is visible and functional.
+  test("Theme dropdown is functional", async ({ landingPage }) => {
+    const themes = ["light", "dark"];
+    for (const theme of themes) {
+      await landingPage.header.selectThemeOption(theme);
+      const currentTheme = await landingPage.currentTheme();
+      expect(currentTheme).toContain(theme);
+    }
+  });
+
+  // Test that the language dropdown is visible and functional.
+  test("Language dropdown is functional", async ({ landingPage }) => {
+    const selectedLanguage = await landingPage.header.getSelectedLanguage();
+    const languageOptions = await landingPage.header.getLanguageOptions();
+
+    for (const locale of locales) {
+      if (locale.code === selectedLanguage) {
+        continue;
+      }
+      const optionText = locale.name;
+      const option = await landingPage.header.findLanguageOption(
+        languageOptions,
+        optionText
+      );
+      const langOptionIsVisible = await option?.isVisible();
+      expect(langOptionIsVisible).toBe(true);
+    }
+  });
+
+  // MARK: Landing Page
+
+  // Test that the title of the landing page contains "activist".
+  test('Title should contain "activist"', async ({ landingPage }) => {
     const pageTitle = await landingPage.getPage.title();
-    console.log("Page Title:", pageTitle);
     expect(pageTitle).toContain("activist");
   });
 
-  test("should contain the request access link", async ({ landingPage }) => {
-    const requestAccessLink = await landingPage.getLocator(
-      "REQUEST_ACCESS_LINK"
-    );
+  // Test that the landing page contains the request access link.
+  test("Splash should contain the request access link", async ({
+    landingPage,
+  }) => {
+    const { requestAccessLink } = landingPage;
     expect(await requestAccessLink.getAttribute("href")).toBe(
       LandingPage.urls.REQUEST_ACCESS_URL
     );
   });
 
+  // Test that all important links are visible on the landing page.
   test("All important links should be visible on the landing page", async ({
     landingPage,
   }) => {
-    for (const key in LandingPage.locators) {
-      const locator = landingPage.getLocator(
-        key as keyof typeof LandingPage.locators
-      );
-      await expect(locator).toBeVisible();
-    }
+    await expect(landingPage.landingSplash).toBeVisible();
+    await expect(landingPage.requestAccessLink).toBeVisible();
+    await expect(landingPage.getActiveButton).toBeVisible();
+    await expect(landingPage.getOrganizedButton).toBeVisible();
+    await expect(landingPage.growOrganizationButton).toBeVisible();
+    await expect(landingPage.aboutButton).toBeVisible();
+    await expect(landingPage.becomeSupportersButton).toBeVisible();
+    await expect(landingPage.ourSupportersButton).toBeVisible();
   });
 });

@@ -29,6 +29,9 @@ jobs:
       - name: Run Docker Compose
         run: docker compose --env-file .env.dev up --build -d
 
+      - name: Check Docker Container Logs
+        run: docker compose --env-file .env.dev logs
+
       - name: Setup Node environment
         uses: actions/setup-node@v4
         with:
@@ -52,7 +55,26 @@ jobs:
       - name: Wait for web server to be ready
         working-directory: ./frontend
         run: |
-          yarn wait-on http://localhost:3000
+          MAX_ATTEMPTS=3
+          WAIT_TIME=30
+          ATTEMPT=1
+          while [[ $ATTEMPT -le $MAX_ATTEMPTS ]]; do
+            echo "Attempt $ATTEMPT of $MAX_ATTEMPTS"
+            yarn wait-on http://localhost:3000 --timeout ${WAIT_TIME}000
+            STATUS=$?
+            if [[ $STATUS -eq 0 ]]; then
+              echo "Server is ready!"
+              break
+            else
+              echo "Server not ready, retrying..."
+              ATTEMPT=$((ATTEMPT + 1))
+              if [[ $ATTEMPT -gt $MAX_ATTEMPTS ]]; then
+                echo "Server failed to start after $MAX_ATTEMPTS attempts."
+                exit 1
+              fi
+              sleep 1
+            fi
+          done
 
       - name: Run Playwright tests
         working-directory: ./frontend

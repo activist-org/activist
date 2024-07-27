@@ -66,7 +66,7 @@
           }"
         />
         <div class="h-full w-full">
-          <MediaImageCarouselFull :class="{ 'lg:hidden': textExpanded }" />
+          <MediaImageCarouselFull v-if="!textExpanded || !aboveLargeBP" />
         </div>
       </div>
       <CardGetInvolvedOrganization />
@@ -81,8 +81,11 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
+
+const aboveLargeBP = useBreakpoint("lg");
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
@@ -122,13 +125,17 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateShareBtnLabel);
 });
 
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

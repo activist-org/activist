@@ -10,11 +10,11 @@ attrs==23.1.0
     # via
     #   jsonschema
     #   referencing
-certifi==2023.7.22
+certifi==2024.7.4
     # via requests
 charset-normalizer==3.3.2
     # via requests
-django==4.2.11
+django==4.2.14
     # via
     #   -r requirements.in
     #   django-cors-headers

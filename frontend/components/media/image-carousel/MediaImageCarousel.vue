@@ -52,15 +52,18 @@ const imageUrls = [
   `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
   `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
 ];
-
+const modals = useModals();
+const modalName = "ModalUploadImages";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>
 

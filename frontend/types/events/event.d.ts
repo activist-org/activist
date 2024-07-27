@@ -37,8 +37,6 @@ export interface Event {
   // support
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
-
-  loading: boolean;
 }
 
 // MARK: Bridge Tables

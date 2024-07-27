@@ -1,5 +1,5 @@
 <template>
-  <div class="z-10 flex">
+  <div id="topics-dropdown" class="z-10 flex">
     <Combobox v-model="selectedTopic">
       <div class="relative">
         <div

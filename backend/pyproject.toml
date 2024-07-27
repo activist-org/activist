@@ -68,6 +68,7 @@ exclude = [
     "entities/factories.py",
     "events/factories.py",
 ]
+enable_incomplete_feature = ["Unpack"]
 
 [[tool.mypy.overrides]]
 module = ["authentication.*", "content.*", "entities.*", "events.*"]

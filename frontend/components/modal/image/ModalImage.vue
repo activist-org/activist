@@ -1,8 +1,9 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
+    :isOpen="modalIsOpen"
     :imageModal="true"
+    :modalName="modalName"
   >
     <img
       v-if="$colorMode.value == 'light'"
@@ -26,13 +27,15 @@ const props = defineProps<{
   isOpen: boolean;
 }>();
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+const modals = useModals();
+const modalName = "ModalImage";
+let modalIsOpen = computed(() => props.isOpen);
 
-const emit = defineEmits(["closeModal"]);
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
+
 const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  modals.closeModal(modalName);
 };
 </script>

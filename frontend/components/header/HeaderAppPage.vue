@@ -75,6 +75,7 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -90,7 +91,8 @@ const id = typeof idParam === "string" ? idParam : undefined;
 const organizationStore = useOrganizationStore();
 let organization: Organization;
 const group = useGroupStore();
-const event = useEventStore();
+const eventStore = useEventStore();
+let event: Event;
 
 if (props.pageType === "organization") {
   await organizationStore.fetchByID(id);
@@ -98,7 +100,8 @@ if (props.pageType === "organization") {
 } else if (props.pageType === "group") {
   await group.fetchByID(id);
 } else if (props.pageType === "event") {
-  await event.fetchByID(id);
+  await eventStore.fetchByID(id);
+  event = eventStore.event;
 }
 
 const headerName = computed<string>(() => {

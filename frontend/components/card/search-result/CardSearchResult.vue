@@ -159,7 +159,10 @@
               :user="user"
             />
           </div>
-          <div class="hidden items-center space-x-3 md:flex lg:space-x-5">
+          <div
+            v-if="aboveMediumBP"
+            class="flex items-center space-x-3 lg:space-x-5"
+          >
             <MetaTagLocation v-if="location" :location="location" />
             <MetaTagVideo
               v-if="onlineLocation"
@@ -170,7 +173,10 @@
           </div>
         </div>
         <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
-          <div class="flex items-center justify-center space-x-4 md:hidden">
+          <div
+            v-if="!aboveMediumBP"
+            class="flex items-center justify-center space-x-4"
+          >
             <MetaTagLocation v-if="location" :location="location" />
             <MetaTagVideo
               v-if="onlineLocation"
@@ -215,6 +221,7 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
 import type { Resource } from "~/types/content/resource";
@@ -232,6 +239,8 @@ const props = defineProps<{
   isReduced?: boolean;
   isPrivate?: boolean;
 }>();
+
+const aboveMediumBP = useBreakpoint("md");
 
 const i18n = useI18n();
 const localePath = useLocalePath();

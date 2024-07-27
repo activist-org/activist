@@ -31,7 +31,6 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    description = factory.Faker("text")
     social_links = factory.List([factory.Faker("word") for _ in range(10)])
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     is_high_risk = factory.Faker("boolean")
@@ -44,11 +43,9 @@ class GroupFactory(factory.django.DjangoModelFactory):
     org_id = factory.SubFactory(OrganizationFactory)
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    description = factory.Faker("text")
     social_links = factory.List([factory.Faker("word") for _ in range(10)])
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(datetime.datetime.now)
-    deletion_date = factory.LazyFunction(datetime.datetime.now)
 
 
 # MARK: Bridge Tables
@@ -93,7 +90,7 @@ class GroupTextFactory(factory.django.DjangoModelFactory):
 
     group_id = factory.SubFactory(GroupFactory)
     iso = factory.Faker("word")
-    primary = factory.Fakeer("boolean")
+    primary = factory.Faker("boolean")
     description = factory.Faker("text")
     get_involved = factory.Faker("text")
     donate_prompt = factory.Faker("text")
@@ -176,7 +173,7 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
 
     org_id = factory.SubFactory(OrganizationFactory)
     iso = factory.Faker("word")
-    primary = factory.Fakeer("boolean")
+    primary = factory.Faker("boolean")
     description = factory.Faker("text")
     get_involved = factory.Faker("text")
     donate_prompt = factory.Faker("text")
