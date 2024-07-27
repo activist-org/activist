@@ -43,6 +43,9 @@ class Organization(models.Model):
     status_updated = models.DateTimeField(auto_now=True, null=True)
     acceptance_date = models.DateTimeField(null=True, blank=True)
     deletion_date = models.DateTimeField(null=True, blank=True)
+    org_text = models.ForeignKey(
+        "OrganizationText", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self) -> str:
         return self.name
@@ -211,7 +214,7 @@ class OrganizationTask(models.Model):
 
 class OrganizationText(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    iso = models.ForeignKey("content.IsoCodeMap", on_delete=models.CASCADE)
+    iso = models.ForeignKey("content.IsoCodeMap", on_delete=models.CASCADE, null=True)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=2500)
     get_involved = models.TextField(max_length=500, blank=True)
