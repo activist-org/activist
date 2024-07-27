@@ -1,12 +1,7 @@
 <template>
-  <Toaster />
+  <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
   <div class="w-full text-light-text dark:text-dark-text">
-    <IndicatorProcessProgress
-      type="default"
-      :progress="1"
-      :start="1"
-      :end="1"
-    />
+    <IndicatorProcessProgress type="default" :progress="1" :start="1" :end="1" />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
@@ -17,75 +12,40 @@
           {{ $t("pages.organizations.create.subtext") }}
         </p>
       </div>
-      <form
-        @submit.prevent="submit"
-        class="flex w-full flex-col items-center justify-center pt-4"
-      >
-        <div
-          class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
-        >
+      <form @submit.prevent="submit" class="flex w-full flex-col items-center justify-center pt-4">
+        <div class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6">
           <div class="w-1/2">
-            <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("_global.organization-name") }}*</label
-            >
-            <input
-              v-model="formData.name"
-              id="name"
+            <label for="name" class="responsive-h3 block font-medium">{{ $t("_global.organization-name") }}*</label>
+            <input v-model="formData.name" id="name"
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
-              type="text"
-              name="name"
-              :placeholder="
-                $t('pages.organizations.create.organization-name-placeholder')
-              "
-            />
+              type="text" name="name" :placeholder="$t('pages.organizations.create.organization-name-placeholder')
+                " />
           </div>
           <div class="w-1/2">
-            <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.location") }}*</label
-            >
-            <input
-              v-model="formData.location"
-              id="location"
+            <label for="location" class="responsive-h3 block font-medium">{{ $t("pages._global.location") }}*</label>
+            <input v-model="formData.location" id="location"
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
-              type="text"
-              name="location"
-              :placeholder="
-                $t('pages.organizations.create.location-placeholder')
-              "
-            />
+              type="text" name="location" :placeholder="$t('pages.organizations.create.location-placeholder')
+                " />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages.organizations.create.description") }}*</label
-          >
-          <textarea
-            v-model="formData.description"
-            id="description"
+          <label for="description" class="responsive-h3 block font-medium">{{
+            $t("pages.organizations.create.description") }}*</label>
+          <textarea v-model="formData.description" id="description"
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
-            name="description"
-            :placeholder="
-              $t('pages.organizations.create.description-placeholder')
-            "
-          ></textarea>
+            name="description" :placeholder="$t('pages.organizations.create.description-placeholder')
+              "></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="tagline" class="responsive-h3 block font-medium">{{
             $t("pages._global.create.tagline")
-          }}</label>
-          <input
-            v-model="formData.tagline"
-            id="tagline"
+            }}</label>
+          <input v-model="formData.tagline" id="tagline"
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
-            name="tagline"
-            :placeholder="$t('pages.organizations.create.tagline-placeholder')"
-          />
+            name="tagline" :placeholder="$t('pages.organizations.create.tagline-placeholder')" />
         </div>
-        <CardTopicSelection
-          v-model="formData.topics"
-          class="mt-5"
-          pageType="organization"
-        />
+        <CardTopicSelection v-model="formData.topics" class="mt-5" pageType="organization" />
         <div class="mx-14 mt-5 w-full">
           <CardConnect pageType="other" />
         </div>
@@ -96,19 +56,13 @@
               <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
               <a href="#" class="text-blue-500">{{
                 $t("pages._global.terms-of-service-pt-2")
-              }}</a>
+                }}</a>
               <p>.</p>
             </label>
           </div>
           <div class="my-5">
-            <BtnAction
-              type="submit"
-              :cta="true"
-              class="flex"
-              label="pages.organizations.create.complete-application"
-              fontSize="lg"
-              ariaLabel="pages.organizations.create.complete-application-aria-label"
-            />
+            <BtnAction type="submit" :cta="true" class="flex" label="pages.organizations.create.complete-application"
+              fontSize="lg" ariaLabel="pages.organizations.create.complete-application-aria-label" />
           </div>
         </div>
       </form>
@@ -118,7 +72,9 @@
 
 <script setup lang="ts">
 import { Toaster, toast } from "vue-sonner";
+import BtnAction from "~/components/btn/action/BtnAction.vue";
 import type { OrganizationCreateFormData } from "~/types/entities/organization";
+
 
 definePageMeta({
   middleware: ["user-only"],
