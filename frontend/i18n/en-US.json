@@ -327,6 +327,7 @@
   "components.meta-social-media-tag.messenger": "Messenger",
   "components.meta-social-media-tag.qr-code": "View QR code",
   "components.meta-social-media-tag.telegram": "Telegram",
+  "components.meta-social-media-tag.signal": "Signal",
   "components.meta-tag-stars.label": "stars",
   "components.meta-tag.supporters_lower": "supporters",
   "components.modal-command-palette.jump-to": "Jump to",
