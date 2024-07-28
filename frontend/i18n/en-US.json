@@ -330,7 +330,6 @@
   "components.meta-tag-stars.label": "stars",
   "components.meta-tag.supporters_lower": "supporters",
   "components.modal-command-palette.jump-to": "Jump to",
-  "components.modal-command-palette.pages-header": "Pages",
   "components.modal-edit-page-text.remember-https": "This is the URL that the join button will link to. Please include the full URL with https so the link works properly.",
   "components.modal-edit-page-text.update-texts": "Update texts",
   "components.modal-edit-page-text.update-texts-aria-label": "Update all the texts shown on the given page",
