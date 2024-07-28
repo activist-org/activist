@@ -378,9 +378,9 @@ We are still developing our operating principles and will always update them bas
 We need to break down language barriers in order to mobilize larger and more diverse coalitions. Translation requests will be available for several assets on the platform - organization profiles, events and resources - and we are growing our network of volunteer contributors to facilitate this.
 
 > [!NOTE]
-> Want to join our translators working group? Please join the [Localization channel in our Matrix space](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org).
+> Want to join our translators working group? Please join us in the [localization project on Weblate](https://hosted.weblate.org/projects/activist/activist) and the [Localization channel on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) to get involved!
 
-Localization of activist is done via [Weblate](https://weblate.org). Please see the [localization guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) for information on how to get started!
+Localization of activist is done via [Weblate](https://weblate.org). Please see the [localization guide](https://github.com/activist-org/activist/blob/main/LOCALIZATION.md) for information on how to get started!
 
 ### Localization coverage [`⇧`](#contents)
 
