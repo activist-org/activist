@@ -5,7 +5,7 @@
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
-[![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
+[![django](https://img.shields.io/badge/Django%205-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
 [![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
