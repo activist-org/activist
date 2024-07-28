@@ -40,7 +40,7 @@
         {{ $t("_global.visit-our") }}
         <a
           class="focus-brand link-text items-center"
-          href="https://explore.transifex.com/activist-org/activist/"
+          href="https://hosted.weblate.org/projects/activist/activist"
           target="_blank"
         >
           {{ $t("components.page-community-footer.invite-text-4-2") }}

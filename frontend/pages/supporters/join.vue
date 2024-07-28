@@ -73,7 +73,7 @@
         {{ $t("_global.visit-our") }}
         <a
           class="focus-brand link-text"
-          href="https://explore.transifex.com/activist-org/activist"
+          href="https://hosted.weblate.org/projects/activist/activist"
           target="_blank"
         >
           {{ $t("pages.supporters.join.section-6-paragraph-1-2") }}
