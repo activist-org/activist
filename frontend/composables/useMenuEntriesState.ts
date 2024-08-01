@@ -3,8 +3,11 @@ import { IconMap } from "~/types/icon-map";
 const createMenuEntry = (label: string, basePath: string, iconURL: string) => {
   const { locale } = useI18n();
   const router = useRouter();
+  // here, afaik, this is returning NaN as the id of a given organization is alphanumeric -- not a number.
+  // added the raw id which can be used with the routeURL , while maintaining the number version
+  const idStr = router.currentRoute.value.params.id;
   const id = Number(router.currentRoute.value.params.id);
-  const routeURL = `/${locale.value}/${basePath}/${id}/${label
+  const routeURL = `/${locale.value}/${basePath}/${idStr}/${label
     .split(".")
     .pop()!
     .toLowerCase()}`;
@@ -85,6 +88,7 @@ const useMenuEntriesState = () => {
   };
 
   onMounted(() => {
+    console.log("mounted")
     updateCurrentPath();
     removeGuard = router.afterEach(updateCurrentPath);
   });

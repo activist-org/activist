@@ -71,84 +71,22 @@ import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 import { testTechOrg } from "~/utils/testEntities";
+import useMenuEntriesState from "~/composables/useMenuEntriesState";
 
 const organization = testTechOrg;
 
 const { id } = useRoute().params;
 const localePath = useLocalePath();
 
+const { organizationEntry } = useMenuEntriesState();
+
 const organizationButtons: MenuSelector[] = [
-  {
-    id: 1,
-    label: "_global.about",
-    routeURL: "/organizations/" + id + "/about",
-    iconURL: `${IconMap.ABOUT}`,
-    selected: useRoute().path.split("/").pop() === "about" ? true : true,
-  },
-  {
-    id: 2,
-    label: "_global.events",
-    routeURL: "/organizations/" + id + "/events",
-    iconURL: `${IconMap.EVENT}`,
-    selected: useRoute().path.split("/").pop() === "events" ? true : true,
-  },
-  {
-    id: 3,
-    label: "_global.groups",
-    routeURL: "/organizations/" + id + "/groups",
-    iconURL: `${IconMap.GROUP}`,
-    selected: useRoute().path.split("/").pop() === "groups" ? true : true,
-  },
-  {
-    id: 4,
-    label: "_global.resources",
-    routeURL: "/organizations/" + id + "/resources",
-    iconURL: `${IconMap.RESOURCE}`,
-    selected: useRoute().path.split("/").pop() === "resources" ? true : true,
-  },
-  {
-    id: 5,
-    label: "_global.faq",
-    routeURL: "/organizations/" + id + "/faq",
-    iconURL: `${IconMap.FAQ}`,
-    selected: useRoute().path.split("/").pop() === "faq" ? true : true,
-  },
-  // {
-  //   id: X,
-  //   label: "_global.team",
-  //   routeURL: "/organizations/" + id + "/team",
-  //   iconURL: `${IconMap.PEOPLE}`,
-  //   selected: useRoute().path.split("/").pop() === "team" ? true : true,
-  // },
-  {
-    id: 6,
-    label: "_global.affiliates",
-    routeURL: "/organizations/" + id + "/affiliates",
-    iconURL: `${IconMap.SUPPORT}`,
-    selected: useRoute().path.split("/").pop() === "affiliates" ? true : true,
-  },
-  {
-    id: 7,
-    label: "_global.tasks",
-    routeURL: "/organizations/" + id + "/tasks",
-    iconURL: `${IconMap.TASK}`,
-    selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
-  },
-  {
-    id: 8,
-    label: "_global.discussions",
-    routeURL: "/organizations/" + id + "/discussions",
-    iconURL: `${IconMap.DISCUSSION}`,
-    selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
-  },
-  {
-    id: 9,
-    label: "_global.settings",
-    routeURL: "/organizations/" + id + "/settings",
-    iconURL: `${IconMap.SETTINGS}`,
-    selected: useRoute().path.split("/").pop() === "settings" ? true : true,
-  },
 ];
+
+organizationEntry.value.forEach(entry => {
+  organizationButtons.push(entry);
+});
+
 
 const windowWidth = ref(window.innerWidth);
 
