@@ -5,13 +5,14 @@
 [![platforms](https://img.shields.io/badge/Web-0183DC.svg?logo=windows-terminal&logoColor=ffffff)](https://github.com/activist-org/activist)
 [![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
-[![django](https://img.shields.io/badge/Django%204-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
+[![django](https://img.shields.io/badge/Django%205-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
 [![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
 [![license](https://img.shields.io/github/license/activist-org/activist-iOS.svg?label=%20)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
 [![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
+[![weblate](https://img.shields.io/badge/Weblate-144D3F.svg?logo=weblate&logoColor=ffffff)](https://hosted.weblate.org/projects/activist/activist)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
 
 <details><summary>🌐 Language</summary>
@@ -108,7 +109,7 @@ We would be happy to discuss granting you further rights as a contributor after 
 - [Reporting bugs](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&template=bug_report.yml) as they're found 🐞
 - Working with us on [new features](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Afeature) ✨
 - [Localizing](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization) content for the platform 🌐
-  - Please join our [public localization project on Transifex](https://explore.transifex.com/activist-org/activist)!
+  - Please join our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist)!
 - [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
 - [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
 
@@ -251,7 +252,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Internationalization
 
-- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Transifex](https://www.transifex.com/) ([activist on Transifex](https://explore.transifex.com/activist-org/activist))
+- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Weblate](https://weblate.org) ([activist on Weblate](https://hosted.weblate.org/projects/activist/activist))
 
 ### Analytics
 
@@ -372,10 +373,20 @@ We are still developing our operating principles and will always update them bas
 
 # Localization [`⇧`](#contents)
 
+<a href="https://hosted.weblate.org/projects/activist/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right"></a>
+
 We need to break down language barriers in order to mobilize larger and more diverse coalitions. Translation requests will be available for several assets on the platform - organization profiles, events and resources - and we are growing our network of volunteer contributors to facilitate this.
 
 > [!NOTE]
-> Want to join our translators working group? Please join our [public localization project on Transifex](https://explore.transifex.com/activist-org/activist).
+> Want to join our translators working group? Please join us in the [localization project on Weblate](https://hosted.weblate.org/projects/activist/activist) and the [Localization channel on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) to get involved!
+
+Localization of activist is done via [Weblate](https://weblate.org). Please see the [localization guide](https://github.com/activist-org/activist/blob/main/LOCALIZATION.md) for information on how to get started!
+
+### Localization coverage [`⇧`](#contents)
+
+<a href="https://hosted.weblate.org/projects/activist/activist">
+    <img src="https://hosted.weblate.org/widget/activist/activist/multi-auto.svg" alt="Translation status" />
+</a>
 
 <a id="supporters-partners"></a>
 

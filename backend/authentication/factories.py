@@ -35,13 +35,14 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = UserModel
         exclude = ("plaintext_password",)
+        django_get_or_create = ("username",)
 
     username = factory.Faker("user_name")
     name = factory.Faker("name")
     description = factory.Faker("text", max_nb_chars=500)
     verified = factory.Faker("boolean")
     verification_method = factory.Faker("word")
-    verifictaion_code = factory.Faker("uuid4")
+    verification_code = factory.Faker("uuid4")
     email = factory.Faker("email")
     social_links = factory.List([factory.Faker("user_name") for _ in range(3)])
     is_private = factory.Faker("boolean")

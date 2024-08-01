@@ -238,7 +238,7 @@ activist is a global platform and must function in countless different regions a
 > All keys should be defined within the [en-US.json file](https://github.com/activist-org/activist/blob/main/frontend/i18n/en-US.json)
 >
 > - This is the source from which all the other languages are translated from
-> - Edits to the other files need to be made on activist's [public localization project on Transifex](https://explore.transifex.com/activist-org/activist)
+> - Edits to the other files should be made on activist's [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist)
 > - Please alphabetize the keys, with your code editor likely having built in functionality for this
 > - Do not put the dictionary into different levels!
 >   - The purpose of one flat dictionary is so that we can search for the key in the codebase and easily find its uses and where it's defined

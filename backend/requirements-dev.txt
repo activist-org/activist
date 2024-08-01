@@ -27,13 +27,16 @@ charset-normalizer==3.3.2
     #   requests
 click==8.1.7
     # via pip-tools
-coverage[toml]==7.4.4
+colorama==0.4.6
     # via
-    #   coverage
-    #   pytest-cov
+    #   build
+    #   click
+    #   pytest
+coverage[toml]==7.4.4
+    # via pytest-cov
 distlib==0.3.8
     # via virtualenv
-django==4.2.11
+django==5.0.7
     # via
     #   -r requirements.txt
     #   django-cors-headers
@@ -179,6 +182,10 @@ typing-extensions==4.8.0
     #   django-stubs-ext
     #   djangorestframework-stubs
     #   mypy
+tzdata==2024.1
+    # via
+    #   -r requirements.txt
+    #   django
 uritemplate==4.1.1
     # via
     #   -r requirements.txt
