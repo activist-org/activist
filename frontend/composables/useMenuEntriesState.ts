@@ -88,7 +88,6 @@ const useMenuEntriesState = () => {
   };
 
   onMounted(() => {
-    console.log("mounted")
     updateCurrentPath();
     removeGuard = router.afterEach(updateCurrentPath);
   });
