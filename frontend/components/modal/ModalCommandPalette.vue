@@ -107,7 +107,6 @@ interface Command {
   action: () => void;
 }
 
-const modals = useModals();
 const modalName = "ModalCommandPalette";
 
 const searchTerm = ref("");
@@ -116,10 +115,9 @@ const filteredCommands = ref<Command[]>([]);
 
 const router = useRouter();
 
-// Watch for closeModal emit and do cleanup when it happens.
 const handleCloseModal = () => {
+  // Watch for closeModal emit and do cleanup when it happens.
   searchTerm.value = "";
-  modals.closeModal(modalName);
 };
 
 const handleClick = (command: Command) => {
