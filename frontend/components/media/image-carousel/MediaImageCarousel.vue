@@ -1,3 +1,4 @@
+<!-- This file doesn't use ModalBase, so we handle modal events in the script block, below. -->
 <template>
   <div class="relative">
     <swiper-container
