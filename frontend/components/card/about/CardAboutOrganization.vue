@@ -1,3 +1,5 @@
+<!-- This file doesn't use ModalBase, so we handle all modal events in the script block below. -->
+
 <template>
   <CardAbout>
     <ModalQRCodeBtn
@@ -27,7 +29,6 @@
           :description="organization.description"
           :getInvolved="organization.getInvolved"
           :getInvolvedURL="organization.getInvolvedURL"
-          :isOpen="modalIsOpen"
         />
       </div>
       <div class="flex-col space-y-3">

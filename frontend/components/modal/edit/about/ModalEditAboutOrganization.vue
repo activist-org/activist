@@ -1,9 +1,5 @@
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <label for="textarea" class="responsive-h2">{{
@@ -54,10 +50,6 @@
 <script setup lang="ts">
 import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
 
-const props = defineProps<{
-  isOpen: boolean;
-}>();
-
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
@@ -88,15 +80,9 @@ async function handleSubmit() {
   }
 }
 
-const modals = useModals();
 const modalName = "ModalEditAboutOrganization";
-let modalIsOpen = computed(() => props.isOpen);
-
-onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
-});
 
 const handleCloseModal = () => {
-  modals.closeModal(modalName);
+  // Watch for closeModal emit and do cleanup when it happens.
 };
 </script>

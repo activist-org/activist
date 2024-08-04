@@ -1,9 +1,5 @@
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
     <DialogTitle class="flex justify-between font-display">
       <p class="md:responsive-h2 text-3xl font-bold">
         {{ $t("components.modal-qr-code.header") }}
@@ -136,18 +132,15 @@ const props = defineProps<{
   event?: Event;
   resource?: Resource;
   user?: User;
-  isOpen: boolean;
 }>();
 
 const aboveMediumBP = useBreakpoint("md");
 
 const { linkURL } = useLinkURL(props);
-const modals = useModals();
 const modalName = "ModalsQRCode";
-const modalIsOpen = computed(() => modals.modals[modalName]?.isOpen ?? false);
 
 const handleCloseModal = () => {
-  modals.closeModal(modalName);
+  // Watch for closeModal emit and do cleanup when it happens.
 };
 
 const showTooltip = ref(false);
