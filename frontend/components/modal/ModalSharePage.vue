@@ -94,10 +94,23 @@
               iconSize="1.5em"
             />
           </s-facebook>
-          <!-- <div class="flex h-full w-full cursor-pointer items-center gap-3">
-            <Icon :name="IconMap.SIGNAL" size="1.5em" />
-            <p>{{ $t("components._global.signal") }}</p>
-          </div> -->
+          <div
+            @popup-close="nativeBehaviorOptions.onClose"
+            @popup-open="nativeBehaviorOptions.onOpen"
+            @popup-block="nativeBehaviorOptions.onBlock"
+            @popup-focus="nativeBehaviorOptions.onFocus"
+            class="focus-brand"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+          >
+            <MetaTagSocialMedia
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              :iconName="IconMap.SIGNAL"
+              :text="$t('components.meta-social-media-tag.signal')"
+              iconSize="1.5em"
+            />
+          </div>
           <div
             @click="
               copyToClipboard(
