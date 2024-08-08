@@ -72,56 +72,21 @@ import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 import { testClimateEvent } from "~/utils/testEntities";
+import useMenuEntriesState from "~/composables/useMenuEntriesState";
 
 const event = testClimateEvent;
 
 const { id } = useRoute().params;
 const localPath = useLocalePath();
 
+const { eventEntry } = useMenuEntriesState();
+
 const eventButtons: MenuSelector[] = [
-  {
-    id: 1,
-    label: "_global.about",
-    routeURL: "/events/" + id + "/about",
-    iconURL: `${IconMap.ABOUT}`,
-    selected: useRoute().path.split("/").pop() === "about" ? true : true,
-  },
-  {
-    id: 2,
-    label: "_global.team",
-    routeURL: "/events/" + id + "/team",
-    iconURL: `${IconMap.PEOPLE}`,
-    selected: useRoute().path.split("/").pop() === "team" ? true : true,
-  },
-  {
-    id: 3,
-    label: "_global.resources",
-    routeURL: "/events/" + id + "/resources",
-    iconURL: `${IconMap.RESOURCE}`,
-    selected: useRoute().path.split("/").pop() === "resources" ? true : true,
-  },
-  {
-    id: 4,
-    label: "_global.tasks",
-    routeURL: "/events/" + id + "/tasks",
-    iconURL: `${IconMap.TASK}`,
-    selected: useRoute().path.split("/").pop() === "tasks" ? true : true,
-  },
-  {
-    id: 5,
-    label: "_global.discussions",
-    routeURL: "/events/" + id + "/discussions",
-    iconURL: `${IconMap.DISCUSSION}`,
-    selected: useRoute().path.split("/").pop() === "discussions" ? true : true,
-  },
-  {
-    id: 6,
-    label: "_global.settings",
-    routeURL: "/events/" + id + "/settings",
-    iconURL: `${IconMap.SETTINGS}`,
-    selected: useRoute().path.split("/").pop() === "settings" ? true : true,
-  },
 ];
+
+eventEntry.value.forEach(entry => {
+  eventButtons.push(entry);
+});
 
 const windowWidth = ref(window.innerWidth);
 
