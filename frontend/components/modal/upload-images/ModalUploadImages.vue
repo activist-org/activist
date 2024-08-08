@@ -1,9 +1,5 @@
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
     <div>
       <DialogTitle>
         <p v-if="uploadLimit > 1" class="responsive-h2 font-bold">
@@ -105,7 +101,6 @@ import { IconMap } from "~/types/icon-map";
 const { files, handleFiles, removeFile } = useFileManager();
 
 export interface Props {
-  isOpen: boolean;
   uploadLimit?: number;
 }
 
@@ -113,11 +108,9 @@ const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 
-const modals = useModals();
 const modalName = "ModalUploadImages";
-const modalIsOpen = computed(() => modals.modals[modalName]?.isOpen ?? false);
 
 const handleCloseModal = () => {
-  modals.closeModal(modalName);
+  // Watch for closeModal emit and do cleanup when it happens.
 };
 </script>

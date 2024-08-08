@@ -1,3 +1,5 @@
+<!-- This file doesn't use ModalBase, so we handle modal events in the script block, below. -->
+
 <template>
   <div class="relative">
     <MediaImageCarousel :fullscreen="false" />
@@ -8,10 +10,11 @@
     >
       <Icon :name="IconMap.FULL_SCREEN" size="1.5em" />
     </button>
-    <ModalMediaImageCarousel
+    <!-- <ModalMediaImageCarousel
       @closeModal="handleCloseModal"
       :isOpen="modalIsOpen"
-    />
+    /> -->
+    <ModalMediaImageCarousel @closeModal="handleCloseModal" />
   </div>
 </template>
 

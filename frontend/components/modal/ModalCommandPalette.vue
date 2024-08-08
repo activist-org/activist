@@ -17,11 +17,7 @@
 <!-- Here is a link to command palette resources: https://www.commandpalette.org/ -->
 
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
     <!-- MARK: Main element -->
     <div>
       <!-- TODO: There should be one, unifed way to handle selection, instead of 'handleCommand' here -->
@@ -39,7 +35,7 @@
             :placeholder="$t('_global.search')"
           />
         </div>
-        <div v-if="searchTerm.length > 0">
+        <div v-if="searchTerm.length > 0 && filteredCommands.length > 0">
           <span class="font-bold italic">Searching for:</span> {{ searchTerm }}
         </div>
         <!-- MARK: Search results output. -->
@@ -100,7 +96,6 @@ import {
 } from "@headlessui/vue";
 
 const props = defineProps<{
-  isOpen: boolean;
   paletteData: Command[];
 }>();
 
@@ -112,13 +107,7 @@ interface Command {
   action: () => void;
 }
 
-const modals = useModals();
 const modalName = "ModalCommandPalette";
-let modalIsOpen = computed(() => props.isOpen);
-
-onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
-});
 
 const searchTerm = ref("");
 const selectedCommand = ref<Command | null>(null);
@@ -127,8 +116,8 @@ const filteredCommands = ref<Command[]>([]);
 const router = useRouter();
 
 const handleCloseModal = () => {
+  // Watch for closeModal emit and do cleanup when it happens.
   searchTerm.value = "";
-  modals.closeModal(modalName);
 };
 
 const handleClick = (command: Command) => {

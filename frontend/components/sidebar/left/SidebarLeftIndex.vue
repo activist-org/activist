@@ -1,3 +1,8 @@
+<!-- This code doesn't use ModalBase, so we handle openModal() / closeModal() events here. 
+      Usually the openModal() / closeModal() is handled in ModalBase.
+      
+      Child modals do use ModalBase, so we don't need isOpen attr/prop when invoking them. -->
+
 <template>
   <div
     class="elem-shadow-sm mx-1 rounded-md bg-light-layer-2 py-2 text-light-text transition-all duration-500 dark:bg-dark-layer-2 dark:text-dark-text"
@@ -20,11 +25,7 @@
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages
-          @closeModal="handleCloseModal"
-          :isOpen="modalIsOpen"
-          :uploadLimit="1"
-        />
+        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
         <ImageOrganization
           class="elem-shadow-sm"
           :imgURL="logoUrl"
@@ -52,11 +53,7 @@
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages
-          @closeModal="handleCloseModal"
-          :isOpen="modalIsOpen"
-          :uploadLimit="1"
-        />
+        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"
