@@ -132,7 +132,7 @@
   "components.btn-action.save-settings": "Einstellungen speichern",
   "components.btn-action.save-settings-aria-label": "Aktualisieren der Einstellungen",
   "components.btn-action.share": "Teilen",
-  "components.btn-action.share-user": "",
+  "components.btn-action.share-user": "Benutzer freigeben",
   "components.btn-action.share-user-aria-label": "",
   "components.btn-action.support": "Unterstützung",
   "components.btn-action.support-event": "Veranstaltung unterstützen",
