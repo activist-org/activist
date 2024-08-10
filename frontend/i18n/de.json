@@ -133,7 +133,7 @@
   "components.btn-action.save-settings-aria-label": "Aktualisieren der Einstellungen",
   "components.btn-action.share": "Teilen",
   "components.btn-action.share-user": "Benutzer freigeben",
-  "components.btn-action.share-user-aria-label": "",
+  "components.btn-action.share-user-aria-label": "Optionen anzeigen, um diesen Benutzer für andere freizugeben",
   "components.btn-action.support": "Unterstützung",
   "components.btn-action.support-event": "Veranstaltung unterstützen",
   "components.btn-action.support-event-aria-label": "Diese Veranstaltung unterstützen",
