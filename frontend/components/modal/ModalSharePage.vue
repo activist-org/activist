@@ -1,5 +1,5 @@
 <template>
-  <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
+  <ModalBase :modalName="modalName">
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
         <p class="responsive-h2 font-bold">
@@ -208,10 +208,6 @@ const props = defineProps<{
   user?: User;
 }>();
 const modalName = "ModalSharePage";
-
-const handleCloseModal = () => {
-  // Watch for closeModal emit and do cleanup when it happens.
-};
 
 const getEntityType = () => {
   if (props.organization) {

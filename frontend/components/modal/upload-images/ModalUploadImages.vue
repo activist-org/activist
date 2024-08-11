@@ -1,5 +1,5 @@
 <template>
-  <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
+  <ModalBase :modalName="modalName">
     <div>
       <DialogTitle>
         <p v-if="uploadLimit > 1" class="responsive-h2 font-bold">
@@ -109,8 +109,4 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const modalName = "ModalUploadImages";
-
-const handleCloseModal = () => {
-  // Watch for closeModal emit and do cleanup when it happens.
-};
 </script>

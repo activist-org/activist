@@ -1,5 +1,5 @@
 <template>
-  <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
+  <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <label for="textarea" class="responsive-h2">{{
@@ -75,14 +75,10 @@ async function handleSubmit() {
     organization,
     formData.value
   );
-  if (response) {
-    handleCloseModal();
-  }
+  // if (response) {
+  //   handleCloseModal();
+  // }
 }
 
 const modalName = "ModalEditAboutOrganization";
-
-const handleCloseModal = () => {
-  // Watch for closeModal emit and do cleanup when it happens.
-};
 </script>
