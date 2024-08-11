@@ -9,6 +9,7 @@ from entities.factories import OrganizationFactory
 
 class Options(TypedDict):
     users: int
+    orgs: int
 
 
 class Command(BaseCommand):
