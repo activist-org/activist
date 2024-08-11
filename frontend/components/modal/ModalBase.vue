@@ -89,15 +89,15 @@ watch(
   }
 );
 
-// If the user changes the route while the modal is open, close the modal.
-watch(route, () => {
-  closeModal();
-});
-
-// Tell any interested observers that the closeModal event has happened and the
-//    interested observer/s can respond / do cleanup specific to their needs.
+// Tell any interested observers that the closeModal event has happened.
+// The interested observer(s) can respond or do cleanup specific to their needs.
 const closeModal = () => {
   emit("closeModal");
   modals.closeModal(modalName);
 };
+
+// If the user changes the route while the modal is open, close the modal.
+watch(route, () => {
+  closeModal();
+});
 </script>
