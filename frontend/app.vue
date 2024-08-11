@@ -12,14 +12,13 @@
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { commandPaletteData } from "~/types/command-palette";
 
-// Changed titleChunk: any to titleChunk: string | undefined, in order to get rid of eslint warnings. Was type 'any'.
 useHead({
   titleTemplate: (titleChunk: string | undefined) => {
     return titleChunk ? `${titleChunk} • activist` : "activist";
   },
 });
 
-// Handle cntl / meta keystrokes to open modal.
+// Handle ctrl / meta keystrokes to open modal.
 const { isMacOS } = useDevice();
 
 const { meta_k, ctrl_k } = useMagicKeys({
@@ -29,6 +28,15 @@ const { meta_k, ctrl_k } = useMagicKeys({
       e.preventDefault();
   },
 });
+
+const modals = useModals();
+const modalName = "ModalCommandPalette";
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
+}
 
 whenever(meta_k, () => {
   if (isMacOS) {
@@ -40,13 +48,4 @@ whenever(ctrl_k, () => {
     openModal();
   }
 });
-
-const modals = useModals();
-const modalName = "ModalCommandPalette";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
 </script>

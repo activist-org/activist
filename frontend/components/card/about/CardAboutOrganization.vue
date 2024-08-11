@@ -1,5 +1,3 @@
-<!-- This file doesn't use ModalBase, so we handle all modal events in the script block below. -->
-
 <template>
   <CardAbout>
     <ModalQRCodeBtn

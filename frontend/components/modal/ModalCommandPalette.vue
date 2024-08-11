@@ -20,14 +20,14 @@
   <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
     <!-- MARK: Main element -->
     <div>
-      <!-- TODO: There should be one, unifed way to handle selection, instead of 'handleCommand' here -->
+      <!-- TODO: There should be one, unified way to handle selection, instead of 'handleCommand' here -->
       <Combobox v-model="selectedCommand" @change="handleCommand" as="div">
         <div
           class="focus-inside elem-shadow-sm my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-light-layer-2 px-2 py-1 text-left text-light-distinct-text transition duration-200 dark:bg-dark-layer-2 dark:text-dark-distinct-text"
         >
           <Icon :name="IconMap.SEARCH" size="1em" class="text-black" />
           <!-- MARK: Search text input. -->
-          <!-- TODO: There should be one, unifed way to handle selection, instead of 'handleEnter' here -->
+          <!-- TODO: There should be one, unified way to handle selection, instead of 'handleEnter' here -->
           <ComboboxInput
             @keydown.enter="handleEnter"
             @change="searchTerm = $event.target.value"
