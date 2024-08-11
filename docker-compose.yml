@@ -14,7 +14,7 @@ services:
       python manage.py loaddata fixtures/superuser.json &&
       python manage.py loaddata fixtures/status_types.json &&
       python manage.py loaddata fixtures/iso_code_map.json &&
-      python manage.py populate_db --users=100 &&
+      python manage.py populate_db --users=100 --orgs=100 &&
       python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"

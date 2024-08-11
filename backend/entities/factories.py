@@ -20,6 +20,7 @@ from .models import (
     OrganizationTask,
     OrganizationText,
     OrganizationTopic,
+    StatusType,
 )
 
 # MARK: Main Tables
@@ -31,9 +32,12 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    social_links = factory.List([factory.Faker("word") for _ in range(10)])
+    social_links = ["https://www.instagram.com/activist_org/"]
     created_by = factory.SubFactory("authentication.factories.UserFactory")
+    status = StatusType.objects.get_or_create(name="Active")[0]
     is_high_risk = factory.Faker("boolean")
+    location = factory.Faker("city")
+    acceptance_date = factory.LazyFunction(datetime.datetime.now)
 
 
 class GroupFactory(factory.django.DjangoModelFactory):
@@ -185,3 +189,11 @@ class OrganizationTopicFactory(factory.django.DjangoModelFactory):
 
     org_id = factory.SubFactory(OrganizationFactory)
     topic_id = factory.SubFactory("content.factories.TopicFactory")
+
+
+class StatusTypeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "entities.StatusType"
+        django_get_or_create = ("name",)
+
+    name = factory.Faker("word")
