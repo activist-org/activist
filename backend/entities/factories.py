@@ -1,6 +1,7 @@
 import datetime
 
 import factory
+import pytest
 
 from .models import (
     Group,
@@ -20,12 +21,12 @@ from .models import (
     OrganizationTask,
     OrganizationText,
     OrganizationTopic,
-    StatusType,
 )
 
 # MARK: Main Tables
 
 
+@pytest.mark.django_db
 class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Organization
@@ -34,7 +35,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     tagline = factory.Faker("word")
     social_links = ["https://www.instagram.com/activist_org/"]
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    status = StatusType.objects.get_or_create(name="Active")[0]
+    status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
     location = factory.Faker("city")
     acceptance_date = factory.LazyFunction(datetime.datetime.now)
@@ -196,4 +197,4 @@ class StatusTypeFactory(factory.django.DjangoModelFactory):
         model = "entities.StatusType"
         django_get_or_create = ("name",)
 
-    name = factory.Faker("word")
+    name = "Active"

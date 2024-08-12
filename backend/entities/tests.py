@@ -3,7 +3,7 @@ Testing for the entities app.
 """
 
 # mypy: ignore-errors
-from django.urls import reverse
+import pytest
 
 from .factories import (
     OrganizationFactory,
@@ -22,6 +22,7 @@ from .factories import (
 )
 
 
+@pytest.mark.django_db
 def test_str_methods() -> None:
     organization = OrganizationFactory.build()
     # Needs to be updated to reflect the recent changes
