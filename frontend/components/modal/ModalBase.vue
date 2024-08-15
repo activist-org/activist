@@ -24,7 +24,7 @@
           v-if="imageModal"
           @click="closeModal()"
           class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
-          :aria-label="$t('components.modal-image.close-modal-aria-label')"
+          :aria-label="$t('components.modal_image.close_modal_aria_label')"
         >
           <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
         </button>
@@ -43,7 +43,7 @@
           tabindex="0"
           role="button"
           class="focus-brand flex flex-col items-center justify-center"
-          :aria-label="$t('components.modal-image.close-modal-aria-label')"
+          :aria-label="$t('components.modal_image.close_modal_aria_label')"
         >
           <slot />
         </div>

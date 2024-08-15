@@ -30,10 +30,10 @@
         </div>
         <BtnRouteInternal
           :cta="true"
-          label="components.btn-route-internal.return-home"
+          label="components.btn_route_internal.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-route-internal.return-home-aria-label"
+          ariaLabel="components.btn_route_internal.return_home_aria_label"
         />
       </div>
     </div>

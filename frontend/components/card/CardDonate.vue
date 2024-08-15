@@ -23,7 +23,7 @@
     </div>
     <p v-if="donationPrompt">{{ donationPrompt }}</p>
     <p v-else>
-      {{ $t("components.card-donate.template-text") }}
+      {{ $t("components.card_donate.template_text") }}
     </p>
     <BtnRouteExternal
       class="flex"
@@ -33,7 +33,7 @@
       fontSize="sm"
       :rightIcon="IconMap.EXTERNAL_LINK"
       iconSize="1.25em"
-      ariaLabel="components.btn-route-external.go-to-donation-page-aria-label"
+      ariaLabel="components.btn_route_external.go_to_donation_page_aria_label"
     />
   </div>
 </template>

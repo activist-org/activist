@@ -16,11 +16,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components._global.new-resource"
+          label="components._global.new_resource"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-route-internal.new-resource-aria-label"
+          ariaLabel="components.btn_route_internal.new_resource_aria_label"
         />
       </div>
     </HeaderAppPage>

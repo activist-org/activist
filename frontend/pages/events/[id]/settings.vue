@@ -14,19 +14,19 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.save-settings"
+          label="components.btn_action.save_settings"
           fontSize="sm"
-          ariaLabel="components.btn-action.save-settings-aria-label"
+          ariaLabel="components.btn_action.save_settings_aria_label"
         />
       </div>
     </HeaderAppPage>
     <PagePreviewSettings />
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
-        :description="$t('components.card-danger-zone.event-description')"
-        :ctaBtnText="$t('components.card-danger-zone.event-cta-btn-text')"
+        :description="$t('components.card_danger_zone.event_description')"
+        :ctaBtnText="$t('components.card_danger_zone.event_cta_btn_text')"
         :ctaBtnAriaLabel="
-          $t('components.card-danger-zone.event-cta-btn-aria-label')
+          $t('components.card_danger_zone.event_cta_btn_aria_label')
         "
       />
     </div> -->

@@ -39,12 +39,12 @@ export const GLOBAL_TOPICS: TopicsTag[] = [
   {
     icon: `${IconMap.GLOBE}`,
     value: Topic.ANIMALS,
-    label: `_global.topics.animal-rights`,
+    label: `_global.topics.animal_rights`,
   },
   {
     icon: `${IconMap.GLOBE}`,
     value: Topic.CHILDREN,
-    label: `_global.topics.children-rights`,
+    label: `_global.topics.children_rights`,
   },
   {
     icon: `${IconMap.GLOBE}`,
@@ -64,7 +64,7 @@ export const GLOBAL_TOPICS: TopicsTag[] = [
   {
     icon: `${IconMap.GLOBE}`,
     value: Topic.EMERGENCY_RELIEF,
-    label: `_global.topics.emergency-relief`,
+    label: `_global.topics.emergency_relief`,
   },
   {
     icon: `${IconMap.GLOBE}`,
@@ -114,17 +114,17 @@ export const GLOBAL_TOPICS: TopicsTag[] = [
   {
     icon: `${IconMap.GLOBE}`,
     value: Topic.PEACE_RESOLUTION,
-    label: `_global.topics.peace-resolution`,
+    label: `_global.topics.peace_resolution`,
   },
   {
     icon: `${IconMap.GLOBE}`,
     value: Topic.RACIAL_JUSTICE,
-    label: `_global.topics.racial-justice`,
+    label: `_global.topics.racial_justice`,
   },
   {
     icon: `${IconMap.GLOBE}`,
     value: Topic.TECHNOLOGY_PRIVACY,
-    label: `_global.topics.technology-privacy`,
+    label: `_global.topics.technology_privacy`,
   },
   {
     icon: `${IconMap.GLOBE}`,

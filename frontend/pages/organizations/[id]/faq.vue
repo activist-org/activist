@@ -15,11 +15,11 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.new-faq"
+          label="components.btn_action.new_faq"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-action.new-faq-aria-label"
+          ariaLabel="components.btn_action.new_faq_aria_label"
         />
       </div>
     </HeaderAppPage>

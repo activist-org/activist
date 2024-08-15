@@ -9,7 +9,7 @@
         />
       </div>
       <p class="text-light-text dark:text-dark-text">
-        {{ $t("components.footer._global.activist-tagline") }}
+        {{ $t("components.footer._global.activist_tagline") }}
       </p>
       <!-- Note: Platform Links -->
       <div class="flex flex-wrap items-center justify-center">
@@ -134,7 +134,7 @@
         href="https://www.netlify.com/"
         target="_blank"
       >
-        {{ $t("components.footer._global.powered-by-netlify") }}
+        {{ $t("components.footer._global.powered_by_netlify") }}
       </a>
       <div class="mt-2 text-light-text dark:text-dark-text">
         {{

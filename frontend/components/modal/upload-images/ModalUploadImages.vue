@@ -7,10 +7,10 @@
     <div>
       <DialogTitle>
         <p v-if="uploadLimit > 1" class="responsive-h2 font-bold">
-          {{ $t("components.modal-upload-images.upload-images") }}
+          {{ $t("components.modal_upload_images.upload_images") }}
         </p>
         <p v-else class="responsive-h2 font-bold">
-          {{ $t("components.modal-upload-images.upload-an-image") }}
+          {{ $t("components.modal_upload_images.upload_an_image") }}
         </p>
       </DialogTitle>
       <div class="mt-4">
@@ -20,34 +20,34 @@
           v-slot="{ isDropZoneActive }"
         >
           <span v-if="isDropZoneActive && uploadLimit > 1">{{
-            $t("components.modal-upload-images.drop-images")
+            $t("components.modal_upload_images.drop_images")
           }}</span>
           <span v-else-if="isDropZoneActive && uploadLimit == 1">{{
-            $t("components.modal-upload-images.drop-image")
+            $t("components.modal_upload_images.drop_image")
           }}</span>
           <span v-else-if="!isDropZoneActive && uploadLimit > 1">{{
-            $t("components.modal-upload-images.drag-images")
+            $t("components.modal_upload_images.drag_images")
           }}</span>
           <span v-else-if="!isDropZoneActive && uploadLimit == 1">{{
-            $t("components.modal-upload-images.drag-image")
+            $t("components.modal_upload_images.drag_image")
           }}</span>
         </ModalUploadImagesFileDropZone>
         <p class="py-2">
-          {{ $t("components.modal-upload-images.number-of-files") }}:
+          {{ $t("components.modal_upload_images.number_of_files") }}:
           {{ files.length }}
         </p>
         <p
           v-if="uploadLimit == 1 && files.length == uploadLimit"
           class="text-light-action-red dark:text-dark-action-red"
         >
-          {{ $t("components.modal-upload-images.picture-limit-1") }}
+          {{ $t("components.modal_upload_images.picture_limit_1") }}
         </p>
         <p
           v-if="uploadLimit != 1 && files.length >= uploadLimit"
           class="text-light-action-red dark:text-dark-action-red"
         >
           {{
-            $t("components.modal-upload-images.picture-limit-multiple", {
+            $t("components.modal_upload_images.picture_limit_multiple", {
               limit: uploadLimit,
             })
           }}
@@ -73,7 +73,7 @@
                   :src="file.url"
                   class="h-20 w-20 object-contain"
                   :alt="
-                    $t('components.modal-upload-images.upload-image') +
+                    $t('components.modal_upload_images.upload_image') +
                     ' ' +
                     file.name
                   "
@@ -84,11 +84,11 @@
           <BtnAction
             @click="true"
             :cta="true"
-            :label="$t('components.modal-upload-images.upload')"
+            :label="$t('components.modal_upload_images.upload')"
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
-            ariaLabel="components.btn-action.upvote-application-aria-label"
+            ariaLabel="components.btn_action.upvote_application_aria_label"
             :disabled="files.length >= uploadLimit"
           />
         </div>

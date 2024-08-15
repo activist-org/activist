@@ -7,10 +7,10 @@
     </Head>
     <PageDocs
       :imgURL="BOOTSTRAP_QUESTION_SQUARE_URL"
-      imgAltText="pages._global.faq-img-alt-text"
+      imgAltText="pages._global.faq_img_alt_text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">
-        {{ $t("pages.help._global.frequently-asked-questions") }}
+        {{ $t("pages.help._global.frequently_asked_questions") }}
       </h1>
       <div class="flex flex-row space-x-3 py-2">
         <Icon
@@ -19,13 +19,13 @@
           size="1.25em"
         />
         <p>
-          {{ $t("pages.help.faq.subheader-1") }}
+          {{ $t("pages.help.faq.subheader_1") }}
           <a
             class="focus-brand link-text items-center"
             href="https://matrix.to/#/#activist_community:matrix.org"
             target="_blank"
           >
-            {{ $t("_global.public-matrix-chat-rooms") }}
+            {{ $t("_global.public_matrix_chat_rooms") }}
             <Icon
               :name="IconMap.EXTERNAL_LINK"
               size="1em"
@@ -36,25 +36,25 @@
         </p>
       </div>
       <p class="responsive-h4 font-bold">
-        {{ $t("pages.help.faq.section-1-paragraph-1") }}
+        {{ $t("pages.help.faq.section_1_paragraph_1") }}
       </p>
       <p class="sm:text-lg">
-        {{ $t("pages.help.faq.section-1-paragraph-2") }}
+        {{ $t("pages.help.faq.section_1_paragraph_2") }}
       </p>
       <p class="responsive-h4 font-bold">
-        {{ $t("pages.help.faq.section-2-paragraph-1") }}
+        {{ $t("pages.help.faq.section_2_paragraph_1") }}
       </p>
       <p class="sm:text-lg">
-        {{ $t("pages.help.faq.section-2-paragraph-2") }}
+        {{ $t("pages.help.faq.section_2_paragraph_2") }}
       </p>
       <p class="responsive-h4 font-bold">
-        {{ $t("pages.help.faq.section-3-paragraph-1") }}
+        {{ $t("pages.help.faq.section_3_paragraph_1") }}
       </p>
       <p class="sm:text-lg">
-        {{ $t("pages.help.faq.section-3-paragraph-2") }}
+        {{ $t("pages.help.faq.section_3_paragraph_2") }}
       </p>
       <p class="responsive-h4 font-bold">
-        {{ $t("pages.help.faq.section-4-paragraph-1") }}
+        {{ $t("pages.help.faq.section_4_paragraph_1") }}
       </p>
       <p class="sm:text-lg">
         {{ $t("pages.help.faq.section-4-paragraph-2-1") }}
@@ -62,7 +62,7 @@
           class="focus-brand link-text"
           href="https://matrix.to/#/#activist_community:matrix.org"
         >
-          {{ $t("pages.help.faq.section-4-paragraph-2-2") }}
+          {{ $t("pages.help.faq.section_4_paragraph_2_2") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
@@ -75,10 +75,10 @@
         <BtnRouteInternal
           class="w-full"
           :cta="false"
-          label="components.btn-route-internal.return-home"
+          label="components.btn_route_internal.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-route-internal.return-home-aria-label"
+          ariaLabel="components.btn_route_internal.return_home_aria_label"
         />
       </PageCommunityFooter>
     </PageDocs>

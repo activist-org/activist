@@ -7,7 +7,7 @@
     </Head>
     <PageDocs
       :imgURL="BOOTSTRAP_INFO_CIRCLE_URL"
-      imgAltText="pages.about._global.imprint-img-alt-text"
+      imgAltText="pages.about._global.imprint_img_alt_text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">
         {{ $t("_global.imprint") }}
@@ -19,26 +19,26 @@
           size="1.25em"
         />
         <p>
-          {{ $t("pages.about.imprint.subheader-1") }}
+          {{ $t("pages.about.imprint.subheader_1") }}
           <NuxtLink
             class="focus-brand link-text items-center"
             to="/help/contact"
           >
-            {{ $t("pages._global.contact-page") }}
+            {{ $t("pages._global.contact_page") }}
             <Icon
               :name="IconMap.EXTERNAL_LINK"
               size="1em"
               style="vertical-align: baseline"
             />
           </NuxtLink>
-          {{ $t("pages.about.imprint.subheader-3") }}
+          {{ $t("pages.about.imprint.subheader_3") }}
         </p>
       </div>
       <p>
-        {{ $t("pages.about.imprint.section-1-paragraph-1") }}
+        {{ $t("pages.about.imprint.section_1_paragraph_1") }}
       </p>
       <p>
-        {{ $t("pages.about.imprint.section-1-paragraph-2") }}
+        {{ $t("pages.about.imprint.section_1_paragraph_2") }}
       </p>
       <ul>
         <li>
@@ -57,10 +57,10 @@
         <BtnRouteInternal
           class="w-full"
           :cta="false"
-          label="components.btn-route-internal.return-home"
+          label="components.btn_route_internal.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-route-internal.return-home-aria-label"
+          ariaLabel="components.btn_route_internal.return_home_aria_label"
         />
       </PageCommunityFooter>
     </PageDocs>

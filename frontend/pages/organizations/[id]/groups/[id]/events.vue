@@ -20,13 +20,13 @@
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.support"
+          label="components.btn_action.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="group.supportingUsers"
           ariaLabel="
-            components.btn-action.support-group-aria-label
+            components.btn_action.support-group-aria-label
           "
         /> -->
       </div>

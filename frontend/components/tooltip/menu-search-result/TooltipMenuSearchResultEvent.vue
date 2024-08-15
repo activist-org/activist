@@ -5,18 +5,18 @@
         @keydown="handleTabPress(false, $event)"
         class="flex max-h-[40px] w-full"
         :cta="true"
-        label="components.btn-action.support"
+        label="components.btn_action.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        :ariaLabel="$t('components.btn-action.support-event-aria-label')"
+        :ariaLabel="$t('components.btn_action.support_event_aria_label')"
       /> -->
       <!-- <BtnAction
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
-        label="components.btn-action.attend"
+        label="components.btn_action.attend"
         leftIcon="IconJoin"
         fontSize="lg"
-        :ariaLabel="$t('components.btn-action.attend-aria-label')"
+        :ariaLabel="$t('components.btn_action.attend_aria_label')"
       /> -->
       <BtnAction
         @click="openModal()"
@@ -24,10 +24,10 @@
         @keydown="handleTabPress(true, $event)"
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
-        label="components.btn-action.share"
+        label="components.btn_action.share"
         :leftIcon="IconMap.SHARE"
         fontSize="lg"
-        :ariaLabel="$t('components._global.share-event-aria-label')"
+        :ariaLabel="$t('components._global.share_event-aria-label')"
       />
       <ModalSharePage
         @closeModal="handleCloseModal"

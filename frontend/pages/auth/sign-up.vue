@@ -4,7 +4,7 @@
       <div class="col">
         <FormTextInput
           @update:model-value="userNameValue = $event"
-          :placeholder="$t('pages.auth.sign-up.index.enter-user-name')"
+          :placeholder="$t('pages.auth.sign_up.index.enter_user_name')"
           :model-value="userNameValue"
         />
       </div>
@@ -20,7 +20,7 @@
             isFocused = true;
             isBlurred = false;
           "
-          :placeholder="$t('components._global.enter-password')"
+          :placeholder="$t('components._global.enter_password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
@@ -40,7 +40,7 @@
       <div>
         <FormTextInput
           @update:model-value="confirmPasswordValue = $event"
-          :placeholder="$t('_global.repeat-password')"
+          :placeholder="$t('_global.repeat_password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="confirmPasswordValue"
@@ -60,29 +60,29 @@
             value="yes"
           />
           <p class="flex flex-wrap pl-2">
-            {{ $t("pages._global.terms-of-service-pt-1") }}
+            {{ $t("pages._global.terms_of_service_pt_1") }}
             <NuxtLink
               :to="localePath('/legal/privacy-policy')"
               target="_blank"
               class="link-text ml-1 sm:block"
-              >{{ $t("pages._global.terms-of-service-pt-2") }}
+              >{{ $t("pages._global.terms_of_service_pt_2") }}
             </NuxtLink>
           </p>
         </div>
         <BtnAction
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
-          :label="'_global.sign-up'"
+          :label="'_global.sign_up'"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="'components.btn-route-internal.sign-up-aria-label'"
+          :ariaLabel="'components.btn_route_internal.sign_up_aria_label'"
         />
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
-        <h6>{{ $t("pages.auth.sign-up.index.have-account") }}</h6>
+        <h6>{{ $t("pages.auth.sign_up.index.have_account") }}</h6>
         <NuxtLink
           :to="localePath('/auth/sign-in')"
           class="link-text ml-2 font-extrabold"
-          >{{ $t("_global.sign-in") }}</NuxtLink
+          >{{ $t("_global.sign_in") }}</NuxtLink
         >
       </div>
     </form>

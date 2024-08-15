@@ -12,22 +12,22 @@
           class="w-max"
           :cta="true"
           :linkTo="event.getInvolvedURL"
-          label="components.btn-route-internal.offer-to-help"
+          label="components.btn_route_internal.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
+          ariaLabel="components.btn_route_internal.offer_to_help_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.support"
+          label="components.btn_action.support"
           :hideLabelOnMobile="true"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="event.supportingUsers.length"
-          ariaLabel="components.btn-action.support-event-aria-label"
+          ariaLabel="components.btn_action.support_event_aria_label"
         /> -->
         <BtnAction
           @click="openModal()"
@@ -39,7 +39,7 @@
           fontSize="sm"
           :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="$t('components._global.share-event-aria-label')"
+          :ariaLabel="$t('components._global.share_event-aria-label')"
         />
         <ModalSharePage
           @closeModal="handleCloseModal"
@@ -103,9 +103,9 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = "components.btn-action.share";
+    shareButtonLabel.value = "components.btn_action.share";
   } else {
-    shareButtonLabel.value = "components._global.share-group";
+    shareButtonLabel.value = "components._global.share_group";
   }
 }
 

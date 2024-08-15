@@ -18,11 +18,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components._global.new-event"
+          label="components._global.new_event"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-route-internal.new-event-aria-label"
+          ariaLabel="components.btn_route_internal.new_event_aria_label"
         />
       </div>
     </HeaderAppPage>

@@ -20,7 +20,7 @@
             'h-[17.5rem]': !props.fullscreen,
           }"
           :src="img"
-          :alt="$t('components.media-image-carousal.img-alt-text')"
+          :alt="$t('components.media_image_carousal.img_alt_text')"
         />
       </swiper-slide>
     </swiper-container>

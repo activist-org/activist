@@ -20,12 +20,12 @@
       class="style-btn flex w-full cursor-not-allowed items-center space-x-4 rounded-md border-none p-1 px-3 text-lg shadow-none"
       :disabled="true"
       :aria-label="
-        $t('components.friendly-captcha.captcha-disabled-aria-label')
+        $t('components.friendly_captcha.captcha_disabled_aria_label')
       "
     >
       <Icon :name="IconMap.SHIELD" size="28px" />
       <p class="font-bold">
-        {{ $t("components.friendly-captcha.captcha-disabled") }}
+        {{ $t("components.friendly_captcha.captcha_disabled") }}
       </p>
     </button>
   </div>

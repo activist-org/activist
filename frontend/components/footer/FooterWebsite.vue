@@ -70,12 +70,12 @@ const organizationLinks = [
 
 const platformLinks = [
   {
-    name: "components.footer.version-number",
+    name: "components.footer.version_number",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist/releases",
   },
   {
-    name: "components.footer.source-code",
+    name: "components.footer.source_code",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist",
   },
@@ -88,11 +88,11 @@ const platformLinks = [
 
 const legalLinks = [
   {
-    name: "_global.trademark-policy",
+    name: "_global.trademark_policy",
     url: "/legal/trademark-policy",
   },
   {
-    name: "_global.privacy-policy",
+    name: "_global.privacy_policy",
     url: "/legal/privacy-policy",
   },
 ];

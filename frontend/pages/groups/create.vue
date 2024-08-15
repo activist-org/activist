@@ -25,7 +25,7 @@
         >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("pages.groups.create.group-name") }}*</label
+              >{{ $t("pages.groups.create.group_name") }}*</label
             >
             <input
               v-model="formData.name"
@@ -33,7 +33,7 @@
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="name"
-              :placeholder="$t('pages.groups.create.group-name-placeholder')"
+              :placeholder="$t('pages.groups.create.group_name_placeholder')"
             />
           </div>
           <div class="w-1/2">
@@ -46,7 +46,7 @@
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="location"
-              :placeholder="$t('pages.groups.create.location-placeholder')"
+              :placeholder="$t('pages.groups.create.location_placeholder')"
             />
           </div>
         </div>
@@ -59,7 +59,7 @@
             id="description"
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="description"
-            :placeholder="$t('pages.groups.create.description-placeholder')"
+            :placeholder="$t('pages.groups.create.description_placeholder')"
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
@@ -71,7 +71,7 @@
             id="tagline"
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="tagline"
-            :placeholder="$t('pages.groups.create.tagline-placeholder')"
+            :placeholder="$t('pages.groups.create.tagline_placeholder')"
           />
         </div>
         <CardTopicSelection
@@ -86,9 +86,9 @@
           <div class="flex space-x-2">
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
-              <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
+              <p>{{ $t("pages._global.terms_of_service_pt_1") }}&nbsp;</p>
               <a href="#" class="text-blue-500">{{
-                $t("pages._global.terms-of-service-pt-2")
+                $t("pages._global.terms_of_service_pt_2")
               }}</a>
               <p>.</p>
             </label>
@@ -98,9 +98,9 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="_global.create-group"
+              label="_global.create_group"
               fontSize="lg"
-              ariaLabel="pages.groups.create.create-group-aria-label"
+              ariaLabel="pages.groups.create.create_group_aria_label"
             />
           </div>
         </div>

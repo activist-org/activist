@@ -10,7 +10,7 @@
             class="h-16 w-16 rounded-full ring-2 ring-light-section-div hover:ring-2 hover:ring-light-cta-orange hover:ring-offset-2 dark:ring-dark-section-div dark:hover:ring-light-cta-orange dark:hover:ring-offset-dark-layer-0"
             :src="item.avatarUrl"
             :alt="
-              $t('components.grid-github-contributors.img-alt-text') +
+              $t('components.grid_github_contributors.img_alt_text') +
               ' ' +
               item.loginID
             "
@@ -27,13 +27,13 @@
           @click="onClickLoadMoreContributors"
           class="focus-brand flex w-20 flex-col items-center space-y-1"
           :aria-label="
-            $t('components.grid-github-contributors.load-more-aria-label')
+            $t('components.grid_github_contributors.load_more_aria_label')
           "
         >
           <span
             class="flex h-16 w-16 items-center justify-center rounded-full bg-light-section-div ring-2 ring-light-section-div hover:ring-2 hover:ring-light-cta-orange hover:ring-offset-2 dark:bg-dark-section-div dark:ring-dark-section-div dark:hover:ring-light-cta-orange dark:hover:ring-offset-dark-layer-0"
             :alt="
-              $t('components.grid-github-contributors.load-more-img-alt-text')
+              $t('components.grid_github_contributors.load_more_img_alt_text')
             "
           >
             <Icon
@@ -45,7 +45,7 @@
           <p
             class="w-full truncate text-center text-sm text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
           >
-            {{ $t("components.grid-github-contributors.load-more") }}
+            {{ $t("components.grid_github_contributors.load_more") }}
           </p>
         </button>
       </li>

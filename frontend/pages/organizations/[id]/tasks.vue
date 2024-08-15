@@ -10,18 +10,18 @@
     <HeaderAppPage
       :organization="organization"
       :header="organization.name + ' ' + $t('_global.tasks_lower')"
-      :tagline="$t('pages._global.tasks-page-tagline')"
+      :tagline="$t('pages._global.tasks_page_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.new-task"
+          label="components.btn_action.new_task"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-action.new-task-aria-label"
+          ariaLabel="components.btn_action.new_task_aria_label"
         />
       </div>
     </HeaderAppPage>

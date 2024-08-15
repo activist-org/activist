@@ -3,7 +3,7 @@
     <form class="space-y-4">
       <FormTextInput
         @update:model-value="userNameValue = $event"
-        :placeholder="$t('pages.auth.sign-in.index.enter-user-name')"
+        :placeholder="$t('pages.auth.sign_in.index.enter_user_name')"
         :model-value="userNameValue"
       />
       <FormTextInput
@@ -17,7 +17,7 @@
           isFocused = true;
           isBlurred = false;
         "
-        :placeholder="$t('components._global.enter-password')"
+        :placeholder="$t('components._global.enter_password')"
         :is-icon-visible="true"
         input-type="password"
         :model-value="passwordValue"
@@ -35,7 +35,7 @@
       />
       <FormTextInput
         @update:model-value="confirmPasswordValue = $event"
-        :placeholder="$t('_global.repeat-password')"
+        :placeholder="$t('_global.repeat_password')"
         :is-icon-visible="true"
         input-type="password"
         :model-value="confirmPasswordValue"
@@ -48,10 +48,10 @@
       <div class="pt-4">
         <BtnAction
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
-          :label="$t('_global.set-password')"
+          :label="$t('_global.set_password')"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('_global.set-password')"
+          :ariaLabel="$t('_global.set_password')"
         />
       </div>
     </form>

@@ -13,23 +13,23 @@
           {{ $t("pages._global.information") }}
         </h1>
         <p class="mt-4">
-          {{ $t("pages.events.create.subtext-0") }}
+          {{ $t("pages.events.create.subtext_0") }}
         </p>
       </div>
       <div v-if="page === 1" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages.events.create.header-1") }}
+          {{ $t("pages.events.create.header_1") }}
         </h1>
         <p class="mt-4">
-          {{ $t("pages.events.create.subtext-1") }}
+          {{ $t("pages.events.create.subtext_1") }}
         </p>
       </div>
       <div v-if="page === 2" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages.events.create.header-2") }}
+          {{ $t("pages.events.create.header_2") }}
         </h1>
         <p class="mt-4">
-          {{ $t("pages.events.create.subtext-2") }}
+          {{ $t("pages.events.create.subtext_2") }}
         </p>
       </div>
       <form
@@ -45,7 +45,7 @@
           >
             <div class="w-1/2">
               <label for="name" class="responsive-h3 block font-medium"
-                >{{ $t("_global.events-name") }}*</label
+                >{{ $t("_global.events_name") }}*</label
               >
               <input
                 v-model="formData.name"
@@ -53,7 +53,7 @@
                 class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
                 type="text"
                 name="name"
-                :placeholder="$t('pages.events.create.events-name-placeholder')"
+                :placeholder="$t('pages.events.create.events_name_placeholder')"
               />
             </div>
             <div class="w-1/2">
@@ -66,7 +66,7 @@
                 class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
                 type="text"
                 name="tagline"
-                :placeholder="$t('pages.events.create.tagline-placeholder')"
+                :placeholder="$t('pages.events.create.tagline_placeholder')"
               />
             </div>
           </div>
@@ -75,7 +75,7 @@
               >{{ $t("pages.events.create.organizer") }}*</label
             >
             <span id="organizer-instructions" class="block font-medium">{{
-              $t("pages.events.create.organizer-instructions")
+              $t("pages.events.create.organizer_instructions")
             }}</span>
             <input
               v-model="formData.organizer"
@@ -83,7 +83,7 @@
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="select"
               name="organizer"
-              :placeholder="$t('pages.events.create.organizer-placeholder')"
+              :placeholder="$t('pages.events.create.organizer_placeholder')"
               aria-describedby="organizer-instructions"
             />
           </div>
@@ -99,7 +99,7 @@
               id="description"
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               name="description"
-              :placeholder="$t('pages.events.create.description-placeholder')"
+              :placeholder="$t('pages.events.create.description_placeholder')"
             ></textarea>
           </div>
         </div>
@@ -109,7 +109,7 @@
           >
             <div class="w-1/5">
               <label for="event-type" class="responsive-h3 block font-medium">
-                {{ $t("pages.events.create.event-type") }}*
+                {{ $t("pages.events.create.event_type") }}*
               </label>
               <FormRadioGroup
                 @update:modelValue="updateEventType"
@@ -130,7 +130,7 @@
                 class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
                 type="text"
                 name="format"
-                :placeholder="$t('pages.events.create.format-placeholder')"
+                :placeholder="$t('pages.events.create.format_placeholder')"
               />
             </div>
           </div>
@@ -192,7 +192,7 @@
                 class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
                 type="text"
                 name="location"
-                :placeholder="$t('pages.events.create.location-placeholder')"
+                :placeholder="$t('pages.events.create.location_placeholder')"
               />
             </div>
             <div class="w-2/5">
@@ -205,7 +205,7 @@
                 class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
                 type="url"
                 name="link"
-                :placeholder="$t('pages.events.create.link-placeholder')"
+                :placeholder="$t('pages.events.create.link_placeholder')"
               />
             </div>
           </div>
@@ -218,12 +218,12 @@
             <div class="flex space-x-2">
               <FormCheckbox id="terms" />
               <label for="terms" class="flex font-medium">
-                <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
+                <p>{{ $t("pages._global.terms_of_service_pt_1") }}&nbsp;</p>
                 <NuxtLink
                   :to="localePath('/legal/privacy-policy')"
                   target="_blank"
                   class="link-text"
-                  >{{ $t("pages._global.terms-of-service-pt-2") }}</NuxtLink
+                  >{{ $t("pages._global.terms_of_service_pt_2") }}</NuxtLink
                 >
                 <p>.</p>
               </label>
@@ -268,11 +268,11 @@
             class="absolute left-0 mr-2"
             :class="{ 'placeholder-class': hasPreviousPage }"
             :cta="false"
-            label="pages.events.create.button-left"
+            label="pages.events.create.button_left"
             leftIcon="←"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="pages.events.create.go-to-previous-page"
+            ariaLabel="pages.events.create.go_to_previous_page"
           />
           <BtnAction
             v-if="!hasNextPage"
@@ -281,7 +281,7 @@
             class="absolute right-0 ml-2 flex"
             label="pages.events.create.submit"
             fontSize="lg"
-            ariaLabel="pages.events.create.submit-aria-label"
+            ariaLabel="pages.events.create.submit_aria_label"
           />
           <BtnAction
             v-if="hasNextPage"
@@ -289,11 +289,11 @@
             type="button"
             class="absolute right-0 ml-2"
             :cta="false"
-            label="pages.events.create.button-right"
+            label="pages.events.create.button_right"
             rightIcon="→"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="pages.events.create.go-to-previous-page"
+            ariaLabel="pages.events.create.go_to_previous_page"
           />
         </div>
       </form>

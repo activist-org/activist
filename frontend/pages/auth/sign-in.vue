@@ -4,14 +4,14 @@
       <div class="col">
         <FormTextInput
           @update:model-value="userNameValue = $event"
-          :placeholder="$t('pages.auth.sign-in.index.enter-user-name')"
+          :placeholder="$t('pages.auth.sign_in.index.enter_user_name')"
           :model-value="userNameValue"
         />
       </div>
       <div>
         <FormTextInput
           @update:model-value="passwordValue = $event"
-          :placeholder="$t('components._global.enter-password')"
+          :placeholder="$t('components._global.enter_password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
@@ -35,22 +35,22 @@
         </button>
         <TooltipBase
           v-if="isForgotPasswordDisabled && hovered"
-          :text="$t('pages.auth.sign-in.forgot-password-captcha-tooltip')"
+          :text="$t('pages.auth.sign_in.forgot_password_captcha_tooltip')"
         />
         <BtnAction
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
-          :label="$t('_global.sign-in')"
+          :label="$t('_global.sign_in')"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('components.btn-route-internal.sign-in-aria-label')"
+          :ariaLabel="$t('components.btn_route_internal.sign_in_aria_label')"
         />
       </div>
       <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">
-        <h6>{{ $t("pages.auth.sign-in.index.no-account") }}</h6>
+        <h6>{{ $t("pages.auth.sign_in.index.no_account") }}</h6>
         <NuxtLink
           :to="localePath('/auth/sign-up')"
           class="link-text ml-2 font-extrabold"
-          >{{ $t("_global.sign-up") }}
+          >{{ $t("_global.sign_up") }}
         </NuxtLink>
       </div>
     </form>

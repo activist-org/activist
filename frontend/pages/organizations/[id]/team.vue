@@ -15,11 +15,11 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.invite-someone"
+          label="components.btn_action.invite_someone"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-action.invite-someone-org-aria-label"
+          ariaLabel="components.btn_action.invite_someone_org_aria_label"
         />
       </div>
     </HeaderAppPage>

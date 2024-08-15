@@ -155,7 +155,7 @@ onMounted(() => {
     .then((data) => {
       const location = data[0];
       if (!isWebglSupported()) {
-        alert(i18n.t("components.media-map.maplibre-gl-alert"));
+        alert(i18n.t("components.media_map.maplibre_gl_alert"));
       } else {
         const map = new maplibregl.Map({
           container: "map",

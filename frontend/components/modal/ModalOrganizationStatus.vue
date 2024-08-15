@@ -13,7 +13,7 @@
       <p
         class="responsive-h4 pt-2 text-light-accepted-green dark:text-dark-accepted-green"
       >
-        {{ $t("components.modal-organization-status.status-accepted") }}
+        {{ $t("components.modal_organization_status.status_accepted") }}
       </p>
       <div class="space-y-6 py-6">
         <CardOrgApplicationVote

@@ -15,12 +15,12 @@
     </div>
     <div class="responsive-py-5 responsive-px-5">
       <h3 class="responsive-h2 transition-all duration-500">
-        {{ $t("pages.about.index.section-1-subheader") }}
+        {{ $t("pages.about.index.section_1_subheader") }}
       </h3>
       <p
         class="responsive-py-1 text-light-distinct-text dark:text-dark-distinct-text"
       >
-        {{ $t("pages.about.index.section-1-tagline") }}
+        {{ $t("pages.about.index.section_1_tagline") }}
       </p>
       <GridDocEntries class="responsive-py-1" :cards="cards" />
     </div>
@@ -35,28 +35,28 @@ const cards: DocsEntry[] = [
     id: 1,
     url: "activist",
     title: "pages.about.index.activist",
-    description: "pages.about.index.activist-description",
+    description: "pages.about.index.activist_description",
     imgURL: "/icons/activist/activist_icon",
     imgDimensions: "h-12 sm:h-16",
-    imgAltText: "_global.activist-icon-img-alt-text",
+    imgAltText: "_global.activist_icon_img_alt_text",
   },
   {
     id: 2,
     url: "imprint",
     title: "_global.imprint",
-    description: "pages.about.index.imprint-description",
+    description: "pages.about.index.imprint_description",
     imgURL: `${BOOTSTRAP_INFO_CIRCLE_URL}`,
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.about._global.imprint-img-alt-text",
+    imgAltText: "pages.about._global.imprint_img_alt_text",
   },
   {
     id: 3,
     url: "roadmap",
     title: "_global.roadmap",
-    description: "_global.roadmap-description",
+    description: "_global.roadmap_description",
     imgURL: `${ARCTICONS_BIKE_LOCATION}`,
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.about._global.roadmap-img-alt-text",
+    imgAltText: "pages.about._global.roadmap_img_alt_text",
   },
 ];
 </script>

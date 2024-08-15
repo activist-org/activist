@@ -10,7 +10,7 @@
       <ImageOrganization
         :imgURL="organization?.iconURL"
         :alt="
-          $t('components._global.entity-logo', {
+          $t('components._global.entity_logo', {
             entity_name: organization?.name,
           })
         "
@@ -47,7 +47,7 @@
           <p
             class="width-5/6 hover:light-menu-selection select-none whitespace-nowrap text-lg font-bold"
           >
-            <span class="sr-only">{{ $t("_global.navigate-to") }}</span>
+            <span class="sr-only">{{ $t("_global.navigate_to") }}</span>
             {{ $t(button.label) }}
           </p>
         </div>
@@ -56,11 +56,11 @@
         class="w-max"
         :cta="true"
         linkTo="/"
-        label="components.btn-route-internal.offer-to-help"
+        label="components.btn_route_internal.offer_to_help"
         fontSize="base"
         :rightIcon="IconMap.ARROW_RIGHT"
         iconSize="1.25em"
-        ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
+        ariaLabel="components.btn_route_internal.offer_to_help_aria_label"
       />
     </div>
   </div>

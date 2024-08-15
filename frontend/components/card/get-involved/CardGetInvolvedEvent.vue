@@ -12,7 +12,7 @@
         :sectionsToEdit="[
           $t('_global.about'),
           $t('components._global.participate'),
-          $t('components._global.offer-to-help-link'),
+          $t('components._global.offer_to_help_link'),
         ]"
         :isOpen="modalIsOpen"
       />
@@ -21,9 +21,9 @@
       <p v-if="event.getInvolved">
         {{ event.getInvolved }}
       </p>
-      <p v-else>{{ $t("components.card-get-involved.participate-subtext") }}</p>
+      <p v-else>{{ $t("components.card_get_involved.participate_subtext") }}</p>
       <!-- <p>
-        {{ $t("components.card-get-involved.legal-disclaimer-subtext") }}
+        {{ $t("components.card_get_involved.legal_disclaimer_subtext") }}
       </p>
       <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" /> -->
       <div class="flex w-max pt-2">
@@ -31,11 +31,11 @@
           class="w-full"
           :cta="true"
           linkTo="/"
-          label="components.btn-route-internal.offer-to-help"
+          label="components.btn_route_internal.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
+          ariaLabel="components.btn_route_internal.offer_to_help_aria_label"
         />
       </div>
     </div>

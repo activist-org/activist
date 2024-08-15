@@ -21,11 +21,11 @@
           class="block w-max"
           :cta="true"
           linkTo="/"
-          label="components.btn-route-internal.new-discussion"
+          label="components.btn_route_internal.new_discussion"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-route-internal.new-discussion-aria-label"
+          ariaLabel="components.btn_route_internal.new_discussion_aria_label"
         />
       </div>
     </HeaderAppPage>

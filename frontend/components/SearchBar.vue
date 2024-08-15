@@ -40,7 +40,7 @@
         >
           <TooltipBase
             class="invisible -mt-8"
-            :text="$t('components.search-bar.slash-tooltip-label')"
+            :text="$t('components.search_bar.slash_tooltip_label')"
           />
           <p class="-mt-[0.075rem]">/</p>
         </div>
@@ -50,7 +50,7 @@
         >
           <TooltipBase
             class="invisible -mt-8"
-            :text="$t('components.search-bar.command-tooltip-label')"
+            :text="$t('components.search_bar.command_tooltip_label')"
           />
           <p>⌘k</p>
         </div>
@@ -60,7 +60,7 @@
         >
           <TooltipBase
             class="invisible -mt-8"
-            :text="$t('components.search-bar.control-tooltip-label')"
+            :text="$t('components.search_bar.control_tooltip_label')"
           />
           <p>⌃k</p>
         </div>

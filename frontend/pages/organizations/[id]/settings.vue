@@ -16,9 +16,9 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.save-settings"
+          label="components.btn_action.save_settings"
           fontSize="sm"
-          ariaLabel="components.btn-action.save-settings-aria-label"
+          ariaLabel="components.btn_action.save_settings_aria_label"
         />
       </div>
     </HeaderAppPage>
@@ -26,11 +26,11 @@
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="
-          $t('components.card-danger-zone.delete-organization-text')
+          $t('components.card_danger_zone.delete_organization_text')
         "
-        :ctaBtnText="$t('components.card-danger-zone.delete-organization-cta')"
+        :ctaBtnText="$t('components.card_danger_zone.delete_organization_cta')"
         :ctaBtnAriaLabel="
-          $t('components.card-danger-zone.delete-organization-cta-aria-label')
+          $t('components.card_danger_zone.delete_organization_cta_aria_label')
         "
       />
     </div> -->

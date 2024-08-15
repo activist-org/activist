@@ -17,7 +17,7 @@
       </div>
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <label for="textarea" class="responsive-h2">{{
-          $t("components._global.get-involved")
+          $t("components._global.get_involved")
         }}</label>
         <textarea
           v-model="formData.getInvolved"
@@ -28,9 +28,9 @@
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
-            $t("components._global.join-organization-link")
+            $t("components._global.join_organization_link")
           }}</label>
-          <p>{{ $t("components.modal-edit-page-text.remember-https") }}</p>
+          <p>{{ $t("components.modal_edit_page_text.remember_https") }}</p>
           <input
             v-model="formData.getInvolvedURL"
             id="textarea"
@@ -41,10 +41,10 @@
       <BtnAction
         @click="handleSubmit()"
         :cta="true"
-        :label="$t('components.modal-edit-page-text.update-texts')"
+        :label="$t('components.modal_edit_page_text.update_texts')"
         fontSize="base"
         :ariaLabel="
-          $t('components.modal-edit-page-text.update-texts-aria-label')
+          $t('components.modal_edit_page_text.update_texts_aria_label')
         "
       />
     </div>

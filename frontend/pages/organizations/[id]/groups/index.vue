@@ -18,11 +18,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components._global.new-group"
+          label="components._global.new_group"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-route-internal.new-group-aria-label"
+          ariaLabel="components.btn_route_internal.new_group_aria_label"
         />
       </div>
     </HeaderAppPage>

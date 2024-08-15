@@ -11,7 +11,7 @@
         <h1 class="responsive-h5 pl-2 font-bold">
           {{ discussionEntry.author }}
         </h1>
-        <p>{{ $t("components.card-discussion-text.on") }}</p>
+        <p>{{ $t("components.card_discussion_text.on") }}</p>
         <p>
           {{ discussionEntry.date.toLocaleDateString() }}
         </p>
@@ -25,7 +25,7 @@
       :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
       :counter="discussionEntry.votes"
-      ariaLabel="components.btn-action.upvote-discussion-aria-label"
+      ariaLabel="components.btn_action.upvote_discussion_aria_label"
     />
   </div>
 </template>

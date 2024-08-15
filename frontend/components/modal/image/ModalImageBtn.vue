@@ -1,7 +1,7 @@
 <template>
   <button
     class="focus-brand h-min cursor-pointer p-4 md:float-right md:w-1/3 2xl:col-span-1 2xl:w-full"
-    :aria-label="$t('components.modal-image.open-modal-aria-label')"
+    :aria-label="$t('components.modal_image.open_modal_aria_label')"
   >
     <img
       v-if="$colorMode.value == 'light'"

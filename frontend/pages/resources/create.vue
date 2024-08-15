@@ -34,7 +34,7 @@
               type="text"
               name="name"
               :placeholder="
-                $t('pages.resources.create.resource-name-placeholder')
+                $t('pages.resources.create.resource_name_placeholder')
               "
             />
           </div>
@@ -48,7 +48,7 @@
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="location"
-              :placeholder="$t('pages.resources.create.link-placeholder')"
+              :placeholder="$t('pages.resources.create.link_placeholder')"
             />
           </div>
         </div>
@@ -61,7 +61,7 @@
             id="description"
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="description"
-            :placeholder="$t('pages.resources.create.description-placeholder')"
+            :placeholder="$t('pages.resources.create.description_placeholder')"
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 flex w-full">
@@ -74,7 +74,7 @@
               id="location"
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               name="location"
-              :placeholder="$t('pages.resources.create.location-placeholder')"
+              :placeholder="$t('pages.resources.create.location_placeholder')"
             ></textarea>
           </div>
           <div class="flex-1 px-5 py-6">
@@ -87,7 +87,7 @@
               class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               name="organization"
               :placeholder="
-                $t('pages.resources.create.organization-placeholder')
+                $t('pages.resources.create.organization_placeholder')
               "
             ></textarea>
           </div>
@@ -99,9 +99,9 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="_global.create-resource"
+              label="_global.create_resource"
               fontSize="lg"
-              ariaLabel="pages.resources.create.complete-application-aria-label"
+              ariaLabel="pages.resources.create.complete_application_aria_label"
             />
           </div>
         </div>

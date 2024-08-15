@@ -241,43 +241,43 @@ activist is a global platform and must function in countless different regions a
 > - Edits to the other files should be made on activist's [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist)
 > - Please alphabetize the keys, with your code editor likely having built in functionality for this
 > - Do not put the dictionary into different levels!
->   - The purpose of one flat dictionary is so that we can search for the key in the codebase and easily find its uses and where it's defined
+> - The purpose of one flat dictionary is so that we can search for the key in the codebase and easily find its uses and where it's defined
 > - Do not include periods in aria-labels (screen reader user will configure their own preferences for a hard stop)
 > - Put the aria label as the last attribute on any given element so it's easy to see if it's missing (`aria-label` for as an HTML attribute and `ariaLabel` as a prop)
 
 Localization keys should be defined based on their component or page within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 
-- Separate directories and references by `.` and CamelCase file name words by `-` in keys
-  - Ex: `"components.search-bar.CONTENT_REFERENCE"` for the `SearchBar` component
+- Separate directories and references by `.` and CamelCase file name words by `_` in keys
+  - Ex: `"components.search_bar.CONTENT_REFERENCE"` for the `SearchBar` component
 - If the localization key is being passed to a component prop, include it in the content reference
-  - Ex: `"components.shield-topic.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `ShieldTopic` component
+  - Ex: `"components.shield_topic.topic.CONTENT_REFERENCE"` for passing a localized `topic` prop to the `ShieldTopic` component
     - `"CONTENT_REFERENCE"` in this case would be a reference to the name of a topic like `"environment"`
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
   - Ex: if you're defining a key within `DropdownCreate`:
-    - ✅ `"components.dropdown-create.CONTENT_REFERENCE"`
-    - ❌ `"components.dropdown.dropdown-create.CONTENT_REFERENCE"`
+    - ✅ `"components.dropdown_create.CONTENT_REFERENCE"`
+    - ❌ `"components.dropdown.dropdown_create.CONTENT_REFERENCE"`
 - Define keys based on the lowest level component or other entity in which they're used
   - Ex: you're working on the about page for organizations and there's a `BtnAction` that's getting a localization key:
-    - ✅ `"components.btn-action.CONTENT_REFERENCE"`
+    - ✅ `"components.btn_action.CONTENT_REFERENCE"`
     - ❌ `"pages.organizations.id.about.CONTENT_REFERENCE"`
   - The reason for this is we want to make sure that we can reuse keys wherever we can
     - In the above example, if we defined the key based on its location on the organization about page when it's a `BtnAction` with a text like `"Support"`, then we'd need to create a different version of this key for each occurrence of the button depending on the location
-    - With the system detailed above, we have the `components.btn-action.label.support` key that we can use anywhere that we have a support button ✨
-- Please end all aria-label keys with `-alt-text` so the localization team knows that they're for screen readers
+    - With the system detailed above, we have the `components.btn_action.label.support` key that we can use anywhere that we have a support button ✨
+- Please end all aria-label keys with `_alt_text` so the localization team knows that they're for screen readers
 - If you need a capitalized and lower case version of a word, signify the lower case version with `_lower` at the end of the key
 - For pages with long texts please follow the below naming criteria:
   - `"header"`: the main header (h1) of the given page
-  - `"section-#"`: a section that iterates by one with every header and subheader
-  - `"section-#-#"`: a subsection, with other `#-#` patterns also being possible (see below)
-  - `"section-#-subheader"`: marks the start of a new section (h2 and beyond)
-  - `"section-#-paragraph-#"`: a paragraph with one or more sentences
-  - `"section-#-paragraph-#-#"`: a paragraph with separate parts to insert things like links
-  - `"section-#-list-#-item-#"`: an item in a list
-  - `"section-#-list-#-item-#-#"`: a subitem of the given item
+  - `"section_#"`: a section that iterates by one with every header and subheader
+  - `"section_#_#"`: a subsection, with other `#_#` patterns also being possible (see below)
+  - `"section_#_subheader"`: marks the start of a new section (h2 and beyond)
+  - `"section_#_paragraph_#"`: a paragraph with one or more sentences
+  - `"section_#_paragraph_#_#"`: a paragraph with separate parts to insert things like links
+  - `"section_#_list_#_item_#"`: an item in a list
+  - `"section_#_list_#_item_#_#"`: a subitem of the given item
 - If you're creating a value that already exists, move it and the original to a `_global` sub name at the lowest shared name in `en-US.json`
-- If there are different uses of the same value in one file, then alphabetically combine the final keys with dashes (ex: `header-title`)
+- If there are different uses of the same value in one file, then alphabetically combine the final keys with dashes (ex: `header_title`)
 - Please always assign the full key as a string to assure that i18n content checks can pick up if the key has been used
-  - Eg: `section-1-2` and not `section-{var_number}-2`
+  - Eg: `section_1_2` and not `section_{var_number}_2`
   - This makes sure that content writers and the i18n team are only working with language that's actively in use
 
 The activist team is happy to help if there's any confusion with the above rules! Feel free to ask in the issue you're working on or even check once a PR is made and we'll make sure that conventions are being followed.
