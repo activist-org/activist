@@ -9,7 +9,7 @@
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
-import maplibregl from "maplibre-gl";
+import maplibregl, { Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
@@ -126,6 +126,14 @@ const mapProfile = (profile: string) => {
 
 let selectedRoute = mapProfile(routeProfileOptions.FOOT);
 
+const toggleLayerHandler = (map : Map) => {
+  if (currentProfile === walkingRouteProfileControl) {
+    map.setLayoutProperty("cycle-layer", "visibility", "visible");
+  } else {
+    map.setLayoutProperty("cycle-layer", "visibility", "none");
+  }
+};
+
 const routeProfileHandler = () => {
   if (currentProfile === walkingRouteProfileControl) {
     currentProfile = bikeRouteProfileControl;
@@ -169,6 +177,13 @@ onMounted(() => {
                 attribution:
                   '<a href="https://www.openstreetmap.org/about" target="_blank">Data &copy; OpenStreetMap contributors</a>',
               },
+              "cycle-raster-tiles": {
+                type: "raster",
+                tiles: ["https://c.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png"],
+                tileSize: 256,
+                attribution:
+                  '<a href="https://www.openstreetmap.org/about" target="_blank">CyclOSM Data &copy; OpenStreetMap contributors</a>',
+              },
             },
             layers: [
               {
@@ -180,11 +195,21 @@ onMounted(() => {
                 },
               },
               {
-                id: "simple-tiles",
+                id: "default-layer",
                 type: "raster",
                 source: "raster-tiles",
                 minzoom: 0,
                 maxzoom: 24,
+              },
+              {
+                id: "cycle-layer",
+                type: "raster",
+                source: "cycle-raster-tiles",
+                minzoom: 0,
+                maxzoom: 20,
+                layout: {
+                    visibility: "none"
+                },
               },
             ],
           },
@@ -304,6 +329,8 @@ onMounted(() => {
                 div.innerHTML = currentProfile;
 
                 const updateSelectedProfile = () => {
+                  toggleLayerHandler(map);
+
                   directions.destroy();
                   div.innerHTML = routeProfileHandler();
 
