@@ -126,7 +126,7 @@ const mapProfile = (profile: string) => {
 
 let selectedRoute = mapProfile(routeProfileOptions.FOOT);
 
-const toggleLayerHandler = (map : Map) => {
+const toggleLayerHandler = (map: Map) => {
   if (currentProfile === walkingRouteProfileControl) {
     map.setLayoutProperty("cycle-layer", "visibility", "visible");
   } else {
@@ -179,7 +179,9 @@ onMounted(() => {
               },
               "cycle-raster-tiles": {
                 type: "raster",
-                tiles: ["https://c.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png"],
+                tiles: [
+                  "https://c.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
+                ],
                 tileSize: 256,
                 attribution:
                   '<a href="https://www.openstreetmap.org/about" target="_blank">CyclOSM Data &copy; OpenStreetMap contributors</a>',
@@ -208,7 +210,7 @@ onMounted(() => {
                 minzoom: 0,
                 maxzoom: 20,
                 layout: {
-                    visibility: "none"
+                  visibility: "none",
                 },
               },
             ],
