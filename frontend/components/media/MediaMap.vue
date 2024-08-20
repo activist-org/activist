@@ -180,6 +180,8 @@ onMounted(() => {
               "cycle-raster-tiles": {
                 type: "raster",
                 tiles: [
+                  "https://a.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
+                  "https://b.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
                   "https://c.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
                 ],
                 tileSize: 256,
