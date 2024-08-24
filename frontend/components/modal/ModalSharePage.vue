@@ -337,14 +337,18 @@ const nativeBehaviorOptions = {
 
 const windowFeatures = {};
 
-const copyToClipboard = async (name: string, url: string, redirectURL?: string) => {
+const copyToClipboard = async (
+  name: string,
+  url: string,
+  redirectURL?: string
+) => {
   try {
     await navigator.clipboard.writeText(url);
     contentCopied.value = true;
     setTimeout(() => {
       contentCopied.value = false;
       if (redirectURL) {
-        router.push(redirectURL)
+        router.push(redirectURL);
       }
     }, 2000);
   } catch (error) {
