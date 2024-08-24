@@ -346,7 +346,7 @@ const copyToClipboard = async (
     setTimeout(() => {
       contentCopied.value = false;
       if (redirectURL) {
-        window.location.assign(redirectURL)
+        window.open(redirectURL, "_blank");
       }
     }, 2000);
   } catch (error) {
