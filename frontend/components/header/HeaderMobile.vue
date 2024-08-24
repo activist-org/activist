@@ -54,7 +54,8 @@ import { DropdownLocation, SearchBarLocation } from "~/types/location";
 
 const aboveMediumBP = useBreakpoint("md");
 
-const userIsSignedIn = false;
+const { userIsSignedIn } = useUser();
+
 const isSearchExpanded = ref(false);
 
 const toggleSearchExpanded = () => {
