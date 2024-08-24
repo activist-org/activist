@@ -95,14 +95,39 @@
             />
           </s-facebook>
           <div
-            @popup-close="nativeBehaviorOptions.onClose"
-            @popup-open="nativeBehaviorOptions.onOpen"
-            @popup-block="nativeBehaviorOptions.onBlock"
-            @popup-focus="nativeBehaviorOptions.onFocus"
+            @click="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
+            @keypress.space="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
+            @keypress.enter="
+              copyToClipboard(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl()
+              )
+            "
             class="focus-brand"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
+            tabindex="0"
+            role="button"
           >
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
