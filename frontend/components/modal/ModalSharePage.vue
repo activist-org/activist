@@ -102,7 +102,8 @@
                   : props?.organization?.name
                     ? props?.organization?.name
                     : '',
-                getCurrentUrl()
+                getCurrentUrl(),
+                'https://signal.me/#p'
               )
             "
             @keypress.space="
@@ -112,7 +113,8 @@
                   : props?.organization?.name
                     ? props?.organization?.name
                     : '',
-                getCurrentUrl()
+                getCurrentUrl(),
+                'https://signal.me/#p'
               )
             "
             @keypress.enter="
@@ -122,7 +124,8 @@
                   : props?.organization?.name
                     ? props?.organization?.name
                     : '',
-                getCurrentUrl()
+                getCurrentUrl(),
+                'https://signal.me/#p'
               )
             "
             class="focus-brand"
@@ -241,6 +244,8 @@ import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 
+const router = useRouter();
+
 const props = defineProps<{
   cta: BtnAction["cta"];
   organization?: Organization;
@@ -332,12 +337,15 @@ const nativeBehaviorOptions = {
 
 const windowFeatures = {};
 
-const copyToClipboard = async (name: string, url: string) => {
+const copyToClipboard = async (name: string, url: string, redirectURL?: string) => {
   try {
     await navigator.clipboard.writeText(url);
     contentCopied.value = true;
     setTimeout(() => {
       contentCopied.value = false;
+      if (redirectURL) {
+        router.push(redirectURL)
+      }
     }, 2000);
   } catch (error) {
     console.error(`Could not copy text: ${error}`);
