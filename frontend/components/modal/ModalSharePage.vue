@@ -244,8 +244,6 @@ import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 
-const router = useRouter();
-
 const props = defineProps<{
   cta: BtnAction["cta"];
   organization?: Organization;
@@ -348,7 +346,7 @@ const copyToClipboard = async (
     setTimeout(() => {
       contentCopied.value = false;
       if (redirectURL) {
-        router.push(redirectURL);
+        window.location.assign(redirectURL)
       }
     }, 2000);
   } catch (error) {
