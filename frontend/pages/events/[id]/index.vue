@@ -81,10 +81,9 @@ const localPath = useLocalePath();
 
 const { eventEntry } = useMenuEntriesState();
 
-const eventButtons: MenuSelector[] = [
-];
+const eventButtons: MenuSelector[] = [];
 
-eventEntry.value.forEach(entry => {
+eventEntry.value.forEach((entry) => {
   eventButtons.push(entry);
 });
 

@@ -80,13 +80,11 @@ const localePath = useLocalePath();
 
 const { organizationEntry } = useMenuEntriesState();
 
-const organizationButtons: MenuSelector[] = [
-];
+const organizationButtons: MenuSelector[] = [];
 
-organizationEntry.value.forEach(entry => {
+organizationEntry.value.forEach((entry) => {
   organizationButtons.push(entry);
 });
-
 
 const windowWidth = ref(window.innerWidth);
 
