@@ -1,6 +1,9 @@
 import datetime
+import random
 
 import factory
+
+from authentication.models import UserModel
 
 from .models import (
     Event,
@@ -30,9 +33,14 @@ class EventFactory(factory.django.DjangoModelFactory):
     offline_location_long = factory.Faker("longitude")
     start_time = factory.LazyFunction(datetime.datetime.now)
     end_time = factory.Faker("future_date", end_date="+15d")
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    created_by = created_by = (
+        factory.Iterator(UserModel.objects.exclude(username="admin").all())
+        if UserModel.objects.exclude(username="admin").exists()
+        else factory.SubFactory("authentication.factories.UserFactory")
+    )
     creation_date = factory.LazyFunction(datetime.datetime.now)
-    deletion_date = factory.Faker("future_date", end_date="+30d")
+    deletion_date = random.choice([None, factory.Faker("future_date", end_date="+30d")])
+    is_private = factory.Faker("boolean")
 
 
 class FormatFactory(factory.django.DjangoModelFactory):

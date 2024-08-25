@@ -1,7 +1,8 @@
 import datetime
 
 import factory
-import pytest
+
+from authentication.models import UserModel
 
 from .models import (
     Group,
@@ -26,15 +27,19 @@ from .models import (
 # MARK: Main Tables
 
 
-@pytest.mark.django_db
 class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Organization
+        django_get_or_create = ("created_by",)
 
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     social_links = ["https://www.instagram.com/activist_org/"]
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    created_by = (
+        factory.Iterator(UserModel.objects.exclude(username="admin").all())
+        if UserModel.objects.exclude(username="admin").exists()
+        else factory.SubFactory("authentication.factories.UserFactory")
+    )
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
     location = factory.Faker("city")
@@ -48,9 +53,15 @@ class GroupFactory(factory.django.DjangoModelFactory):
     org_id = factory.SubFactory(OrganizationFactory)
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    social_links = factory.List([factory.Faker("word") for _ in range(10)])
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    social_links = ["https://www.instagram.com/activist_org/"]
+    created_by = created_by = (
+        factory.Iterator(UserModel.objects.exclude(username="admin").all())
+        if UserModel.objects.exclude(username="admin").exists()
+        else factory.SubFactory("authentication.factories.UserFactory")
+    )
     creation_date = factory.LazyFunction(datetime.datetime.now)
+    category = factory.Faker("word")
+    location = factory.Faker("city")
 
 
 # MARK: Bridge Tables
