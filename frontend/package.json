@@ -1,5 +1,5 @@
 {
-  "name": "activist", 
+  "name": "activist",
   "private": true,
   "scripts": {
     "build": "nuxt build",
