@@ -35,9 +35,7 @@
         :cta="true"
         :label="$t('components.modal.edit._global.update_texts')"
         fontSize="base"
-        :ariaLabel="
-          $t('components.modal.edit._global.update_texts_aria_label')
-        "
+        :ariaLabel="$t('components.modal.edit._global.update_texts_aria_label')"
       />
     </div>
   </ModalBase>

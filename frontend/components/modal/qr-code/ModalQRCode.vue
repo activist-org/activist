@@ -108,9 +108,7 @@
         :dropdownIcon="IconMap.CHEVRON_DOWN"
         :dropdownOptions="availableFormats"
         :dropdownOptionsCallback="downloadQRCode"
-        :ariaLabel="
-          $t('components.modal_qr_code.download_qr_code-aria-label')
-        "
+        :ariaLabel="$t('components.modal_qr_code.download_qr_code-aria-label')"
         :ariaLabelDropdown="
           $t('components.btn-action-dropdown.qr_code_options_aria_label')
         "

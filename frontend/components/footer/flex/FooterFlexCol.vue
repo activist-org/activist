@@ -138,7 +138,9 @@
       </a>
       <div class="mt-2 text-light-text dark:text-dark-text">
         {{
-          $t("components.footer.flex._global.copyright", { year: new Date().getFullYear() })
+          $t("components.footer.flex._global.copyright", {
+            year: new Date().getFullYear(),
+          })
         }}
       </div>
     </div>
