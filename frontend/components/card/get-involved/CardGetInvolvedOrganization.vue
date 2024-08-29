@@ -19,26 +19,26 @@
         v-if="organization.groups && organization.groups.length > 0"
         :cta="true"
         :linkTo="'/organizations/' + id + '/groups'"
-        label="components.btn_route_internal.view_all_groups"
+        label="components.card_get_involved_organization.view_all_groups"
         fontSize="sm"
-        ariaLabel="components.btn_route_internal.view_all_groups_aria_label"
+        ariaLabel="components.card_get_involved_organization.view_all_groups_aria_label"
       />
       <BtnRouteInternal
         v-if="organization && organization.getInvolvedURL"
         :cta="true"
         :linkTo="organization.getInvolvedURL"
-        label="components.btn_route_internal.join_organization"
+        label="_global.join_organization"
         fontSize="sm"
         :rightIcon="IconMap.ARROW_RIGHT"
         iconSize="1.45em"
-        ariaLabel="components.btn_route_internal.join_organization_aria_label"
+        ariaLabel="_global.join_organization_aria_label"
       />
     </div>
     <div class="mt-4">
       <div v-if="organization.groups && organization.groups.length > 0">
         <p>
           {{
-            $t("components.card_get_involved.working_groups_subtext", {
+            $t("components._global.working_groups_subtext", {
               entity_name: organization.name,
             })
           }}:
@@ -51,7 +51,7 @@
         </p>
         <p v-else>
           {{
-            $t("components.card_get_involved.join_organization_subtext", {
+            $t("components._global.join_organization_subtext", {
               entity_name: organization.name,
             })
           }}.

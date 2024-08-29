@@ -8,7 +8,7 @@
       <Icon :name="IconMap.GITHUB" size="2em" />
       <div class="ml-4 place-self-center pb-1">
         <div class="ml-0.5 text-xs font-semibold leading-4">
-          {{ $t("components.grid_github_shields.visit_us") }}
+          {{ $t("components.grid_git_hub_shields.visit_us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">
           {{ $t("components._global.github") }}
@@ -18,7 +18,7 @@
     <ShieldGitHub
       class="fill-light-text dark:fill-dark-text"
       href="https://github.com/activist-org/activist/forks"
-      :text="$t('components.grid_github_shields.fork')"
+      :text="$t('components.grid_git_hub_shields.fork')"
       :isLoading="isLoading"
       :count="GitHubData.forks_count"
     >

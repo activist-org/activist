@@ -4,24 +4,26 @@
   >
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{ $t("_global.tasks_lower") }}</Title
+        >{{ organization.name }}&nbsp;{{
+          $t("pages._global.tasks.tasks_lower")
+        }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.tasks_lower')"
-      :tagline="$t('pages._global.tasks_page_tagline')"
+      :header="organization.name + ' ' + $t('pages._global.tasks.tasks_lower')"
+      :tagline="$t('pages._global.tasks.tasks_page_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn_action.new_task"
+          label="pages._global.tasks.new_task"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn_action.new_task_aria_label"
+          ariaLabel="pages._global.tasks.new_task_aria_label"
         />
       </div>
     </HeaderAppPage>

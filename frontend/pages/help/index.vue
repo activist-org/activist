@@ -38,7 +38,7 @@ const cards: DocsEntry[] = [
     description: "pages.help.index.faq_description",
     imgURL: `${BOOTSTRAP_QUESTION_SQUARE_URL}`,
     imgDimensions: "h-14 sm:h-16",
-    imgAltText: "pages._global.faq_img_alt_text",
+    imgAltText: "pages.help._global.faq_img_alt_text",
   },
   {
     id: 2,

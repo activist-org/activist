@@ -30,7 +30,7 @@
           <label for="input" class="responsive-h2">{{
             $t("components._global.join_group_link")
           }}</label>
-          <p>{{ $t("components.modal_edit_page_text.remember_https") }}</p>
+          <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
             v-model="formData.getInvolvedURL"
             id="textarea"
@@ -41,10 +41,10 @@
       <BtnAction
         @click="handleSubmit()"
         :cta="true"
-        :label="$t('components.modal_edit_page_text.update_texts')"
+        :label="$t('components.modal.edit._global.update_texts')"
         fontSize="base"
         :ariaLabel="
-          $t('components.modal_edit_page_text.update_texts_aria_label')
+          $t('components.modal.edit._global.update_texts_aria_label')
         "
       />
     </div>

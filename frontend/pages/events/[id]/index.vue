@@ -11,7 +11,7 @@
         :eventType="event.type"
         :imgURL="event.iconURL ? event.iconURL : ''"
         :alt="
-          $t('components._global.entity_logo', {
+          $t('_global.entity_logo', {
             entity_name: event?.name,
           })
         "
@@ -57,11 +57,11 @@
         class="w-max"
         :cta="true"
         linkTo="/"
-        label="components.btn_route_internal.offer_to_help"
+        label="_global.offer_to_help"
         fontSize="base"
         :rightIcon="IconMap.ARROW_RIGHT"
         iconSize="1.25em"
-        ariaLabel="components.btn_route_internal.offer_to_help_aria_label"
+        ariaLabel="_global.offer_to_help_aria_label"
       />
     </div>
   </div>

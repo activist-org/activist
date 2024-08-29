@@ -59,15 +59,15 @@
           @main-btn-clicked="handleMainBtnClicked"
           class="block w-fit"
           :cta="true"
-          :label="$t('components.btn_action_dropdown.download_qr_code')"
+          :label="$t('components.modal_qr_code.download_qr_code')"
           fontSize="lg"
           iconSize="1.25em"
           :dropdownIcon="IconMap.CHEVRON_DOWN"
           :dropdownOptions="availableFormats"
           :dropdownOptionsCallback="downloadQRCode"
-          ariaLabel="components.btn_action_dropdown.download_qr_code_aria_label"
+          ariaLabel="components.modal_qr_code.download_qr_code_aria_label"
           :ariaLabelDropdown="
-            $t('components.btn-action-dropdown.qr_code_options_aria_label')
+            $t('components.modal_qr_code.qr_code_options_aria_label')
           "
         />
       </div>
@@ -102,14 +102,14 @@
         @main-btn-clicked="handleMainBtnClicked"
         class="w-fit"
         :cta="true"
-        :label="$t('components.btn_action_dropdown.download_qr_code')"
+        :label="$t('components.modal_qr_code.download_qr_code')"
         fontSize="lg"
         iconSize="1.25em"
         :dropdownIcon="IconMap.CHEVRON_DOWN"
         :dropdownOptions="availableFormats"
         :dropdownOptionsCallback="downloadQRCode"
         :ariaLabel="
-          $t('components.btn_action_dropdown.download_qr_code-aria-label')
+          $t('components.modal_qr_code.download_qr_code-aria-label')
         "
         :ariaLabelDropdown="
           $t('components.btn-action-dropdown.qr_code_options_aria_label')

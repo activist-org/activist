@@ -23,7 +23,7 @@
         class="invisible -ml-32 mt-3 max-w-56 md:-ml-36 md:max-w-96"
         :text="
           $t(
-            'components.modal_organization_status.approved_tooltip_hover_text',
+            'components.icon_organization_status.approved_tooltip_hover_text',
             {
               entity_name: organization.name,
               year: new Date().toISOString().slice(0, 10),

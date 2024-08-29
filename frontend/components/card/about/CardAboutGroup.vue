@@ -34,7 +34,7 @@
           <MetaTagLocation :location="group.location" />
           <!-- <MetaTagMembers
               :members="group.members.length"
-              :label="$t('components._global.members_lower')"
+              :label="$t('components.card.about._global.members_lower')"
             /> -->
         </div>
         <div>
@@ -54,9 +54,9 @@
                 expand_reduce_text();
               "
               class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
-              :aria-label="$t('components.card_about.full_text_aria_label')"
+              :aria-label="$t('components.card.about._global.full_text_aria_label')"
             >
-              {{ $t("components.card_about.full_text") }}
+              {{ $t("components.card.about._global.full_text") }}
             </button>
             <button
               v-else-if="descriptionExpandable"
@@ -65,9 +65,9 @@
                 expand_reduce_text();
               "
               class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
-              :aria-label="$t('components.card_about.reduce_text_aria_label')"
+              :aria-label="$t('components.card.about._global.reduce_text_aria_label')"
             >
-              {{ $t("components.card_about.reduce_text") }}
+              {{ $t("components.card.about._global.reduce_text") }}
             </button>
           </div>
         </div>

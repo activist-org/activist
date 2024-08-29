@@ -4,14 +4,14 @@
       <div class="col">
         <FormTextInput
           @update:model-value="userNameValue = $event"
-          :placeholder="$t('pages.auth.sign_in.index.enter_user_name')"
+          :placeholder="$t('pages.auth._global.enter_user_name')"
           :model-value="userNameValue"
         />
       </div>
       <div>
         <FormTextInput
           @update:model-value="passwordValue = $event"
-          :placeholder="$t('components._global.enter_password')"
+          :placeholder="$t('_global.enter_password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
@@ -42,7 +42,7 @@
           :label="$t('_global.sign_in')"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('components.btn_route_internal.sign_in_aria_label')"
+          :ariaLabel="$t('_global.sign_in_aria_label')"
         />
       </div>
       <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">

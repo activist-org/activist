@@ -31,7 +31,7 @@
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               :iconName="IconMap.TELEGRAM"
-              :text="$t('components.meta_social_media_tag.telegram')"
+              :text="$t('components.modal_share_page.telegram')"
               iconSize="1.5em"
             />
           </s-telegram>
@@ -48,7 +48,7 @@
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               :iconName="IconMap.MASTODON"
-              :text="$t('components.meta_social_media_tag.mastodon')"
+              :text="$t('components.modal_share_page.mastodon')"
               iconSize="1.5em"
             />
           </s-mastodon>
@@ -90,13 +90,13 @@
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               :iconName="IconMap.FACEBOOK"
-              :text="$t('components.meta_social_media_tag.facebook')"
+              :text="$t('components.modal_share_page.facebook')"
               iconSize="1.5em"
             />
           </s-facebook>
           <!-- <div class="flex h-full w-full cursor-pointer items-center gap-3">
             <Icon :name="IconMap.SIGNAL" size="1.5em" />
-            <p>{{ $t("components._global.signal") }}</p>
+            <p>{{ $t("components.modal_share_page.signal") }}</p>
           </div> -->
           <div
             @click="
@@ -137,14 +137,14 @@
               v-if="!contentCopied"
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               :iconName="IconMap.LINK"
-              :text="$t('components.meta_social_media_tag.copy_link')"
+              :text="$t('components.modal_share_page.copy_link')"
               iconSize="1.5em"
             />
             <MetaTagSocialMedia
               v-if="contentCopied"
               class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
               :iconName="IconMap.SQUARE_CHECK"
-              :text="$t('components.meta_social_media_tag.copied')"
+              :text="$t('components.modal_share_page.copied')"
               iconSize="1.5em"
             />
           </div>
@@ -184,7 +184,7 @@
         <MetaTagSocialMedia
           class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
           :iconName="IconMap.MESSENGER"
-          :text="$t('components.meta_social_media_tag.messenger')"
+          :text="$t('components.modal_share_page.messenger')"
           iconSize="1.5em"
         />
       </s-facebook-messenger> -->

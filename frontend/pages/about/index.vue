@@ -53,7 +53,7 @@ const cards: DocsEntry[] = [
     id: 3,
     url: "roadmap",
     title: "_global.roadmap",
-    description: "_global.roadmap_description",
+    description: "pages.about.index.roadmap_description",
     imgURL: `${ARCTICONS_BIKE_LOCATION}`,
     imgDimensions: "h-16 sm:h-20",
     imgAltText: "pages.about._global.roadmap_img_alt_text",

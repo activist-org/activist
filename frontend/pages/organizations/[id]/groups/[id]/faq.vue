@@ -13,20 +13,20 @@
     <HeaderAppPage
       :group="group"
       :header="group.name + ' ' + $t('_global.faq')"
-      :tagline="$t('pages.organizations.faq.tagline')"
+      :tagline="$t('pages.organizations._global.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn_action.support"
+          label="_global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="group.supportingUsers"
           ariaLabel="
-            components.btn_action.support-group-aria-label
+            pages.organizations.groups._global.support_group_aria_label
           "
         /> -->
       </div>

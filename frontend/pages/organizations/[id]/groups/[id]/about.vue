@@ -17,22 +17,22 @@
           class="w-max"
           :cta="true"
           :linkTo="group.getInvolvedURL"
-          label="components.btn_route_internal.join_group"
+          label="_global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="components.btn_route_internal.join_group_aria_label"
+          ariaLabel="_global.join_group_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn_action.support"
+          label="_global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="group.supporters"
           ariaLabel="
-            components.btn_action.support-group-aria-label
+            pages.organizations.groups._global.support_group_aria_label
           "
         /> -->
         <BtnAction
@@ -45,7 +45,9 @@
           fontSize="sm"
           :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="$t('components._global.share_group-aria-label')"
+          :ariaLabel="
+            $t('pages.organizations.groups.about.share_group_aria_label')
+          "
         />
         <ModalSharePage
           @closeModal="handleCloseModal"
@@ -118,9 +120,9 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = "components.btn_action.share";
+    shareButtonLabel.value = "_global.share";
   } else {
-    shareButtonLabel.value = "components._global.share_group";
+    shareButtonLabel.value = "pages._global.share_group";
   }
 }
 

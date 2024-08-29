@@ -4,20 +4,20 @@
     @click="openModal()"
     @keydown.enter="openModal()"
     class="elem-on-card-style focus-brand absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md sm:h-16 sm:w-16"
-    :aria-label="$t('components.qr_code_btn.open_modal_aria_label')"
+    :aria-label="$t('components.modal_qr_code_btn.open_modal_aria_label')"
   >
     <div class="sm:hidden">
       <Icon
         :name="IconMap.QR_CODE"
         size="2em"
-        :alt="$t('components.modal_qr_code.img_alt_text')"
+        :alt="$t('components.modal_qr_code_btn.img_alt_text')"
       />
     </div>
     <div class="hidden sm:block">
       <Icon
         :name="IconMap.QR_CODE"
         size="3em"
-        :alt="$t('components.modal_qr_code.img_alt_text')"
+        :alt="$t('components.modal_qr_code_btn.img_alt_text')"
       />
     </div>
   </button>
@@ -27,7 +27,7 @@
     @keydown.enter="openModal()"
     class="focus-brand dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
     :iconName="IconMap.QR_CODE"
-    :text="$t('components.meta_social_media_tag.qr_code')"
+    :text="$t('components.modal_qr_code_btn.qr_code')"
     iconSize="1.5em"
     tabindex="0"
   />

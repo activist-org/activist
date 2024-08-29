@@ -4,16 +4,16 @@
       <p>{{ $t("pages.auth.reset_password.index.reset_password_info") }}</p>
       <FormTextInput
         @update:model-value="input = $event"
-        :placeholder="$t('_global.enter_username_mail')"
+        :placeholder="$t('pages.auth.reset_password.enter_username_mail')"
         :model-value="input"
       />
       <div class="pt-4">
         <BtnAction
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
-          :label="$t('_global.reset_password')"
+          :label="$t('_global.auth.reset_password')"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('_global.reset_password')"
+          :ariaLabel="$t('_global.auth.reset_password')"
         />
       </div>
       <div class="link-text pt-16 text-center text-xl font-extrabold">

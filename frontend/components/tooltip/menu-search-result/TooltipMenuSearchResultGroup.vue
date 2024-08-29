@@ -5,10 +5,10 @@
         @keydown="handleTabPress(false, $event)"
         class="flex max-h-[40px] w-full"
         :cta="true"
-        label="components.btn_action.support"
+        label="_global.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        :ariaLabel="$t('components.btn_action.support-organization-aria-label')"
+        :ariaLabel="$t('_global.support_organization_aria_label')"
       /> -->
       <!-- <BtnRouteInternal
         class="flex max-h-[40px] w-full"
@@ -18,7 +18,7 @@
         linkTo="/"
         fontSize="lg"
         :ariaLabel="
-          $t('components.btn_route_internal.join_organization_aria_label')
+          $t('_global.join_organization_aria_label')
         "
       /> -->
       <BtnAction
@@ -28,10 +28,10 @@
         @keydown="handleTabPress(true, $event)"
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
-        label="components.btn_action.share"
+        label="_global.share"
         :leftIcon="IconMap.SHARE"
         fontSize="lg"
-        :ariaLabel="$t('components._global.share_organization-aria-label')"
+        :ariaLabel="$t('_global.share_organization_aria_label')"
       />
       <ModalSharePage
         v-if="group"

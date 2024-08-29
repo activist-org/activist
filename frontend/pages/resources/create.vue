@@ -10,7 +10,7 @@
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages._global.information") }}
+          {{ $t("pages._global.create.information") }}
         </h1>
         <p class="mt-4">
           {{ $t("pages.resources.create.subtext") }}
@@ -40,7 +40,7 @@
           </div>
           <div class="w-1/2">
             <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.link") }}*</label
+              >{{ $t("pages._global.create.link") }}*</label
             >
             <input
               v-model="formData.link"
@@ -67,7 +67,7 @@
         <div class="card-style mx-14 mt-5 flex w-full">
           <div class="flex-1 px-5 py-6">
             <label for="location" class="responsive-h3 block font-medium">
-              {{ $t("pages._global.location") }}
+              {{ $t("pages._global.create.location") }}
             </label>
             <textarea
               v-model="formData.location"
@@ -99,7 +99,7 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="_global.create_resource"
+              label="pages.resources.create.create_resource"
               fontSize="lg"
               ariaLabel="pages.resources.create.complete_application_aria_label"
             />

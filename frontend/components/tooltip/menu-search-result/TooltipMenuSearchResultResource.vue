@@ -16,7 +16,7 @@
         @keydown="handleTabPress(true, $event)"
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
-        label="components.btn_action.share"
+        label="_global.share"
         :leftIcon="IconMap.SHARE"
         fontSize="lg"
         :ariaLabel="$t('components.btn-action.share')"

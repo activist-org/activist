@@ -3,30 +3,34 @@
     class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
-      <Title>{{ event.name }}&nbsp;{{ $t("_global.settings_lower") }}</Title>
+      <Title
+        >{{ event.name }}&nbsp;{{
+          $t("pages._global.settings.settings_lower")
+        }}</Title
+      >
     </Head>
     <HeaderAppPage
       :event="event"
-      :header="event.name + ' ' + $t('_global.settings_lower')"
+      :header="event.name + ' ' + $t('pages._global.settings.settings_lower')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn_action.save_settings"
+          label="pages._global.settings.save_settings"
           fontSize="sm"
-          ariaLabel="components.btn_action.save_settings_aria_label"
+          ariaLabel="pages._global.settings.save_settings_aria_label"
         />
       </div>
     </HeaderAppPage>
     <PagePreviewSettings />
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
-        :description="$t('components.card_danger_zone.event_description')"
-        :ctaBtnText="$t('components.card_danger_zone.event_cta_btn_text')"
+        :description="$t('pages.events.settings.danger_zone_event_description')"
+        :ctaBtnText="$t('pages.events.settings.danger_zone_event_cta_btn_text')"
         :ctaBtnAriaLabel="
-          $t('components.card_danger_zone.event_cta_btn_aria_label')
+          $t('pages.events.settings.danger_zone_event_cta_btn_aria_label')
         "
       />
     </div> -->

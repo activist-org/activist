@@ -21,9 +21,9 @@
       <p v-if="event.getInvolved">
         {{ event.getInvolved }}
       </p>
-      <p v-else>{{ $t("components.card_get_involved.participate_subtext") }}</p>
+      <p v-else>{{ $t("components._global.participate_subtext") }}</p>
       <!-- <p>
-        {{ $t("components.card_get_involved.legal_disclaimer_subtext") }}
+        {{ $t("components.card_get_involved_event.legal_disclaimer_subtext") }}
       </p>
       <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" /> -->
       <div class="flex w-max pt-2">
@@ -31,11 +31,11 @@
           class="w-full"
           :cta="true"
           linkTo="/"
-          label="components.btn_route_internal.offer_to_help"
+          label="_global.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="components.btn_route_internal.offer_to_help_aria_label"
+          ariaLabel="_global.offer_to_help_aria_label"
         />
       </div>
     </div>

@@ -103,20 +103,20 @@
         <BtnRouteExternal
           class="w-full"
           :cta="true"
-          label="components.btn_route_external.suggest_a_feature"
+          label="pages.about.roadmap.suggest_a_feature"
           linkTo="https://github.com/activist-org/activist/issues"
           fontSize="lg"
           ariaLabel="
-                components.btn_route_external.suggest_a_feature_aria_label
+                pages.about.roadmap.suggest_a_feature_aria_label
               "
         />
         <BtnRouteInternal
           class="w-full"
           :cta="false"
-          label="components.btn_route_internal.return_home"
+          label="_global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn_route_internal.return_home_aria_label"
+          ariaLabel="_global.return_home_aria_label"
         />
       </PageCommunityFooter>
     </PageDocs>

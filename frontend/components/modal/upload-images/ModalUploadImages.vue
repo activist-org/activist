@@ -88,7 +88,7 @@
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
-            ariaLabel="components.btn_action.upvote_application_aria_label"
+            ariaLabel="components._global.upvote_application_aria_label"
             :disabled="files.length >= uploadLimit"
           />
         </div>

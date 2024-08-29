@@ -22,7 +22,7 @@ defineProps<{
 const createOptions: MenuSelector[] = [
   {
     id: 1,
-    label: "components._global.new_event",
+    label: "_global.new_event",
     routeURL: "/events/create",
     iconURL: `${IconMap.EVENT}`,
     selected: false,
@@ -36,14 +36,14 @@ const createOptions: MenuSelector[] = [
   },
   {
     id: 3,
-    label: "components._global.new_group",
+    label: "_global.new_group",
     routeURL: "/groups/create",
     iconURL: "IconGroup",
     selected: false,
   },
   {
     id: 4,
-    label: "components._global.new_resource",
+    label: "_global.new_resource",
     routeURL: "/resources/create",
     iconURL: "IconResource",
     selected: false,

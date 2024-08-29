@@ -54,7 +54,7 @@ export const commandPaletteData = [
     category: "upcoming-events",
     path: "upcoming-events",
     iconName: "EVENT",
-    displayName: "_global.upcoming_events",
+    displayName: "types.command_palette.upcoming_events",
     action: () => console.log("upcoming-events"),
   },
 ];

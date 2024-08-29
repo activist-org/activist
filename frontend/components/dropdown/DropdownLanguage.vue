@@ -5,7 +5,7 @@
     :menuButtonIcon="IconMap.GLOBE"
     :menuButtonLabel="$i18n.locale"
     :isMenuButtonUppercase="true"
-    menuButtonAriaLabel="components.selector_language.open_dropdown_aria_label"
+    menuButtonAriaLabel="components.dropdown_language.open_dropdown_aria_label"
   >
     <ul class="px-2 py-2">
       <NuxtLink

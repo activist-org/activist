@@ -29,10 +29,10 @@
       <BtnRouteExternal
         id="request-access"
         :cta="true"
-        label="components.btn_route_external.request_access"
+        label="_global.request_access"
         :linkTo="REQUEST_ACCESS_URL"
         fontSize="xl"
-        ariaLabel="components.btn_route_external.request_access_aria_label"
+        ariaLabel="components.landing_splash.request_access_aria_label"
       />
     </div>
   </div>

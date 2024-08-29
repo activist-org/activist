@@ -2,7 +2,7 @@
   <RadioGroup
     v-model="value"
     class="flex h-11 w-full items-center divide-x-2 divide-light-text dark:divide-dark-text"
-    :aria-label="$t('components.view_selector.title_aria_label')"
+    :aria-label="$t('components.form_view_selector.title_aria_label')"
   >
     <RadioGroupOption
       v-for="option in viewOptions"
@@ -79,10 +79,10 @@ const viewOptions = computed(() => {
 
 // Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
 const viewAriaLabelsDict = {
-  map: "components.view_selector.view_as_map_aria_label",
-  list: "components.view_selector.view_as_list_aria_label",
-  calendar: "components.view_selector.view_as_calendar_aria_label",
-  grid: "components.view_selector.view_as_grid_aria_label",
+  map: "components.form_view_selector.view_as_map_aria_label",
+  list: "components.form_view_selector.view_as_list_aria_label",
+  calendar: "components.form_view_selector.view_as_calendar_aria_label",
+  grid: "components.form_view_selector.view_as_grid_aria_label",
 };
 
 const viewTypeIcons: Record<ViewType, string> = {

@@ -20,7 +20,7 @@
             isFocused = true;
             isBlurred = false;
           "
-          :placeholder="$t('components._global.enter_password')"
+          :placeholder="$t('_global.enter_password')"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
@@ -74,7 +74,7 @@
           :label="'_global.sign_up'"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="'components.btn_route_internal.sign_up_aria_label'"
+          :ariaLabel="'_global.sign_up_aria_label'"
         />
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">

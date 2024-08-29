@@ -21,7 +21,7 @@
               }"
               :src="imageURL"
               :alt="
-                $t('components.card_search_result_organization.img_alt_text') +
+                $t('components.card_search_result.img_alt_text') +
                 ' ' +
                 organization.name
               "
@@ -34,7 +34,7 @@
               }"
               :src="imageURL"
               :alt="
-                $t('components.card_search_result_organization.img_alt_text') +
+                $t('components.card_search_result.img_alt_text') +
                 ' ' +
                 group.organization.name
               "
@@ -195,15 +195,15 @@
             />
             <!-- <MetaTagMembers
               :members="members"
-              label="components._global.members"
+              label="components.card_search_result.members"
             />
             <MetaTagSupporters
               :supporters="supporters"
-              label="components.meta_tag.supporters_lower"
+              label="components.card_search_result.supporters_lower"
             />
             <MetaTagStars
               :stars="stars"
-              label="components.meta_tag_stars.label"
+              label="components.card_search_result.label"
             /> -->
           </div>
         </div>
@@ -248,15 +248,19 @@ const { linkURL } = useLinkURL(props);
 
 const ariaLabel = computed<string>(() => {
   if (props.organization) {
-    return i18n.t("components._global.navigate_to_organization_aria_label");
+    return i18n.t(
+      "components.card_search_result.navigate_to_organization_aria_label"
+    );
   } else if (props.group) {
     return i18n.t("components._global.navigate_to_group_aria_label");
   } else if (props.event) {
-    return i18n.t("components._global.navigate_to_event_aria_label");
+    return i18n.t("components.card_search_result.navigate_to_event_aria_label");
   } else if (props.resource) {
-    return i18n.t("components._global.navigate_to_resource_aria_label");
+    return i18n.t(
+      "components.card_search_result.navigate_to_resource_aria_label"
+    );
   } else if (props.user) {
-    return i18n.t("components._global.navigate_to_user_aria_label");
+    return i18n.t("components.card_search_result.navigate_to_user_aria_label");
   } else {
     return "";
   }

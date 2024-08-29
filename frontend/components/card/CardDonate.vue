@@ -2,7 +2,7 @@
   <div class="card-style flex flex-col space-y-3 px-5 py-5">
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t("components._global.donate") }}
+        {{ $t("components.card_donate.donate") }}
       </h3>
       <div
         class="cursor-pointer break-all rounded-lg p-1 text-light-text transition-all hover:text-light-distinct-text dark:text-dark-text dark:hover:text-dark-distinct-text"
@@ -29,11 +29,11 @@
       class="flex"
       :cta="true"
       linkTo="/"
-      label="components._global.donate"
+      label="components.card_donate.donate"
       fontSize="sm"
       :rightIcon="IconMap.EXTERNAL_LINK"
       iconSize="1.25em"
-      ariaLabel="components.btn_route_external.go_to_donation_page_aria_label"
+      ariaLabel="components.card_donate.go_to_donation_page_aria_label"
     />
   </div>
 </template>

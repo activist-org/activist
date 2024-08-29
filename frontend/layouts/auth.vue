@@ -72,7 +72,7 @@ const page = computed(() => {
       btnLabel: "_global.sign_in",
       btnLink: "/auth/sign-in",
       message: "layouts.auth.reset_password_forgot_password",
-      title: "_global.reset_password",
+      title: "_global.auth.reset_password",
     },
     {
       route: "set-password",
@@ -90,7 +90,7 @@ const page = computed(() => {
     btnLabel: "",
     btnLink: "",
     message: "layouts.auth.welcome",
-    title: "pages.auth.index.auth",
+    title: "layouts.auth.auth",
   };
 
   return (

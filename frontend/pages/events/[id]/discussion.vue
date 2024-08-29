@@ -3,11 +3,17 @@
     class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
-      <Title>{{ event.name }}&nbsp;{{ $t("_global.discussions_lower") }}</Title>
+      <Title
+        >{{ event.name }}&nbsp;{{
+          $t("pages._global.discussions_lower")
+        }}</Title
+      >
     </Head>
     <HeaderAppPage
       :event="event"
-      :header="event.name + ' ' + $t('_global.discussion_lower')"
+      :header="
+        event.name + ' ' + $t('pages.events.discussion.discussion_lower')
+      "
       :tagline="$t('pages.events.discussion.tagline')"
       :underDevelopment="true"
     >
@@ -17,11 +23,11 @@
           class="block w-max"
           :cta="true"
           linkTo="/"
-          label="components.btn_route_internal.new_discussion"
+          label="pages._global.new_discussion"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn_route_internal.new_discussion_aria_label"
+          ariaLabel="pages._global.new_discussion_aria_label"
         />
       </div>
     </HeaderAppPage>

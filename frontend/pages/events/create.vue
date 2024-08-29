@@ -10,7 +10,7 @@
       <PageBreadcrumbs class="mt-2" />
       <div v-if="page === 0" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages._global.information") }}
+          {{ $t("pages._global.create.information") }}
         </h1>
         <p class="mt-4">
           {{ $t("pages.events.create.subtext_0") }}
@@ -45,7 +45,7 @@
           >
             <div class="w-1/2">
               <label for="name" class="responsive-h3 block font-medium"
-                >{{ $t("_global.events_name") }}*</label
+                >{{ $t("pages.events.create.events_name") }}*</label
               >
               <input
                 v-model="formData.name"
@@ -92,7 +92,7 @@
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <label for="description" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.description") }}*</label
+              >{{ $t("pages._global.create.description") }}*</label
             >
             <textarea
               v-model="formData.description"
@@ -184,7 +184,7 @@
             </div>
             <div class="w-2/5">
               <label for="location" class="responsive-h3 block font-medium"
-                >{{ $t("pages._global.location") }}*</label
+                >{{ $t("pages._global.create.location") }}*</label
               >
               <input
                 v-model="formData.location"
@@ -197,7 +197,7 @@
             </div>
             <div class="w-2/5">
               <label for="link" class="responsive-h3 block font-medium"
-                >{{ $t("pages._global.link") }}*</label
+                >{{ $t("pages._global.create.link") }}*</label
               >
               <input
                 v-model="formData.link"

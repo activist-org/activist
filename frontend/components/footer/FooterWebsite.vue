@@ -70,12 +70,12 @@ const organizationLinks = [
 
 const platformLinks = [
   {
-    name: "components.footer.version_number",
+    name: "components.footer_website.version_number",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist/releases",
   },
   {
-    name: "components.footer.source_code",
+    name: "components.footer_website.source_code",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist",
   },

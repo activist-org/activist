@@ -82,10 +82,10 @@
         <BtnRouteInternal
           class="w-full"
           :cta="false"
-          label="components.btn_route_internal.return_home"
+          label="_global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn_route_internal.return_home_aria_label"
+          ariaLabel="_global.return_home_aria_label"
         />
       </PageCommunityFooter>
     </div>

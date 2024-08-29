@@ -23,7 +23,7 @@
             size="1.25em"
           />
           <p>
-            {{ $t("pages.help.faq.subheader_1") }}
+            {{ $t("pages.help._global.subheader_1") }}
             <a
               class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
@@ -239,7 +239,7 @@
             size="1.25em"
           />
           <p>
-            {{ $t("pages.help.faq.subheader_1") }}
+            {{ $t("pages.help._global.subheader_1") }}
             <a
               class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
@@ -260,10 +260,10 @@
         </p>
         <BtnRouteInternal
           :cta="false"
-          label="components.btn_route_internal.return_home"
+          label="_global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn_route_internal.return_home_aria_label"
+          ariaLabel="_global.return_home_aria_label"
         />
       </div>
     </PageDocs>

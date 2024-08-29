@@ -87,7 +87,7 @@
           rows="4"
           class="focus-brand block w-full rounded-lg border border-light-action-red bg-light-layer-0 p-2.5 text-sm placeholder-light-action-red focus:border-none dark:border-dark-action-red dark:bg-dark-layer-0 dark:text-dark-text dark:placeholder-dark-action-red"
           :placeholder="
-            $t('components.card_discussion_input.leave_comment_highRisk')
+            $t('components.card_discussion_input.leave_comment_high_risk')
           "
         ></textarea>
       </div>

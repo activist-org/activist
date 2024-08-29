@@ -19,7 +19,7 @@
             :src="organization.iconURL"
             class="h-full w-12"
             :alt="
-              $t('components._global.entity_logo', {
+              $t('_global.entity_logo', {
                 entity_name: organization.name,
               })
             "
@@ -37,7 +37,7 @@
         :leftIcon="IconMap.ARROW_UP"
         iconSize="1.25em"
         :disabled="isVotingDisabled"
-        ariaLabel="components.btn_action.upvote_application_aria_label"
+        ariaLabel="components._global.upvote_application_aria_label"
       />
       <BtnAction
         @click="$emit('down-vote')"
@@ -48,7 +48,7 @@
         :leftIcon="IconMap.ARROW_DOWN"
         iconSize="1.25em"
         :disabled="isVotingDisabled"
-        ariaLabel="components.btn_action.downvote_application_aria_label"
+        ariaLabel="components.card_org_application_vote.downvote_application_aria_label"
       />
     </div>
   </div>

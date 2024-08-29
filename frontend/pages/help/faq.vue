@@ -7,7 +7,7 @@
     </Head>
     <PageDocs
       :imgURL="BOOTSTRAP_QUESTION_SQUARE_URL"
-      imgAltText="pages._global.faq_img_alt_text"
+      imgAltText="pages.help._global.faq_img_alt_text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">
         {{ $t("pages.help._global.frequently_asked_questions") }}
@@ -19,7 +19,7 @@
           size="1.25em"
         />
         <p>
-          {{ $t("pages.help.faq.subheader_1") }}
+          {{ $t("pages.help._global.subheader_1") }}
           <a
             class="focus-brand link-text items-center"
             href="https://matrix.to/#/#activist_community:matrix.org"
@@ -57,7 +57,7 @@
         {{ $t("pages.help.faq.section_4_paragraph_1") }}
       </p>
       <p class="sm:text-lg">
-        {{ $t("pages.help.faq.section-4-paragraph-2-1") }}
+        {{ $t("pages.help.faq.section_4_paragraph_2_1") }}
         <a
           class="focus-brand link-text"
           href="https://matrix.to/#/#activist_community:matrix.org"
@@ -69,16 +69,16 @@
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("pages.help.faq.section-4-paragraph-2-3") }}
+        {{ $t("pages.help.faq.section_4_paragraph_2_3") }}
       </p>
       <PageCommunityFooter>
         <BtnRouteInternal
           class="w-full"
           :cta="false"
-          label="components.btn_route_internal.return_home"
+          label="_global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn_route_internal.return_home_aria_label"
+          ariaLabel="_global.return_home_aria_label"
         />
       </PageCommunityFooter>
     </PageDocs>

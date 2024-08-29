@@ -90,7 +90,7 @@ import { GLOBAL_TOPICS } from "~/types/topics";
 
 const i18n = useI18n();
 
-const topics = [{ id: 1, name: "_global.topics.all_topics" }];
+const topics = [{ id: 1, name: "components.combobox_topics.all_topics" }];
 
 let nextId = topics.length + 1;
 for (const t of GLOBAL_TOPICS) {

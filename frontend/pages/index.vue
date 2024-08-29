@@ -10,26 +10,26 @@
     >
       <LandingContent
         contentPosition="left"
-        header="_global.get_active"
+        header="pages._global.get_active"
         tagline="pages.index.get_active_tagline"
         text="pages.index.get_active_text"
         :imageURL="GET_ACTIVE_IMAGE_URL"
         imageAltText="pages._global.get_active_img_alt_text"
-        btnText1="components.btn_route_internal.learn_more"
+        btnText1="pages.index.learn_more"
         btnURL1="/docs/get-active"
-        btnAriaLabel1="components.btn_route_internal.get_active_aria_label"
+        btnAriaLabel1="pages.index.get_active_aria_label"
         btnId1="btn-get-active"
       />
       <LandingContent
         contentPosition="right"
-        header="_global.get_organized"
+        header="pages._global.get_organized"
         tagline="pages.index.get_organized_tagline"
         text="pages.index.get_organized_text"
         :imageURL="GET_ORGANIZED_IMAGE_URL"
         imageAltText="pages._global.get_organized_img_alt_text"
-        btnText1="components.btn_route_internal.learn_more"
+        btnText1="pages.index.learn_more"
         btnURL1="/docs/get-organized"
-        btnAriaLabel1="components.btn_route_internal.get_organized_aria_label"
+        btnAriaLabel1="pages.index.get_organized_aria_label"
         btnId1="btn-get-organized"
       />
       <LandingContent
@@ -39,9 +39,9 @@
         text="pages.index.grow_organization_text"
         :imageURL="GROW_ORGANIZATION_IMAGE_URL"
         imageAltText="pages._global.grow_organization_img_alt_text"
-        btnText1="components.btn_route_internal.learn_more"
+        btnText1="pages.index.learn_more"
         btnURL1="/docs/grow-organization"
-        btnAriaLabel1="components.btn_route_internal.grow_organization_aria_label"
+        btnAriaLabel1="pages.index.grow_organization_aria_label"
         btnId1="btn-grow-organization"
       />
       <LandingTechBanner />
@@ -52,7 +52,7 @@
         text="pages.index.activist_section_text"
         imageURL="/icons/activist/activist_icon"
         imageAltText="_global.activist_icon_img_alt_text"
-        btnText1="components.btn_route_internal.learn_more"
+        btnText1="pages.index.learn_more"
         btnURL1="/about/activist"
         btnAriaLabel1="pages.index.activist_section_btn_aria_label"
         btnId1="btn-activist"

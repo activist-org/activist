@@ -22,18 +22,18 @@
           v-if="group.getInvolvedURL"
           :cta="true"
           :linkTo="group.getInvolvedURL"
-          label="components.btn_route_internal.join_group"
+          label="_global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="components.btn_route_internal.join_group_aria_label"
+          ariaLabel="_global.join_group_aria_label"
         />
       </div>
     </div>
     <div class="space-y-3 pt-3">
       <p>
         {{
-          $t("components.card_get_involved.join_group_subtext", {
+          $t("components._global.join_group_subtext", {
             org_name: group.name,
           })
         }}.

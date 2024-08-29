@@ -10,7 +10,7 @@
         linkTo="/auth/sign-in"
         :cta="true"
         fontSize="lg"
-        :ariaLabel="$t('components.btn_route_internal.sign_in_aria_label')"
+        :ariaLabel="$t('_global.sign_in_aria_label')"
       />
       <BtnRouteInternal
         class="flex max-h-[40px] items-center justify-center truncate"
@@ -18,7 +18,7 @@
         linkTo="/auth/sign-up"
         :cta="true"
         fontSize="lg"
-        :ariaLabel="$t('components.btn_route_internal.sign_up_aria_label')"
+        :ariaLabel="$t('_global.sign_up_aria_label')"
       />
     </div>
   </TooltipBase>
