@@ -15,12 +15,12 @@
     </div>
     <div class="responsive-py-5 responsive-px-5">
       <h3 class="responsive-h2 transition-all duration-500">
-        {{ $t("pages._global.our-network") }}
+        {{ $t("pages._global.our_network") }}
       </h3>
       <p
         class="responsive-py-1 text-light-distinct-text dark:text-dark-distinct-text"
       >
-        {{ $t("pages.supporters.index.section-1-tagline") }}
+        {{ $t("pages.supporters.index.section_1_tagline") }}
       </p>
       <GridDocEntries class="responsive-py-1" :cards="cards" />
     </div>
@@ -35,19 +35,19 @@ const cards: DocsEntry[] = [
     id: 1,
     url: "showcase",
     title: "pages.supporters.index.showcase",
-    description: "pages.supporters.index.showcase-description",
+    description: "pages.supporters.index.showcase_description",
     imgURL: `${BOOTSTRAP_HEART_URL}`,
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.supporters.index.showcase-alt-text",
+    imgAltText: "pages.supporters.index.showcase_alt_text",
   },
   {
     id: 2,
     url: "join",
-    title: "pages._global.become-supporter",
-    description: "pages.supporters.index.join-description",
+    title: "pages._global.become_supporter",
+    description: "pages.supporters.index.join_description",
     imgURL: `${BOOTSTRAP_MODIFIED_JOIN_ICON_URL}`,
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.supporters._global.join-img-alt-text",
+    imgAltText: "pages.supporters._global.join_img_alt_text",
   },
 ];
 </script>

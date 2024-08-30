@@ -5,7 +5,7 @@
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="responsive-h3 text-left font-display">
-            {{ $t("components.card-details.header") }}
+            {{ $t("components.card_details.header") }}
           </h3>
           <IconEdit @click="openModal()" @keydown.enter="openModal()" />
           <ModalEditAboutEvent
@@ -15,7 +15,7 @@
             :sectionsToEdit="[
               $t('_global.about'),
               $t('components._global.participate'),
-              $t('components._global.offer-to-help-link'),
+              $t('components._global.offer_to_help_link'),
             ]"
             :isOpen="modalIsOpen"
           />
@@ -30,7 +30,7 @@
           </div>
           <!-- <MetaTagAttendance
             :numAttending="event.attendees ? event.attendees.length : 0"
-            :label="$t('components.card-details.attending')"
+            :label="$t('components.card_details.attending')"
           /> -->
           <MetaTagLocation
             v-if="event.offlineLocation"

@@ -5,13 +5,17 @@
     <Head>
       <Title
         >{{ organization.name }}&nbsp;{{
-          $t("_global.affiliates_lower")
+          $t("pages.organizations.affiliates.affiliates_lower")
         }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.affiliates_lower')"
+      :header="
+        organization.name +
+        ' ' +
+        $t('pages.organizations.affiliates.affiliates_lower')
+      "
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3"></div>

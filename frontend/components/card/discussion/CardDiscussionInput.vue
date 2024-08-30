@@ -7,18 +7,18 @@
             <BtnAction
               class="w-small mt-1 flex"
               :cta="true"
-              :label="$t('components.card-discussion-input.write')"
+              :label="$t('components.card_discussion_input.write')"
               fontSize="sm"
-              ariaLabel="components.card-discussion-input.write-aria-label"
+              ariaLabel="components.card_discussion_input.write_aria_label"
             />
           </div>
           <div class="w-min md:w-min">
             <BtnAction
               class="w-small mt-1 flex"
               :cta="false"
-              :label="$t('components.card-discussion-input.preview')"
+              :label="$t('components.card_discussion_input.preview')"
               fontSize="sm"
-              ariaLabel="components.card-discussion-input.preview-aria-label"
+              ariaLabel="components.card_discussion_input.preview_aria_label"
             />
           </div>
         </div>
@@ -87,7 +87,7 @@
           rows="4"
           class="focus-brand block w-full rounded-lg border border-light-action-red bg-light-layer-0 p-2.5 text-sm placeholder-light-action-red focus:border-none dark:border-dark-action-red dark:bg-dark-layer-0 dark:text-dark-text dark:placeholder-dark-action-red"
           :placeholder="
-            $t('components.card-discussion-input.leave-comment-highRisk')
+            $t('components.card_discussion_input.leave_comment_high_risk')
           "
         ></textarea>
       </div>
@@ -96,12 +96,12 @@
           id="message"
           rows="4"
           class="focus-brand block w-full rounded-lg border border-light-section-div bg-light-layer-0 p-2.5 text-sm text-light-text placeholder-light-distinct-text dark:border-dark-section-div dark:bg-dark-layer-0 dark:text-dark-text dark:placeholder-dark-distinct-text"
-          :placeholder="$t('components.card-discussion-input.leave-comment')"
+          :placeholder="$t('components.card_discussion_input.leave_comment')"
         ></textarea>
       </div>
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
-          {{ $t("components.card-discussion-input.markdown-support") }}
+          {{ $t("components.card_discussion_input.markdown_support") }}
           <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
         </p>
         <div class="flex items-center space-x-3">
@@ -131,9 +131,9 @@
           <BtnAction
             class="w-small inline-flex items-center justify-center"
             :cta="true"
-            :label="$t('components.card-discussion-input.comment')"
+            :label="$t('components.card_discussion_input.comment')"
             fontSize="sm"
-            ariaLabel="components.card-discussion-input.comment-aria-label"
+            ariaLabel="components.card_discussion_input.comment_aria_label"
           />
         </div>
       </div>

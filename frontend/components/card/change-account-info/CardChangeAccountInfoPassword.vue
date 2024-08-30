@@ -1,14 +1,14 @@
 <template>
   <CardChangeAccountInfo
-    :ctaLabel="$t('components.card-change-account-info.password.header-cta')"
+    :ctaLabel="$t('components.card_change_account_info_password.header_cta')"
     :ctaAriaLabel="
-      $t('components.card-change-account-info.password.cta-aria-label')
+      $t('components.card_change_account_info_password.cta_aria_label')
     "
   >
     <div class="space-y-4 pb-1 lg:grow">
       <div class="flex items-center space-x-4">
         <h3 class="responsive-h3 font-bold">
-          {{ $t("components.card-change-account-info.password.header-cta") }}
+          {{ $t("components.card_change_account_info_password.header_cta") }}
         </h3>
       </div>
       <div class="flex flex-col gap-4 lg:flex-row lg:gap-8">
@@ -16,7 +16,7 @@
           <label for="current-password" class="responsive-h4 pb-2 font-bold"
             >{{
               $t(
-                "components.card-change-account-info.password.current-password"
+                "components.card_change_account_info_password.current_password"
               )
             }}
             *</label
@@ -26,7 +26,7 @@
             class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
-                'components.card-change-account-info.password.enter-current-password'
+                'components.card_change_account_info_password.enter_current_password'
               )
             "
           />
@@ -34,7 +34,7 @@
         <div class="flex w-full flex-col lg:w-1/3">
           <label for="new-password" class="responsive-h4 pb-2 font-bold"
             >{{
-              $t("components.card-change-account-info.password.new-password")
+              $t("components.card_change_account_info_password.new_password")
             }}
             *</label
           >
@@ -43,21 +43,21 @@
             class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
-                'components.card-change-account-info.password.enter-new-password'
+                'components.card_change_account_info_password.enter_new_password'
               )
             "
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/3">
           <label for="repeat-password" class="responsive-h4 pb-2 font-bold"
-            >{{ $t("_global.repeat-password") }} *</label
+            >{{ $t("_global.repeat_password") }} *</label
           >
           <input
             id="confirm-password"
             class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
-                'components.card-change-account-info.password.enter-repeat-password'
+                'components.card_change_account_info_password.enter_repeat_password'
               )
             "
           />

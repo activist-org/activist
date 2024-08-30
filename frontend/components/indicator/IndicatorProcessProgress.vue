@@ -15,12 +15,12 @@
       class="hidden h-full items-center space-x-3 bg-light-cta-orange px-3 text-light-text hover:bg-light-cta-orange/80 dark:bg-dark-cta-orange/10 dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25 md:flex"
       :to="localePath('/')"
       :aria-label="
-        $t('components.indicator-process-progress.close-process-aria-label')
+        $t('components.indicator_process_progress.close_process_aria_label')
       "
     >
       <Icon :name="IconMap.X_LG" />
       <span>{{
-        $t("components.indicator-process-progress.close-process")
+        $t("components.indicator_process_progress.close_process")
       }}</span>
     </NuxtLink>
   </div>

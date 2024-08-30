@@ -7,7 +7,7 @@
     <div class="flex space-x-3">
       <p>🚧</p>
       <div class="flex flex-col space-y-1">
-        <p>{{ $t("components.header-app-page.under-development") }}</p>
+        <p>{{ $t("components.header_app_page.under_development") }}</p>
         <div class="flex space-x-3">
           <a
             class="focus-brand link-text flex items-center space-x-1"
@@ -60,7 +60,7 @@
       v-if="organization && organization.status === 1"
       class="responsive-h4 text-light-warn-yellow transition-all duration-500 dark:text-dark-warn-yellow"
     >
-      {{ $t("components.header-app-page.status-pending") }}
+      {{ $t("components.header_app_page.status_pending") }}
     </h2>
     <h2
       v-else-if="headerTagline"

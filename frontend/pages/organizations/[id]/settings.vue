@@ -4,21 +4,25 @@
   >
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{ $t("_global.settings_lower") }}</Title
+        >{{ organization.name }}&nbsp;{{
+          $t("pages._global.settings.settings_lower")
+        }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.settings_lower')"
+      :header="
+        organization.name + ' ' + $t('pages._global.settings.settings_lower')
+      "
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.save-settings"
+          label="pages._global.settings.save_settings"
           fontSize="sm"
-          ariaLabel="components.btn-action.save-settings-aria-label"
+          ariaLabel="pages._global.settings.save_settings_aria_label"
         />
       </div>
     </HeaderAppPage>
@@ -26,11 +30,11 @@
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="
-          $t('components.card-danger-zone.delete-organization-text')
+          $t('pages.organizations.settings.danger_zone_delete_organization_text')
         "
-        :ctaBtnText="$t('components.card-danger-zone.delete-organization-cta')"
+        :ctaBtnText="$t('pages.organizations.settings.danger_zone_delete_organization_cta')"
         :ctaBtnAriaLabel="
-          $t('components.card-danger-zone.delete-organization-cta-aria-label')
+          $t('pages.organizations.settings.danger_zone_delete_organization_cta_aria_label')
         "
       />
     </div> -->

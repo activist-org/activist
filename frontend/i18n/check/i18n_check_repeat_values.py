@@ -1,9 +1,9 @@
 """
-Run to check if the en-US.json file has repeat strings.
-If yes, combine them in a `_global` sub name at the lowest matching name level of `en-US.json`.
+Checks if the en-US.json file has repeat string values.
+If yes, suggest that they be combined using a `_global` sub key at the lowest matching level of en-US.json.
 
 Usage:
-    python i18n_check_values.py
+    python frontend/i18n/check/i18n_check_repeat_values.py
 """
 
 import json
@@ -11,9 +11,11 @@ import string
 from collections import Counter
 from pathlib import Path
 
-this_directory = str(Path(__file__).parent.resolve())
+# MARK: Paths / Values
 
-with open(f"{this_directory}/../en-US.json") as f:
+json_file_directory = Path(__file__).parent.parent.resolve()
+
+with open(json_file_directory / "en-US.json") as f:
     en_us_json_dict = json.loads(f.read())
 
 
@@ -29,6 +31,8 @@ all_json_values = [
 json_repeat_value_counts = {
     k: v for k, v in dict(Counter(all_json_values)).items() if v > 1
 }
+
+# MARK: Repeat Values
 
 keys_to_remove = []
 for repeat_value in json_repeat_value_counts:
@@ -70,6 +74,8 @@ for repeat_value in json_repeat_value_counts:
 for k in keys_to_remove:
     json_repeat_value_counts.pop(k, None)
 
+# MARK: Error Outputs
+
 if json_repeat_value_counts:
     if len(json_repeat_value_counts) == 1:
         value_to_be = "value is"
@@ -77,10 +83,9 @@ if json_repeat_value_counts:
     else:
         value_to_be = "values are"
 
-    print("")
     raise ValueError(
-        f"{len(json_repeat_value_counts)} repeat i18n {value_to_be} present. Please combine given the suggestions above."
+        f"\n{len(json_repeat_value_counts)} repeat i18n {value_to_be} present. Please combine given the suggestions above.\n"
     )
 
 else:
-    print("\nSuccess: No repeat i18n values found.\n")
+    print("\nSuccess: No repeat i18n values found in the en-US source file.\n")
