@@ -36,7 +36,8 @@ for json_file in glob.glob(f"{json_file_directory}/*.json"):
 
 if non_source_keys_dict:
     non_source_keys_string = "\n\n".join(
-        f"{k}: {', '.join(non_source_keys_dict[k])}" for k in non_source_keys_dict
+        f"{k}: {', '.join(non_source_keys_dict[k])}\nTotal: {len(non_source_keys_dict[k])}"
+        for k in non_source_keys_dict
     )
     raise ValueError(
         f"There are some i18n target JSON files that have keys that are not in en-US.json. Please remove or rename the following keys:\n\n{non_source_keys_string}\n"

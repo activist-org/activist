@@ -21,7 +21,7 @@
               }"
               :src="imageURL"
               :alt="
-                $t('components.card_search_result.img_alt_text') +
+                $t('components.card_search_result.organization_img_alt_text') +
                 ' ' +
                 organization.name
               "
@@ -34,7 +34,7 @@
               }"
               :src="imageURL"
               :alt="
-                $t('components.card_search_result.img_alt_text') +
+                $t('components.card_search_result.organization_img_alt_text') +
                 ' ' +
                 group.organization.name
               "
