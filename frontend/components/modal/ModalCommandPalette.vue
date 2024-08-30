@@ -74,7 +74,7 @@
                   class="link-text invisible absolute right-3 w-16"
                   :class="{ visible: active }"
                 >
-                  {{ $t("components.modal-command-palette.jump-to") }}
+                  {{ $t("components.modal_command_palette.jump_to") }}
                 </span>
               </div>
             </li>

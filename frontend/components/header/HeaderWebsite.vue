@@ -56,20 +56,20 @@
               id="btn-get-in-touch-large"
               class="block"
               :cta="true"
-              label="components.btn-route-internal.get-in-touch"
+              label="components.header_website.get_in_touch"
               linkTo="/help/contact"
               fontSize="sm"
-              ariaLabel="components.btn-route-internal.get-in-touch-aria-label"
+              ariaLabel="components.header_website.get_in_touch_aria_label"
             />
             <BtnRouteInternal
               v-else-if="aboveMediumBP"
               id="btn-get-in-touch-medium"
               class="block"
               :cta="true"
-              label="components.btn-route-internal.get-in-touch"
+              label="components.header_website.get_in_touch"
               linkTo="/help/contact"
               fontSize="xs"
-              ariaLabel="components.btn-route-internal.get-in-touch-aria-label"
+              ariaLabel="components.header_website.get_in_touch_aria_label"
             />
           </div>
         </div>

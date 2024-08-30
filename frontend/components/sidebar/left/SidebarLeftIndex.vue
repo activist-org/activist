@@ -29,7 +29,7 @@
           class="elem-shadow-sm"
           :imgURL="logoUrl"
           :alt="
-            $t('components._global.entity-logo', {
+            $t('_global.entity_logo', {
               entity_name: name,
             })
           "
@@ -61,7 +61,7 @@
           class="elem-shadow-sm"
           eventType="action"
           :alt="
-            $t('components._global.entity-logo', {
+            $t('_global.entity_logo', {
               entity_name: name,
             })
           "

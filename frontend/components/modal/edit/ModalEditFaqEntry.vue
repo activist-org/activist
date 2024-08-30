@@ -13,16 +13,16 @@
         <label for="textarea" class="responsive-h2">{{ s }}</label>
         <textarea
           v-if="
-            s !== $t('components._global.join-organization-link') &&
-            s !== $t('components._global.join-group-link') &&
-            s !== $t('components._global.offer-to-help-link')
+            s !== $t('components.modal.edit._global.join_organization_link') &&
+            s !== $t('components._global.join_group_link') &&
+            s !== $t('components._global.offer_to_help_link')
           "
           v-model="translatedTexts[i]"
           id="textarea"
           class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
         />
         <div v-else class="flex flex-col space-y-2">
-          <p>{{ $t("components.modal-edit-page-text.remember-https") }}</p>
+          <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
             v-model="editedTexts[i]"
             id="textarea"
@@ -33,11 +33,9 @@
       <BtnAction
         @click="true"
         :cta="true"
-        :label="$t('components.modal-edit-page-text.update-texts')"
+        :label="$t('components.modal.edit._global.update_texts')"
         fontSize="base"
-        :ariaLabel="
-          $t('components.modal-edit-page-text.update-texts-aria-label')
-        "
+        :ariaLabel="$t('components.modal.edit._global.update_texts_aria_label')"
       />
     </div>
   </ModalBase>
@@ -60,10 +58,10 @@ const editedTexts = computed(() => props.textsToEdit);
 const translatedTexts = computed(() => {
   return editedTexts.value.map((text) => {
     if (
-      text === "components.card-get-involved.working-groups-subtext" ||
-      text === "components.card-get-involved.join-organization-subtext" ||
-      text === "components.card-get-involved.join-group-subtext" ||
-      text === "components.card-get-involved.participate-subtext"
+      text === "components._global.working_groups_subtext" ||
+      text === "components._global.join_organization_subtext" ||
+      text === "components._global.join_group_subtext" ||
+      text === "components._global.participate_subtext"
     ) {
       return i18n.t(text, { entity_name: props.name }) + ".";
     }

@@ -38,7 +38,7 @@ export const commandPaletteData = [
     category: "organizations",
     path: "organizations",
     iconName: "ORGANIZATION",
-    displayName: "_global.organization-name",
+    displayName: "_global.organization_name",
     action: () => console.log("organizations"),
   },
   // {
@@ -54,7 +54,7 @@ export const commandPaletteData = [
     category: "upcoming-events",
     path: "upcoming-events",
     iconName: "EVENT",
-    displayName: "_global.upcoming-events",
+    displayName: "types.command_palette.upcoming_events",
     action: () => console.log("upcoming-events"),
   },
 ];

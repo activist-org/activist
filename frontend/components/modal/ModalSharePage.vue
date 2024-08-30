@@ -7,12 +7,12 @@
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
         <p class="responsive-h2 font-bold">
-          {{ $t("components.modal-share-page.header") }}
+          {{ $t("components.modal_share_page.header") }}
         </p>
       </DialogTitle>
       <div class="pt-6">
         <p class="responsive-h4 font-bold">
-          {{ $t("components.modal-share-page.online") }}
+          {{ $t("components.modal_share_page.online") }}
         </p>
         <div
           class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
@@ -31,7 +31,7 @@
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               :iconName="IconMap.TELEGRAM"
-              :text="$t('components.meta-social-media-tag.telegram')"
+              :text="$t('components.modal_share_page.telegram')"
               iconSize="1.5em"
             />
           </s-telegram>
@@ -48,7 +48,7 @@
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               :iconName="IconMap.MASTODON"
-              :text="$t('components.meta-social-media-tag.mastodon')"
+              :text="$t('components.modal_share_page.mastodon')"
               iconSize="1.5em"
             />
           </s-mastodon>
@@ -90,13 +90,13 @@
             <MetaTagSocialMedia
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               :iconName="IconMap.FACEBOOK"
-              :text="$t('components.meta-social-media-tag.facebook')"
+              :text="$t('components.modal_share_page.facebook')"
               iconSize="1.5em"
             />
           </s-facebook>
           <!-- <div class="flex h-full w-full cursor-pointer items-center gap-3">
             <Icon :name="IconMap.SIGNAL" size="1.5em" />
-            <p>{{ $t("components._global.signal") }}</p>
+            <p>{{ $t("components.modal_share_page.signal") }}</p>
           </div> -->
           <div
             @click="
@@ -137,14 +137,14 @@
               v-if="!contentCopied"
               class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
               :iconName="IconMap.LINK"
-              :text="$t('components.meta-social-media-tag.copy-link')"
+              :text="$t('components.modal_share_page.copy_link')"
               iconSize="1.5em"
             />
             <MetaTagSocialMedia
               v-if="contentCopied"
               class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
               :iconName="IconMap.SQUARE_CHECK"
-              :text="$t('components.meta-social-media-tag.copied')"
+              :text="$t('components.modal_share_page.copied')"
               iconSize="1.5em"
             />
           </div>
@@ -152,7 +152,7 @@
       </div>
       <div class="pt-6">
         <p class="responsive-h4 font-bold">
-          {{ $t("components.modal-share-page.offline") }}
+          {{ $t("components.modal_share_page.offline") }}
         </p>
         <div
           class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
@@ -184,7 +184,7 @@
         <MetaTagSocialMedia
           class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
           :iconName="IconMap.MESSENGER"
-          :text="$t('components.meta-social-media-tag.messenger')"
+          :text="$t('components.modal_share_page.messenger')"
           iconSize="1.5em"
         />
       </s-facebook-messenger> -->

@@ -4,13 +4,17 @@
   >
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{ $t("_global.events_lower") }}</Title
+        >{{ organization.name }}&nbsp;{{
+          $t("pages.organizations._global.events_lower")
+        }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.events_lower')"
-      :tagline="$t('pages.organizations.events.tagline')"
+      :header="
+        organization.name + ' ' + $t('pages.organizations._global.events_lower')
+      "
+      :tagline="$t('pages.organizations._global.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -18,11 +22,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components._global.new-event"
+          label="_global.new_event"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-route-internal.new-event-aria-label"
+          ariaLabel="pages.organizations.events.new_event_aria_label"
         />
       </div>
     </HeaderAppPage>

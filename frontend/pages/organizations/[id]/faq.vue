@@ -8,18 +8,18 @@
     <HeaderAppPage
       :organization="organization"
       :header="organization.name + ' ' + $t('_global.faq')"
-      :tagline="$t('pages.organizations.faq.tagline')"
+      :tagline="$t('pages.organizations._global.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.new-faq"
+          label="pages.organizations.faq.new_faq"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-action.new-faq-aria-label"
+          ariaLabel="pages.organizations.faq.new_faq_aria_label"
         />
       </div>
     </HeaderAppPage>
