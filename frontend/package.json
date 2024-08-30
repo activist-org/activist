@@ -51,7 +51,7 @@
     "@somushq/vue3-friendly-captcha": "^1.0.2",
     "@types/geojson": "^7946.0.14",
     "@unocss/reset": ">=0.50.0-0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "dotenv": "^16.4.5",
     "eslint-config-prettier": "^9.0.0",
     "floating-vue": "^2.0.0",
