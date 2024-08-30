@@ -13,7 +13,7 @@
     <HeaderAppPage
       :group="group"
       :header="group.name + ' ' + $t('_global.faq')"
-      :tagline="$t('pages.organizations._global.tagline')"
+      :tagline="$t('pages.organizations._global.faq_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">

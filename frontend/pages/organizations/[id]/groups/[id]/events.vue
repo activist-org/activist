@@ -19,7 +19,7 @@
       :header="
         group.name + ' ' + $t('pages.organizations._global.events_lower')
       "
-      :tagline="$t('pages.organizations._global.tagline')"
+      :tagline="$t('pages.organizations._global.events_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">

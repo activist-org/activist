@@ -8,7 +8,7 @@
     <HeaderAppPage
       :organization="organization"
       :header="organization.name + ' ' + $t('_global.faq')"
-      :tagline="$t('pages.organizations._global.tagline')"
+      :tagline="$t('pages.organizations._global.faq_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
