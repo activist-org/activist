@@ -1,21 +1,21 @@
 <template>
   <CardChangeAccountInfo
-    :ctaLabel="$t('components.card-change-account-info.username.header-cta')"
+    :ctaLabel="$t('components.card_change_account_info_username.header_cta')"
     :ctaAriaLabel="
-      $t('components.card-change-account-info.username.cta-aria-label')
+      $t('components.card_change_account_info_username.cta_aria_label')
     "
   >
     <div class="space-y-4 pb-1">
       <div class="flex items-center space-x-4">
         <h3 class="responsive-h3 font-bold">
-          {{ $t("components.card-change-account-info.username.header-cta") }}
+          {{ $t("components.card_change_account_info_username.header_cta") }}
         </h3>
       </div>
       <div class="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div class="flex w-full flex-col lg:w-1/2">
           <label for="new-username" class="responsive-h4 font-bold"
             >{{
-              $t("components.card-change-account-info.username.new-username")
+              $t("components.card_change_account_info_username.new_username")
             }}
             *</label
           >
@@ -24,19 +24,19 @@
             class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
             :placeholder="
               $t(
-                'components.card-change-account-info.username.enter-new-username'
+                'components.card_change_account_info_username.enter_new_username'
               )
             "
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/2">
           <label for="password" class="responsive-h4 font-bold"
-            >{{ $t("components._global.enter-password") }} *</label
+            >{{ $t("_global.enter_password") }} *</label
           >
           <input
             id="password"
             class="peer rounded-sm border border-light-text bg-transparent px-3 py-1 dark:border-dark-text"
-            :placeholder="$t('components._global.enter-password')"
+            :placeholder="$t('_global.enter_password')"
           />
         </div>
       </div>

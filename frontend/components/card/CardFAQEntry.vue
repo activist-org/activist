@@ -19,8 +19,8 @@
               @closeModal="handleCloseModal"
               :faqEntry="faqEntry"
               :sectionsToEdit="[
-                $t('components.card-faq-entry.question'),
-                $t('components.card-faq-entry.answer'),
+                $t('components.card_faq_entry.question'),
+                $t('components.card_faq_entry.answer'),
               ]"
               :textsToEdit="[faqEntry.question, faqEntry.answer]"
               :isOpen="modalIsOpen"

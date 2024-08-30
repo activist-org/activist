@@ -12,7 +12,7 @@
           :name="IconMap.LEGAL"
           class="fill-light-text dark:fill-dark-text"
         />
-        <p>{{ $t("components.card-legal-disclaimer.header") }}</p>
+        <p>{{ $t("components.card_legal_disclaimer.header") }}</p>
         <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
         <Icon v-else :name="IconMap.CHEVRON_DOWN" />
       </div>

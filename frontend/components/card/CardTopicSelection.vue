@@ -1,22 +1,22 @@
 <template v-model="value">
   <div class="card-style w-full flex-col space-y-3 px-5 py-6">
     <p class="responsive-h3 font-medium text-light-text dark:text-dark-text">
-      {{ $t("components.card-topic-selection.header") }}
+      {{ $t("components.card_topic_selection.header") }}
     </p>
     <p
       v-if="pageType == 'organization'"
       class="text-light-text dark:text-dark-text"
     >
-      {{ $t("components.card-topic-selection.subtext-organization") }}
+      {{ $t("components.card_topic_selection.subtext_organization") }}
     </p>
     <p v-if="pageType == 'group'" class="text-light-text dark:text-dark-text">
-      {{ $t("components.card-topic-selection.subtext-group") }}
+      {{ $t("components.card_topic_selection.subtext_group") }}
     </p>
     <p
       v-if="pageType == 'resource'"
       class="text-light-text dark:text-dark-text"
     >
-      {{ $t("components.card-topic-selection.subtext-resource") }}
+      {{ $t("components.card_topic_selection.subtext_resource") }}
     </p>
     <input
       v-model="query"
@@ -24,7 +24,7 @@
       @keydown="resetTabIndex()"
       id="query"
       :display-value="() => query"
-      :placeholder="$t('components.card-topic-selection.selector-placeholder')"
+      :placeholder="$t('components.card_topic_selection.selector_placeholder')"
       class="topicInput elem-shadow-sm focus-brand w-full rounded-md bg-light-layer-0 py-2 pl-4 text-light-distinct-text dark:bg-dark-layer-0 dark:text-dark-distinct-text"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
@@ -82,10 +82,10 @@
       class="link-text cursor-pointer sm:hidden"
     >
       <div v-if="!moreOptionsShown && !inputFocus">
-        {{ $t("components.card-topic-selection.view-all-topics") }}
+        {{ $t("components.card_topic_selection.view_all_topics") }}
       </div>
       <div v-else>
-        {{ $t("components.card-topic-selection.hide-all-topics") }}
+        {{ $t("components.card_topic_selection.hide_all_topics") }}
       </div>
     </button>
   </div>

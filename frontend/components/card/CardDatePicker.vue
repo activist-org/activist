@@ -1,19 +1,19 @@
 <template>
   <form class="card-style flex w-full flex-col space-y-3 px-5 py-4">
     <h1 class="text-2xl">
-      <strong>{{ $t("components.card-date-picker.date") }} *</strong>
+      <strong>{{ $t("components.card_date_picker.date") }} *</strong>
     </h1>
     <div class="flex grow">
       <div class="flex w-[50%] flex-row space-x-2">
         <FormCheckbox />
         <label for="All Day">{{
-          $t("components.card-date-picker.all-day")
+          $t("components.card_date_picker.all_day")
         }}</label>
       </div>
       <div class="flex w-[50%] flex-row space-x-2 pl-1">
         <FormCheckbox />
         <label for="Multiple Days">{{
-          $t("components.card-date-picker.multiple-days")
+          $t("components.card_date_picker.multiple_days")
         }}</label>
       </div>
     </div>
