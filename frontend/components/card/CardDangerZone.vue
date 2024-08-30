@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col gap-5">
       <h3 class="responsive-h3 text-left font-display font-bold">
-        {{ $t("components.card-danger-zone.header") }}
+        {{ $t("components.card_danger_zone.header") }}
       </h3>
       <p>{{ description }}</p>
       <form method="post">
@@ -16,10 +16,10 @@
               class="responsive-h4 font-bold text-light-text dark:text-dark-text"
               for="username"
               :placeholder="
-                $t('components.card-danger-zone.username-placeholder')
+                $t('components.card_danger_zone.username_placeholder')
               "
             >
-              {{ $t("components.card-danger-zone.username-label") }} *
+              {{ $t("components.card_danger_zone.username_label") }} *
             </label>
             <input
               id="username"
@@ -30,9 +30,9 @@
             <label
               class="responsive-h4 font-bold text-light-text dark:text-dark-text"
               for="password"
-              :placeholder="$t('components._global.enter-password')"
+              :placeholder="$t('_global.enter_password')"
             >
-              {{ $t("components.card-danger-zone.password-label") }} *
+              {{ $t("components.card_danger_zone.password_label") }} *
             </label>
             <input
               id="password"

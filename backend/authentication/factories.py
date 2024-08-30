@@ -35,6 +35,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = UserModel
         exclude = ("plaintext_password",)
+        django_get_or_create = ("username",)
 
     username = factory.Faker("user_name")
     name = factory.Faker("name")

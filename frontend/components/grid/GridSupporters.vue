@@ -6,21 +6,21 @@
       imageName="WikimediaDE"
       imageLink="https://www.wikimedia.de"
       :aria-label="
-        $t('components.grid-supporters.wikimedia-de-logo-aria-label')
+        $t('components.grid_supporters.wikimedia_de_logo_aria_label')
       "
     />
     <ImageLogo
       imageName="WikimediaRS"
       imageLink="https://wikimedia.rs"
       :aria-label="
-        $t('components.grid-supporters.wikimedia-rs-logo-aria-label')
+        $t('components.grid_supporters.wikimedia_rs_logo_aria_label')
       "
     />
     <ImageLogo
       imageName="ImpactHub"
       imageLink="https://belgrade.impacthub.net"
       :aria-label="
-        $t('components.grid-supporters.impact-hub-belgrade-logo-aria-label')
+        $t('components.grid_supporters.impact_hub_belgrade_logo_aria_label')
       "
     />
   </div>

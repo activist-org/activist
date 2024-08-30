@@ -63,7 +63,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Localization
 
-- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Transifex](https://www.transifex.com/) ([activist on Transifex](https://explore.transifex.com/activist-org/activist))
+- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Weblate](https://weblate.org) ([activist on Weblate](https://hosted.weblate.org/projects/activist/activist))
 
 ### Analytics
 
@@ -422,7 +422,9 @@ Thank you in advance for your contributions!
 
 ## Localization [`⇧`](#contents)
 
-Localization for activist happens within our [public localization project on Transifex](https://explore.transifex.com/activist-org/activist). Join us there if you'd like to help bring activist to other languages!
+<a href="https://hosted.weblate.org/projects/activist/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right"></a>
+
+Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
 To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for more information on how to create new localization keys.
 

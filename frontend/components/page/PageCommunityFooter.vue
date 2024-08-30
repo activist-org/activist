@@ -5,73 +5,73 @@
     </p>
     <ul v-if="!helpNeeded" class="list-disc space-y-1 pb-1 pl-4 pt-3">
       <li>
-        {{ $t("components.page-community-footer.invite-text-2-1") }}
+        {{ $t("components.page_community_footer.invite_text_2_1") }}
         <a
           class="focus-brand link-text items-center"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
-          {{ $t("_global.on-github") }}
+          {{ $t("_global.on_github") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page-community-footer.invite-text-2-3") }}
+        {{ $t("components.page_community_footer.invite_text_2_3") }}
       </li>
       <li>
-        {{ $t("components.page-community-footer.invite-text-3-1") }}
+        {{ $t("components.page_community_footer.invite_text_3_1") }}
         <a
           class="focus-brand link-text items-center"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
-          {{ $t("_global.public-matrix-chat-rooms") }}
+          {{ $t("_global.public_matrix_chat_rooms") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page-community-footer.invite-text-3-3") }}
+        {{ $t("components.page_community_footer.invite_text_3_3") }}
       </li>
       <li>
-        {{ $t("_global.visit-our") }}
+        {{ $t("_global.visit_our") }}
         <a
           class="focus-brand link-text items-center"
-          href="https://explore.transifex.com/activist-org/activist/"
+          href="https://hosted.weblate.org/projects/activist/activist"
           target="_blank"
         >
-          {{ $t("components.page-community-footer.invite-text-4-2") }}
+          {{ $t("components.page_community_footer.invite_text_4_2") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page-community-footer.invite-text-4-3") }}
+        {{ $t("components.page_community_footer.invite_text_4_3") }}
       </li>
     </ul>
     <ul v-else class="list-disc space-y-1 pb-1 pl-4 pt-3">
       <li>
-        {{ $t("components.page-community-footer.need-help-text-1-1") }}
+        {{ $t("components.page_community_footer.need_help_text_1_1") }}
         <a
           class="focus-brand link-text items-center"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
-          {{ $t("_global.public-matrix-chat-rooms") }}
+          {{ $t("_global.public_matrix_chat_rooms") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page-community-footer.need-help-text-1-3") }}
+        {{ $t("components.page_community_footer.need_help_text_1_3") }}
       </li>
       <li>
-        {{ $t("components.page-community-footer.need-help-text-2-1") }}
+        {{ $t("components.page_community_footer.need_help_text_2_1") }}
         <a
           class="focus-brand link-text items-center"
           href="https://github.com/orgs/activist-org"
@@ -84,7 +84,7 @@
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page-community-footer.need-help-text-2-3") }}
+        {{ $t("components.page_community_footer.need_help_text_2_3") }}
       </li>
     </ul>
   </div>
@@ -105,12 +105,12 @@ export interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  header: "components.page-community-footer.invite-text-1",
+  header: "components.page_community_footer.invite_text_1",
 });
 
 const headerText = ref(props.header);
 
 if (props.helpNeeded == true) {
-  headerText.value = "components.page-community-footer.need-help";
+  headerText.value = "components.page_community_footer.need_help";
 }
 </script>

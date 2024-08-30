@@ -56,7 +56,7 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 
 - Localization switching is achieved via a dropdown with routing applied to links.
 - All platform texts are written in JSON files for easy localization.
-- A localization process has been set up with [Transifex](https://www.transifex.com/).
+- A localization process has been set up with [Weblate](https://weblate.org).
 - Aria labels are written using translatable strings for localized accessibility.
 
 ### ♻️ Code Quality

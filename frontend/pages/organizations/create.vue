@@ -1,4 +1,5 @@
 <template>
+  <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
   <div class="w-full text-light-text dark:text-dark-text">
     <IndicatorProcessProgress
       type="default"
@@ -25,7 +26,7 @@
         >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("_global.organization-name") }}*</label
+              >{{ $t("_global.organization_name") }}*</label
             >
             <input
               v-model="formData.name"
@@ -34,13 +35,13 @@
               type="text"
               name="name"
               :placeholder="
-                $t('pages.organizations.create.organization-name-placeholder')
+                $t('pages.organizations.create.organization_name_placeholder')
               "
             />
           </div>
           <div class="w-1/2">
             <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.location") }}*</label
+              >{{ $t("pages._global.create.location") }}*</label
             >
             <input
               v-model="formData.location"
@@ -49,14 +50,14 @@
               type="text"
               name="location"
               :placeholder="
-                $t('pages.organizations.create.location-placeholder')
+                $t('pages.organizations.create.location_placeholder')
               "
             />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages._global.description") }}*</label
+            >{{ $t("pages._global.create.description") }}*</label
           >
           <textarea
             v-model="formData.description"
@@ -64,7 +65,7 @@
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="description"
             :placeholder="
-              $t('pages.organizations.create.description-placeholder')
+              $t('pages.organizations.create.description_placeholder')
             "
           ></textarea>
         </div>
@@ -77,7 +78,7 @@
             id="tagline"
             class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="tagline"
-            :placeholder="$t('pages.organizations.create.tagline-placeholder')"
+            :placeholder="$t('pages.organizations.create.tagline_placeholder')"
           />
         </div>
         <CardTopicSelection
@@ -92,13 +93,14 @@
           <div class="flex space-x-2">
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
-              <p>{{ $t("pages._global.terms-of-service-pt-1") }}&nbsp;</p>
+              <p>{{ $t("pages._global.terms_of_service_pt_1") }}&nbsp;</p>
               <NuxtLink
                 :to="localePath('/legal/privacy-policy')"
                 target="_blank"
                 class="link-text"
-                >{{ $t("pages._global.terms-of-service-pt-2") }}</NuxtLink
+                >{{ $t("pages._global.terms_of_service_pt_2") }}</NuxtLink
               >
+
               <p>.</p>
             </label>
           </div>
@@ -107,9 +109,9 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="pages.organizations.create.complete-application"
+              label="pages.organizations.create.complete_application"
               fontSize="lg"
-              ariaLabel="pages.organizations.create.complete-application-aria-label"
+              ariaLabel="pages.organizations.create.complete_application-aria-label"
             />
           </div>
         </div>
@@ -119,6 +121,8 @@
 </template>
 
 <script setup lang="ts">
+import { Toaster, toast } from "vue-sonner";
+import BtnAction from "~/components/btn/action/BtnAction.vue";
 import type { OrganizationCreateFormData } from "~/types/entities/organization";
 
 definePageMeta({
@@ -143,8 +147,7 @@ const submit = async () => {
   if (responseID) {
     navigateTo(localePath(`/organizations/${responseID}`));
   } else {
-    // TODO: Push notification with toast should be added here.
-    false;
+    toast.error("Something went wrong. Please try again later.");
   }
 };
 </script>

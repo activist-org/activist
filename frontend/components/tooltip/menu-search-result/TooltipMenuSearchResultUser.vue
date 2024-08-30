@@ -5,10 +5,10 @@
         @keydown="handleTabPress(false, $event)"
         class="flex max-h-[40px] w-full"
         :cta="true"
-        label="components.btn-action.support"
+        label="_global.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        :ariaLabel="$t('components.btn-action.support-user-aria-label')"
+        :ariaLabel="$t('components.tooltip_menu_search_result_user.support_user_aria_label')"
       /> -->
       <BtnAction
         @click="openModal()"
@@ -16,10 +16,12 @@
         @keydown="handleTabPress(true, $event)"
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
-        label="components.btn-action.share"
+        label="_global.share"
         :leftIcon="IconMap.SHARE"
         fontSize="lg"
-        :ariaLabel="$t('components.btn-action.share-user-aria-label')"
+        :ariaLabel="
+          $t('components.tooltip_menu_search_result_user.share_user_aria_label')
+        "
       />
       <ModalSharePage
         @closeModal="handleCloseModal"

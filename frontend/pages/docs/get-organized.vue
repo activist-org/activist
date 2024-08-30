@@ -3,7 +3,7 @@
     class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
-      <Title>{{ $t("_global.get-organized") }}</Title>
+      <Title>{{ $t("pages._global.get_organized") }}</Title>
     </Head>
     <div
       class="responsive-py-4 responsive-px-5 flex w-full flex-col items-center"
@@ -16,7 +16,7 @@
         v-if="!aboveMediumBP"
         class="h-1/6 w-full"
         :src="GET_ORGANIZED_MOCKUP_URL + `_${$colorMode.value}.png`"
-        :alt="$t('pages.docs.get-organized.modal-image-alt-text')"
+        :alt="$t('pages.docs.get_organized.modal_image_alt_text')"
       />
       <div class="w-10/12 gap-16 md:w-full 2xl:grid 2xl:grid-cols-2">
         <ModalImageBtn
@@ -25,12 +25,12 @@
           @keydown.enter="openModal()"
           class="block"
           :imageURL="GET_ORGANIZED_MOCKUP_URL"
-          imageAltText="pages.docs.get-organized.modal-image-alt-text"
+          imageAltText="pages.docs.get_organized.modal_image_alt_text"
         />
         <ModalImage
           @closeModal="handleCloseModal"
           :imageURL="GET_ORGANIZED_MOCKUP_URL"
-          imageAltText="pages.docs.get-organized.modal-image-alt-text"
+          imageAltText="pages.docs.get_organized.modal_image_alt_text"
           :isOpen="modalIsOpen"
         />
         <div
@@ -38,7 +38,7 @@
         >
           <PageBreadcrumbs v-if="aboveMediumBP" />
           <h1 class="responsive-h1 pb-2 font-bold">
-            {{ $t("pages.docs.get-organized.header") }}
+            {{ $t("pages.docs.get_organized.header") }}
           </h1>
           <div class="flex flex-row space-x-3 py-2">
             <Icon
@@ -47,49 +47,49 @@
               size="1.25em"
             />
             <p>
-              {{ $t("pages._global.see-the") }}
+              {{ $t("pages._global.see_the") }}
               <a
                 class="focus-brand link-text items-center"
                 href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=62%3A2&t=ytDrcE8K3RrfCxM6-1"
                 target="_blank"
               >
-                {{ $t("pages.docs.get-organized.subheader-2") }}
+                {{ $t("pages.docs.get_organized.subheader_2") }}
                 <Icon
                   :name="IconMap.EXTERNAL_LINK"
                   size="1em"
                   style="vertical-align: baseline"
                 />
               </a>
-              {{ $t("pages._global.to-learn-more") }}
+              {{ $t("pages._global.to_learn_more") }}
             </p>
           </div>
           <p>
-            {{ $t("pages.docs.get-organized.section-1-paragraph-1") }}
+            {{ $t("pages.docs.get_organized.section_1_paragraph_1") }}
           </p>
           <p>
-            {{ $t("pages.docs.get-organized.section-1-paragraph-2") }}
+            {{ $t("pages.docs.get_organized.section_1_paragraph_2") }}
           </p>
           <p>
-            {{ $t("pages.docs.get-organized.section-1-paragraph-3") }}
+            {{ $t("pages.docs.get_organized.section_1_paragraph_3") }}
           </p>
           <PageCommunityFooter>
             <BtnRouteExternal
               class="w-full"
               :cta="true"
-              label="components.btn-route-external.request-access"
+              label="_global.request_access"
               :linkTo="REQUEST_ACCESS_URL"
               fontSize="lg"
               ariaLabel="
-                components.btn-route-external.request-access-aria-label
+                _global.request_access-aria-label
               "
             />
             <BtnRouteInternal
               class="w-full"
               :cta="false"
-              label="components.btn-route-internal.return-home"
+              label="_global.return_home"
               linkTo="/"
               fontSize="lg"
-              ariaLabel="components.btn-route-internal.return-home-aria-label"
+              ariaLabel="_global.return_home_aria_label"
             />
           </PageCommunityFooter>
         </div>

@@ -24,7 +24,7 @@
         :for="customValueType"
         class="sr-only"
         >{{
-          $t("components.form-radio-group.custom-numeric-value-placeholder")
+          $t("components.form_radio_group.custom_numeric_value_placeholder")
         }}</label
       >
       <input
@@ -35,7 +35,7 @@
         class="w-full flex-1 rounded-l-md border border-r-0 border-light-interactive bg-light-layer-2 pl-4 pr-2 font-bold text-light-distinct-text outline-none dark:border-dark-interactive dark:bg-dark-layer-2 dark:text-dark-distinct-text"
         :type="customValueType"
         :placeholder="
-          $t('components.form-radio-group.custom-numeric-value-placeholder')
+          $t('components.form_radio_group.custom_numeric_value_placeholder')
         "
       />
       <button

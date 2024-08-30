@@ -13,7 +13,7 @@
   "devDependencies": {
     "@headlessui/vue": "^1.7.19",
     "@nuxt/content": "^2.12.1",
-    "@nuxt/devtools": "^1.1.5",
+    "@nuxt/devtools": "^1.3.9",
     "@nuxt/eslint-config": "^0.3.2",
     "@nuxtjs/color-mode": "^3.3.3",
     "@nuxtjs/device": "^3.1.0",
@@ -51,7 +51,7 @@
     "@somushq/vue3-friendly-captcha": "^1.0.2",
     "@types/geojson": "^7946.0.14",
     "@unocss/reset": ">=0.50.0-0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "dotenv": "^16.4.5",
     "eslint-config-prettier": "^9.0.0",
     "floating-vue": "^2.0.0",
@@ -69,6 +69,7 @@
     "uuid": "^9.0.1",
     "v-calendar": "^3.1.1",
     "vue-socials": "^2.0.5",
+    "vue-sonner": "^1.1.3",
     "vuedraggable": "~4.1.0",
     "wait-on": "^7.2.0",
     "zxcvbn": "^4.4.2"

@@ -15,12 +15,12 @@
     </div>
     <div class="responsive-py-5 responsive-px-5">
       <h3 class="responsive-h2 transition-all duration-500">
-        {{ $t("pages.legal.index.section-1-subheader") }}
+        {{ $t("pages.legal.index.section_1_subheader") }}
       </h3>
       <p
         class="responsive-py-1 text-light-distinct-text dark:text-dark-distinct-text"
       >
-        {{ $t("pages.legal.index.section-1-tagline") }}
+        {{ $t("pages.legal.index.section_1_tagline") }}
       </p>
       <GridDocEntries class="responsive-py-1" :cards="cards" />
     </div>
@@ -34,20 +34,20 @@ const cards: DocsEntry[] = [
   {
     id: 1,
     url: "trademark-policy",
-    title: "_global.trademark-policy",
-    description: "pages.legal.index.trademark-policy-description",
+    title: "_global.trademark_policy",
+    description: "pages.legal.index.trademark_policy_description",
     imgURL: `${BOOTSTRAP_TRADEMARK_URL}`,
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.legal._global.trademark-policy-alt-text",
+    imgAltText: "pages.legal._global.trademark_policy_alt_text",
   },
   {
     id: 2,
     url: "privacy-policy",
-    title: "_global.privacy-policy",
-    description: "pages.legal.index.privacy-policy-description",
+    title: "_global.privacy_policy",
+    description: "pages.legal.index.privacy_policy_description",
     imgURL: `${BOOTSTRAP_SHIELD_CHECK_URL}`,
     imgDimensions: "h-16 sm:h-20",
-    imgAltText: "pages.legal._global.privacy-policy-alt-text",
+    imgAltText: "pages.legal._global.privacy_policy_alt_text",
   },
 ];
 </script>
