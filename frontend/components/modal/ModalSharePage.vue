@@ -143,7 +143,7 @@
               v-if="signalContentCopied"
               class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
               :iconName="IconMap.SQUARE_CHECK"
-              :text="$t('components.modal_share_page.copied')"
+              :text="$t('components.modal_share_page.url_copied')"
               iconSize="1.5em"
             />
           </div>
@@ -193,7 +193,7 @@
               v-if="contentCopied"
               class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
               :iconName="IconMap.SQUARE_CHECK"
-              :text="$t('components.modal_share_page.copied')"
+              :text="$t('components.modal_share_page.url_copied')"
               iconSize="1.5em"
             />
           </div>
