@@ -37,6 +37,8 @@
   "_global.team": "Equipo",
   "components.combobox_topics.all_topics": "Todos los temas",
   "components.empty_state.create_organization": "Crear una organización",
+  "components.modal_share_page.url_copied": "URL copiada",
+  "components.modal_upload_images.drag_image": "Arrastra tu imagen o haz clic aquí para agregarla",
   "pages._global.discussions_lower": "debates",
   "pages._global.get_active": "Mantente activo",
   "pages._global.get_organized": "Organízate",
