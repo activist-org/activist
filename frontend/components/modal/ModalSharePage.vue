@@ -94,10 +94,59 @@
               iconSize="1.5em"
             />
           </s-facebook>
-          <!-- <div class="flex h-full w-full cursor-pointer items-center gap-3">
-            <Icon :name="IconMap.SIGNAL" size="1.5em" />
-            <p>{{ $t("components.modal_share_page.signal") }}</p>
-          </div> -->
+          <div
+            @click="
+              copyToClipboardThenOpenURL(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl(),
+                'https://signal.me/#p'
+              )
+            "
+            @keypress.space="
+              copyToClipboardThenOpenURL(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl(),
+                'https://signal.me/#p'
+              )
+            "
+            @keypress.enter="
+              copyToClipboardThenOpenURL(
+                props?.event?.name
+                  ? props?.event?.name
+                  : props?.organization?.name
+                    ? props?.organization?.name
+                    : '',
+                getCurrentUrl(),
+                'https://signal.me/#p'
+              )
+            "
+            class="focus-brand"
+            tabindex="0"
+            role="button"
+          >
+            <MetaTagSocialMedia
+              v-if="!signalContentCopied"
+              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              :iconName="IconMap.SIGNAL"
+              :text="$t('components.modal_share_page.signal')"
+              iconSize="1.5em"
+            />
+            <MetaTagSocialMedia
+              v-if="signalContentCopied"
+              class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
+              :iconName="IconMap.SQUARE_CHECK"
+              :text="$t('components.modal_share_page.copied')"
+              iconSize="1.5em"
+            />
+          </div>
           <div
             @click="
               copyToClipboard(
@@ -283,6 +332,7 @@ const shareOptions = {
 
 const useNativeBehavior = false;
 const contentCopied = ref(false);
+const signalContentCopied = ref(false);
 
 // No specific actions should be taken on these events, but we can customize the behavior if needed.
 const nativeBehaviorOptions = {
@@ -304,6 +354,26 @@ const copyToClipboard = async (name: string, url: string) => {
   } catch (error) {
     console.error(`Could not copy text: ${error}`);
     contentCopied.value = false;
+  }
+};
+
+const copyToClipboardThenOpenURL = async (
+  name: string,
+  url: string,
+  redirectURL?: string
+) => {
+  try {
+    await navigator.clipboard.writeText(url);
+    signalContentCopied.value = true;
+    setTimeout(() => {
+      signalContentCopied.value = false;
+      if (redirectURL) {
+        window.open(redirectURL, "_blank");
+      }
+    }, 2000);
+  } catch (error) {
+    console.error(`Could not copy text: ${error}`);
+    signalContentCopied.value = false;
   }
 };
 </script>
