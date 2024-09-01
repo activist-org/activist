@@ -58,7 +58,7 @@
     "maplibre-gl": "4.0.0",
     "nuxt-mail": "5.0.1",
     "pinia": "2.1.6",
-    "postcss": "8.4.21",
+    "postcss": "8.4.31",
     "postcss-custom-properties": "^14.0.1",
     "qrcode": "1.5.3",
     "qrcode.vue": "3.4.1",
