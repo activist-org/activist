@@ -1,3 +1,4 @@
 {
-  "eslint.validate": ["javascript", "typescript", "vue"]
+  "eslint.validate": ["javascript", "typescript", "vue"],
+  "typescript.tsdk": "./frontend/node_modules/typescript/lib"
 }

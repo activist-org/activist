@@ -44,7 +44,6 @@ export default <Partial<Config>>{
           "accepted-green": "rgba(62, 137, 20, 1)",
           "warn-yellow": "rgba(255, 191, 0, 1)",
         },
-
         dark: {
           "layer-0": "rgba(6, 8, 15, 1)",
           "layer-1": "rgba(19, 19, 22, 1)",
