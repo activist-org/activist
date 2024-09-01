@@ -58,22 +58,46 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import { IconMap } from "~/types/icon-map";
+import { useRoute } from "vue-router";
 
 const props = defineProps<{
-  isOpen: boolean;
   imageModal?: boolean;
   modalName: string;
 }>();
 
+const emit = defineEmits(["closeModal"]);
+
+const route = useRoute();
 const modals = useModals();
 const modalName = props.modalName;
-let modalIsOpen = computed(() => props.isOpen);
+const modalIsOpen = ref(false);
 
 onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+  // Ensure modals.modals[modalName] is defined. If so, save isOpen in store.
+  if (modals.modals[modalName]) {
+    modalIsOpen.value = modals.modals[modalName].isOpen;
+  }
 });
 
+// Watch the reactive modalIsOpen ref and check if modalName exists in modals.modals.
+watch(
+  () => modals.modals[modalName]?.isOpen,
+  (newVal) => {
+    if (newVal !== undefined) {
+      modalIsOpen.value = newVal;
+    }
+  }
+);
+
+// Tell any interested observers that the closeModal event has happened.
+// The interested observer(s) can respond or do cleanup specific to their needs.
 const closeModal = () => {
+  emit("closeModal");
   modals.closeModal(modalName);
 };
+
+// If the user changes the route while the modal is open, close the modal.
+watch(route, () => {
+  closeModal();
+});
 </script>

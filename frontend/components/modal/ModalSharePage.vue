@@ -1,9 +1,5 @@
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase :modalName="modalName">
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
         <p class="responsive-h2 font-bold">
@@ -259,19 +255,8 @@ const props = defineProps<{
   event?: Event;
   resource?: Resource;
   user?: User;
-  isOpen: boolean;
 }>();
-const modals = useModals();
 const modalName = "ModalSharePage";
-let modalIsOpen = computed(() => props.isOpen);
-
-onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
-});
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-};
 
 const getEntityType = () => {
   if (props.organization) {

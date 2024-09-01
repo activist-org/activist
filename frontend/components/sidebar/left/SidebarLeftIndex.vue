@@ -20,11 +20,7 @@
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages
-          @closeModal="handleCloseModal"
-          :isOpen="modalIsOpen"
-          :uploadLimit="1"
-        />
+        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
         <ImageOrganization
           class="elem-shadow-sm"
           :imgURL="logoUrl"
@@ -52,11 +48,7 @@
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages
-          @closeModal="handleCloseModal"
-          :isOpen="modalIsOpen"
-          :uploadLimit="1"
-        />
+        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"

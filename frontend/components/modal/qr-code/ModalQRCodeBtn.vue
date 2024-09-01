@@ -1,3 +1,5 @@
+<!-- This file doesn't use ModalBase, so we handle modal events in the script block below. -->
+
 <template>
   <button
     v-if="type == 'icon'"
@@ -35,32 +37,15 @@
     v-if="organization"
     @closeModal="handleCloseModal"
     :organization="organization"
-    :isOpen="modalIsOpen"
   />
-  <ModalQRCode
-    v-if="group"
-    @closeModal="handleCloseModal"
-    :group="group"
-    :isOpen="modalIsOpen"
-  />
-  <ModalQRCode
-    v-if="event"
-    @closeModal="handleCloseModal"
-    :event="event"
-    :isOpen="modalIsOpen"
-  />
+  <ModalQRCode v-if="group" @closeModal="handleCloseModal" :group="group" />
+  <ModalQRCode v-if="event" @closeModal="handleCloseModal" :event="event" />
   <ModalQRCode
     v-if="resource"
     @closeModal="handleCloseModal"
     :resource="resource"
-    :isOpen="modalIsOpen"
   />
-  <ModalQRCode
-    v-if="user"
-    @closeModal="handleCloseModal"
-    :user="user"
-    :isOpen="modalIsOpen"
-  />
+  <ModalQRCode v-if="user" @closeModal="handleCloseModal" :user="user" />
 </template>
 
 <script setup lang="ts">

@@ -27,7 +27,6 @@
           :description="organization.description"
           :getInvolved="organization.getInvolved"
           :getInvolvedURL="organization.getInvolvedURL"
-          :isOpen="modalIsOpen"
         />
       </div>
       <div class="flex-col space-y-3">
