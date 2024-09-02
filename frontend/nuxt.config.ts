@@ -49,11 +49,11 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
-    strategy: "prefix",
     lazy: true,
-    baseUrl: "https://activist.org",
+    strategy: "prefix_and_default",
     langDir: "./i18n",
     vueI18n: "./i18n.config.ts",
+    baseUrl: "https://activist.org",
     locales,
     defaultLocale: "en",
     customRoutes: "config",
