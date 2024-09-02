@@ -3,7 +3,8 @@ import { IconMap } from "~/types/icon-map";
 const createMenuEntry = (label: string, basePath: string, iconURL: string) => {
   const { locale } = useI18n();
   const router = useRouter();
-  const id = Number(router.currentRoute.value.params.id);
+
+  const { id } = router.currentRoute.value.params;
   const routeURL = `/${locale.value}/${basePath}/${id}/${label
     .split(".")
     .pop()!
