@@ -57,12 +57,7 @@ export default defineNuxtConfig({
     locales,
     defaultLocale: "en",
     customRoutes: "config",
-    pages: {
-      // about: {
-      //   de: "/ueber-uns",
-      //   fr: "/a-propos",
-      // },
-    },
+    pages: {},
     detectBrowserLanguage: {
       useCookie: false,
       redirectOn: "root",

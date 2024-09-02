@@ -1,6 +1,6 @@
 export interface Locale {
   code: string;
-  iso: string;
+  language: string;
   name: string;
   file: string;
   isCatchallLocale?: boolean;
@@ -9,32 +9,32 @@ export interface Locale {
 const locales: Locale[] = [
   {
     code: "en",
-    iso: "en-US",
+    language: "en-US",
     name: "English",
     file: "en-US.json",
     isCatchallLocale: true,
   },
   {
     code: "de",
-    iso: "de",
+    language: "de",
     name: "Deutsch",
     file: "de.json",
   },
   {
     code: "es",
-    iso: "es",
+    language: "es",
     name: "Español",
     file: "es.json",
   },
   {
     code: "fr",
-    iso: "fr",
+    language: "fr",
     name: "Français",
     file: "fr.json",
   },
   {
     code: "pt",
-    iso: "pt",
+    language: "pt",
     name: "Português",
     file: "pt.json",
   },
