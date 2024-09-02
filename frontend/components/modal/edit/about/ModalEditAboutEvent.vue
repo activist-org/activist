@@ -28,9 +28,9 @@
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
-            $t("components._global.offer-to-help-link")
+            $t("components._global.offer_to_help_link")
           }}</label>
-          <p>{{ $t("components.modal-edit-page-text.remember-https") }}</p>
+          <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
             v-model="formData.getInvolvedURL"
             id="textarea"
@@ -41,11 +41,9 @@
       <BtnAction
         @click="handleSubmit()"
         :cta="true"
-        :label="$t('components.modal-edit-page-text.update-texts')"
+        :label="$t('components.modal.edit._global.update_texts')"
         fontSize="base"
-        :ariaLabel="
-          $t('components.modal-edit-page-text.update-texts-aria-label')
-        "
+        :ariaLabel="$t('components.modal.edit._global.update_texts_aria_label')"
       />
     </div>
   </ModalBase>

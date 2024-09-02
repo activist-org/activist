@@ -52,34 +52,34 @@ const page = computed(() => {
   const authRoutes = [
     {
       route: "sign-in",
-      btnAriaLabel: "_global.auth.sign-up-aria-label",
-      btnLabel: "_global.sign-up",
+      btnAriaLabel: "_global.auth.sign_up_aria_label",
+      btnLabel: "_global.sign_up",
       btnLink: "/auth/sign-up",
-      message: "layouts.auth.sign-in-welcome-back",
-      title: "_global.sign-in",
+      message: "layouts.auth.sign_in_welcome_back",
+      title: "_global.sign_in",
     },
     {
       route: "sign-up",
-      btnAriaLabel: "_global.auth.sign-in-aria-label",
-      btnLabel: "_global.sign-in",
+      btnAriaLabel: "_global.auth.sign_in_aria_label",
+      btnLabel: "_global.sign_in",
       btnLink: "/auth/sign-in",
-      message: "layouts.auth.sign-up-first-time-welcome",
-      title: "_global.sign-up",
+      message: "layouts.auth.sign_up_first_time_welcome",
+      title: "_global.sign_up",
     },
     {
       route: "reset-password",
-      btnAriaLabel: "_global.auth.sign-in-aria-label",
-      btnLabel: "_global.sign-in",
+      btnAriaLabel: "_global.auth.sign_in_aria_label",
+      btnLabel: "_global.sign_in",
       btnLink: "/auth/sign-in",
-      message: "layouts.auth.reset-password-forgot-password",
-      title: "_global.reset-password",
+      message: "layouts.auth.reset_password_forgot_password",
+      title: "_global.auth.reset_password",
     },
     {
       route: "set-password",
-      btnAriaLabel: "_global.auth.sign-in-aria-label",
-      btnLabel: "_global.sign-in",
+      btnAriaLabel: "_global.auth.sign_in_aria_label",
+      btnLabel: "_global.sign_in",
       btnLink: "/auth/sign-in",
-      message: "layouts.auth.set-password-set-new-password",
+      message: "layouts.auth.set_password_set_new_password",
       title: "_global.set-new-password",
     },
   ];
@@ -90,7 +90,7 @@ const page = computed(() => {
     btnLabel: "",
     btnLink: "",
     message: "layouts.auth.welcome",
-    title: "pages.auth.index.auth",
+    title: "layouts.auth.auth",
   };
 
   return (

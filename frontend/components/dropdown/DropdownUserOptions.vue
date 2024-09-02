@@ -4,12 +4,12 @@
     :menuButtonIcon="IconMap.CIRCLE_PERSON"
     :menuButtonLabel="
       userIsSignedIn
-        ? $t(`components.dropdown-user-options.username`)
-        : $t(`components.dropdown-user-options.join-activist`)
+        ? $t(`components.dropdown_user_options.username`)
+        : $t(`components.dropdown_user_options.join_activist`)
     "
     :isMenuButtonUppercase="false"
     :isMenuButtonBold="true"
-    menuButtonAriaLabel="components.dropdown-user-options.username-aria-label"
+    menuButtonAriaLabel="components.dropdown_user_options.username_aria_label"
   >
     <DropdownItemsLayout
       :location="location"
@@ -31,21 +31,21 @@ defineProps<{
 const userOptionsSignedIn: MenuSelector[] = [
   {
     id: 1,
-    label: "components.dropdown-user-options.your-profile",
+    label: "components.dropdown_user_options.your_profile",
     routeURL: "/",
     iconURL: `${IconMap.CIRCLE_PERSON}`,
     selected: false,
   },
   {
     id: 2,
-    label: "components.dropdown-user-options.your-events",
+    label: "components.dropdown_user_options.your_events",
     routeURL: "/",
     iconURL: `${IconMap.EVENT}`,
     selected: false,
   },
   {
     id: 3,
-    label: "components.dropdown-user-options.your-orgs",
+    label: "components.dropdown_user_options.your_orgs",
     routeURL: "/",
     iconURL: `${IconMap.ORGANIZATION}`,
     selected: false,
@@ -66,7 +66,7 @@ const userOptionsSignedIn: MenuSelector[] = [
   },
   {
     id: 6,
-    label: "components.dropdown-user-options.sign-out",
+    label: "components.dropdown_user_options.sign_out",
     routeURL: "/",
     iconURL: `${IconMap.SIGN_OUT}`,
     selected: false,
@@ -76,14 +76,14 @@ const userOptionsSignedIn: MenuSelector[] = [
 const userOptionsSignedOut: MenuSelector[] = [
   {
     id: 1,
-    label: "_global.sign-up",
+    label: "_global.sign_up",
     routeURL: "/auth/sign-up",
     iconURL: `${IconMap.SIGN_IN}`,
     selected: false,
   },
   {
     id: 1,
-    label: "_global.sign-in",
+    label: "_global.sign_in",
     routeURL: "/auth/sign-in",
     iconURL: `${IconMap.CIRCLE_PERSON}`,
     selected: false,

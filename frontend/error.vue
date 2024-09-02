@@ -2,7 +2,7 @@
   <HeaderWebsite />
   <div class="flex h-full bg-light-layer-0 dark:bg-dark-layer-0">
     <Head>
-      <Title>{{ $t("pages.error.title") }}</Title>
+      <Title>{{ $t("error.title") }}</Title>
     </Head>
     <div
       class="container relative mx-auto my-[10%] flex flex-col items-center justify-center space-x-0 space-y-10 text-center md:flex-row md:space-x-8 md:space-y-0 md:text-left xl:space-x-12"
@@ -21,7 +21,7 @@
         <div
           class="mt-4 flex flex-wrap font-['Copperplate_Gothic_Light'] text-lg text-light-text dark:text-dark-text md:mt-0 md:text-xl"
         >
-          {{ $t("pages.error.message") }}
+          {{ $t("error.message") }}
         </div>
         <div
           class="my-8 flex flex-wrap justify-center break-all text-light-distinct-text dark:text-dark-distinct-text md:my-6 md:text-lg"
@@ -30,10 +30,10 @@
         </div>
         <BtnRouteInternal
           :cta="true"
-          label="components.btn-route-internal.return-home"
+          label="_global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-route-internal.return-home-aria-label"
+          ariaLabel="_global.return_home_aria_label"
         />
       </div>
     </div>

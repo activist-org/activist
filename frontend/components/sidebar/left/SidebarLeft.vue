@@ -197,21 +197,21 @@ const filters = {
     title: "",
     name: "eventLocationSearch",
     type: "search",
-    placeholder: "components.sidebar-left.location-search-placeholder",
+    placeholder: "components.sidebar_left.location_search_placeholder",
   },
   locationSearch: {
     sidebarType: [SidebarType.ORGANIZATION_FILTER, SidebarType.SEARCH],
     title: "Location",
     name: "locationSearch",
     type: "search",
-    placeholder: "components.sidebar-left.location-search-placeholder",
+    placeholder: "components.sidebar_left.location_search_placeholder",
   },
   organizationSearch: {
     sidebarType: [SidebarType.EVENT_FILTER],
     title: "Organization",
     name: "organizationSearch",
     type: "search",
-    placeholder: "components.sidebar-left.orgs-search-placeholder",
+    placeholder: "components.sidebar_left.orgs_search_placeholder",
   },
   topic: {
     sidebarType: [

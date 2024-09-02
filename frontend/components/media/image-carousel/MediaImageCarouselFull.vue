@@ -8,10 +8,7 @@
     >
       <Icon :name="IconMap.FULL_SCREEN" size="1.5em" />
     </button>
-    <ModalMediaImageCarousel
-      @closeModal="handleCloseModal"
-      :isOpen="modalIsOpen"
-    />
+    <ModalMediaImageCarousel @closeModal="handleCloseModal" />
   </div>
 </template>
 

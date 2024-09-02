@@ -20,16 +20,12 @@
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages
-          @closeModal="handleCloseModal"
-          :isOpen="modalIsOpen"
-          :uploadLimit="1"
-        />
+        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
         <ImageOrganization
           class="elem-shadow-sm"
           :imgURL="logoUrl"
           :alt="
-            $t('components._global.entity-logo', {
+            $t('_global.entity_logo', {
               entity_name: name,
             })
           "
@@ -52,16 +48,12 @@
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages
-          @closeModal="handleCloseModal"
-          :isOpen="modalIsOpen"
-          :uploadLimit="1"
-        />
+        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"
           :alt="
-            $t('components._global.entity-logo', {
+            $t('_global.entity_logo', {
               entity_name: name,
             })
           "

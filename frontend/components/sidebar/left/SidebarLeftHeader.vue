@@ -44,7 +44,7 @@
             'pb-1 pl-0.5': sidebar.collapsedSwitch == true,
           }"
           :aria-label="
-            $t('components.sidebar-left-header.sidebar-collapse-aria-label')
+            $t('components.sidebar_left_header.sidebar_collapse_aria_label')
           "
         >
           <SidebarLeftToggle chevronDirection="right" iconSize="1.4em" />

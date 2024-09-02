@@ -1,9 +1,5 @@
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <label for="textarea" class="responsive-h2">{{
@@ -17,7 +13,7 @@
       </div>
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <label for="textarea" class="responsive-h2">{{
-          $t("components._global.get-involved")
+          $t("components._global.get_involved")
         }}</label>
         <textarea
           v-model="formData.getInvolved"
@@ -28,9 +24,9 @@
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
-            $t("components._global.join-organization-link")
+            $t("components.modal.edit._global.join_organization_link")
           }}</label>
-          <p>{{ $t("components.modal-edit-page-text.remember-https") }}</p>
+          <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
             v-model="formData.getInvolvedURL"
             id="textarea"
@@ -41,11 +37,9 @@
       <BtnAction
         @click="handleSubmit()"
         :cta="true"
-        :label="$t('components.modal-edit-page-text.update-texts')"
+        :label="$t('components.modal.edit._global.update_texts')"
         fontSize="base"
-        :ariaLabel="
-          $t('components.modal-edit-page-text.update-texts-aria-label')
-        "
+        :ariaLabel="$t('components.modal.edit._global.update_texts_aria_label')"
       />
     </div>
   </ModalBase>
@@ -53,10 +47,6 @@
 
 <script setup lang="ts">
 import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
-
-const props = defineProps<{
-  isOpen: boolean;
-}>();
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
@@ -83,20 +73,10 @@ async function handleSubmit() {
     organization,
     formData.value
   );
-  if (response) {
-    handleCloseModal();
-  }
+  // if (response) {
+  //   handleCloseModal();
+  // }
 }
 
-const modals = useModals();
 const modalName = "ModalEditAboutOrganization";
-let modalIsOpen = computed(() => props.isOpen);
-
-onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
-});
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-};
 </script>

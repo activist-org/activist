@@ -65,11 +65,11 @@
           <PopoverButton as="div">
             <BtnAction
               :cta="true"
-              label="components.btn-action.new-account"
+              label="components.card_connect.new_account"
               fontSize="sm"
               :leftIcon="IconMap.PLUS"
               iconSize="1.35em"
-              ariaLabel="components._global.new-account-aria-label"
+              ariaLabel="components.card_connect.new_account_aria_label"
             />
           </PopoverButton>
           <transition
@@ -84,22 +84,22 @@
               <PopupNewField
                 @on-cta-clicked="emit('on-new-account')"
                 @on-close-clicked="onClose(close)"
-                :title="$t('components.card-connect.app-account-popup-title')"
+                :title="$t('components.card_connect.app_account_popup_title')"
                 :fieldNamePrompt="
                   $t(
-                    'components.card-connect.app-account-popup-field-name-prompt'
+                    'components.card_connect.app_account_popup_field_name_prompt'
                   )
                 "
                 :fieldLabelPrompt="
                   $t(
-                    'components.card-connect.app-account-popup-field-label-prompt'
+                    'components.card_connect.app_account_popup_field_label_prompt'
                   )
                 "
                 :ctaBtnLabel="
-                  $t('components.card-connect.app-account-popup-cta-btn-label')
+                  $t('components.card_connect.app_account_popup_cta_btn_label')
                 "
                 :ctaBtnAriaLabel="
-                  $t('components._global.new-account-aria-label')
+                  $t('components.card_connect.new_account_aria_label')
                 "
               />
             </PopoverPanel>
