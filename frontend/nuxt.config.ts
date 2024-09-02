@@ -52,7 +52,7 @@ export default defineNuxtConfig({
     strategy: "prefix",
     lazy: true,
     baseUrl: "https://activist.org",
-    langDir: "i18n",
+    langDir: "./i18n",
     vueI18n: "./i18n.config.ts",
     locales,
     defaultLocale: "en",
