@@ -28,7 +28,11 @@ const useMenuEntriesState = () => {
   const organizationEntries = ref([
     createMenuEntry("_global.about", "organizations", `${IconMap.ABOUT}`),
     createMenuEntry("_global.events", "organizations", `${IconMap.EVENT}`),
-    createMenuEntry("composables.use_menu_entries_state.groups", "organizations", `${IconMap.GROUP}`),
+    createMenuEntry(
+      "composables.use_menu_entries_state.groups",
+      "organizations",
+      `${IconMap.GROUP}`
+    ),
     createMenuEntry(
       "_global.resources",
       "organizations",
