@@ -1,7 +1,7 @@
 {
   "_global.about": "Acerca de",
   "_global.activist_icon_img_alt_text": "El símbolo activista: una letra a minúscula con un semicírculo apuntando hacia abajo y a la izquierda del centro.",
-  "_global.affiliates": "Afiliados",
+  "composables.use_menu_entries_state.affiliates": "Afiliados",
   "_global.auth.reset_password": "Restablecer contraseña",
   "_global.auth.sign_in_aria_label": "Ir a la página de inicio de sesión",
   "_global.auth.sign_up_aria_label": "Ir a la página de registro",
@@ -12,7 +12,7 @@
   "_global.documentation": "Documentación",
   "_global.events": "Eventos",
   "_global.faq": "Preguntas frecuentes",
-  "_global.groups": "Grupos",
+  "composables.use_menu_entries_state.groups": "Grupos",
   "_global.help": "Ayuda",
   "_global.home": "Inicio",
   "_global.imprint": "Imprimir",

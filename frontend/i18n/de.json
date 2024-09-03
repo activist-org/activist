@@ -1,7 +1,7 @@
 {
   "_global.about": "Über",
   "_global.activist_icon_img_alt_text": "Das activist-Symbol: ein Kleinbuchstabe a mit einem Halbkreis, der nach unten und links in der Mitte zeigt.",
-  "_global.affiliates": "Netzwerk",
+  "composables.use_menu_entries_state.affiliates": "Netzwerk",
   "_global.auth.reset_password": "Passwort zurücksetzen",
   "_global.auth.sign_in_aria_label": "Zur Anmeldeseite navigieren",
   "_global.auth.sign_up_aria_label": "Navigieren Sie zur Anmeldeseite",
@@ -14,7 +14,7 @@
   "_global.entity_logo": "{entity_name}-Logo",
   "_global.events": "Ereignisse",
   "_global.faq": "Häufig gestellte Fragen",
-  "_global.groups": "Gruppen",
+  "composables.use_menu_entries_state.groups": "Gruppen",
   "_global.help": "Hilfe",
   "_global.home": "Zurück",
   "_global.imprint": "Impression",

@@ -1,7 +1,7 @@
 {
   "_global.about": "About",
   "_global.activist_icon_img_alt_text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center.",
-  "_global.affiliates": "Affiliates",
+  "composables.use_menu_entries_state.affiliates": "Affiliates",
   "_global.auth.reset_password": "Reset password",
   "_global.auth.sign_in_aria_label": "Navigate to the sign in page",
   "_global.auth.sign_up_aria_label": "Navigate to the sign up page",
@@ -14,7 +14,7 @@
   "_global.entity_logo": "{entity_name} logo",
   "_global.events": "Events",
   "_global.faq": "FAQ",
-  "_global.groups": "Groups",
+  "composables.use_menu_entries_state.groups": "Groups",
   "_global.help": "Help",
   "_global.home": "Home",
   "_global.imprint": "Imprint",

@@ -28,7 +28,7 @@ const useMenuEntriesState = () => {
   const organizationEntries = ref([
     createMenuEntry("_global.about", "organizations", `${IconMap.ABOUT}`),
     createMenuEntry("_global.events", "organizations", `${IconMap.EVENT}`),
-    createMenuEntry("_global.groups", "organizations", `${IconMap.GROUP}`),
+    createMenuEntry("composables.use_menu_entries_state.groups", "organizations", `${IconMap.GROUP}`),
     createMenuEntry(
       "_global.resources",
       "organizations",
@@ -37,7 +37,7 @@ const useMenuEntriesState = () => {
     createMenuEntry("_global.faq", "organizations", `${IconMap.FAQ}`),
     // createMenuEntry("_global.team", "organizations", `${IconMap.PEOPLE}`),
     createMenuEntry(
-      "_global.affiliates",
+      "composables.use_menu_entries_state.affiliates",
       "organizations",
       `${IconMap.SUPPORT}`
     ),
@@ -72,7 +72,7 @@ const useMenuEntriesState = () => {
 
     for (const button of buttons.value) {
       if (currentPath.value.includes("/groups/")) {
-        if (button.label === "_global.groups") {
+        if (button.label === "composables.use_menu_entries_state.groups") {
           button.selected = true;
         } else {
           button.selected = false;
