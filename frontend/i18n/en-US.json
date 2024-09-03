@@ -153,6 +153,7 @@
   "components.card_search_result.navigate_to_user_aria_label": "Navigate to the page for this user",
   "components.card_search_result.organization_img_alt_text": "The organization logo of",
   "components.card_search_result.supporters_lower": "supporters",
+  "components.card_search_result.view_video": "View video",
   "components.card_topic_selection.header": "Topics",
   "components.card_topic_selection.hide_all_topics": "Hide all topics",
   "components.card_topic_selection.selector_placeholder": "Type to filter topics",

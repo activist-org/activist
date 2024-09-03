@@ -167,7 +167,7 @@
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
-              label="components.meta-tag-video.view-video"
+              label="components.card_search_result.view_video"
             />
             <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
@@ -181,7 +181,7 @@
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
-              label="components.meta-tag-video.view-video"
+              label="components.card_search_result.view_video"
             />
             <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
