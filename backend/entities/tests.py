@@ -22,8 +22,8 @@ from .factories import (
 )
 
 
-@pytest.mark.django_db(transaction=True)
-def test_str_methods() -> None:
+@pytest.mark.django_db
+def test_str_methods(db) -> None:
     organization = OrganizationFactory.build()
     # Note: Needs to be updated to reflect the recent changes.
     # organization_application = OrganizationApplicationFactory.build()

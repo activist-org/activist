@@ -15,8 +15,8 @@ from .factories import (
 )
 
 
-@pytest.mark.django_db(transaction=True)
-def test_str_methods() -> None:
+@pytest.mark.django_db
+def test_str_methods(db) -> None:
     event = EventFactory.build()
     event_attendee = EventAttendeeFactory.build()
     event_format = EventFormatFactory.build()
