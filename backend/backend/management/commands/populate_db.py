@@ -15,7 +15,7 @@ class Options(TypedDict):
     users: int
     orgs: int
     events: int
-    group: int
+    groups: int
 
 
 class Command(BaseCommand):
