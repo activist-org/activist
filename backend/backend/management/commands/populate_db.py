@@ -33,7 +33,7 @@ class Command(BaseCommand):
         number_of_events = options["events"]
         number_of_groups = options["groups"]
 
-        # Clear all tables before creating new data
+        # Clear all tables before creating new data.
         UserModel.objects.exclude(username="admin").delete()
         Organization.objects.all().delete()
         Event.objects.all().delete()
@@ -55,6 +55,6 @@ class Command(BaseCommand):
         except Exception as error:
             self.stdout.write(
                 self.style.ERROR(
-                    f"An error occured during the creation of dummy data: {error}"
+                    f"An error occurred during the creation of dummy data: {error}"
                 )
             )

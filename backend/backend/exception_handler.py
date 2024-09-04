@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 def bad_request_logger(exception: Any, context: dict[str, Any]) -> Response | None:
-    # Get the DRF exception handler standard error response
+    # Get the DRF exception handler standard error response.
     response = exception_handler(exception, context)
 
     if response is not None:

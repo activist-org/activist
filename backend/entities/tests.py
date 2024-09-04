@@ -22,10 +22,10 @@ from .factories import (
 )
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 def test_str_methods() -> None:
     organization = OrganizationFactory.build()
-    # Needs to be updated to reflect the recent changes
+    # Note: Needs to be updated to reflect the recent changes.
     # organization_application = OrganizationApplicationFactory.build()
     organization_event = OrganizationEventFactory.build()
     organization_member = OrganizationMemberFactory.build()
