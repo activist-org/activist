@@ -23,7 +23,7 @@ from .factories import (
 
 
 @pytest.mark.django_db
-def test_str_methods(db) -> None:
+def test_str_methods() -> None:
     organization = OrganizationFactory.build()
     # Note: Needs to be updated to reflect the recent changes.
     # organization_application = OrganizationApplicationFactory.build()

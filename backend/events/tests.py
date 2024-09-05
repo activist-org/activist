@@ -3,6 +3,7 @@ Testing for the events app.
 """
 
 # mypy: ignore-errors
+import pytest
 
 from .factories import (
     EventFactory,
@@ -16,7 +17,7 @@ from .factories import (
 
 
 @pytest.mark.django_db
-def test_str_methods(db) -> None:
+def test_str_methods() -> None:
     event = EventFactory.build()
     event_attendee = EventAttendeeFactory.build()
     event_format = EventFormatFactory.build()
@@ -24,6 +25,7 @@ def test_str_methods(db) -> None:
     event_resource = EventResourceFactory.build()
     _format = FormatFactory.build()
     role = RoleFactory.build()
+
     assert str(event) == event.name
     assert (
         str(event_attendee) == f"{event_attendee.user_id} - {event_attendee.event_id}"
