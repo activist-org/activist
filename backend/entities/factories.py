@@ -41,9 +41,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         if UserModel.objects.exclude(username="admin").exists():
             return UserModel.objects.exclude(username="admin").first()
         else:
-            return factory.SubFactory("authentication.factories.UserFactory").generate(
-                {}
-            )
+            return factory.SubFactory("authentication.factories.UserFactory")
 
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
@@ -67,9 +65,7 @@ class GroupFactory(factory.django.DjangoModelFactory):
         if UserModel.objects.exclude(username="admin").exists():
             return UserModel.objects.exclude(username="admin").first()
         else:
-            return factory.SubFactory("authentication.factories.UserFactory").generate(
-                {}
-            )
+            return factory.SubFactory("authentication.factories.UserFactory")
 
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)

@@ -45,9 +45,7 @@ class EventFactory(factory.django.DjangoModelFactory):
         if UserModel.objects.exclude(username="admin").exists():
             return UserModel.objects.exclude(username="admin").first()
         else:
-            return factory.SubFactory("authentication.factories.UserFactory").generate(
-                {}
-            )
+            return factory.SubFactory("authentication.factories.UserFactory")
 
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
