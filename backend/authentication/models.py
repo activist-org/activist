@@ -56,7 +56,7 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
 
 
 class SupportEntityType(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:

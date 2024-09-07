@@ -3,8 +3,6 @@ import random
 
 import factory
 
-from authentication.models import UserModel
-
 from .models import (
     Event,
     EventAttendee,
@@ -39,14 +37,7 @@ class EventFactory(factory.django.DjangoModelFactory):
             datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
         )
     )
-
-    @factory.lazy_attribute
-    def created_by(self):
-        if UserModel.objects.exclude(username="admin").exists():
-            return UserModel.objects.exclude(username="admin").first()
-        else:
-            return factory.SubFactory("authentication.factories.UserFactory")
-
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )

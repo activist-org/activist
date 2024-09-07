@@ -310,10 +310,20 @@ Please see the [activist style guide](https://github.com/activist-org/activist/b
 
 ### Backend
 
-Please run the following from the project root to test the backend:
+Please run the following commands from the project root to test the backend:
 
 ```bash
-pytest ./backend -vv
+# Start the Docker container:
+docker compose --env-file .env.dev up backend --build -d  # -d to hide logs
+
+# Enter the backend container:
+docker exec -it django_backend sh
+
+# Run backend tests:
+pytest
+
+# Once tests are finished:
+exit
 ```
 
 ### Frontend

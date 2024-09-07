@@ -2,8 +2,6 @@ import datetime
 
 import factory
 
-from authentication.models import UserModel
-
 from .models import (
     Group,
     GroupEvent,
@@ -35,14 +33,15 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     social_links = ["https://www.instagram.com/activist_org/"]
-
-    @factory.lazy_attribute
-    def created_by(self):
-        if UserModel.objects.exclude(username="admin").exists():
-            return UserModel.objects.exclude(username="admin").first()
-        else:
-            return factory.SubFactory("authentication.factories.UserFactory")
-
+    # Note: Version that accesses the database so we don't create new each time.
+    # created_by = factory.LazyAttribute(
+    #     lambda x: (
+    #         UserModel.objects.exclude(username="admin").first()
+    #         if UserModel.objects.exclude(username="admin").exists()
+    #         else factory.SubFactory("authentication.factories.UserFactory")
+    #     )
+    # )
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
     location = factory.Faker("city")
@@ -59,14 +58,7 @@ class GroupFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     social_links = ["https://www.instagram.com/activist_org/"]
-
-    @factory.lazy_attribute
-    def created_by(self):
-        if UserModel.objects.exclude(username="admin").exists():
-            return UserModel.objects.exclude(username="admin").first()
-        else:
-            return factory.SubFactory("authentication.factories.UserFactory")
-
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
