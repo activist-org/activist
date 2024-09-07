@@ -21,22 +21,23 @@ from .factories import (
     GroupTopicFactory,
 )
 
+pytestmark = pytest.mark.django_db
 
-@pytest.mark.django_db
+
 def test_str_methods() -> None:
-    organization = OrganizationFactory.build()
+    organization = OrganizationFactory.create()
     # Note: Needs to be updated to reflect the recent changes.
-    # organization_application = OrganizationApplicationFactory.build()
-    organization_event = OrganizationEventFactory.build()
-    organization_member = OrganizationMemberFactory.build()
-    organization_resource = OrganizationResourceFactory.build()
-    organization_task = OrganizationTaskFactory.build()
-    organization_topic = OrganizationTopicFactory.build()
-    group = GroupFactory.build()
-    group_event = GroupEventFactory.build()
-    group_member = GroupMemberFactory.build()
-    group_resource = GroupResourceFactory.build()
-    group_topic = GroupTopicFactory.build()
+    # organization_application = OrganizationApplicationFactory.create()
+    organization_event = OrganizationEventFactory.create()
+    organization_member = OrganizationMemberFactory.create()
+    organization_resource = OrganizationResourceFactory.create()
+    organization_task = OrganizationTaskFactory.create()
+    organization_topic = OrganizationTopicFactory.create()
+    group = GroupFactory.create()
+    group_event = GroupEventFactory.create()
+    group_member = GroupMemberFactory.create()
+    group_resource = GroupResourceFactory.create()
+    group_topic = GroupTopicFactory.create()
 
     assert str(organization) == organization.name
     # assert str(organization_application) == str(organization_application.creation_date)

@@ -313,8 +313,7 @@ Please see the [activist style guide](https://github.com/activist-org/activist/b
 Please run the following from the project root to test the backend:
 
 ```bash
-cd backend
-pytest
+pytest ./backend -vv
 ```
 
 ### Frontend

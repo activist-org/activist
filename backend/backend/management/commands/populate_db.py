@@ -14,10 +14,11 @@ from events.models import Event
 class Options(TypedDict):
     users: int
     orgs: int
-    events: int
     groups: int
+    events: int
 
 
+# ATTN: We're not actually putting texts into the DB.
 class Command(BaseCommand):
     help = "Populate the database with dummy data"
 
