@@ -251,14 +251,16 @@ const applyTopShadow = ref(false);
 
 function setSidebarContentScrollable(): void {
   setTimeout(() => {
-    sidebarContentScrollable.value =
-      content.value.scrollHeight > content.value.clientHeight ? true : false;
+    if (content && content.value) {
+      sidebarContentScrollable.value =
+        content.value.scrollHeight > content.value.clientHeight ? true : false;
+    }
   }, 50);
   isAtTop();
 }
 
 function isAtTop(): void {
-  if (sidebarContentScrollable) {
+  if (sidebarContentScrollable && content && content.value) {
     applyTopShadow.value = !(content.value.scrollTop === 0);
   }
 }

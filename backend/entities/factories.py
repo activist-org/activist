@@ -43,7 +43,9 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
     location = factory.Faker("city")
-    acceptance_date = factory.LazyFunction(datetime.datetime.now)
+    acceptance_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 class GroupFactory(factory.django.DjangoModelFactory):
@@ -54,12 +56,14 @@ class GroupFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     social_links = ["https://www.instagram.com/activist_org/"]
-    created_by = created_by = (
+    created_by = (
         factory.Iterator(UserModel.objects.exclude(username="admin").all())
         if UserModel.objects.exclude(username="admin").exists()
         else factory.SubFactory("authentication.factories.UserFactory")
     )
-    creation_date = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
     category = factory.Faker("word")
     location = factory.Faker("city")
 
@@ -135,8 +139,12 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
     status = factory.SubFactory(OrganizationApplicationStatusFactory)
     orgs_in_favor = factory.List([factory.Faker("word") for _ in range(10)])
     orgs_against = factory.List([factory.Faker("word") for _ in range(10)])
-    creation_date = factory.LazyFunction(datetime.datetime.now)
-    status_updated = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    status_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 class OrganizationEventFactory(factory.django.DjangoModelFactory):

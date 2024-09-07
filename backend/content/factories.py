@@ -24,8 +24,12 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    creation_date = factory.LazyFunction(datetime.datetime.now)
-    last_updated = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 class TaskFactory(factory.django.DjangoModelFactory):
@@ -35,8 +39,12 @@ class TaskFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     description = factory.Faker("text")
     tags = factory.List([factory.Faker("word") for _ in range(10)])
-    creation_date = factory.LazyFunction(datetime.datetime.now)
-    deletion_date = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    deletion_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 class TopicFactory(factory.django.DjangoModelFactory):
@@ -46,7 +54,9 @@ class TopicFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     active = factory.Faker("boolean")
     description = factory.Faker("text")
-    creation_date = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
     deprecation_date = factory.Faker("date")
 
 
