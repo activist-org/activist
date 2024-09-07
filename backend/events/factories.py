@@ -39,11 +39,16 @@ class EventFactory(factory.django.DjangoModelFactory):
             datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
         )
     )
-    created_by = (
-        factory.Iterator(UserModel.objects.exclude(username="admin").all())
-        if UserModel.objects.exclude(username="admin").exists()
-        else factory.SubFactory("authentication.factories.UserFactory")
-    )
+
+    @factory.lazy_attribute
+    def created_by(self):
+        if UserModel.objects.exclude(username="admin").exists():
+            return UserModel.objects.exclude(username="admin").first()
+        else:
+            return factory.SubFactory("authentication.factories.UserFactory").generate(
+                {}
+            )
+
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
