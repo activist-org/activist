@@ -28,12 +28,26 @@ from .models import (
 class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Organization
+        django_get_or_create = ("created_by",)
 
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    social_links = factory.List([factory.Faker("word") for _ in range(10)])
+    social_links = ["https://www.instagram.com/activist_org/"]
+    # Note: Version that accesses the database so we don't create new each time.
+    # created_by = factory.LazyAttribute(
+    #     lambda x: (
+    #         UserModel.objects.exclude(username="admin").first()
+    #         if UserModel.objects.exclude(username="admin").exists()
+    #         else factory.SubFactory("authentication.factories.UserFactory")
+    #     )
+    # )
     created_by = factory.SubFactory("authentication.factories.UserFactory")
+    status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
+    location = factory.Faker("city")
+    acceptance_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 class GroupFactory(factory.django.DjangoModelFactory):
@@ -43,9 +57,13 @@ class GroupFactory(factory.django.DjangoModelFactory):
     org_id = factory.SubFactory(OrganizationFactory)
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    social_links = factory.List([factory.Faker("word") for _ in range(10)])
+    social_links = ["https://www.instagram.com/activist_org/"]
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    creation_date = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    category = factory.Faker("word")
+    location = factory.Faker("city")
 
 
 # MARK: Bridge Tables
@@ -119,8 +137,12 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
     status = factory.SubFactory(OrganizationApplicationStatusFactory)
     orgs_in_favor = factory.List([factory.Faker("word") for _ in range(10)])
     orgs_against = factory.List([factory.Faker("word") for _ in range(10)])
-    creation_date = factory.LazyFunction(datetime.datetime.now)
-    status_updated = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    status_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 class OrganizationEventFactory(factory.django.DjangoModelFactory):
@@ -185,3 +207,11 @@ class OrganizationTopicFactory(factory.django.DjangoModelFactory):
 
     org_id = factory.SubFactory(OrganizationFactory)
     topic_id = factory.SubFactory("content.factories.TopicFactory")
+
+
+class StatusTypeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "entities.StatusType"
+        django_get_or_create = ("name",)
+
+    name = "Active"

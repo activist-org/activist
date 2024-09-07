@@ -70,7 +70,7 @@ class Resource(models.Model):
 
 
 class Tag(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     text = models.CharField(max_length=255)
     creation_date = models.DateTimeField(auto_now_add=True)
 

@@ -7,8 +7,9 @@ from .factories import ResourceFactory, TaskFactory, TopicFactory, ResourceTopic
 
 import pytest
 
+pytestmark = pytest.mark.django_db
 
-@pytest.mark.django_db
+
 def test_str_methods() -> None:
     resource = ResourceFactory.build()
     task = TaskFactory.build()

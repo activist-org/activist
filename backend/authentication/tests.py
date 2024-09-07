@@ -24,7 +24,9 @@ from uuid import UUID
 import uuid
 
 
-@pytest.mark.django_db
+pytestmark = pytest.mark.django_db
+
+
 def test_str_methods() -> None:
     support_entity_type = SupportEntityTypeFactory.build()
     support = SupportFactory.build()
@@ -41,7 +43,6 @@ def test_str_methods() -> None:
     assert str(user_topic) == str(user_topic.id)
 
 
-@pytest.mark.django_db
 def test_signup(client: Client) -> None:
     """
     Test the signup function.
@@ -152,14 +153,13 @@ def test_signup(client: Client) -> None:
     assert user.verification_code is None
 
 
-@pytest.mark.django_db
 def test_login(client: Client) -> None:
     """
     Test login view.
 
     Scenarios:
     1. User that signed up with email, that has not confirmed their email
-    2. User that signed up with email, confimred email address. Is logged in successfully
+    2. User that signed up with email, confirmed email address. Is logged in successfully
     3. User exists but password is incorrect
     4. User does not exists and tries to login
     """
@@ -174,7 +174,7 @@ def test_login(client: Client) -> None:
     )
     assert response.status_code == 400
 
-    # 2. User that signed up with email, confimred email address. Is logged in successfully
+    # 2. User that signed up with email, confirmed email address. Is logged in successfully
     user.is_confirmed = True
     user.save()
     response = client.post(
@@ -204,7 +204,6 @@ def test_login(client: Client) -> None:
     assert response.status_code == 400
 
 
-@pytest.mark.django_db
 def test_pwreset(client: Client) -> None:
     """
     Test password reset view.

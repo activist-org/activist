@@ -17,6 +17,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Learning the tech stack](#learning-the-tech)
 - [Development environment](#dev-env)
 - [Style guide](#style-guide)
+- [Testing](#testing)
 - [Linting](#linting)
 - [Issues and projects](#issues-projects)
 - [Bug reports](#bug-reports)
@@ -303,6 +304,35 @@ From there you'll be able to visit http://localhost:6006/ to view the documentat
 
 Please see the [activist style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
 
+<a id="testing"></a>
+
+## Testing [`⇧`](#contents)
+
+### Backend
+
+Please run the following commands from the project root to test the backend:
+
+```bash
+# Start the Docker container:
+docker compose --env-file .env.dev up backend --build -d  # -d to hide logs
+
+# Enter the backend container:
+docker exec -it django_backend sh
+
+# Run backend tests:
+pytest
+
+# Once tests are finished:
+exit
+```
+
+### Frontend
+
+Running frontend tests locally is currently WIP.
+
+> [!NOTE]
+> When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
+
 <a id="linting"></a>
 
 ## Linting [`⇧`](#contents)
@@ -404,9 +434,6 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
    ```bash
    git pull --rebase upstream <dev-branch>
    ```
-
-> [!NOTE]
-> When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
 
 6. Push your topic branch up to your fork:
 

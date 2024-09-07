@@ -66,10 +66,10 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             with PilImage.open(data["image_location"]) as img:
                 img.verify()
                 img_format = img.format.lower()
-        except Exception:
+        except Exception as e:
             raise serializers.ValidationError(
                 _("The image is not valid."), code="corrupted_file"
-            )
+            ) from e
 
         if img_format not in image_extensions:
             raise serializers.ValidationError(

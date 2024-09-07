@@ -1,4 +1,5 @@
 import datetime
+import random
 
 import factory
 
@@ -28,11 +29,26 @@ class EventFactory(factory.django.DjangoModelFactory):
     online_location_link = factory.Faker("url")
     offline_location_lat = factory.Faker("latitude")
     offline_location_long = factory.Faker("longitude")
-    start_time = factory.LazyFunction(datetime.datetime.now)
-    end_time = factory.Faker("future_date", end_date="+15d")
+    start_time = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    end_time = factory.LazyAttribute(
+        lambda x: (
+            datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+        )
+    )
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    creation_date = factory.LazyFunction(datetime.datetime.now)
-    deletion_date = factory.Faker("future_date", end_date="+30d")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    deletion_date = random.choice(
+        [
+            None,
+            datetime.datetime.now(tz=datetime.timezone.utc)
+            + datetime.timedelta(days=30),
+        ]
+    )
+    is_private = factory.Faker("boolean")
 
 
 class FormatFactory(factory.django.DjangoModelFactory):
@@ -41,8 +57,12 @@ class FormatFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     description = factory.Faker("text")
-    creation_date = factory.LazyFunction(datetime.datetime.now)
-    last_updated = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
     deprecation_date = factory.Faker("future_date", end_date="+30d")
 
 
@@ -53,8 +73,12 @@ class RoleFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     is_custom = factory.Faker("boolean")
     description = factory.Faker("text")
-    creation_date = factory.LazyFunction(datetime.datetime.now)
-    last_updated = factory.LazyFunction(datetime.datetime.now)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
     deprecation_date = factory.Faker("future_date", end_date="+30d")
 
 
