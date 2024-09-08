@@ -90,6 +90,7 @@ const routeProfileMap: RouteProfile[] = [
 
 const walkingRouteProfileControl = `
   <div
+    title="Change profile [p]"
     id=${routeProfileOptions.FOOT}
     style="
     background-image: url(${walkDirectionsIcon});
@@ -105,6 +106,7 @@ const walkingRouteProfileControl = `
 
 const bikeRouteProfileControl = `
   <div
+    title="Change profile [p]"
     id=${routeProfileOptions.BIKE}
     style="
     background-image: url(${bikeDirectionsIcon});
@@ -175,7 +177,7 @@ onMounted(() => {
                 tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
                 tileSize: 256,
                 attribution:
-                  '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+                  '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a>',
               },
               "cycle-raster-tiles": {
                 type: "raster",
@@ -186,7 +188,7 @@ onMounted(() => {
                 ],
                 tileSize: 256,
                 attribution:
-                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> tiles hosted by <a href="https://openstreetmap.fr" target="_blank">OpenStreetMap France</a>',
+                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> hosted by <a href="https://openstreetmap.fr" target="_blank">OSM France</a>',
               },
             },
             layers: [
@@ -362,7 +364,7 @@ onMounted(() => {
                 } else {
                   div.addEventListener("click", updateSelectedProfile);
                   document.addEventListener("keydown", (event) => {
-                    if (event.key === "x") {
+                    if (event.key === "p") {
                       updateSelectedProfile();
                     }
                   });
