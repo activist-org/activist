@@ -90,6 +90,7 @@ const routeProfileMap: RouteProfile[] = [
 
 const walkingRouteProfileControl = `
   <div
+    title="Change profile [p]"
     id=${routeProfileOptions.FOOT}
     style="
     background-image: url(${walkDirectionsIcon});
@@ -105,6 +106,7 @@ const walkingRouteProfileControl = `
 
 const bikeRouteProfileControl = `
   <div
+    title="Change profile [p]"
     id=${routeProfileOptions.BIKE}
     style="
     background-image: url(${bikeDirectionsIcon});
@@ -362,7 +364,7 @@ onMounted(() => {
                 } else {
                   div.addEventListener("click", updateSelectedProfile);
                   document.addEventListener("keydown", (event) => {
-                    if (event.key === "x") {
+                    if (event.key === "p") {
                       updateSelectedProfile();
                     }
                   });
