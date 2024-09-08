@@ -177,7 +177,7 @@ onMounted(() => {
                 tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
                 tileSize: 256,
                 attribution:
-                  '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+                  '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a>',
               },
               "cycle-raster-tiles": {
                 type: "raster",
@@ -188,7 +188,7 @@ onMounted(() => {
                 ],
                 tileSize: 256,
                 attribution:
-                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> tiles hosted by <a href="https://openstreetmap.fr" target="_blank">OpenStreetMap France</a>',
+                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> hosted by <a href="https://openstreetmap.fr" target="_blank">OSM France</a>',
               },
             },
             layers: [
