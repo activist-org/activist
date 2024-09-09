@@ -217,11 +217,26 @@ onMounted(() => {
               },
             ],
           },
-          center: [parseFloat(location["lon"]), parseFloat(location["lat"])],
-          zoom: 15,
           pitch: 20,
           maxZoom: 19,
         });
+
+        map.fitBounds(
+          [
+            [
+              parseFloat(location["boundingbox"][2]),
+              parseFloat(location["boundingbox"][0]),
+            ],
+            [
+              parseFloat(location["boundingbox"][3]),
+              parseFloat(location["boundingbox"][1]),
+            ],
+          ],
+          {
+            duration: 6000,
+            padding: 100,
+          }
+        );
 
         // MARK: Basic Controls
 
