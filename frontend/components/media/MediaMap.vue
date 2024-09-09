@@ -205,14 +205,12 @@ onMounted(() => {
                 type: "raster",
                 source: "raster-tiles",
                 minzoom: 0,
-                maxzoom: 24,
               },
               {
                 id: "cycle-layer",
                 type: "raster",
                 source: "cycle-raster-tiles",
                 minzoom: 0,
-                maxzoom: 20,
                 layout: {
                   visibility: "none",
                 },
@@ -222,6 +220,7 @@ onMounted(() => {
           center: [parseFloat(location["lon"]), parseFloat(location["lat"])],
           zoom: 15,
           pitch: 20,
+          maxZoom: 19,
         });
 
         // MARK: Basic Controls
