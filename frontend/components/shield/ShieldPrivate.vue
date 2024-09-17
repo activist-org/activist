@@ -17,7 +17,7 @@
       :size="iconSize"
     />
     <span class="mx-auto ml-2 hidden md:block">{{
-      $t("components.shield-private.private")
+      $t("components.shield_private.private")
     }}</span>
   </div>
 </template>

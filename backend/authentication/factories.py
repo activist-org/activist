@@ -60,8 +60,6 @@ class UserFactory(factory.django.DjangoModelFactory):
         if not create:
             # Simple build, do nothing.
             return
-        if extracted:
-            pass
 
 
 # MARK: Bridge Tables

@@ -9,7 +9,7 @@
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
-import maplibregl from "maplibre-gl";
+import maplibregl, { Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
@@ -90,6 +90,7 @@ const routeProfileMap: RouteProfile[] = [
 
 const walkingRouteProfileControl = `
   <div
+    title="Change profile [p]"
     id=${routeProfileOptions.FOOT}
     style="
     background-image: url(${walkDirectionsIcon});
@@ -105,6 +106,7 @@ const walkingRouteProfileControl = `
 
 const bikeRouteProfileControl = `
   <div
+    title="Change profile [p]"
     id=${routeProfileOptions.BIKE}
     style="
     background-image: url(${bikeDirectionsIcon});
@@ -125,6 +127,14 @@ const mapProfile = (profile: string) => {
 };
 
 let selectedRoute = mapProfile(routeProfileOptions.FOOT);
+
+const toggleLayerHandler = (map: Map) => {
+  if (currentProfile === walkingRouteProfileControl) {
+    map.setLayoutProperty("cycle-layer", "visibility", "visible");
+  } else {
+    map.setLayoutProperty("cycle-layer", "visibility", "none");
+  }
+};
 
 const routeProfileHandler = () => {
   if (currentProfile === walkingRouteProfileControl) {
@@ -155,7 +165,7 @@ onMounted(() => {
     .then((data) => {
       const location = data[0];
       if (!isWebglSupported()) {
-        alert(i18n.t("components.media-map.maplibre-gl-alert"));
+        alert(i18n.t("components.media_map.maplibre_gl_alert"));
       } else {
         const map = new maplibregl.Map({
           container: "map",
@@ -167,7 +177,18 @@ onMounted(() => {
                 tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
                 tileSize: 256,
                 attribution:
-                  '<a href="https://www.openstreetmap.org/about" target="_blank">Data &copy; OpenStreetMap contributors</a>',
+                  '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a>',
+              },
+              "cycle-raster-tiles": {
+                type: "raster",
+                tiles: [
+                  "https://a.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
+                  "https://b.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
+                  "https://c.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
+                ],
+                tileSize: 256,
+                attribution:
+                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> hosted by <a href="https://openstreetmap.fr" target="_blank">OSM France</a>',
               },
             },
             layers: [
@@ -180,11 +201,21 @@ onMounted(() => {
                 },
               },
               {
-                id: "simple-tiles",
+                id: "default-layer",
                 type: "raster",
                 source: "raster-tiles",
                 minzoom: 0,
                 maxzoom: 24,
+              },
+              {
+                id: "cycle-layer",
+                type: "raster",
+                source: "cycle-raster-tiles",
+                minzoom: 0,
+                maxzoom: 20,
+                layout: {
+                  visibility: "none",
+                },
               },
             ],
           },
@@ -304,6 +335,8 @@ onMounted(() => {
                 div.innerHTML = currentProfile;
 
                 const updateSelectedProfile = () => {
+                  toggleLayerHandler(map);
+
                   directions.destroy();
                   div.innerHTML = routeProfileHandler();
 
@@ -331,7 +364,7 @@ onMounted(() => {
                 } else {
                   div.addEventListener("click", updateSelectedProfile);
                   document.addEventListener("keydown", (event) => {
-                    if (event.key === "x") {
+                    if (event.key === "p") {
                       updateSelectedProfile();
                     }
                   });

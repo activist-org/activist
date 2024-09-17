@@ -7,7 +7,7 @@
     </Head>
     <PageDocs
       :imgURL="ARCTICONS_BIKE_LOCATION"
-      imgAltText="pages.about._global.roadmap-img-alt-text"
+      imgAltText="pages.about._global.roadmap_img_alt_text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">
         {{ $t("_global.roadmap") }}
@@ -19,41 +19,41 @@
           size="1.25em"
         />
         <p>
-          {{ $t("pages._global.visit-source-code-pt-1") }}
+          {{ $t("pages._global.visit_source_code_pt_1") }}
           <a
             class="focus-brand link-text items-center"
             href="https://github.com/activist-org/activist"
             target="_blank"
           >
-            {{ $t("pages._global.visit-source-code-pt-2") }}
+            {{ $t("pages._global.visit_source_code_pt_2") }}
             <Icon
               :name="IconMap.EXTERNAL_LINK"
               size="1em"
               style="vertical-align: baseline"
             />
           </a>
-          {{ $t("pages._global.visit-source-code-pt-3") }}
+          {{ $t("pages._global.visit_source_code_pt_3") }}
         </p>
       </div>
       <p>
-        {{ $t("pages.about.roadmap.section-1-paragraph-1") }}
+        {{ $t("pages.about.roadmap.section_1_paragraph_1") }}
       </p>
       <div>
-        {{ $t("pages.about.roadmap.section-1-paragraph-2-1") }}
+        {{ $t("pages.about.roadmap.section_1_paragraph_2_1") }}
         <a
           class="focus-brand link-text items-center"
           href="https://github.com/orgs/activist-org/projects/1"
           target="_blank"
         >
-          {{ $t("pages.about.roadmap.section-1-paragraph-2-2") }}
+          {{ $t("pages.about.roadmap.section_1_paragraph_2_2") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("pages.about.roadmap.section-1-paragraph-2-3") }}
-        {{ $t("pages.about.roadmap.section-1-paragraph-2-4") }}
+        {{ $t("pages.about.roadmap.section_1_paragraph_2_3") }}
+        {{ $t("pages.about.roadmap.section_1_paragraph_2_4") }}
         <ul class="list-disc space-y-1 pl-4 pt-2">
           <li>
             <a
@@ -61,7 +61,7 @@
               href="https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22"
               target="_blank"
             >
-              {{ $t("pages.about.roadmap.section-1-paragraph-2-4-1") }}
+              {{ $t("pages.about.roadmap.section_1_paragraph_2_4_1") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -75,7 +75,7 @@
               href="https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Afeature"
               target="_blank"
             >
-              {{ $t("pages.about.roadmap.section-1-paragraph-2-4-2") }}
+              {{ $t("pages.about.roadmap.section_1_paragraph_2_4_2") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -89,7 +89,7 @@
               href="https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Abug"
               target="_blank"
             >
-              {{ $t("pages.about.roadmap.section-1-paragraph-2-4-3") }}
+              {{ $t("pages.about.roadmap.section_1_paragraph_2_4_3") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -103,20 +103,20 @@
         <BtnRouteExternal
           class="w-full"
           :cta="true"
-          label="components.btn-route-external.suggest-a-feature"
+          label="pages.about.roadmap.suggest_a_feature"
           linkTo="https://github.com/activist-org/activist/issues"
           fontSize="lg"
           ariaLabel="
-                components.btn-route-external.suggest-a-feature-aria-label
+                pages.about.roadmap.suggest_a_feature_aria_label
               "
         />
         <BtnRouteInternal
           class="w-full"
           :cta="false"
-          label="components.btn-route-internal.return-home"
+          label="_global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-route-internal.return-home-aria-label"
+          ariaLabel="_global.return_home_aria_label"
         />
       </PageCommunityFooter>
     </PageDocs>

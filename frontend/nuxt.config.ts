@@ -49,20 +49,15 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
-    strategy: "prefix",
     lazy: true,
-    baseUrl: "https://activist.org",
-    langDir: "i18n",
+    strategy: "prefix_and_default",
+    langDir: "./i18n",
     vueI18n: "./i18n.config.ts",
+    baseUrl: "https://activist.org",
     locales,
     defaultLocale: "en",
     customRoutes: "config",
-    pages: {
-      // about: {
-      //   de: "/ueber-uns",
-      //   fr: "/a-propos",
-      // },
-    },
+    pages: {},
     detectBrowserLanguage: {
       useCookie: false,
       redirectOn: "root",

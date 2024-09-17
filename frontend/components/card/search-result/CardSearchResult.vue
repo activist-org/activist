@@ -21,7 +21,7 @@
               }"
               :src="imageURL"
               :alt="
-                $t('components.card-search-result-organization.img-alt-text') +
+                $t('components.card_search_result.organization_img_alt_text') +
                 ' ' +
                 organization.name
               "
@@ -34,7 +34,7 @@
               }"
               :src="imageURL"
               :alt="
-                $t('components.card-search-result-organization.img-alt-text') +
+                $t('components.card_search_result.organization_img_alt_text') +
                 ' ' +
                 group.organization.name
               "
@@ -62,7 +62,7 @@
                 :eventType="eventType"
                 :imgURL="imageURL"
                 :alt="
-                  $t('components.card-search-result.event-img-alt-text', {
+                  $t('components.card_search_result.event_img_alt_text', {
                     entity_name: name,
                   })
                 "
@@ -167,7 +167,7 @@
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
-              label="components.meta-tag-video.view-video"
+              label="components.card_search_result.view_video"
             />
             <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
@@ -181,7 +181,7 @@
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
-              label="components.meta-tag-video.view-video"
+              label="components.card_search_result.view_video"
             />
             <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
@@ -195,15 +195,15 @@
             />
             <!-- <MetaTagMembers
               :members="members"
-              label="components._global.members"
+              label="components.card_search_result.members"
             />
             <MetaTagSupporters
               :supporters="supporters"
-              label="components.meta-tag.supporters_lower"
+              label="components.card_search_result.supporters_lower"
             />
             <MetaTagStars
               :stars="stars"
-              label="components.meta-tag-stars.label"
+              label="components.card_search_result.label"
             /> -->
           </div>
         </div>
@@ -248,15 +248,19 @@ const { linkURL } = useLinkURL(props);
 
 const ariaLabel = computed<string>(() => {
   if (props.organization) {
-    return i18n.t("components._global.navigate-to-organization-aria-label");
+    return i18n.t(
+      "components.card_search_result.navigate_to_organization_aria_label"
+    );
   } else if (props.group) {
-    return i18n.t("components._global.navigate-to-group-aria-label");
+    return i18n.t("components._global.navigate_to_group_aria_label");
   } else if (props.event) {
-    return i18n.t("components._global.navigate-to-event-aria-label");
+    return i18n.t("components.card_search_result.navigate_to_event_aria_label");
   } else if (props.resource) {
-    return i18n.t("components._global.navigate-to-resource-aria-label");
+    return i18n.t(
+      "components.card_search_result.navigate_to_resource_aria_label"
+    );
   } else if (props.user) {
-    return i18n.t("components._global.navigate-to-user-aria-label");
+    return i18n.t("components.card_search_result.navigate_to_user_aria_label");
   } else {
     return "";
   }

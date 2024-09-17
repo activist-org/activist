@@ -3,11 +3,15 @@
     class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
   >
     <Head>
-      <Title>{{ organization.name }}&nbsp;{{ $t("_global.team_lower") }}</Title>
+      <Title
+        >{{ organization.name }}&nbsp;{{
+          $t("pages._global.team.team_lower")
+        }}</Title
+      >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.team_lower')"
+      :header="organization.name + ' ' + $t('pages._global.team.team_lower')"
       :tagline="$t('pages.organizations.team.tagline')"
       :underDevelopment="true"
     >
@@ -15,11 +19,11 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.invite-someone"
+          label="pages._global.team.invite_someone"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-action.invite-someone-org-aria-label"
+          ariaLabel="pages.organizations.team.invite_someone_org_aria_label"
         />
       </div>
     </HeaderAppPage>

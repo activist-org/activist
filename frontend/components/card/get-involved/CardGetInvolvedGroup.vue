@@ -2,7 +2,7 @@
   <CardGetInvolved>
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t("components._global.get-involved") }}
+        {{ $t("components._global.get_involved") }}
       </h3>
       <IconEdit @click="openModal()" @keydown.enter="openModal()" />
       <ModalEditAboutGroup
@@ -12,8 +12,8 @@
         :name="group.name"
         :sectionsToEdit="[
           $t('_global.about'),
-          $t('components._global.get-involved'),
-          $t('components._global.join-group-link'),
+          $t('components._global.get_involved'),
+          $t('components._global.join_group_link'),
         ]"
         :isOpen="modalIsOpen"
       />
@@ -22,18 +22,18 @@
           v-if="group.getInvolvedURL"
           :cta="true"
           :linkTo="group.getInvolvedURL"
-          label="components.btn-route-internal.join-group"
+          label="_global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="components.btn-route-internal.join-group-aria-label"
+          ariaLabel="_global.join_group_aria_label"
         />
       </div>
     </div>
     <div class="space-y-3 pt-3">
       <p>
         {{
-          $t("components.card-get-involved.join-group-subtext", {
+          $t("components._global.join_group_subtext", {
             org_name: group.name,
           })
         }}.

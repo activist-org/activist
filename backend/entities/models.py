@@ -158,7 +158,7 @@ class OrganizationApplication(models.Model):
 
 
 class OrganizationApplicationStatus(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     status_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:

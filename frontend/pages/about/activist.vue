@@ -3,11 +3,11 @@
     class="bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
-      <Title>{{ $t("pages._global.about-us") }}</Title>
+      <Title>{{ $t("pages._global.about_us") }}</Title>
     </Head>
     <PageDocs
       imgURL="/icons/activist/activist_icon"
-      imgAltText="_global.activist-icon-img-alt-text"
+      imgAltText="_global.activist_icon_img_alt_text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">
         {{ $t("pages.about.activist.header") }}
@@ -19,52 +19,52 @@
           size="1.25em"
         />
         <p>
-          {{ $t("pages._global.see-the") }}
+          {{ $t("pages._global.see_the") }}
           <a
             class="focus-brand link-text items-center"
             href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=805%3A231&t=vNWHCPdiq5EbPaO9-1"
             target="_blank"
           >
-            {{ $t("pages.about.activist.subheader-2") }}
+            {{ $t("pages.about.activist.subheader_2") }}
             <Icon
               :name="IconMap.EXTERNAL_LINK"
               size="1em"
               style="vertical-align: baseline"
             />
           </a>
-          {{ $t("pages._global.to-learn-more") }}
+          {{ $t("pages._global.to_learn_more") }}
         </p>
       </div>
       <p>
-        {{ $t("pages.about.activist.section-1-paragraph-1") }}
+        {{ $t("pages.about.activist.section_1_paragraph_1") }}
       </p>
       <p>
-        {{ $t("pages.about.activist.section-1-paragraph-2") }}
+        {{ $t("pages.about.activist.section_1_paragraph_2") }}
       </p>
       <p>
-        {{ $t("pages.about.activist.section-1-paragraph-3") }}
+        {{ $t("pages.about.activist.section_1_paragraph_3") }}
       </p>
       <p>
-        {{ $t("pages.about.activist.section-1-paragraph-4") }}
+        {{ $t("pages.about.activist.section_1_paragraph_4") }}
       </p>
       <PageCommunityFooter>
         <BtnRouteExternal
           class="w-full"
           :cta="true"
-          label="components.btn-route-external.request-access"
+          label="_global.request_access"
           :linkTo="REQUEST_ACCESS_URL"
           fontSize="lg"
           ariaLabel="
-                components.btn-route-external.request-access-aria-label
+                _global.request_access-aria-label
               "
         />
         <BtnRouteInternal
           class="w-full"
           :cta="false"
-          label="components.btn-route-internal.return-home"
+          label="_global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="components.btn-route-internal.return-home-aria-label"
+          ariaLabel="_global.return_home_aria_label"
         />
       </PageCommunityFooter>
     </PageDocs>

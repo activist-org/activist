@@ -1,5 +1,5 @@
 <template>
-  <nav :aria-label="$t('components.page-breadcrumbs.aria-label')">
+  <nav :aria-label="$t('components.page_breadcrumbs.aria_label')">
     <ul class="flex flex-row flex-wrap text-sm md:text-base">
       <li
         v-for="(breadcrumb, index) in displayBreadcrumbs"

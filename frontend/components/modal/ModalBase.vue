@@ -24,7 +24,7 @@
           v-if="imageModal"
           @click="closeModal()"
           class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
-          :aria-label="$t('components.modal-image.close-modal-aria-label')"
+          :aria-label="$t('components.modal_base.close_modal_aria_label')"
         >
           <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
         </button>
@@ -43,7 +43,7 @@
           tabindex="0"
           role="button"
           class="focus-brand flex flex-col items-center justify-center"
-          :aria-label="$t('components.modal-image.close-modal-aria-label')"
+          :aria-label="$t('components.modal_base.close_modal_aria_label')"
         >
           <slot />
         </div>
@@ -57,23 +57,47 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
+import { useRoute } from "vue-router";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
-  isOpen: boolean;
   imageModal?: boolean;
   modalName: string;
 }>();
 
+const emit = defineEmits(["closeModal"]);
+
+const route = useRoute();
 const modals = useModals();
 const modalName = props.modalName;
-let modalIsOpen = computed(() => props.isOpen);
+const modalIsOpen = ref(false);
 
 onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+  // Ensure modals.modals[modalName] is defined. If so, save isOpen in store.
+  if (modals.modals[modalName]) {
+    modalIsOpen.value = modals.modals[modalName].isOpen;
+  }
 });
 
+// Watch the reactive modalIsOpen ref and check if modalName exists in modals.modals.
+watch(
+  () => modals.modals[modalName]?.isOpen,
+  (newVal) => {
+    if (newVal !== undefined) {
+      modalIsOpen.value = newVal;
+    }
+  }
+);
+
+// Tell any interested observers that the closeModal event has happened.
+// The interested observer(s) can respond or do cleanup specific to their needs.
 const closeModal = () => {
+  emit("closeModal");
   modals.closeModal(modalName);
 };
+
+// If the user changes the route while the modal is open, close the modal.
+watch(route, () => {
+  closeModal();
+});
 </script>
