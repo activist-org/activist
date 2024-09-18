@@ -19,7 +19,7 @@
             :src="organization.iconURL"
             class="h-full w-12"
             :alt="
-              $t('components._global.entity-logo', {
+              $t('_global.entity_logo', {
                 entity_name: organization.name,
               })
             "
@@ -37,7 +37,7 @@
         :leftIcon="IconMap.ARROW_UP"
         iconSize="1.25em"
         :disabled="isVotingDisabled"
-        ariaLabel="components.btn-action.upvote-application-aria-label"
+        ariaLabel="components._global.upvote_application_aria_label"
       />
       <BtnAction
         @click="$emit('down-vote')"
@@ -48,15 +48,15 @@
         :leftIcon="IconMap.ARROW_DOWN"
         iconSize="1.25em"
         :disabled="isVotingDisabled"
-        ariaLabel="components.btn-action.downvote-application-aria-label"
+        ariaLabel="components.card_org_application_vote.downvote_application_aria_label"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/entities/organization";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
 
 /**
  * The component public properties.

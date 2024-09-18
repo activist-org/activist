@@ -1,10 +1,5 @@
 <template>
-  <PageBreadcrumbs
-    class="mt-4 hidden md:block"
-    :organization="organization"
-    :group="group"
-    :event="event"
-  />
+  <PageBreadcrumbs class="mt-4 hidden md:block" :pageType="pageType" />
   <div
     v-if="underDevelopment"
     class="mt-5 flex w-full flex-wrap rounded-md border border-light-text bg-light-warn-yellow/40 px-3 py-1 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow"
@@ -12,7 +7,7 @@
     <div class="flex space-x-3">
       <p>🚧</p>
       <div class="flex flex-col space-y-1">
-        <p>{{ $t("components.header-app-page.under-development") }}</p>
+        <p>{{ $t("components.header_app_page.under_development") }}</p>
         <div class="flex space-x-3">
           <a
             class="focus-brand link-text flex items-center space-x-1"
@@ -65,7 +60,7 @@
       v-if="organization && organization.status === 1"
       class="responsive-h4 text-light-warn-yellow transition-all duration-500 dark:text-dark-warn-yellow"
     >
-      {{ $t("components.header-app-page.status-pending") }}
+      {{ $t("components.header_app_page.status_pending") }}
     </h2>
     <h2
       v-else-if="headerTagline"
@@ -79,43 +74,59 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
 
 const props = defineProps<{
   header?: string;
   tagline?: string;
-  organization?: Organization;
-  group?: Group;
-  event?: Event;
+  pageType?: "organization" | "group" | "event";
   underDevelopment?: boolean;
 }>();
+
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const organizationStore = useOrganizationStore();
+let organization: Organization;
+const group = useGroupStore();
+const eventStore = useEventStore();
+let event: Event;
+
+if (props.pageType === "organization") {
+  await organizationStore.fetchByID(id);
+  organization = organizationStore.organization;
+} else if (props.pageType === "group") {
+  await group.fetchByID(id);
+} else if (props.pageType === "event") {
+  await eventStore.fetchByID(id);
+  event = eventStore.event;
+}
 
 const headerName = computed<string>(() => {
   if (props.header) {
     return props.header;
-  } else if (props.organization) {
-    return props.organization.name;
-  } else if (props.group) {
-    return props.group.name;
-  } else if (props.event) {
-    return props.event.name;
+  } else if (props.pageType === "organization") {
+    return organization.name;
+  } else if (props.pageType === "group") {
+    return group.name;
+  } else if (props.pageType === "event") {
+    return event.name;
   } else {
     return "";
   }
 });
 
-const headerTagline = computed<string>(() => {
+const headerTagline = computed(() => {
   if (props.tagline) {
     return props.tagline;
-  } else if (props.organization && props.organization.tagline) {
-    return props.organization.tagline;
-  } else if (props.group && props.group.tagline) {
-    return props.group.tagline;
-  } else if (props.event && props.event.tagline) {
-    return props.event.tagline;
+  } else if (props.pageType === "organization") {
+    return organization.tagline;
+  } else if (props.pageType === "group") {
+    return group.tagline;
+  } else if (props.pageType === "event") {
+    return event.tagline;
   } else {
     return "";
   }

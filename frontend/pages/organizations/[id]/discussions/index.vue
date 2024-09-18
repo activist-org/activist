@@ -5,26 +5,27 @@
     <Head>
       <Title
         >{{ organization.name }}&nbsp;{{
-          $t("_global.discussions_lower")
+          $t("pages._global.discussions_lower")
         }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('_global.discussions_lower')"
-      :tagline="$t('pages.organizations.discussions.tagline')"
+      :header="organization.name + ' ' + $t('pages._global.discussions_lower')"
+      :tagline="$t('pages.organizations.discussions.index.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
-          class="hidden w-max md:block"
+          v-if="aboveMediumBP"
+          class="block w-max"
           :cta="true"
           linkTo="/"
-          label="components.btn-route-internal.new-discussion"
+          label="pages._global.new_discussion"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-route-internal.new-discussion-aria-label"
+          ariaLabel="pages._global.new_discussion_aria_label"
         />
       </div>
     </HeaderAppPage>
@@ -42,8 +43,11 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { IconMap } from "~/types/icon-map";
 import { testTechOrg } from "~/utils/testEntities";
+
+const aboveMediumBP = useBreakpoint("md");
 
 const organization = testTechOrg;
 </script>

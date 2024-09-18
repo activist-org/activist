@@ -5,10 +5,10 @@
         @keydown="handleTabPress(false, $event)"
         class="flex max-h-[40px] w-full"
         :cta="true"
-        label="components.btn-action.support"
+        label="_global.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        :ariaLabel="$t('components.btn-action.support-user-aria-label')"
+        :ariaLabel="$t('components.tooltip_menu_search_result_user.support_user_aria_label')"
       /> -->
       <BtnAction
         @click="openModal()"
@@ -16,10 +16,12 @@
         @keydown="handleTabPress(true, $event)"
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
-        label="components.btn-action.share"
+        label="_global.share"
         :leftIcon="IconMap.SHARE"
         fontSize="lg"
-        :ariaLabel="$t('components.btn-action.share-user-aria-label')"
+        :ariaLabel="
+          $t('components.tooltip_menu_search_result_user.share_user_aria_label')
+        "
       />
       <ModalSharePage
         @closeModal="handleCloseModal"
@@ -32,8 +34,8 @@
 </template>
 
 <script setup lang="ts">
+import type { User } from "~/types/auth/user";
 import { IconMap } from "~/types/icon-map";
-import type { User } from "~/types/user";
 
 defineProps<{
   user: User;
@@ -42,13 +44,17 @@ defineProps<{
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
 
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

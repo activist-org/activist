@@ -9,6 +9,8 @@ from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin
 
+# MARK: Main Tables
+
 
 class Event(CreationDeletionMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -23,8 +25,6 @@ class Event(CreationDeletionMixin):
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
     type = models.CharField(max_length=255)
-    description = models.TextField(max_length=500)
-    get_involved_text = models.TextField(max_length=500)
     online_location_link = models.CharField(max_length=255, blank=True)
     offline_location_lat = models.FloatField(null=True, blank=True)
     offline_location_long = models.FloatField(null=True, blank=True)
@@ -41,7 +41,7 @@ class Event(CreationDeletionMixin):
 
 
 class Format(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -53,7 +53,7 @@ class Format(models.Model):
 
 
 class Role(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     is_custom = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
@@ -63,6 +63,9 @@ class Role(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+# MARK: Bridge Tables
 
 
 class EventAttendee(models.Model):
@@ -77,20 +80,20 @@ class EventAttendee(models.Model):
         return f"{self.user_id} - {self.event_id}"
 
 
+class EventAttendeeStatus(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    status_name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.status_name
+
+
 class EventFormat(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     format_id = models.ForeignKey("Format", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
-
-
-class EventAttendeeStatus(models.Model):
-    id = models.IntegerField(primary_key=True)
-    status_name = models.CharField(max_length=255)
-
-    def __str__(self) -> str:
-        return self.status_name
 
 
 class EventResource(models.Model):
@@ -104,6 +107,14 @@ class EventResource(models.Model):
 class EventRole(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     role_id = models.ForeignKey("Role", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class EventTag(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    tag_id = models.ForeignKey("content.Tag", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -124,7 +135,7 @@ class EventText(models.Model):
     )
     primary = models.BooleanField()
     description = models.TextField(max_length=500)
-    get_involved = models.TextField(max_length=500)
+    get_involved = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -133,14 +144,6 @@ class EventText(models.Model):
 class EventTopic(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class EventTag(models.Model):
-    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    tag_id = models.ForeignKey("content.Tag", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"

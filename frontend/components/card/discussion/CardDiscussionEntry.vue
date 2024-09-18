@@ -11,7 +11,7 @@
         <h1 class="responsive-h5 pl-2 font-bold">
           {{ discussionEntry.author }}
         </h1>
-        <p>{{ $t("components.card-discussion-text.on") }}</p>
+        <p>{{ $t("components.card_discussion_entry.on") }}</p>
         <p>
           {{ discussionEntry.date.toLocaleDateString() }}
         </p>
@@ -25,13 +25,13 @@
       :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
       :counter="discussionEntry.votes"
-      ariaLabel="components.btn-action.upvote-discussion-aria-label"
+      ariaLabel="components.card.discussion._global.upvote_discussion_aria_label"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { DiscussionEntry } from "~/types/discussion-entry";
+import type { DiscussionEntry } from "~/types/content/discussion";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

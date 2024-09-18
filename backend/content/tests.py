@@ -2,18 +2,14 @@
 Testing for the content app.
 """
 
+# mypy: ignore-errors
 from .factories import ResourceFactory, TaskFactory, TopicFactory, ResourceTopicFactory
-from tests.throttle import BaseTestThrottle
-from django.urls import reverse
+
 import pytest
 
-
-class ContentThrottleTest(BaseTestThrottle):
-    __test__ = True
-    url = reverse("content:resource-list")
+pytestmark = pytest.mark.django_db
 
 
-@pytest.mark.django_db
 def test_str_methods() -> None:
     resource = ResourceFactory.build()
     task = TaskFactory.build()

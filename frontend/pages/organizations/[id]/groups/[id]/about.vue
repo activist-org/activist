@@ -17,22 +17,22 @@
           class="w-max"
           :cta="true"
           :linkTo="group.getInvolvedURL"
-          label="components.btn-route-internal.join-group"
+          label="_global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="components.btn-route-internal.join-group-aria-label"
+          ariaLabel="_global.join_group_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.support"
+          label="_global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="group.supporters"
           ariaLabel="
-            components.btn-action.support-group-aria-label
+            pages.organizations.groups._global.support_group_aria_label
           "
         /> -->
         <BtnAction
@@ -45,7 +45,9 @@
           fontSize="sm"
           :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="$t('components._global.share-group-aria-label')"
+          :ariaLabel="
+            $t('pages.organizations.groups.about.share_group_aria_label')
+          "
         />
         <ModalSharePage
           @closeModal="handleCloseModal"
@@ -62,7 +64,7 @@
           'lg:mr-6 lg:space-x-6': !textExpanded,
         }"
       >
-        <CardAbout
+        <CardAboutGroup
           @expand-reduce-text="expandReduceText"
           class="mb-6 lg:mb-0"
           :class="{
@@ -73,25 +75,39 @@
           :group="group"
         />
         <div class="h-full w-full">
-          <MediaImageCarouselFull :class="{ 'lg:hidden': textExpanded }" />
+          <MediaImageCarouselFull v-if="!textExpanded || !aboveLargeBP" />
         </div>
       </div>
-      <CardGetInvolved :group="group" />
-      <CardConnect :socialLinks="group.socialLinks" :userIsAdmin="true" />
+      <CardGetInvolvedGroup :group="group" />
+      <CardConnect pageType="group" />
       <!-- <CardDonate :userIsAdmin="true" :donationPrompt="group.donationPrompt" /> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
+import type { Group, GroupText } from "~/types/entities/group";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
-import { testTechGroup1 } from "~/utils/testEntities";
+
+const aboveLargeBP = useBreakpoint("lg");
+
+const { id } = useRoute().params;
+
+const [resOrg, resOrgTexts] = await Promise.all([
+  useAsyncData(async () => await fetchWithToken(`/entities/groups/${id}`, {})),
+  useAsyncData(
+    async () => await fetchWithToken(`/entities/group_texts?org_id=${id}`, {})
+  ),
+]);
+
+const group = resOrg.data as unknown as Group;
+const groupTexts = resOrgTexts.data as unknown as GroupText;
+const texts = groupTexts;
 
 const groupSubPages = getGroupSubPages();
-
-const group = testTechGroup1;
 
 const textExpanded = ref(false);
 const expandReduceText = () => {
@@ -104,9 +120,9 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = "components.btn-action.share";
+    shareButtonLabel.value = "_global.share";
   } else {
-    shareButtonLabel.value = "components._global.share-group";
+    shareButtonLabel.value = "pages._global.share_group";
   }
 }
 
@@ -123,13 +139,17 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateShareBtnLabel);
 });
 
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

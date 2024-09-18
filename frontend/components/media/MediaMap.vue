@@ -9,7 +9,7 @@
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
-import maplibregl from "maplibre-gl";
+import maplibregl, { Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
@@ -22,7 +22,7 @@ const i18n = useI18n();
 const colorMode = useColorMode();
 
 const isTouchDevice =
-  // `maxTouchPoints` isn't recognized by TS. Safe to ignore.
+  // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   navigator.msMaxTouchPoints > 0 ||
@@ -46,6 +46,116 @@ function isWebglSupported() {
   return false;
 }
 
+// MARK: Routing
+
+const bikeDirectionsIcon = `/icons/map/bike_directions_${colorMode.value}.png`;
+const walkDirectionsIcon = `/icons/map/walk_directions_${colorMode.value}.png`;
+
+interface RouteProfileOption {
+  FOOT: string;
+  BIKE: string;
+  DRIVING: string;
+  CAR: string;
+}
+
+const routeProfileOptions: RouteProfileOption = {
+  FOOT: "foot",
+  BIKE: "bike",
+  DRIVING: "driving",
+  CAR: "car",
+};
+
+interface RouteProfile {
+  profile: string;
+  api: string;
+}
+
+const routingAPI = "https://routing.openstreetmap.de/routed-";
+const routingAPIVersion = "/route/v1/";
+
+const routeProfileMap: RouteProfile[] = [
+  {
+    api: `${routingAPI}${routeProfileOptions.FOOT}${routingAPIVersion}`,
+    profile: routeProfileOptions.FOOT,
+  },
+  {
+    api: `${routingAPI}${routeProfileOptions.BIKE}${routingAPIVersion}`,
+    profile: routeProfileOptions.BIKE,
+  },
+  {
+    api: `${routingAPI}${routeProfileOptions.DRIVING}${routingAPIVersion}`,
+    profile: routeProfileOptions.DRIVING,
+  },
+];
+
+const walkingRouteProfileControl = `
+  <div
+    title="Change profile [p]"
+    id=${routeProfileOptions.FOOT}
+    style="
+    background-image: url(${walkDirectionsIcon});
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer"
+    opacity: 5;
+  >
+  `;
+
+const bikeRouteProfileControl = `
+  <div
+    title="Change profile [p]"
+    id=${routeProfileOptions.BIKE}
+    style="
+    background-image: url(${bikeDirectionsIcon});
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer"
+    opacity: 5;
+  >
+  `;
+
+let currentProfile = walkingRouteProfileControl;
+
+const mapProfile = (profile: string) => {
+  return routeProfileMap.find((item) => item.profile === profile);
+};
+
+let selectedRoute = mapProfile(routeProfileOptions.FOOT);
+
+const toggleLayerHandler = (map: Map) => {
+  if (currentProfile === walkingRouteProfileControl) {
+    map.setLayoutProperty("cycle-layer", "visibility", "visible");
+  } else {
+    map.setLayoutProperty("cycle-layer", "visibility", "none");
+  }
+};
+
+const routeProfileHandler = () => {
+  if (currentProfile === walkingRouteProfileControl) {
+    currentProfile = bikeRouteProfileControl;
+  } else {
+    currentProfile = walkingRouteProfileControl;
+  }
+  return currentProfile;
+};
+
+const setSelectedRoute = () => {
+  if (currentProfile === walkingRouteProfileControl) {
+    selectedRoute = mapProfile(routeProfileOptions.FOOT);
+  } else {
+    selectedRoute = mapProfile(routeProfileOptions.BIKE);
+  }
+  return selectedRoute;
+};
+
+// MARK: Map Creation
+
 onMounted(() => {
   const nominatimLocationRequest =
     "https://nominatim.openstreetmap.org/search?q=Brandenburg%20Gate%20Berlin&format=json";
@@ -55,7 +165,7 @@ onMounted(() => {
     .then((data) => {
       const location = data[0];
       if (!isWebglSupported()) {
-        alert(i18n.t("components.media-map.maplibre-gl-alert"));
+        alert(i18n.t("components.media_map.maplibre_gl_alert"));
       } else {
         const map = new maplibregl.Map({
           container: "map",
@@ -67,7 +177,18 @@ onMounted(() => {
                 tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
                 tileSize: 256,
                 attribution:
-                  '<a href="https://www.openstreetmap.org/about" target="_blank">Data &copy; OpenStreetMap contributors</a>',
+                  '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a>',
+              },
+              "cycle-raster-tiles": {
+                type: "raster",
+                tiles: [
+                  "https://a.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
+                  "https://b.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
+                  "https://c.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
+                ],
+                tileSize: 256,
+                attribution:
+                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> hosted by <a href="https://openstreetmap.fr" target="_blank">OSM France</a>',
               },
             },
             layers: [
@@ -80,11 +201,21 @@ onMounted(() => {
                 },
               },
               {
-                id: "simple-tiles",
+                id: "default-layer",
                 type: "raster",
                 source: "raster-tiles",
                 minzoom: 0,
                 maxzoom: 24,
+              },
+              {
+                id: "cycle-layer",
+                type: "raster",
+                source: "cycle-raster-tiles",
+                minzoom: 0,
+                maxzoom: 20,
+                layout: {
+                  visibility: "none",
+                },
               },
             ],
           },
@@ -92,6 +223,8 @@ onMounted(() => {
           zoom: 15,
           pitch: 20,
         });
+
+        // MARK: Basic Controls
 
         map.addControl(
           new maplibregl.NavigationControl({
@@ -131,19 +264,52 @@ onMounted(() => {
           .setPopup(popup)
           .addTo(map);
 
+        // Arrow icon for directions.
+        map
+          .loadImage("/icons/from_library/bootstrap_arrow_right.png")
+          .then((image) => {
+            console.log("Here1");
+            if (image) {
+              map.addImage("route-direction-arrow", image.data);
+            }
+
+            console.log("Here2", image.data);
+          });
+
         map.on("load", () => {
           const layers = layersFactory(
             isTouchDevice ? 1.5 : 1,
             isTouchDevice ? 2 : 1
           );
 
-          const directions = new MapLibreGlDirections(map, {
-            api: "https://routing.openstreetmap.de/routed-foot/route/v1/",
-            profile: "foot",
-            // api: "https://routing.openstreetmap.de/routed-bike/route/v1/",
-            // profile: "bike",
-            // api: "https://routing.openstreetmap.de/routed-car/route/v1/",
-            // profile: "driving",
+          // MARK: Directions Layer
+
+          // Add arrow to directions layer.
+          layers.push({
+            id: "maplibre-gl-directions-route-line-direction-arrow",
+            type: "symbol",
+            source: "maplibre-gl-directions",
+            layout: {
+              "symbol-placement": "line-center",
+              "icon-image": "route-direction-arrow",
+              "icon-size": [
+                "interpolate",
+                ["exponential", 1.5],
+                ["zoom"],
+                12,
+                0.85,
+                18,
+                1.4,
+              ],
+            },
+            paint: {
+              "icon-opacity": 1,
+            },
+            filter: ["==", ["get", "route"], "SELECTED"],
+          });
+
+          let directions = new MapLibreGlDirections(map, {
+            ...(selectedRoute = setSelectedRoute()),
             requestOptions: {
               alternatives: "true",
             },
@@ -151,7 +317,6 @@ onMounted(() => {
           });
 
           directions.interactive = true;
-
           marker.getElement().addEventListener("mouseenter", () => {
             directions.interactive = false;
           });
@@ -159,6 +324,59 @@ onMounted(() => {
           marker.getElement().addEventListener("mouseleave", () => {
             directions.interactive = true;
           });
+
+          // MARK: Profile Switcher
+
+          map.addControl(
+            {
+              onAdd: function () {
+                const div = document.createElement("div");
+                div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
+                div.innerHTML = currentProfile;
+
+                const updateSelectedProfile = () => {
+                  toggleLayerHandler(map);
+
+                  directions.destroy();
+                  div.innerHTML = routeProfileHandler();
+
+                  directions = new MapLibreGlDirections(map, {
+                    ...(selectedRoute = setSelectedRoute()),
+                    requestOptions: {
+                      alternatives: "true",
+                    },
+                    layers,
+                  });
+
+                  directions.interactive = true;
+                  marker.getElement().addEventListener("mouseenter", () => {
+                    directions.interactive = false;
+                  });
+
+                  marker.getElement().addEventListener("mouseleave", () => {
+                    directions.interactive = true;
+                  });
+                };
+
+                if (window.innerWidth < 768) {
+                  div.addEventListener("touched", updateSelectedProfile);
+                  div.addEventListener("click", updateSelectedProfile);
+                } else {
+                  div.addEventListener("click", updateSelectedProfile);
+                  document.addEventListener("keydown", (event) => {
+                    if (event.key === "p") {
+                      updateSelectedProfile();
+                    }
+                  });
+                }
+                return div;
+              },
+              onRemove: function () {},
+            },
+            "top-right"
+          );
+
+          // MARK: Clear Directions
 
           const clearDirectionsControl = `
             <div style="

@@ -29,7 +29,7 @@
           v-for="o in dropdownOptions"
           :key="o"
           v-slot="{ active }"
-          class="block cursor-pointer px-4 py-2 text-sm"
+          class="block w-full cursor-pointer px-4 py-2 text-sm"
           :class="{
             'rounded-t-md': o === dropdownOptions[0],
             'rounded-b-md': o === dropdownOptions[dropdownOptions.length - 1],

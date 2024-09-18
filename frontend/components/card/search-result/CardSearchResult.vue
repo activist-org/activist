@@ -21,7 +21,7 @@
               }"
               :src="imageURL"
               :alt="
-                $t('components.card-search-result-organization.img-alt-text') +
+                $t('components.card_search_result.organization_img_alt_text') +
                 ' ' +
                 organization.name
               "
@@ -34,7 +34,7 @@
               }"
               :src="imageURL"
               :alt="
-                $t('components.card-search-result-organization.img-alt-text') +
+                $t('components.card_search_result.organization_img_alt_text') +
                 ' ' +
                 group.organization.name
               "
@@ -62,7 +62,7 @@
                 :eventType="eventType"
                 :imgURL="imageURL"
                 :alt="
-                  $t('components.card-search-result.event-img-alt-text', {
+                  $t('components.card_search_result.event_img_alt_text', {
                     entity_name: name,
                   })
                 "
@@ -159,25 +159,31 @@
               :user="user"
             />
           </div>
-          <div class="hidden items-center space-x-3 md:flex lg:space-x-5">
+          <div
+            v-if="aboveMediumBP"
+            class="flex items-center space-x-3 lg:space-x-5"
+          >
             <MetaTagLocation v-if="location" :location="location" />
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
-              label="components.meta-tag-video.view-video"
+              label="components.card_search_result.view_video"
             />
-            <MetaTagDate :date="date" />
+            <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
         </div>
         <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
-          <div class="flex items-center justify-center space-x-4 md:hidden">
+          <div
+            v-if="!aboveMediumBP"
+            class="flex items-center justify-center space-x-4"
+          >
             <MetaTagLocation v-if="location" :location="location" />
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
-              label="components.meta-tag-video.view-video"
+              label="components.card_search_result.view_video"
             />
-            <MetaTagDate :date="date" />
+            <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
           <div
             class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
@@ -189,15 +195,15 @@
             />
             <!-- <MetaTagMembers
               :members="members"
-              label="components._global.members"
+              label="components.card_search_result.members"
             />
             <MetaTagSupporters
               :supporters="supporters"
-              label="components.meta-tag.supporters_lower"
+              label="components.card_search_result.supporters_lower"
             />
             <MetaTagStars
               :stars="stars"
-              label="components.meta-tag-stars.label"
+              label="components.card_search_result.label"
             /> -->
           </div>
         </div>
@@ -215,13 +221,14 @@
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { useLinkURL } from "~/composables/useLinkURL";
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
+import type { User } from "~/types/auth/user";
+import type { Resource } from "~/types/content/resource";
+import type { Group } from "~/types/entities/group";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
-import type { Resource } from "~/types/resource";
-import type { User } from "~/types/user";
 
 const props = defineProps<{
   organization?: Organization;
@@ -233,21 +240,27 @@ const props = defineProps<{
   isPrivate?: boolean;
 }>();
 
+const aboveMediumBP = useBreakpoint("md");
+
 const i18n = useI18n();
 const localePath = useLocalePath();
 const { linkURL } = useLinkURL(props);
 
 const ariaLabel = computed<string>(() => {
   if (props.organization) {
-    return i18n.t("components._global.navigate-to-organization-aria-label");
+    return i18n.t(
+      "components.card_search_result.navigate_to_organization_aria_label"
+    );
   } else if (props.group) {
-    return i18n.t("components._global.navigate-to-group-aria-label");
+    return i18n.t("components._global.navigate_to_group_aria_label");
   } else if (props.event) {
-    return i18n.t("components._global.navigate-to-event-aria-label");
+    return i18n.t("components.card_search_result.navigate_to_event_aria_label");
   } else if (props.resource) {
-    return i18n.t("components._global.navigate-to-resource-aria-label");
+    return i18n.t(
+      "components.card_search_result.navigate_to_resource_aria_label"
+    );
   } else if (props.user) {
-    return i18n.t("components._global.navigate-to-user-aria-label");
+    return i18n.t("components.card_search_result.navigate_to_user_aria_label");
   } else {
     return "";
   }

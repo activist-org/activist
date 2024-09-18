@@ -17,6 +17,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Learning the tech stack](#learning-the-tech)
 - [Development environment](#dev-env)
 - [Style guide](#style-guide)
+- [Testing](#testing)
 - [Linting](#linting)
 - [Issues and projects](#issues-projects)
 - [Bug reports](#bug-reports)
@@ -63,7 +64,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Localization
 
-- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Transifex](https://www.transifex.com/) ([activist on Transifex](https://explore.transifex.com/activist-org/activist))
+- [Nuxt I18n](https://github.com/nuxt-modules/i18n) • [Weblate](https://weblate.org) ([activist on Weblate](https://hosted.weblate.org/projects/activist/activist))
 
 ### Analytics
 
@@ -303,6 +304,35 @@ From there you'll be able to visit http://localhost:6006/ to view the documentat
 
 Please see the [activist style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
 
+<a id="testing"></a>
+
+## Testing [`⇧`](#contents)
+
+### Backend
+
+Please run the following commands from the project root to test the backend:
+
+```bash
+# Start the Docker container:
+docker compose --env-file .env.dev up backend --build -d  # -d to hide logs
+
+# Enter the backend container:
+docker exec -it django_backend sh
+
+# Run backend tests:
+pytest
+
+# Once tests are finished:
+exit
+```
+
+### Frontend
+
+Running frontend tests locally is currently WIP.
+
+> [!NOTE]
+> When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
+
 <a id="linting"></a>
 
 ## Linting [`⇧`](#contents)
@@ -405,9 +435,6 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
    git pull --rebase upstream <dev-branch>
    ```
 
-> [!NOTE]
-> When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
-
 6. Push your topic branch up to your fork:
 
    ```bash
@@ -422,7 +449,9 @@ Thank you in advance for your contributions!
 
 ## Localization [`⇧`](#contents)
 
-Localization for activist happens within our [public localization project on Transifex](https://explore.transifex.com/activist-org/activist). Join us there if you'd like to help bring activist to other languages!
+<a href="https://hosted.weblate.org/projects/activist/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right"></a>
+
+Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
 To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for more information on how to create new localization keys.
 

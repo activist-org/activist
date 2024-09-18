@@ -5,29 +5,29 @@
     <Head>
       <Title>{{ organization.name }}</Title>
     </Head>
-    <HeaderAppPage :organization="organization">
+    <HeaderAppPage pageType="organization">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
           v-if="organization.getInvolvedURL"
           class="w-max"
           :cta="true"
           :linkTo="organization.getInvolvedURL"
-          label="components.btn-route-internal.join-organization"
+          label="_global.join_organization"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="components.btn-route-internal.join-organization-aria-label"
+          ariaLabel="_global.join_organization_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.support"
+          label="_global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="organization.supporters.length"
           ariaLabel="
-            components.btn-action.support-organization-aria-label
+            _global.support_organization_aria_label
           "
         /> -->
         <BtnAction
@@ -40,7 +40,7 @@
           fontSize="sm"
           :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="$t('components._global.share-organization-aria-label')"
+          :ariaLabel="$t('_global.share_organization_aria_label')"
         />
         <ModalSharePage
           @closeModal="handleCloseModal"
@@ -51,77 +51,49 @@
       </div>
     </HeaderAppPage>
     <div class="space-y-6 pb-6">
-      <!-- organization.status === 1 means it's application is pending. -->
-      <!-- <CardOrgApplicationVote
-        v-if="organization.status === 1"
-        @up-vote="upVotes++"
-        @down-vote="downVotes++"
-        title="Votes in favor"
-        :organizations="organizationsInFavor"
-        :upVotes="upVotes"
-        :downVotes="downVotes"
-      /> -->
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
           'lg:mr-6 lg:space-x-6': !textExpanded,
         }"
       >
-        <CardAbout
+        <CardAboutOrganization
           @expand-reduce-text="expandReduceText"
           class="mb-6 lg:mb-0"
           :class="{
             'lg:col-span-2': !textExpanded,
             'lg:col-span-3': textExpanded,
           }"
-          aboutType="organization"
-          :organization="organization"
         />
         <div class="h-full w-full">
-          <MediaImageCarouselFull :class="{ 'lg:hidden': textExpanded }" />
+          <MediaImageCarouselFull v-if="!textExpanded || !aboveLargeBP" />
         </div>
       </div>
-      <!-- organization.status === 2 means it's active. -->
-      <CardGetInvolved
-        v-if="organization.status === 2"
-        :organization="organization"
-      />
-      <CardConnect
-        :socialLinks="organization.socialLinks"
-        :userIsAdmin="true"
-      />
+      <CardGetInvolvedOrganization />
+      <CardConnect pageType="organization" />
       <!-- <CardDonate
         v-if="organization.status === 2"
         :userIsAdmin="true"
         :donationPrompt="organization.donationPrompt"
       /> -->
-      <div v-if="organization.status === 1" class="space-y-6">
-        <Discussion
-          :discussionInput="testDiscussionInput"
-          :discussionTexts="discussionEntries"
-          :organization="organization"
-        />
-      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
-import type { DiscussionEntry } from "~/types/discussion-entry";
-import type { DiscussionInput } from "~/types/discussion-input";
 import { IconMap } from "~/types/icon-map";
-import type { Organization } from "~/types/organization";
 
-const { id } = useRoute().params;
+const aboveLargeBP = useBreakpoint("lg");
 
-const res = await useAsyncData(
-  async () => await fetchWithToken(`/entities/organizations/${id}`, {})
-);
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
 
-const organization = res.data as unknown as Organization;
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchByID(id);
 
-// const route = useRoute();
+const { organization } = organizationStore;
 
 const textExpanded = ref(false);
 const expandReduceText = () => {
@@ -134,9 +106,9 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = "components.btn-action.share";
+    shareButtonLabel.value = "_global.share";
   } else {
-    shareButtonLabel.value = "components._global.share-organization";
+    shareButtonLabel.value = "_global.share_organization";
   }
 }
 
@@ -153,68 +125,17 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateShareBtnLabel);
 });
 
-// TODO: for testing purpose, should be removed.
-// const upVotes = ref(123);
-// const downVotes = ref(123);
-
-const discussionEntries: DiscussionEntry[] = [
-  {
-    // authorImg?: "string",
-    id: 1,
-    author: "Name",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
-    votes: 123,
-    date: new Date(Date.now()),
-  },
-  {
-    // authorImg?: "string",
-    id: 1,
-    author: "Name",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
-    votes: 123,
-    date: new Date(Date.now()),
-  },
-];
-
-const testDiscussionInput: DiscussionInput = {
-  name: "Name",
-  // location?: string,
-  supporters: 1,
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat bibendum libero in condimentum. Pellentesque euismod consequat mi ac mollis. In viverra, orci a consequat varius, nisi sem dictum ex, id fermentum purus quam non risus. Curabitur sit amet sem mollis, iaculis felis eu, viverra urna. Praesent purus risus, faucibus molestie mi sit amet, congue tristique sem.",
-  category: "Category 1",
-  highRisk: false,
-};
-
-// const organization = reactive<Organization>({ ...organization });
-// const organizationsInFavor = new Array(6)
-//   .fill(undefined)
-//   .map(() => organization);
-
-// onMounted(() => {
-//   const status = parseInt(route.query.status.toString());
-
-//   if (status !== undefined) {
-//     organization.status = status;
-//   }
-// });
-
-// provide("modalOrganizationStatusData", {
-//   discussionEntries: discussionEntries,
-//   organizationsInFavor: organizationsInFavor,
-//   upVotes: 6,
-//   downVotes: 4,
-// });
-
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

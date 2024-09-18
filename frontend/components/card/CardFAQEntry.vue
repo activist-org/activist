@@ -15,11 +15,12 @@
           >
             <p>{{ faqEntry.question }}</p>
             <IconEdit @click.stop="openModal()" @keydown.enter="openModal()" />
-            <ModalEditPageText
+            <ModalEditFaqEntry
               @closeModal="handleCloseModal"
+              :faqEntry="faqEntry"
               :sectionsToEdit="[
-                $t('components.card-faq-entry.question'),
-                $t('components.card-faq-entry.answer'),
+                $t('components.card_faq_entry.question'),
+                $t('components.card_faq_entry.answer'),
               ]"
               :textsToEdit="[faqEntry.question, faqEntry.answer]"
               :isOpen="modalIsOpen"
@@ -42,9 +43,8 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import type { FaqEntry } from "~/types/faq-entry";
+import type { FaqEntry } from "~/types/content/faq-entry";
 import { IconMap } from "~/types/icon-map";
-import ModalEditPageText from "../modal/ModalEditPageText.vue";
 
 defineProps<{
   faqEntry: FaqEntry;

@@ -8,23 +8,25 @@
     >
       <Icon :name="IconMap.FULL_SCREEN" size="1.5em" />
     </button>
-    <ModalMediaImageCarousel
-      @closeModal="handleCloseModal"
-      :isOpen="modalIsOpen"
-    />
+    <ModalMediaImageCarousel @closeModal="handleCloseModal" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
+const modals = useModals();
+const modalName = "ModalMediaImage";
+
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

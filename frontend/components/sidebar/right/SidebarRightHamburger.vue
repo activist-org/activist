@@ -2,8 +2,9 @@
   <div>
     <button
       @click="$emit('toggle')"
+      id="sidebar-right-hamburger"
       class="focus-brand group relative z-50 outline-offset-4"
-      :aria-label="$t('components.sidebar-right-hamburger.collapse-aria-label')"
+      :aria-label="$t('components.sidebar_right_hamburger.collapse_aria_label')"
     >
       <div
         class="relative flex h-[20px] w-[30px] transform items-center justify-center bg-transparent transition-all duration-200"

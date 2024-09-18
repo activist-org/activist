@@ -3,13 +3,14 @@
     class="card-style flex w-full flex-col px-3 py-4 md:grow md:flex-row md:py-3 lg:px-5"
   >
     <BtnAction
-      class="mt-1 hidden h-min md:flex"
+      v-if="aboveMediumBP"
+      class="mt-1 flex h-min"
       :cta="true"
       :counter="discussion.upVoters.length"
       fontSize="sm"
       :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
-      ariaLabel="components.btn-action.upvote-discussion-aria-label"
+      ariaLabel="components.card.discussion._global.upvote_discussion_aria_label"
     />
     <div class="flex-col space-y-3 md:grow md:space-y-4 md:pl-4 lg:pl-6">
       <div class="flex flex-col justify-between md:flex-row">
@@ -18,7 +19,10 @@
             <h2 class="responsive-h3 w-full font-bold">
               {{ discussion.title }}
             </h2>
-            <div class="flex items-center space-x-3 md:hidden md:w-fit">
+            <div
+              v-if="!aboveMediumBP"
+              class="flex items-center space-x-3 md:w-fit"
+            >
               <MetaTagMembers :members="discussion.participants.length" />
               <MetaTag
                 :iconName="IconMap.CHAT"
@@ -28,13 +32,14 @@
           </div>
           <div class="flex space-x-2">
             <BtnAction
-              class="mt-1 flex md:hidden"
+              v-if="!aboveMediumBP"
+              class="mt-1 flex"
               :cta="true"
               :label="`${discussion.upVoters}`"
               fontSize="sm"
               :leftIcon="IconMap.ARROW_UP"
               iconSize="1.25em"
-              ariaLabel="components.btn-action.upvote-discussion-aria-label"
+              ariaLabel="components.card.discussion._global.upvote_discussion_aria_label"
             />
             <BtnAction
               class="mt-1 flex"
@@ -42,12 +47,13 @@
               :label="discussion.category"
               fontSize="sm"
               iconSize="1.25em"
-              ariaLabel="components.btn-action.filter-discussion-category-aria-label"
+              ariaLabel="components.card_discussion.filter_discussion_category_aria_label"
             />
           </div>
         </div>
         <div
-          class="hidden w-full items-center space-x-3 md:flex md:w-fit lg:space-x-5"
+          v-if="aboveMediumBP"
+          class="flex w-full items-center space-x-3 md:w-fit lg:space-x-5"
         >
           <MetaTagMembers :members="discussion.participants.length" />
           <MetaTag
@@ -78,11 +84,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Discussion } from "~/types/discussion";
+import useBreakpoint from "~/composables/useBreakpoint";
+import type { Discussion } from "~/types/content/discussion";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   isPrivate?: boolean;
   discussion: Discussion;
 }>();
+
+const aboveMediumBP = useBreakpoint("md");
 </script>

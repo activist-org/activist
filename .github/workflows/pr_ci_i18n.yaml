@@ -25,11 +25,21 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Execute Repeat i18n Value Script
-        working-directory: ./frontend/i18n
-        run: python check_repeat_i18n_values.py
+      - name: Execute i18n Key Identifiers Check
+        working-directory: ./frontend/i18n/check
+        run: python i18n_check_key_identifiers.py
 
-      - name: Execute Unused i18n Key Script
+      - name: Execute i18n Unused Keys Check
         if: always()
-        working-directory: ./frontend/i18n
-        run: python check_unused_i18n_keys.py
+        working-directory: ./frontend/i18n/check
+        run: python i18n_check_unused_keys.py
+
+      - name: Execute i18n Non Source Keys Check
+        if: always()
+        working-directory: ./frontend/i18n/check
+        run: python i18n_check_non_source_keys.py
+
+      - name: Execute i18n Repeat Values Check
+        if: always()
+        working-directory: ./frontend/i18n/check
+        run: python i18n_check_repeat_values.py

@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="localePath(url)"
-    :aria-label="$t('components._global.navigate-to-group-aria-label')"
+    :aria-label="$t('components._global.navigate_to_group_aria_label')"
   >
     <div
       class="elem-shadow-sm cursor-pointer rounded-md border border-light-section-div bg-light-layer-2 p-2 dark:border-dark-section-div dark:bg-dark-layer-2 sm:p-3"
@@ -35,14 +35,14 @@
         <img
           v-if="item.imgURL"
           :src="item.imgURL"
-          :alt="$t('components.feed-item.img-alt-text')"
+          :alt="$t('components.feed_item.img_alt_text')"
         />
         <Icon
           v-else
           class="fill-light-layer-1 dark:fill-dark-layer-1"
           name="IconGroup"
           size="6em"
-          :alt="$t('components.feed-item.img-alt-text')"
+          :alt="$t('components.feed_item.img_alt_text')"
         />
       </div>
     </div>
@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FeedItem } from "~/types/feed-item";
+import type { FeedItem } from "~/types/feed/feed-item";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

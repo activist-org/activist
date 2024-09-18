@@ -1,5 +1,5 @@
 <template>
-  <div class="z-10 flex">
+  <div id="topics-dropdown" class="z-10 flex">
     <Combobox v-model="selectedTopic">
       <div class="relative">
         <div
@@ -36,7 +36,7 @@
               v-if="filteredTopics.length === 0 && query !== ''"
               class="relative cursor-default select-none px-4 py-2 text-light-distinct-text dark:text-dark-distinct-text"
             >
-              {{ $t("components.combobox-topics.no-matching-topics") }}
+              {{ $t("components.combobox_topics.no_matching_topics") }}
             </div>
             <ComboboxOption
               v-for="topic in filteredTopics"
@@ -90,7 +90,7 @@ import { GLOBAL_TOPICS } from "~/types/topics";
 
 const i18n = useI18n();
 
-const topics = [{ id: 1, name: "_global.topics.all-topics" }];
+const topics = [{ id: 1, name: "components.combobox_topics.all_topics" }];
 
 let nextId = topics.length + 1;
 for (const t of GLOBAL_TOPICS) {

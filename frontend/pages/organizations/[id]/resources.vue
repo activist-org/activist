@@ -10,7 +10,7 @@
     <HeaderAppPage
       :organization="organization"
       :header="organization.name + ' ' + $t('_global.resources_lower')"
-      :tagline="$t('pages.organizations.resources.tagline')"
+      :tagline="$t('pages.organizations._global.resources_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -18,11 +18,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="components._global.new-resource"
+          label="_global.new_resource"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="components.btn-route-internal.new-resource-aria-label"
+          ariaLabel="pages._global.resources.new_resource_aria_label"
         />
       </div>
     </HeaderAppPage>

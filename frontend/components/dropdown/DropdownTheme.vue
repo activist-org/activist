@@ -1,10 +1,11 @@
 <template>
   <DropdownBase
+    class="dropdown-theme"
     :location="location"
     :menuButtonIcon="menuButtonIcon"
-    :menuButtonLabel="$t(`components.selector-theme.label`)"
+    :menuButtonLabel="$t(`components.dropdown_theme.label`)"
     :isMenuButtonUppercase="false"
-    menuButtonAriaLabel="components.selector-theme.open-dropdown-aria-label"
+    menuButtonAriaLabel="components.dropdown_theme.open_dropdown_aria_label"
   >
     <div class="px-2 py-2">
       <MenuItem
@@ -49,20 +50,20 @@ const labelsOpt = [
   {
     optColorMode: "system",
     iconName: `${IconMap.COLOR_MODE_SYSTEM}`,
-    label: "components.selector-theme.system",
-    ariaLabel: "$t('components.selector-theme.system-aria-label')",
+    label: "components.dropdown_theme.system",
+    ariaLabel: "$t('components.dropdown_theme.system_aria_label')",
   },
   {
     optColorMode: "light",
     iconName: `${IconMap.COLOR_MODE_LIGHT}`,
-    label: "components.selector-theme.light",
-    ariaLabel: "$t('components.selector-theme.light-aria-label')",
+    label: "components.dropdown_theme.light",
+    ariaLabel: "$t('components.dropdown_theme.light_aria_label')",
   },
   {
     optColorMode: "dark",
     iconName: `${IconMap.COLOR_MODE_DARK}`,
-    label: "components.selector-theme.dark",
-    ariaLabel: "$t('components.selector-theme.dark-aria-label')",
+    label: "components.dropdown_theme.dark",
+    ariaLabel: "$t('components.dropdown_theme.dark_aria_label')",
   },
 ];
 

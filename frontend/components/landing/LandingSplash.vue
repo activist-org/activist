@@ -7,20 +7,20 @@
         id="landing-splash-header"
         class="w-10/12 text-center font-display text-3xl font-bold leading-snug sm:text-4xl sm:leading-snug md:max-w-lg md:text-5xl md:leading-snug lg:font-bold xl:max-w-2xl xl:text-6xl xl:leading-snug"
       >
-        {{ $t("components.landing-splash.header") }}
+        {{ $t("components.landing_splash.header") }}
       </h1>
     </div>
     <div class="flex justify-center">
       <div
         class="w-10/12 text-center text-base sm:text-xl md:w-3/4 md:text-lg xl:text-2xl"
       >
-        <div class="hidden flex-col space-y-1 md:block xl:space-y-2">
-          <p>{{ $t("components.landing-splash.message-1") }}</p>
-          <p>{{ $t("components.landing-splash.message-2") }}</p>
+        <div v-if="aboveMediumBP" class="block flex-col space-y-1 xl:space-y-2">
+          <p>{{ $t("components.landing_splash.message_1") }}</p>
+          <p>{{ $t("components.landing_splash.message_2") }}</p>
         </div>
-        <p class="md:hidden">
-          {{ $t("components.landing-splash.message-1") }}&nbsp;{{
-            $t("components.landing-splash.message-2")
+        <p v-else>
+          {{ $t("components.landing_splash.message_1") }}&nbsp;{{
+            $t("components.landing_splash.message_2")
           }}
         </p>
       </div>
@@ -29,11 +29,17 @@
       <BtnRouteExternal
         id="request-access"
         :cta="true"
-        label="components.btn-route-external.request-access"
+        label="_global.request_access"
         :linkTo="REQUEST_ACCESS_URL"
         fontSize="xl"
-        ariaLabel="components.btn-route-external.request-access-aria-label"
+        ariaLabel="components.landing_splash.request_access_aria_label"
       />
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import useBreakpoint from "~/composables/useBreakpoint";
+
+const aboveMediumBP = useBreakpoint("md");
+</script>

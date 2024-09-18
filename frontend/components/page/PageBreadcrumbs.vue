@@ -1,5 +1,5 @@
 <template>
-  <nav :aria-label="$t('components.page-breadcrumbs.aria-label')">
+  <nav :aria-label="$t('components.page_breadcrumbs.aria_label')">
     <ul class="flex flex-row flex-wrap text-sm md:text-base">
       <li
         v-for="(breadcrumb, index) in displayBreadcrumbs"
@@ -20,28 +20,32 @@
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <NuxtLink
-            v-if="isValidUUID(breadcrumb) && event"
+            v-if="isValidUUID(breadcrumb) && pageType == 'event'"
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :to="makeURL(breadcrumb)"
           >
             {{ event.name }}
           </NuxtLink>
           <NuxtLink
-            v-else-if="isValidUUID(breadcrumb) && organization"
+            v-else-if="isValidUUID(breadcrumb) && pageType == 'organization'"
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :to="makeURL(breadcrumb)"
           >
             {{ organization.name }}
           </NuxtLink>
           <NuxtLink
-            v-else-if="isValidUUID(breadcrumb) && group && index == 1"
+            v-else-if="
+              isValidUUID(breadcrumb) && pageType == 'group' && index == 1
+            "
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :to="makeURL(breadcrumb)"
           >
-            {{ group.organization.name }}
+            {{ group.name }}
           </NuxtLink>
           <NuxtLink
-            v-else-if="isValidUUID(breadcrumb) && group && index == 3"
+            v-else-if="
+              isValidUUID(breadcrumb) && pageType == 'group' && index == 3
+            "
             class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
             :to="makeURL(breadcrumb)"
           >
@@ -71,18 +75,50 @@
 
 <script setup lang="ts">
 import { validate as isValidUUID } from "uuid";
-import type { Event } from "~/types/event";
-import type { Group } from "~/types/group";
-import type { Organization } from "~/types/organization";
+import type { Organization } from "~/types/entities/organization";
+import type { Event } from "~/types/events/event";
+
+const url = window.location.href;
+let pageType = "";
 
 const { locales } = useI18n();
 const localePath = useLocalePath();
 
-defineProps<{
-  organization?: Organization;
-  group?: Group;
-  event?: Event;
-}>();
+const paramsID = useRoute().params.id;
+const paramsIDGroup = useRoute().params.groupID;
+
+const id = typeof paramsID === "string" ? paramsID : undefined;
+const idGroup = typeof paramsIDGroup === "string" ? paramsIDGroup : undefined;
+
+const organizationStore = useOrganizationStore();
+let organization: Organization;
+const group = useGroupStore();
+const eventStore = useEventStore();
+let event: Event;
+
+if (
+  url.includes("/organizations/") &&
+  !url.includes("/groups/") &&
+  !url.includes("/organizations/create") &&
+  !url.includes("/organizations/search")
+) {
+  pageType = "organization";
+  await organizationStore.fetchByID(id);
+  organization = organizationStore.organization;
+} else if (url.includes("/organizations/") && url.includes("/groups/")) {
+  pageType = "group";
+  await group.fetchByID(idGroup);
+} else if (
+  url.includes("/events/") &&
+  !url.includes("/organizations/") &&
+  !url.includes("/groups/") &&
+  !url.includes("/events/create") &&
+  !url.includes("/events/search")
+) {
+  pageType = "event";
+  await eventStore.fetchByID(id);
+  event = eventStore.event;
+}
 
 const breadcrumbs = ref<string[]>([]);
 

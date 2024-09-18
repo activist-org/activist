@@ -10,7 +10,7 @@
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages._global.information") }}
+          {{ $t("pages._global.create.information") }}
         </h1>
         <p class="mt-4">
           {{ $t("pages.resources.create.subtext") }}
@@ -39,7 +39,7 @@
               type="text"
               name="name"
               :placeholder="
-                $t('pages.resources.create.resource-name-placeholder')
+                $t('pages.resources.create.resource_name_placeholder')
               "
               :classes="{
                 input:
@@ -49,21 +49,15 @@
             />
           </div>
           <div class="w-1/2">
-            <!-- location -->
-            <label for="location" class="responsive-h3 block font-medium">
-              {{ $t("pages.resources.create.link") }}*
-            </label>
-            <FormKit
+            <label for="location" class="responsive-h3 block font-medium"
+              >{{ $t("pages._global.create.link") }}*</label
+            >
+            <input
               v-model="formData.link"
               id="location"
               type="text"
               name="location"
-              :placeholder="$t('pages.resources.create.link-placeholder')"
-              :classes="{
-                input:
-                  'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-              }"
-              validation="required"
+              :placeholder="$t('pages.resources.create.link_placeholder')"
             />
           </div>
         </div>
@@ -77,31 +71,22 @@
             id="description"
             type="textarea"
             name="description"
-            :placeholder="$t('pages.resources.create.description-placeholder')"
-            :classes="{
-              input:
-                'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-            }"
-            validation="required"
-          />
+            :placeholder="$t('pages.resources.create.description_placeholder')"
+          ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 flex w-full">
           <div class="flex-1 px-5 py-6">
             <!-- location -->
             <label for="location" class="responsive-h3 block font-medium">
-              {{ $t("pages._global.location") }}
+              {{ $t("pages._global.create.location") }}
             </label>
             <FormKit
               v-model="formData.location"
               id="location"
               type="textarea"
               name="location"
-              :placeholder="$t('pages.resources.create.location-placeholder')"
-              :classes="{
-                input:
-                  'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-              }"
-            />
+              :placeholder="$t('pages.resources.create.location_placeholder')"
+            ></textarea>
           </div>
           <div class="flex-1 px-5 py-6">
             <!-- organization -->
@@ -114,7 +99,7 @@
               type="textarea"
               name="organization"
               :placeholder="
-                $t('pages.resources.create.organization-placeholder')
+                $t('pages.resources.create.organization_placeholder')
               "
               :classes="{
                 input:
@@ -131,9 +116,9 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="_global.create-resource"
+              label="pages.resources.create.create_resource"
               fontSize="lg"
-              ariaLabel="pages.resources.create.complete-application-aria-label"
+              ariaLabel="pages.resources.create.complete_application_aria_label"
             />
           </div>
         </div>

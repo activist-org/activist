@@ -1,15 +1,17 @@
 <template>
   <DropdownBase
+    class="dropdown-language"
     :location="location"
     :menuButtonIcon="IconMap.GLOBE"
     :menuButtonLabel="$i18n.locale"
     :isMenuButtonUppercase="true"
-    menuButtonAriaLabel="components.selector-language.open-dropdown-aria-label"
+    menuButtonAriaLabel="components.dropdown_language.open_dropdown_aria_label"
   >
     <ul class="px-2 py-2">
       <NuxtLink
         v-for="l in availableLocales"
         :key="getLocaleCode(l)"
+        class="dropdown-language-list-items"
         :to="switchLocalePath(getLocaleCode(l))"
       >
         <MenuItem v-slot="{ active }" class="flex">

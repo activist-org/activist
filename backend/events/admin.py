@@ -14,7 +14,14 @@ from .models import (
     Role,
 )
 
+# MARK: Main Tables
+
 admin.site.register(Event)
+admin.site.register(Format)
+admin.site.register(Role)
+
+# MARK: Bridge Tables
+
 admin.site.register(EventAttendee)
 admin.site.register(EventAttendeeStatus)
 admin.site.register(EventResource)
@@ -23,5 +30,3 @@ admin.site.register(EventTask)
 admin.site.register(EventText)
 admin.site.register(EventTopic)
 admin.site.register(EventFormat)
-admin.site.register(Format)
-admin.site.register(Role)

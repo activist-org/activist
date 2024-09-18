@@ -1,196 +1,150 @@
+<!-- Here is a link to command palette resources: https://www.commandpalette.org/ -->
+
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalShouldClose == false ? modalIsOpen : false"
-  >
-    <div
-      class="focus-inside elem-shadow-sm my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-light-layer-2 px-2 py-1 text-left text-light-distinct-text transition duration-200 dark:bg-dark-layer-2 dark:text-dark-distinct-text"
-    >
-      <div class="flex items-center space-x-2 pl-1">
-        <Icon :name="IconMap.SEARCH" size="1em" />
-        <label for="search-input" class="sr-only">{{
-          $t("_global.search")
-        }}</label>
-        <input
-          ref="input"
-          id="search-input"
-          class="bg-transparent outline-none"
-          type="text"
-          size="100"
-          :placeholder="$t('_global.search')"
-        />
-      </div>
+  <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
+    <!-- MARK: Main element -->
+    <div>
+      <Combobox v-model="selectedCommand" @change="handleCommand" as="div">
+        <div
+          class="focus-inside elem-shadow-sm my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-light-layer-2 px-2 py-1 text-left text-light-distinct-text transition duration-200 dark:bg-dark-layer-2 dark:text-dark-distinct-text"
+        >
+          <Icon :name="IconMap.SEARCH" size="1em" class="text-black" />
+          <!-- MARK: Search text input. -->
+          <ComboboxInput
+            @keydown.enter="handleEnter"
+            @change="searchTerm = $event.target.value"
+            class="h-9 w-full bg-transparent pl-1 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0"
+            :placeholder="$t('_global.search')"
+          />
+        </div>
+        <div v-if="searchTerm.length > 0 && filteredCommands.length > 0">
+          <span class="font-bold italic">Searching for:</span> {{ searchTerm }}
+        </div>
+        <!-- MARK: Search results output. -->
+        <ComboboxOptions
+          v-if="searchTerm.length > 0 && filteredCommands.length > 0"
+          class="max-h-40 overflow-y-auto pt-2"
+        >
+          <!-- MARK: Individual search result/s. -->
+          <ComboboxOption
+            v-for="command in filteredCommands"
+            @click="handleClick(command)"
+            v-slot="{ active }"
+            :key="command.id"
+            :value="command"
+            as="li"
+          >
+            <li
+              :class="[
+                'w-6/7 group relative flex items-center space-x-2 rounded-md py-1',
+                active ? 'bg-light-highlight dark:bg-dark-highlight' : '',
+              ]"
+            >
+              <Icon
+                :name="IconMap[command.iconName as keyof typeof IconMap]"
+                size="1em"
+                :alt="$t(`${command.displayName}`)"
+              />
+              <div class="relative flex-grow pl-1">
+                {{ $t(`${command.displayName}`) }}
+                <span
+                  class="link-text invisible absolute right-3 w-16"
+                  :class="{ visible: active }"
+                >
+                  {{ $t("components.modal_command_palette.jump_to") }}
+                </span>
+              </div>
+            </li>
+          </ComboboxOption>
+        </ComboboxOptions>
+        <div v-else-if="searchTerm.length > 0 && filteredCommands.length == 0">
+          No results for: {{ searchTerm }}
+        </div>
+      </Combobox>
     </div>
-    <DialogTitle class="mt-5 flex justify-between font-display">
-      <p class="md:responsive-h3 pb-3 text-3xl font-bold">
-        {{ $t("components.modal-command-palette.pages-header") }}
-      </p>
-    </DialogTitle>
-    <NuxtLink class="focus-brand flex rounded-md" :to="localePath('/home')">
-      <div
-        class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
-      >
-        <Icon :name="IconMap.HOME" size="1em" :alt="$t('_global.home')" />
-        <div>
-          {{ $t("_global.home") }}
-          <span
-            class="link-text invisible absolute right-3 w-16 group-hover:visible"
-          >
-            {{ $t("components.modal-command-palette.jump-to") }}
-          </span>
-        </div>
-      </div>
-    </NuxtLink>
-    <NuxtLink class="focus-brand flex rounded-md" :to="localePath('/events')">
-      <div
-        class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
-      >
-        <Icon
-          :name="IconMap.EVENT"
-          size="1em"
-          :alt="$t('components.modal-command-palette.upcoming-events')"
-        />
-        <div>
-          {{ $t("components.modal-command-palette.upcoming-events") }}
-          <span
-            class="link-text invisible absolute right-3 w-16 group-hover:visible"
-            >{{ $t("components.modal-command-palette.jump-to") }}</span
-          >
-        </div>
-      </div>
-    </NuxtLink>
-    <NuxtLink
-      class="focus-brand flex rounded-md"
-      :to="localePath('/notifications')"
-    >
-      <div
-        class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
-      >
-        <Icon
-          :name="IconMap.BELL"
-          size="1em"
-          :alt="$t('_global.notifications')"
-        />
-        <div>
-          {{ $t("_global.notifications") }}
-          <span
-            class="link-text invisible absolute right-3 w-16 group-hover:visible"
-            >{{ $t("components.modal-command-palette.jump-to") }}</span
-          >
-        </div>
-      </div>
-    </NuxtLink>
-    <NuxtLink
-      class="focus-brand flex rounded-md"
-      :to="localePath('/discussions')"
-    >
-      <div
-        class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
-      >
-        <Icon
-          :name="IconMap.DISCUSSION"
-          size="1em"
-          :alt="$t('_global.discussions')"
-        />
-        <div>
-          {{ $t("_global.discussions") }}
-          <span
-            class="link-text invisible absolute right-3 w-16 group-hover:visible"
-            >{{ $t("components.modal-command-palette.jump-to") }}</span
-          >
-        </div>
-      </div>
-    </NuxtLink>
-    <DialogTitle class="mt-3 flex justify-between font-display">
-      <p class="md:responsive-h3 pb-3 text-3xl font-bold">
-        {{ $t("components._global.organizations") }}
-      </p>
-    </DialogTitle>
-    <NuxtLink
-      class="focus-brand flex rounded-md"
-      :to="localePath('/organizations')"
-    >
-      <div
-        class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
-      >
-        <Icon
-          class="fill-light-text dark:fill-dark-text"
-          :name="IconMap.ORGANIZATION"
-          size="1em"
-          :alt="$t('_global.organization-name')"
-        />
-        <div>
-          {{ $t("_global.organization-name") }}
-          <span
-            class="link-text invisible absolute right-3 w-16 group-hover:visible"
-            >{{ $t("components.modal-command-palette.jump-to") }}</span
-          >
-        </div>
-      </div>
-    </NuxtLink>
-    <NuxtLink
-      class="focus-brand flex rounded-md"
-      :to="localePath('/organizations')"
-    >
-      <div
-        class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
-      >
-        <Icon
-          class="fill-light-text dark:fill-dark-text"
-          :name="IconMap.ORGANIZATION"
-          size="1em"
-          :alt="$t('_global.organization-name')"
-        />
-        <div>
-          {{ $t("_global.organization-name") }}
-          <span
-            class="link-text invisible absolute right-3 w-16 group-hover:visible"
-            >{{ $t("components.modal-command-palette.jump-to") }}</span
-          >
-        </div>
-      </div>
-    </NuxtLink>
-    <NuxtLink
-      class="focus-brand flex rounded-md"
-      :to="localePath('/organizations')"
-    >
-      <div
-        class="group relative flex w-full items-center space-x-2 rounded-md px-2 py-1 hover:bg-light-highlight hover:dark:bg-dark-highlight"
-      >
-        <Icon
-          class="fill-light-text dark:fill-dark-text"
-          :name="IconMap.ORGANIZATION"
-          size="1em"
-          :alt="$t('_global.organization-name')"
-        />
-        <div>
-          {{ $t("_global.organization-name") }}
-          <span
-            class="link-text invisible absolute right-3 w-16 group-hover:visible"
-            >{{ $t("components.modal-command-palette.jump-to") }}</span
-          >
-        </div>
-      </div>
-    </NuxtLink>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import { IconMap } from "~/types/icon-map";
 
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+} from "@headlessui/vue";
+
 const props = defineProps<{
-  isOpen: boolean;
+  paletteData: Command[];
 }>();
 
-const localePath = useLocalePath();
+interface Command {
+  id: number;
+  path: string;
+  iconName: string;
+  displayName: string;
+  action: () => void;
+}
 
-const modalIsOpen = computed(() => props.isOpen);
-const modalShouldClose = ref(false);
+const modalName = "ModalCommandPalette";
 
-const emit = defineEmits(["closeModal"]);
+const searchTerm = ref("");
+const selectedCommand = ref<Command | null>(null);
+const filteredCommands = ref<Command[]>([]);
+
+const router = useRouter();
+
 const handleCloseModal = () => {
-  modalShouldClose.value = true;
-  emit("closeModal");
-  modalShouldClose.value = false;
+  // Watch for closeModal emit and do cleanup when it happens.
+  searchTerm.value = "";
 };
+
+const handleClick = (command: Command) => {
+  router.push(`/${command.path}`);
+};
+
+const handleEnter = () => {
+  if (selectedCommand.value) {
+    // selectedCommand.value.action();
+    router.push(`/${selectedCommand.value.path}`);
+  }
+};
+
+// Handle command selection. Combobox @change event handler. Handles selected ComboBoxOption.
+// const handleCommand = (command: Command) => {
+const handleCommand = () => {
+  if (selectedCommand.value) {
+    // if (command && typeof command.action === "function") {
+    //   command.action();
+    // } else {
+    //   console.error(
+    //     "Command action is not a function or command is null",
+    //     command
+    //   );
+    // }
+    router.push(`/${selectedCommand.value.path}`);
+  }
+};
+
+watch(searchTerm, (newVal) => {
+  if (newVal.length > 0) {
+    filteredCommands.value = props.paletteData.filter((dataItem) =>
+      dataItem.displayName.toLowerCase().includes(newVal.toLowerCase())
+    );
+  } else {
+    filteredCommands.value = [];
+  }
+});
 </script>
+
+<style scoped>
+.link-text.visible {
+  visibility: visible !important;
+}
+
+.link-text.invisible {
+  visibility: hidden;
+}
+</style>

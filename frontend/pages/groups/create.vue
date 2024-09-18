@@ -30,59 +30,40 @@
         >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium">
-              {{ $t("pages.groups.create.group-name") }}*
+              {{ $t("pages.groups.create.group_name") }}*
             </label>
-            <!-- name -->
-            <FormKit
+            <input
               v-model="formData.name"
               id="name"
               type="text"
               name="name"
-              :placeholder="$t('pages.groups.create.group-name-placeholder')"
-              :classes="{
-                input:
-                  'bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-              }"
-              validation="required|name"
+              :placeholder="$t('pages.groups.create.group_name_placeholder')"
             />
           </div>
           <div class="w-1/2">
-            <label for="location" class="responsive-h3 block font-medium">
-              {{ $t("pages._global.location") }}*
-            </label>
-            <!-- location -->
-            <FormKit
+            <label for="location" class="responsive-h3 block font-medium"
+              >{{ $t("pages._global.create.location") }}*</label
+            >
+            <input
               v-model="formData.location"
               id="location"
               type="text"
               name="location"
-              :placeholder="$t('pages.groups.create.location-placeholder')"
-              :classes="{
-                input:
-                  'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-                validation: 'test-light-action-red dark:text-dark-action-red'
-              }"
-              validation="required|location"
+              :placeholder="$t('pages.groups.create.location_placeholder')"
             />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium">
-            {{ $t("pages.organizations.create.description") }}*
-          </label>
-          <!-- description -->
-          <FormKit
+          <label for="description" class="responsive-h3 block font-medium"
+            >{{ $t("pages._global.create.description") }}*</label
+          >
+          <textarea
             v-model="formData.description"
             id="description"
             type="textarea"
             name="description"
-            :placeholder="$t('pages.groups.create.description-placeholder')"
-            :classes="{
-              input:
-                'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-            }"
-            validation="required|description"
-          />
+            :placeholder="$t('pages.groups.create.description_placeholder')"
+          ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="tagline" class="responsive-h3 block font-medium">
@@ -94,11 +75,7 @@
             id="tagline"
             type="text"
             name="tagline"
-            :placeholder="$t('pages.groups.create.tagline-placeholder')"
-            :classes="{
-              input:
-                'bg-light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0',
-            }"
+            :placeholder="$t('pages.groups.create.tagline_placeholder')"
           />
         </div>
         <CardTopicSelection
@@ -107,23 +84,27 @@
           pageType="group"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect
-            :social-links="formData.social_accounts"
-            :userIsAdmin="true"
-          />
+          <CardConnect pageType="other" />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
             <FormCheckbox />
+            <label for="terms" class="flex font-medium">
+              <p>{{ $t("pages._global.terms_of_service_pt_1") }}&nbsp;</p>
+              <a href="#" class="text-blue-500">{{
+                $t("pages._global.terms_of_service_pt_2")
+              }}</a>
+              <p>.</p>
+            </label>
           </div>
           <div class="my-5">
             <BtnAction
               type="submit"
               :cta="true"
               class="flex"
-              label="_global.create-group"
+              label="_global.create_group"
               fontSize="lg"
-              ariaLabel="pages.groups.create.create-group-aria-label"
+              ariaLabel="pages.groups.create.create_group_aria_label"
             />
           </div>
         </div>

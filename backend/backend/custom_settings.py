@@ -4,6 +4,7 @@ For more general settings strictly related to the functioning of Django and its 
 please check the path: backend/backend/settings.py
 """
 
-# Pagination settings
+# MARK: Pagination
+
 PAGINATION_PAGE_SIZE = 20
 PAGINATION_MAX_PAGE_SIZE = 100

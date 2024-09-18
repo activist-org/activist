@@ -1,5 +1,6 @@
 <template>
   <a
+    :id="id"
     class="btn-base-class rounded-md xl:rounded-lg"
     :class="btnDynamicClass"
     :href="linkTo"

@@ -2,19 +2,7 @@
   <Loading />
   <div>
     <NuxtLayout>
-      <!-- Dummy target to receive click event. A click event triggers ModalCommandPalette. -->
-      <div
-        @click="openModal()"
-        @keydown.enter="openModal()"
-        id="clickTarget"
-        class="hidden"
-        role="button"
-        tabIndex="0"
-      />
-      <ModalCommandPalette
-        @closeModal="handleCloseModal"
-        :isOpen="modalIsOpen"
-      />
+      <ModalCommandPalette :paletteData="commandPaletteData" />
       <NuxtPage />
     </NuxtLayout>
   </div>
@@ -22,23 +10,15 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { commandPaletteData } from "~/types/command-palette";
 
 useHead({
-  titleTemplate: (titleChunk: any) => {
+  titleTemplate: (titleChunk: string | undefined) => {
     return titleChunk ? `${titleChunk} • activist` : "activist";
   },
 });
 
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modalIsOpen.value = true;
-}
-
-const handleCloseModal = () => {
-  modalIsOpen.value = false;
-};
-
+// Handle ctrl / meta keystrokes to open modal.
 const { isMacOS } = useDevice();
 
 const { meta_k, ctrl_k } = useMagicKeys({
@@ -49,22 +29,23 @@ const { meta_k, ctrl_k } = useMagicKeys({
   },
 });
 
-const doWhenever = () => {
-  // Trigger ModalBase @click="openModal".
-  const clickTarget = document.getElementById("clickTarget");
-  if (clickTarget) {
-    clickTarget.click();
-  }
-};
+const modals = useModals();
+const modalName = "ModalCommandPalette";
+const modalIsOpen = ref(false);
+
+function openModal() {
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
+}
 
 whenever(meta_k, () => {
   if (isMacOS) {
-    doWhenever();
+    openModal();
   }
 });
 whenever(ctrl_k, () => {
   if (!isMacOS) {
-    doWhenever();
+    openModal();
   }
 });
 </script>

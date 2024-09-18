@@ -2,9 +2,9 @@
   <DropdownBase
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_INFO"
-    :menuButtonLabel="$t(`components.dropdown-info.info`)"
+    :menuButtonLabel="$t(`components.dropdown_info.info`)"
     :isMenuButtonUppercase="false"
-    menuButtonAriaLabel="components.dropdown-info.info-aria-label"
+    menuButtonAriaLabel="components.dropdown_info.info_aria_label"
   >
     <DropdownItemsLayout :location="location" :options="infoOptions" />
   </DropdownBase>
@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 import { DropdownLocation } from "~/types/location";
-import type { MenuSelector } from "~/types/menu-selector";
+import type { MenuSelector } from "~/types/menu/menu-selector";
 
 defineProps<{
   location?: DropdownLocation;

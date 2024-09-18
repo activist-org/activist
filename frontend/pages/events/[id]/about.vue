@@ -12,22 +12,22 @@
           class="w-max"
           :cta="true"
           :linkTo="event.getInvolvedURL"
-          label="components.btn-route-internal.offer-to-help"
+          label="_global.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="components.btn-route-internal.offer-to-help-aria-label"
+          ariaLabel="_global.offer_to_help_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="components.btn-action.support"
+          label="_global.support"
           :hideLabelOnMobile="true"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="event.supportingUsers.length"
-          ariaLabel="components.btn-action.support-event-aria-label"
+          ariaLabel="_global.support_event_aria_label"
         /> -->
         <BtnAction
           @click="openModal()"
@@ -39,7 +39,7 @@
           fontSize="sm"
           :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="$t('components._global.share-event-aria-label')"
+          :ariaLabel="$t('_global.share_event_aria_label')"
         />
         <ModalSharePage
           @closeModal="handleCloseModal"
@@ -74,12 +74,12 @@
           :eventLocations="[event.offlineLocation]"
         />
       </div>
-      <CardAbout aboutType="event" :event="event" />
-      <CardGetInvolved
+      <CardAboutEvent aboutType="event" :event="event" />
+      <CardGetInvolvedEvent
         :event="event"
         disclaimer="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
       />
-      <CardConnect :social-links="event.socialLinks" :userIsAdmin="true" />
+      <CardConnect pageType="event" />
     </div>
   </div>
 </template>
@@ -103,9 +103,9 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = "components.btn-action.share";
+    shareButtonLabel.value = "_global.share";
   } else {
-    shareButtonLabel.value = "components._global.share-group";
+    shareButtonLabel.value = "pages._global.share_group";
   }
 }
 
@@ -122,13 +122,17 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateShareBtnLabel);
 });
 
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

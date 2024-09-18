@@ -5,10 +5,10 @@
         @keydown="handleTabPress(false, $event)"
         class="flex max-h-[40px] w-full"
         :cta="true"
-        label="components.btn-action.support"
+        label="_global.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        :ariaLabel="$t('components.btn-action.support-organization-aria-label')"
+        :ariaLabel="$t('_global.support_organization_aria_label')"
       /> -->
       <!-- <BtnRouteInternal
         class="flex max-h-[40px] w-full"
@@ -18,7 +18,7 @@
         linkTo="/"
         fontSize="lg"
         :ariaLabel="
-          $t('components.btn-route-internal.join-organization-aria-label')
+          $t('_global.join_organization_aria_label')
         "
       /> -->
       <BtnAction
@@ -28,10 +28,10 @@
         @keydown="handleTabPress(true, $event)"
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
-        label="components.btn-action.share"
+        label="_global.share"
         :leftIcon="IconMap.SHARE"
         fontSize="lg"
-        :ariaLabel="$t('components._global.share-organization-aria-label')"
+        :ariaLabel="$t('_global.share_organization_aria_label')"
       />
       <ModalSharePage
         v-if="group"
@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/group";
+import type { Group } from "~/types/entities/group";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{
@@ -55,13 +55,17 @@ defineProps<{
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
 
+const modals = useModals();
+const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

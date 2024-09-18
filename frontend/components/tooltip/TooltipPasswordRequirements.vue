@@ -3,7 +3,7 @@
     class="z-20 min-w-[200px] pb-4 pt-2 transition delay-150 ease-in-out md:min-w-[450px]"
   >
     <span class="mb-2 px-2">{{
-      $t("components.tooltip-password-requirements.password-rules-message")
+      $t("components.tooltip_password_requirements.password_rules_message")
     }}</span>
     <div
       v-for="(rule, index) in rules"
@@ -32,15 +32,15 @@ defineProps<{
 
 // Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
 const passwordRequirementsDict: { [key: string]: string } = {
-  "capital-letters": "components.tooltip-password-requirements.capital-letters",
+  "capital-letters": "components.tooltip_password_requirements.capital_letters",
   "contains-numbers":
-    "components.tooltip-password-requirements.contains-numbers",
+    "components.tooltip_password_requirements.contains_numbers",
   "contains-special-chars":
-    "components.tooltip-password-requirements.contains-special-chars",
+    "components.tooltip_password_requirements.contains_special_chars",
   "lower-case-letters":
-    "components.tooltip-password-requirements.lower-case-letters",
-  "number-of-chars": "components.tooltip-password-requirements.number-of-chars",
+    "components.tooltip_password_requirements.lower_case_letters",
+  "number-of-chars": "components.tooltip_password_requirements.number_of_chars",
   "password-rules-message":
-    "components.tooltip-password-requirements.password-rules-message",
+    "components.tooltip_password_requirements.password_rules_message",
 };
 </script>

@@ -6,7 +6,6 @@ import re
 from typing import Any, Dict, Union
 
 from django.contrib.auth import authenticate, get_user_model
-from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -27,18 +26,7 @@ from .models import (
 USER = get_user_model()
 
 
-class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
-    class Meta:
-        model = SupportEntityType
-        fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        if len(data["name"]) < 3:
-            raise serializers.ValidationError(
-                _("The field name must be at least 3 characters long."),
-                code="invalid_name",
-            )
-        return data
+# MARK: Main Tables
 
 
 class SupportSerializer(serializers.ModelSerializer[Support]):
@@ -55,6 +43,20 @@ class SupportSerializer(serializers.ModelSerializer[Support]):
                 code="invalid_entities_relation",
             )
 
+        return data
+
+
+class SupportEntityTypeSerializer(serializers.ModelSerializer[SupportEntityType]):
+    class Meta:
+        model = SupportEntityType
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+        if len(data["name"]) < 3:
+            raise serializers.ValidationError(
+                _("The field name must be at least 3 characters long."),
+                code="invalid_name",
+            )
         return data
 
 
@@ -80,6 +82,9 @@ class UserSerializer(serializers.ModelSerializer[UserModel]):
         return data
 
 
+# MARK: Bridge Tables
+
+
 class UserResourceSerializer(serializers.ModelSerializer[UserResource]):
     class Meta:
         model = UserResource
@@ -98,15 +103,16 @@ class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
         fields = "__all__"
 
 
-class SignupSerializer(serializers.ModelSerializer[User]):
+# MARK: Methods
+
+
+class SignupSerializer(serializers.ModelSerializer[UserModel]):
     password_confirmed = serializers.CharField(write_only=True)
 
     class Meta:
         model = USER
         fields = ("username", "password", "password_confirmed", "email")
-        extra_kwargs = {
-            "password": {"write_only": True},
-        }
+        extra_kwargs = {"password": {"write_only": True}, "email": {"required": False}}
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
@@ -127,36 +133,25 @@ class SignupSerializer(serializers.ModelSerializer[User]):
 
         return data
 
-    def create(self, validated_data: Dict[str, Union[str, Any]]) -> User:
+    def create(self, validated_data: Dict[str, Union[str, Any]]) -> UserModel:
         validated_data.pop("password_confirmed")
 
-        user = UserModel.objects.create_user(
-            username=validated_data["username"],
-            password=validated_data["password"],
-            email=validated_data["email"],
-        )
+        user: UserModel = UserModel.objects.create_user(**validated_data)
         user.save()
 
         return user
 
 
 class LoginSerializer(serializers.Serializer[UserModel]):
-    username = serializers.CharField()
+    email = serializers.EmailField(required=False)
+    username = serializers.CharField(required=False)
     password = serializers.CharField(write_only=True)
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        username = UserModel.objects.filter(username=data.get("username")).first()
-
-        if username is None:
-            raise serializers.ValidationError(
-                ("Invalid credentials. Please try again."),
-                code="invalid_credentials",
-            )
-
-        user = authenticate(
-            username=username,
-            password=data.get("password"),
-        )
+        if not data.get("email"):
+            user = UserModel.objects.filter(username=data.get("username")).first()
+        else:
+            user = UserModel.objects.filter(email=data.get("email")).first()
 
         if user is None:
             raise serializers.ValidationError(
@@ -164,7 +159,47 @@ class LoginSerializer(serializers.Serializer[UserModel]):
                 code="invalid_credentials",
             )
 
+        authenticated_user: UserModel = authenticate(
+            username=user,
+            password=data.get("password"),
+        )  # type: ignore
+
+        if authenticated_user is None:
+            raise serializers.ValidationError(
+                ("Invalid credentials. Please try again."),
+                code="invalid_credentials",
+            )
+
+        if authenticated_user.email != "" and authenticated_user.is_confirmed is False:
+            raise serializers.ValidationError(
+                ("Please confirm your email address."),
+                code="email_not_confirmed",
+            )
+
+        data["user"] = authenticated_user
+
         token, _ = Token.objects.get_or_create(user=user)
         data["token"] = token.key
         data["user"] = user
+
         return data
+
+
+class PasswordResetSerializer(serializers.Serializer[UserModel]):
+    email = serializers.EmailField(required=False)
+    password = serializers.CharField(write_only=True)
+    code = serializers.UUIDField(required=False)
+
+    def validate(self, data: Dict[str, Union[str, Any]]) -> UserModel:
+        if data.get("code") is not None:
+            user = UserModel.objects.filter(verification_code=data.get("code")).first()
+        else:
+            user = UserModel.objects.filter(email=data.get("email")).first()
+
+        if user is None:
+            raise serializers.ValidationError(
+                _("Invalid email address. Please try again."),
+                code="invalid_email",
+            )
+
+        return user

@@ -11,6 +11,8 @@ from .models import (
     UserTopic,
 )
 
+# MARK: Main Tables
+
 
 class SupportEntityTypeFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -33,18 +35,19 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = UserModel
         exclude = ("plaintext_password",)
+        django_get_or_create = ("username",)
 
     username = factory.Faker("user_name")
     name = factory.Faker("name")
     description = factory.Faker("text", max_nb_chars=500)
     verified = factory.Faker("boolean")
     verification_method = factory.Faker("word")
+    verification_code = factory.Faker("uuid4")
     email = factory.Faker("email")
     social_links = factory.List([factory.Faker("user_name") for _ in range(3)])
     is_private = factory.Faker("boolean")
     is_high_risk = factory.Faker("boolean")
     creation_date = factory.Faker("date_time_this_decade", before_now=True)
-    deletion_date = factory.Faker("date_time_this_decade", before_now=False)
     plaintext_password = factory.PostGenerationMethodCall("set_password", "password")
 
     # Workaround for the build method
@@ -57,8 +60,9 @@ class UserFactory(factory.django.DjangoModelFactory):
         if not create:
             # Simple build, do nothing.
             return
-        if extracted:
-            pass
+
+
+# MARK: Bridge Tables
 
 
 class UserResourceFactory(factory.django.DjangoModelFactory):

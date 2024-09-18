@@ -5,18 +5,18 @@
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="responsive-h3 text-left font-display">
-            {{ $t("components.card-details.header") }}
+            {{ $t("components.card_details.header") }}
           </h3>
           <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-          <ModalEditPageText
+          <ModalEditAboutEvent
             v-if="event"
             @closeModal="handleCloseModal"
+            :event="event"
             :sectionsToEdit="[
               $t('_global.about'),
               $t('components._global.participate'),
-              $t('components._global.offer-to-help-link'),
+              $t('components._global.offer_to_help_link'),
             ]"
-            :textsToEdit="[descriptionText, getInvolvedText, getInvolvedURL]"
             :isOpen="modalIsOpen"
           />
         </div>
@@ -30,7 +30,7 @@
           </div>
           <!-- <MetaTagAttendance
             :numAttending="event.attendees ? event.attendees.length : 0"
-            :label="$t('components.card-details.attending')"
+            :label="$t('components.card_details.attending')"
           /> -->
           <MetaTagLocation
             v-if="event.offlineLocation"
@@ -44,28 +44,24 @@
 </template>
 
 <script setup lang="ts">
-import {
-  useDescriptionText,
-  useGetInvolvedText,
-  useGetInvolvedURL,
-} from "~/composables/useAppPageTexts";
-import type { Event } from "~/types/event";
+import type { Event } from "~/types/events/event";
 
-const props = defineProps<{
+defineProps<{
   event?: Event;
 }>();
 
-const { descriptionText } = useDescriptionText(props);
-const { getInvolvedText } = useGetInvolvedText(props);
-const { getInvolvedURL } = useGetInvolvedURL(props);
+const modals = useModals();
+const modalName = "ModalEditPageText";
 
 const modalIsOpen = ref(false);
 
 function openModal() {
-  modalIsOpen.value = true;
+  modals.openModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 }
 
 const handleCloseModal = () => {
-  modalIsOpen.value = false;
+  modals.closeModal(modalName);
+  modalIsOpen.value = modals.modals[modalName].isOpen;
 };
 </script>

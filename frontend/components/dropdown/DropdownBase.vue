@@ -4,7 +4,7 @@
       <MenuButton
         @focus="expandOnFocus"
         v-slot="{ open }"
-        class="style-btn inline-flex w-full select-none whitespace-nowrap rounded-md px-4 py-2 font-semibold"
+        class="selected-option style-btn inline-flex w-full select-none whitespace-nowrap rounded-md px-4 py-2 font-semibold"
         :class="{
           'pl-6': isSideMenu,
           'style-menu-option-cta flex items-center rounded-md pl-1':

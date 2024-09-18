@@ -3,10 +3,10 @@
     class="bg-light-layer-0 px-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
   >
     <Head>
-      <Title>{{ $t("pages.events.index.header-title") }} </Title>
+      <Title>{{ $t("pages.events.index.header_title") }} </Title>
     </Head>
     <HeaderAppPage
-      :header="$t('pages.events.index.header-title')"
+      :header="$t('pages.events.index.header_title')"
       :tagline="$t('pages.events.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-// import type { Event } from "~/types/event";
+// import type { Event } from "~/types/events/event";
 
 // const { data: events } = await useFetch<Event[] | undefined>(
 //   `${BASE_BACKEND_URL}/entities/organization_events/`,
