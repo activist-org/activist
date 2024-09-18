@@ -63,6 +63,7 @@ class GroupFactory(factory.django.DjangoModelFactory):
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
+    terms_checked = factory.Faker("boolean")
     category = factory.Faker("word")
     location = factory.Faker("city")
 
@@ -179,20 +180,6 @@ class OrganizationResourceFactory(factory.django.DjangoModelFactory):
 
     org_id = factory.SubFactory(OrganizationFactory)
     resource_id = factory.SubFactory("content.factories.ResourceFactory")
-
-
-class GroupFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Group
-
-    org_id = factory.SubFactory(OrganizationFactory)
-    name = factory.Faker("word")
-    tagline = factory.Faker("word")
-    description = factory.Faker("text")
-    social_links = factory.List([factory.Faker("word") for _ in range(10)])
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
-    terms_checked = factory.Faker("boolean")
-    creation_date = factory.LazyFunction(datetime.datetime.now)
 
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):
