@@ -42,6 +42,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     #     )
     # )
     created_by = factory.SubFactory("authentication.factories.UserFactory")
+    terms_checked = factory.Faker("boolean")
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
     location = factory.Faker("city")
@@ -62,6 +63,7 @@ class GroupFactory(factory.django.DjangoModelFactory):
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
+    terms_checked = factory.Faker("boolean")
     category = factory.Faker("word")
     location = factory.Faker("city")
 

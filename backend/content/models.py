@@ -61,6 +61,7 @@ class Resource(models.Model):
     category = models.CharField(max_length=255, blank=True)
     url = models.URLField(max_length=255)
     is_private = models.BooleanField(default=True)
+    terms_checked = models.BooleanField(default=False)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)

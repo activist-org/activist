@@ -48,6 +48,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
 
     class Meta:
         model = Organization
+
         extra_kwargs = {
             "created_by": {"read_only": True},
             "social_links": {"required": False},
@@ -55,6 +56,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "acceptance_date": {"read_only": True},
             "description": {"write_only": True},
         }
+
         fields = [
             "id",
             "name",
@@ -67,9 +69,18 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "status",
             "status_updated",
             "acceptance_date",
+            "terms_checked",
             "org_text",
             "description",
         ]
+
+    def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        if data.get("terms_checked") is False:
+            raise serializers.ValidationError(
+                "You must accept the terms of service to create an organization."
+            )
+        return data
+
 
     def create(self, validated_data: dict[str, Any]) -> Organization:
         description = validated_data.pop("description", None)

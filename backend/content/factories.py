@@ -23,6 +23,7 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text")
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
+    terms_checked = factory.Faker("boolean")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)

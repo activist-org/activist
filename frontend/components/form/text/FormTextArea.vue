@@ -18,7 +18,7 @@ export interface Props {
   error?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   placeholder: "",
   error: false,
 });

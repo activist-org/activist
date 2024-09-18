@@ -73,9 +73,9 @@ async function handleSubmit() {
     organization,
     formData.value
   );
-  // if (response) {
-  //   handleCloseModal();
-  // }
+  if (response) {
+    handleCloseModal();
+  }
 }
 
 const modalName = "ModalEditAboutOrganization";

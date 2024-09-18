@@ -32,6 +32,7 @@ class Organization(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     get_involved_url = models.URLField(blank=True)
+    terms_checked = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
     status = models.ForeignKey(
         "StatusType",
@@ -69,6 +70,7 @@ class Group(models.Model):
         models.CharField(max_length=255), default=list, blank=True
     )
     category = models.CharField(max_length=255)
+    terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
