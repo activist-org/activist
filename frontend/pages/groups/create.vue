@@ -16,25 +16,21 @@
           {{ $t("pages.groups.create.subtext") }}
         </p>
       </div>
-      <FormKit
-        @submit="submit"
-        type="form"
-        :actions="false"
-        :classes="{
-          form: 'flex w-full flex-col items-center justify-center pt-4',
-        }"
-        :config="{ validationVisibility: 'submit' }"
+      <form
+        @submit.prevent="submit"
+        class="flex w-full flex-col items-center justify-center pt-4"
       >
         <div
           class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
         >
           <div class="w-1/2">
-            <label for="name" class="responsive-h3 block font-medium">
-              {{ $t("pages.groups.create.group_name") }}*
-            </label>
+            <label for="name" class="responsive-h3 block font-medium"
+              >{{ $t("pages.groups.create.group_name") }}*</label
+            >
             <input
               v-model="formData.name"
               id="name"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="name"
               :placeholder="$t('pages.groups.create.group_name_placeholder')"
@@ -47,6 +43,7 @@
             <input
               v-model="formData.location"
               id="location"
+              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
               type="text"
               name="location"
               :placeholder="$t('pages.groups.create.location_placeholder')"
@@ -60,20 +57,19 @@
           <textarea
             v-model="formData.description"
             id="description"
-            type="textarea"
+            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="description"
             :placeholder="$t('pages.groups.create.description_placeholder')"
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="tagline" class="responsive-h3 block font-medium">
-            {{ $t("pages._global.create.tagline") }}
-          </label>
-          <!-- tagline -->
-          <FormKit
+          <label for="tagline" class="responsive-h3 block font-medium">{{
+            $t("pages._global.create.tagline")
+          }}</label>
+          <input
             v-model="formData.tagline"
             id="tagline"
-            type="text"
+            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
             name="tagline"
             :placeholder="$t('pages.groups.create.tagline_placeholder')"
           />
@@ -108,7 +104,7 @@
             />
           </div>
         </div>
-      </FormKit>
+      </form>
     </div>
   </div>
 </template>

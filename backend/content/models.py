@@ -56,6 +56,7 @@ class IsoCodeMap(models.Model):
 class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     description = models.TextField(max_length=500)
     category = models.CharField(max_length=255, blank=True)
     url = models.URLField(max_length=255)

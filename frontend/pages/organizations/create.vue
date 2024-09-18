@@ -1,7 +1,12 @@
 <template>
   <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
   <div class="w-full text-light-text dark:text-dark-text">
-    <IndicatorProcessProgress type="default" :progress="1" :start="1" :end="1" />
+    <IndicatorProcessProgress
+      type="default"
+      :progress="1"
+      :start="1"
+      :end="1"
+    />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
@@ -12,10 +17,13 @@
           {{ $t("pages.organizations.create.subtext") }}
         </p>
       </div>
-      <FormKit @submit="submit" :plugins="[zodPlugin]" type="form" :actions="false" :classes="{
-        form: 'flex w-full flex-col items-center justify-center pt-4',
-      }" :config="{ validationVisibility: 'submit' }">
-        <div class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6">
+      <form
+        @submit.prevent="submit"
+        class="flex w-full flex-col items-center justify-center pt-4"
+      >
+        <div
+          class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
+        >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium"
               >{{ $t("_global.organization_name") }}*</label
@@ -73,9 +81,13 @@
             :placeholder="$t('pages.organizations.create.tagline_placeholder')"
           />
         </div>
-        <CardTopicSelection v-model="formData.topics" class="mt-5" pageType="organization" />
+        <CardTopicSelection
+          v-model="formData.topics"
+          class="mt-5"
+          pageType="organization"
+        />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect :social-links="formData.social_accounts" :userIsAdmin="true" />
+          <CardConnect pageType="other" />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
@@ -88,8 +100,9 @@
                 class="link-text"
                 >{{ $t("pages._global.terms_of_service_pt_2") }}</NuxtLink
               >
+
               <p>.</p>
-            </label> -->
+            </label>
           </div>
           <div class="my-5">
             <BtnAction
@@ -102,14 +115,14 @@
             />
           </div>
         </div>
-      </FormKit>
+      </form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/organization";
 import { Toaster, toast } from "vue-sonner";
+import BtnAction from "~/components/btn/action/BtnAction.vue";
 import type { OrganizationCreateFormData } from "~/types/entities/organization";
 
 definePageMeta({
@@ -125,7 +138,6 @@ const formData = ref<OrganizationCreateFormData>({
   topics: [],
 });
 
-const token = localStorage.getItem("accessToken");
 const localePath = useLocalePath();
 const organizationStore = useOrganizationStore();
 
