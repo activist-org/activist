@@ -49,10 +49,6 @@ class Image(models.Model):
         return f"{self.id}"
 
 
-class IsoCodeMap(models.Model):
-    code = models.CharField(max_length=2)
-
-
 class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)

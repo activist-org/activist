@@ -129,7 +129,7 @@ class GroupResource(models.Model):
 
 class GroupText(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    iso = models.ForeignKey("content.IsoCodeMap", on_delete=models.CASCADE)
+    iso = models.CharField(max_length=2)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
     get_involved = models.TextField(max_length=500, blank=True)
@@ -216,7 +216,7 @@ class OrganizationTask(models.Model):
 
 class OrganizationText(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    iso = models.ForeignKey("content.IsoCodeMap", on_delete=models.CASCADE, null=True)
+    iso = models.CharField(max_length=2)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=2500)
     get_involved = models.TextField(max_length=500, blank=True)

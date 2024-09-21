@@ -19,7 +19,6 @@ from .models import (
     DiscussionTag,
     Faq,
     Image,
-    IsoCodeMap,
     Resource,
     ResourceTag,
     ResourceTopic,
@@ -78,12 +77,6 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             )
 
         return data
-
-
-class IsoCodeMapSerializer(serializers.ModelSerializer[IsoCodeMap]):
-    class Meta:
-        model = IsoCodeMap
-        fields = "__all__"
 
 
 class ResourceSerializer(serializers.ModelSerializer[Resource]):

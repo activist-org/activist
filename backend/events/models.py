@@ -130,9 +130,7 @@ class EventTask(models.Model):
 
 class EventText(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    iso = models.ForeignKey(
-        "content.ISOCodeMap", on_delete=models.CASCADE, related_name="iso_code"
-    )
+    iso = models.CharField(max_length=2)
     primary = models.BooleanField()
     description = models.TextField(max_length=500)
     get_involved = models.TextField(max_length=500, blank=True)

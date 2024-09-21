@@ -33,14 +33,6 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     social_links = ["https://www.instagram.com/activist_org/"]
-    # Note: Version that accesses the database so we don't create new each time.
-    # created_by = factory.LazyAttribute(
-    #     lambda x: (
-    #         UserModel.objects.exclude(username="admin").first()
-    #         if UserModel.objects.exclude(username="admin").exists()
-    #         else factory.SubFactory("authentication.factories.UserFactory")
-    #     )
-    # )
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     terms_checked = factory.Faker("boolean")
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
@@ -196,7 +188,7 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
         model = OrganizationText
 
     org_id = factory.SubFactory(OrganizationFactory)
-    iso = factory.Faker("word")
+    iso = "en"
     primary = factory.Faker("boolean")
     description = factory.Faker("text")
     get_involved = factory.Faker("text")

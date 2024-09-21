@@ -11,6 +11,7 @@ from .models import (
     EventResource,
     EventRole,
     EventTask,
+    EventText,
     EventTopic,
     Format,
     Role,
@@ -23,7 +24,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Event
 
-    name = factory.Faker("name")
+    name = factory.Faker("word")
     tagline = factory.Faker("word")
     type = factory.Faker("word")
     online_location_link = factory.Faker("url")
@@ -132,6 +133,17 @@ class EventTaskFactory(factory.django.DjangoModelFactory):
 
     event_id = factory.SubFactory(EventFactory)
     task_id = factory.SubFactory("content.factories.TaskFactory")
+
+
+class EventTextFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventText
+
+    event_id = factory.SubFactory(EventFactory)
+    iso = factory.Faker("word")
+    primary = factory.Faker("boolean")
+    description = factory.Faker("text")
+    get_involved = factory.Faker("text")
 
 
 class EventTopicFactory(factory.django.DjangoModelFactory):

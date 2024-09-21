@@ -95,10 +95,10 @@ class UserAdmin(BaseUserAdmin):
             {
                 "fields": [
                     "username",
+                    "name",
                     "description",
                     "is_private",
                     "is_high_risk",
-                    "verfied",
                 ]
             },
         ),

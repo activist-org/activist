@@ -24,5 +24,4 @@ router.register(r"topic_formats", views.TopicFormatViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("iso_code_map/", views.IsoCodeMapListAPIView.as_view(), name="iso_code_map"),
 ]

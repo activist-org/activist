@@ -1,7 +1,6 @@
 # mypy: disable-error-code="override"
 from django.db.models import Q
 from rest_framework import status, viewsets
-from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -14,7 +13,6 @@ from .models import (
     DiscussionEntry,
     Faq,
     Image,
-    IsoCodeMap,
     Resource,
     ResourceTopic,
     Task,
@@ -26,7 +24,6 @@ from .serializers import (
     DiscussionSerializer,
     FaqSerializer,
     ImageSerializer,
-    IsoCodeMapSerializer,
     ResourceSerializer,
     ResourceTopicSerializer,
     TaskSerializer,
@@ -127,16 +124,6 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     pagination_class = CustomPagination
-
-
-class IsoCodeMapListAPIView(ListAPIView[IsoCodeMap]):
-    queryset = IsoCodeMap.objects.all()
-    serializer_class = IsoCodeMapSerializer
-
-    def get(self, request: Request) -> Response:
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ResourceViewSet(viewsets.ModelViewSet[Resource]):
