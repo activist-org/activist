@@ -8,6 +8,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin
+from utils.models import ISO_CHOICES
 
 # MARK: Main Tables
 
@@ -130,7 +131,7 @@ class EventTask(models.Model):
 
 class EventText(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    iso = models.CharField(max_length=2)
+    iso = models.CharField(max_length=2, choices=ISO_CHOICES)
     primary = models.BooleanField()
     description = models.TextField(max_length=500)
     get_involved = models.TextField(max_length=500, blank=True)

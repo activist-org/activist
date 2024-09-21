@@ -79,8 +79,8 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             raise serializers.ValidationError(
                 "You must accept the terms of service to create an organization."
             )
-        return data
 
+        return data
 
     def create(self, validated_data: dict[str, Any]) -> Organization:
         description = validated_data.pop("description", None)
@@ -90,6 +90,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
                 org_id=org, description=description
             )
             org.org_text = org_text
+
         return org
 
 

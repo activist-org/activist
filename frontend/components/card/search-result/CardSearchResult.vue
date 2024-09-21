@@ -210,11 +210,11 @@
         <!-- <div v-if="!isReduced" class="flex justify-center md:justify-start">
           <ShieldTopic v-for="(t, i) in topics" :key="i" :topic="t" />
         </div> -->
-        <div
+        <p
           class="flex justify-center px-3 py-1 md:justify-start md:px-0 md:py-0"
         >
           {{ description }}
-        </div>
+        </p>
       </div>
     </div>
   </div>

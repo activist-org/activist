@@ -2,7 +2,7 @@
 from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
@@ -116,18 +116,15 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
-    permission_classes = [
-        IsAuthenticated,
-    ]
-    authentication_classes = [
-        TokenAuthentication,
-    ]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    authentication_classes = [TokenAuthentication]
 
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         org = serializer.save(created_by=request.user)
         OrganizationApplication.objects.create(org_id=org)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
@@ -139,6 +136,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
 
     def list(self, request: Request) -> Response:
         serializer = self.get_serializer(self.get_queryset(), many=True)
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update(self, request: Request, pk: str | None = None) -> Response:
@@ -157,6 +155,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         serializer = self.get_serializer(org, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         return Response(serializer.data, status.HTTP_200_OK)
 
     def partial_update(self, request: Request, pk: str | None = None) -> Response:
@@ -175,6 +174,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         serializer = self.get_serializer(org, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         return Response(serializer.data, status.HTTP_200_OK)
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:

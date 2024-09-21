@@ -89,28 +89,29 @@ export const useOrganizationStore = defineStore("organization", {
 
       const [responseOrg, responseOrgTexts] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithToken(`/entities/organizations/${id}`, {})
+          async () =>
+            await fetchWithOptionalToken(`/entities/organizations/${id}`, {})
         ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/organization_faq?org_id=${id}`,
         //       {}
         //     )
         // ),
         // useAsyncData(
-        //   async () => await fetchWithToken(`/entities/groups?org_id=${id}`, {})
+        //   async () => await fetchWithOptionalToken(`/entities/groups?org_id=${id}`, {})
         // ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/organization_resources?org_id=${id}`,
         //       {}
         //     )
         // ),
         useAsyncData(
           async () =>
-            await fetchWithToken(
+            await fetchWithOptionalToken(
               `/entities/organization_texts?org_id=${id}`,
               {}
             )
@@ -156,7 +157,8 @@ export const useOrganizationStore = defineStore("organization", {
 
       const [responseOrgs] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithToken(`/entities/organizations/`, {})
+          async () =>
+            await fetchWithOptionalToken(`/entities/organizations/`, {})
         ),
       ]);
 
@@ -167,7 +169,7 @@ export const useOrganizationStore = defineStore("organization", {
           orgs._value.map((org) =>
             useAsyncData(
               async () =>
-                await fetchWithToken(
+                await fetchWithOptionalToken(
                   `/entities/organization_texts?org_id=${org.id}`,
                   {}
                 )

@@ -49,25 +49,28 @@ export const useEventStore = defineStore("event", {
 
       const [resEvent, resEventTexts] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithToken(`/entities/events/${id}`, {})
+          async () => await fetchWithOptionalToken(`/entities/events/${id}`, {})
         ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/event_faq?event_id=${id}`,
         //       {}
         //     )
         // ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/event_resources?event_id=${id}`,
         //       {}
         //     )
         // ),
         useAsyncData(
           async () =>
-            await fetchWithToken(`/entities/event_texts?event_id=${id}`, {})
+            await fetchWithOptionalToken(
+              `/entities/event_texts?event_id=${id}`,
+              {}
+            )
         ),
       ]);
 

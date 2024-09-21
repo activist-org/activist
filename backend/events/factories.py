@@ -142,8 +142,8 @@ class EventTextFactory(factory.django.DjangoModelFactory):
     event_id = factory.SubFactory(EventFactory)
     iso = factory.Faker("word")
     primary = factory.Faker("boolean")
-    description = factory.Faker("text")
-    get_involved = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
+    get_involved = factory.Faker(provider="text", locale="la")
 
 
 class EventTopicFactory(factory.django.DjangoModelFactory):
