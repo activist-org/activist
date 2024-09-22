@@ -35,10 +35,10 @@ class Command(BaseCommand):
         parser.add_argument("--events-per-org", type=int, default=1)
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
-        num_users = options.get("users")
-        num_orgs_per_user = options.get("orgs_per_user")
-        num_groups_per_org = options.get("groups_per_org")
-        num_events_per_org = options.get("events_per_org")
+        num_users = options["users"]
+        num_orgs_per_user = options["orgs_per_user"]
+        num_groups_per_org = options["groups_per_org"]
+        num_events_per_org = options["events_per_org"]
 
         # Clear all tables before creating new data.
         UserModel.objects.exclude(username="admin").delete()
@@ -64,7 +64,7 @@ class Command(BaseCommand):
                         created_by=user,
                     )
 
-                    OrganizationTextFactory(org_id=user_org, iso="en", primary=True)
+                    OrganizationTextFactory(org_id=user_org, iso="wt", primary=True)
 
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
