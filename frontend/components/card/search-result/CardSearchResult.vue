@@ -211,7 +211,7 @@
           <ShieldTopic v-for="(t, i) in topics" :key="i" :topic="t" />
         </div> -->
         <p
-          class="flex justify-center px-3 py-1 md:justify-start md:px-0 md:py-0"
+          class="line-clamp-4 justify-center md:line-clamp-4 md:justify-start md:px-0 md:py-0 lg:line-clamp-5"
         >
           {{ description }}
         </p>

@@ -11,7 +11,7 @@ export const useModals = defineStore("modals", {
 
   actions: {
     openModal(modalName: string) {
-      const modals = this.modals;
+      const { modals } = this;
       for (const key in modals) {
         modals[key].isOpen = false;
       }

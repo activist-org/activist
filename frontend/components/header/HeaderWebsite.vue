@@ -52,7 +52,47 @@
             <DropdownTheme />
             <DropdownLanguage />
             <BtnRouteInternal
-              v-if="aboveLargeBP"
+              v-if="aboveLargeBP && devMode.active"
+              id="btn-sign-in-large"
+              class="block"
+              :cta="true"
+              label="_global.sign_in"
+              linkTo="/auth/sign-in"
+              fontSize="sm"
+              ariaLabel="_global.sign_in_aria_label"
+            />
+            <BtnRouteInternal
+              v-else-if="aboveMediumBP && devMode.active"
+              id="btn-sign-in-medium"
+              class="block"
+              :cta="true"
+              label="_global.sign_in"
+              linkTo="/auth/sign-in"
+              fontSize="xs"
+              ariaLabel="_global.sign_in_aria_label"
+            />
+            <BtnRouteInternal
+              v-if="aboveLargeBP && devMode.active"
+              id="btn-sign-up-large"
+              class="block"
+              :cta="true"
+              label="_global.sign_up"
+              linkTo="/auth/sign-up"
+              fontSize="sm"
+              ariaLabel="_global.sign_up_aria_label"
+            />
+            <BtnRouteInternal
+              v-else-if="aboveMediumBP && devMode.active"
+              id="btn-sign-up-medium"
+              class="block"
+              :cta="true"
+              label="_global.sign_up"
+              linkTo="/auth/sign-up"
+              fontSize="xs"
+              ariaLabel="_global.sign_up_aria_label"
+            />
+            <BtnRouteInternal
+              v-if="aboveLargeBP && !devMode.active"
               id="btn-get-in-touch-large"
               class="block"
               :cta="true"
@@ -62,7 +102,7 @@
               ariaLabel="components.header_website.get_in_touch_aria_label"
             />
             <BtnRouteInternal
-              v-else-if="aboveMediumBP"
+              v-else-if="aboveMediumBP && !devMode.active"
               id="btn-get-in-touch-medium"
               class="block"
               :cta="true"
@@ -81,6 +121,9 @@
 <script setup lang="ts">
 import useBreakpoint from "~/composables/useBreakpoint";
 import { DropdownLocation } from "~/types/location";
+
+const devMode = useDevMode();
+devMode.check();
 
 const aboveMediumBP = useBreakpoint("md");
 const aboveLargeBP = useBreakpoint("lg");

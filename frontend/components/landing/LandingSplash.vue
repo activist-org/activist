@@ -26,7 +26,26 @@
       </div>
     </div>
     <div class="flex justify-center rounded-md">
+      <BtnRouteInternal
+        v-if="devMode.active"
+        id="view-organizations"
+        :cta="true"
+        label="components.landing_splash.view_organizations"
+        linkTo="/organizations"
+        fontSize="xl"
+        ariaLabel="components.landing_splash.view_organizations_aria_label"
+      />
+      <BtnRouteInternal
+        v-if="devMode.active"
+        id="view-events"
+        :cta="true"
+        label="components.landing_splash.view_events"
+        linkTo="/events"
+        fontSize="xl"
+        ariaLabel="components.landing_splash.view_events_aria_label"
+      />
       <BtnRouteExternal
+        v-else
         id="request-access"
         :cta="true"
         label="_global.request_access"
@@ -42,4 +61,7 @@
 import useBreakpoint from "~/composables/useBreakpoint";
 
 const aboveMediumBP = useBreakpoint("md");
+
+const devMode = useDevMode();
+devMode.check();
 </script>

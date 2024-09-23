@@ -210,7 +210,7 @@ git remote add upstream https://github.com/activist-org/activist.git
    # docker compose --env-file .env.dev down
    ```
 
-6. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running.
+6. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#using-yarn-or-python).
