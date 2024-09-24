@@ -51,6 +51,8 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        event = serializer.save(created_by=request.user)
+        Event.objects.create(id=event)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -112,7 +114,7 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
                 status.HTTP_401_UNAUTHORIZED,
             )
 
-        event.save()
+        event.delete()
 
         return Response({"message": "Event deleted successfully"}, status.HTTP_200_OK)
 

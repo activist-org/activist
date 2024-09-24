@@ -112,6 +112,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
             )
 
         group.delete()
+
         return Response(
             {"message": "Group deleted successfully"}, status=status.HTTP_200_OK
         )
