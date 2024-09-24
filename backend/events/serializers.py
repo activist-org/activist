@@ -85,7 +85,9 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         event = Event.objects.create(**validated_data)
 
         if event and description:
-            event_text = Event.objects.create(event_id=event, description=description)
+            event_text = EventText.objects.create(
+                event_id=event, description=description
+            )
             event.event_text = event_text
 
         return event
