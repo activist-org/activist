@@ -67,15 +67,17 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(created_by=request.user)
-        data = {"message": f"New Group created: {serializer.data}"}
+        data = {"message": f"New group created: {serializer.data}"}
 
         return Response(data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
-        group = self.queryset.get(id=kwargs["pk"])
-        serializer = self.get_serializer(group)
+        if group := self.queryset.get(id=kwargs["pk"]):
+            serializer = self.get_serializer(group)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response({"error": "Group not found"}, status.HTTP_404_NOT_FOUND)
 
     def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
         group = self.queryset.filter(id=kwargs["pk"]).first()
@@ -126,13 +128,19 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     permission_classes = [IsAuthenticatedOrReadOnly]
     authentication_classes = [TokenAuthentication]
 
+    def list(self, request: Request) -> Response:
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         org = serializer.save(created_by=request.user)
         OrganizationApplication.objects.create(org_id=org)
+        data = {"message": f"New organization created: {serializer.data}"}
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         if org := self.queryset.filter(id=pk).first():
@@ -141,11 +149,6 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response({"error": "Organization not found"}, status.HTTP_404_NOT_FOUND)
-
-    def list(self, request: Request) -> Response:
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update(self, request: Request, pk: str | None = None) -> Response:
         org = self.queryset.filter(id=pk).first()

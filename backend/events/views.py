@@ -48,29 +48,29 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
     permission_classes = [IsAuthenticatedOrReadOnly]
     authentication_classes = [TokenAuthentication]
 
-    def create(self, request: Request) -> Response:
+    def list(self, request: Request, *args: str, **kwargs: int) -> Response:
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        event = serializer.save(created_by=request.user)
-        Event.objects.create(id=event)
+        serializer.save(created_by=request.user)
+        data = {"message": f"New event created: {serializer.data}"}
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(data, status=status.HTTP_201_CREATED)
 
-    def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        if event := self.queryset.filter(id=pk).first():
+    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
+        if event := self.queryset.get(id=kwargs["pk"]):
             serializer = self.get_serializer(event)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
 
-    def list(self, request: Request) -> Response:
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def update(self, request: Request, pk: str | None = None) -> Response:
-        event = self.queryset.filter(id=pk).first()
+    def update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        event = self.queryset.filter(id=kwargs["pk"]).first()
         if event is None:
             return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
 
@@ -86,8 +86,8 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
 
         return Response(serializer.data, status.HTTP_200_OK)
 
-    def partial_update(self, request: Request, pk: str | None = None) -> Response:
-        event = self.queryset.filter(id=pk).first()
+    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        event = self.queryset.filter(id=kwargs["pk"]).first()
         if event is None:
             return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
 
@@ -103,8 +103,8 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
 
         return Response(serializer.data, status.HTTP_200_OK)
 
-    def destroy(self, request: Request, pk: str | None = None) -> Response:
-        event = self.queryset.filter(id=pk).first()
+    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
+        event = self.queryset.filter(id=kwargs["pk"]).first()
         if event is None:
             return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
 
