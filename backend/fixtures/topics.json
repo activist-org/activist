@@ -1,0 +1,98 @@
+[
+{
+  "model": "content.topic",
+  "pk": "24b970c6-5231-403b-9e9d-7de8375193ef",
+  "fields": {
+    "name": "Democracy",
+    "active": true,
+    "description": "Democracy",
+    "creation_date": "2024-09-21T20:21:47.121Z",
+    "last_updated": "2024-09-21T20:21:47.121Z",
+    "deprecation_date": null
+  }
+},
+{
+  "model": "content.topic",
+  "pk": "2c649964-f64c-4693-be31-0a9fdf981974",
+  "fields": {
+    "name": "Women's Rights",
+    "active": true,
+    "description": "Women's Rights",
+    "creation_date": "2024-09-21T20:24:41.462Z",
+    "last_updated": "2024-09-21T20:24:41.462Z",
+    "deprecation_date": null
+  }
+},
+{
+  "model": "content.topic",
+  "pk": "2d49b6e2-8916-4543-83f3-9782e8a9680a",
+  "fields": {
+    "name": "Animal Rights",
+    "active": true,
+    "description": "Animal Rights",
+    "creation_date": "2024-09-21T20:22:07.547Z",
+    "last_updated": "2024-09-21T20:22:07.547Z",
+    "deprecation_date": null
+  }
+},
+{
+  "model": "content.topic",
+  "pk": "b3c6c355-a084-4766-9963-3e54e1af3004",
+  "fields": {
+    "name": "Racial Justice",
+    "active": true,
+    "description": "Racial Justice",
+    "creation_date": "2024-09-21T20:24:28.226Z",
+    "last_updated": "2024-09-21T20:24:28.226Z",
+    "deprecation_date": null
+  }
+},
+{
+  "model": "content.topic",
+  "pk": "b8d8c9c2-e75b-4d49-aca7-c22cfb1f8b77",
+  "fields": {
+    "name": "Housing",
+    "active": true,
+    "description": "Housing",
+    "creation_date": "2024-09-21T20:22:46.519Z",
+    "last_updated": "2024-09-21T20:22:46.519Z",
+    "deprecation_date": null
+  }
+},
+{
+  "model": "content.topic",
+  "pk": "d13860c9-4467-4810-a2d5-7826f3769913",
+  "fields": {
+    "name": "Education",
+    "active": true,
+    "description": "Education",
+    "creation_date": "2024-09-21T20:22:23.446Z",
+    "last_updated": "2024-09-21T20:22:23.446Z",
+    "deprecation_date": null
+  }
+},
+{
+  "model": "content.topic",
+  "pk": "e3715e45-153d-4cce-b957-d68f5a6d4256",
+  "fields": {
+    "name": "Climate",
+    "active": true,
+    "description": "Climate",
+    "creation_date": "2024-09-21T20:20:33.450Z",
+    "last_updated": "2024-09-21T20:20:33.450Z",
+    "deprecation_date": null
+  }
+},
+{
+  "model": "content.topic",
+  "pk": "ec635e18-a89c-46d3-9a14-8f84be96af9b",
+  "fields": {
+    "name": "LGTBQIA+",
+    "active": true,
+    "description": "LGTBQIA+",
+    "creation_date": "2024-09-21T20:23:58.389Z",
+    "last_updated": "2024-09-21T20:23:58.389Z",
+    "deprecation_date": null
+  }
+}
+]

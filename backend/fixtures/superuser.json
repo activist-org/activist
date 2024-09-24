@@ -20,7 +20,7 @@
       "email": "admin@activist.org",
       "is_high_risk": false,
       "is_active": true,
-      "is_admin": false,
+      "is_admin": true,
       "is_confirmed": true,
       "groups": [],
       "user_permissions": []

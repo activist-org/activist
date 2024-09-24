@@ -23,11 +23,13 @@ from .models import (
 class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Event
+        django_get_or_create = ("created_by",)
 
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    type = factory.Faker("word")
+    type = random.choice(["learn", "action"])
     online_location_link = factory.Faker("url")
+    offline_location = factory.Faker("city")
     offline_location_lat = factory.Faker("latitude")
     offline_location_long = factory.Faker("longitude")
     start_time = factory.LazyFunction(
@@ -142,8 +144,8 @@ class EventTextFactory(factory.django.DjangoModelFactory):
     event_id = factory.SubFactory(EventFactory)
     iso = factory.Faker("word")
     primary = factory.Faker("boolean")
-    description = factory.Faker("text")
-    get_involved = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
+    get_involved = factory.Faker(provider="text", locale="la")
 
 
 class EventTopicFactory(factory.django.DjangoModelFactory):

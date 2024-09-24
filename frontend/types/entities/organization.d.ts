@@ -36,7 +36,7 @@ export interface Organization {
   // organization_task
   // task?: Task[];
 
-  organization_text_id: string;
+  organizationTextID: string;
   description: string;
   getInvolved: string;
   donationPrompt: string;
