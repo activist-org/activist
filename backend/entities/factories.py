@@ -103,9 +103,9 @@ class GroupTextFactory(factory.django.DjangoModelFactory):
     group_id = factory.SubFactory(GroupFactory)
     iso = factory.Faker("word")
     primary = factory.Faker("boolean")
-    description = factory.Faker("text")
-    get_involved = factory.Faker("text")
-    donate_prompt = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
+    get_involved = factory.Faker(provider="text", locale="la")
+    donate_prompt = factory.Faker(provider="text", locale="la")
 
 
 class GroupTopicFactory(factory.django.DjangoModelFactory):
@@ -190,9 +190,9 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
     org_id = factory.SubFactory(OrganizationFactory)
     iso = "en"
     primary = factory.Faker("boolean")
-    description = factory.Faker("text")
-    get_involved = factory.Faker("text")
-    donate_prompt = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
+    get_involved = factory.Faker(provider="text", locale="la")
+    donate_prompt = factory.Faker(provider="text", locale="la")
 
 
 class OrganizationTopicFactory(factory.django.DjangoModelFactory):

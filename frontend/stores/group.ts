@@ -34,29 +34,35 @@ export const useGroupStore = defineStore("group", {
 
       const [resGroup, resGroupOrg, resGroupTexts] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithToken(`/entities/groups/${id}`, {})
+          async () => await fetchWithOptionalToken(`/entities/groups/${id}`, {})
         ),
         useAsyncData(
           async () =>
-            await fetchWithToken(`/entities/organizations?group_id=${id}`, {})
+            await fetchWithOptionalToken(
+              `/entities/organizations?group_id=${id}`,
+              {}
+            )
         ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/group_faq?group_id=${id}`,
         //       {}
         //     )
         // ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/group_resources?group_id=${id}`,
         //       {}
         //     )
         // ),
         useAsyncData(
           async () =>
-            await fetchWithToken(`/entities/group_texts?group_id=${id}`, {})
+            await fetchWithOptionalToken(
+              `/entities/group_texts?group_id=${id}`,
+              {}
+            )
         ),
       ]);
 

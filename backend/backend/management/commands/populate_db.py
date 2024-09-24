@@ -1,10 +1,12 @@
+import random
 from argparse import ArgumentParser
 from typing import TypedDict, Unpack
 
 from django.core.management.base import BaseCommand
 
-from authentication.factories import UserFactory
+from authentication.factories import UserFactory, UserTopicFactory
 from authentication.models import UserModel
+from content.models import Topic
 from entities.factories import (
     GroupFactory,
     GroupTextFactory,
@@ -18,9 +20,9 @@ from events.models import Event
 
 class Options(TypedDict):
     users: int
-    orgs: int
-    groups: int
-    events: int
+    orgs_per_user: int
+    groups_per_org: int
+    events_per_org: int
 
 
 class Command(BaseCommand):
@@ -28,15 +30,15 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser: ArgumentParser) -> None:
         parser.add_argument("--users", type=int, default=10)
-        parser.add_argument("--opu", type=int, default=1)  # orgs per user
-        parser.add_argument("--gpo", type=int, default=1)  # groups per org
-        parser.add_argument("--epo", type=int, default=1)  # events per org
+        parser.add_argument("--orgs-per-user", type=int, default=1)
+        parser.add_argument("--groups-per-org", type=int, default=1)
+        parser.add_argument("--events-per-org", type=int, default=1)
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
-        n_users = options.get("users")
-        n_orgs_per_user = options.get("opu")
-        n_groups_per_org = options.get("gpo")
-        n_events_per_org = options.get("epo")
+        num_users = options["users"]
+        num_orgs_per_user = options["orgs_per_user"]
+        num_groups_per_org = options["groups_per_org"]
+        num_events_per_org = options["events_per_org"]
 
         # Clear all tables before creating new data.
         UserModel.objects.exclude(username="admin").delete()
@@ -44,73 +46,60 @@ class Command(BaseCommand):
         Group.objects.all().delete()
         Event.objects.all().delete()
 
+        topics = Topic.objects.all()
+
         try:
             users = [
                 UserFactory(username=f"activist_{i}", name=f"Activist {i}")
-                for i in range(n_users)
+                for i in range(num_users)
             ]
 
-            for i, user in enumerate(users):
-                user_location = "Berlin"
-                user_topic = "Climate"
+            for u, user in enumerate(users):
+                user_topic = random.choice(topics)
+                UserTopicFactory(user_id=user, topic_id=user_topic)
 
-                for _ in range(n_orgs_per_user):
+                for o in range(num_orgs_per_user):
                     user_org = OrganizationFactory(
-                        name=f"{user_location} {user_topic} Organization {i}",
+                        name=f"{user_topic.name} Organization (U{u}:O{o})",
                         created_by=user,
                     )
 
-                    OrganizationTextFactory(
-                        org_id=user_org,
-                        iso="en",
-                        primary=True,
-                        description="This is an org",
-                        get_involved="Get involved!",
-                        donate_prompt="Donate!",
-                    )
+                    OrganizationTextFactory(org_id=user_org, iso="wt", primary=True)
 
-                    for g in range(n_groups_per_org):
+                    for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
                             org_id=user_org,
-                            name=f"{user_location} {user_topic} Group {i}-{g}",
+                            name=f"{user_topic.name} Group (U{u}:O{o}:G{g})",
                             created_by=user,
                         )
 
                         GroupTextFactory(
-                            group_id=user_org_group,
-                            iso="en",
-                            primary=True,
-                            description="This is a group",
-                            get_involved="Get involved!",
-                            donate_prompt="Donate!",
+                            group_id=user_org_group, iso="en", primary=True
                         )
 
-                    for e in range(n_events_per_org):
+                    for e in range(num_events_per_org):
                         user_org_event = EventFactory(
-                            name=f"{user_location} {user_topic} Event {i}-{e}",
+                            name=f"{user_topic.name} Event (U{u}:O{o}:E{e})",
+                            type=random.choice(["learn", "action"]),
                             created_by=user,
                         )
 
                         EventTextFactory(
-                            event_id=user_org_event,
-                            iso="en",
-                            primary=True,
-                            description="This is a group",
-                            get_involved="Get involved!",
+                            event_id=user_org_event, iso="en", primary=True
                         )
 
             self.stdout.write(
                 self.style.ERROR(
-                    f"Number of users created: {n_users}\n"
-                    f"Number of organizations created: {n_users * n_orgs_per_user}\n"
-                    f"Number of groups created: {n_users * n_orgs_per_user * n_groups_per_org}\n"
-                    f"Number of events created: {n_users * n_orgs_per_user * n_events_per_org}\n"
+                    f"Number of users created: {num_users}\n"
+                    f"Number of organizations created: {num_users * num_orgs_per_user}\n"
+                    f"Number of groups created: {num_users * num_orgs_per_user * num_groups_per_org}\n"
+                    f"Number of events created: {num_users * num_orgs_per_user * num_events_per_org}\n"
                 )
             )
 
-        except Exception as error:
+        except TypeError as error:
             self.stdout.write(
                 self.style.ERROR(
-                    f"An error occurred during the creation of dummy data: {error}"
+                    f"A type error occurred during the creation of dummy data: {error}. Make sure to use dashes for populate_db arguments and that they're of the appropriate types."
                 )
             )

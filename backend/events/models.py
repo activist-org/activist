@@ -8,6 +8,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from backend.mixins.models import CreationDeletionMixin
+from utils.models import ISO_CHOICES
 
 # MARK: Main Tables
 
@@ -26,6 +27,7 @@ class Event(CreationDeletionMixin):
     )
     type = models.CharField(max_length=255)
     online_location_link = models.CharField(max_length=255, blank=True)
+    offline_location = models.CharField(max_length=255, blank=True)
     offline_location_lat = models.FloatField(null=True, blank=True)
     offline_location_long = models.FloatField(null=True, blank=True)
     get_involved_url = models.URLField(blank=True)
@@ -35,6 +37,9 @@ class Event(CreationDeletionMixin):
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    event_text = models.ForeignKey(
+        "EventText", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self) -> str:
         return self.name
@@ -130,7 +135,7 @@ class EventTask(models.Model):
 
 class EventText(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    iso = models.CharField(max_length=2)
+    iso = models.CharField(max_length=2, choices=ISO_CHOICES)
     primary = models.BooleanField()
     description = models.TextField(max_length=500)
     get_involved = models.TextField(max_length=500, blank=True)

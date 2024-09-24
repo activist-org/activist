@@ -91,7 +91,10 @@ const props = defineProps<{
 
 const res = await useAsyncData(
   async () =>
-    await fetchWithToken(`/entities/group_texts?group_id=${props.group.id}`, {})
+    await fetchWithOptionalToken(
+      `/entities/group_texts?group_id=${props.group.id}`,
+      {}
+    )
 );
 
 const groupTexts = res.data as unknown as GroupText[];

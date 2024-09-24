@@ -7,7 +7,7 @@
     }"
   >
     <vue-friendly-captcha
-      v-if="!inDevMode"
+      v-if="!devMode.active"
       @done="verifyCaptcha"
       class="rounded-md"
       :sitekey="`${FRIENDLY_CAPTCHA_KEY}`"
@@ -35,7 +35,8 @@
 import VueFriendlyCaptcha from "@somushq/vue3-friendly-captcha";
 import { IconMap } from "~/types/icon-map";
 
-const inDevMode = window.location.href.includes("localhost:3000");
+const devMode = useDevMode();
+devMode.check();
 
 const verifyCaptcha = (response: boolean) => {
   console.log("Captcha response:", response);

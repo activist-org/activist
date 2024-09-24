@@ -1,7 +1,10 @@
 import type {
   Event,
+  EventText,
   PiniaResEvent,
+  PiniaResEvents,
   PiniaResEventText,
+  PiniaResEventTexts,
 } from "~/types/events/event";
 
 interface EventStore {
@@ -23,18 +26,23 @@ export const useEventStore = defineStore("event", {
       createdBy: "",
       iconURL: "",
       type: "learn",
+      onlineLocationLink: "",
       offlineLocation: "",
+      offlineLocationLat: "",
+      offlineLocationLong: "",
       getInvolvedURL: "",
       socialLinks: [""],
       startTime: "",
+      endTime: "",
+      creationDate: "",
 
-      // event_organizations
       organizations: [],
 
-      // event_text
+      eventTextID: "",
       description: "",
       getInvolved: "",
     },
+
     events: [],
   }),
   actions: {
@@ -49,25 +57,28 @@ export const useEventStore = defineStore("event", {
 
       const [resEvent, resEventTexts] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithToken(`/entities/events/${id}`, {})
+          async () => await fetchWithOptionalToken(`/events/events/${id}`, {})
         ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/event_faq?event_id=${id}`,
         //       {}
         //     )
         // ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/event_resources?event_id=${id}`,
         //       {}
         //     )
         // ),
         useAsyncData(
           async () =>
-            await fetchWithToken(`/entities/event_texts?event_id=${id}`, {})
+            await fetchWithOptionalToken(
+              `/events/event_texts?event_id=${id}`,
+              {}
+            )
         ),
       ]);
 
@@ -98,7 +109,69 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Fetch All
 
-    async fetchAll() {},
+    async fetchAll() {
+      this.loading = true;
+
+      const [responseEvents] = await Promise.all([
+        useAsyncData(
+          async () => await fetchWithOptionalToken(`/events/events/`, {})
+        ),
+      ]);
+
+      const events = responseEvents.data as unknown as PiniaResEvents;
+
+      console.log(`Here: ${JSON.stringify(events._value)}`);
+
+      if (events._value) {
+        const responseEventTexts = (await Promise.all(
+          events._value.map((event) =>
+            useAsyncData(
+              async () =>
+                await fetchWithOptionalToken(
+                  `/events/event_texts?event_id=${event.id}`,
+                  {}
+                )
+            )
+          )
+        )) as unknown as PiniaResEventTexts[];
+
+        const eventTextsData = responseEventTexts.map(
+          (text) => text.data._value.results[0]
+        ) as unknown as EventText[];
+
+        const eventsWithTexts = events._value.map(
+          (event: Event, index: number) => {
+            const texts = eventTextsData[index];
+            return {
+              id: event.id,
+              name: event.name,
+              tagline: event.tagline,
+              createdBy: event.createdBy,
+              iconURL: event.iconURL,
+              type: event.type,
+              onlineLocationLink: event.onlineLocationLink,
+              offlineLocation: event.offlineLocation,
+              offlineLocationLat: event.offlineLocationLat,
+              offlineLocationLong: event.offlineLocationLong,
+              getInvolvedURL: event.getInvolvedURL,
+              socialLinks: event.socialLinks,
+              startTime: event.startTime,
+              endTime: event.endTime,
+              creationDate: event.creationDate,
+              organizations: event.organizations,
+
+              eventTextID: event.eventTextID,
+              description: texts.description,
+              getInvolved: texts.getInvolved,
+            };
+          }
+        );
+
+        this.events = eventsWithTexts;
+      }
+
+      this.loading = false;
+    },
 
     // MARK: Update
 
@@ -106,6 +179,10 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Delete
 
-    async delete() {},
+    async delete(id: string | undefined) {
+      this.loading = true;
+
+      this.loading = false;
+    },
   },
 });

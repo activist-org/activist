@@ -48,7 +48,7 @@ export const testClimateOrg: Organization = {
   groups: ["Fundraising", "Campaigning"],
   socialLinks: ["climate-org@mastodon", "climate-org@email"],
   iconURL: "URL/for/image",
-  organization_text_id: "06cb36a3-13c5-4518-b676-33ec734744ed",
+  organizationTextID: "06cb36a3-13c5-4518-b676-33ec734744ed",
   description: "Testing how organizations work",
   getInvolved: "Hey, get involved!",
   donationPrompt: "Hey thanks!",
@@ -119,7 +119,7 @@ export const testTechOrg: Organization = {
   groups: [testTechGroup1, testTechGroup2],
   socialLinks: ["tfb@mastodon", "tfb@email"],
   // donationPrompt: "Hey thanks!",
-  organization_text_id: "06cb36a3-13c5-4518-b676-33ec734744ed",
+  organizationTextID: "06cb36a3-13c5-4518-b676-33ec734744ed",
   description: "Testing how organizations work",
   getInvolved: "Hey, get involved!",
   donationPrompt: "Hey thanks!",
@@ -145,6 +145,7 @@ export const testClimateEvent: Event = {
   // supportingUsers: [user, user],
   // iconURL: "/images/an_image.svg",
   socialLinks: ["climate_org@mastodon", "climate_org@email.com"],
+  eventTextID: "",
 };
 
 export const testTechEvent: Event = {
@@ -162,6 +163,7 @@ export const testTechEvent: Event = {
   startTime: new Date().toLocaleDateString(),
   // supportingUsers: [user, user, user],
   socialLinks: [""],
+  eventTextID: "",
 };
 
 export const testResource: Resource = {

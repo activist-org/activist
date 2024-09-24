@@ -87,6 +87,7 @@ class UserModel(AbstractUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, blank=True)
     password = models.CharField(max_length=255)
+    location = models.CharField(max_length=100, blank=True)
     description = models.TextField(max_length=500, blank=True)
     verified = models.BooleanField(default=False)
     verification_method = models.CharField(max_length=30, blank=True)

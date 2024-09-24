@@ -33,7 +33,7 @@ export const useOrganizationStore = defineStore("organization", {
       status: 1,
       groups: [],
 
-      organization_text_id: "",
+      organizationTextID: "",
       description: "",
       getInvolved: "",
       donationPrompt: "",
@@ -89,28 +89,29 @@ export const useOrganizationStore = defineStore("organization", {
 
       const [responseOrg, responseOrgTexts] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithToken(`/entities/organizations/${id}`, {})
+          async () =>
+            await fetchWithOptionalToken(`/entities/organizations/${id}`, {})
         ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/organization_faq?org_id=${id}`,
         //       {}
         //     )
         // ),
         // useAsyncData(
-        //   async () => await fetchWithToken(`/entities/groups?org_id=${id}`, {})
+        //   async () => await fetchWithOptionalToken(`/entities/groups?org_id=${id}`, {})
         // ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/organization_resources?org_id=${id}`,
         //       {}
         //     )
         // ),
         useAsyncData(
           async () =>
-            await fetchWithToken(
+            await fetchWithOptionalToken(
               `/entities/organization_texts?org_id=${id}`,
               {}
             )
@@ -144,7 +145,7 @@ export const useOrganizationStore = defineStore("organization", {
       this.organization.description = texts.description;
       this.organization.getInvolved = texts.getInvolved;
       this.organization.donationPrompt = texts.donationPrompt;
-      this.organization.organization_text_id = texts.id;
+      this.organization.organizationTextID = texts.id;
 
       this.loading = false;
     },
@@ -156,7 +157,8 @@ export const useOrganizationStore = defineStore("organization", {
 
       const [responseOrgs] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithToken(`/entities/organizations/`, {})
+          async () =>
+            await fetchWithOptionalToken(`/entities/organizations/`, {})
         ),
       ]);
 
@@ -167,7 +169,7 @@ export const useOrganizationStore = defineStore("organization", {
           orgs._value.map((org) =>
             useAsyncData(
               async () =>
-                await fetchWithToken(
+                await fetchWithOptionalToken(
                   `/entities/organization_texts?org_id=${org.id}`,
                   {}
                 )
@@ -178,8 +180,6 @@ export const useOrganizationStore = defineStore("organization", {
         const orgTextsData = responseOrgTexts.map(
           (text) => text.data._value.results[0]
         ) as unknown as OrganizationText[];
-
-        console.log(`Here: ${JSON.stringify(orgTextsData)}`);
 
         const organizationsWithTexts = orgs._value.map(
           (organization: Organization, index: number) => {
@@ -195,7 +195,8 @@ export const useOrganizationStore = defineStore("organization", {
               socialLinks: organization.socialLinks,
               status: organization.status,
               groups: organization.groups,
-              organization_text_id: organization.organization_text_id,
+
+              organizationTextID: organization.organizationTextID,
               description: texts.description,
               getInvolved: texts.getInvolved,
               donationPrompt: texts.donationPrompt,
@@ -235,7 +236,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL +
-          `/entities/organization_texts/${org.organization_text_id}/`,
+          `/entities/organization_texts/${org.organizationTextID}/`,
         {
           method: "PUT",
           body: {

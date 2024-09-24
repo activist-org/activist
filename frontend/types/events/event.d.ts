@@ -30,7 +30,7 @@ export interface Event {
   // event_task
   // task?: Task[];
 
-  // event_text
+  eventTextID: string;
   description: string;
   getInvolved: string;
 
@@ -100,6 +100,13 @@ export interface PiniaResEvent {
   _value: Event;
 }
 
+export interface PiniaResEvents {
+  __v_isShallow: boolean;
+  __v_isRef: boolean;
+  _rawValue: Event[];
+  _value: Event[];
+}
+
 export interface PiniaResEventText {
   __v_isShallow: boolean;
   __v_isRef: boolean;
@@ -114,5 +121,41 @@ export interface PiniaResEventText {
     next: null;
     previous: null;
     results: EventText[];
+  };
+}
+
+export interface PiniaResEventTexts {
+  data: {
+    __v_isShallow: boolean;
+    __v_isRef: boolean;
+    _rawValue: {
+      count: number;
+      next: null;
+      previous: null;
+      results: EventText[];
+    };
+    _value: {
+      count: number;
+      next: null;
+      previous: null;
+      results: EventText[];
+    };
+  };
+  pending: {
+    __v_isShallow: boolean;
+    __v_isRef: boolean;
+    _rawValue: boolean;
+    _value: boolean;
+  };
+  error: {
+    _object: { [$key: string]: null };
+    _key: string;
+    __v_isRef: boolean;
+  };
+  status: {
+    __v_isShallow: boolean;
+    __v_isRef: boolean;
+    _rawValue: string;
+    _value: string;
   };
 }

@@ -117,13 +117,13 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        if data["active"] is True and data["deprecation_date"] is not None:
+        if data["active"] is True and data.get("deprecation_date") is not None:
             raise serializers.ValidationError(
                 _("Active topics cannot have a deprecation date."),
                 code="active_topic_with_deprecation_error",
             )
 
-        if data["active"] is False and data["deprecation_date"] is None:
+        if data["active"] is False and data.get("deprecation_date") is None:
             raise serializers.ValidationError(
                 _("Deprecated topics must have a deprecation date."),
                 code="inactive_topic_no_deprecation_error",

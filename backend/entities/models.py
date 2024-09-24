@@ -8,6 +8,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from authentication import enums
+from utils.models import ISO_CHOICES
 
 # MARK: Main Tables
 
@@ -129,7 +130,7 @@ class GroupResource(models.Model):
 
 class GroupText(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    iso = models.CharField(max_length=2)
+    iso = models.CharField(max_length=2, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
     get_involved = models.TextField(max_length=500, blank=True)
@@ -216,7 +217,7 @@ class OrganizationTask(models.Model):
 
 class OrganizationText(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    iso = models.CharField(max_length=2)
+    iso = models.CharField(max_length=2, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=2500)
     get_involved = models.TextField(max_length=500, blank=True)

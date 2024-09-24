@@ -97,9 +97,12 @@ const aboveLargeBP = useBreakpoint("lg");
 const { id } = useRoute().params;
 
 const [resOrg, resOrgTexts] = await Promise.all([
-  useAsyncData(async () => await fetchWithToken(`/entities/groups/${id}`, {})),
   useAsyncData(
-    async () => await fetchWithToken(`/entities/group_texts?org_id=${id}`, {})
+    async () => await fetchWithOptionalToken(`/entities/groups/${id}`, {})
+  ),
+  useAsyncData(
+    async () =>
+      await fetchWithOptionalToken(`/entities/group_texts?org_id=${id}`, {})
   ),
 ]);
 
