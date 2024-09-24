@@ -27,6 +27,7 @@ class Event(CreationDeletionMixin):
     )
     type = models.CharField(max_length=255)
     online_location_link = models.CharField(max_length=255, blank=True)
+    offline_location = models.CharField(max_length=255, blank=True)
     offline_location_lat = models.FloatField(null=True, blank=True)
     offline_location_long = models.FloatField(null=True, blank=True)
     get_involved_url = models.URLField(blank=True)
@@ -36,6 +37,9 @@ class Event(CreationDeletionMixin):
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    event_text = models.ForeignKey(
+        "EventText", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self) -> str:
         return self.name

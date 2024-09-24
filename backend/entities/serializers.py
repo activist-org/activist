@@ -85,6 +85,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     def create(self, validated_data: dict[str, Any]) -> Organization:
         description = validated_data.pop("description", None)
         org = Organization.objects.create(**validated_data)
+
         if org and description:
             org_text = OrganizationText.objects.create(
                 org_id=org, description=description

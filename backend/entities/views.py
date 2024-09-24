@@ -60,6 +60,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
 
     def list(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(self.queryset, many=True)
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request: Request) -> Response:
@@ -67,6 +68,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         serializer.is_valid(raise_exception=True)
         serializer.save(created_by=request.user)
         data = {"message": f"New Group created: {serializer.data}"}
+
         return Response(data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
@@ -82,6 +84,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
             return Response(
                 {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
             )
+
         if request.user != group.created_by:
             return Response(
                 {"error": "You are not authorized to update this group"},
@@ -91,6 +94,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         serializer = self.get_serializer(group, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
@@ -100,11 +104,13 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
             return Response(
                 {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
             )
+
         if request.user != group.created_by:
             return Response(
                 {"error": "You are not authorized to delete this group"},
                 status.HTTP_401_UNAUTHORIZED,
             )
+
         group.delete()
         return Response(
             {"message": "Group deleted successfully"}, status=status.HTTP_200_OK
@@ -130,6 +136,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         if org := self.queryset.filter(id=pk).first():
             serializer = self.get_serializer(org)
+
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response({"error": "Organization not found"}, status.HTTP_404_NOT_FOUND)

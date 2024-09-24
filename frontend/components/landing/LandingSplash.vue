@@ -26,24 +26,26 @@
       </div>
     </div>
     <div class="flex justify-center rounded-md">
-      <BtnRouteInternal
-        v-if="devMode.active"
-        id="view-organizations"
-        :cta="true"
-        label="components.landing_splash.view_organizations"
-        linkTo="/organizations"
-        fontSize="xl"
-        ariaLabel="components.landing_splash.view_organizations_aria_label"
-      />
-      <BtnRouteInternal
-        v-if="devMode.active"
-        id="view-events"
-        :cta="true"
-        label="components.landing_splash.view_events"
-        linkTo="/events"
-        fontSize="xl"
-        ariaLabel="components.landing_splash.view_events_aria_label"
-      />
+      <div v-if="devMode.active" class="style-btns-next-to-one-another">
+        <BtnRouteInternal
+          id="view-organizations"
+          class="w-full"
+          :cta="true"
+          label="components.landing_splash.view_organizations"
+          linkTo="/organizations"
+          fontSize="xl"
+          ariaLabel="components.landing_splash.view_organizations_aria_label"
+        />
+        <BtnRouteInternal
+          id="view-events"
+          class="w-full"
+          :cta="true"
+          label="components.landing_splash.view_events"
+          linkTo="/events"
+          fontSize="xl"
+          ariaLabel="components.landing_splash.view_events_aria_label"
+        />
+      </div>
       <BtnRouteExternal
         v-else
         id="request-access"

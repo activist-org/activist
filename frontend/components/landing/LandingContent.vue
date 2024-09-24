@@ -135,9 +135,7 @@
       >
         {{ $t(text) }}
       </p>
-      <div
-        class="grid grid-cols-1 grid-rows-2 gap-y-4 sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:gap-x-6 xl:gap-x-8"
-      >
+      <div class="style-btns-next-to-one-another">
         <BtnRouteInternal
           :id="btnId1"
           class="w-full"

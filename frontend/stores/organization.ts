@@ -33,7 +33,7 @@ export const useOrganizationStore = defineStore("organization", {
       status: 1,
       groups: [],
 
-      organization_text_id: "",
+      organizationTextID: "",
       description: "",
       getInvolved: "",
       donationPrompt: "",
@@ -145,7 +145,7 @@ export const useOrganizationStore = defineStore("organization", {
       this.organization.description = texts.description;
       this.organization.getInvolved = texts.getInvolved;
       this.organization.donationPrompt = texts.donationPrompt;
-      this.organization.organization_text_id = texts.id;
+      this.organization.organizationTextID = texts.id;
 
       this.loading = false;
     },
@@ -181,8 +181,6 @@ export const useOrganizationStore = defineStore("organization", {
           (text) => text.data._value.results[0]
         ) as unknown as OrganizationText[];
 
-        console.log(`Here: ${JSON.stringify(orgTextsData)}`);
-
         const organizationsWithTexts = orgs._value.map(
           (organization: Organization, index: number) => {
             const texts = orgTextsData[index];
@@ -197,7 +195,8 @@ export const useOrganizationStore = defineStore("organization", {
               socialLinks: organization.socialLinks,
               status: organization.status,
               groups: organization.groups,
-              organization_text_id: organization.organization_text_id,
+
+              organizationTextID: organization.organizationTextID,
               description: texts.description,
               getInvolved: texts.getInvolved,
               donationPrompt: texts.donationPrompt,
@@ -237,7 +236,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL +
-          `/entities/organization_texts/${org.organization_text_id}/`,
+          `/entities/organization_texts/${org.organizationTextID}/`,
         {
           method: "PUT",
           body: {
