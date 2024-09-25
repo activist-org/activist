@@ -43,7 +43,7 @@
           :label="$t(shareButtonLabel)"
           :hideLabelOnMobile="false"
           fontSize="sm"
-          :leftIcon="IconMap.SHARE"
+          :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
           :ariaLabel="
             $t('pages.organizations.groups.about.share_group_aria_label')

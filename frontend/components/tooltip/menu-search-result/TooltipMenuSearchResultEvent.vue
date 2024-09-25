@@ -25,7 +25,7 @@
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
         label="_global.share"
-        :leftIcon="IconMap.SHARE"
+        :rightIcon="IconMap.SHARE"
         fontSize="lg"
         :ariaLabel="$t('_global.share_event_aria_label')"
       />

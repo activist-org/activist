@@ -37,7 +37,7 @@
           :label="$t(shareButtonLabel)"
           :hideLabelOnMobile="false"
           fontSize="sm"
-          :leftIcon="IconMap.SHARE"
+          :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
           :ariaLabel="$t('_global.share_event_aria_label')"
         />
