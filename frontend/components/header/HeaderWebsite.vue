@@ -33,6 +33,22 @@
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />
+          <DropdownCreate
+            v-if="userIsSignedIn && devMode.active"
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+          />
+          <DropdownInfo
+            v-if="devMode.active"
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+          />
+          <DropdownUserOptions
+            v-if="devMode.active"
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+            :userIsSignedIn="userIsSignedIn"
+          />
         </div>
       </SidebarRight>
     </div>
@@ -124,6 +140,8 @@ import { DropdownLocation } from "~/types/location";
 
 const devMode = useDevMode();
 devMode.check();
+
+const { userIsSignedIn } = useUser();
 
 const aboveMediumBP = useBreakpoint("md");
 const aboveLargeBP = useBreakpoint("lg");
