@@ -236,7 +236,6 @@ onMounted(() => {
           }),
           "top-left"
         );
-        map.addControl(new maplibregl.FullscreenControl());
         map.addControl(
           new maplibregl.GeolocateControl({
             positionOptions: {
@@ -245,8 +244,8 @@ onMounted(() => {
             trackUserLocation: true,
           })
         );
-
-        map.on("fullscreenstart", applyMaxWindowHeight);
+        map.addControl(new maplibregl.FullscreenControl());
+        map.on("resize", () => applyMaxWindowHeight());
 
         const popup = new maplibregl.Popup({
           offset: 25,
