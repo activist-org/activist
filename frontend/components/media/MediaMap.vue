@@ -30,10 +30,7 @@ const isTouchDevice =
   navigator.maxTouchPoints > 0;
 
 const applyMaxWindowHeight = () => {
-  document.documentElement.style.setProperty(
-    "--app-height",
-    `${window.innerHeight}px`
-  );
+  window.scrollTo(0, 1);
 };
 
 function isWebglSupported() {
@@ -249,7 +246,7 @@ onMounted(() => {
           })
         );
 
-        map.on("fullscreenchange", applyMaxWindowHeight);
+        map.on("fullscreenstart", applyMaxWindowHeight);
 
         const popup = new maplibregl.Popup({
           offset: 25,
@@ -277,12 +274,9 @@ onMounted(() => {
         map
           .loadImage("/icons/from_library/bootstrap_arrow_right.png")
           .then((image) => {
-            console.log("Here1");
             if (image) {
               map.addImage("route-direction-arrow", image.data);
             }
-
-            console.log("Here2", image.data);
           });
 
         map.on("load", () => {
@@ -442,18 +436,3 @@ onMounted(() => {
     });
 });
 </script>
-
-<style scoped>
-:root {
-  --app-height: 100%;
-}
-html,
-body {
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
-  height: var(--app-height);
-}
-</style>
