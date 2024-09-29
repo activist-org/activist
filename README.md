@@ -201,10 +201,8 @@ git remote add upstream https://github.com/activist-org/activist.git
 5. Start your docker images with the following:
 
    ```bash
-   docker compose --env-file .env.dev up
-
-   # Or with new dependencies or backend model changes:
-   # docker compose --env-file .env.dev up --build
+   # --build only necessary with new dependencies or backend model changes
+   docker compose --env-file .env.dev up --build
 
    # And to stop the containers when you're done working:
    # docker compose --env-file .env.dev down
