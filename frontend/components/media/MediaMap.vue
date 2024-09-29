@@ -30,7 +30,10 @@ const isTouchDevice =
   navigator.maxTouchPoints > 0;
 
 const applyMaxWindowHeight = () => {
-  window.scrollTo(0, 1);
+  const container = document.getElementById("container");
+  if (container) {
+    container.requestFullscreen();
+  }
 };
 
 function isWebglSupported() {
