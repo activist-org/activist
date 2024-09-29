@@ -30,13 +30,9 @@ const isTouchDevice =
   navigator.maxTouchPoints > 0;
 
 const applyMaxWindowHeight = () => {
-  addEventListener(
-    "load",
-    function () {
-      window.scrollTo(1, 0);
-    },
-    false
-  );
+  setTimeout(function () {
+    window.scrollTo(0, 1);
+  }, 1000);
 };
 
 function isWebglSupported() {
