@@ -247,6 +247,7 @@ import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
+import { DialogTitle } from "@headlessui/vue";
 
 const props = defineProps<{
   cta: BtnAction["cta"];

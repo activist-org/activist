@@ -266,6 +266,7 @@
   "components.modal_command_palette.jump_to": "Jump to",
   "components.modal_image_btn.open_modal_aria_label": "Open a larger version of this image",
   "components.modal_organization_status.status_accepted": "Application status: Accepted",
+  "components.modal_organization_overview.header": "Organizations",
   "components.modal_qr_code.aria_label": "Open the QR code in a new tab",
   "components.modal_qr_code.download_qr_code": "Download QR code",
   "components.modal_qr_code.download_qr_code_aria_label": "Download a QR code that links to this page",
