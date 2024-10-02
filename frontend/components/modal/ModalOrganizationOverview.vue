@@ -6,16 +6,14 @@
           {{ $t("components.modal_organization_overview.header") }}
         </p>
       </DialogTitle>
-      <div class="mt-6 md:max-h-[50vh] md:overflow-y-auto py-2 pr-1">
+      <div class="mt-6 py-2 pr-1 md:max-h-[50vh] md:overflow-y-auto">
         <div v-if="event" class="space-y-3">
           <div
             v-for="(o, i) in event.organizations"
             :key="i"
-            class="m-1 card-style p-2"
+            class="card-style m-1 p-2"
           >
-            <MetaTagOrganization
-              :organization="o"
-            />
+            <MetaTagOrganization :organization="o" />
           </div>
         </div>
       </div>
@@ -32,5 +30,4 @@ const props = defineProps<{
   event?: Event;
 }>();
 const modalName = "ModalOrganizationOverview";
-
 </script>
