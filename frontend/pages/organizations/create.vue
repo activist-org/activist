@@ -125,10 +125,6 @@ import { Toaster, toast } from "vue-sonner";
 import BtnAction from "~/components/btn/action/BtnAction.vue";
 import type { OrganizationCreateFormData } from "~/types/entities/organization";
 
-definePageMeta({
-  middleware: ["user-only"],
-});
-
 const formData = ref<OrganizationCreateFormData>({
   name: "",
   tagline: "",
