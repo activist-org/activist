@@ -262,6 +262,7 @@
   "components.modal_command_palette.jump_to": "Springen zu",
   "components.modal_image_btn.open_modal_aria_label": "Größere Version dieses Bildes öffnen",
   "components.modal_organization_status.status_accepted": "Bewerbungsstatus: Angenommen",
+  "components.modal_organization_overview.header": "Organisationen",
   "components.modal_qr_code.aria_label": "QR-Code in einem neuen Tab öffnen",
   "components.modal_qr_code.download_qr_code": "QR-Code herunterladen",
   "components.modal_qr_code.download_qr_code_aria_label": "QR-Code herunterladen, der auf diese Seite verlinkt",
