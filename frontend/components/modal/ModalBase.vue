@@ -96,8 +96,11 @@ const closeModal = () => {
   modals.closeModal(modalName);
 };
 
-// If the user changes the route while the modal is open, close the modal.
+// Check if the user is navigating to another resource.
+// If a modal exists, close close it.
 watch(route, () => {
-  closeModal();
+  if (modals.modals[modalName]) {
+    closeModal();
+  }
 });
 </script>
