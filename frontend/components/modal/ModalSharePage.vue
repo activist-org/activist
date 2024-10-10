@@ -249,7 +249,7 @@ import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 import { toast, Toaster } from "vue-sonner";
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
@@ -355,7 +355,7 @@ const copyToClipboardThenOpenURL = async (
   try {
     await navigator.clipboard.writeText(url);
     signalContentCopied.value = true;
-    toast(t('components.modal_share_page.open_signal'));
+    toast(t("components.modal_share_page.open_signal"));
     setTimeout(() => {
       signalContentCopied.value = false;
       if (redirectURL) {
