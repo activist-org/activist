@@ -292,6 +292,7 @@
   "components.modal_share_page.messenger": "Messenger",
   "components.modal_share_page.offline": "Offline",
   "components.modal_share_page.online": "Online",
+  "components.modal_share_page.open_signal": "Opening Signal",
   "components.modal_share_page.signal": "Signal",
   "components.modal_share_page.telegram": "Telegram",
   "components.modal_share_page.url_copied": "URL copied",
