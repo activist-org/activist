@@ -251,8 +251,6 @@ import { IconMap } from "~/types/icon-map";
 import { toast, Toaster } from "vue-sonner";
 import { useI18n } from "vue-i18n";
 
-const { t } = useI18n();
-
 const props = defineProps<{
   cta: BtnAction["cta"];
   organization?: Organization;
@@ -261,6 +259,8 @@ const props = defineProps<{
   resource?: Resource;
   user?: User;
 }>();
+
+const { t } = useI18n();
 const modalName = "ModalSharePage";
 
 const getEntityType = () => {
@@ -355,7 +355,7 @@ const copyToClipboardThenOpenURL = async (
   try {
     await navigator.clipboard.writeText(url);
     signalContentCopied.value = true;
-    toast(t("components.modal_share_page.open_signal"));
+    toast(t("components.modal_share_page.opening_signal"));
     setTimeout(() => {
       signalContentCopied.value = false;
       if (redirectURL) {
