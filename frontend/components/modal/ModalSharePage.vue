@@ -1,4 +1,5 @@
 <template>
+  <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
   <ModalBase :modalName="modalName">
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
@@ -247,6 +248,8 @@ import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
+import { toast, Toaster } from "vue-sonner";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
@@ -256,6 +259,8 @@ const props = defineProps<{
   resource?: Resource;
   user?: User;
 }>();
+
+const { t } = useI18n();
 const modalName = "ModalSharePage";
 
 const getEntityType = () => {
@@ -350,6 +355,7 @@ const copyToClipboardThenOpenURL = async (
   try {
     await navigator.clipboard.writeText(url);
     signalContentCopied.value = true;
+    toast(t("components.modal_share_page.opening_signal"));
     setTimeout(() => {
       signalContentCopied.value = false;
       if (redirectURL) {
