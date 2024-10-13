@@ -272,7 +272,7 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[OrganizationEvent]):
     serializer_class = OrganizationEventSerializer
     pagination_class = CustomPagination
 
-    def get_queryset(self):
+    def get_queryset(self) -> Response:
         if org_id := self.request.query_params.get("org_id", None):
             return self.queryset.filter(org_id=org_id)
 
@@ -296,7 +296,7 @@ class OrganizationGroupViewSet(viewsets.ModelViewSet[OrganizationGroup]):
     serializer_class = OrganizationGroupSerializer
     pagination_class = CustomPagination
 
-    def get_queryset(self):
+    def get_queryset(self) -> Response:
         if org_id := self.request.query_params.get("org_id", None):
             return self.queryset.filter(org_id=org_id)
 
