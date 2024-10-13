@@ -35,7 +35,4 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-import { testClimateEvent } from "~/utils/testEntities";
-
-const event = testClimateEvent;
 </script>

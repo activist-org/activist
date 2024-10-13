@@ -45,9 +45,6 @@
 
 <script setup lang="ts">
 import { getGroupSubPages } from "~/utils/groupSubPages";
-import { testTechGroup1 } from "~/utils/testEntities";
 
 const groupSubPages = getGroupSubPages();
-
-const group = testTechGroup1;
 </script>

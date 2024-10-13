@@ -2,6 +2,7 @@
 
 export interface Group {
   id: string;
+  group_name: string;
   name: string;
   tagline: string;
   organization: Organization;

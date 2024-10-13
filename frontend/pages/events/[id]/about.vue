@@ -87,9 +87,6 @@
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
-import { testClimateEvent } from "~/utils/testEntities";
-
-const event = testClimateEvent;
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

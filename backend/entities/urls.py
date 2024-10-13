@@ -24,6 +24,7 @@ router.register(r"group_topics", views.GroupTopicViewSet)
 
 router.register(r"organization_applications", views.OrganizationApplicationViewSet)
 router.register(r"organization_events", views.OrganizationEventViewSet)
+router.register(r"organization_groups", views.OrganizationGroupViewSet)
 router.register(r"organization_images", views.OrganizationImageViewSet)
 router.register(r"organization_members", views.OrganizationMemberViewSet)
 router.register(r"organization_resources", views.OrganizationResourceViewSet)

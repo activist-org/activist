@@ -46,9 +46,6 @@
 <script setup lang="ts">
 import useBreakpoint from "~/composables/useBreakpoint";
 import { IconMap } from "~/types/icon-map";
-import { testClimateEvent } from "~/utils/testEntities";
 
 const aboveMediumBP = useBreakpoint("md");
-
-const event = testClimateEvent;
 </script>

@@ -42,7 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { testTechOrg } from "~/utils/testEntities";
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
 
-const organization = testTechOrg;
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchByID(id);
+
+const { organization } = organizationStore;
 </script>
