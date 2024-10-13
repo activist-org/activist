@@ -36,9 +36,3 @@
     </div> -->
   </div>
 </template>
-
-<script setup lang="ts">
-import { testClimateEvent } from "~/utils/testEntities";
-
-const event = testClimateEvent;
-</script>

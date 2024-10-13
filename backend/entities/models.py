@@ -15,6 +15,7 @@ from utils.models import ISO_CHOICES
 
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.OneToOneField(
@@ -55,6 +56,7 @@ class Organization(models.Model):
 
 class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
@@ -171,6 +173,14 @@ class OrganizationApplicationStatus(models.Model):
 class OrganizationEvent(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class OrganizationGroup(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"

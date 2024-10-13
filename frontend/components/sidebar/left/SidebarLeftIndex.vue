@@ -20,7 +20,8 @@
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
+        <!-- Attn: Disabled -->
+        <!-- <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" /> -->
         <ImageOrganization
           class="elem-shadow-sm"
           :imgURL="logoUrl"

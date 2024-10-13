@@ -2,6 +2,7 @@
 
 export interface Organization {
   id: string;
+  org_name: string;
   name: string;
   tagline: string;
   createdBy: string;
@@ -22,13 +23,13 @@ export interface Organization {
   // discussion
   // discussions?: Discussion[];
 
-  // organization_event
-  // events?: Event[];
-
   // faq
   faqEntries?: FaqEntry[];
 
   groups?: Group[];
+
+  // organization_event
+  events?: Event[];
 
   // organization_resource
   resources?: Resource[];
@@ -109,6 +110,23 @@ export interface PiniaResOrganizations {
   __v_isRef: boolean;
   _rawValue: Organization[];
   _value: Organization[];
+}
+
+export interface PiniaResOrganizationEvents {
+  __v_isShallow: boolean;
+  __v_isRef: boolean;
+  _rawValue: {
+    count: integer;
+    next: null;
+    previous: null;
+    results: Event[];
+  };
+  _value: {
+    count: integer;
+    next: null;
+    previous: null;
+    results: Event[];
+  };
 }
 
 export interface PiniaResOrganizationText {

@@ -11,6 +11,7 @@ from .models import (
     Organization,
     OrganizationApplication,
     OrganizationEvent,
+    OrganizationGroup,
     OrganizationImage,
     OrganizationMember,
     OrganizationResource,
@@ -36,6 +37,7 @@ admin.site.register(GroupTopic)
 
 admin.site.register(OrganizationApplication)
 admin.site.register(OrganizationEvent)
+admin.site.register(OrganizationGroup)
 admin.site.register(OrganizationImage)
 admin.site.register(OrganizationMember)
 admin.site.register(OrganizationResource)

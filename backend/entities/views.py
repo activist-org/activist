@@ -1,4 +1,5 @@
 # mypy: disable-error-code="override"
+from django.db.models import QuerySet
 from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -20,6 +21,7 @@ from .models import (
     Organization,
     OrganizationApplication,
     OrganizationEvent,
+    OrganizationGroup,
     OrganizationImage,
     OrganizationMember,
     OrganizationResource,
@@ -39,6 +41,7 @@ from .serializers import (
     GroupTopicSerializer,
     OrganizationApplicationSerializer,
     OrganizationEventSerializer,
+    OrganizationGroupSerializer,
     OrganizationImageSerializer,
     OrganizationMemberSerializer,
     OrganizationResourceSerializer,
@@ -269,6 +272,48 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[OrganizationEvent]):
     queryset = OrganizationEvent.objects.all()
     serializer_class = OrganizationEventSerializer
     pagination_class = CustomPagination
+
+    def get_queryset(self) -> QuerySet[OrganizationEvent]:
+        if org_id := self.request.query_params.get("org_id", None):
+            return self.queryset.filter(org_id=org_id)
+
+        return self.queryset
+
+    def list(self, request: Request, *args: str, **kwargs: int) -> Response:
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class OrganizationGroupViewSet(viewsets.ModelViewSet[OrganizationGroup]):
+    queryset = OrganizationGroup.objects.all()
+    serializer_class = OrganizationGroupSerializer
+    pagination_class = CustomPagination
+
+    def get_queryset(self) -> QuerySet[OrganizationGroup]:
+        if org_id := self.request.query_params.get("org_id", None):
+            return self.queryset.filter(org_id=org_id)
+
+        return self.queryset
+
+    def list(self, request: Request, *args: str, **kwargs: int) -> Response:
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class OrganizationMemberViewSet(viewsets.ModelViewSet[OrganizationMember]):

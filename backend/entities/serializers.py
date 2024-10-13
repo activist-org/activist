@@ -6,6 +6,8 @@ from typing import Any
 
 from rest_framework import serializers
 
+from events.serializers import EventSerializer
+
 from .models import (
     Group,
     GroupEvent,
@@ -17,6 +19,7 @@ from .models import (
     Organization,
     OrganizationApplication,
     OrganizationEvent,
+    OrganizationGroup,
     OrganizationImage,
     OrganizationMember,
     OrganizationResource,
@@ -59,6 +62,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
 
         fields = [
             "id",
+            "org_name",
             "name",
             "tagline",
             "icon_url",
@@ -149,9 +153,19 @@ class OrganizationApplicationSerializer(
 
 
 class OrganizationEventSerializer(serializers.ModelSerializer[OrganizationEvent]):
+    events = EventSerializer(source="event_id", read_only=True)  # many=True removed
+
     class Meta:
         model = OrganizationEvent
-        fields = "__all__"
+        fields = ["org_id", "events"]
+
+
+class OrganizationGroupSerializer(serializers.ModelSerializer[OrganizationGroup]):
+    groups = GroupSerializer(source="group_id", read_only=True)  # many=True removed
+
+    class Meta:
+        model = OrganizationEvent
+        fields = ["org_id", "groups"]
 
 
 class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMember]):
