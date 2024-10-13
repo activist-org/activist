@@ -10,6 +10,7 @@ from content.models import Topic
 from entities.factories import (
     GroupFactory,
     GroupTextFactory,
+    OrganizationEventFactory,
     OrganizationFactory,
     OrganizationTextFactory,
 )
@@ -60,7 +61,8 @@ class Command(BaseCommand):
 
                 for o in range(num_orgs_per_user):
                     user_org = OrganizationFactory(
-                        name=f"{user_topic.name} Organization (U{u}:O{o})",
+                        org_name=f"organization_{u}_{o}",
+                        name=f"{user_topic.name} Organization",
                         created_by=user,
                     )
 
@@ -68,8 +70,9 @@ class Command(BaseCommand):
 
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
+                            group_name=f"group_{u}_{o}_{g}",
                             org_id=user_org,
-                            name=f"{user_topic.name} Group (U{u}:O{o}:G{g})",
+                            name=f"{user_topic.name} Group",
                             created_by=user,
                         )
 
@@ -79,13 +82,17 @@ class Command(BaseCommand):
 
                     for e in range(num_events_per_org):
                         user_org_event = EventFactory(
-                            name=f"{user_topic.name} Event (U{u}:O{o}:E{e})",
+                            name=f"{user_topic.name} Event {o}:{e}",
                             type=random.choice(["learn", "action"]),
                             created_by=user,
                         )
 
                         EventTextFactory(
                             event_id=user_org_event, iso="en", primary=True
+                        )
+
+                        OrganizationEventFactory(
+                            org_id=user_org, event_id=user_org_event
                         )
 
             self.stdout.write(

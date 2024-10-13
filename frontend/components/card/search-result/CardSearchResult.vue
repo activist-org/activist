@@ -2,6 +2,7 @@
   <div
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
   >
+    <!-- MARK: fds -->
     <div class="relative flex w-full flex-col md:flex-row">
       <div class="flex w-full justify-center md:w-fit">
         <NuxtLink
@@ -106,13 +107,7 @@
           </div>
         </a>
       </div>
-      <div
-        class="flex-col pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6"
-        :class="{
-          'space-y-2': isReduced,
-          'space-y-3 md:space-y-4': !isReduced,
-        }"
-      >
+      <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
         <div class="flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
             <NuxtLink
@@ -210,6 +205,10 @@
         <!-- <div v-if="!isReduced" class="flex justify-center md:justify-start">
           <ShieldTopic v-for="(t, i) in topics" :key="i" :topic="t" />
         </div> -->
+        <div v-if="organization || group">
+          <p v-if="organization">@{{ organization.org_name }}</p>
+          <p v-if="group">@{{ group.group_name }}</p>
+        </div>
         <p
           class="line-clamp-4 justify-center md:line-clamp-4 md:justify-start md:px-0 md:py-0 lg:line-clamp-5"
         >

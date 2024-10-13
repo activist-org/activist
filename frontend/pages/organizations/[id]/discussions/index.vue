@@ -45,9 +45,14 @@
 <script setup lang="ts">
 import useBreakpoint from "~/composables/useBreakpoint";
 import { IconMap } from "~/types/icon-map";
-import { testTechOrg } from "~/utils/testEntities";
 
 const aboveMediumBP = useBreakpoint("md");
 
-const organization = testTechOrg;
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchByID(id);
+
+const { organization } = organizationStore;
 </script>

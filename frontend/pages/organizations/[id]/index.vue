@@ -70,10 +70,7 @@
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu/menu-selector";
-import { testTechOrg } from "~/utils/testEntities";
 import useMenuEntriesState from "~/composables/useMenuEntriesState";
-
-const organization = testTechOrg;
 
 const { id } = useRoute().params;
 const localePath = useLocalePath();
