@@ -1,4 +1,5 @@
 # mypy: disable-error-code="override"
+from django.db.models import QuerySet
 from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -272,7 +273,7 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[OrganizationEvent]):
     serializer_class = OrganizationEventSerializer
     pagination_class = CustomPagination
 
-    def get_queryset(self) -> Response:
+    def get_queryset(self) -> QuerySet[OrganizationEvent]:
         if org_id := self.request.query_params.get("org_id", None):
             return self.queryset.filter(org_id=org_id)
 
@@ -296,7 +297,7 @@ class OrganizationGroupViewSet(viewsets.ModelViewSet[OrganizationGroup]):
     serializer_class = OrganizationGroupSerializer
     pagination_class = CustomPagination
 
-    def get_queryset(self) -> Response:
+    def get_queryset(self) -> QuerySet[OrganizationGroup]:
         if org_id := self.request.query_params.get("org_id", None):
             return self.queryset.filter(org_id=org_id)
 
