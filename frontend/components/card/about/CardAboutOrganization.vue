@@ -20,14 +20,15 @@
         <h3 class="responsive-h3 text-left font-display">
           {{ $t("_global.about") }}
         </h3>
-        <IconEdit @click="openModal()" @keydown.enter="openModal()" />
+        <IconEdit
+          @click="openModalEditAboutOrganization"
+          @keydown.enter="openModalEditAboutOrganization"
+        />
         <ModalEditAboutOrganization
-          @closeModal="handleCloseModal"
           :organization="organization"
           :description="organization.description"
           :getInvolved="organization.getInvolved"
           :getInvolvedURL="organization.getInvolvedURL"
-          :isOpen="modalIsOpen"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -88,6 +89,11 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
+import { useModalHandlers } from "~/composables/useModalHandlers";
+const { openModal: openModalEditAboutOrganization } = useModalHandlers(
+  "ModalEditAboutOrganization"
+);
+
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
@@ -121,18 +127,4 @@ const expandText = ref(false);
 function expand_reduce_text() {
   expandText.value = !expandText.value;
 }
-
-const modals = useModals();
-const modalName = "ModalEditAboutOrganization";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
 </script>
