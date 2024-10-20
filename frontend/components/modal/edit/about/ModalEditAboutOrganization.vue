@@ -1,6 +1,9 @@
 <template>
   <ModalBase :modalName="modalName">
-    <div class="flex flex-col space-y-7">
+    <div @click.stop="msg($event)">
+      <h1>test</h1>
+    </div>
+    <!-- <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <label for="textarea" class="responsive-h2">{{
           $t("_global.about")
@@ -41,44 +44,48 @@
         fontSize="base"
         :ariaLabel="$t('components.modal.edit._global.update_texts_aria_label')"
       />
-    </div>
+    </div> -->
   </ModalBase>
 </template>
 
 <script setup lang="ts">
-import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
-import { useModalHandlers } from "~/composables/useModalHandlers";
-
+// import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
+// import { useModalHandlers } from "~/composables/useModalHandlers";
+//
 const modalName = "ModalEditAboutOrganization";
-const { handleCloseModal } = useModalHandlers(modalName);
+// const { handleCloseModal } = useModalHandlers(modalName);
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+// const idParam = useRoute().params.id;
+// const id = typeof idParam === "string" ? idParam : undefined;
+//
+// const organizationStore = useOrganizationStore();
+// await organizationStore.fetchByID(id);
+//
+// const { organization } = organizationStore;
+//
+// const formData = ref<OrganizationUpdateTextFormData>({
+//   description: "",
+//   getInvolved: "",
+//   getInvolvedURL: "",
+// });
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+// onMounted(() => {
+//   formData.value.description = organization.description;
+//   formData.value.getInvolved = organization.getInvolved;
+//   formData.value.getInvolvedURL = organization.getInvolvedURL;
+// });
 
-const { organization } = organizationStore;
+// async function handleSubmit() {
+//   const response = await organizationStore.updateTexts(
+//     organization,
+//     formData.value
+//   );
+//   if (response) {
+//     handleCloseModal();
+//   }
+// }
 
-const formData = ref<OrganizationUpdateTextFormData>({
-  description: "",
-  getInvolved: "",
-  getInvolvedURL: "",
-});
-
-onMounted(() => {
-  formData.value.description = organization.description;
-  formData.value.getInvolved = organization.getInvolved;
-  formData.value.getInvolvedURL = organization.getInvolvedURL;
-});
-
-async function handleSubmit() {
-  const response = await organizationStore.updateTexts(
-    organization,
-    formData.value
-  );
-  if (response) {
-    handleCloseModal();
-  }
-}
+const msg = (event: PointerEvent) => {
+  console.log("ModalEditAboutEvent @click.stop. Event: ", event);
+};
 </script>
