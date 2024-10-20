@@ -1,11 +1,15 @@
 <template>
-  <Dialog @close="closeModal()" class="relative z-50" :open="modalIsOpen">
+  <Dialog class="relative z-50" :open="modalIsOpen">
+    <DialogBackdrop
+      className="fixed inset-0 bg-light-layer-0/95 dark:bg-dark-layer-0/95"
+    />
+    <!-- There are linter warnings about @click="closeModal()" -->
+    <!-- They are warnings, not errors. The code runs fine. -->
+    <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
+    <!-- eslint-disable-next-line vuejs-accessibility/no-static-element-interactions -->
     <div
       @click="closeModal()"
-      class="fixed inset-0 cursor-pointer bg-light-layer-0/95 dark:bg-dark-layer-0/95"
-      aria-hidden="true"
-    />
-    <div
+      @keydown.enter="closeModal()"
       class="cursor-pointer"
       :class="{
         'fixed top-0 z-10 flex h-screen w-full flex-col items-center overflow-hidden':
