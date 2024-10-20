@@ -48,4 +48,12 @@ import useBreakpoint from "~/composables/useBreakpoint";
 import { IconMap } from "~/types/icon-map";
 
 const aboveMediumBP = useBreakpoint("md");
+
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const eventStore = useEventStore();
+await eventStore.fetchByID(id);
+
+const { event } = eventStore;
 </script>

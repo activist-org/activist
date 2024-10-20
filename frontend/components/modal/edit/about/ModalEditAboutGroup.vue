@@ -57,8 +57,10 @@ const props = defineProps<{
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
-const group = useGroupStore();
-await group.fetchByID(id);
+const groupStore = useGroupStore();
+await groupStore.fetchByID(id);
+
+const { group } = groupStore;
 
 const formData = ref({
   description: group.description,
