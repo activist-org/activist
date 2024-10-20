@@ -8,6 +8,7 @@ module.exports = {
     "@nuxt/eslint-config",
     "prettier",
   ],
+  files: ["**/*.js", "**/*.ts", "**/*.vue"],
   rules: {
     "vue/no-multiple-template-root": "off",
     "vue/component-tags-order": [
