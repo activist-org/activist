@@ -3,5 +3,5 @@ export default interface MenuEntry {
   routeURL: string;
   iconURL: string;
   selected: boolean;
-  id: number;
+  id: string;
 }

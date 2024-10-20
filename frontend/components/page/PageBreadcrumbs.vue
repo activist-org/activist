@@ -75,6 +75,7 @@
 
 <script setup lang="ts">
 import { validate as isValidUUID } from "uuid";
+import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 
@@ -91,9 +92,11 @@ const id = typeof paramsID === "string" ? paramsID : undefined;
 const idGroup = typeof paramsIDGroup === "string" ? paramsIDGroup : undefined;
 
 const organizationStore = useOrganizationStore();
-let organization: Organization;
-const group = useGroupStore();
+const groupStore = useGroupStore();
 const eventStore = useEventStore();
+
+let organization: Organization;
+let group: Group;
 let event: Event;
 
 if (
@@ -107,7 +110,8 @@ if (
   organization = organizationStore.organization;
 } else if (url.includes("/organizations/") && url.includes("/groups/")) {
   pageType = "group";
-  await group.fetchByID(idGroup);
+  await groupStore.fetchByID(idGroup);
+  group = groupStore.group;
 } else if (
   url.includes("/events/") &&
   !url.includes("/organizations/") &&

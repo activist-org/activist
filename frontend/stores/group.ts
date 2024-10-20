@@ -1,26 +1,43 @@
-import type { PiniaResGroup, PiniaResGroupText } from "~/types/entities/group";
+import type {
+  Group,
+  PiniaResGroup,
+  PiniaResGroupText,
+} from "~/types/entities/group";
 import type { PiniaResOrganization } from "~/types/entities/organization";
+
+interface GroupStore {
+  loading: boolean;
+  group: Group;
+  groups: Group[];
+}
 
 export const useGroupStore = defineStore("group", {
   // MARK: Properties
 
-  state: () => ({
+  state: (): GroupStore => ({
     loading: false,
 
-    // group
-    id: "",
-    name: "",
-    tagline: "",
-    organization: "",
-    location: "",
-    getInvolvedURL: "",
-    socialLinks: [""],
-    status: 1,
+    group: {
+      // group
+      id: "",
+      group_name: "",
+      name: "",
+      tagline: "",
+      organization: "",
+      createdBy: "",
+      location: "",
+      getInvolvedURL: "",
+      socialLinks: [""],
+      creationDate: "",
 
-    // group_text
-    description: "",
-    getInvolved: "",
-    donationPrompt: "",
+      faqEntries: [""],
+
+      description: "",
+      getInvolved: "",
+      donationPrompt: "",
+    },
+
+    groups: [],
   }),
   actions: {
     // MARK: Create
@@ -80,17 +97,17 @@ export const useGroupStore = defineStore("group", {
       // const resources = groupRes._value;
       const texts = groupTextsRes._value.results[0];
 
-      this.id = group.id;
-      this.name = group.name;
-      this.tagline = group.tagline;
-      this.organization = groupOrg.id;
-      this.location = group.location;
-      this.getInvolvedURL = group.getInvolvedURL;
-      this.socialLinks = group.socialLinks;
+      this.group.id = group.id;
+      this.group.name = group.name;
+      this.group.tagline = group.tagline;
+      this.group.organization = groupOrg.id;
+      this.group.location = group.location;
+      this.group.getInvolvedURL = group.getInvolvedURL;
+      this.group.socialLinks = group.socialLinks;
 
-      this.description = texts.description;
-      this.getInvolved = texts.getInvolved;
-      this.donationPrompt = texts.donationPrompt;
+      this.group.description = texts.description;
+      this.group.getInvolved = texts.getInvolved;
+      this.group.donationPrompt = texts.donationPrompt;
 
       this.loading = false;
     },

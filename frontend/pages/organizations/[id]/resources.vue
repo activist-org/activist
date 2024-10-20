@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Resource } from "~/types/content/resource";
 import { IconMap } from "~/types/icon-map";
 
 const idParam = useRoute().params.id;
@@ -49,5 +50,5 @@ await organizationStore.fetchByID(id);
 
 const { organization } = organizationStore;
 
-const orgResources = [];
+const orgResources: Resource[] = [];
 </script>

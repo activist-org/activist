@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
@@ -89,16 +90,19 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-let organization: Organization;
-const group = useGroupStore();
+const groupStore = useGroupStore();
 const eventStore = useEventStore();
+
+let organization: Organization;
+let group: Group;
 let event: Event;
 
 if (props.pageType === "organization") {
   await organizationStore.fetchByID(id);
   organization = organizationStore.organization;
 } else if (props.pageType === "group") {
-  await group.fetchByID(id);
+  await groupStore.fetchByID(id);
+  group = groupStore.group;
 } else if (props.pageType === "event") {
   await eventStore.fetchByID(id);
   event = eventStore.event;

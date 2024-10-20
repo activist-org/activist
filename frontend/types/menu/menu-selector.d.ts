@@ -1,5 +1,5 @@
 export interface MenuSelector {
-  id: number;
+  id: number | string;
   label: string;
   routeURL: string;
   iconURL: string;
