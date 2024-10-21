@@ -205,24 +205,38 @@ onMounted(() => {
                 type: "raster",
                 source: "raster-tiles",
                 minzoom: 0,
-                maxzoom: 24,
               },
               {
                 id: "cycle-layer",
                 type: "raster",
                 source: "cycle-raster-tiles",
                 minzoom: 0,
-                maxzoom: 20,
                 layout: {
                   visibility: "none",
                 },
               },
             ],
           },
-          center: [parseFloat(location["lon"]), parseFloat(location["lat"])],
-          zoom: 15,
           pitch: 20,
+          maxZoom: 19,
         });
+
+        map.fitBounds(
+          [
+            [
+              parseFloat(location["boundingbox"][2]),
+              parseFloat(location["boundingbox"][0]),
+            ],
+            [
+              parseFloat(location["boundingbox"][3]),
+              parseFloat(location["boundingbox"][1]),
+            ],
+          ],
+          {
+            duration: 6000,
+            padding: 100,
+          }
+        );
 
         // MARK: Basic Controls
 
