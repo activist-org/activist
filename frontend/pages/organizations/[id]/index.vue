@@ -67,12 +67,19 @@
 </template>
 
 <script setup lang="ts">
+import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu/menu-selector";
-import useMenuEntriesState from "~/composables/useMenuEntriesState";
 
-const { id } = useRoute().params;
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchByID(id);
+
+const { organization } = organizationStore;
+
 const localePath = useLocalePath();
 
 const { organizationEntry } = useMenuEntriesState();

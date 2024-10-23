@@ -43,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 
 const idParam = useRoute().params.id;
@@ -53,5 +54,5 @@ await organizationStore.fetchByID(id);
 
 const { organization } = organizationStore;
 
-const orgEvents = [];
+const orgEvents: Event[] = [];
 </script>

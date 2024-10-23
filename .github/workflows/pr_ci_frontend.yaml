@@ -41,5 +41,5 @@ jobs:
         if: always()
         uses: borales/actions-yarn@v4
         with:
-          cmd: eslint . --ext .js,.vue
+          cmd: eslint .
           dir: "frontend"
