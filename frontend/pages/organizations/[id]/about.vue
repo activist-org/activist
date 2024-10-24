@@ -30,9 +30,10 @@
             _global.support_organization_aria_label
           "
         /> -->
+        <!-- Mark: 'Share Organization' Button -->
         <BtnAction
-          @click="openModal()"
-          @keydown.enter="openModal()"
+          @click="openModalSharePage()"
+          @keydown.enter="openModalSharePage()"
           class="w-max"
           :cta="true"
           :label="$t(shareButtonLabel)"
@@ -42,12 +43,7 @@
           iconSize="1.45em"
           :ariaLabel="$t('_global.share_organization_aria_label')"
         />
-        <ModalSharePage
-          @closeModal="handleCloseModal"
-          :cta="true"
-          :organization="organization"
-          :isOpen="modalIsOpen"
-        />
+        <ModalSharePage :cta="true" :organization="organization" />
       </div>
     </HeaderAppPage>
     <div class="space-y-6 pb-6">
@@ -84,6 +80,9 @@
 import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
+
+import { useModalHandlers } from "~/composables/useModalHandlers";
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const aboveLargeBP = useBreakpoint("lg");
 
@@ -124,18 +123,4 @@ onUpdated(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", updateShareBtnLabel);
 });
-
-const modals = useModals();
-const modalName = "ModalSharePage";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
 </script>
