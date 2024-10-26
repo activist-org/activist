@@ -33,7 +33,28 @@ export default defineNuxtConfig({
     server: {
       watch: {
         usePolling: true,
+        ignored: [
+          "**/playwright/**",
+          "**/playwright-report/**",
+          "**/tests/**",
+          "**/test-results/**",
+          "**/frontend/test-results/**",
+          "**/frontend/test-results/accessibility-results/**",
+        ],
       },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vue: ["vue"],
+            vueuse: ["@vueuse/core"],
+          },
+        },
+      },
+    },
+    optimizeDeps: {
+      include: ["vue", "@vueuse/core"],
     },
   },
   colorMode: {
@@ -80,6 +101,9 @@ export default defineNuxtConfig({
   hooks: {
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
+    },
+    "app:resolve": (app) => {
+      console.log("App instance resolved:", app);
     },
   },
 });
