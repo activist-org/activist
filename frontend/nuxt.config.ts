@@ -31,8 +31,29 @@ export default defineNuxtConfig({
     server: {
       watch: {
         usePolling: true,
+        ignored: [
+          '**/playwright/**',
+          '**/playwright-report/**',
+          '**/tests/**',
+          '**/test-results/**',
+          '**/frontend/test-results/**',
+          '**/frontend/test-results/accessibility-results/**'
+        ],
       },
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vue': ['vue'],
+            'vueuse': ['@vueuse/core']
+          }
+        }
+      }
+    },
+    optimizeDeps: {
+      include: ['vue', '@vueuse/core']
+    }
   },
   colorMode: {
     classSuffix: "",
@@ -73,6 +94,11 @@ export default defineNuxtConfig({
     compilerOptions: {
       isCustomElement: (tag) =>
         ["swiper-slide", "swiper-container"].includes(tag),
+    },
+  },
+  hooks: {
+    'app:resolve': (app) => {
+      console.log('App instance resolved:', app);
     },
   },
 });
