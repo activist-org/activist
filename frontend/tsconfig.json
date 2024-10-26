@@ -4,6 +4,7 @@
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
+    "module": "ESNext",
     "types": [
       "@vueuse/nuxt",
       "@vueuse/core",
