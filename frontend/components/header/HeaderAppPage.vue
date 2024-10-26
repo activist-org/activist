@@ -40,7 +40,7 @@
       </div>
     </div>
   </div>
-  <div class="flex items-baseline gap-2 md:gap-4">
+  <div id="home-header" class="flex items-baseline gap-2 md:gap-4">
     <h1
       class="responsive-h1 pt-4 font-bold text-light-text transition-all duration-500 dark:text-dark-text"
     >

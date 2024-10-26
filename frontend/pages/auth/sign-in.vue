@@ -4,6 +4,7 @@
       <div class="col">
         <FormTextInput
           @update:model-value="userNameValue = $event"
+          id="sign-in-username"
           :placeholder="$t('pages.auth._global.enter_user_name')"
           :model-value="userNameValue"
         />
@@ -11,6 +12,7 @@
       <div>
         <FormTextInput
           @update:model-value="passwordValue = $event"
+          id="sign-in-password"
           :placeholder="$t('_global.enter_password')"
           :is-icon-visible="true"
           input-type="password"
@@ -18,15 +20,16 @@
           :icons="[IconMap.VISIBLE]"
         />
       </div>
-      <IndicatorPasswordStrength :password-value="passwordValue" />
+      <IndicatorPasswordStrength :password-value="passwordValue" id="sign-in-password-strength"/>
       <div class="flex flex-col space-y-3">
-        <FriendlyCaptcha />
+        <FriendlyCaptcha id="sign-in-captcha"/>
         <button
           @click="navigateTo(localePath('/auth/reset-password'))"
           @mouseover="hovered = true"
           @focus="hovered = true"
           @mouseleave="hovered = false"
           @blur="hovered = false"
+          id="sign-in-forgot-password"
           :disabled="isForgotPasswordDisabled"
           class="text-start font-bold"
           :class="{ 'link-text': !isForgotPasswordDisabled }"
@@ -38,6 +41,7 @@
           :text="$t('pages.auth.sign_in.forgot_password_captcha_tooltip')"
         />
         <BtnAction
+          id="sign-in-submit"
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
           :label="$t('_global.sign_in')"
           :cta="true"
@@ -48,6 +52,7 @@
       <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign_in.index.no_account") }}</h6>
         <NuxtLink
+          id="sign-in-signup-link"
           :to="localePath('/auth/sign-up')"
           class="link-text ml-2 font-extrabold"
           >{{ $t("_global.sign_up") }}

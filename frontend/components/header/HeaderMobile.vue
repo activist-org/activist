@@ -1,6 +1,7 @@
 <template>
   <header
     v-if="!aboveMediumBP"
+    id="mobile-header"
     ref="header"
     class="sticky top-0 z-50 h-12 w-full bg-light-layer-2 drop-shadow-md duration-500 dark:bg-dark-layer-2"
   >
@@ -29,14 +30,17 @@
             />
             <DropdownCreate
               v-if="userIsSignedIn"
+              id="create"
               class="w-full"
               :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownInfo
+              id="info"
               class="w-full"
               :location="DropdownLocation.SIDE_MENU"
             />
             <DropdownUserOptions
+              id="user-options"
               class="w-full"
               :location="DropdownLocation.SIDE_MENU"
               :userIsSignedIn="userIsSignedIn"

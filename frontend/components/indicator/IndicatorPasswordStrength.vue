@@ -4,12 +4,14 @@
       class="h-1 rounded-md bg-light-distinct-text dark:bg-dark-distinct-text"
     >
       <div
+        id="password-strength-indicator-progress"
         class="h-1 rounded-md transition-width duration-500 ease-in"
         :class="!!passwordValue.length ? `${color}` : ''"
         :style="`width: ${width}%;`"
       ></div>
     </div>
     <div
+      id="sign-in-password-strength-text"
       class="float-right mt-1 text-xs"
       :class="{
         'text-light-distinct-text dark:text-dark-distinct-text':

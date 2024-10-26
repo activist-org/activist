@@ -8,6 +8,7 @@
       handleFocusOut($event);
     "
     ref="sidebarWrapper"
+    id="sidebar-left"
     role="menu"
     tabindex="0"
     class="elem-shadow-sm focus-brand absolute z-40 block h-full flex-col border-r border-light-section-div bg-light-layer-1 transition-all duration-500 dark:border-dark-section-div dark:bg-dark-layer-1 md:flex"
