@@ -14,6 +14,7 @@
       }"
     >
       <DialogPanel
+        id="search-modal"
         :class="{
           'flex flex-col items-center': imageModal,
           'card-style-base container h-full w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text md:h-auto':

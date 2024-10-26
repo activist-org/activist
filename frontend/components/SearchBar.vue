@@ -73,6 +73,7 @@
   >
     <Icon
       @click="emit('on-search-toggle')"
+      id="search-toggle"
       class="my-1 h-4 w-4 flex-shrink-0"
       :name="expanded ? `${IconMap.X_LG}` : `${IconMap.SEARCH}`"
       size="1em"
@@ -81,7 +82,7 @@
       $t("_global.search")
     }}</label>
     <input
-      id="expanded-search-input"
+      id="input-search"
       class="bg-transparent focus:outline-none"
       :class="{ hidden: !expanded }"
       type="text"

@@ -28,6 +28,7 @@ defineProps<{
   routeUrl: string;
   iconUrl: string;
   selected: boolean;
+  id?: string;
 }>();
 
 const sidebar = useSidebar();
