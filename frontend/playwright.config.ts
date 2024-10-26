@@ -12,7 +12,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 // Environment configurations
 const environments = {
-  local: "http://127.0.0.1:3000",
+  local: "http://localhost:3000",
   prod: "https://activist.org",
 };
 
@@ -22,7 +22,7 @@ const ENV = (process.env.TEST_ENV || "local") as keyof typeof environments;
 export default defineConfig({
   testDir: "./tests/specs",
   /* Run tests in files in parallel. */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only. */
@@ -30,7 +30,11 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters. */
-  reporter: "html",
+  reporter: [
+    ['html', { open: 'never' }],
+    ['list'],
+    ['./tests/utils/axe-reporter.ts', { outputDir: 'test-results/accessibility-results' }]
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
