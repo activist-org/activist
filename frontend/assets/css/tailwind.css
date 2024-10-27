@@ -136,11 +136,11 @@
   }
 
   .style-cta {
-    @apply focus-brand border border-light-text bg-light-cta-orange fill-light-text  text-light-text hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10;
+    @apply focus-brand border border-light-text bg-light-cta-orange fill-light-text text-light-text hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10;
   }
 
   .style-cta-disabled {
-    @apply focus-brand cursor-not-allowed border border-light-text/50 bg-light-cta-orange/50  fill-light-text/50 text-light-text/50 shadow-none   dark:border-dark-cta-orange/50 dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange/50 dark:text-dark-cta-orange/50;
+    @apply focus-brand cursor-not-allowed border border-light-text/50 bg-light-cta-orange/50 fill-light-text/50 text-light-text/50 shadow-none dark:border-dark-cta-orange/50 dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange/50 dark:text-dark-cta-orange/50;
   }
 
   .style-cta-secondary {
@@ -148,7 +148,7 @@
   }
 
   .style-cta-secondary-disabled {
-    @apply focus-brand cursor-not-allowed border border-light-text/50 bg-light-layer-2/75 fill-light-text/50 text-light-text/50 shadow-none  dark:border-dark-text/50 dark:bg-dark-layer-2 dark:fill-dark-text/50 dark:text-dark-text/50;
+    @apply focus-brand cursor-not-allowed border border-light-text/50 bg-light-layer-2/75 fill-light-text/50 text-light-text/50 shadow-none dark:border-dark-text/50 dark:bg-dark-layer-2 dark:fill-dark-text/50 dark:text-dark-text/50;
   }
 
   .style-learn {

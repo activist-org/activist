@@ -235,6 +235,7 @@ const getFiltersByPageType = computed<Filters>(() => {
   for (const filter in filters) {
     const f = filters[filter as keyof typeof filters];
     if (!f.sidebarType.includes(sidebarType.value)) {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete filteredFilters[filter as keyof typeof filters];
     }
   }
@@ -252,6 +253,7 @@ const applyTopShadow = ref(false);
 
 function setSidebarContentScrollable(): void {
   setTimeout(() => {
+    // eslint-disable-next-line vue/no-ref-as-operand
     if (content && content.value) {
       sidebarContentScrollable.value =
         content.value.scrollHeight > content.value.clientHeight ? true : false;

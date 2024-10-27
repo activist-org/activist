@@ -44,4 +44,12 @@
 import { getGroupSubPages } from "~/utils/groupSubPages";
 
 const groupSubPages = getGroupSubPages();
+
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const groupStore = useGroupStore();
+await groupStore.fetchByID(id);
+
+const { group } = groupStore;
 </script>

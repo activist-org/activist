@@ -40,7 +40,7 @@
             @keypress.enter="dropdownOptionsCallback(o)"
             tabindex="0"
             :class="{
-              'bg-light-cta-orange/80 text-light-text dark:bg-dark-cta-orange/40  dark:text-dark-cta-orange':
+              'bg-light-cta-orange/80 text-light-text dark:bg-dark-cta-orange/40 dark:text-dark-cta-orange':
                 active,
               'text-light-text dark:text-dark-text': !active,
             }"

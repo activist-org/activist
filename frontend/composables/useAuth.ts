@@ -1,5 +1,5 @@
 interface LoginResponse {
-  data: {};
+  data: object;
 }
 
 export const useAuth = () => {

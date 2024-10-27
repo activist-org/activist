@@ -43,8 +43,9 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute();
 import useBreakpoint from "~/composables/useBreakpoint";
+
+const route = useRoute();
 
 const aboveMediumBP = useBreakpoint("md");
 
