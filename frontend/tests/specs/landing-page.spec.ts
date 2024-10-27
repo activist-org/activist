@@ -7,13 +7,16 @@ test.describe("Landing Page", () => {
   // Note: Check to make sure that this is eventually done for light and dark modes.
   test("Landing Page has no detectable accessibility issues", async ({
     landingPage,
-    isAccessibilityTest
+    isAccessibilityTest,
   }, testInfo) => {
     const violations = await runAccessibilityTest(landingPage, testInfo);
-    expect.soft(violations, 'Accessibility violations found:').toHaveLength(0);
+    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
 
     if (violations.length > 0) {
-      console.log('Accessibility violations:', JSON.stringify(violations, null, 2));
+      console.log(
+        "Accessibility violations:",
+        JSON.stringify(violations, null, 2)
+      );
     }
   });
 
@@ -36,7 +39,9 @@ test.describe("Landing Page", () => {
   });
 
   // Test that the Sign In link can be accessed from the Home Page.
-  test("Sign In link should be accessible from the Home Page", async ({ landingPage }) => {
+  test("Sign In link should be accessible from the Home Page", async ({
+    landingPage,
+  }) => {
     const isSignInVisible = await landingPage.isSignInButtonVisible();
     expect(isSignInVisible).toBe(true);
 
@@ -45,7 +50,9 @@ test.describe("Landing Page", () => {
   });
 
   // Test that the Sign Up link can be accessed from the Home Page.
-  test("Sign Up link should be accessible from the Home Page", async ({ landingPage }) => {
+  test("Sign Up link should be accessible from the Home Page", async ({
+    landingPage,
+  }) => {
     const isSignUpVisible = await landingPage.isSignUpButtonVisible();
     expect(isSignUpVisible).toBe(true);
 

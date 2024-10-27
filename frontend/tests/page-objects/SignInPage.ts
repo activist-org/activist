@@ -2,7 +2,6 @@ import type { Page, Locator } from "@playwright/test";
 import { PageObjectBase } from "../utils/PageObjectBase";
 import { HeaderWebsite } from "../component-objects/HeaderWebsite";
 
-
 const locators = {
   USERNAME_INPUT: "#sign-in-username input",
   PASSWORD_INPUT: "#sign-in-password input",
@@ -74,7 +73,7 @@ export class SignInPage extends PageObjectBase {
 
   async getPasswordInputType(): Promise<string> {
     const passwordInput = this.page.locator(this.locators.PASSWORD_INPUT);
-    return await passwordInput.getAttribute('type') || '';
+    return (await passwordInput.getAttribute("type")) || "";
   }
 
   async clickVisibilityIcon(): Promise<void> {
@@ -106,30 +105,39 @@ export class SignInPage extends PageObjectBase {
   }
 
   async getPasswordStrengthText(): Promise<string> {
-    const text =  await this.page.textContent(this.locators.PASSWORD_STRENGTH_TEXT) || '';
+    const text =
+      (await this.page.textContent(this.locators.PASSWORD_STRENGTH_TEXT)) || "";
     const strengthRegex = /Password strength: (.*)/;
     const match = text.match(strengthRegex);
-    return match ? match[1] : '';
+    return match ? match[1] : "";
   }
 
   async getPasswordStrengthProgress(): Promise<string> {
-    const style = await this.page.getAttribute(this.locators.PASSWORD_STRENGTH_PROGRESS, 'style') || '';
+    const style =
+      (await this.page.getAttribute(
+        this.locators.PASSWORD_STRENGTH_PROGRESS,
+        "style"
+      )) || "";
     const widthRegex = /width:\s*(\d+(\.\d+)?%)/;
     const match = style.match(widthRegex);
-    return match ? match[1] : '0%';
+    return match ? match[1] : "0%";
   }
 
   async getPasswordStrengthIndicatorColor(): Promise<string> {
-    const style = await this.page.getAttribute(this.locators.PASSWORD_STRENGTH_PROGRESS, 'class') || '';
+    const style =
+      (await this.page.getAttribute(
+        this.locators.PASSWORD_STRENGTH_PROGRESS,
+        "class"
+      )) || "";
     const colorRegex = /bg-\[(.*?)\]|bg-light-text|dark:bg-dark-text/;
     const match = style.match(colorRegex);
     if (match) {
-      if (match[0] === 'bg-light-text' || match[0] === 'dark:bg-dark-text') {
+      if (match[0] === "bg-light-text" || match[0] === "dark:bg-dark-text") {
         return match[0];
       }
-      return match[1] || '';
+      return match[1] || "";
     }
-    return '';
+    return "";
   }
 
   async isFriendlyCaptchaVisible(): Promise<boolean> {

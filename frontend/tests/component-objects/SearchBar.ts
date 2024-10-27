@@ -51,7 +51,9 @@ export class SearchBar extends PageObjectBase {
   }
 
   async pressCommandOrControlK(): Promise<void> {
-    const isMac = await this.page.evaluate(() => /Mac/i.test(navigator.userAgent));
+    const isMac = await this.page.evaluate(() =>
+      /Mac/i.test(navigator.userAgent)
+    );
     if (isMac) {
       await this.page.keyboard.press("Meta+K");
     } else {
@@ -72,17 +74,23 @@ export class SearchBar extends PageObjectBase {
   }
 
   async openSearchInput(): Promise<void> {
-    if (await this.isMobile() && !(await this.isSearchInputVisible())) {
+    if ((await this.isMobile()) && !(await this.isSearchInputVisible())) {
       await this.searchToggle.click();
-    } else if (!(await this.isMobile()) && !(await this.isSearchInputVisible())) {
+    } else if (
+      !(await this.isMobile()) &&
+      !(await this.isSearchInputVisible())
+    ) {
       await this.search.click();
     }
   }
 
   async closeSearchInput(): Promise<void> {
-    if (await this.isMobile() && (await this.isSearchInputVisible())) {
+    if ((await this.isMobile()) && (await this.isSearchInputVisible())) {
       await this.searchToggle.click();
-    } else if (!(await this.isMobile()) && (await this.isSearchInputVisible())) {
+    } else if (
+      !(await this.isMobile()) &&
+      (await this.isSearchInputVisible())
+    ) {
       await this.page.click("#home-header");
     }
   }

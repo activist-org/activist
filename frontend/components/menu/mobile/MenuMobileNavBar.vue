@@ -27,12 +27,12 @@ const isActive = (routeUrl: string) => {
 
 const getSelectorId = (label: string) => {
   const idMap: Record<string, string> = {
-    home: 'home',
-    events: 'events',
-    organizations: 'organizations',
+    home: "home",
+    events: "events",
+    organizations: "organizations",
   };
 
-  const key = Object.keys(idMap).find(k => label.includes(k));
+  const key = Object.keys(idMap).find((k) => label.includes(k));
   return key ? idMap[key] : undefined;
 };
 </script>

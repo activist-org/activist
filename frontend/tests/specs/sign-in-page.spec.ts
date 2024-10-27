@@ -2,16 +2,18 @@ import { SignInPage, expect, test } from "../fixtures/test-fixtures";
 import { runAccessibilityTest } from "../utils/accessibilityTesting";
 
 test.describe("Sign In Page", () => {
-
   test("Sign In Page has no detectable accessibility issues", async ({
     signInPage,
-    isAccessibilityTest
+    isAccessibilityTest,
   }, testInfo) => {
     const violations = await runAccessibilityTest(signInPage, testInfo);
-    expect.soft(violations, 'Accessibility violations found:').toHaveLength(0);
+    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
 
     if (violations.length > 0) {
-      console.log('Accessibility violations:', JSON.stringify(violations, null, 2));
+      console.log(
+        "Accessibility violations:",
+        JSON.stringify(violations, null, 2)
+      );
     }
   });
 
@@ -52,13 +54,34 @@ test.describe("Sign In Page", () => {
     expect(await signInPage.isPasswordStrengthIndicatorVisible()).toBe(true);
   });
 
-  test("should show correct password strength indicators for various passwords", async ({ signInPage }) => {
+  test("should show correct password strength indicators for various passwords", async ({
+    signInPage,
+  }) => {
     const passwordTests = [
-      { password: "a", expected: { strength: "Very Weak", color: "#cc0000", progress: "20%" } },
-      { password: "Activis", expected: { strength: "Weak", color: "#e69138", progress: "40%" } },
-      { password: "Activist4Climat", expected: { strength: "Medium", color: "#f1c232", progress: "60%" } },
-      { password: "Activist4ClimateChange", expected: { strength: "Strong", color: "#6aa84f", progress: "80%" } },
-      { password: "Activist4ClimateChange!", expected: { strength: "Very Strong", color: "bg-light-text", progress: "100%" } }
+      {
+        password: "a",
+        expected: { strength: "Very Weak", color: "#cc0000", progress: "20%" },
+      },
+      {
+        password: "Activis",
+        expected: { strength: "Weak", color: "#e69138", progress: "40%" },
+      },
+      {
+        password: "Activist4Climat",
+        expected: { strength: "Medium", color: "#f1c232", progress: "60%" },
+      },
+      {
+        password: "Activist4ClimateChange",
+        expected: { strength: "Strong", color: "#6aa84f", progress: "80%" },
+      },
+      {
+        password: "Activist4ClimateChange!",
+        expected: {
+          strength: "Very Strong",
+          color: "bg-light-text",
+          progress: "100%",
+        },
+      },
     ];
 
     for (const { password, expected } of passwordTests) {
@@ -67,9 +90,15 @@ test.describe("Sign In Page", () => {
       const strength = await signInPage.getPasswordStrengthText();
       const progress = await signInPage.getPasswordStrengthProgress();
       expect(await signInPage.isPasswordStrengthIndicatorVisible()).toBe(true);
-      expect(await signInPage.getPasswordStrengthIndicatorColor()).toBe(expected.color);
-      expect((await signInPage.getPasswordStrengthText()).toLowerCase()).toBe(expected.strength.toLowerCase());
-      expect(await signInPage.getPasswordStrengthProgress()).toBe(expected.progress);
+      expect(await signInPage.getPasswordStrengthIndicatorColor()).toBe(
+        expected.color
+      );
+      expect((await signInPage.getPasswordStrengthText()).toLowerCase()).toBe(
+        expected.strength.toLowerCase()
+      );
+      expect(await signInPage.getPasswordStrengthProgress()).toBe(
+        expected.progress
+      );
     }
   });
 
@@ -77,7 +106,9 @@ test.describe("Sign In Page", () => {
     expect(await signInPage.isFriendlyCaptchaVisible()).toBe(true);
   });
 
-  test("should attempt sign in with valid credentials", async ({ signInPage }) => {
+  test("should attempt sign in with valid credentials", async ({
+    signInPage,
+  }) => {
     await signInPage.signIn("admin", "admin");
     await signInPage.waitForUrlChange("**/home");
     expect(signInPage.url()).toContain("/home");
@@ -85,7 +116,7 @@ test.describe("Sign In Page", () => {
   });
 
   test("should show error for invalid credentials", async ({ signInPage }) => {
-    const dialogPromise = signInPage.waitForEvent('dialog');
+    const dialogPromise = signInPage.waitForEvent("dialog");
     await signInPage.signIn("invaliduser", "invalidpassword");
 
     const dialog = await dialogPromise;

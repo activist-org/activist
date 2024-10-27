@@ -6,7 +6,8 @@ const locators = {
   MOBILE_HEADER: "#mobile-header",
   DESKTOP_HEADER: "#desktop-header",
   ROADMAP_BUTTON: "#desktop-header #btn-roadmap",
-  GET_IN_TOUCH_BUTTON: "#btn-get-in-touch-large:visible, #btn-get-in-touch-medium:visible",
+  GET_IN_TOUCH_BUTTON:
+    "#btn-get-in-touch-large:visible, #btn-get-in-touch-medium:visible",
   SIGN_IN_BUTTON: "#btn-sign-in-large:visible, #btn-sign-in-medium:visible",
   SIGN_UP_BUTTON: "#btn-sign-up-large:visible, #btn-sign-up-medium:visible",
   THEME_DROPDOWN: ".dropdown-theme:visible",

@@ -43,7 +43,9 @@ export class SidebarLeft extends PageObjectBase {
     if (isExpanded) {
       await this.clickSidebarLeftToggle();
       await this.hoverOutsideSidebar();
-      await this.page.waitForSelector('#sidebar-left.w-16', { state: 'attached' });
+      await this.page.waitForSelector("#sidebar-left.w-16", {
+        state: "attached",
+      });
     }
   }
 
@@ -79,6 +81,8 @@ export class SidebarLeft extends PageObjectBase {
 
   // is sidebar collapsed (has class w-16)
   async isSidebarCollapsed(): Promise<boolean> {
-    return (await this.component.getAttribute("class"))?.includes("w-16") ?? false;
+    return (
+      (await this.component.getAttribute("class"))?.includes("w-16") ?? false
+    );
   }
 }

@@ -77,8 +77,9 @@
         >
           <SidebarLeftSelector
             :id="
-              (sidebarType === SidebarType.ORGANIZATION_PAGE ? 'org-' : 'event-')
-              + menuEntry.label.split('.').pop()
+              (sidebarType === SidebarType.ORGANIZATION_PAGE
+                ? 'org-'
+                : 'event-') + menuEntry.label.split('.').pop()
             "
             :label="menuEntry.label"
             :routeUrl="menuEntry.routeUrl"
