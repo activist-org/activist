@@ -122,7 +122,6 @@
 
 <script setup lang="ts">
 import { Toaster, toast } from "vue-sonner";
-import BtnAction from "~/components/btn/action/BtnAction.vue";
 import type { OrganizationCreateFormData } from "~/types/entities/organization";
 
 definePageMeta({

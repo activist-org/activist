@@ -30,7 +30,6 @@
             _global.support_organization_aria_label
           "
         /> -->
-        <!-- Mark: 'Share Organization' Button -->
         <BtnAction
           @click="openModalSharePage()"
           @keydown.enter="openModalSharePage()"

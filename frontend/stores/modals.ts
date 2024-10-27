@@ -24,12 +24,9 @@ export const useModals = defineStore("modals", {
       }
     },
 
-    // These two methods reproduce the functionality in the openModal() and handleCloseModal() methods that are currently copy-pasted a lot, throughout the code.
-    // They are called in useModalHandlers.ts
-    // useModalHandlers.ts returns a usable version of openModal() and handleCloseModal() that is written in one place.
-    // It also allows for multiple modal handlers on a page / component.
-    // We can also rename the modal handlers so that the code is a little more self-documenting and readable.
-    // We use mostly the openModal... method. closeModal... is here for completeness.
+    // The following are called in useModalHandlers.ts.
+    // They allow for multiple modal handlers on a page / component.
+    // We can rename the modal handlers so that the code is a little more self-documenting and readable.
     openModalAndUpdateState(modalName: string) {
       this.openModal(modalName);
       return this.modals[modalName].isOpen;

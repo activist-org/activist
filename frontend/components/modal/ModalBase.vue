@@ -3,10 +3,6 @@
     <DialogBackdrop
       className="fixed inset-0 bg-light-layer-0/95 dark:bg-dark-layer-0/95"
     />
-    <!-- There are linter warnings about @click="closeModal()" -->
-    <!-- They are warnings, not errors. The code runs fine. -->
-    <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events -->
-    <!-- eslint-disable-next-line vuejs-accessibility/no-static-element-interactions -->
     <div
       @click="closeModal()"
       @keydown.enter="closeModal()"

@@ -24,12 +24,6 @@
           @click="openModalEditAboutOrganization"
           @keydown.enter="openModalEditAboutOrganization"
         />
-        <ModalEditAboutOrganization
-          :organization="organization"
-          :description="organization.description"
-          :getInvolved="organization.getInvolved"
-          :getInvolvedURL="organization.getInvolvedURL"
-        />
       </div>
       <div class="flex-col space-y-3">
         <!-- <div class="flex items-center gap-3">
