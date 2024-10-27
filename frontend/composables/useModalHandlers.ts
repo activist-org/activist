@@ -1,4 +1,4 @@
-import { useModals } from '~/stores/modals';
+import { useModals } from "~/stores/modals";
 
 export function useModalHandlers(modalName: string) {
   const modals = useModals();
@@ -8,6 +8,6 @@ export function useModalHandlers(modalName: string) {
 
   return {
     openModal,
-    handleCloseModal
+    handleCloseModal,
   };
 }

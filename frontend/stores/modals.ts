@@ -38,6 +38,6 @@ export const useModals = defineStore("modals", {
     closeModalAndUpdateState(modalName: string) {
       this.closeModal(modalName);
       return this.modals[modalName].isOpen;
-    }
+    },
   },
 });
