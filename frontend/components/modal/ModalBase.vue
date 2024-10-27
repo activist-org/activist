@@ -1,11 +1,11 @@
 <template>
-  <Dialog @close="closeModal()" class="relative z-50" :open="modalIsOpen">
-    <div
-      @click="closeModal()"
-      class="fixed inset-0 cursor-pointer bg-light-layer-0/95 dark:bg-dark-layer-0/95"
-      aria-hidden="true"
+  <Dialog class="relative z-50" :open="modalIsOpen">
+    <DialogBackdrop
+      className="fixed inset-0 bg-light-layer-0/95 dark:bg-dark-layer-0/95"
     />
     <div
+      @click="closeModal()"
+      @keydown.enter="closeModal()"
       class="cursor-pointer"
       :class="{
         'fixed top-0 z-10 flex h-screen w-full flex-col items-center overflow-hidden':
@@ -24,7 +24,9 @@
           v-if="imageModal"
           @click="closeModal()"
           class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
-          :aria-label="$t('components.modal_base.close_modal_aria_label')"
+          :aria-label="
+            $t ? $t('components.modal_base.close_modal_aria_label') : ''
+          "
         >
           <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
         </button>
@@ -43,7 +45,9 @@
           tabindex="0"
           role="button"
           class="focus-brand flex flex-col items-center justify-center"
-          :aria-label="$t('components.modal_base.close_modal_aria_label')"
+          :aria-label="
+            $t ? $t('components.modal_base.close_modal_aria_label') : ''
+          "
         >
           <slot />
         </div>

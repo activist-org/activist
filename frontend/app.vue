@@ -12,6 +12,11 @@
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { commandPaletteData } from "~/types/command-palette";
 
+import { useModalHandlers } from "~/composables/useModalHandlers";
+const { openModal: openModalCommandPalette } = useModalHandlers(
+  "ModalCommandPalette"
+);
+
 useHead({
   titleTemplate: (titleChunk: string | undefined) => {
     return titleChunk ? `${titleChunk} • activist` : "activist";
@@ -29,23 +34,14 @@ const { meta_k, ctrl_k } = useMagicKeys({
   },
 });
 
-const modals = useModals();
-const modalName = "ModalCommandPalette";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
 whenever(meta_k, () => {
   if (isMacOS) {
-    openModal();
+    openModalCommandPalette();
   }
 });
 whenever(ctrl_k, () => {
   if (!isMacOS) {
-    openModal();
+    openModalCommandPalette();
   }
 });
 </script>

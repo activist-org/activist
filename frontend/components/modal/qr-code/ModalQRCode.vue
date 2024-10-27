@@ -177,11 +177,12 @@ const availableFormats: Ref<string[]> = computed(() => {
 });
 
 function drawInlineSVG(
-  svgElement: any,
+  svgElement: Element,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ctx: any,
   width: number,
   height: number,
-  callback: any
+  callback: () => void
 ) {
   const svgURL = new XMLSerializer().serializeToString(svgElement);
   const img = new Image();

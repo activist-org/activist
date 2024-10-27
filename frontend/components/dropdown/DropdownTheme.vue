@@ -30,7 +30,7 @@
 import { MenuItem } from "@headlessui/vue";
 import { computed } from "vue";
 import { IconMap } from "~/types/icon-map";
-import { DropdownLocation } from "~/types/location";
+import type { DropdownLocation } from "~/types/location";
 
 defineProps<{
   location?: DropdownLocation;

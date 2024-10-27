@@ -56,14 +56,20 @@
 <script setup lang="ts">
 const localePath = useLocalePath();
 
-interface GithubContributor {
+interface GitHubContributor {
   avatarUrl: string;
   htmlUrl: string;
   loginID: string;
 }
 
+interface GitHubContributorResponse {
+  avatar_url: string;
+  html_url: string;
+  login: string;
+}
+
 const isLoading = ref<boolean>(false);
-const githubData = ref<GithubContributor[]>([]);
+const githubData = ref<GitHubContributor[]>([]);
 const currentPage = ref<number>(1);
 const hasMoreContributors = ref<boolean>(true);
 
@@ -84,7 +90,7 @@ async function fetchDataFromGitHubAPI(page: number, numPerPage: number = 30) {
     }
 
     githubData.value = githubData.value.concat(
-      data.map((item: any) => {
+      data.map((item: GitHubContributorResponse) => {
         return {
           avatarUrl: item.avatar_url,
           htmlUrl: item.html_url,

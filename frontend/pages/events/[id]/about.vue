@@ -88,6 +88,14 @@
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const eventStore = useEventStore();
+await eventStore.fetchByID(id);
+
+const { event } = eventStore;
+
 const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;

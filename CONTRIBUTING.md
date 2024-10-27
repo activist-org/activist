@@ -326,10 +326,24 @@ exit
 
 ### Frontend
 
-Running frontend tests locally is currently WIP.
+Please check the formatting of your code using Prettier and run the static type check with eslint before pull requests with the following command:
+
+```bash
+# Within ./frontend:
+yarn format
+yarn lint
+```
+
+You can further run the following commands for TypeScript type checks on the frontend:
+
+```bash
+# Within ./frontend:
+yarn run postinstall
+yarn typecheck
+```
 
 > [!NOTE]
-> When working on the frontend, activist recommends manual typechecking. From within the `frontend` directory run `yarn run postinstall` followed by `yarn nuxi typecheck` to confirm your changes are type-safe. Existing TS errors may be ignored. PRs to fix these are always welcome!
+> Pre-existing TS errors may be ignored. If you need assistance then feel free to open a PR and we'll support!
 
 <a id="linting"></a>
 

@@ -9,7 +9,7 @@
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
-import maplibregl, { Map } from "maplibre-gl";
+import maplibregl, { type Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
@@ -39,6 +39,7 @@ function isWebglSupported() {
       }
     } catch (e) {
       // WebGL is supported, but disabled.
+      console.log(e);
     }
     return false;
   }
