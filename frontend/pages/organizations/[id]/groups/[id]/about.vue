@@ -88,7 +88,7 @@
 <script setup lang="ts">
 import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
-import type { Group, GroupText } from "~/types/entities/group";
+import type { Group } from "~/types/entities/group";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 
@@ -96,19 +96,13 @@ const aboveLargeBP = useBreakpoint("lg");
 
 const { id } = useRoute().params;
 
-const [resOrg, resOrgTexts] = await Promise.all([
+const [resOrg] = await Promise.all([
   useAsyncData(
     async () => await fetchWithOptionalToken(`/entities/groups/${id}`, {})
-  ),
-  useAsyncData(
-    async () =>
-      await fetchWithOptionalToken(`/entities/group_texts?org_id=${id}`, {})
   ),
 ]);
 
 const group = resOrg.data as unknown as Group;
-const groupTexts = resOrgTexts.data as unknown as GroupText;
-const texts = groupTexts;
 
 const groupSubPages = getGroupSubPages();
 

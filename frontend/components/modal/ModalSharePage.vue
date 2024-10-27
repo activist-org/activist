@@ -314,6 +314,7 @@ const shareOptions = {
   bcc: [""],
   subject: getEntityType()?.subject || "Share this!",
   body:
+    // eslint-disable-next-line no-constant-binary-expression
     `${getEntityType()?.body}   ${getEntityType()?.url}` || "Check this out!",
   redirectUri: "https://www.domain.com/",
   domain: "https://mas.to",
