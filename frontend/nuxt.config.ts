@@ -32,12 +32,12 @@ export default defineNuxtConfig({
       watch: {
         usePolling: true,
         ignored: [
-          '**/playwright/**',
-          '**/playwright-report/**',
-          '**/tests/**',
-          '**/test-results/**',
-          '**/frontend/test-results/**',
-          '**/frontend/test-results/accessibility-results/**'
+          "**/playwright/**",
+          "**/playwright-report/**",
+          "**/tests/**",
+          "**/test-results/**",
+          "**/frontend/test-results/**",
+          "**/frontend/test-results/accessibility-results/**",
         ],
       },
     },
