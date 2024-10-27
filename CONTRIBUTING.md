@@ -326,11 +326,12 @@ exit
 
 ### Frontend
 
-Please check the formatting of your code using Prettier before pull requests with the following command:
+Please check the formatting of your code using Prettier and run the static type check with eslint before pull requests with the following command:
 
 ```bash
 # Within ./frontend:
-yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
+yarn format
+yarn lint
 ```
 
 You can further run the following commands for TypeScript type checks on the frontend:
@@ -338,7 +339,7 @@ You can further run the following commands for TypeScript type checks on the fro
 ```bash
 # Within ./frontend:
 yarn run postinstall
-yarn nuxi typecheck
+yarn typecheck
 ```
 
 > [!NOTE]

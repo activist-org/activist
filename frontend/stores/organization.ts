@@ -281,7 +281,7 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Delete
 
-    async delete(id: string | undefined) {
+    async delete() {
       this.loading = true;
 
       this.loading = false;

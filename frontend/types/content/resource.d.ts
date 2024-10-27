@@ -1,4 +1,5 @@
-import { Organization } from "../entities/organization";
+import type { Organization } from "../entities/organization";
+
 // MARK: Main Table
 
 export interface Resource {

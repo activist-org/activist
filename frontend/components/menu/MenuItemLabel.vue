@@ -37,11 +37,11 @@
 const props = defineProps<{
   isSideLeftMenu?: boolean | undefined;
   isButton: boolean;
-  handlerClick?: () => void | undefined;
+  handlerClick?: () => void;
   iconName?: string | undefined;
   ariaLabel?: string | undefined;
   label: string;
-  active: any;
+  active: boolean;
 }>();
 
 const sidebar = useSidebar();

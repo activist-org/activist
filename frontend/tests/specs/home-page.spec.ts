@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { HomePage, expect, test } from "../fixtures/page-fixtures";
+import { expect, test } from "../fixtures/page-fixtures";
 
 test.describe("Home Page", () => {
   test.beforeEach(async ({ homePage }) => {

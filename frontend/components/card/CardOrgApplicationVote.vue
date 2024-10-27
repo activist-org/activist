@@ -93,14 +93,9 @@ export interface Props {
  */
 export interface Emits {
   /**
-   * The up vote casted event.
+   * The up and down vote casted events.
    */
-  (event: "up-vote"): void;
-
-  /**
-   * The down vote casted event.
-   */
-  (event: "down-vote"): void;
+  (event: "up-vote" | "down-vote"): void;
 }
 
 defineEmits<Emits>();

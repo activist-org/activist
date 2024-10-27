@@ -1,6 +1,6 @@
 import type { NuxtModule } from "@nuxt/schema";
 
-const modules: (string | [string, Record<string, any>] | NuxtModule)[] = [
+const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
   "@nuxt/content",
   "nuxt-icon",
   [
@@ -18,6 +18,7 @@ const modules: (string | [string, Record<string, any>] | NuxtModule)[] = [
   "@nuxtjs/color-mode",
   "@nuxtjs/device",
   "@nuxt/devtools",
+  "@nuxt/eslint",
   "@nuxtjs/i18n",
   "@nuxtjs/plausible",
   "@nuxtjs/tailwindcss",
