@@ -43,7 +43,7 @@
 - [Our goals](#our-goals)
 - [Contributing](#contributing)
 - [Environment setup](#environment-setup)
-- [Design and accessability](#design-a11y)
+- [Design and accessibility](#design-a11y)
 - [Platform features](#platform-features)
 - [Securely hosted](#securely-hosted)
 - [Community governance](#community-governance)
@@ -261,7 +261,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 <a id="design-a11y"></a>
 
-# Design and accessability [`⇧`](#contents)
+# Design and accessibility [`⇧`](#contents)
 
 <a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
 

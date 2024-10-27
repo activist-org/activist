@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
+import type { Group } from "~/types/entities/group";
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
@@ -25,7 +26,7 @@ const { organization } = organizationStore;
 
 const feedItemNames = computed<string[]>(() => {
   if (organization && organization.groups) {
-    return organization.groups.map((group) => group.name);
+    return organization.groups.map((group: Group) => group.name);
   } else {
     return [""];
   }
@@ -34,7 +35,8 @@ const feedItemNames = computed<string[]>(() => {
 const feedItemURLs = computed<string[]>(() => {
   if (organization && organization.groups) {
     return organization.groups.map(
-      (group) => `/organizations/${group.organization.id}/groups/${group.id}`
+      (group: Group) =>
+        `/organizations/${group.organization.id}/groups/${group.id}`
     );
   } else {
     return [""];

@@ -33,6 +33,7 @@
 </template>
 
 <script setup lang="ts">
+import type { FaqEntry } from "~/types/content/faq-entry.d";
 import { IconMap } from "~/types/icon-map";
 
 const idParam = useRoute().params.id;
@@ -43,5 +44,5 @@ await organizationStore.fetchByID(id);
 
 const { organization } = organizationStore;
 
-const orgFAQs = [];
+const orgFAQs: FaqEntry[] = [];
 </script>
