@@ -1,7 +1,6 @@
 <template>
   <header
     v-if="!aboveMediumBP"
-    id="mobile-header"
     ref="header"
     class="sticky top-0 z-50 h-12 w-full bg-layer-2 drop-shadow-md duration-500"
   >

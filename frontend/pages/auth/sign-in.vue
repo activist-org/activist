@@ -21,8 +21,8 @@
         />
       </div>
       <IndicatorPasswordStrength
-        :password-value="passwordValue"
         id="sign-in-password-strength"
+        :password-value="passwordValue"
       />
       <div class="flex flex-col space-y-3">
         <FriendlyCaptcha id="sign-in-captcha" />
