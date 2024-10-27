@@ -28,7 +28,8 @@ export class LandingPage extends PageObjectBase {
   }
 
   public static readonly urls = {
-    REQUEST_ACCESS_URL: "https://app.formbricks.com/s/clvn9ywe21css8wqpt1hee57a",
+    REQUEST_ACCESS_URL:
+      "https://app.formbricks.com/s/clvn9ywe21css8wqpt1hee57a",
   };
 
   get landingSplash(): Locator {
@@ -115,11 +116,11 @@ export class LandingPage extends PageObjectBase {
   }
 
   async getVisibleLanguageOptions(): Promise<Locator[]> {
-    const selectedLanguage = await this.isMobile()
+    const selectedLanguage = (await this.isMobile())
       ? await this.navigation.mobileNav.getSelectedLanguage()
       : await this.header.getSelectedLanguage();
 
-    const languageOptions = await this.isMobile()
+    const languageOptions = (await this.isMobile())
       ? await this.navigation.mobileNav.getLanguageOptions()
       : await this.header.getLanguageOptions();
 
@@ -130,11 +131,14 @@ export class LandingPage extends PageObjectBase {
         continue;
       }
       const optionText = locale.name;
-      const option = await this.isMobile()
-        ? await this.navigation.mobileNav.findLanguageOption(languageOptions, optionText)
+      const option = (await this.isMobile())
+        ? await this.navigation.mobileNav.findLanguageOption(
+            languageOptions,
+            optionText
+          )
         : await this.header.findLanguageOption(languageOptions, optionText);
 
-      if (option && await option.isVisible()) {
+      if (option && (await option.isVisible())) {
         visibleOptions.push(option);
       }
     }

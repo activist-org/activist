@@ -57,7 +57,7 @@ export class EventMenu extends PageObjectBase {
   }
 
   async isOpen(): Promise<boolean> {
-    return await this.toggle.getAttribute("aria-expanded") === "true";
+    return (await this.toggle.getAttribute("aria-expanded")) === "true";
   }
 
   async isVisible(): Promise<boolean> {
@@ -69,7 +69,7 @@ export class EventMenu extends PageObjectBase {
   }
 
   async getActiveSelectedOption(): Promise<string> {
-    const selector = await this.isMobile()
+    const selector = (await this.isMobile())
       ? "[data-headlessui-state='active selected']"
       : ".style-menu-option-cta";
     return (await this.options.locator(selector).textContent()) || "";

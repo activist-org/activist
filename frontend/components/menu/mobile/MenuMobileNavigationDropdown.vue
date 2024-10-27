@@ -41,7 +41,11 @@
           >
             <NuxtLink @click="handleItemClick(menuEntry)">
               <li
-                :id="(sidebarType === SidebarType.ORGANIZATION_PAGE ? 'org-' : 'event-') + menuEntry.label.split('.').pop()"
+                :id="
+                  (sidebarType === SidebarType.ORGANIZATION_PAGE
+                    ? 'org-'
+                    : 'event-') + menuEntry.label.split('.').pop()
+                "
                 class="relative flex cursor-default select-none items-center py-2 pl-5 align-middle"
                 :class="{
                   'bg-light-layer-2 fill-light-text text-light-text dark:bg-dark-section-div dark:fill-dark-text dark:text-dark-text':

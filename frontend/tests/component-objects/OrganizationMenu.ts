@@ -77,7 +77,7 @@ export class OrganizationMenu extends PageObjectBase {
   }
 
   async isOpen(): Promise<boolean> {
-    return await this.toggle.getAttribute("aria-expanded") === "true";
+    return (await this.toggle.getAttribute("aria-expanded")) === "true";
   }
 
   async isVisible(): Promise<boolean> {
@@ -91,7 +91,7 @@ export class OrganizationMenu extends PageObjectBase {
   async getActiveSelectedOption(): Promise<string> {
     // if mobile, then "[data-headlessui-state='active selected']"
     // if desktop, then class includes style-menu-option-cta
-    const selector = await this.isMobile()
+    const selector = (await this.isMobile())
       ? "[data-headlessui-state='active selected']"
       : ".style-menu-option-cta";
     return (await this.options.locator(selector).textContent()) || "";

@@ -1,5 +1,5 @@
 <template>
-  <MenuLinkWrapper  :id="id" :to="routeURL" :selected="selected">
+  <MenuLinkWrapper :id="id" :to="routeURL" :selected="selected">
     <div
       class="relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
     >

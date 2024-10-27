@@ -20,7 +20,7 @@ const locators = {
   USER_OPTIONS_DROPDOWN: "#user-options ul",
   SIGN_IN: "#sign-in",
   SIGN_UP: "#sign-up",
-}
+};
 
 export class Navigation extends PageObjectBase {
   readonly organizationMenu: OrganizationMenu;

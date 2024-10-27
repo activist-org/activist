@@ -8,7 +8,12 @@ export class PageObjectBase {
   protected readonly pageURL?: string;
   protected locators: Record<string, string> = {};
 
-  constructor(page: Page, locators: Record<string, string>, pageName?: string, pageURL?: string) {
+  constructor(
+    page: Page,
+    locators: Record<string, string>,
+    pageName?: string,
+    pageURL?: string
+  ) {
     this.page = page;
     this.locators = locators;
     this.pageName = pageName;
@@ -30,13 +35,15 @@ export class PageObjectBase {
   public async isMobile(): Promise<boolean> {
     const viewportSize = this.page.viewportSize();
     const isMobileViewport = viewportSize !== null && viewportSize.width < 768;
-    const isMobileEmulation = await this.page.evaluate(() => 'ontouchstart' in window);
+    const isMobileEmulation = await this.page.evaluate(
+      () => "ontouchstart" in window
+    );
     return isMobileViewport && isMobileEmulation;
   }
 
   public async navigateTo(path: string): Promise<void> {
     await this.page.goto(path);
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   public async waitForUrlChange(

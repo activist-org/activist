@@ -20,9 +20,12 @@
           :icons="[IconMap.VISIBLE]"
         />
       </div>
-      <IndicatorPasswordStrength :password-value="passwordValue" id="sign-in-password-strength"/>
+      <IndicatorPasswordStrength
+        :password-value="passwordValue"
+        id="sign-in-password-strength"
+      />
       <div class="flex flex-col space-y-3">
-        <FriendlyCaptcha id="sign-in-captcha"/>
+        <FriendlyCaptcha id="sign-in-captcha" />
         <button
           @click="navigateTo(localePath('/auth/reset-password'))"
           @mouseover="hovered = true"

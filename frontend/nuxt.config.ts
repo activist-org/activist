@@ -32,12 +32,12 @@ export default defineNuxtConfig({
       watch: {
         usePolling: true,
         ignored: [
-          '**/playwright/**',
-          '**/playwright-report/**',
-          '**/tests/**',
-          '**/test-results/**',
-          '**/frontend/test-results/**',
-          '**/frontend/test-results/accessibility-results/**'
+          "**/playwright/**",
+          "**/playwright-report/**",
+          "**/tests/**",
+          "**/test-results/**",
+          "**/frontend/test-results/**",
+          "**/frontend/test-results/accessibility-results/**",
         ],
       },
     },
@@ -45,15 +45,15 @@ export default defineNuxtConfig({
       rollupOptions: {
         output: {
           manualChunks: {
-            'vue': ['vue'],
-            'vueuse': ['@vueuse/core']
-          }
-        }
-      }
+            vue: ["vue"],
+            vueuse: ["@vueuse/core"],
+          },
+        },
+      },
     },
     optimizeDeps: {
-      include: ['vue', '@vueuse/core']
-    }
+      include: ["vue", "@vueuse/core"],
+    },
   },
   colorMode: {
     classSuffix: "",
@@ -97,8 +97,8 @@ export default defineNuxtConfig({
     },
   },
   hooks: {
-    'app:resolve': (app) => {
-      console.log('App instance resolved:', app);
+    "app:resolve": (app) => {
+      console.log("App instance resolved:", app);
     },
   },
 });

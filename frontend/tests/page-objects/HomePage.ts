@@ -28,9 +28,9 @@ export class HomePage extends PageObjectBase {
 
   async checkTopicsDropdownFunctionality(): Promise<void> {
     await this.topics.openTopicsDropdown();
-    await this.topics.options.waitFor({ state: 'visible' });
+    await this.topics.options.waitFor({ state: "visible" });
     await this.topics.closeTopicsDropdown();
-    await this.topics.options.waitFor({ state: 'hidden' });
+    await this.topics.options.waitFor({ state: "hidden" });
   }
 
   async checkSidebarVisibilityOnDesktop(): Promise<boolean> {
@@ -42,7 +42,8 @@ export class HomePage extends PageObjectBase {
       return [];
     }
 
-    const isToggleExpanded = await this.sidebarLeft.isSidebarLeftToggleExpanded();
+    const isToggleExpanded =
+      await this.sidebarLeft.isSidebarLeftToggleExpanded();
     if (!isToggleExpanded) {
       return [];
     }
@@ -102,18 +103,38 @@ export class HomePage extends PageObjectBase {
     ];
 
     const menuLinks = [
-      { nav: this.navigation.help, path: "/help", parent: this.navigation.info },
-      { nav: this.navigation.docs, path: "/docs", parent: this.navigation.info },
-      { nav: this.navigation.legal, path: "/legal", parent: this.navigation.info },
-      { nav: this.navigation.signIn, path: "/auth/sign-in", parent: this.navigation.userOptions },
-      { nav: this.navigation.signUp, path: "/auth/sign-up", parent: this.navigation.userOptions },
+      {
+        nav: this.navigation.help,
+        path: "/help",
+        parent: this.navigation.info,
+      },
+      {
+        nav: this.navigation.docs,
+        path: "/docs",
+        parent: this.navigation.info,
+      },
+      {
+        nav: this.navigation.legal,
+        path: "/legal",
+        parent: this.navigation.info,
+      },
+      {
+        nav: this.navigation.signIn,
+        path: "/auth/sign-in",
+        parent: this.navigation.userOptions,
+      },
+      {
+        nav: this.navigation.signUp,
+        path: "/auth/sign-up",
+        parent: this.navigation.userOptions,
+      },
     ];
 
     // Check tab links
     for (const tab of tabs) {
       try {
-        await tab.nav.waitFor({ state: 'visible', timeout: 5000 });
-        await this.page.waitForLoadState('networkidle');
+        await tab.nav.waitFor({ state: "visible", timeout: 5000 });
+        await this.page.waitForLoadState("networkidle");
         await tab.nav.click({ force: true });
         await this.waitForUrlChange(`**${tab.path}`);
         results.push(this.url());
@@ -132,8 +153,8 @@ export class HomePage extends PageObjectBase {
         if (link.parent) {
           await link.parent.click();
         }
-        await link.nav.waitFor({ state: 'visible', timeout: 5000 });
-        await this.page.waitForLoadState('networkidle');
+        await link.nav.waitFor({ state: "visible", timeout: 5000 });
+        await this.page.waitForLoadState("networkidle");
         await link.nav.click({ force: true });
         await this.waitForUrlChange(`**${link.path}`);
         results.push(this.url());
@@ -151,15 +172,22 @@ export class HomePage extends PageObjectBase {
 
   async checkHotKeyFunctionality(): Promise<[boolean, boolean, boolean]> {
     await this.header.searchBar.pressSlashKey();
-    const isSearchInputFocused = await this.header.searchBar.isSearchInputFocused();
+    const isSearchInputFocused =
+      await this.header.searchBar.isSearchInputFocused();
 
     await this.header.searchBar.pressCommandOrControlK();
-    const isExpandedSearchInputVisible = await this.header.searchBar.isSearchModalVisible();
+    const isExpandedSearchInputVisible =
+      await this.header.searchBar.isSearchModalVisible();
 
     await this.header.searchBar.clickCloseSearchModal();
-    const isExpandedSearchInputHidden = !(await this.header.searchBar.isSearchModalVisible());
+    const isExpandedSearchInputHidden =
+      !(await this.header.searchBar.isSearchModalVisible());
 
-    return [isSearchInputFocused, isExpandedSearchInputVisible, isExpandedSearchInputHidden];
+    return [
+      isSearchInputFocused,
+      isExpandedSearchInputVisible,
+      isExpandedSearchInputHidden,
+    ];
   }
 
   async checkSearchFunctionality(): Promise<boolean[]> {
@@ -167,9 +195,10 @@ export class HomePage extends PageObjectBase {
     const isMobile = await this.isMobile();
 
     // Check if search toggle/input is visible
-    results.push(isMobile ?
-      await this.header.searchBar.searchToggle.isVisible() :
-      await this.header.searchBar.search.isVisible()
+    results.push(
+      isMobile
+        ? await this.header.searchBar.searchToggle.isVisible()
+        : await this.header.searchBar.search.isVisible()
     );
 
     // Open search input
