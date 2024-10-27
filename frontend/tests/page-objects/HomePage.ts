@@ -1,4 +1,4 @@
-import type { Locator, Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import TopicsDropdown from "../component-objects/TopicsDropdown";
 import BasePage from "./BasePage";
 
