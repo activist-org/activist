@@ -43,19 +43,6 @@ export default defineNuxtConfig({
         ],
       },
     },
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vue: ["vue"],
-            vueuse: ["@vueuse/core"],
-          },
-        },
-      },
-    },
-    optimizeDeps: {
-      include: ["vue", "@vueuse/core"],
-    },
   },
   colorMode: {
     classSuffix: "",
