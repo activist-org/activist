@@ -70,5 +70,6 @@ export default withNuxt({
         allowChildren: false,
       },
     ],
+    "@typescript-eslint/no-floating-promises": "error",
   },
 });
