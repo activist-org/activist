@@ -26,7 +26,6 @@ const locales: Locale[] = [
     name: "Français",
     file: "fr.json",
   },
- 
 ];
 
 export default locales;
