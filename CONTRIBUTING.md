@@ -275,7 +275,7 @@ Now you can apply database migrations and start the local server.
 ```bash
 # In the root activist directory:
 cd backend
-pyhton manage.py makemigrations
+python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
