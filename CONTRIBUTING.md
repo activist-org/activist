@@ -215,6 +215,8 @@ Dockerized environments are resource intensive - specifically for some Windows u
 <details><summary><strong>Frontend: Yarn</strong></summary>
 <p>
 
+The frontend currently uses [yarn 1](https://classic.yarnpkg.com/lang/en/docs/install).
+
 ```bash
 # In the root activist directory:
 cd frontend
@@ -273,7 +275,7 @@ Now you can apply database migrations and start the local server.
 ```bash
 # In the root activist directory:
 cd backend
-pyhton manage.py makemigrations
+python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
