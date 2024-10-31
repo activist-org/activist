@@ -7847,10 +7847,18 @@ pify@^2.3.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
   integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
 
-pinia@2.2.4, pinia@^2.2.3:
+pinia@2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.2.4.tgz#79b63b231a3da80968ab58f7721f575fe2c509ac"
   integrity sha512-K7ZhpMY9iJ9ShTC0cR2+PnxdQRuwVIsXDO/WIEV/RnMC/vmSoKDTKW/exNQYPI+4ij10UjXqdNiEHwn47McANQ==
+  dependencies:
+    "@vue/devtools-api" "^6.6.3"
+    vue-demi "^0.14.10"
+
+pinia@^2.2.3:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.2.5.tgz#3269ff2cd67ae3dcc939334c0cf985f86c48b7a1"
+  integrity sha512-T4PEQ4uFv2KIRC8A1Y3k1ceQGTDtxtd7nngYGu1IJUUSpuQoYfGq7w7rOc+f5YN1vx3mEs2NjjtN2IFbNS7jqA==
   dependencies:
     "@vue/devtools-api" "^6.6.3"
     vue-demi "^0.14.10"
@@ -9884,10 +9892,10 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
 
-uuid@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-10.0.0.tgz#5a95aa454e6e002725c79055fd42aaba30ca6294"
-  integrity sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==
+uuid@11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.0.0.tgz#01c1f5492ed10ad2c0fba1ae1f6d542e6b568d0c"
+  integrity sha512-iE8Fa5fgBY4rN5GvNUJ8TSwO1QG7TzdPfhrJczf6XJ6mZUxh/GX433N70fCiJL9h8EKP5ayEIo0Q6EBQGWHFqA==
 
 v-calendar@3.1.1:
   version "3.1.1"

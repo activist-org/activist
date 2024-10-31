@@ -21,6 +21,7 @@
           {{ $t("_global.about") }}
         </h3>
         <IconEdit
+          v-if="userIsSignedIn"
           @click="openModalEditAboutOrganization"
           @keydown.enter="openModalEditAboutOrganization"
         />
@@ -87,6 +88,8 @@ import { useModalHandlers } from "~/composables/useModalHandlers";
 const { openModal: openModalEditAboutOrganization } = useModalHandlers(
   "ModalEditAboutOrganization"
 );
+
+const { userIsSignedIn } = useUser();
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;

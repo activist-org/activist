@@ -5,6 +5,7 @@
         {{ $t("components._global.get_involved") }}
       </h3>
       <IconEdit
+        v-if="userIsSignedIn"
         @click="openModalEditAboutOrganization()"
         @keydown.enter="openModalEditAboutOrganization()"
       />
@@ -63,11 +64,13 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
 import { useModalHandlers } from "~/composables/useModalHandlers";
+import { IconMap } from "~/types/icon-map";
 const { openModal: openModalEditAboutOrganization } = useModalHandlers(
   "ModalEditAboutOrganization"
 );
+
+const { userIsSignedIn } = useUser();
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;

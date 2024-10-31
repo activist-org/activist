@@ -258,7 +258,7 @@ export const useOrganizationStore = defineStore("organization", {
             getInvolved: formData.getInvolved,
             donate_prompt: "",
             org_id: org.id,
-            iso: 1,
+            iso: "en",
           },
           headers: {
             Authorization: `Token ${token}`,

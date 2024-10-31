@@ -61,7 +61,7 @@ class Command(BaseCommand):
 
                 for o in range(num_orgs_per_user):
                     user_org = OrganizationFactory(
-                        org_name=f"organization_{u}_{o}",
+                        org_name=f"organization_u{u}_o{o}",
                         name=f"{user_topic.name} Organization",
                         created_by=user,
                     )
@@ -70,7 +70,7 @@ class Command(BaseCommand):
 
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
-                            group_name=f"group_{u}_{o}_{g}",
+                            group_name=f"group_u{u}_o{o}_g{g}",
                             org_id=user_org,
                             name=f"{user_topic.name} Group",
                             created_by=user,
@@ -82,7 +82,7 @@ class Command(BaseCommand):
 
                     for e in range(num_events_per_org):
                         user_org_event = EventFactory(
-                            name=f"{user_topic.name} Event {o}:{e}",
+                            name=f"{user_topic.name} Event o{o}:e{e}",
                             type=random.choice(["learn", "action"]),
                             created_by=user,
                         )

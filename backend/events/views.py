@@ -116,7 +116,7 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
 
         event.delete()
 
-        return Response({"message": "Event deleted successfully"}, status.HTTP_200_OK)
+        return Response({"message": "Event deleted successfully."}, status.HTTP_200_OK)
 
 
 class FormatViewSet(viewsets.ModelViewSet[Format]):

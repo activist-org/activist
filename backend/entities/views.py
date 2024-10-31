@@ -70,7 +70,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(created_by=request.user)
-        data = {"message": f"New group created: {serializer.data}"}
+        data = {"message": f"New group created: {serializer.data}."}
 
         return Response(data, status=status.HTTP_201_CREATED)
 
@@ -82,6 +82,24 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
 
         return Response({"error": "Group not found"}, status.HTTP_404_NOT_FOUND)
 
+    def update(self, request: Request, pk: str | None = None) -> Response:
+        group = self.queryset.filter(id=pk).first()
+
+        if group is None:
+            return Response({"error": "Group not found"}, status.HTTP_404_NOT_FOUND)
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {"error": "You are not authorized to update this group"},
+                status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = self.get_serializer(group, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status.HTTP_200_OK)
+
     def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
         group = self.queryset.filter(id=kwargs["pk"]).first()
 
@@ -90,7 +108,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
                 {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != group.created_by:
+        if request.user != group.created_by and not request.user.is_staff:
             return Response(
                 {"error": "You are not authorized to update this group"},
                 status.HTTP_401_UNAUTHORIZED,
@@ -110,7 +128,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
                 {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != group.created_by:
+        if request.user != group.created_by and not request.user.is_staff:
             return Response(
                 {"error": "You are not authorized to delete this group"},
                 status.HTTP_401_UNAUTHORIZED,
@@ -119,7 +137,7 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         group.delete()
 
         return Response(
-            {"message": "Group deleted successfully"}, status=status.HTTP_200_OK
+            {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
         )
 
 
@@ -160,7 +178,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
                 {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != org.created_by:
+        if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"error": "You are not authorized to update this organization"},
                 status.HTTP_401_UNAUTHORIZED,
@@ -179,7 +197,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
                 {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != org.created_by:
+        if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"error": "You are not authorized to update this organization"},
                 status.HTTP_401_UNAUTHORIZED,
@@ -198,7 +216,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
                 {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != org.created_by:
+        if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"error": "You are not authorized to delete this organization"},
                 status.HTTP_401_UNAUTHORIZED,
@@ -213,7 +231,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         org.save()
 
         return Response(
-            {"message": "Organization deleted successfully"}, status.HTTP_200_OK
+            {"message": "Organization deleted successfully."}, status.HTTP_200_OK
         )
 
 
