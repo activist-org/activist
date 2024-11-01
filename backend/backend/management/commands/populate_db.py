@@ -63,6 +63,7 @@ class Command(BaseCommand):
                     user_org = OrganizationFactory(
                         org_name=f"organization_u{u}_o{o}",
                         name=f"{user_topic.name} Organization",
+                        tagline=f"Fighting for {user_topic.name.lower()}",
                         created_by=user,
                     )
 

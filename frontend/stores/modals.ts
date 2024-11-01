@@ -1,5 +1,3 @@
-import { defineStore } from "pinia";
-
 interface Modal {
   isOpen: boolean;
 }

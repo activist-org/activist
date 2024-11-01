@@ -21,11 +21,6 @@ from .models import (
     StatusType,
 )
 
-# MARK: Main Tables
-
-admin.site.register(Group)
-admin.site.register(Organization)
-
 # MARK: Bridge Tables
 
 admin.site.register(GroupEvent)
@@ -46,3 +41,17 @@ admin.site.register(OrganizationText)
 admin.site.register(OrganizationTopic)
 
 admin.site.register(StatusType)
+
+# MARK: Methods
+
+
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ["group_name", "name"]
+
+
+class OrganizationAdmin(admin.ModelAdmin):
+    list_display = ["org_name", "name"]
+
+
+admin.site.register(Group, GroupAdmin)
+admin.site.register(Organization, OrganizationAdmin)

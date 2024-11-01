@@ -83,7 +83,7 @@ class UserChangeForm(forms.ModelForm[UserModel]):
 
 
 class UserAdmin(BaseUserAdmin):
-    # The forms to add and change user instances
+    # The forms to add and change user instances.
     form = UserChangeForm  # type: ignore
     add_form = UserCreationForm
 
@@ -110,7 +110,7 @@ class UserAdmin(BaseUserAdmin):
         ),
         ("Permissions", {"fields": ["is_active", "is_staff", "is_admin"]}),
     ]
-    # add_fieldsets for creating a new user
+    # add_fieldsets for creating a new user.
     add_fieldsets = [
         (
             None,
@@ -131,5 +131,5 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = []
 
 
-# Now register the new UserAdmin...
+# Register the new UserAdmin.
 admin.site.register(UserModel, UserAdmin)
