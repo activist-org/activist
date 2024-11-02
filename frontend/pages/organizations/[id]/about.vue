@@ -6,19 +6,20 @@
       <Title>{{ organization.name }}</Title>
     </Head>
     <HeaderAppPage pageType="organization">
-      <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <BtnRouteExternal
-          v-if="organization.getInvolvedURL"
-          class="w-max"
-          :cta="true"
-          :linkTo="organization.getInvolvedURL"
-          label="_global.join_organization"
-          fontSize="sm"
-          :rightIcon="IconMap.ARROW_RIGHT"
-          iconSize="1.45em"
-          ariaLabel="_global.join_organization_aria_label"
-        />
-        <!-- <BtnAction
+      <div class="flex pb-3 lg:pb-4">
+        <div class="flex space-x-2 lg:space-x-3">
+          <BtnRouteExternal
+            v-if="organization.getInvolvedURL"
+            class="w-max"
+            :cta="true"
+            :linkTo="organization.getInvolvedURL"
+            label="_global.join_organization"
+            fontSize="sm"
+            :rightIcon="IconMap.ARROW_RIGHT"
+            iconSize="1.45em"
+            ariaLabel="_global.join_organization_aria_label"
+          />
+          <!-- <BtnAction
           class="w-max"
           :cta="true"
           label="_global.support"
@@ -30,18 +31,19 @@
             _global.support_organization_aria_label
           "
         /> -->
-        <BtnAction
-          @click="openModalSharePage()"
-          @keydown.enter="openModalSharePage()"
-          class="w-max"
-          :cta="true"
-          :label="$t(shareButtonLabel)"
-          :hideLabelOnMobile="false"
-          fontSize="sm"
-          :rightIcon="IconMap.SHARE"
-          iconSize="1.45em"
-          :ariaLabel="$t('_global.share_organization_aria_label')"
-        />
+          <BtnAction
+            @click="openModalSharePage()"
+            @keydown.enter="openModalSharePage()"
+            class="w-max"
+            :cta="true"
+            :label="$t(shareButtonLabel)"
+            :hideLabelOnMobile="false"
+            fontSize="sm"
+            :rightIcon="IconMap.SHARE"
+            iconSize="1.45em"
+            :ariaLabel="$t('_global.share_organization_aria_label')"
+          />
+        </div>
         <ModalSharePage :cta="true" :organization="organization" />
       </div>
     </HeaderAppPage>
@@ -76,7 +78,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 

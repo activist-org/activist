@@ -84,8 +84,7 @@ activist uses Tailwind for CSS, and some parts of components will be conditional
     </template>
 
    <script setup lang="ts">
-   import useBreakpoint from "~/composables/useBreakpoint";
-   const aboveMediumBP = useBreakpoint("md");
+      const aboveMediumBP = useBreakpoint("md");
    </script>
    ```
 - ❌ TS still ran:

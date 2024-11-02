@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
-
 defineProps<{
   imgURL: string;
   imgAltText: string;

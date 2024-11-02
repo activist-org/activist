@@ -120,8 +120,6 @@ export const useEventStore = defineStore("event", {
 
       const events = responseEvents.data as unknown as PiniaResEvents;
 
-      console.log(`Here: ${JSON.stringify(events._value)}`);
-
       if (events._value) {
         const responseEventTexts = (await Promise.all(
           events._value.map((event) =>

@@ -1,6 +1,7 @@
 export function isRouteActive(routePath: string): boolean {
   const route = useRoute();
-  return route.path.split("/")[2] === routePath.substring(1, routePath.length);
+  // TODO: Needs to account for prefixed routes as well.
+  return route.path.split("/")[1] === routePath.substring(1, routePath.length);
 }
 
 export function isCurrentRoutePathSubpageOf(path: string, routeName: string) {

@@ -115,7 +115,6 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
-import useBreakpoint from "~/composables/useBreakpoint";
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
 import type { Resource } from "~/types/content/resource";

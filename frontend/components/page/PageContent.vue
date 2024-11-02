@@ -36,8 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
-
 export interface Props {
   imgURL: string;
   imgAltText: string;

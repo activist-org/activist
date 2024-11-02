@@ -2,7 +2,6 @@
   <div
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
   >
-    <!-- MARK: fds -->
     <div class="relative flex w-full flex-col md:flex-row">
       <div class="flex w-full justify-center md:w-fit">
         <NuxtLink
@@ -108,7 +107,7 @@
         </a>
       </div>
       <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
-        <div class="flex flex-col justify-between md:flex-row">
+        <div class="-mb-2 flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
             <NuxtLink
               v-if="organization || group || event || user"
@@ -220,7 +219,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
 import type { Resource } from "~/types/content/resource";

@@ -151,10 +151,10 @@ export const useOrganizationStore = defineStore("organization", {
       this.organization.socialLinks = organization.socialLinks;
       this.organization.status = organization.status;
 
+      this.organization.organizationTextID = texts.id;
       this.organization.description = texts.description;
       this.organization.getInvolved = texts.getInvolved;
       this.organization.donationPrompt = texts.donationPrompt;
-      this.organization.organizationTextID = texts.id;
 
       this.organization.groups = organization.groups;
       this.organization.events = events;
@@ -177,25 +177,31 @@ export const useOrganizationStore = defineStore("organization", {
       const orgs = responseOrgs.data as unknown as PiniaResOrganizations;
 
       if (orgs._value) {
-        const responseOrgTexts = (await Promise.all(
-          orgs._value.map((org) =>
-            useAsyncData(
-              async () =>
-                await fetchWithOptionalToken(
-                  `/entities/organization_texts?org_id=${org.id}`,
-                  {}
-                )
-            )
-          )
-        )) as unknown as PiniaResOrganizationTexts[];
+        const responseOrgTexts = (await Promise.all([
+          useAsyncData(
+            async () =>
+              await fetchWithOptionalToken(`/entities/organization_texts/`, {})
+          ),
+        ])) as unknown as PiniaResOrganizationTexts[];
 
         const orgTextsData = responseOrgTexts.map(
-          (text) => text.data._value.results[0]
-        ) as unknown as OrganizationText[];
+          (text) => text.data._value.results
+        )[0] as unknown as OrganizationText[];
+
+        // Order texts based on the returned organizations.
+        const orgIDs = orgs._value.map((o) => o.id);
+        const sortedOrgTextsData: OrganizationText[] = [];
+        for (const id of orgIDs) {
+          for (const text of orgTextsData) {
+            if (text.orgID === id) {
+              sortedOrgTextsData.push(text);
+            }
+          }
+        }
 
         const organizationsWithTexts = orgs._value.map(
           (organization: Organization, index: number) => {
-            const texts = orgTextsData[index];
+            const texts = sortedOrgTextsData[index];
             return {
               id: organization.id,
               org_name: organization.org_name,
@@ -209,7 +215,7 @@ export const useOrganizationStore = defineStore("organization", {
               status: organization.status,
               groups: organization.groups,
 
-              organizationTextID: organization.organizationTextID,
+              organizationTextID: texts.id,
               description: texts.description,
               getInvolved: texts.getInvolved,
               donationPrompt: texts.donationPrompt,

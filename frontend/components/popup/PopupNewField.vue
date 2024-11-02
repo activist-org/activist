@@ -3,7 +3,7 @@
     class="elem-shadow-md card-style flex w-fit flex-col space-y-2 bg-light-layer-1 px-4 pb-3 pt-2 dark:bg-dark-layer-1"
   >
     <div class="relative flex">
-      <p class="responsive-h5 pl-1">
+      <p class="responsive-h5">
         {{ title }}
       </p>
       <div
@@ -11,7 +11,7 @@
         @keypress.enter="emit('on-close-clicked')"
         role="button"
         tabindex="0"
-        class="absolute right-0 mr-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
+        class="absolute right-0 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
       >
         <Icon class="h-6 w-6" :name="IconMap.CIRCLE_X_FILL" />
       </div>
@@ -26,7 +26,7 @@
       :placeholder="fieldNamePrompt"
     />
     <input
-      v-model="inputValue"
+      v-model="inputLabel"
       ref="input"
       id="popup-input"
       class="focus-brand h-8 w-52 rounded-sm border border-light-text bg-transparent p-2 dark:border-dark-text"
@@ -76,6 +76,7 @@ defineProps<{
 }>();
 
 const inputValue = ref<HTMLInputElement | null>(null);
+const inputLabel = ref<HTMLInputElement | null>(null);
 
 const emit = defineEmits(["on-cta-clicked", "on-close-clicked"]);
 </script>

@@ -4,6 +4,8 @@ import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 
+const aboveMediumBP = useBreakpoint("md");
+
 export function useLinkURL(props: {
   organization?: Organization;
   group?: Group;
@@ -12,18 +14,25 @@ export function useLinkURL(props: {
   user?: User;
 }) {
   const linkURL = computed<string>(() => {
+    let url: string = "";
     if (props.organization) {
-      return `/organizations/${props.organization.id}`;
+      url = `/organizations/${props.organization.id}`;
     } else if (props.group) {
-      return `/organizations/${props.group.organization.id}/groups/${props.group.id}`;
+      url = `/organizations/${props.group.organization.id}/groups/${props.group.id}`;
     } else if (props.event) {
-      return `/events/${props.event.id}`;
+      url = `/events/${props.event.id}`;
     } else if (props.resource) {
-      return props.resource.resourceURL;
+      url = props.resource.resourceURL;
     } else if (props.user) {
-      return `/users/${props.user.id}`;
+      url = `/users/${props.user.id}`;
     } else {
-      return "";
+      url = "";
+    }
+
+    if (aboveMediumBP) {
+      return `${url}/about`;
+    } else {
+      return url;
     }
   });
 

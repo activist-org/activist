@@ -60,8 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
-
 const aboveMediumBP = useBreakpoint("md");
 
 const devMode = useDevMode();

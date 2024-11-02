@@ -86,7 +86,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import type { Group } from "~/types/entities/group";
 import { IconMap } from "~/types/icon-map";

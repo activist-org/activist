@@ -135,7 +135,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { DropdownLocation } from "~/types/location";
 
 const devMode = useDevMode();

@@ -1,10 +1,31 @@
+"""
+Runs all i18n checks for the project.
+
+Usage:
+    python3 frontend/i18n/check/run_i18n_checks.py
+"""
+
 import subprocess
 
 
 def run_check(script_name):
+    """
+    Runs a check script and reports the results via the terminal.
+
+    Parameters
+    ----------
+        script_name : str
+            The filename for the script to run.
+
+    Raises
+    -------
+        subprocess.CalledProcessError
+            An error that the given check script has failed.
+    """
     try:
         subprocess.run(["python", f"./frontend/i18n/check/{script_name}"], check=True)
         print(f"{script_name} ran successfully.")
+
     except subprocess.CalledProcessError as e:
         print(f"Error running {script_name}: {e}")
         raise
