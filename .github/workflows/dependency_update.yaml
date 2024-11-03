@@ -3,7 +3,7 @@ name: Bi-Monthly Dependency Update
 on:
   schedule:
     - cron: '0 0 1 */2 *'
-  workflow_dispatch:
+  workflow_dispatch: #adding comment to trigger workflow
 
 jobs:
   update_dependencies:
