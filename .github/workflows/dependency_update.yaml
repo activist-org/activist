@@ -3,7 +3,7 @@ name: Bi-Monthly Dependency Update
 on:
   schedule:
     - cron: '0 0 1 */2 *'
-  workflow_dispatch: #adding comment to trigger workflow
+  workflow_dispatch: 
 
 jobs:
   update_dependencies:
@@ -24,8 +24,7 @@ jobs:
         working-directory: frontend
         run: |
           ncu -u --target minor  
-          npm install
-          npm ci  # Ensures a clean installation state
+          npm ci  
 
       - name: Set up Python
         uses: actions/setup-python@v2
