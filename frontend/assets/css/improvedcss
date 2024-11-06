@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-light-layer-2 dark:bg-dark-layer-2;
+  }
+
+  * {
+    @apply scrollbar scrollbar-track-transparent scrollbar-thumb-light-distinct-text scrollbar-thumb-rounded-md scrollbar-w-2 dark:scrollbar-thumb-dark-distinct-text;
+  }
+}
+
+@layer components {
+  /* Responsive Background Color Test */
+  .bg-breakpoint-test {
+    @apply bg-red-500 sm:bg-orange-500 md:bg-yellow-500 lg:bg-green-500 xl:bg-blue-500 2xl:bg-violet-500 3xl:bg-pink-500;
+  }
+
+  /* Button Styles */
+  .btn-base {
+    @apply focus-brand elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
+  }
+
+  .btn-disabled {
+    @apply btn-base focus-off cursor-not-allowed;
+  }
+
+  /* Card Styles */
+  .card-base {
+    @apply elem-shadow-sm rounded-md sm:rounded-lg;
+  }
+
+  .card {
+    @apply card-base bg-light-layer-1 dark:bg-dark-layer-1;
+  }
+
+  .elem-on-card {
+    @apply card-base bg-light-layer-2 hover:bg-light-highlight active:bg-light-layer-2 dark:border dark:border-dark-text dark:bg-dark-layer-2 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-2;
+  }
+
+  /* Element Shadows */
+  .elem-shadow-sm { @apply shadow-sm shadow-zinc-700; }
+  .elem-shadow-md { @apply shadow-md shadow-zinc-700; }
+  .elem-shadow-lg { @apply shadow-lg shadow-zinc-700; }
+
+  /* Focus Styles */
+  .focus-brand {
+    @apply rounded-sm focus:outline-none focus-visible:border-light-link-text focus-visible:ring-2 focus-visible:ring-light-link-text dark:focus-visible:border-dark-link-text dark:focus-visible:ring-dark-link-text;
+  }
+
+  .focus-inside {
+    @apply rounded-sm focus-within:outline-none focus-within:ring-2 focus-within:ring-light-link-text dark:focus-within:ring-dark-link-text;
+  }
+
+  /* Text Link Styles */
+  .link-text {
+    @apply text-light-link-text hover:text-light-link-text-hover dark:text-dark-link-text dark:hover:text-dark-link-text-hover;
+  }
+
+  /* Responsive Headings */
+  .responsive-h1 { @apply font-display text-2xl sm:text-3xl md:text-4xl xl:text-5xl; }
+  .responsive-h2 { @apply font-display text-xl sm:text-2xl md:text-3xl xl:text-4xl; }
+  .responsive-h3 { @apply font-display text-lg sm:text-xl md:text-2xl xl:text-3xl; }
+  .responsive-h4 { @apply font-display text-base sm:text-lg md:text-xl xl:text-2xl; }
+  .responsive-h5 { @apply font-display text-base md:text-lg xl:text-xl; }
+
+  /* Responsive Padding */
+  .responsive-px { @apply px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10; }
+  .responsive-py { @apply py-2 sm:py-4 md:py-6 lg:py-8 xl:py-10; }
+
+  /* Action & CTA Button Styles */
+  .style-action {
+    @apply focus-brand border border-light-text bg-light-action-red text-light-text hover:bg-light-action-red/80 dark:border-dark-action-red dark:bg-dark-action-red/10 dark:text-light-action-red dark:hover:bg-dark-action-red/25;
+  }
+
+  .style-cta {
+    @apply focus-brand border border-light-text bg-light-cta-orange fill-light-text text-light-text hover:bg-light-cta-orange/80 dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25;
+  }
+
+  /* Secondary CTA Button */
+  .style-cta-secondary {
+    @apply focus-brand border border-light-text bg-light-layer-2 fill-light-text text-light-text hover:bg-light-highlight-darker dark:border-dark-text dark:bg-dark-layer-2 dark:text-dark-text;
+  }
+
+  /* Tooltip */
+  .tooltip {
+    @apply absolute;
+  }
+
+  .has-tooltip:hover .tooltip {
+    @apply visible z-40;
+  }
+}
+
+/* Loading Animation */
+.loading-pulse {
+  animation: pulse 4s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { @apply opacity-50; }
+  50% { @apply opacity-100; }
+}
