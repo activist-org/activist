@@ -37,4 +37,3 @@ Scale the platform’s impact by implementing new features based on user feedbac
 {% hint style="info" %}
 If you want to see these features realized rather sooner than later, consider [supporting us](https://docs.activist.org/activist/welcome/support-us) with your skills, reach or money.
 {% endhint %}
-

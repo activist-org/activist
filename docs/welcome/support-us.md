@@ -43,11 +43,10 @@ Our goal as a community is to keep the platform free and inclusive for all of ou
     * Donate to our fiscal host **Änderwerk** and receive a donation receipt (in Germany)\
 
 
-    Account holder: Änderwerk gGmbH \
-    IBAN: DE46 4306 0967 1289 8604 00 \
-    BIC: GENODEM1GLS GLS Gemeinschaftsbank eG\
-    Reference: activist.org
-
+      Account holder: Änderwerk gGmbH \
+      IBAN: DE46 4306 0967 1289 8604 00 \
+      BIC: GENODEM1GLS GLS Gemeinschaftsbank eG\
+      Reference: activist.org
 
 
     * Join our [membership program](https://patreon.com/user?u=92165050\&utm\_medium=unknown\&utm\_source=join\_link\&utm\_campaign=creatorshare\_creator\&utm\_content=copyLink) on **Patreon**
