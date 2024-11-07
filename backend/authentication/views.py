@@ -26,6 +26,7 @@ from .models import (
     UserTopic,
 )
 from .serializers import (
+    DeleteUserResponseSerializer,
     LoginSerializer,
     PasswordResetSerializer,
     SignupSerializer,
@@ -239,6 +240,7 @@ class PasswordResetView(APIView):
 class DeleteUserView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (IsAuthenticated,)
+    serializer_class = DeleteUserResponseSerializer
 
     def delete(self, request: Request, pk: UUID | str) -> Response:
         user = UserModel.objects.get(pk=pk)

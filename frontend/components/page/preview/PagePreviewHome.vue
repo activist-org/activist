@@ -1,3 +1,3 @@
 <template>
-  <PageContent imgURL="" imgAltText=""></PageContent>
+  <PageContent imgUrl="" imgAltText=""></PageContent>
 </template>

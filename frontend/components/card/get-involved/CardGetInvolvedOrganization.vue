@@ -21,9 +21,9 @@
           ariaLabel="components.card_get_involved_organization.view_all_groups_aria_label"
         />
         <BtnRouteInternal
-          v-if="organization && organization.getInvolvedURL"
+          v-if="organization && organization.getInvolvedUrl"
           :cta="true"
-          :linkTo="organization.getInvolvedURL"
+          :linkTo="organization.getInvolvedUrl"
           label="_global.join_organization"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
@@ -35,7 +35,7 @@
         :organization="organization"
         :description="organization.description"
         :getInvolved="organization.getInvolved"
-        :getInvolvedURL="organization.getInvolvedURL"
+        :getInvolvedUrl="organization.getInvolvedUrl"
       />
     </div>
     <div class="mt-4">
@@ -49,7 +49,7 @@
         </p>
         <Feed :organization="organization" />
       </div>
-      <div v-else-if="organization.getInvolvedURL">
+      <div v-else-if="organization.getInvolvedUrl">
         <p v-if="organization.getInvolved">
           {{ organization.getInvolved }}
         </p>
@@ -90,7 +90,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 </script>

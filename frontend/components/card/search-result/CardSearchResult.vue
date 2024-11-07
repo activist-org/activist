@@ -6,7 +6,7 @@
       <div class="flex w-full justify-center md:w-fit">
         <NuxtLink
           v-if="organization || group || event || user"
-          :to="localePath(linkURL)"
+          :to="localePath(linkUrl)"
           :aria-label="$t(ariaLabel)"
         >
           <div
@@ -14,12 +14,12 @@
             class="h-min w-max rounded-md border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
           >
             <img
-              v-if="organization && imageURL"
+              v-if="organization && imageUrl"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              :src="imageURL"
+              :src="imageUrl"
               :alt="
                 $t('components.card_search_result.organization_img_alt_text') +
                 ' ' +
@@ -27,12 +27,12 @@
               "
             />
             <img
-              v-if="group && imageURL"
+              v-if="group && imageUrl"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              :src="imageURL"
+              :src="imageUrl"
               :alt="
                 $t('components.card_search_result.organization_img_alt_text') +
                 ' ' +
@@ -40,7 +40,7 @@
               "
             />
             <div
-              v-else-if="(organization || group) && !imageURL"
+              v-else-if="(organization || group) && !imageUrl"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
@@ -60,7 +60,7 @@
               <ImageEvent
                 v-if="event && eventType"
                 :eventType="eventType"
-                :imgURL="imageURL"
+                :imgUrl="imageUrl"
                 :alt="
                   $t('components.card_search_result.event_img_alt_text', {
                     entity_name: name,
@@ -70,11 +70,11 @@
             </div>
           </div>
           <div
-            v-if="user && !imageURL"
+            v-if="user && !imageUrl"
             class="w-fit rounded-full border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
           >
             <div
-              v-if="!imageURL"
+              v-if="!imageUrl"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
@@ -87,7 +87,7 @@
         </NuxtLink>
         <a
           v-else-if="resource"
-          :href="linkURL"
+          :href="linkUrl"
           target="_blank"
           :aria-label="$t(ariaLabel)"
         >
@@ -111,7 +111,7 @@
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
             <NuxtLink
               v-if="organization || group || event || user"
-              :to="localePath(linkURL)"
+              :to="localePath(linkUrl)"
               :aria-label="$t(ariaLabel)"
             >
               <h2 class="responsive-h3 font-bold">
@@ -120,7 +120,7 @@
             >
             <a
               v-else-if="resource"
-              :href="linkURL"
+              :href="linkUrl"
               target="_blank"
               :aria-label="$t(ariaLabel)"
               ><h2 class="responsive-h3 font-bold">
@@ -205,8 +205,8 @@
           <ShieldTopic v-for="(t, i) in topics" :key="i" :topic="t" />
         </div> -->
         <div v-if="organization || group">
-          <p v-if="organization">@{{ organization.org_name }}</p>
-          <p v-if="group">@{{ group.group_name }}</p>
+          <p v-if="organization">@{{ organization.orgName }}</p>
+          <p v-if="group">@{{ group.groupName }}</p>
         </div>
         <p
           class="line-clamp-4 justify-center md:line-clamp-4 md:justify-start md:px-0 md:py-0 lg:line-clamp-5"
@@ -219,7 +219,7 @@
 </template>
 
 <script setup lang="ts">
-import { useLinkURL } from "~/composables/useLinkURL";
+import { useLinkUrl } from "~/composables/useLinkUrl";
 import type { User } from "~/types/auth/user";
 import type { Resource } from "~/types/content/resource";
 import type { Group } from "~/types/entities/group";
@@ -241,7 +241,7 @@ const aboveMediumBP = useBreakpoint("md");
 
 const i18n = useI18n();
 const localePath = useLocalePath();
-const { linkURL } = useLinkURL(props);
+const { linkUrl } = useLinkUrl(props);
 
 const ariaLabel = computed<string>(() => {
   if (props.organization) {
@@ -297,15 +297,15 @@ const eventType = computed<"action" | "learn">(() => {
   }
 });
 
-const imageURL = computed<string>(() => {
-  if (props.organization && props.organization.iconURL) {
-    return props.organization.iconURL;
-  } else if (props.group && props.group.organization.iconURL) {
-    return props.group.organization.iconURL;
-  } else if (props.event && props.event.iconURL) {
-    return props.event.iconURL;
-  } else if (props.user && props.user.iconURL) {
-    return props.user.iconURL;
+const imageUrl = computed<string>(() => {
+  if (props.organization && props.organization.iconUrl) {
+    return props.organization.iconUrl;
+  } else if (props.group && props.group.organization.iconUrl) {
+    return props.group.organization.iconUrl;
+  } else if (props.event && props.event.iconUrl) {
+    return props.event.iconUrl;
+  } else if (props.user && props.user.iconUrl) {
+    return props.user.iconUrl;
   } else {
     return "";
   }

@@ -32,7 +32,7 @@
           }}</label>
           <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
-            v-model="formData.getInvolvedURL"
+            v-model="formData.getInvolvedUrl"
             id="textarea"
             class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
           />
@@ -58,14 +58,14 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const groupStore = useGroupStore();
-await groupStore.fetchByID(id);
+await groupStore.fetchById(id);
 
 const { group } = groupStore;
 
 const formData = ref({
   description: group.description,
   getInvolved: group.getInvolved,
-  getInvolvedURL: group.getInvolvedURL,
+  getInvolvedUrl: group.getInvolvedUrl,
 });
 
 async function handleSubmit() {

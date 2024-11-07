@@ -6,7 +6,7 @@
       <Title>{{ $t("_global.faq") }}</Title>
     </Head>
     <PageDocs
-      :imgURL="BOOTSTRAP_QUESTION_SQUARE_URL"
+      :imgUrl="BOOTSTRAP_QUESTION_SQUARE_URL"
       imgAltText="pages.help._global.faq_img_alt_text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">

@@ -4,7 +4,7 @@
       v-for="card in cards"
       :key="card.id"
       :url="route.path.replace(/\/$/, '') + '/' + card.url"
-      :imgURL="card.imgURL"
+      :imgUrl="card.imgUrl"
       :imgDimensions="card.imgDimensions"
       :imgAltText="card.imgAltText"
       :title="card.title"

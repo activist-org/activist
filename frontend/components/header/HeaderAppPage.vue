@@ -98,13 +98,13 @@ let group: Group;
 let event: Event;
 
 if (props.pageType === "organization") {
-  await organizationStore.fetchByID(id);
+  await organizationStore.fetchById(id);
   organization = organizationStore.organization;
 } else if (props.pageType === "group") {
-  await groupStore.fetchByID(id);
+  await groupStore.fetchById(id);
   group = groupStore.group;
 } else if (props.pageType === "event") {
-  await eventStore.fetchByID(id);
+  await eventStore.fetchById(id);
   event = eventStore.event;
 }
 

@@ -6,7 +6,7 @@
       <Title>{{ $t("pages.legal.privacy_policy.title") }}</Title>
     </Head>
     <PageDocs
-      :imgURL="BOOTSTRAP_SHIELD_CHECK_URL"
+      :imgUrl="BOOTSTRAP_SHIELD_CHECK_URL"
       imgAltText="pages.legal._global.privacy_policy_alt_text"
     >
       <h1 class="responsive-h1 pb-2 font-bold">

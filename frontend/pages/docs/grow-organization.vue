@@ -24,12 +24,12 @@
           @click="openModal()"
           @keydown.enter="openModal()"
           class="block"
-          :imageURL="GROW_ORGANIZATION_MOCKUP_URL"
+          :imgUrl="GROW_ORGANIZATION_MOCKUP_URL"
           imageAltText="pages.docs.grow_organization.modal_image_alt_text"
         />
         <ModalImage
           @closeModal="handleCloseModal"
-          :imageURL="GROW_ORGANIZATION_MOCKUP_URL"
+          :imgUrl="GROW_ORGANIZATION_MOCKUP_URL"
           imageAltText="pages.docs.grow_organization.modal_image_alt_text"
           :isOpen="modalIsOpen"
         />

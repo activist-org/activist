@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="flex flex-wrap justify-center gap-4 md:justify-normal">
-      <li v-for="item in githubData" :key="item.loginID">
+      <li v-for="item in githubData" :key="item.loginId">
         <NuxtLink
           class="focus-brand flex w-20 flex-col items-center space-y-1"
           :to="localePath(item.htmlUrl)"
@@ -12,13 +12,13 @@
             :alt="
               $t('components.grid_git_hub_contributors.img_alt_text') +
               ' ' +
-              item.loginID
+              item.loginId
             "
           />
           <p
             class="w-full truncate text-center text-sm text-light-text hover:text-light-text dark:text-dark-text dark:hover:text-dark-text"
           >
-            {{ item.loginID }}
+            {{ item.loginId }}
           </p>
         </NuxtLink>
       </li>
@@ -59,7 +59,7 @@ const localePath = useLocalePath();
 interface GitHubContributor {
   avatarUrl: string;
   htmlUrl: string;
-  loginID: string;
+  loginId: string;
 }
 
 interface GitHubContributorResponse {
@@ -94,7 +94,7 @@ async function fetchDataFromGitHubAPI(page: number, numPerPage: number = 30) {
         return {
           avatarUrl: item.avatar_url,
           htmlUrl: item.html_url,
-          loginID: item.login,
+          loginId: item.login,
         };
       })
     );

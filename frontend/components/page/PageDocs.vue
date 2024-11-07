@@ -6,7 +6,7 @@
       <PageBreadcrumbs v-if="!aboveMediumBP" />
     </div>
     <PageContent
-      :imgURL="imgURL"
+      :imgUrl="imgUrl"
       :imgAltText="imgAltText"
       :includeBreadcrumbs="true"
     >
@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  imgURL: string;
+  imgUrl: string;
   imgAltText: string;
 }>();
 

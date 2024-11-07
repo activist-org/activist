@@ -40,7 +40,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
-    orgID = serializers.StringRelatedField(source="org_id.id")
+    org_id = serializers.StringRelatedField(source="org_id.id")
 
     class Meta:
         model = OrganizationText

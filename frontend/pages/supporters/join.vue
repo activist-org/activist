@@ -6,7 +6,7 @@
       <Title>{{ $t("pages._global.become_supporter") }}</Title>
     </Head>
     <PageDocs
-      :imgURL="BOOTSTRAP_MODIFIED_JOIN_ICON_URL"
+      :imgUrl="BOOTSTRAP_MODIFIED_JOIN_ICON_URL"
       imgAltText="pages.supporters._global.join_img_alt_text"
     >
       <h1 class="responsive-h1 font-bold">

@@ -10,13 +10,13 @@
       <img
         v-if="$colorMode.value == 'light'"
         :class="imgDimensions"
-        :src="imgURL + '_' + 'dark.png'"
+        :src="imgUrl + '_' + 'dark.png'"
         :alt="$t(imgAltText)"
       />
       <img
         v-else
         :class="imgDimensions"
-        :src="imgURL + '_' + 'light.png'"
+        :src="imgUrl + '_' + 'light.png'"
         :alt="$t(imgAltText)"
       />
     </div>
@@ -34,7 +34,7 @@ const localPath = useLocalePath();
 
 defineProps<{
   url: string;
-  imgURL: string;
+  imgUrl: string;
   imgDimensions: string;
   imgAltText: string;
   title: string;

@@ -1,7 +1,7 @@
 export default interface MenuEntry {
   label: string;
-  routeURL: string;
-  iconURL: string;
+  routeUrl: string;
+  iconUrl: string;
   selected: boolean;
   id: string;
 }

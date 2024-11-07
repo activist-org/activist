@@ -20,13 +20,13 @@ export const useGroupStore = defineStore("group", {
     group: {
       // group
       id: "",
-      group_name: "",
+      groupName: "",
       name: "",
       tagline: "",
       organization: "",
       createdBy: "",
       location: "",
-      getInvolvedURL: "",
+      getInvolvedUrl: "",
       socialLinks: [""],
       creationDate: "",
 
@@ -46,7 +46,7 @@ export const useGroupStore = defineStore("group", {
 
     // MARK: Fetch By ID
 
-    async fetchByID(id: string | undefined) {
+    async fetchById(id: string | undefined) {
       this.loading = true;
 
       const [resGroup, resGroupOrg, resGroupTexts] = await Promise.all([
@@ -102,7 +102,7 @@ export const useGroupStore = defineStore("group", {
       this.group.tagline = group.tagline;
       this.group.organization = groupOrg.id;
       this.group.location = group.location;
-      this.group.getInvolvedURL = group.getInvolvedURL;
+      this.group.getInvolvedUrl = group.getInvolvedUrl;
       this.group.socialLinks = group.socialLinks;
 
       this.group.description = texts.description;

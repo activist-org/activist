@@ -24,12 +24,12 @@
           @click="openModal()"
           @keydown.enter="openModal()"
           class="block"
-          :imageURL="GET_ACTIVE_MOCKUP_URL"
+          :imgUrl="GET_ACTIVE_MOCKUP_URL"
           imageAltText="pages.docs.get_active.modal_image_alt_text"
         />
         <ModalImage
           @closeModal="handleCloseModal"
-          :imageURL="GET_ACTIVE_MOCKUP_URL"
+          :imgUrl="GET_ACTIVE_MOCKUP_URL"
           imageAltText="pages.docs.get_active.modal_image_alt_text"
           :isOpen="modalIsOpen"
         />
