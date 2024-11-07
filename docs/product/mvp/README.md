@@ -1,11 +1,32 @@
 ---
-description: What is ready for you
 icon: seedling
+description: What is ready for you
 ---
 
 # MVP
 
-These features have been released and are accessible to our users.
+These features are soon released and accessible to our users.
 
-<table data-view="cards"><thead><tr><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td>Events</td><td><a href="../../">..</a></td></tr><tr><td>Organizations</td><td></td></tr><tr><td>Groups</td><td></td></tr><tr><td>FAQ</td><td></td></tr><tr><td>Resources</td><td></td></tr><tr><td>Home</td><td></td></tr></tbody></table>
+{% content-ref url="events.md" %}
+[events.md](events.md)
+{% endcontent-ref %}
 
+{% content-ref url="markdown.md" %}
+[markdown.md](markdown.md)
+{% endcontent-ref %}
+
+{% content-ref url="groups.md" %}
+[groups.md](groups.md)
+{% endcontent-ref %}
+
+{% content-ref url="resources.md" %}
+[resources.md](resources.md)
+{% endcontent-ref %}
+
+{% content-ref url="home.md" %}
+[home.md](home.md)
+{% endcontent-ref %}
+
+{% content-ref url="faq.md" %}
+[faq.md](faq.md)
+{% endcontent-ref %}
