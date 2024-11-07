@@ -17,7 +17,14 @@ from rest_framework import viewsets
 from rest_framework.settings import api_settings
 
 django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
-dotenv.load_dotenv()
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+
+if os.getenv("DJANGO_ENV") == "LOCAL_DEV":
+    dotenv.load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev")
+    dotenv.load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev.local")
+else:
+    dotenv.load_dotenv()
 
 
 DATABASE_HOST = os.getenv("DATABASE_HOST")
