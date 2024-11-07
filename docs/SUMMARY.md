@@ -10,7 +10,7 @@
 ## Product
 
 * [About](product/about/README.md)
-  * [Changelog](product/about/editor.md)
+  * [Changelog](product/about/changelog.md)
   * [Roadmap](product/about/roadmap.md)
 * [MVP](product/mvp/README.md)
   * [Event pages](product/mvp/event-pages.md)

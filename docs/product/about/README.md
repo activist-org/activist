@@ -7,8 +7,8 @@ description: Our structure and goals
 
 We’re building a platform for people who want to make a difference in their communities and beyond. Here, you can connect with organizations, find or host events, and collaborate on actions. Our community is focused on empowering activists by providing tools that foster learning, connection, and effective action.
 
-{% content-ref url="editor.md" %}
-[editor.md](editor.md)
+{% content-ref url="changelog.md" %}
+[changelog.md](changelog.md)
 {% endcontent-ref %}
 
 {% content-ref url="roadmap.md" %}
