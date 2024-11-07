@@ -1,9 +1,34 @@
 ---
-description: What we're building for you
 icon: crystal-ball
+description: What we're building for you
 ---
 
 # Planned features
 
-<table data-view="cards"><thead><tr><th></th></tr></thead><tbody><tr><td><strong>Search</strong></td></tr><tr><td><strong>Topics</strong></td></tr><tr><td><strong>Affiliates</strong></td></tr><tr><td><strong>Tasks</strong></td></tr><tr><td><strong>Discussions</strong></td></tr><tr><td><strong>User Profiles</strong></td></tr><tr><td><strong>Votes</strong></td></tr><tr><td><strong>Templates</strong></td></tr></tbody></table>
+{% content-ref url="search.md" %}
+[search.md](search.md)
+{% endcontent-ref %}
 
+{% content-ref url="images-and-media.md" %}
+[images-and-media.md](images-and-media.md)
+{% endcontent-ref %}
+
+{% content-ref url="interactive-blocks.md" %}
+[interactive-blocks.md](interactive-blocks.md)
+{% endcontent-ref %}
+
+{% content-ref url="integrations.md" %}
+[integrations.md](integrations.md)
+{% endcontent-ref %}
+
+{% content-ref url="discussions.md" %}
+[discussions.md](discussions.md)
+{% endcontent-ref %}
+
+{% content-ref url="openapi.md" %}
+[openapi.md](openapi.md)
+{% endcontent-ref %}
+
+{% content-ref url="votes.md" %}
+[votes.md](votes.md)
+{% endcontent-ref %}
