@@ -1,16 +1,12 @@
 ---
-description: Easy-to-use microsites for organizations of all sizes with multiple subpages.
+description: Easy-to-use microsites for organizations of all sizes with multiple subpages
 ---
 
-# Organization Profiles
+# Organization profiles
 
 Describe your organization’s aims and structure as well as answer frequently asked questions. Explain how your groups collaborate and safely onboard new people to the team.
 
 <figure><img src="../../.gitbook/assets/Organization About.png" alt=""><figcaption></figcaption></figure>
-
-{% hint style="info" %}
-Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
-{% endhint %}
 
 ### **Overview**
 

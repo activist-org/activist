@@ -2,10 +2,6 @@
 
 <figure><img src="../../.gitbook/assets/Organization FAQ.png" alt=""><figcaption></figcaption></figure>
 
-{% hint style="info" %}
-Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
-{% endhint %}
-
 ### Overview
 
 The FAQ (Frequently Asked Questions) section is a simple and powerful tool for organizations and groups on [activist.org](http://activist.org) to provide users with quick answers to common queries. This leads to less explaining of the same things over and over again.

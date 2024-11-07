@@ -6,10 +6,6 @@ description: A quick snapshot of recent platform activity
 
 <figure><img src="../../.gitbook/assets/Topics Home - Light.png" alt=""><figcaption></figcaption></figure>
 
-{% hint style="info" %}
-Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
-{% endhint %}
-
 The Home page on activist.org serves as the central hub for users to stay updated on platform activities and engage with relevant notifications. This page is designed to streamline information and make it easy for activists to keep track of important updates within their organizations and areas of interest.
 
 #### Overview

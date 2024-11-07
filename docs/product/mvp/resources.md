@@ -1,5 +1,5 @@
 ---
-description: A simple link hub for organizations.
+description: A simple link hub for organizations, groups and events
 ---
 
 # Resources
@@ -7,10 +7,6 @@ description: A simple link hub for organizations.
 Organizations can keep important links (chats, articles, pads, etc.) in one place, group what belongs together and pin to the top what’s currently most important. Private by default, resources can also be made public to share information and best practices.
 
 <figure><img src="../../.gitbook/assets/Organization Resources.png" alt=""><figcaption></figcaption></figure>
-
-{% hint style="info" %}
-Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
-{% endhint %}
 
 ### **Overview**
 

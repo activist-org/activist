@@ -1,16 +1,12 @@
 ---
-description: Collaborative event pages made for activists and their needs.
+description: Collaborative events made for activists and their needs
 ---
 
-# Events
+# Event pages
 
 Event pages on activist.org enable organizations to create flexible, interactive pages for various event formats. They provide a centralized location for information, updates, and resources, helping organizations engage participants effectively.
 
 <figure><img src="../../.gitbook/assets/Event About.png" alt=""><figcaption></figcaption></figure>
-
-{% hint style="info" %}
-Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
-{% endhint %}
 
 #### Overview
 

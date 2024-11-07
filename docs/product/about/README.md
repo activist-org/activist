@@ -1,5 +1,6 @@
 ---
-icon: genderless
+icon: circle-info
+description: Our structure and goals
 ---
 
 # About
@@ -24,8 +25,8 @@ Our first release.
 We are currently in the last stages of our MVP development.
 {% endhint %}
 
-{% content-ref url="../mvp/events.md" %}
-[events.md](../mvp/events.md)
+{% content-ref url="../mvp/event-pages.md" %}
+[event-pages.md](../mvp/event-pages.md)
 {% endcontent-ref %}
 
 {% content-ref url="../mvp/markdown.md" %}

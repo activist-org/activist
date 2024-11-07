@@ -12,11 +12,11 @@ Our aim is to secure a progressive community by putting platform health before p
 
 ## Community Governance
 
-We aim to create a self-governing platform where community-driven processes ensure inclusivity and accountability, without imposing rigid top-down guidelines. Rather than acting as a centralized authority, we aim to empower organizations to maintain collective oversight. Any organization can apply to join the platform, and acceptance is determined by peer sponsorship—if three existing organizations sponsor a new applicant, they are accepted.
+We aim to create a self-governing platform where community-driven processes ensure inclusivity and accountability, without imposing rigid top-down guidelines. Rather than acting as a centralized authority, we aim to empower organizations to maintain collective oversight. Any organization can apply to join the platform, and acceptance is determined by peer sponsorship. We look forward to fine tuning the exact mechanisms of joining with our community after launch.
 
-To maintain a balance of accountability, if an organization is flagged, the flaggers provide reasons for banning. A voting process is triggered if a certain threshold of flags is reached, involving the entire network. The majority vote determines whether the organization remains on the platform or is banned. This decentralized decision-making process puts the community in control.
+To maintain a balance of accountability, if an organization is flagged, the flagging individual provides reasons for their concern. A voting process involving the entire network is triggered if a certain threshold of flags is reached. The majority vote determines whether the organization remains on the platform or is banned. This decentralized decision-making process puts the community in control.
 
-Organizations that sponsor a banned organization will receive a strike, and after three strikes, they lose the ability to sponsor new organizations.&#x20;
+Organizations that sponsor a banned organization will receive a strike, with mechanisms for restricting their ability to sponsor further organizations being developed within the community as it grows.&#x20;
 
 This system encourages careful sponsorship while preventing misuse of platform governance.
 

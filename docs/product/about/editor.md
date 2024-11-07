@@ -6,8 +6,8 @@ description: What's new
 
 ***
 
-## Upcoming release: MVP (0.01)
+## Upcoming release: MVP (0.1.0)
 
 We are currently en route for a launch in November.&#x20;
 
-[Request access](https://forms.activist.org/s/cm30ujrcj0003107fqc75yke8) to the platform and we'll reach out to you once we're live.
+Those interested can [Request access](https://forms.activist.org/s/cm30ujrcj0003107fqc75yke8) to the platform and we'll reach out to you once we're live.

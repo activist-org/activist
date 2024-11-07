@@ -7,8 +7,8 @@ description: What is ready for you
 
 These features are soon released and accessible to our users.
 
-{% content-ref url="events.md" %}
-[events.md](events.md)
+{% content-ref url="event-pages.md" %}
+[event-pages.md](event-pages.md)
 {% endcontent-ref %}
 
 {% content-ref url="markdown.md" %}
