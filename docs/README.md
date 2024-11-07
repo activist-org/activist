@@ -1,12 +1,12 @@
 ---
-description: An open-source activism platform
 icon: hand-wave
-cover: .gitbook/assets/activist_github_org_banner.png
+description: An open-source activism platform
+cover: .gitbook/assets/activist_banner.png
 coverY: 0
 layout:
   cover:
     visible: true
-    size: full
+    size: hero
   title:
     visible: true
   description:
