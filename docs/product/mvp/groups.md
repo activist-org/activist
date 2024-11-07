@@ -1,6 +1,16 @@
+---
+description: Structured overview of an organization's internal groups
+---
+
 # Groups
 
 Groups within **Profiles** on [activist.org](http://activist.org) offer an easy as well as effective way for you to represent your organization’s structure and welcome new members efficiently to your group. By leveraging these subpages, you can generate interest for your work, streamline the onboarding process of new people and get more people quicker towards contributing to your cause.
+
+<figure><img src="../../.gitbook/assets/Group About.png" alt=""><figcaption></figcaption></figure>
+
+{% hint style="info" %}
+Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
+{% endhint %}
 
 ### **Key functions**
 

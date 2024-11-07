@@ -1,14 +1,16 @@
+---
+description: Kanban boards for organizing the work to be done
+---
+
 # Tasks
-
-#### Tasks [`⇧`](https://github.com/activist-org/activist?tab=readme-ov-file#contents)
-
-
-
-> Kanban boards for organizing the work to be done.
 
 Users will be able to attach kanban boards to every organization, group and event. This will allow those involved to easily plan and keep an overview of progress while templates guide organizers with best practices from our community.
 
+<figure><img src="../../.gitbook/assets/Event Tasks.png" alt=""><figcaption></figcaption></figure>
 
+{% hint style="info" %}
+Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
+{% endhint %}
 
 ### Getting done what is to be done
 

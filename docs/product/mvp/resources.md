@@ -6,6 +6,12 @@ description: A simple link hub for organizations.
 
 Organizations can keep important links (chats, articles, pads, etc.) in one place, group what belongs together and pin to the top what’s currently most important. Private by default, resources can also be made public to share information and best practices.
 
+<figure><img src="../../.gitbook/assets/Organization Resources.png" alt=""><figcaption></figcaption></figure>
+
+{% hint style="info" %}
+Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
+{% endhint %}
+
 ### **Overview**
 
 **Resources** on [activist.org](http://activist.org) are designed to help organizations consolidate and manage their essential links in one hub. Whether it's chat rooms, articles, meeting notes, or other digital resources, this feature provides an intuitive way to organize and access various types of content easily.
@@ -36,6 +42,3 @@ Keep all your public links in one easily accessible location. With future releas
 For further assistance with setting up and managing your **Resources** or if you need help finding secure file storage solutions, please contact our **Support** team. We are here to support your responsible organization of digital resources.
 
 **Contact**: [support@activist.org](mailto:support@activist.org)
-
-{% embed url="https://www.figma.com/design/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=517-4849&t=i3bz4YrkLtWMRUXE-1" %}
-

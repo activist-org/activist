@@ -6,6 +6,12 @@ description: Easy-to-use microsites for organizations of all sizes with multiple
 
 Describe your organization’s aims and structure as well as answer frequently asked questions. Explain how your groups collaborate and safely onboard new people to the team.
 
+<figure><img src="../../.gitbook/assets/Organization About.png" alt=""><figcaption></figcaption></figure>
+
+{% hint style="info" %}
+Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
+{% endhint %}
+
 ### **Overview**
 
 Profiles for organizations on [activist.org](http://activist.org) provide organizations of all sizes with customizable microsites. These profiles act as your organization's home on the platform, showcasing your work through an easy-to-use interface that supports a variety of modular features, including **Groups**, **FAQ** and **Resources** – and more functionality is planned.
@@ -43,3 +49,7 @@ Profiles for organizations on [activist.org](http://activist.org) provide organi
 For any technical issues or questions about setting up and managing your organization’s profile on [activist.org](http://activist.org), please contact our support team. We are here to help you optimize your profile and get the most out of your presence on our platform.
 
 **Contact**: [support@activist.org](mailto:support@activist.org)
+
+***
+
+{% embed url="https://www.figma.com/design/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=517-4852&node-type=canvas&t=IVpgePvDddxYQ6xM-0" %}

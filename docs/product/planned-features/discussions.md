@@ -1,12 +1,18 @@
+---
+description: Dedicated forums for organizations and their events.
+---
+
 # Discussions
 
-#### Discussions [`⇧`](https://github.com/activist-org/activist?tab=readme-ov-file#contents)
-
-
-
-> Dedicated forums for organizations and their events.
-
 Discussions will also allow organizations, groups and events to send notifications to supporters. Included features for democratic decision making will further enable asynchronous planning.
+
+
+
+
+
+{% hint style="info" %}
+Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
+{% endhint %}
 
 #### Better discussions, better decisions
 
