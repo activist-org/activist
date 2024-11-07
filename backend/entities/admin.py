@@ -43,19 +43,19 @@ admin.site.register(StatusType)
 # MARK: Methods
 
 
-class GroupAdmin(admin.ModelAdmin):
+class GroupAdmin(admin.ModelAdmin[Group]):
     list_display = ["group_name", "name"]
 
 
-class GroupTextAdmin(admin.ModelAdmin):
+class GroupTextAdmin(admin.ModelAdmin[GroupText]):
     list_display = ["id", "group_id"]
 
 
-class OrganizationAdmin(admin.ModelAdmin):
+class OrganizationAdmin(admin.ModelAdmin[Organization]):
     list_display = ["org_name", "name"]
 
 
-class OrganizationTextAdmin(admin.ModelAdmin):
+class OrganizationTextAdmin(admin.ModelAdmin[OrganizationText]):
     list_display = ["id", "org_id"]
 
 

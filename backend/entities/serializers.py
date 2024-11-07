@@ -40,7 +40,8 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
-    orgID = serializers.StringRelatedField(source="org_id.id")
+    # mypy thinks a generic type argument is needed for StringRelatedField
+    orgID = serializers.StringRelatedField(source="org_id.id")  # type: ignore[var-annotated]
 
     class Meta:
         model = OrganizationText
