@@ -115,7 +115,7 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
-import { useLinkUrl } from "~/composables/useLinkUrl";
+import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
 import type { Resource } from "~/types/content/resource";
 import type { Group } from "~/types/entities/group";
@@ -133,7 +133,7 @@ const props = defineProps<{
 
 const aboveMediumBP = useBreakpoint("md");
 
-const { linkUrl } = useLinkUrl(props);
+const { linkUrl } = useLinkURL(props);
 const modalName = "ModalsQRCode";
 
 const showTooltip = ref(false);

@@ -219,7 +219,7 @@
 </template>
 
 <script setup lang="ts">
-import { useLinkUrl } from "~/composables/useLinkUrl";
+import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
 import type { Resource } from "~/types/content/resource";
 import type { Group } from "~/types/entities/group";
@@ -241,7 +241,7 @@ const aboveMediumBP = useBreakpoint("md");
 
 const i18n = useI18n();
 const localePath = useLocalePath();
-const { linkUrl } = useLinkUrl(props);
+const { linkUrl } = useLinkURL(props);
 
 const ariaLabel = computed<string>(() => {
   if (props.organization) {

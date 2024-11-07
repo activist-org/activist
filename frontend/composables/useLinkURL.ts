@@ -6,7 +6,7 @@ import type { Event } from "~/types/events/event";
 
 const aboveMediumBP = useBreakpoint("md");
 
-export function useLinkUrl(props: {
+export function useLinkURL(props: {
   organization?: Organization;
   group?: Group;
   event?: Event;
