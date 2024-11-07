@@ -98,7 +98,7 @@ We need to break down language barriers in order to mobilize larger and more div
 
 </details>
 
-## Legal, Finance and People
+## Legal, Finances and People
 
 The groups of this circle are responsible for safeguarding legal integrity, ensuring financial sustainability, and building a thriving and inclusive community.
 
