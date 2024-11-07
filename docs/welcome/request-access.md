@@ -1,11 +1,15 @@
 ---
-description: Our process for healthy growth
 icon: person-to-door
+description: Our process for healthy growth
 ---
 
 # Request access
 
+{% hint style="info" %}
 Our aim is to secure a progressive community by design – putting platform health before platform growth.
+{% endhint %}
+
+<figure><img src="../.gitbook/assets/request-access-banner.png" alt=""><figcaption></figcaption></figure>
 
 ## Community Governance
 
@@ -21,7 +25,8 @@ This system encourages careful sponsorship while preventing misuse of platform g
 
 Together with experienced activists we are selecting an initial group of organizations that have a proven track record of inclusivity and elevating underrepresented groups. We are still developing our operating principles and will always update them based on community decisions. Questions around flagging, banning, guidelines and rules will always be answered collectively.
 
+{% hint style="info" %}
 If you want to join this process and co-determine how we'll develop and implement processes of community governance, we invite you to [request access via this form](https://forms.activist.org/s/cm30ujrcj0003107fqc75yke8).&#x20;
+{% endhint %}
 
 After your application a member of our team will reach out to you.
-

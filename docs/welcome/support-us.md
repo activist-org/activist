@@ -1,6 +1,6 @@
 ---
-description: Let’s build the best free, secure, open-source activism platform.
 icon: hand-fist
+description: Let’s build the best free, secure, open-source activism platform.
 ---
 
 # Support us
@@ -38,8 +38,7 @@ Help us amplify our message and reach a broader audience. If you have an audienc
 
 Your financial support helps us keep the platform free and inclusive for all of our network. We believe that contributing is a privilege not everyone can afford — many people must devote most of their time to earning a living and can't volunteer their work for free. By donating, you enable us to compensate these contributors fairly and cover our recurring costs like infrastructure and tools.
 
-* **Why We Need Money**: Donations help us pay for servers, tools and other costs as well as accelerating our development. They also allow us to support contributors who enrich the project with their diverse perspectives, but couldn't work on the project without some financial compensation.&#x20;
-* **Transparent Finances**: We manage our finances publicly — all incoming funds and expenditures can be seen here. If someone cannot receive payouts for any reason, we strive to support them in other ways (e.g. gift them a laptop). Learn more about our finances.
+* **Why We Need Money**: Donations help us pay for servers, tools and other costs as well as accelerating our development. They also allow us to support contributors who enrich the project with their diverse perspectives, but couldn't work on the project without some financial compensation. If someone cannot receive payouts for any reason, we strive to support them in other ways (e.g. gift them a laptop). Learn more about our finances.
 * **Support as you wish:**
   * Donate to our fiscal host **Änderwerk** and receive a donation receipt (in Germany).\
     Account holder: Änderwerk gGmbH \

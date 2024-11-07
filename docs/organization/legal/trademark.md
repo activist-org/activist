@@ -4,17 +4,13 @@ description: Last updated Nov 7h, 2024
 
 # Trademark
 
-The activist name and logos are trademarks of activist.org, soon to be incorporated as activist gGmbH. As such, their use is restricted and protected by intellectual property law. While the sThought for 12 seconds
-
-## Trademark Policy for Activist.org
-
-**Effective Date:** \[Insert Effective Date]
-
 ***
 
 ### Introduction
 
-The "activist" name and logos are trademarks of **activist.org**, currently operated by **CC\&P**, registered temporarily at the address of Impact Hub Berlin. We are in the process of establishing a formal association in Switzerland, a country renowned for its strong legal protections for privacy and freedom of expression.
+The "activist" name and logos are trademarks of **activist.org**, currently operated by **cc\&p**, registered temporarily at the address of Impact Hub Berlin.&#x20;
+
+We are in the process of establishing a formal association in Switzerland, a country renowned for its strong legal protections for privacy and freedom of expression.
 
 Their use is restricted and protected under intellectual property law. While the software we create is available under a free and open-source software license, the copyright license does not include an implied right or license to use our trademarks.
 
