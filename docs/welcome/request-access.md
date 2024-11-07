@@ -1,12 +1,11 @@
 ---
 icon: person-to-door
-description: Our process for healthy growth
 ---
 
 # Request access
 
-{% hint style="info" %}
-Our aim is to secure a progressive community by design – putting platform health before platform growth.
+{% hint style="success" %}
+Our aim is to secure a progressive community by putting platform health before platform growth.
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/request-access-banner.png" alt=""><figcaption></figcaption></figure>

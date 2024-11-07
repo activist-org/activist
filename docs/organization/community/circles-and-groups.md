@@ -140,6 +140,6 @@ We focus on nurturing a vibrant and inclusive community of contributors who driv
 
 ***
 
-{% hint style="info" %}
-This will move into the activist platform soon, as our product is facilitating the presentation of the organization, its groups and onboarding processes – we are excited about that!
+{% hint style="warning" %}
+This will move into the activist platform soon, as our product is facilitating the presentation of the organization, its groups and onboarding processes **– we are excited about that!**
 {% endhint %}
