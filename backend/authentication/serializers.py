@@ -106,7 +106,7 @@ class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
 # MARK: Methods
 
 
-class DeleteUserResponseSerializer(serializers.Serializer):
+class DeleteUserResponseSerializer(serializers.Serializer[UserModel]):
     message = serializers.CharField(max_length=200)
 
 
