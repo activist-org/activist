@@ -107,7 +107,7 @@
               fontSize="xs"
               ariaLabel="_global.sign_up_aria_label"
             />
-            <BtnRouteExternal
+            <BtnRouteInternal
               v-if="aboveLargeBP && !devMode.active"
               id="btn-get-in-touch-large"
               class="block"
@@ -117,7 +117,7 @@
               fontSize="sm"
               ariaLabel="components.header_website.support_aria_label"
             />
-            <BtnRouteExternal
+            <BtnRouteInternal
               v-else-if="aboveMediumBP && !devMode.active"
               id="btn-get-in-touch-medium"
               class="block"
