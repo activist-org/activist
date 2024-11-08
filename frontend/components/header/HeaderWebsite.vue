@@ -113,7 +113,7 @@
               class="block"
               :cta="true"
               label="_global.support"
-              linkTo="https://docs.activist.org/activist/~/changes/qZu0F6L0cHK5FDtvelqa/welcome/support-us"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="sm"
               ariaLabel="components.header_website.support_aria_label"
             />
@@ -123,7 +123,7 @@
               class="block"
               :cta="true"
               label="_global.support"
-              linkTo="https://docs.activist.org/activist/~/changes/qZu0F6L0cHK5FDtvelqa/welcome/support-us"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="xs"
               ariaLabel="components.header_website.support_aria_label"
             />
