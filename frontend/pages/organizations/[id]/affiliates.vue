@@ -21,7 +21,6 @@
     >
       <div class="flex space-x-2 lg:space-x-3"></div>
     </HeaderAppPage>
-    <PagePreviewAffiliates />
     <!-- <div v-if="orgSupporters.length > 0" class="space-y-3 py-4">
       <CardSearchResultUser
         v-for="(u, i) in orgSupporters"

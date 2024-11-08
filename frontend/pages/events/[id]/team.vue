@@ -25,7 +25,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewTeam />
     <!-- <div v-if="event.members" class="space-y-3 py-4">
       <CardSearchResultUser
         v-for="(u, i) in event.members"

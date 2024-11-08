@@ -7,14 +7,14 @@
     </Head>
     <PageDocs
       :imgURL="BOOTSTRAP_ENVELOPE_URL"
-      imgAltText="pages.help._global.contact_img_alt_text"
+      imgAltText="pages.contact.contact_img_alt_text"
     >
       <div
         v-if="!emailSent"
         class="items-center space-y-4 text-left md:items-start"
       >
         <h1 class="responsive-h1 pb-2 font-bold">
-          {{ $t("pages.help.contact.header") }}
+          {{ $t("pages.contact.header") }}
         </h1>
         <div class="flex flex-row space-x-3 py-2">
           <Icon
@@ -23,7 +23,7 @@
             size="1.25em"
           />
           <p>
-            {{ $t("pages.help._global.subheader_1") }}
+            {{ $t("pages.contact.subheader_1") }}
             <a
               class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
@@ -41,7 +41,7 @@
         </div>
         <div class="flex flex-col space-y-4 lg:space-y-6">
           <p>
-            {{ $t("pages.help.contact.section_1_paragraph_1_1") }}
+            {{ $t("pages.contact.section_1_paragraph_1_1") }}
             <a
               class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
@@ -53,7 +53,7 @@
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.help.contact.section_1_paragraph_1_3") }}
+            {{ $t("pages.contact.section_1_paragraph_1_3") }}
             <a
               class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist"
@@ -65,10 +65,10 @@
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.help.contact.section_1_paragraph_1_5") }}
+            {{ $t("pages.contact.section_1_paragraph_1_5") }}
           </p>
           <p>
-            {{ $t("pages.help.contact.section_1_paragraph_2_1") }}
+            {{ $t("pages.contact.section_1_paragraph_2_1") }}
             <a class="focus-brand link-text" href="mailto:team@activist.org">
               team@activist.org
               <Icon
@@ -76,13 +76,13 @@
                 size="1em"
                 style="vertical-align: baseline" /></a
             >.
-            {{ $t("pages.help.contact.section_1_paragraph_2_2") }}
+            {{ $t("pages.contact.section_1_paragraph_2_2") }}
             <a
               class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               target="_blank"
             >
-              {{ $t("pages.help.contact.section_1_paragraph_2_3") }}
+              {{ $t("pages.contact.section_1_paragraph_2_3") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -100,9 +100,9 @@
                   'text-light-text dark:text-dark-text': nameValidated,
                 }"
                 for="name"
-                >{{ $t("pages.help.contact.name") }}
+                >{{ $t("pages.contact.name") }}
                 <span v-if="!nameValidated">{{
-                  $t("pages.help.contact.error_empty")
+                  $t("pages.contact.error_empty")
                 }}</span></label
               >
               <input
@@ -115,7 +115,7 @@
                     !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
                 }"
-                :placeholder="$t('pages.help.contact.name_placeholder')"
+                :placeholder="$t('pages.contact.name_placeholder')"
                 autocomplete="off"
                 spellcheck="false"
               />
@@ -128,12 +128,9 @@
                   'text-light-text dark:text-dark-text': emailValidated,
                 }"
                 for="email"
-                >{{ $t("pages.help.contact.email_label") }}
+                >{{ $t("pages.contact.email_label") }}
                 <span v-if="!emailValidated"
-                  >{{
-                    $t("pages.help.contact.valid")
-                  }}
-                  (example@mail.com).</span
+                  >{{ $t("pages.contact.valid") }} (example@mail.com).</span
                 ></label
               >
               <input
@@ -146,7 +143,7 @@
                     !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
                 }"
-                :placeholder="$t('pages.help.contact.email_placeholder')"
+                :placeholder="$t('pages.contact.email_placeholder')"
                 autocomplete="off"
                 spellcheck="false"
               />
@@ -159,9 +156,9 @@
                   'text-light-text dark:text-dark-text': subjectValidated,
                 }"
                 for="subject"
-                >{{ $t("pages.help.contact.subject_label") }}
+                >{{ $t("pages.contact.subject_label") }}
                 <span v-if="!subjectValidated">{{
-                  $t("pages.help.contact.error_empty")
+                  $t("pages.contact.error_empty")
                 }}</span></label
               >
               <input
@@ -174,7 +171,7 @@
                     !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
                 }"
-                :placeholder="$t('pages.help.contact.subject_placeholder')"
+                :placeholder="$t('pages.contact.subject_placeholder')"
                 autocomplete="off"
                 spellcheck="false"
               />
@@ -187,7 +184,7 @@
                   'text-light-text dark:text-dark-text': messageValidated,
                 }"
                 for="message"
-                >{{ $t("pages.help.contact.message_label") }}
+                >{{ $t("pages.contact.message_label") }}
                 <span v-if="!messageValidated">cannot be empty.</span></label
               >
               <textarea
@@ -201,7 +198,7 @@
                   'outline-none focus:outline-none': messageValidated,
                 }"
                 rows="6"
-                :placeholder="$t('pages.help.contact.message_placeholder')"
+                :placeholder="$t('pages.contact.message_placeholder')"
                 autocomplete="off"
                 spellcheck="false"
               ></textarea>
@@ -218,9 +215,9 @@
               }"
               type="submit"
               :disabled="buttonDisabled"
-              :aria-label="$t('pages.help.contact.send_form_aria_label')"
+              :aria-label="$t('pages.contact.send_form_aria_label')"
             >
-              {{ $t("pages.help.contact.send") }}
+              {{ $t("pages.contact.send") }}
             </button>
           </form>
         </div>
@@ -230,7 +227,7 @@
         class="flex flex-col items-center justify-center space-y-4 pb-8 text-center md:items-start md:space-y-6 md:text-start"
       >
         <h1 class="responsive-h1 pb-2 font-bold">
-          {{ $t("pages.help.contact.thanks_1") }}
+          {{ $t("pages.contact.thanks_1") }}
         </h1>
         <div class="flex flex-row space-x-3 py-2 text-start">
           <Icon
@@ -239,7 +236,7 @@
             size="1.25em"
           />
           <p>
-            {{ $t("pages.help._global.subheader_1") }}
+            {{ $t("pages.contact.subheader_1") }}
             <a
               class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
@@ -256,7 +253,7 @@
           </p>
         </div>
         <p>
-          {{ $t("pages.help.contact.thanks_2") }}
+          {{ $t("pages.contact.thanks_2") }}
         </p>
         <BtnRouteInternal
           :cta="false"

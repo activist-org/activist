@@ -61,7 +61,7 @@
               class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
             />
           </div>
-          <BtnRoadMap label="Roadmap" linkTo="/about/roadmap" />
+          <BtnRoadMap />
         </div>
         <div>
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
@@ -107,25 +107,25 @@
               fontSize="xs"
               ariaLabel="_global.sign_up_aria_label"
             />
-            <BtnRouteInternal
+            <BtnRouteExternal
               v-if="aboveLargeBP && !devMode.active"
               id="btn-get-in-touch-large"
               class="block"
               :cta="true"
-              label="components.header_website.get_in_touch"
-              linkTo="/help/contact"
+              label="_global.support"
+              linkTo="https://docs.activist.org/activist/~/changes/qZu0F6L0cHK5FDtvelqa/welcome/support-us"
               fontSize="sm"
-              ariaLabel="components.header_website.get_in_touch_aria_label"
+              ariaLabel="components.header_website.support_aria_label"
             />
-            <BtnRouteInternal
+            <BtnRouteExternal
               v-else-if="aboveMediumBP && !devMode.active"
               id="btn-get-in-touch-medium"
               class="block"
               :cta="true"
-              label="components.header_website.get_in_touch"
-              linkTo="/help/contact"
+              label="_global.support"
+              linkTo="https://docs.activist.org/activist/~/changes/qZu0F6L0cHK5FDtvelqa/welcome/support-us"
               fontSize="xs"
-              ariaLabel="components.header_website.get_in_touch_aria_label"
+              ariaLabel="components.header_website.support_aria_label"
             />
           </div>
         </div>

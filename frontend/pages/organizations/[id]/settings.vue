@@ -26,7 +26,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewSettings />
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="

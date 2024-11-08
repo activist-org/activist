@@ -242,7 +242,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Backend
 
-- [Django](https://www.djangoproject.com) • [PostgreSQL](https://www.postgresql.org) (planned)
+- [Django](https://www.djangoproject.com) • [PostgreSQL](https://www.postgresql.org)
 
 ### Deployment
 
@@ -406,30 +406,19 @@ We would like to thank all the great software that made activist's development p
 - [OpenStreetMap](https://www.openstreetmap.org)
 - [MapLibre](https://maplibre.org/)
 
-### Our partners
+### Our supporters
 
-#### Our fiscal host Änderwerk
+#### Licensed software providers
 
-<details><summary>About Änderwerk</summary>
-<p>
+The following organizations have supported activist with licenses to use their technology for free:
 
-Änderwerk is a non-profit host organization for projects, initiatives and movements working towards a better future for people and the planet.
-
-They take care of fiscal hosting, managing donations, budgets, accounting and the transformation of financial resources into useful tools.
-
-They enable initiatives and groups in their hub to concentrate on what they do best – effective community-led action, aligned with their values and goals.
-
-We are happy to be a part of this community.
-
-</p>
-</details>
+- [Weblate](https://weblate.org/)
+- [GitBook](https://www.gitbook.com/)
+- [Formbricks](https://formbricks.com/)
 
 #### The Wikimedia UNLOCK Accelerator
 
-<details><summary>About UNLOCK</summary>
-<p>
-
-These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supports open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
+These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supported open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator was committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
 
 <div align="center">
 <br>
@@ -441,9 +430,6 @@ These organizations have supported activist via the 2022 edition of the Wikimedi
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <br>
 </div>
-
-</p>
-</details>
 
 # Disclosure
 
