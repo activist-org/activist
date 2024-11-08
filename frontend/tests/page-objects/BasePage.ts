@@ -1,4 +1,4 @@
-import type { Page, Locator } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 import { isMobile } from "../utils/utils";
 export default abstract class BasePage {
   protected readonly pageName: string;
@@ -14,7 +14,7 @@ export default abstract class BasePage {
 
   public static readonly urls = {
     REQUEST_ACCESS_URL:
-      "https://app.formbricks.com/s/clvn9ywe21css8wqpt1hee57a",
+      "https://forms.activist.org/s/cm30ujrcj0003107fqc75yke8",
   };
 
   public get getPage(): Page {
