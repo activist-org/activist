@@ -13,10 +13,7 @@ from pathlib import Path
 
 import django_stubs_ext
 import dotenv
-from rest_framework import viewsets
-from rest_framework.settings import api_settings
 
-django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
 dotenv.load_dotenv()
 
 # MARK: DB
@@ -220,9 +217,6 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_FAVICON_HREF": "https://github.com/activist-org/activist/blob/main/backend/static/swagger_favicon.png?raw=true",
 }
 
-# Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
-api_settings.reload()
-
 # MARK: Logging
 # https://docs.djangoproject.com/en/4.2/topics/logging/
 
@@ -253,3 +247,14 @@ LOGGING = {
         },
     },
 }
+
+# MARK: API Settings
+
+from rest_framework import viewsets  # noqa: E402
+
+django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
+
+from rest_framework.settings import api_settings  # noqa: E402
+
+# Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
+api_settings.reload()
