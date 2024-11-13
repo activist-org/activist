@@ -188,8 +188,6 @@ export const useOrganizationStore = defineStore("organization", {
           (text) => text.data._value.results
         )[0] as unknown as OrganizationText[];
 
-        console.log(`Hereee ${JSON.stringify(orgTextsData)}`);
-
         // Order texts based on the returned organizations.
         const orgIds = orgs._value.map((o) => o.id);
         const sortedOrgTextsData: OrganizationText[] = [];
@@ -200,8 +198,6 @@ export const useOrganizationStore = defineStore("organization", {
             }
           }
         }
-
-        console.log(`Hereee ${JSON.stringify(sortedOrgTextsData)}`);
 
         const organizationsWithTexts = orgs._value.map(
           (organization: Organization, index: number) => {
