@@ -1,1 +1,14 @@
-{}
+{
+  "_global.about": "Sobre",
+  "_global.activist_icon_img_alt_text": "O ícone do ativista: uma letra a minúscula com um semicírculo apontando para baixo e para a esquerda no centro.",
+  "_global.auth.reset_password": "Redefinir senha",
+  "_global.auth.sign_in_aria_label": "Navegue até a página de login",
+  "_global.auth.sign_up_aria_label": "Navegue até a página de inscrição",
+  "_global.contact": "Contato",
+  "_global.create_group": "Criar grupo",
+  "_global.discussion": "Discussão",
+  "_global.discussions": "Discussões",
+  "_global.enter_password": "Digite sua senha",
+  "_global.events": "Eventos",
+  "_global.join_group": "Junte-se ao grupo"
+}
