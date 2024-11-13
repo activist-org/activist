@@ -11,10 +11,8 @@ light: {
     "link-text-hover": 0, 59, 119, 0.9,
     "menu-selection": 50, 50, 50, 1,
     interactive: 75, 75, 67, 1,
-    "highlight": {
-        DEFAULT: 140, 140, 140, 0.20,
-        darker: 120, 120, 120, 0.30,
-    },
+    "highlight": 140, 140, 140, 0.20,
+    "highlight-lighter": 120, 120, 120, 0.30,
     "cta-orange": 242, 166, 84, 1,
     "action-red": 186, 61, 59, 1,
     "learn-blue": 33, 118, 174, 1,
