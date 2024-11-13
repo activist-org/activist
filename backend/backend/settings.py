@@ -14,7 +14,14 @@ from pathlib import Path
 import django_stubs_ext
 import dotenv
 
-dotenv.load_dotenv()
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+
+if os.getenv("DJANGO_ENV") == "LOCAL_DEV":
+    dotenv.load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev")
+    dotenv.load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev.local")
+
+else:
+    dotenv.load_dotenv()
 
 # MARK: DB
 
@@ -26,7 +33,6 @@ DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
