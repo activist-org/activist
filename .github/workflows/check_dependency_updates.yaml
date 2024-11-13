@@ -1,0 +1,110 @@
+name: check_dependency_updates
+
+on:
+  schedule:
+    - cron: '0 0 15 */2 *'
+  workflow_dispatch:
+
+jobs:
+  update_dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      # MARK: Environments
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Yarn
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: install
+          dir: "frontend"
+
+      # MARK: Dependency Updates
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Update Backend Dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade uv
+          uv venv
+          uv pip install -r requirements-dev.txt
+          pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip install -U
+          pip freeze > requirements-dev.txt
+
+      - name: Install npm-check-updates
+        run: npm install -g npm-check-updates
+
+      - name: Update Frontend Dependencies
+        working-directory: frontend
+        run: |
+          ncu -u
+
+      # MARK: Backend Tests
+
+      - name: Activate Virtual Environment
+        run: |
+          . .venv/bin/activate
+          echo PATH=$PATH >> $GITHUB_ENV
+
+      - name: Run Ruff Format - Formatting and Linting Check
+        run: ruff check ./backend || echo "Ruff check failed" >> error_log.txt
+
+      - name: Run mypy - Static Type Checking
+        if: always()
+        run: mypy ./backend --config-file ./backend/pyproject.toml || echo "mypy check failed" >> error_log.txt
+
+      - name: Run pytest - Unit Tests
+        if: always()
+        run: pytest ./backend -vv || echo "Backend tests failed." >> error_log.txt
+
+      # MARK: Frontend Tests
+
+      - name: Install Prettier
+        run: yarn add prettier
+
+      - name: Run Prettier - Formatting Check
+        working-directory: ./frontend
+        run: |
+          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore || echo "Prettier check failed." >> error_log.txt
+
+      - name: Run Nuxt Type Check
+        if: always()
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: nuxi typecheck || echo "Type check failed." >> error_log.txt
+          dir: "frontend"
+
+      - name: Run ESLint - Linting
+        if: always()
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: eslint . || echo "ESLint check failed." >> error_log.txt
+          dir: "frontend"
+
+      # MARK: Errors and Issue
+
+      - name: Log Errors
+        if: failure()
+        run: |
+          if [[ -f error_log.txt ]]; then
+            cat error_log.txt
+          else
+            echo "No errors found during dependency update."
+          fi
+
+      - name: Create GitHub Issue
+        if: failure()
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: $(date +%Y-%m-%d) Dependency Update Errors
+          content-filepath: error_log.txt
