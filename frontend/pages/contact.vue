@@ -53,7 +53,7 @@
                 style="vertical-align: baseline"
               />
             </a>
-              {{ $t("pages.contact.section_1_paragraph_1_3") }}
+            {{ $t("pages.contact.section_1_paragraph_1_3") }}
             <a
               class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist"
