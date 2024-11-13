@@ -1,0 +1,6 @@
+---
+icon: section
+---
+
+# Legal
+

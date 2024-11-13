@@ -31,7 +31,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewDiscussion />
     <!-- <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
       <Discussion
         :discussionInput="event.discussion"

@@ -22,21 +22,21 @@ defineProps<{
 const infoOptions: MenuSelector[] = [
   {
     id: 1,
-    label: "_global.help",
+    label: "components.dropdown_info.help",
     routeUrl: "/help",
     iconUrl: `${IconMap.CIRCLE_QUESTION}`,
     selected: false,
   },
   {
     id: 2,
-    label: "_global.documentation",
+    label: "components._global.documentation",
     routeUrl: "/docs",
     iconUrl: `${IconMap.DOCS}`,
     selected: false,
   },
   {
     id: 3,
-    label: "_global.legal",
+    label: "components.dropdown_info.legal",
     routeUrl: "/legal",
     iconUrl: `${IconMap.LEGAL}`,
     selected: false,

@@ -24,7 +24,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewSettings />
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="$t('pages.events.settings.danger_zone_event_description')"

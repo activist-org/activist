@@ -20,7 +20,6 @@
         :src="imgUrl + '_' + $colorMode.value + '.png'"
         :alt="$t(imgAltText)"
       />
-      <PageBreadcrumbs v-if="includeBreadcrumbs && aboveMediumBP" />
       <slot />
     </div>
     <div class="flex justify-end pr-32">
