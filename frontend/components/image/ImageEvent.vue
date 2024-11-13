@@ -9,9 +9,9 @@
       }"
     ></div>
     <img
-      v-if="imgURL && imgURL !== ''"
+      v-if="imgUrl && imgUrl !== ''"
       class="object-cover"
-      :src="imgURL"
+      :src="imgUrl"
       :alt="alt"
     />
     <!-- Note: Placeholder image for if no image is provided. -->
@@ -29,7 +29,7 @@ import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   eventType: "action" | "learn";
-  imgURL?: string;
+  imgUrl?: string;
   alt?: string;
 }>();
 </script>

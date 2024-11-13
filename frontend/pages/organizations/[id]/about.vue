@@ -9,10 +9,10 @@
       <div class="flex pb-3 lg:pb-4">
         <div class="flex space-x-2 lg:space-x-3">
           <BtnRouteExternal
-            v-if="organization.getInvolvedURL"
+            v-if="organization.getInvolvedUrl"
             class="w-max"
             :cta="true"
-            :linkTo="organization.getInvolvedURL"
+            :linkTo="organization.getInvolvedUrl"
             label="_global.join_organization"
             fontSize="sm"
             :rightIcon="IconMap.ARROW_RIGHT"
@@ -90,7 +90,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 

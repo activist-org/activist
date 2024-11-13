@@ -9,7 +9,7 @@
     <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
         :eventType="event.type"
-        :imgURL="event.iconURL ? event.iconURL : ''"
+        :imgUrl="event.iconUrl ? event.iconUrl : ''"
         :alt="
           $t('_global.entity_logo', {
             entity_name: event?.name,
@@ -33,7 +33,7 @@
       <MenuLinkWrapper
         v-for="[i, button] of eventButtons.entries()"
         :key="i"
-        :to="localPath(button.routeURL)"
+        :to="localPath(button.routeUrl)"
         :selected="button.selected"
       >
         <div
@@ -41,8 +41,8 @@
         >
           <span class="width-1/6"
             ><Icon
-              v-if="button.iconURL"
-              :name="button.iconURL"
+              v-if="button.iconUrl"
+              :name="button.iconUrl"
               class="h-5 w-5 flex-shrink-0"
           /></span>
           <p
@@ -77,7 +77,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 

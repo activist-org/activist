@@ -13,10 +13,10 @@
     <HeaderAppPage :group="group">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
-          v-if="group.getInvolvedURL"
+          v-if="group.getInvolvedUrl"
           class="w-max"
           :cta="true"
-          :linkTo="group.getInvolvedURL"
+          :linkTo="group.getInvolvedUrl"
           label="_global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"

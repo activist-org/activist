@@ -19,9 +19,9 @@
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
-          v-if="group.getInvolvedURL"
+          v-if="group.getInvolvedUrl"
           :cta="true"
-          :linkTo="group.getInvolvedURL"
+          :linkTo="group.getInvolvedUrl"
           label="_global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"

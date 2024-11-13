@@ -11,7 +11,7 @@
               'bg-light-layer-2 text-light-text hover:bg-light-highlight dark:bg-dark-layer-2 dark:text-dark-text dark:hover:bg-dark-highlight':
                 selector.id != props.selectedRoute,
             }"
-            :to="localePath(selector.routeURL)"
+            :to="localePath(selector.routeUrl)"
           >
             <div v-if="!aboveMediumBP">
               <Icon
@@ -50,7 +50,7 @@ const defaultIndex = computed(() => {
 });
 
 function changeTab(index: number) {
-  const selectedRoute = props.selectors[index]?.routeURL;
+  const selectedRoute = props.selectors[index]?.routeUrl;
   if (selectedRoute) {
     router.push(nuxtApp.$localePath(selectedRoute));
   }

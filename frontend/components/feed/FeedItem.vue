@@ -33,8 +33,8 @@
         class="flex h-32 items-center justify-center rounded-md bg-light-distinct-text dark:bg-dark-distinct-text"
       >
         <img
-          v-if="item.imgURL"
-          :src="item.imgURL"
+          v-if="item.imgUrl"
+          :src="item.imgUrl"
           :alt="$t('components.feed_item.img_alt_text')"
         />
         <Icon

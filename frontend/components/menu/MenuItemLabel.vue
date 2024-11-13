@@ -1,7 +1,7 @@
 <template>
   <component
-    @click="conditionallyLogOut(label)"
-    @enter="conditionallyLogOut(label)"
+    @click="conditionallyLogOut()"
+    @enter="conditionallyLogOut()"
     :is="infoComponent.is"
     v-bind="infoComponent"
     class="flex w-full items-center rounded-md text-sm"

@@ -106,6 +106,10 @@ class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
 # MARK: Methods
 
 
+class DeleteUserResponseSerializer(serializers.Serializer[UserModel]):
+    message = serializers.CharField(max_length=200)
+
+
 class SignupSerializer(serializers.ModelSerializer[UserModel]):
     password_confirmed = serializers.CharField(write_only=True)
 

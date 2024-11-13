@@ -23,22 +23,22 @@ const infoOptions: MenuSelector[] = [
   {
     id: 1,
     label: "components.dropdown_info.help",
-    routeURL: "/help",
-    iconURL: `${IconMap.CIRCLE_QUESTION}`,
+    routeUrl: "/help",
+    iconUrl: `${IconMap.CIRCLE_QUESTION}`,
     selected: false,
   },
   {
     id: 2,
     label: "components._global.documentation",
-    routeURL: "/docs",
-    iconURL: `${IconMap.DOCS}`,
+    routeUrl: "/docs",
+    iconUrl: `${IconMap.DOCS}`,
     selected: false,
   },
   {
     id: 3,
     label: "components.dropdown_info.legal",
-    routeURL: "/legal",
-    iconURL: `${IconMap.LEGAL}`,
+    routeUrl: "/legal",
+    iconUrl: `${IconMap.LEGAL}`,
     selected: false,
   },
 ];

@@ -8,7 +8,7 @@
     <MenuLinkWrapper
       v-for="opt in options"
       :key="opt.id"
-      :to="opt.routeURL"
+      :to="opt.routeUrl"
       :selected="opt.selected"
       :isAddStyles="false"
     >
@@ -17,7 +17,7 @@
           :isSideLeftMenu="isSideLeftMenu"
           :isButton="false"
           :label="$t(`${opt.label}`)"
-          :iconName="opt.iconURL"
+          :iconName="opt.iconUrl"
           :active="active"
         />
       </MenuItem>
