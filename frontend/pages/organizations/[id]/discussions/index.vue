@@ -29,7 +29,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewDiscussion />
     <!-- <div v-if="organization.discussions" class="space-y-6 pb-6 pt-3 md:pt-4">
       <CardDiscussion
         v-for="(d, i) in organization.discussions"
@@ -51,7 +50,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 </script>

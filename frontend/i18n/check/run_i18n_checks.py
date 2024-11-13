@@ -35,8 +35,8 @@ def main():
     checks = [
         "i18n_check_key_identifiers.py",
         "i18n_check_non_source_keys.py",
-        "i18n_check_repeat_values.py",
         "i18n_check_unused_keys.py",
+        "i18n_check_repeat_values.py",
     ]
 
     for check in checks:

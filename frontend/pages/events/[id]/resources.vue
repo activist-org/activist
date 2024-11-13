@@ -43,7 +43,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 </script>

@@ -24,7 +24,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewSettings />
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="$t('pages.events.settings.danger_zone_event_description')"
@@ -42,7 +41,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 </script>

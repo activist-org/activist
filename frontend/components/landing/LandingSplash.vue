@@ -50,7 +50,7 @@
         v-else
         id="request-access"
         :cta="true"
-        label="_global.request_access"
+        label="components.landing_splash.request_access"
         :linkTo="REQUEST_ACCESS_URL"
         fontSize="xl"
         ariaLabel="components.landing_splash.request_access_aria_label"

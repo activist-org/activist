@@ -25,7 +25,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewTeam />
     <!-- <div v-if="event.members" class="space-y-3 py-4">
       <CardSearchResultUser
         v-for="(u, i) in event.members"
@@ -45,7 +44,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 </script>

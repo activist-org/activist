@@ -27,7 +27,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewTasks />
     <!-- <div v-if="event.tasks" class="space-y-3 py-4"></div>
     <EmptyState v-else pageType="tasks" :permission="false" /> -->
   </div>
@@ -40,7 +39,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 </script>

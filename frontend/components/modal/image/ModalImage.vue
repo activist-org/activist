@@ -8,13 +8,13 @@
     <img
       v-if="$colorMode.value == 'light'"
       class="w-4/5 object-contain"
-      :src="imageURL + '_light.png'"
+      :src="imgUrl + '_light.png'"
       :alt="$t(imageAltText)"
     />
     <img
       v-else-if="$colorMode.value == 'dark'"
       class="w-4/5 object-contain"
-      :src="imageURL + '_dark.png'"
+      :src="imgUrl + '_dark.png'"
       :alt="$t(imageAltText)"
     />
   </ModalBase>
@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  imageURL: string;
+  imgUrl: string;
   imageAltText: string;
   isOpen: boolean;
 }>();

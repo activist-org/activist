@@ -50,7 +50,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const groupStore = useGroupStore();
-await groupStore.fetchByID(id);
+await groupStore.fetchById(id);
 
 const { group } = groupStore;
 

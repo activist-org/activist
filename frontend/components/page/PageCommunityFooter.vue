@@ -37,7 +37,7 @@
         {{ $t("components.page_community_footer.invite_text_3_3") }}
       </li>
       <li>
-        {{ $t("_global.visit_our") }}
+        {{ $t("components.page_community_footer.visit_our") }}
         <a
           class="focus-brand link-text items-center"
           href="https://hosted.weblate.org/projects/activist/activist"

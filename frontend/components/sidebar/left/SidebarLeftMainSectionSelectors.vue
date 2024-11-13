@@ -8,9 +8,9 @@
         v-for="(item, index) in menuItems.slice(1, 3)"
         :key="index"
         :label="item.label"
-        :routeURL="item.routeURL"
-        :iconURL="item.iconURL"
-        :selected="isActive(item.routeURL)"
+        :routeUrl="item.routeUrl"
+        :iconUrl="item.iconUrl"
+        :selected="isActive(item.routeUrl)"
         :active="true"
       />
     </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-const isActive = (routeURL: string) => {
-  return isRouteActive(routeURL);
+const isActive = (routeUrl: string) => {
+  return isRouteActive(routeUrl);
 };
 </script>

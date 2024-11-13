@@ -10,13 +10,13 @@
       <img
         v-if="$colorMode.value == 'light'"
         class="mb-4 h-36 sm:h-44 lg:hidden"
-        :src="imageURL + '_light.png'"
+        :src="imgUrl + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="mb-4 h-36 sm:h-44 lg:hidden"
-        :src="imageURL + '_dark.png'"
+        :src="imgUrl + '_dark.png'"
         :alt="$t(imageAltText)"
       />
       <h2
@@ -38,7 +38,7 @@
         :id="btnId1"
         :cta="true"
         :label="`${btnText1}`"
-        :linkTo="`${btnURL1}`"
+        :linkTo="`${btnUrl1}`"
         fontSize="xl"
         :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : ''"
       />
@@ -47,12 +47,12 @@
     <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
       <img
         v-if="$colorMode.value == 'light'"
-        :src="imageURL + '_light.png'"
+        :src="imgUrl + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        :src="imageURL + '_dark.png'"
+        :src="imgUrl + '_dark.png'"
         :alt="$t(imageAltText)"
       />
     </div>
@@ -65,12 +65,12 @@
     <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
       <img
         v-if="$colorMode.value == 'light'"
-        :src="imageURL + '_light.png'"
+        :src="imgUrl + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        :src="imageURL + '_dark.png'"
+        :src="imgUrl + '_dark.png'"
         :alt="$t(imageAltText)"
       />
     </div>
@@ -81,13 +81,13 @@
       <img
         v-if="$colorMode.value == 'light'"
         class="mb-4 h-36 sm:h-44 lg:hidden"
-        :src="imageURL + '_light.png'"
+        :src="imgUrl + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="mb-4 h-36 sm:h-44 lg:hidden"
-        :src="imageURL + '_dark.png'"
+        :src="imgUrl + '_dark.png'"
         :alt="$t(imageAltText)"
       />
       <h2
@@ -109,7 +109,7 @@
         :id="btnId1"
         :cta="true"
         :label="`${btnText1}`"
-        :linkTo="`${btnURL1}`"
+        :linkTo="`${btnUrl1}`"
         fontSize="xl"
         :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : ''"
       />
@@ -141,7 +141,7 @@
           class="w-full"
           :cta="true"
           :label="`${btnText1}`"
-          :linkTo="`${btnURL1}`"
+          :linkTo="`${btnUrl1}`"
           fontSize="xl"
           :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : ''"
         />
@@ -150,7 +150,7 @@
           class="w-full"
           :cta="false"
           :label="`${btnText2}`"
-          :linkTo="`${btnURL2}`"
+          :linkTo="`${btnUrl2}`"
           fontSize="xl"
           :ariaLabel="btnAriaLabel2 ? btnAriaLabel2 : ''"
         />
@@ -174,15 +174,15 @@ defineProps<{
   header: string;
   tagline: string;
   text: string;
-  imageURL?: string;
+  imgUrl?: string;
   imageAltText: string;
   btnText1: string;
-  btnURL1: string;
+  btnUrl1: string;
   btnAriaLabel1?: string;
   btnId1?: string;
   btnId2?: string;
   btnText2?: string;
-  btnURL2?: string;
+  btnUrl2?: string;
   btnAriaLabel2?: string;
   subText?: string;
 }>();
