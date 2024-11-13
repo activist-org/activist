@@ -108,3 +108,6 @@ jobs:
         with:
           title: $(date +%Y-%m-%d) Dependency Update Errors
           content-filepath: error_log.txt
+          labels: |
+            dependencies
+            help wanted
