@@ -10,5 +10,6 @@
   "_global.discussions": "Discussões",
   "_global.enter_password": "Digite sua senha",
   "_global.events": "Eventos",
-  "_global.join_group": "Junte-se ao grupo"
+  "_global.join_group": "Junte-se ao grupo",
+  "_global.join_group_aria_label": "Inicie o processo de adesão ao grupo"
 }
