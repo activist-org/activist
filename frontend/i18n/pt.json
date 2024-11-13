@@ -11,5 +11,10 @@
   "_global.enter_password": "Digite sua senha",
   "_global.events": "Eventos",
   "_global.join_group": "Junte-se ao grupo",
-  "_global.join_group_aria_label": "Inicie o processo de adesão ao grupo"
+  "_global.join_group_aria_label": "Inicie o processo de adesão ao grupo",
+  "_global.join_organization": "Junte-se à organização",
+  "_global.join_organization_aria_label": "Inicie o processo de adesão à organização",
+  "_global.navigate_to": "Navegue até",
+  "_global.new_event": "Novo evento",
+  "_global.new_group": "Novo grupo"
 }
