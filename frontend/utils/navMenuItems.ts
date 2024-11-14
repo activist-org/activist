@@ -12,7 +12,7 @@ export const menuItems = [
     iconUrl: `${IconMap.EVENT}`,
   },
   {
-    label: "utils.nav_menu_items.organizations",
+    label: "_global.organizations",
     routeUrl: "/organizations",
     iconUrl: "IconOrganization",
   },

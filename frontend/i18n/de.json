@@ -27,6 +27,7 @@
   "_global.on_github": "auf GitHub",
   "_global.organization": "Organisation",
   "_global.organization_name": "Organisationsname",
+  "_global.organizations": "Organisationen",
   "_global.public_matrix_chat_rooms": "öffentliche Matrix-Chaträume",
   "_global.repeat_password": "Passwort wiederholen",
   "_global.resources": "Ressourcen",
@@ -260,7 +261,6 @@
   "components.modal_command_palette.jump_to": "Springen zu",
   "components.modal_image_btn.open_modal_aria_label": "Größere Version dieses Bildes öffnen",
   "components.modal_organization_status.status_accepted": "Bewerbungsstatus: Angenommen",
-  "components.modal_organization_overview.header": "Organisationen",
   "components.modal_qr_code.aria_label": "QR-Code in einem neuen Tab öffnen",
   "components.modal_qr_code.download_qr_code": "QR-Code herunterladen",
   "components.modal_qr_code.download_qr_code_aria_label": "QR-Code herunterladen, der auf diese Seite verlinkt",
@@ -550,6 +550,5 @@
   "types.topics.racial_justice": "Rassengerechtigkeit",
   "types.topics.technology_privacy": "Technologie und Datenschutz",
   "types.topics.transparency": "Transparenz",
-  "types.topics.women": "Frauenrechte",
-  "utils.nav_menu_items.organizations": "Organisationen"
+  "types.topics.women": "Frauenrechte"
 }

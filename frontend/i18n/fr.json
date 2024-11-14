@@ -27,6 +27,7 @@
   "_global.on_github": "sur GitHub",
   "_global.organization": "Organisation",
   "_global.organization_name": "Nom organization",
+  "_global.organizations": "Organisations",
   "_global.public_matrix_chat_rooms": "salons de tchat publics dans Matrix",
   "_global.repeat_password": "Répéter mot de passe",
   "_global.resources": "Ressources",
@@ -256,7 +257,6 @@
   "components.modal_command_palette.jump_to": "Sauter vers",
   "components.modal_image_btn.open_modal_aria_label": "Ouvrir une version agrandie de cette image",
   "components.modal_organization_status.status_accepted": "Statut de la demande : acceptée",
-  "components.modal_organization_overview.header": "Organizations",
   "components.modal_qr_code.aria_label": "Ouvrir le code QR dans un nouvel onglet",
   "components.modal_qr_code.download_qr_code": "Télécharger le code QR",
   "components.modal_qr_code.download_qr_code_aria_label": "Télécharger un code QR qui renvoie à cette page",
@@ -544,6 +544,5 @@
   "types.topics.racial_justice": "Justice raciale",
   "types.topics.technology_privacy": "Technologie et protection de la vie privée",
   "types.topics.transparency": "Transparence",
-  "types.topics.women": "Droits des femmes",
-  "utils.nav_menu_items.organizations": "Organisations"
+  "types.topics.women": "Droits des femmes"
 }
