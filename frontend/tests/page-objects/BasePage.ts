@@ -1,27 +1,27 @@
-import type { Page, Locator } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 import { isMobile } from "../utils/utils";
 export default abstract class BasePage {
   protected readonly pageName: string;
-  protected readonly pageURL: string;
+  protected readonly pageUrl: string;
   protected readonly page: Page;
   protected locators: Record<string, string> = {};
 
-  constructor(page: Page, pageName: string, pageURL = "/") {
+  constructor(page: Page, pageName: string, pageUrl = "/") {
     this.page = page;
     this.pageName = pageName;
-    this.pageURL = pageURL;
+    this.pageUrl = pageUrl;
   }
 
   public static readonly urls = {
     REQUEST_ACCESS_URL:
-      "https://app.formbricks.com/s/clvn9ywe21css8wqpt1hee57a",
+      "https://forms.activist.org/s/cm30ujrcj0003107fqc75yke8",
   };
 
   public get getPage(): Page {
     return this.page;
   }
 
-  public async goto(pageUrl: string = this.pageURL): Promise<void> {
+  public async goto(pageUrl: string = this.pageUrl): Promise<void> {
     await this.page.goto(`${pageUrl}`);
   }
 

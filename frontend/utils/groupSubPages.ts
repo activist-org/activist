@@ -13,7 +13,7 @@ export function getGroupSubPages(): SubPageSelector[] {
     id: 0,
     label: i18n.t("_global.about"),
     iconName: `${IconMap.ABOUT}`,
-    routeURL: `/organizations/${organizationId}/groups/${groupId}/about`,
+    routeUrl: `/organizations/${organizationId}/groups/${groupId}/about`,
     selected: false,
   };
 
@@ -21,7 +21,7 @@ export function getGroupSubPages(): SubPageSelector[] {
     id: 1,
     label: i18n.t("_global.events"),
     iconName: `${IconMap.EVENT}`,
-    routeURL: `/organizations/${organizationId}/groups/${groupId}/events`,
+    routeUrl: `/organizations/${organizationId}/groups/${groupId}/events`,
     selected: false,
   };
 
@@ -29,7 +29,7 @@ export function getGroupSubPages(): SubPageSelector[] {
     id: 2,
     label: i18n.t("_global.resources"),
     iconName: "IconResource",
-    routeURL: `/organizations/${organizationId}/groups/${groupId}/resources`,
+    routeUrl: `/organizations/${organizationId}/groups/${groupId}/resources`,
     selected: false,
   };
 
@@ -37,7 +37,7 @@ export function getGroupSubPages(): SubPageSelector[] {
     id: 3,
     label: i18n.t("_global.faq"),
     iconName: "IconFAQ",
-    routeURL: `/organizations/${organizationId}/groups/${groupId}/faq`,
+    routeUrl: `/organizations/${organizationId}/groups/${groupId}/faq`,
     selected: false,
   };
 

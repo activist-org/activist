@@ -3,17 +3,17 @@ import { IconMap } from "~/types/icon-map";
 export const menuItems = [
   {
     label: "_global.home",
-    routeURL: "/home",
-    iconURL: `${IconMap.HOME}`,
+    routeUrl: "/home",
+    iconUrl: `${IconMap.HOME}`,
   },
   {
     label: "_global.events",
-    routeURL: "/events",
-    iconURL: `${IconMap.EVENT}`,
+    routeUrl: "/events",
+    iconUrl: `${IconMap.EVENT}`,
   },
   {
     label: "utils.nav_menu_items.organizations",
-    routeURL: "/organizations",
-    iconURL: "IconOrganization",
+    routeUrl: "/organizations",
+    iconUrl: "IconOrganization",
   },
 ];

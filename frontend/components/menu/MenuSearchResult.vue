@@ -1,5 +1,4 @@
 <template>
-  <!-- eslint-disable-next-line vuejs-accessibility/mouse-events-have-key-events, vuejs-accessibility/no-static-element-interactions -->
   <div
     @mouseleave="showTooltip = false"
     ref="quickActionBtnAndMenu"

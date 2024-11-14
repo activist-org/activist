@@ -6,19 +6,20 @@
       <Title>{{ organization.name }}</Title>
     </Head>
     <HeaderAppPage pageType="organization">
-      <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <BtnRouteExternal
-          v-if="organization.getInvolvedURL"
-          class="w-max"
-          :cta="true"
-          :linkTo="organization.getInvolvedURL"
-          label="_global.join_organization"
-          fontSize="sm"
-          :rightIcon="IconMap.ARROW_RIGHT"
-          iconSize="1.45em"
-          ariaLabel="_global.join_organization_aria_label"
-        />
-        <!-- <BtnAction
+      <div class="flex pb-3 lg:pb-4">
+        <div class="flex space-x-2 lg:space-x-3">
+          <BtnRouteExternal
+            v-if="organization.getInvolvedUrl"
+            class="w-max"
+            :cta="true"
+            :linkTo="organization.getInvolvedUrl"
+            label="_global.join_organization"
+            fontSize="sm"
+            :rightIcon="IconMap.ARROW_RIGHT"
+            iconSize="1.45em"
+            ariaLabel="_global.join_organization_aria_label"
+          />
+          <!-- <BtnAction
           class="w-max"
           :cta="true"
           label="_global.support"
@@ -30,24 +31,20 @@
             _global.support_organization_aria_label
           "
         /> -->
-        <BtnAction
-          @click="openModal()"
-          @keydown.enter="openModal()"
-          class="w-max"
-          :cta="true"
-          :label="$t(shareButtonLabel)"
-          :hideLabelOnMobile="false"
-          fontSize="sm"
-          :rightIcon="IconMap.SHARE"
-          iconSize="1.45em"
-          :ariaLabel="$t('_global.share_organization_aria_label')"
-        />
-        <ModalSharePage
-          @closeModal="handleCloseModal"
-          :cta="true"
-          :organization="organization"
-          :isOpen="modalIsOpen"
-        />
+          <BtnAction
+            @click="openModalSharePage()"
+            @keydown.enter="openModalSharePage()"
+            class="w-max"
+            :cta="true"
+            :label="$t(shareButtonLabel)"
+            :hideLabelOnMobile="false"
+            fontSize="sm"
+            :rightIcon="IconMap.SHARE"
+            iconSize="1.45em"
+            :ariaLabel="$t('_global.share_organization_aria_label')"
+          />
+        </div>
+        <ModalSharePage :cta="true" :organization="organization" />
       </div>
     </HeaderAppPage>
     <div class="space-y-6 pb-6">
@@ -81,9 +78,11 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
+
+import { useModalHandlers } from "~/composables/useModalHandlers";
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const aboveLargeBP = useBreakpoint("lg");
 
@@ -91,7 +90,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 
@@ -124,18 +123,4 @@ onUpdated(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", updateShareBtnLabel);
 });
-
-const modals = useModals();
-const modalName = "ModalSharePage";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
 </script>

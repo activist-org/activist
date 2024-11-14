@@ -26,6 +26,7 @@ from .models import (
     UserTopic,
 )
 from .serializers import (
+    DeleteUserResponseSerializer,
     LoginSerializer,
     PasswordResetSerializer,
     SignupSerializer,
@@ -124,7 +125,7 @@ class SignupView(APIView):
             user.save()
 
         return Response(
-            {"message": "User was created successfully"},
+            {"message": "User was created successfully."},
             status=status.HTTP_201_CREATED,
         )
 
@@ -138,7 +139,7 @@ class SignupView(APIView):
 
         if user is None:
             return Response(
-                {"message": "User does not exist"},
+                {"message": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -170,7 +171,7 @@ class LoginView(APIView):
         return Response(
             {
                 "token": serializer.validated_data.get("token"),
-                "message": "User was logged in successfully",
+                "message": "User was logged in successfully.",
             },
             status=status.HTTP_200_OK,
         )
@@ -188,7 +189,7 @@ class PasswordResetView(APIView):
 
         if user is None:
             return Response(
-                {"message": "User does not exist"},
+                {"message": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -213,7 +214,7 @@ class PasswordResetView(APIView):
         user.save()
 
         return Response(
-            {"message": "Password reset email was sent successfully"},
+            {"message": "Password reset email was sent successfully."},
             status=status.HTTP_200_OK,
         )
 
@@ -231,7 +232,7 @@ class PasswordResetView(APIView):
         user.save()
 
         return Response(
-            {"message": "Password was reset successfully"},
+            {"message": "Password was reset successfully."},
             status=status.HTTP_200_OK,
         )
 
@@ -239,19 +240,20 @@ class PasswordResetView(APIView):
 class DeleteUserView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (IsAuthenticated,)
+    serializer_class = DeleteUserResponseSerializer
 
     def delete(self, request: Request, pk: UUID | str) -> Response:
         user = UserModel.objects.get(pk=pk)
 
         if user is None:
             return Response(
-                {"message": "User does not exist"},
+                {"message": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
         user.delete()
 
         return Response(
-            {"message": "User was deleted successfully"},
+            {"message": "User was deleted successfully."},
             status=status.HTTP_204_NO_CONTENT,
         )

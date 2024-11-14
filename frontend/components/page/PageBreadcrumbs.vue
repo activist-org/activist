@@ -75,6 +75,7 @@
 
 <script setup lang="ts">
 import { validate as isValidUUID } from "uuid";
+import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 
@@ -84,16 +85,18 @@ let pageType = "";
 const { locales } = useI18n();
 const localePath = useLocalePath();
 
-const paramsID = useRoute().params.id;
-const paramsIDGroup = useRoute().params.groupID;
+const paramsId = useRoute().params.id;
+const paramsIdGroup = useRoute().params.groupId;
 
-const id = typeof paramsID === "string" ? paramsID : undefined;
-const idGroup = typeof paramsIDGroup === "string" ? paramsIDGroup : undefined;
+const id = typeof paramsId === "string" ? paramsId : undefined;
+const idGroup = typeof paramsIdGroup === "string" ? paramsIdGroup : undefined;
 
 const organizationStore = useOrganizationStore();
-let organization: Organization;
-const group = useGroupStore();
+const groupStore = useGroupStore();
 const eventStore = useEventStore();
+
+let organization: Organization;
+let group: Group;
 let event: Event;
 
 if (
@@ -103,11 +106,12 @@ if (
   !url.includes("/organizations/search")
 ) {
   pageType = "organization";
-  await organizationStore.fetchByID(id);
+  await organizationStore.fetchById(id);
   organization = organizationStore.organization;
 } else if (url.includes("/organizations/") && url.includes("/groups/")) {
   pageType = "group";
-  await group.fetchByID(idGroup);
+  await groupStore.fetchById(idGroup);
+  group = groupStore.group;
 } else if (
   url.includes("/events/") &&
   !url.includes("/organizations/") &&
@@ -116,7 +120,7 @@ if (
   !url.includes("/events/search")
 ) {
   pageType = "event";
-  await eventStore.fetchByID(id);
+  await eventStore.fetchById(id);
   event = eventStore.event;
 }
 

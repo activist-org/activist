@@ -122,7 +122,6 @@
 
 <script setup lang="ts">
 import { Toaster, toast } from "vue-sonner";
-import BtnAction from "~/components/btn/action/BtnAction.vue";
 import type { OrganizationCreateFormData } from "~/types/entities/organization";
 
 definePageMeta({
@@ -142,10 +141,10 @@ const localePath = useLocalePath();
 const organizationStore = useOrganizationStore();
 
 const submit = async () => {
-  const responseID = await organizationStore.create(formData.value);
+  const responseId = await organizationStore.create(formData.value);
 
-  if (responseID) {
-    navigateTo(localePath(`/organizations/${responseID}`));
+  if (responseId) {
+    navigateTo(localePath(`/organizations/${responseId}`));
   } else {
     toast.error("Something went wrong. Please try again later.");
   }

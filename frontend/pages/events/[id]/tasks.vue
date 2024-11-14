@@ -27,7 +27,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewTasks />
     <!-- <div v-if="event.tasks" class="space-y-3 py-4"></div>
     <EmptyState v-else pageType="tasks" :permission="false" /> -->
   </div>
@@ -35,7 +34,12 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-import { testClimateEvent } from "~/utils/testEntities";
 
-const event = testClimateEvent;
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const eventStore = useEventStore();
+await eventStore.fetchById(id);
+
+const { event } = eventStore;
 </script>

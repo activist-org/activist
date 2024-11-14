@@ -1,4 +1,5 @@
 <template>
+  <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
   <ModalBase :modalName="modalName">
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
@@ -92,7 +93,7 @@
           </s-facebook>
           <div
             @click="
-              copyToClipboardThenOpenURL(
+              copyToClipboardThenOpenUrl(
                 props?.event?.name
                   ? props?.event?.name
                   : props?.organization?.name
@@ -103,7 +104,7 @@
               )
             "
             @keypress.space="
-              copyToClipboardThenOpenURL(
+              copyToClipboardThenOpenUrl(
                 props?.event?.name
                   ? props?.event?.name
                   : props?.organization?.name
@@ -114,7 +115,7 @@
               )
             "
             @keypress.enter="
-              copyToClipboardThenOpenURL(
+              copyToClipboardThenOpenUrl(
                 props?.event?.name
                   ? props?.event?.name
                   : props?.organization?.name
@@ -248,6 +249,8 @@ import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 import { DialogTitle } from "@headlessui/vue";
+import { toast, Toaster } from "vue-sonner";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
@@ -257,6 +260,8 @@ const props = defineProps<{
   resource?: Resource;
   user?: User;
 }>();
+
+const { t } = useI18n();
 const modalName = "ModalSharePage";
 
 const getEntityType = () => {
@@ -290,7 +295,7 @@ const getCurrentUrl = () => {
   } else if (props.event) {
     return `${BASE_FRONTEND_URL}/events/${props.event.id}`;
   } else if (props.resource) {
-    return props.resource.resourceURL;
+    return props.resource.resourceUrl;
   } else if (props.user) {
     return `${BASE_FRONTEND_URL}/users/${props.user.id}`;
   }
@@ -310,6 +315,7 @@ const shareOptions = {
   bcc: [""],
   subject: getEntityType()?.subject || "Share this!",
   body:
+    // eslint-disable-next-line no-constant-binary-expression
     `${getEntityType()?.body}   ${getEntityType()?.url}` || "Check this out!",
   redirectUri: "https://www.domain.com/",
   domain: "https://mas.to",
@@ -343,18 +349,19 @@ const copyToClipboard = async (name: string, url: string) => {
   }
 };
 
-const copyToClipboardThenOpenURL = async (
+const copyToClipboardThenOpenUrl = async (
   name: string,
   url: string,
-  redirectURL?: string
+  redirectUrl?: string
 ) => {
   try {
     await navigator.clipboard.writeText(url);
     signalContentCopied.value = true;
+    toast(t("components.modal_share_page.opening_signal"));
     setTimeout(() => {
       signalContentCopied.value = false;
-      if (redirectURL) {
-        window.open(redirectURL, "_blank");
+      if (redirectUrl) {
+        window.open(redirectUrl, "_blank");
       }
     }, 2000);
   } catch (error) {

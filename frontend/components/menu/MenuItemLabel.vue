@@ -1,5 +1,7 @@
 <template>
   <component
+    @click="conditionallyLogOut()"
+    @enter="conditionallyLogOut()"
     :is="infoComponent.is"
     v-bind="infoComponent"
     class="flex w-full items-center rounded-md text-sm"
@@ -34,17 +36,20 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const props = defineProps<{
   isSideLeftMenu?: boolean | undefined;
   isButton: boolean;
-  handlerClick?: () => void | undefined;
+  handlerClick?: () => void;
   iconName?: string | undefined;
   ariaLabel?: string | undefined;
   label: string;
-  active: any;
+  active: boolean;
 }>();
 
 const sidebar = useSidebar();
+const { signOutUser } = useUser();
 
 const infoComponent = computed(() => {
   return props.isButton
@@ -79,4 +84,10 @@ const infoLabel = computed(() => {
             is: "span",
           };
 });
+
+function conditionallyLogOut() {
+  if (props.iconName === `${IconMap.SIGN_OUT}`) {
+    signOutUser();
+  }
+}
 </script>

@@ -42,9 +42,14 @@
 
 <script setup lang="ts">
 import { getGroupSubPages } from "~/utils/groupSubPages";
-import { testTechGroup1 } from "~/utils/testEntities";
 
 const groupSubPages = getGroupSubPages();
 
-const group = testTechGroup1;
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const groupStore = useGroupStore();
+await groupStore.fetchById(id);
+
+const { group } = groupStore;
 </script>

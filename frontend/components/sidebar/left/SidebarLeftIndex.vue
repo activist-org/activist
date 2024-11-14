@@ -20,10 +20,11 @@
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
+        <!-- Attn: Disabled -->
+        <!-- <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" /> -->
         <ImageOrganization
           class="elem-shadow-sm"
-          :imgURL="logoUrl"
+          :imgUrl="logoUrl"
           :alt="
             $t('_global.entity_logo', {
               entity_name: name,
@@ -75,8 +76,8 @@
         >
           <SidebarLeftSelector
             :label="menuEntry.label"
-            :routeURL="menuEntry.routeURL"
-            :iconURL="menuEntry.iconURL"
+            :routeUrl="menuEntry.routeUrl"
+            :iconUrl="menuEntry.iconUrl"
             :selected="menuEntry.selected"
           />
         </li>

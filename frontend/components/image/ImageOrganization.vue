@@ -2,7 +2,7 @@
   <div
     class="flex h-full w-full justify-center rounded-md border border-light-section-div bg-light-layer-0 dark:border-dark-section-div"
   >
-    <img v-if="imgURL" :src="imgURL" :alt="alt" />
+    <img v-if="imgUrl" :src="imgUrl" :alt="alt" />
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
@@ -17,7 +17,7 @@
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{
-  imgURL?: string;
+  imgUrl?: string;
   alt?: string;
 }>();
 </script>

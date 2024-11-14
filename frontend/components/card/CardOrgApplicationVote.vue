@@ -7,7 +7,7 @@
         class="mr-5 fill-light-text dark:fill-dark-text"
       >
         <Icon
-          v-if="organization.iconURL === undefined"
+          v-if="organization.iconUrl === undefined"
           name="IconOrganization"
           size="3em"
         />
@@ -16,7 +16,7 @@
           class="rounded border border-light-section-div dark:border-dark-section-div"
         >
           <img
-            :src="organization.iconURL"
+            :src="organization.iconUrl"
             class="h-full w-12"
             :alt="
               $t('_global.entity_logo', {
@@ -93,14 +93,9 @@ export interface Props {
  */
 export interface Emits {
   /**
-   * The up vote casted event.
+   * The up and down vote casted events.
    */
-  (event: "up-vote"): void;
-
-  /**
-   * The down vote casted event.
-   */
-  (event: "down-vote"): void;
+  (event: "up-vote" | "down-vote"): void;
 }
 
 defineEmits<Emits>();

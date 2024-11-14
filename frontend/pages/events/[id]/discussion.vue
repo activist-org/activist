@@ -31,7 +31,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewDiscussion />
     <!-- <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
       <Discussion
         :discussionInput="event.discussion"
@@ -44,11 +43,15 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { IconMap } from "~/types/icon-map";
-import { testClimateEvent } from "~/utils/testEntities";
 
 const aboveMediumBP = useBreakpoint("md");
 
-const event = testClimateEvent;
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const eventStore = useEventStore();
+await eventStore.fetchById(id);
+
+const { event } = eventStore;
 </script>

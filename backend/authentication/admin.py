@@ -54,6 +54,7 @@ class UserCreationForm(forms.ModelForm[UserModel]):
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
             raise ValidationError("Passwords don't match")
+
         return password2
 
     def save(self, commit: bool = True) -> UserModel:
@@ -62,6 +63,7 @@ class UserCreationForm(forms.ModelForm[UserModel]):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+
         return user
 
 
@@ -81,7 +83,7 @@ class UserChangeForm(forms.ModelForm[UserModel]):
 
 
 class UserAdmin(BaseUserAdmin):
-    # The forms to add and change user instances
+    # The forms to add and change user instances.
     form = UserChangeForm  # type: ignore
     add_form = UserCreationForm
 
@@ -108,7 +110,7 @@ class UserAdmin(BaseUserAdmin):
         ),
         ("Permissions", {"fields": ["is_active", "is_staff", "is_admin"]}),
     ]
-    # add_fieldsets for creating a new user
+    # add_fieldsets for creating a new user.
     add_fieldsets = [
         (
             None,
@@ -129,5 +131,5 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = []
 
 
-# Now register the new UserAdmin...
+# Register the new UserAdmin.
 admin.site.register(UserModel, UserAdmin)

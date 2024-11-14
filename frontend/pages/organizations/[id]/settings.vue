@@ -26,7 +26,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewSettings />
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="
@@ -42,7 +41,11 @@
 </template>
 
 <script setup lang="ts">
-import { testTechOrg } from "~/utils/testEntities";
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
 
-const organization = testTechOrg;
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchById(id);
+
+const { organization } = organizationStore;
 </script>

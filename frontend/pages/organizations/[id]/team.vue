@@ -28,7 +28,6 @@
       </div>
     </HeaderAppPage>
     <div class="space-y-3 py-4"></div>
-    <PagePreviewTeam />
     <!-- <div v-if="organization.members" class="space-y-3 py-4">
       <CardSearchResultUser
         v-for="(u, i) in organization.members"
@@ -37,13 +36,18 @@
         :user="u"
       />
     </div>
-    <EmptyState v-else pageType="users" :permission="false" /> -->
+    <EmptyState v-else pageType="users" :permission="false" class="py-4" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-import { testTechOrg } from "~/utils/testEntities";
 
-const organization = testTechOrg;
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchById(id);
+
+const { organization } = organizationStore;
 </script>

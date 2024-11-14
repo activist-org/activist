@@ -28,7 +28,7 @@
           }}</label>
           <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
-            v-model="formData.getInvolvedURL"
+            v-model="formData.getInvolvedUrl"
             id="textarea"
             class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
           />
@@ -47,25 +47,29 @@
 
 <script setup lang="ts">
 import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
+import { useModalHandlers } from "~/composables/useModalHandlers";
+
+const modalName = "ModalEditAboutOrganization";
+const { handleCloseModal } = useModalHandlers(modalName);
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 
 const formData = ref<OrganizationUpdateTextFormData>({
   description: "",
   getInvolved: "",
-  getInvolvedURL: "",
+  getInvolvedUrl: "",
 });
 
 onMounted(() => {
   formData.value.description = organization.description;
   formData.value.getInvolved = organization.getInvolved;
-  formData.value.getInvolvedURL = organization.getInvolvedURL;
+  formData.value.getInvolvedUrl = organization.getInvolvedUrl;
 });
 
 async function handleSubmit() {
@@ -77,6 +81,4 @@ async function handleSubmit() {
     handleCloseModal();
   }
 }
-
-const modalName = "ModalEditAboutOrganization";
 </script>

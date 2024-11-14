@@ -24,7 +24,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewSettings />
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="$t('pages.events.settings.danger_zone_event_description')"
@@ -38,7 +37,11 @@
 </template>
 
 <script setup lang="ts">
-import { testClimateEvent } from "~/utils/testEntities";
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
 
-const event = testClimateEvent;
+const eventStore = useEventStore();
+await eventStore.fetchById(id);
+
+const { event } = eventStore;
 </script>

@@ -255,6 +255,7 @@ const selectedTopicTags = computed(() => {
 
 const topics = computed((): TopicsTag[] => {
   return [
+    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
     ...selectedTopicTags.value.sort((a, b) => a.value.localeCompare(b.value)),
     ...GLOBAL_TOPICS.filter((topic) => !isActiveTopic(topic.value)).sort(
       (a, b) => a.value.localeCompare(b.value)

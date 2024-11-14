@@ -42,8 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
-
 defineProps<{
   header: string;
   description: string;
