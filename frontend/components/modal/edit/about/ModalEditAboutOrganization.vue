@@ -46,8 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
 import { useModalHandlers } from "~/composables/useModalHandlers";
+import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
 
 const modalName = "ModalEditAboutOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);

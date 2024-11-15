@@ -27,6 +27,7 @@
   "_global.on_github": "on GitHub",
   "_global.organization": "Organization",
   "_global.organization_name": "Organization Name",
+  "_global.organizations": "Organizations",
   "_global.public_matrix_chat_rooms": "public Matrix chat rooms",
   "_global.repeat_password": "Repeat password",
   "_global.resources": "Resources",
@@ -550,6 +551,5 @@
   "types.topics.racial_justice": "Racial Justice",
   "types.topics.technology_privacy": "Technology and Privacy",
   "types.topics.transparency": "Transparency",
-  "types.topics.women": "Women's Rights",
-  "utils.nav_menu_items.organizations": "Organizations"
+  "types.topics.women": "Women's Rights"
 }

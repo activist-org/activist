@@ -59,6 +59,7 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
+
 const { openModal: openModalEditAboutEvent } = useModalHandlers(
   "ModalEditAboutEvent"
 );

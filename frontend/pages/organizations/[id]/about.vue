@@ -78,10 +78,10 @@
 </template>
 
 <script setup lang="ts">
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const aboveLargeBP = useBreakpoint("lg");
