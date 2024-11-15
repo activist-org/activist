@@ -10,9 +10,9 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import { commandPaletteData } from "~/types/command-palette";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
 const { openModal: openModalCommandPalette } = useModalHandlers(
   "ModalCommandPalette"
 );

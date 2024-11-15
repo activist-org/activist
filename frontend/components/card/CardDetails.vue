@@ -8,8 +8,8 @@
             {{ $t("components.card_details.header") }}
           </h3>
           <IconEdit
-            @click="openModal('ModalEditAboutEvent')"
-            @keydown.enter="openModal('ModalEditAboutEvent')"
+            @click="openModalEditAboutEvent"
+            @keydown.enter="openModalEditAboutEvent"
           />
           <!-- <ModalEditAboutEvent
             v-if="event"
@@ -31,17 +31,16 @@
             />
             <button
               v-if="event.organizations.length > 1"
-              @click="openModal('ModalOrganizationOverview')"
-              @keydown.enter="openModal('ModalOrganizationOverview')"
+              @click="openModalOrganizationOverview"
+              @keydown.enter="openModalOrganizationOverview"
               class="text-sm font-semibold text-black"
             >
               (+{{ event.organizations.length - 1 }} more)
             </button>
             <ModalOrganizationOverview
-              @closeModal="handleCloseModal('ModalOrganizationOverview')"
+              @closeModal="openModalOrganizationOverview"
               :cta="true"
               :event="event"
-              :isOpen="modalIsOpen"
             />
           </div>
           <!-- <MetaTagAttendance
@@ -60,21 +59,17 @@
 </template>
 
 <script setup lang="ts">
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import type { Event } from "~/types/events/event";
+
 defineProps<{
   event?: Event;
 }>();
 
-const modals = useModals();
-const modalIsOpen = ref(false);
-
-function openModal(modalName: string) {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = (modalName: string) => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
+const { openModal: openModalEditAboutEvent } = useModalHandlers(
+  "ModalEditAboutEvent"
+);
+const { openModal: openModalOrganizationOverview } = useModalHandlers(
+  "ModalCommandPalette"
+);
 </script>
