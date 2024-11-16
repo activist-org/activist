@@ -1,33 +1,30 @@
 <template>
   <HeaderWebsite />
-  <div class="flex h-full bg-light-layer-0 dark:bg-dark-layer-0">
+  <div class="flex h-full bg-brand">
     <Head>
       <Title>{{ $t("error.title") }}</Title>
     </Head>
     <div
-      class="container relative mx-auto my-[10%] flex flex-col items-center justify-center space-x-0 space-y-10 text-center md:flex-row md:space-x-8 md:space-y-0 md:text-left xl:space-x-12"
+      class="container relative mx-auto my-[10%] flex flex-col items-center justify-center space-y-10 text-center md:flex-row md:space-x-8 md:space-y-0 md:text-left xl:space-x-12"
     >
-      <div
-        class="flex flex-wrap font-['Copperplate_Gothic_Light'] text-[125px] font-black text-light-text dark:text-dark-text md:text-[175px] lg:text-[200px]"
-      >
-        {{ error.statusCode }}
+      <!-- Error Code -->
+      <div class="error-code">
+        {{ error.statusCode || $t("error.default_status") }}
       </div>
-      <div
-        class="h-[2px] w-[120px] bg-light-distinct-text dark:bg-dark-distinct-text md:h-[200px] md:w-[2px]"
-      ></div>
-      <div
-        class="flex max-w-[350px] flex-col items-center text-left md:items-start"
-      >
-        <div
-          class="mt-4 flex flex-wrap font-['Copperplate_Gothic_Light'] text-lg text-light-text dark:text-dark-text md:mt-0 md:text-xl"
-        >
+      
+      <!-- Separator -->
+      <div class="separator"></div>
+      
+      <!-- Error Message Section -->
+      <div class="error-message">
+        <div class="message-text">
           {{ $t("error.message") }}
         </div>
-        <div
-          class="my-8 flex flex-wrap justify-center break-all text-light-distinct-text dark:text-dark-distinct-text md:my-6 md:text-lg"
-        >
-          {{ error.message }}
+        <div class="details">
+          {{ error.message || $t("error.default_message") }}
         </div>
+        
+        <!-- Return Home Button -->
         <BtnRouteInternal
           :cta="true"
           label="_global.return_home"
@@ -55,3 +52,25 @@ defineProps<{
   error: HTTPError;
 }>();
 </script>
+
+<style scoped>
+.error-code {
+  @apply flex flex-wrap font-['Copperplate_Gothic_Light'] text-[125px] font-black text-brand-text md:text-[175px] lg:text-[200px];
+}
+
+.separator {
+  @apply h-[2px] w-[120px] bg-brand-secondary md:h-[200px] md:w-[2px];
+}
+
+.error-message {
+  @apply flex max-w-[350px] flex-col items-center text-left md:items-start;
+}
+
+.message-text {
+  @apply mt-4 text-lg text-brand-text md:mt-0 md:text-xl;
+}
+
+.details {
+  @apply my-8 text-brand-secondary md:my-6 md:text-lg;
+}
+</style>

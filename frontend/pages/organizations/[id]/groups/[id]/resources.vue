@@ -4,19 +4,18 @@
     :selectors="groupSubPages"
     :selectedRoute="2"
   />
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="bg-layer-0 px-4 text-layer-text flex flex-col xl:px-8">
     <Head>
       <Title>{{ group.name }}&nbsp;{{ $t("_global.resources_lower") }}</Title>
     </Head>
     <HeaderAppPage
       :group="group"
-      :header="group.name + ' ' + $t('_global.resources_lower')"
+      :header="`${group.name} ${$t('_global.resources_lower')}`"
       :tagline="$t('pages.organizations._global.resources_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+        <!-- Uncomment if needed in the future -->
         <!-- <BtnAction
           class="w-max"
           :cta="true"
@@ -25,9 +24,7 @@
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="group.supportingUsers"
-          ariaLabel="
-            pages.organizations.groups._global.support_group_aria_label
-          "
+          ariaLabel="pages.organizations.groups._global.support_group_aria_label"
         /> -->
       </div>
     </HeaderAppPage>

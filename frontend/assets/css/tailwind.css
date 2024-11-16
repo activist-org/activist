@@ -15,54 +15,61 @@
 }
 
 @layer components {
-  .bg-breakpoint-test {
-    @apply bg-red-500 sm:bg-orange-500 md:bg-yellow-500 lg:bg-green-500 xl:bg-blue-500 2xl:bg-violet-500 3xl:bg-pink-500;
+  /* --- Combined Light/Dark Mode Classes --- */
+  .bg-brand {
+    @apply bg-light-layer-1 dark:bg-dark-layer-1;
   }
 
-  .btn-base-class {
-    @apply focus-brand elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
+  .bg-brand-secondary {
+    @apply bg-light-layer-2 dark:bg-dark-layer-2;
   }
 
-  .btn-disabled {
-    @apply focus-off elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
+  .text-brand {
+    @apply text-light-text dark:text-dark-text;
   }
 
-  .card-style-base {
-    @apply elem-shadow-sm rounded-md sm:rounded-lg;
+  .text-brand-muted {
+    @apply text-light-text-muted dark:text-dark-text-muted;
   }
 
+  .border-brand {
+    @apply border-light-border dark:border-dark-border;
+  }
+
+  .btn-brand {
+    @apply bg-light-cta-orange text-light-text dark:bg-dark-cta-orange dark:text-dark-text;
+  }
+
+  .btn-brand-secondary {
+    @apply bg-light-layer-2 text-light-text hover:bg-light-highlight-darker dark:bg-dark-layer-2 dark:text-dark-text dark:hover:bg-dark-highlight-lighter;
+  }
+
+  /* --- Updated Component Styles --- */
   .card-style {
-    @apply card-style-base bg-light-layer-1 dark:bg-dark-layer-1;
+    @apply card-style-base bg-brand;
   }
 
   .elem-on-card-style {
-    @apply card-style-base elem-shadow-sm bg-light-layer-2 hover:bg-light-highlight active:bg-light-layer-2 dark:border dark:border-dark-text dark:bg-dark-layer-2 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-2;
+    @apply card-style-base bg-brand-secondary hover:bg-light-highlight active:bg-light-layer-2 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-2;
   }
 
-  .elem-shadow-sm {
-    @apply shadow-sm shadow-zinc-700;
+  .style-btn {
+    @apply focus-brand elem-shadow-sm bg-brand text-brand hover:bg-light-highlight active:bg-light-layer-0 dark:hover:bg-dark-highlight dark:active:bg-dark-layer-0;
   }
 
-  .elem-shadow-md {
-    @apply shadow-md shadow-zinc-700;
+  .style-cta {
+    @apply focus-brand border-brand bg-light-cta-orange text-brand hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10;
   }
 
-  .elem-shadow-lg {
-    @apply shadow-lg shadow-zinc-700;
+  .style-cta-secondary {
+    @apply btn-brand-secondary;
   }
 
-  .focus-brand {
-    @apply rounded-sm focus:outline-none focus-visible:border-light-link-text focus-visible:ring-2 focus-visible:ring-light-link-text dark:focus-visible:border-dark-link-text dark:focus-visible:ring-dark-link-text;
+  .style-learn {
+    @apply focus-brand border-brand bg-light-learn-blue text-brand hover:bg-light-learn-blue/80 active:bg-light-learn-blue dark:border-dark-learn-blue dark:bg-dark-learn-blue/10 dark:hover:bg-dark-learn-blue/25 dark:active:bg-dark-learn-blue/10;
   }
 
-  .focus-inside {
-    @apply rounded-sm focus-within:border-light-link-text focus-within:outline-none focus-within:ring-2 focus-within:ring-light-link-text dark:focus-within:border-dark-link-text dark:focus-within:ring-dark-link-text;
-  }
-
-  .link-text {
-    @apply text-light-link-text hover:text-light-link-text-hover dark:text-dark-link-text dark:hover:text-dark-link-text-hover;
-  }
-
+  /* --- Responsive Header Classes --- */
   .responsive-h1 {
     @apply font-display text-2xl sm:text-3xl md:text-4xl xl:text-5xl;
   }
@@ -83,88 +90,13 @@
     @apply font-display text-base md:text-lg xl:text-xl;
   }
 
-  .responsive-px-1 {
-    @apply px-1 sm:px-2;
-  }
-
-  .responsive-px-2 {
-    @apply px-2 lg:px-4 xl:px-6;
-  }
-
+  /* --- Utility Classes --- */
   .responsive-px-3 {
     @apply px-4 lg:px-6 xl:px-8;
   }
 
-  .responsive-px-4 {
-    @apply px-6 lg:px-8 xl:px-10;
-  }
-
-  .responsive-px-5 {
-    @apply px-6 lg:px-10 xl:px-14;
-  }
-
-  .responsive-py-1 {
-    @apply py-1 sm:py-2;
-  }
-
-  .responsive-py-2 {
-    @apply py-2 lg:py-4 xl:py-6;
-  }
-
   .responsive-py-3 {
     @apply py-4 lg:py-6 xl:py-8;
-  }
-
-  .responsive-py-4 {
-    @apply py-6 lg:py-8 xl:py-10;
-  }
-
-  .responsive-py-5 {
-    @apply py-8 lg:py-10 xl:py-14;
-  }
-
-  .style-action {
-    @apply focus-brand border border-light-text bg-light-action-red text-light-text hover:bg-light-action-red/80 active:bg-light-action-red dark:border-dark-action-red dark:bg-dark-action-red/10 dark:text-light-action-red dark:hover:bg-dark-action-red/25 dark:active:bg-dark-action-red/10;
-  }
-
-  .style-btn {
-    @apply focus-brand elem-shadow-sm bg-light-layer-0 text-light-text hover:bg-light-highlight active:bg-light-layer-0 dark:border dark:border-dark-text dark:bg-dark-layer-0 dark:text-dark-text dark:hover:bg-dark-highlight dark:active:bg-dark-layer-0;
-  }
-
-  .style-btns-next-to-one-another {
-    @apply mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[70%] md:gap-x-6 lg:max-w-[60%] xl:max-w-[70%] xl:gap-x-8 2xl:max-w-[80%];
-  }
-
-  .style-cta {
-    @apply focus-brand border border-light-text bg-light-cta-orange fill-light-text text-light-text hover:bg-light-cta-orange/80 active:bg-light-cta-orange dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25 dark:active:bg-dark-cta-orange/10;
-  }
-
-  .style-cta-disabled {
-    @apply focus-brand cursor-not-allowed border border-light-text/50 bg-light-cta-orange/50 fill-light-text/50 text-light-text/50 shadow-none dark:border-dark-cta-orange/50 dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange/50 dark:text-dark-cta-orange/50;
-  }
-
-  .style-cta-secondary {
-    @apply focus-brand border border-light-text bg-light-layer-2 fill-light-text text-light-text hover:bg-light-highlight-darker active:bg-light-layer-2 dark:border-dark-text dark:bg-dark-layer-2 dark:fill-dark-text dark:text-dark-text dark:hover:bg-dark-highlight-lighter dark:active:bg-dark-layer-2;
-  }
-
-  .style-cta-secondary-disabled {
-    @apply focus-brand cursor-not-allowed border border-light-text/50 bg-light-layer-2/75 fill-light-text/50 text-light-text/50 shadow-none dark:border-dark-text/50 dark:bg-dark-layer-2 dark:fill-dark-text/50 dark:text-dark-text/50;
-  }
-
-  .style-learn {
-    @apply focus-brand border border-light-text bg-light-learn-blue text-light-text hover:bg-light-learn-blue/80 active:bg-light-learn-blue dark:border-dark-learn-blue dark:bg-dark-learn-blue/10 dark:text-light-learn-blue dark:hover:bg-dark-learn-blue/25 dark:active:bg-dark-learn-blue/10;
-  }
-
-  .style-menu-option {
-    @apply focus-brand focus-brand fill-light-text text-light-text hover:bg-light-cta-orange/80 dark:fill-dark-text dark:text-dark-text dark:hover:bg-dark-cta-orange/25 dark:hover:text-dark-cta-orange;
-  }
-
-  .style-menu-option-cta {
-    @apply focus-brand bg-light-menu-selection fill-light-layer-1 text-light-layer-1 hover:bg-light-menu-selection/80 dark:bg-dark-menu-selection dark:fill-dark-layer-1 dark:text-dark-layer-1 dark:hover:bg-dark-menu-selection/80;
-  }
-
-  .style-warn {
-    @apply focus-brand border border-light-text bg-light-warn-yellow text-light-text hover:bg-light-warn-yellow/80 active:bg-light-warn-yellow dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/10 dark:text-light-warn-yellow dark:hover:bg-dark-warn-yellow/25 dark:active:bg-dark-warn-yellow/10;
   }
 
   .tooltip {
@@ -176,6 +108,7 @@
   }
 }
 
+/* --- Animation Styles --- */
 .loading-pulse {
   animation: pulse 4s infinite;
 }
@@ -184,11 +117,9 @@
   0% {
     @apply opacity-50;
   }
-
   50% {
     @apply opacity-100;
   }
-
   100% {
     @apply opacity-50;
   }

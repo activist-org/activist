@@ -4,25 +4,20 @@
     :selectors="groupSubPages"
     :selectedRoute="1"
   />
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="bg-layer-0 text-layer-text flex flex-col px-4 xl:px-8">
     <Head>
-      <Title
-        >{{ group.name }}&nbsp;{{
-          $t("pages.organizations._global.events_lower")
-        }}</Title
-      >
+      <Title>
+        {{ group.name }}&nbsp;{{ $t("pages.organizations._global.events_lower") }}
+      </Title>
     </Head>
     <HeaderAppPage
       :group="group"
-      :header="
-        group.name + ' ' + $t('pages.organizations._global.events_lower')
-      "
+      :header="`${group.name} ${$t('pages.organizations._global.events_lower')}`"
       :tagline="$t('pages.organizations._global.events_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+        <!-- Future implementation for action buttons -->
         <!-- <BtnAction
           class="w-max"
           :cta="true"
@@ -31,13 +26,12 @@
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="group.supportingUsers"
-          ariaLabel="
-            pages.organizations.groups._global.support_group_aria_label
-          "
+          ariaLabel="pages.organizations.groups._global.support_group_aria_label"
         /> -->
       </div>
     </HeaderAppPage>
     <PagePreviewEvent />
+    <!-- Uncomment below when dynamic events are ready -->
     <!-- <div v-if="group.events" class="space-y-3 py-4">
       <CardSearchResultEvent
         v-for="(u, i) in group.events"
@@ -51,6 +45,10 @@
 </template>
 
 <script setup lang="ts">
+import { getGroupSubPages } from "~/utils/groupSubPages";
+import { useRoute } from "vue-router";
+import { useGroupStore } from "~/stores/group";
+
 const groupSubPages = getGroupSubPages();
 
 const idParam = useRoute().params.id;

@@ -4,9 +4,7 @@
     :selectors="groupSubPages"
     :selectedRoute="0"
   />
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8">
     <Head>
       <Title>{{ group.name }}</Title>
     </Head>
@@ -23,21 +21,9 @@
           iconSize="1.45em"
           ariaLabel="_global.join_group_aria_label"
         />
-        <!-- <BtnAction
-          class="w-max"
-          :cta="true"
-          label="_global.support"
-          fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.45em"
-          :counter="group.supporters"
-          ariaLabel="
-            pages.organizations.groups._global.support_group_aria_label
-          "
-        /> -->
         <BtnAction
-          @click="openModal()"
-          @keydown.enter="openModal()"
+          @click="openModal"
+          @keydown.enter="openModal"
           class="w-max"
           :cta="true"
           :label="$t(shareButtonLabel)"
@@ -45,9 +31,7 @@
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="
-            $t('pages.organizations.groups.about.share_group_aria_label')
-          "
+          :ariaLabel="$t('pages.organizations.groups.about.share_group_aria_label')"
         />
         <ModalSharePage
           @closeModal="handleCloseModal"
@@ -60,9 +44,7 @@
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
-        :class="{
-          'lg:mr-6 lg:space-x-6': !textExpanded,
-        }"
+        :class="{ 'lg:mr-6 lg:space-x-6': !textExpanded }"
       >
         <CardAboutGroup
           @expand-reduce-text="expandReduceText"
@@ -80,7 +62,6 @@
       </div>
       <CardGetInvolvedGroup :group="group" />
       <CardConnect pageType="group" />
-      <!-- <CardDonate :userIsAdmin="true" :donationPrompt="group.donationPrompt" /> -->
     </div>
   </div>
 </template>
@@ -90,11 +71,10 @@ import { BreakpointMap } from "~/types/breakpoint-map";
 import type { Group } from "~/types/entities/group";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
+import { ref, onMounted, onUpdated, onUnmounted } from "vue";
 
 const aboveLargeBP = useBreakpoint("lg");
-
 const { id } = useRoute().params;
-
 const [resOrg] = await Promise.all([
   useAsyncData(
     async () => await fetchWithOptionalToken(`/entities/groups/${id}`, {})
@@ -102,7 +82,6 @@ const [resOrg] = await Promise.all([
 ]);
 
 const group = resOrg.data as unknown as Group;
-
 const groupSubPages = getGroupSubPages();
 
 const textExpanded = ref(false);
@@ -115,11 +94,10 @@ const shareButtonLabel = ref("");
 
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
-  if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = "_global.share";
-  } else {
-    shareButtonLabel.value = "pages._global.share_group";
-  }
+  shareButtonLabel.value =
+    windowWidth.value < BreakpointMap.SMALL
+      ? "_global.share"
+      : "pages._global.share_group";
 }
 
 onMounted(() => {
