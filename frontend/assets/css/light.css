@@ -1,21 +1,25 @@
-light: {
-  "layer-0":rgba(255, 255, 255, 1);
-  "layer-1":rgba(246, 248, 250, 1);
-  "layer-2":rgba(240, 240, 235, 1);
-  "section-div":rgba(216, 222, 228, 1);
-  "primary-text":rgba(0, 0, 0, 0.85);
-  "primary-text-over-layer-2":rgba(36, 36, 35, 1);
-  "distinct-text":rgba(90, 90, 90, 0.9);
-  "distinct-text-over-layer-2":rgba(105, 105, 105, 1);
-  "link-text":rgba(0, 92, 184, 0.9);
-  "link-text-hover":rgba(0, 59, 119, 0.9);
-  "menu-selection":rgba(50, 50, 50, 1);
-  interactive: rgba(75, 75, 67, 1);
-  "highlight":rgba(140, 140, 140, 0.20);
-  "highlight-lighter":rgba(120, 120, 120, 0.30);
-  "cta-orange":rgba(242, 166, 84, 1);
-  "action-red":rgba(186, 61, 59, 1);
-  "learn-blue":rgba(33, 118, 174, 1);
-  "accepted-green":rgba(62, 137, 20, 1);
-  "warn-yellow":rgba(255, 191, 0, 1);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.light {
+  --layer-0: 255, 255, 255, 1;
+  --layer-1: 246, 248, 250, 1;
+  --layer-2: 240, 240, 235, 1;
+  --section-div: 216, 222, 228, 1;
+  --primary-text: 0, 0, 0, 0.85;
+  --primary-text-over-layer-2: 36, 36, 35, 1;
+  --distinct-text: 90, 90, 90, 0.9;
+  --distinct-text-over-layer-2: 105, 105, 105, 1;
+  --link-text: 0, 92, 184, 0.9;
+  --link-text-hover: 0, 59, 119, 0.9;
+  --menu-selection: 50, 50, 50, 1;
+  --interactive: 75, 75, 67, 1;
+  --highlight: 140, 140, 140, 0.2;
+  --highlight-lighter: 120, 120, 120, 0.3;
+  --cta-orange: 242, 166, 84, 1;
+  --action-red: 186, 61, 59, 1;
+  --learn-blue: 33, 118, 174, 1;
+  --accepted-green: 62, 137, 20, 1;
+  --warn-yellow: 255, 191, 0, 1;
 }
