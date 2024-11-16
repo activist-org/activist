@@ -45,6 +45,10 @@
   }
 
   /* --- Updated Component Styles --- */
+  .card-style-base {
+    @apply shadow-md rounded-lg p-4; /* Add appropriate styles */
+  }
+
   .card-style {
     @apply card-style-base bg-brand;
   }
@@ -96,7 +100,7 @@
   }
 
   .responsive-py-3 {
-    @apply py-4 lg:py-6 xl:py-8;
+    @apply py-4 lg:py-6 xl:px-8;
   }
 
   .tooltip {

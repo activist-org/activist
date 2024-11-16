@@ -1,8 +1,11 @@
 <template>
   <Dialog class="relative z-50" :open="modalIsOpen">
+    <!-- Backdrop -->
     <DialogBackdrop
       className="fixed inset-0 bg-light-layer-0/95 dark:bg-dark-layer-0/95"
     />
+
+    <!-- Modal Content Wrapper -->
     <div
       @click="closeModal()"
       @keydown.enter="closeModal()"
@@ -13,6 +16,7 @@
         'fixed inset-0 flex w-screen items-center justify-center': !imageModal,
       }"
     >
+      <!-- Dialog Panel -->
       <DialogPanel
         :class="{
           'flex flex-col items-center': imageModal,
@@ -20,35 +24,16 @@
             !imageModal,
         }"
       >
+        <!-- Close Button -->
         <button
-          v-if="imageModal"
           @click="closeModal()"
-          class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
-          :aria-label="
-            $t ? $t('components.modal_base.close_modal_aria_label') : ''
-          "
+          class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
         >
           <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
         </button>
-        <div v-else class="relative">
-          <button
-            @click="closeModal()"
-            class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
-          >
-            <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
-          </button>
-        </div>
-        <div
-          v-if="imageModal"
-          @click="closeModal()"
-          @keypress.esc="closeModal()"
-          tabindex="0"
-          role="button"
-          class="focus-brand flex flex-col items-center justify-center"
-          :aria-label="
-            $t ? $t('components.modal_base.close_modal_aria_label') : ''
-          "
-        >
+
+        <!-- Modal Content -->
+        <div v-if="imageModal" @click="closeModal()" role="button" tabindex="0">
           <slot />
         </div>
         <div v-else>
@@ -58,7 +43,6 @@
     </div>
   </Dialog>
 </template>
-
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import { useRoute } from "vue-router";
@@ -72,18 +56,18 @@ const props = defineProps<{
 const emit = defineEmits(["closeModal"]);
 
 const route = useRoute();
-const modals = useModals();
+const modals = useModals(); // Modal management store
 const modalName = props.modalName;
 const modalIsOpen = ref(false);
 
+// Sync modal state with the modal store
 onMounted(() => {
-  // Ensure modals.modals[modalName] is defined. If so, save isOpen in store.
   if (modals.modals[modalName]) {
     modalIsOpen.value = modals.modals[modalName].isOpen;
   }
 });
 
-// Watch the reactive modalIsOpen ref and check if modalName exists in modals.modals.
+// Watch modal state changes
 watch(
   () => modals.modals[modalName]?.isOpen,
   (newVal) => {
@@ -93,15 +77,13 @@ watch(
   }
 );
 
-// Tell any interested observers that the closeModal event has happened.
-// The interested observer(s) can respond or do cleanup specific to their needs.
+// Close the modal
 const closeModal = () => {
   emit("closeModal");
   modals.closeModal(modalName);
 };
 
-// Check if the user is navigating to another resource.
-// If a modal exists, close it.
+// Close modal on route change
 watch(route, () => {
   if (modals.modals[modalName]) {
     closeModal();
