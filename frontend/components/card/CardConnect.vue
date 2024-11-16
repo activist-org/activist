@@ -7,11 +7,9 @@
       <div
         class="cursor-pointer break-all rounded-lg p-1 text-light-text transition-all hover:text-light-distinct-text dark:text-dark-text dark:hover:text-dark-distinct-text"
       >
-        <Icon
+        <IconEdit
           v-if="userIsSignedIn && !editModeEnabled"
           @click="toggleEditMode"
-          :name="IconMap.EDIT"
-          size="1.2em"
         />
         <Icon
           v-else-if="userIsSignedIn && editModeEnabled"
@@ -122,11 +120,11 @@ const props = defineProps<{
 }>();
 
 const { userIsSignedIn } = useUser();
-const paramsID = useRoute().params.id;
-const paramsIDGroup = useRoute().params.groupID;
+const paramsId = useRoute().params.id;
+const paramsIdGroup = useRoute().params.groupId;
 
-const id = typeof paramsID === "string" ? paramsID : undefined;
-const idGroup = typeof paramsIDGroup === "string" ? paramsIDGroup : undefined;
+const id = typeof paramsId === "string" ? paramsId : undefined;
+const idGroup = typeof paramsIdGroup === "string" ? paramsIdGroup : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -137,13 +135,13 @@ let group: Group;
 let event: Event;
 
 if (props.pageType == "organization") {
-  await organizationStore.fetchByID(id);
+  await organizationStore.fetchById(id);
   organization = organizationStore.organization;
 } else if (props.pageType == "group") {
-  await groupStore.fetchByID(idGroup);
+  await groupStore.fetchById(idGroup);
   group = groupStore.group;
 } else if (props.pageType == "event") {
-  await eventStore.fetchByID(id);
+  await eventStore.fetchById(id);
   event = eventStore.event;
 }
 

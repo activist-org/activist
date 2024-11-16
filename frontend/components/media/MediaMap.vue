@@ -269,12 +269,9 @@ onMounted(() => {
         map
           .loadImage("/icons/from_library/bootstrap_arrow_right.png")
           .then((image) => {
-            console.log("Here1");
             if (image) {
               map.addImage("route-direction-arrow", image.data);
             }
-
-            console.log("Here2", image.data);
           });
 
         map.on("load", () => {

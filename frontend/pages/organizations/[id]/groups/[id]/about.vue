@@ -13,10 +13,10 @@
     <HeaderAppPage :group="group">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
-          v-if="group.getInvolvedURL"
+          v-if="group.getInvolvedUrl"
           class="w-max"
           :cta="true"
-          :linkTo="group.getInvolvedURL"
+          :linkTo="group.getInvolvedUrl"
           label="_global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
@@ -86,7 +86,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import type { Group } from "~/types/entities/group";
 import { IconMap } from "~/types/icon-map";

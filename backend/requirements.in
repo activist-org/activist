@@ -1,15 +1,15 @@
 # In order to add, delete or modify a dependency, please update
-# the reference here and then run:
+# the reference here and then run the following in ./backend:
 #
-# - `pip-compile --rebuild requirements.in`
-# - `pip-compile --rebuild requirements-dev.in`
-#
+# - pip-compile --rebuild requirements.in
+# - pip-compile --rebuild requirements-dev.in
 
 Django
 django-cors-headers
 django-stubs
 django-stubs-ext
 djangorestframework
+djangorestframework-camel-case
 djangorestframework-stubs
 drf-spectacular
 gunicorn

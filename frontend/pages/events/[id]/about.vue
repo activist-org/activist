@@ -8,10 +8,10 @@
     <HeaderAppPage :event="event">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
-          v-if="event.getInvolvedURL"
+          v-if="event.getInvolvedUrl"
           class="w-max"
           :cta="true"
-          :linkTo="event.getInvolvedURL"
+          :linkTo="event.getInvolvedUrl"
           label="_global.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
@@ -92,7 +92,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 

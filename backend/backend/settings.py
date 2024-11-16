@@ -13,12 +13,17 @@ from pathlib import Path
 
 import django_stubs_ext
 import dotenv
-from rest_framework import viewsets
-from rest_framework.settings import api_settings
 
-django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
-dotenv.load_dotenv()
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
+if os.getenv("DJANGO_ENV") == "LOCAL_DEV":
+    dotenv.load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev")
+    dotenv.load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev.local")
+
+else:
+    dotenv.load_dotenv()
+
+# MARK: DB
 
 DATABASE_HOST = os.getenv("DATABASE_HOST")
 DATABASE_NAME = os.getenv("DATABASE_NAME")
@@ -28,7 +33,6 @@ DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -45,25 +49,28 @@ CSRF_TRUSTED_ORIGINS = os.environ.get(
     "DJANGO_CSRF_TRUSTED_ORIGINS", "http://localhost"
 ).split(" ")
 
-# Application definition
+# MARK: Apps
 
 INSTALLED_APPS = [
-    "rest_framework",
-    "rest_framework.authtoken",
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "djangorestframework_camel_case",
+    "drf_spectacular",
+    "rest_framework",
+    "rest_framework.authtoken",
     "backend",
     "authentication",
     "entities",
     "content",
     "events",
-    "drf_spectacular",
-    "corsheaders",
 ]
+
+# MARK: Middleware
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -75,13 +82,18 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "djangorestframework_camel_case.middleware.CamelCaseMiddleWare",
 ]
+
+# MARK: URLs
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
 ROOT_URLCONF = "backend.urls"
+
+# MARK: Templates
 
 TEMPLATES = [
     {
@@ -100,7 +112,7 @@ TEMPLATES = [
 ]
 
 
-# Database
+# MARK: Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
@@ -115,7 +127,7 @@ DATABASES = {
 }
 
 
-# Password validation
+# MARK: Pass Validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -135,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "authentication.UserModel"
 
-# Internationalization
+# MARK: I18n
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
@@ -147,18 +159,18 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# MARK: Static Files
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_ROOT = BASE_DIR / "static/"
 STATIC_URL = "static/"
 
-# Default primary key field type
+# MARK: Primary Key
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Email Settings
+# MARK: Email
 # https://docs.djangoproject.com/en/5.0/topics/email/
 
 EMAIL_HOST = os.getenv("EMAIL_HOST")
@@ -168,6 +180,8 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == "True"
 # DEVELOPMENT ONLY
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# MARK: REST Framework
 
 REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": [
@@ -183,19 +197,33 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ],
     "EXCEPTION_HANDLER": "backend.exception_handler.bad_request_logger",
+    "DEFAULT_RENDERER_CLASSES": (
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+    ),
+    "DEFAULT_PARSER_CLASSES": (
+        "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+    ),
 }
+
+# MARK: Spectacular
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "activist.org API",
-    "DESCRIPTION": "Open-source, nonprofit activism platform",
+    "DESCRIPTION": "An open-source activism platform",
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "CAMELIZE_NAMES": False,
+    "POSTPROCESSING_HOOKS": [
+        "drf_spectacular.hooks.postprocess_schema_enums",
+        "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields",
+    ],
+    "SWAGGER_UI_FAVICON_HREF": "https://github.com/activist-org/activist/blob/main/backend/static/swagger_favicon.png?raw=true",
 }
 
-# Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
-api_settings.reload()
-
-# Logging Configuration
+# MARK: Logging
 # https://docs.djangoproject.com/en/4.2/topics/logging/
 
 LOGGING = {
@@ -225,3 +253,14 @@ LOGGING = {
         },
     },
 }
+
+# MARK: API Settings
+
+from rest_framework import viewsets  # noqa: E402
+
+django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
+
+from rest_framework.settings import api_settings  # noqa: E402
+
+# Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
+api_settings.reload()

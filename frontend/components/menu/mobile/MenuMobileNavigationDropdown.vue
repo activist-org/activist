@@ -9,7 +9,7 @@
         class="elem-shadow-sm focus-brand relative flex w-full items-center fill-light-layer-1 py-2 pl-5 text-left align-middle text-light-layer-1 dark:fill-dark-layer-1 dark:text-dark-layer-1"
       >
         <Icon
-          :name="selectedMenuItem.iconURL"
+          :name="selectedMenuItem.iconUrl"
           class="mr-4 h-5 w-5 align-middle"
           aria-hidden="true"
         />
@@ -55,7 +55,7 @@
                 }"
               >
                 <Icon
-                  :name="menuEntry.iconURL"
+                  :name="menuEntry.iconUrl"
                   class="mr-4 h-5 w-5 align-middle"
                   aria-hidden="true"
                 />
@@ -140,7 +140,7 @@ const selectedMenuItem = ref<MenuEntry | undefined>(undefined);
 
 const handleItemClick = (menuEntry: MenuEntry) => {
   const router = useRouter();
-  router.push(menuEntry.routeURL);
+  router.push(menuEntry.routeUrl);
 };
 
 watchEffect(() => {

@@ -8,7 +8,7 @@
     </Head>
     <div class="mx-auto h-[260px] w-3/4">
       <ImageOrganization
-        :imgURL="organization?.iconURL"
+        :imgUrl="organization?.iconUrl"
         :alt="
           $t('_global.entity_logo', {
             entity_name: organization?.name,
@@ -32,7 +32,7 @@
       <MenuLinkWrapper
         v-for="button in organizationButtons"
         :key="button.id"
-        :to="localePath(button.routeURL)"
+        :to="localePath(button.routeUrl)"
         :selected="button.selected"
       >
         <div
@@ -40,8 +40,8 @@
         >
           <span class="width-1/6"
             ><Icon
-              v-if="button.iconURL"
-              :name="button.iconURL"
+              v-if="button.iconUrl"
+              :name="button.iconUrl"
               class="h-5 w-5 flex-shrink-0"
           /></span>
           <p
@@ -76,7 +76,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 

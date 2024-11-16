@@ -28,7 +28,6 @@
       </div>
     </HeaderAppPage>
     <div class="space-y-3 py-4"></div>
-    <PagePreviewTeam />
     <!-- <div v-if="organization.members" class="space-y-3 py-4">
       <CardSearchResultUser
         v-for="(u, i) in organization.members"
@@ -48,7 +47,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 </script>

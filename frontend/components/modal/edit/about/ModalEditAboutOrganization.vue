@@ -1,9 +1,5 @@
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
         <label for="textarea" class="responsive-h2">{{
@@ -32,7 +28,7 @@
           }}</label>
           <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
-            v-model="formData.getInvolvedURL"
+            v-model="formData.getInvolvedUrl"
             id="textarea"
             class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
           />
@@ -50,30 +46,30 @@
 </template>
 
 <script setup lang="ts">
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
 
-const props = defineProps<{
-  isOpen: boolean;
-}>();
+const modalName = "ModalEditAboutOrganization";
+const { handleCloseModal } = useModalHandlers(modalName);
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 
 const formData = ref<OrganizationUpdateTextFormData>({
   description: "",
   getInvolved: "",
-  getInvolvedURL: "",
+  getInvolvedUrl: "",
 });
 
 onMounted(() => {
   formData.value.description = organization.description;
   formData.value.getInvolved = organization.getInvolved;
-  formData.value.getInvolvedURL = organization.getInvolvedURL;
+  formData.value.getInvolvedUrl = organization.getInvolvedUrl;
 });
 
 async function handleSubmit() {
@@ -85,16 +81,4 @@ async function handleSubmit() {
     handleCloseModal();
   }
 }
-
-const modals = useModals();
-const modalName = "ModalEditAboutOrganization";
-let modalIsOpen = computed(() => props.isOpen);
-
-onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
-});
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-};
 </script>

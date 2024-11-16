@@ -1,10 +1,10 @@
 <template>
-  <MenuLinkWrapper :id="id" :to="routeURL" :selected="selected">
+  <MenuLinkWrapper :id="id" :to="routeUrl" :selected="selected">
     <div
       class="relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
     >
       <span class="pl-1">
-        <Icon v-if="iconURL" class="h-5 w-5 flex-shrink-0" :name="iconURL" />
+        <Icon v-if="iconUrl" class="h-5 w-5 flex-shrink-0" :name="iconUrl" />
       </span>
       <Transition>
         <p
@@ -25,8 +25,8 @@
 <script setup lang="ts">
 defineProps<{
   label: string;
-  routeURL: string;
-  iconURL: string;
+  routeUrl: string;
+  iconUrl: string;
   selected: boolean;
   id?: string;
 }>();

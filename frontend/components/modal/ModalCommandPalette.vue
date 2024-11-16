@@ -1,7 +1,7 @@
 <!-- Here is a link to command palette resources: https://www.commandpalette.org/ -->
 
 <template>
-  <ModalBase @closeModal="handleCloseModal" :modalName="modalName">
+  <ModalBase @closeModal="closeCommandPalette" :modalName="modalName">
     <!-- MARK: Main element -->
     <div>
       <Combobox v-model="selectedCommand" @change="handleCommand" as="div">
@@ -96,7 +96,7 @@ const filteredCommands = ref<Command[]>([]);
 
 const router = useRouter();
 
-const handleCloseModal = () => {
+const closeCommandPalette = () => {
   // Watch for closeModal emit and do cleanup when it happens.
   searchTerm.value = "";
 };

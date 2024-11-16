@@ -85,7 +85,7 @@
           <ModalQRCodeImage
             ref="qrcode"
             class="elem-shadow-md select-none rounded-3xl"
-            :codeURL="BASE_FRONTEND_URL + linkURL"
+            :codeUrl="BASE_FRONTEND_URL + linkUrl"
           />
           <TooltipBase
             v-show="showTooltip"
@@ -115,7 +115,6 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
-import useBreakpoint from "~/composables/useBreakpoint";
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
 import type { Resource } from "~/types/content/resource";
@@ -134,7 +133,7 @@ const props = defineProps<{
 
 const aboveMediumBP = useBreakpoint("md");
 
-const { linkURL } = useLinkURL(props);
+const { linkUrl } = useLinkURL(props);
 const modalName = "ModalsQRCode";
 
 const showTooltip = ref(false);
@@ -184,13 +183,13 @@ function drawInlineSVG(
   height: number,
   callback: () => void
 ) {
-  const svgURL = new XMLSerializer().serializeToString(svgElement);
+  const svgUrl = new XMLSerializer().serializeToString(svgElement);
   const img = new Image();
   img.onload = function () {
     ctx.drawImage(this, 0, 0, width, height);
     callback();
   };
-  img.src = "data:image/svg+xml; charset=utf8, " + encodeURIComponent(svgURL);
+  img.src = "data:image/svg+xml; charset=utf8, " + encodeURIComponent(svgUrl);
 }
 
 const handleMainBtnClicked = () => {

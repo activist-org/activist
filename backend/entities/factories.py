@@ -33,6 +33,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     social_links = ["https://www.instagram.com/activist_org/"]
+    get_involved_url = "https://activist.org/"
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     terms_checked = factory.Faker("boolean")
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")

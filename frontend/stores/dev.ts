@@ -1,6 +1,3 @@
-import { useLocalStorage } from "@vueuse/core";
-import { defineStore } from "pinia";
-
 export const useDevMode = defineStore("devMode", {
   state: () => ({
     active: useLocalStorage("active", false),

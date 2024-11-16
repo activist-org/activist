@@ -16,14 +16,9 @@
         <h3 class="responsive-h3 text-left font-display">
           {{ $t("_global.about") }}
         </h3>
-        <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-        <ModalEditAboutGroup
-          @closeModal="handleCloseModal"
-          :group="group"
-          :description="texts.description"
-          :getInvolved="texts.getInvolved"
-          :getInvolvedURL="group.getInvolvedURL"
-          :isOpen="modalIsOpen"
+        <IconEdit
+          @click="openModalEditAboutGroup()"
+          @keydown.enter="openModalEditAboutGroup()"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -44,7 +39,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ texts.description }}
+            {{ group.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -81,24 +76,20 @@
 </template>
 
 <script setup lang="ts">
-import type { Group, GroupText } from "~/types/entities/group";
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
-import CardAbout from "./CardAbout.vue";
 
-const props = defineProps<{
-  group: Group;
-}>();
-
-const res = await useAsyncData(
-  async () =>
-    await fetchWithOptionalToken(
-      `/entities/group_texts?group_id=${props.group.id}`,
-      {}
-    )
+const { openModal: openModalEditAboutGroup } = useModalHandlers(
+  "ModalEditAboutGroup"
 );
 
-const groupTexts = res.data as unknown as GroupText[];
-const texts = groupTexts[0];
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const groupStore = useGroupStore();
+await groupStore.fetchById(id);
+
+const { group } = groupStore;
 
 const description = ref();
 const descriptionExpandable = ref(false);
@@ -125,18 +116,4 @@ const expandText = ref(false);
 function expand_reduce_text() {
   expandText.value = !expandText.value;
 }
-
-const modals = useModals();
-const modalName = "ModalEditAboutGroup";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
 </script>

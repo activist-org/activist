@@ -191,7 +191,7 @@ git remote add upstream https://github.com/activist-org/activist.git
 4. Start your docker images with the following:
 
    ```bash
-   # --build only necessary with new dependencies or backend model changes
+   # --build only necessary with new dependencies or backend model changes.
    docker compose --env-file .env.dev up --build
 
    # And to stop the containers when you're done working:
@@ -215,6 +215,8 @@ Dockerized environments are resource intensive - specifically for some Windows u
 <details><summary><strong>Frontend: Yarn</strong></summary>
 <p>
 
+The frontend currently uses [Yarn 1](https://classic.yarnpkg.com/lang/en/docs/install).
+
 ```bash
 # In the root activist directory:
 cd frontend
@@ -236,14 +238,13 @@ Our backend depends on a connection to a postgres DB, therefore we need to setup
 docker compose --env-file .env.dev up db
 ```
 
-In order to connect to the DB, we need to change the `DATABASE_HOST` environment variable inside the `.env.dev` file first.
+To run locally, set the environment variable `DJANGO_ENV` to `LOCAL_DEV`:
 
 ```bash
-# Current
-DATABASE_HOST=db
-# Changed
-DATABASE_HOST=localhost
+export DJANGO_ENV=LOCAL_DEV
 ```
+
+When this is set, django will load environment variables from `env.dev` first, and then from `.env.dev.local` which will overwrite some variables for local development.
 
 From here we need the project's dependencies, with the practice being to create a virtual environment first within your local activist directory and then install the dependencies within it:
 
@@ -273,7 +274,7 @@ Now you can apply database migrations and start the local server.
 ```bash
 # In the root activist directory:
 cd backend
-pyhton manage.py makemigrations
+python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
