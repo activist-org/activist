@@ -19,12 +19,12 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Resource
 
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("name")
     description = factory.Faker("text")
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
     terms_checked = factory.Faker("boolean")
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -39,11 +39,7 @@ class TaskFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     description = factory.Faker("text")
-    tags = factory.List([factory.Faker("word") for _ in range(10)])
     creation_date = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    deletion_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 

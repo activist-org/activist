@@ -17,9 +17,12 @@ from .models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventDiscussion,
+    EventFaq,
     EventFormat,
     EventResource,
     EventRole,
+    EventSocialLink,
     EventTag,
     EventTask,
     EventText,
@@ -46,22 +49,18 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
         extra_kwargs = {
             "created_by": {"read_only": True},
-            "social_links": {"required": False},
             "description": {"write_only": True},
         }
 
         fields = [
             "id",
+            "created_by",
             "name",
             "tagline",
             "icon_url",
             "type",
             "online_location_link",
             "offline_location",
-            "offline_location_lat",
-            "offline_location_long",
-            "created_by",
-            "social_links",
             "is_private",
             "start_time",
             "end_time",
@@ -130,6 +129,18 @@ class EventAttendeeStatusSerializer(serializers.ModelSerializer[EventAttendeeSta
         fields = "__all__"
 
 
+class EventDiscussionSerializer(serializers.ModelSerializer[EventDiscussion]):
+    class Meta:
+        model = EventDiscussion
+        fields = "__all__"
+
+
+class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
+    class Meta:
+        model = EventFaq
+        fields = "__all__"
+
+
 class EventFormatSerializer(serializers.ModelSerializer[EventFormat]):
     class Meta:
         model = EventFormat
@@ -145,6 +156,12 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 class EventRoleSerializer(serializers.ModelSerializer[EventRole]):
     class Meta:
         model = EventRole
+        fields = "__all__"
+
+
+class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
+    class Meta:
+        model = EventSocialLink
         fields = "__all__"
 
 

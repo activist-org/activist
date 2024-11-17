@@ -1,10 +1,10 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <form @submit.prevent="signIn" class="space-y-4">
+    <form @submit.prevent="signInUser" class="space-y-4">
       <div class="col">
         <FormTextInput
           @update:model-value="userNameValue = $event"
-          @keydown.enter.prevent="signIn"
+          @keydown.enter.prevent="signInUser"
           :placeholder="$t('pages.auth._global.enter_user_name')"
           :model-value="userNameValue"
         />
@@ -12,7 +12,7 @@
       <div>
         <FormTextInput
           @update:model-value="passwordValue = $event"
-          @keydown.enter.prevent="signIn"
+          @keydown.enter.prevent="signInUser"
           :placeholder="$t('_global.enter_password')"
           :is-icon-visible="true"
           input-type="password"
@@ -71,9 +71,9 @@ const hovered = ref(false);
 const userNameValue = ref("");
 const passwordValue = ref("");
 
-const { login } = useAuth();
+const { signIn } = useAuth();
 
-const signIn = async () => {
-  await login(userNameValue.value, passwordValue.value);
+const signInUser = async () => {
+  await signIn(userNameValue.value, passwordValue.value);
 };
 </script>

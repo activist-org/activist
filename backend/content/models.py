@@ -4,21 +4,18 @@ Models for the content app.
 
 from uuid import uuid4
 
-from django.contrib.postgres.fields import ArrayField
 from django.core.validators import validate_image_file_extension
 from django.db import models
 
-from backend.mixins.models import CreationDeletionMixin
+from utils.models import ISO_CHOICES
 
 # MARK: Main Tables
 
 
 class Discussion(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    title = models.CharField(max_length=255)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
-    event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
     category = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(null=True, blank=True)
@@ -29,9 +26,11 @@ class Discussion(models.Model):
 
 class Faq(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    org_id = models.ForeignKey("entities.Organization", on_delete=models.CASCADE)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
+    primary = models.BooleanField(default=False)
     question = models.TextField(max_length=500)
     answer = models.TextField(max_length=500)
+    order = models.IntegerField()
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
@@ -40,7 +39,7 @@ class Faq(models.Model):
 
 class Image(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    image_location = models.ImageField(
+    file_location = models.ImageField(
         upload_to="images/", validators=[validate_image_file_extension]
     )
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -49,16 +48,46 @@ class Image(models.Model):
         return f"{self.id}"
 
 
+class Location(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    # bbox = models
+    # geometry = models
+    display_name = models.CharField(max_length=255)
+
+
 class Resource(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     category = models.CharField(max_length=255, blank=True)
     url = models.URLField(max_length=255)
     is_private = models.BooleanField(default=True)
     terms_checked = models.BooleanField(default=False)
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Role(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    is_custom = models.BooleanField(default=False)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    deletion_date = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class SocialLink(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    link = models.CharField(max_length=255)
+    label = models.CharField(max_length=255)
+    order = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
@@ -69,17 +98,20 @@ class Resource(models.Model):
 class Tag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     text = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.id}"
 
 
-class Task(CreationDeletionMixin):
+class Task(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
-    tags = ArrayField(models.CharField(max_length=255), default=list, blank=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    deletion_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -107,6 +139,7 @@ class DiscussionEntry(models.Model):
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     text = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
     deletion_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
@@ -132,6 +165,14 @@ class ResourceTag(models.Model):
 class ResourceTopic(models.Model):
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class TaskTag(models.Model):
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
+    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
