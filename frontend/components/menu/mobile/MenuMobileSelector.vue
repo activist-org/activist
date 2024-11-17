@@ -4,8 +4,8 @@
     :selected="selected"
     :linkClasses="{
       'rounded-none border-t': true,
-      'border-light-section-div dark:border-dark-section-div': !selected,
-      'border-dark-section-div dark:border-light-section-div': selected,
+      'border-section-div': !selected,
+      'border-section-div': selected,
     }"
   >
     <div
@@ -18,7 +18,7 @@
           :name="iconUrl"
         />
       </span>
-      <p class="hover:light-menu-selection select-none whitespace-nowrap">
+      <p class="hover:menu-selection select-none whitespace-nowrap">
         {{ $t(label) }}
       </p>
     </div>

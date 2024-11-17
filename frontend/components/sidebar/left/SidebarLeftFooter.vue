@@ -6,7 +6,7 @@
     }"
   >
     <div
-      class="elem-shadow-sm flex w-full flex-col justify-center space-y-1 rounded-md bg-light-layer-2 p-1 dark:bg-dark-layer-2"
+      class="elem-shadow-sm bg-layer-2 flex w-full flex-col justify-center space-y-1 rounded-md p-1"
     >
       <DropdownCreate
         v-if="userIsSignedIn"

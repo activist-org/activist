@@ -12,11 +12,11 @@
               @keyup.enter="inputFocussed = false"
               @focus="handleInputFocus"
               @blur="inputFocussed = false"
-              class="style-cta rounded-lg border py-2 pl-4 selection:bg-light-highlight dark:selection:bg-white/20"
+              class="style-cta selection:bg-highlight rounded-lg border py-2 pl-4 dark:selection:bg-white/20"
               :displayValue="displayValueHandler"
             />
             <div
-              class="absolute inset-y-0 right-0 flex items-center pr-3 text-light-text dark:text-dark-cta-orange"
+              class="text-primary-text dark:text-cta-orange absolute inset-y-0 right-0 flex items-center pr-3"
             >
               <Icon :name="IconMap.CHEVRON_EXPAND" />
             </div>
@@ -30,11 +30,11 @@
         >
           <ComboboxOptions
             id="isVisibleElement"
-            class="elem-shadow-lg absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-light-layer-1 text-base ring-1 ring-black/5 focus:outline-none dark:bg-dark-layer-1 sm:text-sm"
+            class="elem-shadow-lg bg-layer-1 absolute mt-1 max-h-60 w-full overflow-auto rounded-md text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
-              class="relative cursor-default select-none px-4 py-2 text-light-distinct-text dark:text-dark-distinct-text"
+              class="text-distinct-text relative cursor-default select-none px-4 py-2"
             >
               {{ $t("components.combobox_topics.no_matching_topics") }}
             </div>
@@ -49,9 +49,9 @@
               <li
                 class="relative cursor-default select-none py-2 pl-10 pr-4"
                 :class="{
-                  'bg-light-cta-orange/80 text-light-text dark:bg-dark-cta-orange/40 dark:text-dark-cta-orange':
+                  'text-primary-text bg-cta-orange/80 dark:bg-cta-orange/40 dark:text-cta-orange':
                     active,
-                  'text-light-text dark:text-dark-text': !active,
+                  'text-primary-text': !active,
                 }"
               >
                 <span class="block truncate">
@@ -61,8 +61,8 @@
                   v-if="selected"
                   class="absolute inset-y-0 left-0 flex items-center pl-3"
                   :class="{
-                    'text-light-text dark:text-dark-cta-orange': active,
-                    'text-light-cta-orange dark:text-dark-cta-orange': !active,
+                    'text-primary-text dark:text-cta-orange': active,
+                    'text-cta-orange dark:text-cta-orange': !active,
                   }"
                 >
                   <Icon :name="IconMap.CHECK" />

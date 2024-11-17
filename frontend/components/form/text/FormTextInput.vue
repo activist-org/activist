@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex max-h-[40px] select-none items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left text-light-distinct-text dark:text-dark-distinct-text"
+    class="text-distinct-text flex max-h-[40px] select-none items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left"
     :class="{
-      'border-light-action-red dark:border-dark-action-red': error,
-      'border-light-interactive dark:border-dark-interactive': !error,
+      'border-action-red dark:border-action-red': error,
+      'border-interactive': !error,
     }"
   >
     <input
@@ -11,7 +11,7 @@
       @blur="emit('blurred')"
       @focus="emit('focused')"
       :id="uuid"
-      class="h-5 w-full bg-transparent placeholder-light-distinct-text outline-none dark:placeholder-dark-distinct-text"
+      class="placeholder-distinct-text h-5 w-full bg-transparent outline-none"
       :class="{
         'py-3': !icons,
       }"

@@ -1,21 +1,15 @@
 <template v-model="value">
   <div class="card-style w-full flex-col space-y-3 px-5 py-6">
-    <p class="responsive-h3 font-medium text-light-text dark:text-dark-text">
+    <p class="responsive-h3 text-primary-text font-medium">
       {{ $t("components.card_topic_selection.header") }}
     </p>
-    <p
-      v-if="pageType == 'organization'"
-      class="text-light-text dark:text-dark-text"
-    >
+    <p v-if="pageType == 'organization'" class="text-primary-text">
       {{ $t("components.card_topic_selection.subtext_organization") }}
     </p>
-    <p v-if="pageType == 'group'" class="text-light-text dark:text-dark-text">
+    <p v-if="pageType == 'group'" class="text-primary-text">
       {{ $t("components.card_topic_selection.subtext_group") }}
     </p>
-    <p
-      v-if="pageType == 'resource'"
-      class="text-light-text dark:text-dark-text"
-    >
+    <p v-if="pageType == 'resource'" class="text-primary-text">
       {{ $t("components.card_topic_selection.subtext_resource") }}
     </p>
     <input
@@ -25,7 +19,7 @@
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card_topic_selection.selector_placeholder')"
-      class="topicInput elem-shadow-sm focus-brand w-full rounded-md bg-light-layer-0 py-2 pl-4 text-light-distinct-text dark:bg-dark-layer-0 dark:text-dark-distinct-text"
+      class="topicInput elem-shadow-sm focus-brand bg-layer-0 text-distinct-text w-full rounded-md py-2 pl-4"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tooltip flex flex-col space-y-1 rounded bg-light-layer-1 text-light-text shadow-zinc-700 dark:bg-dark-layer-1 dark:text-dark-text"
+    class="tooltip text-primary-text bg-layer-1 flex flex-col space-y-1 rounded shadow-zinc-700"
     :class="{
       'elem-shadow-sm w-max px-2 py-1': !slots.default,
       'elem-shadow-md w-min px-3 py-2': slots.default,

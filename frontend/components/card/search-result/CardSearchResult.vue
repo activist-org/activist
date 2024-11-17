@@ -11,7 +11,7 @@
         >
           <div
             v-if="organization || group || event"
-            class="h-min w-max rounded-md border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="bg-layer-0 border-section-div h-min w-max rounded-md border"
           >
             <img
               v-if="organization && imageUrl"
@@ -45,7 +45,7 @@
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="flex items-center justify-center text-light-text dark:text-dark-text"
+              class="text-primary-text flex items-center justify-center"
             >
               <Icon :name="IconMap.ORGANIZATION" class="h-[75%] w-[75%]" />
             </div>
@@ -71,7 +71,7 @@
           </div>
           <div
             v-if="user && !imageUrl"
-            class="w-fit rounded-full border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="bg-layer-0 border-section-div w-fit rounded-full border"
           >
             <div
               v-if="!imageUrl"
@@ -79,7 +79,7 @@
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="flex items-center justify-center fill-light-text dark:fill-dark-text"
+              class="fill-primary-text flex items-center justify-center"
             >
               <Icon class="h-[75%] w-[75%]" :name="IconMap.PERSON" />
             </div>
@@ -91,15 +91,13 @@
           target="_blank"
           :aria-label="$t(ariaLabel)"
         >
-          <div
-            class="h-min rounded-md border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
-          >
+          <div class="bg-layer-0 border-section-div h-min rounded-md border">
             <div
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="flex items-center justify-center fill-light-text dark:fill-dark-text"
+              class="fill-primary-text flex items-center justify-center"
             >
               <Icon :name="IconMap.RESOURCE" class="h-[75%] w-[75%]" />
             </div>

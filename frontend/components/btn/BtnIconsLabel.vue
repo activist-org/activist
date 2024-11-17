@@ -17,7 +17,7 @@
     <Icon v-if="rightIcon" class="ml-2" :name="rightIcon" :size="iconSize" />
     <div
       v-if="counter"
-      class="-m-[0.1rem] ml-2 rounded-lg bg-black/20 px-1 py-[0.1rem] dark:bg-dark-cta-orange/25"
+      class="dark:bg-cta-orange/25 -m-[0.1rem] ml-2 rounded-lg bg-black/20 px-1 py-[0.1rem]"
     >
       {{ counter }}
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed bottom-0 z-20 w-full border-t border-light-section-div bg-light-layer-2 dark:border-dark-section-div dark:bg-dark-layer-2"
+    class="bg-layer-2 border-section-div fixed bottom-0 z-20 w-full border-t"
   >
     <nav>
       <ul class="flex">

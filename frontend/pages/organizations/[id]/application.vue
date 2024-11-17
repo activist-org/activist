@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="text-primary-text bg-layer-0 flex flex-col px-4 xl:px-8">
     <!-- organization.status === 1 means it's application is pending. -->
     <!-- <CardOrgApplicationVote
         @up-vote="upVotes++"

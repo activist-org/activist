@@ -1,7 +1,7 @@
 <template>
   <div class="grid w-fit grid-flow-row gap-3 sm:grid-flow-col md:gap-5">
     <ShieldGitHub
-      class="fill-light-text dark:fill-dark-text"
+      class="fill-primary-text"
       href="https://github.com/activist-org/activist"
       :isLoading="isLoading"
     >
@@ -16,7 +16,7 @@
       </div>
     </ShieldGitHub>
     <ShieldGitHub
-      class="fill-light-text dark:fill-dark-text"
+      class="fill-primary-text"
       href="https://github.com/activist-org/activist/forks"
       :text="$t('components.grid_git_hub_shields.fork')"
       :isLoading="isLoading"
@@ -25,7 +25,7 @@
       <Icon :name="IconMap.FORK" size="2em" />
     </ShieldGitHub>
     <ShieldGitHub
-      class="fill-light-text dark:fill-dark-text"
+      class="fill-primary-text"
       href="https://github.com/activist-org/activist/stargazers"
       :text="$t('components._global.star')"
       :isLoading="isLoading"

@@ -1,6 +1,6 @@
 <template>
   <header
-    class="z-40 w-full bg-light-layer-1 pl-1 transition-all duration-500 dark:bg-dark-layer-1"
+    class="bg-layer-1 z-40 w-full pl-1 transition-all duration-500"
     :class="{
       'elem-shadow-sm': atTopShadow,
     }"
@@ -27,7 +27,7 @@
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
             class="z-1 absolute inset-0 flex h-8 w-32 flex-shrink-0 items-center justify-center overflow-clip"
-            color="fill-light-text-over-layer-2 dark:fill-dark-text-over-layer-2 hover:fill-light-distinct-text-over-layer-2 hover:dark:fill-dark-distinct-text-over-layer-2"
+            color="fill-primary-text-over-layer-2 hover:fill-distinct-text-over-layer-2"
           />
         </Transition>
       </div>

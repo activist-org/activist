@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="rounded-md border"
-    :class="{
-      'border-dark-text': colorModePreference == 'dark',
-      'border-light-text': colorModePreference == 'light',
-    }"
-  >
+  <div class="border-primary-text rounded-md border">
     <vue-friendly-captcha
       v-if="!devMode.active"
       @done="verifyCaptcha"
@@ -43,8 +37,6 @@ const verifyCaptcha = (response: boolean) => {
 };
 
 const { locale } = useI18n();
-const colorMode = useColorMode();
-const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
 </script>
 
 <style>

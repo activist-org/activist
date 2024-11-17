@@ -1,6 +1,6 @@
 <template>
   <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
-  <div class="w-full text-light-text dark:text-dark-text">
+  <div class="text-primary-text w-full">
     <IndicatorProcessProgress
       type="default"
       :progress="1"
@@ -31,7 +31,7 @@
             <input
               v-model="formData.name"
               id="name"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
               type="text"
               name="name"
               :placeholder="
@@ -46,7 +46,7 @@
             <input
               v-model="formData.location"
               id="location"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
               type="text"
               name="location"
               :placeholder="
@@ -62,7 +62,7 @@
           <textarea
             v-model="formData.description"
             id="description"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
             name="description"
             :placeholder="
               $t('pages.organizations.create.description_placeholder')
@@ -76,7 +76,7 @@
           <input
             v-model="formData.tagline"
             id="tagline"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
             name="tagline"
             :placeholder="$t('pages.organizations.create.tagline_placeholder')"
           />

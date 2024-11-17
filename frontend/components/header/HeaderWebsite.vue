@@ -4,8 +4,8 @@
     id="header"
     class="sticky top-0 z-10 drop-shadow-md duration-500"
     :class="{
-      'bg-light-layer-2 dark:bg-dark-layer-2': headerOpacity == 1,
-      'bg-light-layer-2/80 dark:bg-dark-layer-2/80': headerOpacity == 0.8,
+      'bg-layer-2': headerOpacity == 1,
+      'bg-layer-2/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
   >

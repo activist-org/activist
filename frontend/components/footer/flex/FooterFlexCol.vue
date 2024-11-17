@@ -8,13 +8,13 @@
           class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
         />
       </div>
-      <p class="text-light-text dark:text-dark-text">
+      <p class="text-primary-text">
         {{ $t("components.footer.flex._global.activist_tagline") }}
       </p>
       <!-- Note: Platform Links -->
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(platform, index) in links.platformLinks">
-          <div class="hover:text-light-text dark:hover:text-dark-text">
+          <div class="hover:text-primary-text">
             <NuxtLink
               v-if="platform.isLocalePath"
               class="focus-brand"
@@ -37,13 +37,13 @@
     >
       <!-- Note: Connect Links -->
       <div>
-        <p class="text-xl font-medium text-light-text dark:text-dark-text">
+        <p class="text-primary-text text-xl font-medium">
           {{ $t("components._global.connect") }}
         </p>
         <div class="mt-1 flex gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
             <a
-              class="focus-brand mt-2 flex items-center space-x-2 text-base hover:text-light-text dark:hover:text-dark-text"
+              class="focus-brand hover:text-primary-text mt-2 flex items-center space-x-2 text-base"
               :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
               target="_blank"
@@ -61,15 +61,13 @@
       </div>
       <!-- Note: Resources Links -->
       <div>
-        <p
-          class="mt-6 text-xl font-medium text-light-text dark:text-dark-text sm:mt-0"
-        >
+        <p class="text-primary-text mt-6 text-xl font-medium sm:mt-0">
           {{ $t("_global.resources") }}
         </p>
         <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
           <template v-for="(resource, index) in links.resourcesLinks">
             <p
-              class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
+              class="hover:text-primary-text mt-2 text-base"
               :class="{ 'sm:mt-3': index === 0 }"
             >
               <NuxtLink class="focus-brand" :to="localePath(resource.url)">
@@ -87,15 +85,13 @@
       </div>
       <!-- Note: Organization Links -->
       <div>
-        <p
-          class="mt-6 text-xl font-medium text-light-text dark:text-dark-text sm:mt-0"
-        >
+        <p class="text-primary-text mt-6 text-xl font-medium sm:mt-0">
           {{ $t("_global.organization") }}
         </p>
         <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
           <template v-for="(oLink, index) in links.organizationLinks">
             <p
-              class="mt-2 text-base hover:text-light-text dark:hover:text-dark-text"
+              class="hover:text-primary-text mt-2 text-base"
               :class="{ 'sm:mt-3': index === 0 }"
             >
               <NuxtLink class="focus-brand" :to="localePath(oLink.url)">
@@ -116,7 +112,7 @@
       <!-- Note: Legal Links -->
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(policy, index) in links.legalLinks">
-          <div class="hover:text-light-text dark:hover:text-dark-text">
+          <div class="hover:text-primary-text">
             <NuxtLink class="focus-brand" :to="localePath(policy.url)">
               {{ $t(policy.name) }}
             </NuxtLink>
@@ -130,13 +126,13 @@
         </template>
       </div>
       <a
-        class="mt-2 w-fit hover:text-light-text dark:hover:text-dark-text"
+        class="hover:text-primary-text mt-2 w-fit"
         href="https://www.netlify.com/"
         target="_blank"
       >
         {{ $t("components.footer.flex._global.powered_by_netlify") }}
       </a>
-      <div class="mt-2 text-light-text dark:text-dark-text">
+      <div class="text-primary-text mt-2">
         {{
           $t("components.footer.flex._global.copyright", {
             year: new Date().getFullYear(),

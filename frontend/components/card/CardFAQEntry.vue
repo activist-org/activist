@@ -10,9 +10,7 @@
           <Icon v-else :name="IconMap.CHEVRON_DOWN" />
         </div>
         <div class="flex-col">
-          <div
-            class="flex select-none items-center gap-3 text-light-text dark:text-dark-text"
-          >
+          <div class="text-primary-text flex select-none items-center gap-3">
             <p>{{ faqEntry.question }}</p>
             <IconEdit @click.stop="openModal()" @keydown.enter="openModal()" />
             <ModalEditFaqEntry
@@ -27,11 +25,9 @@
             />
           </div>
           <DisclosurePanel
-            class="mt-2 border-t border-light-section-div py-2 focus-within:border-0 dark:border-dark-section-div"
+            class="border-section-div mt-2 border-t py-2 focus-within:border-0"
           >
-            <p
-              class="select-text text-left text-light-text dark:text-dark-text"
-            >
+            <p class="text-primary-text select-text text-left">
               {{ faqEntry.answer }}
             </p>
           </DisclosurePanel>

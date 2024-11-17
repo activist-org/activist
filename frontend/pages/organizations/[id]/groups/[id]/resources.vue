@@ -4,9 +4,7 @@
     :selectors="groupSubPages"
     :selectedRoute="2"
   />
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="text-primary-text bg-layer-0 flex flex-col px-4 xl:px-8">
     <Head>
       <Title>{{ group.name }}&nbsp;{{ $t("_global.resources_lower") }}</Title>
     </Head>

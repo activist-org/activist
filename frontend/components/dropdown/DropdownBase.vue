@@ -73,10 +73,10 @@
     <MenuItems
       class="focus-brand rounded-md"
       :class="{
-        'absolute right-0 mt-2 origin-top-right divide-y bg-light-layer-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-dark-text dark:bg-dark-layer-0':
+        'bg-layer-0 dark:border-primary-text absolute right-0 mt-2 origin-top-right divide-y shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border':
           !isSideLeftMenu,
         '!static': isSideMenu || isSideLeftMenu,
-        'mt-1 bg-light-layer-2 p-1 dark:bg-dark-layer-2': isSideLeftMenu,
+        'bg-layer-2 mt-1 p-1': isSideLeftMenu,
       }"
     >
       <slot />

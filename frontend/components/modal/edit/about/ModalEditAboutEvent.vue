@@ -5,27 +5,27 @@
     :modalName="modalName"
   >
     <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
+      <div class="text-primary-text flex flex-col space-y-3">
         <label for="textarea" class="responsive-h2">{{
           $t("_global.about")
         }}</label>
         <textarea
           v-model="formData.description"
           id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
+          class="focus-brand elem-shadow-sm bg-layer-2 min-h-32 rounded-md px-3 py-2"
         />
       </div>
-      <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
+      <div class="text-primary-text flex flex-col space-y-3">
         <label for="textarea" class="responsive-h2">{{
           $t("components._global.participate")
         }}</label>
         <textarea
           v-model="formData.getInvolved"
           id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
+          class="focus-brand elem-shadow-sm bg-layer-2 min-h-32 rounded-md px-3 py-2"
         />
       </div>
-      <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
+      <div class="text-primary-text flex flex-col space-y-3">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
             $t("components._global.offer_to_help_link")
@@ -34,7 +34,7 @@
           <input
             v-model="formData.getInvolvedUrl"
             id="textarea"
-            class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
+            class="focus-brand elem-shadow-sm bg-layer-2 min-h-12 rounded-md px-3 py-2"
           />
         </div>
       </div>

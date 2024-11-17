@@ -11,7 +11,7 @@
       <swiper-slide
         v-for="[idx, img] of imageUrls.entries()"
         :key="idx"
-        class="flex items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
+        class="bg-layer-2 flex items-center justify-center"
       >
         <img
           class="object-cover object-center"
@@ -69,10 +69,10 @@ const handleCloseModal = () => {
 
 <style>
 swiper-container::part(bullet) {
-  @apply focus-brand bg-light-cta-orange/80 dark:bg-dark-cta-orange/80;
+  @apply focus-brand bg-cta-orange/80;
 }
 
 swiper-container::part(bullet-active) {
-  @apply focus-brand bg-light-cta-orange dark:bg-dark-cta-orange;
+  @apply focus-brand bg-cta-orange;
 }
 </style>

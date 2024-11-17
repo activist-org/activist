@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="windowWidth < BreakpointMap.SMALL"
-    class="flex flex-col items-center justify-between gap-8 bg-light-layer-0 px-8 py-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
+    class="text-primary-text bg-layer-0 flex flex-col items-center justify-between gap-8 px-8 py-8"
   >
     <Head>
       <Title>{{ event.name }} </Title>
@@ -19,13 +19,11 @@
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1
-        class="responsive-h1 text-center text-3xl font-bold text-light-text dark:text-dark-text"
+        class="responsive-h1 text-primary-text text-center text-3xl font-bold"
       >
         {{ event.name }}
       </h1>
-      <h2
-        class="responsive-h2 text-lg font-bold text-light-distinct-text dark:text-dark-distinct-text"
-      >
+      <h2 class="responsive-h2 text-distinct-text text-lg font-bold">
         {{ event.tagline }}
       </h2>
     </div>
@@ -46,7 +44,7 @@
               class="h-5 w-5 flex-shrink-0"
           /></span>
           <p
-            class="width-5/6 hover:light-menu-selection select-none whitespace-nowrap text-lg font-bold"
+            class="width-5/6 hover:menu-selection select-none whitespace-nowrap text-lg font-bold"
           >
             <span class="sr-only">{{ $t("_global.navigate_to") }}</span>
             {{ $t(button.label) }}
