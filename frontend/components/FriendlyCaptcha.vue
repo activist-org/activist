@@ -1,5 +1,5 @@
 <template>
-  <div class="border-primary-text rounded-md border">
+  <div class="rounded-md border border-primary-text">
     <vue-friendly-captcha
       v-if="!devMode.active"
       @done="verifyCaptcha"

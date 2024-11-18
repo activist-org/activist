@@ -68,7 +68,7 @@
         >
           <NuxtLink to="/" class="flex items-center">
             <div
-              class="bg-layer-0 border-section-div flex h-8 w-8 items-center justify-center rounded-full border"
+              class="flex h-8 w-8 items-center justify-center rounded-full border border-section-div bg-layer-0"
             >
               <Icon :name="IconMap.PERSON" size="1.5em" />
             </div>

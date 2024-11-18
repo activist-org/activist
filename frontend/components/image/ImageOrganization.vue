@@ -1,12 +1,12 @@
 <template>
   <div
-    class="bg-layer-0 border-section-div flex h-full w-full justify-center rounded-md border"
+    class="flex h-full w-full justify-center rounded-md border border-section-div bg-layer-0"
   >
     <img v-if="imgUrl" :src="imgUrl" :alt="alt" />
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
-      class="text-layer-1 bg-distinct-text flex h-full w-full items-center justify-center rounded-r-md border"
+      class="flex h-full w-full items-center justify-center rounded-r-md border bg-distinct-text text-layer-1"
     >
       <Icon class="mb-1" :name="IconMap.PEOPLE" />
     </div>

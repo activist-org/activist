@@ -11,7 +11,7 @@
         emit('expand-reduce-text');
         expand_reduce_text();
       "
-      class="focus-brand hover:text-primary-text text-distinct-text absolute right-0 rounded-full p-1"
+      class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
@@ -54,7 +54,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand text-link-text mt-1 font-semibold"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.full_text_aria_label')
               "
@@ -67,7 +67,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand text-link-text mt-1 font-semibold"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.reduce_text_aria_label')
               "

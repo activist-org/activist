@@ -1,6 +1,6 @@
 <template>
   <div class="h-4">
-    <div class="bg-distinct-text h-1 rounded-md">
+    <div class="h-1 rounded-md bg-distinct-text">
       <div
         class="h-1 rounded-md transition-width duration-500 ease-in"
         :class="!!passwordValue.length ? `${color}` : ''"

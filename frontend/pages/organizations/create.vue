@@ -1,6 +1,6 @@
 <template>
   <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
-  <div class="text-primary-text w-full">
+  <div class="w-full text-primary-text">
     <IndicatorProcessProgress
       type="default"
       :progress="1"
@@ -31,7 +31,7 @@
             <input
               v-model="formData.name"
               id="name"
-              class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="name"
               :placeholder="
@@ -46,7 +46,7 @@
             <input
               v-model="formData.location"
               id="location"
-              class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="location"
               :placeholder="
@@ -62,7 +62,7 @@
           <textarea
             v-model="formData.description"
             id="description"
-            class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+            class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
             :placeholder="
               $t('pages.organizations.create.description_placeholder')
@@ -76,7 +76,7 @@
           <input
             v-model="formData.tagline"
             id="tagline"
-            class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+            class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="tagline"
             :placeholder="$t('pages.organizations.create.tagline_placeholder')"
           />

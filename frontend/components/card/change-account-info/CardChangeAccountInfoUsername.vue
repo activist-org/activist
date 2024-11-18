@@ -21,7 +21,7 @@
           >
           <input
             id="new-username"
-            class="border-primary-text peer rounded-sm border bg-transparent px-3 py-1"
+            class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="
               $t(
                 'components.card_change_account_info_username.enter_new_username'
@@ -35,7 +35,7 @@
           >
           <input
             id="password"
-            class="border-primary-text peer rounded-sm border bg-transparent px-3 py-1"
+            class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="$t('_global.enter_password')"
           />
         </div>

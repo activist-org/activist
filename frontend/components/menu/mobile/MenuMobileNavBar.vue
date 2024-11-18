@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-layer-2 border-section-div fixed bottom-0 z-20 w-full border-t"
+    class="fixed bottom-0 z-20 w-full border-t border-section-div bg-layer-2"
   >
     <nav>
       <ul class="flex">

@@ -1,8 +1,8 @@
 <template>
   <div
-    class="border-interactive relative flex h-9 items-center border border-r-0 font-bold first:rounded-l-md last:rounded-r-md last:border-r"
+    class="relative flex h-9 items-center border border-r-0 border-interactive font-bold first:rounded-l-md last:rounded-r-md last:border-r"
     :class="{
-      'text-layer-1 bg-menu-selection': modelValue && !customColor,
+      'bg-menu-selection text-layer-1': modelValue && !customColor,
       [customColorClass]: modelValue && customColor,
       'bg-layer-2 text-distinct-text': !modelValue,
       'hover:bg-hover': !modelValue,

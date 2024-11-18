@@ -4,7 +4,7 @@
       <MenuButton
         @focus="expandOnFocus"
         v-slot="{ open }"
-        class="selected-option style-btn inline-flex w-full select-none whitespace-nowrap rounded-md px-4 py-2 font-semibold"
+        class="selected-option style-btn inline-flex w-full select-none whitespace-nowrap rounded-md border-none px-4 py-2 font-semibold"
         :class="{
           'pl-6': isSideMenu,
           'style-menu-option-cta flex items-center rounded-md pl-1':
@@ -73,10 +73,10 @@
     <MenuItems
       class="focus-brand rounded-md"
       :class="{
-        'bg-layer-0 dark:border-primary-text absolute right-0 mt-2 origin-top-right divide-y shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border':
+        'absolute right-0 mt-2 origin-top-right divide-y bg-layer-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-primary-text':
           !isSideLeftMenu,
         '!static': isSideMenu || isSideLeftMenu,
-        'bg-layer-2 mt-1 p-1': isSideLeftMenu,
+        'mt-1 bg-layer-2 p-1': isSideLeftMenu,
       }"
     >
       <slot />

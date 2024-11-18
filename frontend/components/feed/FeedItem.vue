@@ -4,7 +4,7 @@
     :aria-label="$t('components._global.navigate_to_group_aria_label')"
   >
     <div
-      class="elem-shadow-sm bg-layer-2 border-section-div cursor-pointer rounded-md border p-2 sm:p-3"
+      class="elem-shadow-sm cursor-pointer rounded-md border border-section-div bg-layer-2 p-2 sm:p-3"
     >
       <div class="flex items-center space-x-3 pb-2">
         <Icon
@@ -30,7 +30,7 @@
         <h4 class="responsive-h5 font-bold">{{ item.title }}</h4>
       </div>
       <div
-        class="bg-distinct-text flex h-32 items-center justify-center rounded-md"
+        class="flex h-32 items-center justify-center rounded-md bg-distinct-text"
       >
         <img
           v-if="item.imgUrl"

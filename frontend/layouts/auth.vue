@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="text-primary-text bg-layer-1 h-full">
+    <div class="h-full bg-layer-1 text-primary-text">
       <div v-if="aboveMediumBP" class="flex justify-end space-x-6 px-8 py-4">
         <DropdownLanguage />
         <BtnRouteInternal

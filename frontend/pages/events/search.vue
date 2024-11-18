@@ -1,5 +1,5 @@
 <template>
-  <div class="text-primary-text bg-layer-0 px-4 xl:px-8">
+  <div class="bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title>{{ $t("pages.events.search.header_title") }}</Title>
     </Head>

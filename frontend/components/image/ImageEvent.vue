@@ -17,7 +17,7 @@
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
-      class="text-primary-text bg-layer-0 flex h-full w-[80%] items-center justify-center rounded-r-md"
+      class="flex h-full w-[80%] items-center justify-center rounded-r-md bg-layer-0 text-primary-text"
     >
       <Icon :name="IconMap.EVENT" class="mb-1 h-[75%] w-[75%]" />
     </div>

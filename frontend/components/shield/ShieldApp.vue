@@ -1,6 +1,6 @@
 <template>
   <a
-    class="card-style focus-brand text-primary-text bg-layer-0 hover:bg-highlight border-primary-text flex items-center space-x-2 px-3 py-2"
+    class="card-style focus-brand flex items-center space-x-2 border-primary-text bg-layer-0 px-3 py-2 text-primary-text hover:bg-highlight"
     :href="href"
     target="_blank"
   >

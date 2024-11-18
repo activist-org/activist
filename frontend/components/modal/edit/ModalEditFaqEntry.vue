@@ -8,7 +8,7 @@
       <div
         v-for="(s, i) in sectionsToEdit"
         :key="i"
-        class="text-primary-text flex flex-col space-y-3"
+        class="flex flex-col space-y-3 text-primary-text"
       >
         <label for="textarea" class="responsive-h2">{{ s }}</label>
         <textarea
@@ -19,14 +19,14 @@
           "
           v-model="translatedTexts[i]"
           id="textarea"
-          class="focus-brand elem-shadow-sm bg-layer-2 min-h-32 rounded-md px-3 py-2"
+          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />
         <div v-else class="flex flex-col space-y-2">
           <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
             v-model="editedTexts[i]"
             id="textarea"
-            class="focus-brand elem-shadow-sm bg-layer-2 min-h-12 rounded-md px-3 py-2"
+            class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-layer-2 px-3 py-2"
           />
         </div>
       </div>

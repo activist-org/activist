@@ -1,5 +1,5 @@
 <template>
-  <div class="text-primary-text w-full">
+  <div class="w-full text-primary-text">
     <IndicatorProcessProgress
       type="default"
       :progress="page + 1"
@@ -50,7 +50,7 @@
               <input
                 v-model="formData.name"
                 id="name"
-                class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+                class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="name"
                 :placeholder="$t('pages.events.create.events_name_placeholder')"
@@ -63,7 +63,7 @@
               <input
                 v-model="formData.tagline"
                 id="tagline"
-                class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+                class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="tagline"
                 :placeholder="$t('pages.events.create.tagline_placeholder')"
@@ -80,7 +80,7 @@
             <input
               v-model="formData.organizer"
               id="organizer"
-              class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="select"
               name="organizer"
               :placeholder="$t('pages.events.create.organizer_placeholder')"
@@ -97,7 +97,7 @@
             <textarea
               v-model="formData.description"
               id="description"
-              class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="description"
               :placeholder="$t('pages.events.create.description_placeholder')"
             ></textarea>
@@ -127,7 +127,7 @@
               <input
                 v-model="formData.format"
                 id="format"
-                class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+                class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="format"
                 :placeholder="$t('pages.events.create.format_placeholder')"
@@ -154,7 +154,7 @@
               <input
                 v-model="formData.roles"
                 id="roles"
-                class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+                class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="roles"
                 placeholder="Event roles"
@@ -189,7 +189,7 @@
               <input
                 v-model="formData.location"
                 id="location"
-                class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+                class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="location"
                 :placeholder="$t('pages.events.create.location_placeholder')"
@@ -202,7 +202,7 @@
               <input
                 v-model="formData.link"
                 id="link"
-                class="bg-layer-0 border-section-div mt-2 w-full rounded-md border px-4 py-2"
+                class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="url"
                 name="link"
                 :placeholder="$t('pages.events.create.link_placeholder')"

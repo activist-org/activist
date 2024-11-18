@@ -1,6 +1,6 @@
 <template>
   <div
-    class="responsive-py-4 responsive-px-5 text-primary-text bg-layer-0 flex w-full flex-col items-center"
+    class="responsive-py-4 responsive-px-5 flex w-full flex-col items-center bg-layer-0 text-primary-text"
   >
     <PageContent
       :imgUrl="imgUrl"

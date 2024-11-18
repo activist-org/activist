@@ -11,7 +11,7 @@
         >
           <div
             v-if="organization || group || event"
-            class="bg-layer-0 border-section-div h-min w-max rounded-md border"
+            class="h-min w-max rounded-md border border-section-div bg-layer-0"
           >
             <img
               v-if="organization && imageUrl"
@@ -45,7 +45,7 @@
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="text-primary-text flex items-center justify-center"
+              class="flex items-center justify-center text-primary-text"
             >
               <Icon :name="IconMap.ORGANIZATION" class="h-[75%] w-[75%]" />
             </div>
@@ -71,7 +71,7 @@
           </div>
           <div
             v-if="user && !imageUrl"
-            class="bg-layer-0 border-section-div w-fit rounded-full border"
+            class="w-fit rounded-full border border-section-div bg-layer-0"
           >
             <div
               v-if="!imageUrl"
@@ -79,7 +79,7 @@
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="fill-primary-text flex items-center justify-center"
+              class="flex items-center justify-center fill-primary-text"
             >
               <Icon class="h-[75%] w-[75%]" :name="IconMap.PERSON" />
             </div>
@@ -91,13 +91,13 @@
           target="_blank"
           :aria-label="$t(ariaLabel)"
         >
-          <div class="bg-layer-0 border-section-div h-min rounded-md border">
+          <div class="h-min rounded-md border border-section-div bg-layer-0">
             <div
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="fill-primary-text flex items-center justify-center"
+              class="flex items-center justify-center fill-primary-text"
             >
               <Icon :name="IconMap.RESOURCE" class="h-[75%] w-[75%]" />
             </div>

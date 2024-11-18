@@ -12,11 +12,11 @@
               @keyup.enter="inputFocussed = false"
               @focus="handleInputFocus"
               @blur="inputFocussed = false"
-              class="style-cta selection:bg-highlight rounded-lg border py-2 pl-4 dark:selection:bg-white/20"
+              class="style-cta rounded-lg border py-2 pl-4 selection:bg-highlight dark:selection:bg-white/20"
               :displayValue="displayValueHandler"
             />
             <div
-              class="text-primary-text dark:text-cta-orange absolute inset-y-0 right-0 flex items-center pr-3"
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
             >
               <Icon :name="IconMap.CHEVRON_EXPAND" />
             </div>
@@ -30,11 +30,11 @@
         >
           <ComboboxOptions
             id="isVisibleElement"
-            class="elem-shadow-lg bg-layer-1 absolute mt-1 max-h-60 w-full overflow-auto rounded-md text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="elem-shadow-lg absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-layer-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
-              class="text-distinct-text relative cursor-default select-none px-4 py-2"
+              class="relative cursor-default select-none px-4 py-2 text-distinct-text"
             >
               {{ $t("components.combobox_topics.no_matching_topics") }}
             </div>
@@ -49,7 +49,7 @@
               <li
                 class="relative cursor-default select-none py-2 pl-10 pr-4"
                 :class="{
-                  'text-primary-text bg-cta-orange/80 dark:bg-cta-orange/40 dark:text-cta-orange':
+                  'bg-cta-orange/80 text-primary-text dark:bg-cta-orange/40 dark:text-cta-orange':
                     active,
                   'text-primary-text': !active,
                 }"

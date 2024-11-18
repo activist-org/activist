@@ -1,8 +1,8 @@
 <template>
-  <div v-if="selectedMenuItem" class="bg-menu-selection fixed z-20 h-10 w-full">
+  <div v-if="selectedMenuItem" class="fixed z-20 h-10 w-full bg-menu-selection">
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="elem-shadow-sm focus-brand fill-layer-1 text-layer-1 relative flex w-full items-center py-2 pl-5 text-left align-middle"
+        class="elem-shadow-sm focus-brand relative flex w-full items-center fill-layer-1 py-2 pl-5 text-left align-middle text-layer-1"
       >
         <Icon
           :name="selectedMenuItem.iconUrl"
@@ -37,9 +37,9 @@
               <li
                 class="relative flex cursor-default select-none items-center py-2 pl-5 align-middle"
                 :class="{
-                  'text-primary-text bg-layer-2 dark:bg-section-div fill-primary-text':
+                  'bg-layer-2 fill-primary-text text-primary-text dark:bg-section-div':
                     selected,
-                  'fill-layer-1 text-layer-1 bg-highlight': !selected,
+                  'bg-highlight fill-layer-1 text-layer-1': !selected,
                 }"
               >
                 <Icon

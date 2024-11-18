@@ -1,6 +1,6 @@
 <template>
   <div
-    class="elem-shadow-sm text-primary-text bg-layer-2 mx-1 rounded-md py-2 transition-all duration-500"
+    class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-2 text-primary-text transition-all duration-500"
   >
     <div class="flex flex-col items-center">
       <div

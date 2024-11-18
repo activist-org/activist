@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-distinct-text flex items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left"
+    class="flex items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left text-distinct-text"
     :class="{
       'border-action-red dark:border-action-red': error,
       'border-interactive': !error,

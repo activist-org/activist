@@ -1,8 +1,8 @@
 <template>
   <div
-    class="border-interactive relative flex h-9 w-full items-center border font-bold first:rounded-l-md last:rounded-r-md"
+    class="relative flex h-9 w-full items-center border border-interactive font-bold first:rounded-l-md last:rounded-r-md"
     :class="{
-      'text-layer-1 bg-menu-selection': modelValue === value && !customColor,
+      'bg-menu-selection text-layer-1': modelValue === value && !customColor,
       [customColorClass]: modelValue === value && customColor,
       'bg-layer-2 text-distinct-text': modelValue !== value,
     }"

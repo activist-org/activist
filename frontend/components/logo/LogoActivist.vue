@@ -5,7 +5,7 @@
     :aria-label="$t('components.logo_activist.aria_label')"
   >
     <svg
-      class="hover:fill-distinct-text fill-primary-text transition duration-100"
+      class="fill-primary-text transition duration-100 hover:fill-distinct-text"
       :class="{ 'h-7 w-28': isMobile, color }"
       width="3000"
       height="647"

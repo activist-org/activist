@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="windowWidth < BreakpointMap.SMALL"
-    class="text-primary-text bg-layer-0 flex flex-col items-center justify-between gap-8 px-8 py-8"
+    class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8 text-primary-text"
   >
     <Head>
       <Title>{{ organization.name }} </Title>
@@ -17,11 +17,11 @@
       />
     </div>
     <div class="flex flex-col items-center gap-2">
-      <h1 class="responsive-h1 text-primary-text text-3xl font-bold">
+      <h1 class="responsive-h1 text-3xl font-bold text-primary-text">
         {{ organization.name }}
       </h1>
       <h2
-        class="responsive-h2 text-distinct-text text-center text-lg font-bold"
+        class="responsive-h2 text-center text-lg font-bold text-distinct-text"
       >
         {{ organization.tagline }}
       </h2>

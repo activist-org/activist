@@ -5,7 +5,7 @@
         {{ $t("components.card_donate.donate") }}
       </h3>
       <div
-        class="text-primary-text hover:text-distinct-text cursor-pointer break-all rounded-lg p-1 transition-all"
+        class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all hover:text-distinct-text"
       >
         <Icon
           v-if="userIsAdmin && !editModeEnabled"

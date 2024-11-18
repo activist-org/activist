@@ -1,6 +1,6 @@
 <template v-model="value">
   <div class="card-style w-full flex-col space-y-3 px-5 py-6">
-    <p class="responsive-h3 text-primary-text font-medium">
+    <p class="responsive-h3 font-medium text-primary-text">
       {{ $t("components.card_topic_selection.header") }}
     </p>
     <p v-if="pageType == 'organization'" class="text-primary-text">
@@ -19,7 +19,7 @@
       id="query"
       :display-value="() => query"
       :placeholder="$t('components.card_topic_selection.selector_placeholder')"
-      class="topicInput elem-shadow-sm focus-brand bg-layer-0 text-distinct-text w-full rounded-md py-2 pl-4"
+      class="topicInput elem-shadow-sm focus-brand w-full rounded-md bg-layer-0 py-2 pl-4 text-distinct-text"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <ShieldTopic

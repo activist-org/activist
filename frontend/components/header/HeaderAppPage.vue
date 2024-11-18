@@ -2,7 +2,7 @@
   <PageBreadcrumbs class="mt-4 hidden md:block" :pageType="pageType" />
   <div
     v-if="underDevelopment"
-    class="text-primary-text bg-warn-yellow/40 dark:border-warn-yellow dark:bg-warn-yellow/30 dark:text-warn-yellow border-primary-text mt-5 flex w-full flex-wrap rounded-md border px-3 py-1"
+    class="mt-5 flex w-full flex-wrap rounded-md border border-primary-text bg-warn-yellow/40 px-3 py-1 text-primary-text dark:border-warn-yellow dark:bg-warn-yellow/30 dark:text-warn-yellow"
   >
     <div class="flex space-x-3">
       <p>🚧</p>
@@ -42,7 +42,7 @@
   </div>
   <div class="flex items-baseline gap-2 md:gap-4">
     <h1
-      class="responsive-h1 text-primary-text pt-4 font-bold transition-all duration-500"
+      class="responsive-h1 pt-4 font-bold text-primary-text transition-all duration-500"
     >
       {{ headerName }}
     </h1>

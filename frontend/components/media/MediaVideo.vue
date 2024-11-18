@@ -1,9 +1,9 @@
 <template>
   <div
-    class="card-style bg-layer-2 flex h-full w-full items-center justify-center"
+    class="card-style flex h-full w-full items-center justify-center bg-layer-2"
   >
     <div
-      class="bg-distinct-text dark:bg-menu-selection rounded-full p-6 md:p-8"
+      class="rounded-full bg-distinct-text p-6 dark:bg-menu-selection md:p-8"
     >
       <Icon
         :name="IconMap.VIDEO"

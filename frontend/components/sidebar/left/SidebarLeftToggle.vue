@@ -1,5 +1,5 @@
 <template>
-  <div class="hover:text-primary-text text-distinct-text rounded-md">
+  <div class="rounded-md text-distinct-text hover:text-primary-text">
     <Icon
       v-if="chevronDirection == 'left'"
       :name="IconMap.CHEVRON_BAR_LEFT"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-layer-2 text-distinct-text border-interactive flex h-9 select-none items-center space-x-2 rounded-md border py-2 pl-[12px] pr-[10px] text-left"
+    class="flex h-9 select-none items-center space-x-2 rounded-md border border-interactive bg-layer-2 py-2 pl-[12px] pr-[10px] text-left text-distinct-text"
   >
     <Icon
       class="my-1 h-4 w-4 flex-shrink-0"

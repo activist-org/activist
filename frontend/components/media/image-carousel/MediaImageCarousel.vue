@@ -11,7 +11,7 @@
       <swiper-slide
         v-for="[idx, img] of imageUrls.entries()"
         :key="idx"
-        class="bg-layer-2 flex items-center justify-center"
+        class="flex items-center justify-center bg-layer-2"
       >
         <img
           class="object-cover object-center"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-distinct-text flex max-h-[40px] select-none items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left"
+    class="flex max-h-[40px] select-none items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left text-distinct-text"
     :class="{
       'border-action-red dark:border-action-red': error,
       'border-interactive': !error,
@@ -11,7 +11,7 @@
       @blur="emit('blurred')"
       @focus="emit('focused')"
       :id="uuid"
-      class="placeholder-distinct-text h-5 w-full bg-transparent outline-none"
+      class="h-5 w-full bg-transparent placeholder-distinct-text outline-none"
       :class="{
         'py-3': !icons,
       }"

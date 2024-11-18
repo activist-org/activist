@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-layer-2 border-section-div flex h-2 w-full items-center justify-between border-b md:h-8"
+    class="flex h-2 w-full items-center justify-between border-b border-section-div bg-layer-2 md:h-8"
   >
     <div
       class="h-full transition-width duration-500 ease-in"
@@ -12,7 +12,7 @@
       :style="{ width: `${percent}%` }"
     ></div>
     <NuxtLink
-      class="text-primary-text bg-cta-orange hover:bg-cta-orange/80 dark:bg-cta-orange/10 dark:text-cta-orange dark:hover:bg-cta-orange/25 hidden h-full items-center space-x-3 px-3 md:flex"
+      class="hidden h-full items-center space-x-3 bg-cta-orange px-3 text-primary-text hover:bg-cta-orange/80 dark:bg-cta-orange/10 dark:text-cta-orange dark:hover:bg-cta-orange/25 md:flex"
       :to="localePath('/')"
       :aria-label="
         $t('components.indicator_process_progress.close_process_aria_label')

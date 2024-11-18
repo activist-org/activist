@@ -1,6 +1,6 @@
 <template>
   <div
-    class="2xl:pb-18 text-primary-text bg-layer-1 w-full flex-1 space-y-4 pb-8 pt-10 sm:space-y-9 sm:pb-10 sm:pt-12 md:pb-12 md:pt-16 lg:pb-14 lg:pt-20 xl:space-y-10 xl:pb-16 xl:pt-24 2xl:pt-28"
+    class="2xl:pb-18 w-full flex-1 space-y-4 bg-layer-1 pb-8 pt-10 text-primary-text sm:space-y-9 sm:pb-10 sm:pt-12 md:pb-12 md:pt-16 lg:pb-14 lg:pt-20 xl:space-y-10 xl:pb-16 xl:pt-24 2xl:pt-28"
   >
     <div class="flex justify-center">
       <h1

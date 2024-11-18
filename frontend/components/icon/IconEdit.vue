@@ -1,5 +1,5 @@
 <template>
-  <div class="text-primary-text hover:text-distinct-text cursor-pointer">
+  <div class="cursor-pointer text-primary-text hover:text-distinct-text">
     <Icon :name="IconMap.EDIT" size="1.2em" />
   </div>
 </template>

@@ -32,7 +32,7 @@
         v-model="customValue"
         @input="inputDebounce"
         :id="customValueType"
-        class="bg-layer-2 text-distinct-text border-interactive w-full flex-1 rounded-l-md border border-r-0 pl-4 pr-2 font-bold outline-none"
+        class="w-full flex-1 rounded-l-md border border-r-0 border-interactive bg-layer-2 pl-4 pr-2 font-bold text-distinct-text outline-none"
         :type="customValueType"
         :placeholder="
           $t('components.form_radio_group.custom_numeric_value_placeholder')
@@ -40,10 +40,10 @@
       />
       <button
         @click="toggleAdditionalInput"
-        class="focus-brand border-interactive relative h-9 min-w-[3rem] rounded-r-md border"
+        class="focus-brand relative h-9 min-w-[3rem] rounded-r-md border border-interactive"
         :class="{
           'bg-layer-2 text-distinct-text': !showAdditionalInput,
-          'text-layer-1 bg-menu-selection': showAdditionalInput,
+          'bg-menu-selection text-layer-1': showAdditionalInput,
         }"
       >
         <Icon v-if="!showAdditionalInput" :name="IconMap.HASH" size="1.5em" />

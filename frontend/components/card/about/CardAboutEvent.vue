@@ -30,7 +30,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand text-link-text mt-1 font-semibold"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.full_text_aria_label')
               "
@@ -43,7 +43,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand text-link-text mt-1 font-semibold"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.reduce_text_aria_label')
               "

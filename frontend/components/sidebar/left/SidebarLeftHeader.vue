@@ -1,8 +1,8 @@
 <template>
   <header
-    class="bg-layer-1 z-40 w-full pl-1 transition-all duration-500"
+    class="z-40 w-full bg-layer-1 pl-1 transition-all duration-200"
     :class="{
-      'elem-shadow-sm': atTopShadow,
+      'elem-shadow-sm rounded-md bg-layer-2': atTopShadow,
     }"
   >
     <div class="flex items-center pb-2 pl-[0.85rem] pr-6 pt-3">

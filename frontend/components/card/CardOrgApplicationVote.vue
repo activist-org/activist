@@ -4,14 +4,14 @@
     <div class="flex flex-row py-3">
       <div
         v-for="organization in availableOrganizations"
-        class="fill-primary-text mr-5"
+        class="mr-5 fill-primary-text"
       >
         <Icon
           v-if="organization.iconUrl === undefined"
           name="IconOrganization"
           size="3em"
         />
-        <div v-else class="border-section-div rounded border">
+        <div v-else class="rounded border border-section-div">
           <img
             :src="organization.iconUrl"
             class="h-full w-12"

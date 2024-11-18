@@ -1,5 +1,5 @@
 <template>
-  <div class="text-primary-text bg-layer-0">
+  <div class="bg-layer-0 text-primary-text">
     <Head>
       <Title>{{ $t("_global.contact") }}</Title>
     </Head>
@@ -16,7 +16,7 @@
         </h1>
         <div class="flex flex-row space-x-3 py-2">
           <Icon
-            class="text-link-text mt-[0.125rem]"
+            class="mt-[0.125rem] text-link-text"
             :name="IconMap.CIRCLE_INFO"
             size="1.25em"
           />
@@ -106,9 +106,9 @@
                 v-model="name"
                 @blur="validateName"
                 id="name"
-                class="text-primary-text focus:bg-layer-1 placeholder-distinct-text bg-highlight rounded-md p-2"
+                class="rounded-md bg-highlight p-2 text-primary-text placeholder-distinct-text focus:bg-layer-1"
                 :class="{
-                  'outline-action-red outline outline-2': !nameValidated,
+                  'outline outline-2 outline-action-red': !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
                 }"
                 :placeholder="$t('pages.contact.name_placeholder')"
@@ -132,9 +132,9 @@
                 v-model="email"
                 @blur="validateEmail"
                 id="email"
-                class="text-primary-text focus:bg-layer-1 placeholder-distinct-text bg-highlight rounded-md p-2"
+                class="rounded-md bg-highlight p-2 text-primary-text placeholder-distinct-text focus:bg-layer-1"
                 :class="{
-                  'outline-action-red outline outline-2': !emailValidated,
+                  'outline outline-2 outline-action-red': !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
                 }"
                 :placeholder="$t('pages.contact.email_placeholder')"
@@ -158,9 +158,9 @@
                 v-model="subject"
                 @blur="validateSubject"
                 id="subject"
-                class="text-primary-text focus:bg-layer-1 placeholder-distinct-text bg-highlight rounded-md p-2"
+                class="rounded-md bg-highlight p-2 text-primary-text placeholder-distinct-text focus:bg-layer-1"
                 :class="{
-                  'outline-action-red outline outline-2': !subjectValidated,
+                  'outline outline-2 outline-action-red': !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
                 }"
                 :placeholder="$t('pages.contact.subject_placeholder')"
@@ -182,9 +182,9 @@
                 v-model="message"
                 @blur="validateMessage"
                 id="message"
-                class="text-primary-text focus:bg-layer-1 placeholder-distinct-text bg-highlight resize-none rounded-md p-2"
+                class="resize-none rounded-md bg-highlight p-2 text-primary-text placeholder-distinct-text focus:bg-layer-1"
                 :class="{
-                  'outline-action-red outline outline-2': !messageValidated,
+                  'outline outline-2 outline-action-red': !messageValidated,
                   'outline-none focus:outline-none': messageValidated,
                 }"
                 rows="6"
@@ -197,7 +197,7 @@
               <FriendlyCaptcha />
             </div>
             <button
-              class="focus-brand elem-shadow-sm text-primary-text bg-cta-orange dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange border-primary-text fill-primary-text flex w-fit select-none items-center rounded-md border px-4 py-2 text-center font-semibold xl:rounded-lg"
+              class="focus-brand elem-shadow-sm flex w-fit select-none items-center rounded-md border border-primary-text bg-cta-orange fill-primary-text px-4 py-2 text-center font-semibold text-primary-text dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange xl:rounded-lg"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
                 'hover:bg-cta-orange/80 active:bg-cta-orange dark:hover:bg-cta-orange/25 dark:active:bg-cta-orange/10':
@@ -221,7 +221,7 @@
         </h1>
         <div class="flex flex-row space-x-3 py-2 text-start">
           <Icon
-            class="text-link-text mt-[0.125rem]"
+            class="mt-[0.125rem] text-link-text"
             :name="IconMap.CIRCLE_INFO"
             size="1.25em"
           />

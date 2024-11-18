@@ -4,7 +4,7 @@
     :selectors="groupSubPages"
     :selectedRoute="0"
   />
-  <div class="text-primary-text bg-layer-0 flex flex-col px-4 xl:px-8">
+  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title>{{ group.name }}</Title>
     </Head>
