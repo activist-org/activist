@@ -1,2 +1,0 @@
-1. For all Python code outputs use double quotes for strings and format code using black.
-2. For all Vue code outputs use Vue 3, TypeScript, the composition API with <script setup lang="ts">, always use Tailwind instead of a <style> blocks and also always put the template blocks above of script blocks.

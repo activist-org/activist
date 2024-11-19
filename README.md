@@ -227,9 +227,6 @@ git remote add upstream https://github.com/activist-org/activist.git
 > pip install pre-commit
 > ```
 
-> [!TIP]
-> For those using LLM coding assistants, [LLMPROMPT.txt](https://github.com/activist-org/activist/blob/main/LLMPROMPT.txt) contains a good prompt to paste as context or add to your settings.
-
 <a id="tech-stack"></a>
 
 ## Tech Stack [`⇧`](#contents)
