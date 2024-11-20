@@ -3,7 +3,7 @@ import { config } from '@vue/test-utils';
 import { createPinia, setActivePinia, defineStore } from 'pinia';
 import type { UseColorModeFn } from "@/types/vitest-globals";
 
-// Set up PiniacreatePinia();
+// Set up Pinia;
 setActivePinia(createPinia());
 // Allows auto-import of defineStore in vitest env
 globalThis.defineStore = defineStore;
