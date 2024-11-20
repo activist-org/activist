@@ -1,15 +1,20 @@
-import { useNuxtApp } from '#app';
-import { config } from '@vue/test-utils';
-import { createPinia, setActivePinia, defineStore } from 'pinia';
-import type { UseColorModeFn } from "@/types/vitest-globals";
+import { useNuxtApp } from "#app";
+import { config } from "@vue/test-utils";
+import { createPinia, setActivePinia, defineStore } from "pinia";
+import type { UseColorModeFn } from "~/test/vitest-globals";
 
 // Set up Pinia;
 setActivePinia(createPinia());
-// Allows auto-import of defineStore in vitest env
+
+// Auto-import version of define store doesn't exist in the test env
+// @ts-expect-error Can't type this due to conflict with Nuxt
 globalThis.defineStore = defineStore;
 
 // Set up Color Mode mock
-const useColorModeFn: UseColorModeFn = () => ({ preference: 'dark', value: 'dark' });
+const useColorModeFn: UseColorModeFn = () => ({
+  preference: "dark",
+  value: "dark",
+});
 globalThis.useColorModeMock = vi.fn(useColorModeFn);
 
 // I18n set up

@@ -10,7 +10,7 @@
       "@pinia/nuxt",
       "@types/zxcvbn",
       "playwright",
-      "vitest/globals",
+      "vitest/globals"
     ]
   }
 }
