@@ -22,9 +22,15 @@ const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
   "@nuxtjs/i18n",
   "@nuxtjs/plausible",
   "@nuxtjs/tailwindcss",
-  "@pinia/nuxt",
   "@vueuse/nuxt",
-  "pinia-plugin-persistedstate/nuxt",
 ];
+
+// These modules currently do not work in a vitest environment
+if (!process.env.VITEST) {
+  modules.push(
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
+  );
+}
 
 export default modules;
