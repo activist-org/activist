@@ -2,7 +2,7 @@ import render from '@/test/render';
 import { fireEvent, screen, waitFor } from '@testing-library/vue';
 import { registerEndpoint } from '@nuxt/test-utils/runtime';
 
-import App from '@/app.vue';
+import SignIn from './sign-in.vue';
 
 const TOKEN = '8b27c52516b94f5bb58d8d137a5379ca'
 
@@ -15,7 +15,7 @@ describe('sign-in', () => {
       handler: () => ({ token: TOKEN, message: "User was logged in successfully." }),
     });
 
-    await render(App, { route: '/auth/sign-in' });
+    await render(SignIn);
 
     const usernameInput = screen.getByPlaceholderText(/enter username/i);
     await fireEvent.update(usernameInput, 'admin');
