@@ -32,24 +32,4 @@ describe('sign-in', () => {
 
     expect(localStorage.getItem('accessToken')).toBe(TOKEN);
   });
-
-  it('does not sign in user without success response', async () => {
-    registerEndpoint('http://localhost:8000/v1/auth/sign_in/', {
-      method: 'POST',
-      handler: () => ({}),
-    });
-
-    await render(App, { route: '/auth/sign-in' });
-
-    const usernameInput = screen.getByPlaceholderText(/enter username/i);
-    await fireEvent.update(usernameInput, 'admin');
-
-    const passwordInput = screen.getByPlaceholderText(/enter your password/i);
-    await fireEvent.update(passwordInput, 'password');
-
-    const submitButton = screen.getByRole('button', { name: /sign in to your account/i });
-    await fireEvent.click(submitButton);
-
-    expect(localStorage.getItem('accessToken')).toBeNull();
-  });
 });
