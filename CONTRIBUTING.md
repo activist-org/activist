@@ -324,6 +324,8 @@ exit
 
 ### Frontend
 
+#### Static Testing
+
 Please check the formatting of your code using Prettier and run the static type check with eslint before pull requests with the following command:
 
 ```bash
@@ -342,6 +344,20 @@ yarn typecheck
 
 > [!NOTE]
 > Pre-existing TS errors may be ignored. If you need assistance then feel free to open a PR and we'll support!
+
+#### Automated Testing
+
+We use vitest for component and unit testing.  You can run them with the following command:
+
+```bash
+# Within ./frontend:
+yarn test
+```
+
+Please see the [frontend testing guide](https://github.com/activist-org/activist/blob/main/FRONTEND_TESTING.md) for information on how to write component tests.
+
+> [!NOTE]
+> The vitest test suite is still in a very early stage.  There is a lot of work left to do to increase test coverage, and some features still need troubleshooting.  If you need assistance then feel free to open a PR and we'll support!
 
 <a id="linting"></a>
 
