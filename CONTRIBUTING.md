@@ -354,7 +354,7 @@ We use vitest for component and unit testing.  You can run them with the followi
 yarn test
 ```
 
-Please see the [frontend testing guide](https://github.com/activist-org/activist/blob/main/FRONTEND_TESTING.md) for information on how to write component tests.
+Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
 
 > [!NOTE]
 > The vitest test suite is still in a very early stage.  There is a lot of work left to do to increase test coverage, and some features still need troubleshooting.  If you need assistance then feel free to open a PR and we'll support!
