@@ -21,8 +21,8 @@ The Nuxt guide recommends a classic approach to testing where you mock every dep
 We recommend using mocking for dependencies that are unreliable and/or slow, like network requests.  You can find a more in-depth explanation on the pros and cons of mocking on [Martin Fowler's blog](https://martinfowler.com/articles/mocksArentStubs.html).
 
 **Mocks we do recommend:**
-* We provide a global mock for `useColorMode`.  This is necessary because `useColorMode` currently does not work in vitest.  See example use in [useColorModeImages.spec.ts](frontend/test/composables/useColorModeIMages.spec.ts).
-* Nuxt provides a `registerEndpoint` function to mock network requests.  See example use in [sign-in.spec.ts](frontend/test/pages/sign-in.spec.ts).
+* We provide a global mock for `useColorMode`.  This is necessary because `useColorMode` currently does not work in vitest.  See example use in [useColorModeImages.spec.ts](frontend/test/composables/useColorModeImages.spec.ts).
+* Nuxt provides a `registerEndpoint` function to mock network requests.  See example use in [sign-in.spec.ts](frontend/test/pages/auth/sign-in.spec.ts).
 
 > [!NOTE]
 > The `registerEndpoint` function does not allow changing status codes on the response yet.  You may need to mock `$fetch` to get around this until we find a better workaround.
