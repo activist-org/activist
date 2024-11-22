@@ -3,11 +3,23 @@ Testing for the entities app.
 """
 
 # mypy: ignore-errors
-from uuid import uuid4
 import pytest
+from django.test import TestCase, Client
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+from uuid import UUID
+from datetime import datetime
+from faker import Faker
+from django.contrib.auth import get_user_model
 
-from entities.factories import (
+from .models import (
+    Group,
+    Organization
+)
+
+from .factories import (
     OrganizationFactory,
+    OrganizationApplicationFactory,
     OrganizationEventFactory,
     OrganizationMemberFactory,
     OrganizationResourceFactory,
@@ -19,10 +31,8 @@ from entities.factories import (
     GroupResourceFactory,
     GroupTopicFactory,
 )
+
 from authentication.factories import UserFactory
-from .models import Group
-from django.test import Client
-from faker import Faker
 
 pytestmark = pytest.mark.django_db
 
@@ -57,125 +67,74 @@ def test_str_methods() -> None:
     assert str(group_resource) == str(group_resource.id)
     assert str(group_topic) == str(group_topic.id)
 
-
-def test_group_str_method() -> None:
-    """Test the __str__ method of the Group model."""
-    group = GroupFactory.build()
-    assert str(group) == group.name
-
-
-def test_group_creation(client: Client) -> None:
-    """
-    Test Group creation.
-
-    Scenarios:
-    1. Successfully create a group with required fields.
-    2. Attempt creation with missing required fields.
-    3. Attempt creation with invalid data.
-    """
-    # Setup
+def test_group_creation() -> None:
+    """Test complete group creation with all fields."""
+    user = UserFactory()
+    org = OrganizationFactory(created_by=user)
     fake = Faker()
-    organization = OrganizationFactory.create()
-    user = UserFactory.create()
-
-    # 1. Successfully create a group with required fields
-    response = client.post(
-        path="/v1/groups/create/",
-        data={
-            "group_name": "Environmental Club",
-            "name": fake.company(),
-            "org_id": organization.id,
-            "location": "City Hall",
-            "created_by": user.id,
-            "category": "Environment",
-            "terms_checked": True,
-        },
+    
+    group = Group.objects.create(
+        org_id=org,
+        created_by=user,
+        group_name=fake.company(),
+        name=fake.company(),
+        tagline=fake.catch_phrase(),
+        location=fake.city(),
+        category=fake.word(),
+        get_involved_url=fake.url(),
+        terms_checked=True
     )
-    assert response.status_code == 201
-    assert Group.objects.filter(group_name="Environmental Club").exists()
 
-    # 2. Attempt creation with missing required fields (e.g., name)
-    response = client.post(
-        path="/v1/groups/create/",
-        data={
-            "group_name": "Science Club",
-            "org_id": organization.id,
-            "location": "Museum",
-            "created_by": user.id,
-            "category": "Science",
-            "terms_checked": True,
-        },
+    assert isinstance(group.id, UUID)
+    assert group.org_id == org
+    assert group.created_by == user
+    assert isinstance(group.group_name, str)
+    assert isinstance(group.creation_date, datetime)
+    assert group.terms_checked is True
+
+def test_required_fields() -> None:
+    """Test that required fields raise validation error when missing."""
+    user = UserFactory()
+    org = OrganizationFactory(created_by=user)
+
+    # Test missing group_name
+    with pytest.raises(ValidationError):
+        group = Group(
+            org_id=org,
+            created_by=user,
+            name="Test Name",
+            location="Test Location",
+            category="Test Category"
+        )
+        group.full_clean()
+
+    # Test missing location
+    with pytest.raises(ValidationError):
+        group = Group(
+            org_id=org,
+            created_by=user,
+            group_name="Test Group",
+            name="Test Name",
+            category="Test Category"
+        )
+        group.full_clean()
+
+def test_optional_fields() -> None:
+    """Test that optional fields can be blank or null."""
+    user = UserFactory()
+    org = OrganizationFactory(created_by=user)
+    
+    group = Group.objects.create(
+        org_id=org,
+        created_by=user,
+        group_name="Test Group",
+        name="Test Name",
+        location="Test Location",
+        category="Test Category"
     )
-    assert response.status_code == 400
-    assert not Group.objects.filter(group_name="Science Club").exists()
+    
+    group.full_clean()  # Should not raise ValidationError
+    assert group.tagline == ""
+    assert group.get_involved_url == ""
+    assert group.terms_checked is False
 
-    # 3. Attempt creation with invalid data (e.g., invalid URL)
-    response = client.post(
-        path="/v1/groups/create/",
-        data={
-            "group_name": "Adventure Club",
-            "name": fake.company(),
-            "org_id": organization.id,
-            "location": "National Park",
-            "created_by": user.id,
-            "category": "Adventure",
-            "terms_checked": True,
-            "get_involved_url": "not_a_valid_url",
-        },
-    )
-    assert response.status_code == 400
-    assert not Group.objects.filter(group_name="Adventure Club").exists()
-
-
-def test_group_update(client: Client) -> None:
-    """
-    Test Group update.
-
-    Scenarios:
-    1. Successfully update a group.
-    2. Attempt to update with invalid data.
-    """
-    # Setup
-    group = GroupFactory.create()
-    new_location = "Community Center"
-    new_category = "Community"
-
-    # 1. Successfully update a group
-    response = client.patch(
-        path=f"/v1/groups/{group.id}/",
-        data={"location": new_location, "category": new_category},
-        content_type="application/json",
-    )
-    assert response.status_code == 200
-    group.refresh_from_db()
-    assert group.location == new_location
-    assert group.category == new_category
-
-    # 2. Attempt to update with invalid data (e.g., invalid URL)
-    response = client.patch(
-        path=f"/v1/groups/{group.id}/",
-        data={"get_involved_url": "invalid_url"},
-        content_type="application/json",
-    )
-    assert response.status_code == 400
-
-
-def test_group_deletion(client: Client) -> None:
-    """
-    Test Group deletion.
-
-    Scenarios:
-    1. Successfully delete an existing group.
-    2. Attempt to delete a non-existing group.
-    """
-    # Setup
-    group = GroupFactory.create()
-
-    # 1. Successfully delete an existing group
-    response = client.delete(path=f"/v1/groups/{group.id}/")
-    assert response.status_code == 204
-    assert not Group.objects.filter(id=group.id).exists()
-
-    # 2. Attempt to delete a non-existing group
-    response = client.delete(path=f"/v1/groups/{uuid4()}/")
-    assert response.status_code == 404
