@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function useFormInput(
   props: Record<string, unknown>,
   emit: any,

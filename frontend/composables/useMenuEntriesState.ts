@@ -1,11 +1,11 @@
 import { IconMap } from "~/types/icon-map";
 
-const createMenuEntry = (label: string, basePath: string, iconURL: string) => {
+const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
   const { locale } = useI18n();
   const router = useRouter();
 
-  const { id } = router.currentRoute.value.params;
-  const routeURL = `/${locale.value}/${basePath}/${id}/${label
+  const { id } = router.currentRoute.value.params as { id: string };
+  const routeUrl = `/${locale.value}/${basePath}/${id}/${label
     .split(".")
     .pop()!
     .toLowerCase()}`;
@@ -13,8 +13,8 @@ const createMenuEntry = (label: string, basePath: string, iconURL: string) => {
 
   return {
     label,
-    routeURL,
-    iconURL,
+    routeUrl,
+    iconUrl,
     selected,
     id,
   };
@@ -83,7 +83,7 @@ const useMenuEntriesState = () => {
         }
       } else {
         button.selected = currentPath.value.endsWith(
-          button.routeURL.split("/").pop()!
+          button.routeUrl.split("/").pop()!
         );
       }
     }

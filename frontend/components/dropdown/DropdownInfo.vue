@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-import { DropdownLocation } from "~/types/location";
+import type { DropdownLocation } from "~/types/location";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 
 defineProps<{
@@ -22,23 +22,23 @@ defineProps<{
 const infoOptions: MenuSelector[] = [
   {
     id: 1,
-    label: "_global.help",
-    routeURL: "/help",
-    iconURL: `${IconMap.CIRCLE_QUESTION}`,
+    label: "components.dropdown_info.help",
+    routeUrl: "/help",
+    iconUrl: `${IconMap.CIRCLE_QUESTION}`,
     selected: false,
   },
   {
     id: 2,
-    label: "_global.documentation",
-    routeURL: "/docs",
-    iconURL: `${IconMap.DOCS}`,
+    label: "components._global.documentation",
+    routeUrl: "/docs",
+    iconUrl: `${IconMap.DOCS}`,
     selected: false,
   },
   {
     id: 3,
-    label: "_global.legal",
-    routeURL: "/legal",
-    iconURL: `${IconMap.LEGAL}`,
+    label: "components.dropdown_info.legal",
+    routeUrl: "/legal",
+    iconUrl: `${IconMap.LEGAL}`,
     selected: false,
   },
 ];

@@ -4,7 +4,6 @@ Models for the entities app.
 
 from uuid import uuid4
 
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from authentication import enums
@@ -15,6 +14,12 @@ from utils.models import ISO_CHOICES
 
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    created_by = models.ForeignKey(
+        "authentication.UserModel",
+        related_name="created_orgs",
+        on_delete=models.CASCADE,
+    )
+    org_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.OneToOneField(
@@ -24,14 +29,6 @@ class Organization(models.Model):
     # location_id = models.OneToOneField(
     #     "content.Location", on_delete=models.CASCADE, null=False, blank=False
     # )
-    created_by = models.ForeignKey(
-        "authentication.UserModel",
-        related_name="created_orgs",
-        on_delete=models.CASCADE,
-    )
-    social_links = ArrayField(
-        models.CharField(max_length=255), default=list, blank=True
-    )
     get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
@@ -55,22 +52,17 @@ class Organization(models.Model):
 
 class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     location = models.CharField(max_length=255)
     # location_id = models.OneToOneField(
     #     "content.Location", on_delete=models.CASCADE, null=False, blank=False
     # )
-    about_images = models.ManyToManyField(
-        "content.Image", related_name="about_img", blank=True
-    )
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    get_involved_url = models.URLField(blank=True)
-    social_links = ArrayField(
-        models.CharField(max_length=255), default=list, blank=True
-    )
     category = models.CharField(max_length=255)
+    get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
 
@@ -95,6 +87,14 @@ class Status(models.Model):
 class GroupEvent(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class GroupFaq(models.Model):
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    faq_id = models.ForeignKey("content.Faq", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -128,9 +128,17 @@ class GroupResource(models.Model):
         return f"{self.id}"
 
 
+class GroupSocialLink(models.Model):
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    link_id = models.ForeignKey("content.SocialLink", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class GroupText(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    iso = models.CharField(max_length=2, choices=ISO_CHOICES)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
     get_involved = models.TextField(max_length=500, blank=True)
@@ -168,9 +176,33 @@ class OrganizationApplicationStatus(models.Model):
         return self.status_name
 
 
+class OrganizationDiscussion(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    discussion_id = models.ForeignKey("content.Discussion", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class OrganizationEvent(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     event_id = models.ForeignKey("events.Event", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class OrganizationFaq(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    faq_id = models.ForeignKey("content.Faq", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class OrganizationGroup(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -204,6 +236,14 @@ class OrganizationResource(models.Model):
         return f"{self.id}"
 
 
+class OrganizationSocialLink(models.Model):
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    link_id = models.ForeignKey("content.SocialLink", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class OrganizationTask(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
@@ -217,7 +257,7 @@ class OrganizationTask(models.Model):
 
 class OrganizationText(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    iso = models.CharField(max_length=2, choices=ISO_CHOICES)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=2500)
     get_involved = models.TextField(max_length=500, blank=True)

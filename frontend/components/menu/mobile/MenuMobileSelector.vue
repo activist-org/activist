@@ -1,11 +1,11 @@
 <template>
   <MenuLinkWrapper
-    :to="routeURL"
+    :to="routeUrl"
     :selected="selected"
     :linkClasses="{
       'rounded-none border-t': true,
-      'border-light-section-div dark:border-dark-section-div': !selected,
-      'border-dark-section-div dark:border-light-section-div': selected,
+      'border-section-div': !selected,
+      'border-section-div': selected,
     }"
   >
     <div
@@ -13,12 +13,12 @@
     >
       <span>
         <Icon
-          v-if="iconURL"
+          v-if="iconUrl"
           class="mb-1 h-5 w-5 flex-shrink-0"
-          :name="iconURL"
+          :name="iconUrl"
         />
       </span>
-      <p class="hover:light-menu-selection select-none whitespace-nowrap">
+      <p class="hover:menu-selection select-none whitespace-nowrap">
         {{ $t(label) }}
       </p>
     </div>
@@ -28,8 +28,8 @@
 <script setup lang="ts">
 defineProps<{
   label: string;
-  routeURL: string;
-  iconURL: string;
+  routeUrl: string;
+  iconUrl: string;
   selected: boolean;
   active: boolean;
 }>();

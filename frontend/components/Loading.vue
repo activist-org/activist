@@ -3,7 +3,7 @@
   <div />
   <!-- <div
     v-show="show"
-    class="fixed inset-0 z-50 flex h-screen items-center justify-center bg-light-layer-2 dark:bg-dark-layer-2"
+    class="fixed inset-0 z-50 flex h-screen items-center justify-center bg-layer-2"
   >
     <div class="loading-pulse pb-10">
       <img

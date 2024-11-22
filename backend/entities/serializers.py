@@ -6,20 +6,28 @@ from typing import Any
 
 from rest_framework import serializers
 
+from events.serializers import EventSerializer
+
 from .models import (
     Group,
     GroupEvent,
+    GroupFaq,
     GroupImage,
     GroupMember,
     GroupResource,
+    GroupSocialLink,
     GroupText,
     GroupTopic,
     Organization,
     OrganizationApplication,
+    OrganizationDiscussion,
     OrganizationEvent,
+    OrganizationFaq,
+    OrganizationGroup,
     OrganizationImage,
     OrganizationMember,
     OrganizationResource,
+    OrganizationSocialLink,
     OrganizationTask,
     OrganizationText,
     OrganizationTopic,
@@ -37,6 +45,9 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
+    # mypy thinks a generic type argument is needed for StringRelatedField.
+    org_id = serializers.StringRelatedField(source="org_id.id")  # type: ignore[var-annotated]
+
     class Meta:
         model = OrganizationText
         fields = "__all__"
@@ -51,7 +62,6 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
 
         extra_kwargs = {
             "created_by": {"read_only": True},
-            "social_links": {"required": False},
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
             "description": {"write_only": True},
@@ -59,17 +69,18 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
 
         fields = [
             "id",
+            "created_by",
+            "org_name",
             "name",
             "tagline",
             "icon_url",
             "location",
-            "created_by",
-            "social_links",
+            "get_involved_url",
+            "terms_checked",
             "is_high_risk",
             "status",
             "status_updated",
             "acceptance_date",
-            "terms_checked",
             "org_text",
             "description",
         ]
@@ -110,6 +121,12 @@ class GroupEventSerializer(serializers.ModelSerializer[GroupEvent]):
         fields = "__all__"
 
 
+class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
+    class Meta:
+        model = GroupFaq
+        fields = "__all__"
+
+
 class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
     class Meta:
         model = GroupImage
@@ -125,6 +142,12 @@ class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
 class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
     class Meta:
         model = GroupResource
+        fields = "__all__"
+
+
+class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
+    class Meta:
+        model = GroupSocialLink
         fields = "__all__"
 
 
@@ -148,10 +171,34 @@ class OrganizationApplicationSerializer(
         fields = "__all__"
 
 
+class OrganizationDiscussionSerializer(
+    serializers.ModelSerializer[OrganizationDiscussion]
+):
+    class Meta:
+        model = OrganizationDiscussion
+        fields = "__all__"
+
+
 class OrganizationEventSerializer(serializers.ModelSerializer[OrganizationEvent]):
+    events = EventSerializer(source="event_id", read_only=True)  # many=True removed
+
     class Meta:
         model = OrganizationEvent
+        fields = ["org_id", "events"]
+
+
+class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
+    class Meta:
+        model = OrganizationFaq
         fields = "__all__"
+
+
+class OrganizationGroupSerializer(serializers.ModelSerializer[OrganizationGroup]):
+    groups = GroupSerializer(source="group_id", read_only=True)  # many=True removed
+
+    class Meta:
+        model = OrganizationEvent
+        fields = ["org_id", "groups"]
 
 
 class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMember]):
@@ -169,6 +216,14 @@ class OrganizationImageSerializer(serializers.ModelSerializer[OrganizationImage]
 class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationResource]):
     class Meta:
         model = OrganizationResource
+        fields = "__all__"
+
+
+class OrganizationSocialLinkSerializer(
+    serializers.ModelSerializer[OrganizationSocialLink]
+):
+    class Meta:
+        model = OrganizationSocialLink
         fields = "__all__"
 
 

@@ -4,8 +4,8 @@
     id="header"
     class="sticky top-0 z-10 drop-shadow-md duration-500"
     :class="{
-      'bg-light-layer-2 dark:bg-dark-layer-2': headerOpacity == 1,
-      'bg-light-layer-2/80 dark:bg-dark-layer-2/80': headerOpacity == 0.8,
+      'bg-layer-2': headerOpacity == 1,
+      'bg-layer-2/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
   >
@@ -61,7 +61,7 @@
               class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
             />
           </div>
-          <BtnRoadMap label="Roadmap" linkTo="/about/roadmap" />
+          <BtnRoadMap />
         </div>
         <div>
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
@@ -112,20 +112,20 @@
               id="btn-get-in-touch-large"
               class="block"
               :cta="true"
-              label="components.header_website.get_in_touch"
-              linkTo="/help/contact"
+              label="_global.support"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="sm"
-              ariaLabel="components.header_website.get_in_touch_aria_label"
+              ariaLabel="components.header_website.support_aria_label"
             />
             <BtnRouteInternal
               v-else-if="aboveMediumBP && !devMode.active"
               id="btn-get-in-touch-medium"
               class="block"
               :cta="true"
-              label="components.header_website.get_in_touch"
-              linkTo="/help/contact"
+              label="_global.support"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="xs"
-              ariaLabel="components.header_website.get_in_touch_aria_label"
+              ariaLabel="components.header_website.support_aria_label"
             />
           </div>
         </div>
@@ -135,7 +135,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { DropdownLocation } from "~/types/location";
 
 const devMode = useDevMode();

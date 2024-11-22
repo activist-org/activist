@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-import { DropdownLocation } from "~/types/location";
+import type { DropdownLocation } from "~/types/location";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 
 defineProps<{
@@ -23,29 +23,29 @@ const createOptions: MenuSelector[] = [
   {
     id: 1,
     label: "_global.new_event",
-    routeURL: "/events/create",
-    iconURL: `${IconMap.EVENT}`,
+    routeUrl: "/events/create",
+    iconUrl: `${IconMap.EVENT}`,
     selected: false,
   },
   {
     id: 2,
     label: "components.dropdown_create.new_organization",
-    routeURL: "/organizations/create",
-    iconURL: "IconOrganization",
+    routeUrl: "/organizations/create",
+    iconUrl: "IconOrganization",
     selected: false,
   },
   {
     id: 3,
     label: "_global.new_group",
-    routeURL: "/groups/create",
-    iconURL: "IconGroup",
+    routeUrl: "/groups/create",
+    iconUrl: "IconGroup",
     selected: false,
   },
   {
     id: 4,
     label: "_global.new_resource",
-    routeURL: "/resources/create",
-    iconURL: "IconResource",
+    routeUrl: "/resources/create",
+    iconUrl: "IconResource",
     selected: false,
   },
 ];

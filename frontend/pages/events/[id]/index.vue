@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="windowWidth < BreakpointMap.SMALL"
-    class="flex flex-col items-center justify-between gap-8 bg-light-layer-0 px-8 py-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
+    class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8 text-primary-text"
   >
     <Head>
       <Title>{{ event.name }} </Title>
@@ -9,7 +9,7 @@
     <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
         :eventType="event.type"
-        :imgURL="event.iconURL ? event.iconURL : ''"
+        :imgUrl="event.iconUrl ? event.iconUrl : ''"
         :alt="
           $t('_global.entity_logo', {
             entity_name: event?.name,
@@ -19,13 +19,11 @@
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1
-        class="responsive-h1 text-center text-3xl font-bold text-light-text dark:text-dark-text"
+        class="responsive-h1 text-center text-3xl font-bold text-primary-text"
       >
         {{ event.name }}
       </h1>
-      <h2
-        class="responsive-h2 text-lg font-bold text-light-distinct-text dark:text-dark-distinct-text"
-      >
+      <h2 class="responsive-h2 text-lg font-bold text-distinct-text">
         {{ event.tagline }}
       </h2>
     </div>
@@ -33,7 +31,7 @@
       <MenuLinkWrapper
         v-for="[i, button] of eventButtons.entries()"
         :key="i"
-        :to="localPath(button.routeURL)"
+        :to="localPath(button.routeUrl)"
         :selected="button.selected"
       >
         <div
@@ -41,12 +39,12 @@
         >
           <span class="width-1/6"
             ><Icon
-              v-if="button.iconURL"
-              :name="button.iconURL"
+              v-if="button.iconUrl"
+              :name="button.iconUrl"
               class="h-5 w-5 flex-shrink-0"
           /></span>
           <p
-            class="width-5/6 hover:light-menu-selection select-none whitespace-nowrap text-lg font-bold"
+            class="width-5/6 hover:menu-selection select-none whitespace-nowrap text-lg font-bold"
           >
             <span class="sr-only">{{ $t("_global.navigate_to") }}</span>
             {{ $t(button.label) }}
@@ -68,15 +66,19 @@
 </template>
 
 <script setup lang="ts">
+import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu/menu-selector";
-import { testClimateEvent } from "~/utils/testEntities";
-import useMenuEntriesState from "~/composables/useMenuEntriesState";
 
-const event = testClimateEvent;
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
 
-const { id } = useRoute().params;
+const eventStore = useEventStore();
+await eventStore.fetchById(id);
+
+const { event } = eventStore;
+
 const localPath = useLocalePath();
 
 const { eventEntry } = useMenuEntriesState();

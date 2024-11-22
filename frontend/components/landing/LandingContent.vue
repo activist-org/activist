@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="flex items-center justify-center py-8 text-light-text dark:text-dark-text sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
+    class="flex items-center justify-center py-8 text-primary-text sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
   >
     <div
       class="flex w-full flex-col items-center space-y-3 sm:w-10/12 lg:max-w-sm lg:items-start xl:max-w-md xl:space-y-4"
@@ -10,13 +10,13 @@
       <img
         v-if="$colorMode.value == 'light'"
         class="mb-4 h-36 sm:h-44 lg:hidden"
-        :src="imageURL + '_light.png'"
+        :src="imgUrl + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="mb-4 h-36 sm:h-44 lg:hidden"
-        :src="imageURL + '_dark.png'"
+        :src="imgUrl + '_dark.png'"
         :alt="$t(imageAltText)"
       />
       <h2
@@ -25,7 +25,7 @@
         {{ $t(header) }}
       </h2>
       <p
-        class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-light-distinct-text dark:text-dark-distinct-text sm:w-full sm:text-left sm:text-lg xl:text-xl"
+        class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-distinct-text sm:w-full sm:text-left sm:text-lg xl:text-xl"
       >
         {{ $t(tagline) }}
       </p>
@@ -38,7 +38,7 @@
         :id="btnId1"
         :cta="true"
         :label="`${btnText1}`"
-        :linkTo="`${btnURL1}`"
+        :linkTo="`${btnUrl1}`"
         fontSize="xl"
         :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : ''"
       />
@@ -47,30 +47,30 @@
     <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
       <img
         v-if="$colorMode.value == 'light'"
-        :src="imageURL + '_light.png'"
+        :src="imgUrl + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        :src="imageURL + '_dark.png'"
+        :src="imgUrl + '_dark.png'"
         :alt="$t(imageAltText)"
       />
     </div>
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="flex items-center justify-center bg-light-layer-2 py-8 text-light-text dark:bg-dark-layer-2 dark:text-dark-text sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
+    class="flex items-center justify-center bg-layer-2 py-8 text-primary-text sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
   >
     <!-- Note: image left of content. -->
     <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
       <img
         v-if="$colorMode.value == 'light'"
-        :src="imageURL + '_light.png'"
+        :src="imgUrl + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
-        :src="imageURL + '_dark.png'"
+        :src="imgUrl + '_dark.png'"
         :alt="$t(imageAltText)"
       />
     </div>
@@ -81,13 +81,13 @@
       <img
         v-if="$colorMode.value == 'light'"
         class="mb-4 h-36 sm:h-44 lg:hidden"
-        :src="imageURL + '_light.png'"
+        :src="imgUrl + '_light.png'"
         :alt="$t(imageAltText)"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="mb-4 h-36 sm:h-44 lg:hidden"
-        :src="imageURL + '_dark.png'"
+        :src="imgUrl + '_dark.png'"
         :alt="$t(imageAltText)"
       />
       <h2
@@ -96,7 +96,7 @@
         {{ $t(header) }}
       </h2>
       <p
-        class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-light-distinct-text dark:text-dark-distinct-text sm:w-full sm:text-left sm:text-lg xl:text-xl"
+        class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-distinct-text sm:w-full sm:text-left sm:text-lg xl:text-xl"
       >
         {{ $t(tagline) }}
       </p>
@@ -109,7 +109,7 @@
         :id="btnId1"
         :cta="true"
         :label="`${btnText1}`"
-        :linkTo="`${btnURL1}`"
+        :linkTo="`${btnUrl1}`"
         fontSize="xl"
         :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : ''"
       />
@@ -117,7 +117,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'top'"
-    class="flex items-center justify-center pb-10 pt-16 text-light-text dark:text-dark-text sm:pb-16 md:pb-20 xl:py-24"
+    class="flex items-center justify-center pb-10 pt-16 text-primary-text sm:pb-16 md:pb-20 xl:py-24"
   >
     <div class="flex flex-col items-center space-y-3 xl:space-y-4">
       <h2
@@ -126,7 +126,7 @@
         {{ $t(header) }}
       </h2>
       <p
-        class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-light-distinct-text dark:text-dark-distinct-text sm:w-full sm:text-lg xl:text-xl"
+        class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-distinct-text sm:w-full sm:text-lg xl:text-xl"
       >
         {{ $t(tagline) }}
       </p>
@@ -141,7 +141,7 @@
           class="w-full"
           :cta="true"
           :label="`${btnText1}`"
-          :linkTo="`${btnURL1}`"
+          :linkTo="`${btnUrl1}`"
           fontSize="xl"
           :ariaLabel="btnAriaLabel1 ? btnAriaLabel1 : ''"
         />
@@ -150,7 +150,7 @@
           class="w-full"
           :cta="false"
           :label="`${btnText2}`"
-          :linkTo="`${btnURL2}`"
+          :linkTo="`${btnUrl2}`"
           fontSize="xl"
           :ariaLabel="btnAriaLabel2 ? btnAriaLabel2 : ''"
         />
@@ -160,7 +160,7 @@
       </div>
       <p
         v-if="subText"
-        class="mx-12 pt-8 text-center text-light-distinct-text dark:text-dark-distinct-text md:max-w-md lg:max-w-lg xl:pt-12"
+        class="mx-12 pt-8 text-center text-distinct-text md:max-w-md lg:max-w-lg xl:pt-12"
       >
         {{ $t(subText) }}
       </p>
@@ -174,15 +174,15 @@ defineProps<{
   header: string;
   tagline: string;
   text: string;
-  imageURL?: string;
+  imgUrl?: string;
   imageAltText: string;
   btnText1: string;
-  btnURL1: string;
+  btnUrl1: string;
   btnAriaLabel1?: string;
   btnId1?: string;
   btnId2?: string;
   btnText2?: string;
-  btnURL2?: string;
+  btnUrl2?: string;
   btnAriaLabel2?: string;
   subText?: string;
 }>();

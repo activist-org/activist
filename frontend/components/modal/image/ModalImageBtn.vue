@@ -5,12 +5,12 @@
   >
     <img
       v-if="$colorMode.value == 'light'"
-      :src="imageURL + '_light.png'"
+      :src="imgUrl + '_light.png'"
       :alt="$t(imageAltText)"
     />
     <img
       v-else-if="$colorMode.value == 'dark'"
-      :src="imageURL + '_dark.png'"
+      :src="imgUrl + '_dark.png'"
       :alt="$t(imageAltText)"
     />
   </button>
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  imageURL: string;
+  imgUrl: string;
   imageAltText: string;
 }>();
 </script>

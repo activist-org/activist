@@ -43,7 +43,7 @@
 - [Our goals](#our-goals)
 - [Contributing](#contributing)
 - [Environment setup](#environment-setup)
-- [Design and accessability](#design-a11y)
+- [Design and accessibility](#design-a11y)
 - [Platform features](#platform-features)
 - [Securely hosted](#securely-hosted)
 - [Community governance](#community-governance)
@@ -227,9 +227,6 @@ git remote add upstream https://github.com/activist-org/activist.git
 > pip install pre-commit
 > ```
 
-> [!TIP]
-> For those using LLM coding assistants, [LLMPROMPT.txt](https://github.com/activist-org/activist/blob/main/LLMPROMPT.txt) contains a good prompt to paste as context or add to your settings.
-
 <a id="tech-stack"></a>
 
 ## Tech Stack [`⇧`](#contents)
@@ -242,7 +239,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Backend
 
-- [Django](https://www.djangoproject.com) • [PostgreSQL](https://www.postgresql.org) (planned)
+- [Django](https://www.djangoproject.com) • [PostgreSQL](https://www.postgresql.org)
 
 ### Deployment
 
@@ -261,7 +258,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 <a id="design-a11y"></a>
 
-# Design and accessability [`⇧`](#contents)
+# Design and accessibility [`⇧`](#contents)
 
 <a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
 
@@ -406,30 +403,19 @@ We would like to thank all the great software that made activist's development p
 - [OpenStreetMap](https://www.openstreetmap.org)
 - [MapLibre](https://maplibre.org/)
 
-### Our partners
+### Our supporters
 
-#### Our fiscal host Änderwerk
+#### Licensed software providers
 
-<details><summary>About Änderwerk</summary>
-<p>
+The following organizations have supported activist with licenses to use their technology for free:
 
-Änderwerk is a non-profit host organization for projects, initiatives and movements working towards a better future for people and the planet.
-
-They take care of fiscal hosting, managing donations, budgets, accounting and the transformation of financial resources into useful tools.
-
-They enable initiatives and groups in their hub to concentrate on what they do best – effective community-led action, aligned with their values and goals.
-
-We are happy to be a part of this community.
-
-</p>
-</details>
+- [Weblate](https://weblate.org/)
+- [GitBook](https://www.gitbook.com/)
+- [Formbricks](https://formbricks.com/)
 
 #### The Wikimedia UNLOCK Accelerator
 
-<details><summary>About UNLOCK</summary>
-<p>
-
-These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supports open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator is committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
+These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supported open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator was committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
 
 <div align="center">
 <br>
@@ -441,9 +427,6 @@ These organizations have supported activist via the 2022 edition of the Wikimedi
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <br>
 </div>
-
-</p>
-</details>
 
 # Disclosure
 

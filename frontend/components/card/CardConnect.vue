@@ -5,13 +5,11 @@
         {{ $t("components._global.connect") }}
       </h3>
       <div
-        class="cursor-pointer break-all rounded-lg p-1 text-light-text transition-all hover:text-light-distinct-text dark:text-dark-text dark:hover:text-dark-distinct-text"
+        class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all hover:text-distinct-text"
       >
-        <Icon
+        <IconEdit
           v-if="userIsSignedIn && !editModeEnabled"
           @click="toggleEditMode"
-          :name="IconMap.EDIT"
-          size="1.2em"
         />
         <Icon
           v-else-if="userIsSignedIn && editModeEnabled"
@@ -26,7 +24,7 @@
     >
       <li v-for="link in socialLinksRef">
         <div
-          class="flex cursor-pointer items-center gap-3 break-all text-light-text transition-all hover:text-light-distinct-text dark:text-dark-text dark:hover:text-dark-distinct-text"
+          class="flex cursor-pointer items-center gap-3 break-all text-primary-text transition-all hover:text-distinct-text"
         >
           <Icon
             v-if="editModeEnabled"
@@ -112,6 +110,7 @@
 
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
@@ -121,25 +120,28 @@ const props = defineProps<{
 }>();
 
 const { userIsSignedIn } = useUser();
-const paramsID = useRoute().params.id;
-const paramsIDGroup = useRoute().params.groupID;
+const paramsId = useRoute().params.id;
+const paramsIdGroup = useRoute().params.groupId;
 
-const id = typeof paramsID === "string" ? paramsID : undefined;
-const idGroup = typeof paramsIDGroup === "string" ? paramsIDGroup : undefined;
+const id = typeof paramsId === "string" ? paramsId : undefined;
+const idGroup = typeof paramsIdGroup === "string" ? paramsIdGroup : undefined;
 
 const organizationStore = useOrganizationStore();
-let organization: Organization;
-const group = useGroupStore();
+const groupStore = useGroupStore();
 const eventStore = useEventStore();
+
+let organization: Organization;
+let group: Group;
 let event: Event;
 
 if (props.pageType == "organization") {
-  await organizationStore.fetchByID(id);
+  await organizationStore.fetchById(id);
   organization = organizationStore.organization;
 } else if (props.pageType == "group") {
-  await group.fetchByID(idGroup);
+  await groupStore.fetchById(idGroup);
+  group = groupStore.group;
 } else if (props.pageType == "event") {
-  await eventStore.fetchByID(id);
+  await eventStore.fetchById(id);
   event = eventStore.event;
 }
 

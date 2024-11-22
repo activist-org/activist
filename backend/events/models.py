@@ -4,39 +4,34 @@ Models for the events app.
 
 from uuid import uuid4
 
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from backend.mixins.models import CreationDeletionMixin
 from utils.models import ISO_CHOICES
 
 # MARK: Main Tables
 
 
-class Event(CreationDeletionMixin):
+class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255, blank=True)
     created_by = models.ForeignKey(
         "authentication.UserModel",
         related_name="created_events",
         on_delete=models.CASCADE,
     )
+    name = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
     type = models.CharField(max_length=255)
     online_location_link = models.CharField(max_length=255, blank=True)
     offline_location = models.CharField(max_length=255, blank=True)
-    offline_location_lat = models.FloatField(null=True, blank=True)
-    offline_location_long = models.FloatField(null=True, blank=True)
     get_involved_url = models.URLField(blank=True)
-    social_links = ArrayField(
-        models.CharField(max_length=255), default=list, blank=True
-    )
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+    deletion_date = models.DateTimeField(null=True, blank=True)
     event_text = models.ForeignKey(
         "EventText", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -93,6 +88,22 @@ class EventAttendeeStatus(models.Model):
         return self.status_name
 
 
+class EventDiscussion(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    discussion_id = models.ForeignKey("content.Discussion", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class EventFaq(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    faq_id = models.ForeignKey("content.Faq", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class EventFormat(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     format_id = models.ForeignKey("Format", on_delete=models.CASCADE)
@@ -117,6 +128,14 @@ class EventRole(models.Model):
         return f"{self.id}"
 
 
+class EventSocialLink(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    link_id = models.ForeignKey("content.SocialLink", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
 class EventTag(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     tag_id = models.ForeignKey("content.Tag", on_delete=models.CASCADE)
@@ -135,7 +154,7 @@ class EventTask(models.Model):
 
 class EventText(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    iso = models.CharField(max_length=2, choices=ISO_CHOICES)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField()
     description = models.TextField(max_length=500)
     get_involved = models.TextField(max_length=500, blank=True)

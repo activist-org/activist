@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full text-light-text dark:text-dark-text">
+  <div class="w-full text-primary-text">
     <IndicatorProcessProgress
       type="default"
       :progress="1"
@@ -30,7 +30,7 @@
             <input
               v-model="formData.name"
               id="name"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="name"
               :placeholder="$t('pages.groups.create.group_name_placeholder')"
@@ -43,7 +43,7 @@
             <input
               v-model="formData.location"
               id="location"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="location"
               :placeholder="$t('pages.groups.create.location_placeholder')"
@@ -57,7 +57,7 @@
           <textarea
             v-model="formData.description"
             id="description"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
             :placeholder="$t('pages.groups.create.description_placeholder')"
           ></textarea>
@@ -69,7 +69,7 @@
           <input
             v-model="formData.tagline"
             id="tagline"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="tagline"
             :placeholder="$t('pages.groups.create.tagline_placeholder')"
           />
@@ -120,23 +120,20 @@ const formData = ref({
 });
 
 const submit = async () => {
-  const { data: responseData } = await useFetch(
-    "http://127.0.0.1:8000/v1/entities/organizations/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        name: formData.value.name,
-        location: formData.value.location,
-        tagline: formData.value.tagline,
-        description: formData.value.description,
-        social_accounts: ["https://twitter.com/activist_hq"],
-        created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-        topics: formData.value.topics,
-        high_risk: false,
-        total_flags: 0,
-      }),
-    }
-  );
+  await useFetch("http://127.0.0.1:8000/v1/entities/organizations/", {
+    method: "POST",
+    body: JSON.stringify({
+      name: formData.value.name,
+      location: formData.value.location,
+      tagline: formData.value.tagline,
+      description: formData.value.description,
+      social_accounts: ["https://twitter.com/activist_hq"],
+      created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
+      topics: formData.value.topics,
+      high_risk: false,
+      total_flags: 0,
+    }),
+  });
 
   //TODO: FEATURE - push notification with toast should be added here
 

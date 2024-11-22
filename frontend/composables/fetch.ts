@@ -6,7 +6,7 @@
  */
 export const fetchWithOptionalToken = async (
   url: string,
-  data: object | {} | undefined
+  data: object | undefined
 ) => {
   const token = localStorage.getItem("accessToken");
 

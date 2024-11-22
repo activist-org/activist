@@ -10,7 +10,7 @@
       <Icon class="mt-[0.125em]" :name="IconMap.FILTER" size="2em" />
     </div>
     <div
-      class="text-light-text opacity-0 transition dark:text-dark-text"
+      class="text-primary-text opacity-0 transition"
       :class="{
         '!opacity-100':
           sidebar.collapsed == false || sidebar.collapsedSwitch == false,

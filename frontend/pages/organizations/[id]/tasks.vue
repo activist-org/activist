@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
         >{{ organization.name }}&nbsp;{{
@@ -28,15 +26,19 @@
       </div>
     </HeaderAppPage>
     <div class="space-y-3 py-4"></div>
-    <PagePreviewTasks />
     <!-- <div v-if="organization.tasks" class="space-y-3 py-4"></div>
-    <EmptyState v-else pageType="tasks" :permission="false" /> -->
+    <EmptyState v-else pageType="tasks" :permission="false" class="py-4" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-import { testTechOrg } from "~/utils/testEntities";
 
-const organization = testTechOrg;
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchById(id);
+
+const { organization } = organizationStore;
 </script>
