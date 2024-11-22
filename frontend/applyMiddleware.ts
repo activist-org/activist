@@ -1,9 +1,18 @@
 import type { NuxtPage } from "nuxt/schema";
+import type { RouteLocationNormalizedGeneric } from "vue-router";
+
+type MiddlewareFunction = (
+  to?: RouteLocationNormalizedGeneric,
+  from?: RouteLocationNormalizedGeneric
+) => unknown;
 
 export default function applyMiddleware(pages: NuxtPage[]) {
   function setMiddleware(
     pattern: RegExp,
-    middleware: string | Function | Array<string | Function>,
+    middleware:
+      | string
+      | MiddlewareFunction
+      | Array<string | MiddlewareFunction>,
     pages: NuxtPage[],
     pageKey: "name" | "path" | "file" = "name"
   ) {
