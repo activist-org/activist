@@ -24,6 +24,7 @@ const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
   "@nuxtjs/tailwindcss",
   "@pinia/nuxt",
   "@vueuse/nuxt",
+  "pinia-plugin-persistedstate/nuxt",
 ];
 
 export default modules;

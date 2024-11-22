@@ -4,9 +4,7 @@
   >
     <div class="flex items-center space-x-1">
       <!-- Image Logic Not Yet Implemented. For now placeholder image is a circle colored using placeholder colors.-->
-      <div
-        class="h-8 w-8 rounded-full bg-light-distinct-text dark:bg-dark-distinct-text"
-      ></div>
+      <div class="h-8 w-8 rounded-full bg-distinct-text"></div>
       <div class="flex items-baseline space-x-1">
         <h1 class="responsive-h5 pl-2 font-bold">
           {{ discussionEntry.author }}

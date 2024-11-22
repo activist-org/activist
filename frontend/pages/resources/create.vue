@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full text-light-text dark:text-dark-text">
+  <div class="w-full text-primary-text">
     <IndicatorProcessProgress
       type="default"
       :progress="1"
@@ -30,7 +30,7 @@
             <input
               v-model="formData.name"
               id="name"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="name"
               :placeholder="
@@ -45,7 +45,7 @@
             <input
               v-model="formData.link"
               id="location"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="location"
               :placeholder="$t('pages.resources.create.link_placeholder')"
@@ -59,7 +59,7 @@
           <textarea
             v-model="formData.description"
             id="description"
-            class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
             :placeholder="$t('pages.resources.create.description_placeholder')"
           ></textarea>
@@ -72,7 +72,7 @@
             <textarea
               v-model="formData.location"
               id="location"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="location"
               :placeholder="$t('pages.resources.create.location_placeholder')"
             ></textarea>
@@ -84,7 +84,7 @@
             <textarea
               v-model="formData.organization"
               id="organization"
-              class="bg:light-layer-0 mt-2 w-full rounded-md border border-light-section-div px-4 py-2 dark:border-dark-section-div dark:bg-dark-layer-0"
+              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="organization"
               :placeholder="
                 $t('pages.resources.create.organization_placeholder')

@@ -4,19 +4,17 @@
     :selectors="groupSubPages"
     :selectedRoute="0"
   />
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title>{{ group.name }}</Title>
     </Head>
     <HeaderAppPage :group="group">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
-          v-if="group.getInvolvedURL"
+          v-if="group.getInvolvedUrl"
           class="w-max"
           :cta="true"
-          :linkTo="group.getInvolvedURL"
+          :linkTo="group.getInvolvedUrl"
           label="_global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
@@ -86,7 +84,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import type { Group } from "~/types/entities/group";
 import { IconMap } from "~/types/icon-map";

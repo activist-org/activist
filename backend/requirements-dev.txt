@@ -53,6 +53,8 @@ djangorestframework==3.15.2
     # via
     #   -r requirements.txt
     #   drf-spectacular
+djangorestframework-camel-case==1.4.2
+    # via -r requirements.txt
 djangorestframework-stubs==3.14.4
     # via -r requirements.txt
 drf-spectacular==0.26.5

@@ -36,6 +36,7 @@ frontend/.github/
 .env
 .env.*
 !.env.dev
+!.env.dev.local
 dist
 
 # Node dependencies

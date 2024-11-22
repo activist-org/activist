@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
         >{{ event.name }}&nbsp;{{
@@ -24,7 +22,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewSettings />
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="$t('pages.events.settings.danger_zone_event_description')"
@@ -42,7 +39,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 </script>

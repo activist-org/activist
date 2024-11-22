@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
         >{{ event.name }}&nbsp;{{ $t("pages._global.team.team_lower") }}</Title
@@ -25,7 +23,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewTeam />
     <!-- <div v-if="event.members" class="space-y-3 py-4">
       <CardSearchResultUser
         v-for="(u, i) in event.members"
@@ -45,7 +42,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 </script>

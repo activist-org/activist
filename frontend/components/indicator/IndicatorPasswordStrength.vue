@@ -1,8 +1,6 @@
 <template>
   <div class="h-4">
-    <div
-      class="h-1 rounded-md bg-light-distinct-text dark:bg-dark-distinct-text"
-    >
+    <div class="h-1 rounded-md bg-distinct-text">
       <div
         class="h-1 rounded-md transition-width duration-500 ease-in"
         :class="!!passwordValue.length ? `${color}` : ''"
@@ -12,10 +10,8 @@
     <div
       class="float-right mt-1 text-xs"
       :class="{
-        'text-light-distinct-text dark:text-dark-distinct-text':
-          color !== 'dark-bg-dark-text bg-light-text',
-        'text-light-text dark:text-dark-text':
-          color === 'dark-bg-dark-text bg-light-text',
+        'text-distinct-text': color !== 'bg-primary-text',
+        'text-primary-text': color === 'bg-primary-text',
       }"
     >
       {{ $t("components.indicator_password_strength.title") }}:
@@ -62,7 +58,7 @@ const passwordStrengthMap: Record<number, { color: string; text: string }> = {
     text: "components.indicator_password_strength.strong",
   },
   4: {
-    color: "bg-light-text dark:bg-dark-text",
+    color: "bg-primary-text",
     text: "components.indicator_password_strength.very_strong",
   },
 };

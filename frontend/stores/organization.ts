@@ -24,18 +24,18 @@ export const useOrganizationStore = defineStore("organization", {
 
     organization: {
       id: "",
-      org_name: "",
+      orgName: "",
       name: "",
       tagline: "",
       createdBy: "",
-      iconURL: "",
+      iconUrl: "",
       location: "",
-      getInvolvedURL: "",
+      getInvolvedUrl: "",
       socialLinks: [""],
       status: 1,
       groups: [],
 
-      organizationTextID: "",
+      organizationTextId: "",
       description: "",
       getInvolved: "",
       donationPrompt: "",
@@ -86,7 +86,7 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Fetch By ID
 
-    async fetchByID(id: string | undefined) {
+    async fetchById(id: string | undefined) {
       this.loading = true;
 
       const [responseOrg, responseOrgTexts, responseOrgEvents] =
@@ -142,19 +142,19 @@ export const useOrganizationStore = defineStore("organization", {
       // const resources = orgRes._value;
 
       this.organization.id = organization.id;
-      this.organization.org_name = organization.org_name;
+      this.organization.orgName = organization.orgName;
       this.organization.name = organization.name;
       this.organization.tagline = organization.tagline;
-      this.organization.iconURL = organization.iconURL;
+      this.organization.iconUrl = organization.iconUrl;
       this.organization.location = organization.location;
-      this.organization.getInvolvedURL = organization.getInvolvedURL;
+      this.organization.getInvolvedUrl = organization.getInvolvedUrl;
       this.organization.socialLinks = organization.socialLinks;
       this.organization.status = organization.status;
 
+      this.organization.organizationTextId = texts.id;
       this.organization.description = texts.description;
       this.organization.getInvolved = texts.getInvolved;
       this.organization.donationPrompt = texts.donationPrompt;
-      this.organization.organizationTextID = texts.id;
 
       this.organization.groups = organization.groups;
       this.organization.events = events;
@@ -177,39 +177,45 @@ export const useOrganizationStore = defineStore("organization", {
       const orgs = responseOrgs.data as unknown as PiniaResOrganizations;
 
       if (orgs._value) {
-        const responseOrgTexts = (await Promise.all(
-          orgs._value.map((org) =>
-            useAsyncData(
-              async () =>
-                await fetchWithOptionalToken(
-                  `/entities/organization_texts?org_id=${org.id}`,
-                  {}
-                )
-            )
-          )
-        )) as unknown as PiniaResOrganizationTexts[];
+        const responseOrgTexts = (await Promise.all([
+          useAsyncData(
+            async () =>
+              await fetchWithOptionalToken(`/entities/organization_texts/`, {})
+          ),
+        ])) as unknown as PiniaResOrganizationTexts[];
 
         const orgTextsData = responseOrgTexts.map(
-          (text) => text.data._value.results[0]
-        ) as unknown as OrganizationText[];
+          (text) => text.data._value.results
+        )[0] as unknown as OrganizationText[];
+
+        // Order texts based on the returned organizations.
+        const orgIds = orgs._value.map((o) => o.id);
+        const sortedOrgTextsData: OrganizationText[] = [];
+        for (const id of orgIds) {
+          for (const text of orgTextsData) {
+            if (text.orgId === id) {
+              sortedOrgTextsData.push(text);
+            }
+          }
+        }
 
         const organizationsWithTexts = orgs._value.map(
           (organization: Organization, index: number) => {
-            const texts = orgTextsData[index];
+            const texts = sortedOrgTextsData[index];
             return {
               id: organization.id,
-              org_name: organization.org_name,
+              orgName: organization.orgName,
               name: organization.name,
               tagline: organization.tagline,
               createdBy: organization.createdBy,
-              iconURL: organization.iconURL,
+              iconUrl: organization.iconUrl,
               location: organization.location,
-              getInvolvedURL: organization.getInvolvedURL,
+              getInvolvedUrl: organization.getInvolvedUrl,
               socialLinks: organization.socialLinks,
               status: organization.status,
               groups: organization.groups,
 
-              organizationTextID: organization.organizationTextID,
+              organizationTextId: texts.id,
               description: texts.description,
               getInvolved: texts.getInvolved,
               donationPrompt: texts.donationPrompt,
@@ -239,7 +245,7 @@ export const useOrganizationStore = defineStore("organization", {
           method: "PUT",
           body: {
             ...org,
-            getInvolvedURL: formData.getInvolvedURL,
+            getInvolvedUrl: formData.getInvolvedUrl,
           },
           headers: {
             Authorization: `Token ${token}`,
@@ -249,7 +255,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL +
-          `/entities/organization_texts/${org.organizationTextID}/`,
+          `/entities/organization_texts/${org.organizationTextId}/`,
         {
           method: "PUT",
           body: {
@@ -258,7 +264,7 @@ export const useOrganizationStore = defineStore("organization", {
             getInvolved: formData.getInvolved,
             donate_prompt: "",
             org_id: org.id,
-            iso: 1,
+            iso: "en",
           },
           headers: {
             Authorization: `Token ${token}`,
@@ -269,7 +275,7 @@ export const useOrganizationStore = defineStore("organization", {
       if (responseOrg && responseOrgTexts) {
         this.organization.description = formData.description;
         this.organization.getInvolved = formData.getInvolved;
-        this.organization.getInvolvedURL = formData.getInvolvedURL;
+        this.organization.getInvolvedUrl = formData.getInvolvedUrl;
 
         this.loading = false;
 

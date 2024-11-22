@@ -84,8 +84,7 @@ activist uses Tailwind for CSS, and some parts of components will be conditional
     </template>
 
    <script setup lang="ts">
-   import useBreakpoint from "~/composables/useBreakpoint";
-   const aboveMediumBP = useBreakpoint("md");
+      const aboveMediumBP = useBreakpoint("md");
    </script>
    ```
 - ❌ TS still ran:
@@ -198,20 +197,18 @@ The activist frontend uses [Prettier](https://prettier.io/) to format the code a
 
 ## Colors [`⇧`](#contents)
 
-The file [frontend/tailwind.config.ts](https://github.com/activist-org/activist/blob/main/frontend/tailwind.config.ts) defines all colors within the `colors` section of the `theme` configuration. All brand colors are split first by `light` and `dark` mode in their names and then the general usage of the color followed by qualifiers such as `hover`. The reason for this naming criteria is to avoid repeat styling keywords like `text-text-light` that might lead to confusion or leaving it as just `text-light` rather than applying the usage and then the color. The prior style would correctly be applied via `text-light-text`.
-
-Note that for all colors we need to apply both the light and dark mode variants. In Tailwind this is done by placing the `dark:` prefix before a class. An example of this is the following where we'll set the background of an element to the header color for both light and dark mode:
+The files [frontend/tailwind.config.ts](https://github.com/activist-org/activist/blob/main/frontend/tailwind.config.ts) and [frontend/assets/css/tailwind.ts](https://github.com/activist-org/activist/blob/main/frontend/assets/css/tailwind.ts) defines all colors for the platform. Light and dark mode versions of each color are defined and loaded in via variables such that we only need to use a singular identifier throughout the codebase. There are however cases where you still need to specify `dark:` for colors - specifically when the color identifier for light mode is different than dark mode like in cases of CTA buttons where the text and border are `primary-text` in light mode and `cta-orange` in dark mode.
 
 ```html
-<!-- This div has a background that reacts to the color mode. -->
-<div class="bg-light-layer-2 dark:bg-dark-layer-2"></div>
+<!-- This div has a reactive background color as layer-2 is defined variably based on the color mode. -->
+<div class="bg-layer-2"></div>
 ```
 
-Note further that Tailwind allows for alpha components for opacity to be applied to colors directly within the class declaration. We thus do not need to save versions of colors with transparency unless they are inherently used with an alpha less than one. An example of a color that has an inherent non-one alpha is `light-text` (`"rgba(0, 0, 0, 0.85)"`). To apply an alpha component to a color in Tailwind you follow it with a slash and the alpha that should be used as in the following example:
+Note further that Tailwind allows for alpha components for opacity to be applied to colors directly within the class declaration. We thus do not need to save versions of colors with transparency unless they are inherently used with an alpha less than one. An example of a color that has an inherent non-one alpha is `primary-text` (`rgba(var(--primary-text), 0.85)`). To apply an alpha component to a color in Tailwind you follow it with a slash and the alpha that should be used as in the following example:
 
 ```html
 <!-- The background of this div has 40% opacity. -->
-<div class="bg-light-cta-orange/40"></div>
+<div class="bg-cta-orange/40"></div>
 ```
 
 <a id="font"></a>

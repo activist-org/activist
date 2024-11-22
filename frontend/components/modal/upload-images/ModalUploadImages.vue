@@ -34,13 +34,13 @@
         </p>
         <p
           v-if="uploadLimit == 1 && files.length == uploadLimit"
-          class="text-light-action-red dark:text-dark-action-red"
+          class="text-action-red"
         >
           {{ $t("components.modal_upload_images.picture_limit_1") }}
         </p>
         <p
           v-if="uploadLimit != 1 && files.length >= uploadLimit"
-          class="text-light-action-red dark:text-dark-action-red"
+          class="text-action-red"
         >
           {{
             $t("components.modal_upload_images.picture_limit_multiple", {
@@ -58,10 +58,7 @@
           >
             <template #item="{ element: file }">
               <span class="pb-4">
-                <button
-                  @click="removeFile(file)"
-                  class="text-light-action-red dark:text-dark-action-red"
-                >
+                <button @click="removeFile(file)" class="text-action-red">
                   <Icon :name="IconMap.X_SM" size="1.5em" />
                 </button>
                 <img

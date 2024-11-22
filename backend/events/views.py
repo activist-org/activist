@@ -3,10 +3,6 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.throttling import (
-    AnonRateThrottle,
-    UserRateThrottle,
-)
 
 from backend.paginator import CustomPagination
 
@@ -14,9 +10,12 @@ from .models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventDiscussion,
+    EventFaq,
     EventFormat,
     EventResource,
     EventRole,
+    EventSocialLink,
     EventTask,
     EventText,
     EventTopic,
@@ -26,10 +25,13 @@ from .models import (
 from .serializers import (
     EventAttendeeSerializer,
     EventAttendeeStatusSerializer,
+    EventDiscussionSerializer,
+    EventFaqSerializer,
     EventFormatSerializer,
     EventResourceSerializer,
     EventRoleSerializer,
     EventSerializer,
+    EventSocialLinkSerializer,
     EventTaskSerializer,
     EventTextSerializer,
     EventTopicSerializer,
@@ -44,7 +46,6 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     pagination_class = CustomPagination
-    throttle_classes = [AnonRateThrottle, UserRateThrottle]
     permission_classes = [IsAuthenticatedOrReadOnly]
     authentication_classes = [TokenAuthentication]
 
@@ -116,7 +117,7 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
 
         event.delete()
 
-        return Response({"message": "Event deleted successfully"}, status.HTTP_200_OK)
+        return Response({"message": "Event deleted successfully."}, status.HTTP_200_OK)
 
 
 class FormatViewSet(viewsets.ModelViewSet[Format]):
@@ -146,6 +147,18 @@ class EventAttendeeStatusViewSet(viewsets.ModelViewSet[EventAttendeeStatus]):
     pagination_class = CustomPagination
 
 
+class EventDiscussionViewSet(viewsets.ModelViewSet[EventDiscussion]):
+    queryset = EventDiscussion.objects.all()
+    serializer_class = EventDiscussionSerializer
+    pagination_class = CustomPagination
+
+
+class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
+    queryset = EventFaq.objects.all()
+    serializer_class = EventFaqSerializer
+    pagination_class = CustomPagination
+
+
 class EventFormatViewSet(viewsets.ModelViewSet[EventFormat]):
     queryset = EventFormat.objects.all()
     serializer_class = EventFormatSerializer
@@ -161,6 +174,12 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
 class EventRoleViewSet(viewsets.ModelViewSet[EventRole]):
     queryset = EventRole.objects.all()
     serializer_class = EventRoleSerializer
+    pagination_class = CustomPagination
+
+
+class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
+    queryset = EventSocialLink.objects.all()
+    serializer_class = EventSocialLinkSerializer
     pagination_class = CustomPagination
 
 

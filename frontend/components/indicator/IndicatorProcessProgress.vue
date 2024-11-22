@@ -1,18 +1,18 @@
 <template>
   <div
-    class="flex h-2 w-full items-center justify-between border-b border-light-section-div bg-light-layer-2 dark:border-dark-section-div dark:bg-dark-layer-2 md:h-8"
+    class="flex h-2 w-full items-center justify-between border-b border-section-div bg-layer-2 md:h-8"
   >
     <div
       class="h-full transition-width duration-500 ease-in"
       :class="{
-        'bg-light-distinct-text dark:bg-dark-distinct-text': type === 'default',
-        'bg-light-action-red dark:bg-dark-action-red': type === 'action',
-        'bg-light-learn-blue dark:bg-dark-learn-blue': type === 'learn',
+        'bg-distinct-text': type === 'default',
+        'bg-action-red': type === 'action',
+        'bg-learn-blue': type === 'learn',
       }"
       :style="{ width: `${percent}%` }"
     ></div>
     <NuxtLink
-      class="hidden h-full items-center space-x-3 bg-light-cta-orange px-3 text-light-text hover:bg-light-cta-orange/80 dark:bg-dark-cta-orange/10 dark:text-dark-cta-orange dark:hover:bg-dark-cta-orange/25 md:flex"
+      class="hidden h-full items-center space-x-3 bg-cta-orange px-3 text-primary-text hover:bg-cta-orange/80 dark:bg-cta-orange/10 dark:text-cta-orange dark:hover:bg-cta-orange/25 md:flex"
       :to="localePath('/')"
       :aria-label="
         $t('components.indicator_process_progress.close_process_aria_label')

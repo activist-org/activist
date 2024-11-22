@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
         >{{ event.name }}&nbsp;{{
@@ -27,7 +25,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewTasks />
     <!-- <div v-if="event.tasks" class="space-y-3 py-4"></div>
     <EmptyState v-else pageType="tasks" :permission="false" /> -->
   </div>
@@ -40,7 +37,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 </script>

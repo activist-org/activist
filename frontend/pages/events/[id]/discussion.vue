@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
         >{{ event.name }}&nbsp;{{
@@ -31,7 +29,6 @@
         />
       </div>
     </HeaderAppPage>
-    <PagePreviewDiscussion />
     <!-- <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
       <Discussion
         :discussionInput="event.discussion"
@@ -44,7 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { IconMap } from "~/types/icon-map";
 
 const aboveMediumBP = useBreakpoint("md");
@@ -53,7 +49,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 </script>

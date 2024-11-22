@@ -50,7 +50,7 @@ jobs:
           echo PATH=$PATH >> $GITHUB_ENV
 
       - name: Run Ruff Format - Formatting Check
-        run: ruff check ./backend
+        run: ruff format ./backend
 
       - name: Run Ruff - Linting and Import Sorting Check
         if: always()

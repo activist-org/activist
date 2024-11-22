@@ -7,7 +7,7 @@
         emit('expand-reduce-text');
         expand_reduce_text();
       "
-      class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
+      class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
@@ -48,7 +48,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.full_text_aria_label')
               "
@@ -61,7 +61,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.reduce_text_aria_label')
               "
@@ -76,9 +76,9 @@
 </template>
 
 <script setup lang="ts">
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
 const { openModal: openModalEditAboutGroup } = useModalHandlers(
   "ModalEditAboutGroup"
 );
@@ -87,7 +87,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const groupStore = useGroupStore();
-await groupStore.fetchByID(id);
+await groupStore.fetchById(id);
 
 const { group } = groupStore;
 

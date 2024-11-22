@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-light-layer-0 px-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
-  >
+  <div class="bg-layer-0 px-8 text-primary-text">
     <Head>
       <Title>{{ $t("pages.groups.index.header_title") }}</Title>
     </Head>

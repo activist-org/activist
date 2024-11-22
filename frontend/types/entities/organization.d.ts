@@ -2,13 +2,13 @@
 
 export interface Organization {
   id: string;
-  org_name: string;
+  orgName: string;
   name: string;
   tagline: string;
   createdBy: string;
-  iconURL: string;
+  iconUrl: string;
   location: string;
-  getInvolvedURL: string;
+  getInvolvedUrl: string;
   socialLinks: string[];
   status: number;
   // statusUpdated?: string;
@@ -37,7 +37,7 @@ export interface Organization {
   // organization_task
   // task?: Task[];
 
-  organizationTextID: string;
+  organizationTextId: string;
   description: string;
   getInvolved: string;
   donationPrompt: string;
@@ -53,37 +53,37 @@ export interface Organization {
 // MARK: Bridge Tables
 
 export interface OrganizationEvent {
-  orgID: string;
-  eventID: string;
+  orgId: string;
+  eventId: string;
 }
 
 export interface OrganizationImage {
-  orgID: string;
-  imageID: string;
+  orgId: string;
+  imageId: string;
   sequenceIndex: number;
 }
 
 export interface OrganizationMember {
-  orgID: string;
-  userID: string;
+  orgId: string;
+  userId: string;
   isOwner: boolean;
   isAdmin: boolean;
   isComms: boolean;
 }
 
 export interface OrganizationResource {
-  orgID: string;
-  resourceID: string;
+  orgId: string;
+  resourceId: string;
 }
 
 export interface OrganizationTask {
-  orgID: string;
-  taskID: string;
+  orgId: string;
+  taskId: string;
 }
 
 export interface OrganizationText {
   id: string;
-  orgID: string;
+  orgId: string;
   iso: string;
   primary: boolean;
   description: string;
@@ -92,8 +92,8 @@ export interface OrganizationText {
 }
 
 export interface OrganizationTopic {
-  orgID: string;
-  topicID: string;
+  orgId: string;
+  topicId: string;
 }
 
 // MARK: Pinia Responses
@@ -196,5 +196,5 @@ export interface OrganizationCreateFormData {
 export interface OrganizationUpdateTextFormData {
   description: string;
   getInvolved: string;
-  getInvolvedURL: string;
+  getInvolvedUrl: string;
 }

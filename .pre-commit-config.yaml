@@ -22,13 +22,3 @@ repos:
         entry: python frontend/i18n/check/run_i18n_checks.py
         language: python
         stages: [pre-commit]
-
-  # - repo: https://github.com/pre-commit/mirrors-prettier
-  #   rev: "v4.0.0-alpha.8"
-  #   hooks:
-  #     - id: prettier
-  #       files: ^frontend\/[^\/]+
-  #       types_or: [vue, ts]
-  #       additional_dependencies:
-  #         - prettier
-  #         - prettier-plugin-tailwindcss
