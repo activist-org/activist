@@ -48,5 +48,5 @@ jobs:
         if: always()
         uses: borales/actions-yarn@v4
         with:
-          cmd: VITEST=true vitest run --run
+          cmd: vitest run --run
           dir: "frontend"

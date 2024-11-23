@@ -7,7 +7,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "test": "VITEST=true vitest run --run",
+    "test": "vitest run --run",
     "test:local": "cross-env TEST_ENV=local playwright test",
     "test:prod": "cross-env TEST_ENV=prod playwright test",
     "typecheck": "nuxi typecheck",

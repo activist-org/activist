@@ -6,6 +6,7 @@ export default defineVitestConfig({
     env: {
       VITE_FRONTEND_URL: "http://localhost:3000",
       VITE_API_URL: "http://localhost:8000/v1",
+      VITEST: "true",
     },
     environment: "nuxt",
     exclude: [
