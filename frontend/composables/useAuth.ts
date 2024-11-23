@@ -21,7 +21,7 @@ export const useAuth = () => {
           alert("An error occurred");
         }
       },
-      // onResponseError is called but doesn't handle the error
+      // onResponseError is called but doesn't handle the error.
     }).catch(() => {});
   };
 

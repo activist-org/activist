@@ -1,13 +1,13 @@
 /* eslint-disable no-var */
 import type { Mock } from "vitest";
 
-type Modes = "light" | "dark";
+type colorMode = "light" | "dark";
 export type UseColorModeFn = () => {
-  preference: Modes;
-  value: Modes;
+  preference: colorMode;
+  value: colorMode;
 };
 
-// Note: Can't define anything here that conflicts with Nuxt's auto-imports
+// Note: Can't define anything here that conflicts with Nuxt's auto-imports.
 declare global {
   var useColorModeMock: Mock<UseColorModeFn>;
 }

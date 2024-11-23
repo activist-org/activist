@@ -2,7 +2,7 @@ import { renderSuspended } from "@nuxt/test-utils/runtime";
 import { getActivePinia } from "pinia";
 
 const render: typeof renderSuspended = (component, options = {}) => {
-  // Pinia set up
+  // Set up Pinia.
   options.global = options.global ?? {};
   const plugins = options.global.plugins;
   options.global.plugins = plugins

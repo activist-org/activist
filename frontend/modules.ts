@@ -24,7 +24,7 @@ const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
   "@nuxtjs/tailwindcss",
 ];
 
-// This plugin may depend on Pinia
+// This plugin may depend on Pinia.
 const vueUse = "@vueuse/nuxt";
 if (process.env.VITEST) {
   modules.push(vueUse);
