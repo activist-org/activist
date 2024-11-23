@@ -10,16 +10,19 @@ export const useAuth = () => {
       method: "POST",
       body: JSON.stringify({ username, password }),
       onResponse: ({ response }) => {
+        localStorage.setItem("accessToken", response._data.token);
+        authUser.signInUser(["user"]);
+        navigateTo(localePath("/home"));
+      },
+      onResponseError: ({ response }) => {
         if (response.status === 400) {
           alert("Invalid sign in credentials");
-          return;
         } else {
-          localStorage.setItem("accessToken", response._data.token);
-          authUser.signInUser(["user"]);
-          navigateTo(localePath("/home"));
+          alert("An error occurred");
         }
       },
-    });
+      // onResponseError is called but doesn't handle the error
+    }).catch(() => {});
   };
 
   const logout = async () => {
