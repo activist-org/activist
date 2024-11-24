@@ -92,7 +92,7 @@ class SocialLink(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return self.name
+        return self.label
 
 
 class Tag(models.Model):
