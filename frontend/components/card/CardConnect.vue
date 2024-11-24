@@ -60,6 +60,7 @@
         }"
       >
         <Popover v-slot="{ close }" class="relative">
+          <!-- Mark: 'New Account' button -->
           <PopoverButton as="div">
             <BtnAction
               :cta="true"
@@ -79,9 +80,12 @@
             leave-to-class="opacity-0 translate-y-1"
           >
             <PopoverPanel class="absolute bottom-0 mb-12">
+              <!-- popup/PopupNewField.vue -->
               <PopupNewField
-                @on-cta-clicked="emit('on-new-account')"
-                @on-close-clicked="onClose(close)"
+                @on-add-clicked="
+                  (payload) => handlePopupAddClick(payload, close)
+                "
+                @on-close-clicked="close"
                 :title="$t('components.card_connect.app_account_popup_title')"
                 :fieldNamePrompt="
                   $t(
@@ -119,7 +123,9 @@ const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";
 }>();
 
-const { userIsSignedIn } = useUser();
+// TODO: uncomment and delete 'true' line after issue 1006 is done.
+// const { userIsSignedIn } = useUser();
+const userIsSignedIn = true;
 const paramsId = useRoute().params.id;
 const paramsIdGroup = useRoute().params.groupId;
 
@@ -158,12 +164,26 @@ const socialLinksRef = computed<string[]>(() => {
   }
 });
 
-const toggleEditMode = () => {
-  editModeEnabled.value = !editModeEnabled.value;
+const handlePopupAddClick = async (
+  payload: {
+    link: string;
+    label: string;
+  },
+  close: () => void
+) => {
+  // Put the social links payload in the database.
+  // TODO: Needs more robust handling (ie try/catch + error trapping/handling)
+  const response = await organizationStore.updateSocialLinks(id, payload);
+  if (response) {
+    console.log("org store updateSocialLinks response: " + response);
+    console.log("CardConnect added social link: " + JSON.stringify(payload));
+  }
+
+  close();
 };
 
-const onClose = (close: (ref?: HTMLElement) => void) => {
-  close();
+const toggleEditMode = () => {
+  editModeEnabled.value = !editModeEnabled.value;
 };
 
 const emit = defineEmits(["on-new-account", "on-account-removed"]);

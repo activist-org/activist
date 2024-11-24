@@ -255,7 +255,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL +
-          `/entities/organization_texts/${org.organizationTextId}/`,
+        `/entities/organization_texts/${org.organizationTextId}/`,
         {
           method: "PUT",
           body: {
@@ -283,6 +283,31 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       return false;
+    },
+
+    // MARK: Update Social Links
+    async updateSocialLinks(id: string, payload: { link: string, label: string }) {
+      // TODO: PUT payload, PUT org and social link id's in bridge table
+      // TODO: Other PUT's?
+      // const responseSocialLinks = await $fetch(
+      //   BASE_BACKEND_URL +
+      //   `/entities/social_links/${id}/`,
+      //   {
+      //     method: "PUT",
+      //     body: {
+      //       link: payload.link,
+      //       label: payload.label,
+      //     },
+      //     headers: {
+      //       Authorization: `Token ${token}`,
+      //     },
+      //   }
+      // );
+      console.log('org store: updateSocialLinks')
+      console.log('org store: id: ' + id)
+      console.log('org store: payload: ' + JSON.stringify(payload))
+
+      return 'return from org store / updateSocialLinks'
     },
 
     // MARK: Delete
