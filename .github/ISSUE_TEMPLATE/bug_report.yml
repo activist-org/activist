@@ -10,7 +10,7 @@ body:
       options:
         - label: I have searched all [open bug reports](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
           required: true
-        - label: I agree to follow activist's [Code of Conduct]( .github/CODE_OF_CONDUCT.md)
+        - label: I agree to follow activist's [Code of Conduct](.github/CODE_OF_CONDUCT.md)
           required: true
   - type: textarea
     attributes:

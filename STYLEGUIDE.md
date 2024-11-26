@@ -167,7 +167,7 @@ Please note that as activist uses Tailwind, this means that `<style>` blocks are
 
 ## Common styles [`⇧`](#contents)
 
-The following are custom Tailwind classes from [frontend/assets/css/tailwind.css]( frontend/assets/css/tailwind.css) that are consistently used within the activist frontend codes:
+The following are custom Tailwind classes from [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) that are consistently used within the activist frontend codes:
 
 - `focus-brand`
 
@@ -197,7 +197,7 @@ The activist frontend uses [Prettier](https://prettier.io/) to format the code a
 
 ## Colors [`⇧`](#contents)
 
-The files [frontend/tailwind.config.ts]( frontend/tailwind.config.ts) and [frontend/assets/css/tailwind.ts]( frontend/assets/css/tailwind.ts) defines all colors for the platform. Light and dark mode versions of each color are defined and loaded in via variables such that we only need to use a singular identifier throughout the codebase. There are however cases where you still need to specify `dark:` for colors - specifically when the color identifier for light mode is different than dark mode like in cases of CTA buttons where the text and border are `primary-text` in light mode and `cta-orange` in dark mode.
+The files [frontend/tailwind.config.ts](frontend/tailwind.config.ts) and [frontend/assets/css/tailwind.ts](frontend/assets/css/tailwind.ts) defines all colors for the platform. Light and dark mode versions of each color are defined and loaded in via variables such that we only need to use a singular identifier throughout the codebase. There are however cases where you still need to specify `dark:` for colors - specifically when the color identifier for light mode is different than dark mode like in cases of CTA buttons where the text and border are `primary-text` in light mode and `cta-orange` in dark mode.
 
 ```html
 <!-- This div has a reactive background color as layer-2 is defined variably based on the color mode. -->
@@ -215,13 +215,13 @@ Note further that Tailwind allows for alpha components for opacity to be applied
 
 ## Font [`⇧`](#contents)
 
-The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts]( frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are generally defined by `responsive-h#` custom classes that include `font-display`, it will be rare that you'll need to apply it directly. See the next section for more details.
+The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are generally defined by `responsive-h#` custom classes that include `font-display`, it will be rare that you'll need to apply it directly. See the next section for more details.
 
 <a id="text-size"></a>
 
 ## Text size [`⇧`](#contents)
 
-[frontend/assets/css/tailwind.css]( frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them. The naming criteria of these headers follows that of HTML headers so that the team remembers that when a `responsive-h#` tag is used that it should be applied to a coinciding `<h#>` tag for accessibility. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
+[frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them. The naming criteria of these headers follows that of HTML headers so that the team remembers that when a `responsive-h#` tag is used that it should be applied to a coinciding `<h#>` tag for accessibility. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
 
 ```html
 <!-- The size and weight styles for page headers. -->
@@ -235,7 +235,7 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 activist is a global platform and must function in countless different regions around the world. To achieve this, all strings on the platform must be defined using keys found in the [i18n directory of the frontend](https://github.com/activist-org/activist/tree/main/frontend/i18n).
 
 > [!NOTE]
-> All keys should be defined within the [en-US.json file]( frontend/i18n/en-US.json)
+> All keys should be defined within the [en-US.json file](frontend/i18n/en-US.json)
 >
 > - This is the source from which all the other languages are translated from
 > - Edits to the other files should be made on activist's [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist)
@@ -280,7 +280,7 @@ Localization keys should be defined based on the file in which they're used with
 
 ## Images and Icons [`⇧`](#contents)
 
-Please define all routes for images and icons in the respective [url registry utils file]( frontend/utils/imageURLRegistry.s.ts) and [icon map enum]( frontend/types/icon-map.ts).
+Please define all routes for images and icons in the respective [url registry utils file](frontend/utils/imageURLRegistry.s.ts) and [icon map enum](frontend/types/icon-map.ts).
 
 activist uses [nuxt-icon](https://github.com/nuxt-modules/icon) for all icons. Icons are defined via `<Icon :name="IconMap.ICON_REF"/>` components, with [Icônes](https://icones.js.org/) being a good place to look for [Iconify](https://iconify.design/) based files to import. The `<Icon/>` component also has a `size` argument that `em` based arguments can be passed to. There's also a `color` argument, but colors are handled with Tailwind CSS via the `text-COLOR` class argument.
 
@@ -296,4 +296,4 @@ Codes on the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), T
 
 ## Padding [`⇧`](#contents)
 
-There are a few custom padding classes that can be used for `px` and `py` styling as defined in [frontend/assets/css/tailwind.css]( frontend/assets/css/tailwind.css). Please use consistent custom padding classes to assure that elements move together at different breakpoints.
+There are a few custom padding classes that can be used for `px` and `py` styling as defined in [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css). Please use consistent custom padding classes to assure that elements move together at different breakpoints.
