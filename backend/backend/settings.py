@@ -220,7 +220,7 @@ SPECTACULAR_SETTINGS = {
         "drf_spectacular.hooks.postprocess_schema_enums",
         "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields",
     ],
-    "SWAGGER_UI_FAVICON_HREF": "https://github.com/activist-org/activist/blob/main/backend/static/swagger_favicon.png?raw=true",
+    "SWAGGER_UI_FAVICON_HREF": " backend/static/swagger_favicon.png?raw=true",
 }
 
 # MARK: Logging

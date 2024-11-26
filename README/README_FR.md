@@ -9,8 +9,8 @@
 [![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
-[![license](https://img.shields.io/github/license/activist-org/activist-iOS.svg?label=%20)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
-[![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
+[![license](https://img.shields.io/github/license/activist-org/activist-iOS.svg?label=%20)]( LICENSE.txt)
+[![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)]( .github/CODE_OF_CONDUCT.md)
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
 [![weblate](https://img.shields.io/badge/Weblate-144D3F.svg?logo=weblate&logoColor=ffffff)](https://hosted.weblate.org/projects/activist/activist)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
@@ -20,8 +20,8 @@
 
 [Ouvrez un problème de localisation](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) pour ajouter un nouveau fichier readme au répertoire [README](https://github.com/activist-org/activist/tree/main/README)
 
-- Deutsch: [README_DE.md](https://github.com/activist-org/activist/blob/main/README/README_DE.md)
-- English: [README.md](https://github.com/activist-org/activist/blob/main/README.md)
+- Deutsch: [README_DE.md]( README/README_DE.md)
+- English: [README.md]( README.md)
 - Français: README_FR.md
 
 </p>

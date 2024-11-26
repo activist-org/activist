@@ -4,7 +4,7 @@ Thank you for contributing to activist!
 
 Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
-Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open-source project. In return, and in accordance with this project's [code of conduct](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md), other contributors will reciprocate that respect in addressing your issue or assessing patches and features.
+Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open-source project. In return, and in accordance with this project's [code of conduct](.github/CODE_OF_CONDUCT.md), other contributors will reciprocate that respect in addressing your issue or assessing patches and features.
 
 If you have questions or would like to communicate with the team, please [join us in our public Matrix chat rooms](https://matrix.to/#/#activist_community:matrix.org). We'd be happy to hear from you!
 
@@ -39,7 +39,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
   - activist would suggest that you use the [Element](https://element.io/) client
   - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
   - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
-- Read through this contributing guide and the [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for all the information you need to contribute
+- Read through this contributing guide and the [style guide]( STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
 - Consider joining our [bi-weekly developer sync](https://etherpad.wikimedia.org/p/activist-dev-sync)!
@@ -300,7 +300,7 @@ From there you'll be able to visit http://localhost:6006/ to view the documentat
 
 ## Style guide [`⇧`](#contents)
 
-Please see the [activist style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
+Please see the [activist style guide]( STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
 
 <a id="testing"></a>
 
@@ -416,7 +416,7 @@ Feature requests are more than welcome! Please take a moment to find out whether
 
 ## Pull requests [`⇧`](#contents)
 
-Good pull requests — patches, improvements and new features — are the foundation of our community making activist. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license](https://github.com/activist-org/activist/blob/main/LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
+Good pull requests — patches, improvements and new features — are the foundation of our community making activist. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license]( LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
 
 **Please ask first** before embarking on any significant pull request (implementing features, refactoring code, etc), otherwise you risk spending a lot of time working on something that the developers might not want to merge into the project. With that being said, major additions are very appreciated!
 
@@ -481,7 +481,7 @@ Thank you in advance for your contributions!
 
 Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
-To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for more information on how to create new localization keys.
+To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide]( STYLEGUIDE.md) for more information on how to create new localization keys.
 
 <a id="documentation"></a>
 

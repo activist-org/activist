@@ -77,7 +77,7 @@
             {{ $t("pages.contact.section_1_paragraph_2_2") }}
             <a
               class="focus-brand link-text items-center"
-              href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
+              href=" .github/CODE_OF_CONDUCT.md"
               target="_blank"
             >
               {{ $t("pages.contact.section_1_paragraph_2_3") }}
