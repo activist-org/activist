@@ -55,7 +55,7 @@ const infoComponent = computed(() => {
     ? {
         is: "button",
         onclick: props.handlerClick,
-        ariaLabel: props.ariaLabel,
+        "aria-label": props.ariaLabel,
       }
     : {
         is: "li",
