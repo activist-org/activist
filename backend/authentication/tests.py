@@ -43,9 +43,9 @@ def test_str_methods() -> None:
     assert str(user_topic) == str(user_topic.id)
 
 
-def test_signup(client: Client) -> None:
+def test_sign_up(client: Client) -> None:
     """
-    Test the signup function.
+    Test the sign up function.
 
     Scenarios:
     1. Password strength fails
@@ -57,7 +57,6 @@ def test_signup(client: Client) -> None:
     4. User already exists
     5. User is created without an email
     """
-    # Setup
     fake = Faker()
     username = fake.name()
     second_username = fake.name()
@@ -72,9 +71,9 @@ def test_signup(client: Client) -> None:
         length=8, special_chars=False, digits=False, upper_case=False
     )
 
-    # 1. Password strength fails
+    # 1. Password strength fails.
     response = client.post(
-        path="/v1/auth/signup/",
+        path="/v1/auth/sign_up/",
         data={
             "username": username,
             "password": weak_password,
@@ -86,9 +85,9 @@ def test_signup(client: Client) -> None:
     assert response.status_code == 400
     assert not UserModel.objects.filter(username=username).exists()
 
-    # 2. Password confirmation fails
+    # 2. Password confirmation fails.
     response = client.post(
-        path="/v1/auth/signup/",
+        path="/v1/auth/sign_up/",
         data={
             "username": username,
             "password": strong_password,
@@ -100,9 +99,9 @@ def test_signup(client: Client) -> None:
     assert response.status_code == 400
     assert not UserModel.objects.filter(username=username).exists()
 
-    # 3. User is created successfully
+    # 3. User is created successfully.
     response = client.post(
-        path="/v1/auth/signup/",
+        path="/v1/auth/sign_up/",
         data={
             "username": username,
             "password": strong_password,
@@ -113,17 +112,17 @@ def test_signup(client: Client) -> None:
     user = UserModel.objects.filter(username=username).first()
     assert response.status_code == 201
     assert UserModel.objects.filter(username=username)
-    # code for Email confirmation is generated and is a UUID
+    # Code for Email confirmation is generated and is a UUID.
     assert isinstance(user.verification_code, UUID)
     assert user.is_confirmed is False
-    # Confirmation Email was sent
+    # Confirmation Email was sent.
     assert len(mail.outbox) == 1
     # Assert that the password within the dashboard is hashed and not the original string.
     assert user.password != strong_password
 
-    # 4. User already exists
+    # 4. User already exists.
     response = client.post(
-        path="/v1/auth/signup/",
+        path="/v1/auth/sign_up/",
         data={
             "username": username,
             "password": strong_password,
@@ -135,9 +134,9 @@ def test_signup(client: Client) -> None:
     assert response.status_code == 400
     assert UserModel.objects.filter(username=username).count() == 1
 
-    # 5. User is created without an email
+    # 5. User is created without an email.
     response = client.post(
-        path="/v1/auth/signup/",
+        path="/v1/auth/sign_up/",
         data={
             "username": second_username,
             "password": strong_password,
@@ -146,6 +145,7 @@ def test_signup(client: Client) -> None:
     )
 
     user = UserModel.objects.filter(username=second_username).first()
+
     assert response.status_code == 201
     assert UserModel.objects.filter(username=second_username).exists()
     assert user.email == ""
@@ -153,52 +153,51 @@ def test_signup(client: Client) -> None:
     assert user.verification_code is None
 
 
-def test_login(client: Client) -> None:
+def test_sign_in(client: Client) -> None:
     """
-    Test login view.
+    Test sign in view.
 
     Scenarios:
     1. User that signed up with email, that has not confirmed their email
     2. User that signed up with email, confirmed email address. Is logged in successfully
     3. User exists but password is incorrect
-    4. User does not exists and tries to login
+    4. User does not exists and tries to sign in
     """
-    # Setup
     plaintext_password = "Activist@123!?"
     user = UserFactory(plaintext_password=plaintext_password)
 
-    # 1. User that signed up with email, that has not confirmed their email
+    # 1. User that signed up with email, that has not confirmed their email.
     response = client.post(
-        path="/v1/auth/login/",
+        path="/v1/auth/sign_in/",
         data={"username": user.username, "password": plaintext_password},
     )
     assert response.status_code == 400
 
-    # 2. User that signed up with email, confirmed email address. Is logged in successfully
+    # 2. User that signed up with email, confirmed email address. Is logged in successfully.
     user.is_confirmed = True
     user.save()
     response = client.post(
-        path="/v1/auth/login/",
+        path="/v1/auth/sign_in/",
         data={"email": user.email, "password": plaintext_password},
     )
     assert response.status_code == 200
-    # login via username
+    # Sign in via username.
     response = client.post(
-        path="/v1/auth/login/",
+        path="/v1/auth/sign_in/",
         data={"username": user.username, "password": plaintext_password},
     )
     assert response.status_code == 200
 
-    # 3. User exists but password is incorrect
+    # 3. User exists but password is incorrect.
     response = client.post(
-        path="/v1/auth/login/",
+        path="/v1/auth/sign_in/",
         data={"email": user.email, "password": "Strong_But_Incorrect?!123"},
     )
     assert response.status_code == 400
 
-    # 4. User does not exists and tries to login
+    # 4. User does not exists and tries to sign in.
     response = client.post(
-        path="/v1/auth/login/",
+        path="/v1/auth/sign_in/",
         data={"email": "unknown_user@example.com", "password": "Password@123!?"},
     )
     assert response.status_code == 400
@@ -218,7 +217,7 @@ def test_pwreset(client: Client) -> None:
     old_password = "password123!?"
     new_password = "Activist@123!?"
 
-    # 1. User exists and password reset is successful
+    # 1. User exists and password reset is successful.
     user = UserFactory(plaintext_password=old_password)
     response = client.get(
         path="/v1/auth/pwreset/",
@@ -227,13 +226,13 @@ def test_pwreset(client: Client) -> None:
     assert response.status_code == 200
     assert len(mail.outbox) == 1
 
-    # 2. Password reset with invalid email
+    # 2. Password reset with invalid email.
     response = client.get(
         path="/v1/auth/pwreset/", data={"email": "invalid_email@example.com"}
     )
     assert response.status_code == 404
 
-    # 3. Password reset is performed successfully
+    # 3. Password reset is performed successfully.
     user.verification_code = uuid.uuid4()
     user.save()
     response = client.post(
@@ -244,7 +243,7 @@ def test_pwreset(client: Client) -> None:
     user.refresh_from_db()
     assert user.check_password(new_password)
 
-    # 4. Password reset with invalid verification code
+    # 4. Password reset with invalid verification code.
     response = client.post(
         path="/v1/auth/pwreset/invalid_code/",
         data={"password": new_password},

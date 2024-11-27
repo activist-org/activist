@@ -1,7 +1,10 @@
 import type {
   Event,
+  EventText,
   PiniaResEvent,
+  PiniaResEvents,
   PiniaResEventText,
+  PiniaResEventTexts,
 } from "~/types/events/event";
 
 interface EventStore {
@@ -21,20 +24,25 @@ export const useEventStore = defineStore("event", {
       name: "",
       tagline: "",
       createdBy: "",
-      iconURL: "",
+      iconUrl: "",
       type: "learn",
+      onlineLocationLink: "",
       offlineLocation: "",
-      getInvolvedURL: "",
+      offlineLocationLat: "",
+      offlineLocationLong: "",
+      getInvolvedUrl: "",
       socialLinks: [""],
       startTime: "",
+      endTime: "",
+      creationDate: "",
 
-      // event_organizations
       organizations: [],
 
-      // event_text
+      eventTextId: "",
       description: "",
       getInvolved: "",
     },
+
     events: [],
   }),
   actions: {
@@ -44,30 +52,33 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Fetch By ID
 
-    async fetchByID(id: string | undefined) {
+    async fetchById(id: string | undefined) {
       this.loading = true;
 
       const [resEvent, resEventTexts] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithToken(`/entities/events/${id}`, {})
+          async () => await fetchWithOptionalToken(`/events/events/${id}`, {})
         ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/event_faq?event_id=${id}`,
         //       {}
         //     )
         // ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithToken(
+        //     await fetchWithOptionalToken(
         //       `/entities/event_resources?event_id=${id}`,
         //       {}
         //     )
         // ),
         useAsyncData(
           async () =>
-            await fetchWithToken(`/entities/event_texts?event_id=${id}`, {})
+            await fetchWithOptionalToken(
+              `/events/event_texts?event_id=${id}`,
+              {}
+            )
         ),
       ]);
 
@@ -85,9 +96,9 @@ export const useEventStore = defineStore("event", {
       this.event.id = event.id;
       this.event.name = event.name;
       this.event.tagline = event.tagline;
-      this.event.iconURL = event.iconURL;
+      this.event.iconUrl = event.iconUrl;
       this.event.offlineLocation = event.offlineLocation;
-      this.event.getInvolvedURL = event.getInvolvedURL;
+      this.event.getInvolvedUrl = event.getInvolvedUrl;
       this.event.socialLinks = event.socialLinks;
 
       this.event.description = texts.description;
@@ -98,7 +109,67 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Fetch All
 
-    async fetchAll() {},
+    async fetchAll() {
+      this.loading = true;
+
+      const [responseEvents] = await Promise.all([
+        useAsyncData(
+          async () => await fetchWithOptionalToken(`/events/events/`, {})
+        ),
+      ]);
+
+      const events = responseEvents.data as unknown as PiniaResEvents;
+
+      if (events._value) {
+        const responseEventTexts = (await Promise.all(
+          events._value.map((event) =>
+            useAsyncData(
+              async () =>
+                await fetchWithOptionalToken(
+                  `/events/event_texts?event_id=${event.id}`,
+                  {}
+                )
+            )
+          )
+        )) as unknown as PiniaResEventTexts[];
+
+        const eventTextsData = responseEventTexts.map(
+          (text) => text.data._value.results[0]
+        ) as unknown as EventText[];
+
+        const eventsWithTexts = events._value.map(
+          (event: Event, index: number) => {
+            const texts = eventTextsData[index];
+            return {
+              id: event.id,
+              name: event.name,
+              tagline: event.tagline,
+              createdBy: event.createdBy,
+              iconUrl: event.iconUrl,
+              type: event.type,
+              onlineLocationLink: event.onlineLocationLink,
+              offlineLocation: event.offlineLocation,
+              offlineLocationLat: event.offlineLocationLat,
+              offlineLocationLong: event.offlineLocationLong,
+              getInvolvedUrl: event.getInvolvedUrl,
+              socialLinks: event.socialLinks,
+              startTime: event.startTime,
+              endTime: event.endTime,
+              creationDate: event.creationDate,
+              organizations: event.organizations,
+
+              eventTextId: event.eventTextId,
+              description: texts.description,
+              getInvolved: texts.getInvolved,
+            };
+          }
+        );
+
+        this.events = eventsWithTexts;
+      }
+
+      this.loading = false;
+    },
 
     // MARK: Update
 
@@ -106,6 +177,10 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Delete
 
-    async delete() {},
+    async delete() {
+      this.loading = true;
+
+      this.loading = false;
+    },
   },
 });

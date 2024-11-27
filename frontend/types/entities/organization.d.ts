@@ -2,12 +2,13 @@
 
 export interface Organization {
   id: string;
+  orgName: string;
   name: string;
   tagline: string;
   createdBy: string;
-  iconURL: string;
+  iconUrl: string;
   location: string;
-  getInvolvedURL: string;
+  getInvolvedUrl: string;
   socialLinks: string[];
   status: number;
   // statusUpdated?: string;
@@ -22,13 +23,13 @@ export interface Organization {
   // discussion
   // discussions?: Discussion[];
 
-  // organization_event
-  // events?: Event[];
-
   // faq
   faqEntries?: FaqEntry[];
 
   groups?: Group[];
+
+  // organization_event
+  events?: Event[];
 
   // organization_resource
   resources?: Resource[];
@@ -36,7 +37,7 @@ export interface Organization {
   // organization_task
   // task?: Task[];
 
-  organization_text_id: string;
+  organizationTextId: string;
   description: string;
   getInvolved: string;
   donationPrompt: string;
@@ -52,37 +53,37 @@ export interface Organization {
 // MARK: Bridge Tables
 
 export interface OrganizationEvent {
-  orgID: string;
-  eventID: string;
+  orgId: string;
+  eventId: string;
 }
 
 export interface OrganizationImage {
-  orgID: string;
-  imageID: string;
+  orgId: string;
+  imageId: string;
   sequenceIndex: number;
 }
 
 export interface OrganizationMember {
-  orgID: string;
-  userID: string;
+  orgId: string;
+  userId: string;
   isOwner: boolean;
   isAdmin: boolean;
   isComms: boolean;
 }
 
 export interface OrganizationResource {
-  orgID: string;
-  resourceID: string;
+  orgId: string;
+  resourceId: string;
 }
 
 export interface OrganizationTask {
-  orgID: string;
-  taskID: string;
+  orgId: string;
+  taskId: string;
 }
 
 export interface OrganizationText {
   id: string;
-  orgID: string;
+  orgId: string;
   iso: string;
   primary: boolean;
   description: string;
@@ -91,8 +92,8 @@ export interface OrganizationText {
 }
 
 export interface OrganizationTopic {
-  orgID: string;
-  topicID: string;
+  orgId: string;
+  topicId: string;
 }
 
 // MARK: Pinia Responses
@@ -109,6 +110,23 @@ export interface PiniaResOrganizations {
   __v_isRef: boolean;
   _rawValue: Organization[];
   _value: Organization[];
+}
+
+export interface PiniaResOrganizationEvents {
+  __v_isShallow: boolean;
+  __v_isRef: boolean;
+  _rawValue: {
+    count: integer;
+    next: null;
+    previous: null;
+    results: Event[];
+  };
+  _value: {
+    count: integer;
+    next: null;
+    previous: null;
+    results: Event[];
+  };
 }
 
 export interface PiniaResOrganizationText {
@@ -178,5 +196,5 @@ export interface OrganizationCreateFormData {
 export interface OrganizationUpdateTextFormData {
   description: string;
   getInvolved: string;
-  getInvolvedURL: string;
+  getInvolvedUrl: string;
 }

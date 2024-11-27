@@ -1,38 +1,45 @@
+import random
 from argparse import ArgumentParser
 from typing import TypedDict, Unpack
 
 from django.core.management.base import BaseCommand
 
-from authentication.factories import UserFactory
+from authentication.factories import UserFactory, UserTopicFactory
 from authentication.models import UserModel
-from entities.factories import GroupFactory, OrganizationFactory
+from content.models import Topic
+from entities.factories import (
+    GroupFactory,
+    GroupTextFactory,
+    OrganizationEventFactory,
+    OrganizationFactory,
+    OrganizationTextFactory,
+)
 from entities.models import Group, Organization
-from events.factories import EventFactory
+from events.factories import EventFactory, EventTextFactory
 from events.models import Event
 
 
 class Options(TypedDict):
     users: int
-    orgs: int
-    groups: int
-    events: int
+    orgs_per_user: int
+    groups_per_org: int
+    events_per_org: int
 
 
-# ATTN: We're not actually putting texts into the DB.
 class Command(BaseCommand):
     help = "Populate the database with dummy data"
 
     def add_arguments(self, parser: ArgumentParser) -> None:
         parser.add_argument("--users", type=int, default=10)
-        parser.add_argument("--orgs", type=int, default=10)
-        parser.add_argument("--groups", type=int, default=10)
-        parser.add_argument("--events", type=int, default=10)
+        parser.add_argument("--orgs-per-user", type=int, default=1)
+        parser.add_argument("--groups-per-org", type=int, default=1)
+        parser.add_argument("--events-per-org", type=int, default=1)
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
-        number_of_users = options.get("users")
-        number_of_orgs = options.get("orgs")
-        number_of_groups = options.get("groups")
-        number_of_events = options.get("events")
+        num_users = options["users"]
+        num_orgs_per_user = options["orgs_per_user"]
+        num_groups_per_org = options["groups_per_org"]
+        num_events_per_org = options["events_per_org"]
 
         # Clear all tables before creating new data.
         UserModel.objects.exclude(username="admin").delete()
@@ -40,22 +47,67 @@ class Command(BaseCommand):
         Group.objects.all().delete()
         Event.objects.all().delete()
 
+        topics = Topic.objects.all()
+
         try:
-            UserFactory.create_batch(size=number_of_users)
-            OrganizationFactory.create_batch(size=number_of_orgs)
-            GroupFactory.create_batch(size=number_of_groups)
-            EventFactory.create_batch(size=number_of_events)
+            users = [
+                UserFactory(username=f"activist_{i}", name=f"Activist {i}")
+                for i in range(num_users)
+            ]
+
+            for u, user in enumerate(users):
+                user_topic = random.choice(topics)
+                UserTopicFactory(user_id=user, topic_id=user_topic)
+
+                for o in range(num_orgs_per_user):
+                    user_org = OrganizationFactory(
+                        created_by=user,
+                        org_name=f"organization_u{u}_o{o}",
+                        name=f"{user_topic.name} Organization",
+                        tagline=f"Fighting for {user_topic.name.lower()}",
+                    )
+
+                    OrganizationTextFactory(org_id=user_org, iso="wt", primary=True)
+
+                    for g in range(num_groups_per_org):
+                        user_org_group = GroupFactory(
+                            created_by=user,
+                            group_name=f"group_u{u}_o{o}_g{g}",
+                            org_id=user_org,
+                            name=f"{user_topic.name} Group",
+                        )
+
+                        GroupTextFactory(
+                            group_id=user_org_group, iso="en", primary=True
+                        )
+
+                    for e in range(num_events_per_org):
+                        user_org_event = EventFactory(
+                            created_by=user,
+                            name=f"{user_topic.name} Event o{o}:e{e}",
+                            type=random.choice(["learn", "action"]),
+                        )
+
+                        EventTextFactory(
+                            event_id=user_org_event, iso="en", primary=True
+                        )
+
+                        OrganizationEventFactory(
+                            org_id=user_org, event_id=user_org_event
+                        )
+
             self.stdout.write(
                 self.style.ERROR(
-                    f"Number of users created: {number_of_users}\n"
-                    f"Number of organizations created: {number_of_orgs}\n"
-                    f"Number of groups created: {number_of_groups}\n"
-                    f"Number of events created: {number_of_events}\n"
+                    f"Number of users created: {num_users}\n"
+                    f"Number of organizations created: {num_users * num_orgs_per_user}\n"
+                    f"Number of groups created: {num_users * num_orgs_per_user * num_groups_per_org}\n"
+                    f"Number of events created: {num_users * num_orgs_per_user * num_events_per_org}\n"
                 )
             )
-        except Exception as error:
+
+        except TypeError as error:
             self.stdout.write(
                 self.style.ERROR(
-                    f"An error occurred during the creation of dummy data: {error}"
+                    f"A type error occurred during the creation of dummy data: {error}. Make sure to use dashes for populate_db arguments and that they're of the appropriate types."
                 )
             )

@@ -1,13 +1,14 @@
 <template>
   <component
+    @click="conditionallyLogOut()"
+    @enter="conditionallyLogOut()"
     :is="infoComponent.is"
     v-bind="infoComponent"
     class="flex w-full items-center rounded-md text-sm"
     :class="{
       'group py-2 pl-4 pr-3': !isSideLeftMenu,
-      'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
-        active,
-      'text-light-text dark:text-dark-text': !active,
+      'bg-cta-orange/80 dark:bg-cta-orange/25 dark:text-cta-orange': active,
+      'text-primary-text': !active,
       'relative z-0 space-x-2 p-2 text-left font-medium': isSideLeftMenu,
     }"
   >
@@ -34,17 +35,20 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const props = defineProps<{
   isSideLeftMenu?: boolean | undefined;
   isButton: boolean;
-  handlerClick?: () => void | undefined;
+  handlerClick?: () => void;
   iconName?: string | undefined;
   ariaLabel?: string | undefined;
   label: string;
-  active: any;
+  active: boolean;
 }>();
 
 const sidebar = useSidebar();
+const { signOutUser } = useUser();
 
 const infoComponent = computed(() => {
   return props.isButton
@@ -68,7 +72,7 @@ const infoLabel = computed(() => {
       ? {
           is: "p",
           class:
-            "select-none whitespace-nowrap hover:light-menu-selection dark:hover:dark-menu-selection",
+            "select-none whitespace-nowrap hover:menu-selection dark:hover:menu-selection",
         }
       : props.iconName
         ? {
@@ -79,4 +83,10 @@ const infoLabel = computed(() => {
             is: "span",
           };
 });
+
+function conditionallyLogOut() {
+  if (props.iconName === `${IconMap.SIGN_OUT}`) {
+    signOutUser();
+  }
+}
 </script>

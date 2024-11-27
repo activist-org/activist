@@ -6,8 +6,8 @@
     @dragleave.prevent="deactivate"
     class="card-style-base flex w-full rounded-lg"
     :class="{
-      'bg-light-highlight dark:bg-dark-highlight': isActive,
-      'bg-light-layer-1 dark:bg-dark-layer-1': !isActive,
+      'bg-highlight': isActive,
+      'bg-layer-1': !isActive,
     }"
   >
     <label

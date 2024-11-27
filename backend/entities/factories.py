@@ -30,18 +30,11 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         model = Organization
         django_get_or_create = ("created_by",)
 
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    social_links = ["https://www.instagram.com/activist_org/"]
-    # Note: Version that accesses the database so we don't create new each time.
-    # created_by = factory.LazyAttribute(
-    #     lambda x: (
-    #         UserModel.objects.exclude(username="admin").first()
-    #         if UserModel.objects.exclude(username="admin").exists()
-    #         else factory.SubFactory("authentication.factories.UserFactory")
-    #     )
-    # )
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    get_involved_url = "https://activist.org/"
+    terms_checked = factory.Faker("boolean")
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
     location = factory.Faker("city")
@@ -55,13 +48,13 @@ class GroupFactory(factory.django.DjangoModelFactory):
         model = Group
 
     org_id = factory.SubFactory(OrganizationFactory)
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    social_links = ["https://www.instagram.com/activist_org/"]
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
+    terms_checked = factory.Faker("boolean")
     category = factory.Faker("word")
     location = factory.Faker("city")
 
@@ -109,9 +102,9 @@ class GroupTextFactory(factory.django.DjangoModelFactory):
     group_id = factory.SubFactory(GroupFactory)
     iso = factory.Faker("word")
     primary = factory.Faker("boolean")
-    description = factory.Faker("text")
-    get_involved = factory.Faker("text")
-    donate_prompt = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
+    get_involved = factory.Faker(provider="text", locale="la")
+    donate_prompt = factory.Faker(provider="text", locale="la")
 
 
 class GroupTopicFactory(factory.django.DjangoModelFactory):
@@ -194,11 +187,11 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
         model = OrganizationText
 
     org_id = factory.SubFactory(OrganizationFactory)
-    iso = factory.Faker("word")
+    iso = "en"
     primary = factory.Faker("boolean")
-    description = factory.Faker("text")
-    get_involved = factory.Faker("text")
-    donate_prompt = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
+    get_involved = factory.Faker(provider="text", locale="la")
+    donate_prompt = factory.Faker(provider="text", locale="la")
 
 
 class OrganizationTopicFactory(factory.django.DjangoModelFactory):

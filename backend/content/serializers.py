@@ -19,12 +19,15 @@ from .models import (
     DiscussionTag,
     Faq,
     Image,
-    IsoCodeMap,
+    Location,
     Resource,
     ResourceTag,
     ResourceTopic,
+    Role,
+    SocialLink,
     Tag,
     Task,
+    TaskTag,
     Topic,
     TopicFormat,
 )
@@ -35,27 +38,19 @@ from .models import (
 class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
     class Meta:
         model = Discussion
-        fields = [
-            "id",
-            "created_by",
-            "org_id",
-            "event_id",
-            "category",
-            "creation_date",
-            "deletion_date",
-        ]
+        fields = "__all__"
 
 
 class FaqSerializer(serializers.ModelSerializer[Faq]):
     class Meta:
         model = Faq
-        fields = ["id", "question", "org_id", "answer", "last_updated"]
+        fields = "__all__"
 
 
 class ImageSerializer(serializers.ModelSerializer[Image]):
     class Meta:
         model = Image
-        fields = ["id", "image_location", "creation_date"]
+        fields = ["id", "file_location", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
@@ -63,7 +58,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         img_format = ""
 
         try:
-            with PilImage.open(data["image_location"]) as img:
+            with PilImage.open(data["file_location"]) as img:
                 img.verify()
                 img_format = img.format.lower()
         except Exception as e:
@@ -80,25 +75,28 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         return data
 
 
-class IsoCodeMapSerializer(serializers.ModelSerializer[IsoCodeMap]):
+class LocationSerializer(serializers.ModelSerializer[Location]):
     class Meta:
-        model = IsoCodeMap
+        model = Location
         fields = "__all__"
 
 
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
     class Meta:
         model = Resource
-        fields = [
-            "name",
-            "description",
-            "category",
-            "url",
-            "is_private",
-            "created_by",
-            "creation_date",
-            "last_updated",
-        ]
+        fields = "__all__"
+
+
+class RoleSerializer(serializers.ModelSerializer[Role]):
+    class Meta:
+        model = Role
+        fields = "__all__"
+
+
+class SocialLinkSerializer(serializers.ModelSerializer[SocialLink]):
+    class Meta:
+        model = SocialLink
+        fields = "__all__"
 
 
 class TagSerializer(serializers.ModelSerializer[Tag]):
@@ -124,13 +122,13 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        if data["active"] is True and data["deprecation_date"] is not None:
+        if data["active"] is True and data.get("deprecation_date") is not None:
             raise serializers.ValidationError(
                 _("Active topics cannot have a deprecation date."),
                 code="active_topic_with_deprecation_error",
             )
 
-        if data["active"] is False and data["deprecation_date"] is None:
+        if data["active"] is False and data.get("deprecation_date") is None:
             raise serializers.ValidationError(
                 _("Deprecated topics must have a deprecation date."),
                 code="inactive_topic_no_deprecation_error",
@@ -147,14 +145,7 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
 class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
     class Meta:
         model = DiscussionEntry
-        fields = [
-            "id",
-            "discussion_id",
-            "created_by",
-            "text",
-            "creation_date",
-            "deletion_date",
-        ]
+        fields = "__all__"
 
 
 class DiscussionTagSerializer(serializers.ModelSerializer[DiscussionTag]):
@@ -172,6 +163,12 @@ class ResourceTagSerializer(serializers.ModelSerializer[ResourceTag]):
 class ResourceTopicSerializer(serializers.ModelSerializer[ResourceTopic]):
     class Meta:
         model = ResourceTopic
+        fields = "__all__"
+
+
+class TaskTagSerializer(serializers.ModelSerializer[TaskTag]):
+    class Meta:
+        model = TaskTag
         fields = "__all__"
 
 

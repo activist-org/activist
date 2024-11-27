@@ -22,10 +22,12 @@ from .models import (
     SupportEntityType,
     UserModel,
     UserResource,
+    UserSocialLink,
     UserTask,
     UserTopic,
 )
 from .serializers import (
+    DeleteUserResponseSerializer,
     LoginSerializer,
     PasswordResetSerializer,
     SignupSerializer,
@@ -73,6 +75,12 @@ class UserResourceViewSet(viewsets.ModelViewSet[UserResource]):
     serializer_class = UserResourceSerializer
 
 
+class UserSocialLinkViewSet(viewsets.ModelViewSet[UserSocialLink]):
+    queryset = UserSocialLink.objects.all()
+    pagination_class = CustomPagination
+    serializer_class = UserResourceSerializer
+
+
 class UserTaskViewSet(viewsets.ModelViewSet[UserTask]):
     queryset = UserTask.objects.all()
     pagination_class = CustomPagination
@@ -88,13 +96,15 @@ class UserTopicViewSet(viewsets.ModelViewSet[UserTopic]):
 # MARK: Methods
 
 
-class SignupView(APIView):
+class SignUpView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = SignupSerializer
 
     def post(self, request: Request) -> Response:
-        """Create a new user."""
+        """
+        Create a new user.
+        """
         serializer = SignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user: UserModel = serializer.save()
@@ -124,7 +134,7 @@ class SignupView(APIView):
             user.save()
 
         return Response(
-            {"message": "User was created successfully"},
+            {"message": "User was created successfully."},
             status=status.HTTP_201_CREATED,
         )
 
@@ -132,13 +142,15 @@ class SignupView(APIView):
         parameters=[OpenApiParameter(name="verification_code", type=str, required=True)]
     )
     def get(self, request: Request) -> Response:
-        """Confirm a user's email address."""
+        """
+        Confirm a user's email address.
+        """
         verification_code = request.GET.get("verification_code")
         user = UserModel.objects.filter(verification_code=verification_code).first()
 
         if user is None:
             return Response(
-                {"message": "User does not exist"},
+                {"message": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -153,14 +165,15 @@ class SignupView(APIView):
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class LoginView(APIView):
+class SignInView(APIView):
     serializer_class = LoginSerializer
     permission_classes = (AllowAny,)
 
     def post(self, request: Request) -> Response:
-        """Log in a user.
+        """
+        Sign in a user.
 
-        Login is possible with either email or username
+        Sign in is possible with either email or username.
         """
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -170,7 +183,7 @@ class LoginView(APIView):
         return Response(
             {
                 "token": serializer.validated_data.get("token"),
-                "message": "User was logged in successfully",
+                "message": "User was logged in successfully.",
             },
             status=status.HTTP_200_OK,
         )
@@ -188,7 +201,7 @@ class PasswordResetView(APIView):
 
         if user is None:
             return Response(
-                {"message": "User does not exist"},
+                {"message": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -213,7 +226,7 @@ class PasswordResetView(APIView):
         user.save()
 
         return Response(
-            {"message": "Password reset email was sent successfully"},
+            {"message": "Password reset email was sent successfully."},
             status=status.HTTP_200_OK,
         )
 
@@ -231,7 +244,7 @@ class PasswordResetView(APIView):
         user.save()
 
         return Response(
-            {"message": "Password was reset successfully"},
+            {"message": "Password was reset successfully."},
             status=status.HTTP_200_OK,
         )
 
@@ -239,19 +252,20 @@ class PasswordResetView(APIView):
 class DeleteUserView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (IsAuthenticated,)
+    serializer_class = DeleteUserResponseSerializer
 
     def delete(self, request: Request, pk: UUID | str) -> Response:
         user = UserModel.objects.get(pk=pk)
 
         if user is None:
             return Response(
-                {"message": "User does not exist"},
+                {"message": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
         user.delete()
 
         return Response(
-            {"message": "User was deleted successfully"},
+            {"message": "User was deleted successfully."},
             status=status.HTTP_204_NO_CONTENT,
         )

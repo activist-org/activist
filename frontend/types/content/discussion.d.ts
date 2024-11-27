@@ -3,9 +3,9 @@
 export interface Discussion {
   title: string;
   createdBy: User;
-  orgID?: Organization;
-  eventID?: Event;
-  // voteID?: Vote;
+  orgId?: Organization;
+  eventId?: Event;
+  // voteId?: Vote;
   category: string;
   upVoters: User[];
   participants: User[];

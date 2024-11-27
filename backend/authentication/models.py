@@ -12,7 +12,6 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 # MARK: Main Tables
@@ -87,19 +86,19 @@ class UserModel(AbstractUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, blank=True)
     password = models.CharField(max_length=255)
+    location = models.CharField(max_length=100, blank=True)
     description = models.TextField(max_length=500, blank=True)
     verified = models.BooleanField(default=False)
     verification_method = models.CharField(max_length=30, blank=True)
     verification_partner = models.ForeignKey(
         "authentication.UserModel", on_delete=models.SET_NULL, null=True
     )
+    verification_code = models.UUIDField(blank=True, null=True)
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.SET_NULL, blank=True, null=True
     )
-    verification_code = models.UUIDField(blank=True, null=True)
     email = models.EmailField(blank=True)
     is_confirmed = models.BooleanField(default=False)
-    social_links = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     is_private = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -122,6 +121,14 @@ class UserModel(AbstractUser, PermissionsMixin):
 class UserResource(models.Model):
     user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
+
+
+class UserSocialLink(models.Model):
+    user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    link_id = models.ForeignKey("content.SocialLink", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"

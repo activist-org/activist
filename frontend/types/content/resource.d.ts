@@ -1,4 +1,5 @@
-import { Organization } from "../entities/organization";
+import type { Organization } from "../entities/organization";
+
 // MARK: Main Table
 
 export interface Resource {
@@ -9,7 +10,7 @@ export interface Resource {
   // category: string;
   organization: Organization;
   location: string;
-  resourceURL: string;
+  resourceUrl: string;
   // isPrivate?: boolean;
   creationDate?: string;
   // lastUpdated?: string;
@@ -18,16 +19,16 @@ export interface Resource {
 // MARK: Bridge Tables
 
 export interface ResourceStar {
-  resourceID: string;
+  resourceId: string;
   user_id: string;
 }
 
 export interface ResourceTag {
-  resourceID: string;
-  tagID: string;
+  resourceId: string;
+  tagId: string;
 }
 
 export interface ResourceTopic {
-  resourceID: string;
-  topicID: string;
+  resourceId: string;
+  topicId: string;
 }

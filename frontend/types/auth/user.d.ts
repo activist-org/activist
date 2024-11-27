@@ -2,11 +2,11 @@
 
 export interface User {
   id: string;
-  user_name: string;
+  userName: string;
   name: string;
   location?: string;
   description?: string;
-  iconURL?: string;
+  iconUrl?: string;
   // verified?: boolean;
   // verificationMethod?: string;
   // verificationPartner?: User;
@@ -23,16 +23,16 @@ export interface User {
 // MARK: Bridge Tables
 
 export interface UserResource {
-  userID: string;
-  resourceID: string;
+  userId: string;
+  resourceId: string;
 }
 
 export interface UserTask {
-  userID: string;
-  taskID: string;
+  userId: string;
+  taskId: string;
 }
 
 export interface UserTopic {
-  userID: string;
-  topicID: string;
+  userId: string;
+  topicId: string;
 }

@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left text-light-distinct-text dark:text-dark-distinct-text"
+    class="flex items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left text-distinct-text"
     :class="{
-      'border-light-action-red dark:border-dark-action-red': error,
-      'border-light-interactive dark:border-dark-interactive': !error,
+      'border-action-red dark:border-action-red': error,
+      'border-interactive': !error,
     }"
   >
     <textarea :id="uuid"></textarea>
@@ -18,7 +18,7 @@ export interface Props {
   error?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   placeholder: "",
   error: false,
 });

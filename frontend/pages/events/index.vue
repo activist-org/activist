@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-light-layer-0 px-8 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
-  >
+  <div class="bg-layer-0 px-8 text-primary-text">
     <Head>
       <Title>{{ $t("pages.events.index.header_title") }} </Title>
     </Head>
@@ -13,23 +11,18 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <PagePreviewEvent />
-    <!-- <div v-if="events.results.length > 0">
-      <div v-for="event in events.results" class="space-y-6 pb-6 pt-3 md:pt-4">
+    <div v-if="events.length > 0">
+      <div v-for="event in events" class="space-y-6 pb-6 pt-3 md:pt-4">
         <CardSearchResultEvent :isPrivate="false" :event="event" />
       </div>
     </div>
-    <EmptyState v-else pageType="events" :permission="false" /> -->
+    <EmptyState v-else pageType="events" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-// import type { Event } from "~/types/events/event";
+const eventStore = useEventStore();
+await eventStore.fetchAll();
 
-// const { data: events } = await useFetch<Event[] | undefined>(
-//   `${BASE_BACKEND_URL}/entities/organization_events/`,
-//   {
-//     method: "GET",
-//   }
-// );
+const { events } = eventStore;
 </script>

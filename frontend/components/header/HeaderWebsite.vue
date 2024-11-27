@@ -4,8 +4,8 @@
     id="header"
     class="sticky top-0 z-10 drop-shadow-md duration-500"
     :class="{
-      'bg-light-layer-2 dark:bg-dark-layer-2': headerOpacity == 1,
-      'bg-light-layer-2/80 dark:bg-dark-layer-2/80': headerOpacity == 0.8,
+      'bg-layer-2': headerOpacity == 1,
+      'bg-layer-2/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
   >
@@ -33,6 +33,22 @@
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />
+          <DropdownCreate
+            v-if="userIsSignedIn && devMode.active"
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+          />
+          <DropdownInfo
+            v-if="devMode.active"
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+          />
+          <DropdownUserOptions
+            v-if="devMode.active"
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+            :userIsSignedIn="userIsSignedIn"
+          />
         </div>
       </SidebarRight>
     </div>
@@ -45,31 +61,71 @@
               class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
             />
           </div>
-          <BtnRoadMap label="Roadmap" linkTo="/about/roadmap" />
+          <BtnRoadMap />
         </div>
         <div>
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
             <DropdownTheme />
             <DropdownLanguage />
             <BtnRouteInternal
-              v-if="aboveLargeBP"
+              v-if="aboveLargeBP && devMode.active"
+              id="btn-sign-in-large"
+              class="block"
+              :cta="true"
+              label="_global.sign_in"
+              linkTo="/auth/sign-in"
+              fontSize="sm"
+              ariaLabel="_global.sign_in_aria_label"
+            />
+            <BtnRouteInternal
+              v-else-if="aboveMediumBP && devMode.active"
+              id="btn-sign-in-medium"
+              class="block"
+              :cta="true"
+              label="_global.sign_in"
+              linkTo="/auth/sign-in"
+              fontSize="xs"
+              ariaLabel="_global.sign_in_aria_label"
+            />
+            <BtnRouteInternal
+              v-if="aboveLargeBP && devMode.active"
+              id="btn-sign-up-large"
+              class="block"
+              :cta="true"
+              label="_global.sign_up"
+              linkTo="/auth/sign-up"
+              fontSize="sm"
+              ariaLabel="_global.sign_up_aria_label"
+            />
+            <BtnRouteInternal
+              v-else-if="aboveMediumBP && devMode.active"
+              id="btn-sign-up-medium"
+              class="block"
+              :cta="true"
+              label="_global.sign_up"
+              linkTo="/auth/sign-up"
+              fontSize="xs"
+              ariaLabel="_global.sign_up_aria_label"
+            />
+            <BtnRouteInternal
+              v-if="aboveLargeBP && !devMode.active"
               id="btn-get-in-touch-large"
               class="block"
               :cta="true"
-              label="components.header_website.get_in_touch"
-              linkTo="/help/contact"
+              label="_global.support"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="sm"
-              ariaLabel="components.header_website.get_in_touch_aria_label"
+              ariaLabel="components.header_website.support_aria_label"
             />
             <BtnRouteInternal
-              v-else-if="aboveMediumBP"
+              v-else-if="aboveMediumBP && !devMode.active"
               id="btn-get-in-touch-medium"
               class="block"
               :cta="true"
-              label="components.header_website.get_in_touch"
-              linkTo="/help/contact"
+              label="_global.support"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="xs"
-              ariaLabel="components.header_website.get_in_touch_aria_label"
+              ariaLabel="components.header_website.support_aria_label"
             />
           </div>
         </div>
@@ -79,8 +135,12 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { DropdownLocation } from "~/types/location";
+
+const devMode = useDevMode();
+devMode.check();
+
+const { userIsSignedIn } = useUser();
 
 const aboveMediumBP = useBreakpoint("md");
 const aboveLargeBP = useBreakpoint("lg");

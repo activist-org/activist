@@ -10,7 +10,7 @@
     ref="sidebarWrapper"
     role="menu"
     tabindex="0"
-    class="elem-shadow-sm focus-brand absolute z-10 block h-full flex-col border-r border-light-section-div bg-light-layer-1 transition-all duration-500 dark:border-dark-section-div dark:bg-dark-layer-1 md:flex"
+    class="elem-shadow-sm focus-brand absolute z-40 block h-full flex-col border-r border-section-div bg-layer-1 transition-all duration-500 md:flex"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
@@ -234,6 +234,7 @@ const getFiltersByPageType = computed<Filters>(() => {
   for (const filter in filters) {
     const f = filters[filter as keyof typeof filters];
     if (!f.sidebarType.includes(sidebarType.value)) {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete filteredFilters[filter as keyof typeof filters];
     }
   }
@@ -251,6 +252,7 @@ const applyTopShadow = ref(false);
 
 function setSidebarContentScrollable(): void {
   setTimeout(() => {
+    // eslint-disable-next-line vue/no-ref-as-operand
     if (content && content.value) {
       sidebarContentScrollable.value =
         content.value.scrollHeight > content.value.clientHeight ? true : false;

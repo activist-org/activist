@@ -2,7 +2,7 @@
   <header
     v-if="!aboveMediumBP"
     ref="header"
-    class="sticky top-0 z-50 h-12 w-full bg-light-layer-2 drop-shadow-md duration-500 dark:bg-dark-layer-2"
+    class="sticky top-0 z-50 h-12 w-full bg-layer-2 drop-shadow-md duration-500"
   >
     <div class="h-full">
       <div class="flex h-full justify-between gap-2 px-4">
@@ -49,12 +49,12 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
 import { DropdownLocation, SearchBarLocation } from "~/types/location";
 
 const aboveMediumBP = useBreakpoint("md");
 
-const userIsSignedIn = false;
+const { userIsSignedIn } = useUser();
+
 const isSearchExpanded = ref(false);
 
 const toggleSearchExpanded = () => {

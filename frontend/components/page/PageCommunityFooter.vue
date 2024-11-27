@@ -37,7 +37,7 @@
         {{ $t("components.page_community_footer.invite_text_3_3") }}
       </li>
       <li>
-        {{ $t("_global.visit_our") }}
+        {{ $t("components.page_community_footer.visit_our") }}
         <a
           class="focus-brand link-text items-center"
           href="https://hosted.weblate.org/projects/activist/activist"
@@ -88,9 +88,7 @@
       </li>
     </ul>
   </div>
-  <div
-    class="mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[70%] md:gap-x-6 lg:max-w-[60%] xl:max-w-[50%] xl:gap-x-8 2xl:max-w-[80%]"
-  >
+  <div class="style-btns-next-to-one-another">
     <!-- Slot is formatted to accept buttons for the bottom of the page. -->
     <slot />
   </div>

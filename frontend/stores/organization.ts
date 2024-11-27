@@ -4,9 +4,10 @@ import type {
   OrganizationText,
   OrganizationUpdateTextFormData,
   PiniaResOrganization,
-  PiniaResOrganizations,
+  PiniaResOrganizationEvents,
   PiniaResOrganizationText,
   PiniaResOrganizationTexts,
+  PiniaResOrganizations,
 } from "~/types/entities/organization";
 
 interface OrganizationStore {
@@ -23,17 +24,18 @@ export const useOrganizationStore = defineStore("organization", {
 
     organization: {
       id: "",
+      orgName: "",
       name: "",
       tagline: "",
       createdBy: "",
-      iconURL: "",
+      iconUrl: "",
       location: "",
-      getInvolvedURL: "",
+      getInvolvedUrl: "",
       socialLinks: [""],
       status: 1,
       groups: [],
 
-      organization_text_id: "",
+      organizationTextId: "",
       description: "",
       getInvolved: "",
       donationPrompt: "",
@@ -84,67 +86,78 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Fetch By ID
 
-    async fetchByID(id: string | undefined) {
+    async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const [responseOrg, responseOrgTexts] = await Promise.all([
-        useAsyncData(
-          async () => await fetchWithToken(`/entities/organizations/${id}`, {})
-        ),
-        // useAsyncData(
-        //   async () =>
-        //     await fetchWithToken(
-        //       `/entities/organization_faq?org_id=${id}`,
-        //       {}
-        //     )
-        // ),
-        // useAsyncData(
-        //   async () => await fetchWithToken(`/entities/groups?org_id=${id}`, {})
-        // ),
-        // useAsyncData(
-        //   async () =>
-        //     await fetchWithToken(
-        //       `/entities/organization_resources?org_id=${id}`,
-        //       {}
-        //     )
-        // ),
-        useAsyncData(
-          async () =>
-            await fetchWithToken(
-              `/entities/organization_texts?org_id=${id}`,
-              {}
-            )
-        ),
-      ]);
+      const [responseOrg, responseOrgTexts, responseOrgEvents] =
+        await Promise.all([
+          useAsyncData(
+            async () =>
+              await fetchWithOptionalToken(`/entities/organizations/${id}`, {})
+          ),
+          useAsyncData(
+            async () =>
+              await fetchWithOptionalToken(
+                `/entities/organization_texts?org_id=${id}`,
+                {}
+              )
+          ),
+          useAsyncData(
+            async () =>
+              await fetchWithOptionalToken(
+                `/entities/organization_events?org_id=${id}`,
+                {}
+              )
+          ),
+          // useAsyncData(
+          //   async () =>
+          //     await fetchWithOptionalToken(
+          //       `/entities/organization_faq?org_id=${id}`,
+          //       {}
+          //     )
+          // ),
+          // useAsyncData(
+          //   async () =>
+          //     await fetchWithOptionalToken(
+          //       `/entities/organization_resources?org_id=${id}`,
+          //       {}
+          //     )
+          // ),
+        ]);
       const orgRes = responseOrg.data as unknown as PiniaResOrganization;
-      // const orgFAQRes = responseOrgFAQ.data as unknown as PiniaResOrganizationFAQ;
-      // const orgGroupRes = responseOrgGroups.data as unknown as PiniaResOrganizationGroup;
-      // const orgResourcesRes =
-      //   responseOrgResources.data as unknown as PiniaResOrganizationResource;
       const orgTextsRes =
         responseOrgTexts.data as unknown as PiniaResOrganizationText;
+      const orgEventsRes =
+        responseOrgEvents.data as unknown as PiniaResOrganizationEvents;
+      // const orgGroupRes = responseOrgGroups.data as unknown as PiniaResOrganizationGroup;
+      // const orgFAQRes = responseOrgFAQ.data as unknown as PiniaResOrganizationFAQ;
+      // const orgResourcesRes =
+      //   responseOrgResources.data as unknown as PiniaResOrganizationResource;
 
       const organization = orgRes._value;
+      const texts = orgTextsRes._value.results[0];
+      const events = orgEventsRes._value.results;
       // const faq = orgRes._value;
       // const groups = orgRes._value;
       // const resources = orgRes._value;
-      const texts = orgTextsRes._value.results[0];
 
       this.organization.id = organization.id;
+      this.organization.orgName = organization.orgName;
       this.organization.name = organization.name;
       this.organization.tagline = organization.tagline;
-      this.organization.iconURL = organization.iconURL;
+      this.organization.iconUrl = organization.iconUrl;
       this.organization.location = organization.location;
-      this.organization.getInvolvedURL = organization.getInvolvedURL;
+      this.organization.getInvolvedUrl = organization.getInvolvedUrl;
       this.organization.socialLinks = organization.socialLinks;
       this.organization.status = organization.status;
 
-      this.organization.groups = organization.groups;
-
+      this.organization.organizationTextId = texts.id;
       this.organization.description = texts.description;
       this.organization.getInvolved = texts.getInvolved;
       this.organization.donationPrompt = texts.donationPrompt;
-      this.organization.organization_text_id = texts.id;
+
+      this.organization.groups = organization.groups;
+      this.organization.events = events;
 
       this.loading = false;
     },
@@ -156,46 +169,53 @@ export const useOrganizationStore = defineStore("organization", {
 
       const [responseOrgs] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithToken(`/entities/organizations/`, {})
+          async () =>
+            await fetchWithOptionalToken(`/entities/organizations/`, {})
         ),
       ]);
 
       const orgs = responseOrgs.data as unknown as PiniaResOrganizations;
 
       if (orgs._value) {
-        const responseOrgTexts = (await Promise.all(
-          orgs._value.map((org) =>
-            useAsyncData(
-              async () =>
-                await fetchWithToken(
-                  `/entities/organization_texts?org_id=${org.id}`,
-                  {}
-                )
-            )
-          )
-        )) as unknown as PiniaResOrganizationTexts[];
+        const responseOrgTexts = (await Promise.all([
+          useAsyncData(
+            async () =>
+              await fetchWithOptionalToken(`/entities/organization_texts/`, {})
+          ),
+        ])) as unknown as PiniaResOrganizationTexts[];
 
         const orgTextsData = responseOrgTexts.map(
-          (text) => text.data._value.results[0]
-        ) as unknown as OrganizationText[];
+          (text) => text.data._value.results
+        )[0] as unknown as OrganizationText[];
 
-        console.log(`Here: ${JSON.stringify(orgTextsData)}`);
+        // Order texts based on the returned organizations.
+        const orgIds = orgs._value.map((o) => o.id);
+        const sortedOrgTextsData: OrganizationText[] = [];
+        for (const id of orgIds) {
+          for (const text of orgTextsData) {
+            if (text.orgId === id) {
+              sortedOrgTextsData.push(text);
+            }
+          }
+        }
 
         const organizationsWithTexts = orgs._value.map(
           (organization: Organization, index: number) => {
-            const texts = orgTextsData[index];
+            const texts = sortedOrgTextsData[index];
             return {
               id: organization.id,
+              orgName: organization.orgName,
               name: organization.name,
               tagline: organization.tagline,
               createdBy: organization.createdBy,
-              iconURL: organization.iconURL,
+              iconUrl: organization.iconUrl,
               location: organization.location,
-              getInvolvedURL: organization.getInvolvedURL,
+              getInvolvedUrl: organization.getInvolvedUrl,
               socialLinks: organization.socialLinks,
               status: organization.status,
               groups: organization.groups,
-              organization_text_id: organization.organization_text_id,
+
+              organizationTextId: texts.id,
               description: texts.description,
               getInvolved: texts.getInvolved,
               donationPrompt: texts.donationPrompt,
@@ -225,7 +245,7 @@ export const useOrganizationStore = defineStore("organization", {
           method: "PUT",
           body: {
             ...org,
-            getInvolvedURL: formData.getInvolvedURL,
+            getInvolvedUrl: formData.getInvolvedUrl,
           },
           headers: {
             Authorization: `Token ${token}`,
@@ -235,7 +255,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL +
-          `/entities/organization_texts/${org.organization_text_id}/`,
+          `/entities/organization_texts/${org.organizationTextId}/`,
         {
           method: "PUT",
           body: {
@@ -244,7 +264,7 @@ export const useOrganizationStore = defineStore("organization", {
             getInvolved: formData.getInvolved,
             donate_prompt: "",
             org_id: org.id,
-            iso: 1,
+            iso: "en",
           },
           headers: {
             Authorization: `Token ${token}`,
@@ -255,7 +275,7 @@ export const useOrganizationStore = defineStore("organization", {
       if (responseOrg && responseOrgTexts) {
         this.organization.description = formData.description;
         this.organization.getInvolved = formData.getInvolved;
-        this.organization.getInvolvedURL = formData.getInvolvedURL;
+        this.organization.getInvolvedUrl = formData.getInvolvedUrl;
 
         this.loading = false;
 
@@ -267,7 +287,7 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Delete
 
-    async delete(id: string | undefined) {
+    async delete() {
       this.loading = true;
 
       this.loading = false;

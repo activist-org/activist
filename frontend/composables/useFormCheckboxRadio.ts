@@ -1,5 +1,6 @@
 export default function useFormCheckboxRadio(
   value: string | string[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit: (event: "update:modelValue", ...args: any[]) => void
 ) {
   const selectedValue = ref<string | string[]>(value);

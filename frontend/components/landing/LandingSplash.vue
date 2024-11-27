@@ -1,6 +1,6 @@
 <template>
   <div
-    class="2xl:pb-18 w-full flex-1 space-y-4 bg-light-layer-1 pb-8 pt-10 text-light-text dark:bg-dark-layer-1 dark:text-dark-text sm:space-y-9 sm:pb-10 sm:pt-12 md:pb-12 md:pt-16 lg:pb-14 lg:pt-20 xl:space-y-10 xl:pb-16 xl:pt-24 2xl:pt-28"
+    class="2xl:pb-18 w-full flex-1 space-y-4 bg-layer-1 pb-8 pt-10 text-primary-text sm:space-y-9 sm:pb-10 sm:pt-12 md:pb-12 md:pt-16 lg:pb-14 lg:pt-20 xl:space-y-10 xl:pb-16 xl:pt-24 2xl:pt-28"
   >
     <div class="flex justify-center">
       <h1
@@ -26,10 +26,31 @@
       </div>
     </div>
     <div class="flex justify-center rounded-md">
+      <div v-if="devMode.active" class="style-btns-next-to-one-another">
+        <BtnRouteInternal
+          id="view-organizations"
+          class="w-full"
+          :cta="true"
+          label="components.landing_splash.view_organizations"
+          linkTo="/organizations"
+          fontSize="xl"
+          ariaLabel="components.landing_splash.view_organizations_aria_label"
+        />
+        <BtnRouteInternal
+          id="view-events"
+          class="w-full"
+          :cta="true"
+          label="components.landing_splash.view_events"
+          linkTo="/events"
+          fontSize="xl"
+          ariaLabel="components.landing_splash.view_events_aria_label"
+        />
+      </div>
       <BtnRouteExternal
+        v-else
         id="request-access"
         :cta="true"
-        label="_global.request_access"
+        label="components.landing_splash.request_access"
         :linkTo="REQUEST_ACCESS_URL"
         fontSize="xl"
         ariaLabel="components.landing_splash.request_access_aria_label"
@@ -39,7 +60,8 @@
 </template>
 
 <script setup lang="ts">
-import useBreakpoint from "~/composables/useBreakpoint";
-
 const aboveMediumBP = useBreakpoint("md");
+
+const devMode = useDevMode();
+devMode.check();
 </script>

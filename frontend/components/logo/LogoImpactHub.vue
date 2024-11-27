@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="fill-light-distinct-text dark:fill-dark-distinct-text"
+    class="fill-distinct-text"
     width="80"
     height="80"
     viewBox="0 0 80 80"

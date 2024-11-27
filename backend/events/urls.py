@@ -9,20 +9,25 @@ router = DefaultRouter()
 
 # MARK: Main Tables
 
-router.register(r"events", views.EventViewSet)
-router.register(r"formats", views.FormatViewSet)
-router.register(r"roles", views.RoleViewSet)
+router.register(prefix=r"events", viewset=views.EventViewSet)
+router.register(prefix=r"formats", viewset=views.FormatViewSet)
+router.register(prefix=r"roles", viewset=views.RoleViewSet)
 
 # MARK: Bridge Tables
 
-router.register(r"event_attendees", views.EventAttendeeViewSet)
-router.register(r"event_formats", views.EventFormatViewSet)
-router.register(r"event_attendee_statuses", views.EventAttendeeStatusViewSet)
-router.register(r"event_resources", views.EventResourceViewSet)
-router.register(r"event_roles", views.EventRoleViewSet)
-router.register(r"event_tasks", views.EventTaskViewSet)
-router.register(r"event_texts", views.EventTextViewSet)
-router.register(r"event_topics", views.EventTopicViewSet)
+router.register(prefix=r"event_attendees", viewset=views.EventAttendeeViewSet)
+router.register(
+    prefix=r"event_attendee_statuses", viewset=views.EventAttendeeStatusViewSet
+)
+router.register(prefix=r"event_discussions", viewset=views.EventDiscussionViewSet)
+router.register(prefix=r"event_faqs", viewset=views.EventFaqViewSet)
+router.register(prefix=r"event_formats", viewset=views.EventFormatViewSet)
+router.register(prefix=r"event_resources", viewset=views.EventResourceViewSet)
+router.register(prefix=r"event_roles", viewset=views.EventRoleViewSet)
+router.register(prefix=r"event_social_links", viewset=views.EventSocialLinkViewSet)
+router.register(prefix=r"event_tasks", viewset=views.EventTaskViewSet)
+router.register(prefix=r"event_texts", viewset=views.EventTextViewSet)
+router.register(prefix=r"event_topics", viewset=views.EventTopicViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

@@ -9,20 +9,21 @@ router = DefaultRouter()
 
 # MARK: Main Tables
 
-router.register(r"supports", views.SupportViewSet)
-router.register(r"users", views.UserViewSet)
+router.register(prefix=r"supports", viewset=views.SupportViewSet)
+router.register(prefix=r"users", viewset=views.UserViewSet)
 
 # MARK: Bridge Tables
 
-router.register(r"support_entity_types", views.SupportEntityTypeViewSet)
-router.register(r"user_resources", views.UserResourceViewSet)
-router.register(r"user_tasks", views.UserTaskViewSet)
-router.register(r"user_topics", views.UserTopicViewSet)
+router.register(prefix=r"support_entity_types", viewset=views.SupportEntityTypeViewSet)
+router.register(prefix=r"user_resources", viewset=views.UserResourceViewSet)
+router.register(prefix=r"user_social_links", viewset=views.UserSocialLinkViewSet)
+router.register(prefix=r"user_tasks", viewset=views.UserTaskViewSet)
+router.register(prefix=r"user_topics", viewset=views.UserTopicViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("signup/", views.SignupView.as_view(), name="signup"),
-    path("delete/", views.DeleteUserView.as_view(), name="delete"),
-    path("login/", views.LoginView.as_view(), name="login"),
-    path("pwreset/", views.PasswordResetView.as_view(), name="pwreset"),
+    path(route="sign_up/", view=views.SignUpView.as_view(), name="sign_up"),
+    path(route="delete/", view=views.DeleteUserView.as_view(), name="delete"),
+    path(route="sign_in/", view=views.SignInView.as_view(), name="sign_in"),
+    path(route="pwreset/", view=views.PasswordResetView.as_view(), name="pwreset"),
 ]

@@ -1,9 +1,0 @@
-[
-  {
-    "model": "content.isocodemap",
-    "pk": 1,
-    "fields": {
-      "code": "en"
-    }
-  }
-]

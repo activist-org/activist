@@ -11,7 +11,7 @@
         emit('expand-reduce-text');
         expand_reduce_text();
       "
-      class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
+      class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
@@ -20,13 +20,10 @@
         <h3 class="responsive-h3 text-left font-display">
           {{ $t("_global.about") }}
         </h3>
-        <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-        <ModalEditAboutOrganization
-          @closeModal="handleCloseModal"
-          :organization="organization"
-          :description="organization.description"
-          :getInvolved="organization.getInvolved"
-          :getInvolvedURL="organization.getInvolvedURL"
+        <IconEdit
+          v-if="userIsSignedIn"
+          @click="openModalEditAboutOrganization"
+          @keydown.enter="openModalEditAboutOrganization"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -57,7 +54,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.full_text_aria_label')
               "
@@ -70,7 +67,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.reduce_text_aria_label')
               "
@@ -85,13 +82,20 @@
 </template>
 
 <script setup lang="ts">
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
+
+const { openModal: openModalEditAboutOrganization } = useModalHandlers(
+  "ModalEditAboutOrganization"
+);
+
+const { userIsSignedIn } = useUser();
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 
@@ -120,18 +124,4 @@ const expandText = ref(false);
 function expand_reduce_text() {
   expandText.value = !expandText.value;
 }
-
-const modals = useModals();
-const modalName = "ModalEditAboutOrganization";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
 </script>

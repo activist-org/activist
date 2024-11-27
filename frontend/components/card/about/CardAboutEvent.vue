@@ -5,14 +5,9 @@
         <h3 class="responsive-h3 text-left font-display">
           {{ $t("_global.about") }}
         </h3>
-        <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-        <ModalEditAboutEvent
-          @closeModal="handleCloseModal"
-          :event="event"
-          :description="event.description"
-          :getInvolved="event.getInvolved"
-          :getInvolvedURL="event.getInvolvedURL"
-          :isOpen="modalIsOpen"
+        <IconEdit
+          @click="openModalEditAboutEvent()"
+          @keydown.enter="openModalEditAboutEvent()"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -35,7 +30,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.full_text_aria_label')
               "
@@ -48,7 +43,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.reduce_text_aria_label')
               "
@@ -63,13 +58,17 @@
 </template>
 
 <script setup lang="ts">
-import CardAbout from "./CardAbout.vue";
+import { useModalHandlers } from "~/composables/useModalHandlers";
+
+const { openModal: openModalEditAboutEvent } = useModalHandlers(
+  "ModalEditAboutEvent"
+);
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 
@@ -98,18 +97,4 @@ const expandText = ref(false);
 function expand_reduce_text() {
   expandText.value = !expandText.value;
 }
-
-const modals = useModals();
-const modalName = "ModalEditAboutEvent";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
 </script>

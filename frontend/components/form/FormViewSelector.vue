@@ -1,7 +1,7 @@
 <template>
   <RadioGroup
     v-model="value"
-    class="flex h-11 w-full items-center divide-x-2 divide-light-text dark:divide-dark-text"
+    class="flex h-11 w-full items-center divide-x-2 divide-primary-text"
     :aria-label="$t('components.form_view_selector.title_aria_label')"
   >
     <RadioGroupOption
@@ -13,21 +13,13 @@
       as="template"
     >
       <button
-        class="h-full flex-1 border-y-2 border-light-text first:rounded-l-xl first:border-l-2 last:rounded-r-xl last:!border-r-2 dark:border-dark-text"
-        :class="
-          checked
-            ? 'bg-light-menu-selection dark:bg-dark-menu-selection'
-            : 'bg-light-layer-0 dark:bg-dark-layer-0'
-        "
+        class="h-full flex-1 border-y-2 border-primary-text first:rounded-l-xl first:border-l-2 last:rounded-r-xl last:!border-r-2"
+        :class="checked ? 'bg-menu-selection' : 'bg-layer-0'"
         :aria-label="$t(viewAriaLabelsDict[option])"
       >
         <Icon
           class="h-full w-auto p-2"
-          :class="
-            checked
-              ? 'text-dark-text dark:text-light-text'
-              : 'text-light-text dark:text-dark-text'
-          "
+          :class="checked ? 'text-primary-text' : 'text-distinct-text'"
           :name="viewTypeIcons[option]"
         />
       </button>

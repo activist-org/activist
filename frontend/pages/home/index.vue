@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title>{{ $t("_global.home") }}</Title>
     </Head>
@@ -11,7 +9,6 @@
     >
       <ComboboxTopics class="pb-3 lg:pb-4" />
     </HeaderAppPage>
-    <PagePreviewHome />
     <!-- <div class="space-y-6 pb-6">
       <div
         class="flex flex-col space-y-6 lg:mr-6 lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:space-x-6 lg:space-y-0"

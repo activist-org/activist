@@ -5,36 +5,36 @@
     :modalName="modalName"
   >
     <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
+      <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
           $t("_global.about")
         }}</label>
         <textarea
           v-model="formData.description"
           id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
+          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />
       </div>
-      <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
+      <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
           $t("components._global.participate")
         }}</label>
         <textarea
           v-model="formData.getInvolved"
           id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
+          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />
       </div>
-      <div class="flex flex-col space-y-3 text-light-text dark:text-dark-text">
+      <div class="flex flex-col space-y-3 text-primary-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
             $t("components._global.offer_to_help_link")
           }}</label>
           <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
-            v-model="formData.getInvolvedURL"
+            v-model="formData.getInvolvedUrl"
             id="textarea"
-            class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-light-layer-2 px-3 py-2 dark:bg-dark-layer-2"
+            class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-layer-2 px-3 py-2"
           />
         </div>
       </div>
@@ -58,14 +58,14 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 
 const formData = ref({
   description: event.description,
   getInvolved: event.getInvolved,
-  getInvolvedURL: event.getInvolvedURL,
+  getInvolvedUrl: event.getInvolvedUrl,
 });
 
 async function handleSubmit() {

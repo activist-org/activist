@@ -11,6 +11,7 @@ from .models import (
     EventResource,
     EventRole,
     EventTask,
+    EventText,
     EventTopic,
     Format,
     Role,
@@ -22,13 +23,14 @@ from .models import (
 class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Event
+        django_get_or_create = ("created_by",)
 
-    name = factory.Faker("name")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    name = factory.Faker("word")
     tagline = factory.Faker("word")
-    type = factory.Faker("word")
+    type = random.choice(["learn", "action"])
     online_location_link = factory.Faker("url")
-    offline_location_lat = factory.Faker("latitude")
-    offline_location_long = factory.Faker("longitude")
+    offline_location = factory.Faker("city")
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -37,7 +39,6 @@ class EventFactory(factory.django.DjangoModelFactory):
             datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
         )
     )
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -132,6 +133,17 @@ class EventTaskFactory(factory.django.DjangoModelFactory):
 
     event_id = factory.SubFactory(EventFactory)
     task_id = factory.SubFactory("content.factories.TaskFactory")
+
+
+class EventTextFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventText
+
+    event_id = factory.SubFactory(EventFactory)
+    iso = factory.Faker("word")
+    primary = factory.Faker("boolean")
+    description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
+    get_involved = factory.Faker(provider="text", locale="la")
 
 
 class EventTopicFactory(factory.django.DjangoModelFactory):

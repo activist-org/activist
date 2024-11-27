@@ -31,7 +31,7 @@ coverage[toml]==7.4.4
     # via pytest-cov
 distlib==0.3.8
     # via virtualenv
-django==5.0.8
+django==5.0.9
     # via
     #   -r requirements.txt
     #   django-cors-headers
@@ -53,6 +53,8 @@ djangorestframework==3.15.2
     # via
     #   -r requirements.txt
     #   drf-spectacular
+djangorestframework-camel-case==1.4.2
+    # via -r requirements.txt
 djangorestframework-stubs==3.14.4
     # via -r requirements.txt
 drf-spectacular==0.26.5

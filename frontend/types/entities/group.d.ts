@@ -2,13 +2,14 @@
 
 export interface Group {
   id: string;
+  groupName: string;
   name: string;
   tagline: string;
   organization: Organization;
   createdBy: User;
   // category?: string;
   location: string;
-  getInvolvedURL: string;
+  getInvolvedUrl: string;
   socialLinks: string[];
   creationDate: string;
   // deletionDate: string;
@@ -38,31 +39,31 @@ export interface Group {
 // MARK: Bridge Tables
 
 export interface GroupEvent {
-  groupID: string;
-  eventID: string;
+  groupId: string;
+  eventId: string;
 }
 
 export interface GroupImage {
-  groupID: string;
-  imageID: string;
+  groupId: string;
+  imageId: string;
   sequenceIndex: number;
 }
 
 export interface GroupMember {
-  groupID: string;
-  userID: string;
+  groupId: string;
+  userId: string;
   isOwner: boolean;
   isAdmin: boolean;
   isComms: boolean;
 }
 
 export interface GroupResource {
-  groupID: string;
-  resourceID: string;
+  groupId: string;
+  resourceId: string;
 }
 
 export interface GroupText {
-  groupID: string;
+  groupId: string;
   iso: string;
   primary: boolean;
   description: string;
@@ -71,8 +72,8 @@ export interface GroupText {
 }
 
 export interface GroupTopic {
-  groupID: string;
-  topicID: string;
+  groupId: string;
+  topicId: string;
 }
 
 // MARK: Pinia Responses
