@@ -233,6 +233,7 @@ onMounted(() => {
             ],
           ],
           {
+            duration: 0,
             padding: 120,
           }
         );
