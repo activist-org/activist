@@ -18,7 +18,7 @@ class Discussion(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -77,7 +77,7 @@ class Role(models.Model):
     is_custom = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -92,7 +92,7 @@ class SocialLink(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return self.name
+        return self.label
 
 
 class Tag(models.Model):
@@ -111,7 +111,7 @@ class Task(models.Model):
     description = models.TextField(max_length=500)
     last_updated = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -124,7 +124,7 @@ class Topic(models.Model):
     description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateTimeField(null=True, blank=True)
+    deprecation_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -140,7 +140,7 @@ class DiscussionEntry(models.Model):
     text = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.id}"

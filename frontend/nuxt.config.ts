@@ -3,6 +3,8 @@ import { resolve } from "path";
 import head from "./head";
 import locales from "./locales";
 import modules from "./modules";
+import type { NuxtPage } from "nuxt/schema";
+import applyMiddleware from "./applyMiddleware";
 
 export default defineNuxtConfig({
   app: {
@@ -73,6 +75,11 @@ export default defineNuxtConfig({
     compilerOptions: {
       isCustomElement: (tag) =>
         ["swiper-slide", "swiper-container"].includes(tag),
+    },
+  },
+  hooks: {
+    "pages:extend": (pages: NuxtPage[]) => {
+      applyMiddleware(pages);
     },
   },
 });
