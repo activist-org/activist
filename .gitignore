@@ -41,3 +41,5 @@ dist
 
 # Node dependencies
 node_modules
+/.vscode
+.vscode/settings.json
