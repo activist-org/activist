@@ -31,9 +31,9 @@ class Event(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
     event_text = models.ForeignKey(
-        "EventText", on_delete=models.CASCADE, null=True, blank=True
+        "EventText", on_delete=models.CASCADE, blank=True, null=True
     )
 
     def __str__(self) -> str:
@@ -71,7 +71,7 @@ class Role(models.Model):
 class EventAttendee(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    role_id = models.ForeignKey("Role", on_delete=models.CASCADE, null=True, blank=True)
+    role_id = models.ForeignKey("Role", on_delete=models.CASCADE, blank=True, null=True)
     attendee_status = models.ForeignKey(
         "EventAttendeeStatus", on_delete=models.CASCADE, default=1
     )

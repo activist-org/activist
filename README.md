@@ -9,23 +9,11 @@
 [![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
-[![license](https://img.shields.io/github/license/activist-org/activist.svg?label=%20)](https://github.com/activist-org/activist/blob/main/LICENSE.txt)
-[![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
+[![license](https://img.shields.io/github/license/activist-org/activist.svg?label=%20)](LICENSE.txt)
+[![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](.github/CODE_OF_CONDUCT.md)
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
 [![weblate](https://img.shields.io/badge/Weblate-144D3F.svg?logo=weblate&logoColor=ffffff)](https://hosted.weblate.org/projects/activist/activist)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
-
-<details><summary>🌐 Language</summary>
-<p>
-
-[Open a localization issue](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&template=localization.yml) to add a new readme to the [README](https://github.com/activist-org/activist/tree/main/README) directory
-
-- Deutsch: [README_DE.md](https://github.com/activist-org/activist/blob/main/README/README_DE.md)
-- English: README.md
-- Français: [README_FR.md](https://github.com/activist-org/activist/blob/main/README/README_FR.md)
-
-</p>
-</details>
 
 ### An open-source activism platform
 
@@ -93,12 +81,12 @@ Further prototypes and designs are available in the [designs for activist](https
 
 We use [Matrix](https://matrix.org/) for our internal communication. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi to the team :)
 
-Please see the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md) and [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) if you are interested in contributing. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
+Please see the [contribution guidelines](CONTRIBUTING.md) and [style guide](STYLEGUIDE.md) if you are interested in contributing. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
 
 > [!NOTE]
 > Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
 
-Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors. For those new to coding or our tech stack, we've collected [links to helpful documentation pages](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#learning-the-tech) in the [contribution guidelines](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md).
+Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors. For those new to coding or our tech stack, we've collected [links to helpful documentation pages](CONTRIBUTING.md#learning-the-tech) in the [contribution guidelines](CONTRIBUTING.md).
 
 We would be happy to discuss granting you further rights as a contributor after your first pull requests, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive, diverse and supportive organization. We'd love to have you on the team!
 
@@ -211,7 +199,7 @@ git remote add upstream https://github.com/activist-org/activist.git
 6. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
 > [!NOTE]
-> Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#using-yarn-or-python).
+> Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](CONTRIBUTING.md#using-yarn-or-python).
 
 7. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
 
@@ -375,7 +363,7 @@ We need to break down language barriers in order to mobilize larger and more div
 > [!NOTE]
 > Want to join our translators working group? Please join us in the [localization project on Weblate](https://hosted.weblate.org/projects/activist/activist) and the [Localization channel on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) to get involved!
 
-Localization of activist is done via [Weblate](https://weblate.org). Please see the [localization guide](https://github.com/activist-org/activist/blob/main/LOCALIZATION.md) for information on how to get started!
+Localization of activist is done via [Weblate](https://weblate.org). Please see the [localization guide](LOCALIZATION.md) for information on how to get started!
 
 ### Localization coverage [`⇧`](#contents)
 
