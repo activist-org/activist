@@ -9,13 +9,13 @@ from entities.factories import GroupFactory, GroupTextFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_text_str():
+def test_group_text_str() -> None:
     """Test string representation of GroupText model"""
     group_text = GroupTextFactory.build()
     assert hasattr(group_text, "description")
 
 
-def test_group_text_languages():
+def test_group_text_languages() -> None:
     """Test group text with different ISO languages"""
     group = GroupFactory()
 
@@ -46,7 +46,7 @@ def test_group_text_languages():
     assert secondary_text.description == "Descripción"
 
 
-def test_group_text_field_lengths():
+def test_group_text_field_lengths() -> None:
     """Test field length constraints"""
     group = GroupFactory()
 

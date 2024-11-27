@@ -10,13 +10,13 @@ from entities.factories import GroupFactory, GroupMemberFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_member_str():
+def test_group_member_str() -> None:
     """Test string representation of GroupMember model"""
     group_member = GroupMemberFactory.build()
     assert str(group_member) == f"{group_member.id}"
 
 
-def test_group_member_roles():
+def test_group_member_roles() -> None:
     """Test the different roles a group member can have"""
     user = UserFactory()
     group = GroupFactory()
@@ -46,7 +46,7 @@ def test_group_member_roles():
     assert comms.is_comms is True
 
 
-def test_multiple_members_per_group():
+def test_multiple_members_per_group() -> None:
     """Test multiple members in a single group"""
     group = GroupFactory()
     members = [GroupMemberFactory(group_id=group) for _ in range(3)]

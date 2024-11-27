@@ -10,13 +10,13 @@ from entities.models import GroupResource
 pytestmark = pytest.mark.django_db
 
 
-def test_group_resource_str():
+def test_group_resource_str() -> None:
     """Test string representation of GroupResource model"""
     group_resource = GroupResourceFactory.build()
     assert str(group_resource) == f"{group_resource.id}"
 
 
-def test_group_resource_creation():
+def test_group_resource_creation() -> None:
     """Test creating a GroupResource instance"""
     group = GroupFactory()
     resource = GroupResourceFactory(group_id=group)
@@ -25,7 +25,7 @@ def test_group_resource_creation():
     assert resource.group_id == group
 
 
-def test_multiple_resources_per_group():
+def test_multiple_resources_per_group() -> None:
     """Test multiple resources for a single group"""
     group = GroupFactory()
     resources = [GroupResourceFactory(group_id=group) for _ in range(3)]
@@ -35,7 +35,7 @@ def test_multiple_resources_per_group():
         assert resource.group_id == group
 
 
-def test_group_resource_deletion():
+def test_group_resource_deletion() -> None:
     """Test cascade deletion when group is deleted"""
     group = GroupFactory()
     resource = GroupResourceFactory(group_id=group)

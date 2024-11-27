@@ -10,13 +10,13 @@ from entities.models import GroupTopic
 pytestmark = pytest.mark.django_db
 
 
-def test_group_topic_str():
+def test_group_topic_str() -> None:
     """Test string representation of GroupTopic model"""
     group_topic = GroupTopicFactory.build()
     assert str(group_topic) == f"{group_topic.id}"
 
 
-def test_group_topic_creation():
+def test_group_topic_creation() -> None:
     """Test creating a GroupTopic instance"""
     group = GroupFactory()
     topic = GroupTopicFactory(group_id=group)
@@ -25,7 +25,7 @@ def test_group_topic_creation():
     assert topic.group_id == group
 
 
-def test_multiple_topics_per_group():
+def test_multiple_topics_per_group() -> None:
     """Test multiple topics for a single group"""
     group = GroupFactory()
     topics = [GroupTopicFactory(group_id=group) for _ in range(3)]
@@ -35,7 +35,7 @@ def test_multiple_topics_per_group():
         assert topic.group_id == group
 
 
-def test_group_topic_deletion():
+def test_group_topic_deletion() -> None:
     """Test cascade deletion when group is deleted"""
     group = GroupFactory()
     topic = GroupTopicFactory(group_id=group)
