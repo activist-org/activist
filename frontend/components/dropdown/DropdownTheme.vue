@@ -5,7 +5,9 @@
     :menuButtonIcon="menuButtonIcon"
     :menuButtonLabel="$t(`components.dropdown_theme.label`)"
     :isMenuButtonUppercase="false"
-    menuButtonAriaLabel="components.dropdown_theme.open_dropdown_aria_label"
+    :menuButtonAriaLabel="
+      $t(`components.dropdown_theme.open_dropdown_aria_label`)
+    "
   >
     <div class="px-2 py-2">
       <MenuItem
@@ -17,9 +19,9 @@
           :isButton="true"
           :handlerClick="() => handlerClick(opt.optColorMode)"
           :iconName="opt.iconName"
-          :label="$t(`${opt.label}`)"
+          :label="$t(opt.label)"
           :active="active"
-          :ariaLabel="opt.ariaLabel"
+          :ariaLabel="$t(opt.ariaLabel)"
         />
       </MenuItem>
     </div>
@@ -51,19 +53,19 @@ const labelsOpt = [
     optColorMode: "system",
     iconName: `${IconMap.COLOR_MODE_SYSTEM}`,
     label: "components.dropdown_theme.system",
-    ariaLabel: "$t('components.dropdown_theme.system_aria_label')",
+    ariaLabel: "components.dropdown_theme.system_aria_label",
   },
   {
     optColorMode: "light",
     iconName: `${IconMap.COLOR_MODE_LIGHT}`,
     label: "components.dropdown_theme.light",
-    ariaLabel: "$t('components.dropdown_theme.light_aria_label')",
+    ariaLabel: "components.dropdown_theme.light_aria_label",
   },
   {
     optColorMode: "dark",
     iconName: `${IconMap.COLOR_MODE_DARK}`,
     label: "components.dropdown_theme.dark",
-    ariaLabel: "$t('components.dropdown_theme.dark_aria_label')",
+    ariaLabel: "components.dropdown_theme.dark_aria_label",
   },
 ];
 
