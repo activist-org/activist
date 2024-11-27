@@ -218,7 +218,7 @@ onMounted(() => {
             ],
           },
           pitch: 20,
-          maxZoom: 19,
+          maxZoom: 20,
         });
 
         map.fitBounds(
@@ -233,8 +233,7 @@ onMounted(() => {
             ],
           ],
           {
-            duration: 6000,
-            padding: 100,
+            padding: 120,
           }
         );
 
