@@ -9,7 +9,8 @@
       "@vueuse/core",
       "@pinia/nuxt",
       "@types/zxcvbn",
-      "playwright"
+      "playwright",
+      "vitest/globals"
     ]
   }
 }

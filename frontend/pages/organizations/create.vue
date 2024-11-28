@@ -124,10 +124,6 @@
 import { Toaster, toast } from "vue-sonner";
 import type { OrganizationCreateFormData } from "~/types/entities/organization";
 
-definePageMeta({
-  middleware: ["user-only"],
-});
-
 const formData = ref<OrganizationCreateFormData>({
   name: "",
   tagline: "",

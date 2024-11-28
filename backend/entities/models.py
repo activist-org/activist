@@ -23,7 +23,7 @@ class Organization(models.Model):
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.OneToOneField(
-        "content.Image", on_delete=models.CASCADE, null=True, blank=True
+        "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
     location = models.CharField(max_length=255)
     # location_id = models.OneToOneField(
@@ -40,10 +40,10 @@ class Organization(models.Model):
         null=True,
     )
     status_updated = models.DateTimeField(auto_now=True, null=True)
-    acceptance_date = models.DateTimeField(null=True, blank=True)
-    deletion_date = models.DateTimeField(null=True, blank=True)
+    acceptance_date = models.DateTimeField(blank=True, null=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
     org_text = models.ForeignKey(
-        "OrganizationText", on_delete=models.CASCADE, null=True, blank=True
+        "OrganizationText", on_delete=models.CASCADE, blank=True, null=True
     )
 
     def __str__(self) -> str:
@@ -248,7 +248,7 @@ class OrganizationTask(models.Model):
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
     group_id = models.ForeignKey(
-        "Group", on_delete=models.CASCADE, null=True, blank=True
+        "Group", on_delete=models.CASCADE, blank=True, null=True
     )
 
     def __str__(self) -> str:

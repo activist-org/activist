@@ -1,13 +1,5 @@
 <template>
-  <MenuLinkWrapper
-    :to="routeUrl"
-    :selected="selected"
-    :linkClasses="{
-      'rounded-none border-t': true,
-      'border-section-div': !selected,
-      'border-section-div': selected,
-    }"
-  >
+  <MenuLinkWrapper :to="routeUrl" :selected="selected">
     <div
       class="relative z-0 flex w-full flex-col items-center justify-center text-center text-sm font-medium"
     >
