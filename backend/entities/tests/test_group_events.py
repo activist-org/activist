@@ -10,13 +10,13 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_event_str() -> None:
-    """Test string representation of GroupEvent model"""
+    """Test string representation of GroupEvent model."""
     group_event = GroupEventFactory.build()
     assert str(group_event) == f"{group_event.id}"
 
 
 def test_multiple_events_per_group() -> None:
-    """Test multiple events for a single group"""
+    """Test multiple events for a single group."""
     group = GroupFactory()
     events = [GroupEventFactory(group_id=group) for _ in range(3)]
 

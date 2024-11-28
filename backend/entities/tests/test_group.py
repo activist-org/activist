@@ -51,7 +51,7 @@ def test_required_fields() -> None:
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
 
-    # Test missing group_name
+    # 1. Test missing group_name.
     with pytest.raises(ValidationError):
         group = Group(
             org_id=org,
@@ -62,7 +62,7 @@ def test_required_fields() -> None:
         )
         group.full_clean()
 
-    # Test missing location
+    # 2. Test missing location.
     with pytest.raises(ValidationError):
         group = Group(
             org_id=org,
@@ -88,7 +88,7 @@ def test_optional_fields() -> None:
         category="Test Category",
     )
 
-    # Should not raise ValidationError
+    # Should not raise ValidationError.
     group.full_clean()
     assert group.tagline == ""
     assert group.get_involved_url == ""
@@ -146,7 +146,7 @@ def test_url_validations() -> None:
     org = OrganizationFactory(created_by=user)
     fake = Faker()
 
-    # Test invalid URL
+    # 1. Test invalid URL.
     with pytest.raises(ValidationError):
         group = Group(
             org_id=org,
@@ -160,7 +160,7 @@ def test_url_validations() -> None:
         )
         group.full_clean()
 
-    # Test valid URL
+    # 2. Test valid URL.
     group = Group.objects.create(
         org_id=org,
         created_by=user,

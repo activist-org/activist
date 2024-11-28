@@ -11,17 +11,17 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_member_str() -> None:
-    """Test string representation of GroupMember model"""
+    """Test string representation of GroupMember model."""
     group_member = GroupMemberFactory.build()
     assert str(group_member) == f"{group_member.id}"
 
 
 def test_group_member_roles() -> None:
-    """Test the different roles a group member can have"""
+    """Test the different roles a group member can have."""
     user = UserFactory()
     group = GroupFactory()
 
-    # Test owner role
+    # 1. Test owner role.
     owner = GroupMemberFactory(
         group_id=group, user_id=user, is_owner=True, is_admin=False, is_comms=False
     )
@@ -29,7 +29,7 @@ def test_group_member_roles() -> None:
     assert owner.is_admin is False
     assert owner.is_comms is False
 
-    # Test admin role
+    # 2. Test admin role.
     admin = GroupMemberFactory(
         group_id=group, user_id=user, is_owner=False, is_admin=True, is_comms=False
     )
@@ -37,7 +37,7 @@ def test_group_member_roles() -> None:
     assert admin.is_admin is True
     assert admin.is_comms is False
 
-    # Test comms role
+    # 3. Test comms role.
     comms = GroupMemberFactory(
         group_id=group, user_id=user, is_owner=False, is_admin=False, is_comms=True
     )
@@ -47,7 +47,7 @@ def test_group_member_roles() -> None:
 
 
 def test_multiple_members_per_group() -> None:
-    """Test multiple members in a single group"""
+    """Test multiple members in a single group."""
     group = GroupFactory()
     members = [GroupMemberFactory(group_id=group) for _ in range(3)]
 

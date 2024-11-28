@@ -10,16 +10,16 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_text_str() -> None:
-    """Test string representation of GroupText model"""
+    """Test string representation of GroupText model."""
     group_text = GroupTextFactory.build()
     assert hasattr(group_text, "description")
 
 
 def test_group_text_languages() -> None:
-    """Test group text with different ISO languages"""
+    """Test group text with different ISO languages."""
     group = GroupFactory()
 
-    # Test primary language text
+    # 1. Test primary language text.
     primary_text = GroupTextFactory(
         group_id=group,
         iso="eng",
@@ -32,7 +32,7 @@ def test_group_text_languages() -> None:
     assert primary_text.iso == "eng"
     assert primary_text.description == "Primary description"
 
-    # Test secondary language text
+    # 2. Test secondary language text.
     secondary_text = GroupTextFactory(
         group_id=group,
         iso="spa",
@@ -47,7 +47,7 @@ def test_group_text_languages() -> None:
 
 
 def test_group_text_field_lengths() -> None:
-    """Test field length constraints"""
+    """Test field length constraints."""
     group = GroupFactory()
 
     text = GroupTextFactory(
