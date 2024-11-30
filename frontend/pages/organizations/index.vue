@@ -41,7 +41,7 @@ const tabs = ref([
   { id: 'private', name: 'Private' }
 ]);
 
-const handleFilterChange = (filters: any) => {
+const handleFilterChange = (filters: { search: string, activeTab: string, selectedTags: number[] }) => {
   console.log('Filters changed:', filters);
   // You can implement the filtering logic here later
 };

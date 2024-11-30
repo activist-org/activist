@@ -7,13 +7,13 @@
         <div class="inline-flex overflow-hidden rounded-lg border border-primary-text">
           <button
             v-for="(tab, index) in tabs"
+            @click="activeTab = tab.id"
             :key="tab.id"
             :class="[
               'px-4 py-2',
               activeTab === tab.id ? 'bg-cta-orange text-primary-text' : 'bg-[#C8C8C8] text-primary-text hover:bg-[#C8C8C8]/70',
               index !== tabs.length - 1 ? 'border-r border-primary-text' : ''
             ]"
-            @click="activeTab = tab.id"
           >
             {{ tab.name }}
           </button>
@@ -95,8 +95,9 @@
         <div class="flex flex-wrap gap-2">
           <BtnTag
             v-for="tag in section.tags"
-            @click="toggleTag(tag, sectionIndex)"
-            @keydown.enter="toggleTag(tag, sectionIndex)"
+            @click="toggleTag(tag)"
+            @keydown.enter="toggleTag(tag)"
+            :key="tag.id"
             class="flex max-h-[40px]"
             :cta="tag.selected"
             :label="tag.name"
@@ -136,7 +137,6 @@ const props = defineProps<{
   tabs: Tab[];
 }>()
 
-const i18n = useI18n();
 const { isMacOS } = useDevice();
 
 const searchQuery = ref('')
@@ -183,7 +183,7 @@ const emit = defineEmits<{
   }]
 }>()
 
-const toggleTag = (tag: Tag, sectionIndex: number) => {
+const toggleTag = (tag: Tag) => {
   tag.selected = !tag.selected
   emitChange()
 }
