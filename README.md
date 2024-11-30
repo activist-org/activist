@@ -198,10 +198,14 @@ git remote add upstream https://github.com/activist-org/activist.git
 
 6. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
+7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.
+
+8. If you'd like to sign in to the frontend via <http://localhost:3000/auth/sign-in> or the Django admin panel via <http://localhost:8000/admin>, then you can use the fixtures `admin` user with the password `admin`.
+
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](CONTRIBUTING.md#using-yarn-or-python).
 
-7. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
+9. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
 
    ```bash
    # In the project root:

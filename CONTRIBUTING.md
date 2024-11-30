@@ -188,7 +188,23 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Start your docker images with the following:
+4. Create a virtual environment for the backend, activate it and install dependencies:
+
+    ```bash
+    # Unix or MacOS:
+    python3 -m venv venv
+    source venv/bin/activate
+
+    # Windows:
+    python -m venv venv
+    venv\Scripts\activate.bat
+
+    # After activating venv:
+    pip install --upgrade pip
+    pip install -r backend/requirements-dev.txt
+    ```
+
+5. Start your docker images with the following:
 
    ```bash
    # --build only necessary with new dependencies or backend model changes.
@@ -198,9 +214,11 @@ git remote add upstream https://github.com/activist-org/activist.git
    # docker compose --env-file .env.dev down
    ```
 
-5. You can visit <http://localhost:3000/> to see the development build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
+6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
-6. If you'd like to sign in to the frontend via <http://localhost:3000/auth/sign-in> or the Django admin panel via <http://localhost:8000/admin>, then you can use the fixtures `admin` user with the password `admin`.
+7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.
+
+8. If you'd like to sign in to the frontend via <http://localhost:3000/auth/sign-in> or the Django admin panel via <http://localhost:8000/admin>, then you can use the fixtures `admin` user with the password `admin`.
 
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
@@ -278,7 +296,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-You can then visit http://localhost:8000/ to see the development backend build once the server is up and running.
+You can then visit <http://localhost:8000/admin> to see the development backend admin UI as well as <http://localhost:8000/v1/schema/swagger-ui/> for the Swagger UI once the server is up and running.
 
 </p>
 </details>
