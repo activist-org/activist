@@ -2,17 +2,21 @@
   <div class="card-style flex flex-col px-3 py-4 md:px-5">
     <div class="relative flex w-full flex-col">
       <!-- Header with Tabs -->
-      <div class="flex items-center justify-between mb-4">
+      <div class="mb-4 flex items-center justify-between">
         <h2 class="text-2xl font-semibold">Filter</h2>
-        <div class="inline-flex overflow-hidden rounded-lg border border-primary-text">
+        <div
+          class="inline-flex overflow-hidden rounded-lg border border-primary-text"
+        >
           <button
             v-for="(tab, index) in tabs"
             @click="activeTab = tab.id"
             :key="tab.id"
             :class="[
               'px-4 py-2',
-              activeTab === tab.id ? 'bg-cta-orange text-primary-text' : 'bg-[#C8C8C8] text-primary-text hover:bg-[#C8C8C8]/70',
-              index !== tabs.length - 1 ? 'border-r border-primary-text' : ''
+              activeTab === tab.id
+                ? 'bg-cta-orange text-primary-text'
+                : 'bg-[#C8C8C8] text-primary-text hover:bg-[#C8C8C8]/70',
+              index !== tabs.length - 1 ? 'border-r border-primary-text' : '',
             ]"
           >
             {{ tab.name }}
@@ -21,22 +25,26 @@
       </div>
 
       <!-- Search Input -->
-      <div class="elem-shadow-sm flex select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text">
+      <div
+        class="elem-shadow-sm flex select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
+      >
         <div class="flex flex-1 items-center space-x-2 pl-1">
           <Icon
             class="my-1 h-4 w-4 flex-shrink-0"
             :name="IconMap.SEARCH"
             size="1em"
           />
-          <div class="flex-1 min-w-0">
-            <label for="input-search" class="sr-only">{{ "Search to filter" }}</label>
+          <div class="min-w-0 flex-1">
+            <label for="input-search" class="sr-only">{{
+              "Search to filter"
+            }}</label>
             <input
               v-model="searchQuery"
               @focus="onFocus"
               @blur="onFocusLost"
               ref="input"
               id="input-search"
-              class="w-full bg-transparent outline-none py-2 text-ellipsis"
+              class="w-full text-ellipsis bg-transparent py-2 outline-none"
               type="text"
               placeholder="Search to filter"
             />
@@ -44,9 +52,11 @@
         </div>
         <div
           ref="hotkeyIndicators"
-          class="flex-shrink-0 transition-duration-200 flex space-x-1 pr-1 transition-opacity"
+          class="transition-duration-200 flex flex-shrink-0 space-x-1 pr-1 transition-opacity"
         >
-          <div class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text">
+          <div
+            class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
+          >
             <TooltipBase
               class="invisible -mt-8"
               :text="$t('components._global.slash_tooltip_label')"
@@ -82,13 +92,15 @@
         :key="sectionIndex"
         class="mt-4"
       >
-        <h3 class="flex items-center gap-2 mb-3">
-          <span class="flex items-center font-redhat text-[22px] font-[600] leading-[29.11px]">
+        <h3 class="mb-3 flex items-center gap-2">
+          <span
+            class="font-redhat flex items-center text-[22px] font-[600] leading-[29.11px]"
+          >
             {{ section.title }}
             <Icon
               v-if="section.icon"
               :name="section.icon"
-              class="h-4 w-4 text-primary-text ml-2"
+              class="ml-2 h-4 w-4 text-primary-text"
             />
           </span>
         </h3>
@@ -111,7 +123,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { IconMap } from "~/types/icon-map";
 
@@ -135,11 +147,11 @@ interface Tab {
 const props = defineProps<{
   sections: TagSection[];
   tabs: Tab[];
-}>()
+}>();
 
 const { isMacOS } = useDevice();
 
-const searchQuery = ref('')
+const searchQuery = ref("");
 const input = ref();
 const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
@@ -176,35 +188,39 @@ const onFocusLost = () => {
 };
 
 const emit = defineEmits<{
-  'filter-change': [{
-    search: string,
-    activeTab: string,
-    selectedTags: number[],
-  }]
-}>()
+  "filter-change": [
+    {
+      search: string;
+      activeTab: string;
+      selectedTags: number[];
+    },
+  ];
+}>();
 
 const toggleTag = (tag: Tag) => {
-  tag.selected = !tag.selected
-  emitChange()
-}
+  tag.selected = !tag.selected;
+  emitChange();
+};
 
 const emitChange = () => {
-  emit('filter-change', {
+  emit("filter-change", {
     search: searchQuery.value,
     activeTab: activeTab.value,
-    selectedTags: props.sections[0].tags.filter(t => t.selected).map(t => t.id)
-  })
-}
+    selectedTags: props.sections[0].tags
+      .filter((t) => t.selected)
+      .map((t) => t.id),
+  });
+};
 
 watch(searchQuery, () => {
-  emitChange()
-})
+  emitChange();
+});
 
-const activeTab = ref(props.tabs[0]?.id || '')
+const activeTab = ref(props.tabs[0]?.id || "");
 
 watch(activeTab, () => {
-  emitChange()
-})
+  emitChange();
+});
 </script>
 
 <style scoped>
