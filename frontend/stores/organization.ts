@@ -285,29 +285,43 @@ export const useOrganizationStore = defineStore("organization", {
       return false;
     },
 
-    // MARK: Update Social Links
-    async updateSocialLinks(id: string, payload: { link: string, label: string }) {
-      // TODO: PUT payload, PUT org and social link id's in bridge table
-      // TODO: Other PUT's?
-      // const responseSocialLinks = await $fetch(
-      //   BASE_BACKEND_URL +
-      //   `/entities/social_links/${id}/`,
-      //   {
-      //     method: "PUT",
-      //     body: {
-      //       link: payload.link,
-      //       label: payload.label,
-      //     },
-      //     headers: {
-      //       Authorization: `Token ${token}`,
-      //     },
-      //   }
-      // );
-      console.log('org store: updateSocialLinks')
-      console.log('org store: id: ' + id)
-      console.log('org store: payload: ' + JSON.stringify(payload))
+    // MARK: Add Social Links
 
-      return 'return from org store / updateSocialLinks'
+    async addSocialLinks(org: Organization, payload: { link: string, label: string }) {
+      // TODO: PUT/POST payload, PUT/POST org and social link id's in bridge table
+      //         content/social_links
+      // TODO: Other PUT's/POST's?
+      //         bridge table: organization_social_links
+
+      this.loading = true;
+
+      const token = localStorage.getItem("accessToken");
+
+      const responseSocialLinks = await useFetch(
+        `${BASE_BACKEND_URL as string}/content/social_links/${org.id}/`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            link: payload.link,
+            label: payload.label,
+            order: 0,
+          }),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseSocialLinksData = responseSocialLinks.data.value as unknown as Organization;
+
+      if (responseSocialLinksData) {
+        this.loading = false;
+
+        // return responseSocialLinksData.id;
+        return responseSocialLinksData;
+      }
+
+      return false;
     },
 
     // MARK: Delete

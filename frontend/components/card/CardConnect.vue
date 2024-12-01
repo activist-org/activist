@@ -173,10 +173,15 @@ const handlePopupAddClick = async (
 ) => {
   // Put the social links payload in the database.
   // TODO: Needs more robust handling (ie try/catch + error trapping/handling)
-  const response = await organizationStore.updateSocialLinks(id, payload);
+  const response = await organizationStore.addSocialLinks(
+    organization,
+    payload
+  );
   if (response) {
-    console.log("org store updateSocialLinks response: " + response);
-    console.log("CardConnect added social link: " + JSON.stringify(payload));
+    console.log("org store addSocialLinks response: " + response);
+    console.log(
+      "CardConnect addSocialLinks payload: " + JSON.stringify(payload)
+    );
   }
 
   close();
