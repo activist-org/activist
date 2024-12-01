@@ -95,7 +95,7 @@ const { id } = useRoute().params;
 
 const [resOrg] = await Promise.all([
   useAsyncData(
-    async () => await fetchWithOptionalToken(`/entities/groups/${id}`, {})
+    async () => await fetchWithoutToken(`/entities/groups/${id}`, {})
   ),
 ]);
 

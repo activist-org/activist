@@ -37,7 +37,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     terms_checked = factory.Faker("boolean")
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
-    location = factory.Faker("city")
+    location_id = factory.SubFactory("content.factories.EntityLocationFactory")
     acceptance_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -56,7 +56,7 @@ class GroupFactory(factory.django.DjangoModelFactory):
     )
     terms_checked = factory.Faker("boolean")
     category = factory.Faker("word")
-    location = factory.Faker("city")
+    location_id = factory.SubFactory("content.factories.EntityLocationFactory")
 
 
 # MARK: Bridge Tables

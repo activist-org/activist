@@ -4,6 +4,19 @@
  * @param data Data to be returned.
  * @returns The resulting data from the table.
  */
+
+export const fetchWithoutToken = async (
+  url: string,
+  data: object | undefined
+) => {
+  const res = await $fetch.raw(BASE_BACKEND_URL + url, {
+    data,
+    headers: {},
+  });
+
+  return res._data;
+};
+
 export const fetchWithOptionalToken = async (
   url: string,
   data: object | undefined

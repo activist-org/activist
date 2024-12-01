@@ -1,6 +1,4 @@
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -20,7 +18,6 @@ from .models import (
     EventText,
     EventTopic,
     Format,
-    Role,
 )
 from .serializers import (
     EventAttendeeSerializer,
@@ -36,7 +33,6 @@ from .serializers import (
     EventTextSerializer,
     EventTopicSerializer,
     FormatSerializer,
-    RoleSerializer,
 )
 
 # MARK: Main Tables
@@ -46,8 +42,6 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     pagination_class = CustomPagination
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    authentication_classes = [TokenAuthentication]
 
     def list(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(self.get_queryset(), many=True)
@@ -123,12 +117,6 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
 class FormatViewSet(viewsets.ModelViewSet[Format]):
     queryset = Format.objects.all()
     serializer_class = FormatSerializer
-    pagination_class = CustomPagination
-
-
-class RoleViewSet(viewsets.ModelViewSet[Role]):
-    queryset = Role.objects.all()
-    serializer_class = RoleSerializer
     pagination_class = CustomPagination
 
 

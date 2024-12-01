@@ -9,7 +9,7 @@ export interface Resource {
   description: string;
   // category: string;
   organization: Organization;
-  location: string;
+  locationId: string;
   resourceUrl: string;
   // isPrivate?: boolean;
   creationDate?: string;

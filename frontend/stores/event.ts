@@ -1,3 +1,4 @@
+import type { PiniaResLocation } from "~/types/content/location";
 import type {
   Event,
   EventText,
@@ -27,9 +28,13 @@ export const useEventStore = defineStore("event", {
       iconUrl: "",
       type: "learn",
       onlineLocationLink: "",
-      offlineLocation: "",
-      offlineLocationLat: "",
-      offlineLocationLong: "",
+
+      offlineLocationId: "",
+      lat: "",
+      lon: "",
+      bbox: [""],
+      locationDisplayName: "",
+
       getInvolvedUrl: "",
       socialLinks: [""],
       startTime: "",
@@ -57,28 +62,25 @@ export const useEventStore = defineStore("event", {
 
       const [resEvent, resEventTexts] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithOptionalToken(`/events/events/${id}`, {})
+          async () => await fetchWithoutToken(`/events/events/${id}`, {})
         ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithOptionalToken(
+        //     await fetchWithoutToken(
         //       `/entities/event_faq?event_id=${id}`,
         //       {}
         //     )
         // ),
         // useAsyncData(
         //   async () =>
-        //     await fetchWithOptionalToken(
+        //     await fetchWithoutToken(
         //       `/entities/event_resources?event_id=${id}`,
         //       {}
         //     )
         // ),
         useAsyncData(
           async () =>
-            await fetchWithOptionalToken(
-              `/events/event_texts?event_id=${id}`,
-              {}
-            )
+            await fetchWithoutToken(`/events/event_texts?event_id=${id}`, {})
         ),
       ]);
 
@@ -93,11 +95,32 @@ export const useEventStore = defineStore("event", {
       // const resources = eventRes._value;
       const texts = eventTextsRes._value.results[0];
 
+      if (event.offlineLocationId) {
+        const eventLocation = (await Promise.all([
+          useAsyncData(
+            async () =>
+              await fetchWithoutToken(
+                `/content/locations/${event.offlineLocationId}`,
+                {}
+              )
+          ),
+        ])) as unknown as PiniaResLocation;
+
+        const location = eventLocation._value;
+
+        this.event.lat = location.lat;
+        this.event.lon = location.lon;
+        this.event.bbox = location.bbox;
+        this.event.locationDisplayName = location.displayName;
+      }
+
       this.event.id = event.id;
       this.event.name = event.name;
       this.event.tagline = event.tagline;
       this.event.iconUrl = event.iconUrl;
-      this.event.offlineLocation = event.offlineLocation;
+
+      this.event.offlineLocationId = event.offlineLocationId;
+
       this.event.getInvolvedUrl = event.getInvolvedUrl;
       this.event.socialLinks = event.socialLinks;
 
@@ -114,7 +137,7 @@ export const useEventStore = defineStore("event", {
 
       const [responseEvents] = await Promise.all([
         useAsyncData(
-          async () => await fetchWithOptionalToken(`/events/events/`, {})
+          async () => await fetchWithoutToken(`/events/events/`, {})
         ),
       ]);
 
@@ -125,7 +148,7 @@ export const useEventStore = defineStore("event", {
           events._value.map((event) =>
             useAsyncData(
               async () =>
-                await fetchWithOptionalToken(
+                await fetchWithoutToken(
                   `/events/event_texts?event_id=${event.id}`,
                   {}
                 )
@@ -148,9 +171,13 @@ export const useEventStore = defineStore("event", {
               iconUrl: event.iconUrl,
               type: event.type,
               onlineLocationLink: event.onlineLocationLink,
-              offlineLocation: event.offlineLocation,
-              offlineLocationLat: event.offlineLocationLat,
-              offlineLocationLong: event.offlineLocationLong,
+
+              offlineLocation: event.offlineLocationId,
+              lat: event.lat,
+              lon: event.lon,
+              bbox: event.bbox,
+              locationDisplayName: event.locationDisplayName,
+
               getInvolvedUrl: event.getInvolvedUrl,
               socialLinks: event.socialLinks,
               startTime: event.startTime,
