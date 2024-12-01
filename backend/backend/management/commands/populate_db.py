@@ -69,6 +69,7 @@ class Command(BaseCommand):
                         EventTextFactory(
                             event_id=user_org_event, iso="en", primary=True
                         )
+
                     org_text = OrganizationTextFactory(iso="wt", primary=True)
 
                     user_org = OrganizationFactory(
@@ -91,21 +92,6 @@ class Command(BaseCommand):
 
                         GroupTextFactory(
                             group_id=user_org_group, iso="en", primary=True
-                        )
-
-                    for e in range(num_events_per_org):
-                        user_org_event = EventFactory(
-                            created_by=user,
-                            name=f"{user_topic.name} Event o{o}:e{e}",
-                            type=random.choice(["learn", "action"]),
-                        )
-
-                        EventTextFactory(
-                            event_id=user_org_event, iso="en", primary=True
-                        )
-
-                        OrganizationEventFactory(
-                            org_id=user_org, event_id=user_org_event
                         )
 
             self.stdout.write(

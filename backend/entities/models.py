@@ -245,6 +245,7 @@ class OrganizationSocialLink(models.Model):
 
 class OrganizationTask(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
     group_id = models.ForeignKey(
         "Group", on_delete=models.CASCADE, blank=True, null=True
