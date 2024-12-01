@@ -188,7 +188,6 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OrganizationText
 
-    org_id = factory.SubFactory(OrganizationFactory)
     iso = "en"
     primary = factory.Faker("boolean")
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)

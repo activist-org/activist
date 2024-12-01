@@ -49,6 +49,7 @@ class Organization(models.Model):
     org_text = models.ForeignKey(
         "OrganizationText", on_delete=models.CASCADE, null=True, blank=True
     )
+    org_events = models.ManyToManyField("events.Event", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -215,7 +216,7 @@ class OrganizationResource(models.Model):
 
 
 class OrganizationTask(models.Model):
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
     group_id = models.ForeignKey(
         "Group", on_delete=models.CASCADE, null=True, blank=True
@@ -226,7 +227,7 @@ class OrganizationTask(models.Model):
 
 
 class OrganizationText(models.Model):
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True)
     iso = models.CharField(max_length=2, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=2500)

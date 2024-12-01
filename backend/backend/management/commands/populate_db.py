@@ -10,7 +10,6 @@ from content.models import Topic
 from entities.factories import (
     GroupFactory,
     GroupTextFactory,
-    OrganizationEventFactory,
     OrganizationFactory,
     OrganizationTextFactory,
 )
@@ -60,14 +59,27 @@ class Command(BaseCommand):
                 UserTopicFactory(user_id=user, topic_id=user_topic)
 
                 for o in range(num_orgs_per_user):
+                    for e in range(num_events_per_org):
+                        user_org_event = EventFactory(
+                            name=f"{user_topic.name} Event o{o}:e{e}",
+                            type=random.choice(["learn", "action"]),
+                            created_by=user,
+                        )
+
+                        EventTextFactory(
+                            event_id=user_org_event, iso="en", primary=True
+                        )
+                    org_text = OrganizationTextFactory(iso="wt", primary=True)
+
                     user_org = OrganizationFactory(
                         org_name=f"organization_u{u}_o{o}",
+                        org_text=org_text,
                         name=f"{user_topic.name} Organization",
                         tagline=f"Fighting for {user_topic.name.lower()}",
                         created_by=user,
                     )
 
-                    OrganizationTextFactory(org_id=user_org, iso="wt", primary=True)
+                    user_org.org_events.set([user_org_event])
 
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
@@ -79,21 +91,6 @@ class Command(BaseCommand):
 
                         GroupTextFactory(
                             group_id=user_org_group, iso="en", primary=True
-                        )
-
-                    for e in range(num_events_per_org):
-                        user_org_event = EventFactory(
-                            name=f"{user_topic.name} Event o{o}:e{e}",
-                            type=random.choice(["learn", "action"]),
-                            created_by=user,
-                        )
-
-                        EventTextFactory(
-                            event_id=user_org_event, iso="en", primary=True
-                        )
-
-                        OrganizationEventFactory(
-                            org_id=user_org, event_id=user_org_event
                         )
 
             self.stdout.write(

@@ -40,17 +40,15 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
-    # mypy thinks a generic type argument is needed for StringRelatedField.
-    org_id = serializers.StringRelatedField(source="org_id.id")  # type: ignore[var-annotated]
-
     class Meta:
         model = OrganizationText
         fields = "__all__"
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
-    org_text = OrganizationTextSerializer(read_only=True)
+    org_text = OrganizationTextSerializer()
     description = serializers.CharField(write_only=True, required=False)
+    org_events = EventSerializer(many=True, read_only=True)  # to be tested
 
     class Meta:
         model = Organization
@@ -63,23 +61,23 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "description": {"write_only": True},
         }
 
-        fields = [
-            "id",
-            "org_name",
-            "name",
-            "tagline",
-            "icon_url",
-            "location",
-            "created_by",
-            "social_links",
-            "is_high_risk",
-            "status",
-            "status_updated",
-            "acceptance_date",
-            "terms_checked",
-            "org_text",
-            "description",
-        ]
+        # fields = [
+        #     "id",
+        #     "org_name",
+        #     "name",
+        #     "tagline",
+        #     "icon_url",
+        #     "location",
+        #     "created_by",
+        #     "social_links",
+        #     "is_high_risk",
+        #     "status",
+        #     "status_updated",
+        #     "acceptance_date",
+        #     "terms_checked",
+        #     "description",
+        # ]
+        fields = "__all__"
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
         if data.get("terms_checked") is False:

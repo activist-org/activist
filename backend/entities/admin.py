@@ -56,7 +56,7 @@ class OrganizationAdmin(admin.ModelAdmin[Organization]):
 
 
 class OrganizationTextAdmin(admin.ModelAdmin[OrganizationText]):
-    list_display = ["id", "org_id"]
+    list_display = ["id"]
 
 
 admin.site.register(Group, GroupAdmin)
