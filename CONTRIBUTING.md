@@ -12,21 +12,21 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
-- [First steps as a contributor](#first-steps)
-- [Tech stack](#tech-stack)
-- [Learning the tech stack](#learning-the-tech)
-- [Development environment](#dev-env)
-- [Style guide](#style-guide)
-- [Testing](#testing)
-- [Linting](#linting)
-- [Issues and projects](#issues-projects)
-- [Bug reports](#bug-reports)
-- [Feature requests](#feature-requests)
-- [Pull requests](#pull-requests)
-- [Localization](#localization)
-- [Documentation](#documentation)
-- [Accessibility](#accessibility)
-- [Design](#design)
+- [First steps as a contributor](#first-steps-)
+- [Tech stack](#tech-stack-)
+- [Learning the tech stack](#learning-the-tech-)
+- [Development environment](#dev-env-)
+- [Style guide](#style-guide-)
+- [Testing](#testing-)
+- [Linting](#linting-)
+- [Issues and projects](#issues-projects-)
+- [Bug reports](#bug-reports-)
+- [Feature requests](#feature-requests-)
+- [Pull requests](#pull-requests-)
+- [Localization](#localization-)
+- [Documentation](#documentation-)
+- [Accessibility](#accessibility-)
+- [Design](#design-)
 
 <a id="first-steps"></a>
 
@@ -188,7 +188,23 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Start your docker images with the following:
+4. Create a virtual environment for the backend, activate it and install dependencies:
+
+    ```bash
+    # Unix or MacOS:
+    python3 -m venv venv
+    source venv/bin/activate
+
+    # Windows:
+    python -m venv venv
+    venv\Scripts\activate.bat
+
+    # After activating venv:
+    pip install --upgrade pip
+    pip install -r backend/requirements-dev.txt
+    ```
+
+5. Start your docker images with the following:
 
    ```bash
    # --build only necessary with new dependencies or backend model changes.
@@ -198,9 +214,11 @@ git remote add upstream https://github.com/activist-org/activist.git
    # docker compose --env-file .env.dev down
    ```
 
-5. You can visit <http://localhost:3000/> to see the development build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
+6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
-6. If you'd like to sign in to the frontend via <http://localhost:3000/auth/sign-in> or the Django admin panel via <http://localhost:8000/admin>, then you can use the fixtures `admin` user with the password `admin`.
+7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.
+
+8. If you'd like to sign in to the frontend via <http://localhost:3000/auth/sign-in> or the Django admin panel via <http://localhost:8000/admin>, then you can use the fixtures `admin` user with the password `admin`.
 
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
@@ -278,7 +296,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-You can then visit http://localhost:8000/ to see the development backend build once the server is up and running.
+You can then visit <http://localhost:8000/admin> to see the development backend admin UI as well as <http://localhost:8000/v1/schema/swagger-ui/> for the Swagger UI once the server is up and running.
 
 </p>
 </details>
@@ -482,6 +500,20 @@ Thank you in advance for your contributions!
 Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
 To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](STYLEGUIDE.md) for more information on how to create new localization keys.
+
+> [!IMPORTANT]
+> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid/not existing across the codebase, then please add the following file at `frontend/types/vue-i18n.d.ts`:
+>
+> ```ts
+> // frontend/types/vue-i18n.d.ts
+> // Attn: Fixes Property '$t' does not exist on type ... errors.
+> // Note: This file is git ignored, but can be used as a local fix for excessive TypeScript errors.
+> declare module "vue" {
+>   interface ComponentCustomProperties {
+>     $t: (key: string) => string;
+>   }
+> }
+> ```
 
 <a id="documentation"></a>
 

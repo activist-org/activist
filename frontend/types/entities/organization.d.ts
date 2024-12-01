@@ -7,7 +7,13 @@ export interface Organization {
   tagline: string;
   createdBy: string;
   iconUrl: string;
-  location: string;
+
+  locationId: string;
+  lat: string;
+  lon: string;
+  bbox: string[];
+  locationDisplayName: string;
+
   getInvolvedUrl: string;
   socialLinks: string[];
   status: number;

@@ -1,3 +1,4 @@
+import type { PiniaResLocation } from "~/types/content/location";
 import type {
   Organization,
   OrganizationCreateFormData,
@@ -29,7 +30,13 @@ export const useOrganizationStore = defineStore("organization", {
       tagline: "",
       createdBy: "",
       iconUrl: "",
-      location: "",
+
+      locationId: "",
+      lat: "",
+      lon: "",
+      bbox: [""],
+      locationDisplayName: "",
+
       getInvolvedUrl: "",
       socialLinks: [""],
       status: 1,
@@ -93,37 +100,38 @@ export const useOrganizationStore = defineStore("organization", {
         await Promise.all([
           useAsyncData(
             async () =>
-              await fetchWithOptionalToken(`/entities/organizations/${id}`, {})
+              await fetchWithoutToken(`/entities/organizations/${id}`, {})
           ),
           useAsyncData(
             async () =>
-              await fetchWithOptionalToken(
+              await fetchWithoutToken(
                 `/entities/organization_texts?org_id=${id}`,
                 {}
               )
           ),
           useAsyncData(
             async () =>
-              await fetchWithOptionalToken(
+              await fetchWithoutToken(
                 `/entities/organization_events?org_id=${id}`,
                 {}
               )
           ),
           // useAsyncData(
           //   async () =>
-          //     await fetchWithOptionalToken(
+          //     await fetchWithoutToken(
           //       `/entities/organization_faq?org_id=${id}`,
           //       {}
           //     )
           // ),
           // useAsyncData(
           //   async () =>
-          //     await fetchWithOptionalToken(
+          //     await fetchWithoutToken(
           //       `/entities/organization_resources?org_id=${id}`,
           //       {}
           //     )
           // ),
         ]);
+
       const orgRes = responseOrg.data as unknown as PiniaResOrganization;
       const orgTextsRes =
         responseOrgTexts.data as unknown as PiniaResOrganizationText;
@@ -141,12 +149,32 @@ export const useOrganizationStore = defineStore("organization", {
       // const groups = orgRes._value;
       // const resources = orgRes._value;
 
+      const orgLocation = (
+        await Promise.all([
+          useAsyncData(
+            async () =>
+              await fetchWithoutToken(
+                `/content/locations/${organization.locationId}`,
+                {}
+              )
+          ),
+        ])
+      )[0].data as unknown as PiniaResLocation;
+
+      const location = orgLocation._value;
+
       this.organization.id = organization.id;
       this.organization.orgName = organization.orgName;
       this.organization.name = organization.name;
       this.organization.tagline = organization.tagline;
       this.organization.iconUrl = organization.iconUrl;
-      this.organization.location = organization.location;
+
+      this.organization.locationId = organization.locationId;
+      this.organization.lat = location.lat;
+      this.organization.lon = location.lon;
+      this.organization.bbox = location.bbox;
+      this.organization.locationDisplayName = location.displayName;
+
       this.organization.getInvolvedUrl = organization.getInvolvedUrl;
       this.organization.socialLinks = organization.socialLinks;
       this.organization.status = organization.status;
@@ -169,8 +197,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const [responseOrgs] = await Promise.all([
         useAsyncData(
-          async () =>
-            await fetchWithOptionalToken(`/entities/organizations/`, {})
+          async () => await fetchWithoutToken(`/entities/organizations/`, {})
         ),
       ]);
 
@@ -180,7 +207,7 @@ export const useOrganizationStore = defineStore("organization", {
         const responseOrgTexts = (await Promise.all([
           useAsyncData(
             async () =>
-              await fetchWithOptionalToken(`/entities/organization_texts/`, {})
+              await fetchWithoutToken(`/entities/organization_texts/`, {})
           ),
         ])) as unknown as PiniaResOrganizationTexts[];
 
@@ -199,6 +226,9 @@ export const useOrganizationStore = defineStore("organization", {
           }
         }
 
+        // const sortedOrgLocations: Location[];
+        // Note: Ideally we'd have a bridge table of locations that are only for orgs.
+
         const organizationsWithTexts = orgs._value.map(
           (organization: Organization, index: number) => {
             const texts = sortedOrgTextsData[index];
@@ -209,7 +239,13 @@ export const useOrganizationStore = defineStore("organization", {
               tagline: organization.tagline,
               createdBy: organization.createdBy,
               iconUrl: organization.iconUrl,
-              location: organization.location,
+
+              locationId: organization.locationId,
+              lat: organization.lat,
+              lon: organization.lon,
+              bbox: organization.bbox,
+              locationDisplayName: organization.locationDisplayName,
+
               getInvolvedUrl: organization.getInvolvedUrl,
               socialLinks: organization.socialLinks,
               status: organization.status,
@@ -222,6 +258,8 @@ export const useOrganizationStore = defineStore("organization", {
             };
           }
         );
+
+        console.log(`Here: ${JSON.stringify(organizationsWithTexts)}`);
 
         this.organizations = organizationsWithTexts;
       }

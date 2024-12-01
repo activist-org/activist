@@ -32,7 +32,9 @@
           </div> -->
         <!-- <ShieldTopic :topic="organization.topic" /> -->
         <div class="flex items-center gap-3">
-          <MetaTagLocation :location="organization.location" />
+          <MetaTagLocation
+            :location="organization.locationDisplayName.split(',')[0]"
+          />
           <!-- <MetaTagMembers
               :members="organization.members.length"
               :label="$t('components.card.about._global.members_lower')"

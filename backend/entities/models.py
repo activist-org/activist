@@ -25,10 +25,9 @@ class Organization(models.Model):
     icon_url = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
-    location = models.CharField(max_length=255)
-    # location_id = models.OneToOneField(
-    #     "content.Location", on_delete=models.CASCADE, null=False, blank=False
-    # )
+    location_id = models.OneToOneField(
+        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+    )
     get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
@@ -57,10 +56,9 @@ class Group(models.Model):
     group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
-    location = models.CharField(max_length=255)
-    # location_id = models.OneToOneField(
-    #     "content.Location", on_delete=models.CASCADE, null=False, blank=False
-    # )
+    location_id = models.OneToOneField(
+        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+    )
     category = models.CharField(max_length=255)
     get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)

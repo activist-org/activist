@@ -55,7 +55,6 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     org_text = OrganizationTextSerializer(read_only=True)
-    description = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = Organization
@@ -64,7 +63,6 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "created_by": {"read_only": True},
             "status_updated": {"read_only": True},
             "acceptance_date": {"read_only": True},
-            "description": {"write_only": True},
         }
 
         fields = [
@@ -74,7 +72,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "name",
             "tagline",
             "icon_url",
-            "location",
+            "location_id",
             "get_involved_url",
             "terms_checked",
             "is_high_risk",
@@ -82,7 +80,6 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "status_updated",
             "acceptance_date",
             "org_text",
-            "description",
         ]
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:

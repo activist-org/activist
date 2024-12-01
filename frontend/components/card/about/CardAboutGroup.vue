@@ -26,7 +26,9 @@
             <ShieldTopic v-for="(t, i) in group.topics" :key="i" :topic="t" />
           </div> -->
         <div class="flex items-center gap-3">
-          <MetaTagLocation :location="group.location" />
+          <MetaTagLocation
+            :location="group.locationDisplayName.split(',')[0]"
+          />
           <!-- <MetaTagMembers
               :members="group.members.length"
               :label="$t('components.card.about._global.members_lower')"

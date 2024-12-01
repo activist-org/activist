@@ -48,8 +48,8 @@
             :label="$t('components.card_details.attending')"
           /> -->
           <MetaTagLocation
-            v-if="event.offlineLocation"
-            :location="event.offlineLocation"
+            v-if="event.offlineLocationId"
+            :location="event.offlineLocationId"
           />
           <MetaTagDate :date="event.startTime" />
         </div>
