@@ -25,7 +25,7 @@ class Organization(models.Model):
     icon_url = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
-    location_id = models.OneToOneField(
+    location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
     )
     get_involved_url = models.URLField(blank=True)
@@ -41,10 +41,10 @@ class Organization(models.Model):
     status_updated = models.DateTimeField(auto_now=True, null=True)
     acceptance_date = models.DateTimeField(blank=True, null=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
-    org_text = models.ForeignKey(
+    texts = models.ForeignKey(
         "OrganizationText", on_delete=models.CASCADE, blank=True, null=True
     )
-    org_events = models.ManyToManyField("events.Event", blank=True)
+    events = models.ManyToManyField("events.Event", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -57,7 +57,7 @@ class Group(models.Model):
     group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
-    location_id = models.OneToOneField(
+    location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
     )
     category = models.CharField(max_length=255)

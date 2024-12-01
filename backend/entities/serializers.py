@@ -6,6 +6,7 @@ from typing import Any
 
 from rest_framework import serializers
 
+from content.serializers import LocationSerializer
 from events.serializers import EventSerializer
 
 from .models import (
@@ -51,8 +52,9 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
-    org_text = OrganizationTextSerializer()
-    org_events = EventSerializer(many=True, read_only=True)  # to be tested
+    texts = OrganizationTextSerializer()
+    events = EventSerializer(many=True, read_only=True)
+    location = LocationSerializer(read_only=True)
 
     class Meta:
         model = Organization
@@ -63,21 +65,6 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             "acceptance_date": {"read_only": True},
         }
 
-        # fields = [
-        #     "id",
-        #     "created_by",
-        #     "org_name",
-        #     "name",
-        #     "tagline",
-        #     "icon_url",
-        #     "location_id",
-        #     "get_involved_url",
-        #     "terms_checked",
-        #     "is_high_risk",
-        #     "status",
-        #     "status_updated",
-        #     "acceptance_date",
-        # ]
         fields = "__all__"
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:

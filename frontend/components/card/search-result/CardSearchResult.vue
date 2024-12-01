@@ -279,8 +279,8 @@ const date = computed<string>(() => {
 });
 
 const description = computed<string>(() => {
-  if (props.organization && props.organization.description) {
-    return props.organization.description;
+  if (props.organization && props.organization.texts.description) {
+    return props.organization.texts.description;
   } else if (props.group && props.group.description) {
     return props.group.description;
   } else if (props.event && props.event.description) {
@@ -316,9 +316,9 @@ const imageUrl = computed<string>(() => {
   }
 });
 
-const locationId = computed<string>(() => {
-  if (props.organization) {
-    return props.organization.locationId;
+const location = computed<Location>(() => {
+  if (props.organization && props.organization.location) {
+    return props.organization.location;
   } else if (props.group) {
     return props.group.locationId;
   } else if (props.event && props.event.offlineLocationId) {
@@ -331,19 +331,6 @@ const locationId = computed<string>(() => {
     return "";
   }
 });
-
-let location: Location;
-
-const locationStore = useLocationStore();
-if (
-  props.organization ||
-  props.group ||
-  (props.event && props.event.offlineLocationId) ||
-  (props.resource && props.resource.locationId)
-) {
-  await locationStore.fetchById(locationId.value);
-  location = locationStore.location;
-}
 
 // const members = computed<number>(() => {
 //   if (props.organization && props.organization.members) {

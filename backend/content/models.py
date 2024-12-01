@@ -68,7 +68,7 @@ class Resource(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     category = models.CharField(max_length=255, blank=True)
-    location_id = models.OneToOneField(
+    location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
     )
     url = models.URLField(max_length=255)

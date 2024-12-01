@@ -1,3 +1,5 @@
+import type { Location } from "~/types/content/location";
+
 // MARK: Main Table
 
 export interface Organization {
@@ -8,11 +10,7 @@ export interface Organization {
   createdBy: string;
   iconUrl: string;
 
-  locationId: string;
-  lat: string;
-  lon: string;
-  bbox: string[];
-  locationDisplayName: string;
+  location: Location;
 
   getInvolvedUrl: string;
   socialLinks: string[];
@@ -44,9 +42,7 @@ export interface Organization {
   // task?: Task[];
 
   organizationTextId: string;
-  description: string;
-  getInvolved: string;
-  donationPrompt: string;
+  texts: OrganizationText;
 
   // organization_topic
   // topics?: Topic[];
@@ -89,7 +85,6 @@ export interface OrganizationTask {
 
 export interface OrganizationText {
   id: string;
-  orgId: string;
   iso: string;
   primary: boolean;
   description: string;

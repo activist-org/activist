@@ -57,7 +57,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             "icon_url",
             "type",
             "online_location_link",
-            "offline_location_id",
+            "offline_location",
             "is_private",
             "start_time",
             "end_time",

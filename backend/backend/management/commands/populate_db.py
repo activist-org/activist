@@ -70,17 +70,17 @@ class Command(BaseCommand):
                             event_id=user_org_event, iso="en", primary=True
                         )
 
-                    org_text = OrganizationTextFactory(iso="wt", primary=True)
+                    org_texts = OrganizationTextFactory(iso="wt", primary=True)
 
                     user_org = OrganizationFactory(
                         created_by=user,
                         org_name=f"organization_u{u}_o{o}",
-                        org_text=org_text,
+                        texts=org_texts,
                         name=f"{user_topic.name} Organization",
                         tagline=f"Fighting for {user_topic.name.lower()}",
                     )
 
-                    user_org.org_events.set([user_org_event])
+                    user_org.events.set([user_org_event])
 
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
