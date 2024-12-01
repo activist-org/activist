@@ -4,6 +4,7 @@ Models for the content app.
 
 from uuid import uuid4
 
+from django.contrib.postgres.fields import ArrayField
 from django.core.validators import validate_image_file_extension
 from django.db import models
 
@@ -50,9 +51,15 @@ class Image(models.Model):
 
 class Location(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    # bbox = models
-    # geometry = models
+    lat = models.CharField(max_length=24)
+    lon = models.CharField(max_length=24)
+    bbox = ArrayField(
+        base_field=models.CharField(max_length=24), size=4, blank=True, null=True
+    )
     display_name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return f"{self.id}"
 
 
 class Resource(models.Model):
@@ -61,6 +68,9 @@ class Resource(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     category = models.CharField(max_length=255, blank=True)
+    location_id = models.OneToOneField(
+        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+    )
     url = models.URLField(max_length=255)
     is_private = models.BooleanField(default=True)
     terms_checked = models.BooleanField(default=False)

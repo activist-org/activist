@@ -8,7 +8,13 @@ export interface Group {
   organization: Organization;
   createdBy: User;
   // category?: string;
-  location: string;
+
+  locationId: string;
+  lat: string;
+  lon: string;
+  bbox: string[];
+  locationDisplayName: string;
+
   getInvolvedUrl: string;
   socialLinks: string[];
   creationDate: string;

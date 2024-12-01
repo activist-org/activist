@@ -25,7 +25,9 @@ class Event(models.Model):
     )
     type = models.CharField(max_length=255)
     online_location_link = models.CharField(max_length=255, blank=True)
-    offline_location = models.CharField(max_length=255, blank=True)
+    offline_location_id = models.OneToOneField(
+        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+    )
     get_involved_url = models.URLField(blank=True)
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()

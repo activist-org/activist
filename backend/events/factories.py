@@ -30,7 +30,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     tagline = factory.Faker("word")
     type = random.choice(["learn", "action"])
     online_location_link = factory.Faker("url")
-    offline_location = factory.Faker("city")
+    offline_location_id = factory.SubFactory("content.factories.EventLocationFactory")
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )

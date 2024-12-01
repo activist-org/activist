@@ -65,11 +65,11 @@
           :event="event"
         />
         <MediaMap
-          v-if="event.offlineLocation && !textExpanded"
+          v-if="event.offlineLocationId && !textExpanded"
           class="h-[17.5rem] w-full"
           :markerColors="event.type === 'learn' ? ['#2176AE'] : ['#BA3D3B']"
           :eventNames="[event.name]"
-          :eventLocations="[event.offlineLocation]"
+          :eventLocations="[event.offlineLocationId]"
         />
       </div>
       <CardAboutEvent aboutType="event" :event="event" />

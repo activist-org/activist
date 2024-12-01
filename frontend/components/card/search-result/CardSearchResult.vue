@@ -155,7 +155,10 @@
             v-if="aboveMediumBP"
             class="flex items-center space-x-3 lg:space-x-5"
           >
-            <MetaTagLocation v-if="location" :location="location" />
+            <MetaTagLocation
+              v-if="location"
+              :location="location.displayName.split(',')[0]"
+            />
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
@@ -169,7 +172,10 @@
             v-if="!aboveMediumBP"
             class="flex items-center justify-center space-x-4"
           >
-            <MetaTagLocation v-if="location" :location="location" />
+            <MetaTagLocation
+              v-if="location"
+              :location="location.displayName.split(',')[0]"
+            />
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
@@ -219,6 +225,7 @@
 <script setup lang="ts">
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
+import type { Location } from "~/types/content/location";
 import type { Resource } from "~/types/content/resource";
 import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
@@ -309,21 +316,34 @@ const imageUrl = computed<string>(() => {
   }
 });
 
-const location = computed<string>(() => {
+const locationId = computed<string>(() => {
   if (props.organization) {
-    return props.organization.location;
+    return props.organization.locationId;
   } else if (props.group) {
-    return props.group.location;
-  } else if (props.event && props.event.offlineLocation) {
-    return props.event.offlineLocation;
-  } else if (props.resource && props.resource.location) {
-    return props.resource.location;
+    return props.group.locationId;
+  } else if (props.event && props.event.offlineLocationId) {
+    return props.event.offlineLocationId;
+  } else if (props.resource && props.resource.locationId) {
+    return props.resource.locationId;
   } else if (props.user && props.user.location) {
     return props.user.location;
   } else {
     return "";
   }
 });
+
+let location: Location;
+
+const locationStore = useLocationStore();
+if (
+  props.organization ||
+  props.group ||
+  (props.event && props.event.offlineLocationId) ||
+  (props.resource && props.resource.locationId)
+) {
+  await locationStore.fetchById(locationId.value);
+  location = locationStore.location;
+}
 
 // const members = computed<number>(() => {
 //   if (props.organization && props.organization.members) {

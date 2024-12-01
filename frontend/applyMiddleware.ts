@@ -18,8 +18,7 @@ export default function applyMiddleware(pages: NuxtPage[]) {
   ) {
     for (const page of pages) {
       if (page[pageKey] !== undefined && pattern.test(page[pageKey])) {
-        // options are name, path, file
-        // create paths seem to all be "create"
+        // Options are name, path and file.
         page.meta ||= {};
         page.meta.middleware ||= [];
         if (!Array.isArray(page.meta.middleware)) {

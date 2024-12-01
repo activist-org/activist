@@ -2,8 +2,6 @@
 from django.db.models import QuerySet
 from django.utils import timezone
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -154,8 +152,6 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    authentication_classes = [TokenAuthentication]
 
     def list(self, request: Request) -> Response:
         serializer = self.get_serializer(self.get_queryset(), many=True)
