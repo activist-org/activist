@@ -12,21 +12,21 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
-- [First steps as a contributor](#first-steps)
-- [Tech stack](#tech-stack)
-- [Learning the tech stack](#learning-the-tech)
-- [Development environment](#dev-env)
-- [Style guide](#style-guide)
-- [Testing](#testing)
-- [Linting](#linting)
-- [Issues and projects](#issues-projects)
-- [Bug reports](#bug-reports)
-- [Feature requests](#feature-requests)
-- [Pull requests](#pull-requests)
-- [Localization](#localization)
-- [Documentation](#documentation)
-- [Accessibility](#accessibility)
-- [Design](#design)
+- [First steps as a contributor](#first-steps-)
+- [Tech stack](#tech-stack-)
+- [Learning the tech stack](#learning-the-tech-)
+- [Development environment](#dev-env-)
+- [Style guide](#style-guide-)
+- [Testing](#testing-)
+- [Linting](#linting-)
+- [Issues and projects](#issues-projects-)
+- [Bug reports](#bug-reports-)
+- [Feature requests](#feature-requests-)
+- [Pull requests](#pull-requests-)
+- [Localization](#localization-)
+- [Documentation](#documentation-)
+- [Accessibility](#accessibility-)
+- [Design](#design-)
 
 <a id="first-steps"></a>
 
@@ -500,6 +500,19 @@ Thank you in advance for your contributions!
 Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
 To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](STYLEGUIDE.md) for more information on how to create new localization keys.
+
+> [!IMPORTANT]
+> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid across the codebase, then please add the following file to your codebase under `frontend/types/vue-i18n.d.ts`:
+>
+> ```ts
+> // frontend/types/vue-i18n.d.ts
+> // Note: This file is git ignored, but can be used as a local fix for excessive errors.
+> declare module "vue" {
+>   interface ComponentCustomProperties {
+>     $t: (key: string) => string;
+>   }
+> }
+> ```
 
 <a id="documentation"></a>
 
