@@ -25,13 +25,12 @@ class EventFactory(factory.django.DjangoModelFactory):
         model = Event
         django_get_or_create = ("created_by",)
 
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     type = random.choice(["learn", "action"])
     online_location_link = factory.Faker("url")
-    offline_location = factory.Faker("city")
-    offline_location_lat = factory.Faker("latitude")
-    offline_location_long = factory.Faker("longitude")
+    offline_location_id = factory.SubFactory("content.factories.EventLocationFactory")
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -40,7 +39,6 @@ class EventFactory(factory.django.DjangoModelFactory):
             datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
         )
     )
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )

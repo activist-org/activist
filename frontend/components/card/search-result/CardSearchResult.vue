@@ -11,7 +11,7 @@
         >
           <div
             v-if="organization || group || event"
-            class="h-min w-max rounded-md border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="h-min w-max rounded-md border border-section-div bg-layer-0"
           >
             <img
               v-if="organization && imageUrl"
@@ -45,7 +45,7 @@
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="flex items-center justify-center text-light-text dark:text-dark-text"
+              class="flex items-center justify-center text-primary-text"
             >
               <Icon :name="IconMap.ORGANIZATION" class="h-[75%] w-[75%]" />
             </div>
@@ -71,7 +71,7 @@
           </div>
           <div
             v-if="user && !imageUrl"
-            class="w-fit rounded-full border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="w-fit rounded-full border border-section-div bg-layer-0"
           >
             <div
               v-if="!imageUrl"
@@ -79,7 +79,7 @@
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="flex items-center justify-center fill-light-text dark:fill-dark-text"
+              class="flex items-center justify-center fill-primary-text"
             >
               <Icon class="h-[75%] w-[75%]" :name="IconMap.PERSON" />
             </div>
@@ -91,15 +91,13 @@
           target="_blank"
           :aria-label="$t(ariaLabel)"
         >
-          <div
-            class="h-min rounded-md border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
-          >
+          <div class="h-min rounded-md border border-section-div bg-layer-0">
             <div
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="flex items-center justify-center fill-light-text dark:fill-dark-text"
+              class="flex items-center justify-center fill-primary-text"
             >
               <Icon :name="IconMap.RESOURCE" class="h-[75%] w-[75%]" />
             </div>
@@ -157,7 +155,10 @@
             v-if="aboveMediumBP"
             class="flex items-center space-x-3 lg:space-x-5"
           >
-            <MetaTagLocation v-if="location" :location="location" />
+            <MetaTagLocation
+              v-if="location"
+              :location="location.displayName.split(',')[0]"
+            />
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
@@ -171,7 +172,10 @@
             v-if="!aboveMediumBP"
             class="flex items-center justify-center space-x-4"
           >
-            <MetaTagLocation v-if="location" :location="location" />
+            <MetaTagLocation
+              v-if="location"
+              :location="location.displayName.split(',')[0]"
+            />
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
@@ -221,6 +225,7 @@
 <script setup lang="ts">
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
+import type { Location } from "~/types/content/location";
 import type { Resource } from "~/types/content/resource";
 import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
@@ -311,21 +316,34 @@ const imageUrl = computed<string>(() => {
   }
 });
 
-const location = computed<string>(() => {
+const locationId = computed<string>(() => {
   if (props.organization) {
-    return props.organization.location;
+    return props.organization.locationId;
   } else if (props.group) {
-    return props.group.location;
-  } else if (props.event && props.event.offlineLocation) {
-    return props.event.offlineLocation;
-  } else if (props.resource && props.resource.location) {
-    return props.resource.location;
+    return props.group.locationId;
+  } else if (props.event && props.event.offlineLocationId) {
+    return props.event.offlineLocationId;
+  } else if (props.resource && props.resource.locationId) {
+    return props.resource.locationId;
   } else if (props.user && props.user.location) {
     return props.user.location;
   } else {
     return "";
   }
 });
+
+let location: Location;
+
+const locationStore = useLocationStore();
+if (
+  props.organization ||
+  props.group ||
+  (props.event && props.event.offlineLocationId) ||
+  (props.resource && props.resource.locationId)
+) {
+  await locationStore.fetchById(locationId.value);
+  location = locationStore.location;
+}
 
 // const members = computed<number>(() => {
 //   if (props.organization && props.organization.members) {

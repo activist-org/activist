@@ -4,7 +4,7 @@ Thank you for contributing to activist!
 
 Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
-Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open-source project. In return, and in accordance with this project's [code of conduct](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md), other contributors will reciprocate that respect in addressing your issue or assessing patches and features.
+Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open-source project. In return, and in accordance with this project's [code of conduct](.github/CODE_OF_CONDUCT.md), other contributors will reciprocate that respect in addressing your issue or assessing patches and features.
 
 If you have questions or would like to communicate with the team, please [join us in our public Matrix chat rooms](https://matrix.to/#/#activist_community:matrix.org). We'd be happy to hear from you!
 
@@ -12,21 +12,21 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
-- [First steps as a contributor](#first-steps)
-- [Tech stack](#tech-stack)
-- [Learning the tech stack](#learning-the-tech)
-- [Development environment](#dev-env)
-- [Style guide](#style-guide)
-- [Testing](#testing)
-- [Linting](#linting)
-- [Issues and projects](#issues-projects)
-- [Bug reports](#bug-reports)
-- [Feature requests](#feature-requests)
-- [Pull requests](#pull-requests)
-- [Localization](#localization)
-- [Documentation](#documentation)
-- [Accessibility](#accessibility)
-- [Design](#design)
+- [First steps as a contributor](#first-steps-)
+- [Tech stack](#tech-stack-)
+- [Learning the tech stack](#learning-the-tech-)
+- [Development environment](#dev-env-)
+- [Style guide](#style-guide-)
+- [Testing](#testing-)
+- [Linting](#linting-)
+- [Issues and projects](#issues-projects-)
+- [Bug reports](#bug-reports-)
+- [Feature requests](#feature-requests-)
+- [Pull requests](#pull-requests-)
+- [Localization](#localization-)
+- [Documentation](#documentation-)
+- [Accessibility](#accessibility-)
+- [Design](#design-)
 
 <a id="first-steps"></a>
 
@@ -39,7 +39,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
   - activist would suggest that you use the [Element](https://element.io/) client
   - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
   - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
-- Read through this contributing guide and the [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for all the information you need to contribute
+- Read through this contributing guide and the [style guide](STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
 - Consider joining our [bi-weekly developer sync](https://etherpad.wikimedia.org/p/activist-dev-sync)!
@@ -188,7 +188,23 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Start your docker images with the following:
+4. Create a virtual environment for the backend, activate it and install dependencies:
+
+    ```bash
+    # Unix or MacOS:
+    python3 -m venv venv
+    source venv/bin/activate
+
+    # Windows:
+    python -m venv venv
+    venv\Scripts\activate.bat
+
+    # After activating venv:
+    pip install --upgrade pip
+    pip install -r backend/requirements-dev.txt
+    ```
+
+5. Start your docker images with the following:
 
    ```bash
    # --build only necessary with new dependencies or backend model changes.
@@ -198,13 +214,14 @@ git remote add upstream https://github.com/activist-org/activist.git
    # docker compose --env-file .env.dev down
    ```
 
-5. You can visit <http://localhost:3000/> to see the development build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
+6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
+
+7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.
+
+8. If you'd like to sign in to the frontend via <http://localhost:3000/auth/sign-in> or the Django admin panel via <http://localhost:8000/admin>, then you can use the fixtures `admin` user with the password `admin`.
 
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
-
-> [!TIP]
-> For those using LLM coding assistants, [LLMPROMPT.txt](https://github.com/activist-org/activist/blob/main/LLMPROMPT.txt) contains a good prompt to paste as context or add to your settings.
 
 <a id="using-yarn-or-python"></a>
 
@@ -279,7 +296,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-You can then visit http://localhost:8000/ to see the development backend build once the server is up and running.
+You can then visit <http://localhost:8000/admin> to see the development backend admin UI as well as <http://localhost:8000/v1/schema/swagger-ui/> for the Swagger UI once the server is up and running.
 
 </p>
 </details>
@@ -301,7 +318,7 @@ From there you'll be able to visit http://localhost:6006/ to view the documentat
 
 ## Style guide [`⇧`](#contents)
 
-Please see the [activist style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
+Please see the [activist style guide](STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
 
 <a id="testing"></a>
 
@@ -327,6 +344,8 @@ exit
 
 ### Frontend
 
+#### Static Testing
+
 Please check the formatting of your code using Prettier and run the static type check with eslint before pull requests with the following command:
 
 ```bash
@@ -345,6 +364,20 @@ yarn typecheck
 
 > [!NOTE]
 > Pre-existing TS errors may be ignored. If you need assistance then feel free to open a PR and we'll support!
+
+#### Automated Testing
+
+We use vitest for component and unit testing.  You can run them with the following command:
+
+```bash
+# Within ./frontend:
+yarn test
+```
+
+Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
+
+> [!NOTE]
+> The vitest test suite is still in a very early stage.  There is a lot of work left to do to increase test coverage, and some features still need troubleshooting.  If you need assistance then feel free to open a PR and we'll support!
 
 <a id="linting"></a>
 
@@ -401,7 +434,7 @@ Feature requests are more than welcome! Please take a moment to find out whether
 
 ## Pull requests [`⇧`](#contents)
 
-Good pull requests — patches, improvements and new features — are the foundation of our community making activist. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license](https://github.com/activist-org/activist/blob/main/LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
+Good pull requests — patches, improvements and new features — are the foundation of our community making activist. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license](LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
 
 **Please ask first** before embarking on any significant pull request (implementing features, refactoring code, etc), otherwise you risk spending a lot of time working on something that the developers might not want to merge into the project. With that being said, major additions are very appreciated!
 
@@ -466,7 +499,21 @@ Thank you in advance for your contributions!
 
 Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
-To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](https://github.com/activist-org/activist/blob/main/STYLEGUIDE.md) for more information on how to create new localization keys.
+To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](STYLEGUIDE.md) for more information on how to create new localization keys.
+
+> [!IMPORTANT]
+> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid/not existing across the codebase, then please add the following file at `frontend/types/vue-i18n.d.ts`:
+>
+> ```ts
+> // frontend/types/vue-i18n.d.ts
+> // Attn: Fixes Property '$t' does not exist on type ... errors.
+> // Note: This file is git ignored, but can be used as a local fix for excessive TypeScript errors.
+> declare module "vue" {
+>   interface ComponentCustomProperties {
+>     $t: (key: string) => string;
+>   }
+> }
+> ```
 
 <a id="documentation"></a>
 

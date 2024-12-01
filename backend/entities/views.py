@@ -2,29 +2,31 @@
 from django.db.models import QuerySet
 from django.utils import timezone
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 from backend.paginator import CustomPagination
 
 from .models import (
     Group,
     GroupEvent,
+    GroupFaq,
     GroupImage,
     GroupMember,
     GroupResource,
+    GroupSocialLink,
     GroupText,
     GroupTopic,
     Organization,
     OrganizationApplication,
+    OrganizationDiscussion,
     OrganizationEvent,
+    OrganizationFaq,
     OrganizationGroup,
     OrganizationImage,
     OrganizationMember,
     OrganizationResource,
+    OrganizationSocialLink,
     OrganizationTask,
     OrganizationText,
     OrganizationTopic,
@@ -33,19 +35,24 @@ from .models import (
 )
 from .serializers import (
     GroupEventSerializer,
+    GroupFaqSerializer,
     GroupImageSerializer,
     GroupMemberSerializer,
     GroupResourceSerializer,
     GroupSerializer,
+    GroupSocialLinkSerializer,
     GroupTextSerializer,
     GroupTopicSerializer,
     OrganizationApplicationSerializer,
+    OrganizationDiscussionSerializer,
     OrganizationEventSerializer,
+    OrganizationFaqSerializer,
     OrganizationGroupSerializer,
     OrganizationImageSerializer,
     OrganizationMemberSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
+    OrganizationSocialLinkSerializer,
     OrganizationTaskSerializer,
     OrganizationTextSerializer,
     OrganizationTopicSerializer,
@@ -145,9 +152,6 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-    throttle_classes = [AnonRateThrottle, UserRateThrottle]
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    authentication_classes = [TokenAuthentication]
 
     def list(self, request: Request) -> Response:
         serializer = self.get_serializer(self.get_queryset(), many=True)
@@ -227,7 +231,6 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         org.is_high_risk = False
         org.status_updated = None
         org.tagline = ""
-        org.social_links = []
         org.save()
 
         return Response(
@@ -250,6 +253,12 @@ class GroupEventViewSet(viewsets.ModelViewSet[GroupEvent]):
     pagination_class = CustomPagination
 
 
+class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
+    queryset = GroupFaq.objects.all()
+    serializer_class = GroupFaqSerializer
+    pagination_class = CustomPagination
+
+
 class GroupImageViewSet(viewsets.ModelViewSet[GroupImage]):
     queryset = GroupImage.objects.all()
     serializer_class = GroupImageSerializer
@@ -268,6 +277,12 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
     pagination_class = CustomPagination
 
 
+class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
+    queryset = GroupSocialLink.objects.all()
+    serializer_class = GroupSocialLinkSerializer
+    pagination_class = CustomPagination
+
+
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):
     queryset = GroupText.objects.all()
     serializer_class = GroupTextSerializer
@@ -283,6 +298,12 @@ class GroupTopicViewSet(viewsets.ModelViewSet[GroupTopic]):
 class OrganizationApplicationViewSet(viewsets.ModelViewSet[OrganizationApplication]):
     queryset = OrganizationApplication.objects.all()
     serializer_class = OrganizationApplicationSerializer
+    pagination_class = CustomPagination
+
+
+class OrganizationDiscussionViewSet(viewsets.ModelViewSet[OrganizationDiscussion]):
+    queryset = OrganizationDiscussion.objects.all()
+    serializer_class = OrganizationDiscussionSerializer
     pagination_class = CustomPagination
 
 
@@ -308,6 +329,12 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[OrganizationEvent]):
         serializer = self.get_serializer(queryset, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
+    queryset = OrganizationFaq.objects.all()
+    serializer_class = OrganizationFaqSerializer
+    pagination_class = CustomPagination
 
 
 class OrganizationGroupViewSet(viewsets.ModelViewSet[OrganizationGroup]):
@@ -348,6 +375,12 @@ class OrganizationImageViewSet(viewsets.ModelViewSet[OrganizationImage]):
 class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
     queryset = OrganizationResource.objects.all()
     serializer_class = OrganizationResourceSerializer
+    pagination_class = CustomPagination
+
+
+class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):
+    queryset = OrganizationSocialLink.objects.all()
+    serializer_class = OrganizationSocialLinkSerializer
     pagination_class = CustomPagination
 
 

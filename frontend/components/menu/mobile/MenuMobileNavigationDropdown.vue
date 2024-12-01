@@ -1,11 +1,8 @@
 <template>
-  <div
-    v-if="selectedMenuItem"
-    class="fixed z-20 h-10 w-full bg-light-menu-selection dark:bg-dark-menu-selection"
-  >
+  <div v-if="selectedMenuItem" class="fixed z-20 h-10 w-full bg-menu-selection">
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="elem-shadow-sm focus-brand relative flex w-full items-center fill-light-layer-1 py-2 pl-5 text-left align-middle text-light-layer-1 dark:fill-dark-layer-1 dark:text-dark-layer-1"
+        class="elem-shadow-sm focus-brand relative flex w-full items-center fill-layer-1 py-2 pl-5 text-left align-middle text-layer-1"
       >
         <Icon
           :name="selectedMenuItem.iconUrl"
@@ -27,9 +24,7 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <ListboxOptions
-          class="focus-brand bg-light-menu-selection dark:bg-dark-menu-selection"
-        >
+        <ListboxOptions class="focus-brand bg-menu-selection">
           <ListboxOption
             v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
               ? menuEntryState.organizationEntry.value
@@ -42,10 +37,9 @@
               <li
                 class="relative flex cursor-default select-none items-center py-2 pl-5 align-middle"
                 :class="{
-                  'bg-light-layer-2 fill-light-text text-light-text dark:bg-dark-section-div dark:fill-dark-text dark:text-dark-text':
+                  'bg-layer-2 fill-primary-text text-primary-text dark:bg-section-div':
                     selected,
-                  'bg-light-highlight fill-light-layer-1 text-light-layer-1 dark:bg-dark-highlight dark:fill-dark-layer-1 dark:text-dark-layer-1':
-                    !selected,
+                  'bg-highlight fill-layer-1 text-layer-1': !selected,
                 }"
               >
                 <Icon

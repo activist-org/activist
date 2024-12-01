@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden bg-light-layer-0 dark:bg-dark-layer-0">
+  <div class="overflow-hidden bg-layer-0">
     <Head>
       <Title>{{ $t("pages.index.title") }}</Title>
     </Head>

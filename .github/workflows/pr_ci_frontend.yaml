@@ -43,3 +43,10 @@ jobs:
         with:
           cmd: eslint .
           dir: "frontend"
+
+      - name: Run Vitest - Component Testing
+        if: always()
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: vitest run --run
+          dir: "frontend"

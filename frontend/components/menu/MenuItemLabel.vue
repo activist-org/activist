@@ -7,9 +7,8 @@
     class="flex w-full items-center rounded-md text-sm"
     :class="{
       'group py-2 pl-4 pr-3': !isSideLeftMenu,
-      'bg-light-cta-orange/80 dark:bg-dark-cta-orange/25 dark:text-dark-cta-orange':
-        active,
-      'text-light-text dark:text-dark-text': !active,
+      'bg-cta-orange/80 dark:bg-cta-orange/25 dark:text-cta-orange': active,
+      'text-primary-text': !active,
       'relative z-0 space-x-2 p-2 text-left font-medium': isSideLeftMenu,
     }"
   >
@@ -56,7 +55,7 @@ const infoComponent = computed(() => {
     ? {
         is: "button",
         onclick: props.handlerClick,
-        ariaLabel: props.ariaLabel,
+        "aria-label": props.ariaLabel,
       }
     : {
         is: "li",
@@ -73,7 +72,7 @@ const infoLabel = computed(() => {
       ? {
           is: "p",
           class:
-            "select-none whitespace-nowrap hover:light-menu-selection dark:hover:dark-menu-selection",
+            "select-none whitespace-nowrap hover:menu-selection dark:hover:menu-selection",
         }
       : props.iconName
         ? {

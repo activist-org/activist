@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="location == SearchBarLocation.SIDEBAR"
-    class="elem-shadow-sm mx-2 flex grow select-none items-center justify-between rounded-md bg-light-layer-2 py-1 pl-[12px] text-left text-light-distinct-text transition duration-200 focus-within:mb-[-3px] focus-within:border-2 focus-within:border-light-link-text dark:bg-dark-layer-2 dark:text-dark-distinct-text dark:focus-within:border-dark-link-text"
+    class="elem-shadow-sm mx-2 flex grow select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
   >
     <div class="flex items-center space-x-2 pl-1">
       <Icon
@@ -36,7 +36,7 @@
         class="transition-duration-200 flex space-x-1 pr-1 transition-opacity"
       >
         <div
-          class="has-tooltip flex rounded-md bg-light-highlight px-2 py-[0.125rem] text-center text-sm text-light-distinct-text dark:bg-dark-highlight dark:text-dark-distinct-text"
+          class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
         >
           <TooltipBase
             class="invisible -mt-8"
@@ -46,7 +46,7 @@
         </div>
         <div
           v-if="isMacOS"
-          class="has-tooltip flex rounded-md bg-light-highlight px-2 py-[0.125rem] text-center text-sm text-light-distinct-text dark:bg-dark-highlight dark:text-dark-distinct-text"
+          class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
         >
           <TooltipBase
             class="invisible -mt-8"
@@ -56,7 +56,7 @@
         </div>
         <div
           v-else
-          class="has-tooltip flex rounded-md bg-light-highlight px-2 py-[0.125rem] text-center text-sm text-light-distinct-text dark:bg-dark-highlight dark:text-dark-distinct-text"
+          class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
         >
           <TooltipBase
             class="invisible -mt-8"
@@ -69,7 +69,7 @@
   </div>
   <div
     v-else
-    class="relative inline-flex select-none items-center space-x-2 rounded-md border border-light-distinct-text bg-light-layer-2 py-1 pl-[12px] pr-[10px] text-left text-light-distinct-text focus-within:border-2 focus-within:border-light-cta-orange dark:border-dark-distinct-text dark:bg-dark-layer-2 dark:text-dark-distinct-text dark:focus-within:border-dark-cta-orange"
+    class="relative inline-flex select-none items-center space-x-2 rounded-md border border-distinct-text bg-layer-2 py-1 pl-[12px] pr-[10px] text-left text-distinct-text focus-within:border-2 focus-within:border-cta-orange dark:border-distinct-text dark:text-distinct-text dark:focus-within:border-cta-orange"
   >
     <Icon
       @click="emit('on-search-toggle')"

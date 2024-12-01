@@ -5,7 +5,7 @@
         {{ $t("components._global.connect") }}
       </h3>
       <div
-        class="cursor-pointer break-all rounded-lg p-1 text-light-text transition-all hover:text-light-distinct-text dark:text-dark-text dark:hover:text-dark-distinct-text"
+        class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all hover:text-distinct-text"
       >
         <IconEdit
           v-if="userIsSignedIn && !editModeEnabled"
@@ -24,7 +24,7 @@
     >
       <li v-for="link in socialLinksRef">
         <div
-          class="flex cursor-pointer items-center gap-3 break-all text-light-text transition-all hover:text-light-distinct-text dark:text-dark-text dark:hover:text-dark-distinct-text"
+          class="flex cursor-pointer items-center gap-3 break-all text-primary-text transition-all hover:text-distinct-text"
         >
           <Icon
             v-if="editModeEnabled"

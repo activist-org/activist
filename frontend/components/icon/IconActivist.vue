@@ -3,8 +3,7 @@
     <svg
       class="transition duration-100"
       :class="{
-        'fill-light-text hover:fill-light-distinct-text dark:fill-dark-text hover:dark:fill-dark-distinct-text':
-          !color,
+        'fill-primary-text hover:fill-distinct-text': !color,
         '{{color}}': color,
       }"
       width="503"

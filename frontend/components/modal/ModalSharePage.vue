@@ -26,7 +26,7 @@
             :native-behavior-options="nativeBehaviorOptions"
           >
             <MetaTagSocialMedia
-              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
               :iconName="IconMap.TELEGRAM"
               :text="$t('components.modal_share_page.telegram')"
               iconSize="1.5em"
@@ -43,7 +43,7 @@
             :use-native-behavior="useNativeBehavior"
           >
             <MetaTagSocialMedia
-              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
               :iconName="IconMap.MASTODON"
               :text="$t('components.modal_share_page.mastodon')"
               iconSize="1.5em"
@@ -60,7 +60,7 @@
             :use-native-behavior="useNativeBehavior"
           >
             <MetaTagSocialMedia
-              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
               :iconName="IconMap.TWITTER"
               text="@activist_org"
               iconSize="1.5em"
@@ -68,7 +68,7 @@
           </s-twitter>
           <s-email class="focus-brand" :share-options="shareOptions">
             <MetaTagSocialMedia
-              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
               :iconName="IconMap.ENVELOPE"
               text="Email"
               iconSize="1.5em"
@@ -85,7 +85,7 @@
             :use-native-behavior="useNativeBehavior"
           >
             <MetaTagSocialMedia
-              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
               :iconName="IconMap.FACEBOOK"
               :text="$t('components.modal_share_page.facebook')"
               iconSize="1.5em"
@@ -131,14 +131,14 @@
           >
             <MetaTagSocialMedia
               v-if="!signalContentCopied"
-              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
               :iconName="IconMap.SIGNAL"
               :text="$t('components.modal_share_page.signal')"
               iconSize="1.5em"
             />
             <MetaTagSocialMedia
               v-if="signalContentCopied"
-              class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
+              class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
               :iconName="IconMap.SQUARE_CHECK"
               :text="$t('components.modal_share_page.url_copied')"
               iconSize="1.5em"
@@ -181,14 +181,14 @@
           >
             <MetaTagSocialMedia
               v-if="!contentCopied"
-              class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
               :iconName="IconMap.LINK"
               :text="$t('components.modal_share_page.copy_link')"
               iconSize="1.5em"
             />
             <MetaTagSocialMedia
               v-if="contentCopied"
-              class="text-light-accepted-green hover:text-light-accepted-green dark:text-dark-accepted-green dark:hover:text-dark-accepted-green"
+              class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
               :iconName="IconMap.SQUARE_CHECK"
               :text="$t('components.modal_share_page.url_copied')"
               iconSize="1.5em"
@@ -228,7 +228,7 @@
         :use-native-behavior="useNativeBehavior"
       >
         <MetaTagSocialMedia
-          class="dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+          class="dark:hover:distinct-text text-primary-text hover:text-distinct-text dark:text-primary-text"
           :iconName="IconMap.MESSENGER"
           :text="$t('components.modal_share_page.messenger')"
           iconSize="1.5em"

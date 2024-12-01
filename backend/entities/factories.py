@@ -30,15 +30,14 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         model = Organization
         django_get_or_create = ("created_by",)
 
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    social_links = ["https://www.instagram.com/activist_org/"]
     get_involved_url = "https://activist.org/"
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
     terms_checked = factory.Faker("boolean")
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
-    location = factory.Faker("city")
+    location_id = factory.SubFactory("content.factories.EntityLocationFactory")
     acceptance_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -49,16 +48,15 @@ class GroupFactory(factory.django.DjangoModelFactory):
         model = Group
 
     org_id = factory.SubFactory(OrganizationFactory)
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    social_links = ["https://www.instagram.com/activist_org/"]
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     terms_checked = factory.Faker("boolean")
     category = factory.Faker("word")
-    location = factory.Faker("city")
+    location_id = factory.SubFactory("content.factories.EntityLocationFactory")
 
 
 # MARK: Bridge Tables

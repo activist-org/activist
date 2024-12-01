@@ -20,12 +20,24 @@ const locales: Locale[] = [
     name: "Deutsch",
     file: "de.json",
   },
+  // {
+  //   code: "es",
+  //   language: "es",
+  //   name: "Español",
+  //   file: "es.json",
+  // },
   {
     code: "fr",
     language: "fr",
     name: "Français",
     file: "fr.json",
   },
+  // {
+  //   code: "pt",
+  //   language: "pt",
+  //   name: "Português",
+  //   file: "pt.json",
+  // },
 ];
 
 export default locales;

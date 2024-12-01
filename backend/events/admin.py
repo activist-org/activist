@@ -4,9 +4,12 @@ from .models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventDiscussion,
+    EventFaq,
     EventFormat,
     EventResource,
     EventRole,
+    EventSocialLink,
     EventTask,
     EventText,
     EventTopic,
@@ -24,8 +27,11 @@ admin.site.register(Role)
 
 admin.site.register(EventAttendee)
 admin.site.register(EventAttendeeStatus)
+admin.site.register(EventDiscussion)
+admin.site.register(EventFaq)
 admin.site.register(EventResource)
 admin.site.register(EventRole)
+admin.site.register(EventSocialLink)
 admin.site.register(EventTask)
 admin.site.register(EventText)
 admin.site.register(EventTopic)

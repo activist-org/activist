@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex w-full flex-col items-center bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
-  >
+  <div class="flex w-full flex-col items-center bg-layer-0 text-primary-text">
     <PageContent
       :imgUrl="BOOTSTRAP_CLOUD_MOON_URL"
       imgAltText="components.empty_state.img_alt_text"

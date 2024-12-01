@@ -11,7 +11,7 @@
         emit('expand-reduce-text');
         expand_reduce_text();
       "
-      class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
+      class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
@@ -32,7 +32,9 @@
           </div> -->
         <!-- <ShieldTopic :topic="organization.topic" /> -->
         <div class="flex items-center gap-3">
-          <MetaTagLocation :location="organization.location" />
+          <MetaTagLocation
+            :location="organization.locationDisplayName.split(',')[0]"
+          />
           <!-- <MetaTagMembers
               :members="organization.members.length"
               :label="$t('components.card.about._global.members_lower')"
@@ -54,7 +56,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.full_text_aria_label')
               "
@@ -67,7 +69,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.reduce_text_aria_label')
               "

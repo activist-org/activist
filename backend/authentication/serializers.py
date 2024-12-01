@@ -19,6 +19,7 @@ from .models import (
     SupportEntityType,
     UserModel,
     UserResource,
+    UserSocialLink,
     UserTask,
     UserTopic,
 )
@@ -88,6 +89,12 @@ class UserSerializer(serializers.ModelSerializer[UserModel]):
 class UserResourceSerializer(serializers.ModelSerializer[UserResource]):
     class Meta:
         model = UserResource
+        fields = "__all__"
+
+
+class UserSocialLinkSerializer(serializers.ModelSerializer[UserSocialLink]):
+    class Meta:
+        model = UserSocialLink
         fields = "__all__"
 
 

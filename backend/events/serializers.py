@@ -17,15 +17,17 @@ from .models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventDiscussion,
+    EventFaq,
     EventFormat,
     EventResource,
     EventRole,
+    EventSocialLink,
     EventTag,
     EventTask,
     EventText,
     EventTopic,
     Format,
-    Role,
 )
 
 # MARK: Main Tables
@@ -38,35 +40,28 @@ class EventTextSerializer(serializers.ModelSerializer[EventText]):
 
 
 class EventSerializer(serializers.ModelSerializer[Event]):
-    event_text = EventTextSerializer(read_only=True)
-    description = serializers.CharField(write_only=True, required=False)
+    event_text = EventTextSerializer()
 
     class Meta:
         model = Event
 
         extra_kwargs = {
             "created_by": {"read_only": True},
-            "social_links": {"required": False},
-            "description": {"write_only": True},
         }
 
         fields = [
             "id",
+            "created_by",
             "name",
             "tagline",
             "icon_url",
             "type",
             "online_location_link",
-            "offline_location",
-            "offline_location_lat",
-            "offline_location_long",
-            "created_by",
-            "social_links",
+            "offline_location_id",
             "is_private",
             "start_time",
             "end_time",
             "event_text",
-            "description",
         ]
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
@@ -104,17 +99,6 @@ class FormatSerializer(serializers.ModelSerializer[Event]):
         return data
 
 
-class RoleSerializer(serializers.ModelSerializer[Event]):
-    class Meta:
-        model = Role
-        fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_creation_and_deprecation_dates(data)
-
-        return data
-
-
 # MARK: Bridge Tables
 
 
@@ -127,6 +111,18 @@ class EventAttendeeSerializer(serializers.ModelSerializer[EventAttendee]):
 class EventAttendeeStatusSerializer(serializers.ModelSerializer[EventAttendeeStatus]):
     class Meta:
         model = EventAttendeeStatus
+        fields = "__all__"
+
+
+class EventDiscussionSerializer(serializers.ModelSerializer[EventDiscussion]):
+    class Meta:
+        model = EventDiscussion
+        fields = "__all__"
+
+
+class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
+    class Meta:
+        model = EventFaq
         fields = "__all__"
 
 
@@ -145,6 +141,12 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 class EventRoleSerializer(serializers.ModelSerializer[EventRole]):
     class Meta:
         model = EventRole
+        fields = "__all__"
+
+
+class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
+    class Meta:
+        model = EventSocialLink
         fields = "__all__"
 
 

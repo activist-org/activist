@@ -4,8 +4,8 @@
     <div
       class="h-full w-[20%] rounded-l-md"
       :class="{
-        'bg-light-action-red dark:bg-dark-action-red': eventType == 'action',
-        'bg-light-learn-blue dark:bg-dark-learn-blue': eventType == 'learn',
+        'bg-action-red': eventType == 'action',
+        'bg-learn-blue': eventType == 'learn',
       }"
     ></div>
     <img
@@ -17,7 +17,7 @@
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
-      class="flex h-full w-[80%] items-center justify-center rounded-r-md bg-light-layer-0 text-light-text dark:bg-dark-layer-0 dark:text-dark-text"
+      class="flex h-full w-[80%] items-center justify-center rounded-r-md bg-layer-0 text-primary-text"
     >
       <Icon :name="IconMap.EVENT" class="mb-1 h-[75%] w-[75%]" />
     </div>

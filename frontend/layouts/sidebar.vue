@@ -11,7 +11,7 @@
   />
   <div class="flex flex-col md:h-screen md:overflow-y-scroll">
     <div
-      class="bg-light-layer-0 pt-8 transition-padding duration-500 dark:bg-dark-layer-0 md:pt-0"
+      class="bg-layer-0 pt-8 transition-padding duration-500 md:pt-0"
       :class="sidebarContentDynamicClass"
     >
       <NuxtPage />

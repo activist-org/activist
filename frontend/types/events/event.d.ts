@@ -8,9 +8,13 @@ export interface Event {
   iconUrl?: string;
   type: "action" | "learn";
   onlineLocationLink?: string;
-  offlineLocation?: string;
-  offlineLocationLat?: string;
-  offlineLocationLong?: string;
+
+  offlineLocationId?: string;
+  lat: string;
+  lon: string;
+  bbox: string[];
+  locationDisplayName: string;
+
   getInvolvedUrl?: string;
   socialLinks: string[];
   startTime: string;

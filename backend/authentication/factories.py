@@ -7,6 +7,7 @@ from .models import (
     SupportEntityType,
     UserModel,
     UserResource,
+    UserSocialLink,
     UserTask,
     UserTopic,
 )
@@ -39,13 +40,12 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     username = factory.Faker("user_name")
     name = factory.Faker("name")
-    location = factory.Faker("city")
+    location = factory.Faker("city")  # users just have a string location
     description = factory.Faker("text", max_nb_chars=500)
     verified = factory.Faker("boolean")
     verification_method = factory.Faker("word")
     verification_code = factory.Faker("uuid4")
     email = factory.Faker("email")
-    social_links = factory.List([factory.Faker("user_name") for _ in range(3)])
     is_private = factory.Faker("boolean")
     is_high_risk = factory.Faker("boolean")
     creation_date = factory.Faker("date_time_this_decade", before_now=True)
@@ -72,6 +72,14 @@ class UserResourceFactory(factory.django.DjangoModelFactory):
 
     user_id = factory.SubFactory(UserFactory)
     resource_id = factory.SubFactory("content.factories.ResourceFactory")
+
+
+class UserSocialLinkFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = UserSocialLink
+
+    user_id = factory.SubFactory(UserFactory)
+    link_id = factory.SubFactory("content.factories.SocialLinkFactory")
 
 
 class UserTaskFactory(factory.django.DjangoModelFactory):

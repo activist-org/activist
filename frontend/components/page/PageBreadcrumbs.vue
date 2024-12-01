@@ -8,27 +8,25 @@
       >
         <NuxtLink
           v-if="index === 0"
-          class="focus-brand mx-[0.35rem] text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+          class="focus-brand mx-[0.35rem] text-distinct-text hover:text-primary-text"
           :to="localePath('/home')"
         >
           &#60;
         </NuxtLink>
-        <span
-          v-else
-          class="mx-[0.45rem] mb-[0.2rem] text-light-distinct-text dark:text-dark-distinct-text"
+        <span v-else class="mx-[0.45rem] mb-[0.2rem] text-distinct-text"
           >|</span
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <NuxtLink
             v-if="isValidUUID(breadcrumb) && pageType == 'event'"
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ event.name }}
           </NuxtLink>
           <NuxtLink
             v-else-if="isValidUUID(breadcrumb) && pageType == 'organization'"
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ organization.name }}
@@ -37,7 +35,7 @@
             v-else-if="
               isValidUUID(breadcrumb) && pageType == 'group' && index == 1
             "
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ group.name }}
@@ -46,14 +44,14 @@
             v-else-if="
               isValidUUID(breadcrumb) && pageType == 'group' && index == 3
             "
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ group.name }}
           </NuxtLink>
           <NuxtLink
             v-else
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
@@ -61,7 +59,7 @@
         </span>
         <span v-else>
           <NuxtLink
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
             aria-current="page"
           >

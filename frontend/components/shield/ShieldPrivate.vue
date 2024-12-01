@@ -1,6 +1,6 @@
 <template>
   <div
-    class="focus-brand elem-shadow-sm flex w-fit select-none items-center rounded-md border border-light-text bg-light-cta-orange fill-light-text px-4 py-2 text-center text-base font-semibold text-light-text dark:border-dark-cta-orange dark:bg-dark-cta-orange/10 dark:fill-dark-cta-orange dark:text-dark-cta-orange sm:text-lg xl:rounded-lg xl:px-6 xl:py-3 xl:text-xl"
+    class="focus-brand elem-shadow-sm flex w-fit select-none items-center rounded-md border border-primary-text bg-cta-orange fill-primary-text px-4 py-2 text-center text-base font-semibold text-primary-text dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange sm:text-lg xl:rounded-lg xl:px-6 xl:py-3 xl:text-xl"
     :class="{
       'text-xs': fontSize == 'xs',
       'text-sm': fontSize == 'sm',

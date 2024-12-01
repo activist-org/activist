@@ -4,9 +4,7 @@
     :selectors="groupSubPages"
     :selectedRoute="0"
   />
-  <div
-    class="flex flex-col bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title>{{ group.name }}</Title>
     </Head>
@@ -97,7 +95,7 @@ const { id } = useRoute().params;
 
 const [resOrg] = await Promise.all([
   useAsyncData(
-    async () => await fetchWithOptionalToken(`/entities/groups/${id}`, {})
+    async () => await fetchWithoutToken(`/entities/groups/${id}`, {})
   ),
 ]);
 

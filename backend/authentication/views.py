@@ -22,6 +22,7 @@ from .models import (
     SupportEntityType,
     UserModel,
     UserResource,
+    UserSocialLink,
     UserTask,
     UserTopic,
 )
@@ -74,6 +75,12 @@ class UserResourceViewSet(viewsets.ModelViewSet[UserResource]):
     serializer_class = UserResourceSerializer
 
 
+class UserSocialLinkViewSet(viewsets.ModelViewSet[UserSocialLink]):
+    queryset = UserSocialLink.objects.all()
+    pagination_class = CustomPagination
+    serializer_class = UserResourceSerializer
+
+
 class UserTaskViewSet(viewsets.ModelViewSet[UserTask]):
     queryset = UserTask.objects.all()
     pagination_class = CustomPagination
@@ -89,13 +96,15 @@ class UserTopicViewSet(viewsets.ModelViewSet[UserTopic]):
 # MARK: Methods
 
 
-class SignupView(APIView):
+class SignUpView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = SignupSerializer
 
     def post(self, request: Request) -> Response:
-        """Create a new user."""
+        """
+        Create a new user.
+        """
         serializer = SignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user: UserModel = serializer.save()
@@ -133,7 +142,9 @@ class SignupView(APIView):
         parameters=[OpenApiParameter(name="verification_code", type=str, required=True)]
     )
     def get(self, request: Request) -> Response:
-        """Confirm a user's email address."""
+        """
+        Confirm a user's email address.
+        """
         verification_code = request.GET.get("verification_code")
         user = UserModel.objects.filter(verification_code=verification_code).first()
 
@@ -154,14 +165,15 @@ class SignupView(APIView):
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class LoginView(APIView):
+class SignInView(APIView):
     serializer_class = LoginSerializer
     permission_classes = (AllowAny,)
 
     def post(self, request: Request) -> Response:
-        """Log in a user.
+        """
+        Sign in a user.
 
-        Login is possible with either email or username
+        Sign in is possible with either email or username.
         """
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -4,11 +4,11 @@
       <TabList class="flex flex-row">
         <Tab v-for="selector in selectors" :key="selector.id" class="w-full">
           <NuxtLink
-            class="focus-brand flex w-full items-center justify-center rounded-none border-[1px] border-light-text px-3 py-1 dark:border-dark-text"
+            class="focus-brand flex w-full items-center justify-center rounded-none border-[1px] border-primary-text px-3 py-1"
             :class="{
-              'bg-light-menu-selection text-light-layer-1 hover:bg-light-menu-selection/90 dark:bg-dark-menu-selection dark:text-dark-layer-1 dark:hover:bg-dark-menu-selection/90':
+              'bg-menu-selection text-layer-1 hover:bg-menu-selection/90':
                 selector.id == props.selectedRoute,
-              'bg-light-layer-2 text-light-text hover:bg-light-highlight dark:bg-dark-layer-2 dark:text-dark-text dark:hover:bg-dark-highlight':
+              'bg-layer-2 text-primary-text hover:bg-highlight':
                 selector.id != props.selectedRoute,
             }"
             :to="localePath(selector.routeUrl)"

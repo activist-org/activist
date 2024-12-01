@@ -27,7 +27,7 @@
     v-else
     @click="openModal()"
     @keydown.enter="openModal()"
-    class="focus-brand dark:hover:dark-distinct-text text-light-text hover:text-light-distinct-text dark:text-dark-text"
+    class="focus-brand dark:hover:distinct-text text-primary-text hover:text-distinct-text"
     :iconName="IconMap.QR_CODE"
     :text="$t('components.modal_qr_code_btn.qr_code')"
     iconSize="1.5em"

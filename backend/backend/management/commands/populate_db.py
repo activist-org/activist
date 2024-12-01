@@ -72,25 +72,40 @@ class Command(BaseCommand):
                     org_text = OrganizationTextFactory(iso="wt", primary=True)
 
                     user_org = OrganizationFactory(
+                        created_by=user,
                         org_name=f"organization_u{u}_o{o}",
                         org_text=org_text,
                         name=f"{user_topic.name} Organization",
                         tagline=f"Fighting for {user_topic.name.lower()}",
-                        created_by=user,
                     )
 
                     user_org.org_events.set([user_org_event])
 
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
+                            created_by=user,
                             group_name=f"group_u{u}_o{o}_g{g}",
                             org_id=user_org,
                             name=f"{user_topic.name} Group",
-                            created_by=user,
                         )
 
                         GroupTextFactory(
                             group_id=user_org_group, iso="en", primary=True
+                        )
+
+                    for e in range(num_events_per_org):
+                        user_org_event = EventFactory(
+                            created_by=user,
+                            name=f"{user_topic.name} Event o{o}:e{e}",
+                            type=random.choice(["learn", "action"]),
+                        )
+
+                        EventTextFactory(
+                            event_id=user_org_event, iso="en", primary=True
+                        )
+
+                        OrganizationEventFactory(
+                            org_id=user_org, event_id=user_org_event
                         )
 
             self.stdout.write(

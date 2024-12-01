@@ -12,6 +12,7 @@ from .models import (
     SupportEntityType,
     UserModel,
     UserResource,
+    UserSocialLink,
     UserTask,
     UserTopic,
 )
@@ -25,6 +26,7 @@ admin.site.register(Support)
 # MARK: Bridge Tables
 
 admin.site.register(UserResource)
+admin.site.register(UserSocialLink)
 admin.site.register(UserTask)
 admin.site.register(UserTopic)
 admin.site.register(SupportEntityType)

@@ -15,6 +15,7 @@ def test_str_methods() -> None:
     task = TaskFactory.build()
     topics = TopicFactory.build()
     resource_topics = ResourceTopicFactory.create()
+
     assert str(resource) == resource.name
     assert str(task) == task.name
     assert str(topics) == topics.name
