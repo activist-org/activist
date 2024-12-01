@@ -502,11 +502,12 @@ Localization for activist happens on our [public localization project on Weblate
 To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](STYLEGUIDE.md) for more information on how to create new localization keys.
 
 > [!IMPORTANT]
-> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid across the codebase, then please add the following file to your codebase under `frontend/types/vue-i18n.d.ts`:
+> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid/not existing across the codebase, then please add the following file at `frontend/types/vue-i18n.d.ts`:
 >
 > ```ts
 > // frontend/types/vue-i18n.d.ts
-> // Note: This file is git ignored, but can be used as a local fix for excessive errors.
+> // Attn: Fixes Property '$t' does not exist on type ... errors.
+> // Note: This file is git ignored, but can be used as a local fix for excessive TypeScript errors.
 > declare module "vue" {
 >   interface ComponentCustomProperties {
 >     $t: (key: string) => string;
