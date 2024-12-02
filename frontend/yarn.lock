@@ -1606,7 +1606,7 @@
     rc9 "^2.1.2"
     std-env "^3.7.0"
 
-"@nuxt/test-utils@>=3.13.1", "@nuxt/test-utils@^3.14.4":
+"@nuxt/test-utils@3.14.4", "@nuxt/test-utils@>=3.13.1":
   version "3.14.4"
   resolved "https://registry.yarnpkg.com/@nuxt/test-utils/-/test-utils-3.14.4.tgz#d2c99070a22ec4570643c5f8f28449dde93bb5e9"
   integrity sha512-1rSYMXjN651t+c8zSaPAoP78YE1WVcI3baPC2cic9my+J5FIsT1IuTU6M9XwDFBUnwGL6/sV5pPsyEumkIl3eA==
@@ -2333,7 +2333,7 @@
     lz-string "^1.5.0"
     pretty-format "^27.0.2"
 
-"@testing-library/vue@^8.1.0":
+"@testing-library/vue@8.1.0":
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/@testing-library/vue/-/vue-8.1.0.tgz#a3ee1cc3c73120ae8981a54f082d239cd4e8ea24"
   integrity sha512-ls4RiHO1ta4mxqqajWRh8158uFObVrrtAPoxk7cIp4HrnQUj/ScKzqz53HxYpG3X6Zb7H2v+0eTGLSoy8HQ2nA==
@@ -3134,7 +3134,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.5.12.tgz#f9e45b7f63f2c3f40d84237b1194b7f67de192e3"
   integrity sha512-L2RPSAwUFbgZH20etwrXyVyCBu9OxRSi8T/38QsvnkJyvq2LufW2lDCOzm7t/U9C1mkhJGWYfCuFBCmIuNivrg==
 
-"@vue/test-utils@^2.4.1", "@vue/test-utils@^2.4.6":
+"@vue/test-utils@2.4.6", "@vue/test-utils@^2.4.1":
   version "2.4.6"
   resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.4.6.tgz#7d534e70c4319d2a587d6a3b45a39e9695ade03c"
   integrity sha512-FMxEjOpYNYiFe0GkaHsnJPXFHxQ6m4t8vI/ElPGpMWxZKpmRvQ33OIrvRXemy6yha03RxhOlQuy+gZMC3CQSow==
@@ -5763,7 +5763,7 @@ h3@^1.0.2, h3@^1.12.0, h3@^1.13.0:
     uncrypto "^0.1.3"
     unenv "^1.10.0"
 
-happy-dom@^15.11.6:
+happy-dom@15.11.6:
   version "15.11.6"
   resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-15.11.6.tgz#b40d46060114fee5c4f0e79c6a1aec50cd42e4c8"
   integrity sha512-elX7iUTu+5+3b2+NGQc0L3eWyq9jKhuJJ4GpOMxxT/c2pg9O3L5H3ty2VECX0XXZgRmmRqXyOK8brA2hDI6LsQ==
@@ -10605,7 +10605,7 @@ vitest-environment-nuxt@^1.0.1:
   dependencies:
     "@nuxt/test-utils" ">=3.13.1"
 
-vitest@^2.1.5:
+vitest@2.1.5:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/vitest/-/vitest-2.1.5.tgz#a93b7b84a84650130727baae441354e6df118148"
   integrity sha512-P4ljsdpuzRTPI/kbND2sDZ4VmieerR2c9szEZpjc+98Z9ebvnXmM5+0tHEKqYZumXqlvnmfWsjeFOjXVriDG7A==
