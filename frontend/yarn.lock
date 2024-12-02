@@ -1079,13 +1079,21 @@
     "@intlify/message-compiler" "9.14.1"
     "@intlify/shared" "9.14.1"
 
-"@intlify/core@^9.8.0":
-  version "9.14.1"
-  resolved "https://registry.yarnpkg.com/@intlify/core/-/core-9.14.1.tgz#a7cf55c0c1356dd73051f26da70aa0d78660851a"
-  integrity sha512-AT3x7F9YqcWRUBC2maPYven4dTeavJCBYEkDqy1WTif/qtVasDASayKLFf95DsFz7ajhu/3ep9IzTAZayvW9sA==
+"@intlify/core-base@9.14.2":
+  version "9.14.2"
+  resolved "https://registry.yarnpkg.com/@intlify/core-base/-/core-base-9.14.2.tgz#2c074506ea72425e937f911c95c0d845b43f7fdf"
+  integrity sha512-DZyQ4Hk22sC81MP4qiCDuU+LdaYW91A6lCjq8AWPvY3+mGMzhGDfOCzvyR6YBQxtlPjFqMoFk9ylnNYRAQwXtQ==
   dependencies:
-    "@intlify/core-base" "9.14.1"
-    "@intlify/shared" "9.14.1"
+    "@intlify/message-compiler" "9.14.2"
+    "@intlify/shared" "9.14.2"
+
+"@intlify/core@^9.8.0":
+  version "9.14.2"
+  resolved "https://registry.yarnpkg.com/@intlify/core/-/core-9.14.2.tgz#01b2171a1f5242937bf049bfa486487f44c7ccf6"
+  integrity sha512-/YsYOtRdKn2RbIz9FjYdb4ZntcB7hJmlfHjMRrRXOH2rJE9T5kdYCTS+LS75xQkRCeHFdAmjGMADuoy4HYpHfA==
+  dependencies:
+    "@intlify/core-base" "9.14.2"
+    "@intlify/shared" "9.14.2"
 
 "@intlify/h3@^0.5.0":
   version "0.5.0"
@@ -1103,10 +1111,23 @@
     "@intlify/shared" "9.14.1"
     source-map-js "^1.0.2"
 
+"@intlify/message-compiler@9.14.2":
+  version "9.14.2"
+  resolved "https://registry.yarnpkg.com/@intlify/message-compiler/-/message-compiler-9.14.2.tgz#7217842ea1875d80bbf0f708e9b3ef5ad7c57a03"
+  integrity sha512-YsKKuV4Qv4wrLNsvgWbTf0E40uRv+Qiw1BeLQ0LAxifQuhiMe+hfTIzOMdWj/ZpnTDj4RSZtkXjJM7JDiiB5LQ==
+  dependencies:
+    "@intlify/shared" "9.14.2"
+    source-map-js "^1.0.2"
+
 "@intlify/shared@9.14.1", "@intlify/shared@^9.4.0", "@intlify/shared@^9.9.0":
   version "9.14.1"
   resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.14.1.tgz#11c3d6103615d8b0203224826d2955987c058b72"
   integrity sha512-XjHu6PEQup9MnP1x0W9y0nXXfq9jFftAYSfV11hryjtH4XqXP8HrzMvXI+ZVifF+jZLszaTzIhvukllplxTQTg==
+
+"@intlify/shared@9.14.2":
+  version "9.14.2"
+  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.14.2.tgz#f7dceea32db44c9253e3f965745a42a5cb3a1883"
+  integrity sha512-uRAHAxYPeF+G5DBIboKpPgC/Waecd4Jz8ihtkpJQD5ycb5PwXp0k/+hBGl5dAjwF7w+l74kz/PKA8r8OK//RUw==
 
 "@intlify/unplugin-vue-i18n@^3.0.1":
   version "3.0.1"
