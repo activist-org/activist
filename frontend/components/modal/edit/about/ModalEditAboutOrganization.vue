@@ -1,3 +1,4 @@
+<!-- Test comment, to check pre-commit hook -->
 <template>
   <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
