@@ -35,7 +35,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       organizationTextId: "",
       texts: {
-        id: "",
+        orgId: "",
         iso: "",
         primary: false,
         description: "",
@@ -92,12 +92,9 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const [responseOrg] = await Promise.all([
-        useAsyncData(
-          async () =>
-            await fetchWithoutToken(`/entities/organizations/${id}`, {})
-        ),
-      ]);
+      const responseOrg = await useAsyncData(
+        async () => await fetchWithoutToken(`/entities/organizations/${id}`, {})
+      );
 
       const orgRes = responseOrg.data as unknown as PiniaResOrganization;
       const organization = orgRes._value;
@@ -114,7 +111,7 @@ export const useOrganizationStore = defineStore("organization", {
       this.organization.socialLinks = organization.socialLinks;
       this.organization.status = organization.status;
 
-      this.organization.organizationTextId = organization.texts.id;
+      this.organization.organizationTextId = organization.texts.orgId;
       this.organization.texts = organization.texts;
 
       this.organization.groups = organization.groups;
@@ -127,11 +124,9 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchAll() {
       this.loading = true;
 
-      const [responseOrgs] = await Promise.all([
-        useAsyncData(
-          async () => await fetchWithoutToken(`/entities/organizations/`, {})
-        ),
-      ]);
+      const responseOrgs = await useAsyncData(
+        async () => await fetchWithoutToken(`/entities/organizations/`, {})
+      );
 
       const orgs = responseOrgs.data as unknown as PiniaResOrganizations;
 
@@ -152,7 +147,7 @@ export const useOrganizationStore = defineStore("organization", {
             status: org.status,
             groups: org.groups,
 
-            organizationTextId: org.texts.id,
+            organizationTextId: org.texts.orgId,
             texts: org.texts,
           };
         });

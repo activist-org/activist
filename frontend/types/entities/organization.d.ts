@@ -41,6 +41,7 @@ export interface Organization {
   // organization_task
   // task?: Task[];
 
+  // organization_text
   organizationTextId: string;
   texts: OrganizationText;
 
@@ -84,7 +85,7 @@ export interface OrganizationTask {
 }
 
 export interface OrganizationText {
-  id: string;
+  orgId: string;
   iso: string;
   primary: boolean;
   description: string;

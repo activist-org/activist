@@ -1,3 +1,5 @@
+import type { Location } from "~/types/content/location";
+
 // MARK: Main Table
 
 export interface Event {
@@ -9,11 +11,7 @@ export interface Event {
   type: "action" | "learn";
   onlineLocationLink?: string;
 
-  offlineLocationId?: string;
-  lat: string;
-  lon: string;
-  bbox: string[];
-  locationDisplayName: string;
+  offlineLocation?: Location;
 
   getInvolvedUrl?: string;
   socialLinks: string[];
@@ -34,9 +32,9 @@ export interface Event {
   // event_task
   // task?: Task[];
 
+  // event_text
   eventTextId: string;
-  description: string;
-  getInvolved: string;
+  texts: EventText;
 
   // support
   // supportingOrgs?: Organization[];

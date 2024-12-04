@@ -1,10 +1,5 @@
 import type { PiniaResLocation } from "~/types/content/location";
-import type {
-  Group,
-  PiniaResGroup,
-  PiniaResGroupText,
-} from "~/types/entities/group";
-import type { PiniaResOrganization } from "~/types/entities/organization";
+import type { Group, PiniaResGroup } from "~/types/entities/group";
 
 interface GroupStore {
   loading: boolean;
@@ -27,11 +22,7 @@ export const useGroupStore = defineStore("group", {
       organization: "",
       createdBy: "",
 
-      locationId: "",
-      lat: "",
-      lon: "",
-      bbox: [""],
-      locationDisplayName: "",
+      location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 
       getInvolvedUrl: "",
       socialLinks: [""],
@@ -39,9 +30,15 @@ export const useGroupStore = defineStore("group", {
 
       faqEntries: [""],
 
-      description: "",
-      getInvolved: "",
-      donationPrompt: "",
+      groupTextId: "",
+      texts: {
+        groupId: "",
+        iso: "",
+        primary: false,
+        description: "",
+        getInvolved: "",
+        donationPrompt: "",
+      },
     },
 
     groups: [],
@@ -56,60 +53,25 @@ export const useGroupStore = defineStore("group", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const [resGroup, resGroupOrg, resGroupTexts] = await Promise.all([
-        useAsyncData(
+      const groupRes = (
+        await useAsyncData(
           async () => await fetchWithoutToken(`/entities/groups/${id}`, {})
-        ),
-        useAsyncData(
-          async () =>
-            await fetchWithoutToken(
-              `/entities/organizations?group_id=${id}`,
-              {}
-            )
-        ),
-        // useAsyncData(
-        //   async () =>
-        //     await fetchWithoutToken(
-        //       `/entities/group_faq?group_id=${id}`,
-        //       {}
-        //     )
-        // ),
-        // useAsyncData(
-        //   async () =>
-        //     await fetchWithoutToken(
-        //       `/entities/group_resources?group_id=${id}`,
-        //       {}
-        //     )
-        // ),
-        useAsyncData(
-          async () =>
-            await fetchWithoutToken(`/entities/group_texts?group_id=${id}`, {})
-        ),
-      ]);
+        )
+      ).data as unknown as PiniaResGroup;
 
-      const groupRes = resGroup.data as unknown as PiniaResGroup;
-      const groupOrgRes = resGroupOrg.data as unknown as PiniaResOrganization[];
       // const groupFAQRes = resGroupFAQ.data as unknown as PiniaResGroup;
       // const groupResourcesRes =
       //   resGroupResources.data as unknown as PiniaResGroup;
-      const groupTextsRes = resGroupTexts.data as unknown as PiniaResGroupText;
 
       const group = groupRes._value;
-      const groupOrg = groupOrgRes[0]._value;
       // const faq = groupRes._value;
       // const groups = groupRes._value;
       // const resources = groupRes._value;
-      const texts = groupTextsRes._value.results[0];
 
-      const groupLocation = (await Promise.all([
-        useAsyncData(
-          async () =>
-            await fetchWithoutToken(
-              `/content/locations/${group.locationId}`,
-              {}
-            )
-        ),
-      ])) as unknown as PiniaResLocation;
+      const groupLocation = useAsyncData(
+        async () =>
+          await fetchWithoutToken(`/content/locations/${group.locationId}`, {})
+      ) as unknown as PiniaResLocation;
 
       const location = groupLocation._value;
 

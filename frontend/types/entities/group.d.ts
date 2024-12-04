@@ -1,3 +1,5 @@
+import type { Location } from "~/types/content/location";
+
 // MARK: Main Table
 
 export interface Group {
@@ -9,11 +11,7 @@ export interface Group {
   createdBy: User;
   // category?: string;
 
-  locationId: string;
-  lat: string;
-  lon: string;
-  bbox: string[];
-  locationDisplayName: string;
+  location: Location;
 
   getInvolvedUrl: string;
   socialLinks: string[];
@@ -30,9 +28,8 @@ export interface Group {
   resources?: Resource[];
 
   // group_text
-  description: string;
-  getInvolved: string;
-  donationPrompt: string;
+  groupTextId: string;
+  texts: GroupText;
 
   // group_topic
   // topics?: Topic[];

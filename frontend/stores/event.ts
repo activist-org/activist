@@ -29,11 +29,13 @@ export const useEventStore = defineStore("event", {
       type: "learn",
       onlineLocationLink: "",
 
-      offlineLocationId: "",
-      lat: "",
-      lon: "",
-      bbox: [""],
-      locationDisplayName: "",
+      offlineLocation: {
+        id: "",
+        lat: "",
+        lon: "",
+        bbox: [""],
+        displayName: "",
+      },
 
       getInvolvedUrl: "",
       socialLinks: [""],
@@ -44,8 +46,13 @@ export const useEventStore = defineStore("event", {
       organizations: [],
 
       eventTextId: "",
-      description: "",
-      getInvolved: "",
+      texts: {
+        eventId: "",
+        iso: "",
+        primary: false,
+        description: "",
+        getInvolved: "",
+      },
     },
 
     events: [],
@@ -60,29 +67,9 @@ export const useEventStore = defineStore("event", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const [resEvent, resEventTexts] = await Promise.all([
-        useAsyncData(
-          async () => await fetchWithoutToken(`/events/events/${id}`, {})
-        ),
-        // useAsyncData(
-        //   async () =>
-        //     await fetchWithoutToken(
-        //       `/entities/event_faq?event_id=${id}`,
-        //       {}
-        //     )
-        // ),
-        // useAsyncData(
-        //   async () =>
-        //     await fetchWithoutToken(
-        //       `/entities/event_resources?event_id=${id}`,
-        //       {}
-        //     )
-        // ),
-        useAsyncData(
-          async () =>
-            await fetchWithoutToken(`/events/event_texts?event_id=${id}`, {})
-        ),
-      ]);
+      const resEvent = await useAsyncData(
+        async () => await fetchWithoutToken(`/events/events/${id}`, {})
+      );
 
       const eventRes = resEvent.data as unknown as PiniaResEvent;
       // const eventFAQRes = resEventFAQ.data as unknown as PiniaResEvent;
@@ -96,7 +83,7 @@ export const useEventStore = defineStore("event", {
       const texts = eventTextsRes._value.results[0];
 
       if (event.offlineLocationId) {
-        const eventLocation = (await Promise.all([
+        const eventLocation = (await Promise([
           useAsyncData(
             async () =>
               await fetchWithoutToken(
@@ -135,24 +122,20 @@ export const useEventStore = defineStore("event", {
     async fetchAll() {
       this.loading = true;
 
-      const [responseEvents] = await Promise.all([
-        useAsyncData(
-          async () => await fetchWithoutToken(`/events/events/`, {})
-        ),
-      ]);
+      const responseEvents = await useAsyncData(
+        async () => await fetchWithoutToken(`/events/events/`, {})
+      );
 
       const events = responseEvents.data as unknown as PiniaResEvents;
 
       if (events._value) {
-        const responseEventTexts = (await Promise.all(
-          events._value.map((event) =>
-            useAsyncData(
-              async () =>
-                await fetchWithoutToken(
-                  `/events/event_texts?event_id=${event.id}`,
-                  {}
-                )
-            )
+        const responseEventTexts = (await events._value.map((event) =>
+          useAsyncData(
+            async () =>
+              await fetchWithoutToken(
+                `/events/event_texts?event_id=${event.id}`,
+                {}
+              )
           )
         )) as unknown as PiniaResEventTexts[];
 
