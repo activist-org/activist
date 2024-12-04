@@ -196,6 +196,13 @@ git remote add upstream https://github.com/activist-org/activist.git
    # docker compose --env-file .env.dev down
    ```
 
+   Sometimes changes to the database can cause the database population to fail in your environment. If this happens, you can destroy the deployment and rebuild it:
+
+   ```bash
+   # Destroy your current docker-compose deployment:
+   docker-compose rm -f -v --env-file .env.dev
+   ```
+
 6. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
 7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.

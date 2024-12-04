@@ -238,10 +238,20 @@ The frontend currently uses [Yarn 1](https://classic.yarnpkg.com/lang/en/docs/in
 # In the root activist directory:
 cd frontend
 yarn install
-yarn run dev
+yarn run dev:local
 ```
 
 You can then visit http://localhost:3000/ to see the development frontend build once the server is up and running.
+
+You can also build the production version locally:
+
+```bash
+# In activist/frontend:
+yarn build:local
+
+# Run the production build:
+node .output/server/index.mjs
+```
 
 </p>
 </details>
