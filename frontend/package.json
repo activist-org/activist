@@ -89,6 +89,7 @@
     "zxcvbn": "4.4.2"
   },
   "resolutions": {
+    "chokidar": "3.6.0",
     "playwright-core": "1.45.1"
   }
 }
