@@ -363,7 +363,7 @@
   "pages._global.settings.save_settings": "Enregistrer les paramètres",
   "pages._global.settings.save_settings_aria_label": "Mettre à jour les paramètres",
   "pages._global.settings.settings_lower": "paramètres",
-  "pages._global.share_group": "Partager groupe",
+  "pages.organizations.groups.about.share_group": "Partager groupe",
   "pages._global.tasks.new_task": "Nouvelle tâche",
   "pages._global.tasks.new_task_aria_label": "Ajouter une nouvelle tâche au tableau",
   "pages._global.tasks.tasks_lower": "tâches",

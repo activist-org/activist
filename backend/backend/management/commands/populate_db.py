@@ -60,14 +60,21 @@ class Command(BaseCommand):
 
                 for o in range(num_orgs_per_user):
                     for e in range(num_events_per_org):
-                        user_org_event = EventFactory(
-                            name=f"{user_topic.name} Event o{o}:e{e}",
-                            type=random.choice(["learn", "action"]),
-                            created_by=user,
+                        event_type = random.choice(["learn", "action"])
+                        event_type_verb = (
+                            "Learning about"
+                            if event_type == "learn"
+                            else "Fighting for"
                         )
 
-                        EventTextFactory(
-                            event_id=user_org_event, iso="en", primary=True
+                        event_texts = EventTextFactory(iso="en", primary=True)
+
+                        user_org_event = EventFactory(
+                            name=f"{user_topic.name} Event o{o}:e{e}",
+                            tagline=f"{event_type_verb} {user_topic.name}",
+                            type=event_type,
+                            texts=event_texts,
+                            created_by=user,
                         )
 
                     org_texts = OrganizationTextFactory(iso="wt", primary=True)
@@ -83,15 +90,14 @@ class Command(BaseCommand):
                     user_org.events.set([user_org_event])
 
                     for g in range(num_groups_per_org):
-                        user_org_group = GroupFactory(
+                        group_texts = GroupTextFactory(iso="en", primary=True)
+
+                        _ = GroupFactory(
                             created_by=user,
                             group_name=f"group_u{u}_o{o}_g{g}",
                             org_id=user_org,
+                            texts=group_texts,
                             name=f"{user_topic.name} Group",
-                        )
-
-                        GroupTextFactory(
-                            group_id=user_org_group, iso="en", primary=True
                         )
 
             self.stdout.write(

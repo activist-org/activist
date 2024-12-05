@@ -365,7 +365,7 @@
   "pages._global.settings.save_settings": "Save settings",
   "pages._global.settings.save_settings_aria_label": "Update the settings",
   "pages._global.settings.settings_lower": "settings",
-  "pages._global.share_group": "Share group",
+  "pages.organizations.groups.about.share_group": "Share group",
   "pages._global.tasks.new_task": "New task",
   "pages._global.tasks.new_task_aria_label": "Add a new task to the board",
   "pages._global.tasks.tasks_lower": "tasks",

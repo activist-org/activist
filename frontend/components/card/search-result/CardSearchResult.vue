@@ -160,7 +160,7 @@
               :location="location.displayName.split(',')[0]"
             />
             <MetaTagVideo
-              v-if="onlineLocation"
+              v-else-if="onlineLocation"
               :link="onlineLocation"
               label="components.card_search_result.view_video"
             />
@@ -269,10 +269,10 @@ const ariaLabel = computed<string>(() => {
 });
 
 const date = computed<string>(() => {
-  if (props.event) {
-    return props.event.startTime;
+  if (props.event && props.event.startTime) {
+    return props.event.startTime.split("T")[0];
   } else if (props.resource && props.resource.creationDate) {
-    return props.resource.creationDate;
+    return props.resource.creationDate.split("T")[0];
   } else {
     return "";
   }
@@ -281,10 +281,10 @@ const date = computed<string>(() => {
 const description = computed<string>(() => {
   if (props.organization && props.organization.texts.description) {
     return props.organization.texts.description;
-  } else if (props.group && props.group.description) {
-    return props.group.description;
-  } else if (props.event && props.event.description) {
-    return props.event.description;
+  } else if (props.group && props.group.texts.description) {
+    return props.group.texts.description;
+  } else if (props.event && props.event.texts.description) {
+    return props.event.texts.description;
   } else if (props.resource && props.resource.description) {
     return props.resource.description;
   } else if (props.user && props.user.description) {
@@ -319,12 +319,12 @@ const imageUrl = computed<string>(() => {
 const location = computed<Location>(() => {
   if (props.organization && props.organization.location) {
     return props.organization.location;
-  } else if (props.group) {
-    return props.group.locationId;
-  } else if (props.event && props.event.offlineLocationId) {
-    return props.event.offlineLocationId;
-  } else if (props.resource && props.resource.locationId) {
-    return props.resource.locationId;
+  } else if (props.group && props.group.location) {
+    return props.group.location;
+  } else if (props.event && props.event.offlineLocation) {
+    return props.event.offlineLocation;
+  } else if (props.resource && props.resource.location) {
+    return props.resource.location;
   } else if (props.user && props.user.location) {
     return props.user.location;
   } else {

@@ -31,6 +31,7 @@ export const useOrganizationStore = defineStore("organization", {
       getInvolvedUrl: "",
       socialLinks: [""],
       status: 1,
+      creationDate: "",
       groups: [],
 
       organizationTextId: "",
@@ -80,10 +81,10 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responseOrg) {
         this.loading = false;
-
         return responseOrgData.id;
       }
 
+      this.loading = false;
       return false;
     },
 
@@ -92,12 +93,11 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const responseOrg = await useAsyncData(
+      const responseOrg = (await useAsyncData(
         async () => await fetchWithoutToken(`/entities/organizations/${id}`, {})
-      );
+      ).data) as unknown as PiniaResOrganization;
 
-      const orgRes = responseOrg.data as unknown as PiniaResOrganization;
-      const organization = orgRes._value;
+      const organization = responseOrg._value;
 
       this.organization.id = organization.id;
       this.organization.orgName = organization.orgName;
@@ -145,6 +145,7 @@ export const useOrganizationStore = defineStore("organization", {
             getInvolvedUrl: org.getInvolvedUrl,
             socialLinks: org.socialLinks,
             status: org.status,
+            creationDate: org.creationDate,
             groups: org.groups,
 
             organizationTextId: org.texts.orgId,
@@ -158,7 +159,7 @@ export const useOrganizationStore = defineStore("organization", {
       this.loading = false;
     },
 
-    // MARK: Update
+    // MARK: Update Texts
 
     async updateTexts(
       org: Organization,
@@ -192,7 +193,7 @@ export const useOrganizationStore = defineStore("organization", {
             description: formData.description,
             getInvolved: formData.getInvolved,
             donate_prompt: "",
-            org_id: org.id,
+            orgId: org.id,
             iso: "en",
           },
           headers: {

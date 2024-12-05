@@ -45,6 +45,7 @@ class Organization(models.Model):
         "OrganizationText", on_delete=models.CASCADE, blank=True, null=True
     )
     events = models.ManyToManyField("events.Event", blank=True)
+    resources = models.ManyToManyField("content.Resource", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -64,6 +65,11 @@ class Group(models.Model):
     get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
+    texts = models.ForeignKey(
+        "GroupText", on_delete=models.CASCADE, blank=True, null=True
+    )
+    events = models.ManyToManyField("events.Event", blank=True)
+    resources = models.ManyToManyField("content.Resource", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -136,7 +142,7 @@ class GroupSocialLink(models.Model):
 
 
 class GroupText(models.Model):
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=500)

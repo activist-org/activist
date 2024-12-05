@@ -6,7 +6,7 @@ from typing import Any
 
 from rest_framework import serializers
 
-from content.serializers import LocationSerializer
+from content.serializers import LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
 from .models import (
@@ -39,10 +39,42 @@ from .models import (
 # MARK: Main Tables
 
 
+class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
+    class Meta:
+        model = GroupText
+        fields = "__all__"
+
+
 class GroupSerializer(serializers.ModelSerializer[Group]):
+    texts = GroupTextSerializer()
+    location = LocationSerializer(read_only=True)
+    events = EventSerializer(many=True, read_only=True)
+    resources = ResourceSerializer(many=True, read_only=True)
+
     class Meta:
         model = Group
+        extra_kwargs = {
+            "created_by": {"read_only": True},
+        }
+
         fields = "__all__"
+
+    def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        if data.get("terms_checked") is False:
+            raise serializers.ValidationError(
+                "You must accept the terms of service to create a group."
+            )
+
+        return data
+
+    def create(self, validated_data: dict[str, Any]) -> Group:
+        group = Group.objects.create(**validated_data)
+
+        if group:
+            texts = GroupText.objects.create(group_id=group)
+            group.texts = texts
+
+        return group
 
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
@@ -53,8 +85,9 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     texts = OrganizationTextSerializer()
-    events = EventSerializer(many=True, read_only=True)
     location = LocationSerializer(read_only=True)
+    events = EventSerializer(many=True, read_only=True)
+    resources = ResourceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Organization
@@ -76,11 +109,10 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         return data
 
     def create(self, validated_data: dict[str, Any]) -> Organization:
-        description = validated_data.pop("description", None)
         org = Organization.objects.create(**validated_data)
 
-        if org and description:
-            texts = OrganizationText.objects.create(org_id=org, description=description)
+        if org:
+            texts = OrganizationText.objects.create(org_id=org)
             org.texts = texts
 
         return org
@@ -128,12 +160,6 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
 class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
     class Meta:
         model = GroupSocialLink
-        fields = "__all__"
-
-
-class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
-    class Meta:
-        model = GroupText
         fields = "__all__"
 
 

@@ -22,14 +22,15 @@ export interface Organization {
   // organization_application
   // orgsInFavor?: Organization[];
   // orgsAgainst?: Organization[];
-  creationDate?: string;
+  creationDate: string;
 
   // discussion
   // discussions?: Discussion[];
 
-  // faq
+  // organization_faq
   faqEntries?: FaqEntry[];
 
+  // organization_group
   groups?: Group[];
 
   // organization_event
@@ -112,76 +113,6 @@ export interface PiniaResOrganizations {
   __v_isRef: boolean;
   _rawValue: Organization[];
   _value: Organization[];
-}
-
-export interface PiniaResOrganizationEvents {
-  __v_isShallow: boolean;
-  __v_isRef: boolean;
-  _rawValue: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: Event[];
-  };
-  _value: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: Event[];
-  };
-}
-
-export interface PiniaResOrganizationText {
-  __v_isShallow: boolean;
-  __v_isRef: boolean;
-  _rawValue: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: OrganizationText[];
-  };
-  _value: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: OrganizationText[];
-  };
-}
-
-export interface PiniaResOrganizationTexts {
-  data: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: {
-      count: number;
-      next: null;
-      previous: null;
-      results: OrganizationText[];
-    };
-    _value: {
-      count: number;
-      next: null;
-      previous: null;
-      results: OrganizationText[];
-    };
-  };
-  pending: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: boolean;
-    _value: boolean;
-  };
-  error: {
-    _object: { [$key: string]: null };
-    _key: string;
-    __v_isRef: boolean;
-  };
-  status: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: string;
-    _value: string;
-  };
 }
 
 // MARK: Form Data
