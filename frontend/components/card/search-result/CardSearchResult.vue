@@ -155,10 +155,7 @@
             v-if="aboveMediumBP"
             class="flex items-center space-x-3 lg:space-x-5"
           >
-            <MetaTagLocation
-              v-if="location"
-              :location="location.displayName.split(',')[0]"
-            />
+            <MetaTagLocation v-if="location" :location="location" />
             <MetaTagVideo
               v-else-if="onlineLocation"
               :link="onlineLocation"
@@ -172,10 +169,7 @@
             v-if="!aboveMediumBP"
             class="flex items-center justify-center space-x-4"
           >
-            <MetaTagLocation
-              v-if="location"
-              :location="location.displayName.split(',')[0]"
-            />
+            <MetaTagLocation v-if="location" :location="location" />
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
@@ -225,7 +219,6 @@
 <script setup lang="ts">
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
-import type { Location } from "~/types/content/location";
 import type { Resource } from "~/types/content/resource";
 import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
@@ -316,15 +309,15 @@ const imageUrl = computed<string>(() => {
   }
 });
 
-const location = computed<Location>(() => {
+const location = computed<string>(() => {
   if (props.organization && props.organization.location) {
-    return props.organization.location;
+    return props.organization.location.displayName.split(",")[0];
   } else if (props.group && props.group.location) {
-    return props.group.location;
+    return props.group.location.displayName.split(",")[0];
   } else if (props.event && props.event.offlineLocation) {
-    return props.event.offlineLocation;
+    return props.event.offlineLocation.displayName.split(",")[0];
   } else if (props.resource && props.resource.location) {
-    return props.resource.location;
+    return props.resource.location.displayName.split(",")[0];
   } else if (props.user && props.user.location) {
     return props.user.location;
   } else {

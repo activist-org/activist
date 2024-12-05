@@ -67,8 +67,8 @@ const formData = ref<OrganizationUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = organization.description;
-  formData.value.getInvolved = organization.getInvolved;
+  formData.value.description = organization.texts.description;
+  formData.value.getInvolved = organization.texts.getInvolved;
   formData.value.getInvolvedUrl = organization.getInvolvedUrl;
 });
 

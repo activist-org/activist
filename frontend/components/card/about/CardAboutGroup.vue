@@ -27,7 +27,7 @@
           </div> -->
         <div class="flex items-center gap-3">
           <MetaTagLocation
-            :location="group.locationDisplayName.split(',')[0]"
+            :location="group.location.displayName.split(',')[0]"
           />
           <!-- <MetaTagMembers
               :members="group.members.length"

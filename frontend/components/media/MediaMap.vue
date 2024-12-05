@@ -11,11 +11,12 @@ import MapLibreGlDirections, {
 } from "@maplibre/maplibre-gl-directions";
 import maplibregl, { type Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import type { Location } from "~/types/content/location";
 
 const props = defineProps<{
   markerColors: string[];
   eventNames: string[];
-  eventLocations: string[];
+  eventLocations: Location[];
 }>();
 
 const i18n = useI18n();

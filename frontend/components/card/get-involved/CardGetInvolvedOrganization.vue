@@ -33,8 +33,8 @@
       </div>
       <ModalEditAboutOrganization
         :organization="organization"
-        :description="organization.description"
-        :getInvolved="organization.getInvolved"
+        :description="organization.texts.description"
+        :getInvolved="organization.texts.getInvolved"
         :getInvolvedUrl="organization.getInvolvedUrl"
       />
     </div>
@@ -50,8 +50,8 @@
         <Feed :organization="organization" />
       </div>
       <div v-else-if="organization.getInvolvedUrl">
-        <p v-if="organization.getInvolved">
-          {{ organization.getInvolved }}
+        <p v-if="organization.texts.getInvolved">
+          {{ organization.texts.getInvolved }}
         </p>
         <p v-else>
           {{
