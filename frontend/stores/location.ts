@@ -28,13 +28,10 @@ export const useLocationStore = defineStore("location", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const [resLocation] = await Promise.all([
-        useAsyncData(
-          async () => await fetchWithoutToken(`/content/locations/${id}`, {})
-        ),
-      ]);
+      const locationRes = (await useAsyncData(
+        async () => await fetchWithoutToken(`/content/locations/${id}`, {})
+      ).data) as unknown as PiniaResLocation;
 
-      const locationRes = resLocation.data as unknown as PiniaResLocation;
       const location = locationRes._value;
 
       this.location.id = location.id;

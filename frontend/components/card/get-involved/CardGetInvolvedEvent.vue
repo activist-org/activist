@@ -18,8 +18,8 @@
       />
     </div>
     <div class="space-y-3 pt-3">
-      <p v-if="event.getInvolved">
-        {{ event.getInvolved }}
+      <p v-if="event.texts.getInvolved">
+        {{ event.texts.getInvolved }}
       </p>
       <p v-else>{{ $t("components._global.participate_subtext") }}</p>
       <!-- <p>

@@ -1,3 +1,5 @@
+import type { Location } from "~/types/content/location";
+
 // MARK: Main Table
 
 export interface Organization {
@@ -8,11 +10,7 @@ export interface Organization {
   createdBy: string;
   iconUrl: string;
 
-  locationId: string;
-  lat: string;
-  lon: string;
-  bbox: string[];
-  locationDisplayName: string;
+  location: Location;
 
   getInvolvedUrl: string;
   socialLinks: string[];
@@ -24,14 +22,15 @@ export interface Organization {
   // organization_application
   // orgsInFavor?: Organization[];
   // orgsAgainst?: Organization[];
-  creationDate?: string;
+  creationDate: string;
 
   // discussion
   // discussions?: Discussion[];
 
-  // faq
+  // organization_faq
   faqEntries?: FaqEntry[];
 
+  // organization_group
   groups?: Group[];
 
   // organization_event
@@ -43,10 +42,9 @@ export interface Organization {
   // organization_task
   // task?: Task[];
 
+  // organization_text
   organizationTextId: string;
-  description: string;
-  getInvolved: string;
-  donationPrompt: string;
+  texts: OrganizationText;
 
   // organization_topic
   // topics?: Topic[];
@@ -88,7 +86,6 @@ export interface OrganizationTask {
 }
 
 export interface OrganizationText {
-  id: string;
   orgId: string;
   iso: string;
   primary: boolean;
@@ -116,76 +113,6 @@ export interface PiniaResOrganizations {
   __v_isRef: boolean;
   _rawValue: Organization[];
   _value: Organization[];
-}
-
-export interface PiniaResOrganizationEvents {
-  __v_isShallow: boolean;
-  __v_isRef: boolean;
-  _rawValue: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: Event[];
-  };
-  _value: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: Event[];
-  };
-}
-
-export interface PiniaResOrganizationText {
-  __v_isShallow: boolean;
-  __v_isRef: boolean;
-  _rawValue: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: OrganizationText[];
-  };
-  _value: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: OrganizationText[];
-  };
-}
-
-export interface PiniaResOrganizationTexts {
-  data: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: {
-      count: number;
-      next: null;
-      previous: null;
-      results: OrganizationText[];
-    };
-    _value: {
-      count: number;
-      next: null;
-      previous: null;
-      results: OrganizationText[];
-    };
-  };
-  pending: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: boolean;
-    _value: boolean;
-  };
-  error: {
-    _object: { [$key: string]: null };
-    _key: string;
-    __v_isRef: boolean;
-  };
-  status: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: string;
-    _value: string;
-  };
 }
 
 // MARK: Form Data

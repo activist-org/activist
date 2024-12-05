@@ -33,7 +33,7 @@
         <!-- <ShieldTopic :topic="organization.topic" /> -->
         <div class="flex items-center gap-3">
           <MetaTagLocation
-            :location="organization.locationDisplayName.split(',')[0]"
+            :location="organization.location.displayName.split(',')[0]"
           />
           <!-- <MetaTagMembers
               :members="organization.members.length"
@@ -47,7 +47,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ organization.description }}
+            {{ organization.texts.description }}
           </p>
           <div class="flex justify-center">
             <button
