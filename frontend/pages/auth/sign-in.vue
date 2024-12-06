@@ -5,6 +5,7 @@
         <FormTextInput
           @update:model-value="userNameValue = $event"
           @keydown.enter.prevent="signInUser"
+          id="sign-in-username"
           :placeholder="$t('pages.auth._global.enter_user_name')"
           :model-value="userNameValue"
         />
@@ -13,6 +14,7 @@
         <FormTextInput
           @update:model-value="passwordValue = $event"
           @keydown.enter.prevent="signInUser"
+          id="sign-in-password"
           :placeholder="$t('_global.enter_password')"
           :is-icon-visible="true"
           input-type="password"

@@ -8,6 +8,7 @@
     <MenuLinkWrapper
       v-for="opt in options"
       :key="opt.id"
+      :id="getSelectorId(opt.label)"
       :to="opt.routeUrl"
       :selected="opt.selected"
       :isAddStyles="false"

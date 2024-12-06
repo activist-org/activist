@@ -1,5 +1,9 @@
 <template>
-  <div v-if="selectedMenuItem" class="fixed z-20 h-10 w-full bg-menu-selection">
+  <div
+    v-if="selectedMenuItem"
+    id="submenu"
+    class="fixed z-20 h-10 w-full bg-menu-selection"
+  >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
         class="elem-shadow-sm focus-brand relative flex w-full items-center fill-layer-1 py-2 pl-5 text-left align-middle text-layer-1"

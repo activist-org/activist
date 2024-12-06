@@ -24,6 +24,7 @@
         <button
           v-if="imageModal"
           @click="closeModal()"
+          id="close-search-modal"
           class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text hover:text-primary-text"
           :aria-label="
             $t ? $t('components.modal_base.close_modal_aria_label') : ''
