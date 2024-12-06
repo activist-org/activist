@@ -3,19 +3,15 @@ import { PageObjectBase } from "../utils/PageObjectBase";
 
 const locators = {
   TOGGLE: "#submenu",
-  OPTIONS: "#submenu ul",
-  ABOUT: "#org-about",
-  EVENTS: "#org-events",
-  GROUPS: "#org-groups",
-  RESOURCES: "#org-resources",
-  FAQ: "#org-faq",
-  AFFILIATES: "#org-affiliates",
-  TASKS: "#org-tasks",
-  DISCUSSIONS: "#org-discussions",
-  SETTINGS: "#org-settings",
+  ABOUT: "#event-about",
+  TEAM: "#event-team",
+  RESOURCES: "#event-resources",
+  TASKS: "#event-tasks",
+  DISCUSSION: "#event-discussion",
+  SETTINGS: "#event-settings",
 };
 
-export class OrganizationMenu extends PageObjectBase {
+export class EventMenu extends PageObjectBase {
   constructor(page: Page) {
     super(page, locators);
   }
@@ -24,40 +20,24 @@ export class OrganizationMenu extends PageObjectBase {
     return this.getLocator("TOGGLE");
   }
 
-  get options(): Locator {
-    return this.getLocator("OPTIONS");
-  }
-
   get about(): Locator {
     return this.getLocator("ABOUT");
   }
 
-  get events(): Locator {
-    return this.getLocator("EVENTS");
-  }
-
-  get groups(): Locator {
-    return this.getLocator("GROUPS");
+  get team(): Locator {
+    return this.getLocator("TEAM");
   }
 
   get resources(): Locator {
     return this.getLocator("RESOURCES");
   }
 
-  get faq(): Locator {
-    return this.getLocator("FAQ");
-  }
-
-  get affiliates(): Locator {
-    return this.getLocator("AFFILIATES");
-  }
-
   get tasks(): Locator {
     return this.getLocator("TASKS");
   }
 
-  get discussions(): Locator {
-    return this.getLocator("DISCUSSIONS");
+  get discussion(): Locator {
+    return this.getLocator("DISCUSSION");
   }
 
   get settings(): Locator {
@@ -70,7 +50,7 @@ export class OrganizationMenu extends PageObjectBase {
     }
   }
 
-  async close(): Promise<void> {
+  override async close(): Promise<void> {
     if (await this.isOpen()) {
       await this.toggle.click();
     }
@@ -80,7 +60,7 @@ export class OrganizationMenu extends PageObjectBase {
     return (await this.toggle.getAttribute("aria-expanded")) === "true";
   }
 
-  async isVisible(): Promise<boolean> {
+  override async isVisible(): Promise<boolean> {
     return await this.toggle.isVisible();
   }
 
@@ -89,15 +69,9 @@ export class OrganizationMenu extends PageObjectBase {
   }
 
   async getActiveSelectedOption(): Promise<string> {
-    // if mobile, then "[data-headlessui-state='active selected']"
-    // if desktop, then class includes style-menu-option-cta
     const selector = (await this.isMobile())
       ? "[data-headlessui-state='active selected']"
       : ".style-menu-option-cta";
     return (await this.options.locator(selector).textContent()) || "";
-  }
-
-  async selectOption(option: Locator): Promise<void> {
-    await option.click();
   }
 }

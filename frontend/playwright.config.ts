@@ -20,7 +20,7 @@ const environments = {
 const ENV = (process.env.TEST_ENV || "local") as keyof typeof environments;
 
 export default defineConfig({
-  testDir: "./tests/specs",
+  testDir: "./test-e2e/specs",
   /* Run tests in files in parallel. */
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -31,10 +31,10 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters. */
   reporter: [
-    ["html", { open: "never" }],
+    ["html", { open: "never", outputDir: "test-results" }],
     ["list"],
     [
-      "./tests/utils/axe-reporter.ts",
+      "./test-e2e/utils/axe-reporter.ts",
       { outputDir: "test-results/accessibility-results" },
     ],
   ],

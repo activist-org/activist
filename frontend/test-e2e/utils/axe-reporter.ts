@@ -4,8 +4,6 @@ import type {
   TestResult,
   Suite,
 } from "@playwright/test/reporter";
-import fs from "fs";
-import path from "path";
 import { createHtmlReport } from "axe-html-reporter";
 
 class AxeReporter implements Reporter {

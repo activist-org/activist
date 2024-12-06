@@ -7,7 +7,6 @@ type TestFixtures = {
   landingPage: LandingPage;
   homePage: HomePage;
   signInPage: SignInPage;
-  isAccessibilityTest: void;
 };
 
 export const test = baseTest.extend<TestFixtures>({
@@ -30,15 +29,6 @@ export const test = baseTest.extend<TestFixtures>({
     await signInPage.signInButton.waitFor({ state: "visible" });
     await use(signInPage);
   },
-  isAccessibilityTest: [
-    async ({ page }, use, testInfo) => {
-      testInfo.annotations.push({ type: "accessibility" });
-      const originalScreenshot = page.screenshot.bind(page);
-      page.screenshot = async (options?: any) => Buffer.from("");
-      await use();
-    },
-    { auto: true },
-  ],
 });
 
 export { expect } from "@playwright/test";

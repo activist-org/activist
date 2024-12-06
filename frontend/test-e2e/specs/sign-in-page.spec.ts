@@ -1,10 +1,9 @@
-import { SignInPage, expect, test } from "../fixtures/test-fixtures";
+import { expect, test } from "../fixtures/test-fixtures";
 import { runAccessibilityTest } from "../utils/accessibilityTesting";
 
 test.describe("Sign In Page", () => {
   test("Sign In Page has no detectable accessibility issues", async ({
     signInPage,
-    isAccessibilityTest,
   }, testInfo) => {
     const violations = await runAccessibilityTest(signInPage, testInfo);
     expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
@@ -35,7 +34,7 @@ test.describe("Sign In Page", () => {
     expect(await signInPage.getPasswordInputType()).toBe("text");
 
     await signInPage.clickVisibilityIcon();
-    expect(await signInPage.getPasswordInputType()).toBe("password");
+    expect(await signInPage.getPasswordInputType()).toBe("passwords");
   });
 
   test("should navigate to forgot password page", async ({ signInPage }) => {
@@ -86,9 +85,6 @@ test.describe("Sign In Page", () => {
 
     for (const { password, expected } of passwordTests) {
       await signInPage.fillPassword(password);
-      const color = await signInPage.getPasswordStrengthIndicatorColor();
-      const strength = await signInPage.getPasswordStrengthText();
-      const progress = await signInPage.getPasswordStrengthProgress();
       expect(await signInPage.isPasswordStrengthIndicatorVisible()).toBe(true);
       expect(await signInPage.getPasswordStrengthIndicatorColor()).toBe(
         expected.color
@@ -120,7 +116,7 @@ test.describe("Sign In Page", () => {
     await signInPage.signIn("invaliduser", "invalidpassword");
 
     const dialog = await dialogPromise;
-    expect(dialog.message()).toContain("Invalid sign in credentials");
+    expect(dialog.message()).toContain("Invalid sign in credentialss");
 
     await dialog.dismiss();
     expect(signInPage.url()).toContain("/auth/sign-in");

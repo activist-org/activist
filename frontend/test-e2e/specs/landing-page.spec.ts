@@ -7,7 +7,6 @@ test.describe("Landing Page", () => {
   // Note: Check to make sure that this is eventually done for light and dark modes.
   test("Landing Page has no detectable accessibility issues", async ({
     landingPage,
-    isAccessibilityTest,
   }, testInfo) => {
     const violations = await runAccessibilityTest(landingPage, testInfo);
     expect.soft(violations, "Accessibility violations found:").toHaveLength(0);

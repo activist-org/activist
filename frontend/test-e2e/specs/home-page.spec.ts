@@ -1,5 +1,5 @@
-import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "../fixtures/test-fixtures";
+import { runAccessibilityTest } from "../utils/accessibilityTesting";
 
 test.describe("Home Page", () => {
   // MARK: Accessibility
@@ -7,7 +7,6 @@ test.describe("Home Page", () => {
   // Note: Check to make sure that this is eventually done for light and dark modes.
   test("Home Page has no detectable accessibility issues", async ({
     homePage,
-    isAccessibilityTest,
   }, testInfo) => {
     const violations = await runAccessibilityTest(homePage, testInfo);
     expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
