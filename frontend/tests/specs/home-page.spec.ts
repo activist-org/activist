@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "../fixtures/page-fixtures";
+import { expect, test } from "../fixtures/test-fixtures";
 
 test.describe("Home Page", () => {
   // MARK: Accessibility
