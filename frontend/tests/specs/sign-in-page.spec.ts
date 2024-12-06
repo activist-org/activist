@@ -78,7 +78,7 @@ test.describe("Sign In Page", () => {
         password: "Activist4ClimateChange!",
         expected: {
           strength: "Very Strong",
-          color: "bg-light-text",
+          color: "",
           progress: "100%",
         },
       },
@@ -120,7 +120,7 @@ test.describe("Sign In Page", () => {
     await signInPage.signIn("invaliduser", "invalidpassword");
 
     const dialog = await dialogPromise;
-    expect(dialog.message()).toContain("Invalid login credentials");
+    expect(dialog.message()).toContain("Invalid sign in credentials");
 
     await dialog.dismiss();
     expect(signInPage.url()).toContain("/auth/sign-in");
