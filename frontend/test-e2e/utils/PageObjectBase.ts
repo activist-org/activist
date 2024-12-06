@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import type { Page, Locator } from "@playwright/test";
 
 export class PageObjectBase {
-  [key: string]: any;
+  [key: string]: unknown;
 
   protected readonly page: Page;
   protected readonly pageName?: string;
@@ -18,12 +19,18 @@ export class PageObjectBase {
     this.locators = locators;
     this.pageName = pageName;
     this.pageURL = pageURL;
+
     return new Proxy(this, {
       get: (target: PageObjectBase, prop: string | symbol) => {
         if (prop in target) {
-          return (target as any)[prop];
+          return target[prop as keyof typeof target];
         }
-        return (target.page as any)[prop];
+        /*
+          PageObjectBase in effect subclasses Page and can be built from an
+          existing Page instance without deep-copying the Page instance in the
+          constructor.
+        */
+        return target.page[prop as keyof typeof target.page];
       },
     }) as PageObjectBase & Page;
   }
@@ -63,4 +70,6 @@ export class PageObjectBase {
   }
 }
 
+// This interface tells Typescript that PageObjectBase subclasses Page.
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface PageObjectBase extends Page {}

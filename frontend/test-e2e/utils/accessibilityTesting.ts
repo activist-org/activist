@@ -1,6 +1,6 @@
 import type { Page, TestInfo } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { PageObjectBase } from "./PageObjectBase";
+import type { PageObjectBase } from "./PageObjectBase";
 
 export async function runAccessibilityTest(
   page: Page | PageObjectBase,

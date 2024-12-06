@@ -5,6 +5,7 @@ import type {
   Suite,
 } from "@playwright/test/reporter";
 import { createHtmlReport } from "axe-html-reporter";
+import type { AxeResults } from "axe-core";
 
 class AxeReporter implements Reporter {
   private outputDir: string;
@@ -77,7 +78,7 @@ class AxeReporter implements Reporter {
   }
 
   generateAxeReport(
-    results: any,
+    results: AxeResults,
     pageName: string,
     browserName: string,
     deviceName: string
