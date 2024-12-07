@@ -1,3 +1,4 @@
+import type { Location } from "~/types/content/location";
 import type { Organization } from "../entities/organization";
 
 // MARK: Main Table
@@ -9,7 +10,7 @@ export interface Resource {
   description: string;
   // category: string;
   organization: Organization;
-  locationId: string;
+  location: Location;
   resourceUrl: string;
   // isPrivate?: boolean;
   creationDate?: string;

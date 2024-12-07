@@ -63,8 +63,8 @@ await eventStore.fetchById(id);
 const { event } = eventStore;
 
 const formData = ref({
-  description: event.description,
-  getInvolved: event.getInvolved,
+  description: event.texts.description,
+  getInvolved: event.texts.getInvolved,
   getInvolvedUrl: event.getInvolvedUrl,
 });
 

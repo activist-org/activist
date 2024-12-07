@@ -37,7 +37,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     terms_checked = factory.Faker("boolean")
     status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
     is_high_risk = factory.Faker("boolean")
-    location_id = factory.SubFactory("content.factories.EntityLocationFactory")
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
     acceptance_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -56,7 +56,7 @@ class GroupFactory(factory.django.DjangoModelFactory):
     )
     terms_checked = factory.Faker("boolean")
     category = factory.Faker("word")
-    location_id = factory.SubFactory("content.factories.EntityLocationFactory")
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
 
 
 # MARK: Bridge Tables
@@ -99,8 +99,7 @@ class GroupTextFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = GroupText
 
-    group_id = factory.SubFactory(GroupFactory)
-    iso = factory.Faker("word")
+    iso = "en"
     primary = factory.Faker("boolean")
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")
@@ -186,7 +185,6 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OrganizationText
 
-    org_id = factory.SubFactory(OrganizationFactory)
     iso = "en"
     primary = factory.Faker("boolean")
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)

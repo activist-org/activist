@@ -216,7 +216,7 @@ git remote add upstream https://github.com/activist-org/activist.git
 
 6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
-7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.
+7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/admin> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.
 
 8. If you'd like to sign in to the frontend via <http://localhost:3000/auth/sign-in> or the Django admin panel via <http://localhost:8000/admin>, then you can use the fixtures `admin` user with the password `admin`.
 
@@ -238,10 +238,20 @@ The frontend currently uses [Yarn 1](https://classic.yarnpkg.com/lang/en/docs/in
 # In the root activist directory:
 cd frontend
 yarn install
-yarn run dev
+yarn run dev:local
 ```
 
 You can then visit http://localhost:3000/ to see the development frontend build once the server is up and running.
+
+You can also build the production version locally:
+
+```bash
+# In activist/frontend:
+yarn build:local
+
+# Run the production build:
+node .output/server/index.mjs
+```
 
 </p>
 </details>

@@ -8,6 +8,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
+from content.serializers import LocationSerializer, ResourceSerializer
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
@@ -40,7 +41,9 @@ class EventTextSerializer(serializers.ModelSerializer[EventText]):
 
 
 class EventSerializer(serializers.ModelSerializer[Event]):
-    event_text = EventTextSerializer()
+    texts = EventTextSerializer()
+    offline_location = LocationSerializer(read_only=True)
+    resources = ResourceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Event
@@ -49,20 +52,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             "created_by": {"read_only": True},
         }
 
-        fields = [
-            "id",
-            "created_by",
-            "name",
-            "tagline",
-            "icon_url",
-            "type",
-            "online_location_link",
-            "offline_location_id",
-            "is_private",
-            "start_time",
-            "end_time",
-            "event_text",
-        ]
+        fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         if parse_datetime(data["start_time"]) > parse_datetime(data["end_time"]):  # type: ignore
@@ -73,17 +63,19 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
         validate_creation_and_deletion_dates(data)
 
+        if data.get("terms_checked") is False:
+            raise serializers.ValidationError(
+                "You must accept the terms of service to create an event."
+            )
+
         return data
 
     def create(self, validated_data: dict[str, Any]) -> Event:
-        description = validated_data.pop("description", None)
         event = Event.objects.create(**validated_data)
 
-        if event and description:
-            event_text = EventText.objects.create(
-                event_id=event, description=description
-            )
-            event.event_text = event_text
+        if event:
+            event_text = EventText.objects.create(event_id=event)
+            event.texts = event_text
 
         return event
 

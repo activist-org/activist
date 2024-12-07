@@ -155,12 +155,9 @@
             v-if="aboveMediumBP"
             class="flex items-center space-x-3 lg:space-x-5"
           >
-            <MetaTagLocation
-              v-if="location"
-              :location="location.displayName.split(',')[0]"
-            />
+            <MetaTagLocation v-if="location" :location="location" />
             <MetaTagVideo
-              v-if="onlineLocation"
+              v-else-if="onlineLocation"
               :link="onlineLocation"
               label="components.card_search_result.view_video"
             />
@@ -172,10 +169,7 @@
             v-if="!aboveMediumBP"
             class="flex items-center justify-center space-x-4"
           >
-            <MetaTagLocation
-              v-if="location"
-              :location="location.displayName.split(',')[0]"
-            />
+            <MetaTagLocation v-if="location" :location="location" />
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
@@ -225,7 +219,6 @@
 <script setup lang="ts">
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
-import type { Location } from "~/types/content/location";
 import type { Resource } from "~/types/content/resource";
 import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
@@ -269,22 +262,22 @@ const ariaLabel = computed<string>(() => {
 });
 
 const date = computed<string>(() => {
-  if (props.event) {
-    return props.event.startTime;
+  if (props.event && props.event.startTime) {
+    return props.event.startTime.split("T")[0];
   } else if (props.resource && props.resource.creationDate) {
-    return props.resource.creationDate;
+    return props.resource.creationDate.split("T")[0];
   } else {
     return "";
   }
 });
 
 const description = computed<string>(() => {
-  if (props.organization && props.organization.description) {
-    return props.organization.description;
-  } else if (props.group && props.group.description) {
-    return props.group.description;
-  } else if (props.event && props.event.description) {
-    return props.event.description;
+  if (props.organization && props.organization.texts.description) {
+    return props.organization.texts.description;
+  } else if (props.group && props.group.texts.description) {
+    return props.group.texts.description;
+  } else if (props.event && props.event.texts.description) {
+    return props.event.texts.description;
   } else if (props.resource && props.resource.description) {
     return props.resource.description;
   } else if (props.user && props.user.description) {
@@ -316,34 +309,21 @@ const imageUrl = computed<string>(() => {
   }
 });
 
-const locationId = computed<string>(() => {
-  if (props.organization) {
-    return props.organization.locationId;
-  } else if (props.group) {
-    return props.group.locationId;
-  } else if (props.event && props.event.offlineLocationId) {
-    return props.event.offlineLocationId;
-  } else if (props.resource && props.resource.locationId) {
-    return props.resource.locationId;
+const location = computed<string>(() => {
+  if (props.organization && props.organization.location) {
+    return props.organization.location.displayName.split(",")[0];
+  } else if (props.group && props.group.location) {
+    return props.group.location.displayName.split(",")[0];
+  } else if (props.event && props.event.offlineLocation) {
+    return props.event.offlineLocation.displayName.split(",")[0];
+  } else if (props.resource && props.resource.location) {
+    return props.resource.location.displayName.split(",")[0];
   } else if (props.user && props.user.location) {
     return props.user.location;
   } else {
     return "";
   }
 });
-
-let location: Location;
-
-const locationStore = useLocationStore();
-if (
-  props.organization ||
-  props.group ||
-  (props.event && props.event.offlineLocationId) ||
-  (props.resource && props.resource.locationId)
-) {
-  await locationStore.fetchById(locationId.value);
-  location = locationStore.location;
-}
 
 // const members = computed<number>(() => {
 //   if (props.organization && props.organization.members) {

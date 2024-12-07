@@ -1,3 +1,4 @@
+<!-- Test comment, to check pre-commit hook -->
 <template>
   <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
@@ -67,8 +68,8 @@ const formData = ref<OrganizationUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = organization.description;
-  formData.value.getInvolved = organization.getInvolved;
+  formData.value.description = organization.texts.description;
+  formData.value.getInvolved = organization.texts.getInvolved;
   formData.value.getInvolvedUrl = organization.getInvolvedUrl;
 });
 

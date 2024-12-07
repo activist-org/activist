@@ -117,7 +117,7 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("name")
     description = factory.Faker("text")
-    location_id = factory.SubFactory(EntityLocationFactory)
+    location = factory.SubFactory(EntityLocationFactory)
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
     terms_checked = factory.Faker("boolean")

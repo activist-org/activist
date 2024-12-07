@@ -364,7 +364,7 @@
   "pages._global.settings.save_settings": "Einstellungen speichern",
   "pages._global.settings.save_settings_aria_label": "Aktualisieren der Einstellungen",
   "pages._global.settings.settings_lower": "Einstellungen",
-  "pages._global.share_group": "Gruppe teilen",
+  "pages.organizations.groups.about.share_group": "Gruppe teilen",
   "pages._global.tasks.new_task": "Neue Aufgabe",
   "pages._global.tasks.new_task_aria_label": "Hinzufügen einer neuen Aufgabe zum Board",
   "pages._global.tasks.tasks_lower": "Aufgaben",
