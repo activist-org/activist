@@ -124,7 +124,7 @@ const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";
 }>();
 
-// TODO: uncomment and delete 'true' line after issue 1006 is done.
+// TODO: restore after 1006 is resolved.
 // const { userIsSignedIn } = useUser();
 const userIsSignedIn = true;
 const paramsId = useRoute().params.id;

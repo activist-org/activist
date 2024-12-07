@@ -229,7 +229,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL as string}/content/social_links/${org.id}/`,
+        `${BASE_BACKEND_URL as string}/content/social_links/${org.id}`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -249,7 +249,6 @@ export const useOrganizationStore = defineStore("organization", {
       if (responseSocialLinksData) {
         this.loading = false;
 
-        // return responseSocialLinksData.id;
         return responseSocialLinksData;
       }
 
