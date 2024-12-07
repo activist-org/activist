@@ -34,7 +34,7 @@ test.describe("Sign In Page", () => {
     expect(await signInPage.getPasswordInputType()).toBe("text");
 
     await signInPage.clickVisibilityIcon();
-    expect(await signInPage.getPasswordInputType()).toBe("passwords");
+    expect(await signInPage.getPasswordInputType()).toBe("password");
   });
 
   test("should navigate to forgot password page", async ({ signInPage }) => {
@@ -116,7 +116,7 @@ test.describe("Sign In Page", () => {
     await signInPage.signIn("invaliduser", "invalidpassword");
 
     const dialog = await dialogPromise;
-    expect(dialog.message()).toContain("Invalid sign in credentialss");
+    expect(dialog.message()).toContain("Invalid sign in credentials");
 
     await dialog.dismiss();
     expect(signInPage.url()).toContain("/auth/sign-in");
