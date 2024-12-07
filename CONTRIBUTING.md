@@ -211,7 +211,7 @@ git remote add upstream https://github.com/activist-org/activist.git
    docker compose --env-file .env.dev up --build
 
    # And to stop the containers when you're done working:
-   # docker compose --env-file .env.dev down
+   docker compose --env-file .env.dev down
    ```
 
 6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
