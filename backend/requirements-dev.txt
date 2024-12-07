@@ -31,7 +31,7 @@ coverage[toml]==7.4.4
     # via pytest-cov
 distlib==0.3.8
     # via virtualenv
-django==5.0.9
+django==5.0.10
     # via
     #   -r requirements.txt
     #   django-cors-headers
