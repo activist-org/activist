@@ -80,7 +80,7 @@ export default defineConfig({
       use: { ...devices["iPad (gen 7)"], isMobile: true },
     },
     {
-      name: "Mobile iPad",
+      name: "Mobile iPad Landscape",
       use: { ...devices["iPad (gen 7 landscape)"], isMobile: true },
     },
   ],
