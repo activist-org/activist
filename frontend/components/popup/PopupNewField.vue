@@ -23,7 +23,6 @@
       id="popup-input"
       class="focus-brand h-8 w-52 rounded-sm border border-primary-text bg-transparent p-2"
       type="text"
-      required
       :placeholder="fieldNamePrompt"
     />
     <input
@@ -32,7 +31,6 @@
       id="popup-input"
       class="focus-brand h-8 w-52 rounded-sm border border-primary-text bg-transparent p-2"
       type="text"
-      required
       :placeholder="fieldLabelPrompt"
     />
     <label for="popup-textarea" class="sr-only"> {{ descriptionPrompt }}</label>
@@ -45,11 +43,14 @@
       cols="10"
       :placeholder="descriptionPrompt"
     ></textarea>
-    <div role="button" tabindex="0" class="mt-1">
-      <!-- Mark: 'Add' button -->
+    <div
+      @click="emit('on-cta-clicked', inputValue)"
+      @keypress.enter="emit('on-cta-clicked', inputValue)"
+      role="button"
+      tabindex="0"
+      class="mt-1"
+    >
       <BtnAction
-        @click="handleAddClick"
-        @keypress.enter="handleAddClick"
         :cta="true"
         linkTo="placeholder-link"
         :label="ctaBtnLabel"
@@ -74,37 +75,8 @@ defineProps<{
   ctaBtnAriaLabel: string;
 }>();
 
-const emit = defineEmits(["add-clicked", "on-close-clicked"]);
+const inputValue = ref<HTMLInputElement | null>(null);
+const inputLabel = ref<HTMLInputElement | null>(null);
 
-const inputValue = ref("");
-const inputLabel = ref("");
-
-const handleAddClick = () => {
-  // Validate user input and emit 'add' event + payload to CardConnect.vue.
-  // CardConnect.vue handles the data PUT's via the org store.
-
-  if (!inputValue.value.trim()) {
-    alert("Please enter a 'Link to account'.");
-    return;
-  }
-
-  // Super basic URL validation. URL has '.' and domain is 2 or more chars long.
-  const hasValidDomain =
-    inputValue.value.includes(".") &&
-    inputValue.value.split(".")[1].length >= 2;
-  if (!hasValidDomain) {
-    alert(`${inputValue.value} is not a valid URL. Please enter a valid URL.`);
-    return;
-  }
-
-  if (!inputLabel.value.trim()) {
-    alert("Please enter a 'Label for link'.");
-    return;
-  }
-
-  emit("add-clicked", {
-    link: inputValue.value,
-    label: inputLabel.value,
-  });
-};
+const emit = defineEmits(["on-cta-clicked", "on-close-clicked"]);
 </script>

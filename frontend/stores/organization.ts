@@ -5,7 +5,6 @@ import type {
   PiniaResOrganization,
   PiniaResOrganizations,
 } from "~/types/entities/organization";
-import type { AddPayload } from "~/types/social-links-payload";
 
 interface OrganizationStore {
   loading: boolean;
@@ -57,7 +56,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await useFetch(
-        `${BASE_BACKEND_URL as string}/entities/organizations/`,
+        `${BASE_BACKEND_URL}/entities/organizations/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -171,7 +170,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        (BASE_BACKEND_URL as string) + `/entities/organizations/${org.id}/`,
+        BASE_BACKEND_URL + `/entities/organizations/${org.id}/`,
         {
           method: "PUT",
           body: {
@@ -185,7 +184,7 @@ export const useOrganizationStore = defineStore("organization", {
       );
 
       const responseOrgTexts = await $fetch(
-        (BASE_BACKEND_URL as string) +
+        BASE_BACKEND_URL +
           `/entities/organization_texts/${org.organizationTextId}/`,
         {
           method: "PUT",
@@ -211,46 +210,6 @@ export const useOrganizationStore = defineStore("organization", {
         this.loading = false;
 
         return true;
-      }
-
-      return false;
-    },
-
-    // MARK: Add Social Links
-
-    async addSocialLinks(org: Organization, payload: AddPayload) {
-      // TODO: PUT/POST payload, PUT/POST org and social link id's in bridge table
-      //         content/social_links
-      // TODO: Other PUT's/POST's?
-      //         bridge table: organization_social_links
-
-      this.loading = true;
-
-      const token = localStorage.getItem("accessToken");
-
-      const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL as string}/content/social_links/${org.id}/`,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            link: payload.link,
-            label: payload.label,
-            order: 0,
-          }),
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-
-      const responseSocialLinksData = responseSocialLinks.data
-        .value as unknown as Organization;
-
-      if (responseSocialLinksData) {
-        this.loading = false;
-
-        // return responseSocialLinksData.id;
-        return responseSocialLinksData;
       }
 
       return false;
