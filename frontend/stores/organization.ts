@@ -5,7 +5,6 @@ import type {
   PiniaResOrganization,
   PiniaResOrganizations,
 } from "~/types/entities/organization";
-import type { AddPayload } from "~/types/social-links-payload";
 
 interface OrganizationStore {
   loading: boolean;
@@ -57,7 +56,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await useFetch(
-        `${BASE_BACKEND_URL as string}/entities/organizations/`,
+        `${BASE_BACKEND_URL}/entities/organizations/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -171,7 +170,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        (BASE_BACKEND_URL as string) + `/entities/organizations/${org.id}/`,
+        BASE_BACKEND_URL + `/entities/organizations/${org.id}/`,
         {
           method: "PUT",
           body: {
@@ -185,7 +184,7 @@ export const useOrganizationStore = defineStore("organization", {
       );
 
       const responseOrgTexts = await $fetch(
-        (BASE_BACKEND_URL as string) +
+        BASE_BACKEND_URL +
           `/entities/organization_texts/${org.organizationTextId}/`,
         {
           method: "PUT",

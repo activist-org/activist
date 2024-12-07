@@ -60,7 +60,6 @@
         }"
       >
         <Popover v-slot="{ close }" class="relative">
-          <!-- Mark: 'New Account' button -->
           <PopoverButton as="div">
             <BtnAction
               :cta="true"
@@ -80,12 +79,9 @@
             leave-to-class="opacity-0 translate-y-1"
           >
             <PopoverPanel class="absolute bottom-0 mb-12">
-              <!-- popup/PopupNewField.vue -->
               <PopupNewField
-                @add-clicked="
-                  (payload: AddPayload) => handlePopupAddClick(payload, close)
-                "
-                @on-close-clicked="close"
+                @on-cta-clicked="emit('on-new-account')"
+                @on-close-clicked="onClose(close)"
                 :title="$t('components.card_connect.app_account_popup_title')"
                 :fieldNamePrompt="
                   $t(
@@ -117,7 +113,6 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import type { Group } from "~/types/entities/group";
 import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
-import type { AddPayload } from "~/types/social-links-payload";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -127,6 +122,7 @@ const props = defineProps<{
 // TODO: restore after 1006 is resolved.
 // const { userIsSignedIn } = useUser();
 const userIsSignedIn = true;
+
 const paramsId = useRoute().params.id;
 const paramsIdGroup = useRoute().params.groupId;
 
@@ -165,25 +161,12 @@ const socialLinksRef = computed<string[]>(() => {
   }
 });
 
-const handlePopupAddClick = async (payload: AddPayload, close: () => void) => {
-  // Put the social links payload in the database.
-  // TODO: Needs more robust handling (ie try/catch + error trapping/handling)
-  const response = await organizationStore.addSocialLinks(
-    organization,
-    payload
-  );
-  if (response) {
-    console.log("org store addSocialLinks response: " + response);
-    console.log(
-      "CardConnect addSocialLinks payload: " + JSON.stringify(payload)
-    );
-  }
-
-  close();
-};
-
 const toggleEditMode = () => {
   editModeEnabled.value = !editModeEnabled.value;
+};
+
+const onClose = (close: (ref?: HTMLElement) => void) => {
+  close();
 };
 
 const emit = defineEmits(["on-new-account", "on-account-removed"]);
