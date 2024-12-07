@@ -12,21 +12,35 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
-- [First steps as a contributor](#first-steps-)
-- [Tech stack](#tech-stack-)
-- [Learning the tech stack](#learning-the-tech-)
-- [Development environment](#dev-env-)
-- [Style guide](#style-guide-)
-- [Testing](#testing-)
-- [Linting](#linting-)
-- [Issues and projects](#issues-projects-)
-- [Bug reports](#bug-reports-)
-- [Feature requests](#feature-requests-)
-- [Pull requests](#pull-requests-)
-- [Localization](#localization-)
-- [Documentation](#documentation-)
-- [Accessibility](#accessibility-)
-- [Design](#design-)
+- [Contributing to activist.org](#contributing-to-activistorg)
+  - [**Contents**](#contents)
+  - [First steps as a contributor `⇧`](#first-steps-as-a-contributor-)
+  - [Tech Stack `⇧`](#tech-stack-)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+    - [Deployment](#deployment)
+    - [Localization](#localization)
+    - [Analytics](#analytics)
+  - [Learning the tech stack `⇧`](#learning-the-tech-stack-)
+  - [Development environment `⇧`](#development-environment-)
+    - [Using Yarn or Python](#using-yarn-or-python)
+  - [Style guide `⇧`](#style-guide-)
+  - [Testing `⇧`](#testing-)
+    - [Backend](#backend-1)
+    - [Frontend](#frontend-1)
+      - [Static Testing](#static-testing)
+      - [Automated Testing](#automated-testing)
+  - [Linting `⇧`](#linting-)
+  - [Issues and projects `⇧`](#issues-and-projects-)
+  - [Bug reports `⇧`](#bug-reports-)
+  - [Feature requests `⇧`](#feature-requests-)
+  - [Pull requests `⇧`](#pull-requests-)
+  - [Localization `⇧`](#localization-)
+  - [Documentation `⇧`](#documentation-)
+  - [Accessibility `⇧`](#accessibility-)
+    - [Transitions](#transitions)
+    - [Tab focusing](#tab-focusing)
+  - [Design `⇧`](#design-)
 
 <a id="first-steps"></a>
 
@@ -211,7 +225,7 @@ git remote add upstream https://github.com/activist-org/activist.git
    docker compose --env-file .env.dev up --build
 
    # And to stop the containers when you're done working:
-   # docker compose --env-file .env.dev down
+   docker compose --env-file .env.dev down
    ```
 
 6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
