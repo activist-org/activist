@@ -71,8 +71,8 @@ export class EventMenu extends PageObjectBase {
   // This is probably an override too.
   async getActiveSelectedOption(): Promise<string> {
     const selector = (await this.isMobile())
-      ? "[ata-headlessui-state='active selected']"
-      : ".tyle-menu-option-cta";
+      ? "[data-headlessui-state='active selected']"
+      : ".style-menu-option-cta";
     return (
       (await (this.options as Locator).locator(selector).textContent()) || ""
     );
