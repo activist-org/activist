@@ -2,23 +2,6 @@ import { expect, test } from "../fixtures/test-fixtures";
 import { runAccessibilityTest } from "../utils/accessibilityTesting";
 
 test.describe("Home Page", () => {
-  // MARK: Accessibility
-
-  // Note: Check to make sure that this is eventually done for light and dark modes.
-  test("Home Page has no detectable accessibility issues", async ({
-    homePage,
-  }, testInfo) => {
-    const violations = await runAccessibilityTest(homePage, testInfo);
-    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
-
-    if (violations.length > 0) {
-      console.log(
-        "Accessibility violations:",
-        JSON.stringify(violations, null, 2)
-      );
-    }
-  });
-
   test("The topics dropdown should be functional", async ({ homePage }) => {
     await homePage.checkTopicsDropdownFunctionality();
   });
@@ -83,5 +66,22 @@ test.describe("Home Page", () => {
   }) => {
     const results = await homePage.checkSearchFunctionality();
     expect(results).toEqual([true, true, true, true]);
+  });
+
+  // MARK: Accessibility
+
+  // Note: Check to make sure that this is eventually done for light and dark modes.
+  test("Home Page has no detectable accessibility issues", async ({
+    homePage,
+  }, testInfo) => {
+    const violations = await runAccessibilityTest(homePage, testInfo);
+    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
+
+    if (violations.length > 0) {
+      console.log(
+        "Accessibility violations:",
+        JSON.stringify(violations, null, 2)
+      );
+    }
   });
 });

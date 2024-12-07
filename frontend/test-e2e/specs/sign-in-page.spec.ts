@@ -2,20 +2,6 @@ import { expect, test } from "../fixtures/test-fixtures";
 import { runAccessibilityTest } from "../utils/accessibilityTesting";
 
 test.describe("Sign In Page", () => {
-  test("Sign In Page has no detectable accessibility issues", async ({
-    signInPage,
-  }, testInfo) => {
-    const violations = await runAccessibilityTest(signInPage, testInfo);
-    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
-
-    if (violations.length > 0) {
-      console.log(
-        "Accessibility violations:",
-        JSON.stringify(violations, null, 2)
-      );
-    }
-  });
-
   test("should display all necessary elements", async ({ signInPage }) => {
     await expect(signInPage.usernameInput).toBeVisible();
     await expect(signInPage.passwordInput).toBeVisible();
@@ -120,5 +106,19 @@ test.describe("Sign In Page", () => {
 
     await dialog.dismiss();
     expect(signInPage.url()).toContain("/auth/sign-in");
+  });
+
+  test("Sign In Page has no detectable accessibility issues", async ({
+    signInPage,
+  }, testInfo) => {
+    const violations = await runAccessibilityTest(signInPage, testInfo);
+    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
+
+    if (violations.length > 0) {
+      console.log(
+        "Accessibility violations:",
+        JSON.stringify(violations, null, 2)
+      );
+    }
   });
 });

@@ -2,23 +2,6 @@ import { LandingPage, expect, test } from "../fixtures/test-fixtures";
 import { runAccessibilityTest } from "../utils/accessibilityTesting";
 
 test.describe("Landing Page", () => {
-  // MARK: Accessibility
-
-  // Note: Check to make sure that this is eventually done for light and dark modes.
-  test("Landing Page has no detectable accessibility issues", async ({
-    landingPage,
-  }, testInfo) => {
-    const violations = await runAccessibilityTest(landingPage, testInfo);
-    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
-
-    if (violations.length > 0) {
-      console.log(
-        "Accessibility violations:",
-        JSON.stringify(violations, null, 2)
-      );
-    }
-  });
-
   // MARK: Header
 
   // Test that the correct Header is visible on mobile or desktop.
@@ -126,6 +109,23 @@ test.describe("Landing Page", () => {
     const importantLinks = await landingPage.getImportantLinks();
     for (const link of importantLinks) {
       await expect(link).toBeVisible();
+    }
+  });
+
+  // MARK: Accessibility
+
+  // Note: Check to make sure that this is eventually done for light and dark modes.
+  test("Landing Page has no detectable accessibility issues", async ({
+    landingPage,
+  }, testInfo) => {
+    const violations = await runAccessibilityTest(landingPage, testInfo);
+    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
+
+    if (violations.length > 0) {
+      console.log(
+        "Accessibility violations:",
+        JSON.stringify(violations, null, 2)
+      );
     }
   });
 });
