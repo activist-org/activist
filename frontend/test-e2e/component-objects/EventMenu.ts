@@ -65,13 +65,21 @@ export class EventMenu extends PageObjectBase {
   }
 
   async isOptionsVisible(): Promise<boolean> {
-    return await this.options.isVisible();
+    return await (this.options as Locator).isVisible();
   }
 
+  // This is probably an override too.
   async getActiveSelectedOption(): Promise<string> {
     const selector = (await this.isMobile())
-      ? "[data-headlessui-state='active selected']"
-      : ".style-menu-option-cta";
-    return (await this.options.locator(selector).textContent()) || "";
+      ? "[ata-headlessui-state='active selected']"
+      : ".tyle-menu-option-cta";
+    return (
+      (await (this.options as Locator).locator(selector).textContent()) || ""
+    );
+  }
+
+  // @ts-expect-error Doesn't match method signature in superclass.
+  override async selectOption(option: Locator): Promise<void> {
+    await option.click();
   }
 }

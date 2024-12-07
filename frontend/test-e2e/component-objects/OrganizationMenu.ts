@@ -88,6 +88,7 @@ export class OrganizationMenu extends PageObjectBase {
     return await this.options.isVisible();
   }
 
+  // This is probably an override too.
   async getActiveSelectedOption(): Promise<string> {
     // if mobile, then "[data-headlessui-state='active selected']"
     // if desktop, then class includes style-menu-option-cta
@@ -95,5 +96,10 @@ export class OrganizationMenu extends PageObjectBase {
       ? "[data-headlessui-state='active selected']"
       : ".style-menu-option-cta";
     return (await this.options.locator(selector).textContent()) || "";
+  }
+
+  // @ts-expect-error Doesn't match method signature in superclass.
+  override async selectOption(option: Locator): Promise<void> {
+    await option.click();
   }
 }
