@@ -79,7 +79,7 @@ jobs:
       - name: Run Playwright tests
         working-directory: ./frontend
         run: |
-          sudo yarn playwright test --reporter=html
+          sudo yarn playwright test
 
       - name: Upload Playwright report
         if: always()

@@ -395,6 +395,40 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 > [!NOTE]
 > The vitest test suite is still in a very early stage.  There is a lot of work left to do to increase test coverage, and some features still need troubleshooting.  If you need assistance then feel free to open a PR and we'll support!
 
+### End to End
+
+#### Local Testing
+
+In order to test locally, you first need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).
+
+To run the end to end tests locally, please run the following commands:
+
+```bash
+docker-compose --env-file .env.dev up backend db # run backend and db in docker
+```
+
+Then in a second shell:
+
+```bash
+node .output/server/index.mjs  # start the build frontend
+```
+
+Then in a third shell:
+
+```bash
+yarn test:local
+```
+
+#### Remote Testing
+
+To run the tests on the repository, first create a branch from the remote branch that you want to test against. This can be done with the following command:
+
+```bash
+git push upstream <local-branch-name>:<remote-branch-name-of-your-choice>
+```
+
+You can then navigate to the [actions of the repository](https://github.com/activist-org/activist/actions) and trigger [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml) for the remote branch that you just created.
+
 <a id="linting-"></a>
 
 ## Linting [`⇧`](#contents)
