@@ -12,6 +12,7 @@ import MapLibreGlDirections, {
 import maplibregl, { type Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
+
 const props = defineProps<{
   markerColors: string[];
   eventNames: string[];
@@ -60,10 +61,10 @@ interface RouteProfileOption {
 }
 
 const routeProfileOptions: RouteProfileOption = {
-  FOOT: "foot",
-  BIKE: "bike",
-  DRIVING: "driving",
-  CAR: "car",
+  FOOT: "components.media_map_foot",
+  BIKE: "components.media_map_bike",
+  DRIVING: "components.media_map_driving",
+  CAR: "components.media_map_car",
 };
 
 interface RouteProfile {
@@ -91,7 +92,7 @@ const routeProfileMap: RouteProfile[] = [
 
 const walkingRouteProfileControl = `
   <div
-    title="Change profile [p]"
+    title="$t('components.media_Change_profile')"
     id=${routeProfileOptions.FOOT}
     style="
     background-image: url(${walkDirectionsIcon});
@@ -107,7 +108,7 @@ const walkingRouteProfileControl = `
 
 const bikeRouteProfileControl = `
   <div
-    title="Change profile [p]"
+    title="$t('components.media_Change_profile')"
     id=${routeProfileOptions.BIKE}
     style="
     background-image: url(${bikeDirectionsIcon});
@@ -189,7 +190,7 @@ onMounted(() => {
                 ],
                 tileSize: 256,
                 attribution:
-                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> hosted by <a href="https://openstreetmap.fr" target="_blank">OSM France</a>',
+                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> {{ $t('components.media_map_hosted_by')}} <a href="https://openstreetmap.fr" target="_blank">OSM France</a>',
               },
             },
             layers: [
