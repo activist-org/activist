@@ -4,18 +4,18 @@ on:
 
 jobs:
   frontend:
-    name: Run PR Frontend Check
+    name: Run PR Frontend E2E Check
     runs-on: ubuntu-latest
     environment: dev
 
     steps:
-      - name: cleanup old checkout
+      - name: Cleanup Old Checkout
         run: chmod +w -R ${GITHUB_WORKSPACE}; rm -rf ${GITHUB_WORKSPACE}/*;
 
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Clean up any existing containers
+      - name: Clean Any Existing Containers
         run: |
           docker stop $(docker ps -aq) || true
           docker rm $(docker ps -aq) || true
@@ -27,32 +27,39 @@ jobs:
           ! nc -z localhost 5432
 
       - name: Run Docker Compose
-        run: docker compose --env-file .env.dev up --build -d
+        run: docker compose --env-file .env.dev up --build -d backend db
 
       - name: Check Docker Container Logs
         run: docker compose --env-file .env.dev logs
 
-      - name: Setup Node environment
+      - name: Setup Node Environment
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Clean Yarn cache
+      - name: Set Environment Variables
         working-directory: ./frontend
-        run: |
-          sudo yarn cache clean
+        run: set -a && source ../.env.dev && set +a
+
+      - name: Clean Yarn Cache
+        working-directory: ./frontend
+        run: sudo yarn cache clean
 
       - name: Install dependencies via Yarn
         working-directory: ./frontend
         run: |
           sudo yarn install
+          sudo yarn build
+
+      - name: Run Node Server
+        working-directory: ./frontend
+        run: node .output/server/index.mjs
 
       - name: Install Playwright Browsers
         working-directory: ./frontend
-        run: |
-          sudo yarn playwright install --with-deps
+        run: sudo yarn playwright install --with-deps
 
-      - name: Wait for web server to be ready
+      - name: Wait for Web Server
         working-directory: ./frontend
         run: |
           MAX_ATTEMPTS=3
@@ -76,12 +83,11 @@ jobs:
             fi
           done
 
-      - name: Run Playwright tests
+      - name: Run Playwright Tests
         working-directory: ./frontend
-        run: |
-          sudo yarn playwright test
+        run: sudo yarn playwright test
 
-      - name: Upload Playwright report
+      - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
         with:

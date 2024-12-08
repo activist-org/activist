@@ -395,9 +395,9 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 > [!NOTE]
 > The vitest test suite is still in a very early stage.  There is a lot of work left to do to increase test coverage, and some features still need troubleshooting.  If you need assistance then feel free to open a PR and we'll support!
 
-### End to End
+### End to End Testing
 
-#### Local Testing
+#### Local E2E
 
 In order to test locally, you first need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).
 
@@ -419,7 +419,7 @@ Then in a third shell:
 yarn test:local
 ```
 
-#### Remote Testing
+#### Remote E2E
 
 To run the tests on the repository, first create a branch from the remote branch that you want to test against. This can be done with the following command:
 
