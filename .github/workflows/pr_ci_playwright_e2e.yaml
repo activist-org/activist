@@ -37,12 +37,12 @@ jobs:
         with:
           node-version: 20
 
-      - name: Set Environment Variables
-        working-directory: ./frontend
-        run: set -a && source ../.env.dev && set +a
+      - uses: c-py/action-dotenv-to-setenv@v5
+        with:
+          env-file: .env.dev
 
       - name: Check Env Variables
-        run: printenv
+        run: echo $VITE_FRONTEND_URL
 
       - name: Clean Yarn Cache
         working-directory: ./frontend
