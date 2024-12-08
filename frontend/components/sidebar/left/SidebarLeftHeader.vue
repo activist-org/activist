@@ -38,6 +38,7 @@
             sidebar.toggleCollapsedSwitch();
             emit('toggle-pressed');
           "
+          id="sidebar-left-toggle"
           class="focus-brand flex h-7 w-7 items-center justify-center outline-offset-0 transition duration-200"
           :class="{
             '-rotate-180 pr-0.5': sidebar.collapsedSwitch == false,

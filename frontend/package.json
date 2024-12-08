@@ -28,7 +28,7 @@
     "@nuxtjs/i18n": "8.5.5",
     "@nuxtjs/tailwindcss": "6.12.2",
     "@pinia/nuxt": "0.6.0",
-    "@playwright/test": "1.48.0",
+    "@playwright/test": "1.48.2",
     "@testing-library/vue": "8.1.0",
     "@types/node": "22.7.5",
     "@types/uuid": "10.0.0",
@@ -36,6 +36,8 @@
     "@vue/test-utils": "2.4.6",
     "@vueuse/core": "11.1.0",
     "@vueuse/nuxt": "11.1.0",
+    "axe-core": "4.10.0",
+    "axe-html-reporter": "2.2.11",
     "cross-env": "7.0.3",
     "env-cmd": "10.1.0",
     "eslint": "9.12.0",
@@ -44,7 +46,7 @@
     "happy-dom": "15.11.6",
     "nuxt": "3.13.2",
     "nuxt-icon": "0.6.10",
-    "playwright": "1.48.0",
+    "playwright": "1.48.2",
     "prettier": "3.3.3",
     "prettier-plugin-tailwindcss": "0.6.8",
     "rollup": "4.24.0",
@@ -93,6 +95,6 @@
   },
   "resolutions": {
     "chokidar": "3.6.0",
-    "playwright-core": "1.45.1"
+    "playwright-core": "1.48.2"
   }
 }
