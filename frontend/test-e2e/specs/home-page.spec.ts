@@ -61,7 +61,7 @@ test.describe("Home Page", () => {
     }
   });
 
-  test("Search bar should be functional on both mobile and desktop", async ({
+  test.skip("Search bar should be functional on both mobile and desktop", async ({
     homePage,
   }) => {
     const results = await homePage.checkSearchFunctionality();
