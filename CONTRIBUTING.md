@@ -483,6 +483,13 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
 > pip install pre-commit
 > ```
 
+> [!NOTE]
+> If you are having issues with pre-commit and want to send along your changes regardless, you can ignore the pre-commit hooks via the following:
+>
+> ```bash
+> git commit --no-verify -m "COMMIT_MESSAGE"
+> ```
+
 4. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
 > [!NOTE]
@@ -516,6 +523,20 @@ Thank you in advance for your contributions!
 Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
 To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](STYLEGUIDE.md) for more information on how to create new localization keys.
+
+> [!IMPORTANT]
+> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid/not existing across the codebase, then please add the following file at `frontend/types/vue-i18n.d.ts`:
+>
+> ```ts
+> // frontend/types/vue-i18n.d.ts
+> // Attn: Fixes Property '$t' does not exist on type ... errors.
+> // Note: This file is git ignored, but can be used as a local fix for excessive TypeScript errors.
+> declare module "vue" {
+>   interface ComponentCustomProperties {
+>     $t: (key: string) => string;
+>   }
+> }
+> ```
 
 <a id="documentation-"></a>
 
