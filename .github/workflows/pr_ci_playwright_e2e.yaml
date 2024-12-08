@@ -41,9 +41,6 @@ jobs:
         with:
           env-file: .env.dev
 
-      - name: Check Env Variables
-        run: echo $VITE_FRONTEND_URL
-
       - name: Clean Yarn Cache
         working-directory: ./frontend
         run: sudo yarn cache clean
