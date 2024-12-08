@@ -41,6 +41,9 @@ jobs:
         working-directory: ./frontend
         run: set -a && source ../.env.dev && set +a
 
+      - name: Check Env Variables
+        run: printenv
+
       - name: Clean Yarn Cache
         working-directory: ./frontend
         run: sudo yarn cache clean
@@ -53,7 +56,7 @@ jobs:
 
       - name: Run Node Server
         working-directory: ./frontend
-        run: node .output/server/index.mjs
+        run: nohup node .output/server/index.mjs &
 
       - name: Install Playwright Browsers
         working-directory: ./frontend
