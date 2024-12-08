@@ -5,6 +5,7 @@
       <SidebarLeftSelector
         v-for="(item, index) in menuItems.slice(1, 3)"
         :key="index"
+        :id="getSelectorId(item.label)"
         :label="item.label"
         :routeUrl="item.routeUrl"
         :iconUrl="item.iconUrl"
@@ -18,5 +19,15 @@
 <script setup lang="ts">
 const isActive = (routeUrl: string) => {
   return isRouteActive(routeUrl);
+};
+
+const getSelectorId = (label: string) => {
+  const idMap: Record<string, string> = {
+    organizations: "organizations",
+    events: "events",
+  };
+
+  const key = Object.keys(idMap).find((k) => label.includes(k));
+  return key ? idMap[key] : undefined;
 };
 </script>
