@@ -3,7 +3,7 @@
     <Head>
       <Title>{{ event.name }}</Title>
     </Head>
-    <HeaderAppPage :event="event">
+    <HeaderAppPage pageType="event">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
           v-if="event.getInvolvedUrl"
@@ -28,8 +28,8 @@
           ariaLabel="_global.support_event_aria_label"
         /> -->
         <BtnAction
-          @click="openModal()"
-          @keydown.enter="openModal()"
+          @click="openModalSharePage()"
+          @keydown.enter="openModalSharePage()"
           class="w-max"
           :cta="true"
           :label="$t(shareButtonLabel)"
@@ -39,12 +39,7 @@
           iconSize="1.45em"
           :ariaLabel="$t('_global.share_event_aria_label')"
         />
-        <ModalSharePage
-          @closeModal="handleCloseModal"
-          :cta="true"
-          :event="event"
-          :isOpen="modalIsOpen"
-        />
+        <ModalSharePage :cta="true" :event="event" />
       </div>
     </HeaderAppPage>
     <div class="space-y-6 pb-6">
@@ -61,7 +56,6 @@
             'lg:col-span-2': !textExpanded,
             'lg:col-span-3': textExpanded,
           }"
-          aboutType="event"
           :event="event"
         />
         <MediaMap
@@ -72,7 +66,7 @@
           :eventLocations="[event.offlineLocation]"
         />
       </div>
-      <CardAboutEvent aboutType="event" :event="event" />
+      <CardAboutEvent :event="event" />
       <CardGetInvolvedEvent
         :event="event"
         disclaimer="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
@@ -85,6 +79,8 @@
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
+
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
@@ -108,7 +104,7 @@ function updateShareBtnLabel() {
   if (windowWidth.value < BreakpointMap.SMALL) {
     shareButtonLabel.value = "_global.share";
   } else {
-    shareButtonLabel.value = "pages._global.share_group";
+    shareButtonLabel.value = "_global.share_event";
   }
 }
 
@@ -124,18 +120,4 @@ onUpdated(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", updateShareBtnLabel);
 });
-
-const modals = useModals();
-const modalName = "ModalSharePage";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
 </script>

@@ -11,7 +11,6 @@ router = DefaultRouter()
 
 router.register(prefix=r"events", viewset=views.EventViewSet)
 router.register(prefix=r"formats", viewset=views.FormatViewSet)
-router.register(prefix=r"roles", viewset=views.RoleViewSet)
 
 # MARK: Bridge Tables
 

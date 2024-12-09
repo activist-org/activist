@@ -95,7 +95,7 @@ const { id } = useRoute().params;
 
 const [resOrg] = await Promise.all([
   useAsyncData(
-    async () => await fetchWithOptionalToken(`/entities/groups/${id}`, {})
+    async () => await fetchWithoutToken(`/entities/groups/${id}`, {})
   ),
 ]);
 
@@ -116,7 +116,7 @@ function updateShareBtnLabel() {
   if (windowWidth.value < BreakpointMap.SMALL) {
     shareButtonLabel.value = "_global.share";
   } else {
-    shareButtonLabel.value = "pages._global.share_group";
+    shareButtonLabel.value = "pages.organizations.groups.about.share_group";
   }
 }
 

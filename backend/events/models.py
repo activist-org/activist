@@ -25,16 +25,19 @@ class Event(models.Model):
     )
     type = models.CharField(max_length=255)
     online_location_link = models.CharField(max_length=255, blank=True)
-    offline_location = models.CharField(max_length=255, blank=True)
+    offline_location = models.OneToOneField(
+        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+    )
     get_involved_url = models.URLField(blank=True)
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
-    event_text = models.ForeignKey(
+    texts = models.ForeignKey(
         "EventText", on_delete=models.CASCADE, blank=True, null=True
     )
+    resources = models.ManyToManyField("content.Resource", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -153,10 +156,10 @@ class EventTask(models.Model):
 
 
 class EventText(models.Model):
-    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
-    primary = models.BooleanField()
-    description = models.TextField(max_length=500)
+    primary = models.BooleanField(default=False)
+    description = models.TextField(max_length=2500)
     get_involved = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:

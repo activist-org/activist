@@ -1,5 +1,5 @@
 <template>
-  <MenuLinkWrapper :to="routeUrl" :selected="selected">
+  <MenuLinkWrapper :id="id" :to="routeUrl" :selected="selected">
     <div
       class="relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
     >
@@ -28,6 +28,7 @@ defineProps<{
   routeUrl: string;
   iconUrl: string;
   selected: boolean;
+  id?: string;
 }>();
 
 const sidebar = useSidebar();

@@ -26,7 +26,9 @@
             <ShieldTopic v-for="(t, i) in group.topics" :key="i" :topic="t" />
           </div> -->
         <div class="flex items-center gap-3">
-          <MetaTagLocation :location="group.location" />
+          <MetaTagLocation
+            :location="group.location.displayName.split(',')[0]"
+          />
           <!-- <MetaTagMembers
               :members="group.members.length"
               :label="$t('components.card.about._global.members_lower')"
@@ -39,7 +41,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ group.description }}
+            {{ group.texts.description }}
           </p>
           <div class="flex justify-center">
             <button

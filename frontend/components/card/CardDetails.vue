@@ -8,19 +8,9 @@
             {{ $t("components.card_details.header") }}
           </h3>
           <IconEdit
-            @click="openModalEditAboutEvent"
-            @keydown.enter="openModalEditAboutEvent"
+            @click="openModalEditAboutEvent()"
+            @keydown.enter="openModalEditAboutEvent()"
           />
-          <!-- <ModalEditAboutEvent
-            v-if="event"
-            :event="event"
-            :sectionsToEdit="[
-              $t('_global.about'),
-              $t('components._global.participate'),
-              $t('components._global.offer_to_help_link'),
-            ]"
-            :isOpen="modalIsOpen"
-          /> -->
         </div>
         <div v-if="event" class="flex-col space-y-6 py-2">
           <div class="flex items-center gap-3">
@@ -31,14 +21,14 @@
             />
             <button
               v-if="event.organizations.length > 1"
-              @click="openModalOrganizationOverview"
-              @keydown.enter="openModalOrganizationOverview"
+              @click="openModalOrganizationOverview()"
+              @keydown.enter="openModalOrganizationOverview()"
               class="text-sm font-semibold text-black"
             >
               (+{{ event.organizations.length - 1 }} more)
             </button>
             <ModalOrganizationOverview
-              @closeModal="openModalOrganizationOverview"
+              @closeModal="openModalOrganizationOverview()"
               :cta="true"
               :event="event"
             />
@@ -49,9 +39,9 @@
           /> -->
           <MetaTagLocation
             v-if="event.offlineLocation"
-            :location="event.offlineLocation"
+            :location="event.offlineLocation.displayName.split(',')[0]"
           />
-          <MetaTagDate :date="event.startTime" />
+          <MetaTagDate :date="event.startTime.split('T')[0]" />
         </div>
       </div>
     </div>
@@ -60,16 +50,19 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
-import type { Event } from "~/types/events/event";
-
-defineProps<{
-  event?: Event;
-}>();
 
 const { openModal: openModalEditAboutEvent } = useModalHandlers(
   "ModalEditAboutEvent"
 );
 const { openModal: openModalOrganizationOverview } = useModalHandlers(
-  "ModalCommandPalette"
+  "ModalOrganizationOverview"
 );
+
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
+
+const eventStore = useEventStore();
+await eventStore.fetchById(id);
+
+const { event } = eventStore;
 </script>

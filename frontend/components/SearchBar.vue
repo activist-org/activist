@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="location == SearchBarLocation.SIDEBAR"
+    id="search"
     class="elem-shadow-sm mx-2 flex grow select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
   >
     <div class="flex items-center space-x-2 pl-1">
@@ -69,19 +70,21 @@
   </div>
   <div
     v-else
+    id="search"
     class="relative inline-flex select-none items-center space-x-2 rounded-md border border-distinct-text bg-layer-2 py-1 pl-[12px] pr-[10px] text-left text-distinct-text focus-within:border-2 focus-within:border-cta-orange dark:border-distinct-text dark:text-distinct-text dark:focus-within:border-cta-orange"
   >
     <Icon
       @click="emit('on-search-toggle')"
+      id="search-toggle"
       class="my-1 h-4 w-4 flex-shrink-0"
       :name="expanded ? `${IconMap.X_LG}` : `${IconMap.SEARCH}`"
       size="1em"
     />
-    <label for="expanded-search-input" class="hidden md:block">{{
+    <label for="input-search" class="hidden md:block">{{
       $t("_global.search")
     }}</label>
     <input
-      id="expanded-search-input"
+      id="input-search"
       class="bg-transparent focus:outline-none"
       :class="{ hidden: !expanded }"
       type="text"

@@ -1,3 +1,5 @@
+import type { Location } from "~/types/content/location";
+
 // MARK: Main Table
 
 export interface Group {
@@ -7,26 +9,26 @@ export interface Group {
   tagline: string;
   organization: Organization;
   createdBy: User;
-  // category?: string;
-  location: string;
+  iconUrl?: string;
+
+  location: Location;
+
   getInvolvedUrl: string;
   socialLinks: string[];
   creationDate: string;
-  // deletionDate: string;
 
   // group_event
-  // events: Event[];
+  events?: Event[];
 
-  // faq
+  // group_faq
   faqEntries?: FaqEntry[];
 
   // group_resource
   resources?: Resource[];
 
   // group_text
-  description: string;
-  getInvolved: string;
-  donationPrompt: string;
+  groupTextId: string;
+  texts: GroupText;
 
   // group_topic
   // topics?: Topic[];
@@ -85,19 +87,26 @@ export interface PiniaResGroup {
   _value: Group;
 }
 
-export interface PiniaResGroupText {
+export interface PiniaResGroups {
   __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: GroupText[];
-  };
-  _value: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: GroupText[];
-  };
+  _rawValue: Group[];
+  _value: Group[];
+}
+
+// MARK: Form Data
+
+export interface GroupCreateFormData {
+  name: string;
+  tagline: string;
+  location: string;
+  description: string;
+  social_accounts: string[];
+  topics: Topic[];
+}
+
+export interface GroupUpdateTextFormData {
+  description: string;
+  getInvolved: string;
+  getInvolvedUrl: string;
 }

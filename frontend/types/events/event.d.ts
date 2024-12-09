@@ -1,3 +1,5 @@
+import type { Location } from "~/types/content/location";
+
 // MARK: Main Table
 
 export interface Event {
@@ -8,9 +10,9 @@ export interface Event {
   iconUrl?: string;
   type: "action" | "learn";
   onlineLocationLink?: string;
-  offlineLocation?: string;
-  offlineLocationLat?: string;
-  offlineLocationLong?: string;
+
+  offlineLocation?: Location;
+
   getInvolvedUrl?: string;
   socialLinks: string[];
   startTime: string;
@@ -30,9 +32,9 @@ export interface Event {
   // event_task
   // task?: Task[];
 
+  // event_text
   eventTextId: string;
-  description: string;
-  getInvolved: string;
+  texts: EventText;
 
   // support
   // supportingOrgs?: Organization[];
@@ -107,55 +109,19 @@ export interface PiniaResEvents {
   _value: Event[];
 }
 
-export interface PiniaResEventText {
-  __v_isShallow: boolean;
-  __v_isRef: boolean;
-  _rawValue: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: EventText[];
-  };
-  _value: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: EventText[];
-  };
+// MARK: Form Data
+
+export interface EventCreateFormData {
+  name: string;
+  tagline: string;
+  location: string;
+  description: string;
+  social_accounts: string[];
+  topics: Topic[];
 }
 
-export interface PiniaResEventTexts {
-  data: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: {
-      count: number;
-      next: null;
-      previous: null;
-      results: EventText[];
-    };
-    _value: {
-      count: number;
-      next: null;
-      previous: null;
-      results: EventText[];
-    };
-  };
-  pending: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: boolean;
-    _value: boolean;
-  };
-  error: {
-    _object: { [$key: string]: null };
-    _key: string;
-    __v_isRef: boolean;
-  };
-  status: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: string;
-    _value: string;
-  };
+export interface EventUpdateTextFormData {
+  description: string;
+  getInvolved: string;
+  getInvolvedUrl: string;
 }

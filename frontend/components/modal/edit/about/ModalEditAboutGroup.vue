@@ -63,8 +63,8 @@ await groupStore.fetchById(id);
 const { group } = groupStore;
 
 const formData = ref({
-  description: group.description,
-  getInvolved: group.getInvolved,
+  description: group.texts.description,
+  getInvolved: group.texts.getInvolved,
   getInvolvedUrl: group.getInvolvedUrl,
 });
 

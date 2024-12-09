@@ -35,16 +35,19 @@
           />
           <DropdownCreate
             v-if="userIsSignedIn && devMode.active"
+            id="create"
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />
           <DropdownInfo
             v-if="devMode.active"
+            id="info"
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />
           <DropdownUserOptions
             v-if="devMode.active"
+            id="user-options"
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
             :userIsSignedIn="userIsSignedIn"

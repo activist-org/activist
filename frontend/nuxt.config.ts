@@ -33,6 +33,15 @@ export default defineNuxtConfig({
     server: {
       watch: {
         usePolling: true,
+        ignored: [
+          "**/playwright/**",
+          "**/playwright-report/**",
+          "**/test/**",
+          "**/test-e2e/**",
+          "**/test-results/**",
+          "**/frontend/test-results/**",
+          "**/frontend/test-results/accessibility-results/**",
+        ],
       },
     },
   },
@@ -80,6 +89,9 @@ export default defineNuxtConfig({
   hooks: {
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
+    },
+    "app:resolve": (app) => {
+      console.log("App instance resolved:", app);
     },
   },
 });

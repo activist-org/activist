@@ -30,7 +30,8 @@ class EventFactory(factory.django.DjangoModelFactory):
     tagline = factory.Faker("word")
     type = random.choice(["learn", "action"])
     online_location_link = factory.Faker("url")
-    offline_location = factory.Faker("city")
+    offline_location = factory.SubFactory("content.factories.EventLocationFactory")
+    is_private = factory.Faker("boolean")
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -49,7 +50,6 @@ class EventFactory(factory.django.DjangoModelFactory):
             + datetime.timedelta(days=30),
         ]
     )
-    is_private = factory.Faker("boolean")
 
 
 class FormatFactory(factory.django.DjangoModelFactory):
@@ -139,8 +139,7 @@ class EventTextFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = EventText
 
-    event_id = factory.SubFactory(EventFactory)
-    iso = factory.Faker("word")
+    iso = "en"
     primary = factory.Faker("boolean")
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")

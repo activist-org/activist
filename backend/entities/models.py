@@ -25,10 +25,9 @@ class Organization(models.Model):
     icon_url = models.OneToOneField(
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
-    location = models.CharField(max_length=255)
-    # location_id = models.OneToOneField(
-    #     "content.Location", on_delete=models.CASCADE, null=False, blank=False
-    # )
+    location = models.OneToOneField(
+        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+    )
     get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
@@ -42,9 +41,11 @@ class Organization(models.Model):
     status_updated = models.DateTimeField(auto_now=True, null=True)
     acceptance_date = models.DateTimeField(blank=True, null=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
-    org_text = models.ForeignKey(
+    texts = models.ForeignKey(
         "OrganizationText", on_delete=models.CASCADE, blank=True, null=True
     )
+    events = models.ManyToManyField("events.Event", blank=True)
+    resources = models.ManyToManyField("content.Resource", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -57,14 +58,18 @@ class Group(models.Model):
     group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
-    location = models.CharField(max_length=255)
-    # location_id = models.OneToOneField(
-    #     "content.Location", on_delete=models.CASCADE, null=False, blank=False
-    # )
+    location = models.OneToOneField(
+        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+    )
     category = models.CharField(max_length=255)
     get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
+    texts = models.ForeignKey(
+        "GroupText", on_delete=models.CASCADE, blank=True, null=True
+    )
+    events = models.ManyToManyField("events.Event", blank=True)
+    resources = models.ManyToManyField("content.Resource", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -137,7 +142,7 @@ class GroupSocialLink(models.Model):
 
 
 class GroupText(models.Model):
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=500)
@@ -245,6 +250,7 @@ class OrganizationSocialLink(models.Model):
 
 
 class OrganizationTask(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
     group_id = models.ForeignKey(
@@ -256,7 +262,7 @@ class OrganizationTask(models.Model):
 
 
 class OrganizationText(models.Model):
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True)
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=2500)

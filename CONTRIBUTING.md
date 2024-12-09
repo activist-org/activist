@@ -12,23 +12,24 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
-- [First steps as a contributor](#first-steps)
-- [Tech stack](#tech-stack)
-- [Learning the tech stack](#learning-the-tech)
-- [Development environment](#dev-env)
-- [Style guide](#style-guide)
-- [Testing](#testing)
-- [Linting](#linting)
-- [Issues and projects](#issues-projects)
-- [Bug reports](#bug-reports)
-- [Feature requests](#feature-requests)
-- [Pull requests](#pull-requests)
-- [Localization](#localization)
-- [Documentation](#documentation)
-- [Accessibility](#accessibility)
-- [Design](#design)
+- [First steps as a contributor](#first-steps-)
+- [Tech stack](#tech-stack-)
+- [Learning the tech stack](#learning-the-tech-)
+- [Development environment](#dev-env-)
+- [Style guide](#style-guide-)
+- [Testing](#testing-)
+- [Linting](#linting-)
+- [Issues and projects](#issues-projects-)
+- [Bug reports](#bug-reports-)
+- [Feature requests](#feature-requests-)
+- [Pull requests](#pull-requests-)
+- [Localization](#localization-)
+- [Documentation](#documentation-)
+- [Accessibility](#accessibility-)
+- [Design](#design-)
+- [Troubleshooting](#troubleshooting-)
 
-<a id="first-steps"></a>
+<a id="first-steps-"></a>
 
 ## First steps as a contributor [`⇧`](#contents)
 
@@ -44,7 +45,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
 - Consider joining our [bi-weekly developer sync](https://etherpad.wikimedia.org/p/activist-dev-sync)!
 
-<a id="tech-stack"></a>
+<a id="tech-stack-"></a>
 
 ## Tech Stack [`⇧`](#contents)
 
@@ -73,7 +74,7 @@ The following are the current and planned technologies for [activist.org](https:
 > [!NOTE]
 > Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
-<a id="learning-the-tech"></a>
+<a id="learning-the-tech-"></a>
 
 ## Learning the tech stack [`⇧`](#contents)
 
@@ -119,7 +120,7 @@ activist is very open to contributions from people in the early stages of their 
 </p>
 </details>
 
-<a id="dev-env"></a>
+<a id="dev-env-"></a>
 
 ## Development environment [`⇧`](#contents)
 
@@ -211,19 +212,19 @@ git remote add upstream https://github.com/activist-org/activist.git
    docker compose --env-file .env.dev up --build
 
    # And to stop the containers when you're done working:
-   # docker compose --env-file .env.dev down
+   docker compose --env-file .env.dev down
    ```
 
 6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
-7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.
+7. To view the backend admin UI and Swagger UI, visit <http://localhost:8000/admin> and <http://localhost:8000/v1/schema/swagger-ui/> respectively.
 
 8. If you'd like to sign in to the frontend via <http://localhost:3000/auth/sign-in> or the Django admin panel via <http://localhost:8000/admin>, then you can use the fixtures `admin` user with the password `admin`.
 
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
 
-<a id="using-yarn-or-python"></a>
+<a id="using-yarn-or-python-"></a>
 
 ### Using Yarn or Python
 
@@ -237,11 +238,26 @@ The frontend currently uses [Yarn 1](https://classic.yarnpkg.com/lang/en/docs/in
 ```bash
 # In the root activist directory:
 cd frontend
+
+# Set the environment variables:
+set -a && source ../.env.dev && set +a
+
+# Install and run the project:
 yarn install
-yarn run dev
+yarn run dev:local
 ```
 
 You can then visit http://localhost:3000/ to see the development frontend build once the server is up and running.
+
+You can also build the production version locally:
+
+```bash
+# In activist/frontend:
+yarn build:local
+
+# Run the production build:
+node .output/server/index.mjs
+```
 
 </p>
 </details>
@@ -314,13 +330,13 @@ yarn run story:dev
 
 From there you'll be able to visit http://localhost:6006/ to view the documentation. Contributions are very welcome! -->
 
-<a id="style-guide"></a>
+<a id="style-guide-"></a>
 
 ## Style guide [`⇧`](#contents)
 
 Please see the [activist style guide](STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
 
-<a id="testing"></a>
+<a id="testing-"></a>
 
 ## Testing [`⇧`](#contents)
 
@@ -379,7 +395,41 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 > [!NOTE]
 > The vitest test suite is still in a very early stage.  There is a lot of work left to do to increase test coverage, and some features still need troubleshooting.  If you need assistance then feel free to open a PR and we'll support!
 
-<a id="linting"></a>
+### End to End Testing
+
+#### Local E2E
+
+In order to test locally, you first need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).
+
+To run the end to end tests locally, please run the following commands:
+
+```bash
+docker-compose --env-file .env.dev up backend db # run backend and db in docker
+```
+
+Then in a second shell:
+
+```bash
+node .output/server/index.mjs  # start the build frontend
+```
+
+Then in a third shell:
+
+```bash
+yarn test:local
+```
+
+#### Remote E2E
+
+To run the tests on the repository, first create a branch from the remote branch that you want to test against. This can be done with the following command:
+
+```bash
+git push upstream <local-branch-name>:<remote-branch-name-of-your-choice>
+```
+
+You can then navigate to the [actions of the repository](https://github.com/activist-org/activist/actions) and trigger [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml) for the remote branch that you just created.
+
+<a id="linting-"></a>
 
 ## Linting [`⇧`](#contents)
 
@@ -424,13 +474,13 @@ To make the above steps easier, the activist team asks that contributors report 
 
 Again, thank you for your time in reporting issues!
 
-<a name="feature-requests"></a>
+<a name="feature-requests-"></a>
 
 ## Feature requests [`⇧`](#contents)
 
 Feature requests are more than welcome! Please take a moment to find out whether your idea fits with the scope and aims of the project. When making a suggestion, provide as much detail and context as possible, and further make clear the degree to which you would like to contribute in its development. Feature requests are marked with the [`feature`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Afeature) label in the [issues](https://github.com/activist-org/activist/issues).
 
-<a name="pull-requests"></a>
+<a name="pull-requests-"></a>
 
 ## Pull requests [`⇧`](#contents)
 
@@ -467,6 +517,13 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
 > pip install pre-commit
 > ```
 
+> [!NOTE]
+> If you are having issues with pre-commit and want to send along your changes regardless, you can ignore the pre-commit hooks via the following:
+>
+> ```bash
+> git commit --no-verify -m "COMMIT_MESSAGE"
+> ```
+
 4. Commit your changes in logical chunks, and please try to adhere to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
 > [!NOTE]
@@ -491,7 +548,7 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
 
 Thank you in advance for your contributions!
 
-<a id="localization"></a>
+<a id="localization-"></a>
 
 ## Localization [`⇧`](#contents)
 
@@ -501,13 +558,27 @@ Localization for activist happens on our [public localization project on Weblate
 
 To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](STYLEGUIDE.md) for more information on how to create new localization keys.
 
-<a id="documentation"></a>
+> [!IMPORTANT]
+> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid/not existing across the codebase, then please add the following file at `frontend/types/vue-i18n.d.ts`:
+>
+> ```ts
+> // frontend/types/vue-i18n.d.ts
+> // Attn: Fixes Property '$t' does not exist on type ... errors.
+> // Note: This file is git ignored, but can be used as a local fix for excessive TypeScript errors.
+> declare module "vue" {
+>   interface ComponentCustomProperties {
+>     $t: (key: string) => string;
+>   }
+> }
+> ```
+
+<a id="documentation-"></a>
 
 ## Documentation [`⇧`](#contents)
 
 Documentation is an invaluable way to contribute to coding projects as it allows others to more easily understand the project structure and contribute. Issues related to documentation are marked with the [`documentation`](https://github.com/activist-org/activist/labels/documentation) label in the [issues](https://github.com/activist-org/activist/issues).
 
-<a id="accessibility"></a>
+<a id="accessibility-"></a>
 
 ## Accessibility [`⇧`](#contents)
 
@@ -538,7 +609,7 @@ Tab focusing sadly doesn't work out of the box for many browsers. Chrome works g
 
 Once the above steps are finished you should be able to use tab to navigate web pages :)
 
-<a id="design"></a>
+<a id="design-"></a>
 
 ## Design [`⇧`](#contents)
 
@@ -549,3 +620,19 @@ Designs for activist are done in the [public design file in Figma](https://www.f
 Note that the linked Figma file above is the [public facing designs](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in improving them or contributing designs for new features are invited to contact the team on GitHub or [Matrix](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global). We'd love to see a sample of your work, and if everything looks good we'll schedule a time to get connected!
 
 All branding elements such as logos, icons, colors and fonts should follow those that are set out in [activist-org/Organization](https://github.com/activist-org/Organization). As the project is fully open source, these elements are also open for discussion. Your efforts in making activist products professional with a distinct and cohesive identity are much appreciated.
+
+<a id="troubleshooting-"></a>
+
+## Troubleshooting [`⇧`](#contents)
+
+### Nuxt Auto Import Errors
+
+Nuxt uses auto imports to make frontend development more seamless, but at times these imports malfunction. For the `Property 'PROPERTY_NAME' does not exist on type...` errors, this is caused both by having an out of sync `yarn.lock` file and having Nuxt improperly installed.
+
+Things to check are:
+
+1. Replace `yarn.lock` file with the one in main
+2. Run `yarn cache clean` (this clears the yarn cache system wide and takes a long time)
+3. Delete the `node_modules` folder
+4. Load environment variables into your shell with `set -a && source ../.env.dev && set +a`
+5. Rerun `yarn install`
