@@ -108,7 +108,7 @@ if (
   pageType = "organization";
   await organizationStore.fetchById(id);
   organization = organizationStore.organization;
-}else if (groupRegex.test(url)) {
+} else if (groupRegex.test(url)) {
   pageType = "group";
   await groupStore.fetchById(idGroup);
   group = groupStore.group;
