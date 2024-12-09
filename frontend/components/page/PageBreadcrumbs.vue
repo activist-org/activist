@@ -108,17 +108,11 @@ if (
   pageType = "organization";
   await organizationStore.fetchById(id);
   organization = organizationStore.organization;
-} else if (url.includes("/organizations/") && url.includes("/groups/")) {
+}else if (groupRegex.test(url)) {
   pageType = "group";
   await groupStore.fetchById(idGroup);
   group = groupStore.group;
-} else if (
-  url.includes("/events/") &&
-  !url.includes("/organizations/") &&
-  !url.includes("/groups/") &&
-  !url.includes("/events/create") &&
-  !url.includes("/events/search")
-) {
+} else if (eventRegex.test(url)) {
   pageType = "event";
   await eventStore.fetchById(id);
   event = eventStore.event;
