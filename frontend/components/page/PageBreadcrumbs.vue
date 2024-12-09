@@ -98,12 +98,7 @@ let group: Group;
 let event: Event;
 const organizationRegex = /^\/organizations\/[0-9a-fA-F-]+(\/about)?$/;
 
-if (
-  url.includes("/organizations/") &&
-  !url.includes("/groups/") &&
-  !url.includes("/organizations/create") &&
-  !url.includes("/organizations/search")
-) {
+if (organizationRegex.test(url)) {
   pageType = "organization";
   await organizationStore.fetchById(id);
   organization = organizationStore.organization;
