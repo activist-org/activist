@@ -96,6 +96,7 @@ const eventStore = useEventStore();
 let organization: Organization;
 let group: Group;
 let event: Event;
+const organizationRegex = /^\/organizations\/[0-9a-fA-F-]+(\/about)?$/;
 
 if (
   url.includes("/organizations/") &&
