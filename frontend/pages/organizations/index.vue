@@ -28,34 +28,34 @@
 </template>
 
 <script setup lang="ts">
-const filterSections = ref([
-  {
-    title: "Popular tags",
-    tags: [
-      { id: 1, name: "Framework", selected: false },
-      { id: 2, name: "Library", selected: false },
-      { id: 3, name: "Tool", selected: false },
-    ],
-  },
-]);
-
-const tabs = ref([
-  { id: "active", name: "Active" },
-  { id: "new", name: "New" },
-  { id: "private", name: "Private" },
-]);
-
-const handleFilterChange = (filters: {
-  search: string;
-  activeTab: string;
-  selectedTags: number[];
-}) => {
-  console.log("Filters changed:", filters);
-  // You can implement the filtering logic here later
-};
-
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchAll();
 
 const { organizations } = organizationStore;
+
+// const filterSections = ref([
+//   {
+//     title: "Popular tags",
+//     tags: [
+//       { id: 1, name: "Framework", selected: false },
+//       { id: 2, name: "Library", selected: false },
+//       { id: 3, name: "Tool", selected: false },
+//     ],
+//   },
+// ]);
+
+// const tabs = ref([
+//   { id: "active", name: "Active" },
+//   { id: "new", name: "New" },
+//   { id: "private", name: "Private" },
+// ]);
+
+// const handleFilterChange = (filters: {
+//   search: string;
+//   activeTab: string;
+//   selectedTags: number[];
+// }) => {
+//   console.log("Filters changed:", filters);
+//   // You can implement the filtering logic here later
+// };
 </script>
