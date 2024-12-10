@@ -119,7 +119,6 @@ if (
   event = eventStore.event;
 }
 
-
 const breadcrumbs = ref<string[]>([]);
 
 function setBreadcrumbs() {
