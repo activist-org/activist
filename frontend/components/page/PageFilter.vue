@@ -104,6 +104,7 @@
             />
           </span>
         </h3>
+        <!-- <GridFilterTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" /> -->
         <div class="flex flex-wrap gap-2">
           <BtnTag
             v-for="tag in section.tags"
@@ -123,8 +124,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { ref } from "vue";
 import { IconMap } from "~/types/icon-map";
 
 interface Tag {

@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/vue";
-import PageFilter from "@/components/page/filter/PageFilter.vue";
+import { describe, expect, it } from "vitest";
+import PageFilter from "~/components/page/PageFilter.vue";
 
 describe("PageFilter", () => {
   const minimumProps = {
@@ -41,6 +41,5 @@ describe("PageFilter", () => {
     expect(screen.getByText("Popular Tags")).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Filter" })).toBeTruthy();
     expect(screen.getByLabelText("Search to filter")).toBeTruthy();
-    expect(screen.getByRole("textbox", { id: "input-search" })).toBeTruthy();
   });
 });

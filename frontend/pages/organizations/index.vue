@@ -11,13 +11,13 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <div class="mb-8">
+    <!-- <div class="mb-8">
       <PageFilter
         @filter-change="handleFilterChange"
         :sections="filterSections"
         :tabs="tabs"
       />
-    </div>
+    </div> -->
     <div v-if="organizations.length > 0">
       <div v-for="org in organizations" class="space-y-6 pb-6 pt-3 md:pt-4">
         <CardSearchResultOrganization :isPrivate="false" :organization="org" />
