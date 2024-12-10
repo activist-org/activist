@@ -198,7 +198,7 @@
   "components.empty_state.team_header": "Keine Teammitglieder gefunden",
   "components.feed_item.img_alt_text": "Ein Bild für eine Gruppe dieser Organisation.",
   "components.footer.flex._global.activist_tagline": "Ein open-Source-Plattform für Aktivismus.",
-  "components.footer.flex._global.copyright": "Copyright © {Jahr} Aktivist.",
+  "components.footer.flex._global.copyright": "Copyright © {year} Aktivist. Lizenziert unter <a href='https://www.gnu.org/licenses/agpl-3.0.html' target='_blank' rel='noopener noreferrer'>AGPL</a> und <a href='https://creativecommons.org/licenses/by-sa/4.0/' target='_blank' rel='noopener noreferrer'>CC BY-SA 4.0</a>.",
   "components.footer.flex._global.powered_by_netlify": "Diese Website wird von Netlify betrieben.",
   "components.footer_website.imprint": "Impression",
   "components.footer_website.privacy_policy": "Datenschutzerklärung",
