@@ -190,7 +190,7 @@ onMounted(() => {
                 ],
                 tileSize: 256,
                 attribution:
-                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> {{ $t('components.media_map_hosted_by')}} <a href="https://openstreetmap.fr" target="_blank">OSM France</a>',
+                  '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a> ${components.media_map_hosted_by} <a href="https://openstreetmap.fr" target="_blank">OSM France</a>',
               },
             },
             layers: [
