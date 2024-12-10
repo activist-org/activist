@@ -73,6 +73,9 @@ export default defineNuxtConfig({
       useCookie: false,
       redirectOn: "root",
     },
+    precompile: {
+      strictMessage: false,
+    },
   },
   components: [
     {
