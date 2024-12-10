@@ -96,6 +96,7 @@ const eventStore = useEventStore();
 let organization: Organization;
 let group: Group;
 let event: Event;
+
 const groupRegex = /^\/organizations\/[0-9a-fA-F-]+\/groups\/[0-9a-fA-F-]+(\/about)?$/;
 const eventRegex = /^\/events\/[0-9a-fA-F-]+(\/about)?$/;
 
