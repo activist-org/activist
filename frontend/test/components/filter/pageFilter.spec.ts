@@ -24,7 +24,7 @@ describe("PageFilter", () => {
 
   it("should render", () => {
     // Basic render test with minimum required props
-    const { container } = render(PageFilter, {
+    render(PageFilter, {
       props: minimumProps,
       global: {
         provide: {
