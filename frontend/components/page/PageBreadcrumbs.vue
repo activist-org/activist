@@ -112,12 +112,26 @@ if (
   organization = organizationStore.organization;
 } else if (groupRegex.test(url)) {
   pageType = "group";
-  await groupStore.fetchById(idGroup);
-  group = groupStore.group;
+
+  // Extract group ID from the URL using match groups
+  const match = url.match(groupRegex);
+  const groupId = match ? match[4] : null;
+
+  if (groupId) {
+    await groupStore.fetchById(groupId);
+    group = groupStore.group;
+  }
 } else if (eventRegex.test(url)) {
   pageType = "event";
-  await eventStore.fetchById(id);
-  event = eventStore.event;
+
+  // Extract event ID from the URL using match groups
+  const match = url.match(eventRegex);
+  const eventId = match ? match[3] : null;
+
+  if (eventId) {
+    await eventStore.fetchById(eventId);
+    event = eventStore.event;
+  }
 }
 
 const breadcrumbs = ref<string[]>([]);
