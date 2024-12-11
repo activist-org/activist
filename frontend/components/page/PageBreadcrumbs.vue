@@ -100,7 +100,6 @@ let event: Event;
 const groupRegex = /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-fA-F-]+\/groups\/([0-9a-fA-F-]+)(\/about)?$/;
 const eventRegex = /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/events\/([0-9a-fA-F-]+)(\/about)?$/;
 
-
 if (
   url.includes("/organizations/") &&
   !url.includes("/groups/") &&
