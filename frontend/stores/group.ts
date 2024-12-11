@@ -100,6 +100,7 @@ export const useGroupStore = defineStore("group", {
 
       if (status.value === "success") {
         const group = data.value!;
+
         this.group.id = group.id;
         this.group.name = group.name;
         this.group.tagline = group.tagline;

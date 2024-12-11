@@ -96,13 +96,11 @@ const eventStore = useEventStore();
 let organization: Organization;
 let group: Group;
 let event: Event;
-const organizationRegex = /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-fA-F-]+(\/about)?$/;
+const organizationRegex =
+  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-fA-F-]+(\/about)?$/;
 
 if (organizationRegex.test(url)) {
   pageType = "organization";
-  // Extract the UUID from the URL using regex
-  const match = url.match(organizationRegex);
-  const uuid = match ? match[3] : null; // Adjust group index as needed
   await organizationStore.fetchById(id);
   organization = organizationStore.organization;
 } else if (url.includes("/organizations/") && url.includes("/groups/")) {

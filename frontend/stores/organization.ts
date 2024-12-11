@@ -101,6 +101,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (status.value === "success") {
         const organization = data.value!;
+
         this.organization.id = organization.id;
         this.organization.orgName = organization.orgName;
         this.organization.name = organization.name;
