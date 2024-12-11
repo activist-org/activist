@@ -102,6 +102,7 @@ if (organizationRegex.test(url)) {
   pageType = "organization";
   // Extract the UUID from the URL using regex
   const match = url.match(organizationRegex);
+  const uuid = match ? match[3] : null; // Adjust group index as needed
   await organizationStore.fetchById(id);
   organization = organizationStore.organization;
 } else if (url.includes("/organizations/") && url.includes("/groups/")) {
