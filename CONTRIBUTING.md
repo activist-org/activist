@@ -636,3 +636,7 @@ Things to check are:
 3. Delete the `node_modules` folder
 4. Load environment variables into your shell with `set -a && source ../.env.dev && set +a`
 5. Rerun `yarn install`
+6. Restart your IDE to assure that changes are picked up
+
+> [!NOTE]
+> Also make sure that the dependencies have been installed within the appropriate directory (`/backend` and `/frontend`).
