@@ -2,8 +2,6 @@ import type {
   Event,
   EventCreateFormData,
   EventUpdateTextFormData,
-  PiniaResEvent,
-  PiniaResEvents,
 } from "~/types/events/event";
 
 interface EventStore {
@@ -101,24 +99,24 @@ export const useEventStore = defineStore("event", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const resEvent = (await useAsyncData(
-        async () => await fetchWithoutToken(`/events/events/${id}`, {})
-      ).data) as unknown as PiniaResEvent;
+      const { data, status } = await useAsyncData<Event>(
+        async () =>
+          (await fetchWithoutToken(`/events/events/${id}/`, {})) as Event
+      );
 
-      const event = resEvent._value;
+      if (status.value === "success") {
+        const event = data.value!;
 
-      this.event.id = event.id;
-      this.event.name = event.name;
-      this.event.tagline = event.tagline;
-      this.event.iconUrl = event.iconUrl;
-
-      this.event.offlineLocation = event.offlineLocation;
-
-      this.event.getInvolvedUrl = event.getInvolvedUrl;
-      this.event.socialLinks = event.socialLinks;
-
-      this.event.eventTextId = event.texts.eventId;
-      this.event.texts = event.texts;
+        this.event.id = event.id;
+        this.event.name = event.name;
+        this.event.tagline = event.tagline;
+        this.event.iconUrl = event.iconUrl;
+        this.event.offlineLocation = event.offlineLocation;
+        this.event.getInvolvedUrl = event.getInvolvedUrl;
+        this.event.socialLinks = event.socialLinks;
+        this.event.eventTextId = event.texts.eventId;
+        this.event.texts = event.texts;
+      }
 
       this.loading = false;
     },
@@ -128,14 +126,12 @@ export const useEventStore = defineStore("event", {
     async fetchAll() {
       this.loading = true;
 
-      const responseEvents = await useAsyncData(
-        async () => await fetchWithoutToken(`/events/events/`, {})
+      const { data, status } = await useAsyncData<Event[]>(
+        async () => (await fetchWithoutToken(`/events/events/`, {})) as Event[]
       );
 
-      const allEvents = responseEvents.data as unknown as PiniaResEvents;
-
-      if (allEvents._value) {
-        const events = allEvents._value.map((event: Event) => {
+      if (status.value === "success") {
+        const events = data.value!.map((event: Event) => {
           return {
             id: event.id,
             name: event.name,

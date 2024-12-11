@@ -35,8 +35,7 @@ const feedItemNames = computed<string[]>(() => {
 const feedItemUrls = computed<string[]>(() => {
   if (organization && organization.groups) {
     return organization.groups.map(
-      (group: Group) =>
-        `/organizations/${group.organization.id}/groups/${group.id}`
+      (group: Group) => `/organizations/${organization.id}/groups/${group.id}`
     );
   } else {
     return [""];

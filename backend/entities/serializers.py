@@ -88,6 +88,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     location = LocationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
+    groups = GroupSerializer(many=True, read_only=True)
 
     class Meta:
         model = Organization
