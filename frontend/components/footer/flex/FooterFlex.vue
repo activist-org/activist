@@ -50,7 +50,13 @@
       >
         {{ $t("components.footer.flex._global.powered_by_netlify") }}
       </a>
-      <div class="mt-2 text-primary-text" v-html="$t('components.footer.flex._global.copyright', { year: new Date().getFullYear(), })"></div>
+      <div class="mt-2 text-primary-text">
+        {{
+          $t("components.footer.flex._global.copyright", {
+            year: new Date().getFullYear(),
+          })
+        }}
+      </div>
     </div>
     <!-- Note: Content Sections Right -->
     <div
