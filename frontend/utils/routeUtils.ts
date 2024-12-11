@@ -1,11 +1,13 @@
-export function isRouteActive(routePath: string): boolean {
-  const route = useRoute();
+
 /**
  * Normalize a given path by removing leading and trailing slashes.
  */
 function normalizePath(path: string): string {
   return path.replace(/^\/|\/$/g, '');
 }
+
+export function isRouteActive(routePath: string): boolean {
+  const route = useRoute();
 
   const currentPath = normalizePath(route.path);
   const targetPath = normalizePath(routePath);
