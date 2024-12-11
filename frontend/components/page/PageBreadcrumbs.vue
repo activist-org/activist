@@ -96,7 +96,7 @@ const eventStore = useEventStore();
 let organization: Organization;
 let group: Group;
 let event: Event;
-const organizationRegex = /^\/organizations\/[0-9a-fA-F-]+(\/about)?$/;
+const organizationRegex = /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-fA-F-]+(\/about)?$/;
 
 if (organizationRegex.test(url)) {
   pageType = "organization";
