@@ -97,8 +97,9 @@ let organization: Organization;
 let group: Group;
 let event: Event;
 
-const groupRegex = /^\/organizations\/[0-9a-fA-F-]+\/groups\/[0-9a-fA-F-]+(\/about)?$/;
-const eventRegex = /^\/events\/[0-9a-fA-F-]+(\/about)?$/;
+const groupRegex = /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-fA-F-]+\/groups\/([0-9a-fA-F-]+)(\/about)?$/;
+const eventRegex = /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/events\/([0-9a-fA-F-]+)(\/about)?$/;
+
 
 if (
   url.includes("/organizations/") &&
