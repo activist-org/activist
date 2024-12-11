@@ -53,7 +53,9 @@ class Organization(models.Model):
 
 class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    org_id = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="groups"
+    )
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
