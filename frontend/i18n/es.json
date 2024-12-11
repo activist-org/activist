@@ -202,7 +202,7 @@
   "components.empty_state.team_header": "No se encontraron miembros del equipo",
   "components.feed_item.img_alt_text": "Una imagen para un grupo de esta organización.",
   "components.footer.flex._global.activist_tagline": "Una plataforma de activismo de código abierto.",
-  "components.footer.flex._global.copyright": "Derechos de autor © {año} activist.",
+  "components.footer.flex._global.copyright": "Derechos de autor © {year} activist.",
   "components.footer.flex._global.powered_by_netlify": "Este sitio está desarrollado con Netlify.",
   "components.footer_website.imprint": "Imprimir",
   "components.footer_website.privacy_policy": "Política de privacidad",
