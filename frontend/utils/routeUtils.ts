@@ -4,6 +4,14 @@ export function isRouteActive(routePath: string): boolean {
   return route.path.split("/")[1] === routePath.substring(1, routePath.length);
 }
 
+/**
+ * Helper: Removes locale prefixes from route names that follow the pattern
+ * "locale___restOfTheRoute". For ex. "en___organizations" -> "organizations".
+ */
+function removeLocaleFromRouteName(routeName: string): string {
+  return routeName;
+}
+
 export function isCurrentRoutePathSubpageOf(path: string, routeName: string) {
   // The first split is to remove the localization path.
   const segments = routeName.split("___")[0].split(path + "-");
