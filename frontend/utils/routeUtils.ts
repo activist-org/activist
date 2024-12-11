@@ -24,9 +24,7 @@ export function isCurrentRoutePathSubpageOf(path: string, routeName: string) {
   return subpage !== "search" && subpage !== "create" && subpage.length > 0;
 }
 
-export function currentRoutePathIncludes(
-  path: string,
-  routeName: string
-): boolean {
-  return routeName.includes(path);
+export function currentRoutePathIncludes(path: string, routeName: string): boolean {
+  const baseName = removeLocaleFromRouteName(routeName);
+  return baseName.includes(path);
 }
