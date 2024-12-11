@@ -1,7 +1,22 @@
 export function isRouteActive(routePath: string): boolean {
   const route = useRoute();
-  // TODO: Needs to account for prefixed routes as well.
-  return route.path.split("/")[1] === routePath.substring(1, routePath.length);
+
+  // Helper function to remove leading and trailing slashes
+  const normalizePath = (path: string) => path.replace(/^\/|\/$/g, '');
+
+  const currentPath = normalizePath(route.path);
+  const targetPath = normalizePath(routePath);
+
+  // Handle prefixed routes by ignoring the base path
+  // Split paths into segments and compare relative paths
+  const currentSegments = currentPath.split('/');
+  const targetSegments = targetPath.split('/');
+
+  // Check if the target segments match the corresponding end of current segments
+  return targetSegments.every(
+    (segment, index) =>
+      currentSegments[currentSegments.length - targetSegments.length + index] === segment
+  );
 }
 
 export function isCurrentRoutePathSubpageOf(path: string, routeName: string) {
