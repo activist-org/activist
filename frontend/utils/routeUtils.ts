@@ -47,6 +47,25 @@ export function isRouteActive(routePath: string): boolean {
   );
 }
 
+export function isTopLevelRouteActive(routePath: string): boolean {
+  const route = useRoute();
+
+  const currentPath = normalizePath(route.path);
+  const targetPath = normalizePath(routePath);
+
+  let currentSegments = currentPath.split("/");
+  let targetSegments = targetPath.split("/");
+
+  // Remove locale segments from both current and target paths.
+  currentSegments = removeLocaleSegment(currentSegments);
+  targetSegments = removeLocaleSegment(targetSegments);
+
+  console.log(`currentSegments: ${currentSegments}`);
+  console.log(`targetSegments: ${targetSegments}`);
+
+  return currentSegments[0] === targetSegments[0];
+}
+
 export function isCurrentRoutePathSubpageOf(path: string, routeName: string) {
   // The first split is to remove the localization path.
   const segments = routeName.split("___")[0].split(path + "-");

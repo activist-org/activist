@@ -3,10 +3,7 @@
     v-if="feedItemUrls && feedItemNames"
     class="mt-3 flex items-center justify-start space-x-3"
   >
-    <div
-      v-for="(url, index) in feedItemUrls.slice(0, numberOfFeedItems)"
-      class="w-full"
-    >
+    <div v-for="(url, index) in feedItemUrls" class="w-full">
       <FeedItem :name="feedItemNames[index]" :url="url" />
     </div>
   </div>

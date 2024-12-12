@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 const isActive = (routeUrl: string) => {
-  return isRouteActive(routeUrl);
+  return isTopLevelRouteActive(routeUrl);
 };
 
 const getSelectorId = (label: string) => {

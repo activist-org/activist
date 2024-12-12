@@ -84,10 +84,10 @@ const { locales } = useI18n();
 const localePath = useLocalePath();
 
 const paramsId = useRoute().params.id;
-const paramsIdGroup = useRoute().params.groupId;
+const paramsGroupId = useRoute().params.groupid;
 
 const id = typeof paramsId === "string" ? paramsId : undefined;
-const idGroup = typeof paramsIdGroup === "string" ? paramsIdGroup : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -96,35 +96,29 @@ const eventStore = useEventStore();
 let organization: Organization;
 let group: Group;
 let event: Event;
+
 const organizationRegex =
   /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-fA-F-]+(\/about)?$/;
-const groupRegex = 
+const groupRegex =
   /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-fA-F-]+\/groups\/([0-9a-fA-F-]+)(\/about)?$/;
-const eventRegex = 
+const eventRegex =
   /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/events\/([0-9a-fA-F-]+)(\/about)?$/;
 
 if (organizationRegex.test(url)) {
   pageType = "organization";
+
   await organizationStore.fetchById(id);
   organization = organizationStore.organization;
 } else if (groupRegex.test(url)) {
   pageType = "group";
-  const match = url.match(groupRegex);
-  const groupId = match ? match[4] : null;
 
-  if (groupId) {
-    await groupStore.fetchById(groupId);
-    group = groupStore.group;
-  }
+  await groupStore.fetchById(groupId);
+  group = groupStore.group;
 } else if (eventRegex.test(url)) {
   pageType = "event";
-  const match = url.match(eventRegex);
-  const eventId = match ? match[3] : null;
 
-  if (eventId) {
-    await eventStore.fetchById(eventId);
-    event = eventStore.event;
-  }
+  await eventStore.fetchById(id);
+  event = eventStore.event;
 }
 
 const breadcrumbs = ref<string[]>([]);
