@@ -21,7 +21,7 @@ export function isCurrentRoutePathSubpageOf(path: string, routeName: string) {
   const baseName = removeLocaleFromRouteName(routeName);
 
   // The first split is to remove the localization path.
-  const segments = routeName.split("___")[0].split(path + "-");
+  const segments = baseName.split(`${path}-`);
   const subpage = segments.length > 1 ? segments[1] : "";
 
   // Check that this subpage is valid and not one of the excluded routes
