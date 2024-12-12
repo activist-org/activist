@@ -7,8 +7,6 @@ import pytest
 
 from .factories import (
     OrganizationFactory,
-    OrganizationApplicationFactory,
-    # OrganizationApplicationStatusFactory,
     OrganizationEventFactory,
     OrganizationMemberFactory,
     OrganizationResourceFactory,
@@ -25,6 +23,7 @@ pytestmark = pytest.mark.django_db
 
 
 def test_str_methods() -> None:
+    """Test the __str__ methods of the entities."""
     organization = OrganizationFactory.create()
     # Note: Needs to be updated to reflect the recent changes.
     # organization_application = OrganizationApplicationFactory.create()
