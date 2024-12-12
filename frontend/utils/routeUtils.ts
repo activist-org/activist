@@ -9,7 +9,7 @@ export function isRouteActive(routePath: string): boolean {
  * "locale___restOfTheRoute". For ex. "en___organizations" -> "organizations".
  */
 function removeLocaleFromRouteName(routeName: string): string {
-  const LOCALES = ['en', 'fr', 'de'];
+  const LOCALES = ['en', 'fr', 'de', 'es'];
   const parts = routeName.split('___');
   if (parts.length > 1 && LOCALES.includes(parts[0])) {
     return parts.slice(1).join('___');
