@@ -2,8 +2,6 @@ import type {
   Group,
   GroupCreateFormData,
   GroupUpdateTextFormData,
-  PiniaResGroup,
-  PiniaResGroups,
 } from "~/types/entities/group";
 
 interface GroupStore {
@@ -95,26 +93,27 @@ export const useGroupStore = defineStore("group", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const groupRes = (
-        await useAsyncData(
-          async () => await fetchWithoutToken(`/entities/groups/${id}`, {})
-        )
-      ).data as unknown as PiniaResGroup;
+      const { data, status } = await useAsyncData<Group>(
+        async () =>
+          (await fetchWithoutToken(`/entities/groups/${id}/`, {})) as Group
+      );
 
-      const group = groupRes._value;
+      if (status.value === "success") {
+        const group = data.value!;
 
-      this.group.id = group.id;
-      this.group.name = group.name;
-      this.group.tagline = group.tagline;
-      this.group.organization = group.organization;
+        this.group.id = group.id;
+        this.group.name = group.name;
+        this.group.tagline = group.tagline;
+        this.group.organization = group.organization;
 
-      this.group.location = group.location;
+        this.group.location = group.location;
 
-      this.group.getInvolvedUrl = group.getInvolvedUrl;
-      this.group.socialLinks = group.socialLinks;
+        this.group.getInvolvedUrl = group.getInvolvedUrl;
+        this.group.socialLinks = group.socialLinks;
 
-      this.group.groupTextId = group.texts.groupId;
-      this.group.texts = group.texts;
+        this.group.groupTextId = group.texts.groupId;
+        this.group.texts = group.texts;
+      }
 
       this.loading = false;
     },
@@ -124,14 +123,13 @@ export const useGroupStore = defineStore("group", {
     async fetchAll() {
       this.loading = true;
 
-      const responseGroups = await useAsyncData(
-        async () => await fetchWithoutToken(`/entities/groups/`, {})
+      const { data, status } = await useAsyncData<Group[]>(
+        async () =>
+          (await fetchWithoutToken(`/entities/groups/`, {})) as Group[]
       );
 
-      const allGroups = responseGroups.data as unknown as PiniaResGroups;
-
-      if (allGroups._value) {
-        const groups = allGroups._value.map((group: Group) => {
+      if (status.value === "success") {
+        const groups = data.value!.map((group: Group) => {
           return {
             id: group.id,
             groupName: group.groupName,

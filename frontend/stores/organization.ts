@@ -2,8 +2,6 @@ import type {
   Organization,
   OrganizationCreateFormData,
   OrganizationUpdateTextFormData,
-  PiniaResOrganization,
-  PiniaResOrganizations,
 } from "~/types/entities/organization";
 
 interface OrganizationStore {
@@ -93,28 +91,34 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const responseOrg = (await useAsyncData(
-        async () => await fetchWithoutToken(`/entities/organizations/${id}`, {})
-      ).data) as unknown as PiniaResOrganization;
+      const { data, status } = await useAsyncData<Organization>(
+        async () =>
+          (await fetchWithoutToken(
+            `/entities/organizations/${id}/`,
+            {}
+          )) as Organization
+      );
 
-      const organization = responseOrg._value;
+      if (status.value === "success") {
+        const organization = data.value!;
 
-      this.organization.id = organization.id;
-      this.organization.orgName = organization.orgName;
-      this.organization.name = organization.name;
-      this.organization.tagline = organization.tagline;
-      this.organization.iconUrl = organization.iconUrl;
+        this.organization.id = organization.id;
+        this.organization.orgName = organization.orgName;
+        this.organization.name = organization.name;
+        this.organization.tagline = organization.tagline;
+        this.organization.iconUrl = organization.iconUrl;
 
-      this.organization.location = organization.location;
+        this.organization.location = organization.location;
 
-      this.organization.getInvolvedUrl = organization.getInvolvedUrl;
-      this.organization.socialLinks = organization.socialLinks;
-      this.organization.status = organization.status;
+        this.organization.getInvolvedUrl = organization.getInvolvedUrl;
+        this.organization.socialLinks = organization.socialLinks;
+        this.organization.status = organization.status;
 
-      this.organization.organizationTextId = organization.texts.orgId;
-      this.organization.texts = organization.texts;
+        this.organization.organizationTextId = organization.texts.orgId;
+        this.organization.texts = organization.texts;
 
-      this.organization.groups = organization.groups;
+        this.organization.groups = organization.groups;
+      }
 
       this.loading = false;
     },
@@ -124,14 +128,16 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchAll() {
       this.loading = true;
 
-      const responseOrgs = await useAsyncData(
-        async () => await fetchWithoutToken(`/entities/organizations/`, {})
+      const { data, status } = await useAsyncData<Organization[]>(
+        async () =>
+          (await fetchWithoutToken(
+            `/entities/organizations/`,
+            {}
+          )) as Organization[]
       );
 
-      const orgs = responseOrgs.data as unknown as PiniaResOrganizations;
-
-      if (orgs._value) {
-        const organizations = orgs._value.map((org: Organization) => {
+      if (status.value === "success") {
+        const organizations = data.value!.map((org: Organization) => {
           return {
             id: org.id,
             orgName: org.orgName,

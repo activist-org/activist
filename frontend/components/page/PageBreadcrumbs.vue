@@ -84,10 +84,10 @@ const { locales } = useI18n();
 const localePath = useLocalePath();
 
 const paramsId = useRoute().params.id;
-const paramsIdGroup = useRoute().params.groupId;
+const paramsGroupId = useRoute().params.groupid;
 
 const id = typeof paramsId === "string" ? paramsId : undefined;
-const idGroup = typeof paramsIdGroup === "string" ? paramsIdGroup : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -97,27 +97,26 @@ let organization: Organization;
 let group: Group;
 let event: Event;
 
-if (
-  url.includes("/organizations/") &&
-  !url.includes("/groups/") &&
-  !url.includes("/organizations/create") &&
-  !url.includes("/organizations/search")
-) {
+const organizationRegex =
+  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-fA-F-]+(\/about)?$/;
+const groupRegex =
+  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-fA-F-]+\/groups\/([0-9a-fA-F-]+)(\/about)?$/;
+const eventRegex =
+  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/events\/([0-9a-fA-F-]+)(\/about)?$/;
+
+if (organizationRegex.test(url)) {
   pageType = "organization";
+
   await organizationStore.fetchById(id);
   organization = organizationStore.organization;
-} else if (url.includes("/organizations/") && url.includes("/groups/")) {
+} else if (groupRegex.test(url)) {
   pageType = "group";
-  await groupStore.fetchById(idGroup);
+
+  await groupStore.fetchById(groupId);
   group = groupStore.group;
-} else if (
-  url.includes("/events/") &&
-  !url.includes("/organizations/") &&
-  !url.includes("/groups/") &&
-  !url.includes("/events/create") &&
-  !url.includes("/events/search")
-) {
+} else if (eventRegex.test(url)) {
   pageType = "event";
+
   await eventStore.fetchById(id);
   event = eventStore.event;
 }

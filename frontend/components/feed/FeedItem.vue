@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    :to="localePath(url)"
+    :to="localePath(item.url)"
     :aria-label="$t('components._global.navigate_to_group_aria_label')"
   >
     <div
