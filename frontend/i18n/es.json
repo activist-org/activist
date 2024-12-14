@@ -507,6 +507,7 @@
   "pages.organizations.groups.index.groups_lower": "grupos",
   "pages.organizations.groups.index.new_group_aria_label": "Crea un nuevo grupo",
   "pages.organizations.groups.index.tagline": "Nuestros grupos de trabajo",
+  "pages.organizations.index.header_title": "Inicio: Organizaciones",
   "pages.resources.create.create_resource": "Crear recurso",
   "types.topics.accessibility": "Accesibilidad",
   "types.topics.animal_rights": "Derechos de los animales",
