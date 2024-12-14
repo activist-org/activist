@@ -8,7 +8,7 @@
     <Head>
       <Title>{{ group.name }}</Title>
     </Head>
-    <HeaderAppPage :group="group">
+    <HeaderAppPage pageType="group">
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
           v-if="group.getInvolvedUrl"
@@ -85,21 +85,19 @@
 
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
-import type { Group } from "~/types/entities/group";
 import { IconMap } from "~/types/icon-map";
+import type { Group } from "~/types/entities/group";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 
 const aboveLargeBP = useBreakpoint("lg");
 
-const { id } = useRoute().params;
+const paramsGroupId = useRoute().params.groupid;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
-const [resOrg] = await Promise.all([
-  useAsyncData(
-    async () => await fetchWithoutToken(`/entities/groups/${id}`, {})
-  ),
-]);
+const groupStore = useGroupStore();
+await groupStore.fetchById(groupId);
 
-const group = resOrg.data as unknown as Group;
+const group: Group = groupStore.group;
 
 const groupSubPages = getGroupSubPages();
 

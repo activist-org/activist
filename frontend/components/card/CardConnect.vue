@@ -128,10 +128,10 @@ const props = defineProps<{
 // const { userIsSignedIn } = useUser();
 const userIsSignedIn = true;
 const paramsId = useRoute().params.id;
-const paramsIdGroup = useRoute().params.groupId;
+const paramsGroupId = useRoute().params.groupId;
 
 const id = typeof paramsId === "string" ? paramsId : undefined;
-const idGroup = typeof paramsIdGroup === "string" ? paramsIdGroup : undefined;
+const idGroup = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();

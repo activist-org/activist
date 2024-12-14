@@ -75,7 +75,7 @@ def path_to_valid_key(p):
     """
     Converts a path to a valid key with period separators and all words being snake case.
 
-    Note: [id] is removed in this step as it doesn't add anything to keys.
+    Note: [id] and [group_id] are removed in this step as it doesn't add anything to keys.
     """
     # Insert underscores between words, but only if the word is preceded by a lowercase letter and followed by an uppercase letter (i.e. except for abbreviations).
     valid_key = ""
@@ -101,6 +101,7 @@ def path_to_valid_key(p):
         .replace("._", ".")
         .replace("-", "_")
         .replace(".[id]", "")
+        .replace(".[group_id]", "")
     )
 
 
