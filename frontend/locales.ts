@@ -1,4 +1,20 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+export enum LOCALE_NAME {
+  ENGLISH = "English",
+  GERMAN = "Deutsch",
+  SPANISH = "Español",
+  FRENCH = "Français",
+  PORTUGUESE = "Português",
+}
+
+export enum LOCALE_CODE {
+  ENGLISH = "en",
+  GERMAN = "de",
+  SPANISH = "es",
+  FRENCH = "fr",
+  PORTUGUESE = "pt",
+}
+
 export interface Locale {
   code: string;
   language: string;
@@ -7,36 +23,36 @@ export interface Locale {
   isCatchallLocale?: boolean;
 }
 
-const locales: Locale[] = [
+export const locales: Locale[] = [
   {
-    code: "en",
+    code: LOCALE_CODE.ENGLISH,
     language: "en-US",
-    name: "English",
+    name: LOCALE_NAME.ENGLISH,
     file: "en-US.json",
     isCatchallLocale: true,
   },
   {
-    code: "de",
+    code: LOCALE_CODE.GERMAN,
     language: "de",
-    name: "Deutsch",
+    name: LOCALE_NAME.GERMAN,
     file: "de.json",
   },
   {
-    code: "es",
+    code: LOCALE_CODE.SPANISH,
     language: "es",
-    name: "Español",
+    name: LOCALE_NAME.SPANISH,
     file: "es.json",
   },
   {
-    code: "fr",
+    code: LOCALE_CODE.FRENCH,
     language: "fr",
-    name: "Français",
+    name: LOCALE_NAME.FRENCH,
     file: "fr.json",
   },
   {
-    code: "pt",
+    code: LOCALE_CODE.PORTUGUESE,
     language: "pt",
-    name: "Português",
+    name: LOCALE_NAME.PORTUGUESE,
     file: "pt.json",
   },
 ];
