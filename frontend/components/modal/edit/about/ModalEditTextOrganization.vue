@@ -1,9 +1,5 @@
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
@@ -17,7 +13,7 @@
       </div>
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
-          $t("components._global.participate")
+          $t("components._global.get_involved")
         }}</label>
         <textarea
           v-model="formData.getInvolved"
@@ -28,7 +24,7 @@
       <div class="flex flex-col space-y-3 text-primary-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
-            $t("components._global.offer_to_help_link")
+            $t("components.modal.edit._global.join_organization_link")
           }}</label>
           <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
@@ -50,44 +46,39 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  isOpen: boolean;
-}>();
+import { useModalHandlers } from "~/composables/useModalHandlers";
+import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
+
+const modalName = "ModalEditTextOrganization";
+const { handleCloseModal } = useModalHandlers(modalName);
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
-const eventStore = useEventStore();
-await eventStore.fetchById(id);
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchById(id);
 
-const { event } = eventStore;
+const { organization } = organizationStore;
 
-const formData = ref({
-  description: event.texts.description,
-  getInvolved: event.texts.getInvolved,
-  getInvolvedUrl: event.getInvolvedUrl,
+const formData = ref<OrganizationUpdateTextFormData>({
+  description: "",
+  getInvolved: "",
+  getInvolvedUrl: "",
+});
+
+onMounted(() => {
+  formData.value.description = organization.texts.description;
+  formData.value.getInvolved = organization.texts.getInvolved;
+  formData.value.getInvolvedUrl = organization.getInvolvedUrl;
 });
 
 async function handleSubmit() {
-  const response = await putWithToken(
-    `/events/event_texts/${event.id}/`,
-    formData
+  const response = await organizationStore.updateTexts(
+    organization,
+    formData.value
   );
-
   if (response) {
-    console.log("Success!");
+    handleCloseModal();
   }
 }
-
-const modals = useModals();
-const modalName = "ModalEditAboutEvent";
-let modalIsOpen = computed(() => props.isOpen);
-
-onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
-});
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-};
 </script>
