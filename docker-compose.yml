@@ -12,7 +12,13 @@ services:
       python manage.py loaddata fixtures/superuser.json &&
       python manage.py loaddata fixtures/status_types.json &&
       python manage.py loaddata fixtures/topics.json &&
-      python manage.py populate_db --users 10 --orgs-per-user 1 --groups-per-org 1 --events-per-org 1 &&
+      python manage.py populate_db \
+        --users 10 \
+        --orgs-per-user 1 \
+        --groups-per-org 1 \
+        --events-per-org 1 \
+        --resources-per-entity 1 \
+        --faq-entries-per-entity 1 &&
       python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"

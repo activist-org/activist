@@ -34,9 +34,9 @@
               }"
               :src="imageUrl"
               :alt="
-                $t('components.card_search_result.organization_img_alt_text') +
+                $t('components.card_search_result.group_img_alt_text') +
                 ' ' +
-                group.organization.name
+                group.name
               "
             />
             <div
@@ -180,11 +180,11 @@
           <div
             class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
           >
-            <MetaTagOrganization
+            <!-- <MetaTagOrganization
               v-for="(o, i) in organizations"
               :key="i"
               :organization="o"
-            />
+            /> -->
             <!-- <MetaTagMembers
               :members="members"
               label="components.card_search_result.members"
@@ -207,7 +207,11 @@
           <p v-if="group">@{{ group.groupName }}</p>
         </div>
         <p
-          class="line-clamp-4 justify-center md:line-clamp-4 md:justify-start md:px-0 md:py-0 lg:line-clamp-5"
+          class="justify-center md:justify-start md:px-0 md:py-0"
+          :class="{
+            'line-clamp-3': isReduced,
+            'line-clamp-4 lg:line-clamp-5': !isReduced,
+          }"
         >
           {{ description }}
         </p>
@@ -234,6 +238,8 @@ const props = defineProps<{
   isReduced?: boolean;
   isPrivate?: boolean;
 }>();
+
+console.log(`Props: ${JSON.stringify(props, null, 2)}`);
 
 const aboveMediumBP = useBreakpoint("md");
 
@@ -298,8 +304,8 @@ const eventType = computed<"action" | "learn">(() => {
 const imageUrl = computed<string>(() => {
   if (props.organization && props.organization.iconUrl) {
     return props.organization.iconUrl;
-  } else if (props.group && props.group.organization.iconUrl) {
-    return props.group.organization.iconUrl;
+  } else if (props.group && props.group.iconUrl) {
+    return props.group.iconUrl;
   } else if (props.event && props.event.iconUrl) {
     return props.event.iconUrl;
   } else if (props.user && props.user.iconUrl) {
@@ -359,17 +365,17 @@ const onlineLocation = computed<string>(() => {
   }
 });
 
-const organizations = computed<Organization[]>(() => {
-  if (props.group) {
-    return [props.group.organization];
-  } else if (props.event) {
-    return props.event.organizations;
-  } else if (props.resource) {
-    return [props.resource.organization];
-  } else {
-    return [];
-  }
-});
+// const organizations = computed<Organization[]>(() => {
+//   if (props.group) {
+//     return [props.group.organization];
+//   } else if (props.event) {
+//     return props.event.organizations;
+//   } else if (props.resource) {
+//     return [props.resource.organization];
+//   } else {
+//     return [];
+//   }
+// });
 
 // const stars = computed<number>(() => {
 //   if (props.resource && props.resource.starers) {

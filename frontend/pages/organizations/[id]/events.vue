@@ -13,7 +13,6 @@
         organization.name + ' ' + $t('pages.organizations._global.events_lower')
       "
       :tagline="$t('pages.organizations._global.events_tagline')"
-      :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
@@ -28,9 +27,9 @@
         />
       </div>
     </HeaderAppPage>
-    <div v-if="orgEvents.length > 0" class="space-y-3 py-4">
+    <div v-if="organization.events?.length > 0" class="space-y-3 py-4">
       <CardSearchResultEvent
-        v-for="(u, i) in orgEvents"
+        v-for="(u, i) in organization.events"
         :key="i"
         :isReduced="true"
         :event="u"
@@ -41,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 
 const idParam = useRoute().params.id;
@@ -51,6 +49,4 @@ const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
-
-const orgEvents: Event[] = [];
 </script>
