@@ -6,6 +6,7 @@ Usage:
 """
 
 import subprocess
+from pathlib import Path
 
 
 def run_check(script_name):
@@ -23,7 +24,9 @@ def run_check(script_name):
             An error that the given check script has failed.
     """
     try:
-        subprocess.run(["python", f"./frontend/i18n/check/{script_name}"], check=True)
+        subprocess.run(
+            ["python", Path("frontend") / "i18n" / "check" / script_name], check=True
+        )
         print(f"{script_name} ran successfully.")
 
     except subprocess.CalledProcessError as e:
