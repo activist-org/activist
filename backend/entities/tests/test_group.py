@@ -12,7 +12,10 @@ from faker import Faker
 
 from authentication.factories import UserFactory
 from content.models import Location
-from entities.factories import GroupFactory, OrganizationFactory
+from entities.factories import (
+    GroupFactory,
+    OrganizationFactory,
+)
 from entities.models import Group
 
 pytestmark = pytest.mark.django_db
