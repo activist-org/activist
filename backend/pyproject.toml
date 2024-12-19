@@ -45,7 +45,7 @@ line_length = 88
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "backend.settings"
 python_files = "tests.py test_*.py *_tests.py"
-addopts = "--nomigrations --cov=. --cov-report=html --cov-report=term"
+addopts = ""
 
 [tool.coverage.run]
 omit = [

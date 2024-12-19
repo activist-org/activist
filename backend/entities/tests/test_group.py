@@ -8,6 +8,7 @@ from uuid import UUID
 
 import pytest
 from django.core.exceptions import ValidationError
+from content.models import Location
 from faker import Faker
 
 from authentication.factories import UserFactory
@@ -32,7 +33,7 @@ def test_group_creation() -> None:
         group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
-        location=fake.city(),
+        location=Location.objects.create(name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -107,7 +108,7 @@ def test_field_max_lengths() -> None:
         group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
-        location=fake.city(),
+        location=Location.objects.create(name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -153,7 +154,7 @@ def test_url_validations() -> None:
             created_by=user,
             group_name=fake.company(),
             name=fake.company(),
-            location=fake.city(),
+            location=Location.objects.create(name=fake.city()),
             category=fake.word(),
             get_involved_url="not a url",
             terms_checked=True,
@@ -166,7 +167,7 @@ def test_url_validations() -> None:
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
-        location=fake.city(),
+        location=Location.objects.create(name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -186,7 +187,7 @@ def test_auto_fields() -> None:
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
-        location=fake.city(),
+        location=Location.objects.create(name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -209,7 +210,7 @@ def test_multiple_groups_per_org() -> None:
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
-        location=fake.city(),
+        location=Location.objects.create(name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -220,7 +221,7 @@ def test_multiple_groups_per_org() -> None:
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
-        location=fake.city(),
+        location=Location.objects.create(name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
