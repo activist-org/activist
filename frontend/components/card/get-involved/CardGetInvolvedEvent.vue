@@ -5,7 +5,7 @@
         {{ $t("components._global.participate") }}
       </h3>
       <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-      <ModalEditAboutEvent
+      <ModalEditTextEvent
         v-if="event"
         @closeModal="handleCloseModal"
         :event="event"
@@ -53,7 +53,7 @@ defineProps<{
 }>();
 
 const modals = useModals();
-const modalName = "ModalEditAboutEvent";
+const modalName = "ModalEditTextEvent";
 const modalIsOpen = ref(false);
 
 function openModal() {
