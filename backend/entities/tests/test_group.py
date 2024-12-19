@@ -8,14 +8,11 @@ from uuid import UUID
 
 import pytest
 from django.core.exceptions import ValidationError
-from content.models import Location
 from faker import Faker
 
 from authentication.factories import UserFactory
-from entities.factories import (
-    GroupFactory,
-    OrganizationFactory,
-)
+from content.models import Location
+from entities.factories import GroupFactory, OrganizationFactory
 from entities.models import Group
 
 pytestmark = pytest.mark.django_db
