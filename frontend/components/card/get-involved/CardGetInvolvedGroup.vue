@@ -5,7 +5,7 @@
         {{ $t("components._global.get_involved") }}
       </h3>
       <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-      <ModalEditAboutGroup
+      <ModalEditTextGroup
         v-if="group"
         @closeModal="handleCloseModal"
         :group="group"
@@ -52,7 +52,7 @@ defineProps<{
 }>();
 
 const modals = useModals();
-const modalName = "ModalEditAboutGroup";
+const modalName = "ModalEditTextGroup";
 const modalIsOpen = ref(false);
 
 function openModal() {
