@@ -14,186 +14,94 @@
         <div
           class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
         >
-          <s-telegram
-            @popup-close="nativeBehaviorOptions.onClose"
-            @popup-open="nativeBehaviorOptions.onOpen"
-            @popup-block="nativeBehaviorOptions.onBlock"
-            @popup-focus="nativeBehaviorOptions.onFocus"
-            class="focus-brand"
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="STelegram"
+            :iconName="IconMap.TELEGRAM"
+            :text="$t('components.modal_share_page.telegram')"
+            iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
-          >
-            <MetaTagSocialMedia
-              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
-              :iconName="IconMap.TELEGRAM"
-              :text="$t('components.modal_share_page.telegram')"
-              iconSize="1.5em"
-            />
-          </s-telegram>
-          <s-mastodon
-            @popup-close="nativeBehaviorOptions.onClose"
-            @popup-open="nativeBehaviorOptions.onOpen"
-            @popup-block="nativeBehaviorOptions.onBlock"
-            @popup-focus="nativeBehaviorOptions.onFocus"
-            class="focus-brand"
+          />
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="SMastodon"
+            :iconName="IconMap.MASTODON"
+            :text="$t('components.modal_share_page.mastodon')"
+            iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
-          >
-            <MetaTagSocialMedia
-              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
-              :iconName="IconMap.MASTODON"
-              :text="$t('components.modal_share_page.mastodon')"
-              iconSize="1.5em"
-            />
-          </s-mastodon>
-          <s-twitter
-            @popup-close="nativeBehaviorOptions.onClose"
-            @popup-open="nativeBehaviorOptions.onOpen"
-            @popup-block="nativeBehaviorOptions.onBlock"
-            @popup-focus="nativeBehaviorOptions.onFocus"
-            class="focus-brand"
+            :native-behavior-options="nativeBehaviorOptions"
+          />
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="STwitter"
+            :iconName="IconMap.TWITTER"
+            text="@activist_org"
+            iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
-          >
-            <MetaTagSocialMedia
-              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
-              :iconName="IconMap.TWITTER"
-              text="@activist_org"
-              iconSize="1.5em"
-            />
-          </s-twitter>
-          <s-email class="focus-brand" :share-options="shareOptions">
-            <MetaTagSocialMedia
-              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
-              :iconName="IconMap.ENVELOPE"
-              text="Email"
-              iconSize="1.5em"
-            />
-          </s-email>
-          <s-facebook
-            @popup-close="nativeBehaviorOptions.onClose"
-            @popup-open="nativeBehaviorOptions.onOpen"
-            @popup-block="nativeBehaviorOptions.onBlock"
-            @popup-focus="nativeBehaviorOptions.onFocus"
-            class="focus-brand"
+            :native-behavior-options="nativeBehaviorOptions"
+          />
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="SEmail"
+            :iconName="IconMap.ENVELOPE"
+            text="Email"
+            iconSize="1.5em"
+            :share-options="shareOptions"
+          />
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="SFacebook"
+            :iconName="IconMap.FACEBOOK"
+            :text="$t('components.modal_share_page.facebook')"
+            iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
-          >
-            <MetaTagSocialMedia
-              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
-              :iconName="IconMap.FACEBOOK"
-              :text="$t('components.modal_share_page.facebook')"
-              iconSize="1.5em"
-            />
-          </s-facebook>
-          <div
-            @click="
-              copyToClipboardThenOpenUrl(
-                props?.event?.name
-                  ? props?.event?.name
-                  : props?.organization?.name
-                    ? props?.organization?.name
-                    : '',
-                getCurrentUrl(),
-                'https://signal.me/#p'
-              )
-            "
-            @keypress.space="
-              copyToClipboardThenOpenUrl(
-                props?.event?.name
-                  ? props?.event?.name
-                  : props?.organization?.name
-                    ? props?.organization?.name
-                    : '',
-                getCurrentUrl(),
-                'https://signal.me/#p'
-              )
-            "
-            @keypress.enter="
-              copyToClipboardThenOpenUrl(
-                props?.event?.name
-                  ? props?.event?.name
-                  : props?.organization?.name
-                    ? props?.organization?.name
-                    : '',
-                getCurrentUrl(),
-                'https://signal.me/#p'
-              )
-            "
-            class="focus-brand"
-            tabindex="0"
-            role="button"
-          >
-            <MetaTagSocialMedia
-              v-if="!signalContentCopied"
-              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
-              :iconName="IconMap.SIGNAL"
-              :text="$t('components.modal_share_page.signal')"
-              iconSize="1.5em"
-            />
-            <MetaTagSocialMedia
-              v-if="signalContentCopied"
-              class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
-              :iconName="IconMap.SQUARE_CHECK"
-              :text="$t('components.modal_share_page.url_copied')"
-              iconSize="1.5em"
-            />
-          </div>
-          <div
-            @click="
-              copyToClipboard(
-                props?.event?.name
-                  ? props?.event?.name
-                  : props?.organization?.name
-                    ? props?.organization?.name
-                    : '',
-                getCurrentUrl()
-              )
-            "
-            @keypress.space="
-              copyToClipboard(
-                props?.event?.name
-                  ? props?.event?.name
-                  : props?.organization?.name
-                    ? props?.organization?.name
-                    : '',
-                getCurrentUrl()
-              )
-            "
-            @keypress.enter="
-              copyToClipboard(
-                props?.event?.name
-                  ? props?.event?.name
-                  : props?.organization?.name
-                    ? props?.organization?.name
-                    : '',
-                getCurrentUrl()
-              )
-            "
-            class="focus-brand"
-            tabindex="0"
-            role="button"
-          >
-            <MetaTagSocialMedia
-              v-if="!contentCopied"
-              class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
-              :iconName="IconMap.LINK"
-              :text="$t('components.modal_share_page.copy_link')"
-              iconSize="1.5em"
-            />
-            <MetaTagSocialMedia
-              v-if="contentCopied"
-              class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
-              :iconName="IconMap.SQUARE_CHECK"
-              :text="$t('components.modal_share_page.url_copied')"
-              iconSize="1.5em"
-            />
-          </div>
+            :native-behavior-options="nativeBehaviorOptions"
+          />
+          <BtnShareIcon
+            type="redirect"
+            :iconName="IconMap.SIGNAL"
+            :text="$t('components.modal_share_page.signal')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+            :urlLink="getCurrentUrl()"
+            :name="getCurrentName()"
+            redirect-link="https://signal.me/#p"
+          />
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="SFacebookMessenger"
+            :iconName="IconMap.MESSENGER"
+            :text="$t('components.modal_share_page.messenger')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+          />
+          <BtnShareIcon
+            type="redirect"
+            :iconName="IconMap.LINK"
+            :text="$t('components.modal_share_page.copy_link')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+            :urlLink="getCurrentUrl()"
+            :name="getCurrentName()"
+          />
         </div>
       </div>
       <div class="pt-6">
@@ -218,28 +126,11 @@
           <ModalQRCodeBtn v-if="user" :user="user" type="meta-tag" />
         </div>
       </div>
-      <!-- <s-facebook-messenger
-        @popup-close="onClose"
-        @popup-open="onOpen"
-        @popup-block="onBlock"
-        @popup-focus="onFocus"
-        :window-features="windowFeatures"
-        :share-options="shareOptions"
-        :use-native-behavior="useNativeBehavior"
-      >
-        <MetaTagSocialMedia
-          class="dark:hover:distinct-text text-primary-text hover:text-distinct-text dark:text-primary-text"
-          :iconName="IconMap.MESSENGER"
-          :text="$t('components.modal_share_page.messenger')"
-          iconSize="1.5em"
-        />
-      </s-facebook-messenger> -->
     </div>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
-import { SEmail, SFacebook, SMastodon, STelegram, STwitter } from "vue-socials";
 import ModalBase from "~/components/modal/ModalBase.vue";
 import type { User } from "~/types/auth/user";
 import type { BtnAction } from "~/types/btn-props";
@@ -249,7 +140,7 @@ import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 import { DialogTitle } from "@headlessui/vue";
-import { toast, Toaster } from "vue-sonner";
+import { Toaster } from "vue-sonner";
 import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
@@ -286,6 +177,14 @@ const setEntityInfo = (
   };
 };
 
+const getCurrentName = () => {
+  return props?.event?.name
+    ? props?.event?.name
+    : props?.organization?.name
+      ? props?.organization?.name
+      : "";
+};
+
 // Function to grab the url to the base id of the entity to share.
 const getCurrentUrl = () => {
   if (props.organization) {
@@ -319,12 +218,10 @@ const shareOptions = {
     `${getEntityType()?.body}   ${getEntityType()?.url}` || "Check this out!",
   redirectUri: "https://www.domain.com/",
   domain: "https://mas.to",
-  // appId: 842766727626496, Facebook Messenger App ID
+  appId: 842766727626496,
 };
 
 const useNativeBehavior = false;
-const contentCopied = ref(false);
-const signalContentCopied = ref(false);
 
 // No specific actions should be taken on these events, but we can customize the behavior if needed.
 const nativeBehaviorOptions = {
@@ -335,38 +232,4 @@ const nativeBehaviorOptions = {
 };
 
 const windowFeatures = {};
-
-const copyToClipboard = async (name: string, url: string) => {
-  try {
-    await navigator.clipboard.writeText(url);
-    contentCopied.value = true;
-    setTimeout(() => {
-      contentCopied.value = false;
-    }, 2000);
-  } catch (error) {
-    console.error(`Could not copy text: ${error}`);
-    contentCopied.value = false;
-  }
-};
-
-const copyToClipboardThenOpenUrl = async (
-  name: string,
-  url: string,
-  redirectUrl?: string
-) => {
-  try {
-    await navigator.clipboard.writeText(url);
-    signalContentCopied.value = true;
-    toast(t("components.modal_share_page.opening_signal"));
-    setTimeout(() => {
-      signalContentCopied.value = false;
-      if (redirectUrl) {
-        window.open(redirectUrl, "_blank");
-      }
-    }, 2000);
-  } catch (error) {
-    console.error(`Could not copy text: ${error}`);
-    signalContentCopied.value = false;
-  }
-};
 </script>
