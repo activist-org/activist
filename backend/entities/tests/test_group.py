@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from faker import Faker
 
 from authentication.factories import UserFactory
+from content.factories import EntityLocationFactory
 from entities.factories import OrganizationFactory
 from entities.models import Group
 
@@ -21,6 +22,7 @@ def test_group_creation() -> None:
     """Test complete group creation with all fields."""
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
+    location = EntityLocationFactory()
     fake = Faker()
 
     group = Group.objects.create(
@@ -29,7 +31,7 @@ def test_group_creation() -> None:
         group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
-        location=fake.city(),
+        location=location,
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -47,6 +49,7 @@ def test_url_validations() -> None:
     """Test that get_involved_url field is a valid URL."""
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
+    location = EntityLocationFactory()
     fake = Faker()
 
     # 1. Test invalid URL.
@@ -56,7 +59,7 @@ def test_url_validations() -> None:
             created_by=user,
             group_name=fake.company(),
             name=fake.company(),
-            location=fake.city(),
+            location=location,
             category=fake.word(),
             get_involved_url="not a url",
             terms_checked=True,
@@ -82,6 +85,7 @@ def test_multiple_groups_per_org() -> None:
     """Test that multiple groups can be created per organization."""
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
+    location = EntityLocationFactory()
     fake = Faker()
 
     group1 = Group.objects.create(
@@ -89,7 +93,7 @@ def test_multiple_groups_per_org() -> None:
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
-        location=fake.city(),
+        location=location,
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
