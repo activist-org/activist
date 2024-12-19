@@ -1,12 +1,12 @@
 <template>
   <component
     v-if="type == 'vueSocials'"
-    :is="vueSocials[socialComponent]"
     @popup-close="nativeBehaviorOptions.onClose"
     @popup-open="nativeBehaviorOptions.onOpen"
     @popup-block="nativeBehaviorOptions.onBlock"
     @popup-focus="nativeBehaviorOptions.onFocus"
     class="focus-brand"
+    v-bind:is="vueSocials[socialComponent]"
     :window-features="windowFeatures"
     :share-options="shareOptions"
     :use-native-behavior="useNativeBehavior"

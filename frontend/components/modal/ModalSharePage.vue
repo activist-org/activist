@@ -141,7 +141,6 @@ import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 import { DialogTitle } from "@headlessui/vue";
 import { Toaster } from "vue-sonner";
-import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
@@ -152,7 +151,6 @@ const props = defineProps<{
   user?: User;
 }>();
 
-const { t } = useI18n();
 const modalName = "ModalSharePage";
 
 const getEntityType = () => {
