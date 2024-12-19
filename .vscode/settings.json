@@ -2,9 +2,4 @@
   "eslint.validate": ["javascript", "typescript", "vue"],
   "eslint.useFlatConfig": true,
   "typescript.tsdk": "./frontend/node_modules/typescript/lib",
-  "python.testing.pytestArgs": [
-    "backend"
-  ],
-  "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true
 }

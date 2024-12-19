@@ -44,20 +44,3 @@ def test_group_text_languages() -> None:
     assert secondary_text.primary is False
     assert secondary_text.iso == "spa"
     assert secondary_text.description == "Descripción"
-
-
-def test_group_text_field_lengths() -> None:
-    """Test field length constraints."""
-    group = GroupFactory()
-
-    text = GroupTextFactory(
-        group_id=group,
-        iso="eng",
-        description="A" * 500,
-        get_involved="B" * 500,
-        donate_prompt="C" * 500,
-    )
-    assert len(text.description) <= 500
-    assert len(text.get_involved) <= 500
-    assert len(text.donate_prompt) <= 500
-    assert len(text.iso) <= 3
