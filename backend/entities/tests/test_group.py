@@ -33,7 +33,7 @@ def test_group_creation() -> None:
         group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
-        location=Location.objects.create(name=fake.city()),
+        location=Location.objects.create(display_name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -58,7 +58,7 @@ def test_required_fields() -> None:
             org_id=org,
             created_by=user,
             name="Test Name",
-            location="Test Location",
+            location=Location.objects.create(display_name="Test Location"),
             category="Test Category",
         )
         group.full_clean()
@@ -85,7 +85,7 @@ def test_optional_fields() -> None:
         created_by=user,
         group_name="Test Group",
         name="Test Name",
-        location="Test Location",
+        location=Location.objects.create(display_name="Test Location"),
         category="Test Category",
     )
 
@@ -108,7 +108,7 @@ def test_field_max_lengths() -> None:
         group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
-        location=Location.objects.create(name=fake.city()),
+        location=Location.objects.create(display_name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -117,7 +117,7 @@ def test_field_max_lengths() -> None:
     assert len(group.group_name) <= 100
     assert len(group.name) <= 100
     assert len(group.tagline) <= 200
-    assert len(group.location) <= 100
+    assert len(group.location.display_name) <= 100
     assert len(group.category) <= 100
     assert len(group.get_involved_url) <= 200
 
@@ -154,7 +154,7 @@ def test_url_validations() -> None:
             created_by=user,
             group_name=fake.company(),
             name=fake.company(),
-            location=Location.objects.create(name=fake.city()),
+            location=Location.objects.create(display_name=fake.city()),
             category=fake.word(),
             get_involved_url="not a url",
             terms_checked=True,
@@ -167,7 +167,7 @@ def test_url_validations() -> None:
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
-        location=Location.objects.create(name=fake.city()),
+        location=Location.objects.create(display_name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -187,7 +187,7 @@ def test_auto_fields() -> None:
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
-        location=Location.objects.create(name=fake.city()),
+        location=Location.objects.create(display_name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -210,7 +210,7 @@ def test_multiple_groups_per_org() -> None:
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
-        location=Location.objects.create(name=fake.city()),
+        location=Location.objects.create(display_name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
@@ -221,7 +221,7 @@ def test_multiple_groups_per_org() -> None:
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
-        location=Location.objects.create(name=fake.city()),
+        location=Location.objects.create(display_name=fake.city()),
         category=fake.word(),
         get_involved_url=fake.url(),
         terms_checked=True,
