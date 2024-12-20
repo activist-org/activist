@@ -629,14 +629,15 @@ All branding elements such as logos, icons, colors and fonts should follow those
 
 Nuxt uses auto imports to make frontend development more seamless, but at times these imports malfunction. For the `Property 'PROPERTY_NAME' does not exist on type...` errors, this is caused both by having an out of sync `yarn.lock` file and having Nuxt improperly installed.
 
-Things to check are:
+Please run [frontend/reset_local_env.sh](frontend/reset_local_env.sh) to reset the local frontend environment to allow for local testing. This can be done via the following commands:
 
-1. Replace `yarn.lock` file with the one in main
-2. Run `yarn cache clean` (this clears the yarn cache system wide and takes a long time)
-3. Delete the `node_modules` folder
-4. Load environment variables into your shell with `set -a && source ../.env.dev && set +a`
-5. Rerun `yarn install`
-6. Restart your IDE to assure that changes are picked up
+    ```bash
+    # Linux:
+    sh frontend/reset_local_env.sh
 
-> [!NOTE]
-> Also make sure that the dependencies have been installed within the appropriate directory (`/backend` and `/frontend`).
+    # MacOS:
+    sh frontend/reset_local_env.sh
+
+    # Windows:
+    # Run the commands below found in frontend/reset_local_env.sh.
+    ```
