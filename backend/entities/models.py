@@ -60,7 +60,7 @@ class Group(models.Model):
     group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
-    location = models.OneToOneField(
+    location = models.ManyToOneRel(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
     )
     category = models.CharField(max_length=255)
