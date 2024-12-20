@@ -10,7 +10,7 @@ export interface Group {
   organization: Organization;
   createdBy: User;
   iconUrl?: string;
-
+  orgId?: string;
   location: Location;
 
   getInvolvedUrl: string;
