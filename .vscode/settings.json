@@ -1,5 +1,5 @@
 {
   "eslint.validate": ["javascript", "typescript", "vue"],
   "eslint.useFlatConfig": true,
-  "typescript.tsdk": "./frontend/node_modules/typescript/lib"
+  "typescript.tsdk": "./frontend/node_modules/typescript/lib",
 }

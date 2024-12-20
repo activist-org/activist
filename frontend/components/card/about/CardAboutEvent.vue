@@ -6,8 +6,8 @@
           {{ $t("_global.about") }}
         </h3>
         <IconEdit
-          @click="openModalEditAboutEvent()"
-          @keydown.enter="openModalEditAboutEvent()"
+          @click="openModalEditTextEvent()"
+          @keydown.enter="openModalEditTextEvent()"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -60,9 +60,8 @@
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
 
-const { openModal: openModalEditAboutEvent } = useModalHandlers(
-  "ModalEditAboutEvent"
-);
+const { openModal: openModalEditTextEvent } =
+  useModalHandlers("ModalEditTextEvent");
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;

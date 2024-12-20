@@ -23,6 +23,8 @@ class Options(TypedDict):
     orgs_per_user: int
     groups_per_org: int
     events_per_org: int
+    resources_per_entity: int
+    faq_entries_per_entity: int
 
 
 class Command(BaseCommand):
@@ -33,12 +35,16 @@ class Command(BaseCommand):
         parser.add_argument("--orgs-per-user", type=int, default=1)
         parser.add_argument("--groups-per-org", type=int, default=1)
         parser.add_argument("--events-per-org", type=int, default=1)
+        parser.add_argument("--resources-per-entity", type=int, default=1)
+        parser.add_argument("--faq-entries-per-entity", type=int, default=1)
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
         num_users = options["users"]
         num_orgs_per_user = options["orgs_per_user"]
         num_groups_per_org = options["groups_per_org"]
         num_events_per_org = options["events_per_org"]
+        num_resources_per_entity = options["resources_per_entity"]
+        num_faq_entries_per_entity = options["faq_entries_per_entity"]
 
         # Clear all tables before creating new data.
         UserModel.objects.exclude(username="admin").delete()
@@ -77,7 +83,7 @@ class Command(BaseCommand):
                             created_by=user,
                         )
 
-                    org_texts = OrganizationTextFactory(iso="wt", primary=True)
+                    org_texts = OrganizationTextFactory(iso="en", primary=True)
 
                     user_org = OrganizationFactory(
                         created_by=user,
@@ -100,12 +106,28 @@ class Command(BaseCommand):
                             name=f"{user_topic.name} Group",
                         )
 
+            num_orgs = num_users * num_orgs_per_user
+            num_groups = num_users * num_orgs_per_user * num_groups_per_org
+            num_events = num_users * num_orgs_per_user * num_events_per_org
+            num_resources = num_users * (
+                num_orgs_per_user
+                + num_orgs_per_user * num_events_per_org * num_resources_per_entity
+                + num_orgs_per_user * num_groups_per_org * num_resources_per_entity
+            )
+            num_faq_entries = num_users * (
+                num_orgs_per_user
+                + num_orgs_per_user * num_events_per_org * num_faq_entries_per_entity
+                + num_orgs_per_user * num_groups_per_org * num_faq_entries_per_entity
+            )
+
             self.stdout.write(
                 self.style.ERROR(
                     f"Number of users created: {num_users}\n"
-                    f"Number of organizations created: {num_users * num_orgs_per_user}\n"
-                    f"Number of groups created: {num_users * num_orgs_per_user * num_groups_per_org}\n"
-                    f"Number of events created: {num_users * num_orgs_per_user * num_events_per_org}\n"
+                    f"Number of organizations created: {num_orgs}\n"
+                    f"Number of groups created: {num_groups}\n"
+                    f"Number of events created: {num_events}\n"
+                    f"Number of resources created: {num_resources}\n"
+                    f"Number of FAQ entries created: {num_faq_entries}\n"
                 )
             )
 

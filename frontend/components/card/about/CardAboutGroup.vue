@@ -17,8 +17,8 @@
           {{ $t("_global.about") }}
         </h3>
         <IconEdit
-          @click="openModalEditAboutGroup()"
-          @keydown.enter="openModalEditAboutGroup()"
+          @click="openModalEditTextGroup()"
+          @keydown.enter="openModalEditTextGroup()"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -81,9 +81,8 @@
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
-const { openModal: openModalEditAboutGroup } = useModalHandlers(
-  "ModalEditAboutGroup"
-);
+const { openModal: openModalEditTextGroup } =
+  useModalHandlers("ModalEditTextGroup");
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;

@@ -15,7 +15,6 @@
         $t('pages.organizations.groups.index.groups_lower')
       "
       :tagline="$t('pages.organizations.groups.index.tagline')"
-      :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
@@ -30,7 +29,7 @@
         />
       </div>
     </HeaderAppPage>
-    <div v-if="organization.groups" class="space-y-3 py-4">
+    <div v-if="organization.groups?.length > 0" class="space-y-3 py-4">
       <CardSearchResultGroup
         v-for="(g, i) in organization.groups"
         :key="i"

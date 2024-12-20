@@ -1,5 +1,9 @@
 <template>
-  <ModalBase :modalName="modalName">
+  <ModalBase
+    @closeModal="handleCloseModal"
+    :isOpen="modalIsOpen"
+    :modalName="modalName"
+  >
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
@@ -13,7 +17,7 @@
       </div>
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
-          $t("components._global.get_involved")
+          $t("components._global.participate")
         }}</label>
         <textarea
           v-model="formData.getInvolved"
@@ -24,7 +28,7 @@
       <div class="flex flex-col space-y-3 text-primary-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
-            $t("components.modal.edit._global.join_organization_link")
+            $t("components._global.offer_to_help_link")
           }}</label>
           <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
           <input
@@ -46,39 +50,44 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
-import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
-
-const modalName = "ModalEditAboutOrganization";
-const { handleCloseModal } = useModalHandlers(modalName);
+const props = defineProps<{
+  isOpen: boolean;
+}>();
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(id);
+const eventStore = useEventStore();
+await eventStore.fetchById(id);
 
-const { organization } = organizationStore;
+const { event } = eventStore;
 
-const formData = ref<OrganizationUpdateTextFormData>({
-  description: "",
-  getInvolved: "",
-  getInvolvedUrl: "",
-});
-
-onMounted(() => {
-  formData.value.description = organization.texts.description;
-  formData.value.getInvolved = organization.texts.getInvolved;
-  formData.value.getInvolvedUrl = organization.getInvolvedUrl;
+const formData = ref({
+  description: event.texts.description,
+  getInvolved: event.texts.getInvolved,
+  getInvolvedUrl: event.getInvolvedUrl,
 });
 
 async function handleSubmit() {
-  const response = await organizationStore.updateTexts(
-    organization,
-    formData.value
+  const response = await putWithToken(
+    `/events/event_texts/${event.id}/`,
+    formData
   );
+
   if (response) {
-    handleCloseModal();
+    console.log("Success!");
   }
 }
+
+const modals = useModals();
+const modalName = "ModalEditTextEvent";
+let modalIsOpen = computed(() => props.isOpen);
+
+onMounted(() => {
+  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+});
+
+const handleCloseModal = () => {
+  modals.closeModal(modalName);
+};
 </script>

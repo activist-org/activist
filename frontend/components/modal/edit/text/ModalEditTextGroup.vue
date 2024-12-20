@@ -80,7 +80,7 @@ async function handleSubmit() {
 }
 
 const modals = useModals();
-const modalName = "ModalEditAboutGroup";
+const modalName = "ModalEditTextGroup";
 let modalIsOpen = computed(() => props.isOpen);
 
 onMounted(() => {

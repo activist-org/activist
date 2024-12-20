@@ -22,8 +22,8 @@
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
-          @click="openModalEditAboutOrganization"
-          @keydown.enter="openModalEditAboutOrganization"
+          @click="openModalEditTextOrganization"
+          @keydown.enter="openModalEditTextOrganization"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -87,8 +87,8 @@
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
-const { openModal: openModalEditAboutOrganization } = useModalHandlers(
-  "ModalEditAboutOrganization"
+const { openModal: openModalEditTextOrganization } = useModalHandlers(
+  "ModalEditTextOrganization"
 );
 
 const { userIsSignedIn } = useUser();

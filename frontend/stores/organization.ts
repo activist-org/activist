@@ -30,7 +30,9 @@ export const useOrganizationStore = defineStore("organization", {
       socialLinks: [""],
       status: 1,
       creationDate: "",
+
       groups: [],
+      events: [],
 
       organizationTextId: "",
       texts: {
@@ -118,6 +120,7 @@ export const useOrganizationStore = defineStore("organization", {
         this.organization.texts = organization.texts;
 
         this.organization.groups = organization.groups;
+        this.organization.events = organization.events;
       }
 
       this.loading = false;
@@ -152,7 +155,9 @@ export const useOrganizationStore = defineStore("organization", {
             socialLinks: org.socialLinks,
             status: org.status,
             creationDate: org.creationDate,
+
             groups: org.groups,
+            events: org.events,
 
             organizationTextId: org.texts.orgId,
             texts: org.texts,
