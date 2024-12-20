@@ -27,7 +27,10 @@
         />
       </div>
     </HeaderAppPage>
-    <div v-if="organization.events?.length > 0" class="space-y-3 py-4">
+    <div
+      v-if="organization.events && organization.events.length > 0"
+      class="space-y-3 py-4"
+    >
       <CardSearchResultEvent
         v-for="(e, i) in organization.events"
         :key="i"
