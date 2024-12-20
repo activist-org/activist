@@ -60,8 +60,8 @@ class Group(models.Model):
     group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
-    location = models.ManyToOneRel(
-        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+    location = models.ForeignKey(
+        "content.Location", on_delete=models.CASCADE, blank=False, null=False
     )
     category = models.CharField(max_length=255)
     get_involved_url = models.URLField(blank=True)
