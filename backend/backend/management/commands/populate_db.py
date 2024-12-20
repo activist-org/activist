@@ -23,6 +23,8 @@ class Options(TypedDict):
     orgs_per_user: int
     groups_per_org: int
     events_per_org: int
+    resources_per_entity: int
+    faq_entries_per_entity: int
 
 
 class Command(BaseCommand):
