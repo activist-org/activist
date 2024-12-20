@@ -81,9 +81,8 @@
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
-const { openModal: openModalEditTextGroup } = useModalHandlers(
-  "ModalEditTextGroup"
-);
+const { openModal: openModalEditTextGroup } =
+  useModalHandlers("ModalEditTextGroup");
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;

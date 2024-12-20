@@ -29,10 +29,10 @@
     </HeaderAppPage>
     <div v-if="organization.events?.length > 0" class="space-y-3 py-4">
       <CardSearchResultEvent
-        v-for="(u, i) in organization.events"
+        v-for="(e, i) in organization.events"
         :key="i"
+        :event="e"
         :isReduced="true"
-        :event="u"
       />
     </div>
     <EmptyState v-else pageType="events" :permission="false" class="py-4" />

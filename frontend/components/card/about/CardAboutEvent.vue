@@ -60,9 +60,8 @@
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
 
-const { openModal: openModalEditTextEvent } = useModalHandlers(
-  "ModalEditTextEvent"
-);
+const { openModal: openModalEditTextEvent } =
+  useModalHandlers("ModalEditTextEvent");
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
