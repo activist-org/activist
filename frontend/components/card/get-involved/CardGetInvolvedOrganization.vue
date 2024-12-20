@@ -7,8 +7,8 @@
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
-          @click="openModalEditAboutOrganization()"
-          @keydown.enter="openModalEditAboutOrganization()"
+          @click="openModalEditTextOrganization()"
+          @keydown.enter="openModalEditTextOrganization()"
         />
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
@@ -31,7 +31,7 @@
           ariaLabel="_global.join_organization_aria_label"
         />
       </div>
-      <ModalEditAboutOrganization
+      <ModalEditTextOrganization
         :organization="organization"
         :description="organization.texts.description"
         :getInvolved="organization.texts.getInvolved"
@@ -81,8 +81,8 @@
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
-const { openModal: openModalEditAboutOrganization } = useModalHandlers(
-  "ModalEditAboutOrganization"
+const { openModal: openModalEditTextOrganization } = useModalHandlers(
+  "ModalEditTextOrganization"
 );
 
 const { userIsSignedIn } = useUser();
