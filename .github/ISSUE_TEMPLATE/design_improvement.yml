@@ -10,7 +10,7 @@ body:
       options:
         - label: I have searched [open and closed design issues](https://github.com/activist-org/activist/issues?q=is%3Aissue+label%3Adesign)
           required: true
-        - label: I agree to follow activist's [Code of Conduct](https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md)
+        - label: I agree to follow activist's [Code of Conduct](.github/CODE_OF_CONDUCT.md)
           required: true
   - type: textarea
     id: description

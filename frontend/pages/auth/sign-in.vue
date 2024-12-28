@@ -1,10 +1,11 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <form @submit.prevent="signIn" class="space-y-4">
+    <form @submit.prevent="signInUser" class="space-y-4">
       <div class="col">
         <FormTextInput
           @update:model-value="userNameValue = $event"
-          @keydown.enter.prevent="signIn"
+          @keydown.enter.prevent="signInUser"
+          id="sign-in-username"
           :placeholder="$t('pages.auth._global.enter_user_name')"
           :model-value="userNameValue"
         />
@@ -12,7 +13,8 @@
       <div>
         <FormTextInput
           @update:model-value="passwordValue = $event"
-          @keydown.enter.prevent="signIn"
+          @keydown.enter.prevent="signInUser"
+          id="sign-in-password"
           :placeholder="$t('_global.enter_password')"
           :is-icon-visible="true"
           input-type="password"
@@ -20,15 +22,19 @@
           :icons="[IconMap.VISIBLE]"
         />
       </div>
-      <IndicatorPasswordStrength :password-value="passwordValue" />
+      <IndicatorPasswordStrength
+        id="sign-in-password-strength"
+        :password-value="passwordValue"
+      />
       <div class="flex flex-col space-y-3">
-        <FriendlyCaptcha />
+        <FriendlyCaptcha id="sign-in-captcha" />
         <button
           @click="navigateTo(localePath('/auth/reset-password'))"
           @mouseover="hovered = true"
           @focus="hovered = true"
           @mouseleave="hovered = false"
           @blur="hovered = false"
+          id="sign-in-forgot-password"
           :disabled="isForgotPasswordDisabled"
           class="text-start font-bold"
           :class="{ 'link-text': !isForgotPasswordDisabled }"
@@ -40,6 +46,7 @@
           :text="$t('pages.auth.sign_in.forgot_password_captcha_tooltip')"
         />
         <BtnAction
+          id="sign-in-submit"
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
           :label="$t('_global.sign_in')"
           :cta="true"
@@ -50,6 +57,7 @@
       <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">
         <h6>{{ $t("pages.auth.sign_in.index.no_account") }}</h6>
         <NuxtLink
+          id="sign-in-signup-link"
           :to="localePath('/auth/sign-up')"
           class="link-text ml-2 font-extrabold"
           >{{ $t("_global.sign_up") }}
@@ -71,9 +79,9 @@ const hovered = ref(false);
 const userNameValue = ref("");
 const passwordValue = ref("");
 
-const { login } = useAuth();
+const { signIn } = useAuth();
 
-const signIn = async () => {
-  await login(userNameValue.value, passwordValue.value);
+const signInUser = async () => {
+  await signIn(userNameValue.value, passwordValue.value);
 };
 </script>

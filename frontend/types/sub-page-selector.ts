@@ -2,6 +2,6 @@ export interface SubPageSelector {
   id: number;
   label: string;
   iconName?: string;
-  routeURL: string;
+  routeUrl: string;
   selected: boolean;
 }

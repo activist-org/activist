@@ -11,7 +11,7 @@
         emit('expand-reduce-text');
         expand_reduce_text();
       "
-      class="focus-brand absolute right-0 rounded-full p-1 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
+      class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
@@ -22,8 +22,8 @@
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
-          @click="openModalEditAboutOrganization"
-          @keydown.enter="openModalEditAboutOrganization"
+          @click="openModalEditTextOrganization"
+          @keydown.enter="openModalEditTextOrganization"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -32,7 +32,9 @@
           </div> -->
         <!-- <ShieldTopic :topic="organization.topic" /> -->
         <div class="flex items-center gap-3">
-          <MetaTagLocation :location="organization.location" />
+          <MetaTagLocation
+            :location="organization.location.displayName.split(',')[0]"
+          />
           <!-- <MetaTagMembers
               :members="organization.members.length"
               :label="$t('components.card.about._global.members_lower')"
@@ -45,7 +47,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ organization.description }}
+            {{ organization.texts.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -54,7 +56,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.full_text_aria_label')
               "
@@ -67,7 +69,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.reduce_text_aria_label')
               "
@@ -82,11 +84,11 @@
 </template>
 
 <script setup lang="ts">
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
-const { openModal: openModalEditAboutOrganization } = useModalHandlers(
-  "ModalEditAboutOrganization"
+const { openModal: openModalEditTextOrganization } = useModalHandlers(
+  "ModalEditTextOrganization"
 );
 
 const { userIsSignedIn } = useUser();
@@ -95,7 +97,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 

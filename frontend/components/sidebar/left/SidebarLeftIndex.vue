@@ -1,6 +1,6 @@
 <template>
   <div
-    class="elem-shadow-sm mx-1 rounded-md bg-light-layer-2 py-2 text-light-text transition-all duration-500 dark:bg-dark-layer-2 dark:text-dark-text"
+    class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-2 text-primary-text transition-all duration-500"
   >
     <div class="flex flex-col items-center">
       <div
@@ -24,7 +24,7 @@
         <!-- <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" /> -->
         <ImageOrganization
           class="elem-shadow-sm"
-          :imgURL="logoUrl"
+          :imgUrl="logoUrl"
           :alt="
             $t('_global.entity_logo', {
               entity_name: name,
@@ -61,6 +61,7 @@
         />
       </div>
       <ul
+        id="submenu"
         class="mb-1 flex w-full flex-col px-1"
         :class="{
           'mt-4':
@@ -75,9 +76,14 @@
             : menuEntriesState.eventEntry.value"
         >
           <SidebarLeftSelector
+            :id="
+              (sidebarType === SidebarType.ORGANIZATION_PAGE
+                ? 'org-'
+                : 'event-') + menuEntry.label.split('.').pop()
+            "
             :label="menuEntry.label"
-            :routeURL="menuEntry.routeURL"
-            :iconURL="menuEntry.iconURL"
+            :routeUrl="menuEntry.routeUrl"
+            :iconUrl="menuEntry.iconUrl"
             :selected="menuEntry.selected"
           />
         </li>

@@ -2,13 +2,13 @@
   <div class="relative flex flex-row items-center justify-start">
     <input
       :id="uuid"
-      class="bg-light-button dark:bg-dark-button focus-brand peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-light-menu-selection dark:border-dark-menu-selection"
+      class="focus-brand peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-menu-selection bg-layer-0"
       type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"
     />
     <div
-      class="pointer-events-none absolute left-[0.2rem] hidden h-[1rem] w-[1rem] rounded-sm bg-light-menu-selection peer-checked:block dark:bg-dark-menu-selection"
+      class="pointer-events-none absolute left-[0.2rem] hidden h-[1rem] w-[1rem] rounded-sm bg-menu-selection peer-checked:block"
     ></div>
     <label
       v-if="label"

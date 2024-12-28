@@ -5,7 +5,7 @@
         {{ $t("components._global.get_involved") }}
       </h3>
       <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-      <ModalEditAboutGroup
+      <ModalEditTextGroup
         v-if="group"
         @closeModal="handleCloseModal"
         :group="group"
@@ -19,9 +19,9 @@
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
-          v-if="group.getInvolvedURL"
+          v-if="group.getInvolvedUrl"
           :cta="true"
-          :linkTo="group.getInvolvedURL"
+          :linkTo="group.getInvolvedUrl"
           label="_global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
@@ -52,7 +52,7 @@ defineProps<{
 }>();
 
 const modals = useModals();
-const modalName = "ModalEditAboutGroup";
+const modalName = "ModalEditTextGroup";
 const modalIsOpen = ref(false);
 
 function openModal() {

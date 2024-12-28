@@ -1,14 +1,19 @@
+import type { Location } from "~/types/content/location";
+import type { Event } from "~/types/events/event";
+
 // MARK: Main Table
 
 export interface Organization {
   id: string;
-  org_name: string;
+  orgName: string;
   name: string;
   tagline: string;
   createdBy: string;
-  iconURL: string;
-  location: string;
-  getInvolvedURL: string;
+  iconUrl: string;
+
+  location: Location;
+
+  getInvolvedUrl: string;
   socialLinks: string[];
   status: number;
   // statusUpdated?: string;
@@ -18,14 +23,15 @@ export interface Organization {
   // organization_application
   // orgsInFavor?: Organization[];
   // orgsAgainst?: Organization[];
-  creationDate?: string;
+  creationDate: string;
 
   // discussion
   // discussions?: Discussion[];
 
-  // faq
+  // organization_faq
   faqEntries?: FaqEntry[];
 
+  // organization_group
   groups?: Group[];
 
   // organization_event
@@ -37,10 +43,9 @@ export interface Organization {
   // organization_task
   // task?: Task[];
 
-  organizationTextID: string;
-  description: string;
-  getInvolved: string;
-  donationPrompt: string;
+  // organization_text
+  organizationTextId: string;
+  texts: OrganizationText;
 
   // organization_topic
   // topics?: Topic[];
@@ -53,37 +58,36 @@ export interface Organization {
 // MARK: Bridge Tables
 
 export interface OrganizationEvent {
-  orgID: string;
-  eventID: string;
+  orgId: string;
+  eventId: string;
 }
 
 export interface OrganizationImage {
-  orgID: string;
-  imageID: string;
+  orgId: string;
+  imageId: string;
   sequenceIndex: number;
 }
 
 export interface OrganizationMember {
-  orgID: string;
-  userID: string;
+  orgId: string;
+  userId: string;
   isOwner: boolean;
   isAdmin: boolean;
   isComms: boolean;
 }
 
 export interface OrganizationResource {
-  orgID: string;
-  resourceID: string;
+  orgId: string;
+  resourceId: string;
 }
 
 export interface OrganizationTask {
-  orgID: string;
-  taskID: string;
+  orgId: string;
+  taskId: string;
 }
 
 export interface OrganizationText {
-  id: string;
-  orgID: string;
+  orgId: string;
   iso: string;
   primary: boolean;
   description: string;
@@ -92,8 +96,8 @@ export interface OrganizationText {
 }
 
 export interface OrganizationTopic {
-  orgID: string;
-  topicID: string;
+  orgId: string;
+  topicId: string;
 }
 
 // MARK: Pinia Responses
@@ -112,76 +116,6 @@ export interface PiniaResOrganizations {
   _value: Organization[];
 }
 
-export interface PiniaResOrganizationEvents {
-  __v_isShallow: boolean;
-  __v_isRef: boolean;
-  _rawValue: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: Event[];
-  };
-  _value: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: Event[];
-  };
-}
-
-export interface PiniaResOrganizationText {
-  __v_isShallow: boolean;
-  __v_isRef: boolean;
-  _rawValue: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: OrganizationText[];
-  };
-  _value: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: OrganizationText[];
-  };
-}
-
-export interface PiniaResOrganizationTexts {
-  data: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: {
-      count: number;
-      next: null;
-      previous: null;
-      results: OrganizationText[];
-    };
-    _value: {
-      count: number;
-      next: null;
-      previous: null;
-      results: OrganizationText[];
-    };
-  };
-  pending: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: boolean;
-    _value: boolean;
-  };
-  error: {
-    _object: { [$key: string]: null };
-    _key: string;
-    __v_isRef: boolean;
-  };
-  status: {
-    __v_isShallow: boolean;
-    __v_isRef: boolean;
-    _rawValue: string;
-    _value: string;
-  };
-}
-
 // MARK: Form Data
 
 export interface OrganizationCreateFormData {
@@ -196,5 +130,5 @@ export interface OrganizationCreateFormData {
 export interface OrganizationUpdateTextFormData {
   description: string;
   getInvolved: string;
-  getInvolvedURL: string;
+  getInvolvedUrl: string;
 }

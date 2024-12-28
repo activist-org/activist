@@ -4,8 +4,8 @@
     id="header"
     class="sticky top-0 z-10 drop-shadow-md duration-500"
     :class="{
-      'bg-light-layer-2 dark:bg-dark-layer-2': headerOpacity == 1,
-      'bg-light-layer-2/80 dark:bg-dark-layer-2/80': headerOpacity == 0.8,
+      'bg-layer-2': headerOpacity == 1,
+      'bg-layer-2/80': headerOpacity == 0.8,
       'invisible opacity-0': headerOpacity == 0,
     }"
   >
@@ -35,16 +35,19 @@
           />
           <DropdownCreate
             v-if="userIsSignedIn && devMode.active"
+            id="create"
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />
           <DropdownInfo
             v-if="devMode.active"
+            id="info"
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />
           <DropdownUserOptions
             v-if="devMode.active"
+            id="user-options"
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
             :userIsSignedIn="userIsSignedIn"
@@ -107,23 +110,23 @@
               fontSize="xs"
               ariaLabel="_global.sign_up_aria_label"
             />
-            <BtnRouteExternal
+            <BtnRouteInternal
               v-if="aboveLargeBP && !devMode.active"
               id="btn-get-in-touch-large"
               class="block"
               :cta="true"
               label="_global.support"
-              linkTo="https://docs.activist.org/activist/~/changes/qZu0F6L0cHK5FDtvelqa/welcome/support-us"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="sm"
               ariaLabel="components.header_website.support_aria_label"
             />
-            <BtnRouteExternal
+            <BtnRouteInternal
               v-else-if="aboveMediumBP && !devMode.active"
               id="btn-get-in-touch-medium"
               class="block"
               :cta="true"
               label="_global.support"
-              linkTo="https://docs.activist.org/activist/~/changes/qZu0F6L0cHK5FDtvelqa/welcome/support-us"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="xs"
               ariaLabel="components.header_website.support_aria_label"
             />

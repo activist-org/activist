@@ -6,8 +6,8 @@
           {{ $t("_global.about") }}
         </h3>
         <IconEdit
-          @click="openModalEditAboutEvent()"
-          @keydown.enter="openModalEditAboutEvent()"
+          @click="openModalEditTextEvent()"
+          @keydown.enter="openModalEditTextEvent()"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -21,7 +21,7 @@
               'line-clamp-2': !expandText,
             }"
           >
-            {{ event.description }}
+            {{ event.texts.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -30,7 +30,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.full_text_aria_label')
               "
@@ -43,7 +43,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-light-link-text dark:text-dark-link-text"
+              class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('components.card.about._global.reduce_text_aria_label')
               "
@@ -59,15 +59,15 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
-const { openModal: openModalEditAboutEvent } = useModalHandlers(
-  "ModalEditAboutEvent"
-);
+
+const { openModal: openModalEditTextEvent } =
+  useModalHandlers("ModalEditTextEvent");
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchByID(id);
+await eventStore.fetchById(id);
 
 const { event } = eventStore;
 

@@ -7,8 +7,6 @@ import pytest
 
 from .factories import (
     OrganizationFactory,
-    OrganizationApplicationFactory,
-    # OrganizationApplicationStatusFactory,
     OrganizationEventFactory,
     OrganizationMemberFactory,
     OrganizationResourceFactory,
@@ -25,6 +23,7 @@ pytestmark = pytest.mark.django_db
 
 
 def test_str_methods() -> None:
+    """Test the __str__ methods of the entities."""
     organization = OrganizationFactory.create()
     # Note: Needs to be updated to reflect the recent changes.
     # organization_application = OrganizationApplicationFactory.create()
@@ -33,6 +32,7 @@ def test_str_methods() -> None:
     organization_resource = OrganizationResourceFactory.create()
     organization_task = OrganizationTaskFactory.create()
     organization_topic = OrganizationTopicFactory.create()
+
     group = GroupFactory.create()
     group_event = GroupEventFactory.create()
     group_member = GroupMemberFactory.create()
@@ -46,6 +46,7 @@ def test_str_methods() -> None:
     assert str(organization_resource) == str(organization_resource.id)
     assert str(organization_task) == str(organization_task.id)
     assert str(organization_topic) == str(organization_topic.id)
+
     assert str(group) == group.name
     assert str(group_event) == str(group_event.id)
     assert str(group_member) == str(group_member.id)

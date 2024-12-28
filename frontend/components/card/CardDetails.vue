@@ -7,25 +7,30 @@
           <h3 class="responsive-h3 text-left font-display">
             {{ $t("components.card_details.header") }}
           </h3>
-          <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-          <ModalEditAboutEvent
-            v-if="event"
-            @closeModal="handleCloseModal"
-            :event="event"
-            :sectionsToEdit="[
-              $t('_global.about'),
-              $t('components._global.participate'),
-              $t('components._global.offer_to_help_link'),
-            ]"
-            :isOpen="modalIsOpen"
+          <IconEdit
+            @click="openModalEditTextEvent()"
+            @keydown.enter="openModalEditTextEvent()"
           />
         </div>
         <div v-if="event" class="flex-col space-y-6 py-2">
           <div class="flex items-center gap-3">
             <MetaTagOrganization
-              v-for="(o, i) in event.organizations"
+              v-for="(o, i) in event.organizations.slice(0, 1)"
               :key="i"
               :organization="o"
+            />
+            <button
+              v-if="event.organizations.length > 1"
+              @click="openModalOrganizationOverview()"
+              @keydown.enter="openModalOrganizationOverview()"
+              class="text-sm font-semibold text-black"
+            >
+              (+{{ event.organizations.length - 1 }} more)
+            </button>
+            <ModalOrganizationOverview
+              @closeModal="openModalOrganizationOverview()"
+              :cta="true"
+              :event="event"
             />
           </div>
           <!-- <MetaTagAttendance
@@ -34,9 +39,9 @@
           /> -->
           <MetaTagLocation
             v-if="event.offlineLocation"
-            :location="event.offlineLocation"
+            :location="event.offlineLocation.displayName.split(',')[0]"
           />
-          <MetaTagDate :date="event.startTime" />
+          <MetaTagDate :date="event.startTime.split('T')[0]" />
         </div>
       </div>
     </div>
@@ -44,24 +49,19 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
+import { useModalHandlers } from "~/composables/useModalHandlers";
 
-defineProps<{
-  event?: Event;
-}>();
+const { openModal: openModalEditTextEvent } =
+  useModalHandlers("ModalEditTextEvent");
+const { openModal: openModalOrganizationOverview } = useModalHandlers(
+  "ModalOrganizationOverview"
+);
 
-const modals = useModals();
-const modalName = "ModalEditPageText";
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
 
-const modalIsOpen = ref(false);
+const eventStore = useEventStore();
+await eventStore.fetchById(id);
 
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
+const { event } = eventStore;
 </script>

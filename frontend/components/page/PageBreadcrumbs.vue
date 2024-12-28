@@ -8,27 +8,25 @@
       >
         <NuxtLink
           v-if="index === 0"
-          class="focus-brand mx-[0.35rem] text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+          class="focus-brand mx-[0.35rem] text-distinct-text hover:text-primary-text"
           :to="localePath('/home')"
         >
           &#60;
         </NuxtLink>
-        <span
-          v-else
-          class="mx-[0.45rem] mb-[0.2rem] text-light-distinct-text dark:text-dark-distinct-text"
+        <span v-else class="mx-[0.45rem] mb-[0.2rem] text-distinct-text"
           >|</span
         >
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <NuxtLink
             v-if="isValidUUID(breadcrumb) && pageType == 'event'"
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ event.name }}
           </NuxtLink>
           <NuxtLink
             v-else-if="isValidUUID(breadcrumb) && pageType == 'organization'"
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ organization.name }}
@@ -37,7 +35,7 @@
             v-else-if="
               isValidUUID(breadcrumb) && pageType == 'group' && index == 1
             "
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ group.name }}
@@ -46,14 +44,14 @@
             v-else-if="
               isValidUUID(breadcrumb) && pageType == 'group' && index == 3
             "
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ group.name }}
           </NuxtLink>
           <NuxtLink
             v-else
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
@@ -61,7 +59,7 @@
         </span>
         <span v-else>
           <NuxtLink
-            class="focus-brand text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text dark:hover:text-dark-text"
+            class="focus-brand text-distinct-text hover:text-primary-text"
             :to="makeURL(breadcrumb)"
             aria-current="page"
           >
@@ -85,11 +83,11 @@ let pageType = "";
 const { locales } = useI18n();
 const localePath = useLocalePath();
 
-const paramsID = useRoute().params.id;
-const paramsIDGroup = useRoute().params.groupID;
+const paramsId = useRoute().params.id;
+const paramsGroupId = useRoute().params.groupid;
 
-const id = typeof paramsID === "string" ? paramsID : undefined;
-const idGroup = typeof paramsIDGroup === "string" ? paramsIDGroup : undefined;
+const id = typeof paramsId === "string" ? paramsId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -99,28 +97,28 @@ let organization: Organization;
 let group: Group;
 let event: Event;
 
-if (
-  url.includes("/organizations/") &&
-  !url.includes("/groups/") &&
-  !url.includes("/organizations/create") &&
-  !url.includes("/organizations/search")
-) {
+// Note: UUID Regex: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+const organizationRegex =
+  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.+$/;
+const groupRegex =
+  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/groups\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).+$/;
+const eventRegex =
+  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/events\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).+$/;
+
+if (organizationRegex.test(url)) {
   pageType = "organization";
-  await organizationStore.fetchByID(id);
+
+  await organizationStore.fetchById(id);
   organization = organizationStore.organization;
-} else if (url.includes("/organizations/") && url.includes("/groups/")) {
+} else if (groupRegex.test(url)) {
   pageType = "group";
-  await groupStore.fetchByID(idGroup);
+
+  await groupStore.fetchById(groupId);
   group = groupStore.group;
-} else if (
-  url.includes("/events/") &&
-  !url.includes("/organizations/") &&
-  !url.includes("/groups/") &&
-  !url.includes("/events/create") &&
-  !url.includes("/events/search")
-) {
+} else if (eventRegex.test(url)) {
   pageType = "event";
-  await eventStore.fetchByID(id);
+
+  await eventStore.fetchById(id);
   event = eventStore.event;
 }
 

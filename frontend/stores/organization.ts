@@ -1,13 +1,7 @@
 import type {
   Organization,
   OrganizationCreateFormData,
-  OrganizationText,
   OrganizationUpdateTextFormData,
-  PiniaResOrganization,
-  PiniaResOrganizationEvents,
-  PiniaResOrganizationText,
-  PiniaResOrganizationTexts,
-  PiniaResOrganizations,
 } from "~/types/entities/organization";
 
 interface OrganizationStore {
@@ -24,21 +18,31 @@ export const useOrganizationStore = defineStore("organization", {
 
     organization: {
       id: "",
-      org_name: "",
+      orgName: "",
       name: "",
       tagline: "",
       createdBy: "",
-      iconURL: "",
-      location: "",
-      getInvolvedURL: "",
+      iconUrl: "",
+
+      location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
+
+      getInvolvedUrl: "",
       socialLinks: [""],
       status: 1,
-      groups: [],
+      creationDate: "",
 
-      organizationTextID: "",
-      description: "",
-      getInvolved: "",
-      donationPrompt: "",
+      groups: [],
+      events: [],
+
+      organizationTextId: "",
+      texts: {
+        orgId: "",
+        iso: "",
+        primary: false,
+        description: "",
+        getInvolved: "",
+        donationPrompt: "",
+      },
     },
 
     organizations: [],
@@ -77,87 +81,47 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responseOrg) {
         this.loading = false;
-
         return responseOrgData.id;
       }
 
+      this.loading = false;
       return false;
     },
 
     // MARK: Fetch By ID
 
-    async fetchByID(id: string | undefined) {
+    async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const [responseOrg, responseOrgTexts, responseOrgEvents] =
-        await Promise.all([
-          useAsyncData(
-            async () =>
-              await fetchWithOptionalToken(`/entities/organizations/${id}`, {})
-          ),
-          useAsyncData(
-            async () =>
-              await fetchWithOptionalToken(
-                `/entities/organization_texts?org_id=${id}`,
-                {}
-              )
-          ),
-          useAsyncData(
-            async () =>
-              await fetchWithOptionalToken(
-                `/entities/organization_events?org_id=${id}`,
-                {}
-              )
-          ),
-          // useAsyncData(
-          //   async () =>
-          //     await fetchWithOptionalToken(
-          //       `/entities/organization_faq?org_id=${id}`,
-          //       {}
-          //     )
-          // ),
-          // useAsyncData(
-          //   async () =>
-          //     await fetchWithOptionalToken(
-          //       `/entities/organization_resources?org_id=${id}`,
-          //       {}
-          //     )
-          // ),
-        ]);
-      const orgRes = responseOrg.data as unknown as PiniaResOrganization;
-      const orgTextsRes =
-        responseOrgTexts.data as unknown as PiniaResOrganizationText;
-      const orgEventsRes =
-        responseOrgEvents.data as unknown as PiniaResOrganizationEvents;
-      // const orgGroupRes = responseOrgGroups.data as unknown as PiniaResOrganizationGroup;
-      // const orgFAQRes = responseOrgFAQ.data as unknown as PiniaResOrganizationFAQ;
-      // const orgResourcesRes =
-      //   responseOrgResources.data as unknown as PiniaResOrganizationResource;
+      const { data, status } = await useAsyncData<Organization>(
+        async () =>
+          (await fetchWithoutToken(
+            `/entities/organizations/${id}/`,
+            {}
+          )) as Organization
+      );
 
-      const organization = orgRes._value;
-      const texts = orgTextsRes._value.results[0];
-      const events = orgEventsRes._value.results;
-      // const faq = orgRes._value;
-      // const groups = orgRes._value;
-      // const resources = orgRes._value;
+      if (status.value === "success") {
+        const organization = data.value!;
 
-      this.organization.id = organization.id;
-      this.organization.org_name = organization.org_name;
-      this.organization.name = organization.name;
-      this.organization.tagline = organization.tagline;
-      this.organization.iconURL = organization.iconURL;
-      this.organization.location = organization.location;
-      this.organization.getInvolvedURL = organization.getInvolvedURL;
-      this.organization.socialLinks = organization.socialLinks;
-      this.organization.status = organization.status;
+        this.organization.id = organization.id;
+        this.organization.orgName = organization.orgName;
+        this.organization.name = organization.name;
+        this.organization.tagline = organization.tagline;
+        this.organization.iconUrl = organization.iconUrl;
 
-      this.organization.organizationTextID = texts.id;
-      this.organization.description = texts.description;
-      this.organization.getInvolved = texts.getInvolved;
-      this.organization.donationPrompt = texts.donationPrompt;
+        this.organization.location = organization.location;
 
-      this.organization.groups = organization.groups;
-      this.organization.events = events;
+        this.organization.getInvolvedUrl = organization.getInvolvedUrl;
+        this.organization.socialLinks = organization.socialLinks;
+        this.organization.status = organization.status;
+
+        this.organization.organizationTextId = organization.texts.orgId;
+        this.organization.texts = organization.texts;
+
+        this.organization.groups = organization.groups;
+        this.organization.events = organization.events;
+      }
 
       this.loading = false;
     },
@@ -167,69 +131,46 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchAll() {
       this.loading = true;
 
-      const [responseOrgs] = await Promise.all([
-        useAsyncData(
-          async () =>
-            await fetchWithOptionalToken(`/entities/organizations/`, {})
-        ),
-      ]);
+      const { data, status } = await useAsyncData<Organization[]>(
+        async () =>
+          (await fetchWithoutToken(
+            `/entities/organizations/`,
+            {}
+          )) as Organization[]
+      );
 
-      const orgs = responseOrgs.data as unknown as PiniaResOrganizations;
+      if (status.value === "success") {
+        const organizations = data.value!.map((org: Organization) => {
+          return {
+            id: org.id,
+            orgName: org.orgName,
+            name: org.name,
+            tagline: org.tagline,
+            createdBy: org.createdBy,
+            iconUrl: org.iconUrl,
 
-      if (orgs._value) {
-        const responseOrgTexts = (await Promise.all([
-          useAsyncData(
-            async () =>
-              await fetchWithOptionalToken(`/entities/organization_texts/`, {})
-          ),
-        ])) as unknown as PiniaResOrganizationTexts[];
+            location: org.location,
 
-        const orgTextsData = responseOrgTexts.map(
-          (text) => text.data._value.results
-        )[0] as unknown as OrganizationText[];
+            getInvolvedUrl: org.getInvolvedUrl,
+            socialLinks: org.socialLinks,
+            status: org.status,
+            creationDate: org.creationDate,
 
-        // Order texts based on the returned organizations.
-        const orgIDs = orgs._value.map((o) => o.id);
-        const sortedOrgTextsData: OrganizationText[] = [];
-        for (const id of orgIDs) {
-          for (const text of orgTextsData) {
-            if (text.orgID === id) {
-              sortedOrgTextsData.push(text);
-            }
-          }
-        }
+            groups: org.groups,
+            events: org.events,
 
-        const organizationsWithTexts = orgs._value.map(
-          (organization: Organization, index: number) => {
-            const texts = sortedOrgTextsData[index];
-            return {
-              id: organization.id,
-              org_name: organization.org_name,
-              name: organization.name,
-              tagline: organization.tagline,
-              createdBy: organization.createdBy,
-              iconURL: organization.iconURL,
-              location: organization.location,
-              getInvolvedURL: organization.getInvolvedURL,
-              socialLinks: organization.socialLinks,
-              status: organization.status,
-              groups: organization.groups,
+            organizationTextId: org.texts.orgId,
+            texts: org.texts,
+          };
+        });
 
-              organizationTextID: texts.id,
-              description: texts.description,
-              getInvolved: texts.getInvolved,
-              donationPrompt: texts.donationPrompt,
-            };
-          }
-        );
-
-        this.organizations = organizationsWithTexts;
+        this.organizations = organizations;
       }
 
       this.loading = false;
     },
 
-    // MARK: Update
+    // MARK: Update Texts
 
     async updateTexts(
       org: Organization,
@@ -245,7 +186,7 @@ export const useOrganizationStore = defineStore("organization", {
           method: "PUT",
           body: {
             ...org,
-            getInvolvedURL: formData.getInvolvedURL,
+            getInvolvedUrl: formData.getInvolvedUrl,
           },
           headers: {
             Authorization: `Token ${token}`,
@@ -255,7 +196,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL +
-          `/entities/organization_texts/${org.organizationTextID}/`,
+          `/entities/organization_texts/${org.organizationTextId}/`,
         {
           method: "PUT",
           body: {
@@ -263,7 +204,7 @@ export const useOrganizationStore = defineStore("organization", {
             description: formData.description,
             getInvolved: formData.getInvolved,
             donate_prompt: "",
-            org_id: org.id,
+            orgId: org.id,
             iso: "en",
           },
           headers: {
@@ -273,9 +214,9 @@ export const useOrganizationStore = defineStore("organization", {
       );
 
       if (responseOrg && responseOrgTexts) {
-        this.organization.description = formData.description;
-        this.organization.getInvolved = formData.getInvolved;
-        this.organization.getInvolvedURL = formData.getInvolvedURL;
+        this.organization.texts.description = formData.description;
+        this.organization.texts.getInvolved = formData.getInvolved;
+        this.organization.getInvolvedUrl = formData.getInvolvedUrl;
 
         this.loading = false;
 

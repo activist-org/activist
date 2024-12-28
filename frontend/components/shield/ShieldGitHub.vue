@@ -10,11 +10,11 @@
     </div>
     <div
       v-if="isLoading"
-      class="animate-pulse rounded-full bg-light-highlight p-4 text-xl font-semibold dark:bg-dark-highlight md:text-2xl"
+      class="animate-pulse rounded-full bg-highlight p-4 text-xl font-semibold md:text-2xl"
     ></div>
     <div
       v-if="count"
-      class="text-md flex h-9 w-9 items-center justify-center rounded-full bg-light-highlight p-1 font-semibold dark:bg-dark-highlight md:h-10 md:w-10"
+      class="text-md flex h-9 w-9 items-center justify-center rounded-full bg-highlight p-1 font-semibold md:h-10 md:w-10"
     >
       {{ count }}
     </div>

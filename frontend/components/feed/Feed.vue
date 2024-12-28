@@ -1,12 +1,9 @@
 <template>
   <div
-    v-if="feedItemURLs && feedItemNames"
+    v-if="feedItemUrls && feedItemNames"
     class="mt-3 flex items-center justify-start space-x-3"
   >
-    <div
-      v-for="(url, index) in feedItemURLs.slice(0, numberOfFeedItems)"
-      class="w-full"
-    >
+    <div v-for="(url, index) in feedItemUrls" class="w-full">
       <FeedItem :name="feedItemNames[index]" :url="url" />
     </div>
   </div>
@@ -20,7 +17,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 
@@ -32,11 +29,10 @@ const feedItemNames = computed<string[]>(() => {
   }
 });
 
-const feedItemURLs = computed<string[]>(() => {
+const feedItemUrls = computed<string[]>(() => {
   if (organization && organization.groups) {
     return organization.groups.map(
-      (group: Group) =>
-        `/organizations/${group.organization.id}/groups/${group.id}`
+      (group: Group) => `/organizations/${organization.id}/groups/${group.id}`
     );
   } else {
     return [""];

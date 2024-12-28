@@ -1,6 +1,6 @@
 <template>
   <div
-    class="elem-shadow-md card-style flex w-fit flex-col space-y-2 bg-light-layer-1 px-4 pb-3 pt-2 dark:bg-dark-layer-1"
+    class="elem-shadow-md card-style flex w-fit flex-col space-y-2 bg-layer-1 px-4 pb-3 pt-2"
   >
     <div class="relative flex">
       <p class="responsive-h5">
@@ -11,7 +11,7 @@
         @keypress.enter="emit('on-close-clicked')"
         role="button"
         tabindex="0"
-        class="absolute right-0 text-light-distinct-text hover:text-light-text dark:text-dark-distinct-text hover:dark:text-dark-text"
+        class="absolute right-0 text-distinct-text hover:text-primary-text"
       >
         <Icon class="h-6 w-6" :name="IconMap.CIRCLE_X_FILL" />
       </div>
@@ -21,7 +21,7 @@
       v-model="inputValue"
       ref="input"
       id="popup-input"
-      class="focus-brand h-8 w-52 rounded-sm border border-light-text bg-transparent p-2 dark:border-dark-text"
+      class="focus-brand h-8 w-52 rounded-sm border border-primary-text bg-transparent p-2"
       type="text"
       :placeholder="fieldNamePrompt"
     />
@@ -29,7 +29,7 @@
       v-model="inputLabel"
       ref="input"
       id="popup-input"
-      class="focus-brand h-8 w-52 rounded-sm border border-light-text bg-transparent p-2 dark:border-dark-text"
+      class="focus-brand h-8 w-52 rounded-sm border border-primary-text bg-transparent p-2"
       type="text"
       :placeholder="fieldLabelPrompt"
     />
@@ -37,7 +37,7 @@
     <textarea
       v-if="descriptionPrompt"
       id="popup-textarea"
-      class="focus-brand min-h-[50%] min-w-[75%] resize-none rounded-sm border border-light-text bg-transparent p-1 dark:border-dark-text"
+      class="focus-brand min-h-[50%] min-w-[75%] resize-none rounded-sm border border-primary-text bg-transparent p-1"
       name="message"
       rows="3"
       cols="10"

@@ -4,12 +4,14 @@
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
+    "module": "ESNext",
     "types": [
       "@vueuse/nuxt",
       "@vueuse/core",
       "@pinia/nuxt",
       "@types/zxcvbn",
-      "playwright"
+      "playwright",
+      "vitest/globals"
     ]
   }
 }

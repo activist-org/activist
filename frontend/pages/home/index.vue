@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-light-layer-0 px-4 text-light-text dark:bg-dark-layer-0 dark:text-dark-text xl:px-8"
-  >
+  <div id="home-page-main" class="bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title>{{ $t("_global.home") }}</Title>
     </Head>

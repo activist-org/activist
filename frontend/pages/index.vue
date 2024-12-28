@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden bg-light-layer-0 dark:bg-dark-layer-0">
+  <div class="overflow-hidden bg-layer-0">
     <Head>
       <Title>{{ $t("pages.index.title") }}</Title>
     </Head>
@@ -13,10 +13,10 @@
         header="pages.index.get_active"
         tagline="pages.index.get_active_tagline"
         text="pages.index.get_active_text"
-        :imageURL="GET_ACTIVE_IMAGE_URL"
+        :imgUrl="GET_ACTIVE_IMAGE_URL"
         imageAltText="pages.index.get_active_img_alt_text"
         btnText1="pages.index.learn_more"
-        btnURL1="https://docs.activist.org/activist"
+        btnUrl1="https://docs.activist.org/activist"
         btnAriaLabel1="pages.index.get_active_aria_label"
         btnId1="btn-get-active"
       />
@@ -25,10 +25,10 @@
         header="pages.index.get_organized"
         tagline="pages.index.get_organized_tagline"
         text="pages.index.get_organized_text"
-        :imageURL="GET_ORGANIZED_IMAGE_URL"
+        :imgUrl="GET_ORGANIZED_IMAGE_URL"
         imageAltText="pages.index.get_organized_img_alt_text"
         btnText1="pages.index.learn_more"
-        btnURL1="https://docs.activist.org/activist"
+        btnUrl1="https://docs.activist.org/activist"
         btnAriaLabel1="pages.index.get_organized_aria_label"
         btnId1="btn-get-organized"
       />
@@ -37,10 +37,10 @@
         header="pages.index.grow_organization_header"
         tagline="pages.index.grow_organization_tagline"
         text="pages.index.grow_organization_text"
-        :imageURL="GROW_ORGANIZATION_IMAGE_URL"
+        :imgUrl="GROW_ORGANIZATION_IMAGE_URL"
         imageAltText="pages.index.grow_organization_img_alt_text"
         btnText1="pages.index.learn_more"
-        btnURL1="https://docs.activist.org/activist"
+        btnUrl1="https://docs.activist.org/activist"
         btnAriaLabel1="pages.index.grow_organization_aria_label"
         btnId1="btn-grow-organization"
       />
@@ -50,10 +50,10 @@
         header="pages.index.about_us"
         tagline="pages.index.activist_section_tagline"
         text="pages.index.activist_section_text"
-        imageURL="/icons/activist/activist_icon"
+        imgUrl="/icons/activist/activist_icon"
         imageAltText="_global.activist_icon_img_alt_text"
         btnText1="pages.index.learn_more"
-        btnURL1="https://docs.activist.org/activist"
+        btnUrl1="https://docs.activist.org/activist"
         btnAriaLabel1="pages.index.activist_section_btn_aria_label"
         btnId1="btn-activist"
       />
@@ -64,10 +64,10 @@
         text="pages.index.our_supporters_text"
         imageAltText=""
         btnText1="pages.index.become_supporter"
-        btnURL1="https://docs.activist.org/activist/welcome/support-us"
+        btnUrl1="/supporters/join"
         btnAriaLabel1="pages.index.our_supporters_btn_become_aria_label"
         btnText2="pages.index.view_all_supporters"
-        btnURL2="https://docs.activist.org/activist/organization/community/supporters"
+        btnUrl2="https://docs.activist.org/activist/organization/community/supporters"
         btnAriaLabel2="pages.index.our_supporters_btn_view_aria_label"
         subText="pages.index.our_supporters_sub_text"
         btnId1="btn-become-supporter"

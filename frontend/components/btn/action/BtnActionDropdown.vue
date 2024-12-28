@@ -23,7 +23,7 @@
         <Icon :name="dropdownIcon" :size="iconSize" />
       </MenuButton>
       <MenuItems
-        class="elem-shadow-lg absolute right-0 top-14 z-40 rounded-md bg-light-layer-1 ring-1 ring-black/5 focus:outline-none dark:bg-dark-layer-1"
+        class="elem-shadow-lg absolute right-0 top-14 z-40 rounded-md bg-layer-1 ring-1 ring-black/5 focus:outline-none"
       >
         <MenuItem
           v-for="o in dropdownOptions"
@@ -40,9 +40,9 @@
             @keypress.enter="dropdownOptionsCallback(o)"
             tabindex="0"
             :class="{
-              'bg-light-cta-orange/80 text-light-text dark:bg-dark-cta-orange/40 dark:text-dark-cta-orange':
+              'bg-cta-orange/80 text-primary-text dark:bg-cta-orange/40 dark:text-cta-orange':
                 active,
-              'text-light-text dark:text-dark-text': !active,
+              'text-primary-text': !active,
             }"
           >
             {{ o }}

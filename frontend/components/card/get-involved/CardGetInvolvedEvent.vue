@@ -5,7 +5,7 @@
         {{ $t("components._global.participate") }}
       </h3>
       <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-      <ModalEditAboutEvent
+      <ModalEditTextEvent
         v-if="event"
         @closeModal="handleCloseModal"
         :event="event"
@@ -18,8 +18,8 @@
       />
     </div>
     <div class="space-y-3 pt-3">
-      <p v-if="event.getInvolved">
-        {{ event.getInvolved }}
+      <p v-if="event.texts.getInvolved">
+        {{ event.texts.getInvolved }}
       </p>
       <p v-else>{{ $t("components._global.participate_subtext") }}</p>
       <!-- <p>
@@ -53,7 +53,7 @@ defineProps<{
 }>();
 
 const modals = useModals();
-const modalName = "ModalEditAboutEvent";
+const modalName = "ModalEditTextEvent";
 const modalIsOpen = ref(false);
 
 function openModal() {

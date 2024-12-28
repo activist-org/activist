@@ -6,20 +6,20 @@
       <div class="flex w-full justify-center md:w-fit">
         <NuxtLink
           v-if="organization || group || event || user"
-          :to="localePath(linkURL)"
+          :to="localePath(linkUrl)"
           :aria-label="$t(ariaLabel)"
         >
           <div
             v-if="organization || group || event"
-            class="h-min w-max rounded-md border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
+            class="h-min w-max rounded-md border border-section-div bg-layer-0"
           >
             <img
-              v-if="organization && imageURL"
+              v-if="organization && imageUrl"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              :src="imageURL"
+              :src="imageUrl"
               :alt="
                 $t('components.card_search_result.organization_img_alt_text') +
                 ' ' +
@@ -27,25 +27,25 @@
               "
             />
             <img
-              v-if="group && imageURL"
+              v-if="group && imageUrl"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              :src="imageURL"
+              :src="imageUrl"
               :alt="
-                $t('components.card_search_result.organization_img_alt_text') +
+                $t('components.card_search_result.group_img_alt_text') +
                 ' ' +
-                group.organization.name
+                group.name
               "
             />
             <div
-              v-else-if="(organization || group) && !imageURL"
+              v-else-if="(organization || group) && !imageUrl"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="flex items-center justify-center text-light-text dark:text-dark-text"
+              class="flex items-center justify-center text-primary-text"
             >
               <Icon :name="IconMap.ORGANIZATION" class="h-[75%] w-[75%]" />
             </div>
@@ -60,7 +60,7 @@
               <ImageEvent
                 v-if="event && eventType"
                 :eventType="eventType"
-                :imgURL="imageURL"
+                :imgUrl="imageUrl"
                 :alt="
                   $t('components.card_search_result.event_img_alt_text', {
                     entity_name: name,
@@ -70,16 +70,16 @@
             </div>
           </div>
           <div
-            v-if="user && !imageURL"
-            class="w-fit rounded-full border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
+            v-if="user && !imageUrl"
+            class="w-fit rounded-full border border-section-div bg-layer-0"
           >
             <div
-              v-if="!imageURL"
+              v-if="!imageUrl"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="flex items-center justify-center fill-light-text dark:fill-dark-text"
+              class="flex items-center justify-center fill-primary-text"
             >
               <Icon class="h-[75%] w-[75%]" :name="IconMap.PERSON" />
             </div>
@@ -87,19 +87,17 @@
         </NuxtLink>
         <a
           v-else-if="resource"
-          :href="linkURL"
+          :href="linkUrl"
           target="_blank"
           :aria-label="$t(ariaLabel)"
         >
-          <div
-            class="h-min rounded-md border border-light-section-div bg-light-layer-0 dark:border-dark-section-div dark:bg-dark-layer-0"
-          >
+          <div class="h-min rounded-md border border-section-div bg-layer-0">
             <div
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
               }"
-              class="flex items-center justify-center fill-light-text dark:fill-dark-text"
+              class="flex items-center justify-center fill-primary-text"
             >
               <Icon :name="IconMap.RESOURCE" class="h-[75%] w-[75%]" />
             </div>
@@ -111,7 +109,7 @@
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
             <NuxtLink
               v-if="organization || group || event || user"
-              :to="localePath(linkURL)"
+              :to="localePath(linkUrl)"
               :aria-label="$t(ariaLabel)"
             >
               <h2 class="responsive-h3 font-bold">
@@ -120,7 +118,7 @@
             >
             <a
               v-else-if="resource"
-              :href="linkURL"
+              :href="linkUrl"
               target="_blank"
               :aria-label="$t(ariaLabel)"
               ><h2 class="responsive-h3 font-bold">
@@ -159,7 +157,7 @@
           >
             <MetaTagLocation v-if="location" :location="location" />
             <MetaTagVideo
-              v-if="onlineLocation"
+              v-else-if="onlineLocation"
               :link="onlineLocation"
               label="components.card_search_result.view_video"
             />
@@ -182,11 +180,11 @@
           <div
             class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
           >
-            <MetaTagOrganization
+            <!-- <MetaTagOrganization
               v-for="(o, i) in organizations"
               :key="i"
               :organization="o"
-            />
+            /> -->
             <!-- <MetaTagMembers
               :members="members"
               label="components.card_search_result.members"
@@ -205,11 +203,15 @@
           <ShieldTopic v-for="(t, i) in topics" :key="i" :topic="t" />
         </div> -->
         <div v-if="organization || group">
-          <p v-if="organization">@{{ organization.org_name }}</p>
-          <p v-if="group">@{{ group.group_name }}</p>
+          <p v-if="organization">@{{ organization.orgName }}</p>
+          <p v-if="group">@{{ group.groupName }}</p>
         </div>
         <p
-          class="line-clamp-4 justify-center md:line-clamp-4 md:justify-start md:px-0 md:py-0 lg:line-clamp-5"
+          class="justify-center md:justify-start md:px-0 md:py-0"
+          :class="{
+            'line-clamp-3': isReduced,
+            'line-clamp-4 lg:line-clamp-5': !isReduced,
+          }"
         >
           {{ description }}
         </p>
@@ -237,11 +239,13 @@ const props = defineProps<{
   isPrivate?: boolean;
 }>();
 
+console.log(`Props: ${JSON.stringify(props, null, 2)}`);
+
 const aboveMediumBP = useBreakpoint("md");
 
 const i18n = useI18n();
 const localePath = useLocalePath();
-const { linkURL } = useLinkURL(props);
+const { linkUrl } = useLinkURL(props);
 
 const ariaLabel = computed<string>(() => {
   if (props.organization) {
@@ -264,22 +268,22 @@ const ariaLabel = computed<string>(() => {
 });
 
 const date = computed<string>(() => {
-  if (props.event) {
-    return props.event.startTime;
+  if (props.event && props.event.startTime) {
+    return props.event.startTime.split("T")[0];
   } else if (props.resource && props.resource.creationDate) {
-    return props.resource.creationDate;
+    return props.resource.creationDate.split("T")[0];
   } else {
     return "";
   }
 });
 
 const description = computed<string>(() => {
-  if (props.organization && props.organization.description) {
-    return props.organization.description;
-  } else if (props.group && props.group.description) {
-    return props.group.description;
-  } else if (props.event && props.event.description) {
-    return props.event.description;
+  if (props.organization && props.organization.texts.description) {
+    return props.organization.texts.description;
+  } else if (props.group && props.group.texts.description) {
+    return props.group.texts.description;
+  } else if (props.event && props.event.texts.description) {
+    return props.event.texts.description;
   } else if (props.resource && props.resource.description) {
     return props.resource.description;
   } else if (props.user && props.user.description) {
@@ -297,29 +301,29 @@ const eventType = computed<"action" | "learn">(() => {
   }
 });
 
-const imageURL = computed<string>(() => {
-  if (props.organization && props.organization.iconURL) {
-    return props.organization.iconURL;
-  } else if (props.group && props.group.organization.iconURL) {
-    return props.group.organization.iconURL;
-  } else if (props.event && props.event.iconURL) {
-    return props.event.iconURL;
-  } else if (props.user && props.user.iconURL) {
-    return props.user.iconURL;
+const imageUrl = computed<string>(() => {
+  if (props.organization && props.organization.iconUrl) {
+    return props.organization.iconUrl;
+  } else if (props.group && props.group.iconUrl) {
+    return props.group.iconUrl;
+  } else if (props.event && props.event.iconUrl) {
+    return props.event.iconUrl;
+  } else if (props.user && props.user.iconUrl) {
+    return props.user.iconUrl;
   } else {
     return "";
   }
 });
 
 const location = computed<string>(() => {
-  if (props.organization) {
-    return props.organization.location;
-  } else if (props.group) {
-    return props.group.location;
+  if (props.organization && props.organization.location) {
+    return props.organization.location.displayName.split(",")[0];
+  } else if (props.group && props.group.location) {
+    return props.group.location.displayName.split(",")[0];
   } else if (props.event && props.event.offlineLocation) {
-    return props.event.offlineLocation;
+    return props.event.offlineLocation.displayName.split(",")[0];
   } else if (props.resource && props.resource.location) {
-    return props.resource.location;
+    return props.resource.location.displayName.split(",")[0];
   } else if (props.user && props.user.location) {
     return props.user.location;
   } else {
@@ -361,17 +365,17 @@ const onlineLocation = computed<string>(() => {
   }
 });
 
-const organizations = computed<Organization[]>(() => {
-  if (props.group) {
-    return [props.group.organization];
-  } else if (props.event) {
-    return props.event.organizations;
-  } else if (props.resource) {
-    return [props.resource.organization];
-  } else {
-    return [];
-  }
-});
+// const organizations = computed<Organization[]>(() => {
+//   if (props.group) {
+//     return [props.group.organization];
+//   } else if (props.event) {
+//     return props.event.organizations;
+//   } else if (props.resource) {
+//     return [props.resource.organization];
+//   } else {
+//     return [];
+//   }
+// });
 
 // const stars = computed<number>(() => {
 //   if (props.resource && props.resource.starers) {

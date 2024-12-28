@@ -1,13 +1,13 @@
 # In order to add, delete or modify a dependency, please update
-# the reference here and then run:
+# the reference here and then the following in ./backend:
 #
-# - `pip-compile --rebuild requirements.in`
-# - `pip-compile --rebuild requirements-dev.in`
+# - pip-compile --rebuild requirements.in
+# - pip-compile --rebuild requirements-dev.in
 #
 # Make sure we use production deps for constraining installed dev packages. This
 # is important as otherwise we could be running tests with different versions
 # than production.
-#
+
 -r requirements.txt
 
 factory-boy

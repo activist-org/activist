@@ -1,32 +1,34 @@
+import type { Location } from "~/types/content/location";
+
 // MARK: Main Table
 
 export interface Group {
   id: string;
-  group_name: string;
+  groupName: string;
   name: string;
   tagline: string;
   organization: Organization;
   createdBy: User;
-  // category?: string;
-  location: string;
-  getInvolvedURL: string;
+  iconUrl?: string;
+  orgId?: string;
+  location: Location;
+
+  getInvolvedUrl: string;
   socialLinks: string[];
   creationDate: string;
-  // deletionDate: string;
 
   // group_event
-  // events: Event[];
+  events?: Event[];
 
-  // faq
+  // group_faq
   faqEntries?: FaqEntry[];
 
   // group_resource
   resources?: Resource[];
 
   // group_text
-  description: string;
-  getInvolved: string;
-  donationPrompt: string;
+  groupTextId: string;
+  texts: GroupText;
 
   // group_topic
   // topics?: Topic[];
@@ -39,31 +41,31 @@ export interface Group {
 // MARK: Bridge Tables
 
 export interface GroupEvent {
-  groupID: string;
-  eventID: string;
+  groupId: string;
+  eventId: string;
 }
 
 export interface GroupImage {
-  groupID: string;
-  imageID: string;
+  groupId: string;
+  imageId: string;
   sequenceIndex: number;
 }
 
 export interface GroupMember {
-  groupID: string;
-  userID: string;
+  groupId: string;
+  userId: string;
   isOwner: boolean;
   isAdmin: boolean;
   isComms: boolean;
 }
 
 export interface GroupResource {
-  groupID: string;
-  resourceID: string;
+  groupId: string;
+  resourceId: string;
 }
 
 export interface GroupText {
-  groupID: string;
+  groupId: string;
   iso: string;
   primary: boolean;
   description: string;
@@ -72,8 +74,8 @@ export interface GroupText {
 }
 
 export interface GroupTopic {
-  groupID: string;
-  topicID: string;
+  groupId: string;
+  topicId: string;
 }
 
 // MARK: Pinia Responses
@@ -85,19 +87,26 @@ export interface PiniaResGroup {
   _value: Group;
 }
 
-export interface PiniaResGroupText {
+export interface PiniaResGroups {
   __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: GroupText[];
-  };
-  _value: {
-    count: integer;
-    next: null;
-    previous: null;
-    results: GroupText[];
-  };
+  _rawValue: Group[];
+  _value: Group[];
+}
+
+// MARK: Form Data
+
+export interface GroupCreateFormData {
+  name: string;
+  tagline: string;
+  location: string;
+  description: string;
+  social_accounts: string[];
+  topics: Topic[];
+}
+
+export interface GroupUpdateTextFormData {
+  description: string;
+  getInvolved: string;
+  getInvolvedUrl: string;
 }

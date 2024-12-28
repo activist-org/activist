@@ -7,8 +7,8 @@
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
-          @click="openModalEditAboutOrganization()"
-          @keydown.enter="openModalEditAboutOrganization()"
+          @click="openModalEditTextOrganization()"
+          @keydown.enter="openModalEditTextOrganization()"
         />
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
@@ -21,9 +21,9 @@
           ariaLabel="components.card_get_involved_organization.view_all_groups_aria_label"
         />
         <BtnRouteInternal
-          v-if="organization && organization.getInvolvedURL"
+          v-if="organization && organization.getInvolvedUrl"
           :cta="true"
-          :linkTo="organization.getInvolvedURL"
+          :linkTo="organization.getInvolvedUrl"
           label="_global.join_organization"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
@@ -31,11 +31,11 @@
           ariaLabel="_global.join_organization_aria_label"
         />
       </div>
-      <ModalEditAboutOrganization
+      <ModalEditTextOrganization
         :organization="organization"
-        :description="organization.description"
-        :getInvolved="organization.getInvolved"
-        :getInvolvedURL="organization.getInvolvedURL"
+        :description="organization.texts.description"
+        :getInvolved="organization.texts.getInvolved"
+        :getInvolvedUrl="organization.getInvolvedUrl"
       />
     </div>
     <div class="mt-4">
@@ -49,9 +49,9 @@
         </p>
         <Feed :organization="organization" />
       </div>
-      <div v-else-if="organization.getInvolvedURL">
-        <p v-if="organization.getInvolved">
-          {{ organization.getInvolved }}
+      <div v-else-if="organization.getInvolvedUrl">
+        <p v-if="organization.texts.getInvolved">
+          {{ organization.texts.getInvolved }}
         </p>
         <p v-else>
           {{
@@ -80,8 +80,9 @@
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
-const { openModal: openModalEditAboutOrganization } = useModalHandlers(
-  "ModalEditAboutOrganization"
+
+const { openModal: openModalEditTextOrganization } = useModalHandlers(
+  "ModalEditTextOrganization"
 );
 
 const { userIsSignedIn } = useUser();
@@ -90,7 +91,7 @@ const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchByID(id);
+await organizationStore.fetchById(id);
 
 const { organization } = organizationStore;
 </script>

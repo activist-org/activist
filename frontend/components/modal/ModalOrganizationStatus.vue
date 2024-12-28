@@ -11,7 +11,7 @@
         </p>
       </DialogTitle>
       <p
-        class="responsive-h4 pt-2 text-light-accepted-green dark:text-dark-accepted-green"
+        class="responsive-h4 pt-2 text-accepted-green dark:text-accepted-green"
       >
         {{ $t("components.modal_organization_status.status_accepted") }}
       </p>

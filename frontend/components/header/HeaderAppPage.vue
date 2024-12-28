@@ -2,7 +2,7 @@
   <PageBreadcrumbs class="mt-4 hidden md:block" :pageType="pageType" />
   <div
     v-if="underDevelopment"
-    class="mt-5 flex w-full flex-wrap rounded-md border border-light-text bg-light-warn-yellow/40 px-3 py-1 text-light-text dark:border-dark-warn-yellow dark:bg-dark-warn-yellow/30 dark:text-dark-warn-yellow"
+    class="mt-5 flex w-full flex-wrap rounded-md border border-primary-text bg-warn-yellow/40 px-3 py-1 text-primary-text dark:border-warn-yellow dark:bg-warn-yellow/30 dark:text-warn-yellow"
   >
     <div class="flex space-x-3">
       <p>🚧</p>
@@ -40,9 +40,9 @@
       </div>
     </div>
   </div>
-  <div class="flex items-baseline gap-2 md:gap-4">
+  <div id="home-header" class="flex items-baseline gap-2 md:gap-4">
     <h1
-      class="responsive-h1 pt-4 font-bold text-light-text transition-all duration-500 dark:text-dark-text"
+      class="responsive-h1 pt-4 font-bold text-primary-text transition-all duration-500"
     >
       {{ headerName }}
     </h1>
@@ -58,13 +58,13 @@
     <!-- organization.status === 1 means it's application is pending. -->
     <h2
       v-if="organization && organization.status === 1"
-      class="responsive-h4 text-light-warn-yellow transition-all duration-500 dark:text-dark-warn-yellow"
+      class="responsive-h4 text-warn-yellow transition-all duration-500"
     >
       {{ $t("components.header_app_page.status_pending") }}
     </h2>
     <h2
       v-else-if="headerTagline"
-      class="responsive-h4 text-light-distinct-text transition-all duration-500 dark:text-dark-distinct-text"
+      class="responsive-h4 text-distinct-text transition-all duration-500"
     >
       {{ headerTagline }}
     </h2>
@@ -98,13 +98,13 @@ let group: Group;
 let event: Event;
 
 if (props.pageType === "organization") {
-  await organizationStore.fetchByID(id);
+  await organizationStore.fetchById(id);
   organization = organizationStore.organization;
 } else if (props.pageType === "group") {
-  await groupStore.fetchByID(id);
+  await groupStore.fetchById(id);
   group = groupStore.group;
 } else if (props.pageType === "event") {
-  await eventStore.fetchByID(id);
+  await eventStore.fetchById(id);
   event = eventStore.event;
 }
 

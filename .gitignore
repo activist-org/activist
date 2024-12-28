@@ -36,7 +36,11 @@ frontend/.github/
 .env
 .env.*
 !.env.dev
+!.env.dev.local
 dist
 
 # Node dependencies
 node_modules
+
+# Vue/Nuxt i18n fix
+vue-i18n.d.ts

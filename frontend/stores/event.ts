@@ -1,10 +1,7 @@
 import type {
   Event,
-  EventText,
-  PiniaResEvent,
-  PiniaResEvents,
-  PiniaResEventText,
-  PiniaResEventTexts,
+  EventCreateFormData,
+  EventUpdateTextFormData,
 } from "~/types/events/event";
 
 interface EventStore {
@@ -24,13 +21,19 @@ export const useEventStore = defineStore("event", {
       name: "",
       tagline: "",
       createdBy: "",
-      iconURL: "",
+      iconUrl: "",
       type: "learn",
       onlineLocationLink: "",
-      offlineLocation: "",
-      offlineLocationLat: "",
-      offlineLocationLong: "",
-      getInvolvedURL: "",
+
+      offlineLocation: {
+        id: "",
+        lat: "",
+        lon: "",
+        bbox: [""],
+        displayName: "",
+      },
+
+      getInvolvedUrl: "",
       socialLinks: [""],
       startTime: "",
       endTime: "",
@@ -38,9 +41,14 @@ export const useEventStore = defineStore("event", {
 
       organizations: [],
 
-      eventTextID: "",
-      description: "",
-      getInvolved: "",
+      eventTextId: "",
+      texts: {
+        eventId: "",
+        iso: "",
+        primary: false,
+        description: "",
+        getInvolved: "",
+      },
     },
 
     events: [],
@@ -48,61 +56,67 @@ export const useEventStore = defineStore("event", {
   actions: {
     // MARK: Create
 
-    async create() {},
+    async create(formData: EventCreateFormData) {
+      this.loading = true;
+
+      const token = localStorage.getItem("accessToken");
+
+      const responseEvent = await useFetch(
+        `${BASE_BACKEND_URL}/events/events/`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name: formData.name,
+            location: formData.location,
+            tagline: formData.tagline,
+            social_accounts: formData.social_accounts,
+            created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
+            description: formData.description,
+            topics: formData.topics,
+            high_risk: false,
+            total_flags: 0,
+            acceptance_date: new Date(),
+          }),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseEventData = responseEvent.data.value as unknown as Event;
+
+      if (responseEvent) {
+        this.loading = false;
+        return responseEventData.id;
+      }
+
+      this.loading = false;
+      return false;
+    },
 
     // MARK: Fetch By ID
 
-    async fetchByID(id: string | undefined) {
+    async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const [resEvent, resEventTexts] = await Promise.all([
-        useAsyncData(
-          async () => await fetchWithOptionalToken(`/events/events/${id}`, {})
-        ),
-        // useAsyncData(
-        //   async () =>
-        //     await fetchWithOptionalToken(
-        //       `/entities/event_faq?event_id=${id}`,
-        //       {}
-        //     )
-        // ),
-        // useAsyncData(
-        //   async () =>
-        //     await fetchWithOptionalToken(
-        //       `/entities/event_resources?event_id=${id}`,
-        //       {}
-        //     )
-        // ),
-        useAsyncData(
-          async () =>
-            await fetchWithOptionalToken(
-              `/events/event_texts?event_id=${id}`,
-              {}
-            )
-        ),
-      ]);
+      const { data, status } = await useAsyncData<Event>(
+        async () =>
+          (await fetchWithoutToken(`/events/events/${id}/`, {})) as Event
+      );
 
-      const eventRes = resEvent.data as unknown as PiniaResEvent;
-      // const eventFAQRes = resEventFAQ.data as unknown as PiniaResEvent;
-      // const eventResourcesRes =
-      //   resEventResources.data as unknown as PiniaResEvent;
-      const eventTextsRes = resEventTexts.data as unknown as PiniaResEventText;
+      if (status.value === "success") {
+        const event = data.value!;
 
-      const event = eventRes._value;
-      // const faq = eventRes._value;
-      // const resources = eventRes._value;
-      const texts = eventTextsRes._value.results[0];
-
-      this.event.id = event.id;
-      this.event.name = event.name;
-      this.event.tagline = event.tagline;
-      this.event.iconURL = event.iconURL;
-      this.event.offlineLocation = event.offlineLocation;
-      this.event.getInvolvedURL = event.getInvolvedURL;
-      this.event.socialLinks = event.socialLinks;
-
-      this.event.description = texts.description;
-      this.event.getInvolved = texts.getInvolved;
+        this.event.id = event.id;
+        this.event.name = event.name;
+        this.event.tagline = event.tagline;
+        this.event.iconUrl = event.iconUrl;
+        this.event.offlineLocation = event.offlineLocation;
+        this.event.getInvolvedUrl = event.getInvolvedUrl;
+        this.event.socialLinks = event.socialLinks;
+        this.event.eventTextId = event.texts.eventId;
+        this.event.texts = event.texts;
+      }
 
       this.loading = false;
     },
@@ -112,68 +126,92 @@ export const useEventStore = defineStore("event", {
     async fetchAll() {
       this.loading = true;
 
-      const [responseEvents] = await Promise.all([
-        useAsyncData(
-          async () => await fetchWithOptionalToken(`/events/events/`, {})
-        ),
-      ]);
+      const { data, status } = await useAsyncData<Event[]>(
+        async () => (await fetchWithoutToken(`/events/events/`, {})) as Event[]
+      );
 
-      const events = responseEvents.data as unknown as PiniaResEvents;
+      if (status.value === "success") {
+        const events = data.value!.map((event: Event) => {
+          return {
+            id: event.id,
+            name: event.name,
+            tagline: event.tagline,
+            createdBy: event.createdBy,
+            iconUrl: event.iconUrl,
+            type: event.type,
+            onlineLocationLink: event.onlineLocationLink,
 
-      if (events._value) {
-        const responseEventTexts = (await Promise.all(
-          events._value.map((event) =>
-            useAsyncData(
-              async () =>
-                await fetchWithOptionalToken(
-                  `/events/event_texts?event_id=${event.id}`,
-                  {}
-                )
-            )
-          )
-        )) as unknown as PiniaResEventTexts[];
+            offlineLocation: event.offlineLocation,
 
-        const eventTextsData = responseEventTexts.map(
-          (text) => text.data._value.results[0]
-        ) as unknown as EventText[];
+            getInvolvedUrl: event.getInvolvedUrl,
+            socialLinks: event.socialLinks,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            creationDate: event.creationDate,
+            organizations: event.organizations,
 
-        const eventsWithTexts = events._value.map(
-          (event: Event, index: number) => {
-            const texts = eventTextsData[index];
-            return {
-              id: event.id,
-              name: event.name,
-              tagline: event.tagline,
-              createdBy: event.createdBy,
-              iconURL: event.iconURL,
-              type: event.type,
-              onlineLocationLink: event.onlineLocationLink,
-              offlineLocation: event.offlineLocation,
-              offlineLocationLat: event.offlineLocationLat,
-              offlineLocationLong: event.offlineLocationLong,
-              getInvolvedURL: event.getInvolvedURL,
-              socialLinks: event.socialLinks,
-              startTime: event.startTime,
-              endTime: event.endTime,
-              creationDate: event.creationDate,
-              organizations: event.organizations,
+            eventTextId: event.eventTextId,
+            texts: event.texts,
+          };
+        });
 
-              eventTextID: event.eventTextID,
-              description: texts.description,
-              getInvolved: texts.getInvolved,
-            };
-          }
-        );
-
-        this.events = eventsWithTexts;
+        this.events = events;
       }
 
       this.loading = false;
     },
 
-    // MARK: Update
+    // MARK: Update Texts
 
-    async update() {},
+    async updateTexts(event: Event, formData: EventUpdateTextFormData) {
+      this.loading = true;
+
+      const token = localStorage.getItem("accessToken");
+
+      const responseEvent = await $fetch(
+        BASE_BACKEND_URL + `/events/events/${event.id}/`,
+        {
+          method: "PUT",
+          body: {
+            ...event,
+            getInvolvedUrl: formData.getInvolvedUrl,
+          },
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseEventTexts = await $fetch(
+        BASE_BACKEND_URL + `/events/event_texts/${event.eventTextId}/`,
+        {
+          method: "PUT",
+          body: {
+            primary: true,
+            description: formData.description,
+            getInvolved: formData.getInvolved,
+            donate_prompt: "",
+            orgId: event.id,
+            iso: "en",
+          },
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      if (responseEvent && responseEventTexts) {
+        this.event.texts.description = formData.description;
+        this.event.texts.getInvolved = formData.getInvolved;
+        this.event.getInvolvedUrl = formData.getInvolvedUrl;
+
+        this.loading = false;
+
+        return true;
+      }
+
+      return false;
+    },
 
     // MARK: Delete
 

@@ -19,6 +19,7 @@ from .models import (
     SupportEntityType,
     UserModel,
     UserResource,
+    UserSocialLink,
     UserTask,
     UserTopic,
 )
@@ -91,6 +92,12 @@ class UserResourceSerializer(serializers.ModelSerializer[UserResource]):
         fields = "__all__"
 
 
+class UserSocialLinkSerializer(serializers.ModelSerializer[UserSocialLink]):
+    class Meta:
+        model = UserSocialLink
+        fields = "__all__"
+
+
 class UserTaskSerializer(serializers.ModelSerializer[UserTask]):
     class Meta:
         model = UserTask
@@ -104,6 +111,10 @@ class UserTopicSerializer(serializers.ModelSerializer[UserTopic]):
 
 
 # MARK: Methods
+
+
+class DeleteUserResponseSerializer(serializers.Serializer[UserModel]):
+    message = serializers.CharField(max_length=200)
 
 
 class SignupSerializer(serializers.ModelSerializer[UserModel]):
