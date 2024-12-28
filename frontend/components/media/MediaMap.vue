@@ -183,7 +183,7 @@ onMounted(() => {
             ],
             tileSize: 256,
             attribution:
-              '<a href="https://www.cyclosm.org" target="_blank">CyclOSM </a>',
+              '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a>',
           },
         },
         layers: [
