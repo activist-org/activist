@@ -92,7 +92,7 @@ const routeProfileMap: RouteProfile[] = [
 
 const walkingRouteProfileControl = `
   <div
-    title=${i18n.t("components.media_map.change_profile")}
+    title="${i18n.t("components.media_map.change_profile")}"
     id=${routeProfileOptions.FOOT}
     style="
     background-image: url(${walkDirectionsIcon});
@@ -108,7 +108,7 @@ const walkingRouteProfileControl = `
 
 const bikeRouteProfileControl = `
   <div
-    title=${i18n.t("components.media_map.change_profile")}
+    title="${i18n.t("components.media_map.change_profile")}"
     id=${routeProfileOptions.BIKE}
     style="
     background-image: url(${bikeDirectionsIcon});
@@ -183,9 +183,7 @@ onMounted(() => {
             ],
             tileSize: 256,
             attribution:
-              '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a>' +
-              i18n.t("components.media_map.hosted_by") +
-              '<a href="https://openstreetmap.fr" target="_blank">OSM France</a>',
+              '<a href="https://www.cyclosm.org" target="_blank">CyclOSM </a>',
           },
         },
         layers: [
@@ -398,7 +396,7 @@ onMounted(() => {
             color: grey;
             cursor: pointer"
           >
-            Clear directions
+            ${i18n.t("components.media_map.clear_directions")}
           </div>
         `;
 
@@ -411,7 +409,7 @@ onMounted(() => {
             color: grey;
             cursor: pointer;"
           >
-            Clear directions [x]
+            ${i18n.t("components.media_map.clear_directions")} [x]
           </div>
         `;
 
