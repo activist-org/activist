@@ -2,7 +2,7 @@ from rest_framework import status, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from backend.paginator import CustomPagination
+from core.paginator import CustomPagination
 
 from .models import (
     Event,

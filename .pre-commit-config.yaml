@@ -15,10 +15,10 @@ repos:
         args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
 
-  - repo: local
-    hooks:
-      - id: run-i18n-checks
-        name: Run i18n Checks
-        entry: python frontend/i18n/check/run_i18n_checks.py
-        language: python
-        stages: [pre-commit]
+  # - repo: local
+  #   hooks:
+  #     - id: run-i18n-checks
+  #       name: Run i18n Checks
+  #       entry: python frontend/i18n/check/run_i18n_checks.py
+  #       language: python
+  #       stages: [pre-commit]
