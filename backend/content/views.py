@@ -7,41 +7,11 @@ from rest_framework.response import Response
 
 from core.paginator import CustomPagination
 
-from .models import (
-    Discussion,
-    DiscussionEntry,
-    DiscussionTag,
-    Faq,
-    Image,
-    Location,
-    Resource,
-    ResourceTag,
-    ResourceTopic,
-    Role,
-    SocialLink,
-    Tag,
-    Task,
-    TaskTag,
-    Topic,
-    TopicFormat,
-)
+from .models import Discussion, DiscussionEntry, Resource
 from .serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
-    DiscussionTagSerializer,
-    FaqSerializer,
-    ImageSerializer,
-    LocationSerializer,
     ResourceSerializer,
-    ResourceTagSerializer,
-    ResourceTopicSerializer,
-    RoleSerializer,
-    SocialLinkSerializer,
-    TagSerializer,
-    TaskSerializer,
-    TaskTagSerializer,
-    TopicFormatSerializer,
-    TopicSerializer,
 )
 
 # MARK: Main Tables
@@ -134,24 +104,6 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class FaqViewSet(viewsets.ModelViewSet[Faq]):
-    queryset = Faq.objects.all()
-    serializer_class = FaqSerializer
-    pagination_class = CustomPagination
-
-
-class ImageViewSet(viewsets.ModelViewSet[Image]):
-    queryset = Image.objects.all()
-    serializer_class = ImageSerializer
-    pagination_class = CustomPagination
-
-
-class LocationViewSet(viewsets.ModelViewSet[Location]):
-    queryset = Location.objects.all()
-    serializer_class = LocationSerializer
-    pagination_class = CustomPagination
-
-
 class ResourceViewSet(viewsets.ModelViewSet[Resource]):
     queryset = Resource.objects.all()
     serializer_class = ResourceSerializer
@@ -233,37 +185,6 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         self.perform_destroy(item)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class RoleViewSet(viewsets.ModelViewSet[Role]):
-    queryset = Role.objects.all()
-    serializer_class = RoleSerializer
-    pagination_class = CustomPagination
-
-
-class SocialLinkViewSet(viewsets.ModelViewSet[SocialLink]):
-    queryset = SocialLink.objects.all()
-    serializer_class = SocialLinkSerializer
-    pagination_class = CustomPagination
-
-
-class TagViewSet(viewsets.ModelViewSet[Tag]):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
-    pagination_class = CustomPagination
-
-
-class TaskViewSet(viewsets.ModelViewSet[Task]):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-    pagination_class = CustomPagination
-
-
-class TopicViewSet(viewsets.ModelViewSet[Topic]):
-    queryset = Topic.objects.all()
-    serializer_class = TopicSerializer
-
-    pagination_class = CustomPagination
 
 
 # MARK: Bridge Tables
@@ -349,33 +270,3 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         self.perform_destroy(item)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class DiscussionTagViewSet(viewsets.ModelViewSet[DiscussionTag]):
-    queryset = DiscussionTag.objects.all()
-    serializer_class = DiscussionTagSerializer
-    pagination_class = CustomPagination
-
-
-class ResourceTagViewSet(viewsets.ModelViewSet[ResourceTag]):
-    queryset = ResourceTag.objects.all()
-    serializer_class = ResourceTagSerializer
-    pagination_class = CustomPagination
-
-
-class ResourceTopicViewSet(viewsets.ModelViewSet[ResourceTopic]):
-    queryset = ResourceTopic.objects.all()
-    serializer_class = ResourceTopicSerializer
-    pagination_class = CustomPagination
-
-
-class TaskTagViewSet(viewsets.ModelViewSet[TaskTag]):
-    queryset = TaskTag.objects.all()
-    serializer_class = TaskTagSerializer
-    pagination_class = CustomPagination
-
-
-class TopicFormatViewSet(viewsets.ModelViewSet[TopicFormat]):
-    queryset = TopicFormat.objects.all()
-    serializer_class = TopicFormatSerializer
-    pagination_class = CustomPagination

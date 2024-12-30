@@ -3,7 +3,7 @@ import random
 
 import factory
 
-from .models import Faq, Location, Resource, ResourceTopic, Task, Topic, TopicFormat
+from .models import Faq, Location, Resource, Task, Topic
 
 # MARK: Main Tables
 
@@ -151,21 +151,3 @@ class TopicFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     deprecation_date = factory.Faker("date")
-
-
-# MARK: Bridge Tables
-
-
-class ResourceTopicFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = ResourceTopic
-
-    resource_id = factory.SubFactory(ResourceFactory)
-    topic_id = factory.SubFactory(TopicFactory)
-
-
-class TopicFormatFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = TopicFormat
-
-    format_id = factory.SubFactory("events.factories.FormatFactory")

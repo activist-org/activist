@@ -21,6 +21,9 @@ class Discussion(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
 
+    tags = models.ManyToManyField("content.Tag", blank=True)
+    entries = models.ManyToManyField("content.DiscussionEntry", blank=True)
+
     def __str__(self) -> str:
         return f"{self.id}"
 
@@ -77,6 +80,9 @@ class Resource(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
+    tags = models.ManyToManyField("content.Tag", blank=True)
+    topics = models.ManyToManyField("content.Topic", blank=True)
+
     def __str__(self) -> str:
         return self.name
 
@@ -122,6 +128,7 @@ class Task(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
+    tag = models.ManyToManyField("content.Tag", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -135,6 +142,8 @@ class Topic(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateTimeField(blank=True, null=True)
+
+    format = models.ManyToManyField("events.Format", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -151,46 +160,6 @@ class DiscussionEntry(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class DiscussionTag(models.Model):
-    discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class ResourceTag(models.Model):
-    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class ResourceTopic(models.Model):
-    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class TaskTag(models.Model):
-    task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class TopicFormat(models.Model):
-    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    format_id = models.ForeignKey("events.Format", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.id}"
