@@ -4,7 +4,7 @@ from typing import TypedDict, Unpack
 
 from django.core.management.base import BaseCommand
 
-from authentication.factories import UserFactory, UserTopicFactory
+from authentication.factories import UserFactory
 from authentication.models import UserModel
 from content.models import Topic
 from entities.factories import (
@@ -62,7 +62,7 @@ class Command(BaseCommand):
 
             for u, user in enumerate(users):
                 user_topic = random.choice(topics)
-                UserTopicFactory(user_id=user, topic_id=user_topic)
+                user.topics.set([user_topic])
 
                 for o in range(num_orgs_per_user):
                     for e in range(num_events_per_org):
