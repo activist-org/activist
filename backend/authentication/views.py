@@ -9,89 +9,24 @@ from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, extend_schema
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.paginator import CustomPagination
-
-from .models import (
-    Support,
-    SupportEntityType,
-    UserModel,
-    UserResource,
-    UserSocialLink,
-    UserTask,
-    UserTopic,
-)
+from .models import UserModel
 from .serializers import (
     DeleteUserResponseSerializer,
     LoginSerializer,
     PasswordResetSerializer,
     SignupSerializer,
-    SupportEntityTypeSerializer,
-    SupportSerializer,
-    UserResourceSerializer,
-    UserSerializer,
-    UserTaskSerializer,
-    UserTopicSerializer,
 )
 
 dotenv.load_dotenv()
 
 FRONTEND_BASE_URL = os.getenv("VITE_FRONTEND_URL")
 ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
-
-
-# MARK: Main Tables
-
-
-class SupportViewSet(viewsets.ModelViewSet[Support]):
-    queryset = Support.objects.all()
-    pagination_class = CustomPagination
-    serializer_class = SupportSerializer
-
-
-class UserViewSet(viewsets.ModelViewSet[UserModel]):
-    queryset = UserModel.objects.all()
-    pagination_class = CustomPagination
-    serializer_class = UserSerializer
-
-
-# MARK: Bridge Tables
-
-
-class SupportEntityTypeViewSet(viewsets.ModelViewSet[SupportEntityType]):
-    queryset = SupportEntityType.objects.all()
-    pagination_class = CustomPagination
-    serializer_class = SupportEntityTypeSerializer
-
-
-class UserResourceViewSet(viewsets.ModelViewSet[UserResource]):
-    queryset = UserResource.objects.all()
-    pagination_class = CustomPagination
-    serializer_class = UserResourceSerializer
-
-
-class UserSocialLinkViewSet(viewsets.ModelViewSet[UserSocialLink]):
-    queryset = UserSocialLink.objects.all()
-    pagination_class = CustomPagination
-    serializer_class = UserResourceSerializer
-
-
-class UserTaskViewSet(viewsets.ModelViewSet[UserTask]):
-    queryset = UserTask.objects.all()
-    pagination_class = CustomPagination
-    serializer_class = UserTaskSerializer
-
-
-class UserTopicViewSet(viewsets.ModelViewSet[UserTopic]):
-    queryset = UserTopic.objects.all()
-    pagination_class = CustomPagination
-    serializer_class = UserTopicSerializer
-
 
 # MARK: Methods
 

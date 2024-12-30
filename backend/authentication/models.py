@@ -111,40 +111,10 @@ class UserModel(AbstractUser, PermissionsMixin):
 
     USERNAME_FIELD = "username"
 
+    resources = models.ManyToManyField("content.Resource", blank=True)
+    social_links = models.ManyToManyField("content.SocialLink", blank=True)
+    tasks = models.ManyToManyField("content.Task", blank=True)
+    topics = models.ManyToManyField("content.Topic", blank=True)
+
     def __str__(self) -> str:
         return self.username
-
-
-# MARK: Bridge Tables
-
-
-class UserResource(models.Model):
-    user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    resource_id = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class UserSocialLink(models.Model):
-    user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    link_id = models.ForeignKey("content.SocialLink", on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class UserTask(models.Model):
-    user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
-
-
-class UserTopic(models.Model):
-    user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    topic_id = models.ForeignKey("content.Topic", on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.id}"
