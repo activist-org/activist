@@ -42,7 +42,7 @@ for root, dirs, files in os.walk(frontend_directory):
 
 file_to_check_contents = {}
 for frontend_file in files_to_check:
-    with open(frontend_file, "r") as f:
+    with open(frontend_file, "r", encoding="utf-8") as f:
         file_to_check_contents[frontend_file] = f.read()
 
 # MARK: Key-Files Dict

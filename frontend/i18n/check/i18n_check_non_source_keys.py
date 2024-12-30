@@ -28,7 +28,7 @@ all_en_us_keys = en_us_json_dict.keys()
 non_source_keys_dict = {}
 for json_file in glob.glob(f"{json_file_directory}{path_separator}*.json"):
     if json_file.split(path_separator)[-1] != "en-US.json":
-        with open(json_file) as f:
+        with open(json_file, encoding="utf-8") as f:
             json_dict = json.loads(f.read())
 
         all_keys = json_dict.keys()
