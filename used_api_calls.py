@@ -65,7 +65,6 @@ def search_for_api_calls_in_directory(dir_path: str, exclude: None | list[str]) 
     for root, dirs, files in os.walk(dir_path, topdown=True):
         if exclude:
             dirs[:] = [d for d in dirs if d not in exclude]
-            print(dirs)
 
         for file in files:
             if file.endswith((".vue", ".js", ".ts")):
