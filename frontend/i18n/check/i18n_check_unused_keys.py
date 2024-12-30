@@ -23,7 +23,7 @@ directories_to_skip = [
 ]
 file_types_to_check = [".vue", ".ts", ".js"]
 
-with open(json_file_directory / "en-US.json") as f:
+with open(json_file_directory / "en-US.json", encoding="utf-8") as f:
     en_us_json_dict = json.loads(f.read())
 
 files_to_check = []
