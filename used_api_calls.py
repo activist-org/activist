@@ -62,9 +62,10 @@ def search_for_api_calls_in_directory(dir_path: str, exclude: None | list[str]) 
         A list of the API calls found in the files in the directory and its subdirectories.
     """
     api_calls = []
-    for root, dir, files in os.walk(dir_path, topdown=True):
+    for root, dirs, files in os.walk(dir_path, topdown=True):
         if exclude:
-            dir[:] = [d for d in dir if d not in exclude]
+            dirs[:] = [d for d in dirs if d not in exclude]
+            print(dirs)
 
         for file in files:
             if file.endswith((".vue", ".js", ".ts")):
@@ -97,7 +98,7 @@ EXCLUDE_DIRS = [
     "dist",
     "public",
     "build",
-    "coverage",
+    "test",
     "tests",
     "types",
     "test-e2e",
