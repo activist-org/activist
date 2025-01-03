@@ -29,6 +29,7 @@
 # **Contents**
 
 - [Our goals](#our-goals)
+- [Preview Video](#preview-video)
 - [Contributing](#contributing)
 - [Environment setup](#environment-setup)
 - [Design and accessibility](#design-a11y)
@@ -46,7 +47,7 @@ The activist community is creating a global platform where movements grow and pe
 
 <a id="topics"></a>
 
-## Topics
+## Topics [`⇧`](#contents)
 
 The following are the working topics that activist could include:
 
@@ -65,7 +66,7 @@ Beyond clustering by topics, tags will also be used to draw community attention 
 
 <a id="preview-video"></a>
 
-## Preview video [`⇧`](#contents)
+# Preview video [`⇧`](#contents)
 
 The following is a recording of the [Creating and Joining Events prototype](https://www.figma.com/proto/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=1998%3A2577&scaling=contain&page-id=1986%3A1046&starting-point-node-id=1998%3A2577) found on [Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231):
 
