@@ -241,15 +241,50 @@ onMounted(() => {
       }),
       "top-left"
     );
-    map.addControl(new maplibregl.FullscreenControl());
-    map.addControl(
-      new maplibregl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-      })
-    );
+
+    // Add localized tooltips for NavigationControl buttons
+    const zoomInButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-zoom-in");
+    if (zoomInButton)
+      zoomInButton.title = i18n.t("components.media_map.zoom_in");
+
+    const zoomOutButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-zoom-out");
+    if (zoomOutButton)
+      zoomOutButton.title = i18n.t("components.media_map.zoom_out");
+
+    const compassButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-compass");
+    if (compassButton)
+      compassButton.title = i18n.t("components.media_map.reset_north");
+
+    // Localize FullscreenControl
+    const fullscreenControl = new maplibregl.FullscreenControl();
+    map.addControl(fullscreenControl);
+
+    const fullscreenButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-fullscreen");
+    if (fullscreenButton)
+      fullscreenButton.title = i18n.t("components.media_map.fullscreen");
+
+    // Localize GeolocateControl
+    const geolocateControl = new maplibregl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
+    map.addControl(geolocateControl);
+
+    const geolocateButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-geolocate");
+    if (geolocateButton)
+      geolocateButton.title = i18n.t("components.media_map.geolocate");
 
     const popup = new maplibregl.Popup({
       offset: 25,
