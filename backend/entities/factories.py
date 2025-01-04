@@ -4,22 +4,16 @@ import factory
 
 from .models import (
     Group,
-    GroupEvent,
     GroupImage,
     GroupMember,
-    GroupResource,
     GroupText,
-    GroupTopic,
     Organization,
     OrganizationApplication,
     OrganizationApplicationStatus,
-    OrganizationEvent,
     OrganizationImage,
     OrganizationMember,
-    OrganizationResource,
     OrganizationTask,
     OrganizationText,
-    OrganizationTopic,
 )
 
 # MARK: Main Tables
@@ -47,7 +41,7 @@ class GroupFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Group
 
-    org_id = factory.SubFactory(OrganizationFactory)
+    org = factory.SubFactory(OrganizationFactory)
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
@@ -60,14 +54,6 @@ class GroupFactory(factory.django.DjangoModelFactory):
 
 
 # MARK: Bridge Tables
-
-
-class GroupEventFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = GroupEvent
-
-    group_id = factory.SubFactory(GroupFactory)
-    event_id = factory.SubFactory("events.factories.EventFactory")
 
 
 class GroupImageFactory(factory.django.DjangoModelFactory):
@@ -87,14 +73,6 @@ class GroupMemberFactory(factory.django.DjangoModelFactory):
     is_admin = factory.Faker("boolean")
 
 
-class GroupResourceFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = GroupResource
-
-    group_id = factory.SubFactory(GroupFactory)
-    resource_id = factory.SubFactory("content.factories.ResourceFactory")
-
-
 class GroupTextFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = GroupText
@@ -104,14 +82,6 @@ class GroupTextFactory(factory.django.DjangoModelFactory):
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")
     donate_prompt = factory.Faker(provider="text", locale="la")
-
-
-class GroupTopicFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = GroupTopic
-
-    group_id = factory.SubFactory(GroupFactory)
-    topic_id = factory.SubFactory("content.factories.TopicFactory")
 
 
 class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
@@ -137,14 +107,6 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
     )
 
 
-class OrganizationEventFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = OrganizationEvent
-
-    org_id = factory.SubFactory(OrganizationFactory)
-    event_id = factory.SubFactory("events.factories.EventFactory")
-
-
 class OrganizationImageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OrganizationImage
@@ -162,14 +124,6 @@ class OrganizationMemberFactory(factory.django.DjangoModelFactory):
     is_owner = factory.Faker("boolean")
     is_admin = factory.Faker("boolean")
     is_comms = factory.Faker("boolean")
-
-
-class OrganizationResourceFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = OrganizationResource
-
-    org_id = factory.SubFactory(OrganizationFactory)
-    resource_id = factory.SubFactory("content.factories.ResourceFactory")
 
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):
@@ -190,14 +144,6 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")
     donate_prompt = factory.Faker(provider="text", locale="la")
-
-
-class OrganizationTopicFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = OrganizationTopic
-
-    org_id = factory.SubFactory(OrganizationFactory)
-    topic_id = factory.SubFactory("content.factories.TopicFactory")
 
 
 class StatusTypeFactory(factory.django.DjangoModelFactory):
