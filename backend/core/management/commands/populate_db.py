@@ -96,15 +96,14 @@ class Command(BaseCommand):
                     user_org.events.set([user_org_event])
 
                     for g in range(num_groups_per_org):
-                        group_texts = GroupTextFactory(iso="en", primary=True)
-
-                        _ = GroupFactory(
+                        group = GroupFactory(
                             created_by=user,
                             group_name=f"group_u{u}_o{o}_g{g}",
-                            org_id=user_org,
-                            texts=group_texts,
+                            org=user_org,
                             name=f"{user_topic.name} Group",
                         )
+
+                        _ = GroupTextFactory(iso="en", primary=True, group=group)
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org
