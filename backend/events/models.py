@@ -34,9 +34,6 @@ class Event(models.Model):
     end_time = models.DateTimeField()
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
-    texts = models.ForeignKey(
-        "EventText", on_delete=models.CASCADE, blank=True, null=True
-    )
 
     resources = models.ManyToManyField("content.Resource", blank=True)
     dicussions = models.ManyToManyField("content.Discussion", blank=True)
@@ -81,11 +78,11 @@ class Role(models.Model):
 
 
 class EventAttendee(models.Model):
-    event_id = models.ForeignKey(
+    event = models.ForeignKey(
         Event, on_delete=models.CASCADE, related_name="event_attendees"
     )
-    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    role_id = models.ForeignKey(
+    user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    role = models.ForeignKey(
         "events.Role", on_delete=models.CASCADE, blank=True, null=True
     )
     attendee_status = models.ForeignKey(
@@ -93,7 +90,7 @@ class EventAttendee(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.user_id} - {self.event_id}"
+        return f"{self.user} - {self.event}"
 
 
 class EventAttendeeStatus(models.Model):
@@ -105,7 +102,9 @@ class EventAttendeeStatus(models.Model):
 
 
 class EventText(models.Model):
-    event_id = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
+    event = models.ForeignKey(
+        Event, on_delete=models.CASCADE, null=True, related_name="event_texts"
+    )
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=2500)

@@ -85,21 +85,21 @@ class Group(models.Model):
 
 class Status(models.Model):
     status_type = models.ForeignKey("StatusType", on_delete=models.CASCADE)
-    org_id = models.ForeignKey(
+    org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="org_status"
     )
-    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"{self.org_id.name} - {self.status_type}"
+        return f"{self.org.name} - {self.status_type}"
 
 
 # MARK: Bridge Tables
 
 
 class GroupImage(models.Model):
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="images")
-    image_id = models.ForeignKey("content.Image", on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="images")
+    image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
     sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
@@ -135,7 +135,7 @@ class GroupText(models.Model):
 
 
 class OrganizationApplication(models.Model):
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
     orgs_in_favor = models.ManyToManyField(
         "entities.Organization", related_name="in_favor", blank=True
@@ -158,8 +158,8 @@ class OrganizationApplicationStatus(models.Model):
 
 
 class OrganizationImage(models.Model):
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    image_id = models.ForeignKey("content.Image", on_delete=models.CASCADE)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
     sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
@@ -167,8 +167,8 @@ class OrganizationImage(models.Model):
 
 
 class OrganizationMember(models.Model):
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    user_id = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_comms = models.BooleanField(default=False)
@@ -179,9 +179,9 @@ class OrganizationMember(models.Model):
 
 class OrganizationTask(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    org_id = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    task_id = models.ForeignKey("content.Task", on_delete=models.CASCADE)
-    group_id = models.ForeignKey(
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    task = models.ForeignKey("content.Task", on_delete=models.CASCADE)
+    group = models.ForeignKey(
         "Group", on_delete=models.CASCADE, blank=True, null=True, related_name="groups"
     )
 
@@ -190,7 +190,7 @@ class OrganizationTask(models.Model):
 
 
 class OrganizationText(models.Model):
-    org_id = models.ForeignKey(
+    org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="orgs"
     )
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)

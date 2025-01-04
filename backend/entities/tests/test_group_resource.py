@@ -19,32 +19,32 @@ def test_group_resource_str() -> None:
 def test_group_resource_creation() -> None:
     """Test creating a GroupResource instance."""
     group = GroupFactory()
-    resource = GroupResourceFactory(group_id=group)
+    resource = GroupResourceFactory(group=group)
 
     assert isinstance(resource, GroupResource)
-    assert resource.group_id == group
+    assert resource.group == group
 
 
 def test_multiple_resources_per_group() -> None:
     """Test multiple resources for a single group."""
     group = GroupFactory()
-    resources = [GroupResourceFactory(group_id=group) for _ in range(3)]
+    resources = [GroupResourceFactory(group=group) for _ in range(3)]
 
     assert len(resources) == 3
     for resource in resources:
-        assert resource.group_id == group
+        assert resource.group == group
 
 
 def test_group_resource_deletion() -> None:
     """Test cascade deletion when group is deleted."""
     group = GroupFactory()
-    resource = GroupResourceFactory(group_id=group)
+    resource = GroupResourceFactory(group=group)
 
     # Store resource ID for later verification.
-    resource_id = resource.id
+    resource = resource.id
 
     # Delete the group.
     group.delete()
 
     # Verify resource is also deleted.
-    assert not GroupResource.objects.filter(id=resource_id).exists()
+    assert not GroupResource.objects.filter(id=resource).exists()

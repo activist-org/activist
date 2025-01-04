@@ -20,9 +20,7 @@ class Discussion(models.Model):
     category = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
-
     tags = models.ManyToManyField("content.Tag", blank=True)
-    entries = models.ManyToManyField("content.DiscussionEntry", blank=True)
 
     def __str__(self) -> str:
         return f"{self.id}"
@@ -154,7 +152,9 @@ class Topic(models.Model):
 
 class DiscussionEntry(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    discussion_id = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+    discussion = models.ForeignKey(
+        "content.Discussion", on_delete=models.CASCADE, related_name="discussion_entry"
+    )
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     text = models.CharField(max_length=255, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)

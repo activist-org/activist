@@ -19,32 +19,32 @@ def test_group_topic_str() -> None:
 def test_group_topic_creation() -> None:
     """Test creating a GroupTopic instance."""
     group = GroupFactory()
-    topic = GroupTopicFactory(group_id=group)
+    topic = GroupTopicFactory(group=group)
 
     assert isinstance(topic, GroupTopic)
-    assert topic.group_id == group
+    assert topic.group == group
 
 
 def test_multiple_topics_per_group() -> None:
     """Test multiple topics for a single group."""
     group = GroupFactory()
-    topics = [GroupTopicFactory(group_id=group) for _ in range(3)]
+    topics = [GroupTopicFactory(group=group) for _ in range(3)]
 
     assert len(topics) == 3
     for topic in topics:
-        assert topic.group_id == group
+        assert topic.group == group
 
 
 def test_group_topic_deletion() -> None:
     """Test cascade deletion when group is deleted."""
     group = GroupFactory()
-    topic = GroupTopicFactory(group_id=group)
+    topic = GroupTopicFactory(group=group)
 
     # Store topic ID for later verification.
-    topic_id = topic.id
+    topic = topic.id
 
     # Delete the group.
     group.delete()
 
     # Verify topic is also deleted.
-    assert not GroupTopic.objects.filter(id=topic_id).exists()
+    assert not GroupTopic.objects.filter(id=topic).exists()

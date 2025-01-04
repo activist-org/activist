@@ -33,7 +33,7 @@ class GroupAdmin(admin.ModelAdmin[Group]):
 
 
 class GroupTextAdmin(admin.ModelAdmin[GroupText]):
-    list_display = ["id", "group_id"]
+    list_display = ["id", "group"]
 
 
 class OrganizationAdmin(admin.ModelAdmin[Organization]):

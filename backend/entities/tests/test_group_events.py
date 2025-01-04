@@ -18,8 +18,8 @@ def test_group_event_str() -> None:
 def test_multiple_events_per_group() -> None:
     """Test multiple events for a single group."""
     group = GroupFactory()
-    events = [GroupEventFactory(group_id=group) for _ in range(3)]
+    events = [GroupEventFactory(group=group) for _ in range(3)]
 
     assert len(events) == 3
     for event in events:
-        assert event.group_id == group
+        assert event.group == group

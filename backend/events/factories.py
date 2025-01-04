@@ -85,9 +85,9 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = EventAttendee
 
-    event_id = factory.SubFactory(EventFactory)
-    user_id = factory.SubFactory("authentication.factories.UserFactory")
-    role_id = factory.SubFactory(RoleFactory)
+    event = factory.SubFactory(EventFactory)
+    user = factory.SubFactory("authentication.factories.UserFactory")
+    role = factory.SubFactory(RoleFactory)
     attendee_status = factory.SubFactory("events.factories.EventAttendeeStatusFactory")
 
 

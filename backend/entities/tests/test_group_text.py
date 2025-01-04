@@ -21,7 +21,7 @@ def test_group_text_languages() -> None:
 
     # 1. Test primary language text.
     primary_text = GroupTextFactory(
-        group_id=group,
+        group=group,
         iso="eng",
         primary=True,
         description="Primary description",
@@ -34,7 +34,7 @@ def test_group_text_languages() -> None:
 
     # 2. Test secondary language text.
     secondary_text = GroupTextFactory(
-        group_id=group,
+        group=group,
         iso="spa",
         primary=False,
         description="Descripción",

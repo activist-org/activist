@@ -121,7 +121,7 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         org = serializer.save(created_by=request.user)
-        OrganizationApplication.objects.create(org_id=org)
+        OrganizationApplication.objects.create(org=org)
         data = {"message": f"New organization created: {serializer.data}"}
 
         return Response(data, status=status.HTTP_201_CREATED)

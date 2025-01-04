@@ -59,7 +59,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         group = Group.objects.create(**validated_data)
 
         if group:
-            texts = GroupText.objects.create(group_id=group)
+            texts = GroupText.objects.create(group=group)
             group.texts = texts
 
         return group
@@ -101,7 +101,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         org = Organization.objects.create(**validated_data)
 
         if org:
-            texts = OrganizationText.objects.create(org_id=org)
+            texts = OrganizationText.objects.create(org=org)
             org.texts = texts
 
         return org
