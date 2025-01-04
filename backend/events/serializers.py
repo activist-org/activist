@@ -16,18 +16,7 @@ from utils.utils import (
 
 from .models import (
     Event,
-    EventAttendee,
-    EventAttendeeStatus,
-    EventDiscussion,
-    EventFaq,
-    EventFormat,
-    EventResource,
-    EventRole,
-    EventSocialLink,
-    EventTag,
-    EventTask,
     EventText,
-    EventTopic,
     Format,
 )
 
@@ -89,72 +78,3 @@ class FormatSerializer(serializers.ModelSerializer[Event]):
         validate_creation_and_deprecation_dates(data)
 
         return data
-
-
-# MARK: Bridge Tables
-
-
-class EventAttendeeSerializer(serializers.ModelSerializer[EventAttendee]):
-    class Meta:
-        model = EventAttendee
-        fields = "__all__"
-
-
-class EventAttendeeStatusSerializer(serializers.ModelSerializer[EventAttendeeStatus]):
-    class Meta:
-        model = EventAttendeeStatus
-        fields = "__all__"
-
-
-class EventDiscussionSerializer(serializers.ModelSerializer[EventDiscussion]):
-    class Meta:
-        model = EventDiscussion
-        fields = "__all__"
-
-
-class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
-    class Meta:
-        model = EventFaq
-        fields = "__all__"
-
-
-class EventFormatSerializer(serializers.ModelSerializer[EventFormat]):
-    class Meta:
-        model = EventFormat
-        fields = "__all__"
-
-
-class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
-    class Meta:
-        model = EventResource
-        fields = "__all__"
-
-
-class EventRoleSerializer(serializers.ModelSerializer[EventRole]):
-    class Meta:
-        model = EventRole
-        fields = "__all__"
-
-
-class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
-    class Meta:
-        model = EventSocialLink
-        fields = "__all__"
-
-
-class EventTagSerializer(serializers.ModelSerializer[EventTag]):
-    class Meta:
-        model = EventTag
-        fields = "__all__"
-
-
-class EventTaskSerializer(serializers.ModelSerializer[EventTask]):
-    class Meta:
-        model = EventTask
-        fields = "__all__"
-
-
-class EventTopicSerializer(serializers.ModelSerializer[EventTopic]):
-    class Meta:
-        model = EventTopic
-        fields = "__all__"
