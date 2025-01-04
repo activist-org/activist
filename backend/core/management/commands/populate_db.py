@@ -73,14 +73,15 @@ class Command(BaseCommand):
                             else "Fighting for"
                         )
 
-                        event_texts = EventTextFactory(iso="en", primary=True)
-
                         user_org_event = EventFactory(
                             name=f"{user_topic.name} Event o{o}:e{e}",
                             tagline=f"{event_type_verb} {user_topic.name}",
                             type=event_type,
-                            texts=event_texts,
                             created_by=user,
+                        )
+
+                        _ = EventTextFactory(
+                            iso="en", primary=True, event=user_org_event
                         )
 
                     org_texts = OrganizationTextFactory(iso="en", primary=True)
