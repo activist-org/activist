@@ -234,7 +234,7 @@ onMounted(() => {
     );
 
     // MARK: Basic Controls
-    
+
     map.addControl(
       new maplibregl.NavigationControl({
         visualizePitch: true,
@@ -243,20 +243,32 @@ onMounted(() => {
     );
 
     // Add localized tooltips for NavigationControl buttons
-    const zoomInButton = map.getContainer().querySelector(".maplibregl-ctrl-zoom-in");
-    if (zoomInButton) zoomInButton.title = i18n.t("components.media_map.zoom_in");
+    const zoomInButton = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-zoom-in");
+    if (zoomInButton)
+      zoomInButton.title = i18n.t("components.media_map.zoom_in");
 
-    const zoomOutButton = map.getContainer().querySelector(".maplibregl-ctrl-zoom-out");
-    if (zoomOutButton) zoomOutButton.title = i18n.t("components.media_map.zoom_out");
+    const zoomOutButton = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-zoom-out");
+    if (zoomOutButton)
+      zoomOutButton.title = i18n.t("components.media_map.zoom_out");
 
-    const compassButton = map.getContainer().querySelector(".maplibregl-ctrl-compass");
-    if (compassButton) compassButton.title = i18n.t("components.media_map.reset_north");
+    const compassButton = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-compass");
+    if (compassButton)
+      compassButton.title = i18n.t("components.media_map.reset_north");
 
     // Localize FullscreenControl
     const fullscreenControl = new maplibregl.FullscreenControl();
     map.addControl(fullscreenControl);
-    const fullscreenButton = map.getContainer().querySelector(".maplibregl-ctrl-fullscreen");
-    if (fullscreenButton) fullscreenButton.title = i18n.t("components.media_map.fullscreen");
+    const fullscreenButton = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-fullscreen");
+    if (fullscreenButton)
+      fullscreenButton.title = i18n.t("components.media_map.fullscreen");
 
     // Localize GeolocateControl
     const geolocateControl = new maplibregl.GeolocateControl({
@@ -266,10 +278,12 @@ onMounted(() => {
       trackUserLocation: true,
     });
     map.addControl(geolocateControl);
-    const geolocateButton = map.getContainer().querySelector(".maplibregl-ctrl-geolocate");
-    if (geolocateButton) geolocateButton.title = i18n.t("components.media_map.geolocate");
+    const geolocateButton = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-geolocate");
+    if (geolocateButton)
+      geolocateButton.title = i18n.t("components.media_map.geolocate");
 
-    
     const popup = new maplibregl.Popup({
       offset: 25,
     }).setHTML(

@@ -15,13 +15,13 @@ def run_check(script_name):
 
     Parameters
     ----------
-        script_name : str
-            The filename for the script to run.
+    script_name : str
+        The filename for the script to run.
 
     Raises
     -------
-        subprocess.CalledProcessError
-            An error that the given check script has failed.
+    subprocess.CalledProcessError
+        An error that the given check script has failed.
     """
     try:
         subprocess.run(
