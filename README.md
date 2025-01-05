@@ -15,6 +15,11 @@
 [![weblate](https://img.shields.io/badge/Weblate-144D3F.svg?logo=weblate&logoColor=ffffff)](https://hosted.weblate.org/projects/activist/activist)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
 
+![backend_ci](https://img.shields.io/github/actions/workflow/status/activist-org/activist/pr_ci_backend.yaml?branch=main&logo=github&label=backend)
+![frontend_ci](https://img.shields.io/github/actions/workflow/status/activist-org/activist/pr_ci_frontend.yaml?branch=main&logo=github&label=frontend)
+![i18n_ci](https://img.shields.io/github/actions/workflow/status/activist-org/activist/pr_ci_i18n.yaml?branch=main&logo=github&label=i18n)
+
+
 ### An open-source activism platform
 
 [**activist.org**](https://activist.org) is a platform that enables more people to safely engage in activism by making it easy to discover organizations and events as well as coordinate and collaborate on political action. We want to enable activists to learn proven and novel strategies from each other for social and ecological change. Free, open-source, privacy-focused and governed by our community.
