@@ -15,4 +15,3 @@ Display search results in list, map and calendar views. Users can also save sear
 {% hint style="info" %}
 Please keep in mind, that these designs might be out of date and do not always reflect the current state of development – if you want to help us with your design skills, please consider joining our [Design group](../../organization/community/circles-and-groups.md#design).
 {% endhint %}
-

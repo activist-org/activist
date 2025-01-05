@@ -3,4 +3,3 @@ icon: section
 ---
 
 # Legal
-
