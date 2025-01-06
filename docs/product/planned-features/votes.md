@@ -13,3 +13,4 @@ Please keep in mind, that these designs might be out of date and do not always r
 {% endhint %}
 
 {% embed url="https://www.figma.com/design/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=7274-16958&t=i3bz4YrkLtWMRUXE-1" %}
+
