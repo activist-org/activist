@@ -60,16 +60,16 @@ class GroupImageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = GroupImage
 
-    group_id = factory.SubFactory(GroupFactory)
-    image_id = factory.SubFactory("content.factories.ImageFactory")
+    group = factory.SubFactory(GroupFactory)
+    image = factory.SubFactory("content.factories.ImageFactory")
 
 
 class GroupMemberFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = GroupMember
 
-    group_id = factory.SubFactory(GroupFactory)
-    user_id = factory.SubFactory("authentication.factories.UserFactory")
+    group = factory.SubFactory(GroupFactory)
+    user = factory.SubFactory("authentication.factories.UserFactory")
     is_admin = factory.Faker("boolean")
 
 
@@ -95,7 +95,7 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OrganizationApplication
 
-    org_id = factory.SubFactory(OrganizationFactory)
+    org = factory.SubFactory(OrganizationFactory)
     status = factory.SubFactory(OrganizationApplicationStatusFactory)
     orgs_in_favor = factory.List([factory.Faker("word") for _ in range(10)])
     orgs_against = factory.List([factory.Faker("word") for _ in range(10)])
@@ -111,16 +111,16 @@ class OrganizationImageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OrganizationImage
 
-    org_id = factory.SubFactory(OrganizationFactory)
-    image_id = factory.SubFactory("content.factories.ImageFactory")
+    org = factory.SubFactory(OrganizationFactory)
+    image = factory.SubFactory("content.factories.ImageFactory")
 
 
 class OrganizationMemberFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OrganizationMember
 
-    org_id = factory.SubFactory(OrganizationFactory)
-    user_id = factory.SubFactory("authentication.factories.UserFactory")
+    org = factory.SubFactory(OrganizationFactory)
+    user = factory.SubFactory("authentication.factories.UserFactory")
     is_owner = factory.Faker("boolean")
     is_admin = factory.Faker("boolean")
     is_comms = factory.Faker("boolean")
@@ -130,9 +130,9 @@ class OrganizationTaskFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OrganizationTask
 
-    org_id = factory.SubFactory(OrganizationFactory)
-    task_id = factory.SubFactory("content.factories.TaskFactory")
-    group_id = factory.SubFactory(GroupFactory)
+    org = factory.SubFactory(OrganizationFactory)
+    task = factory.SubFactory("content.factories.TaskFactory")
+    group = factory.SubFactory(GroupFactory)
 
 
 class OrganizationTextFactory(factory.django.DjangoModelFactory):

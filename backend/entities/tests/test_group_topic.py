@@ -4,47 +4,31 @@ Test cases for GroupTopic model.
 
 import pytest
 
-from entities.factories import GroupFactory, GroupTopicFactory
-from entities.models import GroupTopic
+from content.factories import TopicFactory
+from content.models import Topic
+from entities.factories import GroupFactory
 
 pytestmark = pytest.mark.django_db
-
-
-def test_group_topic_str() -> None:
-    """Test string representation of GroupTopic model."""
-    group_topic = GroupTopicFactory.build()
-    assert str(group_topic) == f"{group_topic.id}"
 
 
 def test_group_topic_creation() -> None:
     """Test creating a GroupTopic instance."""
     group = GroupFactory()
-    topic = GroupTopicFactory(group=group)
+    topic = TopicFactory()
 
-    assert isinstance(topic, GroupTopic)
-    assert topic.group == group
+    group.topics.set([topic])
+
+    assert isinstance(group.topics.first(), Topic)
+    assert group.topics.first() == topic
 
 
 def test_multiple_topics_per_group() -> None:
     """Test multiple topics for a single group."""
     group = GroupFactory()
-    topics = [GroupTopicFactory(group=group) for _ in range(3)]
+    topics = TopicFactory.create_batch(3)
+
+    group.topics.set(topics)
 
     assert len(topics) == 3
     for topic in topics:
-        assert topic.group == group
-
-
-def test_group_topic_deletion() -> None:
-    """Test cascade deletion when group is deleted."""
-    group = GroupFactory()
-    topic = GroupTopicFactory(group=group)
-
-    # Store topic ID for later verification.
-    topic = topic.id
-
-    # Delete the group.
-    group.delete()
-
-    # Verify topic is also deleted.
-    assert not GroupTopic.objects.filter(id=topic).exists()
+        assert topic in group.topics.all()

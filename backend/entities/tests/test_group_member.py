@@ -21,6 +21,8 @@ def test_group_member_roles() -> None:
     user = UserFactory()
     group = GroupFactory()
 
+    print(group.__dict__)
+
     # 1. Test owner role.
     owner = GroupMemberFactory(
         group=group, user=user, is_owner=True, is_admin=False, is_comms=False
