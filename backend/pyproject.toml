@@ -58,7 +58,7 @@ omit = [
 ]
 
 [tool.mypy]
-mypy_path = "core"
+mypy_path = "backend"
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 ignore_missing_imports = true
 strict = true
