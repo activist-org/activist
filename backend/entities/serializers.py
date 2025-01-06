@@ -59,8 +59,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         group = Group.objects.create(**validated_data)
 
         if group:
-            texts = GroupText.objects.create(group=group)
-            group.texts = texts
+            GroupText.objects.create(group=group)
 
         return group
 
