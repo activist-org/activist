@@ -6,14 +6,14 @@ from django.core.management.base import BaseCommand
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
-from content.models import Topic
-from entities.factories import (
+from communities.factories import (
     GroupFactory,
     GroupTextFactory,
     OrganizationFactory,
     OrganizationTextFactory,
 )
-from entities.models import Group, Organization
+from communities.models import Group, Organization
+from content.models import Topic
 from events.factories import EventFactory, EventTextFactory
 from events.models import Event
 

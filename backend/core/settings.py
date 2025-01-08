@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "core",
     "authentication",
-    "entities",
+    "communities",
     "content",
     "events",
 ]

@@ -4,9 +4,9 @@ Test cases for GroupResource model.
 
 import pytest
 
+from communities.factories import GroupFactory
 from content.factories import ResourceFactory
 from content.models import Resource
-from entities.factories import GroupFactory
 
 pytestmark = pytest.mark.django_db
 

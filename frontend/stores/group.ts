@@ -2,7 +2,7 @@ import type {
   Group,
   GroupCreateFormData,
   GroupUpdateTextFormData,
-} from "~/types/entities/group";
+} from "~/types/communities/group";
 
 interface GroupStore {
   loading: boolean;
@@ -56,7 +56,7 @@ export const useGroupStore = defineStore("group", {
       const token = localStorage.getItem("accessToken");
 
       const responseGroup = await useFetch(
-        `${BASE_BACKEND_URL}/entities/groups/`,
+        `${BASE_BACKEND_URL}/communities/groups/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -95,7 +95,7 @@ export const useGroupStore = defineStore("group", {
 
       const { data, status } = await useAsyncData<Group>(
         async () =>
-          (await fetchWithoutToken(`/entities/groups/${id}/`, {})) as Group
+          (await fetchWithoutToken(`/communities/groups/${id}/`, {})) as Group
       );
 
       if (status.value === "success") {
@@ -125,7 +125,7 @@ export const useGroupStore = defineStore("group", {
 
       const { data, status } = await useAsyncData<Group[]>(
         async () =>
-          (await fetchWithoutToken(`/entities/groups/`, {})) as Group[]
+          (await fetchWithoutToken(`/communities/groups/`, {})) as Group[]
       );
 
       if (status.value === "success") {
@@ -164,7 +164,7 @@ export const useGroupStore = defineStore("group", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/entities/groups/${group.id}/`,
+        BASE_BACKEND_URL + `/communities/groups/${group.id}/`,
         {
           method: "PUT",
           body: {
@@ -178,7 +178,8 @@ export const useGroupStore = defineStore("group", {
       );
 
       const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL + `/entities/organization_texts/${group.groupTextId}/`,
+        BASE_BACKEND_URL +
+          `/communities/organization_texts/${group.groupTextId}/`,
         {
           method: "PUT",
           body: {

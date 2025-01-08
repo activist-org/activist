@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 const { data: groups } = await useFetch(
-  `${BASE_BACKEND_URL}/entities/groups/`,
+  `${BASE_BACKEND_URL}/communities/groups/`,
   {
     method: "GET",
   }

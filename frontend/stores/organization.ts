@@ -2,7 +2,7 @@ import type {
   Organization,
   OrganizationCreateFormData,
   OrganizationUpdateTextFormData,
-} from "~/types/entities/organization";
+} from "~/types/communities/organization";
 
 interface OrganizationStore {
   loading: boolean;
@@ -56,7 +56,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await useFetch(
-        `${BASE_BACKEND_URL}/entities/organizations/`,
+        `${BASE_BACKEND_URL}/communities/organizations/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -96,7 +96,7 @@ export const useOrganizationStore = defineStore("organization", {
       const { data, status } = await useAsyncData<Organization>(
         async () =>
           (await fetchWithoutToken(
-            `/entities/organizations/${id}/`,
+            `/communities/organizations/${id}/`,
             {}
           )) as Organization
       );
@@ -134,7 +134,7 @@ export const useOrganizationStore = defineStore("organization", {
       const { data, status } = await useAsyncData<Organization[]>(
         async () =>
           (await fetchWithoutToken(
-            `/entities/organizations/`,
+            `/communities/organizations/`,
             {}
           )) as Organization[]
       );
@@ -181,7 +181,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/entities/organizations/${org.id}/`,
+        BASE_BACKEND_URL + `/communities/organizations/${org.id}/`,
         {
           method: "PUT",
           body: {
@@ -196,7 +196,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL +
-          `/entities/organization_texts/${org.organizationTextId}/`,
+          `/communities/organization_texts/${org.organizationTextId}/`,
         {
           method: "PUT",
           body: {

@@ -4,9 +4,9 @@ Test cases for GroupTopic model.
 
 import pytest
 
+from communities.factories import GroupFactory
 from content.factories import TopicFactory
 from content.models import Topic
-from entities.factories import GroupFactory
 
 pytestmark = pytest.mark.django_db
 

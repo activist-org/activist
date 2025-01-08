@@ -1,5 +1,5 @@
 """
-Models for the entities app.
+Models for the communities app.
 """
 
 from uuid import uuid4
@@ -48,7 +48,7 @@ class Organization(models.Model):
     discussions = models.ManyToManyField("content.Discussion", blank=True)
     events = models.ManyToManyField("events.Event", blank=True)
     faqs = models.ManyToManyField("content.Faq", blank=True)
-    groups = models.ManyToManyField("entities.Group", blank=True)
+    groups = models.ManyToManyField("communities.Group", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
     social_links = models.ManyToManyField("content.SocialLink", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
@@ -138,10 +138,10 @@ class OrganizationApplication(models.Model):
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
     orgs_in_favor = models.ManyToManyField(
-        "entities.Organization", related_name="in_favor", blank=True
+        "communities.Organization", related_name="in_favor", blank=True
     )
     orgs_against = models.ManyToManyField(
-        "entities.Organization", related_name="against", blank=True
+        "communities.Organization", related_name="against", blank=True
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 

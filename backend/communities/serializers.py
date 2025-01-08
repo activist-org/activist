@@ -1,5 +1,5 @@
 """
-Serializers for the entities app.
+Serializers for the communities app.
 """
 
 from typing import Any

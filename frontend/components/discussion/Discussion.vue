@@ -21,7 +21,7 @@ import type {
   DiscussionEntry,
   DiscussionInput,
 } from "~/types/content/discussion";
-import type { Organization } from "~/types/entities/organization";
+import type { Organization } from "~/types/communities/organization";
 
 defineProps<{
   discussionEntries?: DiscussionEntry[];

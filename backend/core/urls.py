@@ -27,7 +27,7 @@ urlpatterns = [
     path(f"{ADMIN_PATH}", admin.site.urls),
     path("v1/auth/", include("authentication.urls", namespace="authentication")),
     path("v1/content/", include("content.urls", namespace="content")),
-    path("v1/entities/", include("entities.urls", namespace="entities")),
+    path("v1/communities/", include("communities.urls", namespace="communities")),
     path("v1/events/", include("events.urls", namespace="events")),
     # API DOCUMENTATION
     path("v1/schema/", SpectacularAPIView.as_view(), name="schema"),
@@ -42,9 +42,9 @@ urlpatterns = [
         name="schema-content",
     ),
     path(
-        "v1/schema/entities/",
-        SpectacularAPIView.as_view(urlconf="entities.urls"),
-        name="schema-entities",
+        "v1/schema/communities/",
+        SpectacularAPIView.as_view(urlconf="communities.urls"),
+        name="schema-communities",
     ),
     path(
         "v1/schema/events/",
@@ -67,9 +67,9 @@ urlpatterns = [
         name="swagger-ui-content",
     ),
     path(
-        "v1/schema/swagger-ui/entities/",
-        SpectacularSwaggerView.as_view(url_name="schema-entities"),
-        name="swagger-ui-entities",
+        "v1/schema/swagger-ui/enticommunitiesties/",
+        SpectacularSwaggerView.as_view(url_name="schema-communities"),
+        name="swagger-ui-communities",
     ),
     path(
         "v1/schema/swagger-ui/events/",

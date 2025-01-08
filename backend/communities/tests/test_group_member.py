@@ -5,7 +5,7 @@ Test cases for the GroupMember model.
 import pytest
 
 from authentication.factories import UserFactory
-from entities.factories import GroupFactory, GroupMemberFactory
+from communities.factories import GroupFactory, GroupMemberFactory
 
 pytestmark = pytest.mark.django_db
 

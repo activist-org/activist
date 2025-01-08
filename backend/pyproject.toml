@@ -65,13 +65,13 @@ strict = true
 exclude = [
     "authentication/factories.py",
     "content/factories.py",
-    "entities/factories.py",
+    "communities/factories.py",
     "events/factories.py",
 ]
 enable_incomplete_feature = ["Unpack"]
 
 [[tool.mypy.overrides]]
-module = ["authentication.*", "content.*", "entities.*", "events.*"]
+module = ["authentication.*", "content.*", "communities.*", "events.*"]
 follow_imports = "skip"
 
 [tool.django-stubs]

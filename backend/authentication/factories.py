@@ -23,9 +23,9 @@ class SupportFactory(factory.django.DjangoModelFactory):
         model = Support
 
     supporter_type = factory.SubFactory(SupportEntityTypeFactory)
-    supporter_entity = factory.SubFactory("entities.factories.OrganizationFactory")
+    supporter_entity = factory.SubFactory("communities.factories.OrganizationFactory")
     supported_type = factory.SubFactory(SupportEntityTypeFactory)
-    supported_entity = factory.SubFactory("entities.factories.OrganizationFactory")
+    supported_entity = factory.SubFactory("communities.factories.OrganizationFactory")
 
 
 class UserFactory(factory.django.DjangoModelFactory):

@@ -1,5 +1,5 @@
 """
-Testing for the entities app.
+Testing for the communities app.
 """
 
 # mypy: ignore-errors
@@ -17,7 +17,7 @@ pytestmark = pytest.mark.django_db
 
 
 def test_str_methods() -> None:
-    """Test the __str__ methods of the entities."""
+    """Test the __str__ methods of the communities."""
     organization = OrganizationFactory.create()
     # Note: Needs to be updated to reflect the recent changes.
     # organization_application = OrganizationApplicationFactory.create()

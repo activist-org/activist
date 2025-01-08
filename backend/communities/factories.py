@@ -29,7 +29,9 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     tagline = factory.Faker("word")
     get_involved_url = "https://activist.org/"
     terms_checked = factory.Faker("boolean")
-    status = factory.SubFactory("entities.factories.StatusTypeFactory", name="Active")
+    status = factory.SubFactory(
+        "communities.factories.StatusTypeFactory", name="Active"
+    )
     is_high_risk = factory.Faker("boolean")
     location = factory.SubFactory("content.factories.EntityLocationFactory")
     acceptance_date = factory.LazyFunction(
@@ -148,7 +150,7 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
 
 class StatusTypeFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "entities.StatusType"
+        model = "communities.StatusType"
         django_get_or_create = ("name",)
 
     name = "Active"
