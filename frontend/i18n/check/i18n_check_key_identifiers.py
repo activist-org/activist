@@ -14,6 +14,9 @@ from pathlib import Path
 
 # MARK: Paths / Files
 
+# Check for Windows and derive directory path separator.
+path_separator = "\\" if os.name == "nt" else "/"
+
 i18n_check_dir = str(Path(__file__).parent.resolve())
 json_file_directory = Path(__file__).parent.parent.resolve()
 frontend_directory = Path(__file__).parent.parent.parent.resolve()
@@ -25,7 +28,7 @@ directories_to_skip = [
 ]
 file_types_to_check = [".vue", ".ts", ".js"]
 
-with open(json_file_directory / "en-US.json") as f:
+with open(json_file_directory / "en-US.json", encoding="utf-8") as f:
     en_us_json_dict = json.loads(f.read())
 
 files_to_check = []
@@ -39,7 +42,7 @@ for root, dirs, files in os.walk(frontend_directory):
 
 file_to_check_contents = {}
 for frontend_file in files_to_check:
-    with open(frontend_file, "r") as f:
+    with open(frontend_file, "r", encoding="utf-8") as f:
         file_to_check_contents[frontend_file] = f.read()
 
 # MARK: Key-Files Dict
@@ -97,7 +100,7 @@ def path_to_valid_key(p):
             valid_key += c
 
     return (
-        valid_key.replace("/", ".")
+        valid_key.replace(path_separator, ".")
         .replace("._", ".")
         .replace("-", "_")
         .replace(".[id]", "")

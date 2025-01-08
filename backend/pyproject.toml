@@ -76,3 +76,11 @@ follow_imports = "skip"
 
 [tool.django-stubs]
 django_settings_module = "core.settings"
+
+[tool.numpydoc_validation]
+checks = [
+    "all",  # report on all checks, except the below
+    "ES01",
+    "EX01",
+    "SA01",
+]
