@@ -41,17 +41,14 @@ class Organization(models.Model):
     status_updated = models.DateTimeField(auto_now=True, null=True)
     acceptance_date = models.DateTimeField(blank=True, null=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
-    texts = models.ForeignKey(
-        "OrganizationText", on_delete=models.CASCADE, blank=True, null=True
-    )
 
-    discussions = models.ManyToManyField("content.Discussion", blank=True)
-    events = models.ManyToManyField("events.Event", blank=True)
-    faqs = models.ManyToManyField("content.Faq", blank=True)
-    groups = models.ManyToManyField("communities.Group", blank=True)
-    resources = models.ManyToManyField("content.Resource", blank=True)
     social_links = models.ManyToManyField("content.SocialLink", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
+    faqs = models.ManyToManyField("content.Faq", blank=True)
+    resources = models.ManyToManyField("content.Resource", blank=True)
+    discussions = models.ManyToManyField("content.Discussion", blank=True)
+    groups = models.ManyToManyField("communities.Group", blank=True)
+    events = models.ManyToManyField("events.Event", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -73,11 +70,12 @@ class Group(models.Model):
     get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
-    events = models.ManyToManyField("events.Event", blank=True)
-    resources = models.ManyToManyField("content.Resource", blank=True)
-    faqs = models.ManyToManyField("content.Faq", blank=True)
+
     social_links = models.ManyToManyField("content.SocialLink", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
+    faqs = models.ManyToManyField("content.Faq", blank=True)
+    events = models.ManyToManyField("events.Event", blank=True)
+    resources = models.ManyToManyField("content.Resource", blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -125,7 +123,7 @@ class GroupMember(models.Model):
 
 class GroupText(models.Model):
     group = models.ForeignKey(
-        Group, on_delete=models.CASCADE, null=True, related_name="group_texts"
+        Group, on_delete=models.CASCADE, null=True, related_name="texts"
     )
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
@@ -191,7 +189,7 @@ class OrganizationTask(models.Model):
 
 class OrganizationText(models.Model):
     org = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, null=True, related_name="orgs"
+        Organization, on_delete=models.CASCADE, null=True, related_name="texts"
     )
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)

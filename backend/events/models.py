@@ -103,7 +103,7 @@ class EventAttendeeStatus(models.Model):
 
 class EventText(models.Model):
     event = models.ForeignKey(
-        Event, on_delete=models.CASCADE, null=True, related_name="event_texts"
+        Event, on_delete=models.CASCADE, null=True, related_name="texts"
     )
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)

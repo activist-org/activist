@@ -71,7 +71,7 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
-    texts = OrganizationTextSerializer(read_only=True)
+    texts = OrganizationTextSerializer(many=True, read_only=True)
     location = LocationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)

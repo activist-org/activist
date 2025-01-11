@@ -30,7 +30,7 @@ class EventTextSerializer(serializers.ModelSerializer[EventText]):
 
 
 class EventSerializer(serializers.ModelSerializer[Event]):
-    texts = EventTextSerializer(read_only=True)
+    texts = EventTextSerializer(many=True, read_only=True)
     offline_location = LocationSerializer(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
 

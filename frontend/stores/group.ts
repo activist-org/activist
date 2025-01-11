@@ -1,6 +1,7 @@
 import type {
   Group,
   GroupCreateFormData,
+  GroupResponse,
   GroupUpdateTextFormData,
 } from "~/types/communities/group";
 
@@ -93,9 +94,12 @@ export const useGroupStore = defineStore("group", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<Group>(
+      const { data, status } = await useAsyncData<GroupResponse>(
         async () =>
-          (await fetchWithoutToken(`/communities/groups/${id}/`, {})) as Group
+          (await fetchWithoutToken(
+            `/communities/groups/${id}/`,
+            {}
+          )) as GroupResponse
       );
 
       if (status.value === "success") {
@@ -111,8 +115,8 @@ export const useGroupStore = defineStore("group", {
         this.group.getInvolvedUrl = group.getInvolvedUrl;
         this.group.socialLinks = group.socialLinks;
 
-        this.group.groupTextId = group.texts.groupId;
-        this.group.texts = group.texts;
+        this.group.groupTextId = group.groupTextId;
+        this.group.texts = group.texts[0];
       }
 
       this.loading = false;
@@ -123,13 +127,16 @@ export const useGroupStore = defineStore("group", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<Group[]>(
+      const { data, status } = await useAsyncData<GroupResponse[]>(
         async () =>
-          (await fetchWithoutToken(`/communities/groups/`, {})) as Group[]
+          (await fetchWithoutToken(
+            `/communities/groups/`,
+            {}
+          )) as GroupResponse[]
       );
 
       if (status.value === "success") {
-        const groups = data.value!.map((group: Group) => {
+        const groups = data.value!.map((group: GroupResponse) => {
           return {
             id: group.id,
             groupName: group.groupName,
@@ -145,8 +152,8 @@ export const useGroupStore = defineStore("group", {
             socialLinks: group.socialLinks,
             creationDate: group.creationDate,
 
-            groupTextId: group.texts.groupId,
-            texts: group.texts,
+            groupTextId: group.groupTextId,
+            texts: group.texts[0],
           };
         });
 

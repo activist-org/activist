@@ -85,15 +85,14 @@ class Command(BaseCommand):
                         )
 
                     org_texts = OrganizationTextFactory(iso="en", primary=True)
-
                     user_org = OrganizationFactory(
                         created_by=user,
                         org_name=f"organization_u{u}_o{o}",
-                        texts=org_texts,
                         name=f"{user_topic.name} Organization",
                         tagline=f"Fighting for {user_topic.name.lower()}",
                     )
 
+                    user_org.texts.set([org_texts])
                     user_org.events.set([user_org_event])
 
                     for g in range(num_groups_per_org):
