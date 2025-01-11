@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout name="sidebar">
+  <NuxtLayout name="resource">
     <NuxtPage />
   </NuxtLayout>
 </template>

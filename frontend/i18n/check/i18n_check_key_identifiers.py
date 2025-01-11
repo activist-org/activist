@@ -126,6 +126,9 @@ for k in key_file_dict:
             )
         ]
 
+        # Get rid of repeat key parts for files that are the same name as their directory.
+        valid_key_parts = [p for p in valid_key_parts if valid_key_parts.count(p) == 1]
+
         ideal_key_base = ".".join(valid_key_parts) + "."
 
     else:

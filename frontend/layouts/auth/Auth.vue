@@ -68,7 +68,7 @@ const page = computed(() => {
       btnAriaLabel: "_global.auth.sign_in_aria_label",
       btnLabel: "_global.sign_in",
       btnLink: "/auth/sign-in",
-      message: "layouts.auth.reset_password_forgot_password",
+      message: "_global.auth.reset_password_forgot_password",
       title: "_global.auth.reset_password",
     },
     {

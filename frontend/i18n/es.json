@@ -353,7 +353,7 @@
   "error.message": "Ups, algo salió mal:",
   "error.title": "Error • activist",
   "layouts.auth.auth": "Autor",
-  "layouts.auth.reset_password_forgot_password": "¿Olvidaste tu contraseña?",
+  "_global.auth.reset_password_forgot_password": "¿Olvidaste tu contraseña?",
   "layouts.auth.set_password_set_new_password": "Establecer nueva contraseña",
   "layouts.auth.sign_in_welcome_back": "¡Bienvenido de nuevo!",
   "layouts.auth.sign_up_first_time_welcome": "¡Vamos a trabajar!",

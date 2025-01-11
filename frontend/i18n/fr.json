@@ -353,7 +353,7 @@
   "error.message": "Oups, quelque chose a mal tourné :",
   "error.title": "Erreur • Activist",
   "layouts.auth.auth": "Authentication",
-  "layouts.auth.reset_password_forgot_password": "Mot de passe oublié ?",
+  "_global.auth.reset_password_forgot_password": "Mot de passe oublié ?",
   "layouts.auth.set_password_set_new_password": "Définir un nouveau mot de passe",
   "layouts.auth.sign_in_welcome_back": "Heureux de te revoir !",
   "layouts.auth.sign_up_first_time_welcome": "Mettons-nous au travail !",
