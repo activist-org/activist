@@ -100,8 +100,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         org = Organization.objects.create(**validated_data)
 
         if org:
-            texts = OrganizationText.objects.create(org=org)
-            org.texts = texts
+            OrganizationText.objects.create(org=org)
 
         return org
 
