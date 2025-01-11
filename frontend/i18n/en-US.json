@@ -356,7 +356,7 @@
   "error.message": "Oops, something went wrong:",
   "error.title": "Error \u2022 activist",
   "layouts.auth.auth": "Auth",
-  "layouts.auth.reset_password_forgot_password": "Forgot your password?",
+  "_global.auth.reset_password_forgot_password": "Forgot your password?",
   "layouts.auth.set_password_set_new_password": "Set new password",
   "layouts.auth.sign_in_welcome_back": "Welcome back!",
   "layouts.auth.sign_up_first_time_welcome": "Let's get to work!",

@@ -239,8 +239,6 @@ const props = defineProps<{
   isPrivate?: boolean;
 }>();
 
-console.log(`Props: ${JSON.stringify(props, null, 2)}`);
-
 const aboveMediumBP = useBreakpoint("md");
 
 const i18n = useI18n();
