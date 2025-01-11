@@ -1,8 +1,14 @@
+"""
+Checks the API calls used in the frontend to against what's been defined in the backend.
+
+Usage:
+    python3 utils/used_api_calls.py
+"""
+
 import os
 import pathlib
 import re
 from typing import Pattern
-import pprint
 
 API_PATTERNS = [
     re.compile(r"\$\{BASE_BACKEND_URL\}/\S+"),
@@ -34,17 +40,13 @@ def search_for_api_calls(
         try:
             for line in file:
                 for pattern in api_pattern:
-                    results = re.findall(pattern, line)
-
-                    if results:
+                    if results := re.findall(pattern, line):
                         api_calls[file_name].extend(results)
+
         except UnicodeDecodeError:
             print(f"Skipping non-UTF-8 encoded line in {file_path}")
 
-    if len(api_calls[file_name]) == 0:
-        return None
-
-    return api_calls
+    return None if len(api_calls[file_name]) == 0 else api_calls
 
 
 def search_for_api_calls_in_directory(dir_path: str, exclude: None | list[str]) -> list:
@@ -72,6 +74,7 @@ def search_for_api_calls_in_directory(dir_path: str, exclude: None | list[str]) 
                 results = search_for_api_calls(
                     file_path=file_path, api_pattern=API_PATTERNS
                 )
+
                 if results is not None:
                     api_calls.append(results)
 
@@ -79,17 +82,29 @@ def search_for_api_calls_in_directory(dir_path: str, exclude: None | list[str]) 
 
 
 def print_results(results: list[str]) -> None:
+    """
+    Displays the results of the API call check to the user.
+    """
+    header = "API calls found in the frontend code"
     print(
-        f"API calls found in the frontend code:\n"
-        f"-------------------------------------\n"
+        f"\n{header}\n"
+        f"{'-' * len(header)}\n"
         f"Number of API calls: {len(results)}\n"
-        f"Details:\n"
+        "Details:\n"
     )
-    pprint.PrettyPrinter(indent=4, depth=3, compact=False).pprint(results)
-    print("\n")
+
+    max_key_length = max(max(len(k) for k in kv.keys()) for kv in results)
+    for kv in results:
+        for key, vals in kv.items():
+            vals = [v[:-2] if v[-2:] == "`," else v for v in vals]
+            spacing = max_key_length - len(key)
+
+            print(f"- {key}{' ' * spacing} : {', '.join(vals)}")
+
+    print()
 
 
-BASE_DIR = pathlib.Path(__file__).parent
+BASE_DIR = pathlib.Path(__file__).parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
 
 EXCLUDE_DIRS = [
