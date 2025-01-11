@@ -2,7 +2,7 @@ import type { Location } from "~/types/content/location";
 
 // MARK: Main Table
 
-export interface Group {
+interface GroupBase {
   id: string;
   groupName: string;
   name: string;
@@ -28,7 +28,6 @@ export interface Group {
 
   // group_text
   groupTextId: string;
-  texts: GroupText;
 
   // group_topic
   // topics?: Topic[];
@@ -36,6 +35,10 @@ export interface Group {
   // support
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
+}
+
+export interface Group extends GroupBase {
+  texts: GroupText;
 }
 
 // MARK: Bridge Tables
@@ -80,18 +83,22 @@ export interface GroupTopic {
 
 // MARK: Pinia Responses
 
+export interface GroupResponse extends GroupBase {
+  texts: GroupText[];
+}
+
 export interface PiniaResGroup {
   __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: Group;
-  _value: Group;
+  _rawValue: GroupResponse;
+  _value: GroupResponse;
 }
 
 export interface PiniaResGroups {
   __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: Group[];
-  _value: Group[];
+  _rawValue: GroupResponse[];
+  _value: GroupResponse[];
 }
 
 // MARK: Form Data

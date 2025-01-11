@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
-import type { OrganizationUpdateTextFormData } from "~/types/entities/organization";
+import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
 
 const modalName = "ModalEditTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);

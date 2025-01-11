@@ -2,38 +2,10 @@ from rest_framework import status, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from backend.paginator import CustomPagination
+from core.paginator import CustomPagination
 
-from .models import (
-    Event,
-    EventAttendee,
-    EventAttendeeStatus,
-    EventDiscussion,
-    EventFaq,
-    EventFormat,
-    EventResource,
-    EventRole,
-    EventSocialLink,
-    EventTask,
-    EventText,
-    EventTopic,
-    Format,
-)
-from .serializers import (
-    EventAttendeeSerializer,
-    EventAttendeeStatusSerializer,
-    EventDiscussionSerializer,
-    EventFaqSerializer,
-    EventFormatSerializer,
-    EventResourceSerializer,
-    EventRoleSerializer,
-    EventSerializer,
-    EventSocialLinkSerializer,
-    EventTaskSerializer,
-    EventTextSerializer,
-    EventTopicSerializer,
-    FormatSerializer,
-)
+from .models import Event
+from .serializers import EventSerializer
 
 # MARK: Main Tables
 
@@ -112,78 +84,3 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
         event.delete()
 
         return Response({"message": "Event deleted successfully."}, status.HTTP_200_OK)
-
-
-class FormatViewSet(viewsets.ModelViewSet[Format]):
-    queryset = Format.objects.all()
-    serializer_class = FormatSerializer
-    pagination_class = CustomPagination
-
-
-# MARK: Bridge Tables
-
-
-class EventAttendeeViewSet(viewsets.ModelViewSet[EventAttendee]):
-    queryset = EventAttendee.objects.all()
-    serializer_class = EventAttendeeSerializer
-    pagination_class = CustomPagination
-
-
-class EventAttendeeStatusViewSet(viewsets.ModelViewSet[EventAttendeeStatus]):
-    queryset = EventAttendeeStatus.objects.all()
-    serializer_class = EventAttendeeStatusSerializer
-    pagination_class = CustomPagination
-
-
-class EventDiscussionViewSet(viewsets.ModelViewSet[EventDiscussion]):
-    queryset = EventDiscussion.objects.all()
-    serializer_class = EventDiscussionSerializer
-    pagination_class = CustomPagination
-
-
-class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
-    queryset = EventFaq.objects.all()
-    serializer_class = EventFaqSerializer
-    pagination_class = CustomPagination
-
-
-class EventFormatViewSet(viewsets.ModelViewSet[EventFormat]):
-    queryset = EventFormat.objects.all()
-    serializer_class = EventFormatSerializer
-    pagination_class = CustomPagination
-
-
-class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
-    queryset = EventResource.objects.all()
-    serializer_class = EventResourceSerializer
-    pagination_class = CustomPagination
-
-
-class EventRoleViewSet(viewsets.ModelViewSet[EventRole]):
-    queryset = EventRole.objects.all()
-    serializer_class = EventRoleSerializer
-    pagination_class = CustomPagination
-
-
-class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
-    queryset = EventSocialLink.objects.all()
-    serializer_class = EventSocialLinkSerializer
-    pagination_class = CustomPagination
-
-
-class EventTaskViewSet(viewsets.ModelViewSet[EventTask]):
-    queryset = EventTask.objects.all()
-    serializer_class = EventTaskSerializer
-    pagination_class = CustomPagination
-
-
-class EventTextViewSet(viewsets.ModelViewSet[EventText]):
-    queryset = EventText.objects.all()
-    serializer_class = EventTextSerializer
-    pagination_class = CustomPagination
-
-
-class EventTopicViewSet(viewsets.ModelViewSet[EventTopic]):
-    queryset = EventTopic.objects.all()
-    serializer_class = EventTopicSerializer
-    pagination_class = CustomPagination

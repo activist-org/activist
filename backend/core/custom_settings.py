@@ -1,7 +1,7 @@
 """
 This file contains granular settings specifically related to the activist project.
 For more general settings strictly related to the functioning of Django and its components,
-please check the path: backend/backend/settings.py
+please check the path: backend/core/settings.py
 """
 
 # MARK: Pagination

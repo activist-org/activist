@@ -5,7 +5,7 @@ Test cases for the GroupMember model.
 import pytest
 
 from authentication.factories import UserFactory
-from entities.factories import GroupFactory, GroupMemberFactory
+from communities.factories import GroupFactory, GroupMemberFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -21,9 +21,11 @@ def test_group_member_roles() -> None:
     user = UserFactory()
     group = GroupFactory()
 
+    print(group.__dict__)
+
     # 1. Test owner role.
     owner = GroupMemberFactory(
-        group_id=group, user_id=user, is_owner=True, is_admin=False, is_comms=False
+        group=group, user=user, is_owner=True, is_admin=False, is_comms=False
     )
     assert owner.is_owner is True
     assert owner.is_admin is False
@@ -31,7 +33,7 @@ def test_group_member_roles() -> None:
 
     # 2. Test admin role.
     admin = GroupMemberFactory(
-        group_id=group, user_id=user, is_owner=False, is_admin=True, is_comms=False
+        group=group, user=user, is_owner=False, is_admin=True, is_comms=False
     )
     assert admin.is_owner is False
     assert admin.is_admin is True
@@ -39,7 +41,7 @@ def test_group_member_roles() -> None:
 
     # 3. Test comms role.
     comms = GroupMemberFactory(
-        group_id=group, user_id=user, is_owner=False, is_admin=False, is_comms=True
+        group=group, user=user, is_owner=False, is_admin=False, is_comms=True
     )
     assert comms.is_owner is False
     assert comms.is_admin is False
@@ -49,9 +51,9 @@ def test_group_member_roles() -> None:
 def test_multiple_members_per_group() -> None:
     """Test multiple members in a single group."""
     group = GroupFactory()
-    members = [GroupMemberFactory(group_id=group) for _ in range(3)]
+    members = [GroupMemberFactory(group=group) for _ in range(3)]
 
     assert len(members) == 3
 
     for member in members:
-        assert member.group_id == group
+        assert member.group == group

@@ -4,16 +4,16 @@ from typing import TypedDict, Unpack
 
 from django.core.management.base import BaseCommand
 
-from authentication.factories import UserFactory, UserTopicFactory
+from authentication.factories import UserFactory
 from authentication.models import UserModel
-from content.models import Topic
-from entities.factories import (
+from communities.factories import (
     GroupFactory,
     GroupTextFactory,
     OrganizationFactory,
     OrganizationTextFactory,
 )
-from entities.models import Group, Organization
+from communities.models import Group, Organization
+from content.models import Topic
 from events.factories import EventFactory, EventTextFactory
 from events.models import Event
 
@@ -62,7 +62,7 @@ class Command(BaseCommand):
 
             for u, user in enumerate(users):
                 user_topic = random.choice(topics)
-                UserTopicFactory(user_id=user, topic_id=user_topic)
+                user.topics.set([user_topic])
 
                 for o in range(num_orgs_per_user):
                     for e in range(num_events_per_org):
@@ -73,38 +73,37 @@ class Command(BaseCommand):
                             else "Fighting for"
                         )
 
-                        event_texts = EventTextFactory(iso="en", primary=True)
-
                         user_org_event = EventFactory(
                             name=f"{user_topic.name} Event o{o}:e{e}",
                             tagline=f"{event_type_verb} {user_topic.name}",
                             type=event_type,
-                            texts=event_texts,
                             created_by=user,
                         )
 
-                    org_texts = OrganizationTextFactory(iso="en", primary=True)
+                        _ = EventTextFactory(
+                            iso="en", primary=True, event=user_org_event
+                        )
 
+                    org_texts = OrganizationTextFactory(iso="en", primary=True)
                     user_org = OrganizationFactory(
                         created_by=user,
                         org_name=f"organization_u{u}_o{o}",
-                        texts=org_texts,
                         name=f"{user_topic.name} Organization",
                         tagline=f"Fighting for {user_topic.name.lower()}",
                     )
 
+                    user_org.texts.set([org_texts])
                     user_org.events.set([user_org_event])
 
                     for g in range(num_groups_per_org):
-                        group_texts = GroupTextFactory(iso="en", primary=True)
-
-                        _ = GroupFactory(
+                        group = GroupFactory(
                             created_by=user,
                             group_name=f"group_u{u}_o{o}_g{g}",
-                            org_id=user_org,
-                            texts=group_texts,
+                            org=user_org,
                             name=f"{user_topic.name} Group",
                         )
+
+                        _ = GroupTextFactory(iso="en", primary=True, group=group)
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org

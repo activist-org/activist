@@ -1,5 +1,5 @@
 import type { Location } from "~/types/content/location";
-import type { Organization } from "../entities/organization";
+import type { Organization } from "../communities/organization";
 
 // MARK: Main Table
 

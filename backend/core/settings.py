@@ -63,9 +63,9 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "rest_framework",
     "rest_framework.authtoken",
-    "backend",
+    "core",
     "authentication",
-    "entities",
+    "communities",
     "content",
     "events",
 ]
@@ -91,7 +91,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
-ROOT_URLCONF = "backend.urls"
+ROOT_URLCONF = "core.urls"
 
 # MARK: Templates
 
@@ -196,7 +196,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
     ],
-    "EXCEPTION_HANDLER": "backend.exception_handler.bad_request_logger",
+    "EXCEPTION_HANDLER": "core.exception_handler.bad_request_logger",
     "DEFAULT_RENDERER_CLASSES": (
         "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
         "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",

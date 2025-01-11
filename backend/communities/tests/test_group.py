@@ -11,9 +11,9 @@ from django.core.exceptions import ValidationError
 from faker import Faker
 
 from authentication.factories import UserFactory
+from communities.factories import OrganizationFactory
+from communities.models import Group
 from content.factories import EntityLocationFactory
-from entities.factories import OrganizationFactory
-from entities.models import Group
 
 pytestmark = pytest.mark.django_db
 
@@ -26,7 +26,7 @@ def test_group_creation() -> None:
     fake = Faker()
 
     group = Group.objects.create(
-        org_id=org,
+        org=org,
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
@@ -38,7 +38,7 @@ def test_group_creation() -> None:
     )
 
     assert isinstance(group.id, UUID)
-    assert group.org_id == org
+    assert group.org == org
     assert group.created_by == user
     assert isinstance(group.group_name, str)
     assert isinstance(group.creation_date, datetime)
@@ -55,7 +55,7 @@ def test_url_validations() -> None:
     # 1. Test invalid URL.
     with pytest.raises(ValidationError):
         group = Group(
-            org_id=org,
+            org=org,
             created_by=user,
             group_name=fake.company(),
             name=fake.company(),
@@ -68,7 +68,7 @@ def test_url_validations() -> None:
 
     # 2. Test valid URL.
     group = Group.objects.create(
-        org_id=org,
+        org=org,
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
@@ -89,7 +89,7 @@ def test_multiple_groups_per_org() -> None:
     fake = Faker()
 
     group1 = Group.objects.create(
-        org_id=org,
+        org=org,
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
@@ -100,7 +100,7 @@ def test_multiple_groups_per_org() -> None:
     )
 
     group2 = Group.objects.create(
-        org_id=org,
+        org=org,
         created_by=user,
         group_name=fake.company(),
         name=fake.company(),
@@ -111,9 +111,9 @@ def test_multiple_groups_per_org() -> None:
     )
 
     assert Group.objects.count() == 2
-    assert group1.org_id == org
-    assert group2.org_id == org
+    assert group1.org == org
+    assert group2.org == org
 
-    org_groups = Group.objects.filter(org_id=org)
+    org_groups = Group.objects.filter(org=org)
     assert group1 in org_groups
     assert group2 in org_groups

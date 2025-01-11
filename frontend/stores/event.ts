@@ -1,6 +1,7 @@
 import type {
   Event,
   EventCreateFormData,
+  EventResponse,
   EventUpdateTextFormData,
 } from "~/types/events/event";
 
@@ -99,9 +100,12 @@ export const useEventStore = defineStore("event", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<Event>(
+      const { data, status } = await useAsyncData<EventResponse>(
         async () =>
-          (await fetchWithoutToken(`/events/events/${id}/`, {})) as Event
+          (await fetchWithoutToken(
+            `/events/events/${id}/`,
+            {}
+          )) as EventResponse
       );
 
       if (status.value === "success") {
@@ -114,8 +118,8 @@ export const useEventStore = defineStore("event", {
         this.event.offlineLocation = event.offlineLocation;
         this.event.getInvolvedUrl = event.getInvolvedUrl;
         this.event.socialLinks = event.socialLinks;
-        this.event.eventTextId = event.texts.eventId;
-        this.event.texts = event.texts;
+        this.event.eventTextId = event.eventTextId;
+        this.event.texts = event.texts[0];
       }
 
       this.loading = false;
@@ -126,12 +130,13 @@ export const useEventStore = defineStore("event", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<Event[]>(
-        async () => (await fetchWithoutToken(`/events/events/`, {})) as Event[]
+      const { data, status } = await useAsyncData<EventResponse[]>(
+        async () =>
+          (await fetchWithoutToken(`/events/events/`, {})) as EventResponse[]
       );
 
       if (status.value === "success") {
-        const events = data.value!.map((event: Event) => {
+        const events = data.value!.map((event: EventResponse) => {
           return {
             id: event.id,
             name: event.name,
@@ -151,7 +156,7 @@ export const useEventStore = defineStore("event", {
             organizations: event.organizations,
 
             eventTextId: event.eventTextId,
-            texts: event.texts,
+            texts: event.texts[0],
           };
         });
 

@@ -110,8 +110,8 @@
 
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
-import type { Group } from "~/types/entities/group";
-import type { Organization } from "~/types/entities/organization";
+import type { Group } from "~/types/communities/group";
+import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 

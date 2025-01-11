@@ -43,7 +43,7 @@ exclude = [
 line_length = 88
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "backend.settings"
+DJANGO_SETTINGS_MODULE = "core.settings"
 python_files = "tests.py test_*.py *_tests.py"
 addopts = "--nomigrations --cov=. --cov-report=html --cov-report=term"
 
@@ -65,17 +65,17 @@ strict = true
 exclude = [
     "authentication/factories.py",
     "content/factories.py",
-    "entities/factories.py",
+    "communities/factories.py",
     "events/factories.py",
 ]
 enable_incomplete_feature = ["Unpack"]
 
 [[tool.mypy.overrides]]
-module = ["authentication.*", "content.*", "entities.*", "events.*"]
+module = ["authentication.*", "content.*", "communities.*", "events.*"]
 follow_imports = "skip"
 
 [tool.django-stubs]
-django_settings_module = "backend.settings"
+django_settings_module = "core.settings"
 
 [tool.numpydoc_validation]
 checks = [

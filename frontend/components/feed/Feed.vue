@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
-import type { Group } from "~/types/entities/group";
+import type { Group } from "~/types/communities/group";
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;

@@ -1,5 +1,5 @@
 """
-Serializers for the entities app.
+Serializers for the communities app.
 """
 
 from typing import Any
@@ -11,27 +11,15 @@ from events.serializers import EventSerializer
 
 from .models import (
     Group,
-    GroupEvent,
-    GroupFaq,
     GroupImage,
     GroupMember,
-    GroupResource,
-    GroupSocialLink,
     GroupText,
-    GroupTopic,
     Organization,
     OrganizationApplication,
-    OrganizationDiscussion,
-    OrganizationEvent,
-    OrganizationFaq,
-    OrganizationGroup,
     OrganizationImage,
     OrganizationMember,
-    OrganizationResource,
-    OrganizationSocialLink,
     OrganizationTask,
     OrganizationText,
-    OrganizationTopic,
     Status,
     StatusType,
 )
@@ -46,7 +34,7 @@ class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
 
 
 class GroupSerializer(serializers.ModelSerializer[Group]):
-    texts = GroupTextSerializer()
+    texts = GroupTextSerializer(many=True, read_only=True)
     location = LocationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
@@ -71,8 +59,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         group = Group.objects.create(**validated_data)
 
         if group:
-            texts = GroupText.objects.create(group_id=group)
-            group.texts = texts
+            GroupText.objects.create(group=group)
 
         return group
 
@@ -84,7 +71,7 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
-    texts = OrganizationTextSerializer()
+    texts = OrganizationTextSerializer(many=True, read_only=True)
     location = LocationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
@@ -113,8 +100,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         org = Organization.objects.create(**validated_data)
 
         if org:
-            texts = OrganizationText.objects.create(org_id=org)
-            org.texts = texts
+            OrganizationText.objects.create(org=org)
 
         return org
 
@@ -126,18 +112,6 @@ class StatusSerializer(serializers.ModelSerializer[Status]):
 
 
 # MARK: Bridge Tables
-
-
-class GroupEventSerializer(serializers.ModelSerializer[GroupEvent]):
-    class Meta:
-        model = GroupEvent
-        fields = "__all__"
-
-
-class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
-    class Meta:
-        model = GroupFaq
-        fields = "__all__"
 
 
 class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
@@ -152,60 +126,12 @@ class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
         fields = "__all__"
 
 
-class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
-    class Meta:
-        model = GroupResource
-        fields = "__all__"
-
-
-class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
-    class Meta:
-        model = GroupSocialLink
-        fields = "__all__"
-
-
-class GroupTopicSerializer(serializers.ModelSerializer[GroupTopic]):
-    class Meta:
-        model = GroupTopic
-        fields = "__all__"
-
-
 class OrganizationApplicationSerializer(
     serializers.ModelSerializer[OrganizationApplication]
 ):
     class Meta:
         model = OrganizationApplication
         fields = "__all__"
-
-
-class OrganizationDiscussionSerializer(
-    serializers.ModelSerializer[OrganizationDiscussion]
-):
-    class Meta:
-        model = OrganizationDiscussion
-        fields = "__all__"
-
-
-class OrganizationEventSerializer(serializers.ModelSerializer[OrganizationEvent]):
-    events = EventSerializer(source="event_id", read_only=True)  # many=True removed
-
-    class Meta:
-        model = OrganizationEvent
-        fields = ["org_id", "events"]
-
-
-class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
-    class Meta:
-        model = OrganizationFaq
-        fields = "__all__"
-
-
-class OrganizationGroupSerializer(serializers.ModelSerializer[OrganizationGroup]):
-    groups = GroupSerializer(source="group_id", read_only=True)  # many=True removed
-
-    class Meta:
-        model = OrganizationEvent
-        fields = ["org_id", "groups"]
 
 
 class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMember]):
@@ -220,29 +146,9 @@ class OrganizationImageSerializer(serializers.ModelSerializer[OrganizationImage]
         fields = "__all__"
 
 
-class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationResource]):
-    class Meta:
-        model = OrganizationResource
-        fields = "__all__"
-
-
-class OrganizationSocialLinkSerializer(
-    serializers.ModelSerializer[OrganizationSocialLink]
-):
-    class Meta:
-        model = OrganizationSocialLink
-        fields = "__all__"
-
-
 class OrganizationTaskSerializer(serializers.ModelSerializer[OrganizationTask]):
     class Meta:
         model = OrganizationTask
-        fields = "__all__"
-
-
-class OrganizationTopicSerializer(serializers.ModelSerializer[OrganizationTopic]):
-    class Meta:
-        model = OrganizationTopic
         fields = "__all__"
 
 

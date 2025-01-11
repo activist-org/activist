@@ -2,7 +2,7 @@ import type { Location } from "~/types/content/location";
 
 // MARK: Main Table
 
-export interface Event {
+interface EventBase {
   id: string;
   name: string;
   tagline?: string;
@@ -34,11 +34,14 @@ export interface Event {
 
   // event_text
   eventTextId: string;
-  texts: EventText;
 
   // support
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
+}
+
+export interface Event extends EventBase {
+  texts: EventText;
 }
 
 // MARK: Bridge Tables
@@ -95,18 +98,22 @@ export interface EventTopic {
 
 // MARK: Pinia Responses
 
+export interface EventResponse extends EventBase {
+  texts: EventText[];
+}
+
 export interface PiniaResEvent {
   __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: Event;
-  _value: Event;
+  _rawValue: EventResponse;
+  _value: EventResponse;
 }
 
 export interface PiniaResEvents {
   __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: Event[];
-  _value: Event[];
+  _rawValue: EventResponse[];
+  _value: EventResponse[];
 }
 
 // MARK: Form Data

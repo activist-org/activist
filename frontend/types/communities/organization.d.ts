@@ -3,7 +3,7 @@ import type { Event } from "~/types/events/event";
 
 // MARK: Main Table
 
-export interface Organization {
+interface OrganizationBase {
   id: string;
   orgName: string;
   name: string;
@@ -45,7 +45,6 @@ export interface Organization {
 
   // organization_text
   organizationTextId: string;
-  texts: OrganizationText;
 
   // organization_topic
   // topics?: Topic[];
@@ -53,6 +52,10 @@ export interface Organization {
   // support
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
+}
+
+export interface Organization extends OrganizationBase {
+  texts: OrganizationText;
 }
 
 // MARK: Bridge Tables
@@ -102,18 +105,22 @@ export interface OrganizationTopic {
 
 // MARK: Pinia Responses
 
+export interface OrganizationResponse extends OrganizationBase {
+  texts: OrganizationText[];
+}
+
 export interface PiniaResOrganization {
   __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: Organization;
-  _value: Organization;
+  _rawValue: OrganizationResponse;
+  _value: OrganizationResponse;
 }
 
 export interface PiniaResOrganizations {
   __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: Organization[];
-  _value: Organization[];
+  _rawValue: OrganizationResponse[];
+  _value: OrganizationResponse[];
 }
 
 // MARK: Form Data

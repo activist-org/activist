@@ -1,8 +1,9 @@
 import type {
   Group,
   GroupCreateFormData,
+  GroupResponse,
   GroupUpdateTextFormData,
-} from "~/types/entities/group";
+} from "~/types/communities/group";
 
 interface GroupStore {
   loading: boolean;
@@ -56,7 +57,7 @@ export const useGroupStore = defineStore("group", {
       const token = localStorage.getItem("accessToken");
 
       const responseGroup = await useFetch(
-        `${BASE_BACKEND_URL}/entities/groups/`,
+        `${BASE_BACKEND_URL}/communities/groups/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -93,9 +94,12 @@ export const useGroupStore = defineStore("group", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<Group>(
+      const { data, status } = await useAsyncData<GroupResponse>(
         async () =>
-          (await fetchWithoutToken(`/entities/groups/${id}/`, {})) as Group
+          (await fetchWithoutToken(
+            `/communities/groups/${id}/`,
+            {}
+          )) as GroupResponse
       );
 
       if (status.value === "success") {
@@ -111,8 +115,8 @@ export const useGroupStore = defineStore("group", {
         this.group.getInvolvedUrl = group.getInvolvedUrl;
         this.group.socialLinks = group.socialLinks;
 
-        this.group.groupTextId = group.texts.groupId;
-        this.group.texts = group.texts;
+        this.group.groupTextId = group.groupTextId;
+        this.group.texts = group.texts[0];
       }
 
       this.loading = false;
@@ -123,13 +127,16 @@ export const useGroupStore = defineStore("group", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<Group[]>(
+      const { data, status } = await useAsyncData<GroupResponse[]>(
         async () =>
-          (await fetchWithoutToken(`/entities/groups/`, {})) as Group[]
+          (await fetchWithoutToken(
+            `/communities/groups/`,
+            {}
+          )) as GroupResponse[]
       );
 
       if (status.value === "success") {
-        const groups = data.value!.map((group: Group) => {
+        const groups = data.value!.map((group: GroupResponse) => {
           return {
             id: group.id,
             groupName: group.groupName,
@@ -145,8 +152,8 @@ export const useGroupStore = defineStore("group", {
             socialLinks: group.socialLinks,
             creationDate: group.creationDate,
 
-            groupTextId: group.texts.groupId,
-            texts: group.texts,
+            groupTextId: group.groupTextId,
+            texts: group.texts[0],
           };
         });
 
@@ -164,7 +171,7 @@ export const useGroupStore = defineStore("group", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/entities/groups/${group.id}/`,
+        BASE_BACKEND_URL + `/communities/groups/${group.id}/`,
         {
           method: "PUT",
           body: {
@@ -178,7 +185,8 @@ export const useGroupStore = defineStore("group", {
       );
 
       const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL + `/entities/organization_texts/${group.groupTextId}/`,
+        BASE_BACKEND_URL +
+          `/communities/organization_texts/${group.groupTextId}/`,
         {
           method: "PUT",
           body: {

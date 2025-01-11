@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import type { DiscussionEntry } from "~/types/content/discussion";
-import type { Organization } from "~/types/entities/organization";
+import type { Organization } from "~/types/communities/organization";
 
 const props = defineProps<{
   organization: Organization;

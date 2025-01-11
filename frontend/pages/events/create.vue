@@ -380,7 +380,7 @@ const formData = ref({
 
 const submit = async () => {
   const { data: responseData } = await useFetch(
-    BASE_BACKEND_URL + "/entities/events",
+    BASE_BACKEND_URL + "/communities/events",
     {
       method: "POST",
       body: JSON.stringify({
