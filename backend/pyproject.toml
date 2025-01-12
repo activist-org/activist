@@ -1,22 +1,4 @@
 [tool.ruff]
-# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
-
-[tool.ruff.lint]
-
-fixable = ["I"]
-
-ignore = [
-    "E501", # line too long, handled by black
-]
-
-select = [
-    "E", # pycodestyle errors
-    "F", # pyflakes
-    "I", # isort
-]
-
-mccabe = [10]
-
 # Exclude a variety of commonly ignored directories.
 exclude = [
     "*/tests.py",
@@ -38,6 +20,25 @@ exclude = [
     "_build",
     "venv",
 ]
+
+[tool.ruff.lint]
+
+select = [
+    "E", # pycodestyle errors
+    "F", # pyflakes
+    "I", # isort
+]
+
+ignore = [
+    "E501", # line too long, handled by black
+]
+
+fixable = ["I"]
+unfixable = []
+
+[tool.ruff.lint.mccabe]
+# Flag errors (`C901`) whenever the complexity level exceeds the following value.
+max-complexity = 10
 
 [tool.isort]
 line_length = 88
@@ -62,12 +63,7 @@ mypy_path = "backend"
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 ignore_missing_imports = true
 strict = true
-exclude = [
-    "authentication/factories.py",
-    "content/factories.py",
-    "communities/factories.py",
-    "events/factories.py",
-]
+exclude = ["^.*/factories\\.py$"]
 enable_incomplete_feature = ["Unpack"]
 
 [[tool.mypy.overrides]]
