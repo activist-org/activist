@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="bg-layer-0 px-8 text-primary-text">
     <Head>

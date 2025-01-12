@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="elem-shadow-sm relative flex rounded-md md:absolute xl:rounded-lg"

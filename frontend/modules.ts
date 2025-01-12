@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { NuxtModule } from "@nuxt/schema";
 
 const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [

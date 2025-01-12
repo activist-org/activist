@@ -4,7 +4,7 @@
  * @param data Data to be returned.
  * @returns The resulting data from the table.
  */
-
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export const fetchWithoutToken = async (
   url: string,
   data: object | undefined

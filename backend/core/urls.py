@@ -1,4 +1,4 @@
-
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 URL configuration for the activist backend.
 
@@ -15,7 +15,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# SPDX-License-Identifier: AGPL-3.0-or-later
+
 import os
 
 from django.contrib import admin

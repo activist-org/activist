@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <HeaderWebsite />
   <div class="flex h-full bg-layer-0">

@@ -1,5 +1,5 @@
 <!-- Here is a link to command palette resources: https://www.commandpalette.org/ -->
-
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase @closeModal="closeCommandPalette" :modalName="modalName">
     <!-- MARK: Main element -->

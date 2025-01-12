@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 from rest_framework import status, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response

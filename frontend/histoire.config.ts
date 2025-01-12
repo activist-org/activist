@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 // import { defineConfig } from "histoire";
 // import { HstVue } from "@histoire/plugin-vue";
 // import { HstNuxt } from "@histoire/plugin-nuxt";

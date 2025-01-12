@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <HeaderWebsite v-if="!aboveMediumBP" />
   <div class="grid h-screen grid-cols-1 md:grid-cols-2">

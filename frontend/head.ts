@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export default {
   charset: "utf-8",
   viewport: "width=device-width, initial-scale=1",

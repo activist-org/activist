@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Checks if the en-US.json file has invalid keys given their usage or formatting.
 If yes, suggest new names for the keys at the lowest possible level of usage.

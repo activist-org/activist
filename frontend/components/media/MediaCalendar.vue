@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <form class="elem-shadow-sm h-full w-full rounded-[0.45em]">
     <Calendar

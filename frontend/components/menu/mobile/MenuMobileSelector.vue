@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <MenuLinkWrapper :to="routeUrl" :selected="selected">
     <div

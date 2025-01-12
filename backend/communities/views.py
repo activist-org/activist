@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
 from django.utils import timezone
 from rest_framework import status, viewsets

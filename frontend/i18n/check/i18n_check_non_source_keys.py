@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Checks if the i18n target JSON files have keys that are not in es-US.json.
 If yes, suggest that they be removed from the their respective JSON files.

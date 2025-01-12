@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Location } from "~/types/content/location";
 
 // MARK: Main Table
