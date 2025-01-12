@@ -16,20 +16,3 @@ export interface Resource {
   creationDate?: string;
   // lastUpdated?: string;
 }
-
-// MARK: Bridge Tables
-
-export interface ResourceStar {
-  resourceId: string;
-  user_id: string;
-}
-
-export interface ResourceTag {
-  resourceId: string;
-  tagId: string;
-}
-
-export interface ResourceTopic {
-  resourceId: string;
-  topicId: string;
-}
