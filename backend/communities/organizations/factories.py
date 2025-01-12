@@ -98,11 +98,3 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")
     donate_prompt = factory.Faker(provider="text", locale="la")
-
-
-class StatusTypeFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = "communities.StatusType"
-        django_get_or_create = ("name",)
-
-    name = "Active"

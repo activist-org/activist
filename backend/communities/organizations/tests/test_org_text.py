@@ -1,27 +1,30 @@
 """
-Test cases for the GroupText model.
+Test cases for the OrganizationText model.
 """
 
 import pytest
 
-from communities.groups.factories import GroupFactory, GroupTextFactory
+from communities.organizations.factories import (
+    OrganizationFactory,
+    OrganizationTextFactory,
+)
 
 pytestmark = pytest.mark.django_db
 
 
-def test_group_text_str() -> None:
-    """Test string representation of GroupText model."""
-    group_text = GroupTextFactory.build()
-    assert hasattr(group_text, "description")
+def test_org_text_str() -> None:
+    """Test string representation of OrganizationText model."""
+    org_text = OrganizationTextFactory.build()
+    assert hasattr(org_text, "description")
 
 
-def test_group_text_languages() -> None:
-    """Test group text with different ISO languages."""
-    group = GroupFactory()
+def test_org_text_languages() -> None:
+    """Test organization text with different ISO languages."""
+    org = OrganizationFactory()
 
     # 1. Test primary language text.
-    primary_text = GroupTextFactory(
-        group=group,
+    primary_text = OrganizationTextFactory(
+        org=org,
         iso="eng",
         primary=True,
         description="Primary description",
@@ -33,8 +36,8 @@ def test_group_text_languages() -> None:
     assert primary_text.description == "Primary description"
 
     # 2. Test secondary language text.
-    secondary_text = GroupTextFactory(
-        group=group,
+    secondary_text = OrganizationTextFactory(
+        org=org,
         iso="spa",
         primary=False,
         description="Description",

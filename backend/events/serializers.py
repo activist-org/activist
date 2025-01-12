@@ -35,7 +35,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     texts = EventTextSerializer(many=True, read_only=True)
     offline_location = LocationSerializer(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
-    org = EventOrganizationSerializer(read_only=True)
+    orgs = EventOrganizationSerializer(read_only=True)
 
     class Meta:
         model = Event

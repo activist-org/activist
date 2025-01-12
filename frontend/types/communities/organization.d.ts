@@ -1,5 +1,4 @@
 import type { Location } from "~/types/content/location";
-import type { Event } from "~/types/events/event";
 
 // MARK: Main Table
 

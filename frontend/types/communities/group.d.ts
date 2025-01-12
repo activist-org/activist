@@ -7,10 +7,9 @@ interface GroupBase {
   groupName: string;
   name: string;
   tagline: string;
-  organization: Organization;
+  org: GroupOrganization;
   createdBy: User;
   iconUrl?: string;
-  parentOrgId?: string;
   location: Location;
 
   getInvolvedUrl: string;
@@ -39,6 +38,13 @@ interface GroupBase {
 
 export interface Group extends GroupBase {
   texts: GroupText;
+}
+
+export interface GroupOrganization {
+  id: string;
+  orgName: string;
+  name: string;
+  iconUrl: string;
 }
 
 // MARK: Bridge Tables

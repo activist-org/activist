@@ -77,7 +77,6 @@ def test_url_validations() -> None:
         get_involved_url=fake.url(),
         terms_checked=True,
     )
-
     group.full_clean()
 
 

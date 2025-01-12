@@ -18,7 +18,7 @@ export function useLinkURL(props: {
     if (props.organization) {
       url = `/organizations/${props.organization.id}`;
     } else if (props.group) {
-      url = `/organizations/${props.group.parentOrgId}/groups/${props.group.id}`;
+      url = `/organizations/${props.group.org.id}/groups/${props.group.id}`;
     } else if (props.event) {
       url = `/events/${props.event.id}`;
     } else if (props.resource) {

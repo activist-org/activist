@@ -13,7 +13,6 @@ from utils.models import ISO_CHOICES
 
 class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    # TODO: Remove null=True - needed for factories.
     org = models.ForeignKey(
         "communities.Organization",
         on_delete=models.CASCADE,

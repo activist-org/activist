@@ -35,8 +35,8 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     texts = GroupTextSerializer(many=True, read_only=True)
     location = LocationSerializer(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
-    events = EventSerializer(many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)
+    events = EventSerializer(many=True, read_only=True)
 
     class Meta:
         model = Group

@@ -24,7 +24,8 @@ interface EventBase {
   discussion?: DiscussionEntry[];
 
   // event_organization
-  organizations: Organization[];
+  // TODO: Convert to an array.
+  orgs: EventOrganization;
 
   // event_resource
   resources?: Resource[];
@@ -42,6 +43,13 @@ interface EventBase {
 
 export interface Event extends EventBase {
   texts: EventText;
+}
+
+export interface EventOrganization {
+  id: string;
+  orgName: string;
+  name: string;
+  iconUrl: string;
 }
 
 // MARK: Bridge Tables

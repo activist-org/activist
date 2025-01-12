@@ -18,9 +18,9 @@ from events.models import (
 class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Event
-        django_get_or_create = ("created_by", "org")
+        django_get_or_create = ("created_by", "orgs")
 
-    org = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
+    orgs = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")

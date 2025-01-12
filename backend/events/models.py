@@ -18,8 +18,8 @@ class Event(models.Model):
         related_name="created_events",
         on_delete=models.CASCADE,
     )
-    org = models.ForeignKey(
-        "communities.Organization", related_name="org", on_delete=models.CASCADE
+    orgs = models.ForeignKey(
+        "communities.Organization", related_name="events", on_delete=models.CASCADE
     )
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)

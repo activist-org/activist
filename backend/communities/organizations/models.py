@@ -47,7 +47,6 @@ class Organization(models.Model):
     faqs = models.ManyToManyField("content.Faq", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
-    events = models.ManyToManyField("events.Event", blank=True)
 
     def __str__(self) -> str:
         return self.name

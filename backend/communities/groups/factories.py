@@ -11,8 +11,6 @@ class GroupFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Group
 
-    # Note: We should always set organizations for groups directly and not have them be generated.
-    # org = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
