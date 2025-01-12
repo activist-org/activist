@@ -17,7 +17,7 @@ interface EventBase {
   endTime?: string;
   creationDate?: string;
   // TODO: Convert to an array.
-  orgs: EventOrganization;
+  orgs: Organization;
   eventTextId: string;
   discussion?: DiscussionEntry[];
   resources?: Resource[];
@@ -28,13 +28,6 @@ interface EventBase {
 
 export interface Event extends EventBase {
   texts: EventText;
-}
-
-export interface EventOrganization {
-  id: string;
-  orgName: string;
-  name: string;
-  iconUrl: string;
 }
 
 // MARK: Bridge Tables
