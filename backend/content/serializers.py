@@ -8,11 +8,7 @@ from django.utils.translation import gettext as _
 from PIL import Image as PilImage
 from rest_framework import serializers
 
-from utils.utils import (
-    validate_creation_and_deprecation_dates,
-)
-
-from .models import (
+from content.models import (
     Discussion,
     DiscussionEntry,
     Faq,
@@ -21,6 +17,7 @@ from .models import (
     Resource,
     Topic,
 )
+from utils.utils import validate_creation_and_deprecation_dates
 
 # MARK: Main Tables
 

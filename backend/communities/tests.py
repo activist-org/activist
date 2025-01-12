@@ -5,12 +5,11 @@ Testing for the communities app.
 # mypy: ignore-errors
 import pytest
 
-from .factories import (
+from communities.groups.factories import GroupFactory, GroupMemberFactory
+from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationMemberFactory,
-    GroupFactory,
     OrganizationTaskFactory,
-    GroupMemberFactory,
 )
 
 pytestmark = pytest.mark.django_db

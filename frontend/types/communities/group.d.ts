@@ -1,4 +1,6 @@
+// Note: We need to import here to overwrite base types.
 import type { Location } from "~/types/content/location";
+import type { Event } from "~/types/events/event";
 
 // MARK: Main Table
 
@@ -7,32 +9,18 @@ interface GroupBase {
   groupName: string;
   name: string;
   tagline: string;
-  organization: Organization;
   createdBy: User;
   iconUrl?: string;
-  orgId?: string;
   location: Location;
-
   getInvolvedUrl: string;
   socialLinks: string[];
   creationDate: string;
-
-  // group_event
-  events?: Event[];
-
-  // group_faq
-  faqEntries?: FaqEntry[];
-
-  // group_resource
-  resources?: Resource[];
-
-  // group_text
+  org: GroupOrganization;
   groupTextId: string;
-
-  // group_topic
+  events?: Event[];
+  faqEntries?: FaqEntry[];
+  resources?: Resource[];
   // topics?: Topic[];
-
-  // support
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
 }
@@ -42,11 +30,6 @@ export interface Group extends GroupBase {
 }
 
 // MARK: Bridge Tables
-
-export interface GroupEvent {
-  groupId: string;
-  eventId: string;
-}
 
 export interface GroupImage {
   groupId: string;
@@ -62,11 +45,6 @@ export interface GroupMember {
   isComms: boolean;
 }
 
-export interface GroupResource {
-  groupId: string;
-  resourceId: string;
-}
-
 export interface GroupText {
   groupId: string;
   iso: string;
@@ -74,11 +52,6 @@ export interface GroupText {
   description: string;
   getInvolved: string;
   donationPrompt: string;
-}
-
-export interface GroupTopic {
-  groupId: string;
-  topicId: string;
 }
 
 // MARK: Pinia Responses

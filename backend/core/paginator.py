@@ -1,6 +1,6 @@
 from rest_framework import pagination
 
-from . import custom_settings
+from core import custom_settings
 
 
 class CustomPagination(pagination.PageNumberPagination):

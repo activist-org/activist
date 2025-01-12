@@ -3,9 +3,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from core.paginator import CustomPagination
-
-from .models import Event
-from .serializers import EventSerializer
+from events.models import Event
+from events.serializers import EventSerializer
 
 # MARK: Main Tables
 

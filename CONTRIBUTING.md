@@ -347,6 +347,11 @@ Please see the [activist style guide](STYLEGUIDE.md) for details about how to fo
 Please run the following commands from the project root to test the backend:
 
 ```bash
+# Format the backend, lint the code and run static type checks:
+ruff format ./backend
+ruff check ./backend
+mypy ./backend --config-file ./backend/pyproject.toml
+
 # Start the Docker container:
 docker compose --env-file .env.dev up backend --build -d  # -d to hide logs
 
@@ -631,14 +636,14 @@ All branding elements such as logos, icons, colors and fonts should follow those
 
 Nuxt uses auto imports to make frontend development more seamless, but at times these imports malfunction. For the `Property 'PROPERTY_NAME' does not exist on type...` errors, this is caused both by having an out of sync `yarn.lock` file and having Nuxt improperly installed.
 
-Please run [frontend/reset_local_env.sh](frontend/reset_local_env.sh) to reset the local frontend environment to allow for local testing. This can be done via the following commands:
+Please run [frontend/reset_local_env.sh](frontend/reset_local_env.sh) to reset the local frontend environment to allow for local testing. This can be done via the following commands in the `frontend` directory:
 
     ```bash
     # Linux:
-    sh frontend/reset_local_env.sh
+    sh reset_local_env.sh
 
     # MacOS:
-    sh frontend/reset_local_env.sh
+    sh reset_local_env.sh
 
     # Windows:
     # Run the commands below found in frontend/reset_local_env.sh.

@@ -5,14 +5,13 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from core.paginator import CustomPagination
-
-from .models import Discussion, DiscussionEntry, Resource
-from .serializers import (
+from content.models import Discussion, DiscussionEntry, Resource
+from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
     ResourceSerializer,
 )
+from core.paginator import CustomPagination
 
 # MARK: Main Tables
 

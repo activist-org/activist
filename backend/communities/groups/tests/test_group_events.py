@@ -4,8 +4,8 @@ Test cases for the GroupEvents entity.
 
 import pytest
 
-from communities.factories import GroupFactory
-from communities.models import Group
+from communities.groups.factories import GroupFactory
+from communities.groups.models import Group
 from events.factories import EventFactory
 
 pytestmark = pytest.mark.django_db

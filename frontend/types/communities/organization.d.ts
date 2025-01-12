@@ -1,3 +1,4 @@
+// Note: We need to import here to overwrite base types.
 import type { Location } from "~/types/content/location";
 import type { Event } from "~/types/events/event";
 
@@ -10,46 +11,24 @@ interface OrganizationBase {
   tagline: string;
   createdBy: string;
   iconUrl: string;
-
   location: Location;
-
   getInvolvedUrl: string;
   socialLinks: string[];
   status: number;
   // statusUpdated?: string;
   // acceptanceDate?: string;
   // deletionDate?: string;
-
-  // organization_application
+  creationDate: string;
+  organizationTextId: string;
   // orgsInFavor?: Organization[];
   // orgsAgainst?: Organization[];
-  creationDate: string;
-
-  // discussion
   // discussions?: Discussion[];
-
-  // organization_faq
   faqEntries?: FaqEntry[];
-
-  // organization_group
   groups?: Group[];
-
-  // organization_event
   events?: Event[];
-
-  // organization_resource
   resources?: Resource[];
-
-  // organization_task
   // task?: Task[];
-
-  // organization_text
-  organizationTextId: string;
-
-  // organization_topic
   // topics?: Topic[];
-
-  // support
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
 }
@@ -59,11 +38,6 @@ export interface Organization extends OrganizationBase {
 }
 
 // MARK: Bridge Tables
-
-export interface OrganizationEvent {
-  orgId: string;
-  eventId: string;
-}
 
 export interface OrganizationImage {
   orgId: string;
@@ -79,16 +53,6 @@ export interface OrganizationMember {
   isComms: boolean;
 }
 
-export interface OrganizationResource {
-  orgId: string;
-  resourceId: string;
-}
-
-export interface OrganizationTask {
-  orgId: string;
-  taskId: string;
-}
-
 export interface OrganizationText {
   orgId: string;
   iso: string;
@@ -96,11 +60,6 @@ export interface OrganizationText {
   description: string;
   getInvolved: string;
   donationPrompt: string;
-}
-
-export interface OrganizationTopic {
-  orgId: string;
-  topicId: string;
 }
 
 // MARK: Pinia Responses

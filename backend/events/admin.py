@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import (
+from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
