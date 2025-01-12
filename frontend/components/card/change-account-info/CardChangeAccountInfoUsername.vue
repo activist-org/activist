@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardChangeAccountInfo
     :ctaLabel="$t('components.card_change_account_info_username.header_cta')"

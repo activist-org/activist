@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Django settings for activist.org.
 
@@ -7,7 +8,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see:
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import os
 from pathlib import Path
 

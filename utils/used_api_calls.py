@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Checks the API calls used in the frontend to against what's been defined in the backend.
 
