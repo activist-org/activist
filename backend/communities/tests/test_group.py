@@ -11,8 +11,8 @@ from django.core.exceptions import ValidationError
 from faker import Faker
 
 from authentication.factories import UserFactory
-from communities.factories import OrganizationFactory
-from communities.models import Group
+from communities.groups.models import Group
+from communities.organizations.factories import OrganizationFactory
 from content.factories import EntityLocationFactory
 
 pytestmark = pytest.mark.django_db

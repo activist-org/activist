@@ -6,13 +6,13 @@ from django.core.management.base import BaseCommand
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
-from communities.factories import (
-    GroupFactory,
-    GroupTextFactory,
+from communities.groups.factories import GroupFactory, GroupTextFactory
+from communities.groups.models import Group
+from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationTextFactory,
 )
-from communities.models import Group, Organization
+from communities.organizations.models import Organization
 from content.models import Topic
 from events.factories import EventFactory, EventTextFactory
 from events.models import Event
@@ -80,9 +80,8 @@ class Command(BaseCommand):
                             created_by=user,
                         )
 
-                        _ = EventTextFactory(
-                            iso="en", primary=True, event=user_org_event
-                        )
+                        event_texts = EventTextFactory(iso="en", primary=True)
+                        user_org_event.texts.set([event_texts])
 
                     org_texts = OrganizationTextFactory(iso="en", primary=True)
                     user_org = OrganizationFactory(
@@ -91,19 +90,21 @@ class Command(BaseCommand):
                         name=f"{user_topic.name} Organization",
                         tagline=f"Fighting for {user_topic.name.lower()}",
                     )
-
                     user_org.texts.set([org_texts])
                     user_org.events.set([user_org_event])
 
                     for g in range(num_groups_per_org):
-                        group = GroupFactory(
+                        user_org_group = GroupFactory(
                             created_by=user,
+                            parent_org_id=user_org.id,
                             group_name=f"group_u{u}_o{o}_g{g}",
-                            org=user_org,
                             name=f"{user_topic.name} Group",
                         )
 
-                        _ = GroupTextFactory(iso="en", primary=True, group=group)
+                        group_texts = GroupTextFactory(iso="en", primary=True)
+                        user_org_group.texts.set([group_texts])
+
+                    user_org.groups.set([user_org_group])
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org

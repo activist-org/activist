@@ -4,7 +4,7 @@ Test cases for GroupTopic model.
 
 import pytest
 
-from communities.factories import GroupFactory
+from communities.groups.factories import GroupFactory
 from content.factories import TopicFactory
 from content.models import Topic
 

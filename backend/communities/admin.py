@@ -1,17 +1,14 @@
 from django.contrib import admin
 
-from .models import (
-    Group,
-    GroupImage,
-    GroupMember,
-    GroupText,
+from communities.groups.models import Group, GroupImage, GroupMember, GroupText
+from communities.models import StatusType
+from communities.organizations.models import (
     Organization,
     OrganizationApplication,
     OrganizationImage,
     OrganizationMember,
     OrganizationTask,
     OrganizationText,
-    StatusType,
 )
 
 # MARK: Bridge Tables

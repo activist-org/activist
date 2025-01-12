@@ -4,7 +4,7 @@ Test cases for the GroupText model.
 
 import pytest
 
-from communities.factories import GroupFactory, GroupTextFactory
+from communities.groups.factories import GroupFactory, GroupTextFactory
 
 pytestmark = pytest.mark.django_db
 

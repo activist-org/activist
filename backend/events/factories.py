@@ -3,7 +3,7 @@ import random
 
 import factory
 
-from .models import (
+from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,

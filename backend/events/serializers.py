@@ -9,15 +9,10 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from content.serializers import LocationSerializer, ResourceSerializer
+from events.models import Event, EventText, Format
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
-)
-
-from .models import (
-    Event,
-    EventText,
-    Format,
 )
 
 # MARK: Main Tables

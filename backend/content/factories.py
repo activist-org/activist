@@ -3,7 +3,7 @@ import random
 
 import factory
 
-from .models import Faq, Location, Resource, Task, Topic
+from content.models import Faq, Location, Resource, Task, Topic
 
 # MARK: Main Tables
 

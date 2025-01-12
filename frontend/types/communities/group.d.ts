@@ -10,7 +10,7 @@ interface GroupBase {
   organization: Organization;
   createdBy: User;
   iconUrl?: string;
-  orgId?: string;
+  parentOrgId?: string;
   location: Location;
 
   getInvolvedUrl: string;
