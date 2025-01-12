@@ -25,7 +25,7 @@ class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
         fields = "__all__"
 
 
-class GroupOrganizationSerializer(serializers.ModelSerializer):
+class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
         fields = "__all__"
