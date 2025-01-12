@@ -188,7 +188,7 @@ const getCurrentUrl = () => {
   if (props.organization) {
     return `${BASE_FRONTEND_URL}/organizations/${props.organization.id}`;
   } else if (props.group) {
-    return `${BASE_FRONTEND_URL}/organizations/${props.group.orgId}/groups/${props.group.id}`;
+    return `${BASE_FRONTEND_URL}/organizations/${props.group.parentOrgId}/groups/${props.group.id}`;
   } else if (props.event) {
     return `${BASE_FRONTEND_URL}/events/${props.event.id}`;
   } else if (props.resource) {
