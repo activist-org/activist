@@ -1,20 +1,24 @@
-# Run this script to reset the local frontend environment to allow for local testing.
-# macOS: sh frontend/reset_local_env.sh
-# Linux: bash frontend/reset_local_env.sh
+# Run this script in the frontend directory to reset the local environment and allow for local testing.
+# macOS: sh reset_local_env.sh
+# Linux: bash reset_local_env.sh
 # Windows: Run the commands below.
 
-# Replace local yarn.lock file with the one in main:
+echo "Replacing local yarn.lock with the version on the main branch."
 wget -O yarn.lock https://raw.githubusercontent.com/activist-org/activist/refs/heads/main/frontend/yarn.lock
 
-# Clear the yarn cache system wide (might take a long time):
+echo "Cleaning yarn cache system wide (might take a long time)."
 yarn cache clean
 
-# Delete the node_modules folder:
+echo "Deleting the local node_modules directory."
 rm -rf node_modules
+echo "Local node_modules was deleted."
 
-# Load environment variables into your shell:
+echo "Loading environment variables into your shell."
 set -a && source ../.env.dev && set +a
+echo "Environment variables were loaded."
 
-# Reinstall and prompt to restart IDE:
+echo "Reinstalling frontend dependencies."
 yarn install
+
+echo "Local frontend environment restarted."
 echo "Please restart your IDE to assure that changes are picked up."
