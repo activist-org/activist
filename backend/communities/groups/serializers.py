@@ -12,6 +12,7 @@ from communities.groups.models import (
     GroupMember,
     GroupText,
 )
+from communities.organizations.models import Organization
 from content.serializers import LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
@@ -24,11 +25,18 @@ class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
         fields = "__all__"
 
 
+class GroupOrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = "__all__"
+
+
 class GroupSerializer(serializers.ModelSerializer[Group]):
     texts = GroupTextSerializer(many=True, read_only=True)
     location = LocationSerializer(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
     events = EventSerializer(many=True, read_only=True)
+    org = GroupOrganizationSerializer(read_only=True)
 
     class Meta:
         model = Group

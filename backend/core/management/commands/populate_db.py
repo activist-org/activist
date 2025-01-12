@@ -65,6 +65,15 @@ class Command(BaseCommand):
                 user.topics.set([user_topic])
 
                 for o in range(num_orgs_per_user):
+                    org_texts = OrganizationTextFactory(iso="en", primary=True)
+                    user_org = OrganizationFactory(
+                        created_by=user,
+                        org_name=f"organization_u{u}_o{o}",
+                        name=f"{user_topic.name} Organization",
+                        tagline=f"Fighting for {user_topic.name.lower()}",
+                    )
+                    user_org.texts.set([org_texts])
+
                     for e in range(num_events_per_org):
                         event_type = random.choice(["learn", "action"])
                         event_type_verb = (
@@ -78,33 +87,22 @@ class Command(BaseCommand):
                             tagline=f"{event_type_verb} {user_topic.name}",
                             type=event_type,
                             created_by=user,
+                            org=user_org,
                         )
 
                         event_texts = EventTextFactory(iso="en", primary=True)
                         user_org_event.texts.set([event_texts])
 
-                    org_texts = OrganizationTextFactory(iso="en", primary=True)
-                    user_org = OrganizationFactory(
-                        created_by=user,
-                        org_name=f"organization_u{u}_o{o}",
-                        name=f"{user_topic.name} Organization",
-                        tagline=f"Fighting for {user_topic.name.lower()}",
-                    )
-                    user_org.texts.set([org_texts])
-                    user_org.events.set([user_org_event])
-
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
                             created_by=user,
-                            parent_org_id=user_org.id,
                             group_name=f"group_u{u}_o{o}_g{g}",
                             name=f"{user_topic.name} Group",
+                            org=user_org,
                         )
 
                         group_texts = GroupTextFactory(iso="en", primary=True)
                         user_org_group.texts.set([group_texts])
-
-                    user_org.groups.set([user_org_group])
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org

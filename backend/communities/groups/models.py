@@ -17,10 +17,9 @@ class Group(models.Model):
     org = models.ForeignKey(
         "communities.Organization",
         on_delete=models.CASCADE,
-        related_name="_group",
+        related_name="groups",
         null=True,
     )
-    parent_org_id = models.UUIDField(default=uuid4, editable=False)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)

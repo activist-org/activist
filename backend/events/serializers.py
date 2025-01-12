@@ -8,6 +8,7 @@ from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
+from communities.organizations.models import Organization
 from content.serializers import LocationSerializer, ResourceSerializer
 from events.models import Event, EventText, Format
 from utils.utils import (
@@ -24,10 +25,17 @@ class EventTextSerializer(serializers.ModelSerializer[EventText]):
         fields = "__all__"
 
 
+class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
+    class Meta:
+        model = Organization
+        fields = "__all__"
+
+
 class EventSerializer(serializers.ModelSerializer[Event]):
     texts = EventTextSerializer(many=True, read_only=True)
     offline_location = LocationSerializer(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
+    org = EventOrganizationSerializer(read_only=True)
 
     class Meta:
         model = Event
