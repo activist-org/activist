@@ -39,7 +39,7 @@
           class="text-start font-bold"
           :class="{ 'link-text': !isForgotPasswordDisabled }"
         >
-          Forgot your password?
+          {{ $t("_global.auth.reset_password_forgot_password") }}
         </button>
         <TooltipBase
           v-if="isForgotPasswordDisabled && hovered"

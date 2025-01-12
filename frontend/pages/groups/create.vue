@@ -120,7 +120,7 @@ const formData = ref({
 });
 
 const submit = async () => {
-  await useFetch("http://127.0.0.1:8000/v1/entities/organizations/", {
+  await useFetch(`${BASE_BACKEND_URL}/v1/communities/organizations/`, {
     method: "POST",
     body: JSON.stringify({
       name: formData.value.name,

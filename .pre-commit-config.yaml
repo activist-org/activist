@@ -1,15 +1,16 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
+        exclude: ^docs/|README.md$
       - id: check-yaml
       - id: check-added-large-files
       # - id: pretty-format-json
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.3.0
+    rev: v0.8.6
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -22,3 +23,16 @@ repos:
         entry: python frontend/i18n/check/run_i18n_checks.py
         language: python
         stages: [pre-commit]
+
+  # - repo: https://github.com/tcort/markdown-link-check
+  #   rev: v3.13.6
+  #   hooks:
+  #     - id: markdown-link-check
+  #       args: [-q]
+
+  # - repo: https://github.com/numpy/numpydoc
+  #   rev: v1.8.0
+  #   hooks:
+  #     - id: numpydoc-validation
+  #       files: ^backend/
+  #       exclude: ^backend/tests/

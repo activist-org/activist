@@ -8,27 +8,12 @@ from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
+from communities.organizations.models import Organization
 from content.serializers import LocationSerializer, ResourceSerializer
+from events.models import Event, EventText, Format
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
-)
-
-from .models import (
-    Event,
-    EventAttendee,
-    EventAttendeeStatus,
-    EventDiscussion,
-    EventFaq,
-    EventFormat,
-    EventResource,
-    EventRole,
-    EventSocialLink,
-    EventTag,
-    EventTask,
-    EventText,
-    EventTopic,
-    Format,
 )
 
 # MARK: Main Tables
@@ -40,10 +25,17 @@ class EventTextSerializer(serializers.ModelSerializer[EventText]):
         fields = "__all__"
 
 
+class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
+    class Meta:
+        model = Organization
+        fields = "__all__"
+
+
 class EventSerializer(serializers.ModelSerializer[Event]):
-    texts = EventTextSerializer()
+    texts = EventTextSerializer(many=True, read_only=True)
     offline_location = LocationSerializer(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
+    orgs = EventOrganizationSerializer(read_only=True)
 
     class Meta:
         model = Event
@@ -74,8 +66,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         event = Event.objects.create(**validated_data)
 
         if event:
-            event_text = EventText.objects.create(event_id=event)
-            event.texts = event_text
+            EventText.objects.create(event=event)
 
         return event
 
@@ -89,72 +80,3 @@ class FormatSerializer(serializers.ModelSerializer[Event]):
         validate_creation_and_deprecation_dates(data)
 
         return data
-
-
-# MARK: Bridge Tables
-
-
-class EventAttendeeSerializer(serializers.ModelSerializer[EventAttendee]):
-    class Meta:
-        model = EventAttendee
-        fields = "__all__"
-
-
-class EventAttendeeStatusSerializer(serializers.ModelSerializer[EventAttendeeStatus]):
-    class Meta:
-        model = EventAttendeeStatus
-        fields = "__all__"
-
-
-class EventDiscussionSerializer(serializers.ModelSerializer[EventDiscussion]):
-    class Meta:
-        model = EventDiscussion
-        fields = "__all__"
-
-
-class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
-    class Meta:
-        model = EventFaq
-        fields = "__all__"
-
-
-class EventFormatSerializer(serializers.ModelSerializer[EventFormat]):
-    class Meta:
-        model = EventFormat
-        fields = "__all__"
-
-
-class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
-    class Meta:
-        model = EventResource
-        fields = "__all__"
-
-
-class EventRoleSerializer(serializers.ModelSerializer[EventRole]):
-    class Meta:
-        model = EventRole
-        fields = "__all__"
-
-
-class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
-    class Meta:
-        model = EventSocialLink
-        fields = "__all__"
-
-
-class EventTagSerializer(serializers.ModelSerializer[EventTag]):
-    class Meta:
-        model = EventTag
-        fields = "__all__"
-
-
-class EventTaskSerializer(serializers.ModelSerializer[EventTask]):
-    class Meta:
-        model = EventTask
-        fields = "__all__"
-
-
-class EventTopicSerializer(serializers.ModelSerializer[EventTopic]):
-    class Meta:
-        model = EventTopic
-        fields = "__all__"

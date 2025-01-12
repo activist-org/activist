@@ -1,6 +1,6 @@
 import { test as baseTest } from "@playwright/test";
-import { LandingPage } from "../page-objects/LandingPage";
 import { HomePage } from "../page-objects/HomePage";
+import { LandingPage } from "../page-objects/LandingPage";
 import { SignInPage } from "../page-objects/SignInPage";
 
 type TestFixtures = {
@@ -19,7 +19,7 @@ export const test = baseTest.extend<TestFixtures>({
   homePage: async ({ page }, use) => {
     const homePage = new HomePage(page);
     await homePage.navigateTo("/home");
-    const topics = homePage.topics;
+    const { topics } = homePage;
     await topics.dropdown.waitFor({ state: "visible" });
     await use(homePage);
   },
@@ -32,4 +32,4 @@ export const test = baseTest.extend<TestFixtures>({
 });
 
 export { expect } from "@playwright/test";
-export { LandingPage, HomePage, SignInPage };
+export { HomePage, LandingPage, SignInPage };

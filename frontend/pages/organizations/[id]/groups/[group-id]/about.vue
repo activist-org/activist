@@ -86,7 +86,7 @@
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
-import type { Group } from "~/types/entities/group";
+import type { Group } from "~/types/communities/group";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 
 const aboveLargeBP = useBreakpoint("lg");

@@ -8,13 +8,13 @@
       </DialogTitle>
       <div class="mt-6 py-2 pr-1 md:max-h-[50vh] md:overflow-y-auto">
         <div v-if="event" class="space-y-3">
-          <div
-            v-for="(o, i) in event.organizations"
-            :key="i"
-            class="card-style m-1 p-2"
-          >
-            <MetaTagOrganization :organization="o" />
+          <div class="card-style m-1 p-2">
+            <MetaTagOrganization :organization="event.orgs" />
           </div>
+          <!-- TODO: Once we have more than one organization. -->
+          <!-- <div v-for="(o, i) in event.orgs" :key="i" class="card-style m-1 p-2">
+            <MetaTagOrganization :organization="o" />
+          </div> -->
         </div>
       </div>
     </div>

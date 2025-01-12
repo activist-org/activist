@@ -180,11 +180,13 @@
           <div
             class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
           >
-            <!-- <MetaTagOrganization
+            <MetaTagOrganization
+              v-if="!isReduced"
               v-for="(o, i) in organizations"
               :key="i"
+              class="pt-2"
               :organization="o"
-            /> -->
+            />
             <!-- <MetaTagMembers
               :members="members"
               label="components.card_search_result.members"
@@ -202,9 +204,10 @@
         <!-- <div v-if="!isReduced" class="flex justify-center md:justify-start">
           <ShieldTopic v-for="(t, i) in topics" :key="i" :topic="t" />
         </div> -->
-        <div v-if="organization || group">
-          <p v-if="organization">@{{ organization.orgName }}</p>
-          <p v-if="group">@{{ group.groupName }}</p>
+        <div v-if="entityName">
+          <NuxtLink :to="localePath(linkUrl)" :aria-label="$t(ariaLabel)">
+            @{{ entityName }}</NuxtLink
+          >
         </div>
         <p
           class="justify-center md:justify-start md:px-0 md:py-0"
@@ -223,9 +226,9 @@
 <script setup lang="ts">
 import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
+import type { Group } from "~/types/communities/group";
+import type { Organization } from "~/types/communities/organization";
 import type { Resource } from "~/types/content/resource";
-import type { Group } from "~/types/entities/group";
-import type { Organization } from "~/types/entities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 
@@ -239,8 +242,6 @@ const props = defineProps<{
   isPrivate?: boolean;
 }>();
 
-console.log(`Props: ${JSON.stringify(props, null, 2)}`);
-
 const aboveMediumBP = useBreakpoint("md");
 
 const i18n = useI18n();
@@ -249,9 +250,7 @@ const { linkUrl } = useLinkURL(props);
 
 const ariaLabel = computed<string>(() => {
   if (props.organization) {
-    return i18n.t(
-      "components.card_search_result.navigate_to_organization_aria_label"
-    );
+    return i18n.t("components._global.navigate_to_organization_aria_label");
   } else if (props.group) {
     return i18n.t("components._global.navigate_to_group_aria_label");
   } else if (props.event) {
@@ -357,6 +356,16 @@ const name = computed<string>(() => {
   }
 });
 
+const entityName = computed<string>(() => {
+  if (props.organization) {
+    return props.organization.orgName;
+  } else if (props.group) {
+    return props.group.groupName;
+  } else {
+    return "";
+  }
+});
+
 const onlineLocation = computed<string>(() => {
   if (props.event && props.event.onlineLocationLink) {
     return props.event.onlineLocationLink;
@@ -365,17 +374,15 @@ const onlineLocation = computed<string>(() => {
   }
 });
 
-// const organizations = computed<Organization[]>(() => {
-//   if (props.group) {
-//     return [props.group.organization];
-//   } else if (props.event) {
-//     return props.event.organizations;
-//   } else if (props.resource) {
-//     return [props.resource.organization];
-//   } else {
-//     return [];
-//   }
-// });
+const organizations = computed<Organization[]>(() => {
+  if (props.event) {
+    return [props.event.orgs];
+  } else if (props.resource) {
+    return [props.resource.org];
+  } else {
+    return [];
+  }
+});
 
 // const stars = computed<number>(() => {
 //   if (props.resource && props.resource.starers) {

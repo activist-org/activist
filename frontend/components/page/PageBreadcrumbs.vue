@@ -73,8 +73,8 @@
 
 <script setup lang="ts">
 import { validate as isValidUUID } from "uuid";
-import type { Group } from "~/types/entities/group";
-import type { Organization } from "~/types/entities/organization";
+import type { Group } from "~/types/communities/group";
+import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
 
 const url = window.location.href;
