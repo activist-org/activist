@@ -347,6 +347,11 @@ Please see the [activist style guide](STYLEGUIDE.md) for details about how to fo
 Please run the following commands from the project root to test the backend:
 
 ```bash
+# Format the backend, lint the code and run static type checks:
+ruff format ./backend
+ruff check ./backend
+mypy ./backend --config-file ./backend/pyproject.toml
+
 # Start the Docker container:
 docker compose --env-file .env.dev up backend --build -d  # -d to hide logs
 
