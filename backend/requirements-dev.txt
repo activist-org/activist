@@ -4,34 +4,36 @@
 #
 #    pip-compile requirements-dev.in
 #
-asgiref==3.7.2
+asgiref==3.8.1
     # via
     #   -r requirements.txt
     #   django
-attrs==23.1.0
+    #   django-cors-headers
+    #   django-stubs
+attrs==24.3.0
     # via
     #   -r requirements.txt
     #   jsonschema
     #   referencing
-build==1.2.1
+build==1.2.2.post1
     # via pip-tools
-certifi==2024.7.4
+certifi==2024.12.14
     # via
     #   -r requirements.txt
     #   requests
 cfgv==3.4.0
     # via pre-commit
-charset-normalizer==3.3.2
+charset-normalizer==3.4.1
     # via
     #   -r requirements.txt
     #   requests
-click==8.1.7
+click==8.1.8
     # via pip-tools
-coverage[toml]==7.4.4
+coverage[toml]==7.6.10
     # via pytest-cov
-distlib==0.3.8
+distlib==0.3.9
     # via virtualenv
-django==5.0.10
+django==5.1.4
     # via
     #   -r requirements.txt
     #   django-cors-headers
@@ -39,13 +41,13 @@ django==5.0.10
     #   django-stubs-ext
     #   djangorestframework
     #   drf-spectacular
-django-cors-headers==4.3.0
+django-cors-headers==4.6.0
     # via -r requirements.txt
-django-stubs==4.2.6
+django-stubs==5.1.1
     # via
     #   -r requirements.txt
     #   djangorestframework-stubs
-django-stubs-ext==4.2.5
+django-stubs-ext==5.1.1
     # via
     #   -r requirements.txt
     #   django-stubs
@@ -55,21 +57,21 @@ djangorestframework==3.15.2
     #   drf-spectacular
 djangorestframework-camel-case==1.4.2
     # via -r requirements.txt
-djangorestframework-stubs==3.14.4
+djangorestframework-stubs==3.15.2
     # via -r requirements.txt
-drf-spectacular==0.26.5
+drf-spectacular==0.28.0
     # via -r requirements.txt
-factory-boy==3.3.0
+factory-boy==3.3.1
     # via -r requirements-dev.in
-faker==24.7.1
+faker==33.3.1
     # via factory-boy
-filelock==3.13.3
+filelock==3.16.1
     # via virtualenv
-gunicorn==22.0.0
+gunicorn==23.0.0
     # via -r requirements.txt
-identify==2.5.35
+identify==2.6.5
     # via pre-commit
-idna==3.7
+idna==3.10
     # via
     #   -r requirements.txt
     #   requests
@@ -79,118 +81,106 @@ inflection==0.5.1
     #   drf-spectacular
 iniconfig==2.0.0
     # via pytest
-jsonschema==4.19.2
+jsonschema==4.23.0
     # via
     #   -r requirements.txt
     #   drf-spectacular
-jsonschema-specifications==2023.7.1
+jsonschema-specifications==2024.10.1
     # via
     #   -r requirements.txt
     #   jsonschema
-mypy==1.6.1
-    # via
-    #   -r requirements.txt
-    #   djangorestframework-stubs
-mypy-extensions==1.0.0
-    # via
-    #   -r requirements.txt
-    #   mypy
-nodeenv==1.8.0
+nodeenv==1.9.1
     # via pre-commit
-packaging==23.2
+packaging==24.2
     # via
     #   -r requirements.txt
     #   build
     #   gunicorn
     #   pytest
-pillow==10.3.0
+pillow==11.1.0
     # via -r requirements.txt
 pip-tools==7.4.1
     # via -r requirements-dev.in
-platformdirs==4.2.0
+platformdirs==4.3.6
     # via virtualenv
-pluggy==1.4.0
+pluggy==1.5.0
     # via pytest
-pre-commit==3.7.0
+pre-commit==4.0.1
     # via -r requirements-dev.in
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.10
     # via -r requirements.txt
-pyproject-hooks==1.0.0
+pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
-pytest==8.1.1
+pytest==8.3.4
     # via
     #   -r requirements-dev.in
     #   pytest-cov
     #   pytest-django
-pytest-cov==5.0.0
+pytest-cov==6.0.0
     # via -r requirements-dev.in
-pytest-django==4.8.0
+pytest-django==4.9.0
     # via -r requirements-dev.in
 python-dateutil==2.9.0.post0
     # via faker
-python-dotenv==1.0.0
+python-dotenv==1.0.1
     # via -r requirements.txt
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via
     #   -r requirements.txt
     #   drf-spectacular
     #   pre-commit
-referencing==0.30.2
+referencing==0.35.1
     # via
     #   -r requirements.txt
     #   jsonschema
     #   jsonschema-specifications
-requests==2.32.0
+requests==2.32.3
     # via
     #   -r requirements.txt
     #   djangorestframework-stubs
-rpds-py==0.12.0
+rpds-py==0.22.3
     # via
     #   -r requirements.txt
     #   jsonschema
     #   referencing
-ruff==0.3.5
+ruff==0.9.1
     # via -r requirements-dev.in
-six==1.16.0
+six==1.17.0
     # via python-dateutil
-sqlparse==0.5.0
+sqlparse==0.5.3
     # via
     #   -r requirements.txt
     #   django
-types-pytz==2023.3.1.1
-    # via
-    #   -r requirements.txt
-    #   django-stubs
-types-pyyaml==6.0.12.12
+types-pyyaml==6.0.12.20241230
     # via
     #   -r requirements.txt
     #   django-stubs
     #   djangorestframework-stubs
-types-requests==2.31.0.10
+types-requests==2.32.0.20241016
     # via
     #   -r requirements.txt
     #   djangorestframework-stubs
-typing-extensions==4.8.0
+typing-extensions==4.12.2
     # via
     #   -r requirements.txt
     #   django-stubs
     #   django-stubs-ext
     #   djangorestframework-stubs
-    #   mypy
+    #   faker
 uritemplate==4.1.1
     # via
     #   -r requirements.txt
     #   drf-spectacular
-urllib3==2.2.2
+urllib3==2.3.0
     # via
     #   -r requirements.txt
     #   requests
     #   types-requests
-virtualenv==20.25.1
+virtualenv==20.28.1
     # via pre-commit
-wheel==0.43.0
+wheel==0.45.1
     # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:

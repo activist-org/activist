@@ -4,17 +4,20 @@
 #
 #    pip-compile requirements.in
 #
-asgiref==3.7.2
-    # via django
-attrs==23.1.0
+asgiref==3.8.1
+    # via
+    #   django
+    #   django-cors-headers
+    #   django-stubs
+attrs==24.3.0
     # via
     #   jsonschema
     #   referencing
-certifi==2024.7.4
+certifi==2024.12.14
     # via requests
-charset-normalizer==3.3.2
+charset-normalizer==3.4.1
     # via requests
-django==5.0.10
+django==5.1.4
     # via
     #   -r requirements.in
     #   django-cors-headers
@@ -22,13 +25,13 @@ django==5.0.10
     #   django-stubs-ext
     #   djangorestframework
     #   drf-spectacular
-django-cors-headers==4.3.0
+django-cors-headers==4.6.0
     # via -r requirements.in
-django-stubs==4.2.6
+django-stubs==5.1.1
     # via
     #   -r requirements.in
     #   djangorestframework-stubs
-django-stubs-ext==4.2.5
+django-stubs-ext==5.1.1
     # via
     #   -r requirements.in
     #   django-stubs
@@ -38,63 +41,56 @@ djangorestframework==3.15.2
     #   drf-spectacular
 djangorestframework-camel-case==1.4.2
     # via -r requirements.in
-djangorestframework-stubs==3.14.4
+djangorestframework-stubs==3.15.2
     # via -r requirements.in
-drf-spectacular==0.26.5
+drf-spectacular==0.28.0
     # via -r requirements.in
-gunicorn==22.0.0
+gunicorn==23.0.0
     # via -r requirements.in
-idna==3.7
+idna==3.10
     # via requests
 inflection==0.5.1
     # via drf-spectacular
-jsonschema==4.19.2
+jsonschema==4.23.0
     # via drf-spectacular
-jsonschema-specifications==2023.7.1
+jsonschema-specifications==2024.10.1
     # via jsonschema
-mypy==1.6.1
-    # via djangorestframework-stubs
-mypy-extensions==1.0.0
-    # via mypy
-packaging==23.2
+packaging==24.2
     # via gunicorn
-pillow==10.3.0
+pillow==11.1.0
     # via -r requirements.in
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.10
     # via -r requirements.in
-python-dotenv==1.0.0
+python-dotenv==1.0.1
     # via -r requirements.in
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via drf-spectacular
-referencing==0.30.2
+referencing==0.35.1
     # via
     #   jsonschema
     #   jsonschema-specifications
-requests==2.32.0
+requests==2.32.3
     # via djangorestframework-stubs
-rpds-py==0.12.0
+rpds-py==0.22.3
     # via
     #   jsonschema
     #   referencing
-sqlparse==0.5.0
+sqlparse==0.5.3
     # via django
-types-pytz==2023.3.1.1
-    # via django-stubs
-types-pyyaml==6.0.12.12
+types-pyyaml==6.0.12.20241230
     # via
     #   django-stubs
     #   djangorestframework-stubs
-types-requests==2.31.0.10
+types-requests==2.32.0.20241016
     # via djangorestframework-stubs
-typing-extensions==4.8.0
+typing-extensions==4.12.2
     # via
     #   django-stubs
     #   django-stubs-ext
     #   djangorestframework-stubs
-    #   mypy
 uritemplate==4.1.1
     # via drf-spectacular
-urllib3==2.2.2
+urllib3==2.3.0
     # via
     #   requests
     #   types-requests
