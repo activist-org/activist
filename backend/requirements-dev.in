@@ -11,6 +11,7 @@
 -r requirements.txt
 
 factory-boy
+mypy
 pip-tools
 pre-commit
 pytest
