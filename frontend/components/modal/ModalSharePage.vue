@@ -8,6 +8,10 @@
           {{ $t("components.modal_share_page.header") }}
         </p>
       </DialogTitle>
+      <!-- Added suggestion note -->
+      <p v-if="showSuggestions" class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+        {{ $t("components.modal_share_page.suggested_note") }} <span class="text-xs align-super">'</span>
+      </p>
       <div class="pt-6">
         <p class="responsive-h4 font-bold">
           {{ $t("components.modal_share_page.online") }}
@@ -25,7 +29,14 @@
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
-          />
+          >
+            <span 
+              v-if="showSuggestions && suggestedOptions.includes('STelegram')" 
+              class="absolute -top-1 -right-1 text-xs text-blue-600 dark:text-blue-400"
+            >
+              '
+            </span>
+          </BtnShareIcon>
           <BtnShareIcon
             type="vueSocials"
             social-component="SMastodon"
@@ -36,7 +47,14 @@
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
-          />
+          >
+            <span 
+              v-if="showSuggestions && suggestedOptions.includes('SMastodon')" 
+              class="absolute -top-1 -right-1 text-xs text-blue-600 dark:text-blue-400"
+            >
+              '
+            </span>
+          </BtnShareIcon>
           <BtnShareIcon
             type="vueSocials"
             social-component="STwitter"
@@ -55,7 +73,14 @@
             text="Email"
             iconSize="1.5em"
             :share-options="shareOptions"
-          />
+          >
+            <span 
+              v-if="showSuggestions && suggestedOptions.includes('SEmail')" 
+              class="absolute -top-1 -right-1 text-xs text-blue-600 dark:text-blue-400"
+            >
+              '
+            </span>
+          </BtnShareIcon>
           <BtnShareIcon
             type="vueSocials"
             social-component="SFacebook"
@@ -79,7 +104,14 @@
             :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
             redirect-link="https://signal.me/#p"
-          />
+          >
+            <span 
+              v-if="showSuggestions && suggestedOptions.includes('signal')" 
+              class="absolute -top-1 -right-1 text-xs text-blue-600 dark:text-blue-400"
+            >
+              '
+            </span>
+          </BtnShareIcon>
           <BtnShareIcon
             type="vueSocials"
             social-component="SFacebookMessenger"
@@ -150,9 +182,13 @@ const props = defineProps<{
   event?: Event;
   resource?: Resource;
   user?: User;
+  showSuggestions?: boolean; // New prop
 }>();
 
 const modalName = "ModalSharePage";
+
+// Added array of suggested options
+const suggestedOptions = ['STelegram', 'SMastodon', 'SEmail', 'signal'];
 
 const getEntityType = () => {
   if (props.organization) {
@@ -184,7 +220,6 @@ const getCurrentName = () => {
       : "";
 };
 
-// Function to grab the url to the base id of the entity to share.
 const getCurrentUrl = () => {
   if (props.organization) {
     return `${BASE_FRONTEND_URL}/organizations/${props.organization.id}`;
@@ -213,7 +248,6 @@ const shareOptions = {
   bcc: [""],
   subject: getEntityType()?.subject || "Share this!",
   body:
-    // eslint-disable-next-line no-constant-binary-expression
     `${getEntityType()?.body}   ${getEntityType()?.url}` || "Check this out!",
   redirectUri: "https://www.domain.com/",
   domain: "https://mas.to",
@@ -222,7 +256,6 @@ const shareOptions = {
 
 const useNativeBehavior = false;
 
-// No specific actions should be taken on these events, but we can customize the behavior if needed.
 const nativeBehaviorOptions = {
   onClose: () => {},
   onOpen: () => {},
