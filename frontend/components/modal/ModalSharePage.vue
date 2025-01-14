@@ -101,7 +101,7 @@
             :native-behavior-options="nativeBehaviorOptions"
             :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
-            redirect-link="https://signal.me/#p"
+            redirect-link="https://instagram.com"
           />
           <BtnShareIcon
             type="redirect"
