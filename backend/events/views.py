@@ -28,58 +28,87 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
         return Response(data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
-        if event := self.queryset.get(id=kwargs["pk"]):
+        try:
+            pk = str(kwargs["pk"])
+            event = self.queryset.get(id=pk)
             serializer = self.get_serializer(event)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
+        except event.DoesNotExist:
+            return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
 
     def update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        event = self.queryset.filter(id=kwargs["pk"]).first()
-        if event is None:
-            return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
+        try:
+            pk = str(kwargs["pk"])
+            event = self.queryset.filter(id=pk).first()
+            if event is None:
+                return Response(
+                    {"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND
+                )
 
-        if request.user != event.created_by:
+            if request.user != event.created_by:
+                return Response(
+                    {"error": "You are not authorized to update this event"},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
+
+            serializer = self.get_serializer(event, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except (Event.DoesNotExist, ValueError):
             return Response(
-                {"error": "You are not authorized to update this event"},
-                status.HTTP_401_UNAUTHORIZED,
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
             )
-
-        serializer = self.get_serializer(event, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status.HTTP_200_OK)
 
     def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        event = self.queryset.filter(id=kwargs["pk"]).first()
-        if event is None:
-            return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
+        try:
+            pk = str(kwargs["pk"])
+            event = self.queryset.filter(id=pk).first()
 
-        if request.user != event.created_by:
+            if event is None:
+                return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
+
+            if request.user != event.created_by:
+                return Response(
+                    {"error": "You are not authorized to update this event"},
+                    status.HTTP_401_UNAUTHORIZED,
+                )
+
+            serializer = self.get_serializer(event, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status.HTTP_200_OK)
+
+        except (Event.DoesNotExist, ValueError):
             return Response(
-                {"error": "You are not authorized to update this event"},
-                status.HTTP_401_UNAUTHORIZED,
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
             )
-
-        serializer = self.get_serializer(event, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status.HTTP_200_OK)
 
     def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
-        event = self.queryset.filter(id=kwargs["pk"]).first()
-        if event is None:
-            return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
+        try:
+            pk = str(kwargs["pk"])
+            event = self.queryset.filter(id=pk).first()
 
-        if request.user != event.created_by:
+            if event is None:
+                return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
+
+            if request.user != event.created_by:
+                return Response(
+                    {"error": "You are not authorized to delete this event"},
+                    status.HTTP_401_UNAUTHORIZED,
+                )
+
+            event.delete()
             return Response(
-                {"error": "You are not authorized to delete this event"},
-                status.HTTP_401_UNAUTHORIZED,
+                {"message": "Event deleted successfully."}, status.HTTP_200_OK
             )
 
-        event.delete()
-
-        return Response({"message": "Event deleted successfully."}, status.HTTP_200_OK)
+        except (Event.DoesNotExist, ValueError):
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
