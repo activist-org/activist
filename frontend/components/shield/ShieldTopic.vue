@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="style-cta elem-shadow-sm flex h-max w-max cursor-pointer items-center justify-between space-x-2 border"

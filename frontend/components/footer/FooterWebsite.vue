@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <footer class="responsive-px-5 responsive-py-5 bg-layer-2 text-distinct-text">
     <!-- Note: Content Sections Top for Mobile -->

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Checks if the en-US.json file has keys that are not used in the codebase.
 If yes, suggest that they be removed from the en-US.json.
@@ -58,10 +59,15 @@ if unused_keys := list(set(all_keys) - set(used_keys)):
     key_to_be = "keys that are" if len(unused_keys) > 1 else "key that is"
     key_or_keys = "keys" if len(unused_keys) > 1 else "key"
     raise ValueError(
-        f"There {to_be} {len(unused_keys)} i18n {key_to_be} unused. Please remove or assign the following {key_or_keys}:\n\n{', '.join(unused_keys)}\n"
+        f"There {to_be} {len(unused_keys)} i18n {key_to_be} unused. Please remove or assign the following {key_or_keys}:
+
+{', '.join(unused_keys)}
+"
     )
 
 else:
     print(
-        "\nSuccess: All i18n keys in the en-US source file are used in the project.\n"
+        "
+Success: All i18n keys in the en-US source file are used in the project.
+"
     )

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <!-- This file doesn't use ModalBase, so we handle modal events in the script block below. -->
 
 <template>

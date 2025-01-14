@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardGetInvolved>
     <div class="flex flex-col md:flex-row">

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div id="qr-code" class="flex w-max flex-col">
     <div class="relative flex w-max justify-center">

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <TooltipBase
     :text="$t('components.tooltip_discussion_warning.text')"

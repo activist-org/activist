@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Enums for the authentication app.
 More details about Enums can be found in schema section on Figma.

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export enum BreakpointMap {
   SMALL = 640,
   MEDIUM = 768,

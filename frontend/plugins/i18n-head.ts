@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Router } from "#vue-router";
 
 // Injects the lang attribute in all Nuxt <Head></Head> components.

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <TooltipBase class="rounded-md">
     <div class="flex-col space-y-2">

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="grid w-fit grid-flow-row gap-3 sm:grid-flow-col md:gap-5">
     <ShieldGitHub

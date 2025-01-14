@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <button
     class="focus-brand h-min cursor-pointer p-4 md:float-right md:w-1/3 2xl:col-span-1 2xl:w-full"

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Checks if the en-US.json file has invalid keys given their usage or formatting.
 If yes, suggest new names for the keys at the lowest possible level of usage.
@@ -15,7 +16,7 @@ from pathlib import Path
 # MARK: Paths / Files
 
 # Check for Windows and derive directory path separator.
-path_separator = "\\" if os.name == "nt" else "/"
+path_separator = "\" if os.name == "nt" else "/"
 
 i18n_check_dir = str(Path(__file__).parent.resolve())
 json_file_directory = Path(__file__).parent.parent.resolve()
@@ -175,25 +176,31 @@ format_key_to_be = "keys that are" if len(invalid_keys_by_format) > 1 else "key 
 format_key_or_keys = "keys" if len(invalid_keys_by_format) > 1 else "key"
 
 invalid_keys_by_format_error = f"""
-There {format_to_be} {len(invalid_keys_by_format)} i18n {format_key_to_be} not formatted correctly. Please reformat the following {format_key_or_keys}:\n\n{invalid_keys_by_format_string}
+There {format_to_be} {len(invalid_keys_by_format)} i18n {format_key_to_be} not formatted correctly. Please reformat the following {format_key_or_keys}:
+
+{invalid_keys_by_format_string}
 """
 
 invalid_keys_by_name_string = "".join(
-    f"\n{k} -> {v}" for k, v in invalid_keys_by_name.items()
+    f"
+{k} -> {v}" for k, v in invalid_keys_by_name.items()
 )
 name_to_be = "are" if len(invalid_keys_by_name) > 1 else "is"
 name_key_to_be = "keys that are" if len(invalid_keys_by_name) > 1 else "key that is"
 name_key_or_keys = "keys" if len(invalid_keys_by_name) > 1 else "key"
 
 invalid_keys_by_name_error = f"""
-There {name_to_be} {len(invalid_keys_by_name)} i18n {name_key_to_be} not named correctly. Please rename the following {name_key_or_keys} [current_key -> suggested_correction]:\n{invalid_keys_by_name_string}
+There {name_to_be} {len(invalid_keys_by_name)} i18n {name_key_to_be} not named correctly. Please rename the following {name_key_or_keys} [current_key -> suggested_correction]:
+{invalid_keys_by_name_string}
 """
 
 error_string = ""
 
 if not invalid_keys_by_format and not invalid_keys_by_name:
     print(
-        "\nSuccess: All i18n keys are formatted and named correctly in the en-US source file.\n"
+        "
+Success: All i18n keys are formatted and named correctly in the en-US source file.
+"
     )
 
 elif invalid_keys_by_format and invalid_keys_by_name:
@@ -207,7 +214,9 @@ else:
 
     else:
         print(
-            "\nThere is an error with key names, but all i18n keys are formatted correctly in the en-US source file.\n"
+            "
+There is an error with key names, but all i18n keys are formatted correctly in the en-US source file.
+"
         )
 
     if invalid_keys_by_name:
@@ -215,7 +224,9 @@ else:
 
     else:
         print(
-            "\nThere is an error with key formatting, but all i18n keys are named appropriately in the en-US source file.\n"
+            "
+There is an error with key formatting, but all i18n keys are named appropriately in the en-US source file.
+"
         )
 
     raise ValueError(error_string)

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="h-fit w-full">
     <TabGroup @change="changeTab" manual :default-index="defaultIndex">

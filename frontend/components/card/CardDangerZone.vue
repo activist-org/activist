@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="card-style-base border border-action-red bg-action-red/30 px-5 py-5 text-primary-text dark:bg-action-red/20"

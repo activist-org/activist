@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { useNuxtApp } from "#app";
 import { config } from "@vue/test-utils";
 import { createPinia, defineStore, setActivePinia } from "pinia";

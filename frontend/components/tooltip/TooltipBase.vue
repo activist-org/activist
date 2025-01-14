@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="tooltip flex flex-col space-y-1 rounded bg-layer-1 text-primary-text shadow-zinc-700"

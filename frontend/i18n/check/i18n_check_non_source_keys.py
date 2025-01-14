@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Checks if the i18n target JSON files have keys that are not in es-US.json.
 If yes, suggest that they be removed from the their respective JSON files.
@@ -14,7 +15,7 @@ from pathlib import Path
 # MARK: Paths / Files
 
 # Check for Windows and derive directory path separator.
-path_separator = "\\" if os.name == "nt" else "/"
+path_separator = "\" if os.name == "nt" else "/"
 
 json_file_directory = Path(__file__).parent.parent.resolve()
 
@@ -41,15 +42,23 @@ for json_file in glob.glob(f"{json_file_directory}{path_separator}*.json"):
 # MARK: Error Outputs
 
 if non_source_keys_dict:
-    non_source_keys_string = "\n\n".join(
-        f"{k}: {', '.join(non_source_keys_dict[k])}\nTotal: {len(non_source_keys_dict[k])}"
+    non_source_keys_string = "
+
+".join(
+        f"{k}: {', '.join(non_source_keys_dict[k])}
+Total: {len(non_source_keys_dict[k])}"
         for k in non_source_keys_dict
     )
     raise ValueError(
-        f"There are some i18n target JSON files that have keys that are not in en-US.json. Please remove or rename the following keys:\n\n{non_source_keys_string}\n"
+        f"There are some i18n target JSON files that have keys that are not in en-US.json. Please remove or rename the following keys:
+
+{non_source_keys_string}
+"
     )
 
 else:
     print(
-        "\nSuccess: No i18n target file has keys that are not in the en-US.json source file.\n"
+        "
+Success: No i18n target file has keys that are not in the en-US.json source file.
+"
     )

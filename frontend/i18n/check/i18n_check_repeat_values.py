@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Checks if the en-US.json file has repeat string values.
 If yes, suggest that they be combined using a `_global` sub key at the lowest matching level of en-US.json.
@@ -45,7 +46,8 @@ for repeat_value in json_repeat_value_counts:
 
     # Needed as we're removing keys that are set to lowercase above.
     if len(i18n_keys) > 1:
-        print(f"\nRepeat value: '{repeat_value}'")
+        print(f"
+Repeat value: '{repeat_value}'")
         print(f"Number of instances: : {json_repeat_value_counts[repeat_value]}")
         print(f"Keys: {', '.join(i18n_keys)}")
 
@@ -84,8 +86,12 @@ if json_repeat_value_counts:
         value_to_be = "values are"
 
     raise ValueError(
-        f"\n{len(json_repeat_value_counts)} repeat i18n {value_to_be} present. Please combine given the suggestions above.\n"
+        f"
+{len(json_repeat_value_counts)} repeat i18n {value_to_be} present. Please combine given the suggestions above.
+"
     )
 
 else:
-    print("\nSuccess: No repeat i18n values found in the en-US source file.\n")
+    print("
+Success: No repeat i18n values found in the en-US source file.
+")

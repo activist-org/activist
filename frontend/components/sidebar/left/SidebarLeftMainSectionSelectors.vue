@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="mx-1 flex flex-col justify-center transition-all duration-500">
     <div class="elem-shadow-sm space-y-1 rounded-md bg-layer-2 p-1">

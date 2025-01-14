@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <!-- Note: Content Sections Left and Right for Desktop (xl) -->
   <div class="flex flex-row justify-start">

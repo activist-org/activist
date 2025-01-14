@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Checks the API calls used in the frontend to against what's been defined in the backend.
 
@@ -87,10 +88,15 @@ def print_results(results: list[str]) -> None:
     """
     header = "API calls found in the frontend code"
     print(
-        f"\n{header}\n"
-        f"{'-' * len(header)}\n"
-        f"Number of API calls: {len(results)}\n"
-        "Details:\n"
+        f"
+{header}
+"
+        f"{'-' * len(header)}
+"
+        f"Number of API calls: {len(results)}
+"
+        "Details:
+"
     )
 
     max_key_length = max(max(len(k) for k in kv.keys()) for kv in results)

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <header
     class="z-40 w-full bg-layer-1 pl-1 transition-all duration-200"

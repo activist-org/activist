@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Serializers for the authentication app.
 """
@@ -28,7 +29,7 @@ class SignupSerializer(serializers.ModelSerializer[UserModel]):
         extra_kwargs = {"password": {"write_only": True}, "email": {"required": False}}
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
-        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\-]).{12,}$"
 
         if not re.match(pattern, data["password"]):
             raise serializers.ValidationError(

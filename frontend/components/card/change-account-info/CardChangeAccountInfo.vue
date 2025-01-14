@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="card-style flex justify-center md:justify-start">
     <div class="flex h-fit w-full flex-col p-2 sm:px-5 sm:py-3">

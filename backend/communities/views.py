@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
 from rest_framework import viewsets
 
