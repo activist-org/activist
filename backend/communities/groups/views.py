@@ -29,15 +29,24 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         return Response(data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
-        if group := self.queryset.get(id=kwargs["pk"]):
+        try:
+            pk = str(kwargs["pk"])
+            group = self.queryset.get(id=pk)
             serializer = self.get_serializer(group)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response({"error": "Group not found"}, status.HTTP_404_NOT_FOUND)
+        except group.DoesNotExist:
+            return Response({"error": "Group not found"}, status.HTTP_404_NOT_FOUND)
 
     def update(self, request: Request, pk: str | None = None) -> Response:
-        group = self.queryset.filter(id=pk).first()
+        if pk is not None:
+            group = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         if group is None:
             return Response({"error": "Group not found"}, status.HTTP_404_NOT_FOUND)
@@ -55,7 +64,14 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         return Response(serializer.data, status.HTTP_200_OK)
 
     def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        group = self.queryset.filter(id=kwargs["pk"]).first()
+        pk = str(kwargs["pk"])
+        if pk is not None:
+            group = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         if group is None:
             return Response(
@@ -75,7 +91,14 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
-        group = self.queryset.filter(id=kwargs["pk"]).first()
+        pk = str(kwargs["pk"])
+        if pk is not None:
+            group = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         if group is None:
             return Response(
