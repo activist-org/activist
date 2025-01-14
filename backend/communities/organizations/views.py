@@ -32,15 +32,28 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        if org := self.queryset.filter(id=pk).first():
-            serializer = self.get_serializer(org)
+        if pk is not None:
+            if org := self.queryset.filter(id=pk).first():
+                serializer = self.get_serializer(org)
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         return Response({"error": "Organization not found"}, status.HTTP_404_NOT_FOUND)
 
     def update(self, request: Request, pk: str | None = None) -> Response:
-        org = self.queryset.filter(id=pk).first()
+        if pk is not None:
+            org = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         if org is None:
             return Response(
                 {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
@@ -59,7 +72,14 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(serializer.data, status.HTTP_200_OK)
 
     def partial_update(self, request: Request, pk: str | None = None) -> Response:
-        org = self.queryset.filter(id=pk).first()
+        if pk is not None:
+            org = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         if org is None:
             return Response(
                 {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
@@ -78,7 +98,14 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(serializer.data, status.HTTP_200_OK)
 
     def destroy(self, request: Request, pk: str | None = None) -> Response:
-        org = self.queryset.filter(id=pk).first()
+        if pk is not None:
+            org = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         if org is None:
             return Response(
                 {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
