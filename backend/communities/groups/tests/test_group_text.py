@@ -5,7 +5,7 @@ Test cases for the GroupText model.
 
 import pytest
 
-from communities.factories import GroupFactory, GroupTextFactory
+from communities.groups.factories import GroupFactory, GroupTextFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -38,10 +38,10 @@ def test_group_text_languages() -> None:
         group=group,
         iso="spa",
         primary=False,
-        description="Descripción",
-        get_involved="Cómo participar",
-        donate_prompt="Prompt de donación",
+        description="Description",
+        get_involved="How to participate",
+        donate_prompt="Donation prompt",
     )
     assert secondary_text.primary is False
     assert secondary_text.iso == "spa"
-    assert secondary_text.description == "Descripción"
+    assert secondary_text.description == "Description"

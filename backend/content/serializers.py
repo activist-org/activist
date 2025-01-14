@@ -9,11 +9,7 @@ from django.utils.translation import gettext as _
 from PIL import Image as PilImage
 from rest_framework import serializers
 
-from utils.utils import (
-    validate_creation_and_deprecation_dates,
-)
-
-from .models import (
+from content.models import (
     Discussion,
     DiscussionEntry,
     Faq,
@@ -22,6 +18,7 @@ from .models import (
     Resource,
     Topic,
 )
+from utils.utils import validate_creation_and_deprecation_dates
 
 # MARK: Main Tables
 
@@ -48,19 +45,27 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         image_extensions = [".jpg", ".jpeg", ".png"]
         img_format = ""
 
-        try:
-            with PilImage.open(data["file_location"]) as img:
-                img.verify()
-                img_format = img.format.lower()
-        except Exception as e:
-            raise serializers.ValidationError(
-                _("The image is not valid."), code="corrupted_file"
-            ) from e
+        file_location = data["file_location"]
+        if isinstance(file_location, str):
+            try:
+                with PilImage.open(file_location) as img:
+                    img.verify()
+                    img_format = img.format.lower()
 
-        if img_format not in image_extensions:
+            except Exception as e:
+                raise serializers.ValidationError(
+                    _("The image is not valid."), code="corrupted_file"
+                ) from e
+
+            if img_format not in image_extensions:
+                raise serializers.ValidationError(
+                    _("The image must be in jpg, jpeg or png format."),
+                    code="invalid_extension",
+                )
+
+        else:
             raise serializers.ValidationError(
-                _("The image must be in jpg, jpeg or png format."),
-                code="invalid_extension",
+                _("The file location must be a string."), code="invalid_file_location"
             )
 
         return data

@@ -6,14 +6,13 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from core.paginator import CustomPagination
-
-from .models import Discussion, DiscussionEntry, Resource
-from .serializers import (
+from content.models import Discussion, DiscussionEntry, Resource
+from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
     ResourceSerializer,
 )
+from core.paginator import CustomPagination
 
 # MARK: Main Tables
 
@@ -40,7 +39,13 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         queryset = self.get_queryset()
-        item = queryset.filter(id=pk).first()
+        if pk is not None:
+            item = queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         serializer = self.get_serializer(item)
 
@@ -125,11 +130,25 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         if request.user.is_authenticated:
-            query = self.queryset.filter(
-                Q(is_private=False) | Q(is_private=True, created_by=request.user), id=pk
-            )
+            if pk is not None:
+                query = self.queryset.filter(
+                    Q(is_private=False) | Q(is_private=True, created_by=request.user),
+                    id=pk,
+                )
+
+            else:
+                return Response(
+                    {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+                )
+
         else:
-            query = self.queryset.filter(Q(is_private=False), id=pk)
+            if pk is not None:
+                query = self.queryset.filter(Q(is_private=False), id=pk)
+
+            else:
+                return Response(
+                    {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+                )
 
         serializer = self.get_serializer(query)
 
@@ -213,7 +232,14 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         queryset = self.get_queryset()
-        item = queryset.filter(id=pk).first()
+        if pk is not None:
+            item = queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         serializer = self.get_serializer(item)
 
         return Response(serializer.data, status=status.HTTP_200_OK)

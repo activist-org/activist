@@ -8,7 +8,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 
-from .models import (
+from authentication.models import (
     Support,
     SupportEntityType,
     UserModel,
@@ -77,9 +77,9 @@ class UserChangeForm(forms.ModelForm[UserModel]):
         fields = "__all__"
 
 
-class UserAdmin(BaseUserAdmin):
+class UserAdmin(BaseUserAdmin[UserModel]):
     # The forms to add and change user instances.
-    form = UserChangeForm  # type: ignore
+    form = UserChangeForm
     add_form = UserCreationForm
 
     # The fields to be used in displaying the User model.

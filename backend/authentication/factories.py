@@ -3,11 +3,7 @@ from typing import Any
 
 import factory
 
-from .models import (
-    Support,
-    SupportEntityType,
-    UserModel,
-)
+from authentication.models import Support, SupportEntityType, UserModel
 
 # MARK: Main Tables
 
@@ -24,9 +20,13 @@ class SupportFactory(factory.django.DjangoModelFactory):
         model = Support
 
     supporter_type = factory.SubFactory(SupportEntityTypeFactory)
-    supporter_entity = factory.SubFactory("communities.factories.OrganizationFactory")
+    supporter_entity = factory.SubFactory(
+        "communities.organizations.factories.OrganizationFactory"
+    )
     supported_type = factory.SubFactory(SupportEntityTypeFactory)
-    supported_entity = factory.SubFactory("communities.factories.OrganizationFactory")
+    supported_entity = factory.SubFactory(
+        "communities.organizations.factories.OrganizationFactory"
+    )
 
 
 class UserFactory(factory.django.DjangoModelFactory):

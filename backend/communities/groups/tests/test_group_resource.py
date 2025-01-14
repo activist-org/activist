@@ -5,7 +5,7 @@ Test cases for GroupResource model.
 
 import pytest
 
-from communities.factories import GroupFactory
+from communities.groups.factories import GroupFactory
 from content.factories import ResourceFactory
 from content.models import Resource
 

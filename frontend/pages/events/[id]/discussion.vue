@@ -34,7 +34,7 @@
       <Discussion
         :discussionInput="event.discussion"
         :discussionEntries="[event.discussion?.entries]"
-        :organizations="event.organizations"
+        :organizations="event.orgs"
       />
     </div>
     <EmptyState v-else pageType="discussions" :permission="false" /> -->

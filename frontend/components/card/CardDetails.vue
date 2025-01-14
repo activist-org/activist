@@ -15,19 +15,21 @@
         </div>
         <div v-if="event" class="flex-col space-y-6 py-2">
           <div class="flex items-center gap-3">
-            <MetaTagOrganization
-              v-for="(o, i) in event.organizations.slice(0, 1)"
+            <MetaTagOrganization :organization="event.orgs" />
+            <!-- TODO: Once we have more than one organization. -->
+            <!-- <MetaTagOrganization
+              v-for="(o, i) in event.orgs.slice(0, 1)"
               :key="i"
               :organization="o"
             />
             <button
-              v-if="event.organizations.length > 1"
+              v-if="event.orgs.length > 1"
               @click="openModalOrganizationOverview()"
               @keydown.enter="openModalOrganizationOverview()"
               class="text-sm font-semibold text-black"
             >
-              (+{{ event.organizations.length - 1 }} more)
-            </button>
+              (+{{ event.orgs.length - 1 }} more)
+            </button> -->
             <ModalOrganizationOverview
               @closeModal="openModalOrganizationOverview()"
               :cta="true"

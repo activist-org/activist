@@ -4,9 +4,9 @@ Testing for the content app.
 """
 
 # mypy: ignore-errors
-from .factories import ResourceFactory, TaskFactory, TopicFactory
-
 import pytest
+
+from content.factories import ResourceFactory, TaskFactory, TopicFactory
 
 pytestmark = pytest.mark.django_db
 

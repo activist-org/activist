@@ -3,7 +3,7 @@
 Checks the API calls used in the frontend to against what's been defined in the backend.
 
 Usage:
-    python3 utils/used_api_calls.py
+    python3 utils/check_used_api_calls.py
 """
 
 import os

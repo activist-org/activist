@@ -4,7 +4,7 @@ import random
 
 import factory
 
-from .models import (
+from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
@@ -19,8 +19,9 @@ from .models import (
 class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Event
-        django_get_or_create = ("created_by",)
+        django_get_or_create = ("created_by", "orgs")
 
+    orgs = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")

@@ -41,7 +41,7 @@ export const useEventStore = defineStore("event", {
       endTime: "",
       creationDate: "",
 
-      organizations: [],
+      orgs: { id: "", orgName: "", name: "", iconUrl: "" },
 
       eventTextId: "",
       texts: {
@@ -115,10 +115,20 @@ export const useEventStore = defineStore("event", {
         this.event.id = event.id;
         this.event.name = event.name;
         this.event.tagline = event.tagline;
+        this.event.createdBy = event.createdBy;
         this.event.iconUrl = event.iconUrl;
+        this.event.type = event.type;
+
         this.event.offlineLocation = event.offlineLocation;
         this.event.getInvolvedUrl = event.getInvolvedUrl;
+
+        this.event.getInvolvedUrl = event.getInvolvedUrl;
         this.event.socialLinks = event.socialLinks;
+        this.event.startTime = event.startTime;
+        this.event.endTime = event.endTime;
+        this.event.creationDate = event.creationDate;
+        this.event.orgs = event.orgs;
+
         this.event.eventTextId = event.eventTextId;
         this.event.texts = event.texts[0];
       }
@@ -145,8 +155,8 @@ export const useEventStore = defineStore("event", {
             createdBy: event.createdBy,
             iconUrl: event.iconUrl,
             type: event.type,
-            onlineLocationLink: event.onlineLocationLink,
 
+            onlineLocationLink: event.onlineLocationLink,
             offlineLocation: event.offlineLocation,
 
             getInvolvedUrl: event.getInvolvedUrl,
@@ -154,7 +164,7 @@ export const useEventStore = defineStore("event", {
             startTime: event.startTime,
             endTime: event.endTime,
             creationDate: event.creationDate,
-            organizations: event.organizations,
+            orgs: event.orgs,
 
             eventTextId: event.eventTextId,
             texts: event.texts[0],

@@ -68,13 +68,17 @@ class Support(models.Model):
         "SupportEntityType", on_delete=models.CASCADE, related_name="supporter"
     )
     supporter_entity = models.ForeignKey(
-        "communities.Organization", on_delete=models.CASCADE, related_name="supporter"
+        "communities.Organization",
+        on_delete=models.CASCADE,
+        related_name="supporter",
     )
     supported_type = models.ForeignKey(
         "SupportEntityType", on_delete=models.CASCADE, related_name="supported"
     )
     supported_entity = models.ForeignKey(
-        "communities.Organization", on_delete=models.CASCADE, related_name="supported"
+        "communities.Organization",
+        on_delete=models.CASCADE,
+        related_name="supported",
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 

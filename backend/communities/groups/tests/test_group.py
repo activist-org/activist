@@ -12,8 +12,8 @@ from django.core.exceptions import ValidationError
 from faker import Faker
 
 from authentication.factories import UserFactory
-from communities.factories import OrganizationFactory
-from communities.models import Group
+from communities.groups.models import Group
+from communities.organizations.factories import OrganizationFactory
 from content.factories import EntityLocationFactory
 
 pytestmark = pytest.mark.django_db
@@ -65,6 +65,7 @@ def test_url_validations() -> None:
             get_involved_url="not a url",
             terms_checked=True,
         )
+
         group.full_clean()
 
     # 2. Test valid URL.

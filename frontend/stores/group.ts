@@ -24,7 +24,12 @@ export const useGroupStore = defineStore("group", {
       groupName: "",
       name: "",
       tagline: "",
-      organization: "",
+      org: {
+        id: "",
+        orgName: "",
+        name: "",
+        iconUrl: "",
+      },
       createdBy: "",
       iconUrl: "",
 
@@ -109,7 +114,7 @@ export const useGroupStore = defineStore("group", {
         this.group.id = group.id;
         this.group.name = group.name;
         this.group.tagline = group.tagline;
-        this.group.organization = group.organization;
+        this.group.org = group.org;
 
         this.group.location = group.location;
 
@@ -143,7 +148,7 @@ export const useGroupStore = defineStore("group", {
             groupName: group.groupName,
             name: group.name,
             tagline: group.tagline,
-            organization: group.organization,
+            org: group.org,
             createdBy: group.createdBy,
             iconUrl: group.iconUrl,
 

@@ -5,18 +5,17 @@ Testing for the authentication app.
 
 # mypy: ignore-errors
 import pytest
-from .factories import (
+from authentication.factories import (
     SupportEntityTypeFactory,
     SupportFactory,
     UserFactory,
 )
-from .models import UserModel
+from authentication.models import UserModel
 
 from django.test import Client
 from django.core import mail
 from faker import Faker
 
-from .models import UserModel
 from django.test import Client
 from uuid import UUID
 import uuid
