@@ -1,8 +1,9 @@
 import type {
   Organization,
   OrganizationCreateFormData,
+  OrganizationResponse,
   OrganizationUpdateTextFormData,
-} from "~/types/entities/organization";
+} from "~/types/communities/organization";
 
 interface OrganizationStore {
   loading: boolean;
@@ -56,7 +57,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await useFetch(
-        `${BASE_BACKEND_URL}/entities/organizations/`,
+        `${BASE_BACKEND_URL}/communities/organizations/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -93,12 +94,12 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchById(id: string | undefined) {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<Organization>(
+      const { data, status } = await useAsyncData<OrganizationResponse>(
         async () =>
           (await fetchWithoutToken(
-            `/entities/organizations/${id}/`,
+            `/communities/organizations/${id}/`,
             {}
-          )) as Organization
+          )) as OrganizationResponse
       );
 
       if (status.value === "success") {
@@ -116,8 +117,8 @@ export const useOrganizationStore = defineStore("organization", {
         this.organization.socialLinks = organization.socialLinks;
         this.organization.status = organization.status;
 
-        this.organization.organizationTextId = organization.texts.orgId;
-        this.organization.texts = organization.texts;
+        this.organization.organizationTextId = organization.organizationTextId;
+        this.organization.texts = organization.texts[0];
 
         this.organization.groups = organization.groups;
         this.organization.events = organization.events;
@@ -131,16 +132,16 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<Organization[]>(
+      const { data, status } = await useAsyncData<OrganizationResponse[]>(
         async () =>
           (await fetchWithoutToken(
-            `/entities/organizations/`,
+            `/communities/organizations/`,
             {}
-          )) as Organization[]
+          )) as OrganizationResponse[]
       );
 
       if (status.value === "success") {
-        const organizations = data.value!.map((org: Organization) => {
+        const organizations = data.value!.map((org: OrganizationResponse) => {
           return {
             id: org.id,
             orgName: org.orgName,
@@ -159,8 +160,8 @@ export const useOrganizationStore = defineStore("organization", {
             groups: org.groups,
             events: org.events,
 
-            organizationTextId: org.texts.orgId,
-            texts: org.texts,
+            organizationTextId: org.organizationTextId,
+            texts: org.texts[0],
           };
         });
 
@@ -181,7 +182,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/entities/organizations/${org.id}/`,
+        BASE_BACKEND_URL + `/communities/organizations/${org.id}/`,
         {
           method: "PUT",
           body: {
@@ -196,7 +197,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL +
-          `/entities/organization_texts/${org.organizationTextId}/`,
+          `/communities/organization_texts/${org.organizationTextId}/`,
         {
           method: "PUT",
           body: {

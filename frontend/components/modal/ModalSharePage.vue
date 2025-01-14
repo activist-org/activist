@@ -161,8 +161,8 @@ import ModalBase from "~/components/modal/ModalBase.vue";
 import type { User } from "~/types/auth/user";
 import type { BtnAction } from "~/types/btn-props";
 import type { Resource } from "~/types/content/resource";
-import type { Group } from "~/types/entities/group";
-import type { Organization } from "~/types/entities/organization";
+import type { Group } from "~/types/communities/group";
+import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 import { DialogTitle } from "@headlessui/vue";
@@ -214,7 +214,7 @@ const getCurrentUrl = () => {
   if (props.organization) {
     return `${BASE_FRONTEND_URL}/organizations/${props.organization.id}`;
   } else if (props.group) {
-    return `${BASE_FRONTEND_URL}/organizations/${props.group.orgId}/groups/${props.group.id}`;
+    return `${BASE_FRONTEND_URL}/organizations/${props.group.org.id}/groups/${props.group.id}`;
   } else if (props.event) {
     return `${BASE_FRONTEND_URL}/events/${props.event.id}`;
   } else if (props.resource) {

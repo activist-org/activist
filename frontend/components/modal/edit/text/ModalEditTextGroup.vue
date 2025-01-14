@@ -70,7 +70,7 @@ const formData = ref({
 
 async function handleSubmit() {
   const response = await putWithToken(
-    `/entities/group_texts/${group.id}/`,
+    `/communities/group_texts/${group.id}/`,
     formData
   );
 

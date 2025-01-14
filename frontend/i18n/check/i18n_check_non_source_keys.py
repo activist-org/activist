@@ -8,13 +8,17 @@ Usage:
 
 import glob
 import json
+import os
 from pathlib import Path
 
 # MARK: Paths / Files
 
+# Check for Windows and derive directory path separator.
+path_separator = "\\" if os.name == "nt" else "/"
+
 json_file_directory = Path(__file__).parent.parent.resolve()
 
-with open(json_file_directory / "en-US.json") as f:
+with open(json_file_directory / "en-US.json", encoding="utf-8") as f:
     en_us_json_dict = json.loads(f.read())
 
 all_en_us_keys = en_us_json_dict.keys()
@@ -22,15 +26,17 @@ all_en_us_keys = en_us_json_dict.keys()
 # MARK: Non Source Keys
 
 non_source_keys_dict = {}
-for json_file in glob.glob(f"{json_file_directory}/*.json"):
-    if json_file.split("/")[-1] != "en-US.json":
-        with open(json_file) as f:
+for json_file in glob.glob(f"{json_file_directory}{path_separator}*.json"):
+    if json_file.split(path_separator)[-1] != "en-US.json":
+        with open(json_file, encoding="utf-8") as f:
             json_dict = json.loads(f.read())
 
         all_keys = json_dict.keys()
 
         if len(all_keys - all_en_us_keys) > 0:
-            non_source_keys_dict[json_file.split("/")[-1]] = all_keys - all_en_us_keys
+            non_source_keys_dict[json_file.split(path_separator)[-1]] = (
+                all_keys - all_en_us_keys
+            )
 
 # MARK: Error Outputs
 

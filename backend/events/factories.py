@@ -3,16 +3,11 @@ import random
 
 import factory
 
-from .models import (
+from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
-    EventFormat,
-    EventResource,
-    EventRole,
-    EventTask,
     EventText,
-    EventTopic,
     Format,
     Role,
 )
@@ -23,8 +18,9 @@ from .models import (
 class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Event
-        django_get_or_create = ("created_by",)
+        django_get_or_create = ("created_by", "orgs")
 
+    orgs = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
@@ -90,9 +86,9 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = EventAttendee
 
-    event_id = factory.SubFactory(EventFactory)
-    user_id = factory.SubFactory("authentication.factories.UserFactory")
-    role_id = factory.SubFactory(RoleFactory)
+    event = factory.SubFactory(EventFactory)
+    user = factory.SubFactory("authentication.factories.UserFactory")
+    role = factory.SubFactory(RoleFactory)
     attendee_status = factory.SubFactory("events.factories.EventAttendeeStatusFactory")
 
 
@@ -103,38 +99,6 @@ class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
     status_name = factory.Faker("word")
 
 
-class EventFormatFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = EventFormat
-
-    event_id = factory.SubFactory(EventFactory)
-    format_id = factory.SubFactory(FormatFactory)
-
-
-class EventResourceFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = EventResource
-
-    event_id = factory.SubFactory(EventFactory)
-    resource_id = factory.SubFactory("content.factories.ResourceFactory")
-
-
-class EventRoleFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = EventRole
-
-    event_id = factory.SubFactory(EventFactory)
-    role_id = factory.SubFactory(RoleFactory)
-
-
-class EventTaskFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = EventTask
-
-    event_id = factory.SubFactory(EventFactory)
-    task_id = factory.SubFactory("content.factories.TaskFactory")
-
-
 class EventTextFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = EventText
@@ -143,11 +107,3 @@ class EventTextFactory(factory.django.DjangoModelFactory):
     primary = factory.Faker("boolean")
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")
-
-
-class EventTopicFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = EventTopic
-
-    event_id = factory.SubFactory(EventFactory)
-    topic_id = factory.SubFactory("content.factories.TopicFactory")

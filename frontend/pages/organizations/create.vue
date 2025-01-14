@@ -122,7 +122,7 @@
 
 <script setup lang="ts">
 import { Toaster, toast } from "vue-sonner";
-import type { OrganizationCreateFormData } from "~/types/entities/organization";
+import type { OrganizationCreateFormData } from "~/types/communities/organization";
 
 const formData = ref<OrganizationCreateFormData>({
   name: "",

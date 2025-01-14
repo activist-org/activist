@@ -15,7 +15,7 @@ from pathlib import Path
 
 json_file_directory = Path(__file__).parent.parent.resolve()
 
-with open(json_file_directory / "en-US.json") as f:
+with open(json_file_directory / "en-US.json", encoding="utf-8") as f:
     en_us_json_dict = json.loads(f.read())
 
 

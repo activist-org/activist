@@ -23,7 +23,7 @@ directories_to_skip = [
 ]
 file_types_to_check = [".vue", ".ts", ".js"]
 
-with open(json_file_directory / "en-US.json") as f:
+with open(json_file_directory / "en-US.json", encoding="utf-8") as f:
     en_us_json_dict = json.loads(f.read())
 
 files_to_check = []
@@ -37,7 +37,7 @@ for root, dirs, files in os.walk(frontend_directory):
 
 file_to_check_contents = {}
 for frontend_file in files_to_check:
-    with open(frontend_file, "r") as f:
+    with open(frontend_file, "r", encoding="utf-8") as f:
         file_to_check_contents[frontend_file] = f.read()
 
 # MARK: Unused Keys

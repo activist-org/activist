@@ -15,6 +15,13 @@
 [![weblate](https://img.shields.io/badge/Weblate-144D3F.svg?logo=weblate&logoColor=ffffff)](https://hosted.weblate.org/projects/activist/activist)
 [![matrix](https://img.shields.io/badge/Matrix-000000.svg?logo=matrix&logoColor=ffffff)](https://matrix.to/#/#activist_community:matrix.org)
 
+[![testing](https://img.shields.io/badge/Testing-F0F0EB.svg?logo=github&logoColor=000000)](https://github.com/activist-org/activist/actions)
+[![ci_backend](https://img.shields.io/github/actions/workflow/status/activist-org/activist/pr_ci_backend.yaml?branch=main&label=backend)](https://github.com/activist-org/activist/actions/workflows/pr_ci_backend.yaml)
+[![ci_frontend](https://img.shields.io/github/actions/workflow/status/activist-org/activist/pr_ci_frontend.yaml?branch=main&label=frontend)](https://github.com/activist-org/activist/actions/workflows/pr_ci_frontend.yaml)
+[![ci_i18n](https://img.shields.io/github/actions/workflow/status/activist-org/activist/pr_ci_i18n.yaml?branch=main&label=i18n)](https://github.com/activist-org/activist/actions/workflows/pr_ci_i18n.yaml)
+<!-- [![ci_e2e](https://img.shields.io/github/actions/workflow/status/activist-org/activist/pr_ci_playwright_e2e.yaml?branch=main&label=e2e)](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml) -->
+
+
 ### An open-source activism platform
 
 [**activist.org**](https://activist.org) is a platform that enables more people to safely engage in activism by making it easy to discover organizations and events as well as coordinate and collaborate on political action. We want to enable activists to learn proven and novel strategies from each other for social and ecological change. Free, open-source, privacy-focused and governed by our community.
@@ -29,6 +36,7 @@
 # **Contents**
 
 - [Our goals](#our-goals)
+- [Preview Video](#preview-video)
 - [Contributing](#contributing)
 - [Environment setup](#environment-setup)
 - [Design and accessibility](#design-a11y)
@@ -46,7 +54,7 @@ The activist community is creating a global platform where movements grow and pe
 
 <a id="topics"></a>
 
-## Topics
+## Topics [`⇧`](#contents)
 
 The following are the working topics that activist could include:
 
@@ -65,7 +73,7 @@ Beyond clustering by topics, tags will also be used to draw community attention 
 
 <a id="preview-video"></a>
 
-## Preview video [`⇧`](#contents)
+# Preview video [`⇧`](#contents)
 
 The following is a recording of the [Creating and Joining Events prototype](https://www.figma.com/proto/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=1998%3A2577&scaling=contain&page-id=1986%3A1046&starting-point-node-id=1998%3A2577) found on [Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231):
 

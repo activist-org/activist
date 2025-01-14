@@ -1,5 +1,5 @@
 # In order to add, delete or modify a dependency, please update
-# the reference here and then the following in ./backend:
+# the reference here and then run the following in ./backend:
 #
 # - pip-compile --rebuild requirements.in
 # - pip-compile --rebuild requirements-dev.in
@@ -11,6 +11,7 @@
 -r requirements.txt
 
 factory-boy
+mypy
 pip-tools
 pre-commit
 pytest

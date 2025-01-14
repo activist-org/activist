@@ -8,29 +8,16 @@ from django.utils.translation import gettext as _
 from PIL import Image as PilImage
 from rest_framework import serializers
 
-from utils.utils import (
-    validate_creation_and_deletion_dates,
-    validate_creation_and_deprecation_dates,
-)
-
-from .models import (
+from content.models import (
     Discussion,
     DiscussionEntry,
-    DiscussionTag,
     Faq,
     Image,
     Location,
     Resource,
-    ResourceTag,
-    ResourceTopic,
-    Role,
-    SocialLink,
-    Tag,
-    Task,
-    TaskTag,
     Topic,
-    TopicFormat,
 )
+from utils.utils import validate_creation_and_deprecation_dates
 
 # MARK: Main Tables
 
@@ -57,19 +44,27 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         image_extensions = [".jpg", ".jpeg", ".png"]
         img_format = ""
 
-        try:
-            with PilImage.open(data["file_location"]) as img:
-                img.verify()
-                img_format = img.format.lower()
-        except Exception as e:
-            raise serializers.ValidationError(
-                _("The image is not valid."), code="corrupted_file"
-            ) from e
+        file_location = data["file_location"]
+        if isinstance(file_location, str):
+            try:
+                with PilImage.open(file_location) as img:
+                    img.verify()
+                    img_format = img.format.lower()
 
-        if img_format not in image_extensions:
+            except Exception as e:
+                raise serializers.ValidationError(
+                    _("The image is not valid."), code="corrupted_file"
+                ) from e
+
+            if img_format not in image_extensions:
+                raise serializers.ValidationError(
+                    _("The image must be in jpg, jpeg or png format."),
+                    code="invalid_extension",
+                )
+
+        else:
             raise serializers.ValidationError(
-                _("The image must be in jpg, jpeg or png format."),
-                code="invalid_extension",
+                _("The file location must be a string."), code="invalid_file_location"
             )
 
         return data
@@ -85,35 +80,6 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
     class Meta:
         model = Resource
         fields = "__all__"
-
-
-class RoleSerializer(serializers.ModelSerializer[Role]):
-    class Meta:
-        model = Role
-        fields = "__all__"
-
-
-class SocialLinkSerializer(serializers.ModelSerializer[SocialLink]):
-    class Meta:
-        model = SocialLink
-        fields = "__all__"
-
-
-class TagSerializer(serializers.ModelSerializer[Tag]):
-    class Meta:
-        model = Tag
-        fields = "__all__"
-
-
-class TaskSerializer(serializers.ModelSerializer[Task]):
-    class Meta:
-        model = Task
-        fields = "__all__"
-
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        validate_creation_and_deletion_dates(data)
-
-        return data
 
 
 class TopicSerializer(serializers.ModelSerializer[Topic]):
@@ -145,34 +111,4 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
 class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
     class Meta:
         model = DiscussionEntry
-        fields = "__all__"
-
-
-class DiscussionTagSerializer(serializers.ModelSerializer[DiscussionTag]):
-    class Meta:
-        model = DiscussionTag
-        fields = "__all__"
-
-
-class ResourceTagSerializer(serializers.ModelSerializer[ResourceTag]):
-    class Meta:
-        model = ResourceTag
-        fields = "__all__"
-
-
-class ResourceTopicSerializer(serializers.ModelSerializer[ResourceTopic]):
-    class Meta:
-        model = ResourceTopic
-        fields = "__all__"
-
-
-class TaskTagSerializer(serializers.ModelSerializer[TaskTag]):
-    class Meta:
-        model = TaskTag
-        fields = "__all__"
-
-
-class TopicFormatSerializer(serializers.ModelSerializer[TopicFormat]):
-    class Meta:
-        model = TopicFormat
         fields = "__all__"

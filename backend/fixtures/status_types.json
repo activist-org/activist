@@ -1,27 +1,27 @@
 [
   {
-    "model": "entities.statustype",
+    "model": "communities.statustype",
     "pk": 1,
     "fields": {
       "name": "Pending"
     }
   },
   {
-    "model": "entities.statustype",
+    "model": "communities.statustype",
     "pk": 2,
     "fields": {
       "name": "Active"
     }
   },
   {
-    "model": "entities.statustype",
+    "model": "communities.statustype",
     "pk": 3,
     "fields": {
       "name": "Suspended"
     }
   },
   {
-    "model": "entities.statustype",
+    "model": "communities.statustype",
     "pk": 4,
     "fields": {
       "name": "Banned"
