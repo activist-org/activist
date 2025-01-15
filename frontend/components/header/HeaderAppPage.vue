@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <PageBreadcrumbs class="mt-4 hidden md:block" :pageType="pageType" />
   <div

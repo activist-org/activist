@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export const useDevMode = defineStore("devMode", {
   state: () => ({
     active: useLocalStorage("active", false),

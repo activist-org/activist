@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <a class="focus-brand group rounded-xl" :href="imageLink" target="_blank">
     <div

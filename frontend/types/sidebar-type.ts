@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export enum SidebarType {
   HOME = "home",
   EVENT_FILTER = "filter events",

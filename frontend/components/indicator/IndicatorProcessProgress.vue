@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="flex h-2 w-full items-center justify-between border-b border-section-div bg-layer-2 md:h-8"

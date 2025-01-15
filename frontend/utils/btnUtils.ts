@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export function getBtnDynamicClass(
   cta: boolean,
   fontSize: string,

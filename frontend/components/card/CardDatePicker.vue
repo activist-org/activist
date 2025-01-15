@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <form class="card-style flex w-full flex-col space-y-3 px-5 py-4">
     <h1 class="text-2xl">

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <a
     class="style-btn flex items-center space-x-2 rounded-md px-3 py-1 sm:rounded-lg"

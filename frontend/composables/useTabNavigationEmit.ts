@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 /**
  * Creates a custom hook for managing tab navigation in a component.
  * This hook provides a function to handle the 'Tab' key press event,

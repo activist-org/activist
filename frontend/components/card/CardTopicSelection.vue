@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template v-model="value">
   <div class="card-style w-full flex-col space-y-3 px-5 py-6">
     <p class="responsive-h3 font-medium text-primary-text">

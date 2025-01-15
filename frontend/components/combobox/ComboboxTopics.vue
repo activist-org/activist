@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div id="topics-dropdown" class="z-10 flex">
     <Combobox v-model="selectedTopic">

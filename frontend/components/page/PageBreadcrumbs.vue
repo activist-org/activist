@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <nav :aria-label="$t('components.page_breadcrumbs.aria_label')">
     <ul class="flex flex-row flex-wrap text-sm md:text-base">

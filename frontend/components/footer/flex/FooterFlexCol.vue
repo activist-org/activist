@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <!-- Note: Content Sections Top for Mobile -->
   <div class="flex flex-col items-center justify-center space-y-5">

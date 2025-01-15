@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <!-- Note: Commented out until such a time when it's needed and triggered explicitly. -->
   <div />

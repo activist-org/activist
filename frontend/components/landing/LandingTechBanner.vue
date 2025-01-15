@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="flex w-full flex-col items-center justify-center space-y-3 bg-layer-1 py-8 text-primary-text sm:py-12 md:py-16 lg:py-24 xl:space-y-4 xl:py-28"

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLink
     class="font-md focus-brand group relative flex w-full basis-full items-center justify-center rounded-md text-left text-sm transition duration-200"

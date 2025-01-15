@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <!-- Note: We want event images to be centered within their parent div and change size based on their container. -->
   <div class="flex h-full w-full justify-center rounded-md">

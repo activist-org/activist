@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="flex h-full w-full justify-center rounded-md border border-section-div bg-layer-0"

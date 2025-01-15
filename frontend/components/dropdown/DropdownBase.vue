@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Menu as="div" class="relative inline-block text-left">
     <div>

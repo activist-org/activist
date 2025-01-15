@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export const putWithToken = async (url: string, data: object | undefined) => {
   const token = localStorage.getItem("accessToken");
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export default function useFileManager(initialFiles: File[] = []) {
   const files = ref<UploadableFile[]>([]);
   handleFiles(initialFiles); // add initial files

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
   <ModalBase :modalName="modalName">

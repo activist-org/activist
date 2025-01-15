@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { test as baseTest } from "@playwright/test";
 import { HomePage } from "../page-objects/HomePage";
 import { LandingPage } from "../page-objects/LandingPage";

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import random
 from argparse import ArgumentParser
 from typing import TypedDict, Unpack

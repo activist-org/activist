@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <MenuSubPageSelector
     class="pt-2 md:pt-0"

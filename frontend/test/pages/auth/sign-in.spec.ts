@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import render from "@/test/render";
 import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { registerEndpoint } from "@nuxt/test-utils/runtime";

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div v-if="tags && tags.length > 0" class="h-fit w-full">
     <div class="flex space-x-3">
