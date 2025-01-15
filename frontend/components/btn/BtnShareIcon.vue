@@ -20,12 +20,11 @@
       :iconSize="iconSize"
     />
   </component>
-  <component
+  <div
     v-else-if="type == 'redirect'"
     @click="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
     @keypress.space="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
     @keypress.enter="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
-    :is="vueSocials[socialComponent]"
     class="focus-brand"
     tabindex="0"
     role="button"
@@ -44,7 +43,7 @@
       :text="$t('components.btn_share_icon.url_copied')"
       :iconSize="iconSize"
     />
-  </component>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -111,6 +110,8 @@ const contentCopied = ref(false);
 
 const getCurrentI18n: { [key: string]: string } = {
   signal: "components.btn_share_icon.opening_signal",
+  matrix: "components.btn_share_icon.opening_matrix",
+  instagram: "components.btn_share_icon.opening_instagram",
 };
 
 const copyToClipboardThenOpenUrl = async (

@@ -75,6 +75,8 @@
   "components._global.upvote_application_aria_label": "Vote to support the organization joining activist",
   "components._global.working_groups_subtext": "The following are working groups within {entity_name}",
   "components.btn_road_map.aria_label": "Learn about the activist roadmap",
+  "components.btn_share_icon.opening_instagram": "Opening Instagram",
+  "components.btn_share_icon.opening_matrix": "Opening Matrix",
   "components.btn_share_icon.opening_signal": "Opening Signal",
   "components.btn_share_icon.url_copied": "URL copied",
   "components.card.about._global.full_text": "Click for full text",

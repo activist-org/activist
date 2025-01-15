@@ -93,6 +93,32 @@
           />
           <BtnShareIcon
             type="redirect"
+            :iconName="IconMap.INSTAGRAM"
+            :text="$t('components._global.instagram')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+            :urlLink="getCurrentUrl()"
+            :name="getCurrentName()"
+            redirect-link="https://instagram.com"
+          />
+          <BtnShareIcon
+            type="redirect"
+            :iconName="IconMap.MATRIX"
+            :text="$t('components._global.matrix')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+            :urlLink="getCurrentUrl()"
+            :name="getCurrentName()"
+            redirect-link="https://matrix.to/#/#activist_community:matrix.org"
+          />
+          <BtnShareIcon
+            type="redirect"
             :iconName="IconMap.LINK"
             :text="$t('components.modal_share_page.copy_link')"
             iconSize="1.5em"

@@ -65,6 +65,7 @@ def test_url_validations() -> None:
             get_involved_url="not a url",
             terms_checked=True,
         )
+
         group.full_clean()
 
     # 2. Test valid URL.
@@ -78,6 +79,7 @@ def test_url_validations() -> None:
         get_involved_url=fake.url(),
         terms_checked=True,
     )
+
     group.full_clean()
 
 
