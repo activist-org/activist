@@ -121,12 +121,18 @@ class Command(BaseCommand):
 
             self.stdout.write(
                 self.style.ERROR(
-                    f"Number of users created: {num_users}\n"
-                    f"Number of organizations created: {num_orgs}\n"
-                    f"Number of groups created: {num_groups}\n"
-                    f"Number of events created: {num_events}\n"
-                    f"Number of resources created: {num_resources}\n"
-                    f"Number of FAQ entries created: {num_faq_entries}\n"
+                    f"Number of users created: {num_users}
+"
+                    f"Number of organizations created: {num_orgs}
+"
+                    f"Number of groups created: {num_groups}
+"
+                    f"Number of events created: {num_events}
+"
+                    f"Number of resources created: {num_resources}
+"
+                    f"Number of FAQ entries created: {num_faq_entries}
+"
                 )
             )
 
