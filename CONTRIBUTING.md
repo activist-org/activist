@@ -126,6 +126,9 @@ activist is very open to contributions from people in the early stages of their 
 
 ## Development environment [`⇧`](#contents)
 
+> [!NOTE]
+> Windows users should be aware that Docker development requires [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/windows/wsl/) version 2 or higher.
+
 1. First and foremost, please see the suggested IDE setup in the dropdown below to make sure that your editor is ready for development.
 
 > [!IMPORTANT]
