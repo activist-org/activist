@@ -87,6 +87,11 @@ export class SidebarLeft {
     await this.page.mouse.move(outsideX, outsideY);
   }
 
+  async open(): Promise<void> {
+    await this.mouseEnter();
+    await this.expectIsExpanded();
+  }
+
   /**
    * Has assertions to wait for unlock and collapse actions to complete.
    */
