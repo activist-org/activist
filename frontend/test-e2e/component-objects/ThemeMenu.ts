@@ -2,6 +2,7 @@ import type { Locator, Page } from "playwright";
 
 export const newThemeMenu = (parent: Page | Locator) => ({
   parent,
+  menu: parent.locator(".dropdown-theme").getByRole("menu"),
   toggleOpenButton: parent.getByRole("button", {
     name: /open the dropdown to select another theme/i,
   }),

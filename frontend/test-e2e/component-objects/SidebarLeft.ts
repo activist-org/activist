@@ -81,7 +81,7 @@ export class SidebarLeft {
     const { x, y, width, height } = boundingBox;
 
     // Move the mouse to the right of the sidebar
-    const outsideX = x + width + 10; // 10 pixels to the right of the sidebar
+    const outsideX = x + width + 100; // 10 pixels to the right of the sidebar
     const outsideY = y + height / 2; // Vertically centered
 
     await this.page.mouse.move(outsideX, outsideY);

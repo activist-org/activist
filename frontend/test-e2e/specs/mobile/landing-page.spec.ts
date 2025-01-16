@@ -63,7 +63,9 @@ test.describe("Landing Page", { tag: "@mobile" }, () => {
 
     for (const { theme, option } of themes) {
       await sidebar.openButton.click();
+      await expect(themeMenu.toggleOpenButton).toBeVisible();
       await themeMenu.toggleOpenButton.click();
+      await expect(themeMenu.menu).toBeVisible();
       await option.click();
 
       await expectTheme(page, theme);
