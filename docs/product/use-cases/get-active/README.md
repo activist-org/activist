@@ -5,4 +5,3 @@ hidden: true
 
 # Get active
 
-* Discover organizations
