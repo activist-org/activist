@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <nav :aria-label="$t('components.page_breadcrumbs.aria_label')">
+  <nav :aria-label="$t(i18nMap.components.page_breadcrumbs.aria_label)">
     <ul class="flex flex-row flex-wrap text-sm md:text-base">
       <li
         v-for="(breadcrumb, index) in displayBreadcrumbs"
@@ -77,6 +77,7 @@ import { validate as isValidUUID } from "uuid";
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
+import { i18nMap } from "~/types/i18n-map";
 
 const url = window.location.href;
 let pageType = "";

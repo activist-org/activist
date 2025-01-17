@@ -1,8 +1,13 @@
+<script setup lang="ts">
+import { i18nMap } from '~/types/i18n-map';
+
+</script>
+
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="overflow-hidden bg-layer-0">
     <Head>
-      <Title>{{ $t("pages.index.title") }}</Title>
+      <Title>{{ $t(i18nMap.pages.index.title) }}</Title>
     </Head>
     <LandingSplash />
     <LandingCommunityBanner />

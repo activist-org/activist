@@ -40,7 +40,7 @@
             fontSize="sm"
             :rightIcon="IconMap.SHARE"
             iconSize="1.45em"
-            :ariaLabel="$t('_global.share_organization_aria_label')"
+            :ariaLabel="$t(i18nMap._global.share_organization_aria_label)"
           />
         </div>
         <ModalSharePage :cta="true" :organization="organization" />
@@ -79,6 +79,7 @@
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");

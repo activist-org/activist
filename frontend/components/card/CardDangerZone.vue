@@ -5,7 +5,7 @@
   >
     <div class="flex flex-col gap-5">
       <h3 class="responsive-h3 text-left font-display font-bold">
-        {{ $t("components.card_danger_zone.header") }}
+        {{ $t(i18nMap.components.card_danger_zone.header) }}
       </h3>
       <p>{{ description }}</p>
       <form method="post">
@@ -17,10 +17,10 @@
               class="responsive-h4 font-bold text-primary-text"
               for="username"
               :placeholder="
-                $t('components.card_danger_zone.username_placeholder')
+                $t(i18nMap.components.card_danger_zone.username_placeholder)
               "
             >
-              {{ $t("components.card_danger_zone.username_label") }} *
+              {{ $t(i18nMap.components.card_danger_zone.username_label) }} *
             </label>
             <input
               id="username"
@@ -31,9 +31,9 @@
             <label
               class="responsive-h4 font-bold text-primary-text"
               for="password"
-              :placeholder="$t('_global.enter_password')"
+              :placeholder="$t(i18nMap._global.enter_password)"
             >
-              {{ $t("components.card_danger_zone.password_label") }} *
+              {{ $t(i18nMap.components.card_danger_zone.password_label) }} *
             </label>
             <input
               id="password"
@@ -57,6 +57,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from '~/types/i18n-map';
+
 defineProps<{
   description: string;
   ctaBtnText: string;

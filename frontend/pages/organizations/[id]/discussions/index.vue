@@ -4,14 +4,14 @@
     <Head>
       <Title
         >{{ organization.name }}&nbsp;{{
-          $t("pages._global.discussions_lower")
+          $t(i18nMap.pages._global.discussions_lower)
         }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t('pages._global.discussions_lower')"
-      :tagline="$t('pages.organizations.discussions.index.tagline')"
+      :header="organization.name + ' ' + $t(i18nMap.pages._global.discussions_lower)"
+      :tagline="$t(i18nMap.pages.organizations.discussions.index.tagline)"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -41,6 +41,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const aboveMediumBP = useBreakpoint("md");

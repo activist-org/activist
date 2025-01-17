@@ -3,7 +3,7 @@
   <ModalBase :modalName="modalName">
     <DialogTitle class="flex justify-between font-display">
       <p class="md:responsive-h2 text-3xl font-bold">
-        {{ $t("components.modal_qr_code.header") }}
+        {{ $t(i18nMap.components.modal_qr_code.header) }}
       </p>
     </DialogTitle>
     <div
@@ -12,51 +12,51 @@
       <div class="col-span-2 items-center space-y-4 text-left font-medium">
         <p v-if="organization">
           {{
-            $t("components.modal_qr_code.section_1_paragraph_1_organization")
+            $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_organization)
           }}&nbsp;
-          {{ $t("components.modal_qr_code.section_1_paragraph_1_2") }}
+          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p v-else-if="group">
-          {{ $t("components.modal_qr_code.section_1_paragraph_1_group") }}&nbsp;
-          {{ $t("components.modal_qr_code.section_1_paragraph_1_2") }}
+          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_group) }}&nbsp;
+          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p v-else-if="event">
-          {{ $t("components.modal_qr_code.section_1_paragraph_1_event") }}&nbsp;
-          {{ $t("components.modal_qr_code.section_1_paragraph_1_2") }}
+          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_event) }}&nbsp;
+          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p v-else-if="resource">
           {{
-            $t("components.modal_qr_code.section_1_paragraph_1_resource")
+            $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_resource)
           }}&nbsp;
-          {{ $t("components.modal_qr_code.section_1_paragraph_1_2") }}
+          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p v-else-if="user">
-          {{ $t("components.modal_qr_code.section_1_paragraph_1_user") }}&nbsp;
-          {{ $t("components.modal_qr_code.section_1_paragraph_1_2") }}
+          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_user) }}&nbsp;
+          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p>
-          {{ $t("components.modal_qr_code.subheader_2") }}
+          {{ $t(i18nMap.components.modal_qr_code.subheader_2) }}
         </p>
         <ul class="list-disc pl-6 md:pl-8">
           <li>
-            {{ $t("components.modal_qr_code.section_2_list_1_item_1") }}
+            {{ $t(i18nMap.components.modal_qr_code.section_2_list_1_item_1) }}
           </li>
           <li>
-            {{ $t("components.modal_qr_code.section_2_list_1_item_2") }}
+            {{ $t(i18nMap.components.modal_qr_code.section_2_list_1_item_2) }}
           </li>
           <li>
-            {{ $t("components.modal_qr_code.section_2_list_1_item_3") }}
+            {{ $t(i18nMap.components.modal_qr_code.section_2_list_1_item_3) }}
           </li>
         </ul>
         <!-- <p>
-            {{ $t("components.modal_qr_code.section-3-paragraph-1") }}
+            {{ $t(i18nMap.components.modal_qr_code.section-3-paragraph-1) }}
           </p> -->
         <BtnActionDropdown
           v-if="aboveMediumBP"
           @main-btn-clicked="handleMainBtnClicked"
           class="block w-fit"
           :cta="true"
-          :label="$t('components.modal_qr_code.download_qr_code')"
+          :label="$t(i18nMap.components.modal_qr_code.download_qr_code)"
           fontSize="lg"
           iconSize="1.25em"
           :dropdownIcon="IconMap.CHEVRON_DOWN"
@@ -64,7 +64,7 @@
           :dropdownOptionsCallback="downloadQRCode"
           ariaLabel="components.modal_qr_code.download_qr_code_aria_label"
           :ariaLabelDropdown="
-            $t('components.modal_qr_code.qr_code_options_aria_label')
+            $t(i18nMap.components.modal_qr_code.qr_code_options_aria_label)
           "
         />
       </div>
@@ -81,7 +81,7 @@
           @pointerdown="showTooltip = true"
           @pointerup="showTooltip = false"
           class="focus-brand flex cursor-pointer"
-          :ariaLabel="$t('components.modal_qr_code.aria_label')"
+          :ariaLabel="$t(i18nMap.components.modal_qr_code.aria_label)"
         >
           <ModalQRCodeImage
             ref="qrcode"
@@ -90,7 +90,7 @@
           />
           <TooltipBase
             v-show="showTooltip"
-            :text="$t('components.modal_qr_code.tooltip')"
+            :text="$t(i18nMap.components.modal_qr_code.tooltip)"
           />
         </button>
       </div>
@@ -99,15 +99,15 @@
         @main-btn-clicked="handleMainBtnClicked"
         class="w-fit"
         :cta="true"
-        :label="$t('components.modal_qr_code.download_qr_code')"
+        :label="$t(i18nMap.components.modal_qr_code.download_qr_code)"
         fontSize="lg"
         iconSize="1.25em"
         :dropdownIcon="IconMap.CHEVRON_DOWN"
         :dropdownOptions="availableFormats"
         :dropdownOptionsCallback="downloadQRCode"
-        :ariaLabel="$t('components.modal_qr_code.download_qr_code-aria-label')"
+        :ariaLabel="$t(i18nMap.components.modal_qr_code.download_qr_code_aria_label)"
         :ariaLabelDropdown="
-          $t('components.btn-action-dropdown.qr_code_options_aria_label')
+          $t(i18nMap.components.modal_qr_code.qr_code_options_aria_label)
         "
       />
     </div>
@@ -123,6 +123,7 @@ import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
+import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
   organization?: Organization;

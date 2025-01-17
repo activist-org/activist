@@ -17,12 +17,12 @@
         'text-primary-text': color === 'bg-primary-text',
       }"
     >
-      {{ $t("components.indicator_password_strength.title") }}:
+      {{ $t(i18nMap.components.indicator_password_strength.title) }}:
       {{
         $t(
           !!passwordValue.length
             ? text
-            : "components.indicator_password_strength.invalid"
+            : i18nMap.components.indicator_password_strength.invalid
         )
       }}
     </div>
@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import zxcvbn from "zxcvbn";
+import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps({
   passwordValue: {

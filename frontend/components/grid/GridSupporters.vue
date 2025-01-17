@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { i18nMap } from '~/types/i18n-map';
+
+</script>
+
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
@@ -7,21 +12,21 @@
       imageName="WikimediaDE"
       imageLink="https://www.wikimedia.de"
       :aria-label="
-        $t('components.grid_supporters.wikimedia_de_logo_aria_label')
+        $t(i18nMap.components.grid_supporters.wikimedia_de_logo_aria_label)
       "
     />
     <ImageLogo
       imageName="WikimediaRS"
       imageLink="https://wikimedia.rs"
       :aria-label="
-        $t('components.grid_supporters.wikimedia_rs_logo_aria_label')
+        $t(i18nMap.components.grid_supporters.wikimedia_rs_logo_aria_label)
       "
     />
     <ImageLogo
       imageName="ImpactHub"
       imageLink="https://belgrade.impacthub.net"
       :aria-label="
-        $t('components.grid_supporters.impact_hub_belgrade_logo_aria_label')
+        $t(i18nMap.components.grid_supporters.impact_hub_belgrade_logo_aria_label)
       "
     />
   </div>

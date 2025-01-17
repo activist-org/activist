@@ -17,12 +17,14 @@
       />
     </svg>
     <span class="sr-only">{{
-      $t("components._global.navigate_to_start")
+      $t(i18nMap.components._global.navigate_to_start)
     }}</span>
   </NuxtLink>
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from '~/types/i18n-map';
+
 const localePath = useLocalePath();
 
 defineProps<{

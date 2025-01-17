@@ -4,7 +4,7 @@
     <form class="space-y-4">
       <FormTextInput
         @update:model-value="userNameValue = $event"
-        :placeholder="$t('pages.auth._global.enter_user_name')"
+        :placeholder="$t(i18nMap.pages.auth._global.enter_user_name)"
         :model-value="userNameValue"
       />
       <FormTextInput
@@ -18,7 +18,7 @@
           isFocused = true;
           isBlurred = false;
         "
-        :placeholder="$t('_global.enter_password')"
+        :placeholder="$t(i18nMap._global.enter_password)"
         :is-icon-visible="true"
         input-type="password"
         :model-value="passwordValue"
@@ -36,7 +36,7 @@
       />
       <FormTextInput
         @update:model-value="confirmPasswordValue = $event"
-        :placeholder="$t('_global.repeat_password')"
+        :placeholder="$t(i18nMap._global.repeat_password)"
         :is-icon-visible="true"
         input-type="password"
         :model-value="confirmPasswordValue"
@@ -49,16 +49,17 @@
       <div class="pt-4">
         <BtnAction
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
-          :label="$t('pages.auth.set_password.set_password')"
+          :label="$t(i18nMap.pages.auth.set_password.set_password)"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('pages.auth.set_password.set_password')"
+          :ariaLabel="$t(i18nMap.pages.auth.set_password.set_password)"
         />
       </div>
     </form>
   </div>
 </template>
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const userNameValue = ref("");

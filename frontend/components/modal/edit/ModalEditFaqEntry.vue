@@ -14,16 +14,16 @@
         <label for="textarea" class="responsive-h2">{{ s }}</label>
         <textarea
           v-if="
-            s !== $t('components.modal.edit._global.join_organization_link') &&
-            s !== $t('components._global.join_group_link') &&
-            s !== $t('components._global.offer_to_help_link')
+            s !== $t(i18nMap.components.modal.edit._global.join_organization_link) &&
+            s !== $t(i18nMap.components._global.join_group_link) &&
+            s !== $t(i18nMap.components._global.offer_to_help_link)
           "
           v-model="translatedTexts[i]"
           id="textarea"
           class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />
         <div v-else class="flex flex-col space-y-2">
-          <p>{{ $t("components.modal.edit._global.remember_https") }}</p>
+          <p>{{ $t(i18nMap.components.modal.edit._global.remember_https) }}</p>
           <input
             v-model="editedTexts[i]"
             id="textarea"
@@ -34,9 +34,9 @@
       <BtnAction
         @click="true"
         :cta="true"
-        :label="$t('components.modal.edit._global.update_texts')"
+        :label="$t(i18nMap.components.modal.edit._global.update_texts)"
         fontSize="base"
-        :ariaLabel="$t('components.modal.edit._global.update_texts_aria_label')"
+        :ariaLabel="$t(i18nMap.components.modal.edit._global.update_texts_aria_label)"
       />
     </div>
   </ModalBase>
@@ -44,6 +44,7 @@
 
 <script setup lang="ts">
 import type { FaqEntry } from "~/types/content/faq-entry";
+import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
   name?: string;

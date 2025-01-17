@@ -12,11 +12,11 @@
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
           class="select-none whitespace-nowrap"
         >
-          <span class="sr-only">{{ $t("_global.navigate_to") }}</span>
+          <span class="sr-only">{{ $t(i18nMap._global.navigate_to) }}</span>
           {{ $t(label) }}
         </p>
         <span v-else class="sr-only"
-          >{{ $t("_global.navigate_to") }} {{ $t(label) }}</span
+          >{{ $t(i18nMap._global.navigate_to) }} {{ $t(label) }}</span
         >
       </Transition>
     </div>
@@ -24,6 +24,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from '~/types/i18n-map';
+
 defineProps<{
   label: string;
   routeUrl: string;

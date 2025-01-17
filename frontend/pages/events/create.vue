@@ -11,26 +11,26 @@
       <PageBreadcrumbs class="mt-2" />
       <div v-if="page === 0" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages._global.create.information") }}
+          {{ $t(i18nMap.pages._global.create.information) }}
         </h1>
         <p class="mt-4">
-          {{ $t("pages.events.create.subtext_0") }}
+          {{ $t(i18nMap.pages.events.create.subtext_0) }}
         </p>
       </div>
       <div v-if="page === 1" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages.events.create.header_1") }}
+          {{ $t(i18nMap.pages.events.create.header_1) }}
         </h1>
         <p class="mt-4">
-          {{ $t("pages.events.create.subtext_1") }}
+          {{ $t(i18nMap.pages.events.create.subtext_1) }}
         </p>
       </div>
       <div v-if="page === 2" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages.events.create.header_2") }}
+          {{ $t(i18nMap.pages.events.create.header_2) }}
         </h1>
         <p class="mt-4">
-          {{ $t("pages.events.create.subtext_2") }}
+          {{ $t(i18nMap.pages.events.create.subtext_2) }}
         </p>
       </div>
       <form
@@ -46,7 +46,7 @@
           >
             <div class="w-1/2">
               <label for="name" class="responsive-h3 block font-medium"
-                >{{ $t("pages.events.create.events_name") }}*</label
+                >{{ $t(i18nMap.pages.events.create.events_name) }}*</label
               >
               <input
                 v-model="formData.name"
@@ -54,12 +54,12 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="name"
-                :placeholder="$t('pages.events.create.events_name_placeholder')"
+                :placeholder="$t(i18nMap.pages.events.create.events_name_placeholder)"
               />
             </div>
             <div class="w-1/2">
               <label for="tagline" class="responsive-h3 block font-medium">{{
-                $t("pages._global.create.tagline")
+                $t(i18nMap.pages._global.create.tagline)
               }}</label>
               <input
                 v-model="formData.tagline"
@@ -67,16 +67,16 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="tagline"
-                :placeholder="$t('pages.events.create.tagline_placeholder')"
+                :placeholder="$t(i18nMap.pages.events.create.tagline_placeholder)"
               />
             </div>
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <label for="organizer" class="responsive-h3 block font-medium"
-              >{{ $t("pages.events.create.organizer") }}*</label
+              >{{ $t(i18nMap.pages.events.create.organizer) }}*</label
             >
             <span id="organizer-instructions" class="block font-medium">{{
-              $t("pages.events.create.organizer_instructions")
+              $t(i18nMap.pages.events.create.organizer_instructions)
             }}</span>
             <input
               v-model="formData.organizer"
@@ -84,7 +84,7 @@
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="select"
               name="organizer"
-              :placeholder="$t('pages.events.create.organizer_placeholder')"
+              :placeholder="$t(i18nMap.pages.events.create.organizer_placeholder)"
               aria-describedby="organizer-instructions"
             />
           </div>
@@ -93,14 +93,14 @@
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <label for="description" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.create.description") }}*</label
+              >{{ $t(i18nMap.pages._global.create.description) }}*</label
             >
             <textarea
               v-model="formData.description"
               id="description"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="description"
-              :placeholder="$t('pages.events.create.description_placeholder')"
+              :placeholder="$t(i18nMap.pages.events.create.description_placeholder)"
             ></textarea>
           </div>
         </div>
@@ -110,7 +110,7 @@
           >
             <div class="w-1/5">
               <label for="event-type" class="responsive-h3 block font-medium">
-                {{ $t("pages.events.create.event_type") }}*
+                {{ $t(i18nMap.pages.events.create.event_type) }}*
               </label>
               <FormRadioGroup
                 @update:modelValue="updateEventType"
@@ -123,7 +123,7 @@
             </div>
             <div class="w-3/5">
               <label for="format" class="responsive-h3 block font-medium">{{
-                $t("pages.events.create.format")
+                $t(i18nMap.pages.events.create.format)
               }}</label>
               <input
                 v-model="formData.format"
@@ -131,7 +131,7 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="format"
-                :placeholder="$t('pages.events.create.format_placeholder')"
+                :placeholder="$t(i18nMap.pages.events.create.format_placeholder)"
               />
             </div>
           </div>
@@ -148,7 +148,7 @@
           >
             <div class="w-full">
               <label for="roles" class="responsive-h3 block font-medium"
-                >{{ $t("pages.events.create.roles") }}*</label
+                >{{ $t(i18nMap.pages.events.create.roles) }}*</label
               >
               <!-- TODO: replace this input with something that lets you make
                 roles and such -->
@@ -172,7 +172,7 @@
           >
             <div class="w-1/5">
               <label for="setting" class="responsive-h3 block font-medium">
-                {{ $t("pages.events.create.setting") }}*
+                {{ $t(i18nMap.pages.events.create.setting) }}*
               </label>
               <FormRadioGroup
                 @update:modelValue="updateSetting"
@@ -185,7 +185,7 @@
             </div>
             <div class="w-2/5">
               <label for="location" class="responsive-h3 block font-medium"
-                >{{ $t("pages._global.create.location") }}*</label
+                >{{ $t(i18nMap.pages._global.create.location) }}*</label
               >
               <input
                 v-model="formData.location"
@@ -193,12 +193,12 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="location"
-                :placeholder="$t('pages.events.create.location_placeholder')"
+                :placeholder="$t(i18nMap.pages.events.create.location_placeholder)"
               />
             </div>
             <div class="w-2/5">
               <label for="link" class="responsive-h3 block font-medium"
-                >{{ $t("pages._global.create.link") }}*</label
+                >{{ $t(i18nMap.pages._global.create.link) }}*</label
               >
               <input
                 v-model="formData.link"
@@ -206,7 +206,7 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="url"
                 name="link"
-                :placeholder="$t('pages.events.create.link_placeholder')"
+                :placeholder="$t(i18nMap.pages.events.create.link_placeholder)"
               />
             </div>
           </div>
@@ -219,12 +219,12 @@
             <div class="flex space-x-2">
               <FormCheckbox id="terms" />
               <label for="terms" class="flex font-medium">
-                <p>{{ $t("pages._global.terms_of_service_pt_1") }}&nbsp;</p>
+                <p>{{ $t(i18nMap.pages._global.terms_of_service_pt_1) }}&nbsp;</p>
                 <NuxtLink
                   :to="localePath('/legal/privacy-policy')"
                   target="_blank"
                   class="link-text"
-                  >{{ $t("pages._global.terms_of_service_pt_2") }}</NuxtLink
+                  >{{ $t(i18nMap.pages._global.terms_of_service_pt_2) }}</NuxtLink
                 >
                 <p>.</p>
               </label>
@@ -303,6 +303,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from '~/types/i18n-map';
+
 const localePath = useLocalePath();
 
 const settingValue = ref("");
