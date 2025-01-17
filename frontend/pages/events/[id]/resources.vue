@@ -2,7 +2,9 @@
 <template>
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
-      <Title>{{ event.name }}&nbsp;{{ $t(i18nMap._global.resources_lower) }}</Title>
+      <Title
+        >{{ event.name }}&nbsp;{{ $t(i18nMap._global.resources_lower) }}</Title
+      >
     </Head>
     <HeaderAppPage
       :event="event"

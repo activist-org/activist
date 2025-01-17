@@ -2,7 +2,9 @@
 <template>
   <NuxtLink
     :to="`/organizations/${organization.id}`"
-    :aria-label="$t(i18nMap.components._global.navigate_to_organization_aria_label)"
+    :aria-label="
+      $t(i18nMap.components._global.navigate_to_organization_aria_label)
+    "
   >
     <MetaTag
       iconName="IconOrganization"

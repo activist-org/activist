@@ -21,7 +21,10 @@
         :rightIcon="IconMap.SHARE"
         fontSize="lg"
         :ariaLabel="
-          $t(i18nMap.components.tooltip_menu_search_result_user.share_user_aria_label)
+          $t(
+            i18nMap.components.tooltip_menu_search_result_user
+              .share_user_aria_label
+          )
         "
       />
       <ModalSharePage

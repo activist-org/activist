@@ -14,7 +14,10 @@
         <label for="textarea" class="responsive-h2">{{ s }}</label>
         <textarea
           v-if="
-            s !== $t(i18nMap.components.modal.edit._global.join_organization_link) &&
+            s !==
+              $t(
+                i18nMap.components.modal.edit._global.join_organization_link
+              ) &&
             s !== $t(i18nMap.components._global.join_group_link) &&
             s !== $t(i18nMap.components._global.offer_to_help_link)
           "
@@ -36,7 +39,9 @@
         :cta="true"
         :label="$t(i18nMap.components.modal.edit._global.update_texts)"
         fontSize="base"
-        :ariaLabel="$t(i18nMap.components.modal.edit._global.update_texts_aria_label)"
+        :ariaLabel="
+          $t(i18nMap.components.modal.edit._global.update_texts_aria_label)
+        "
       />
     </div>
   </ModalBase>

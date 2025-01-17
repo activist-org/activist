@@ -4,7 +4,9 @@
     class="z-20 min-w-[200px] pb-4 pt-2 transition delay-150 ease-in-out md:min-w-[450px]"
   >
     <span class="mb-2 px-2">{{
-      $t(i18nMap.components.tooltip_password_requirements.password_rules_message)
+      $t(
+        i18nMap.components.tooltip_password_requirements.password_rules_message
+      )
     }}</span>
     <div
       v-for="(rule, index) in rules"

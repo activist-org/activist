@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
+import { i18nMap } from "~/types/i18n-map";
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;

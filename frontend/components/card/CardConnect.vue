@@ -83,19 +83,26 @@
               <PopupNewField
                 @on-cta-clicked="emit('on-new-account')"
                 @on-close-clicked="onClose(close)"
-                :title="$t(i18nMap.components.card_connect.app_account_popup_title)"
+                :title="
+                  $t(i18nMap.components.card_connect.app_account_popup_title)
+                "
                 :fieldNamePrompt="
                   $t(
-                    i18nMap.components.card_connect.app_account_popup_field_name_prompt
+                    i18nMap.components.card_connect
+                      .app_account_popup_field_name_prompt
                   )
                 "
                 :fieldLabelPrompt="
                   $t(
-                    i18nMap.components.card_connect.app_account_popup_field_label_prompt
+                    i18nMap.components.card_connect
+                      .app_account_popup_field_label_prompt
                   )
                 "
                 :ctaBtnLabel="
-                  $t(i18nMap.components.card_connect.app_account_popup_cta_btn_label)
+                  $t(
+                    i18nMap.components.card_connect
+                      .app_account_popup_cta_btn_label
+                  )
                 "
                 :ctaBtnAriaLabel="
                   $t(i18nMap.components.card_connect.new_account_aria_label)

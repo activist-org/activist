@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
-
-</script>
-
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLink
@@ -14,3 +9,7 @@ import { i18nMap } from '~/types/i18n-map';
     {{ $t(i18nMap.components._global.roadmap) }}
   </NuxtLink>
 </template>
+
+<script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+</script>

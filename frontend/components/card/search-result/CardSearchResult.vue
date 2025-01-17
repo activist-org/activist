@@ -22,7 +22,10 @@
               }"
               :src="imageUrl"
               :alt="
-                $t(i18nMap.components.card_search_result.organization_img_alt_text) +
+                $t(
+                  i18nMap.components.card_search_result
+                    .organization_img_alt_text
+                ) +
                 ' ' +
                 organization.name
               "

@@ -40,7 +40,9 @@
         :cta="true"
         :label="$t(i18nMap.components.modal.edit._global.update_texts)"
         fontSize="base"
-        :ariaLabel="$t(i18nMap.components.modal.edit._global.update_texts_aria_label)"
+        :ariaLabel="
+          $t(i18nMap.components.modal.edit._global.update_texts_aria_label)
+        "
       />
     </div>
   </ModalBase>

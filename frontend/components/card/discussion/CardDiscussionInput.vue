@@ -97,7 +97,9 @@
           id="message"
           rows="4"
           class="focus-brand block w-full rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text"
-          :placeholder="$t(i18nMap.components.card_discussion_input.leave_comment)"
+          :placeholder="
+            $t(i18nMap.components.card_discussion_input.leave_comment)
+          "
         ></textarea>
       </div>
       <div class="flex items-center justify-between px-1">

@@ -46,7 +46,9 @@
             'pb-1 pl-0.5': sidebar.collapsedSwitch == true,
           }"
           :aria-label="
-            $t(i18nMap.components.sidebar_left_header.sidebar_collapse_aria_label)
+            $t(
+              i18nMap.components.sidebar_left_header.sidebar_collapse_aria_label
+            )
           "
         >
           <SidebarLeftToggle chevronDirection="right" iconSize="1.4em" />
@@ -57,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
+import { i18nMap } from "~/types/i18n-map";
 
 defineProps<{
   atTopShadow: boolean;

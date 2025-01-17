@@ -34,7 +34,9 @@
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="name"
-              :placeholder="$t(i18nMap.pages.groups.create.group_name_placeholder)"
+              :placeholder="
+                $t(i18nMap.pages.groups.create.group_name_placeholder)
+              "
             />
           </div>
           <div class="w-1/2">
@@ -47,7 +49,9 @@
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="location"
-              :placeholder="$t(i18nMap.pages.groups.create.location_placeholder)"
+              :placeholder="
+                $t(i18nMap.pages.groups.create.location_placeholder)
+              "
             />
           </div>
         </div>
@@ -60,7 +64,9 @@
             id="description"
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
-            :placeholder="$t(i18nMap.pages.groups.create.description_placeholder)"
+            :placeholder="
+              $t(i18nMap.pages.groups.create.description_placeholder)
+            "
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
@@ -111,7 +117,7 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
+import { i18nMap } from "~/types/i18n-map";
 
 const formData = ref({
   name: "",

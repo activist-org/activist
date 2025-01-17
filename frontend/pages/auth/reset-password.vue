@@ -2,7 +2,9 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form class="space-y-4">
-      <p>{{ $t(i18nMap.pages.auth.reset_password.index.reset_password_info) }}</p>
+      <p>
+        {{ $t(i18nMap.pages.auth.reset_password.index.reset_password_info) }}
+      </p>
       <FormTextInput
         @update:model-value="input = $event"
         :placeholder="$t(i18nMap.pages.auth.reset_password.enter_username_mail)"
@@ -26,7 +28,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
+import { i18nMap } from "~/types/i18n-map";
 
 const localePath = useLocalePath();
 

@@ -10,7 +10,9 @@
     </Head>
     <HeaderAppPage
       :organization="organization"
-      :header="organization.name + ' ' + $t(i18nMap.pages._global.discussions_lower)"
+      :header="
+        organization.name + ' ' + $t(i18nMap.pages._global.discussions_lower)
+      "
       :tagline="$t(i18nMap.pages.organizations.discussions.index.tagline)"
       :underDevelopment="true"
     >

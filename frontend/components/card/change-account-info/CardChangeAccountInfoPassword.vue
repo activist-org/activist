@@ -1,12 +1,9 @@
-<script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
-
-</script>
-
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardChangeAccountInfo
-    :ctaLabel="$t(i18nMap.components.card_change_account_info_password.header_cta)"
+    :ctaLabel="
+      $t(i18nMap.components.card_change_account_info_password.header_cta)
+    "
     :ctaAriaLabel="
       $t(i18nMap.components.card_change_account_info_password.cta_aria_label)
     "
@@ -14,7 +11,9 @@ import { i18nMap } from '~/types/i18n-map';
     <div class="space-y-4 pb-1 lg:grow">
       <div class="flex items-center space-x-4">
         <h3 class="responsive-h3 font-bold">
-          {{ $t(i18nMap.components.card_change_account_info_password.header_cta) }}
+          {{
+            $t(i18nMap.components.card_change_account_info_password.header_cta)
+          }}
         </h3>
       </div>
       <div class="flex flex-col gap-4 lg:flex-row lg:gap-8">
@@ -22,7 +21,8 @@ import { i18nMap } from '~/types/i18n-map';
           <label for="current-password" class="responsive-h4 pb-2 font-bold"
             >{{
               $t(
-                i18nMap.components.card_change_account_info_password.current_password
+                i18nMap.components.card_change_account_info_password
+                  .current_password
               )
             }}
             *</label
@@ -32,7 +32,8 @@ import { i18nMap } from '~/types/i18n-map';
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="
               $t(
-                i18nMap.components.card_change_account_info_password.enter_current_password
+                i18nMap.components.card_change_account_info_password
+                  .enter_current_password
               )
             "
           />
@@ -40,7 +41,10 @@ import { i18nMap } from '~/types/i18n-map';
         <div class="flex w-full flex-col lg:w-1/3">
           <label for="new-password" class="responsive-h4 pb-2 font-bold"
             >{{
-              $t(i18nMap.components.card_change_account_info_password.new_password)
+              $t(
+                i18nMap.components.card_change_account_info_password
+                  .new_password
+              )
             }}
             *</label
           >
@@ -49,7 +53,8 @@ import { i18nMap } from '~/types/i18n-map';
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="
               $t(
-                i18nMap.components.card_change_account_info_password.enter_new_password
+                i18nMap.components.card_change_account_info_password
+                  .enter_new_password
               )
             "
           />
@@ -63,7 +68,8 @@ import { i18nMap } from '~/types/i18n-map';
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="
               $t(
-                i18nMap.components.card_change_account_info_password.enter_repeat_password
+                i18nMap.components.card_change_account_info_password
+                  .enter_repeat_password
               )
             "
           />
@@ -72,3 +78,7 @@ import { i18nMap } from '~/types/i18n-map';
     </div>
   </CardChangeAccountInfo>
 </template>
+
+<script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+</script>

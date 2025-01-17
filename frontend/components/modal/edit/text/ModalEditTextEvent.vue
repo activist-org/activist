@@ -44,14 +44,16 @@
         :cta="true"
         :label="$t(i18nMap.components.modal.edit._global.update_texts)"
         fontSize="base"
-        :ariaLabel="$t(i18nMap.components.modal.edit._global.update_texts_aria_label)"
+        :ariaLabel="
+          $t(i18nMap.components.modal.edit._global.update_texts_aria_label)
+        "
       />
     </div>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
+import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
   isOpen: boolean;

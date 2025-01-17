@@ -36,7 +36,10 @@
               type="text"
               name="name"
               :placeholder="
-                $t(i18nMap.pages.organizations.create.organization_name_placeholder)
+                $t(
+                  i18nMap.pages.organizations.create
+                    .organization_name_placeholder
+                )
               "
             />
           </div>
@@ -79,7 +82,9 @@
             id="tagline"
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="tagline"
-            :placeholder="$t(i18nMap.pages.organizations.create.tagline_placeholder)"
+            :placeholder="
+              $t(i18nMap.pages.organizations.create.tagline_placeholder)
+            "
           />
         </div>
         <CardTopicSelection

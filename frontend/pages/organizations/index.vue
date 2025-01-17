@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
+import { i18nMap } from "~/types/i18n-map";
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchAll();

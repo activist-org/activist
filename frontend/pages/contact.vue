@@ -126,7 +126,10 @@
                 for="email"
                 >{{ $t(i18nMap.pages.contact.email_label) }}
                 <span v-if="!emailValidated"
-                  >{{ $t(i18nMap.pages.contact.valid) }} (example@mail.com).</span
+                  >{{
+                    $t(i18nMap.pages.contact.valid)
+                  }}
+                  (example@mail.com).</span
                 ></label
               >
               <input

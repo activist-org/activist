@@ -54,7 +54,9 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="name"
-                :placeholder="$t(i18nMap.pages.events.create.events_name_placeholder)"
+                :placeholder="
+                  $t(i18nMap.pages.events.create.events_name_placeholder)
+                "
               />
             </div>
             <div class="w-1/2">
@@ -67,7 +69,9 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="tagline"
-                :placeholder="$t(i18nMap.pages.events.create.tagline_placeholder)"
+                :placeholder="
+                  $t(i18nMap.pages.events.create.tagline_placeholder)
+                "
               />
             </div>
           </div>
@@ -84,7 +88,9 @@
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="select"
               name="organizer"
-              :placeholder="$t(i18nMap.pages.events.create.organizer_placeholder)"
+              :placeholder="
+                $t(i18nMap.pages.events.create.organizer_placeholder)
+              "
               aria-describedby="organizer-instructions"
             />
           </div>
@@ -100,7 +106,9 @@
               id="description"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="description"
-              :placeholder="$t(i18nMap.pages.events.create.description_placeholder)"
+              :placeholder="
+                $t(i18nMap.pages.events.create.description_placeholder)
+              "
             ></textarea>
           </div>
         </div>
@@ -131,7 +139,9 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="format"
-                :placeholder="$t(i18nMap.pages.events.create.format_placeholder)"
+                :placeholder="
+                  $t(i18nMap.pages.events.create.format_placeholder)
+                "
               />
             </div>
           </div>
@@ -193,7 +203,9 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="location"
-                :placeholder="$t(i18nMap.pages.events.create.location_placeholder)"
+                :placeholder="
+                  $t(i18nMap.pages.events.create.location_placeholder)
+                "
               />
             </div>
             <div class="w-2/5">
@@ -219,12 +231,16 @@
             <div class="flex space-x-2">
               <FormCheckbox id="terms" />
               <label for="terms" class="flex font-medium">
-                <p>{{ $t(i18nMap.pages._global.terms_of_service_pt_1) }}&nbsp;</p>
+                <p>
+                  {{ $t(i18nMap.pages._global.terms_of_service_pt_1) }}&nbsp;
+                </p>
                 <NuxtLink
                   :to="localePath('/legal/privacy-policy')"
                   target="_blank"
                   class="link-text"
-                  >{{ $t(i18nMap.pages._global.terms_of_service_pt_2) }}</NuxtLink
+                  >{{
+                    $t(i18nMap.pages._global.terms_of_service_pt_2)
+                  }}</NuxtLink
                 >
                 <p>.</p>
               </label>
@@ -303,7 +319,7 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
+import { i18nMap } from "~/types/i18n-map";
 
 const localePath = useLocalePath();
 

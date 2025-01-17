@@ -9,7 +9,7 @@
     >
       <div class="flex items-center space-x-3 pb-2">
         <Icon
-          v-if="(item.itemType = 'group')"
+          v-if="item.itemType = 'group'"
           :name="IconMap.PEOPLE"
           size="1.5em"
         />

@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
-
-</script>
-
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
@@ -26,8 +21,14 @@ import { i18nMap } from '~/types/i18n-map';
       imageName="ImpactHub"
       imageLink="https://belgrade.impacthub.net"
       :aria-label="
-        $t(i18nMap.components.grid_supporters.impact_hub_belgrade_logo_aria_label)
+        $t(
+          i18nMap.components.grid_supporters.impact_hub_belgrade_logo_aria_label
+        )
       "
     />
   </div>
 </template>
+
+<script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+</script>

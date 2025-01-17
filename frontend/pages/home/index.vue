@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
-
-</script>
-
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div id="home-page-main" class="bg-layer-0 px-4 text-primary-text xl:px-8">
@@ -33,3 +28,7 @@ import { i18nMap } from '~/types/i18n-map';
     </div> -->
   </div>
 </template>
+
+<script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+</script>

@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
-
-</script>
-
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardChangeAccountInfo
@@ -29,7 +24,10 @@ import { i18nMap } from '~/types/i18n-map';
             id="old-email"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="
-              $t(i18nMap.components.card_change_account_info_email.enter_old_email)
+              $t(
+                i18nMap.components.card_change_account_info_email
+                  .enter_old_email
+              )
             "
           />
         </div>
@@ -44,7 +42,10 @@ import { i18nMap } from '~/types/i18n-map';
             id="new-email"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="
-              $t(i18nMap.components.card_change_account_info_email.enter_new_email)
+              $t(
+                i18nMap.components.card_change_account_info_email
+                  .enter_new_email
+              )
             "
           />
         </div>
@@ -62,3 +63,7 @@ import { i18nMap } from '~/types/i18n-map';
     </div>
   </CardChangeAccountInfo>
 </template>
+
+<script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+</script>

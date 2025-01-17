@@ -66,7 +66,8 @@
         <p>
           {{
             $t(
-              i18nMap.components.card_get_involved_organization.join_organization_no_info,
+              i18nMap.components.card_get_involved_organization
+                .join_organization_no_info,
               {
                 entity_name: organization.name,
               }

@@ -11,7 +11,9 @@
     <HeaderAppPage
       :organization="organization"
       :header="
-        organization.name + ' ' + $t(i18nMap.pages.organizations._global.events_lower)
+        organization.name +
+        ' ' +
+        $t(i18nMap.pages.organizations._global.events_lower)
       "
       :tagline="$t(i18nMap.pages.organizations._global.events_tagline)"
     >

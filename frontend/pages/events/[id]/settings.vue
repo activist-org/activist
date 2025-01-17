@@ -10,7 +10,9 @@
     </Head>
     <HeaderAppPage
       :event="event"
-      :header="event.name + ' ' + $t(i18nMap.pages._global.settings.settings_lower)"
+      :header="
+        event.name + ' ' + $t(i18nMap.pages._global.settings.settings_lower)
+      "
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -36,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
+import { i18nMap } from "~/types/i18n-map";
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;

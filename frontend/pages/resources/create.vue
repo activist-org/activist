@@ -62,7 +62,9 @@
             id="description"
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
-            :placeholder="$t(i18nMap.pages.resources.create.description_placeholder)"
+            :placeholder="
+              $t(i18nMap.pages.resources.create.description_placeholder)
+            "
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 flex w-full">
@@ -75,7 +77,9 @@
               id="location"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="location"
-              :placeholder="$t(i18nMap.pages.resources.create.location_placeholder)"
+              :placeholder="
+                $t(i18nMap.pages.resources.create.location_placeholder)
+              "
             ></textarea>
           </div>
           <div class="flex-1 px-5 py-6">
@@ -112,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from '~/types/i18n-map';
+import { i18nMap } from "~/types/i18n-map";
 
 const formData = ref({
   name: "",

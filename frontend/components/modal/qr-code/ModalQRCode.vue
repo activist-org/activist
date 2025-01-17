@@ -12,16 +12,23 @@
       <div class="col-span-2 items-center space-y-4 text-left font-medium">
         <p v-if="organization">
           {{
-            $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_organization)
+            $t(
+              i18nMap.components.modal_qr_code
+                .section_1_paragraph_1_organization
+            )
           }}&nbsp;
           {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p v-else-if="group">
-          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_group) }}&nbsp;
+          {{
+            $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_group)
+          }}&nbsp;
           {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p v-else-if="event">
-          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_event) }}&nbsp;
+          {{
+            $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_event)
+          }}&nbsp;
           {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p v-else-if="resource">
@@ -31,7 +38,9 @@
           {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p v-else-if="user">
-          {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_user) }}&nbsp;
+          {{
+            $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_user)
+          }}&nbsp;
           {{ $t(i18nMap.components.modal_qr_code.section_1_paragraph_1_2) }}
         </p>
         <p>
@@ -105,7 +114,9 @@
         :dropdownIcon="IconMap.CHEVRON_DOWN"
         :dropdownOptions="availableFormats"
         :dropdownOptionsCallback="downloadQRCode"
-        :ariaLabel="$t(i18nMap.components.modal_qr_code.download_qr_code_aria_label)"
+        :ariaLabel="
+          $t(i18nMap.components.modal_qr_code.download_qr_code_aria_label)
+        "
         :ariaLabelDropdown="
           $t(i18nMap.components.modal_qr_code.qr_code_options_aria_label)
         "

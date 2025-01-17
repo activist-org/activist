@@ -19,7 +19,9 @@
       @keydown="resetTabIndex()"
       id="query"
       :display-value="() => query"
-      :placeholder="$t(i18nMap.components.card_topic_selection.selector_placeholder)"
+      :placeholder="
+        $t(i18nMap.components.card_topic_selection.selector_placeholder)
+      "
       class="topicInput elem-shadow-sm focus-brand w-full rounded-md bg-layer-0 py-2 pl-4 text-distinct-text"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">

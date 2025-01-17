@@ -25,7 +25,9 @@
         :for="customValueType"
         class="sr-only"
         >{{
-          $t(i18nMap.components.form_radio_group.custom_numeric_value_placeholder)
+          $t(
+            i18nMap.components.form_radio_group.custom_numeric_value_placeholder
+          )
         }}</label
       >
       <input
@@ -36,7 +38,9 @@
         class="w-full flex-1 rounded-l-md border border-r-0 border-interactive bg-layer-2 pl-4 pr-2 font-bold text-distinct-text outline-none"
         :type="customValueType"
         :placeholder="
-          $t(i18nMap.components.form_radio_group.custom_numeric_value_placeholder)
+          $t(
+            i18nMap.components.form_radio_group.custom_numeric_value_placeholder
+          )
         "
       />
       <button
