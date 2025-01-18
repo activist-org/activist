@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="rounded-md border border-primary-text">
     <vue-friendly-captcha
@@ -14,12 +15,12 @@
       class="style-btn flex w-full cursor-not-allowed items-center space-x-4 rounded-md border-none p-1 px-3 text-lg shadow-none"
       :disabled="true"
       :aria-label="
-        $t('components.friendly_captcha.captcha_disabled_aria_label')
+        $t(i18nMap.components.friendly_captcha.captcha_disabled_aria_label)
       "
     >
       <Icon :name="IconMap.SHIELD" size="28px" />
       <p class="font-bold">
-        {{ $t("components.friendly_captcha.captcha_disabled") }}
+        {{ $t(i18nMap.components.friendly_captcha.captcha_disabled) }}
       </p>
     </button>
   </div>
@@ -27,6 +28,7 @@
 
 <script setup lang="ts">
 import VueFriendlyCaptcha from "@somushq/vue3-friendly-captcha";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const devMode = useDevMode();

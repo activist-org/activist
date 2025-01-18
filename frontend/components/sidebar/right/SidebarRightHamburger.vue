@@ -1,10 +1,13 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div>
     <button
       @click="$emit('toggle')"
       id="sidebar-right-hamburger"
       class="focus-brand group relative z-50 outline-offset-4"
-      :aria-label="$t('components.sidebar_right_hamburger.collapse_aria_label')"
+      :aria-label="
+        $t(i18nMap.components.sidebar_right_hamburger.collapse_aria_label)
+      "
     >
       <div
         class="relative flex h-[20px] w-[30px] transform items-center justify-center bg-transparent transition-all duration-200"
@@ -31,6 +34,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 export interface Props {
   menuOpen: boolean;
 }

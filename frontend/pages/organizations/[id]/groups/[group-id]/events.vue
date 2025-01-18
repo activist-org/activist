@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <MenuSubPageSelector
     class="pt-2 md:pt-0"
@@ -8,16 +9,16 @@
     <Head>
       <Title
         >{{ group.name }}&nbsp;{{
-          $t("pages.organizations._global.events_lower")
+          $t(i18nMap.pages.organizations._global.events_lower)
         }}</Title
       >
     </Head>
     <HeaderAppPage
       :group="group"
       :header="
-        group.name + ' ' + $t('pages.organizations._global.events_lower')
+        group.name + ' ' + $t(i18nMap.pages.organizations._global.events_lower)
       "
-      :tagline="$t('pages.organizations._global.events_tagline')"
+      :tagline="$t(i18nMap.pages.organizations._global.events_tagline)"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
@@ -49,6 +50,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 const groupSubPages = getGroupSubPages();
 
 const idParam = useRoute().params.id;

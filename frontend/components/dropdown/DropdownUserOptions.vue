@@ -1,11 +1,12 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <DropdownBase
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_PERSON"
     :menuButtonLabel="
       userIsSignedIn
-        ? $t(`components.dropdown_user_options.username`)
-        : $t(`components.dropdown_user_options.join_activist`)
+        ? $t(i18nMap.components.dropdown_user_options.username)
+        : $t(i18nMap.components.dropdown_user_options.join_activist)
     "
     :isMenuButtonUppercase="false"
     :isMenuButtonBold="true"
@@ -19,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { DropdownLocation } from "~/types/location";
 import type { MenuSelector } from "~/types/menu/menu-selector";

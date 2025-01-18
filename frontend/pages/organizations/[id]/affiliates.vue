@@ -1,9 +1,10 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
         >{{ organization.name }}&nbsp;{{
-          $t("pages.organizations.affiliates.affiliates_lower")
+          $t(i18nMap.pages.organizations.affiliates.affiliates_lower)
         }}</Title
       >
     </Head>
@@ -12,9 +13,9 @@
       :header="
         organization.name +
         ' ' +
-        $t('pages.organizations.affiliates.affiliates_lower')
+        $t(i18nMap.pages.organizations.affiliates.affiliates_lower)
       "
-      :tagline="$t('pages.organizations.affiliates.tagline')"
+      :tagline="$t(i18nMap.pages.organizations.affiliates.tagline)"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3"></div>
@@ -37,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 

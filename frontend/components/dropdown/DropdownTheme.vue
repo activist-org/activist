@@ -1,12 +1,13 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <DropdownBase
     class="dropdown-theme"
     :location="location"
     :menuButtonIcon="menuButtonIcon"
-    :menuButtonLabel="$t(`components.dropdown_theme.label`)"
+    :menuButtonLabel="$t(i18nMap.components.dropdown_theme.label)"
     :isMenuButtonUppercase="false"
     :menuButtonAriaLabel="
-      $t(`components.dropdown_theme.open_dropdown_aria_label`)
+      $t(i18nMap.components.dropdown_theme.open_dropdown_aria_label)
     "
   >
     <div class="px-2 py-2">
@@ -31,6 +32,7 @@
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
 import { computed } from "vue";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { DropdownLocation } from "~/types/location";
 

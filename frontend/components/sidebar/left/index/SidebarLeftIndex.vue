@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-2 text-primary-text transition-all duration-500"
@@ -26,7 +27,7 @@
           class="elem-shadow-sm"
           :imgUrl="logoUrl"
           :alt="
-            $t('_global.entity_logo', {
+            $t(i18nMap._global.entity_logo, {
               entity_name: name,
             })
           "
@@ -54,7 +55,7 @@
           class="elem-shadow-sm"
           eventType="action"
           :alt="
-            $t('_global.entity_logo', {
+            $t(i18nMap._global.entity_logo, {
               entity_name: name,
             })
           "
@@ -93,6 +94,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import { SidebarType } from "~/types/sidebar-type";
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import locales from "~/locales";
 
 const localCodes = locales.map((l) => l.code);

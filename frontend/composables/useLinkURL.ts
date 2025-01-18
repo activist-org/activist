@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { User } from "~/types/auth/user";
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";

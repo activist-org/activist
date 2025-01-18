@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
@@ -37,7 +38,7 @@
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="$t('_global.share_event_aria_label')"
+          :ariaLabel="$t(i18nMap._global.share_event_aria_label)"
         />
         <ModalSharePage :cta="true" :event="event" />
       </div>
@@ -78,6 +79,7 @@
 
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");

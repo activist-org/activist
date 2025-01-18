@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="fixed bottom-0 z-20 w-full border-t border-section-div bg-layer-2"

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex w-full">
     <div v-show="!showAdditionalInput" class="flex w-full">
@@ -24,7 +25,9 @@
         :for="customValueType"
         class="sr-only"
         >{{
-          $t("components.form_radio_group.custom_numeric_value_placeholder")
+          $t(
+            i18nMap.components.form_radio_group.custom_numeric_value_placeholder
+          )
         }}</label
       >
       <input
@@ -35,7 +38,9 @@
         class="w-full flex-1 rounded-l-md border border-r-0 border-interactive bg-layer-2 pl-4 pr-2 font-bold text-distinct-text outline-none"
         :type="customValueType"
         :placeholder="
-          $t('components.form_radio_group.custom_numeric_value_placeholder')
+          $t(
+            i18nMap.components.form_radio_group.custom_numeric_value_placeholder
+          )
         "
       />
       <button
@@ -55,6 +60,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 // TODO: This type should be defined for the props definition type from FromRadioButton and FromRadio.

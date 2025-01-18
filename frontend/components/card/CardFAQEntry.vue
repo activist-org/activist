@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Disclosure v-slot="{ open }" as="div" class="card-style">
     <DisclosureButton class="focus-brand w-full rounded-md px-4 py-2">
@@ -17,8 +18,8 @@
               @closeModal="handleCloseModal"
               :faqEntry="faqEntry"
               :sectionsToEdit="[
-                $t('components.card_faq_entry.question'),
-                $t('components.card_faq_entry.answer'),
+                $t(i18nMap.components.card_faq_entry.question),
+                $t(i18nMap.components.card_faq_entry.answer),
               ]"
               :textsToEdit="[faqEntry.question, faqEntry.answer]"
               :isOpen="modalIsOpen"
@@ -40,6 +41,7 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import type { FaqEntry } from "~/types/content/faq-entry";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

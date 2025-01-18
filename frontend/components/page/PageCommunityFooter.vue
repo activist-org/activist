@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex-col">
     <p class="responsive-h4 font-bold">
@@ -5,86 +6,86 @@
     </p>
     <ul v-if="!helpNeeded" class="list-disc space-y-1 pb-1 pl-4 pt-3">
       <li>
-        {{ $t("components.page_community_footer.invite_text_2_1") }}
+        {{ $t(i18nMap.components.page_community_footer.invite_text_2_1) }}
         <a
           class="focus-brand link-text items-center"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
-          {{ $t("_global.on_github") }}
+          {{ $t(i18nMap._global.on_github) }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page_community_footer.invite_text_2_3") }}
+        {{ $t(i18nMap.components.page_community_footer.invite_text_2_3) }}
       </li>
       <li>
-        {{ $t("components.page_community_footer.invite_text_3_1") }}
+        {{ $t(i18nMap.components.page_community_footer.invite_text_3_1) }}
         <a
           class="focus-brand link-text items-center"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
-          {{ $t("_global.public_matrix_chat_rooms") }}
+          {{ $t(i18nMap._global.public_matrix_chat_rooms) }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page_community_footer.invite_text_3_3") }}
+        {{ $t(i18nMap.components.page_community_footer.invite_text_3_3) }}
       </li>
       <li>
-        {{ $t("components.page_community_footer.visit_our") }}
+        {{ $t(i18nMap.components.page_community_footer.visit_our) }}
         <a
           class="focus-brand link-text items-center"
           href="https://hosted.weblate.org/projects/activist/activist"
           target="_blank"
         >
-          {{ $t("components.page_community_footer.invite_text_4_2") }}
+          {{ $t(i18nMap.components.page_community_footer.invite_text_4_2) }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page_community_footer.invite_text_4_3") }}
+        {{ $t(i18nMap.components.page_community_footer.invite_text_4_3) }}
       </li>
     </ul>
     <ul v-else class="list-disc space-y-1 pb-1 pl-4 pt-3">
       <li>
-        {{ $t("components.page_community_footer.need_help_text_1_1") }}
+        {{ $t(i18nMap.components.page_community_footer.need_help_text_1_1) }}
         <a
           class="focus-brand link-text items-center"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
-          {{ $t("_global.public_matrix_chat_rooms") }}
+          {{ $t(i18nMap._global.public_matrix_chat_rooms) }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page_community_footer.need_help_text_1_3") }}
+        {{ $t(i18nMap.components.page_community_footer.need_help_text_1_3) }}
       </li>
       <li>
-        {{ $t("components.page_community_footer.need_help_text_2_1") }}
+        {{ $t(i18nMap.components.page_community_footer.need_help_text_2_1) }}
         <a
           class="focus-brand link-text items-center"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
-          {{ $t("components._global.github") }}
+          {{ $t(i18nMap.components._global.github) }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("components.page_community_footer.need_help_text_2_3") }}
+        {{ $t(i18nMap.components.page_community_footer.need_help_text_2_3) }}
       </li>
     </ul>
   </div>
@@ -95,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 export interface Props {

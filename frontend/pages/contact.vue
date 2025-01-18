@@ -1,7 +1,8 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="bg-layer-0 text-primary-text">
     <Head>
-      <Title>{{ $t("_global.contact") }}</Title>
+      <Title>{{ $t(i18nMap._global.contact) }}</Title>
     </Head>
     <PageDocs
       :imgUrl="BOOTSTRAP_ENVELOPE_URL"
@@ -12,7 +13,7 @@
         class="items-center space-y-4 text-left md:items-start"
       >
         <h1 class="responsive-h1 pb-2 font-bold">
-          {{ $t("pages.contact.header") }}
+          {{ $t(i18nMap.pages.contact.header) }}
         </h1>
         <div class="flex flex-row space-x-3 py-2">
           <Icon
@@ -21,13 +22,13 @@
             size="1.25em"
           />
           <p>
-            {{ $t("pages.contact.subheader_1") }}
+            {{ $t(i18nMap.pages.contact.subheader_1) }}
             <a
               class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("_global.public_matrix_chat_rooms") }}
+              {{ $t(i18nMap._global.public_matrix_chat_rooms) }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -39,34 +40,34 @@
         </div>
         <div class="flex flex-col space-y-4 lg:space-y-6">
           <p>
-            {{ $t("pages.contact.section_1_paragraph_1_1") }}
+            {{ $t(i18nMap.pages.contact.section_1_paragraph_1_1) }}
             <a
               class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
             >
-              {{ $t("_global.public_matrix_chat_rooms") }}
+              {{ $t(i18nMap._global.public_matrix_chat_rooms) }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.contact.section_1_paragraph_1_3") }}
+            {{ $t(i18nMap.pages.contact.section_1_paragraph_1_3) }}
             <a
               class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist"
             >
-              {{ $t("_global.on_github") }}
+              {{ $t(i18nMap._global.on_github) }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("pages.contact.section_1_paragraph_1_5") }}
+            {{ $t(i18nMap.pages.contact.section_1_paragraph_1_5) }}
           </p>
           <p>
-            {{ $t("pages.contact.section_1_paragraph_2_1") }}
+            {{ $t(i18nMap.pages.contact.section_1_paragraph_2_1) }}
             <a class="focus-brand link-text" href="mailto:team@activist.org">
               team@activist.org
               <Icon
@@ -74,13 +75,13 @@
                 size="1em"
                 style="vertical-align: baseline" /></a
             >.
-            {{ $t("pages.contact.section_1_paragraph_2_2") }}
+            {{ $t(i18nMap.pages.contact.section_1_paragraph_2_2) }}
             <a
               class="focus-brand link-text items-center"
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               target="_blank"
             >
-              {{ $t("pages.contact.section_1_paragraph_2_3") }}
+              {{ $t(i18nMap.pages.contact.section_1_paragraph_2_3) }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -97,9 +98,9 @@
                   'text-primary-text': nameValidated,
                 }"
                 for="name"
-                >{{ $t("pages.contact.name") }}
+                >{{ $t(i18nMap.pages.contact.name) }}
                 <span v-if="!nameValidated">{{
-                  $t("pages.contact.error_empty")
+                  $t(i18nMap.pages.contact.error_empty)
                 }}</span></label
               >
               <input
@@ -111,7 +112,7 @@
                   'outline outline-2 outline-action-red': !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
                 }"
-                :placeholder="$t('pages.contact.name_placeholder')"
+                :placeholder="$t(i18nMap.pages.contact.name_placeholder)"
                 autocomplete="off"
                 spellcheck="false"
               />
@@ -123,9 +124,12 @@
                   'text-primary-text': emailValidated,
                 }"
                 for="email"
-                >{{ $t("pages.contact.email_label") }}
+                >{{ $t(i18nMap.pages.contact.email_label) }}
                 <span v-if="!emailValidated"
-                  >{{ $t("pages.contact.valid") }} (example@mail.com).</span
+                  >{{
+                    $t(i18nMap.pages.contact.valid)
+                  }}
+                  (example@mail.com).</span
                 ></label
               >
               <input
@@ -137,7 +141,7 @@
                   'outline outline-2 outline-action-red': !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
                 }"
-                :placeholder="$t('pages.contact.email_placeholder')"
+                :placeholder="$t(i18nMap.pages.contact.email_placeholder)"
                 autocomplete="off"
                 spellcheck="false"
               />
@@ -149,9 +153,9 @@
                   'text-primary-text': subjectValidated,
                 }"
                 for="subject"
-                >{{ $t("pages.contact.subject_label") }}
+                >{{ $t(i18nMap.pages.contact.subject_label) }}
                 <span v-if="!subjectValidated">{{
-                  $t("pages.contact.error_empty")
+                  $t(i18nMap.pages.contact.error_empty)
                 }}</span></label
               >
               <input
@@ -163,7 +167,7 @@
                   'outline outline-2 outline-action-red': !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
                 }"
-                :placeholder="$t('pages.contact.subject_placeholder')"
+                :placeholder="$t(i18nMap.pages.contact.subject_placeholder)"
                 autocomplete="off"
                 spellcheck="false"
               />
@@ -175,7 +179,7 @@
                   'text-primary-text': messageValidated,
                 }"
                 for="message"
-                >{{ $t("pages.contact.message_label") }}
+                >{{ $t(i18nMap.pages.contact.message_label) }}
                 <span v-if="!messageValidated">cannot be empty.</span></label
               >
               <textarea
@@ -188,7 +192,7 @@
                   'outline-none focus:outline-none': messageValidated,
                 }"
                 rows="6"
-                :placeholder="$t('pages.contact.message_placeholder')"
+                :placeholder="$t(i18nMap.pages.contact.message_placeholder)"
                 autocomplete="off"
                 spellcheck="false"
               ></textarea>
@@ -205,9 +209,9 @@
               }"
               type="submit"
               :disabled="buttonDisabled"
-              :aria-label="$t('pages.contact.send_form_aria_label')"
+              :aria-label="$t(i18nMap.pages.contact.send_form_aria_label)"
             >
-              {{ $t("pages.contact.send") }}
+              {{ $t(i18nMap.pages.contact.send) }}
             </button>
           </form>
         </div>
@@ -217,7 +221,7 @@
         class="flex flex-col items-center justify-center space-y-4 pb-8 text-center md:items-start md:space-y-6 md:text-start"
       >
         <h1 class="responsive-h1 pb-2 font-bold">
-          {{ $t("pages.contact.thanks_1") }}
+          {{ $t(i18nMap.pages.contact.thanks_1) }}
         </h1>
         <div class="flex flex-row space-x-3 py-2 text-start">
           <Icon
@@ -226,13 +230,13 @@
             size="1.25em"
           />
           <p>
-            {{ $t("pages.contact.subheader_1") }}
+            {{ $t(i18nMap.pages.contact.subheader_1) }}
             <a
               class="focus-brand link-text items-center"
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("_global.public_matrix_chat_rooms") }}
+              {{ $t(i18nMap._global.public_matrix_chat_rooms) }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -243,7 +247,7 @@
           </p>
         </div>
         <p>
-          {{ $t("pages.contact.thanks_2") }}
+          {{ $t(i18nMap.pages.contact.thanks_2) }}
         </p>
         <BtnRouteInternal
           :cta="false"
@@ -258,6 +262,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const name = ref("");

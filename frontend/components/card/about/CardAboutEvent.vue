@@ -1,9 +1,10 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardAbout>
     <div class="flex-col space-y-3">
       <div class="flex items-center gap-5">
         <h3 class="responsive-h3 text-left font-display">
-          {{ $t("_global.about") }}
+          {{ $t(i18nMap._global.about) }}
         </h3>
         <IconEdit
           @click="openModalEditTextEvent()"
@@ -32,10 +33,10 @@
               "
               class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
-                $t('components.card.about._global.full_text_aria_label')
+                $t(i18nMap.components.card.about._global.full_text_aria_label)
               "
             >
-              {{ $t("components.card.about._global.full_text") }}
+              {{ $t(i18nMap.components.card.about._global.full_text) }}
             </button>
             <button
               v-else-if="descriptionExpandable"
@@ -45,10 +46,10 @@
               "
               class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
-                $t('components.card.about._global.reduce_text_aria_label')
+                $t(i18nMap.components.card.about._global.reduce_text_aria_label)
               "
             >
-              {{ $t("components.card.about._global.reduce_text") }}
+              {{ $t(i18nMap.components.card.about._global.reduce_text) }}
             </button>
           </div>
         </div>
@@ -59,6 +60,7 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
+import { i18nMap } from "~/types/i18n-map";
 
 const { openModal: openModalEditTextEvent } =
   useModalHandlers("ModalEditTextEvent");

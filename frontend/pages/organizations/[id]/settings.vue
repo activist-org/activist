@@ -1,16 +1,19 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
         >{{ organization.name }}&nbsp;{{
-          $t("pages._global.settings.settings_lower")
+          $t(i18nMap.pages._global.settings.settings_lower)
         }}</Title
       >
     </Head>
     <HeaderAppPage
       :organization="organization"
       :header="
-        organization.name + ' ' + $t('pages._global.settings.settings_lower')
+        organization.name +
+        ' ' +
+        $t(i18nMap.pages._global.settings.settings_lower)
       "
       :underDevelopment="true"
     >
@@ -27,11 +30,11 @@
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="
-          $t('pages.organizations.settings.danger_zone_delete_organization_text')
+          $t(i18nMap.pages.organizations.settings.danger_zone_delete_organization_text)
         "
-        :ctaBtnText="$t('pages.organizations.settings.danger_zone_delete_organization_cta')"
+        :ctaBtnText="$t(i18nMap.pages.organizations.settings.danger_zone_delete_organization_cta)"
         :ctaBtnAriaLabel="
-          $t('pages.organizations.settings.danger_zone_delete_organization_cta_aria_label')
+          $t(i18nMap.pages.organizations.settings.danger_zone_delete_organization_cta_aria_label)
         "
       />
     </div> -->
@@ -39,6 +42,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 

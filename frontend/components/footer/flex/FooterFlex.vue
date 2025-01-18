@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <!-- Note: Content Sections Left and Right for Desktop (xl) -->
   <div class="flex flex-row justify-start">
@@ -10,7 +11,7 @@
         />
       </div>
       <p class="mt-3 text-primary-text">
-        {{ $t("components.footer.flex._global.activist_tagline") }}
+        {{ $t(i18nMap.components.footer.flex._global.activist_tagline) }}
       </p>
       <!-- Note: Platform Links -->
       <div class="mt-2 flex justify-start">
@@ -48,11 +49,11 @@
         href="https://www.netlify.com/"
         target="_blank"
       >
-        {{ $t("components.footer.flex._global.powered_by_netlify") }}
+        {{ $t(i18nMap.components.footer.flex._global.powered_by_netlify) }}
       </a>
       <div class="mt-2 text-primary-text">
         {{
-          $t("components.footer.flex._global.copyright", {
+          $t(i18nMap.components.footer.flex._global.copyright, {
             year: new Date().getFullYear(),
           })
         }}
@@ -65,7 +66,7 @@
       <!-- Note: Connect Links -->
       <div>
         <p class="text-xl font-medium text-primary-text">
-          {{ $t("components._global.connect") }}
+          {{ $t(i18nMap.components._global.connect) }}
         </p>
         <template v-for="(connect, index) in links.connectLinks">
           <a
@@ -87,7 +88,7 @@
       <!-- Note: Resources Links -->
       <div>
         <p class="text-xl font-medium text-primary-text">
-          {{ $t("_global.resources") }}
+          {{ $t(i18nMap._global.resources) }}
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p
@@ -103,7 +104,7 @@
       <!-- Note: Organization Links -->
       <div>
         <p class="text-xl font-medium text-primary-text">
-          {{ $t("_global.organization") }}
+          {{ $t(i18nMap._global.organization) }}
         </p>
         <template v-for="(oLink, index) in links.organizationLinks">
           <p
@@ -121,6 +122,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 const localePath = useLocalePath();
 
 defineProps<{

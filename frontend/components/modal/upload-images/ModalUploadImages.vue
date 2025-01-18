@@ -1,12 +1,13 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
     <div>
       <DialogTitle>
         <p v-if="uploadLimit > 1" class="responsive-h2 font-bold">
-          {{ $t("components.modal_upload_images.upload_images") }}
+          {{ $t(i18nMap.components.modal_upload_images.upload_images) }}
         </p>
         <p v-else class="responsive-h2 font-bold">
-          {{ $t("components.modal_upload_images.upload_an_image") }}
+          {{ $t(i18nMap.components.modal_upload_images.upload_an_image) }}
         </p>
       </DialogTitle>
       <div class="mt-4">
@@ -16,34 +17,34 @@
           v-slot="{ isDropZoneActive }"
         >
           <span v-if="isDropZoneActive && uploadLimit > 1">{{
-            $t("components.modal_upload_images.drop_images")
+            $t(i18nMap.components.modal_upload_images.drop_images)
           }}</span>
           <span v-else-if="isDropZoneActive && uploadLimit == 1">{{
-            $t("components.modal_upload_images.drop_image")
+            $t(i18nMap.components.modal_upload_images.drop_image)
           }}</span>
           <span v-else-if="!isDropZoneActive && uploadLimit > 1">{{
-            $t("components.modal_upload_images.drag_images")
+            $t(i18nMap.components.modal_upload_images.drag_images)
           }}</span>
           <span v-else-if="!isDropZoneActive && uploadLimit == 1">{{
-            $t("components.modal_upload_images.drag_image")
+            $t(i18nMap.components.modal_upload_images.drag_image)
           }}</span>
         </ModalUploadImagesFileDropZone>
         <p class="py-2">
-          {{ $t("components.modal_upload_images.number_of_files") }}:
+          {{ $t(i18nMap.components.modal_upload_images.number_of_files) }}:
           {{ files.length }}
         </p>
         <p
           v-if="uploadLimit == 1 && files.length == uploadLimit"
           class="text-action-red"
         >
-          {{ $t("components.modal_upload_images.picture_limit_1") }}
+          {{ $t(i18nMap.components.modal_upload_images.picture_limit_1) }}
         </p>
         <p
           v-if="uploadLimit != 1 && files.length >= uploadLimit"
           class="text-action-red"
         >
           {{
-            $t("components.modal_upload_images.picture_limit_multiple", {
+            $t(i18nMap.components.modal_upload_images.picture_limit_multiple, {
               limit: uploadLimit,
             })
           }}
@@ -66,7 +67,7 @@
                   :src="file.url"
                   class="h-20 w-20 object-contain"
                   :alt="
-                    $t('components.modal_upload_images.upload_image') +
+                    $t(i18nMap.components.modal_upload_images.upload_image) +
                     ' ' +
                     file.name
                   "
@@ -77,7 +78,7 @@
           <BtnAction
             @click="true"
             :cta="true"
-            :label="$t('components.modal_upload_images.upload')"
+            :label="$t(i18nMap.components.modal_upload_images.upload)"
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
@@ -93,6 +94,7 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 import draggable from "vuedraggable";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const { files, handleFiles, removeFile } = useFileManager();

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="relative flex h-9 w-full items-center border border-interactive font-bold first:rounded-l-md last:rounded-r-md"

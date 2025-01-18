@@ -1,8 +1,9 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <DropdownBase
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_INFO"
-    :menuButtonLabel="$t(`components.dropdown_info.info`)"
+    :menuButtonLabel="$t(i18nMap.components.dropdown_info.info)"
     :isMenuButtonUppercase="false"
     menuButtonAriaLabel="components.dropdown_info.info_aria_label"
   >
@@ -11,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { DropdownLocation } from "~/types/location";
 import type { MenuSelector } from "~/types/menu/menu-selector";

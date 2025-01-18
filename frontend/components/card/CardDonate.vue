@@ -1,8 +1,9 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="card-style flex flex-col space-y-3 px-5 py-5">
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t("components.card_donate.donate") }}
+        {{ $t(i18nMap.components.card_donate.donate) }}
       </h3>
       <div
         class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all hover:text-distinct-text"
@@ -23,7 +24,7 @@
     </div>
     <p v-if="donationPrompt">{{ donationPrompt }}</p>
     <p v-else>
-      {{ $t("components.card_donate.template_text") }}
+      {{ $t(i18nMap.components.card_donate.template_text) }}
     </p>
     <BtnRouteExternal
       class="flex"
@@ -39,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

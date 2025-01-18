@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <component
     v-if="type == 'vueSocials'"
@@ -19,12 +20,11 @@
       :iconSize="iconSize"
     />
   </component>
-  <component
+  <div
     v-else-if="type == 'redirect'"
     @click="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
     @keypress.space="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
     @keypress.enter="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
-    :is="vueSocials[socialComponent]"
     class="focus-brand"
     tabindex="0"
     role="button"
@@ -40,10 +40,10 @@
       v-if="contentCopied"
       class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
       :iconName="IconMap.SQUARE_CHECK"
-      :text="$t('components.btn_share_icon.url_copied')"
+      :text="$t(i18nMap.components.btn_share_icon.url_copied)"
       :iconSize="iconSize"
     />
-  </component>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -59,6 +59,7 @@ import { ref, type Component } from "vue";
 import { IconMap } from "~/types/icon-map";
 import { toast } from "vue-sonner";
 import { useI18n } from "vue-i18n";
+import { i18nMap } from "~/types/i18n-map";
 
 const vueSocials: { [key: string]: Component } = {
   SEmail,
@@ -110,6 +111,8 @@ const contentCopied = ref(false);
 
 const getCurrentI18n: { [key: string]: string } = {
   signal: "components.btn_share_icon.opening_signal",
+  matrix: "components.btn_share_icon.opening_matrix",
+  instagram: "components.btn_share_icon.opening_instagram",
 };
 
 const copyToClipboardThenOpenUrl = async (

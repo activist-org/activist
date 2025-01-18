@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex w-full flex-col items-center bg-layer-0 text-primary-text">
     <PageContent
@@ -7,36 +8,36 @@
       <div>
         <!-- Header -->
         <span v-if="pageType == 'organizations'" class="responsive-h2">{{
-          $t("components.empty_state.organizations_header")
+          $t(i18nMap.components.empty_state.organizations_header)
         }}</span>
         <span v-if="pageType == 'groups'" class="responsive-h2">{{
-          $t("components.empty_state.groups_header")
+          $t(i18nMap.components.empty_state.groups_header)
         }}</span>
         <span v-if="pageType == 'events'" class="responsive-h2">{{
-          $t("components.empty_state.events_header")
+          $t(i18nMap.components.empty_state.events_header)
         }}</span>
         <span v-if="pageType == 'resources'" class="responsive-h2">{{
-          $t("components.empty_state.resources_header")
+          $t(i18nMap.components.empty_state.resources_header)
         }}</span>
         <span v-if="pageType == 'faq'" class="responsive-h2">{{
-          $t("components.empty_state.faq_header")
+          $t(i18nMap.components.empty_state.faq_header)
         }}</span>
         <span v-if="pageType == 'team'" class="responsive-h2">{{
-          $t("components.empty_state.team_header")
+          $t(i18nMap.components.empty_state.team_header)
         }}</span>
         <span v-if="pageType == 'affiliates'" class="responsive-h2">{{
-          $t("components.empty_state.affiliates_header")
+          $t(i18nMap.components.empty_state.affiliates_header)
         }}</span>
         <span v-if="pageType == 'tasks'" class="responsive-h2">{{
-          $t("components.empty_state.tasks_header")
+          $t(i18nMap.components.empty_state.tasks_header)
         }}</span>
         <span v-if="pageType == 'discussions'" class="responsive-h2">{{
-          $t("components.empty_state.discussions_header")
+          $t(i18nMap.components.empty_state.discussions_header)
         }}</span>
         <!-- Message -->
         <div v-if="!permission" class="flex flex-col space-y-6 py-6">
           <span class="responsive-h4">{{
-            $t("components.empty_state.message_no_permission")
+            $t(i18nMap.components.empty_state.message_no_permission)
           }}</span>
           <PageCommunityFooter
             header="components.empty_state.cta_header_no_permission"
@@ -51,7 +52,7 @@
         </div>
         <div v-else class="flex flex-col space-y-6 py-6">
           <span class="responsive-h4">{{
-            $t("components.empty_state.message_with_permission")
+            $t(i18nMap.components.empty_state.message_with_permission)
           }}</span>
           <div
             class="mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 pb-6 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[70%] md:gap-x-6 lg:max-w-[60%] xl:max-w-[50%] xl:gap-x-8 2xl:max-w-[80%]"
@@ -111,6 +112,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 defineProps<{
   pageType:
     | "organizations"

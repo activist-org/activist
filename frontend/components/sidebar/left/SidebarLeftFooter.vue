@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <footer
     class="px-1 pb-1 transition-all duration-500"

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="relative">
     <swiper-container
@@ -20,7 +21,7 @@
             'h-[17.5rem]': !props.fullscreen,
           }"
           :src="img"
-          :alt="$t('components.media_image_carousel.img_alt_text')"
+          :alt="$t(i18nMap.components.media_image_carousel.img_alt_text)"
         />
       </swiper-slide>
     </swiper-container>
@@ -36,6 +37,7 @@
 
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps({

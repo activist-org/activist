@@ -1,10 +1,11 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form @submit.prevent="signUp" @enter="signUp" class="space-y-4">
       <div class="col">
         <FormTextInput
           @update:model-value="userNameValue = $event"
-          :placeholder="$t('pages.auth.sign_up.index.enter_user_name')"
+          :placeholder="$t(i18nMap.pages.auth.sign_up.index.enter_user_name)"
           :model-value="userNameValue"
         />
       </div>
@@ -20,7 +21,7 @@
             isFocused = true;
             isBlurred = false;
           "
-          :placeholder="$t('_global.enter_password')"
+          :placeholder="$t(i18nMap._global.enter_password)"
           :is-icon-visible="true"
           input-type="password"
           :model-value="passwordValue"
@@ -40,7 +41,7 @@
       <div>
         <FormTextInput
           @update:model-value="confirmPasswordValue = $event"
-          :placeholder="$t('_global.repeat_password')"
+          :placeholder="$t(i18nMap._global.repeat_password)"
           :is-icon-visible="true"
           input-type="password"
           :model-value="confirmPasswordValue"
@@ -60,12 +61,12 @@
             value="yes"
           />
           <p class="flex flex-wrap pl-2">
-            {{ $t("pages._global.terms_of_service_pt_1") }}
+            {{ $t(i18nMap.pages._global.terms_of_service_pt_1) }}
             <NuxtLink
               :to="localePath('/legal/privacy-policy')"
               target="_blank"
               class="link-text ml-1 sm:block"
-              >{{ $t("pages._global.terms_of_service_pt_2") }}
+              >{{ $t(i18nMap.pages._global.terms_of_service_pt_2) }}
             </NuxtLink>
           </p>
         </div>
@@ -78,11 +79,11 @@
         />
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
-        <h6>{{ $t("pages.auth.sign_up.index.have_account") }}</h6>
+        <h6>{{ $t(i18nMap.pages.auth.sign_up.index.have_account) }}</h6>
         <NuxtLink
           :to="localePath('/auth/sign-in')"
           class="link-text ml-2 font-extrabold"
-          >{{ $t("_global.sign_in") }}</NuxtLink
+          >{{ $t(i18nMap._global.sign_in) }}</NuxtLink
         >
       </div>
     </form>
@@ -90,6 +91,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const localePath = useLocalePath();

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <header
     class="z-40 w-full bg-layer-1 pl-1 transition-all duration-200"
@@ -45,7 +46,9 @@
             'pb-1 pl-0.5': sidebar.collapsedSwitch == true,
           }"
           :aria-label="
-            $t('components.sidebar_left_header.sidebar_collapse_aria_label')
+            $t(
+              i18nMap.components.sidebar_left_header.sidebar_collapse_aria_label
+            )
           "
         >
           <SidebarLeftToggle chevronDirection="right" iconSize="1.4em" />
@@ -56,6 +59,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 defineProps<{
   atTopShadow: boolean;
 }>();

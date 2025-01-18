@@ -1,8 +1,9 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <RadioGroup
     v-model="value"
     class="flex h-11 w-full items-center divide-x-2 divide-primary-text"
-    :aria-label="$t('components.form_view_selector.title_aria_label')"
+    :aria-label="$t(i18nMap.components.form_view_selector.title_aria_label)"
   >
     <RadioGroupOption
       v-for="option in viewOptions"
@@ -29,6 +30,7 @@
 
 <script setup lang="ts">
 import { RadioGroup, RadioGroupOption } from "@headlessui/vue";
+import { i18nMap } from "~/types/i18n-map";
 import { ViewType } from "~/types/view-types";
 
 const props = defineProps({

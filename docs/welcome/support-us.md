@@ -28,7 +28,7 @@ We'd be happy to acknowledge your efforts on our [supporters page](https://activ
 Help us amplify our message and reach a broader audience. If you have an audience — be it through social media, journalism, or other platforms — you can play a crucial role in spreading the word about our platform.
 
 * **Connect with Us on Social Media**: Share our content and updates to increase our visibility.
-* **Collaborate on Campaigns**: Partner with us to create impactful campaigns that resonate with your audience. We'd love to hear your ideas on how we can work together.&#x20;
+* **Collaborate on Campaigns**: Partner with us to create impactful campaigns that resonate with your audience. We'd love to hear your ideas on how we can work together.
 
 [Connect with us](connect-with-us.md) to start the conversation.
 
@@ -38,23 +38,19 @@ Help us amplify our message and reach a broader audience. If you have an audienc
 
 Our goal as a community is to keep the platform free and inclusive for all of our network of organizations and users. We believe that contributing is a privilege not everyone can afford — many people must devote most of their time to earning a living and can't volunteer their work for free. By donating, you enable us to compensate these contributors fairly and cover our recurring costs like infrastructure and tools.
 
-*   **Support as you wish:**
+* **Support as you wish:**
+  *   Donate to our fiscal host **Änderwerk** and receive a donation receipt (in Germany)\\
 
-    * Donate to our fiscal host **Änderwerk** and receive a donation receipt (in Germany)\
-
-
-      Account holder: Änderwerk gGmbH \
-      IBAN: DE46 4306 0967 1289 8604 00 \
+      Account holder: Änderwerk gGmbH\
+      IBAN: DE46 4306 0967 1289 8604 00\
       BIC: GENODEM1GLS GLS Gemeinschaftsbank eG\
       Reference: activist.org
-
-
-    * Join our [membership program](https://patreon.com/user?u=92165050\&utm\_medium=unknown\&utm\_source=join\_link\&utm\_campaign=creatorshare\_creator\&utm\_content=copyLink) on **Patreon**
-    * Soon available:
-      * Support us via **OpenColective**
-      * Become a **Github sponsor**
-      * Send us crypto to our **Wallet** if you want to stay anonymous
-      * Fund a specific issue or feature via **Polar**
+  * Join our [membership program](https://patreon.com/user?u=92165050\&utm_medium=unknown\&utm_source=join_link\&utm_campaign=creatorshare_creator\&utm_content=copyLink) on **Patreon**
+  * Soon available:
+    * Support us via **OpenCollective**
+    * Become a **Github sponsor**
+    * Send us crypto to our **Wallet** if you want to stay anonymous
+    * Fund a specific issue or feature via **Polar**
 
 ***
 

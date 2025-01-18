@@ -1,7 +1,8 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <button
     class="focus-brand h-min cursor-pointer p-4 md:float-right md:w-1/3 2xl:col-span-1 2xl:w-full"
-    :aria-label="$t('components.modal_image_btn.open_modal_aria_label')"
+    :aria-label="$t(i18nMap.components.modal_image_btn.open_modal_aria_label)"
   >
     <img
       v-if="$colorMode.value == 'light'"
@@ -17,6 +18,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 defineProps<{
   imgUrl: string;
   imageAltText: string;

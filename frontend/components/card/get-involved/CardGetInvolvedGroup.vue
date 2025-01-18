@@ -1,8 +1,9 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardGetInvolved>
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t("components._global.get_involved") }}
+        {{ $t(i18nMap.components._global.get_involved) }}
       </h3>
       <IconEdit @click="openModal()" @keydown.enter="openModal()" />
       <ModalEditTextGroup
@@ -11,9 +12,9 @@
         :group="group"
         :name="group.name"
         :sectionsToEdit="[
-          $t('_global.about'),
-          $t('components._global.get_involved'),
-          $t('components._global.join_group_link'),
+          $t(i18nMap._global.about),
+          $t(i18nMap.components._global.get_involved),
+          $t(i18nMap.components._global.join_group_link),
         ]"
         :isOpen="modalIsOpen"
       />
@@ -33,7 +34,7 @@
     <div class="space-y-3 pt-3">
       <p>
         {{
-          $t("components._global.join_group_subtext", {
+          $t(i18nMap.components._global.join_group_subtext, {
             org_name: group.name,
           })
         }}.
@@ -44,6 +45,7 @@
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

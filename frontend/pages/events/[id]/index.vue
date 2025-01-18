@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     v-if="windowWidth < BreakpointMap.SMALL"
@@ -11,7 +12,7 @@
         :eventType="event.type"
         :imgUrl="event.iconUrl ? event.iconUrl : ''"
         :alt="
-          $t('_global.entity_logo', {
+          $t(i18nMap._global.entity_logo, {
             entity_name: event?.name,
           })
         "
@@ -46,7 +47,7 @@
           <p
             class="width-5/6 hover:menu-selection select-none whitespace-nowrap text-lg font-bold"
           >
-            <span class="sr-only">{{ $t("_global.navigate_to") }}</span>
+            <span class="sr-only">{{ $t(i18nMap._global.navigate_to) }}</span>
             {{ $t(button.label) }}
           </p>
         </div>
@@ -68,6 +69,7 @@
 <script setup lang="ts">
 import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 

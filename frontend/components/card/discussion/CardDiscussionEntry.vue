@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="card-style flex w-full flex-col justify-center space-y-2 px-3 py-4 md:grow md:justify-start md:py-3 lg:px-5"
@@ -9,7 +10,7 @@
         <h1 class="responsive-h5 pl-2 font-bold">
           {{ discussionEntry.author }}
         </h1>
-        <p>{{ $t("components.card_discussion_entry.on") }}</p>
+        <p>{{ $t(i18nMap.components.card_discussion_entry.on) }}</p>
         <p>
           {{ discussionEntry.date.toLocaleDateString() }}
         </p>
@@ -30,6 +31,7 @@
 
 <script setup lang="ts">
 import type { DiscussionEntry } from "~/types/content/discussion";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

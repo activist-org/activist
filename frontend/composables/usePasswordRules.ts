@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { PasswordRules } from "~/types/password-rules";
 
 export default function usePasswordRules() {

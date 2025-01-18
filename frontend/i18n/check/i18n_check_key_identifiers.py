@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Checks if the en-US.json file has invalid keys given their usage or formatting.
 If yes, suggest new names for the keys at the lowest possible level of usage.
@@ -26,6 +27,7 @@ directories_to_skip = [
     str((frontend_directory / ".nuxt").resolve()),
     str((frontend_directory / "node_modules").resolve()),
 ]
+files_to_skip = ["i18n-map.ts"]
 file_types_to_check = [".vue", ".ts", ".js"]
 
 with open(json_file_directory / "en-US.json", encoding="utf-8") as f:
@@ -38,6 +40,7 @@ for root, dirs, files in os.walk(frontend_directory):
         for file in files
         if all(root[: len(d)] != d for d in directories_to_skip)
         and any(file[-len(t) :] == t for t in file_types_to_check)
+        and file not in files_to_skip
     )
 
 file_to_check_contents = {}

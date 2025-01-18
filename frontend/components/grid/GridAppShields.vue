@@ -1,13 +1,14 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="grid w-fit grid-flow-row gap-3 sm:grid-flow-col md:gap-5">
     <ShieldApp class="fill-primary-text" href="/">
       <Icon :name="IconMap.APPLE" size="2em" />
       <div class="ml-4 place-self-center pb-1">
         <div class="ml-0.5 whitespace-nowrap text-xs font-semibold leading-4">
-          {{ $t("components.grid_app_shields.download_on_the") }}
+          {{ $t(i18nMap.components.grid_app_shields.download_on_the) }}
         </div>
         <div class="whitespace-nowrap text-2xl font-semibold leading-4">
-          {{ $t("components.grid_app_shields.app_store") }}
+          {{ $t(i18nMap.components.grid_app_shields.app_store) }}
         </div>
       </div>
     </ShieldApp>
@@ -17,10 +18,10 @@
         <div
           class="ml-0.5 whitespace-nowrap text-xs font-semibold uppercase leading-4"
         >
-          {{ $t("components.grid_app_shields.get_it_on") }}
+          {{ $t(i18nMap.components.grid_app_shields.get_it_on) }}
         </div>
         <div class="whitespace-nowrap text-2xl font-semibold leading-4">
-          {{ $t("components.grid_app_shields.google_play") }}
+          {{ $t(i18nMap.components.grid_app_shields.google_play) }}
         </div>
       </div>
     </ShieldApp>
@@ -30,10 +31,10 @@
         <div
           class="ml-0.5 whitespace-nowrap text-xs font-semibold uppercase leading-4"
         >
-          {{ $t("components.grid_app_shields.get_it_on") }}
+          {{ $t(i18nMap.components.grid_app_shields.get_it_on) }}
         </div>
         <div class="whitespace-nowrap text-2xl font-semibold leading-4">
-          {{ $t("components.grid_app_shields.f_droid") }}
+          {{ $t(i18nMap.components.grid_app_shields.f_droid) }}
         </div>
       </div>
     </ShieldApp>
@@ -41,5 +42,6 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 </script>
