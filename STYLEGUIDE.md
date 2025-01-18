@@ -239,23 +239,28 @@ activist is a global platform and must function in countless different regions a
 >
 > - This is the source from which all the other languages are translated from
 > - Edits to the other files should be made on activist's [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist)
-> - Do not put the JSON dictionaries into different levels!
+> - Do not convert the JSON dictionaries into nested sub-objects!
 > - The purpose of the flat dictionaries is so that we can search for the key in the codebase and easily find its uses and where it's defined
 > - Do not include periods in aria-labels (screen reader user will configure their own preferences for a hard stop)
 
 Localization keys should be defined based on the file in which they're used within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 
+- Please use the `i18nMap` object for all texts within the frontend
+  - This object returns the sequence of object methods as a string and allows ESLint to be used to check key accuracy
+  - Ex: Using the `i18nMap` object:
+    - ✅ `i18nMap._global.about`
+    - ❌ `"_global.about"`
 - Separate directories and references by `.` and PascalCase/camelCase file name components by `_` in keys
-  - Ex: `"components.search_bar.CONTENT_REFERENCE"` for the `SearchBar` component
+  - Ex: `i18nMap.components.search_bar.CONTENT_REFERENCE` for the `SearchBar` component
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
   - Ex: If you're defining a key within `CardAbout`:
-    - ✅ `"components.card_about.CONTENT_REFERENCE"`
-    - ❌ `"components.card.card_about.CONTENT_REFERENCE"`
+    - ✅ `i18nMap.components.card_about.CONTENT_REFERENCE`
+    - ❌ `i18nMap.components.card.card_about.CONTENT_REFERENCE`
 - Define keys based on the lowest level file in which they're used
 - Use `_global` to indicate that a key is used in multiple places in a given directory
   - Ex: You're creating a key that's used by multiple cards:
-    - ✅ `"components.card._global.CONTENT_REFERENCE"`
-    - ❌ `"components.card.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE"`
+    - ✅ `i18nMap.components.card._global.CONTENT_REFERENCE`
+    - ❌ `i18nMap.components.card.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE`
 - Please end all aria-label keys with `_alt_text` so the localization team knows that they're for screen readers
 - If you need a capitalized and lower case version of a word, signify the lower case version with `_lower` at the end of the key
 - For pages with long texts please follow the below naming criteria:
@@ -274,7 +279,7 @@ Localization keys should be defined based on the file in which they're used with
   - This makes sure that content writers and the i18n team are only working with language that's actively in use
 
 > [!NOTE]
-> The activist community also maintains the [i18n-check project](https://github.com/activist-org/i18n-check-action?tab=readme-ov-file#contentions) that enforces all of the above in pull requests. Do your best and we'll help you out during the PR process! You can also join us in the [localization room on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) if you have questions :)
+> The activist community also maintains the [i18n-check project](https://github.com/activist-org/i18n-check) that enforces all of the above in pull requests. Do your best and we'll help you out during the PR process! You can also join us in the [localization room on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) if you have questions :)
 
 <a id="images-icons"></a>
 
