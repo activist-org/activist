@@ -9,7 +9,7 @@
         label="components._global.star"
         :leftIcon="IconMap.STAR"
         fontSize="lg"
-        :ariaLabel="$t('components._global.star')"
+        :ariaLabel="$t(i18nMap.components._global.star)"
       /> -->
       <BtnAction
         @click="openModal()"
@@ -20,7 +20,7 @@
         label="_global.share"
         :rightIcon="IconMap.SHARE"
         fontSize="lg"
-        :ariaLabel="$t('components.btn-action.share')"
+        :ariaLabel="$t(i18nMap._global.share)"
       />
       <ModalSharePage
         @closeModal="handleCloseModal"
@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import type { Resource } from "~/types/content/resource";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

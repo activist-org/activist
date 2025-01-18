@@ -37,7 +37,7 @@
               v-if="filteredTopics.length === 0 && query !== ''"
               class="relative cursor-default select-none px-4 py-2 text-distinct-text"
             >
-              {{ $t("components.combobox_topics.no_matching_topics") }}
+              {{ $t(i18nMap.components.combobox_topics.no_matching_topics) }}
             </div>
             <ComboboxOption
               v-for="topic in filteredTopics"
@@ -86,6 +86,7 @@ import {
   ComboboxOptions,
   TransitionRoot,
 } from "@headlessui/vue";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import { GLOBAL_TOPICS } from "~/types/topics";
 

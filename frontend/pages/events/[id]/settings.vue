@@ -4,13 +4,15 @@
     <Head>
       <Title
         >{{ event.name }}&nbsp;{{
-          $t("pages._global.settings.settings_lower")
+          $t(i18nMap.pages._global.settings.settings_lower)
         }}</Title
       >
     </Head>
     <HeaderAppPage
       :event="event"
-      :header="event.name + ' ' + $t('pages._global.settings.settings_lower')"
+      :header="
+        event.name + ' ' + $t(i18nMap.pages._global.settings.settings_lower)
+      "
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -25,10 +27,10 @@
     </HeaderAppPage>
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
-        :description="$t('pages.events.settings.danger_zone_event_description')"
-        :ctaBtnText="$t('pages.events.settings.danger_zone_event_cta_btn_text')"
+        :description="$t(i18nMap.pages.events.settings.danger_zone_event_description)"
+        :ctaBtnText="$t(i18nMap.pages.events.settings.danger_zone_event_cta_btn_text)"
         :ctaBtnAriaLabel="
-          $t('pages.events.settings.danger_zone_event_cta_btn_aria_label')
+          $t(i18nMap.pages.events.settings.danger_zone_event_cta_btn_aria_label)
         "
       />
     </div> -->
@@ -36,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
 

@@ -14,7 +14,7 @@
       <p
         class="responsive-h4 pt-2 text-accepted-green dark:text-accepted-green"
       >
-        {{ $t("components.modal_organization_status.status_accepted") }}
+        {{ $t(i18nMap.components.modal_organization_status.status_accepted) }}
       </p>
       <div class="space-y-6 py-6">
         <CardOrgApplicationVote
@@ -36,6 +36,7 @@
 <script setup lang="ts">
 import type { DiscussionEntry } from "~/types/content/discussion";
 import type { Organization } from "~/types/communities/organization";
+import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
   organization: Organization;

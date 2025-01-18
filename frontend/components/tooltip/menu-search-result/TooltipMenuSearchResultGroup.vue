@@ -9,7 +9,7 @@
         label="_global.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        :ariaLabel="$t('_global.support_organization_aria_label')"
+        :ariaLabel="$t(i18nMap._global.support_organization_aria_label)"
       /> -->
       <!-- <BtnRouteInternal
         class="flex max-h-[40px] w-full"
@@ -19,7 +19,7 @@
         linkTo="/"
         fontSize="lg"
         :ariaLabel="
-          $t('_global.join_organization_aria_label')
+          $t(i18nMap._global.join_organization_aria_label)
         "
       /> -->
       <BtnAction
@@ -32,7 +32,7 @@
         label="_global.share"
         :rightIcon="IconMap.SHARE"
         fontSize="lg"
-        :ariaLabel="$t('_global.share_organization_aria_label')"
+        :ariaLabel="$t(i18nMap._global.share_organization_aria_label)"
       />
       <ModalSharePage
         v-if="group"
@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

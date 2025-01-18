@@ -17,7 +17,7 @@
             :src="organization.iconUrl"
             class="h-full w-12"
             :alt="
-              $t('_global.entity_logo', {
+              $t(i18nMap._global.entity_logo, {
                 entity_name: organization.name,
               })
             "
@@ -54,6 +54,7 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/communities/organization";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 /**

@@ -15,7 +15,7 @@
             @keydown.enter="handleEnter"
             @change="searchTerm = $event.target.value"
             class="h-9 w-full bg-transparent pl-1 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0"
-            :placeholder="$t('_global.search')"
+            :placeholder="$t(i18nMap._global.search)"
           />
         </div>
         <div v-if="searchTerm.length > 0 && filteredCommands.length > 0">
@@ -52,7 +52,7 @@
                   class="link-text invisible absolute right-3 w-16"
                   :class="{ visible: active }"
                 >
-                  {{ $t("components.modal_command_palette.jump_to") }}
+                  {{ $t(i18nMap.components.modal_command_palette.jump_to) }}
                 </span>
               </div>
             </li>
@@ -76,6 +76,7 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/vue";
+import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
   paletteData: Command[];

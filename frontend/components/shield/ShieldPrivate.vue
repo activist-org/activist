@@ -18,12 +18,13 @@
       :size="iconSize"
     />
     <span class="mx-auto ml-2 hidden md:block">{{
-      $t("components.shield_private.private")
+      $t(i18nMap.components.shield_private.private)
     }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 export interface Props {

@@ -5,12 +5,12 @@
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
         <p class="responsive-h2 font-bold">
-          {{ $t("components.modal_share_page.header") }}
+          {{ $t(i18nMap.components.modal_share_page.header) }}
         </p>
       </DialogTitle>
       <div class="pt-6">
         <p class="responsive-h4 font-bold">
-          {{ $t("components.modal_share_page.online") }}
+          {{ $t(i18nMap.components.modal_share_page.online) }}
         </p>
         <div
           class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
@@ -19,7 +19,7 @@
             type="vueSocials"
             social-component="STelegram"
             :iconName="IconMap.TELEGRAM"
-            :text="$t('components.modal_share_page.telegram')"
+            :text="$t(i18nMap.components.modal_share_page.telegram)"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
@@ -30,7 +30,7 @@
             type="vueSocials"
             social-component="SMastodon"
             :iconName="IconMap.MASTODON"
-            :text="$t('components.modal_share_page.mastodon')"
+            :text="$t(i18nMap.components.modal_share_page.mastodon)"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
@@ -60,7 +60,7 @@
             type="vueSocials"
             social-component="SFacebook"
             :iconName="IconMap.FACEBOOK"
-            :text="$t('components.modal_share_page.facebook')"
+            :text="$t(i18nMap.components.modal_share_page.facebook)"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
@@ -70,7 +70,7 @@
           <BtnShareIcon
             type="redirect"
             :iconName="IconMap.SIGNAL"
-            :text="$t('components.modal_share_page.signal')"
+            :text="$t(i18nMap.components.modal_share_page.signal)"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
@@ -84,7 +84,7 @@
             type="vueSocials"
             social-component="SFacebookMessenger"
             :iconName="IconMap.MESSENGER"
-            :text="$t('components.modal_share_page.messenger')"
+            :text="$t(i18nMap.components.modal_share_page.messenger)"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
@@ -94,7 +94,7 @@
           <BtnShareIcon
             type="redirect"
             :iconName="IconMap.INSTAGRAM"
-            :text="$t('components._global.instagram')"
+            :text="$t(i18nMap.components._global.instagram)"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
@@ -107,7 +107,7 @@
           <BtnShareIcon
             type="redirect"
             :iconName="IconMap.MATRIX"
-            :text="$t('components._global.matrix')"
+            :text="$t(i18nMap.components._global.matrix)"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
@@ -120,7 +120,7 @@
           <BtnShareIcon
             type="redirect"
             :iconName="IconMap.LINK"
-            :text="$t('components.modal_share_page.copy_link')"
+            :text="$t(i18nMap.components.modal_share_page.copy_link)"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
@@ -133,7 +133,7 @@
       </div>
       <div class="pt-6">
         <p class="responsive-h4 font-bold">
-          {{ $t("components.modal_share_page.offline") }}
+          {{ $t(i18nMap.components.modal_share_page.offline) }}
         </p>
         <div
           class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
@@ -168,6 +168,7 @@ import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 import { DialogTitle } from "@headlessui/vue";
 import { Toaster } from "vue-sonner";
+import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
   cta: BtnAction["cta"];

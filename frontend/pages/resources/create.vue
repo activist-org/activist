@@ -11,10 +11,10 @@
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages._global.create.information") }}
+          {{ $t(i18nMap.pages._global.create.information) }}
         </h1>
         <p class="mt-4">
-          {{ $t("pages.resources.create.subtext") }}
+          {{ $t(i18nMap.pages.resources.create.subtext) }}
         </p>
       </div>
       <form
@@ -26,7 +26,7 @@
         >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("pages.resources.create.title") }}*</label
+              >{{ $t(i18nMap.pages.resources.create.title) }}*</label
             >
             <input
               v-model="formData.name"
@@ -35,13 +35,13 @@
               type="text"
               name="name"
               :placeholder="
-                $t('pages.resources.create.resource_name_placeholder')
+                $t(i18nMap.pages.resources.create.resource_name_placeholder)
               "
             />
           </div>
           <div class="w-1/2">
             <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.create.link") }}*</label
+              >{{ $t(i18nMap.pages._global.create.link) }}*</label
             >
             <input
               v-model="formData.link"
@@ -49,38 +49,42 @@
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="location"
-              :placeholder="$t('pages.resources.create.link_placeholder')"
+              :placeholder="$t(i18nMap.pages.resources.create.link_placeholder)"
             />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages.resources.create.description") }}*</label
+            >{{ $t(i18nMap.pages.resources.create.description) }}*</label
           >
           <textarea
             v-model="formData.description"
             id="description"
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
-            :placeholder="$t('pages.resources.create.description_placeholder')"
+            :placeholder="
+              $t(i18nMap.pages.resources.create.description_placeholder)
+            "
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 flex w-full">
           <div class="flex-1 px-5 py-6">
             <label for="location" class="responsive-h3 block font-medium">
-              {{ $t("pages._global.create.location") }}
+              {{ $t(i18nMap.pages._global.create.location) }}
             </label>
             <textarea
               v-model="formData.location"
               id="location"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="location"
-              :placeholder="$t('pages.resources.create.location_placeholder')"
+              :placeholder="
+                $t(i18nMap.pages.resources.create.location_placeholder)
+              "
             ></textarea>
           </div>
           <div class="flex-1 px-5 py-6">
             <label for="location" class="responsive-h3 block font-medium">
-              {{ $t("_global.organization") }}*
+              {{ $t(i18nMap._global.organization) }}*
             </label>
             <textarea
               v-model="formData.organization"
@@ -88,7 +92,7 @@
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="organization"
               :placeholder="
-                $t('pages.resources.create.organization_placeholder')
+                $t(i18nMap.pages.resources.create.organization_placeholder)
               "
             ></textarea>
           </div>
@@ -112,6 +116,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 const formData = ref({
   name: "",
   location: "",

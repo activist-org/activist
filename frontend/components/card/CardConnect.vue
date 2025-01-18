@@ -3,7 +3,7 @@
   <div class="card-style px-5 py-5">
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t("components._global.connect") }}
+        {{ $t(i18nMap.components._global.connect) }}
       </h3>
       <div
         class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all hover:text-distinct-text"
@@ -83,22 +83,29 @@
               <PopupNewField
                 @on-cta-clicked="emit('on-new-account')"
                 @on-close-clicked="onClose(close)"
-                :title="$t('components.card_connect.app_account_popup_title')"
+                :title="
+                  $t(i18nMap.components.card_connect.app_account_popup_title)
+                "
                 :fieldNamePrompt="
                   $t(
-                    'components.card_connect.app_account_popup_field_name_prompt'
+                    i18nMap.components.card_connect
+                      .app_account_popup_field_name_prompt
                   )
                 "
                 :fieldLabelPrompt="
                   $t(
-                    'components.card_connect.app_account_popup_field_label_prompt'
+                    i18nMap.components.card_connect
+                      .app_account_popup_field_label_prompt
                   )
                 "
                 :ctaBtnLabel="
-                  $t('components.card_connect.app_account_popup_cta_btn_label')
+                  $t(
+                    i18nMap.components.card_connect
+                      .app_account_popup_cta_btn_label
+                  )
                 "
                 :ctaBtnAriaLabel="
-                  $t('components.card_connect.new_account_aria_label')
+                  $t(i18nMap.components.card_connect.new_account_aria_label)
                 "
               />
             </PopoverPanel>
@@ -114,6 +121,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
