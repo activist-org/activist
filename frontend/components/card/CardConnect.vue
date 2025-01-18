@@ -87,7 +87,9 @@
                   (payload: AddPayload) => handlePopupAddClick(payload, close)
                 "
                 @on-close-clicked="close"
-                :title="$t(i18nMap.components.card_connect.app_account_popup_title)"
+                :title="
+                  $t(i18nMap.components.card_connect.app_account_popup_title)
+                "
                 :fieldNamePrompt="
                   $t(
                     i18nMap.components.card_connect
@@ -123,9 +125,9 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
-import type { AddPayload } from "~/types/social-links-payload";
 import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
+import type { AddPayload } from "~/types/social-links-payload";
 
 const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";
