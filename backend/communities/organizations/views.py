@@ -6,8 +6,15 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from communities.models import StatusType
-from communities.organizations.models import Organization, OrganizationApplication
-from communities.organizations.serializers import OrganizationSerializer
+from communities.organizations.models import (
+    Organization,
+    OrganizationApplication,
+    OrganizationText,
+)
+from communities.organizations.serializers import (
+    OrganizationSerializer,
+    OrganizationTextSerializer,
+)
 from core.paginator import CustomPagination
 
 # MARK: Main Tables
@@ -128,3 +135,8 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(
             {"message": "Organization deleted successfully."}, status.HTTP_200_OK
         )
+
+
+class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
+    queryset = OrganizationText.objects.all()
+    serializer_class = OrganizationTextSerializer

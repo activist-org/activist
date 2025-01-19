@@ -2,7 +2,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from events import views
+from events.views import EventTextViewSet, EventViewSet
 
 app_name = "events"
 
@@ -10,7 +10,8 @@ router = DefaultRouter()
 
 # MARK: Main Tables
 
-router.register(prefix=r"events", viewset=views.EventViewSet)
+router.register(prefix=r"events", viewset=EventViewSet, basename="events")
+router.register(prefix=r"event_texts", viewset=EventTextViewSet, basename="event-text")
 
 urlpatterns = [
     path("", include(router.urls)),
