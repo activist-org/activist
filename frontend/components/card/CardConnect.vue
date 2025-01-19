@@ -196,19 +196,37 @@ const socialLinksRef = computed<
 
 const handlePopupAddClick = async (payload: AddPayload, close: () => void) => {
   // Put the social links payload in the database.
-  // TODO: Needs more robust handling (ie try/catch + error trapping/handling)
-  const response = await organizationStore.addSocialLinks(
+  const response = await organizationStore.createSocialMediaLink(
     organization,
     payload
   );
-  if (response) {
-    console.log("org store addSocialLinks response: " + response);
+
+  // If the response.status is true, then the social links were added successfully.
+  // TODO: Figure out how to get better handle error conditions.
+  if (response.status == true) {
+    console.log(
+      "CardConnect createSocialMediaLink response.status: ",
+      response.status
+    );
     console.log(
       "CardConnect addSocialLinks payload: " + JSON.stringify(payload)
     );
-  }
 
-  close();
+    // Close PopupNewField.
+    close();
+  } else {
+    alert(
+      `${JSON.stringify(response.data).replace(
+        /^"|"$/g,
+        ""
+      )}. \n\nUnable to add social media link info ${JSON.stringify(
+        payload.label
+      )},
+      ${JSON.stringify(
+        payload.link
+      )}. \n\nYou might be able to find more information in the browser's dev tools console.`
+    );
+  }
 };
 
 const toggleEditMode = () => {

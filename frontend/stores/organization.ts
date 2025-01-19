@@ -228,7 +228,7 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Add Social Links
 
-    async addSocialLinks(org: Organization, payload: AddPayload) {
+    async createSocialMediaLink(org: Organization, payload: AddPayload) {
       // TODO: PUT/POST payload, PUT/POST org and social link id's in bridge table
       //         content/social_links
       // TODO: Other PUT's/POST's?
@@ -240,6 +240,8 @@ export const useOrganizationStore = defineStore("organization", {
 
       const responseSocialLinks = await useFetch(
         `${BASE_BACKEND_URL as string}/communities/organization_social_links/`,
+        // `${BASE_BACKEND_URL as string}/communities/organizations/social_links/`,
+        // `${BASE_BACKEND_URL as string}/communities/social_links/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -253,6 +255,11 @@ export const useOrganizationStore = defineStore("organization", {
         }
       );
 
+      console.log(
+        "createSocialMediaLink responseSocialLinks.data:",
+        responseSocialLinks.data
+      );
+
       const responseSocialLinksData = responseSocialLinks.data
         .value as unknown as Organization;
 
@@ -260,10 +267,11 @@ export const useOrganizationStore = defineStore("organization", {
         this.loading = false;
 
         // return responseSocialLinksData.id;
-        return responseSocialLinksData;
+        // return responseSocialLinksData;
+        return { status: true, data: "Added social media link data." };
       }
 
-      return false;
+      return { status: false, data: "Unable to add social media link data." };
     },
 
     // MARK: Delete

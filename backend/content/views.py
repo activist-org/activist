@@ -1,16 +1,20 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
+
+from asyncio.log import logger
+
 from django.db.models import Q
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from content.models import Discussion, DiscussionEntry, Resource
+from content.models import Discussion, DiscussionEntry, Resource, SocialLink
 from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
     ResourceSerializer,
+    SocialLinkSerializer,
 )
 from core.paginator import CustomPagination
 
@@ -205,6 +209,27 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         self.perform_destroy(item)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SocialLinkViewSet(viewsets.ModelViewSet):
+    #     from communities.organizations.models import Organization
+    #
+    queryset = SocialLink.objects.all()
+    serializer_class = SocialLinkSerializer
+
+    def create(self, request, *args, **kwargs):
+        logger.warning("POST request received")
+        logger.warning(f"Request.body: {request.body.decode('utf8')}")
+
+        # return super().create(request, *args, **kwargs)
+        return Response(status=status.HTTP_201_CREATED)
+
+    # def create_social_link(self, request, pk=None):
+    # org_id = request.data.get('organization_id')
+    # org = self.Organization.objects.get(id=org_id)
+    # social_link = self.get_object()
+    # org.social_links.add(social_link)
+    # return Response(status=status.HTTP_201_CREATED)
 
 
 # MARK: Bridge Tables

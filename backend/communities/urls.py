@@ -3,8 +3,14 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from communities.groups.views import GroupTextViewSet, GroupViewSet
-from communities.organizations.views import OrganizationTextViewSet, OrganizationViewSet
+from communities.organizations.views import (
+    OrganizationSocialLinkViewSet,
+    OrganizationTextViewSet,
+    OrganizationViewSet,
+)
 from communities.views import StatusViewSet
+
+# from content import views
 
 app_name = "communities"
 
@@ -27,6 +33,13 @@ router.register(
     basename="organization-text",
 )
 router.register(prefix=r"statuses", viewset=StatusViewSet)
+
+# router.register(prefix=r"social_links", viewset=views.SocialLinkViewSet)
+router.register(
+    prefix=r"organization_social_links",
+    viewset=OrganizationSocialLinkViewSet,
+    basename="organization-social-links",
+)
 
 urlpatterns = [
     path("", include(router.urls)),
