@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import random
 from argparse import ArgumentParser
-from typing import TypedDict, Unpack
+from typing import List, TypedDict, Unpack
 
 from django.core.management.base import BaseCommand
 
@@ -79,7 +79,7 @@ class Command(BaseCommand):
                     )
 
                     org_texts = OrganizationTextFactory(iso="en", primary=True)
-                    org_social_links = []
+                    org_social_links: List[OrganizationSocialLinkFactory] = []
                     org_social_links.extend(
                         OrganizationSocialLinkFactory(label=f"social link {i}", order=i)
                         for i in range(3)
@@ -105,7 +105,7 @@ class Command(BaseCommand):
                         )
 
                         event_texts = EventTextFactory(iso="en", primary=True)
-                        event_social_links = []
+                        event_social_links: List[EventSocialLinkFactory] = []
                         event_social_links.extend(
                             EventSocialLinkFactory(label=f"social link {i}", order=i)
                             for i in range(3)
@@ -123,7 +123,7 @@ class Command(BaseCommand):
                         )
 
                         group_texts = GroupTextFactory(iso="en", primary=True)
-                        group_social_links = []
+                        group_social_links: List[GroupSocialLinkFactory] = []
                         group_social_links.extend(
                             GroupSocialLinkFactory(label=f"social link {i}", order=i)
                             for i in range(3)
