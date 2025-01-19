@@ -8,6 +8,7 @@ from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventSocialLink,
     EventText,
     Format,
     Role,
@@ -98,6 +99,21 @@ class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
         model = EventAttendeeStatus
 
     status_name = factory.Faker("word")
+
+
+class EventSocialLinkFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventSocialLink
+
+    link = "https://www.activist.org"
+    label = "social link"
+    order = random.randint(0, 10)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 class EventTextFactory(factory.django.DjangoModelFactory):

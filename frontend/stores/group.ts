@@ -36,7 +36,7 @@ export const useGroupStore = defineStore("group", {
       location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 
       getInvolvedUrl: "",
-      socialLinks: [""],
+      socialLinks: [],
       creationDate: "",
 
       faqEntries: [""],

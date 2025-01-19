@@ -11,6 +11,7 @@ from communities.groups.models import (
     Group,
     GroupImage,
     GroupMember,
+    GroupSocialLink,
     GroupText,
 )
 from communities.organizations.models import Organization
@@ -18,6 +19,12 @@ from content.serializers import LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
 # MARK: Main Tables
+
+
+class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
+    class Meta:
+        model = GroupSocialLink
+        fields = "__all__"
 
 
 class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
@@ -34,6 +41,7 @@ class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
 
 class GroupSerializer(serializers.ModelSerializer[Group]):
     texts = GroupTextSerializer(many=True, read_only=True)
+    social_links = GroupSocialLinkSerializer(many=True, read_only=True)
     location = LocationSerializer(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)

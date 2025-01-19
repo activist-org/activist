@@ -7,15 +7,20 @@ from django.core.management.base import BaseCommand
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
-from communities.groups.factories import GroupFactory, GroupTextFactory
+from communities.groups.factories import (
+    GroupFactory,
+    GroupSocialLinkFactory,
+    GroupTextFactory,
+)
 from communities.groups.models import Group
 from communities.organizations.factories import (
     OrganizationFactory,
+    OrganizationSocialLinkFactory,
     OrganizationTextFactory,
 )
 from communities.organizations.models import Organization
 from content.models import Topic
-from events.factories import EventFactory, EventTextFactory
+from events.factories import EventFactory, EventSocialLinkFactory, EventTextFactory
 from events.models import Event
 
 
@@ -66,14 +71,22 @@ class Command(BaseCommand):
                 user.topics.set([user_topic])
 
                 for o in range(num_orgs_per_user):
-                    org_texts = OrganizationTextFactory(iso="en", primary=True)
                     user_org = OrganizationFactory(
                         created_by=user,
                         org_name=f"organization_u{u}_o{o}",
                         name=f"{user_topic.name} Organization",
                         tagline=f"Fighting for {user_topic.name.lower()}",
                     )
+
+                    org_texts = OrganizationTextFactory(iso="en", primary=True)
+                    org_social_links = []
+                    org_social_links.extend(
+                        OrganizationSocialLinkFactory(label=f"social link {i}", order=i)
+                        for i in range(3)
+                    )
+
                     user_org.texts.set([org_texts])
+                    user_org.social_links.set(org_social_links)
 
                     for e in range(num_events_per_org):
                         event_type = random.choice(["learn", "action"])
@@ -92,7 +105,14 @@ class Command(BaseCommand):
                         )
 
                         event_texts = EventTextFactory(iso="en", primary=True)
+                        event_social_links = []
+                        event_social_links.extend(
+                            EventSocialLinkFactory(label=f"social link {i}", order=i)
+                            for i in range(3)
+                        )
+
                         user_org_event.texts.set([event_texts])
+                        user_org_event.social_links.set(event_social_links)
 
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
@@ -103,7 +123,14 @@ class Command(BaseCommand):
                         )
 
                         group_texts = GroupTextFactory(iso="en", primary=True)
+                        group_social_links = []
+                        group_social_links.extend(
+                            GroupSocialLinkFactory(label=f"social link {i}", order=i)
+                            for i in range(3)
+                        )
+
                         user_org_group.texts.set([group_texts])
+                        user_org_group.social_links.set(group_social_links)
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org

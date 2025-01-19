@@ -36,7 +36,7 @@ export const useEventStore = defineStore("event", {
       },
 
       getInvolvedUrl: "",
-      socialLinks: [""],
+      socialLinks: [],
       startTime: "",
       endTime: "",
       creationDate: "",

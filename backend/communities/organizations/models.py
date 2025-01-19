@@ -43,7 +43,6 @@ class Organization(models.Model):
     acceptance_date = models.DateTimeField(blank=True, null=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
 
-    social_links = models.ManyToManyField("content.SocialLink", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
     faqs = models.ManyToManyField("content.Faq", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
@@ -99,6 +98,20 @@ class OrganizationMember(models.Model):
         return f"{self.id}"
 
 
+class OrganizationSocialLink(models.Model):
+    org = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
+    )
+    link = models.CharField(max_length=255)
+    label = models.CharField(max_length=255)
+    order = models.IntegerField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.label
+
+
 class OrganizationTask(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
@@ -120,3 +133,6 @@ class OrganizationText(models.Model):
     description = models.TextField(max_length=2500)
     get_involved = models.TextField(max_length=500, blank=True)
     donate_prompt = models.TextField(max_length=500, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.org} - {self.iso}"

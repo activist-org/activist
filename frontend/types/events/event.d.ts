@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Location } from "~/types/content/location";
+import type { SocialLink } from "~/types/content/social-link";
 
 // MARK: Main Table
 
@@ -13,7 +14,7 @@ interface EventBase {
   onlineLocationLink?: string;
   offlineLocation?: Location;
   getInvolvedUrl?: string;
-  socialLinks: string[];
+  socialLinks: EventSocialLink[];
   startTime: string;
   endTime?: string;
   creationDate?: string;
@@ -37,6 +38,10 @@ export interface EventAttendee {
   userId: string;
   roleId: string;
   attendeeStatus: int;
+}
+
+export interface EventSocialLink extends SocialLink {
+  eventId: string;
 }
 
 export interface EventText {

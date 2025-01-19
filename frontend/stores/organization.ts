@@ -30,7 +30,7 @@ export const useOrganizationStore = defineStore("organization", {
       location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 
       getInvolvedUrl: "",
-      socialLinks: [""],
+      socialLinks: [],
       status: 1,
       creationDate: "",
 
@@ -239,9 +239,9 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL as string}/content/social_links/${org.id}/`,
+        `${BASE_BACKEND_URL as string}/communities/organization_social_links/`,
         {
-          method: "PUT",
+          method: "POST",
           body: JSON.stringify({
             link: payload.link,
             label: payload.label,

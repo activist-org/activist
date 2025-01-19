@@ -13,6 +13,7 @@ from communities.organizations.models import (
     OrganizationApplication,
     OrganizationImage,
     OrganizationMember,
+    OrganizationSocialLink,
     OrganizationTask,
     OrganizationText,
 )
@@ -20,6 +21,14 @@ from content.serializers import LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
 # MARK: Main Tables
+
+
+class OrganizationSocialLinkSerializer(
+    serializers.ModelSerializer[OrganizationSocialLink]
+):
+    class Meta:
+        model = OrganizationSocialLink
+        fields = "__all__"
 
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
@@ -30,6 +39,7 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     texts = OrganizationTextSerializer(many=True, read_only=True)
+    social_links = OrganizationSocialLinkSerializer(many=True, read_only=True)
     location = LocationSerializer(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)

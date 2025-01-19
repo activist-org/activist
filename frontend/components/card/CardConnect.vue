@@ -23,36 +23,37 @@
     <ul
       class="mt-3 flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-6"
     >
-      <li v-for="link in socialLinksRef">
-        <div
+      <li v-for="socLink in socialLinksRef">
+        <a
+          :href="socLink.link"
           class="flex cursor-pointer items-center gap-3 break-all text-primary-text transition-all hover:text-distinct-text"
         >
           <Icon
             v-if="editModeEnabled"
-            @click="emit('on-account-removed', link)"
+            @click="emit('on-account-removed', socLink)"
             :name="IconMap.EDIT"
             size="1em"
           />
           <Icon
-            v-else-if="link.includes('mastodon')"
+            v-else-if="socLink.link.includes('mastodon')"
             :name="IconMap.MASTODON"
             size="1.2em"
           />
           <Icon
-            v-else-if="link.includes('facebook')"
+            v-else-if="socLink.link.includes('facebook')"
             :name="IconMap.FACEBOOK"
             size="1.2em"
           />
           <Icon
-            v-else-if="link.includes('instagram')"
+            v-else-if="socLink.link.includes('instagram')"
             :name="IconMap.INSTAGRAM"
             size="1.2em"
           />
           <Icon v-else :name="IconMap.LINK" size="1.2em" />
           <div class="font-semibold">
-            {{ link }}
+            {{ socLink.label }}
           </div>
-        </div>
+        </a>
       </li>
       <div
         :class="{
@@ -122,9 +123,13 @@
 
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Event } from "~/types/events/event";
+import type { Group, GroupSocialLink } from "~/types/communities/group";
+import type {
+  Organization,
+  OrganizationSocialLink,
+} from "~/types/communities/organization";
+import type { SocialLink } from "~/types/content/social-link";
+import type { Event, EventSocialLink } from "~/types/events/event";
 import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { AddPayload } from "~/types/social-links-payload";
@@ -161,8 +166,23 @@ if (props.pageType == "organization") {
   event = eventStore.event;
 }
 
+const defaultSocialLinks: SocialLink[] = [
+  {
+    link: "",
+    label: "",
+    order: 0,
+    creationDate: "",
+    lastUpdated: "",
+  },
+];
+
 const editModeEnabled = ref(false);
-const socialLinksRef = computed<string[]>(() => {
+const socialLinksRef = computed<
+  | OrganizationSocialLink[]
+  | GroupSocialLink[]
+  | EventSocialLink[]
+  | SocialLink[]
+>(() => {
   if (props.pageType == "organization") {
     return organization.socialLinks;
   } else if (props.pageType == "group") {
@@ -170,7 +190,7 @@ const socialLinksRef = computed<string[]>(() => {
   } else if (props.pageType == "event") {
     return event.socialLinks;
   } else {
-    return [""];
+    return defaultSocialLinks;
   }
 });
 
