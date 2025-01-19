@@ -19,7 +19,6 @@ interface EventBase {
   creationDate?: string;
   // TODO: Convert to an array.
   orgs: Organization;
-  eventTextId: string;
   discussion?: DiscussionEntry[];
   resources?: Resource[];
   // task?: Task[];
@@ -41,6 +40,7 @@ export interface EventAttendee {
 }
 
 export interface EventText {
+  id: number;
   eventId: string;
   iso: string;
   primary: boolean;

@@ -43,8 +43,8 @@ export const useEventStore = defineStore("event", {
 
       orgs: { id: "", orgName: "", name: "", iconUrl: "" },
 
-      eventTextId: "",
       texts: {
+        id: 0,
         eventId: "",
         iso: "",
         primary: false,
@@ -129,7 +129,6 @@ export const useEventStore = defineStore("event", {
         this.event.creationDate = event.creationDate;
         this.event.orgs = event.orgs;
 
-        this.event.eventTextId = event.eventTextId;
         this.event.texts = event.texts[0];
       }
 
@@ -166,7 +165,6 @@ export const useEventStore = defineStore("event", {
             creationDate: event.creationDate,
             orgs: event.orgs,
 
-            eventTextId: event.eventTextId,
             texts: event.texts[0],
           };
         });
@@ -199,7 +197,7 @@ export const useEventStore = defineStore("event", {
       );
 
       const responseEventTexts = await $fetch(
-        BASE_BACKEND_URL + `/events/event_texts/${event.eventTextId}/`,
+        BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}/`,
         {
           method: "PUT",
           body: {

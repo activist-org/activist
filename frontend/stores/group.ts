@@ -41,8 +41,8 @@ export const useGroupStore = defineStore("group", {
 
       faqEntries: [""],
 
-      groupTextId: "",
       texts: {
+        id: 0,
         groupId: "",
         iso: "",
         primary: false,
@@ -121,7 +121,6 @@ export const useGroupStore = defineStore("group", {
         this.group.getInvolvedUrl = group.getInvolvedUrl;
         this.group.socialLinks = group.socialLinks;
 
-        this.group.groupTextId = group.groupTextId;
         this.group.texts = group.texts[0];
       }
 
@@ -158,7 +157,6 @@ export const useGroupStore = defineStore("group", {
             socialLinks: group.socialLinks,
             creationDate: group.creationDate,
 
-            groupTextId: group.groupTextId,
             texts: group.texts[0],
           };
         });
@@ -191,8 +189,7 @@ export const useGroupStore = defineStore("group", {
       );
 
       const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL +
-          `/communities/organization_texts/${group.groupTextId}/`,
+        BASE_BACKEND_URL + `/communities/organization_texts/${group.texts.id}/`,
         {
           method: "PUT",
           body: {

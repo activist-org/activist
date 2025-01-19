@@ -20,7 +20,6 @@ interface OrganizationBase {
   // acceptanceDate?: string;
   // deletionDate?: string;
   creationDate: string;
-  organizationTextId: string;
   // orgsInFavor?: Organization[];
   // orgsAgainst?: Organization[];
   // discussions?: Discussion[];
@@ -55,6 +54,7 @@ export interface OrganizationMember {
 }
 
 export interface OrganizationText {
+  id: number;
   orgId: string;
   iso: string;
   primary: boolean;
