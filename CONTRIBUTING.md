@@ -454,13 +454,23 @@ Thank you for testing locally! ✨
 
 #### Remote E2E
 
-To run the tests on the repository, first create a branch from the remote branch that you want to test against. This can be done with the following command:
+For testing on your remote forked repository, first create a branch from the remote branch that you want to test against. This can be done with the following command:
 
 ```bash
 git push upstream <local-branch-name>:<remote-branch-name-of-your-choice>
 ```
 
-You can then navigate to the [actions of the repository](https://github.com/activist-org/activist/actions) and trigger [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml) for the remote branch that you just created.
+You can then navigate to the remote versions of the [actions of the repository](https://github.com/activist-org/activist/actions) in your fork and trigger [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml).
+
+For maintainers of the activist main repo, testing PRs is done via the following to make sure that origin has a copy of the branch that can be tested against:
+
+```bash
+# On the branch in question:
+git branch  # to find the name of the branch
+git push -u origin LOCAL_NAME_OF_BRANCH
+```
+
+You can then visit the [actions of the repository](https://github.com/activist-org/activist/actions) to run the the [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml) test against the new branch on origin.
 
 Thank you for testing your PRs! 🎉
 
