@@ -77,6 +77,8 @@
   "components._global.upvote_application_aria_label": "Stimmen Sie ab, um die Organisation zu unterstützen, die sich der Aktivistin anschließt",
   "components._global.working_groups_subtext": "Die folgenden Arbeitsgruppen sind innerhalb von {entity_name}",
   "components.btn_road_map.aria_label": "Erfahren Sie mehr über die Roadmap für Aktivist*innen",
+  "components.btn_share_icon.opening_instagram": "Instagram wird geöffnet",
+  "components.btn_share_icon.opening_matrix": "Matrix wird geöffnet",
   "components.btn_share_icon.opening_signal": "Signal wird geöffnet",
   "components.btn_share_icon.url_copied": "URL kopiert",
   "components.card.about._global.full_text": "Für den vollständigen Text anklicken",

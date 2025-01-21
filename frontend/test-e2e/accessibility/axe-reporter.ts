@@ -7,12 +7,13 @@ import type {
 } from "@playwright/test/reporter";
 import { createHtmlReport } from "axe-html-reporter";
 import type { AxeResults } from "axe-core";
+import { RESULTS_PATH } from "~/playwright.config";
 
 class AxeReporter implements Reporter {
-  private outputDir: string;
+  private outputDirPath: string;
 
-  constructor(options?: { outputDir?: string }) {
-    this.outputDir = options?.outputDir || "test-results/accessibility-results";
+  constructor(options?: { outputDirPath?: string }) {
+    this.outputDirPath = options?.outputDirPath || RESULTS_PATH;
   }
 
   onTestBegin(test: TestCase) {
@@ -93,7 +94,8 @@ class AxeReporter implements Reporter {
         customSummary: `Accessibility report for ${pageName} - ${browserName}`,
         doNotCreateReportFile: false,
         reportFileName: reportFileName,
-        outputDir: this.outputDir,
+        outputDirPath: this.outputDirPath,
+        outputDir: "accessibility-results",
       },
     });
   }
