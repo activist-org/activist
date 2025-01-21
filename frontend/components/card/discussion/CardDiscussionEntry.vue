@@ -10,7 +10,7 @@
         <h1 class="responsive-h5 pl-2 font-bold">
           {{ discussionEntry.author }}
         </h1>
-        <p>{{ $t("components.card_discussion_entry.on") }}</p>
+        <p>{{ $t(i18nMap.components.card_discussion_entry.on) }}</p>
         <p>
           {{ discussionEntry.date.toLocaleDateString() }}
         </p>
@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import type { DiscussionEntry } from "~/types/content/discussion";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

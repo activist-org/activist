@@ -41,6 +41,7 @@ def main():
         "i18n_check_non_source_keys.py",
         "i18n_check_unused_keys.py",
         "i18n_check_repeat_values.py",
+        "i18n_check_map_object.py",
     ]
 
     for check in checks:

@@ -60,7 +60,7 @@
           >
             <TooltipBase
               class="invisible -mt-8"
-              :text="$t('components._global.slash_tooltip_label')"
+              :text="$t(i18nMap.components._global.slash_tooltip_label)"
             />
             <p class="-mt-[0.075rem]">/</p>
           </div>
@@ -70,7 +70,7 @@
           >
             <TooltipBase
               class="invisible -mt-8"
-              :text="$t('components._global.command_tooltip_label')"
+              :text="$t(i18nMap.components._global.command_tooltip_label)"
             />
             <p>⌘k</p>
           </div>
@@ -80,7 +80,7 @@
           >
             <TooltipBase
               class="invisible -mt-8"
-              :text="$t('components._global.control_tooltip_label')"
+              :text="$t(i18nMap.components._global.control_tooltip_label)"
             />
             <p>⌃k</p>
           </div>
@@ -127,6 +127,7 @@
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { ref } from "vue";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 interface Tag {

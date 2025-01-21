@@ -17,7 +17,6 @@ interface GroupBase {
   socialLinks: string[];
   creationDate: string;
   org: GroupOrganization;
-  groupTextId: string;
   events?: Event[];
   faqEntries?: FaqEntry[];
   resources?: Resource[];
@@ -47,6 +46,7 @@ export interface GroupMember {
 }
 
 export interface GroupText {
+  id: number;
   groupId: string;
   iso: string;
   primary: boolean;

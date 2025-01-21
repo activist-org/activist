@@ -2,11 +2,11 @@
 <template>
   <div class="bg-layer-0 px-8 text-primary-text">
     <Head>
-      <Title>{{ $t("pages.resources.index.header_title") }}</Title>
+      <Title>{{ $t(i18nMap.pages.resources.index.header_title) }}</Title>
     </Head>
     <HeaderAppPage
-      :header="$t('pages.resources.index.header_title')"
-      :tagline="$t('pages.resources.index.subheader')"
+      :header="$t(i18nMap.pages.resources.index.header_title)"
+      :tagline="$t(i18nMap.pages.resources.index.subheader)"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
         <ComboboxTopics />
@@ -22,6 +22,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 const { data: resources } = await useFetch(
   `${BASE_BACKEND_URL}/content/resources/`,
   {

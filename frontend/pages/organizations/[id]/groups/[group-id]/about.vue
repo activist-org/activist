@@ -45,7 +45,7 @@
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
           :ariaLabel="
-            $t('pages.organizations.groups.about.share_group_aria_label')
+            $t(i18nMap.pages.organizations.groups.about.share_group_aria_label)
           "
         />
         <ModalSharePage
@@ -89,6 +89,7 @@ import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import type { Group } from "~/types/communities/group";
 import { getGroupSubPages } from "~/utils/groupSubPages";
+import { i18nMap } from "~/types/i18n-map";
 
 const aboveLargeBP = useBreakpoint("lg");
 

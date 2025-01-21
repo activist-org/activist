@@ -9,7 +9,7 @@
         label="_global.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        :ariaLabel="$t('components.tooltip_menu_search_result_user.support_user_aria_label')"
+        :ariaLabel="$t(i18nMap.components.tooltip_menu_search_result_user.support_user_aria_label)"
       /> -->
       <BtnAction
         @click="openModal()"
@@ -21,7 +21,10 @@
         :rightIcon="IconMap.SHARE"
         fontSize="lg"
         :ariaLabel="
-          $t('components.tooltip_menu_search_result_user.share_user_aria_label')
+          $t(
+            i18nMap.components.tooltip_menu_search_result_user
+              .share_user_aria_label
+          )
         "
       />
       <ModalSharePage
@@ -36,6 +39,7 @@
 
 <script setup lang="ts">
 import type { User } from "~/types/auth/user";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

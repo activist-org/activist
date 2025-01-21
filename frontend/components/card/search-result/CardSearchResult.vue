@@ -22,7 +22,10 @@
               }"
               :src="imageUrl"
               :alt="
-                $t('components.card_search_result.organization_img_alt_text') +
+                $t(
+                  i18nMap.components.card_search_result
+                    .organization_img_alt_text
+                ) +
                 ' ' +
                 organization.name
               "
@@ -35,7 +38,7 @@
               }"
               :src="imageUrl"
               :alt="
-                $t('components.card_search_result.group_img_alt_text') +
+                $t(i18nMap.components.card_search_result.group_img_alt_text) +
                 ' ' +
                 group.name
               "
@@ -63,7 +66,7 @@
                 :eventType="eventType"
                 :imgUrl="imageUrl"
                 :alt="
-                  $t('components.card_search_result.event_img_alt_text', {
+                  $t(i18nMap.components.card_search_result.event_img_alt_text, {
                     entity_name: name,
                   })
                 "
@@ -231,6 +234,7 @@ import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Resource } from "~/types/content/resource";
 import type { Event } from "~/types/events/event";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

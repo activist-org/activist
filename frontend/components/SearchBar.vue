@@ -16,7 +16,7 @@
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         >
           <label for="input-search" class="sr-only">{{
-            $t("_global.search")
+            $t(i18nMap._global.search)
           }}</label>
           <input
             @focus="onFocus"
@@ -26,7 +26,7 @@
             class="h-5 w-16 bg-transparent outline-none"
             :class="{ 'focus:w-5/6': isInputFocused }"
             type="text"
-            :placeholder="$t('_global.search')"
+            :placeholder="$t(i18nMap._global.search)"
           />
         </div>
       </Transition>
@@ -42,7 +42,7 @@
         >
           <TooltipBase
             class="invisible -mt-8"
-            :text="$t('components._global.slash_tooltip_label')"
+            :text="$t(i18nMap.components._global.slash_tooltip_label)"
           />
           <p class="-mt-[0.075rem]">/</p>
         </div>
@@ -52,7 +52,7 @@
         >
           <TooltipBase
             class="invisible -mt-8"
-            :text="$t('components._global.command_tooltip_label')"
+            :text="$t(i18nMap.components._global.command_tooltip_label)"
           />
           <p>⌘k</p>
         </div>
@@ -62,7 +62,7 @@
         >
           <TooltipBase
             class="invisible -mt-8"
-            :text="$t('components._global.control_tooltip_label')"
+            :text="$t(i18nMap.components._global.control_tooltip_label)"
           />
           <p>⌃k</p>
         </div>
@@ -82,14 +82,14 @@
       size="1em"
     />
     <label for="input-search" class="hidden md:block">{{
-      $t("_global.search")
+      $t(i18nMap._global.search)
     }}</label>
     <input
       id="input-search"
       class="bg-transparent focus:outline-none"
       :class="{ hidden: !expanded }"
       type="text"
-      :placeholder="$t('_global.search')"
+      :placeholder="$t(i18nMap._global.search)"
     />
     <Icon v-if="expanded" class="absolute right-3" :name="IconMap.FILTER" />
   </div>
@@ -99,6 +99,7 @@
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { IconMap } from "~/types/icon-map";
 import { SearchBarLocation } from "~/types/location";
+import { i18nMap } from "~/types/i18n-map";
 
 export interface Props {
   location: SearchBarLocation;

@@ -12,10 +12,10 @@
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t("pages.organizations.create.header") }}
+          {{ $t(i18nMap.pages.organizations.create.header) }}
         </h1>
         <p class="mt-4">
-          {{ $t("pages.organizations.create.subtext") }}
+          {{ $t(i18nMap.pages.organizations.create.subtext) }}
         </p>
       </div>
       <form
@@ -27,7 +27,7 @@
         >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("_global.organization_name") }}*</label
+              >{{ $t(i18nMap._global.organization_name) }}*</label
             >
             <input
               v-model="formData.name"
@@ -36,13 +36,16 @@
               type="text"
               name="name"
               :placeholder="
-                $t('pages.organizations.create.organization_name_placeholder')
+                $t(
+                  i18nMap.pages.organizations.create
+                    .organization_name_placeholder
+                )
               "
             />
           </div>
           <div class="w-1/2">
             <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("pages._global.create.location") }}*</label
+              >{{ $t(i18nMap.pages._global.create.location) }}*</label
             >
             <input
               v-model="formData.location"
@@ -51,14 +54,14 @@
               type="text"
               name="location"
               :placeholder="
-                $t('pages.organizations.create.location_placeholder')
+                $t(i18nMap.pages.organizations.create.location_placeholder)
               "
             />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("pages._global.create.description") }}*</label
+            >{{ $t(i18nMap.pages._global.create.description) }}*</label
           >
           <textarea
             v-model="formData.description"
@@ -66,20 +69,22 @@
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
             :placeholder="
-              $t('pages.organizations.create.description_placeholder')
+              $t(i18nMap.pages.organizations.create.description_placeholder)
             "
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="tagline" class="responsive-h3 block font-medium">{{
-            $t("pages._global.create.tagline")
+            $t(i18nMap.pages._global.create.tagline)
           }}</label>
           <input
             v-model="formData.tagline"
             id="tagline"
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="tagline"
-            :placeholder="$t('pages.organizations.create.tagline_placeholder')"
+            :placeholder="
+              $t(i18nMap.pages.organizations.create.tagline_placeholder)
+            "
           />
         </div>
         <CardTopicSelection
@@ -94,12 +99,12 @@
           <div class="flex space-x-2">
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
-              <p>{{ $t("pages._global.terms_of_service_pt_1") }}&nbsp;</p>
+              <p>{{ $t(i18nMap.pages._global.terms_of_service_pt_1) }}&nbsp;</p>
               <NuxtLink
                 :to="localePath('/legal/privacy-policy')"
                 target="_blank"
                 class="link-text"
-                >{{ $t("pages._global.terms_of_service_pt_2") }}</NuxtLink
+                >{{ $t(i18nMap.pages._global.terms_of_service_pt_2) }}</NuxtLink
               >
 
               <p>.</p>
@@ -124,6 +129,7 @@
 <script setup lang="ts">
 import { Toaster, toast } from "vue-sonner";
 import type { OrganizationCreateFormData } from "~/types/communities/organization";
+import { i18nMap } from "~/types/i18n-map";
 
 const formData = ref<OrganizationCreateFormData>({
   name: "",

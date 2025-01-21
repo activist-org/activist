@@ -4,14 +4,14 @@
     <Head>
       <Title
         >{{ event.name }}&nbsp;{{
-          $t("pages._global.tasks.tasks_lower")
+          $t(i18nMap.pages._global.tasks.tasks_lower)
         }}</Title
       >
     </Head>
     <HeaderAppPage
       :event="event"
-      :header="event.name + ' ' + $t('pages._global.tasks.tasks_lower')"
-      :tagline="$t('pages._global.tasks.tasks_page_tagline')"
+      :header="event.name + ' ' + $t(i18nMap.pages._global.tasks.tasks_lower)"
+      :tagline="$t(i18nMap.pages._global.tasks.tasks_page_tagline)"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const idParam = useRoute().params.id;

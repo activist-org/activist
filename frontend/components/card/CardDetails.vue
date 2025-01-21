@@ -6,7 +6,7 @@
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="responsive-h3 text-left font-display">
-            {{ $t("components.card_details.header") }}
+            {{ $t(i18nMap.components.card_details.header) }}
           </h3>
           <IconEdit
             @click="openModalEditTextEvent()"
@@ -38,7 +38,7 @@
           </div>
           <!-- <MetaTagAttendance
             :numAttending="event.attendees ? event.attendees.length : 0"
-            :label="$t('components.card_details.attending')"
+            :label="$t(i18nMap.components.card_details.attending)"
           /> -->
           <MetaTagLocation
             v-if="event.offlineLocation"
@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
+import { i18nMap } from "~/types/i18n-map";
 
 const { openModal: openModalEditTextEvent } =
   useModalHandlers("ModalEditTextEvent");

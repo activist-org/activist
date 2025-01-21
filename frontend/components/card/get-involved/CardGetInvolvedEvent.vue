@@ -3,7 +3,7 @@
   <CardGetInvolved>
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t("components._global.participate") }}
+        {{ $t(i18nMap.components._global.participate) }}
       </h3>
       <IconEdit @click="openModal()" @keydown.enter="openModal()" />
       <ModalEditTextEvent
@@ -11,9 +11,9 @@
         @closeModal="handleCloseModal"
         :event="event"
         :sectionsToEdit="[
-          $t('_global.about'),
-          $t('components._global.participate'),
-          $t('components._global.offer_to_help_link'),
+          $t(i18nMap._global.about),
+          $t(i18nMap.components._global.participate),
+          $t(i18nMap.components._global.offer_to_help_link),
         ]"
         :isOpen="modalIsOpen"
       />
@@ -22,9 +22,9 @@
       <p v-if="event.texts.getInvolved">
         {{ event.texts.getInvolved }}
       </p>
-      <p v-else>{{ $t("components._global.participate_subtext") }}</p>
+      <p v-else>{{ $t(i18nMap.components._global.participate_subtext) }}</p>
       <!-- <p>
-        {{ $t("components.card_get_involved_event.legal_disclaimer_subtext") }}
+        {{ $t(i18nMap.components.card_get_involved_event.legal_disclaimer_subtext) }}
       </p>
       <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" /> -->
       <div class="flex w-max pt-2">
@@ -47,6 +47,7 @@
 import type { Event } from "~/types/events/event";
 import { IconMap } from "~/types/icon-map";
 import CardGetInvolved from "./CardGetInvolved.vue";
+import { i18nMap } from "~/types/i18n-map";
 
 defineProps<{
   event: Event;

@@ -36,8 +36,8 @@ export const useOrganizationStore = defineStore("organization", {
       groups: [],
       events: [],
 
-      organizationTextId: "",
       texts: {
+        id: 0,
         orgId: "",
         iso: "",
         primary: false,
@@ -118,7 +118,6 @@ export const useOrganizationStore = defineStore("organization", {
         this.organization.socialLinks = organization.socialLinks;
         this.organization.status = organization.status;
 
-        this.organization.organizationTextId = organization.organizationTextId;
         this.organization.texts = organization.texts[0];
 
         this.organization.groups = organization.groups;
@@ -161,7 +160,6 @@ export const useOrganizationStore = defineStore("organization", {
             groups: org.groups,
             events: org.events,
 
-            organizationTextId: org.organizationTextId,
             texts: org.texts[0],
           };
         });
@@ -197,8 +195,7 @@ export const useOrganizationStore = defineStore("organization", {
       );
 
       const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL +
-          `/communities/organization_texts/${org.organizationTextId}/`,
+        BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}/`,
         {
           method: "PUT",
           body: {

@@ -16,18 +16,21 @@
       class="hidden h-full items-center space-x-3 bg-cta-orange px-3 text-primary-text hover:bg-cta-orange/80 dark:bg-cta-orange/10 dark:text-cta-orange dark:hover:bg-cta-orange/25 md:flex"
       :to="localePath('/')"
       :aria-label="
-        $t('components.indicator_process_progress.close_process_aria_label')
+        $t(
+          i18nMap.components.indicator_process_progress.close_process_aria_label
+        )
       "
     >
       <Icon :name="IconMap.X_LG" />
       <span>{{
-        $t("components.indicator_process_progress.close_process")
+        $t(i18nMap.components.indicator_process_progress.close_process)
       }}</span>
     </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 export interface Props {
