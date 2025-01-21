@@ -5,7 +5,7 @@ import type {
   OrganizationResponse,
   OrganizationUpdateTextFormData,
 } from "~/types/communities/organization";
-import type { AddPayload } from "~/types/social-links-payload";
+import type { SocialLinkFormData } from "~/types/content/social-link";
 
 interface OrganizationStore {
   loading: boolean;
@@ -226,27 +226,20 @@ export const useOrganizationStore = defineStore("organization", {
       return false;
     },
 
-    // MARK: Add Social Links
+    // MARK: Update Social Links
 
-    async createSocialMediaLink(org: Organization, payload: AddPayload) {
-      // TODO: PUT/POST payload, PUT/POST org and social link id's in bridge table
-      //         content/social_links
-      // TODO: Other PUT's/POST's?
-      //         bridge table: organization_social_links
-
+    async updateSocialLinks(org: Organization, formData: SocialLinkFormData) {
       this.loading = true;
 
       const token = localStorage.getItem("accessToken");
 
       const responseSocialLinks = await useFetch(
         `${BASE_BACKEND_URL as string}/communities/organization_social_links/`,
-        // `${BASE_BACKEND_URL as string}/communities/organizations/social_links/`,
-        // `${BASE_BACKEND_URL as string}/communities/social_links/`,
         {
           method: "POST",
           body: JSON.stringify({
-            link: payload.link,
-            label: payload.label,
+            link: formData.link,
+            label: formData.label,
             order: 0,
           }),
           headers: {
@@ -255,19 +248,12 @@ export const useOrganizationStore = defineStore("organization", {
         }
       );
 
-      console.log(
-        "createSocialMediaLink responseSocialLinks.data:",
-        responseSocialLinks.data
-      );
-
       const responseSocialLinksData = responseSocialLinks.data
         .value as unknown as Organization;
 
       if (responseSocialLinksData) {
         this.loading = false;
 
-        // return responseSocialLinksData.id;
-        // return responseSocialLinksData;
         return { status: true, data: "Added social media link data." };
       }
 

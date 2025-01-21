@@ -7,6 +7,7 @@ from uuid import uuid4
 
 from django.db import models
 
+from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Main Tables
@@ -70,18 +71,10 @@ class GroupMember(models.Model):
         return f"{self.id}"
 
 
-class GroupSocialLink(models.Model):
+class GroupSocialLink(SocialLink):
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
-    link = models.CharField(max_length=255)
-    label = models.CharField(max_length=255)
-    order = models.IntegerField()
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self) -> str:
-        return self.label
 
 
 class GroupText(models.Model):

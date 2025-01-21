@@ -1,10 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
@@ -53,11 +49,12 @@
 </template>
 
 <script setup lang="ts">
+import { useModalHandlers } from "~/composables/useModalHandlers";
+import type { GroupUpdateTextFormData } from "~/types/communities/group";
 import { i18nMap } from "~/types/i18n-map";
 
-const props = defineProps<{
-  isOpen: boolean;
-}>();
+const modalName = "ModalEditTextGroup";
+const { handleCloseModal } = useModalHandlers(modalName);
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
@@ -67,32 +64,22 @@ await groupStore.fetchById(id);
 
 const { group } = groupStore;
 
-const formData = ref({
-  description: group.texts.description,
-  getInvolved: group.texts.getInvolved,
-  getInvolvedUrl: group.getInvolvedUrl,
+const formData = ref<GroupUpdateTextFormData>({
+  description: "",
+  getInvolved: "",
+  getInvolvedUrl: "",
+});
+
+onMounted(() => {
+  formData.value.description = group.texts.description;
+  formData.value.getInvolved = group.texts.getInvolved;
+  formData.value.getInvolvedUrl = group.getInvolvedUrl;
 });
 
 async function handleSubmit() {
-  const response = await putWithToken(
-    `/communities/group_texts/${group.id}/`,
-    formData
-  );
-
+  const response = await groupStore.updateTexts(group, formData.value);
   if (response) {
-    console.log("Success!");
+    handleCloseModal();
   }
 }
-
-const modals = useModals();
-const modalName = "ModalEditTextGroup";
-let modalIsOpen = computed(() => props.isOpen);
-
-onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
-});
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-};
 </script>

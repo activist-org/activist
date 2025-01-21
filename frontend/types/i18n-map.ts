@@ -148,18 +148,6 @@ export const i18nMap = {
       header_cta: "components.card_change_account_info_username.header_cta",
       new_username: "components.card_change_account_info_username.new_username",
     },
-    card_connect: {
-      app_account_popup_cta_btn_label:
-        "components.card_connect.app_account_popup_cta_btn_label",
-      app_account_popup_field_label_prompt:
-        "components.card_connect.app_account_popup_field_label_prompt",
-      app_account_popup_field_name_prompt:
-        "components.card_connect.app_account_popup_field_name_prompt",
-      app_account_popup_title:
-        "components.card_connect.app_account_popup_title",
-      new_account: "components.card_connect.new_account",
-      new_account_aria_label: "components.card_connect.new_account_aria_label",
-    },
     card_danger_zone: {
       header: "components.card_danger_zone.header",
       password_label: "components.card_danger_zone.password_label",
@@ -453,6 +441,17 @@ export const i18nMap = {
             "components.modal.edit._global.update_texts_aria_label",
         },
       },
+    },
+    modal_edit_social_links: {
+      add_link: "components.modal_edit_social_links.add_link",
+      add_link_aria_label:
+        "components.modal_edit_social_links.add_link_aria_label",
+      new_link_label: "components.modal_edit_social_links.new_link_label",
+      new_link_url: "components.modal_edit_social_links.new_link_url",
+      social_links: "components.modal_edit_social_links.social_links",
+      update_links: "components.modal_edit_social_links.update_links",
+      update_links_aria_label:
+        "components.modal_edit_social_links.update_links_aria_label",
     },
     modal_base: {
       close_modal_aria_label: "components.modal_base.close_modal_aria_label",

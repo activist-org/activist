@@ -4,8 +4,12 @@ from rest_framework import status, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from communities.groups.models import Group, GroupText
-from communities.groups.serializers import GroupSerializer, GroupTextSerializer
+from communities.groups.models import Group, GroupSocialLink, GroupText
+from communities.groups.serializers import (
+    GroupSerializer,
+    GroupSocialLinkSerializer,
+    GroupTextSerializer,
+)
 from core.paginator import CustomPagination
 
 # MARK: Main Tables
@@ -117,6 +121,11 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         return Response(
             {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
         )
+
+
+class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
+    queryset = GroupSocialLink.objects.all()
+    serializer_class = GroupSocialLinkSerializer
 
 
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):

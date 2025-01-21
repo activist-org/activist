@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
-from asyncio.log import logger
-
 from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.request import Request
@@ -11,38 +9,17 @@ from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
     OrganizationApplication,
+    OrganizationSocialLink,
     OrganizationText,
 )
 from communities.organizations.serializers import (
     OrganizationSerializer,
+    OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
 )
-from content.models import SocialLink
-from content.serializers import SocialLinkSerializer
 from core.paginator import CustomPagination
 
 # MARK: Main Tables
-
-
-class OrganizationSocialLinkViewSet(viewsets.ModelViewSet):
-    #     from communities.organizations.models import Organization
-    #
-    queryset = SocialLink.objects.all()
-    serializer_class = SocialLinkSerializer
-
-    def create(self, request, *args, **kwargs):
-        logger.warning("POST request received")
-        logger.warning(f"Request.body: {request.body.decode('utf8')}")
-
-        # return super().create(request, *args, **kwargs)
-        return Response(status=status.HTTP_201_CREATED)
-
-    # def create_social_link(self, request, pk=None):
-    # org_id = request.data.get('organization_id')
-    # org = self.Organization.objects.get(id=org_id)
-    # social_link = self.get_object()
-    # org.social_links.add(social_link)
-    # return Response(status=status.HTTP_201_CREATED)
 
 
 class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
@@ -160,6 +137,11 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(
             {"message": "Organization deleted successfully."}, status.HTTP_200_OK
         )
+
+
+class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):
+    queryset = OrganizationSocialLink.objects.all()
+    serializer_class = OrganizationSocialLinkSerializer
 
 
 class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):

@@ -5,17 +5,10 @@
       <h3 class="responsive-h3 text-left font-display">
         {{ $t(i18nMap.components._global.participate) }}
       </h3>
-      <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-      <ModalEditTextEvent
-        v-if="event"
-        @closeModal="handleCloseModal"
-        :event="event"
-        :sectionsToEdit="[
-          $t(i18nMap._global.about),
-          $t(i18nMap.components._global.participate),
-          $t(i18nMap.components._global.offer_to_help_link),
-        ]"
-        :isOpen="modalIsOpen"
+      <IconEdit
+        v-if="userIsSignedIn"
+        @click="openModalEditTextEvent"
+        @keydown.enter="openModalEditTextEvent"
       />
     </div>
     <div class="space-y-3 pt-3">
@@ -44,27 +37,20 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
-import { IconMap } from "~/types/icon-map";
-import CardGetInvolved from "./CardGetInvolved.vue";
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import { i18nMap } from "~/types/i18n-map";
+import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  event: Event;
-  disclaimer?: string;
-}>();
+const { openModal: openModalEditTextEvent } =
+  useModalHandlers("ModalEditTextEvent");
 
-const modals = useModals();
-const modalName = "ModalEditTextEvent";
-const modalIsOpen = ref(false);
+const { userIsSignedIn } = useUser();
 
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
 
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
+const eventStore = useEventStore();
+await eventStore.fetchById(id);
+
+const { event } = eventStore;
 </script>

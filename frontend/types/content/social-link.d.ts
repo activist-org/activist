@@ -6,3 +6,9 @@ export interface SocialLink {
   creationDate: string;
   lastUpdated: string;
 }
+
+export interface SocialLinkFormData {
+  link: string;
+  label: string;
+  order: number;
+}

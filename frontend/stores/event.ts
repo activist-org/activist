@@ -227,6 +227,14 @@ export const useEventStore = defineStore("event", {
       return false;
     },
 
+    // MARK: Update Social Links
+
+    // async updateSocialLinks(event: Event, formData: SocialLinkFormData) {
+    //   this.loading = true;
+
+    //   const token = localStorage.getItem("accessToken");
+    // },
+
     // MARK: Delete
 
     async delete() {

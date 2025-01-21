@@ -16,7 +16,6 @@ from content.models import (
     Image,
     Location,
     Resource,
-    SocialLink,
     Topic,
 )
 from utils.utils import validate_creation_and_deprecation_dates
@@ -82,12 +81,6 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
     class Meta:
         model = Resource
         fields = "__all__"
-
-
-class SocialLinkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SocialLink
-        fields = ["id", "link", "label", "order"]
 
 
 class TopicSerializer(serializers.ModelSerializer[Topic]):

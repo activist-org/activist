@@ -4,8 +4,12 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from core.paginator import CustomPagination
-from events.models import Event, EventText
-from events.serializers import EventSerializer, EventTextSerializer
+from events.models import Event, EventSocialLink, EventText
+from events.serializers import (
+    EventSerializer,
+    EventSocialLinkSerializer,
+    EventTextSerializer,
+)
 
 # MARK: Main Tables
 
@@ -113,6 +117,11 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
             return Response(
                 {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
             )
+
+
+class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
+    queryset = EventSocialLink.objects.all()
+    serializer_class = EventSocialLinkSerializer
 
 
 class EventTextViewSet(viewsets.ModelViewSet[EventText]):

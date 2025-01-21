@@ -7,6 +7,7 @@ from uuid import uuid4
 
 from django.db import models
 
+from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Main Tables
@@ -104,18 +105,10 @@ class EventAttendeeStatus(models.Model):
         return self.status_name
 
 
-class EventSocialLink(models.Model):
+class EventSocialLink(SocialLink):
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
-    link = models.CharField(max_length=255)
-    label = models.CharField(max_length=255)
-    order = models.IntegerField()
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self) -> str:
-        return self.label
 
 
 class EventText(models.Model):

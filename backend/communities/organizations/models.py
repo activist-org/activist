@@ -8,6 +8,7 @@ from uuid import uuid4
 from django.db import models
 
 from authentication import enums
+from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Main Tables
@@ -98,18 +99,10 @@ class OrganizationMember(models.Model):
         return f"{self.id}"
 
 
-class OrganizationSocialLink(models.Model):
+class OrganizationSocialLink(SocialLink):
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
-    link = models.CharField(max_length=255)
-    label = models.CharField(max_length=255)
-    order = models.IntegerField()
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self) -> str:
-        return self.label
 
 
 class OrganizationTask(models.Model):

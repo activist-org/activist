@@ -189,7 +189,7 @@ export const useGroupStore = defineStore("group", {
       );
 
       const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL + `/communities/organization_texts/${group.texts.id}/`,
+        BASE_BACKEND_URL + `/communities/group_texts/${group.texts.id}/`,
         {
           method: "PUT",
           body: {
@@ -218,6 +218,14 @@ export const useGroupStore = defineStore("group", {
 
       return false;
     },
+
+    // MARK: Update Social Links
+
+    // async updateSocialLinks(group: Group, formData: SocialLinkFormData) {
+    //   this.loading = true;
+
+    //   const token = localStorage.getItem("accessToken");
+    // },
 
     // MARK: Delete
 

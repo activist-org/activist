@@ -1,10 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
@@ -53,11 +49,12 @@
 </template>
 
 <script setup lang="ts">
+import { useModalHandlers } from "~/composables/useModalHandlers";
+import type { EventUpdateTextFormData } from "~/types/events/event";
 import { i18nMap } from "~/types/i18n-map";
 
-const props = defineProps<{
-  isOpen: boolean;
-}>();
+const modalName = "ModalEditTextEvent";
+const { handleCloseModal } = useModalHandlers(modalName);
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;
@@ -67,32 +64,22 @@ await eventStore.fetchById(id);
 
 const { event } = eventStore;
 
-const formData = ref({
-  description: event.texts.description,
-  getInvolved: event.texts.getInvolved,
-  getInvolvedUrl: event.getInvolvedUrl,
+const formData = ref<EventUpdateTextFormData>({
+  description: "",
+  getInvolved: "",
+  getInvolvedUrl: "",
+});
+
+onMounted(() => {
+  formData.value.description = event.texts.description;
+  formData.value.getInvolved = event.texts.getInvolved;
+  formData.value.getInvolvedUrl = event.getInvolvedUrl;
 });
 
 async function handleSubmit() {
-  const response = await putWithToken(
-    `/events/event_texts/${event.id}/`,
-    formData
-  );
-
+  const response = await eventStore.updateTexts(event, formData.value);
   if (response) {
-    console.log("Success!");
+    handleCloseModal();
   }
 }
-
-const modals = useModals();
-const modalName = "ModalEditTextEvent";
-let modalIsOpen = computed(() => props.isOpen);
-
-onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
-});
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-};
 </script>

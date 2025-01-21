@@ -120,6 +120,7 @@ class Command(BaseCommand):
                             group_name=f"group_u{u}_o{o}_g{g}",
                             name=f"{user_topic.name} Group",
                             org=user_org,
+                            tagline=f"Fighting for {user_topic.name.lower()}",
                         )
 
                         group_texts = GroupTextFactory(iso="en", primary=True)
