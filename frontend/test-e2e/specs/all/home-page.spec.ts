@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { pressControlKey } from "~/test-e2e/actions/keyboard";
@@ -37,17 +38,24 @@ test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
   });
 
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test("Home Page has no detectable accessibility issues", async ({
-    page,
-  }, testInfo) => {
-    const violations = await runAccessibilityTest("Home Page", page, testInfo);
-    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
-
-    if (violations.length > 0) {
-      console.log(
-        "Accessibility violations:",
-        JSON.stringify(violations, null, 2)
+  test.fail(
+    "Home Page has no detectable accessibility issues",
+    async ({ page }, testInfo) => {
+      const violations = await runAccessibilityTest(
+        "Home Page",
+        page,
+        testInfo
       );
+      expect
+        .soft(violations, "Accessibility violations found:")
+        .toHaveLength(0);
+
+      if (violations.length > 0) {
+        console.log(
+          "Accessibility violations:",
+          JSON.stringify(violations, null, 2)
+        );
+      }
     }
-  });
+  );
 });

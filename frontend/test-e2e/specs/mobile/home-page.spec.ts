@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 import { newInfoMenu } from "~/test-e2e/component-objects/InfoMenu";
 import { newMainNavOptions } from "~/test-e2e/component-objects/MainNavOptions";

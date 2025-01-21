@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 
-export const newEntityMenu = (parent: Page | Locator, prefix: string) => ({
+export const newCommunityMenu = (parent: Page | Locator, prefix: string) => ({
   toggleOpenButton: parent.locator("#submenu"),
   aboutOption: parent.locator(`#${prefix}-about`),
   teamOption: parent.locator(`#${prefix}-team`),

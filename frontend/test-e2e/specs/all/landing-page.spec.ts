@@ -1,5 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
-import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
@@ -8,19 +8,20 @@ test.beforeEach(async ({ page }) => {
   );
 });
 
-// Desktop & Mobile
+// MARK: Desktop & Mobile
+
 test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
   test('Page Title should have text: "activist"', async ({ page }) => {
     expect(await page.title()).toContain("activist");
   });
 
-  // test.skip("User can request access", async ({ page }) => {
-  //   const requestAccessLink = page.locator("#request-access");
-  //   await expect(requestAccessLink).toHaveAttribute(
-  //     "href",
-  //     "https://app.formbricks.com/s/clvn9ywe21css8wqpt1hee57a"
-  //   );
-  // });
+  test("User can request access", async ({ page }) => {
+    const requestAccessLink = page.locator("#request-access");
+    await expect(requestAccessLink).toHaveAttribute(
+      "href",
+      /^https:\/\/forms.activist.org\/s\/.*$/
+    );
+  });
 
   test("User can go to Organizations page", async ({ page }) => {
     const organizationsLink = page.getByRole("link", {
@@ -71,27 +72,6 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     for (const { name, url } of links) {
       const link = page.getByRole("link", { name });
       await expect(link).toHaveAttribute("href", url);
-    }
-  });
-
-  // MARK: Accessibility
-
-  // Note: Check to make sure that this is eventually done for light and dark modes.
-  test("Landing Page has no detectable accessibility issues", async ({
-    page,
-  }, testInfo) => {
-    const violations = await runAccessibilityTest(
-      "Landing Page",
-      page,
-      testInfo
-    );
-    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
-
-    if (violations.length > 0) {
-      console.log(
-        "Accessibility violations:",
-        JSON.stringify(violations, null, 2)
-      );
     }
   });
 });

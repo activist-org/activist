@@ -19,7 +19,7 @@ const environments = {
   prod: "https://activist.org",
 };
 
-// Device Type matching for describe blocks
+// Device Type matching for describe blocks.
 const matchMobile = /@mobile/;
 const matchDesktop = /@desktop/;
 

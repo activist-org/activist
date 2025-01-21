@@ -63,15 +63,15 @@ export class SidebarLeft {
   }
 
   async mouseEnter(): Promise<void> {
-    // determine the the width of the visible sidebar
+    // Determine the the width of the visible sidebar.
     const boundingBox = await this.root.boundingBox();
     const x = boundingBox?.x ?? 0;
     const y = boundingBox?.y ?? 0;
-    // move mouse to the center of the sidebar
+    // Move mouse to the center of the sidebar.
     await this.page.mouse.move(x / 2, y / 2);
   }
 
-  // hover to the right of the sidebar left
+  // Hover to the right of the sidebar left.
   async mouseLeave(): Promise<void> {
     const boundingBox = await this.root.boundingBox();
     if (!boundingBox) {
@@ -80,9 +80,9 @@ export class SidebarLeft {
 
     const { x, y, width, height } = boundingBox;
 
-    // Move the mouse to the right of the sidebar
+    // Move the mouse to the right of the sidebar.
     const outsideX = x + width + 100; // 10 pixels to the right of the sidebar
-    const outsideY = y + height / 2; // Vertically centered
+    const outsideY = y + height / 2; // vertically centered
 
     await this.page.mouse.move(outsideX, outsideY);
   }

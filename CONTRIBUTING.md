@@ -145,6 +145,7 @@ activist is very open to contributions from people in the early stages of their 
 > - [bradlc.vscode-tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
 > - [charliermarsh.ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
 > - [esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+> - [ms-playwright.playwright](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright)
 > - [streetsidesoftware.code-spell-checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
 > - [Vue.volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 >
@@ -409,7 +410,11 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 
 #### Local E2E
 
-In order to test locally, you first need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).
+activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Please run the following command in the frontend:
+
+```bash
+yarn playwright install --with-deps
+```
 
 To run the end to end tests locally, please run the following commands:
 
@@ -417,17 +422,35 @@ To run the end to end tests locally, please run the following commands:
 docker-compose --env-file .env.dev up backend db # run backend and db in docker
 ```
 
-Then in a second shell:
+In order to test locally, you need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).
+
+In a second shell:
 
 ```bash
-node .output/server/index.mjs  # start the build frontend
+# In the root activist directory:
+cd frontend
+
+# Set the environment variables:
+set -a && source ../.env.dev && set +a
+
+# Install and run the project:
+yarn install
+yarn build  # answer no to all package installation prompts
+# Note that there may be an installation prompt high in the build logs. Hit 'n' to say no.
+
+node .output/server/index.mjs  # start the frontend
 ```
 
-Then in a third shell:
+In a third shell:
 
 ```bash
 yarn test:local
+
+# If tests don't pass, then as prompted run the following to see the HTML report:
+yarn playwright show-report
 ```
+
+Thank you for testing locally! ✨
 
 #### Remote E2E
 
@@ -438,6 +461,8 @@ git push upstream <local-branch-name>:<remote-branch-name-of-your-choice>
 ```
 
 You can then navigate to the [actions of the repository](https://github.com/activist-org/activist/actions) and trigger [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml) for the remote branch that you just created.
+
+Thank you for testing your PRs! 🎉
 
 <a id="linting-"></a>
 
