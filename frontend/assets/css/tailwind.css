@@ -27,7 +27,7 @@
   --learn-blue: 33, 118, 174;
   --accepted-green: 62, 137, 20;
   --warn-yellow: 255, 191, 0;
-  --password-very-weak: 204, 102, 102;
+  --password-vweak: 204, 102, 102;
   --password-weak: 230, 145, 56;
   --password-medium: 241, 194, 50;
   --password-strong: 106, 168, 79;
@@ -54,7 +54,7 @@
   --learn-blue: 62, 146, 204;
   --accepted-green: 97, 139, 37;
   --warn-yellow: 255, 209, 102;
-  --password-very-weak: 224, 102, 102;
+  --password-vweak: 224, 102, 102;
   --password-weak: 246, 178, 107;
   --password-medium: 255, 217, 102;
   --password-strong: 147, 196, 125;
