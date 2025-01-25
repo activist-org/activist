@@ -42,7 +42,7 @@ export default <Partial<Config>>{
         "learn-blue": "rgba(var(--learn-blue))",
         "accepted-green": "rgba(var(--accepted-green))",
         "warn-yellow": "rgba(var(--warn-yellow))",
-        "password-very-weak": "rgba(var(--password-very-weak))",
+        "password-vweak": "rgba(var(--password-vweak))",
         "password-weak": "rgba(var(--password-weak))",
         "password-medium": "rgba(var(--password-medium))",
         "password-strong": "rgba(var(--password-strong))",
