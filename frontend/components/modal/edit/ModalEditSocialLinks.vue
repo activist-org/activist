@@ -8,19 +8,30 @@
         }}</label>
         <div class="flex flex-col space-y-3">
           <div
-            v-for="socLink in socialLinksRef"
+            v-for="(socLink, index) in socialLinksRef"
+            :key="index"
             class="flex items-center space-x-3"
           >
-            <IconClose @click="removeLink((order = socLink.order))" />
+            <IconClose @click="removeLink(socLink.order)" />
+            <!-- Bind to 'socLink.label' -->
             <input
+              v-model="socLink.label"
               class="focus-brand w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
-              :placeholder="$t(socLink.label)"
+              :placeholder="
+                i18n.t(i18nMap.components.modal_edit_social_links.new_link_url)
+              "
             />
+            <!-- Bind to 'socLink.link' -->
             <input
+              v-model="socLink.link"
               class="focus-brand w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
-              :placeholder="$t(socLink.link)"
+              :placeholder="
+                i18n.t(
+                  i18nMap.components.modal_edit_social_links.new_link_label
+                )
+              "
             />
           </div>
         </div>
@@ -57,6 +68,12 @@ import type {
   SocialLink,
   SocialLinkFormData,
 } from "~/types/content/social-link";
+import type {
+  Organization,
+  OrganizationSocialLink,
+} from "~/types/communities/organization";
+import type { Event, EventSocialLink } from "~/types/events/event";
+import type { Group, GroupSocialLink } from "~/types/communities/group";
 import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
@@ -120,12 +137,15 @@ if (props.pageType == "organization") {
   socialLinksRef.value = defaultSocialLinks;
 }
 
+// TODO: Allows empty link/label values
+// TODO: Filtering out empty values breaks the reactivity system and the UI doesn't update new items.
 function mapSocialLinksToFormData() {
-  socialLinksRef.value.map((socLink) => ({
-    link: (formData.value.link = socLink.link),
-    label: (formData.value.label = socLink.label),
-    order: (formData.value.order = socLink.order),
-  }));
+  formData.value =
+    socialLinksRef.value?.map((socLink) => ({
+      link: socLink.link,
+      label: socLink.label,
+      order: socLink.order,
+    })) || [];
 }
 
 onMounted(() => {
@@ -133,42 +153,54 @@ onMounted(() => {
 });
 
 async function handleSubmit() {
+  // Sync formData with socialLinksRef
+  mapSocialLinksToFormData();
+
   let updateResponse = false;
-  if (props.pageType == "organization") {
+  if (props.pageType === "organization") {
     updateResponse = await organizationStore.updateSocialLinks(
       organization,
       formData.value
     );
-  } else if (props.pageType == "group") {
-    updateResponse = await organizationStore.updateSocialLinks(
-      organization,
-      formData.value
-    );
-  } else if (props.pageType == "event") {
-    updateResponse = await organizationStore.updateSocialLinks(
-      organization,
-      formData.value
-    );
+  } else if (props.pageType === "group") {
+    updateResponse = await groupStore.updateSocialLinks(group, formData.value);
+  } else if (props.pageType === "event") {
+    updateResponse = await eventStore.updateSocialLinks(event, formData.value);
   }
+
   if (updateResponse) {
     handleCloseModal();
   }
 }
 
 async function addNewLink() {
-  socialLinksRef.value.push({
-    link: i18n.t(i18nMap.components.modal_edit_social_links.new_link_url),
-    label: i18n.t(i18nMap.components.modal_edit_social_links.new_link_label),
+  socialLinksRef.value?.push({
+    link: "",
+    label: "",
     order: socialLinksRef.value.length,
-  });
-  mapSocialLinksToFormData();
+  } as OrganizationSocialLink & GroupSocialLink & EventSocialLink & SocialLink);
+
+  // mapSocialLinksToFormData();
 }
 
 async function removeLink(order: number): Promise<void> {
-  const filteredLinks = socialLinksRef.value.filter(
-    (link) => link.order !== order
+  const indexToRemove = socialLinksRef.value?.findIndex(
+    (link) => link.order === order
   );
-  socialLinksRef.value = filteredLinks;
-  mapSocialLinksToFormData();
+
+  if (indexToRemove !== undefined && indexToRemove >= 0) {
+    // Remove the item directly from the array.
+    // This will mutate the original array and signal the reactivity system
+    //    to update the list of links on the UI.
+    socialLinksRef.value?.splice(indexToRemove, 1);
+
+    // Re-index the remaining items to ensure the 'order' field is correct
+    socialLinksRef.value?.forEach((link, index) => {
+      link.order = index; // Update order based on current index
+    });
+
+    // After removing, we can trigger the map update to sync formData
+    mapSocialLinksToFormData();
+  }
 }
 </script>

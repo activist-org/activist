@@ -59,7 +59,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organizations/`,
+        `${BASE_BACKEND_URL as string}/communities/organizations/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -182,7 +182,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/communities/organizations/${org.id}/`,
+        (BASE_BACKEND_URL as string) + `/communities/organizations/${org.id}/`,
         {
           method: "PUT",
           body: {
@@ -196,7 +196,8 @@ export const useOrganizationStore = defineStore("organization", {
       );
 
       const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}/`,
+        (BASE_BACKEND_URL as string) +
+          `/communities/organization_texts/${org.texts.id}/`,
         {
           method: "PUT",
           body: {
@@ -241,6 +242,7 @@ export const useOrganizationStore = defineStore("organization", {
             link: formData.link,
             label: formData.label,
             order: 0,
+            org: org.id,
           }),
           headers: {
             Authorization: `Token ${token}`,
