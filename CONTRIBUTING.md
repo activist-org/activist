@@ -427,7 +427,6 @@ In order to test locally, you need to build the production version of the fronte
 In a second shell:
 
 ```bash
-# In the root activist directory:
 cd frontend
 
 # Set the environment variables:
@@ -444,6 +443,8 @@ node .output/server/index.mjs  # start the frontend
 In a third shell:
 
 ```bash
+cd frontend
+
 yarn test:local
 
 # If tests don't pass, then as prompted run the following to see the HTML report:

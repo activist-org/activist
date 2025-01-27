@@ -21,13 +21,10 @@ export const PASSWORD_PROGRESS = {
 
 export const PASSWORD_STRENGTH_COLOR: Record<string, RegExp | ""> = {
   NONE: "",
-  RED: /bg-\[rgba\(var\(--password-vweak\)\)\] dark:bg-\[rgba\(var\(--password-vweak\)\)\]/,
-  ORANGE:
-    /bg-\[rgba\(var\(--password-weak\)\)\] dark:bg-\[rgba\(var\(--password-weak\)\)\]/,
-  YELLOW:
-    /bg-\[rgba\(var\(--password-medium\)\)\] dark:bg-\[rgba\(var\(--password-medium\)\)\]/,
-  GREEN:
-    /bg-\[rgba\(var\(--password-strong\)\)\] dark:bg-\[rgba\(var\(--password-strong\)\)\]/,
+  RED: /bg-password-strength-very-weak/,
+  ORANGE: /bg-password-strength-weak/,
+  YELLOW: /bg-password-strength-medium/,
+  GREEN: /bg-password-strength-strong/,
   PRIMARY_TEXT: /bg-primary-text/,
 };
 
