@@ -46,19 +46,19 @@ const text = computed(() => passwordStrengthMap[score.value].text);
 
 const passwordStrengthMap: Record<number, { color: string; text: string }> = {
   0: {
-    color: "bg-[#cc0000] dark:bg-[#e06666]",
+    color: "bg-password-strength-very-weak",
     text: "components.indicator_password_strength.very_weak",
   },
   1: {
-    color: "bg-[#e69138] dark:bg-[#f6b26b]",
+    color: "bg-password-strength-weak",
     text: "components.indicator_password_strength.weak",
   },
   2: {
-    color: "bg-[#f1c232] dark:bg-[#ffd966]",
+    color: "bg-password-strength-medium",
     text: "components.indicator_password_strength.medium",
   },
   3: {
-    color: "bg-[#6aa84f] dark:bg-[#93c47d]",
+    color: "bg-password-strength-strong",
     text: "components.indicator_password_strength.strong",
   },
   4: {

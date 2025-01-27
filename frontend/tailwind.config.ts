@@ -42,6 +42,11 @@ export default <Partial<Config>>{
         "learn-blue": "rgba(var(--learn-blue))",
         "accepted-green": "rgba(var(--accepted-green))",
         "warn-yellow": "rgba(var(--warn-yellow))",
+        "password-strength-very-weak":
+          "rgba(var(--password-strength-very-weak))",
+        "password-strength-weak": "rgba(var(--password-strength-weak))",
+        "password-strength-medium": "rgba(var(--password-strength-medium))",
+        "password-strength-strong": "rgba(var(--password-strength-strong))",
       },
       transitionProperty: {
         width: "width",
