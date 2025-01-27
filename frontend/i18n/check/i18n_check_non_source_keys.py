@@ -47,10 +47,10 @@ if non_source_keys_dict:
         for k in non_source_keys_dict
     )
     raise ValueError(
-        f"There are some i18n target JSON files that have keys that are not in en-US.json. Please remove or rename the following keys:\n\n{non_source_keys_string}\n"
+        f"\ncheck_non_source_keys failure: There are some i18n target JSON files that have keys that are not in en-US.json. Please remove or rename the following keys:\n\n{non_source_keys_string}\n"
     )
 
 else:
     print(
-        "\nSuccess: No i18n target file has keys that are not in the en-US.json source file.\n"
+        "check_non_source_keys success: No i18n target file has keys that are not in the en-US.json source file."
     )

@@ -5,6 +5,7 @@ import type {
   GroupResponse,
   GroupUpdateTextFormData,
 } from "~/types/communities/group";
+import type { SocialLinkFormData } from "~/types/content/social-link";
 
 interface GroupStore {
   loading: boolean;
@@ -221,11 +222,46 @@ export const useGroupStore = defineStore("group", {
 
     // MARK: Update Social Links
 
-    // async updateSocialLinks(group: Group, formData: SocialLinkFormData) {
-    //   this.loading = true;
+    async updateSocialLinks(group: Group, formData: SocialLinkFormData[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
 
-    //   const token = localStorage.getItem("accessToken");
-    // },
+      const token = localStorage.getItem("accessToken");
+
+      for (const socialLinkData of formData) {
+        const responseSocialLinks = await useFetch(
+          `${BASE_BACKEND_URL}/communities/group_social_links/`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              link: socialLinkData.link,
+              label: socialLinkData.label,
+              order: socialLinkData.order,
+              group: group.id,
+            }),
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+
+        const responseSocialLinksData = responseSocialLinks.data
+          .value as unknown as Group;
+        if (responseSocialLinksData) {
+          responses.push(true);
+        } else {
+          responses.push(false);
+        }
+      }
+
+      if (responses.every((r) => r === true)) {
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
 
     // MARK: Delete
 

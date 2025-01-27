@@ -64,16 +64,16 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
-import type {
-  SocialLink,
-  SocialLinkFormData,
-} from "~/types/content/social-link";
+import type { Group, GroupSocialLink } from "~/types/communities/group";
 import type {
   Organization,
   OrganizationSocialLink,
 } from "~/types/communities/organization";
+import type {
+  SocialLink,
+  SocialLinkFormData,
+} from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
-import type { Group, GroupSocialLink } from "~/types/communities/group";
 import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
@@ -137,10 +137,8 @@ if (props.pageType == "organization") {
   socialLinksRef.value = defaultSocialLinks;
 }
 
-// TODO: Allows empty link/label values
-// TODO: Filtering out empty values breaks the reactivity system and then UI doesn't update new items.
 function mapSocialLinksToFormData() {
-  // Sync formData with socialLinksRef
+  // Sync formData with socialLinksRef.
   formData.value =
     socialLinksRef.value?.map((socLink) => ({
       link: socLink.link,
@@ -154,10 +152,8 @@ onMounted(() => {
 });
 
 async function handleSubmit() {
+  // Sync formData with socialLinksRef.
   mapSocialLinksToFormData();
-  console.log(
-    "handleSubmit formData POST: " + JSON.stringify(formData.value, null, 2)
-  );
 
   let updateResponse = false;
   if (props.pageType === "organization") {
@@ -172,7 +168,6 @@ async function handleSubmit() {
   }
 
   if (updateResponse) {
-    console.log("updateResponse: ", updateResponse);
     handleCloseModal();
   }
 }
@@ -192,16 +187,15 @@ async function removeLink(order: number): Promise<void> {
 
   if (indexToRemove !== undefined && indexToRemove >= 0) {
     // Remove the item directly from the array.
-    // This will mutate the original array and signal the reactivity system
-    //    to update the list of links on the UI.
+    // This will mutate the original array and signal a reactivity update.
     socialLinksRef.value?.splice(indexToRemove, 1);
 
-    // Re-index the remaining items to ensure the 'order' field is correct
+    // Re-index the remaining items to ensure the 'order' field is correct.
     socialLinksRef.value?.forEach((link, index) => {
-      link.order = index; // Update order based on current index
+      link.order = index;
     });
 
-    // After removing, we can trigger the map update to sync formData
+    // After removing, we can trigger the map update to sync formData.
     mapSocialLinksToFormData();
   }
 }

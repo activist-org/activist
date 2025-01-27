@@ -59,7 +59,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await useFetch(
-        `${BASE_BACKEND_URL as string}/communities/organizations/`,
+        `${BASE_BACKEND_URL}/communities/organizations/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -182,7 +182,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        (BASE_BACKEND_URL as string) + `/communities/organizations/${org.id}/`,
+        BASE_BACKEND_URL + `/communities/organizations/${org.id}/`,
         {
           method: "PUT",
           body: {
@@ -196,8 +196,7 @@ export const useOrganizationStore = defineStore("organization", {
       );
 
       const responseOrgTexts = await $fetch(
-        (BASE_BACKEND_URL as string) +
-          `/communities/organization_texts/${org.texts.id}/`,
+        BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}/`,
         {
           method: "PUT",
           body: {
@@ -231,38 +230,43 @@ export const useOrganizationStore = defineStore("organization", {
 
     async updateSocialLinks(org: Organization, formData: SocialLinkFormData[]) {
       this.loading = true;
+      const responses: boolean[] = [];
 
       const token = localStorage.getItem("accessToken");
 
-      const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL as string}/communities/organization_social_links/`,
-        {
-          method: "POST",
-          body: JSON.stringify(
-            formData.map((item) => ({
-              link: item.link,
-              label: item.label,
-              order: item.order,
-              id: org.id,
-            }))
-          ),
-          headers: {
-            Authorization: `Token ${token}`,
-            "Content-Type": "application/json",
-          },
+      for (const socialLinkData of formData) {
+        const responseSocialLinks = await useFetch(
+          `${BASE_BACKEND_URL}/communities/organization_social_links/`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              link: socialLinkData.link,
+              label: socialLinkData.label,
+              order: socialLinkData.order,
+              org: org.id,
+            }),
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+
+        const responseSocialLinksData = responseSocialLinks.data
+          .value as unknown as Organization;
+        if (responseSocialLinksData) {
+          responses.push(true);
+        } else {
+          responses.push(false);
         }
-      );
-
-      const responseSocialLinksData = responseSocialLinks.data
-        .value as unknown as Organization;
-
-      if (responseSocialLinksData) {
-        this.loading = false;
-        console.log("responseSocialLinksData: ", responseSocialLinksData);
-        return { status: true, data: "Added social media link data." };
       }
 
-      return { status: false, data: "Unable to add social media link data." };
+      if (responses.every((r) => r === true)) {
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
     },
 
     // MARK: Delete

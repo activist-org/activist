@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
   EventCreateFormData,
@@ -229,11 +230,46 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Update Social Links
 
-    // async updateSocialLinks(event: Event, formData: SocialLinkFormData) {
-    //   this.loading = true;
+    async updateSocialLinks(event: Event, formData: SocialLinkFormData[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
 
-    //   const token = localStorage.getItem("accessToken");
-    // },
+      const token = localStorage.getItem("accessToken");
+
+      for (const socialLinkData of formData) {
+        const responseSocialLinks = await useFetch(
+          `${BASE_BACKEND_URL}/communities/event_social_links/`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              link: socialLinkData.link,
+              label: socialLinkData.label,
+              order: socialLinkData.order,
+              event: event.id,
+            }),
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+
+        const responseSocialLinksData = responseSocialLinks.data
+          .value as unknown as Event;
+        if (responseSocialLinksData) {
+          responses.push(true);
+        } else {
+          responses.push(false);
+        }
+      }
+
+      if (responses.every((r) => r === true)) {
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
 
     // MARK: Delete
 

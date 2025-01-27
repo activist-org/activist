@@ -25,7 +25,7 @@
       <div class="flex flex-col space-y-3 text-primary-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
-            $t(i18nMap.components._global.join_group_link)
+            $t(i18nMap.components.modal.edit._global.join_group_link)
           }}</label>
           <p>{{ $t(i18nMap.components.modal.edit._global.remember_https) }}</p>
           <input

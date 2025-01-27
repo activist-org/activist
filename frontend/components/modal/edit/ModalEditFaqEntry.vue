@@ -18,8 +18,8 @@
               $t(
                 i18nMap.components.modal.edit._global.join_organization_link
               ) &&
-            s !== $t(i18nMap.components._global.join_group_link) &&
-            s !== $t(i18nMap.components._global.offer_to_help_link)
+            s !== $t(i18nMap.components.modal.edit._global.join_group_link) &&
+            s !== $t(i18nMap.components.modal.edit._global.offer_to_help_link)
           "
           v-model="translatedTexts[i]"
           id="textarea"

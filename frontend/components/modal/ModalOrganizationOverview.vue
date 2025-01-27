@@ -24,7 +24,6 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
-import ModalBase from "~/components/modal/ModalBase.vue";
 import type { Event } from "~/types/events/event";
 import { i18nMap } from "~/types/i18n-map";
 
