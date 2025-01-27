@@ -138,8 +138,9 @@ if (props.pageType == "organization") {
 }
 
 // TODO: Allows empty link/label values
-// TODO: Filtering out empty values breaks the reactivity system and the UI doesn't update new items.
+// TODO: Filtering out empty values breaks the reactivity system and then UI doesn't update new items.
 function mapSocialLinksToFormData() {
+  // Sync formData with socialLinksRef
   formData.value =
     socialLinksRef.value?.map((socLink) => ({
       link: socLink.link,
@@ -153,8 +154,10 @@ onMounted(() => {
 });
 
 async function handleSubmit() {
-  // Sync formData with socialLinksRef
   mapSocialLinksToFormData();
+  console.log(
+    "handleSubmit formData POST: " + JSON.stringify(formData.value, null, 2)
+  );
 
   let updateResponse = false;
   if (props.pageType === "organization") {
@@ -169,6 +172,7 @@ async function handleSubmit() {
   }
 
   if (updateResponse) {
+    console.log("updateResponse: ", updateResponse);
     handleCloseModal();
   }
 }
@@ -179,8 +183,6 @@ async function addNewLink() {
     label: "",
     order: socialLinksRef.value.length,
   } as OrganizationSocialLink & GroupSocialLink & EventSocialLink & SocialLink);
-
-  // mapSocialLinksToFormData();
 }
 
 async function removeLink(order: number): Promise<void> {

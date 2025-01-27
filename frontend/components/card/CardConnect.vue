@@ -64,9 +64,7 @@ const { openModal: openModalEditSocialLinks } = useModalHandlers(
   "ModalEditSocialLinks"
 );
 
-// TODO: Uncomment useUser() and remove userIsSignedIn = true
-// const { userIsSignedIn } = useUser();
-const userIsSignedIn = true;
+const { userIsSignedIn } = useUser();
 const paramsId = useRoute().params.id;
 const paramsGroupId = useRoute().params.groupId;
 

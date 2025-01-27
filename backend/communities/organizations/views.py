@@ -143,6 +143,23 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
     queryset = OrganizationSocialLink.objects.all()
     serializer_class = OrganizationSocialLinkSerializer
 
+    def create(self, request, *args, **kwargs):
+        # Assuming you send a list of records as part of the request data
+        serializer = self.get_serializer(data=request.data, many=True)
+
+        if serializer.is_valid():
+            # Save all records at once
+            serializer.save()
+            return Response(
+                {"message": "Records created successfully", "data": serializer.data},
+                status=status.HTTP_201_CREATED,
+            )
+        else:
+            return Response(
+                {"message": "Invalid data", "errors": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
 
 class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
     queryset = OrganizationText.objects.all()

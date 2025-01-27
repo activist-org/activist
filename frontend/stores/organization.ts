@@ -229,7 +229,7 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Update Social Links
 
-    async updateSocialLinks(org: Organization, formData: SocialLinkFormData) {
+    async updateSocialLinks(org: Organization, formData: SocialLinkFormData[]) {
       this.loading = true;
 
       const token = localStorage.getItem("accessToken");
@@ -238,14 +238,17 @@ export const useOrganizationStore = defineStore("organization", {
         `${BASE_BACKEND_URL as string}/communities/organization_social_links/`,
         {
           method: "POST",
-          body: JSON.stringify({
-            link: formData.link,
-            label: formData.label,
-            order: 0,
-            org: org.id,
-          }),
+          body: JSON.stringify(
+            formData.map((item) => ({
+              link: item.link,
+              label: item.label,
+              order: item.order,
+              id: org.id,
+            }))
+          ),
           headers: {
             Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -255,7 +258,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responseSocialLinksData) {
         this.loading = false;
-
+        console.log("responseSocialLinksData: ", responseSocialLinksData);
         return { status: true, data: "Added social media link data." };
       }
 
