@@ -20,10 +20,8 @@ jobs:
           node-version: 20
 
       - name: Install Yarn
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: install
-          dir: "frontend"
+        working-directory: ./frontend
+        run: install
 
       # MARK: Dependency Updates
 
@@ -79,17 +77,13 @@ jobs:
 
       - name: Run Nuxt Type Check
         if: always()
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: nuxi typecheck || echo "Type check failed." >> error_log.txt
-          dir: "frontend"
+        working-directory: ./frontend
+        run: nuxi typecheck || echo "Type check failed." >> error_log.txt
 
       - name: Run ESLint - Linting
         if: always()
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: eslint . || echo "ESLint check failed." >> error_log.txt
-          dir: "frontend"
+        working-directory: ./frontend
+        run: eslint . || echo "ESLint check failed." >> error_log.txt
 
       # MARK: Errors and Issue
 

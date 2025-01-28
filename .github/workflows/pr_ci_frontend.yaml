@@ -23,6 +23,7 @@ jobs:
           sudo yarn install
 
       - name: Install Prettier
+        working-directory: ./frontend
         run: yarn add prettier
 
       - name: Run Prettier - Formatting Check
@@ -32,21 +33,15 @@ jobs:
 
       - name: Run Nuxt Type Check
         if: always()
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: nuxi typecheck
-          dir: "frontend"
+        working-directory: ./frontend
+        run: yarn nuxi typecheck
 
       - name: Run ESLint - Linting
         if: always()
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: eslint .
-          dir: "frontend"
+        working-directory: ./frontend
+        run: eslint .
 
       - name: Run Vitest - Component Testing
         if: always()
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: vitest run --run
-          dir: "frontend"
+        working-directory: ./frontend
+        run: vitest run --run
