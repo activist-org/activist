@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   },
   plugins: ["~/plugins/i18n-head.ts"],
   content: {
-    watch: false,
+    watch: { enabled: false },
   },
   imports: {
     dirs: ["./stores"],

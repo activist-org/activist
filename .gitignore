@@ -42,5 +42,16 @@ dist
 # Node dependencies
 node_modules
 
-# Vue/Nuxt i18n fix
+# Vue/Nuxt
+frontend/.data
+# i18n fix
 vue-i18n.d.ts
+
+# Yarn
+frontend/.pnp.*
+frontend/.yarn/*
+frontend/!.yarn/patches
+frontend/!.yarn/plugins
+frontend/!.yarn/releases
+frontend/!.yarn/sdks
+frontend/!.yarn/versions

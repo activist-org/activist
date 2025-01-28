@@ -53,6 +53,7 @@ const defaultIndex = computed(() => {
 function changeTab(index: number) {
   const selectedRoute = props.selectors[index]?.routeUrl;
   if (selectedRoute) {
+    // @ts-ignore
     router.push(nuxtApp.$localePath(selectedRoute));
   }
 }
