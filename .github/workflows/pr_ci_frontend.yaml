@@ -16,11 +16,11 @@ jobs:
       - name: Setup Node environment
         uses: actions/setup-node@v4
 
-      - name: Install Yarn
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: install
-          dir: "frontend"
+      - name: Install dependencies via Yarn
+        working-directory: ./frontend
+        run: |
+          corepack enable
+          sudo yarn install
 
       - name: Install Prettier
         run: yarn add prettier
