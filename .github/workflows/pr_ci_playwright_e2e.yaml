@@ -48,6 +48,7 @@ jobs:
       - name: Install dependencies via Yarn
         working-directory: ./frontend
         run: |
+          corepack enable
           sudo yarn install
           sudo yarn build
 
