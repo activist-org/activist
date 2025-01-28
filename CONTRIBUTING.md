@@ -239,7 +239,7 @@ Dockerized environments are resource intensive - specifically for some Windows u
 <details><summary><strong>Frontend: Yarn</strong></summary>
 <p>
 
-The frontend currently uses [Yarn 1](https://classic.yarnpkg.com/lang/en/docs/install).
+The frontend currently uses [Yarn 4.*](https://yarnpkg.com/getting-started/install).
 
 ```bash
 # In the root activist directory:
@@ -249,6 +249,7 @@ cd frontend
 set -a && source ../.env.dev && set +a
 
 # Install and run the project:
+corepack enable
 yarn install
 yarn run dev:local
 ```
@@ -427,13 +428,13 @@ In order to test locally, you need to build the production version of the fronte
 In a second shell:
 
 ```bash
-# In the root activist directory:
 cd frontend
 
 # Set the environment variables:
 set -a && source ../.env.dev && set +a
 
 # Install and run the project:
+corepack enable
 yarn install
 yarn build  # answer no to all package installation prompts
 # Note that there may be an installation prompt high in the build logs. Hit 'n' to say no.
@@ -444,6 +445,8 @@ node .output/server/index.mjs  # start the frontend
 In a third shell:
 
 ```bash
+cd frontend
+
 yarn test:local
 
 # If tests don't pass, then as prompted run the following to see the HTML report:

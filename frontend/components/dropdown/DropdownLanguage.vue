@@ -40,13 +40,13 @@ defineProps<{
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-const localesValues: (string | LocaleObject)[] = locales.value;
+const localesValues: LocaleObject[] = locales.value;
 
-function getLocaleCode(locale: string | LocaleObject) {
+function getLocaleCode(locale: LocaleObject) {
   return typeof locale === "string" ? locale : locale.code;
 }
 
-function getLocaleName(locale: string | LocaleObject) {
+function getLocaleName(locale: LocaleObject) {
   return typeof locale === "string" ? locale : String(locale.name);
 }
 
