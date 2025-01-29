@@ -5,6 +5,7 @@ import type {
   GroupResponse,
   GroupUpdateTextFormData,
 } from "~/types/communities/group";
+import type { SocialLinkFormData } from "~/types/content/social-link";
 
 interface GroupStore {
   loading: boolean;
@@ -36,7 +37,7 @@ export const useGroupStore = defineStore("group", {
       location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 
       getInvolvedUrl: "",
-      socialLinks: [""],
+      socialLinks: [],
       creationDate: "",
 
       faqEntries: [""],
@@ -189,7 +190,7 @@ export const useGroupStore = defineStore("group", {
       );
 
       const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL + `/communities/organization_texts/${group.texts.id}/`,
+        BASE_BACKEND_URL + `/communities/group_texts/${group.texts.id}/`,
         {
           method: "PUT",
           body: {
@@ -217,6 +218,54 @@ export const useGroupStore = defineStore("group", {
       }
 
       return false;
+    },
+
+    // MARK: Update Social Links
+
+    async updateSocialLinks(group: Group, formData: SocialLinkFormData[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      // Endpoint needs socialLink id's but they are not available here.
+      // 'update()' in the viewset 'class GroupSocialLinkViewSet' handles this
+      // by using the group.id from the end of the URL.
+      const responseSocialLinks = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_social_links/${group.id}/`,
+        {
+          method: "PUT",
+          // Send entire formData array/dict in order to make a single API request.
+          body: JSON.stringify(
+            formData.map((data) => ({
+              link: data.link,
+              label: data.label,
+              order: data.order,
+            }))
+          ),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseSocialLinksData = responseSocialLinks.data
+        .value as unknown as Group;
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates, to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
     },
 
     // MARK: Delete

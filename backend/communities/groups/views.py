@@ -1,11 +1,20 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
+import json
+from typing import Dict, List
+from uuid import UUID
+
+from django.db import transaction
 from rest_framework import status, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from communities.groups.models import Group, GroupText
-from communities.groups.serializers import GroupSerializer, GroupTextSerializer
+from communities.groups.models import Group, GroupSocialLink, GroupText
+from communities.groups.serializers import (
+    GroupSerializer,
+    GroupSocialLinkSerializer,
+    GroupTextSerializer,
+)
 from core.paginator import CustomPagination
 
 # MARK: Main Tables
@@ -117,6 +126,50 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         return Response(
             {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
         )
+
+
+class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
+    queryset = GroupSocialLink.objects.all()
+    serializer_class = GroupSocialLinkSerializer
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        group = Group.objects.filter(id=pk).first()
+        if not group:
+            return Response(
+                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                # Delete all existing social links for this group.
+                GroupSocialLink.objects.filter(group=group).delete()
+
+                # Create new social links from the submitted data.
+                social_links: List[Dict[str, str]] = []
+                for link_data in data:
+                    if isinstance(link_data, dict):
+                        social_link = GroupSocialLink.objects.create(
+                            group=group,
+                            order=link_data.get("order"),
+                            link=link_data.get("link"),
+                            label=link_data.get("label"),
+                        )
+                        social_links.append(social_link)
+
+            serializer = self.get_serializer(social_links, many=True)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update social links: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):

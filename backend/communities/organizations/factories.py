@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import datetime
+import random
 
 import factory
 
@@ -9,6 +10,7 @@ from communities.organizations.models import (
     OrganizationApplicationStatus,
     OrganizationImage,
     OrganizationMember,
+    OrganizationSocialLink,
     OrganizationTask,
     OrganizationText,
 )
@@ -79,6 +81,21 @@ class OrganizationMemberFactory(factory.django.DjangoModelFactory):
     is_owner = factory.Faker("boolean")
     is_admin = factory.Faker("boolean")
     is_comms = factory.Faker("boolean")
+
+
+class OrganizationSocialLinkFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = OrganizationSocialLink
+
+    link = "https://www.activist.org"
+    label = "social link"
+    order = random.randint(0, 10)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):

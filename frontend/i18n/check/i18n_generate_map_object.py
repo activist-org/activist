@@ -81,3 +81,5 @@ with open(frontend_types_dir / "i18n-map.ts", encoding="utf-8", mode="r") as f:
 with open(frontend_types_dir / "i18n-map.ts", encoding="utf-8", mode="w") as f:
     for line in i18n_object:
         f.write(re.sub(r'"([^"]*)":', r"\1:", line))
+
+print("The i18n-map.ts file with the i18nMap object has been successfully written to.")

@@ -85,8 +85,10 @@ if json_repeat_value_counts:
         value_to_be = "values are"
 
     raise ValueError(
-        f"\n{len(json_repeat_value_counts)} repeat i18n {value_to_be} present. Please combine given the suggestions above.\n"
+        f"\ncheck_repeat_values failure: {len(json_repeat_value_counts)} repeat i18n {value_to_be} present. Please combine given the suggestions above.\n"
     )
 
 else:
-    print("\nSuccess: No repeat i18n values found in the en-US source file.\n")
+    print(
+        "check_repeat_values success: No repeat i18n values found in the en-US source file."
+    )

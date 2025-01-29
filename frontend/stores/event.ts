@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
   EventCreateFormData,
@@ -36,7 +37,7 @@ export const useEventStore = defineStore("event", {
       },
 
       getInvolvedUrl: "",
-      socialLinks: [""],
+      socialLinks: [],
       startTime: "",
       endTime: "",
       creationDate: "",
@@ -225,6 +226,54 @@ export const useEventStore = defineStore("event", {
       }
 
       return false;
+    },
+
+    // MARK: Update Social Links
+
+    async updateSocialLinks(event: Event, formData: SocialLinkFormData[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      // Endpoint needs socialLink id's but they are not available here.
+      // 'update()' in the viewset 'class EventSocialLinkViewSet' handles this
+      // by using the event.id from the end of the URL.
+      const responseSocialLinks = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_social_links/${event.id}/`,
+        {
+          method: "PUT",
+          // Send entire formData array/dict in order to make a single API request.
+          body: JSON.stringify(
+            formData.map((data) => ({
+              link: data.link,
+              label: data.label,
+              order: data.order,
+            }))
+          ),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseSocialLinksData = responseSocialLinks.data
+        .value as unknown as Event;
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates, to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
     },
 
     // MARK: Delete

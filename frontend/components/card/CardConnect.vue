@@ -5,128 +5,64 @@
       <h3 class="responsive-h3 text-left font-display">
         {{ $t(i18nMap.components._global.connect) }}
       </h3>
-      <div
-        class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all hover:text-distinct-text"
-      >
-        <IconEdit
-          v-if="userIsSignedIn && !editModeEnabled"
-          @click="toggleEditMode"
-        />
-        <Icon
-          v-else-if="userIsSignedIn && editModeEnabled"
-          @click="toggleEditMode"
-          :name="IconMap.X_LG"
-          size="1.2em"
-        />
-      </div>
+      <IconEdit
+        v-if="userIsSignedIn"
+        @click="openModalEditSocialLinks"
+        @keydown.enter="openModalEditSocialLinks"
+      />
     </div>
     <ul
       class="mt-3 flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-6"
     >
-      <li v-for="link in socialLinksRef">
-        <div
+      <li v-for="socLink in socialLinksRef">
+        <a
+          :href="socLink.link"
           class="flex cursor-pointer items-center gap-3 break-all text-primary-text transition-all hover:text-distinct-text"
         >
           <Icon
-            v-if="editModeEnabled"
-            @click="emit('on-account-removed', link)"
-            :name="IconMap.EDIT"
-            size="1em"
-          />
-          <Icon
-            v-else-if="link.includes('mastodon')"
+            v-if="socLink.link.includes('mastodon')"
             :name="IconMap.MASTODON"
             size="1.2em"
           />
           <Icon
-            v-else-if="link.includes('facebook')"
+            v-else-if="socLink.link.includes('facebook')"
             :name="IconMap.FACEBOOK"
             size="1.2em"
           />
           <Icon
-            v-else-if="link.includes('instagram')"
+            v-else-if="socLink.link.includes('instagram')"
             :name="IconMap.INSTAGRAM"
             size="1.2em"
           />
           <Icon v-else :name="IconMap.LINK" size="1.2em" />
           <div class="font-semibold">
-            {{ link }}
+            {{ socLink.label }}
           </div>
-        </div>
+        </a>
       </li>
-      <div
-        :class="{
-          block: editModeEnabled,
-          hidden: !editModeEnabled,
-        }"
-      >
-        <Popover v-slot="{ close }" class="relative">
-          <PopoverButton as="div">
-            <BtnAction
-              :cta="true"
-              label="components.card_connect.new_account"
-              fontSize="sm"
-              :leftIcon="IconMap.PLUS"
-              iconSize="1.35em"
-              ariaLabel="components.card_connect.new_account_aria_label"
-            />
-          </PopoverButton>
-          <transition
-            enter-active-class="transition duration-100 ease-out"
-            enter-from-class="opacity-0 translate-y-1"
-            enter-to-class="opacity-100 translate-y-0"
-            leave-active-class="transition duration-100 ease-in"
-            leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-0 translate-y-1"
-          >
-            <PopoverPanel class="absolute bottom-0 mb-12">
-              <PopupNewField
-                @on-cta-clicked="emit('on-new-account')"
-                @on-close-clicked="onClose(close)"
-                :title="
-                  $t(i18nMap.components.card_connect.app_account_popup_title)
-                "
-                :fieldNamePrompt="
-                  $t(
-                    i18nMap.components.card_connect
-                      .app_account_popup_field_name_prompt
-                  )
-                "
-                :fieldLabelPrompt="
-                  $t(
-                    i18nMap.components.card_connect
-                      .app_account_popup_field_label_prompt
-                  )
-                "
-                :ctaBtnLabel="
-                  $t(
-                    i18nMap.components.card_connect
-                      .app_account_popup_cta_btn_label
-                  )
-                "
-                :ctaBtnAriaLabel="
-                  $t(i18nMap.components.card_connect.new_account_aria_label)
-                "
-              />
-            </PopoverPanel>
-          </transition>
-        </Popover>
-      </div>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Event } from "~/types/events/event";
+import { useModalHandlers } from "~/composables/useModalHandlers";
+import type { Group, GroupSocialLink } from "~/types/communities/group";
+import type {
+  Organization,
+  OrganizationSocialLink,
+} from "~/types/communities/organization";
+import type { SocialLink } from "~/types/content/social-link";
+import type { Event, EventSocialLink } from "~/types/events/event";
 import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";
 }>();
+
+const { openModal: openModalEditSocialLinks } = useModalHandlers(
+  "ModalEditSocialLinks"
+);
 
 const { userIsSignedIn } = useUser();
 const paramsId = useRoute().params.id;
@@ -154,8 +90,22 @@ if (props.pageType == "organization") {
   event = eventStore.event;
 }
 
-const editModeEnabled = ref(false);
-const socialLinksRef = computed<string[]>(() => {
+const defaultSocialLinks: SocialLink[] = [
+  {
+    link: "",
+    label: "",
+    order: 0,
+    creationDate: "",
+    lastUpdated: "",
+  },
+];
+
+const socialLinksRef = computed<
+  | OrganizationSocialLink[]
+  | GroupSocialLink[]
+  | EventSocialLink[]
+  | SocialLink[]
+>(() => {
   if (props.pageType == "organization") {
     return organization.socialLinks;
   } else if (props.pageType == "group") {
@@ -163,17 +113,7 @@ const socialLinksRef = computed<string[]>(() => {
   } else if (props.pageType == "event") {
     return event.socialLinks;
   } else {
-    return [""];
+    return defaultSocialLinks;
   }
 });
-
-const toggleEditMode = () => {
-  editModeEnabled.value = !editModeEnabled.value;
-};
-
-const onClose = (close: (ref?: HTMLElement) => void) => {
-  close();
-};
-
-const emit = defineEmits(["on-new-account", "on-account-removed"]);
 </script>

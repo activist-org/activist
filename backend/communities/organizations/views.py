@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
+import json
+from typing import Dict, List
+from uuid import UUID
+
+from django.db import transaction
 from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.request import Request
@@ -9,10 +14,12 @@ from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
     OrganizationApplication,
+    OrganizationSocialLink,
     OrganizationText,
 )
 from communities.organizations.serializers import (
     OrganizationSerializer,
+    OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
 )
 from core.paginator import CustomPagination
@@ -135,6 +142,50 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
         return Response(
             {"message": "Organization deleted successfully."}, status.HTTP_200_OK
         )
+
+
+class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):
+    queryset = OrganizationSocialLink.objects.all()
+    serializer_class = OrganizationSocialLinkSerializer
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        org = Organization.objects.filter(id=pk).first()
+        if not org:
+            return Response(
+                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                # Delete all existing social links for this org.
+                OrganizationSocialLink.objects.filter(org=org).delete()
+
+                # Create new social links from the submitted data.
+                social_links: List[Dict[str, str]] = []
+                for link_data in data:
+                    if isinstance(link_data, dict):
+                        social_link = OrganizationSocialLink.objects.create(
+                            org=org,
+                            order=link_data.get("order"),
+                            link=link_data.get("link"),
+                            label=link_data.get("label"),
+                        )
+                        social_links.append(social_link)
+
+            serializer = self.get_serializer(social_links, many=True)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update social links: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):

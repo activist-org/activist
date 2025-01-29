@@ -47,19 +47,19 @@
 </template>
 
 <script setup lang="ts">
+import { ref, type Component } from "vue";
+import { useI18n } from "vue-i18n";
 import {
   SEmail,
   SFacebook,
+  SFacebookMessenger,
   SMastodon,
   STelegram,
   STwitter,
-  SFacebookMessenger,
 } from "vue-socials";
-import { ref, type Component } from "vue";
-import { IconMap } from "~/types/icon-map";
 import { toast } from "vue-sonner";
-import { useI18n } from "vue-i18n";
 import { i18nMap } from "~/types/i18n-map";
+import { IconMap } from "~/types/icon-map";
 
 const vueSocials: { [key: string]: Component } = {
   SEmail,
