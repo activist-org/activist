@@ -2,7 +2,10 @@
 <template>
   <MenuLinkWrapper :id="id" :to="routeUrl" :selected="selected">
     <div
-      class="relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
+      class="relative z-0 flex w-full items-center text-left text-sm font-medium"
+      :class="{
+        'space-x-2': sidebar.collapsed == false || sidebar.collapsedSwitch,
+      }"
     >
       <span class="pl-1">
         <Icon v-if="iconUrl" class="h-5 w-5 flex-shrink-0" :name="iconUrl" />

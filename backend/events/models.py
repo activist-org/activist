@@ -7,6 +7,7 @@ from uuid import uuid4
 
 from django.db import models
 
+from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Main Tables
@@ -44,7 +45,6 @@ class Event(models.Model):
     faqs = models.ManyToManyField("content.Faq", blank=True)
     formats = models.ManyToManyField("events.Format", blank=True)
     roles = models.ManyToManyField("events.Role", blank=True)
-    social_links = models.ManyToManyField("content.SocialLink", blank=True)
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
@@ -105,6 +105,12 @@ class EventAttendeeStatus(models.Model):
         return self.status_name
 
 
+class EventSocialLink(SocialLink):
+    event = models.ForeignKey(
+        Event, on_delete=models.CASCADE, null=True, related_name="social_links"
+    )
+
+
 class EventText(models.Model):
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="texts"
@@ -115,4 +121,4 @@ class EventText(models.Model):
     get_involved = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return f"{self.event} - {self.iso}"

@@ -32,12 +32,6 @@
           ariaLabel="_global.join_organization_aria_label"
         />
       </div>
-      <ModalEditTextOrganization
-        :organization="organization"
-        :description="organization.texts.description"
-        :getInvolved="organization.texts.getInvolved"
-        :getInvolvedUrl="organization.getInvolvedUrl"
-      />
     </div>
     <div class="mt-4">
       <div v-if="organization.groups && organization.groups.length > 0">

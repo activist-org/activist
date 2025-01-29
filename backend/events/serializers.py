@@ -11,13 +11,19 @@ from rest_framework import serializers
 
 from communities.organizations.models import Organization
 from content.serializers import LocationSerializer, ResourceSerializer
-from events.models import Event, EventText, Format
+from events.models import Event, EventSocialLink, EventText, Format
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
 )
 
 # MARK: Main Tables
+
+
+class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
+    class Meta:
+        model = EventSocialLink
+        fields = "__all__"
 
 
 class EventTextSerializer(serializers.ModelSerializer[EventText]):
@@ -34,6 +40,7 @@ class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
 
 class EventSerializer(serializers.ModelSerializer[Event]):
     texts = EventTextSerializer(many=True, read_only=True)
+    social_links = EventSocialLinkSerializer(many=True, read_only=True)
     offline_location = LocationSerializer(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)

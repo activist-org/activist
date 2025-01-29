@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
+  <ModalEditSocialLinks pageType="group" />
+  <ModalEditTextGroup />
   <MenuSubPageSelector
     class="pt-2 md:pt-0"
     :selectors="groupSubPages"
@@ -79,7 +81,6 @@
       </div>
       <CardGetInvolvedGroup :group="group" />
       <CardConnect pageType="group" />
-      <!-- <CardDonate :userIsAdmin="true" :donationPrompt="group.donationPrompt" /> -->
     </div>
   </div>
 </template>

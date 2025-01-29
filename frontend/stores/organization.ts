@@ -5,6 +5,7 @@ import type {
   OrganizationResponse,
   OrganizationUpdateTextFormData,
 } from "~/types/communities/organization";
+import type { SocialLinkFormData } from "~/types/content/social-link";
 
 interface OrganizationStore {
   loading: boolean;
@@ -29,7 +30,7 @@ export const useOrganizationStore = defineStore("organization", {
       location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 
       getInvolvedUrl: "",
-      socialLinks: [""],
+      socialLinks: [],
       status: 1,
       creationDate: "",
 
@@ -223,6 +224,54 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       return false;
+    },
+
+    // MARK: Update Social Links
+
+    async updateSocialLinks(org: Organization, formData: SocialLinkFormData[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      // Endpoint needs socialLink id's but they are not available here.
+      // 'update()' in the viewset 'class OrganizationSocialLinkViewSet' handles this
+      // by using the org.id from the end of the URL.
+      const responseSocialLinks = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_social_links/${org.id}/`,
+        {
+          method: "PUT",
+          // Send entire formData array/dict in order to make a single API request.
+          body: JSON.stringify(
+            formData.map((data) => ({
+              link: data.link,
+              label: data.label,
+              order: data.order,
+            }))
+          ),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseSocialLinksData = responseSocialLinks.data
+        .value as unknown as Organization;
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated organization data after successful updates, to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
     },
 
     // MARK: Delete

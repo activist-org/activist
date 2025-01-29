@@ -4,10 +4,10 @@ export const i18nMap = {
     activist_icon_img_alt_text: "_global.activist_icon_img_alt_text",
     auth: {
       reset_password: "_global.auth.reset_password",
-      sign_in_aria_label: "_global.auth.sign_in_aria_label",
-      sign_up_aria_label: "_global.auth.sign_up_aria_label",
       reset_password_forgot_password:
         "_global.auth.reset_password_forgot_password",
+      sign_in_aria_label: "_global.auth.sign_in_aria_label",
+      sign_up_aria_label: "_global.auth.sign_up_aria_label",
     },
     contact: "_global.contact",
     create_group: "_global.create_group",
@@ -68,14 +68,14 @@ export const i18nMap = {
       github: "components._global.github",
       instagram: "components._global.instagram",
       join: "components._global.join",
-      join_group_link: "components._global.join_group_link",
       join_group_subtext: "components._global.join_group_subtext",
       join_organization_subtext: "components._global.join_organization_subtext",
       matrix: "components._global.matrix",
       navigate_to_group_aria_label:
         "components._global.navigate_to_group_aria_label",
+      navigate_to_organization_aria_label:
+        "components._global.navigate_to_organization_aria_label",
       navigate_to_start: "components._global.navigate_to_start",
-      offer_to_help_link: "components._global.offer_to_help_link",
       participate: "components._global.participate",
       participate_subtext: "components._global.participate_subtext",
       roadmap: "components._global.roadmap",
@@ -84,8 +84,6 @@ export const i18nMap = {
       upvote_application_aria_label:
         "components._global.upvote_application_aria_label",
       working_groups_subtext: "components._global.working_groups_subtext",
-      navigate_to_organization_aria_label:
-        "components._global.navigate_to_organization_aria_label",
     },
     btn_road_map: {
       aria_label: "components.btn_road_map.aria_label",
@@ -147,18 +145,6 @@ export const i18nMap = {
         "components.card_change_account_info_username.enter_new_username",
       header_cta: "components.card_change_account_info_username.header_cta",
       new_username: "components.card_change_account_info_username.new_username",
-    },
-    card_connect: {
-      app_account_popup_cta_btn_label:
-        "components.card_connect.app_account_popup_cta_btn_label",
-      app_account_popup_field_label_prompt:
-        "components.card_connect.app_account_popup_field_label_prompt",
-      app_account_popup_field_name_prompt:
-        "components.card_connect.app_account_popup_field_name_prompt",
-      app_account_popup_title:
-        "components.card_connect.app_account_popup_title",
-      new_account: "components.card_connect.new_account",
-      new_account_aria_label: "components.card_connect.new_account_aria_label",
     },
     card_danger_zone: {
       header: "components.card_danger_zone.header",
@@ -445,8 +431,11 @@ export const i18nMap = {
     modal: {
       edit: {
         _global: {
+          join_group_link: "components.modal.edit._global.join_group_link",
           join_organization_link:
             "components.modal.edit._global.join_organization_link",
+          offer_to_help_link:
+            "components.modal.edit._global.offer_to_help_link",
           remember_https: "components.modal.edit._global.remember_https",
           update_texts: "components.modal.edit._global.update_texts",
           update_texts_aria_label:
@@ -459,6 +448,17 @@ export const i18nMap = {
     },
     modal_command_palette: {
       jump_to: "components.modal_command_palette.jump_to",
+    },
+    modal_edit_social_links: {
+      add_link: "components.modal_edit_social_links.add_link",
+      add_link_aria_label:
+        "components.modal_edit_social_links.add_link_aria_label",
+      new_link_label: "components.modal_edit_social_links.new_link_label",
+      new_link_url: "components.modal_edit_social_links.new_link_url",
+      social_links: "components.modal_edit_social_links.social_links",
+      update_links: "components.modal_edit_social_links.update_links",
+      update_links_aria_label:
+        "components.modal_edit_social_links.update_links_aria_label",
     },
     modal_image_btn: {
       open_modal_aria_label: "components.modal_image_btn.open_modal_aria_label",

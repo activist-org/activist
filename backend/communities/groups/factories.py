@@ -1,9 +1,16 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import datetime
+import random
 
 import factory
 
-from communities.groups.models import Group, GroupImage, GroupMember, GroupText
+from communities.groups.models import (
+    Group,
+    GroupImage,
+    GroupMember,
+    GroupSocialLink,
+    GroupText,
+)
 
 # MARK: Main Tables
 
@@ -41,6 +48,21 @@ class GroupMemberFactory(factory.django.DjangoModelFactory):
     group = factory.SubFactory(GroupFactory)
     user = factory.SubFactory("authentication.factories.UserFactory")
     is_admin = factory.Faker("boolean")
+
+
+class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = GroupSocialLink
+
+    link = "https://www.activist.org"
+    label = "social link"
+    order = random.randint(0, 10)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 class GroupTextFactory(factory.django.DjangoModelFactory):

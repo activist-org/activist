@@ -18,8 +18,9 @@
           {{ $t(i18nMap._global.about) }}
         </h3>
         <IconEdit
-          @click="openModalEditTextGroup()"
-          @keydown.enter="openModalEditTextGroup()"
+          v-if="userIsSignedIn"
+          @click="openModalEditTextGroup"
+          @keydown.enter="openModalEditTextGroup"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -85,6 +86,8 @@ import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextGroup } =
   useModalHandlers("ModalEditTextGroup");
+
+const { userIsSignedIn } = useUser();
 
 const idParam = useRoute().params.id;
 const id = typeof idParam === "string" ? idParam : undefined;

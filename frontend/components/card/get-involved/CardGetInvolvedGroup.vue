@@ -5,18 +5,10 @@
       <h3 class="responsive-h3 text-left font-display">
         {{ $t(i18nMap.components._global.get_involved) }}
       </h3>
-      <IconEdit @click="openModal()" @keydown.enter="openModal()" />
-      <ModalEditTextGroup
-        v-if="group"
-        @closeModal="handleCloseModal"
-        :group="group"
-        :name="group.name"
-        :sectionsToEdit="[
-          $t(i18nMap._global.about),
-          $t(i18nMap.components._global.get_involved),
-          $t(i18nMap.components._global.join_group_link),
-        ]"
-        :isOpen="modalIsOpen"
+      <IconEdit
+        v-if="userIsSignedIn"
+        @click="openModalEditTextGroup"
+        @keydown.enter="openModalEditTextGroup"
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
@@ -35,7 +27,7 @@
       <p>
         {{
           $t(i18nMap.components._global.join_group_subtext, {
-            org_name: group.name,
+            entity_name: group.name,
           })
         }}.
       </p>
@@ -44,26 +36,20 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
+import { useModalHandlers } from "~/composables/useModalHandlers";
 import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  group: Group;
-  disclaimer?: string;
-}>();
+const { openModal: openModalEditTextGroup } =
+  useModalHandlers("ModalEditTextGroup");
 
-const modals = useModals();
-const modalName = "ModalEditTextGroup";
-const modalIsOpen = ref(false);
+const { userIsSignedIn } = useUser();
 
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
+const idParam = useRoute().params.id;
+const id = typeof idParam === "string" ? idParam : undefined;
 
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
+const groupStore = useGroupStore();
+await groupStore.fetchById(id);
+
+const { group } = groupStore;
 </script>
