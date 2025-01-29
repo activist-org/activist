@@ -24,6 +24,7 @@ from core.paginator import CustomPagination
 
 # MARK: Main Tables
 
+
 class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
@@ -156,21 +157,21 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
         data = request.data
         if isinstance(data, str):
             data = json.loads(data)
-            
+
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs
             with transaction.atomic():
                 # Delete all existing social links for this org
                 OrganizationSocialLink.objects.filter(org=org).delete()
-                    
+
                 # Create new social links from the submitted data
                 social_links = []
                 for link_data in data:
                     social_link = OrganizationSocialLink.objects.create(
                         org=org,
-                        order=link_data.get('order'),
-                        link=link_data.get('link'),
-                        label=link_data.get('label'),
+                        order=link_data.get("order"),
+                        link=link_data.get("link"),
+                        label=link_data.get("label"),
                     )
                     social_links.append(social_link)
 
@@ -179,9 +180,10 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
 
         except Exception as e:
             return Response(
-                {"error": f"Failed to update social links: {str(e)}"}, 
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": f"Failed to update social links: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
+
 
 class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
     queryset = OrganizationText.objects.all()
