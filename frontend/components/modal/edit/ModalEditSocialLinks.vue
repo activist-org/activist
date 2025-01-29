@@ -138,13 +138,16 @@ if (props.pageType == "organization") {
 }
 
 function mapSocialLinksToFormData() {
-  // Sync formData with socialLinksRef.
   formData.value =
-    socialLinksRef.value?.map((socLink) => ({
-      link: socLink.link,
-      label: socLink.label,
-      order: socLink.order,
-    })) || [];
+    socialLinksRef.value
+      ?.filter(
+        (socLink) => socLink.link?.trim() !== "" && socLink.label?.trim() !== ""
+      )
+      ?.map((socLink) => ({
+        link: socLink.link,
+        label: socLink.label,
+        order: socLink.order,
+      })) || [];
 }
 
 onMounted(() => {

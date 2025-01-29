@@ -234,33 +234,38 @@ export const useOrganizationStore = defineStore("organization", {
 
       const token = localStorage.getItem("accessToken");
 
-      for (const socialLinkData of formData) {
-        const responseSocialLinks = await useFetch(
-          `${BASE_BACKEND_URL}/communities/organization_social_links/`,
-          {
-            method: "PUT",
-            body: JSON.stringify({
-              link: socialLinkData.link,
-              label: socialLinkData.label,
-              order: socialLinkData.order,
-              org: org.id,
-            }),
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
-        );
-
-        const responseSocialLinksData = responseSocialLinks.data
-          .value as unknown as Organization;
-        if (responseSocialLinksData) {
-          responses.push(true);
-        } else {
-          responses.push(false);
+      // Endpoint needs socialLink id's but they are not available here.
+      // 'update()' in the viewset 'class OrganizationSocialLinkViewSet' handles this,
+      //    using the org.id from the end of the URL.
+      const responseSocialLinks = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_social_links/${org.id}/`,
+        {
+          method: "PUT",
+          // Send entire formData array/dict in order to make a single API request.
+          body: JSON.stringify(
+            formData.map((data) => ({
+              link: data.link,
+              label: data.label,
+              order: data.order,
+            }))
+          ),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
         }
+      );
+
+      const responseSocialLinksData = responseSocialLinks.data
+        .value as unknown as Organization;
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
       }
 
       if (responses.every((r) => r === true)) {
+        // Fetch updated organization data after successful updates, to update the frontend.
+        await this.fetchById(org.id);
         this.loading = false;
         return true;
       } else {
