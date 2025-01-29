@@ -87,5 +87,5 @@ export interface EventCreateFormData {
 export interface EventUpdateTextFormData {
   description: string;
   getInvolved: string;
-  getInvolvedUrl: string;
+  getInvolvedUrl: string | undefined;
 }

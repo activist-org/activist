@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
 import json
+from typing import Dict, List
+from uuid import UUID
 
 from django.db import transaction
 from django.utils import timezone
@@ -146,8 +148,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
     queryset = OrganizationSocialLink.objects.all()
     serializer_class = OrganizationSocialLinkSerializer
 
-    def update(self, request: Request, pk: str | None = None) -> Response:
-        # Get the organization
+    def update(self, request: Request, pk: UUID | str) -> Response:
         org = Organization.objects.filter(id=pk).first()
         if not org:
             return Response(
@@ -159,23 +160,25 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
             data = json.loads(data)
 
         try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                # Delete all existing social links for this org
+                # Delete all existing social links for this org.
                 OrganizationSocialLink.objects.filter(org=org).delete()
 
-                # Create new social links from the submitted data
-                social_links = []
+                # Create new social links from the submitted data.
+                social_links: List[Dict[str, str]] = []
                 for link_data in data:
-                    social_link = OrganizationSocialLink.objects.create(
-                        org=org,
-                        order=link_data.get("order"),
-                        link=link_data.get("link"),
-                        label=link_data.get("label"),
-                    )
-                    social_links.append(social_link)
+                    if isinstance(link_data, dict):
+                        social_link = OrganizationSocialLink.objects.create(
+                            org=org,
+                            order=link_data.get("order"),
+                            link=link_data.get("link"),
+                            label=link_data.get("label"),
+                        )
+                        social_links.append(social_link)
 
             serializer = self.get_serializer(social_links, many=True)
+
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:

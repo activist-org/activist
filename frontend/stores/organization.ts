@@ -235,8 +235,8 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       // Endpoint needs socialLink id's but they are not available here.
-      // 'update()' in the viewset 'class OrganizationSocialLinkViewSet' handles this,
-      //    using the org.id from the end of the URL.
+      // 'update()' in the viewset 'class OrganizationSocialLinkViewSet' handles this
+      // by using the org.id from the end of the URL.
       const responseSocialLinks = await useFetch(
         `${BASE_BACKEND_URL}/communities/organization_social_links/${org.id}/`,
         {
