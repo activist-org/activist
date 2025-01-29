@@ -95,4 +95,7 @@ export default defineNuxtConfig({
       console.log("App instance resolved:", app);
     },
   },
+  nitro: {
+    preset: "netlify-static",
+  },
 });
