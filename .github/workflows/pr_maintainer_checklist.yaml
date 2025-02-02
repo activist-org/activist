@@ -13,13 +13,13 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - name: Thank You
+      - name: Thank You Message
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
             ## Thank you for the pull request! ❤️
 
-            The activist team will do our best to address your contribution as soon as we can. If you're not already a member of our [public Matrix community](https://matrix.to/#/#activist_community:matrix.org), please consider joining! We'd suggest using [Element](https://element.io/) as your Matrix client, and definitely join the `General` and `Development` rooms once you're in. Also consider joining our [bi-weekly Saturday developer syncs](https://etherpad.wikimedia.org/p/activist-dev-sync)! It'd be great to meet you 😊
+            The activist team will do our best to address your contribution as soon as we can. If you're not already a member of our [public Matrix community](https://matrix.to/#/#activist_community:matrix.org), please consider joining! We'd suggest using [Element](https://element.io/) as your Matrix client, and definitely join the `General` and `Development` rooms once you're in. Also consider attending our [bi-weekly Saturday developer syncs](https://etherpad.wikimedia.org/p/activist-dev-sync)! It'd be great to meet you 😊
 
       - name: Add Checklist
         uses: thollander/actions-comment-pull-request@v2
