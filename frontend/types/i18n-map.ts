@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export const i18nMap = {
   _global: {
     about: "_global.about",

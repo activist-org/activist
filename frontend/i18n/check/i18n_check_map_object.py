@@ -39,6 +39,8 @@ with open(frontend_types_dir / "i18n-map.ts", encoding="utf-8") as f:
 
     i18n_object = (
         "".join(i18n_object_list_with_key_quotes)
+        .replace('"// SPDX-License-Identifier": ', "")
+        .replace("AGPL-3.0-or-later", "")
         .replace("export const i18nMap = ", "")
         .replace("};", "}")
         .replace('"{', "{")
