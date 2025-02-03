@@ -1,0 +1,16 @@
+name: pr_ci_license_header_check
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+
+jobs:
+  license_header_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo Content
+        uses: actions/checkout@v4
+
+      - name: Check License Header
+        uses: apache/skywalking-eyes/header@main
