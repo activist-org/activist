@@ -45,6 +45,3 @@ jobs:
         if: always()
         working-directory: ./frontend
         run: sudo yarn test
-
-      - name: Check License Header
-        uses: apache/skywalking-eyes/header@main

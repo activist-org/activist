@@ -1,0 +1,14 @@
+name: pr_ci_license_header_check
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+
+jobs:
+  frontend:
+    name: Run PR License Header Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check License Header
+        uses: apache/skywalking-eyes/header@main
