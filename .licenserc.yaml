@@ -1,0 +1,20 @@
+ header:
+  license:
+    content: "SPDX-License-Identifier: AGPL-3.0-or-later"
+  paths:
+    - '**/*.vue'
+    - '**/*.ts'
+    - '**/*.test.ts'
+    - '**/*.d.ts'
+    - '**/*.py'
+  paths-ignore:
+    - 'dist'
+    - 'node_modules'
+    - '**/*.md'
+    - 'LICENSE'
+    - 'NOTICE'
+    - '**/__pycache__/**'
+    - '**/.git/**'
+    - '**/*__init__.py'
+  comment: on-failure
+  license-location-threshold: 10

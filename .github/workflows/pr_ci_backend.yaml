@@ -69,3 +69,6 @@ jobs:
           . .venv/bin/activate
           python ./backend/manage.py makemigrations
           python ./backend/manage.py migrate
+
+      - name: Check License Header
+        uses: apache/skywalking-eyes/header@main
