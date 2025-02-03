@@ -6,9 +6,11 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  frontend:
-    name: Run PR License Header Check
+  license_header_check:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repo Content
+        uses: actions/checkout@v4
+
       - name: Check License Header
         uses: apache/skywalking-eyes/header@main
