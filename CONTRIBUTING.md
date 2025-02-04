@@ -439,7 +439,7 @@ yarn install
 yarn build  # answer no to all package installation prompts
 # Note that there may be an installation prompt high in the build logs. Hit 'n' to say no.
 
-node .output/server/index.mjs  # start the frontend
+npx serve dist/  # start the frontend
 ```
 
 In a third shell:
