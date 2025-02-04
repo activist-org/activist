@@ -26,6 +26,7 @@ directories_to_skip = [
     i18n_check_dir,
     str((frontend_directory / ".nuxt").resolve()),
     str((frontend_directory / ".output").resolve()),
+    str((frontend_directory / "dist").resolve()),
     str((frontend_directory / "node_modules").resolve()),
 ]
 files_to_skip = ["i18n-map.ts"]
