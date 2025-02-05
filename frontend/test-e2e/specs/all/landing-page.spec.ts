@@ -5,7 +5,7 @@ import { getI18nString } from "~/utils/enUs";
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /where we start/i
+    new RegExp(getI18nString("components.landing_splash.header"), "i")
   );
 });
 
