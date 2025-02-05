@@ -255,15 +255,23 @@ const { linkUrl } = useLinkURL(props);
 
 const ariaLabel = computed<string>(() => {
   if (props.organization) {
-    return i18n.t(i18nMap.components._global.navigate_to_organization_aria_label);
+    return i18n.t(
+      i18nMap.components._global.navigate_to_organization_aria_label
+    );
   } else if (props.group) {
     return i18n.t(i18nMap.components._global.navigate_to_group_aria_label);
   } else if (props.event) {
-    return i18n.t(i18nMap.components.card_search_result.navigate_to_event_aria_label);
+    return i18n.t(
+      i18nMap.components.card_search_result.navigate_to_event_aria_label
+    );
   } else if (props.resource) {
-    return i18n.t(i18nMap.components.card_search_result.navigate_to_resource_aria_label);
+    return i18n.t(
+      i18nMap.components.card_search_result.navigate_to_resource_aria_label
+    );
   } else if (props.user) {
-    return i18n.t(i18nMap.components.card_search_result.navigate_to_user_aria_label);
+    return i18n.t(
+      i18nMap.components.card_search_result.navigate_to_user_aria_label
+    );
   } else {
     return "";
   }
