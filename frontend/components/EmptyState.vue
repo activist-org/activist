@@ -3,7 +3,7 @@
   <div class="flex w-full flex-col items-center bg-layer-0 text-primary-text">
     <PageContent
       :imgUrl="BOOTSTRAP_CLOUD_MOON_URL"
-      imgAltText="components.empty_state.img_alt_text"
+      :imgAltText="i18nMap.components.empty_state.img_alt_text"
     >
       <div>
         <!-- Header -->
@@ -40,7 +40,7 @@
             $t(i18nMap.components.empty_state.message_no_permission)
           }}</span>
           <PageCommunityFooter
-            header="components.empty_state.cta_header_no_permission"
+            :header="i18nMap.components.empty_state.cta_header_no_permission"
             ><BtnRouteInternal
               class="w-full"
               :cta="false"
@@ -61,49 +61,57 @@
               v-if="pageType == 'organizations'"
               class="w-full"
               :cta="true"
-              label="components.empty_state.create_organization"
+              :label="i18nMap.components.empty_state.create_organization"
               linkTo="/organizations/create"
               fontSize="lg"
-              ariaLabel="components.empty_state.create_organization_aria_label"
+              :ariaLabel="
+                i18nMap.components.empty_state.create_organization_aria_label
+              "
             />
             <BtnRouteInternal
               v-if="pageType == 'groups'"
               class="w-full"
               :cta="true"
-              label="_global.create_group"
+              :label="i18nMap._global.create_group"
               linkTo="/groups/create"
               fontSize="lg"
-              ariaLabel="components.empty_state.create_group_aria_label"
+              :ariaLabel="
+                i18nMap.components.empty_state.create_group_aria_label
+              "
             />
             <BtnRouteInternal
               v-if="pageType == 'events'"
               class="w-full"
               :cta="true"
-              label="components.empty_state.create_event"
+              :label="i18nMap.components.empty_state.create_event"
               linkTo="/events/create"
               fontSize="lg"
-              ariaLabel="components.empty_state.create_event_aria_label"
+              :ariaLabel="
+                i18nMap.components.empty_state.create_event_aria_label
+              "
             />
             <BtnRouteInternal
               v-if="pageType == 'resources'"
               class="w-full"
               :cta="true"
-              label="components.btn_route_internal.create_resource"
+              :label="i18nMap.components.btn_route_internal.create_resource"
               linkTo="/resources/create"
               fontSize="lg"
-              ariaLabel="components.empty_state.create_resource_aria_label"
+              :ariaLabel="
+                i18nMap.components.empty_state.create_resource_aria_label
+              "
             />
           </div>
           <PageCommunityFooter
-            header="components.empty_state.cta_header_no_permission"
+            :header="i18nMap.components.empty_state.cta_header_no_permission"
             :helpNeeded="true"
             ><BtnRouteInternal
               class="w-full"
               :cta="false"
-              label="_global.return_home"
+              :label="i18nMap._global.return_home"
               linkTo="/home"
               fontSize="lg"
-              ariaLabel="_global.return_home_aria_label"
+              :ariaLabel="i18nMap._global.return_home_aria_label"
           /></PageCommunityFooter>
         </div>
       </div>

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { IconMap } from "~/types/icon-map";
 import type { SubPageSelector } from "~/types/sub-page-selector";
+import { i18nMap } from "~/types/i18n-map";
 
 export function getGroupSubPages(): SubPageSelector[] {
   const i18n = useI18n();
@@ -12,7 +13,7 @@ export function getGroupSubPages(): SubPageSelector[] {
 
   const groupAboutPageSelector: SubPageSelector = {
     id: 0,
-    label: i18n.t("_global.about"),
+    label: i18n.t(i18nMap._global.about),
     iconName: `${IconMap.ABOUT}`,
     routeUrl: `/organizations/${organizationId}/groups/${groupId}/about`,
     selected: false,
@@ -20,7 +21,7 @@ export function getGroupSubPages(): SubPageSelector[] {
 
   const groupEventPageSelector: SubPageSelector = {
     id: 1,
-    label: i18n.t("_global.events"),
+    label: i18n.t(i18nMap._global.events),
     iconName: `${IconMap.EVENT}`,
     routeUrl: `/organizations/${organizationId}/groups/${groupId}/events`,
     selected: false,
@@ -28,7 +29,7 @@ export function getGroupSubPages(): SubPageSelector[] {
 
   const groupEventResourcesSelector: SubPageSelector = {
     id: 2,
-    label: i18n.t("_global.resources"),
+    label: i18n.t(i18nMap._global.resources),
     iconName: "IconResource",
     routeUrl: `/organizations/${organizationId}/groups/${groupId}/resources`,
     selected: false,
@@ -36,7 +37,7 @@ export function getGroupSubPages(): SubPageSelector[] {
 
   const groupEventFAQSelector: SubPageSelector = {
     id: 3,
-    label: i18n.t("_global.faq"),
+    label: i18n.t(i18nMap._global.faq),
     iconName: "IconFAQ",
     routeUrl: `/organizations/${organizationId}/groups/${groupId}/faq`,
     selected: false,

@@ -65,10 +65,10 @@ const editedTexts = computed(() => props.textsToEdit);
 const translatedTexts = computed(() => {
   return editedTexts.value.map((text) => {
     if (
-      text === "components._global.working_groups_subtext" ||
-      text === "components._global.join_organization_subtext" ||
-      text === "components._global.join_group_subtext" ||
-      text === "components._global.participate_subtext"
+      text === i18nMap.components._global.working_groups_subtext ||
+      text === i18nMap.components._global.join_organization_subtext ||
+      text === i18nMap.components._global.join_group_subtext ||
+      text === i18nMap.components._global.participate_subtext
     ) {
       return i18n.t(text, { entity_name: props.name }) + ".";
     }
