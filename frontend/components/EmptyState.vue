@@ -61,37 +61,37 @@
               v-if="pageType == 'organizations'"
               class="w-full"
               :cta="true"
-              label="components.empty_state.create_organization"
+              label="i18n.components.empty_state.create_organization"
               linkTo="/organizations/create"
               fontSize="lg"
-              ariaLabel="components.empty_state.create_organization_aria_label"
+              ariaLabel="i18n.components.empty_state.create_organization_aria_label"
             />
             <BtnRouteInternal
               v-if="pageType == 'groups'"
               class="w-full"
               :cta="true"
-              label="_global.create_group"
+              label="i18n._global.create_group"
               linkTo="/groups/create"
               fontSize="lg"
-              ariaLabel="components.empty_state.create_group_aria_label"
+              ariaLabel="i18n.components.empty_state.create_group_aria_label"
             />
             <BtnRouteInternal
               v-if="pageType == 'events'"
               class="w-full"
               :cta="true"
-              label="components.empty_state.create_event"
+              label="i18n.components.empty_state.create_event"
               linkTo="/events/create"
               fontSize="lg"
-              ariaLabel="components.empty_state.create_event_aria_label"
+              ariaLabel="i18n.components.empty_state.create_event_aria_label"
             />
             <BtnRouteInternal
               v-if="pageType == 'resources'"
               class="w-full"
               :cta="true"
-              label="components.btn_route_internal.create_resource"
+              label="i18n.components.btn_route_internal.create_resource"
               linkTo="/resources/create"
               fontSize="lg"
-              ariaLabel="components.empty_state.create_resource_aria_label"
+              ariaLabel="i18n.components.empty_state.create_resource_aria_label"
             />
           </div>
           <PageCommunityFooter
@@ -100,10 +100,10 @@
             ><BtnRouteInternal
               class="w-full"
               :cta="false"
-              label="_global.return_home"
+              label="i18n._global.return_home"
               linkTo="/home"
               fontSize="lg"
-              ariaLabel="_global.return_home_aria_label"
+              ariaLabel="i18n._global.return_home_aria_label"
           /></PageCommunityFooter>
         </div>
       </div>

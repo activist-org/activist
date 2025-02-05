@@ -19,11 +19,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="_global.new_resource"
+          label="i18n._global.new_resource"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="pages._global.resources.new_resource_aria_label"
+          ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
         />
       </div>
     </HeaderAppPage>

@@ -22,11 +22,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="_global.new_group"
+          label="i18n._global.new_group"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="pages.organizations.groups.index.new_group_aria_label"
+          ariaLabel="i18n.pages.organizations.groups.index.new_group_aria_label"
         />
       </div>
     </HeaderAppPage>
