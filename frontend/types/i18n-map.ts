@@ -245,6 +245,7 @@ export const i18nMap = {
     },
     combobox_topics: {
       all_topics: "components.combobox_topics.all_topics",
+      filter_by_topic: "components.combobox_topics.filter_by_topic",
       no_matching_topics: "components.combobox_topics.no_matching_topics",
     },
     dropdown_create: {

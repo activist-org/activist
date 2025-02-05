@@ -17,19 +17,24 @@
           v-if="organization.groups && organization.groups.length > 0"
           :cta="true"
           :linkTo="'/organizations/' + id + '/groups'"
-          label="i18nMap.components.card_get_involved_organization.view_all_groups"
+          :label="
+            i18nMap.components.card_get_involved_organization.view_all_groups
+          "
           fontSize="sm"
-          ariaLabel="i18nMap.components.card_get_involved_organization.view_all_groups_aria_label"
+          :ariaLabel="
+            i18nMap.components.card_get_involved_organization
+              .view_all_groups_aria_label
+          "
         />
         <BtnRouteInternal
           v-if="organization && organization.getInvolvedUrl"
           :cta="true"
           :linkTo="organization.getInvolvedUrl"
-          label="i18nMap._global.join_organization"
+          :label="i18nMap._global.join_organization"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18nMap._global.join_organization_aria_label"
+          :ariaLabel="i18nMap._global.join_organization_aria_label"
         />
       </div>
     </div>

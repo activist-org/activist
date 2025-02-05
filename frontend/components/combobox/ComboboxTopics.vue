@@ -119,7 +119,7 @@ function displayValue() {
     return "";
   } else {
     return selectedTopic.value.id == 1
-      ? "Filter by topic"
+      ? i18n.t(i18nMap.components.combobox_topics.filter_by_topic)
       : selectedTopic.value.name;
   }
 }

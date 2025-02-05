@@ -155,6 +155,7 @@
   "components.card_topic_selection.subtext_resource": "Please select topics that this resource is related to so the community can more easily find it.",
   "components.card_topic_selection.view_all_topics": "View all topics",
   "components.combobox_topics.all_topics": "All Topics",
+  "components.combobox_topics.filter_by_topic": "Filter by topic",
   "components.combobox_topics.no_matching_topics": "No matching topics.",
   "components.dropdown_create.create": "Create",
   "components.dropdown_create.create_aria_label": "Open to see options to create events, organizations and other content on activist",
