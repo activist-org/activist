@@ -115,9 +115,9 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="pages.organizations.create.complete_application"
+              label="i18nMap.pages.organizations.create.complete_application"
               fontSize="lg"
-              ariaLabel="pages.organizations.create.complete_application-aria-label"
+              ariaLabel="i18nMap.pages.organizations.create.complete_application-aria-label"
             />
           </div>
         </div>

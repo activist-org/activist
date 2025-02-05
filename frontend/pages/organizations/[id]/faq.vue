@@ -14,11 +14,11 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          label="pages.organizations.faq.new_faq"
+          label="i18nMap.pages.organizations.faq.new_faq"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="pages.organizations.faq.new_faq_aria_label"
+          ariaLabel="i18nMap.pages.organizations.faq.new_faq_aria_label"
         />
       </div>
     </HeaderAppPage>

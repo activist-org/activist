@@ -25,11 +25,11 @@
           class="w-full"
           :cta="true"
           linkTo="/"
-          label="_global.offer_to_help"
+          label="i18nMap._global.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="_global.offer_to_help_aria_label"
+          ariaLabel="i18nMap._global.offer_to_help_aria_label"
         />
       </div>
     </div>

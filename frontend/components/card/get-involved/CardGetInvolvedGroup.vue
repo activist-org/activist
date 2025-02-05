@@ -15,11 +15,11 @@
           v-if="group.getInvolvedUrl"
           :cta="true"
           :linkTo="group.getInvolvedUrl"
-          label="_global.join_group"
+          label="i18nMap._global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="_global.join_group_aria_label"
+          ariaLabel="i18nMap._global.join_group_aria_label"
         />
       </div>
     </div>

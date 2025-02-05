@@ -55,11 +55,11 @@
         class="w-max"
         :cta="true"
         linkTo="/"
-        label="_global.offer_to_help"
+        label="i18nMap._global.offer_to_help"
         fontSize="base"
         :rightIcon="IconMap.ARROW_RIGHT"
         iconSize="1.25em"
-        ariaLabel="_global.offer_to_help_aria_label"
+        ariaLabel="i18nMap._global.offer_to_help_aria_label"
       />
     </div>
   </div>

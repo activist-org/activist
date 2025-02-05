@@ -71,7 +71,7 @@
           :dropdownIcon="IconMap.CHEVRON_DOWN"
           :dropdownOptions="availableFormats"
           :dropdownOptionsCallback="downloadQRCode"
-          ariaLabel="components.modal_qr_code.download_qr_code_aria_label"
+          ariaLabel="i18nMap.components.modal_qr_code.download_qr_code_aria_label"
           :ariaLabelDropdown="
             $t(i18nMap.components.modal_qr_code.qr_code_options_aria_label)
           "

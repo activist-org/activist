@@ -105,9 +105,9 @@
               type="submit"
               :cta="true"
               class="flex"
-              label="_global.create_group"
+              label="i18nMap._global.create_group"
               fontSize="lg"
-              ariaLabel="pages.groups.create.create_group_aria_label"
+              ariaLabel="i18nMap.pages.groups.create.create_group_aria_label"
             />
           </div>
         </div>
