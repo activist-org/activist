@@ -24,7 +24,6 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     );
   });
 
-  // components.landing_splash.view_organizations_aria_label
   test("User can go to Organizations page", async ({ page }) => {
     const organizationsLink = page.getByRole("link", {
       name: new RegExp(
@@ -39,7 +38,6 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     expect(page.url()).toContain("/organizations");
   });
 
-  // components.landing_splash.view_events_aria_label
   test("User can go to Events page", async ({ page }) => {
     const eventsLink = page.getByRole("link", {
       name: new RegExp(
