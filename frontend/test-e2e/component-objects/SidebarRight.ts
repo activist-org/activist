@@ -51,10 +51,20 @@ export const newSidebarRight = (
       return {
         parent,
         closeButton: parent.getByRole("button", {
-          name: /expand or collapse the right sidebar/i,
+          name: new RegExp(
+            getI18nString(
+              "components.sidebar_right_hamburger.collapse_aria_label"
+            ),
+            "i"
+          ),
         }),
         openButton: parent.getByRole("button", {
-          name: /expand or collapse the right sidebar/i,
+          name: new RegExp(
+            getI18nString(
+              "components.sidebar_right_hamburger.collapse_aria_label"
+            ),
+            "i"
+          ),
         }),
       };
   }

@@ -1,14 +1,33 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 import { expect } from "playwright/test";
+import { getI18nString } from "~/utils/enUs";
 
 export const PASSWORD_RATING = {
-  INVALID: /invalid/i,
-  VERY_WEAK: /very weak/i,
-  WEAK: /weak/i,
-  MEDIUM: /medium/i,
-  STRONG: /strong/i,
-  VERY_STRONG: /very strong/i,
+  INVALID: new RegExp(
+    getI18nString("components.indicator_password_strength.invalid"),
+    "i"
+  ),
+  VERY_WEAK: new RegExp(
+    getI18nString("components.indicator_password_strength.very_weak"),
+    "i"
+  ),
+  WEAK: new RegExp(
+    getI18nString("components.indicator_password_strength.weak"),
+    "i"
+  ),
+  MEDIUM: new RegExp(
+    getI18nString("components.indicator_password_strength.medium"),
+    "i"
+  ),
+  STRONG: new RegExp(
+    getI18nString("components.indicator_password_strength.strong"),
+    "i"
+  ),
+  VERY_STRONG: new RegExp(
+    getI18nString("components.indicator_password_strength.very_strong"),
+    "i"
+  ),
 };
 
 export const PASSWORD_PROGRESS = {

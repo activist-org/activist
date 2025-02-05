@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 import { expect } from "playwright/test";
+import { getI18nString } from "~/utils/enUs";
 
 export const newSidebarLeft = (page: Page) => new SidebarLeft(page);
 
@@ -18,7 +19,12 @@ export class SidebarLeft {
     this.root = page.locator("#sidebar-left");
 
     this.lockToggle = this.root.getByRole("button", {
-      name: /expand or collapse the left sidebar/i,
+      name: new RegExp(
+        getI18nString(
+          "components.sidebar_left_header.sidebar_collapse_aria_label"
+        ),
+        "i"
+      ),
     });
   }
 

@@ -12,11 +12,12 @@ import { expectTheme } from "~/test-e2e/assertions";
 import { newLanguageMenu } from "~/test-e2e/component-objects/LanguageMenu";
 import { newThemeMenu } from "~/test-e2e/component-objects/ThemeMenu";
 import { newLandingPage } from "~/test-e2e/page-objects/LandingPage";
+import { getI18nString } from "~/utils/enUs";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /where we start/i
+    new RegExp(getI18nString("components.landing_splash.header"), "i")
   );
 });
 

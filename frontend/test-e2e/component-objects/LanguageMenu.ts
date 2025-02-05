@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 import { LOCALE_CODE } from "~/locales";
+import { getI18nString } from "~/utils/enUs";
 
 const getMenuLocator = (parent: Page | Locator) =>
   parent.locator(".dropdown-language").getByRole("menu");
@@ -42,7 +43,12 @@ export const newLanguageMenu = (
       return {
         menu: getMenuLocator(parent),
         toggleOpenButton: parent.getByRole("button", {
-          name: "Open a dropdown to select another language",
+          name: new RegExp(
+            getI18nString(
+              "components.dropdown_language.open_dropdown_aria_label"
+            ),
+            "i"
+          ),
         }),
       };
   }

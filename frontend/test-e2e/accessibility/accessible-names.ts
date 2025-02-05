@@ -1,7 +1,20 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-export const ROADMAP_LINK_NAME = /learn about the activist roadmap/i;
-export const ACTIVIST_LANDING_LINK_NAME =
-  /the activist logo that links to the home page/i;
+import { getI18nString } from "~/utils/enUs";
 
-export const SIGN_IN_LINK_NAME = /sign in to your account/i;
-export const SIGN_UP_LINK_NAME = /sign up for a new account/i;
+export const ROADMAP_LINK_NAME = new RegExp(
+  getI18nString("components.btn_road_map.aria_label"),
+  "i"
+);
+export const ACTIVIST_LANDING_LINK_NAME = new RegExp(
+  getI18nString("components.logo_activist.aria_label"),
+  "i"
+);
+
+export const SIGN_IN_LINK_NAME = new RegExp(
+  getI18nString("_global.sign_in_aria_label"),
+  "i"
+);
+export const SIGN_UP_LINK_NAME = new RegExp(
+  getI18nString("_global.sign_up_aria_label"),
+  "i"
+);

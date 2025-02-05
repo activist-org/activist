@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
+import { getI18nString } from "~/utils/enUs";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
@@ -23,18 +24,28 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     );
   });
 
+  // components.landing_splash.view_organizations_aria_label
   test("User can go to Organizations page", async ({ page }) => {
     const organizationsLink = page.getByRole("link", {
-      name: /view the organizations section of the activist platform/i,
+      name: new RegExp(
+        getI18nString(
+          "components.landing_splash.view_organizations_aria_label"
+        ),
+        "i"
+      ),
     });
     await organizationsLink.click();
     await page.waitForURL("**/organizations");
     expect(page.url()).toContain("/organizations");
   });
 
+  // components.landing_splash.view_events_aria_label
   test("User can go to Events page", async ({ page }) => {
     const eventsLink = page.getByRole("link", {
-      name: /view the events section of the activist platform/i,
+      name: new RegExp(
+        getI18nString("components.landing_splash.view_events_aria_label"),
+        "i"
+      ),
     });
     await eventsLink.click();
     await page.waitForURL("**/events");
@@ -44,27 +55,50 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
   test("Important links have correct urls", async ({ page }) => {
     const links = [
       {
-        name: /learn more about getting involved in an activist organization/i,
+        name: new RegExp(
+          getI18nString("pages.index.get_active_aria_label"),
+          "i"
+        ),
         url: "https://docs.activist.org/activist",
       },
+
       {
-        name: /learn more about organizing an activist organization/i,
+        name: new RegExp(
+          getI18nString("pages.index.get_organized_aria_label"),
+          "i"
+        ),
         url: "https://docs.activist.org/activist",
       },
+
       {
-        name: /learn more about growing an activist organization/i,
+        name: new RegExp(
+          getI18nString("pages.index.grow_organization_aria_label"),
+          "i"
+        ),
         url: "https://docs.activist.org/activist",
       },
+
       {
-        name: /learn more about activist\.org and how it functions/i,
+        name: new RegExp(
+          getI18nString("pages.index.activist_section_btn_aria_label"),
+          "i"
+        ),
         url: "https://docs.activist.org/activist",
       },
+
       {
-        name: /become a supporter of activist/i,
+        name: new RegExp(
+          getI18nString("pages.index.our_supporters_btn_become_aria_label"),
+          "i"
+        ),
         url: "/supporters/join",
       },
+
       {
-        name: /view all supporters of activist/i,
+        name: new RegExp(
+          getI18nString("pages.index.our_supporters_btn_view_aria_label"),
+          "i"
+        ),
         url: "https://docs.activist.org/activist/organization/community/supporters",
       },
     ];
