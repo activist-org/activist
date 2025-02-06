@@ -2417,8 +2417,8 @@ __metadata:
   linkType: hard
 
 "@nuxtjs/mdc@npm:^0.13.0":
-  version: 0.13.2
-  resolution: "@nuxtjs/mdc@npm:0.13.2"
+  version: 0.13.3
+  resolution: "@nuxtjs/mdc@npm:0.13.3"
   dependencies:
     "@nuxt/kit": "npm:^3.15.2"
     "@shikijs/transformers": "npm:^1.27.2"
@@ -2461,7 +2461,7 @@ __metadata:
     unist-util-visit: "npm:^5.0.0"
     unwasm: "npm:^0.3.9"
     vfile: "npm:^6.0.3"
-  checksum: 10c0/f98d94689c13194325499fdded49acb34c77a32cdc220858930b22ac9a4d5f92c376d1c585001096004be76e453b7f1ffc0ff804ce04b3ef02464475cdd01e61
+  checksum: 10c0/1afc3dbecfad4665e31f2d5f99c0ffbab6eb4f31f0f7c8efc54691cf9f337469b73bfb1e4b04c20730750e2bd8058451b6605f459f23c9e7119b6d3f5e0ec51f
   languageName: node
   linkType: hard
 
