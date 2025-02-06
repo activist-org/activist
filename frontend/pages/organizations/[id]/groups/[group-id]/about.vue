@@ -18,16 +18,16 @@
           class="w-max"
           :cta="true"
           :linkTo="group.getInvolvedUrl"
-          label="_global.join_group"
+          :label="i18nMap._global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="_global.join_group_aria_label"
+          :ariaLabel="i18nMap._global.join_group_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="_global.support"
+          :label="i18nMap._global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
@@ -115,7 +115,7 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = "_global.share";
+    shareButtonLabel.value = i18nMap._global.share;
   } else {
     shareButtonLabel.value = "pages.organizations.groups.about.share_group";
   }

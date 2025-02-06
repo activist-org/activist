@@ -54,20 +54,20 @@ const labelsOpt = [
   {
     optColorMode: "system",
     iconName: `${IconMap.COLOR_MODE_SYSTEM}`,
-    label: "components.dropdown_theme.system",
-    ariaLabel: "components.dropdown_theme.system_aria_label",
+    label: i18nMap.components.dropdown_theme.system,
+    ariaLabel: i18nMap.components.dropdown_theme.system_aria_label,
   },
   {
     optColorMode: "light",
     iconName: `${IconMap.COLOR_MODE_LIGHT}`,
-    label: "components.dropdown_theme.light",
-    ariaLabel: "components.dropdown_theme.light_aria_label",
+    label: i18nMap.components.dropdown_theme.light,
+    ariaLabel: i18nMap.components.dropdown_theme.light_aria_label,
   },
   {
     optColorMode: "dark",
     iconName: `${IconMap.COLOR_MODE_DARK}`,
-    label: "components.dropdown_theme.dark",
-    ariaLabel: "components.dropdown_theme.dark_aria_label",
+    label: i18nMap.components.dropdown_theme.dark,
+    ariaLabel: i18nMap.components.dropdown_theme.dark_aria_label,
   },
 ];
 

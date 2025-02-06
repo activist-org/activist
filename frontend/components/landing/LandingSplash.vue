@@ -32,29 +32,31 @@
           id="view-organizations"
           class="w-full"
           :cta="true"
-          label="components.landing_splash.view_organizations"
+          :label="i18nMap.components.landing_splash.view_organizations"
           linkTo="/organizations"
           fontSize="xl"
-          ariaLabel="components.landing_splash.view_organizations_aria_label"
+          :ariaLabel="
+            i18nMap.components.landing_splash.view_organizations_aria_label
+          "
         />
         <BtnRouteInternal
           id="view-events"
           class="w-full"
           :cta="true"
-          label="components.landing_splash.view_events"
+          :label="i18nMap.components.landing_splash.view_events"
           linkTo="/events"
           fontSize="xl"
-          ariaLabel="components.landing_splash.view_events_aria_label"
+          :ariaLabel="i18nMap.components.landing_splash.view_events_aria_label"
         />
       </div>
       <BtnRouteExternal
         v-else
         id="request-access"
         :cta="true"
-        label="components.landing_splash.request_access"
+        :label="i18nMap.components.landing_splash.request_access"
         :linkTo="REQUEST_ACCESS_URL"
         fontSize="xl"
-        ariaLabel="components.landing_splash.request_access_aria_label"
+        :ariaLabel="i18nMap.components.landing_splash.request_access_aria_label"
       />
     </div>
   </div>

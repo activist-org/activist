@@ -73,10 +73,10 @@ const viewOptions = computed(() => {
 
 // Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
 const viewAriaLabelsDict = {
-  map: "components.form_view_selector.view_as_map_aria_label",
-  list: "components.form_view_selector.view_as_list_aria_label",
-  calendar: "components.form_view_selector.view_as_calendar_aria_label",
-  grid: "components.form_view_selector.view_as_grid_aria_label",
+  map: i18nMap.components.form_view_selector.view_as_map_aria_label,
+  list: i18nMap.components.form_view_selector.view_as_list_aria_label,
+  calendar: i18nMap.components.form_view_selector.view_as_calendar_aria_label,
+  grid: i18nMap.components.form_view_selector.view_as_grid_aria_label,
 };
 
 const viewTypeIcons: Record<ViewType, string> = {

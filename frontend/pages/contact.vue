@@ -6,7 +6,7 @@
     </Head>
     <PageDocs
       :imgUrl="BOOTSTRAP_ENVELOPE_URL"
-      imgAltText="pages.contact.contact_img_alt_text"
+      :imgAltText="i18nMap.pages.contact.contact_img_alt_text"
     >
       <div
         v-if="!emailSent"
@@ -251,10 +251,10 @@
         </p>
         <BtnRouteInternal
           :cta="false"
-          label="_global.return_home"
+          :label="i18nMap._global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="_global.return_home_aria_label"
+          :ariaLabel="i18nMap._global.return_home_aria_label"
         />
       </div>
     </PageDocs>

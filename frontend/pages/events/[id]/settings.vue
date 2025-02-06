@@ -19,9 +19,9 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          label="pages._global.settings.save_settings"
+          :label="i18nMap.pages._global.settings.save_settings"
           fontSize="sm"
-          ariaLabel="pages._global.settings.save_settings_aria_label"
+          :ariaLabel="i18nMap.pages._global.settings.save_settings_aria_label"
         />
       </div>
     </HeaderAppPage>

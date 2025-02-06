@@ -63,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import type { Filters } from "~/types/filters";
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
@@ -199,21 +200,21 @@ const filters = {
     title: "",
     name: "eventLocationSearch",
     type: "search",
-    placeholder: "components.sidebar_left.location_search_placeholder",
+    placeholder: i18nMap.components.sidebar_left.location_search_placeholder,
   },
   locationSearch: {
     sidebarType: [SidebarType.ORGANIZATION_FILTER, SidebarType.SEARCH],
     title: "Location",
     name: "locationSearch",
     type: "search",
-    placeholder: "components.sidebar_left.location_search_placeholder",
+    placeholder: i18nMap.components.sidebar_left.location_search_placeholder,
   },
   organizationSearch: {
     sidebarType: [SidebarType.EVENT_FILTER],
     title: "Organization",
     name: "organizationSearch",
     type: "search",
-    placeholder: "components.sidebar_left.orgs_search_placeholder",
+    placeholder: i18nMap.components.sidebar_left.orgs_search_placeholder,
   },
   topic: {
     sidebarType: [

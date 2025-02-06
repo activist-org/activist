@@ -20,11 +20,13 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          label="pages._global.team.invite_someone"
+          :label="i18nMap.pages._global.team.invite_someone"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="pages.organizations.team.invite_someone_org_aria_label"
+          :ariaLabel="
+            i18nMap.pages.organizations.team.invite_someone_org_aria_label
+          "
         />
       </div>
     </HeaderAppPage>

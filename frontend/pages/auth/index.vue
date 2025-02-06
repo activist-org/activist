@@ -11,19 +11,19 @@
     >
       <BtnRouteInternal
         class="w-full"
-        label="_global.sign_up"
+        :label="i18nMap._global.sign_up"
         linkTo="/auth/sign-up"
         :cta="true"
         fontSize="lg"
-        ariaLabel="_global.auth.sign_up_aria_label"
+        :ariaLabel="i18nMap._global.auth.sign_up_aria_label"
       />
       <BtnRouteInternal
         class="w-full"
-        label="_global.sign_in"
+        :label="i18nMap._global.sign_in"
         linkTo="/auth/sign-in"
         :cta="true"
         fontSize="lg"
-        ariaLabel="_global.auth.sign_in_aria_label"
+        :ariaLabel="i18nMap._global.auth.sign_in_aria_label"
       />
     </div>
   </div>

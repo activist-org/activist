@@ -25,7 +25,7 @@
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="_global.support"
+          :label="i18nMap._global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"

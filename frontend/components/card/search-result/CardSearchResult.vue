@@ -163,7 +163,7 @@
             <MetaTagVideo
               v-else-if="onlineLocation"
               :link="onlineLocation"
-              label="components.card_search_result.view_video"
+              :label="i18nMap.components.card_search_result.view_video"
             />
             <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
@@ -177,7 +177,7 @@
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
-              label="components.card_search_result.view_video"
+              :label="i18nMap.components.card_search_result.view_video"
             />
             <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
@@ -193,15 +193,15 @@
             />
             <!-- <MetaTagMembers
               :members="members"
-              label="components.card_search_result.members"
+              :label="i18nMap.components.card_search_result.members"
             />
             <MetaTagSupporters
               :supporters="supporters"
-              label="components.card_search_result.supporters_lower"
+              :label="i18nMap.components.card_search_result.supporters_lower"
             />
             <MetaTagStars
               :stars="stars"
-              label="components.card_search_result.label"
+              :label="i18nMap.components.card_search_result.label"
             /> -->
           </div>
         </div>

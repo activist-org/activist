@@ -110,9 +110,9 @@ const { t } = useI18n();
 const contentCopied = ref(false);
 
 const getCurrentI18n: { [key: string]: string } = {
-  signal: "components.btn_share_icon.opening_signal",
-  matrix: "components.btn_share_icon.opening_matrix",
-  instagram: "components.btn_share_icon.opening_instagram",
+  signal: i18nMap.components.btn_share_icon.opening_signal,
+  matrix: i18nMap.components.btn_share_icon.opening_matrix,
+  instagram: i18nMap.components.btn_share_icon.opening_instagram,
 };
 
 const copyToClipboardThenOpenUrl = async (

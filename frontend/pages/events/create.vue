@@ -285,20 +285,20 @@
             class="absolute left-0 mr-2"
             :class="{ 'placeholder-class': hasPreviousPage }"
             :cta="false"
-            label="pages.events.create.button_left"
+            :label="i18nMap.pages.events.create.button_left"
             leftIcon="←"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="pages.events.create.go_to_previous_page"
+            :ariaLabel="i18nMap.pages.events.create.go_to_previous_page"
           />
           <BtnAction
             v-if="!hasNextPage"
             type="submit"
             :cta="true"
             class="absolute right-0 ml-2 flex"
-            label="pages.events.create.submit"
+            :label="i18nMap.pages.events.create.submit"
             fontSize="lg"
-            ariaLabel="pages.events.create.submit_aria_label"
+            :ariaLabel="i18nMap.pages.events.create.submit_aria_label"
           />
           <BtnAction
             v-if="hasNextPage"
@@ -306,11 +306,11 @@
             type="button"
             class="absolute right-0 ml-2"
             :cta="false"
-            label="pages.events.create.button_right"
+            :label="i18nMap.pages.events.create.button_right"
             rightIcon="→"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="pages.events.create.go_to_previous_page"
+            :ariaLabel="i18nMap.pages.events.create.go_to_previous_page"
           />
         </div>
       </form>

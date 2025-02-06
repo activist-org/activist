@@ -71,10 +71,10 @@ const handleCloseModal = () => {
 
 <style>
 swiper-container::part(bullet) {
-  @apply focus-brand bg-cta-orange/80;
+  @apply rounded-sm bg-cta-orange/80 focus:outline-none focus-visible:border-link-text focus-visible:ring-2 focus-visible:ring-link-text;
 }
 
 swiper-container::part(bullet-active) {
-  @apply focus-brand bg-cta-orange;
+  @apply rounded-sm bg-cta-orange focus:outline-none focus-visible:border-link-text focus-visible:ring-2 focus-visible:ring-link-text;
 }
 </style>

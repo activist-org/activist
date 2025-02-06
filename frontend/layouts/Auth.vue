@@ -42,6 +42,8 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
+
 const route = useRoute();
 
 const aboveMediumBP = useBreakpoint("md");
@@ -50,35 +52,35 @@ const page = computed(() => {
   const authRoutes = [
     {
       route: "sign-in",
-      btnAriaLabel: "_global.auth.sign_up_aria_label",
-      btnLabel: "_global.sign_up",
+      btnAriaLabel: i18nMap._global.auth.sign_up_aria_label,
+      btnLabel: i18nMap._global.sign_up,
       btnLink: "/auth/sign-up",
-      message: "layouts.auth.sign_in_welcome_back",
-      title: "_global.sign_in",
+      message: i18nMap.layouts.auth.sign_in_welcome_back,
+      title: i18nMap._global.sign_in,
     },
     {
       route: "sign-up",
-      btnAriaLabel: "_global.auth.sign_in_aria_label",
-      btnLabel: "_global.sign_in",
+      btnAriaLabel: i18nMap._global.auth.sign_in_aria_label,
+      btnLabel: i18nMap._global.sign_in,
       btnLink: "/auth/sign-in",
-      message: "layouts.auth.sign_up_first_time_welcome",
-      title: "_global.sign_up",
+      message: i18nMap.layouts.auth.sign_up_welcome,
+      title: i18nMap._global.sign_up,
     },
     {
       route: "reset-password",
-      btnAriaLabel: "_global.auth.sign_in_aria_label",
-      btnLabel: "_global.sign_in",
+      btnAriaLabel: i18nMap._global.auth.sign_in_aria_label,
+      btnLabel: i18nMap._global.sign_in,
       btnLink: "/auth/sign-in",
-      message: "_global.auth.reset_password_forgot_password",
-      title: "_global.auth.reset_password",
+      message: i18nMap._global.auth.reset_password_forgot_password,
+      title: i18nMap._global.auth.reset_password,
     },
     {
       route: "set-password",
-      btnAriaLabel: "_global.auth.sign_in_aria_label",
-      btnLabel: "_global.sign_in",
+      btnAriaLabel: i18nMap._global.auth.sign_in_aria_label,
+      btnLabel: i18nMap._global.sign_in,
       btnLink: "/auth/sign-in",
-      message: "layouts.auth.set_password_set_new_password",
-      title: "_global.set-new-password",
+      message: i18nMap.layouts.auth.set_new_password,
+      title: i18nMap.layouts.auth.set_new_password,
     },
   ];
 
@@ -87,8 +89,8 @@ const page = computed(() => {
     btnAriaLabel: "",
     btnLabel: "",
     btnLink: "",
-    message: "layouts.auth.welcome",
-    title: "layouts.auth.auth",
+    message: i18nMap.layouts.auth.welcome,
+    title: i18nMap.layouts.auth.auth,
   };
 
   return (

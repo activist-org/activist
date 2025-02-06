@@ -30,11 +30,11 @@
       class="flex"
       :cta="true"
       linkTo="/"
-      label="components.card_donate.donate"
+      :label="i18nMap.components.card_donate.donate"
       fontSize="sm"
       :rightIcon="IconMap.EXTERNAL_LINK"
       iconSize="1.25em"
-      ariaLabel="components.card_donate.go_to_donation_page_aria_label"
+      :ariaLabel="i18nMap.components.card_donate.go_to_donation_page_aria_label"
     />
   </div>
 </template>

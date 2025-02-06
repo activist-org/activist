@@ -13,22 +13,22 @@
           class="w-max"
           :cta="true"
           :linkTo="event.getInvolvedUrl"
-          label="_global.offer_to_help"
+          :label="i18nMap._global.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="_global.offer_to_help_aria_label"
+          :ariaLabel="i18nMap._global.offer_to_help_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="_global.support"
+          :label="i18nMap._global.support"
           :hideLabelOnMobile="true"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="event.supportingUsers.length"
-          ariaLabel="_global.support_event_aria_label"
+          :ariaLabel="i18nMap._global.support_event_aria_label"
         /> -->
         <BtnAction
           @click="openModalSharePage()"
@@ -106,9 +106,9 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = "_global.share";
+    shareButtonLabel.value = i18nMap._global.share;
   } else {
-    shareButtonLabel.value = "_global.share_event";
+    shareButtonLabel.value = i18nMap._global.share_event;
   }
 }
 

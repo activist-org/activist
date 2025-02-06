@@ -22,11 +22,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="_global.new_event"
+          :label="i18nMap._global.new_event"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="pages.organizations.events.new_event_aria_label"
+          :ariaLabel="i18nMap.pages.organizations.events.new_event_aria_label"
         />
       </div>
     </HeaderAppPage>

@@ -44,10 +44,10 @@
             ><BtnRouteInternal
               class="w-full"
               :cta="false"
-              label="_global.return_home"
+              :label="i18nMap._global.return_home"
               linkTo="/home"
               fontSize="lg"
-              ariaLabel="_global.return_home_aria_label"
+              :ariaLabel="i18nMap._global.return_home_aria_label"
           /></PageCommunityFooter>
         </div>
         <div v-else class="flex flex-col space-y-6 py-6">

@@ -9,23 +9,24 @@
 </template>
 
 <script setup lang="ts">
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const connectLinks = [
   {
-    name: "components._global.github",
+    name: i18nMap.components._global.github,
     url: "https://github.com/activist-org/activist",
     iconName: `${IconMap.GITHUB}`,
     iconSize: "1.05em",
   },
   {
-    name: "components._global.matrix",
+    name: i18nMap.components._global.matrix,
     url: "https://matrix.to/#/#activist_community:matrix.org",
     iconName: `${IconMap.MATRIX}`,
     iconSize: "1.061em",
   },
   {
-    name: "components._global.instagram",
+    name: i18nMap.components._global.instagram,
     url: "https://instagram.com/activist_org",
     iconName: `${IconMap.INSTAGRAM}`,
     iconSize: "1em",
@@ -34,43 +35,43 @@ const connectLinks = [
 
 const resourcesLinks = [
   {
-    name: "components._global.documentation",
+    name: i18nMap.components._global.documentation,
     url: "https://docs.activist.org/activist",
   },
   // {
-  //   name: "_global.contact",
+  //   name: i18nMap._global.contact,
   //   url: "/contact",
   // },
 ];
 
 const organizationLinks = [
   {
-    name: "_global.about",
+    name: i18nMap._global.about,
     url: "https://docs.activist.org/activist/organization/community",
   },
   {
-    name: "components.footer_website.supporters",
+    name: i18nMap.components.footer_website.supporters,
     url: "https://docs.activist.org/activist/organization/community/supporters",
   },
   {
-    name: "components.footer_website.imprint",
+    name: i18nMap.components.footer_website.imprint,
     url: "https://docs.activist.org/activist/organization/legal/imprint",
   },
 ];
 
 const platformLinks = [
   {
-    name: "components.footer_website.version_number",
+    name: i18nMap.components.footer_website.version_number,
     isLocalePath: false,
     url: "https://github.com/activist-org/activist/releases",
   },
   {
-    name: "components.footer_website.source_code",
+    name: i18nMap.components.footer_website.source_code,
     isLocalePath: false,
     url: "https://github.com/activist-org/activist",
   },
   {
-    name: "components._global.roadmap",
+    name: i18nMap.components._global.roadmap,
     isLocalePath: true,
     url: "https://docs.activist.org/activist/product/about/roadmap",
   },
@@ -78,11 +79,11 @@ const platformLinks = [
 
 const legalLinks = [
   {
-    name: "components.footer_website.trademark_policy",
+    name: i18nMap.components.footer_website.trademark_policy,
     url: "https://docs.activist.org/activist/organization/legal/trademark",
   },
   {
-    name: "components.footer_website.privacy_policy",
+    name: i18nMap.components.footer_website.privacy_policy,
     url: "https://docs.activist.org/activist/product/data-and-security/privacy-policy",
   },
 ];
