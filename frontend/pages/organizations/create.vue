@@ -117,7 +117,11 @@
               class="flex"
               :label="i18nMap.pages.organizations.create.complete_application"
               fontSize="lg"
-              :ariaLabel="i18nMap.pages.organizations.create.complete_application-aria-label"
+              :ariaLabel="
+                i18nMap.pages.organizations.create.complete_application -
+                aria -
+                label
+              "
             />
           </div>
         </div>

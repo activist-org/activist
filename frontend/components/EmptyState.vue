@@ -111,7 +111,7 @@
               :label="i18nMap._global.return_home"
               linkTo="/home"
               fontSize="lg"
-               :ariaLabel="i18nMap._global.return_home_aria_label"
+              :ariaLabel="i18nMap._global.return_home_aria_label"
           /></PageCommunityFooter>
         </div>
       </div>

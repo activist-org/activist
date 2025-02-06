@@ -35,7 +35,9 @@
           :label="i18nMap.components.landing_splash.view_organizations"
           linkTo="/organizations"
           fontSize="xl"
-          :ariaLabel="i18nMap.components.landing_splash.view_organizations_aria_label"
+          :ariaLabel="
+            i18nMap.components.landing_splash.view_organizations_aria_label
+          "
         />
         <BtnRouteInternal
           id="view-events"

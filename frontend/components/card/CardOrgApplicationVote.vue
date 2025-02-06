@@ -46,7 +46,10 @@
         :leftIcon="IconMap.ARROW_DOWN"
         iconSize="1.25em"
         :disabled="isVotingDisabled"
-        :ariaLabel="i18nMap.components.card_org_application_vote.downvote_application_aria_label"
+        :ariaLabel="
+          i18nMap.components.card_org_application_vote
+            .downvote_application_aria_label
+        "
       />
     </div>
   </div>

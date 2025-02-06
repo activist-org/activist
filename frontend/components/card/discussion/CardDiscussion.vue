@@ -11,7 +11,9 @@
       fontSize="sm"
       :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
-      :ariaLabel="i18nMap.components.card.discussion._global.upvote_discussion_aria_label"
+      :ariaLabel="
+        i18nMap.components.card.discussion._global.upvote_discussion_aria_label
+      "
     />
     <div class="flex-col space-y-3 md:grow md:space-y-4 md:pl-4 lg:pl-6">
       <div class="flex flex-col justify-between md:flex-row">
@@ -40,7 +42,10 @@
               fontSize="sm"
               :leftIcon="IconMap.ARROW_UP"
               iconSize="1.25em"
-              :ariaLabel="i18nMap.components.card.discussion._global.upvote_discussion_aria_label"
+              :ariaLabel="
+                i18nMap.components.card.discussion._global
+                  .upvote_discussion_aria_label
+              "
             />
             <BtnAction
               class="mt-1 flex"
@@ -48,7 +53,10 @@
               :label="discussion.category"
               fontSize="sm"
               iconSize="1.25em"
-              :ariaLabel="i18nMap.components.card_discussion.filter_discussion_category_aria_label"
+              :ariaLabel="
+                i18nMap.components.card_discussion
+                  .filter_discussion_category_aria_label
+              "
             />
           </div>
         </div>
