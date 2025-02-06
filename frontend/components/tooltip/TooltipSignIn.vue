@@ -7,7 +7,7 @@
     <div class="grid w-max grid-cols-1 gap-4 md:grid-cols-2">
       <BtnRouteInternal
         class="flex max-h-[40px] items-center justify-center truncate"
-        label="i18nMap._global.sign_in"
+        :label="i18nMap._global.sign_in"
         linkTo="/auth/sign-in"
         :cta="true"
         fontSize="lg"
@@ -15,7 +15,7 @@
       />
       <BtnRouteInternal
         class="flex max-h-[40px] items-center justify-center truncate"
-        label="i18nMap._global.sign_up"
+        :label="i18nMap._global.sign_up"
         linkTo="/auth/sign-up"
         :cta="true"
         fontSize="lg"

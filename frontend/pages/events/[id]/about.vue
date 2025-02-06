@@ -13,22 +13,22 @@
           class="w-max"
           :cta="true"
           :linkTo="event.getInvolvedUrl"
-          label="i18nMap._global.offer_to_help"
+          :label="i18nMap._global.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18nMap._global.offer_to_help_aria_label"
+          :ariaLabel="i18nMap._global.offer_to_help_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          label="i18nMap._global.support"
+          :label="i18nMap._global.support"
           :hideLabelOnMobile="true"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="event.supportingUsers.length"
-          ariaLabel="i18nMap._global.support_event_aria_label"
+          :ariaLabel="i18nMap._global.support_event_aria_label"
         /> -->
         <BtnAction
           @click="openModalSharePage()"

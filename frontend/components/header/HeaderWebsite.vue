@@ -76,60 +76,60 @@
               id="btn-sign-in-large"
               class="block"
               :cta="true"
-              label="i18nMap._global.sign_in"
+              :label="i18nMap._global.sign_in"
               linkTo="/auth/sign-in"
               fontSize="sm"
-              ariaLabel="i18nMap._global.sign_in_aria_label"
+              :ariaLabel="i18nMap._global.sign_in_aria_label"
             />
             <BtnRouteInternal
               v-else-if="aboveMediumBP && devMode.active"
               id="btn-sign-in-medium"
               class="block"
               :cta="true"
-              label="i18nMap._global.sign_in"
+              :label="i18nMap._global.sign_in"
               linkTo="/auth/sign-in"
               fontSize="xs"
-              ariaLabel="i18nMap._global.sign_in_aria_label"
+              :ariaLabel="i18nMap._global.sign_in_aria_label"
             />
             <BtnRouteInternal
               v-if="aboveLargeBP && devMode.active"
               id="btn-sign-up-large"
               class="block"
               :cta="true"
-              label="i18nMap._global.sign_up"
+              :label="i18nMap._global.sign_up"
               linkTo="/auth/sign-up"
               fontSize="sm"
-              ariaLabel="i18nMap._global.sign_up_aria_label"
+              :ariaLabel="i18nMap._global.sign_up_aria_label"
             />
             <BtnRouteInternal
               v-else-if="aboveMediumBP && devMode.active"
               id="btn-sign-up-medium"
               class="block"
               :cta="true"
-              label="i18nMap._global.sign_up"
+              :label="i18nMap._global.sign_up"
               linkTo="/auth/sign-up"
               fontSize="xs"
-              ariaLabel="i18nMap._global.sign_up_aria_label"
+              :ariaLabel="i18nMap._global.sign_up_aria_label"
             />
             <BtnRouteInternal
               v-if="aboveLargeBP && !devMode.active"
               id="btn-get-in-touch-large"
               class="block"
               :cta="true"
-              label="i18nMap._global.support"
+              :label="i18nMap._global.support"
               linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="sm"
-              ariaLabel="i18nMap.components.header_website.support_aria_label"
+              :ariaLabel="i18nMap.components.header_website.support_aria_label"
             />
             <BtnRouteInternal
               v-else-if="aboveMediumBP && !devMode.active"
               id="btn-get-in-touch-medium"
               class="block"
               :cta="true"
-              label="i18nMap._global.support"
+              :label="i18nMap._global.support"
               linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="xs"
-              ariaLabel="i18nMap.components.header_website.support_aria_label"
+              :ariaLabel="i18nMap.components.header_website.support_aria_label"
             />
           </div>
         </div>

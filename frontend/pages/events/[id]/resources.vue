@@ -17,11 +17,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          label="i18nMap._global.new_resource"
+          :label="i18nMap._global.new_resource"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18nMap.pages._global.resources.new_resource_aria_label"
+          :ariaLabel="i18nMap.pages._global.resources.new_resource_aria_label"
         />
       </div>
     </HeaderAppPage>

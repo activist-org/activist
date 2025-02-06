@@ -34,7 +34,7 @@
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          :ariaLabel="i18nMap._global.join_organization_aria_label"
+           :ariaLabel="i18nMap._global.join_organization_aria_label"
         />
       </div>
     </div>

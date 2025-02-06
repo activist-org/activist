@@ -18,11 +18,11 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          label="i18nMap.pages._global.tasks.new_task"
+          :label="i18nMap.pages._global.tasks.new_task"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18nMap.pages._global.tasks.new_task_aria_label"
+          :ariaLabel="i18nMap.pages._global.tasks.new_task_aria_label"
         />
       </div>
     </HeaderAppPage>

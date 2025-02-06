@@ -31,10 +31,10 @@
         </div>
         <BtnRouteInternal
           :cta="true"
-          label="i18nMap._global.return_home"
+          :label="i18nMap._global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="i18nMap._global.return_home_aria_label"
+          :ariaLabel="i18nMap._global.return_home_aria_label"
         />
       </div>
     </div>
