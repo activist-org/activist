@@ -614,10 +614,9 @@ export const i18nMap = {
   layouts: {
     auth: {
       auth: "layouts.auth.auth",
-      set_password_set_new_password:
-        "layouts.auth.set_password_set_new_password",
+      set_new_password: "layouts.auth.set_new_password",
       sign_in_welcome_back: "layouts.auth.sign_in_welcome_back",
-      sign_up_first_time_welcome: "layouts.auth.sign_up_first_time_welcome",
+      sign_up_welcome: "layouts.auth.sign_up_welcome",
       welcome: "layouts.auth.welcome",
     },
   },

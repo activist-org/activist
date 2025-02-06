@@ -115,7 +115,7 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = "_global.share";
+    shareButtonLabel.value = i18nMap._global.share;
   } else {
     shareButtonLabel.value = "pages.organizations.groups.about.share_group";
   }

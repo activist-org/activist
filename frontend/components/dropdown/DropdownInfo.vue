@@ -5,7 +5,7 @@
     :menuButtonIcon="IconMap.CIRCLE_INFO"
     :menuButtonLabel="$t(i18nMap.components.dropdown_info.info)"
     :isMenuButtonUppercase="false"
-    menuButtonAriaLabel="components.dropdown_info.info_aria_label"
+    :menuButtonAriaLabel="i18nMap.components.dropdown_info.info_aria_label"
   >
     <DropdownItemsLayout :location="location" :options="infoOptions" />
   </DropdownBase>
@@ -24,21 +24,21 @@ defineProps<{
 const infoOptions: MenuSelector[] = [
   {
     id: 1,
-    label: "components.dropdown_info.help",
+    label: i18nMap.components.dropdown_info.help,
     routeUrl: "/help",
     iconUrl: `${IconMap.CIRCLE_QUESTION}`,
     selected: false,
   },
   {
     id: 2,
-    label: "components._global.documentation",
+    label: i18nMap.components._global.documentation,
     routeUrl: "/docs",
     iconUrl: `${IconMap.DOCS}`,
     selected: false,
   },
   {
     id: 3,
-    label: "components.dropdown_info.legal",
+    label: i18nMap.components.dropdown_info.legal,
     routeUrl: "/legal",
     iconUrl: `${IconMap.LEGAL}`,
     selected: false,

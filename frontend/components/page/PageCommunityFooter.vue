@@ -105,12 +105,12 @@ export interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  header: "components.page_community_footer.invite_text_1",
+  header: i18nMap.components.page_community_footer.invite_text_1,
 });
 
 const headerText = ref(props.header);
 
 if (props.helpNeeded == true) {
-  headerText.value = "components.page_community_footer.need_help";
+  headerText.value = i18nMap.components.page_community_footer.need_help;
 }
 </script>

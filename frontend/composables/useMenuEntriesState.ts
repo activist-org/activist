@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
@@ -27,41 +28,53 @@ const useMenuEntriesState = () => {
   let removeGuard = () => {};
 
   const organizationEntries = ref([
-    createMenuEntry("_global.about", "organizations", `${IconMap.ABOUT}`),
-    createMenuEntry("_global.events", "organizations", `${IconMap.EVENT}`),
+    createMenuEntry(i18nMap._global.about, "organizations", `${IconMap.ABOUT}`),
     createMenuEntry(
-      "composables.use_menu_entries_state.groups",
+      i18nMap._global.events,
+      "organizations",
+      `${IconMap.EVENT}`
+    ),
+    createMenuEntry(
+      i18nMap.composables.use_menu_entries_state.groups,
       "organizations",
       `${IconMap.GROUP}`
     ),
     createMenuEntry(
-      "_global.resources",
+      i18nMap._global.resources,
       "organizations",
       `${IconMap.RESOURCE}`
     ),
-    createMenuEntry("_global.faq", "organizations", `${IconMap.FAQ}`),
-    // createMenuEntry("_global.team", "organizations", `${IconMap.PEOPLE}`),
+    createMenuEntry(i18nMap._global.faq, "organizations", `${IconMap.FAQ}`),
+    // createMenuEntry(i18nMap._global.team, "organizations", `${IconMap.PEOPLE}`),
     createMenuEntry(
-      "composables.use_menu_entries_state.affiliates",
+      i18nMap.composables.use_menu_entries_state.affiliates,
       "organizations",
       `${IconMap.SUPPORT}`
     ),
-    createMenuEntry("_global.tasks", "organizations", `${IconMap.TASK}`),
+    createMenuEntry(i18nMap._global.tasks, "organizations", `${IconMap.TASK}`),
     createMenuEntry(
-      "_global.discussions",
+      i18nMap._global.discussions,
       "organizations",
       `${IconMap.DISCUSSION}`
     ),
-    createMenuEntry("_global.settings", "organizations", `${IconMap.SETTINGS}`),
+    createMenuEntry(
+      i18nMap._global.settings,
+      "organizations",
+      `${IconMap.SETTINGS}`
+    ),
   ]);
 
   const eventEntries = ref([
-    createMenuEntry("_global.about", "events", `${IconMap.ABOUT}`),
-    createMenuEntry("_global.team", "events", `${IconMap.PEOPLE}`),
-    createMenuEntry("_global.resources", "events", `${IconMap.RESOURCE}`),
-    createMenuEntry("_global.tasks", "events", `${IconMap.TASK}`),
-    createMenuEntry("_global.discussion", "events", `${IconMap.DISCUSSION}`),
-    createMenuEntry("_global.settings", "events", `${IconMap.SETTINGS}`),
+    createMenuEntry(i18nMap._global.about, "events", `${IconMap.ABOUT}`),
+    createMenuEntry(i18nMap._global.team, "events", `${IconMap.PEOPLE}`),
+    createMenuEntry(i18nMap._global.resources, "events", `${IconMap.RESOURCE}`),
+    createMenuEntry(i18nMap._global.tasks, "events", `${IconMap.TASK}`),
+    createMenuEntry(
+      i18nMap._global.discussion,
+      "events",
+      `${IconMap.DISCUSSION}`
+    ),
+    createMenuEntry(i18nMap._global.settings, "events", `${IconMap.SETTINGS}`),
   ]);
 
   const updateCurrentPath = () => {
@@ -77,7 +90,9 @@ const useMenuEntriesState = () => {
 
     for (const button of buttons.value) {
       if (currentPath.value.includes("/groups/")) {
-        if (button.label === "composables.use_menu_entries_state.groups") {
+        if (
+          button.label === i18nMap.composables.use_menu_entries_state.groups
+        ) {
           button.selected = true;
         } else {
           button.selected = false;

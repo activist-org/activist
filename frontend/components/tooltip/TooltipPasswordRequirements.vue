@@ -36,15 +36,17 @@ defineProps<{
 
 // Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
 const passwordRequirementsDict: { [key: string]: string } = {
-  "capital-letters": "components.tooltip_password_requirements.capital_letters",
+  "capital-letters":
+    i18nMap.components.tooltip_password_requirements.capital_letters,
   "contains-numbers":
-    "components.tooltip_password_requirements.contains_numbers",
+    i18nMap.components.tooltip_password_requirements.contains_numbers,
   "contains-special-chars":
-    "components.tooltip_password_requirements.contains_special_chars",
+    i18nMap.components.tooltip_password_requirements.contains_special_chars,
   "lower-case-letters":
-    "components.tooltip_password_requirements.lower_case_letters",
-  "number-of-chars": "components.tooltip_password_requirements.number_of_chars",
+    i18nMap.components.tooltip_password_requirements.lower_case_letters,
+  "number-of-chars":
+    i18nMap.components.tooltip_password_requirements.number_of_chars,
   "password-rules-message":
-    "components.tooltip_password_requirements.password_rules_message",
+    i18nMap.components.tooltip_password_requirements.password_rules_message,
 };
 </script>

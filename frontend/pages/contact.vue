@@ -6,7 +6,7 @@
     </Head>
     <PageDocs
       :imgUrl="BOOTSTRAP_ENVELOPE_URL"
-      imgAltText="pages.contact.contact_img_alt_text"
+      :imgAltText="i18nMap.pages.contact.contact_img_alt_text"
     >
       <div
         v-if="!emailSent"

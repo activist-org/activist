@@ -5,7 +5,7 @@
     :menuButtonIcon="IconMap.CIRCLE_PLUS"
     :menuButtonLabel="$t(i18nMap.components.dropdown_create.create)"
     :isMenuButtonUppercase="false"
-    menuButtonAriaLabel="components.dropdown_create.create_aria_label"
+    :menuButtonAriaLabel="i18nMap.components.dropdown_create.create_aria_label"
   >
     <DropdownItemsLayout :location="location" :options="createOptions" />
   </DropdownBase>
@@ -24,28 +24,28 @@ defineProps<{
 const createOptions: MenuSelector[] = [
   {
     id: 1,
-    label: "_global.new_event",
+    label: i18nMap._global.new_event,
     routeUrl: "/events/create",
     iconUrl: `${IconMap.EVENT}`,
     selected: false,
   },
   {
     id: 2,
-    label: "components.dropdown_create.new_organization",
+    label: i18nMap.components.dropdown_create.new_organization,
     routeUrl: "/organizations/create",
     iconUrl: "IconOrganization",
     selected: false,
   },
   {
     id: 3,
-    label: "_global.new_group",
+    label: i18nMap._global.new_group,
     routeUrl: "/groups/create",
     iconUrl: "IconGroup",
     selected: false,
   },
   {
     id: 4,
-    label: "_global.new_resource",
+    label: i18nMap._global.new_resource,
     routeUrl: "/resources/create",
     iconUrl: "IconResource",
     selected: false,
