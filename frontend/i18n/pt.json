@@ -236,7 +236,7 @@
   "components.indicator_password_strength.weak": "fraca",
   "components.indicator_process_progress.close_process": "Fechar",
   "components.indicator_process_progress.close_process_aria_label": "Fechar o processo atual e retornar ao ecrã anterior",
-  "components.landing_splash.header": "Onde nós começamos.",
+  "_global.header": "Onde nós começamos.",
   "components.landing_splash.message_1": "Uma plataforma para crescer os nossos movimentos e organizar ações.",
   "components.landing_splash.message_2": "Grátis, de código aberto, focada na privacidade e governada pela nossa comunidade.",
   "components.landing_splash.request_access": "Pedir acesso",

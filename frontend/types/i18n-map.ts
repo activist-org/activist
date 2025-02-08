@@ -58,6 +58,7 @@ export const i18nMap = {
     support_organization_aria_label: "_global.support_organization_aria_label",
     tasks: "_global.tasks",
     team: "_global.team",
+    header: "_global.header",
   },
   components: {
     _global: {
@@ -396,7 +397,6 @@ export const i18nMap = {
         "components.indicator_process_progress.close_process_aria_label",
     },
     landing_splash: {
-      header: "components.landing_splash.header",
       message_1: "components.landing_splash.message_1",
       message_2: "components.landing_splash.message_2",
       request_access: "components.landing_splash.request_access",

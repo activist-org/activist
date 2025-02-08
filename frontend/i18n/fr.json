@@ -239,7 +239,7 @@
   "components.indicator_password_strength.weak": "faible",
   "components.indicator_process_progress.close_process": "Fermer",
   "components.indicator_process_progress.close_process_aria_label": "Fermer le processus en cours et revenir à l’écran précédent",
-  "components.landing_splash.header": "Notre point de départ.",
+  "_global.header": "Notre point de départ.",
   "components.landing_splash.message_1": "Une plateforme pour développer nos mouvements et organiser des actions.",
   "components.landing_splash.message_2": "Gratuite, open-source, axée sur la confidentialité et régie par notre communauté.",
   "components.landing_splash.request_access": "Demander l'accès",

@@ -239,7 +239,7 @@
   "components.indicator_password_strength.weak": "schwach",
   "components.indicator_process_progress.close_process": "Schließen",
   "components.indicator_process_progress.close_process_aria_label": "Schließen Sie den aktuellen Prozess und kehren Sie zum vorherigen Bildschirm zurück",
-  "components.landing_splash.header": "Wo wir anfangen.",
+  "_global.header": "Wo wir anfangen.",
   "components.landing_splash.message_1": "Eine Plattform, um unsere Bewegungen wachsen zu lassen und Aktionen zu organisieren.",
   "components.landing_splash.message_2": "Kostenlos, Open-Source, datenschutzorientiert und wird von unserer Community verwaltet.",
   "components.landing_splash.request_access": "Zugang beantragen",
