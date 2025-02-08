@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { locales, LOCALE_CODE } from "~/locales";
 import { readFileSync } from "fs";
 import { join } from "path";
