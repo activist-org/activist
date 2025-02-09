@@ -6,7 +6,6 @@ Serializers for the content app.
 from typing import Dict, Union
 
 from django.utils.translation import gettext as _
-from PIL import Image as PilImage
 from rest_framework import serializers
 
 from content.models import (
@@ -42,33 +41,17 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         read_only_fields = ["id", "creation_date"]
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        image_extensions = [".jpg", ".jpeg", ".png"]
-        img_format = ""
-
-        file_location = data["file_location"]
-        if isinstance(file_location, str):
-            try:
-                with PilImage.open(file_location) as img:
-                    img.verify()
-                    img_format = img.format.lower()
-
-            except Exception as e:
-                raise serializers.ValidationError(
-                    _("The image is not valid."), code="corrupted_file"
-                ) from e
-
-            if img_format not in image_extensions:
-                raise serializers.ValidationError(
-                    _("The image must be in jpg, jpeg or png format."),
-                    code="invalid_extension",
-                )
-
-        else:
-            raise serializers.ValidationError(
-                _("The file location must be a string."), code="invalid_file_location"
-            )
-
+        # Remove string validation since we're getting a file object
+        if "file_location" not in data:
+            raise serializers.ValidationError("No file was submitted.")
         return data
+
+    def create(self, validated_data):
+        # Handle file upload properly
+        file_obj = self.context["request"].FILES.get("file_location")
+        if file_obj:
+            validated_data["file_location"] = file_obj
+        return super().create(validated_data)
 
 
 class LocationSerializer(serializers.ModelSerializer[Location]):
