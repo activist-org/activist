@@ -59,14 +59,14 @@ test.describe("Organizations Page", { tag: ["@desktop", "@mobile"] }, () => {
       .getByRole("link", {
         name: /Navigate to the page for this organization/i,
       })
-      .locator('xpath=following-sibling::div')
+      .locator("xpath=following-sibling::div")
       .getByRole("button")
       .first();
     await shareButton.click();
-    await expect(shareButton.locator('div.tooltip')).toBeVisible();
-    await shareButton.locator('div.tooltip').locator('button').click();
+    await expect(shareButton.locator("div.tooltip")).toBeVisible();
+    await shareButton.locator("div.tooltip").locator("button").click();
 
-    const shareModal = page.locator('#search-modal').first();
+    const shareModal = page.locator("#search-modal").first();
     await expect(shareModal).toBeVisible();
   });
 
