@@ -17,8 +17,8 @@ If you have questions or would like to communicate with the team, please [join u
 - [Learning the tech stack](#learning-the-tech-)
 - [Development environment](#dev-env-)
 - [Style guide](#style-guide-)
-- [Testing](#testing-)
 - [Linting](#linting-)
+- [Testing](#testing-)
 - [Issues and projects](#issues-projects-)
 - [Bug reports](#bug-reports-)
 - [Feature requests](#feature-requests-)
@@ -57,11 +57,11 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Backend
 
-- [Django](https://www.djangoproject.com) • [PostgreSQL](https://www.postgresql.org) (planned)
+- [Django](https://www.djangoproject.com) • [PostgreSQL](https://www.postgresql.org)
 
 ### Deployment
 
-- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/) (planned)
+- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/)
 
 ### Localization
 
@@ -343,6 +343,14 @@ From there you'll be able to visit http://localhost:6006/ to view the documentat
 
 Please see the [activist style guide](STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
 
+<a id="linting-"></a>
+
+## Linting [`⇧`](#contents)
+
+For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
+
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support.
+
 <a id="testing-"></a>
 
 ## Testing [`⇧`](#contents)
@@ -395,7 +403,7 @@ yarn typecheck
 
 #### Automated Testing
 
-We use vitest for component and unit testing.  You can run them with the following command:
+We use [Vitest](https://vitest.dev/) for component and unit testing.  You can run them with the following command:
 
 ```bash
 # Within ./frontend:
@@ -405,7 +413,7 @@ yarn test
 Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
 
 > [!NOTE]
-> The vitest test suite is still in a very early stage.  There is a lot of work left to do to increase test coverage, and some features still need troubleshooting.  If you need assistance then feel free to open a PR and we'll support!
+> The Vitest test suite is still in a very early stage. There is a lot of work left to do to increase test coverage, and some features still need troubleshooting. If you need assistance then feel free to open a PR and we'll support!
 
 ### End to End Testing
 
@@ -476,14 +484,6 @@ git push -u origin LOCAL_NAME_OF_BRANCH
 You can then visit the [actions of the repository](https://github.com/activist-org/activist/actions) to run the the [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml) test against the new branch on origin.
 
 Thank you for testing your PRs! 🎉
-
-<a id="linting-"></a>
-
-## Linting [`⇧`](#contents)
-
-For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
-
-For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support.
 
 <a id="issues-projects"></a>
 
