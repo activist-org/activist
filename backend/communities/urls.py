@@ -11,6 +11,7 @@ from communities.organizations.views import (
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
     OrganizationViewSet,
+    OrganizationImageViewSet,
 )
 from communities.views import StatusViewSet
 
@@ -47,6 +48,11 @@ router.register(
     prefix=r"organization_texts",
     viewset=OrganizationTextViewSet,
     basename="organization-text",
+)
+router.register(
+    prefix=r"organizations/(?P<org_id>[^/.]+)/images",
+    viewset=OrganizationImageViewSet,
+    basename="organization-images",
 )
 
 urlpatterns = [

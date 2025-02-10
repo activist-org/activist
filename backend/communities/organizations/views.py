@@ -11,7 +11,6 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from communities.models import StatusType
-from content.models import Image
 from communities.organizations.models import (
     Organization,
     OrganizationApplication,
@@ -23,6 +22,7 @@ from communities.organizations.serializers import (
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
 )
+from content.models import Image
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 

@@ -33,6 +33,7 @@
     </button>
     <ModalUploadImages
       @closeModal="handleCloseModal"
+      @upload-complete="fetchOrganizationImages"
       :isOpen="modalIsOpen"
       :organizationId="organizationId"
     />
@@ -51,14 +52,39 @@ const props = defineProps({
 
 register();
 
-const colorMode = useColorMode();
-const imageColor = colorMode.value;
+// const colorMode = useColorMode();
+// const imageColor = colorMode.value;
 
-const imageUrls = [
-  `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
-  `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
-  `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
-];
+const imageUrls = ref<string[]>([]);
+
+// Default images - keeping for reference
+// const imageUrls = [
+//   `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
+//   `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
+//   `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
+// ];
+
+async function fetchOrganizationImages() {
+  if (props.organizationId) {
+    const response = await fetch(
+      `${BASE_BACKEND_URL}/communities/organizations/${props.organizationId}/images/`,
+      {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log("fetchOrganizationImages data: ", data);
+      imageUrls.value = data.map((img: any) => img.fileLocation);
+    }
+  }
+}
+
+onMounted(() => {
+  fetchOrganizationImages();
+});
 
 // TODO: Update this to use the new modal handling in the modal store.
 const modals = useModals();

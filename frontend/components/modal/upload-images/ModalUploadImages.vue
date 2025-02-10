@@ -113,9 +113,12 @@ const props = withDefaults(defineProps<Props>(), {
 
 const modalName = "ModalUploadImages";
 
+const emit = defineEmits(["upload-complete"]);
+
 const handleUpload = async () => {
   await uploadFiles(props.organizationId);
   const modals = useModals();
   modals.closeModal(modalName);
+  emit("upload-complete");
 };
 </script>

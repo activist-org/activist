@@ -21,11 +21,11 @@ Including another URLconf
 
 import os
 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-from django.conf import settings
-from django.conf.urls.static import static
 
 ADMIN_PATH = os.getenv("ADMIN_PATH")
 
