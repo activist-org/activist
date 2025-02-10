@@ -55,3 +55,7 @@ frontend/!.yarn/plugins
 frontend/!.yarn/releases
 frontend/!.yarn/sdks
 frontend/!.yarn/versions
+
+# Media
+media/images/*
+!media/images/.keep

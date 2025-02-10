@@ -31,7 +31,11 @@
     >
       <Icon :name="IconMap.PLUS" size="1.5em" />
     </button>
-    <ModalUploadImages @closeModal="handleCloseModal" :isOpen="modalIsOpen" />
+    <ModalUploadImages
+      @closeModal="handleCloseModal"
+      :isOpen="modalIsOpen"
+      :organizationId="organizationId"
+    />
   </div>
 </template>
 
@@ -42,6 +46,7 @@ import { IconMap } from "~/types/icon-map";
 
 const props = defineProps({
   fullscreen: Boolean,
+  organizationId: String,
 });
 
 register();

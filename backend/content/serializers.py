@@ -51,7 +51,22 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         file_obj = self.context["request"].FILES.get("file_location")
         if file_obj:
             validated_data["file_location"] = file_obj
-        return super().create(validated_data)
+        
+        # Create the image first
+        image = super().create(validated_data)
+        
+        # Get the organization from the request
+        organization_id = self.context['request'].data.get('organization_id')
+        if organization_id:
+            # Create OrganizationImage with next sequence index
+            from communities.organizations.models import OrganizationImage
+            next_index = OrganizationImage.objects.filter(org_id=organization_id).count()
+            OrganizationImage.objects.create(
+                org_id=organization_id,
+                image=image,
+                sequence_index=next_index
+            )
+        return image
 
 
 class LocationSerializer(serializers.ModelSerializer[Location]):

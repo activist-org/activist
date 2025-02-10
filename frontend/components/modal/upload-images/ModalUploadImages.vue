@@ -103,16 +103,18 @@ const { files, handleFiles, removeFile, uploadFiles } = useFileManager();
 
 export interface Props {
   uploadLimit?: number;
+  organizationId?: string;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
+  organizationId: undefined,
 });
 
 const modalName = "ModalUploadImages";
 
 const handleUpload = async () => {
-  await uploadFiles();
+  await uploadFiles(props.organizationId);
   const modals = useModals();
   modals.closeModal(modalName);
 };

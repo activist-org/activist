@@ -3,24 +3,35 @@ export default function useFileManager(initialFiles: File[] = []) {
   const files = ref<UploadableFile[]>([]);
   handleFiles(initialFiles);
 
-  async function uploadFiles() {
+  async function uploadFiles(organizationId?: string) {
     const formData = new FormData();
-    files.value.forEach((uploadableFile) => {
+    files.value.forEach((uploadableFile: UploadableFile) => {
       formData.append("file_location", uploadableFile.file);
     });
 
-    console.log(...formData.entries());
+    if (organizationId) {
+      formData.append("organization_id", organizationId);
+      console.log("Uploading with org ID:", organizationId);
+    }
+
+    console.log("FormData entries:");
+    for (const entry of formData.entries()) {
+      console.log(entry[0], entry[1]);
+    }
 
     try {
-      const response = await fetch(`${BASE_BACKEND_URL}/content/images/`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Token ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const response = await fetch(
+        `${BASE_BACKEND_URL as string}/content/images/`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
       if (response.ok) {
-        const data = await response.json();
+        const data = (await response.json()) as ImageResponse;
         files.value = [];
         return data;
       }
@@ -42,7 +53,7 @@ export default function useFileManager(initialFiles: File[] = []) {
   }
 
   function fileExists(otherId: string) {
-    return files.value.some(({ id }) => id === otherId);
+    return files.value.some((file: UploadableFile) => file.id === otherId);
   }
 
   function removeFile(file: UploadableFile) {
@@ -73,4 +84,10 @@ class UploadableFile {
     this.url = URL.createObjectURL(file);
     this.status = null;
   }
+}
+
+interface ImageResponse {
+  id: string;
+  fileLocation: string;
+  creationDate: string;
 }

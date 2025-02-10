@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="relative">
-    <MediaImageCarousel :fullscreen="false" />
+    <MediaImageCarousel :fullscreen="true" :organizationId="organizationId" />
     <button
       @click="openModal()"
       @keydown.enter="openModal()"
@@ -20,6 +20,10 @@ const modals = useModals();
 const modalName = "ModalMediaImage";
 
 const modalIsOpen = ref(false);
+
+const props = defineProps<{
+  organizationId?: string;
+}>();
 
 function openModal() {
   modals.openModal(modalName);
