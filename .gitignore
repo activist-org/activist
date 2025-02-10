@@ -57,5 +57,5 @@ frontend/!.yarn/sdks
 frontend/!.yarn/versions
 
 # Media
-media/images/*
-!media/images/.keep
+backend/media/images/*
+!backend/media/images/.keep

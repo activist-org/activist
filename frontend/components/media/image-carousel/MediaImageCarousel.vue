@@ -59,6 +59,8 @@ const imageUrls = [
   `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
   `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
 ];
+
+// TODO: Update this to use the new modal handling in the modal store.
 const modals = useModals();
 const modalName = "ModalUploadImages";
 const modalIsOpen = ref(false);

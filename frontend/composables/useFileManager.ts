@@ -11,12 +11,6 @@ export default function useFileManager(initialFiles: File[] = []) {
 
     if (organizationId) {
       formData.append("organization_id", organizationId);
-      console.log("Uploading with org ID:", organizationId);
-    }
-
-    console.log("FormData entries:");
-    for (const entry of formData.entries()) {
-      console.log(entry[0], entry[1]);
     }
 
     try {
