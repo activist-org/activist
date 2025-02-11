@@ -461,7 +461,7 @@ yarn test:local
 yarn playwright show-report
 ```
 
-Or, instead of the third shell, you can also run the whole suite or run individual tests using Playwright's VS Code extension. You can find a link in the [Development environment](#dev-env-) section.
+Or, instead of the third shell, you can also run the whole suite or run individual tests using Playwright's VS Code extension. You can find a link in the [Development environment](#dev-env-) section, under Suggested IDE setup.
 
 Thank you for testing locally! ✨
 
