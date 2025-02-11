@@ -1,4 +1,4 @@
-# Localizing via Weblate
+# Localizing activist via Weblate
 
 <a href="https://hosted.weblate.org/projects/activist/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right"></a>
 

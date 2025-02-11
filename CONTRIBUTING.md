@@ -466,6 +466,7 @@ Or, instead of the third shell, you can also run the whole suite or run individu
 Thank you for testing locally! ✨
 
 #### Writing E2E Tests
+
 The [frontend testing guide](FRONTEND_TESTING.md) also has a guide for writing E2E tests.
 
 #### Remote E2E
