@@ -88,8 +88,13 @@ const props = defineProps<{
   underDevelopment?: boolean;
 }>();
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsOrgId = useRoute().params.orgId;
+const paramsGroupId = useRoute().params.groupId;
+const paramsEventId = useRoute().params.eventId;
+
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -100,13 +105,13 @@ let group: Group;
 let event: Event;
 
 if (props.pageType === "organization") {
-  await organizationStore.fetchById(id);
+  await organizationStore.fetchById(orgId);
   organization = organizationStore.organization;
 } else if (props.pageType === "group") {
-  await groupStore.fetchById(id);
+  await groupStore.fetchById(groupId);
   group = groupStore.group;
 } else if (props.pageType === "event") {
-  await eventStore.fetchById(id);
+  await eventStore.fetchById(eventId);
   event = eventStore.event;
 }
 

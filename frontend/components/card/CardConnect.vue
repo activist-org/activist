@@ -65,11 +65,13 @@ const { openModal: openModalEditSocialLinks } = useModalHandlers(
 );
 
 const { userIsSignedIn } = useUser();
-const paramsId = useRoute().params.id;
+const paramsOrgId = useRoute().params.orgId;
 const paramsGroupId = useRoute().params.groupId;
+const paramsEventId = useRoute().params.eventId;
 
-const id = typeof paramsId === "string" ? paramsId : undefined;
-const idGroup = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -80,13 +82,13 @@ let group: Group;
 let event: Event;
 
 if (props.pageType == "organization") {
-  await organizationStore.fetchById(id);
+  await organizationStore.fetchById(orgId);
   organization = organizationStore.organization;
 } else if (props.pageType == "group") {
-  await groupStore.fetchById(idGroup);
+  await groupStore.fetchById(groupId);
   group = groupStore.group;
 } else if (props.pageType == "event") {
-  await eventStore.fetchById(id);
+  await eventStore.fetchById(eventId);
   event = eventStore.event;
 }
 

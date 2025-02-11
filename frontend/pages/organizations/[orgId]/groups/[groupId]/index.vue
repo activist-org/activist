@@ -1,9 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <script setup lang="ts">
-import { BreakpointMap } from "~/types/breakpoint-map";
 import { onMounted } from "vue";
+import { BreakpointMap } from "~/types/breakpoint-map";
 
-const { id } = useRoute().params;
+const { orgId } = useRoute().params;
 const { groupid } = useRoute().params;
 
 const windowWidth = ref(window.innerWidth);
@@ -16,11 +16,11 @@ const handleResize = () => {
 
     if (
       currentRoute.path !==
-        `/${locale.value}/organizations/${id}/groups/${groupid}/about` ||
-      currentRoute.path === `/${locale.value}/organizations/${id}/`
+        `/${locale.value}/organizations/${orgId}/groups/${groupid}/about` ||
+      currentRoute.path === `/${locale.value}/organizations/${orgId}/`
     ) {
       navigateTo(
-        `/${locale.value}/organizations/${id}/groups/${groupid}/about`
+        `/${locale.value}/organizations/${orgId}/groups/${groupid}/about`
       );
     }
   }

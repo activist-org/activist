@@ -12,6 +12,7 @@ export const i18nMap = {
     },
     contact: "_global.contact",
     create_group: "_global.create_group",
+    create_resource: "_global.create_resource",
     discussion: "_global.discussion",
     discussions: "_global.discussions",
     enter_password: "_global.enter_password",
@@ -95,25 +96,6 @@ export const i18nMap = {
       opening_signal: "components.btn_share_icon.opening_signal",
       url_copied: "components.btn_share_icon.url_copied",
     },
-    card: {
-      about: {
-        _global: {
-          full_text: "components.card.about._global.full_text",
-          full_text_aria_label:
-            "components.card.about._global.full_text_aria_label",
-          members_lower: "components.card.about._global.members_lower",
-          reduce_text: "components.card.about._global.reduce_text",
-          reduce_text_aria_label:
-            "components.card.about._global.reduce_text_aria_label",
-        },
-      },
-      discussion: {
-        _global: {
-          upvote_discussion_aria_label:
-            "components.card.discussion._global.upvote_discussion_aria_label",
-        },
-      },
-    },
     card_change_account_info_email: {
       cta_aria_label:
         "components.card_change_account_info_email.cta_aria_label",
@@ -162,10 +144,6 @@ export const i18nMap = {
       attending: "components.card_details.attending",
       header: "components.card_details.header",
     },
-    card_discussion: {
-      filter_discussion_category_aria_label:
-        "components.card_discussion.filter_discussion_category_aria_label",
-    },
     card_discussion_entry: {
       on: "components.card_discussion_entry.on",
     },
@@ -180,6 +158,10 @@ export const i18nMap = {
       preview_aria_label: "components.card_discussion_input.preview_aria_label",
       write: "components.card_discussion_input.write",
       write_aria_label: "components.card_discussion_input.write_aria_label",
+    },
+    card_discussion: {
+      filter_discussion_category_aria_label:
+        "components.card_discussion.filter_discussion_category_aria_label",
     },
     card_donate: {
       donate: "components.card_donate.donate",
@@ -242,6 +224,25 @@ export const i18nMap = {
         "components.card_topic_selection.subtext_organization",
       subtext_resource: "components.card_topic_selection.subtext_resource",
       view_all_topics: "components.card_topic_selection.view_all_topics",
+    },
+    card: {
+      about: {
+        _global: {
+          full_text: "components.card.about._global.full_text",
+          full_text_aria_label:
+            "components.card.about._global.full_text_aria_label",
+          members_lower: "components.card.about._global.members_lower",
+          reduce_text: "components.card.about._global.reduce_text",
+          reduce_text_aria_label:
+            "components.card.about._global.reduce_text_aria_label",
+        },
+      },
+      discussion: {
+        _global: {
+          upvote_discussion_aria_label:
+            "components.card.discussion._global.upvote_discussion_aria_label",
+        },
+      },
     },
     combobox_topics: {
       all_topics: "components.combobox_topics.all_topics",
@@ -311,6 +312,14 @@ export const i18nMap = {
     feed_item: {
       img_alt_text: "components.feed_item.img_alt_text",
     },
+    footer_website: {
+      imprint: "components.footer_website.imprint",
+      privacy_policy: "components.footer_website.privacy_policy",
+      source_code: "components.footer_website.source_code",
+      supporters: "components.footer_website.supporters",
+      trademark_policy: "components.footer_website.trademark_policy",
+      version_number: "components.footer_website.version_number",
+    },
     footer: {
       flex: {
         _global: {
@@ -320,14 +329,6 @@ export const i18nMap = {
             "components.footer.flex._global.powered_by_netlify",
         },
       },
-    },
-    footer_website: {
-      imprint: "components.footer_website.imprint",
-      privacy_policy: "components.footer_website.privacy_policy",
-      source_code: "components.footer_website.source_code",
-      supporters: "components.footer_website.supporters",
-      trademark_policy: "components.footer_website.trademark_policy",
-      version_number: "components.footer_website.version_number",
     },
     form_radio_group: {
       custom_numeric_value_placeholder:
@@ -430,21 +431,6 @@ export const i18nMap = {
       zoom_in: "components.media_map.zoom_in",
       zoom_out: "components.media_map.zoom_out",
     },
-    modal: {
-      edit: {
-        _global: {
-          join_group_link: "components.modal.edit._global.join_group_link",
-          join_organization_link:
-            "components.modal.edit._global.join_organization_link",
-          offer_to_help_link:
-            "components.modal.edit._global.offer_to_help_link",
-          remember_https: "components.modal.edit._global.remember_https",
-          update_texts: "components.modal.edit._global.update_texts",
-          update_texts_aria_label:
-            "components.modal.edit._global.update_texts_aria_label",
-        },
-      },
-    },
     modal_base: {
       close_modal_aria_label: "components.modal_base.close_modal_aria_label",
     },
@@ -467,6 +453,12 @@ export const i18nMap = {
     },
     modal_organization_status: {
       status_accepted: "components.modal_organization_status.status_accepted",
+    },
+    modal_qr_code_btn: {
+      img_alt_text: "components.modal_qr_code_btn.img_alt_text",
+      open_modal_aria_label:
+        "components.modal_qr_code_btn.open_modal_aria_label",
+      qr_code: "components.modal_qr_code_btn.qr_code",
     },
     modal_qr_code: {
       aria_label: "components.modal_qr_code.aria_label",
@@ -497,12 +489,6 @@ export const i18nMap = {
       subheader_2: "components.modal_qr_code.subheader_2",
       tooltip: "components.modal_qr_code.tooltip",
     },
-    modal_qr_code_btn: {
-      img_alt_text: "components.modal_qr_code_btn.img_alt_text",
-      open_modal_aria_label:
-        "components.modal_qr_code_btn.open_modal_aria_label",
-      qr_code: "components.modal_qr_code_btn.qr_code",
-    },
     modal_share_page: {
       copy_link: "components.modal_share_page.copy_link",
       facebook: "components.modal_share_page.facebook",
@@ -528,6 +514,21 @@ export const i18nMap = {
       upload_image: "components.modal_upload_images.upload_image",
       upload_images: "components.modal_upload_images.upload_images",
     },
+    modal: {
+      edit: {
+        _global: {
+          join_group_link: "components.modal.edit._global.join_group_link",
+          join_organization_link:
+            "components.modal.edit._global.join_organization_link",
+          offer_to_help_link:
+            "components.modal.edit._global.offer_to_help_link",
+          remember_https: "components.modal.edit._global.remember_https",
+          update_texts: "components.modal.edit._global.update_texts",
+          update_texts_aria_label:
+            "components.modal.edit._global.update_texts_aria_label",
+        },
+      },
+    },
     page_breadcrumbs: {
       aria_label: "components.page_breadcrumbs.aria_label",
     },
@@ -549,15 +550,15 @@ export const i18nMap = {
     shield_private: {
       private: "components.shield_private.private",
     },
+    sidebar_left_header: {
+      sidebar_collapse_aria_label:
+        "components.sidebar_left_header.sidebar_collapse_aria_label",
+    },
     sidebar_left: {
       location_search_placeholder:
         "components.sidebar_left.location_search_placeholder",
       orgs_search_placeholder:
         "components.sidebar_left.orgs_search_placeholder",
-    },
-    sidebar_left_header: {
-      sidebar_collapse_aria_label:
-        "components.sidebar_left_header.sidebar_collapse_aria_label",
     },
     sidebar_right_hamburger: {
       collapse_aria_label:
@@ -839,6 +840,8 @@ export const i18nMap = {
       },
       create: {
         complete_application: "pages.organizations.create.complete_application",
+        complete_application_aria_label:
+          "pages.organizations.create.complete_application_aria_label",
         description_placeholder:
           "pages.organizations.create.description_placeholder",
         header: "pages.organizations.create.header",
@@ -903,7 +906,6 @@ export const i18nMap = {
       create: {
         complete_application_aria_label:
           "pages.resources.create.complete_application_aria_label",
-        create_resource: "pages.resources.create.create_resource",
         description: "pages.resources.create.description",
         description_placeholder:
           "pages.resources.create.description_placeholder",

@@ -94,7 +94,7 @@
               v-if="pageType == 'resources'"
               class="w-full"
               :cta="true"
-              :label="i18nMap.components.btn_route_internal.create_resource"
+              :label="i18nMap._global.create_resource"
               linkTo="/resources/create"
               fontSize="lg"
               :ariaLabel="

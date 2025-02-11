@@ -56,11 +56,11 @@ import { i18nMap } from "~/types/i18n-map";
 const modalName = "ModalEditTextGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const groupStore = useGroupStore();
-await groupStore.fetchById(id);
+await groupStore.fetchById(groupId);
 
 const { group } = groupStore;
 

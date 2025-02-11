@@ -3,17 +3,15 @@
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{
+        >{{ event.name }}&nbsp;{{
           $t(i18nMap.pages._global.team.team_lower)
         }}</Title
       >
     </Head>
     <HeaderAppPage
-      :organization="organization"
-      :header="
-        organization.name + ' ' + $t(i18nMap.pages._global.team.team_lower)
-      "
-      :tagline="$t(i18nMap.pages.organizations.team.tagline)"
+      :event="event"
+      :header="event.name + ' ' + $t(i18nMap.pages._global.team.team_lower)"
+      :tagline="$t(i18nMap.pages.events.team.tagline)"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -24,22 +22,19 @@
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          :ariaLabel="
-            i18nMap.pages.organizations.team.invite_someone_org_aria_label
-          "
+          :ariaLabel="i18nMap.pages.events.team.invite_someone_event_aria_label"
         />
       </div>
     </HeaderAppPage>
-    <div class="space-y-3 py-4"></div>
-    <!-- <div v-if="organization.members" class="space-y-3 py-4">
+    <!-- <div v-if="event.members" class="space-y-3 py-4">
       <CardSearchResultUser
-        v-for="(u, i) in organization.members"
+        v-for="(u, i) in event.members"
         :key="i"
         :isReduced="true"
         :user="u"
       />
     </div>
-    <EmptyState v-else pageType="users" :permission="false" class="py-4" /> -->
+    <EmptyState v-else pageType="users" :permission="false" /> -->
   </div>
 </template>
 
@@ -47,11 +42,11 @@
 import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(id);
+const eventStore = useEventStore();
+await eventStore.fetchById(eventId);
 
-const { organization } = organizationStore;
+const { event } = eventStore;
 </script>

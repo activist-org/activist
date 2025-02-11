@@ -118,9 +118,7 @@
               :label="i18nMap.pages.organizations.create.complete_application"
               fontSize="lg"
               :ariaLabel="
-                i18nMap.pages.organizations.create.complete_application -
-                aria -
-                label
+                i18nMap.pages.organizations.create.complete_application_aria_label
               "
             />
           </div>

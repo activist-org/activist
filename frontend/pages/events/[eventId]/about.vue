@@ -86,11 +86,11 @@ import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchById(id);
+await eventStore.fetchById(eventId);
 
 const { event } = eventStore;
 

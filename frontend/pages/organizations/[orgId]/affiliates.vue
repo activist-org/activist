@@ -40,11 +40,11 @@
 <script setup lang="ts">
 import { i18nMap } from "~/types/i18n-map";
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(id);
+await organizationStore.fetchById(orgId);
 
 const { organization } = organizationStore;
 

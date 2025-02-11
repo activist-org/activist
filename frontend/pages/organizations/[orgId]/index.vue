@@ -72,11 +72,11 @@ import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(id);
+await organizationStore.fetchById(orgId);
 
 const { organization } = organizationStore;
 
@@ -99,10 +99,10 @@ const handleResize = () => {
     const currentRoute = useRoute();
 
     if (
-      currentRoute.path !== `/${locale.value}/organizations/${id}/about` ||
-      currentRoute.path === `/${locale.value}/organizations/${id}/`
+      currentRoute.path !== `/${locale.value}/organizations/${orgId}/about` ||
+      currentRoute.path === `/${locale.value}/organizations/${orgId}/`
     ) {
-      navigateTo(`/${locale.value}/organizations/${id}/about`);
+      navigateTo(`/${locale.value}/organizations/${orgId}/about`);
     }
   }
 };
