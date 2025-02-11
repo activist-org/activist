@@ -178,10 +178,6 @@
     @apply py-8 lg:py-10 xl:py-14;
   }
 
-  .style-action {
-    @apply focus-brand border border-primary-text bg-action-red text-primary-text hover:bg-action-red/80 active:bg-action-red dark:border-action-red dark:bg-action-red/10 dark:text-action-red dark:hover:bg-action-red/25 dark:active:bg-action-red/10;
-  }
-
   .style-btn {
     @apply focus-brand elem-shadow-sm bg-layer-0 text-primary-text hover:bg-highlight active:bg-layer-0 dark:border dark:border-primary-text;
   }
@@ -206,16 +202,20 @@
     @apply focus-brand cursor-not-allowed border border-primary-text/50 bg-layer-2/75 fill-primary-text/50 text-primary-text/50 shadow-none dark:border-primary-text/50 dark:fill-primary-text/50 dark:text-primary-text/50;
   }
 
-  .style-learn {
-    @apply focus-brand border border-primary-text bg-learn-blue text-primary-text hover:bg-learn-blue/80 active:bg-learn-blue dark:border-learn-blue dark:bg-learn-blue/10 dark:text-learn-blue dark:hover:bg-learn-blue/25 dark:active:bg-learn-blue/10;
-  }
-
   .style-menu-option {
     @apply focus-brand focus-brand fill-primary-text text-primary-text hover:bg-cta-orange/80 dark:fill-primary-text dark:text-primary-text dark:hover:bg-cta-orange/25 dark:hover:text-cta-orange;
   }
 
   .style-menu-option-cta {
     @apply focus-brand bg-menu-selection fill-layer-1 text-layer-1 hover:bg-menu-selection/80;
+  }
+
+  .style-learn {
+    @apply focus-brand border border-primary-text bg-learn-blue text-primary-text hover:bg-learn-blue/80 active:bg-learn-blue dark:border-learn-blue dark:bg-learn-blue/10 dark:text-learn-blue dark:hover:bg-learn-blue/25 dark:active:bg-learn-blue/10;
+  }
+
+  .style-action {
+    @apply focus-brand border border-primary-text bg-action-red text-primary-text hover:bg-action-red/80 active:bg-action-red dark:border-action-red dark:bg-action-red/10 dark:text-action-red dark:hover:bg-action-red/25 dark:active:bg-action-red/10;
   }
 
   .style-warn {

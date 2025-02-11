@@ -63,15 +63,6 @@ Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general s
 
 Page routing should use the `<NuxtLink />` component wherever possible to assure that the platform maintains the localization path of the user. If an external link via an `<a>` tag should be set, then please include `target="_blank"` to open a new tab (unless it's an email href).
 
-Beyond this, to update the UI we have a system of computed variables in place that are derived and emitted on each page to the base app and then drilled down to the layout and corresponding components. Please add the following lines to all script blocks in the `pages` directory:
-
-```ts
-import useRouteToName from "~/composables/useRouteToName";
-
-const emit = defineEmits(["routeToName"]);
-useRouteToName(emit);
-```
-
 ### Breakpoints
 
 activist uses Tailwind for CSS, and some parts of components will be conditionally rendered based on Tailwind breakpoints, but we want to avoid using it to show and hide whole components. The reason for this is that using CSS in this way means that unneeded TypeScript for the hidden components will still run on page load. Please use `useBreakpoint` for all conditional rendering of full components.
@@ -101,16 +92,14 @@ activist uses Tailwind for CSS, and some parts of components will be conditional
 
 PRs are always welcome to improve the developer experience and project infrastructure!
 
-Currently `typescript.strict` and `typescript.typeCheck` in `nuxt.config.ts` are not enabled. This may change in the future. Strict type checks are not enabled to allow building the app outside `Docker`. Local and Netlify builds proceed despite TS errors with strict checks disabled.
-
 > [!NOTE]
-> For VS Code users: it is recommended to install the following extension to enable in-editor type-checking:
+> For VS Code users: it is recommended to install Vue extensions to enable in-editor type-checking:
 >
 > - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
 ### Vue Single File Component (.vue file) Guidelines
 
-- Create general frontend types in the [frontend/types](https://github.com/activist-org/activist/tree/main/frontend/types) directory
+- Create general frontend types in the [frontend/types](frontend/types) directory
 - When typing Arrays, use `arrayElementType[]` rather than the generic type `Array<T>` unless [extending](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays):
 
 ```ts
@@ -197,7 +186,7 @@ The activist frontend uses [Prettier](https://prettier.io/) to format the code a
 
 ## Colors [`⇧`](#contents)
 
-The files [frontend/tailwind.config.ts](frontend/tailwind.config.ts) and [frontend/assets/css/tailwind.ts](frontend/assets/css/tailwind.ts) defines all colors for the platform. Light and dark mode versions of each color are defined and loaded in via variables such that we only need to use a singular identifier throughout the codebase. There are however cases where you still need to specify `dark:` for colors - specifically when the color identifier for light mode is different than dark mode like in cases of CTA buttons where the text and border are `primary-text` in light mode and `cta-orange` in dark mode.
+The files [frontend/tailwind.config.ts](frontend/tailwind.config.ts) and [frontend/assets/css/tailwind.ts](frontend/assets/css/tailwind.ts) define all colors for the platform. Light and dark mode versions of each color are defined and loaded in via variables such that we only need to use a singular identifier throughout the codebase. There are however cases where you still need to specify `dark:` for colors - specifically when the color identifier for light mode is different than dark mode like in cases of CTA buttons where the text and border are `primary-text` in light mode and `cta-orange` in dark mode.
 
 ```html
 <!-- This div has a reactive background color as layer-2 is defined variably based on the color mode. -->
@@ -232,7 +221,7 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 
 ## Localization [`⇧`](#contents)
 
-activist is a global platform and must function in countless different regions around the world. To achieve this, all strings on the platform must be defined using keys found in the [i18n directory of the frontend](https://github.com/activist-org/activist/tree/main/frontend/i18n).
+activist is a global platform and must function in countless different regions around the world. To achieve this, all strings on the platform must be defined using keys found in the [i18n directory of the frontend](frontend/i18n). We further leverage [i18n-check](https://github.com/activist-org/i18n-check) to make sure that our i18n keys are valid.
 
 > [!NOTE]
 > All keys should be defined within the [en-US.json file](frontend/i18n/en-US.json)
@@ -245,22 +234,22 @@ activist is a global platform and must function in countless different regions a
 
 Localization keys should be defined based on the file in which they're used within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 
-- Please use the `i18nMap` object for all texts within the frontend
-  - This object returns the sequence of object methods as a string and allows ESLint to be used to check key accuracy
+- Please use the [i18n-check](https://github.com/activist-org/i18n-check) `i18nMap` object for all texts within the frontend
+  - This object returns the sequence of object methods as a string and allows the type checker to be used to check key accuracy
   - Ex: Using the `i18nMap` object:
-    - ✅ `i18nMap._global.about`
-    - ❌ `"_global.about"`
+    - ✅ `i18nMap._global.foo`
+    - ❌ `"_global.foo"`
 - Separate directories and references by `.` and PascalCase/camelCase file name components by `_` in keys
-  - Ex: `i18nMap.components.search_bar.CONTENT_REFERENCE` for the `SearchBar` component
+  - Ex: `i18nMap.components.landing_splash.CONTENT_REFERENCE` for the `LandingSplash` component
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
   - Ex: If you're defining a key within `CardAbout`:
-    - ✅ `i18nMap.components.card_about.CONTENT_REFERENCE`
-    - ❌ `i18nMap.components.card.card_about.CONTENT_REFERENCE`
+    - ✅ `i18nMap.components.footer_flex.CONTENT_REFERENCE`
+    - ❌ `i18nMap.components.footer.footer_flex.CONTENT_REFERENCE`
 - Define keys based on the lowest level file in which they're used
 - Use `_global` to indicate that a key is used in multiple places in a given directory
-  - Ex: You're creating a key that's used by multiple cards:
-    - ✅ `i18nMap.components.card._global.CONTENT_REFERENCE`
-    - ❌ `i18nMap.components.card.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE`
+  - Ex: You're creating a key that's used by multiple landing page components:
+    - ✅ `i18nMap.components.landing._global.CONTENT_REFERENCE`
+    - ❌ `i18nMap.components.landing.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE`
 - Please end all aria-label keys with `_alt_text` so the localization team knows that they're for screen readers
 - If you need a capitalized and lower case version of a word, signify the lower case version with `_lower` at the end of the key
 - For pages with long texts please follow the below naming criteria:
@@ -279,7 +268,7 @@ Localization keys should be defined based on the file in which they're used with
   - This makes sure that content writers and the i18n team are only working with language that's actively in use
 
 > [!NOTE]
-> The activist community also maintains the [i18n-check project](https://github.com/activist-org/i18n-check) that enforces all of the above in pull requests. Do your best and we'll help you out during the PR process! You can also join us in the [localization room on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) if you have questions :)
+> The activist community maintains the [i18n-check project](https://github.com/activist-org/i18n-check) that enforces all of the above in pull requests. Do your best and we'll help you out during the PR process! You can also join us in the [localization room on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) if you have questions :)
 
 <a id="images-icons"></a>
 
@@ -289,13 +278,13 @@ Please define all routes for images and icons in the respective [url registry ut
 
 activist uses [nuxt-icon](https://github.com/nuxt-modules/icon) for all icons. Icons are defined via `<Icon :name="IconMap.ICON_REF"/>` components, with [Icônes](https://icones.js.org/) being a good place to look for [Iconify](https://iconify.design/) based files to import. The `<Icon/>` component also has a `size` argument that `em` based arguments can be passed to. There's also a `color` argument, but colors are handled with Tailwind CSS via the `text-COLOR` class argument.
 
-Custom icons for activist can further be found in the [Icon directory of the frontend components](https://github.com/activist-org/activist/tree/main/frontend/components/icon). These icons can also be referenced via the `<Icon>` component via their file name (ex: `<Icon name="IconSupport">` for the grasped hands we use). For Tailwind coloration note that we need to use `fill-COLOR` for the custom activist icons rather than `text-COLOR`.
+Custom icons for activist can further be found in the [Icon directory of the frontend components](frontend/components/icon). These icons can also be referenced via the `<Icon>` component via their file name (ex: `<Icon name="IconSupport">` for the grasped hands we use). For Tailwind coloration note that we need to use `fill-COLOR` for the custom activist icons rather than `text-COLOR`.
 
 <a id="tab-size"></a>
 
 ## Tab size [`⇧`](#contents)
 
-Codes on the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), TypeScript, CSS and other related files should use two spaces for tabs. For the backend four spaces should be used for Python files.
+Code in the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), TypeScript, CSS and other related files should use two spaces for tabs. For the backend four spaces should be used for Python files.
 
 <a id="padding"></a>
 
