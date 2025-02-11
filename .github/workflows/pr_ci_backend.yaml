@@ -69,3 +69,23 @@ jobs:
           . .venv/bin/activate
           python ./backend/manage.py makemigrations
           python ./backend/manage.py migrate
+
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-coverage-path: ./coverage.xml
+          junitxml-path: ./pytest.xml
+
+      - name: Run pytest with Coverage
+        run: |
+          pytest ./backend --cov=backend --cov-report=xml --cov-report=term --cov-fail-under=80
+        continue-on-error: true  # Allow failure but capture coverage result
+
+      - name: Fail if Coverage is Below Threshold
+        run: |
+          COVERAGE=$(awk -F'"' '/line-rate/{print $2 * 100}' coverage.xml | head -n 1)
+          echo "Coverage: $COVERAGE%"
+          if (( $(echo "$COVERAGE < 80" | bc -l) )); then
+            echo "Code coverage is below the required threshold of 80%!"
+            exit 1
+          fi
