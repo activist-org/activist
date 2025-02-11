@@ -9,15 +9,15 @@ E2E tests are used to ensure that the whole application (frontend, backend, data
 ### What to test
 
 Not every test belongs in the E2E test suite. Tests that should go in the E2E test suite include:
-1. Testing full user stories:
-  - Creating an account.
-  - Creating an event, organization, etc.
-  - Deleting an event, organization, etc.
-2. Testing UI functions that make network requests:
-  - UI components that fetch data from our backend when they render.
-3. Testing features that only work in a full browser:
-  - Switching the color theme.
-  - Putting a url in the user's clipboard.
+1. Testing full user stories. Examples:
+    - Creating an account.
+    - Creating an event, organization, etc.
+    - Deleting an event, organization, etc.
+2. Testing UI functions that make network requests.  Examples:
+    - UI components that fetch data from our backend when they render.
+3. Testing features that only work in a full browser.  Examples:
+    - Switching the color theme.
+    - Putting a url in the user's clipboard.
 4. Browser-specific bugs.
 
 ### Where to write tests
