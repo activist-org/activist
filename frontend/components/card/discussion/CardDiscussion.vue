@@ -94,6 +94,7 @@
 
 <script setup lang="ts">
 import type { Discussion } from "~/types/content/discussion";
+import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

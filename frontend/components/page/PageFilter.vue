@@ -86,7 +86,6 @@
           </div>
         </div>
       </div>
-
       <!-- Tag Sections -->
       <div
         v-for="(section, sectionIndex) in sections"

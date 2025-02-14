@@ -104,12 +104,14 @@ def path_to_valid_key(p):
         else:
             valid_key += c
 
+    # Replace path segments like '[id]' that are not useful information for keys.
+    valid_key = re.sub(r"\[.*?\]", "", valid_key)
+
     return (
         valid_key.replace(path_separator, ".")
+        .replace("..", ".")
         .replace("._", ".")
         .replace("-", "_")
-        .replace(".[id]", "")
-        .replace(".[group_id]", "")
     )
 
 

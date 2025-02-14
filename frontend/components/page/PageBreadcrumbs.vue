@@ -85,11 +85,13 @@ let pageType = "";
 const { locales } = useI18n();
 const localePath = useLocalePath();
 
-const paramsId = useRoute().params.id;
+const paramsOrgId = useRoute().params.orgId;
 const paramsGroupId = useRoute().params.groupid;
+const paramsEventId = useRoute().params.eventid;
 
-const id = typeof paramsId === "string" ? paramsId : undefined;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -110,7 +112,7 @@ const eventRegex =
 if (organizationRegex.test(url)) {
   pageType = "organization";
 
-  await organizationStore.fetchById(id);
+  await organizationStore.fetchById(orgId);
   organization = organizationStore.organization;
 } else if (groupRegex.test(url)) {
   pageType = "group";
@@ -120,7 +122,7 @@ if (organizationRegex.test(url)) {
 } else if (eventRegex.test(url)) {
   pageType = "event";
 
-  await eventStore.fetchById(id);
+  await eventStore.fetchById(eventId);
   event = eventStore.event;
 }
 

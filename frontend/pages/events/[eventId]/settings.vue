@@ -3,17 +3,15 @@
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{
+        >{{ event.name }}&nbsp;{{
           $t(i18nMap.pages._global.settings.settings_lower)
         }}</Title
       >
     </Head>
     <HeaderAppPage
-      :organization="organization"
+      :event="event"
       :header="
-        organization.name +
-        ' ' +
-        $t(i18nMap.pages._global.settings.settings_lower)
+        event.name + ' ' + $t(i18nMap.pages._global.settings.settings_lower)
       "
       :underDevelopment="true"
     >
@@ -29,12 +27,10 @@
     </HeaderAppPage>
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
-        :description="
-          $t(i18nMap.pages.organizations.settings.danger_zone_delete_organization_text)
-        "
-        :ctaBtnText="$t(i18nMap.pages.organizations.settings.danger_zone_delete_organization_cta)"
+        :description="$t(i18nMap.pages.events.settings.danger_zone_event_description)"
+        :ctaBtnText="$t(i18nMap.pages.events.settings.danger_zone_event_cta_btn_text)"
         :ctaBtnAriaLabel="
-          $t(i18nMap.pages.organizations.settings.danger_zone_delete_organization_cta_aria_label)
+          $t(i18nMap.pages.events.settings.danger_zone_event_cta_btn_aria_label)
         "
       />
     </div> -->
@@ -44,11 +40,11 @@
 <script setup lang="ts">
 import { i18nMap } from "~/types/i18n-map";
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(id);
+const eventStore = useEventStore();
+await eventStore.fetchById(eventId);
 
-const { organization } = organizationStore;
+const { event } = eventStore;
 </script>

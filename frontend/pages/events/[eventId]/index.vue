@@ -73,11 +73,11 @@ import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchById(id);
+await eventStore.fetchById(eventId);
 
 const { event } = eventStore;
 
@@ -100,10 +100,10 @@ const handleResize = () => {
     const currentRoute = useRoute();
 
     if (
-      currentRoute.path !== `/${locale.value}/events/${id}/about` ||
-      currentRoute.path === `/${locale.value}/events/${id}/`
+      currentRoute.path !== `/${locale.value}/events/${eventId}/about` ||
+      currentRoute.path === `/${locale.value}/events/${eventId}/`
     ) {
-      navigateTo(`/${locale.value}/events/${id}/about`);
+      navigateTo(`/${locale.value}/events/${eventId}/about`);
     }
   }
 };

@@ -4,6 +4,11 @@ on:
     branches:
       - main
     types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
 
 env:
   SECRET_KEY: "ONLY_FOR_TESTING"

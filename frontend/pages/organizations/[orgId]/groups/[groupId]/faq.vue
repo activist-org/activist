@@ -3,18 +3,16 @@
   <MenuSubPageSelector
     class="pt-2 md:pt-0"
     :selectors="groupSubPages"
-    :selectedRoute="2"
+    :selectedRoute="3"
   />
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
-      <Title
-        >{{ group.name }}&nbsp;{{ $t(i18nMap._global.resources_lower) }}</Title
-      >
+      <Title>{{ group.name }}&nbsp;{{ $t(i18nMap._global.faq) }}</Title>
     </Head>
     <HeaderAppPage
       :group="group"
-      :header="group.name + ' ' + $t(i18nMap._global.resources_lower)"
-      :tagline="$t(i18nMap.pages.organizations._global.resources_tagline)"
+      :header="group.name + ' ' + $t(i18nMap._global.faq)"
+      :tagline="$t(i18nMap.pages.organizations._global.faq_tagline)"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
@@ -32,15 +30,12 @@
         /> -->
       </div>
     </HeaderAppPage>
-    <div v-if="group.resources" class="space-y-3 py-4">
-      <CardSearchResultResource
-        v-for="(r, i) in group.resources"
-        :key="i"
-        :isReduced="true"
-        :resource="r"
-      />
+    <div v-if="group.faqEntries" class="py-4">
+      <div v-for="f in group.faqEntries" class="mb-4">
+        <CardFAQEntry :faqEntry="f" />
+      </div>
     </div>
-    <EmptyState v-else pageType="resources" :permission="false" />
+    <EmptyState v-else pageType="faq" :permission="false" />
   </div>
 </template>
 
@@ -48,13 +43,13 @@
 import { i18nMap } from "~/types/i18n-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const groupSubPages = getGroupSubPages();
+
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const groupStore = useGroupStore();
-await groupStore.fetchById(id);
+await groupStore.fetchById(groupId);
 
 const { group } = groupStore;
-
-const groupSubPages = getGroupSubPages();
 </script>

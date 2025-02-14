@@ -104,7 +104,7 @@
               type="submit"
               :cta="true"
               class="flex"
-              :label="i18nMap.pages.resources.create.create_resource"
+              :label="i18nMap._global.create_resource"
               fontSize="lg"
               :ariaLabel="
                 i18nMap.pages.resources.create.complete_application_aria_label

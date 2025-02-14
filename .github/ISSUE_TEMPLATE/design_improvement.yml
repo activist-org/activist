@@ -1,5 +1,6 @@
 name: 🎨 Design improvement
 description: Make a suggestion for activist's UX/UI designs.
+type: "task"
 labels: ["design"]
 projects: ["activist-org/1"]
 body:

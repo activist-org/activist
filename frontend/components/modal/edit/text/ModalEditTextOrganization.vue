@@ -56,11 +56,11 @@ import { i18nMap } from "~/types/i18n-map";
 const modalName = "ModalEditTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(id);
+await organizationStore.fetchById(orgId);
 
 const { organization } = organizationStore;
 

@@ -85,8 +85,13 @@ const i18n = useI18n();
 const modalName = "ModalEditSocialLinks";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsOrgId = useRoute().params.orgId;
+const paramsGroupId = useRoute().params.groupId;
+const paramsEventId = useRoute().params.eventId;
+
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -122,15 +127,15 @@ const socialLinksRef = ref<
 >();
 
 if (props.pageType == "organization") {
-  await organizationStore.fetchById(id);
+  await organizationStore.fetchById(orgId);
   organization = organizationStore.organization;
   socialLinksRef.value = organization.socialLinks;
 } else if (props.pageType == "group") {
-  await groupStore.fetchById(id);
+  await groupStore.fetchById(groupId);
   group = groupStore.group;
   socialLinksRef.value = group.socialLinks;
 } else if (props.pageType == "event") {
-  await eventStore.fetchById(id);
+  await eventStore.fetchById(eventId);
   event = eventStore.event;
   socialLinksRef.value = event.socialLinks;
 } else {

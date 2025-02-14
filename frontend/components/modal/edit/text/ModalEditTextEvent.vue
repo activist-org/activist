@@ -56,11 +56,11 @@ import { i18nMap } from "~/types/i18n-map";
 const modalName = "ModalEditTextEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchById(id);
+await eventStore.fetchById(eventId);
 
 const { event } = eventStore;
 

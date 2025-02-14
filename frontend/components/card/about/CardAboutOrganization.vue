@@ -95,11 +95,11 @@ const { openModal: openModalEditTextOrganization } = useModalHandlers(
 
 const { userIsSignedIn } = useUser();
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(id);
+await organizationStore.fetchById(orgId);
 
 const { organization } = organizationStore;
 

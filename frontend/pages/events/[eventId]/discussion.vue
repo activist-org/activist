@@ -3,17 +3,17 @@
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
-        >{{ organization.name }}&nbsp;{{
+        >{{ event.name }}&nbsp;{{
           $t(i18nMap.pages._global.discussions_lower)
         }}</Title
       >
     </Head>
     <HeaderAppPage
-      :organization="organization"
+      :event="event"
       :header="
-        organization.name + ' ' + $t(i18nMap.pages._global.discussions_lower)
+        event.name + ' ' + $t(i18nMap.pages.events.discussion.discussion_lower)
       "
-      :tagline="$t(i18nMap.pages.organizations.discussions.index.tagline)"
+      :tagline="$t(i18nMap.pages.events.discussion.tagline)"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -30,12 +30,11 @@
         />
       </div>
     </HeaderAppPage>
-    <!-- <div v-if="organization.discussions" class="space-y-6 pb-6 pt-3 md:pt-4">
-      <CardDiscussion
-        v-for="(d, i) in organization.discussions"
-        :key="i"
-        :isPrivate="false"
-        :discussion="d"
+    <!-- <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
+      <Discussion
+        :discussionInput="event.discussion"
+        :discussionEntries="[event.discussion?.entries]"
+        :organizations="event.orgs"
       />
     </div>
     <EmptyState v-else pageType="discussions" :permission="false" /> -->
@@ -48,11 +47,11 @@ import { IconMap } from "~/types/icon-map";
 
 const aboveMediumBP = useBreakpoint("md");
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(id);
+const eventStore = useEventStore();
+await eventStore.fetchById(eventId);
 
-const { organization } = organizationStore;
+const { event } = eventStore;
 </script>
