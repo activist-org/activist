@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 import { LOCALE_CODE } from "~/locales";
-import { getI18nString } from "~/utils/enUs";
+import { getI18nString } from "~/utils/i18n";
 
 export const newSidebarRight = (
   parent: Page | Locator,

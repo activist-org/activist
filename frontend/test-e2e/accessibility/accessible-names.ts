@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { getI18nString } from "~/utils/enUs";
+import { getI18nString } from "~/utils/i18n";
 
 export const ROADMAP_LINK_NAME = new RegExp(
   getI18nString("components.btn_road_map.aria_label"),

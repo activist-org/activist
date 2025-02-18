@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
-import { getI18nString } from "~/utils/enUs";
+import { getI18nString } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
