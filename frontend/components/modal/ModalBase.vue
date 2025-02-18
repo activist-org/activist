@@ -28,7 +28,7 @@
           id="close-search-modal"
           class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text hover:text-primary-text"
           :aria-label="
-            $t ? $t(i18nMap.components.modal_base.close_modal_aria_label) : ''
+            $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
           "
         >
           <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
@@ -49,7 +49,7 @@
           role="button"
           class="focus-brand flex flex-col items-center justify-center"
           :aria-label="
-            $t ? $t(i18nMap.components.modal_base.close_modal_aria_label) : ''
+            $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
           "
         >
           <slot />
@@ -65,7 +65,6 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import { useRoute } from "vue-router";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

@@ -4,7 +4,7 @@
     <Head>
       <Title
         >{{ organization.name }}&nbsp;{{
-          $t(i18nMap.pages.organizations.groups.index.groups_lower)
+          $t("i18n.pages.organizations.groups.index.groups_lower")
         }}</Title
       >
     </Head>
@@ -13,21 +13,21 @@
       :header="
         organization.name +
         ' ' +
-        $t(i18nMap.pages.organizations.groups.index.groups_lower)
+        $t('i18n.pages.organizations.groups.index.groups_lower')
       "
-      :tagline="$t(i18nMap.pages.organizations.groups.index.tagline)"
+      :tagline="$t('i18n.pages.organizations.groups.index.tagline')"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
           class="w-max"
           :cta="true"
           linkTo="/"
-          :label="i18nMap._global.new_group"
+          label="i18n._global.new_group"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          :ariaLabel="
-            i18nMap.pages.organizations.groups.index.new_group_aria_label
+          ariaLabel="
+            i18n.pages.organizations.groups.index.new_group_aria_label
           "
         />
       </div>
@@ -46,7 +46,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const paramsOrgId = useRoute().params.orgId;

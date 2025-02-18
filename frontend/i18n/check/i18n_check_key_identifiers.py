@@ -29,7 +29,7 @@ directories_to_skip = [
     str((frontend_directory / "dist").resolve()),
     str((frontend_directory / "node_modules").resolve()),
 ]
-files_to_skip = ["i18n-map.ts"]
+files_to_skip = []
 file_types_to_check = [".vue", ".ts", ".js"]
 
 with open(json_file_directory / "en-US.json", encoding="utf-8") as f:
@@ -169,6 +169,8 @@ for k in key_file_dict:
         ]
 
         ideal_key_base = ".".join(valid_key_parts)
+
+    ideal_key_base = f"i18n.{ideal_key_base}"
 
     if k[: len(ideal_key_base)] != ideal_key_base:
         ideal_key = f"{ideal_key_base}{k.split('.')[-1]}"

@@ -4,7 +4,7 @@
     <Head>
       <Title
         >{{ organization.name }}&nbsp;{{
-          $t(i18nMap.pages._global.settings.settings_lower)
+          $t("i18n.pages._global.settings.settings_lower")
         }}</Title
       >
     </Head>
@@ -13,7 +13,7 @@
       :header="
         organization.name +
         ' ' +
-        $t(i18nMap.pages._global.settings.settings_lower)
+        $t('i18n.pages._global.settings.settings_lower')
       "
       :underDevelopment="true"
     >
@@ -21,20 +21,20 @@
         <BtnAction
           class="w-max"
           :cta="true"
-          :label="i18nMap.pages._global.settings.save_settings"
+          label="i18n.pages._global.settings.save_settings"
           fontSize="sm"
-          :ariaLabel="i18nMap.pages._global.settings.save_settings_aria_label"
+          ariaLabel="i18n.pages._global.settings.save_settings_aria_label"
         />
       </div>
     </HeaderAppPage>
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="
-          $t(i18nMap.pages.organizations.settings.danger_zone_delete_organization_text)
+          $t('i18n.pages.organizations.settings.danger_zone_delete_organization_text')
         "
-        :ctaBtnText="$t(i18nMap.pages.organizations.settings.danger_zone_delete_organization_cta)"
+        :ctaBtnText="$t('i18n.pages.organizations.settings.danger_zone_delete_organization_cta')"
         :ctaBtnAriaLabel="
-          $t(i18nMap.pages.organizations.settings.danger_zone_delete_organization_cta_aria_label)
+          $t('i18n.pages.organizations.settings.danger_zone_delete_organization_cta_aria_label')
         "
       />
     </div> -->
@@ -42,8 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 

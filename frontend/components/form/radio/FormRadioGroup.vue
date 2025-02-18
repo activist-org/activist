@@ -26,7 +26,7 @@
         class="sr-only"
         >{{
           $t(
-            i18nMap.components.form_radio_group.custom_numeric_value_placeholder
+            "i18n.components.form_radio_group.custom_numeric_value_placeholder"
           )
         }}</label
       >
@@ -39,7 +39,7 @@
         :type="customValueType"
         :placeholder="
           $t(
-            i18nMap.components.form_radio_group.custom_numeric_value_placeholder
+            'i18n.components.form_radio_group.custom_numeric_value_placeholder'
           )
         "
       />
@@ -60,7 +60,6 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 // TODO: This type should be defined for the props definition type from FromRadioButton and FromRadio.
