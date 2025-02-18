@@ -2,17 +2,17 @@
 <template>
   <CardChangeAccountInfo
     :ctaLabel="
-      $t(i18nMap.components.card_change_account_info_password.header_cta)
+      $t('i18n.components.card_change_account_info_password.header_cta')
     "
     :ctaAriaLabel="
-      $t(i18nMap.components.card_change_account_info_password.cta_aria_label)
+      $t('i18n.components.card_change_account_info_password.cta_aria_label')
     "
   >
     <div class="space-y-4 pb-1 lg:grow">
       <div class="flex items-center space-x-4">
         <h3 class="responsive-h3 font-bold">
           {{
-            $t(i18nMap.components.card_change_account_info_password.header_cta)
+            $t("i18n.components.card_change_account_info_password.header_cta")
           }}
         </h3>
       </div>
@@ -21,8 +21,7 @@
           <label for="current-password" class="responsive-h4 pb-2 font-bold"
             >{{
               $t(
-                i18nMap.components.card_change_account_info_password
-                  .current_password
+                "i18n.components.card_change_account_info_password.current_password"
               )
             }}
             *</label
@@ -32,8 +31,7 @@
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="
               $t(
-                i18nMap.components.card_change_account_info_password
-                  .enter_current_password
+                'i18n.components.card_change_account_info_password.enter_current_password'
               )
             "
           />
@@ -42,8 +40,7 @@
           <label for="new-password" class="responsive-h4 pb-2 font-bold"
             >{{
               $t(
-                i18nMap.components.card_change_account_info_password
-                  .new_password
+                "i18n.components.card_change_account_info_password.new_password"
               )
             }}
             *</label
@@ -53,23 +50,21 @@
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="
               $t(
-                i18nMap.components.card_change_account_info_password
-                  .enter_new_password
+                'i18n.components.card_change_account_info_password.enter_new_password'
               )
             "
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/3">
           <label for="repeat-password" class="responsive-h4 pb-2 font-bold"
-            >{{ $t(i18nMap._global.repeat_password) }} *</label
+            >{{ $t("i18n._global.repeat_password") }} *</label
           >
           <input
             id="confirm-password"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
             :placeholder="
               $t(
-                i18nMap.components.card_change_account_info_password
-                  .enter_repeat_password
+                'i18n.components.card_change_account_info_password.enter_repeat_password'
               )
             "
           />
@@ -78,7 +73,3 @@
     </div>
   </CardChangeAccountInfo>
 </template>
-
-<script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-</script>

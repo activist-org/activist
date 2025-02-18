@@ -6,8 +6,8 @@
     :menuButtonIcon="IconMap.GLOBE"
     :menuButtonLabel="$i18n.locale"
     :isMenuButtonUppercase="true"
-    :menuButtonAriaLabel="
-      i18nMap.components.dropdown_language.open_dropdown_aria_label
+    menuButtonAriaLabel="
+      i18n.components.dropdown_language.open_dropdown_aria_label
     "
   >
     <ul class="px-2 py-2">
@@ -32,7 +32,6 @@
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
 import type { LocaleObject } from "@nuxtjs/i18n";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { DropdownLocation } from "~/types/location";
 

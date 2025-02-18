@@ -10,7 +10,7 @@
         <h1 class="responsive-h5 pl-2 font-bold">
           {{ discussionEntry.author }}
         </h1>
-        <p>{{ $t(i18nMap.components.card_discussion_entry.on) }}</p>
+        <p>{{ $t("i18n.components.card_discussion_entry.on") }}</p>
         <p>
           {{ discussionEntry.date.toLocaleDateString() }}
         </p>
@@ -24,8 +24,8 @@
       :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
       :counter="discussionEntry.votes"
-      :ariaLabel="
-        i18nMap.components.card.discussion._global.upvote_discussion_aria_label
+      ariaLabel="
+        i18n.components.card.discussion._global.upvote_discussion_aria_label
       "
     />
   </div>
@@ -33,7 +33,6 @@
 
 <script setup lang="ts">
 import type { DiscussionEntry } from "~/types/content/discussion";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

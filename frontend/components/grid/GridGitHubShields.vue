@@ -9,17 +9,17 @@
       <Icon :name="IconMap.GITHUB" size="2em" />
       <div class="ml-4 place-self-center pb-1">
         <div class="ml-0.5 text-xs font-semibold leading-4">
-          {{ $t(i18nMap.components.grid_git_hub_shields.visit_us) }}
+          {{ $t("i18n.components.grid_git_hub_shields.visit_us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">
-          {{ $t(i18nMap.components._global.github) }}
+          {{ $t("i18n.components._global.github") }}
         </div>
       </div>
     </ShieldGitHub>
     <ShieldGitHub
       class="fill-primary-text"
       href="https://github.com/activist-org/activist/forks"
-      :text="$t(i18nMap.components.grid_git_hub_shields.fork)"
+      :text="$t('i18n.components.grid_git_hub_shields.fork')"
       :isLoading="isLoading"
       :count="GitHubData.forks_count"
     >
@@ -28,7 +28,7 @@
     <ShieldGitHub
       class="fill-primary-text"
       href="https://github.com/activist-org/activist/stargazers"
-      :text="$t(i18nMap.components._global.star)"
+      :text="$t('i18n.components._global.star')"
       :isLoading="isLoading"
       :count="GitHubData.stargazers_count"
     >
@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const isLoading = ref(false);

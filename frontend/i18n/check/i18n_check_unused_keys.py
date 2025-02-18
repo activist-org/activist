@@ -23,7 +23,7 @@ directories_to_skip = [
     str((frontend_directory / ".nuxt").resolve()),
     str((frontend_directory / "node_modules").resolve()),
 ]
-files_to_skip = ["i18n-map.ts"]
+files_to_skip = []
 file_types_to_check = [".vue", ".ts", ".js"]
 
 with open(json_file_directory / "en-US.json", encoding="utf-8") as f:
@@ -49,8 +49,7 @@ for frontend_file in files_to_check:
 all_keys = list(en_us_json_dict.keys())
 used_keys = []
 for k in all_keys:
-    # Allow for i18nMap keys that are sometimes split to new lines to be found.
-    key_search_pattern = r"[\s\S]*\.".join(k.split("."))
+    key_search_pattern = r"[\S]*\.".join(k.split("."))
     for file_contents in file_to_check_contents.values():
         if re.search(key_search_pattern, file_contents):
             used_keys.append(k)

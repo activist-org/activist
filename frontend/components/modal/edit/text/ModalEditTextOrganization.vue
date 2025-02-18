@@ -4,7 +4,7 @@
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
-          $t(i18nMap._global.about)
+          $t("i18n._global.about")
         }}</label>
         <textarea
           v-model="formData.description"
@@ -14,7 +14,7 @@
       </div>
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
-          $t(i18nMap.components._global.get_involved)
+          $t("i18n.components._global.get_involved")
         }}</label>
         <textarea
           v-model="formData.getInvolved"
@@ -25,9 +25,9 @@
       <div class="flex flex-col space-y-3 text-primary-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
-            $t(i18nMap.components.modal.edit._global.join_organization_link)
+            $t("i18n.components.modal.edit._global.join_organization_link")
           }}</label>
-          <p>{{ $t(i18nMap.components.modal.edit._global.remember_https) }}</p>
+          <p>{{ $t("i18n.components.modal.edit._global.remember_https") }}</p>
           <input
             v-model="formData.getInvolvedUrl"
             id="textarea"
@@ -38,10 +38,10 @@
       <BtnAction
         @click="handleSubmit()"
         :cta="true"
-        :label="$t(i18nMap.components.modal.edit._global.update_texts)"
+        :label="$t('i18n.components.modal.edit._global.update_texts')"
         fontSize="base"
         :ariaLabel="
-          $t(i18nMap.components.modal.edit._global.update_texts_aria_label)
+          $t('i18n.components.modal.edit._global.update_texts_aria_label')
         "
       />
     </div>
@@ -51,7 +51,6 @@
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
-import { i18nMap } from "~/types/i18n-map";
 
 const modalName = "ModalEditTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);

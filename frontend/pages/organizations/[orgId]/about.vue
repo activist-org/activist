@@ -14,22 +14,22 @@
             class="w-max"
             :cta="true"
             :linkTo="organization.getInvolvedUrl"
-            :label="i18nMap._global.join_organization"
+            label="i18n._global.join_organization"
             fontSize="sm"
             :rightIcon="IconMap.ARROW_RIGHT"
             iconSize="1.45em"
-            :ariaLabel="i18nMap._global.join_organization_aria_label"
+            ariaLabel="i18n._global.join_organization_aria_label"
           />
           <!-- <BtnAction
           class="w-max"
           :cta="true"
-          :label="i18nMap._global.support"
+          label="i18n._global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="organization.supporters.length"
           ariaLabel="
-            _global.support_organization_aria_label
+            i18n._global.support_organization_aria_label
           "
         /> -->
           <BtnAction
@@ -42,7 +42,7 @@
             fontSize="sm"
             :rightIcon="IconMap.SHARE"
             iconSize="1.45em"
-            :ariaLabel="$t(i18nMap._global.share_organization_aria_label)"
+            :ariaLabel="$t('i18n._global.share_organization_aria_label')"
           />
         </div>
         <ModalSharePage :cta="true" :organization="organization" />
@@ -81,7 +81,6 @@
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { BreakpointMap } from "~/types/breakpoint-map";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
@@ -107,9 +106,9 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = i18nMap._global.share;
+    shareButtonLabel.value = "i18n._global.share";
   } else {
-    shareButtonLabel.value = i18nMap._global.share_organization;
+    shareButtonLabel.value = "i18n._global.share_organization";
   }
 }
 

@@ -6,7 +6,7 @@
       id="sidebar-right-hamburger"
       class="focus-brand group relative z-50 outline-offset-4"
       :aria-label="
-        $t(i18nMap.components.sidebar_right_hamburger.collapse_aria_label)
+        $t('i18n.components.sidebar_right_hamburger.collapse_aria_label')
       "
     >
       <div
@@ -34,8 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-
 export interface Props {
   menuOpen: boolean;
 }

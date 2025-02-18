@@ -13,22 +13,22 @@
           class="w-max"
           :cta="true"
           :linkTo="event.getInvolvedUrl"
-          :label="i18nMap._global.offer_to_help"
+          label="i18n._global.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          :ariaLabel="i18nMap._global.offer_to_help_aria_label"
+          ariaLabel="i18n._global.offer_to_help_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          :label="i18nMap._global.support"
+          label="i18n._global.support"
           :hideLabelOnMobile="true"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="event.supportingUsers.length"
-          :ariaLabel="i18nMap._global.support_event_aria_label"
+          ariaLabel="i18n._global.support_event_aria_label"
         /> -->
         <BtnAction
           @click="openModalSharePage()"
@@ -40,7 +40,7 @@
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="$t(i18nMap._global.share_event_aria_label)"
+          :ariaLabel="$t('i18n._global.share_event_aria_label')"
         />
         <ModalSharePage :cta="true" :event="event" />
       </div>
@@ -81,7 +81,6 @@
 
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
@@ -106,9 +105,9 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = i18nMap._global.share;
+    shareButtonLabel.value = "i18n._global.share";
   } else {
-    shareButtonLabel.value = i18nMap._global.share_event;
+    shareButtonLabel.value = "i18n._global.share_event";
   }
 }
 
