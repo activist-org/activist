@@ -3,7 +3,10 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, reopened, synchronize]
+    types:
+      - opened
+      - reopened
+      - synchronize
   push:
     branches:
       - main
@@ -15,7 +18,7 @@ jobs:
     name: Run PR Frontend Check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Project
         uses: actions/checkout@v4
 
       - name: Setup Node environment

@@ -1,4 +1,4 @@
-name: License Header Check
+name: pr_ci_license_header_check
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ jobs:
   check_license_header:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Project
         uses: actions/checkout@v4
 
       - name: Verify License Headers
