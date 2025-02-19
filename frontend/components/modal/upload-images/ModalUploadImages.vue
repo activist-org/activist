@@ -76,6 +76,7 @@
             </template>
           </draggable>
           <BtnAction
+            v-if="files.length > 0"
             @click="handleUpload"
             :cta="true"
             :label="$t(i18nMap.components.modal_upload_images.upload)"
@@ -113,12 +114,18 @@ const props = withDefaults(defineProps<Props>(), {
 
 const modalName = "ModalUploadImages";
 
-const emit = defineEmits(["upload-complete"]);
+const emit = defineEmits(["upload-complete", "upload-error"]);
 
 const handleUpload = async () => {
-  await uploadFiles(props.organizationId);
-  const modals = useModals();
-  modals.closeModal(modalName);
-  emit("upload-complete");
+  try {
+    await uploadFiles(props.organizationId);
+    const modals = useModals();
+    modals.closeModal(modalName);
+    emit("upload-complete");
+    uploadError.value = false;
+  } catch (error) {
+    console.error("Error uploading images:", error);
+    emit("upload-error");
+  }
 };
 </script>

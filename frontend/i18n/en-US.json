@@ -255,6 +255,7 @@
   "components.landing_tech_banner.open_source_text": "We're dedicated to working in the open to build trust with our partner organizations and fellow activists. All who want to help us build are welcome!",
   "components.logo_activist.aria_label": "The activist logo that links to the home page",
   "components.media_image_carousel.img_alt_text": "Image of the organization or their work.",
+  "components.media_image_carousel.upload_error": "Error fetching or uploading organization images.",
   "components.media_map.change_profile": "Change profile [p]",
   "components.media_map.clear_directions": "Clear directions",
   "components.media_map.fullscreen": "Fullscreen",

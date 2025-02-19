@@ -37,20 +37,20 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
 class ImageSerializer(serializers.ModelSerializer[Image]):
     class Meta:
         model = Image
-        fields = ["id", "file_location", "creation_date"]
+        fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
         # Remove string validation since we're getting a file object
-        if "file_location" not in data:
+        if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
         return data
 
     def create(self, validated_data):
         # Handle file upload properly
-        file_obj = self.context["request"].FILES.get("file_location")
+        file_obj = self.context["request"].FILES.get("file_object")
         if file_obj:
-            validated_data["file_location"] = file_obj
+            validated_data["file_object"] = file_obj
         
         # Create the image first
         image = super().create(validated_data)

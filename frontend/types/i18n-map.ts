@@ -419,6 +419,7 @@ export const i18nMap = {
     },
     media_image_carousel: {
       img_alt_text: "components.media_image_carousel.img_alt_text",
+      upload_error: "components.media_image_carousel.upload_error",
     },
     media_map: {
       change_profile: "components.media_map.change_profile",

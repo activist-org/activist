@@ -8,10 +8,10 @@ from communities.groups.views import (
     GroupViewSet,
 )
 from communities.organizations.views import (
+    OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
     OrganizationViewSet,
-    OrganizationImageViewSet,
 )
 from communities.views import StatusViewSet
 

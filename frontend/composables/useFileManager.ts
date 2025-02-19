@@ -6,7 +6,7 @@ export default function useFileManager(initialFiles: File[] = []) {
   async function uploadFiles(organizationId?: string) {
     const formData = new FormData();
     files.value.forEach((uploadableFile: UploadableFile) => {
-      formData.append("file_location", uploadableFile.file);
+      formData.append("file_object", uploadableFile.file);
     });
 
     if (organizationId) {
