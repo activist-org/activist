@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+// import { IconMap } from "~/types/icon-map";
 
 const modals = useModals();
 const modalName = "ModalMediaImage";
