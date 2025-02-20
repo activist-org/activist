@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { locales, LOCALE_CODE } from "~/locales";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { LOCALE_CODE, locales } from "~/locales";
 
 // Type definition for locale files to ensure type safety
 type LocaleFile = Record<string, string>;
@@ -60,7 +60,7 @@ function loadLocaleFile(locale?: LOCALE_CODE): LocaleFile {
  * @param locale - Optional locale code to retrieve
  * @returns Parsed locale data or empty object on critical failure
  */
-export function getLocaleData(locale?: LOCALE_CODE): LocaleFile {
+export function getLocalText(locale?: LOCALE_CODE): LocaleFile {
   try {
     return loadLocaleFile(locale);
   } catch (error) {

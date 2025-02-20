@@ -8,7 +8,7 @@
         id="landing-splash-header"
         class="w-10/12 text-center font-display text-3xl font-bold leading-snug sm:text-4xl sm:leading-snug md:max-w-lg md:text-5xl md:leading-snug lg:font-bold xl:max-w-2xl xl:text-6xl xl:leading-snug"
       >
-        {{ $t("i18n.components.landing_splash.header") }}
+        {{ $t("i18n._global.header") }}
       </h1>
     </div>
     <div class="flex justify-center">
