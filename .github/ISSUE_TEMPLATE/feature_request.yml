@@ -1,6 +1,6 @@
 name: ✨ Feature request
 description: Have a new idea or feature for activist? Please suggest!
-labels: ["feature"]
+type: "feature"
 projects: ["activist-org/1"]
 body:
   - type: checkboxes

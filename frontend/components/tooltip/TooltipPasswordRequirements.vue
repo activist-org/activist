@@ -4,9 +4,7 @@
     class="z-20 min-w-[200px] pb-4 pt-2 transition delay-150 ease-in-out md:min-w-[450px]"
   >
     <span class="mb-2 px-2">{{
-      $t(
-        i18nMap.components.tooltip_password_requirements.password_rules_message
-      )
+      $t("i18n.components.tooltip_password_requirements.password_rules_message")
     }}</span>
     <div
       v-for="(rule, index) in rules"
@@ -26,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { PasswordRules } from "~/types/password-rules";
 
@@ -37,16 +34,16 @@ defineProps<{
 // Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
 const passwordRequirementsDict: { [key: string]: string } = {
   "capital-letters":
-    i18nMap.components.tooltip_password_requirements.capital_letters,
+    "i18n.components.tooltip_password_requirements.capital_letters",
   "contains-numbers":
-    i18nMap.components.tooltip_password_requirements.contains_numbers,
+    "i18n.components.tooltip_password_requirements.contains_numbers",
   "contains-special-chars":
-    i18nMap.components.tooltip_password_requirements.contains_special_chars,
+    "i18n.components.tooltip_password_requirements.contains_special_chars",
   "lower-case-letters":
-    i18nMap.components.tooltip_password_requirements.lower_case_letters,
+    "i18n.components.tooltip_password_requirements.lower_case_letters",
   "number-of-chars":
-    i18nMap.components.tooltip_password_requirements.number_of_chars,
+    "i18n.components.tooltip_password_requirements.number_of_chars",
   "password-rules-message":
-    i18nMap.components.tooltip_password_requirements.password_rules_message,
+    "i18n.components.tooltip_password_requirements.password_rules_message",
 };
 </script>

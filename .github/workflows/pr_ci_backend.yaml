@@ -3,7 +3,15 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, reopened, synchronize]
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
 
 env:
   SECRET_KEY: "ONLY_FOR_TESTING"
@@ -30,7 +38,7 @@ jobs:
     name: Run PR Backend Check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Project
         uses: actions/checkout@v4
 
       - name: Set up Python Environment

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <nav :aria-label="$t(i18nMap.components.page_breadcrumbs.aria_label)">
+  <nav :aria-label="$t('i18n.components.page_breadcrumbs.aria_label')">
     <ul class="flex flex-row flex-wrap text-sm md:text-base">
       <li
         v-for="(breadcrumb, index) in displayBreadcrumbs"
@@ -77,7 +77,6 @@ import { validate as isValidUUID } from "uuid";
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
-import { i18nMap } from "~/types/i18n-map";
 
 const url = window.location.href;
 let pageType = "";
@@ -85,11 +84,13 @@ let pageType = "";
 const { locales } = useI18n();
 const localePath = useLocalePath();
 
-const paramsId = useRoute().params.id;
+const paramsOrgId = useRoute().params.orgId;
 const paramsGroupId = useRoute().params.groupid;
+const paramsEventId = useRoute().params.eventid;
 
-const id = typeof paramsId === "string" ? paramsId : undefined;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -110,7 +111,7 @@ const eventRegex =
 if (organizationRegex.test(url)) {
   pageType = "organization";
 
-  await organizationStore.fetchById(id);
+  await organizationStore.fetchById(orgId);
   organization = organizationStore.organization;
 } else if (groupRegex.test(url)) {
   pageType = "group";
@@ -120,7 +121,7 @@ if (organizationRegex.test(url)) {
 } else if (eventRegex.test(url)) {
   pageType = "event";
 
-  await eventStore.fetchById(id);
+  await eventStore.fetchById(eventId);
   event = eventStore.event;
 }
 

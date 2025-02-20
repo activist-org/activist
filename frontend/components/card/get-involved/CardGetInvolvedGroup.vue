@@ -3,7 +3,7 @@
   <CardGetInvolved>
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t(i18nMap.components._global.get_involved) }}
+        {{ $t("i18n.components._global.get_involved") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
@@ -15,18 +15,18 @@
           v-if="group.getInvolvedUrl"
           :cta="true"
           :linkTo="group.getInvolvedUrl"
-          :label="i18nMap._global.join_group"
+          label="i18n._global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          :ariaLabel="i18nMap._global.join_group_aria_label"
+          ariaLabel="i18n._global.join_group_aria_label"
         />
       </div>
     </div>
     <div class="space-y-3 pt-3">
       <p>
         {{
-          $t(i18nMap.components._global.join_group_subtext, {
+          $t("i18n.components._global.join_group_subtext", {
             entity_name: group.name,
           })
         }}.
@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextGroup } =
@@ -45,11 +44,11 @@ const { openModal: openModalEditTextGroup } =
 
 const { userIsSignedIn } = useUser();
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const groupStore = useGroupStore();
-await groupStore.fetchById(id);
+await groupStore.fetchById(groupId);
 
 const { group } = groupStore;
 </script>

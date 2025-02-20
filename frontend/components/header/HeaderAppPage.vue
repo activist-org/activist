@@ -8,14 +8,14 @@
     <div class="flex space-x-3">
       <p>🚧</p>
       <div class="flex flex-col space-y-1">
-        <p>{{ $t(i18nMap.components.header_app_page.under_development) }}</p>
+        <p>{{ $t("i18n.components.header_app_page.under_development") }}</p>
         <div class="flex space-x-3">
           <a
             class="focus-brand link-text flex items-center space-x-1"
             href="https://github.com/activist-org/activist"
             target="_blank"
           >
-            <p>{{ $t(i18nMap.components._global.github) }}</p>
+            <p>{{ $t("i18n.components._global.github") }}</p>
             <Icon
               class="mb-1"
               :name="IconMap.EXTERNAL_LINK"
@@ -29,7 +29,7 @@
             href="https://matrix.to/#/#activist_community:matrix.org"
             target="_blank"
           >
-            <p>{{ $t(i18nMap.components._global.matrix) }}</p>
+            <p>{{ $t("i18n.components._global.matrix") }}</p>
             <Icon
               class="mb-1"
               :name="IconMap.EXTERNAL_LINK"
@@ -61,7 +61,7 @@
       v-if="organization && organization.status === 1"
       class="responsive-h4 text-warn-yellow transition-all duration-500"
     >
-      {{ $t(i18nMap.components.header_app_page.status_pending) }}
+      {{ $t("i18n.components.header_app_page.status_pending") }}
     </h2>
     <h2
       v-else-if="headerTagline"
@@ -78,7 +78,6 @@
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -88,8 +87,13 @@ const props = defineProps<{
   underDevelopment?: boolean;
 }>();
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsOrgId = useRoute().params.orgId;
+const paramsGroupId = useRoute().params.groupId;
+const paramsEventId = useRoute().params.eventId;
+
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -100,13 +104,13 @@ let group: Group;
 let event: Event;
 
 if (props.pageType === "organization") {
-  await organizationStore.fetchById(id);
+  await organizationStore.fetchById(orgId);
   organization = organizationStore.organization;
 } else if (props.pageType === "group") {
-  await groupStore.fetchById(id);
+  await groupStore.fetchById(groupId);
   group = groupStore.group;
 } else if (props.pageType === "event") {
-  await eventStore.fetchById(id);
+  await eventStore.fetchById(eventId);
   event = eventStore.event;
 }
 

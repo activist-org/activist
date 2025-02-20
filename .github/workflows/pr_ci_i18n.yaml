@@ -4,7 +4,10 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, reopened, synchronize]
+    types:
+      - opened
+      - reopened
+      - synchronize
     paths:
       - "**/en-US.json"
   push:
@@ -17,10 +20,10 @@ jobs:
   i18n_check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo Content
+      - name: Checkout Project
         uses: actions/checkout@v4
 
-      - name: Setup python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"

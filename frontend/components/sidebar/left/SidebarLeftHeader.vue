@@ -47,7 +47,7 @@
           }"
           :aria-label="
             $t(
-              i18nMap.components.sidebar_left_header.sidebar_collapse_aria_label
+              'i18n.components.sidebar_left_header.sidebar_collapse_aria_label'
             )
           "
         >
@@ -59,8 +59,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-
 defineProps<{
   atTopShadow: boolean;
 }>();

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Note: This could be in a Pinia store.
-import { i18nMap } from "~/types/i18n-map";
 
 export const commandPaletteData = [
   {
@@ -8,7 +7,7 @@ export const commandPaletteData = [
     category: "home",
     path: "home",
     iconName: "HOME",
-    displayName: i18nMap._global.home,
+    displayName: "i18n._global.home",
     action: () => console.log("home"),
   },
   {
@@ -16,7 +15,7 @@ export const commandPaletteData = [
     category: "discussions",
     path: "discussions",
     iconName: "DISCUSSION",
-    displayName: i18nMap._global.discussions,
+    displayName: "i18n._global.discussions",
     action: () => console.log("discussions"),
   },
   {
@@ -24,7 +23,7 @@ export const commandPaletteData = [
     category: "events",
     path: "events",
     iconName: "EVENT",
-    displayName: i18nMap._global.events,
+    displayName: "i18n._global.events",
     action: () => console.log("events"),
   },
   {
@@ -32,7 +31,7 @@ export const commandPaletteData = [
     category: "notifications",
     path: "notifications",
     iconName: "BELL",
-    displayName: i18nMap._global.notifications,
+    displayName: "i18n._global.notifications",
     action: () => console.log("notifications"),
   },
   {
@@ -40,7 +39,7 @@ export const commandPaletteData = [
     category: "organizations",
     path: "organizations",
     iconName: "ORGANIZATION",
-    displayName: i18nMap._global.organization_name,
+    displayName: "i18n._global.organization_name",
     action: () => console.log("organizations"),
   },
   // {
@@ -48,7 +47,7 @@ export const commandPaletteData = [
   //   category: "resources",
   //   path: "resources",
   //   iconName: "RESOURCE",
-  //   displayName: i18nMap._global.resources_lower,
+  //   displayName: "i18n._global.resources_lower,
   //   action: () => console.log('resources')
   // },
   {
@@ -56,7 +55,7 @@ export const commandPaletteData = [
     category: "upcoming-events",
     path: "upcoming-events",
     iconName: "EVENT",
-    displayName: i18nMap.types.command_palette.upcoming_events,
+    displayName: "i18n.types.command_palette.upcoming_events",
     action: () => console.log("upcoming-events"),
   },
 ];

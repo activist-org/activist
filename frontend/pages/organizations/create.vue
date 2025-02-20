@@ -12,10 +12,10 @@
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t(i18nMap.pages.organizations.create.header) }}
+          {{ $t("i18n.pages.organizations.create.header") }}
         </h1>
         <p class="mt-4">
-          {{ $t(i18nMap.pages.organizations.create.subtext) }}
+          {{ $t("i18n.pages.organizations.create.subtext") }}
         </p>
       </div>
       <form
@@ -27,7 +27,7 @@
         >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t(i18nMap._global.organization_name) }}*</label
+              >{{ $t("i18n._global.organization_name") }}*</label
             >
             <input
               v-model="formData.name"
@@ -37,15 +37,14 @@
               name="name"
               :placeholder="
                 $t(
-                  i18nMap.pages.organizations.create
-                    .organization_name_placeholder
+                  'i18n.pages.organizations.create.organization_name_placeholder'
                 )
               "
             />
           </div>
           <div class="w-1/2">
             <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t(i18nMap.pages._global.create.location) }}*</label
+              >{{ $t("i18n.pages._global.create.location") }}*</label
             >
             <input
               v-model="formData.location"
@@ -54,14 +53,14 @@
               type="text"
               name="location"
               :placeholder="
-                $t(i18nMap.pages.organizations.create.location_placeholder)
+                $t('i18n.pages.organizations.create.location_placeholder')
               "
             />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t(i18nMap.pages._global.create.description) }}*</label
+            >{{ $t("i18n.pages._global.create.description") }}*</label
           >
           <textarea
             v-model="formData.description"
@@ -69,13 +68,13 @@
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
             :placeholder="
-              $t(i18nMap.pages.organizations.create.description_placeholder)
+              $t('i18n.pages.organizations.create.description_placeholder')
             "
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="tagline" class="responsive-h3 block font-medium">{{
-            $t(i18nMap.pages._global.create.tagline)
+            $t("i18n.pages._global.create.tagline")
           }}</label>
           <input
             v-model="formData.tagline"
@@ -83,7 +82,7 @@
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="tagline"
             :placeholder="
-              $t(i18nMap.pages.organizations.create.tagline_placeholder)
+              $t('i18n.pages.organizations.create.tagline_placeholder')
             "
           />
         </div>
@@ -99,12 +98,12 @@
           <div class="flex space-x-2">
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
-              <p>{{ $t(i18nMap.pages._global.terms_of_service_pt_1) }}&nbsp;</p>
+              <p>{{ $t("i18n.pages._global.terms_of_service_pt_1") }}&nbsp;</p>
               <NuxtLink
                 :to="localePath('/legal/privacy-policy')"
                 target="_blank"
                 class="link-text"
-                >{{ $t(i18nMap.pages._global.terms_of_service_pt_2) }}</NuxtLink
+                >{{ $t("i18n.pages._global.terms_of_service_pt_2") }}</NuxtLink
               >
 
               <p>.</p>
@@ -115,12 +114,10 @@
               type="submit"
               :cta="true"
               class="flex"
-              :label="i18nMap.pages.organizations.create.complete_application"
+              label="i18n.pages.organizations.create.complete_application"
               fontSize="lg"
-              :ariaLabel="
-                i18nMap.pages.organizations.create.complete_application -
-                aria -
-                label
+              ariaLabel="
+                i18n.pages.organizations.create.complete_application_aria_label
               "
             />
           </div>
@@ -133,7 +130,6 @@
 <script setup lang="ts">
 import { Toaster, toast } from "vue-sonner";
 import type { OrganizationCreateFormData } from "~/types/communities/organization";
-import { i18nMap } from "~/types/i18n-map";
 
 const formData = ref<OrganizationCreateFormData>({
   name: "",
