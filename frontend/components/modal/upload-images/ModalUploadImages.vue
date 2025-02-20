@@ -113,6 +113,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const modalName = "ModalUploadImages";
+const uploadError = ref(false);
 
 const emit = defineEmits(["upload-complete", "upload-error"]);
 
