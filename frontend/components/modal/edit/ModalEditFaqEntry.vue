@@ -15,18 +15,16 @@
         <textarea
           v-if="
             s !==
-              $t(
-                i18nMap.components.modal.edit._global.join_organization_link
-              ) &&
-            s !== $t(i18nMap.components.modal.edit._global.join_group_link) &&
-            s !== $t(i18nMap.components.modal.edit._global.offer_to_help_link)
+              $t('i18n.components.modal.edit._global.join_organization_link') &&
+            s !== $t('i18n.components.modal.edit._global.join_group_link') &&
+            s !== $t('i18n.components.modal.edit._global.offer_to_help_link')
           "
           v-model="translatedTexts[i]"
           id="textarea"
           class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />
         <div v-else class="flex flex-col space-y-2">
-          <p>{{ $t(i18nMap.components.modal.edit._global.remember_https) }}</p>
+          <p>{{ $t("i18n.components.modal.edit._global.remember_https") }}</p>
           <input
             v-model="editedTexts[i]"
             id="textarea"
@@ -37,10 +35,10 @@
       <BtnAction
         @click="true"
         :cta="true"
-        :label="$t(i18nMap.components.modal.edit._global.update_texts)"
+        :label="$t('i18n.components.modal.edit._global.update_texts')"
         fontSize="base"
         :ariaLabel="
-          $t(i18nMap.components.modal.edit._global.update_texts_aria_label)
+          $t('i18n.components.modal.edit._global.update_texts_aria_label')
         "
       />
     </div>
@@ -49,7 +47,6 @@
 
 <script setup lang="ts">
 import type { FaqEntry } from "~/types/content/faq-entry";
-import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
   name?: string;
@@ -65,10 +62,10 @@ const editedTexts = computed(() => props.textsToEdit);
 const translatedTexts = computed(() => {
   return editedTexts.value.map((text) => {
     if (
-      text === "components._global.working_groups_subtext" ||
-      text === "components._global.join_organization_subtext" ||
-      text === "components._global.join_group_subtext" ||
-      text === "components._global.participate_subtext"
+      text === "i18n.components._global.working_groups_subtext" ||
+      text === "i18n.components._global.join_organization_subtext" ||
+      text === "i18n.components._global.join_group_subtext" ||
+      text === "i18n.components._global.participate_subtext"
     ) {
       return i18n.t(text, { entity_name: props.name }) + ".";
     }

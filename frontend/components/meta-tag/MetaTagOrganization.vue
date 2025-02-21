@@ -3,7 +3,7 @@
   <NuxtLink
     :to="`/organizations/${organization.id}`"
     :aria-label="
-      $t(i18nMap.components._global.navigate_to_organization_aria_label)
+      $t('i18n.components._global.navigate_to_organization_aria_label')
     "
   >
     <MetaTag
@@ -15,7 +15,6 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/communities/organization";
-import { i18nMap } from "~/types/i18n-map";
 
 defineProps<{
   organization: Organization;

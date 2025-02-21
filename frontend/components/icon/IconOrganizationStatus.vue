@@ -24,7 +24,7 @@
         class="invisible -ml-32 mt-3 max-w-56 md:-ml-36 md:max-w-96"
         :text="
           $t(
-            'components.icon_organization_status.approved_tooltip_hover_text',
+            'i18n.components.icon_organization_status.approved_tooltip_hover_text',
             {
               entity_name: organization.name,
               year: new Date().toISOString().slice(0, 10),
@@ -59,9 +59,12 @@
       <TooltipBase
         class="invisible -ml-32 mt-3 max-w-56 md:-ml-36 md:max-w-96"
         :text="
-          $t('components.icon_organization_status.pending_tooltip_hover_text', {
-            entity_name: organization.name,
-          })
+          $t(
+            'i18n.components.icon_organization_status.pending_tooltip_hover_text',
+            {
+              entity_name: organization.name,
+            }
+          )
         "
       />
     </div>

@@ -2,6 +2,7 @@ node_modules/
 .nuxt/
 .output/
 
+dist/
 playwright-report/
 tests-examples/
 test-results/

@@ -23,8 +23,7 @@
               :src="imageUrl"
               :alt="
                 $t(
-                  i18nMap.components.card_search_result
-                    .organization_img_alt_text
+                  'i18n.components.card_search_result.organization_img_alt_text'
                 ) +
                 ' ' +
                 organization.name
@@ -38,7 +37,7 @@
               }"
               :src="imageUrl"
               :alt="
-                $t(i18nMap.components.card_search_result.group_img_alt_text) +
+                $t('i18n.components.card_search_result.group_img_alt_text') +
                 ' ' +
                 group.name
               "
@@ -66,7 +65,7 @@
                 :eventType="eventType"
                 :imgUrl="imageUrl"
                 :alt="
-                  $t(i18nMap.components.card_search_result.event_img_alt_text, {
+                  $t('i18n.components.card_search_result.event_img_alt_text', {
                     entity_name: name,
                   })
                 "
@@ -163,7 +162,7 @@
             <MetaTagVideo
               v-else-if="onlineLocation"
               :link="onlineLocation"
-              label="components.card_search_result.view_video"
+              label="i18n.components.card_search_result.view_video"
             />
             <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
@@ -177,7 +176,7 @@
             <MetaTagVideo
               v-if="onlineLocation"
               :link="onlineLocation"
-              label="components.card_search_result.view_video"
+              label="i18n.components.card_search_result.view_video"
             />
             <MetaTagDate v-if="event && event.id != ''" :date="date" />
           </div>
@@ -193,15 +192,15 @@
             />
             <!-- <MetaTagMembers
               :members="members"
-              label="components.card_search_result.members"
+              label="i18n.components.card_search_result.members"
             />
             <MetaTagSupporters
               :supporters="supporters"
-              label="components.card_search_result.supporters_lower"
+              label="i18n.components.card_search_result.supporters_lower"
             />
             <MetaTagStars
               :stars="stars"
-              label="components.card_search_result.label"
+              label="i18n.components.card_search_result.label"
             /> -->
           </div>
         </div>
@@ -234,7 +233,6 @@ import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Resource } from "~/types/content/resource";
 import type { Event } from "~/types/events/event";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -255,17 +253,23 @@ const { linkUrl } = useLinkURL(props);
 
 const ariaLabel = computed<string>(() => {
   if (props.organization) {
-    return i18n.t("components._global.navigate_to_organization_aria_label");
+    return i18n.t(
+      "i18n.components._global.navigate_to_organization_aria_label"
+    );
   } else if (props.group) {
-    return i18n.t("components._global.navigate_to_group_aria_label");
+    return i18n.t("i18n.components._global.navigate_to_group_aria_label");
   } else if (props.event) {
-    return i18n.t("components.card_search_result.navigate_to_event_aria_label");
+    return i18n.t(
+      "i18n.components.card_search_result.navigate_to_event_aria_label"
+    );
   } else if (props.resource) {
     return i18n.t(
-      "components.card_search_result.navigate_to_resource_aria_label"
+      "i18n.components.card_search_result.navigate_to_resource_aria_label"
     );
   } else if (props.user) {
-    return i18n.t("components.card_search_result.navigate_to_user_aria_label");
+    return i18n.t(
+      "i18n.components.card_search_result.navigate_to_user_aria_label"
+    );
   } else {
     return "";
   }

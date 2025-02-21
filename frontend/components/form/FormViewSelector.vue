@@ -3,7 +3,7 @@
   <RadioGroup
     v-model="value"
     class="flex h-11 w-full items-center divide-x-2 divide-primary-text"
-    :aria-label="$t(i18nMap.components.form_view_selector.title_aria_label)"
+    :aria-label="$t('i18n.components.form_view_selector.title_aria_label')"
   >
     <RadioGroupOption
       v-for="option in viewOptions"
@@ -30,7 +30,6 @@
 
 <script setup lang="ts">
 import { RadioGroup, RadioGroupOption } from "@headlessui/vue";
-import { i18nMap } from "~/types/i18n-map";
 import { ViewType } from "~/types/view-types";
 
 const props = defineProps({
@@ -73,10 +72,10 @@ const viewOptions = computed(() => {
 
 // Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
 const viewAriaLabelsDict = {
-  map: "components.form_view_selector.view_as_map_aria_label",
-  list: "components.form_view_selector.view_as_list_aria_label",
-  calendar: "components.form_view_selector.view_as_calendar_aria_label",
-  grid: "components.form_view_selector.view_as_grid_aria_label",
+  map: "i18n.components.form_view_selector.view_as_map_aria_label",
+  list: "i18n.components.form_view_selector.view_as_list_aria_label",
+  calendar: "i18n.components.form_view_selector.view_as_calendar_aria_label",
+  grid: "i18n.components.form_view_selector.view_as_grid_aria_label",
 };
 
 const viewTypeIcons: Record<ViewType, string> = {

@@ -6,10 +6,10 @@
         @keydown="handleTabPress(false, $event)"
         class="flex max-h-[40px] w-full"
         :cta="true"
-        label="_global.support"
+        label="i18n._global.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        :ariaLabel="$t(i18nMap.components.tooltip_menu_search_result_user.support_user_aria_label)"
+        :ariaLabel="$t('i18n.components.tooltip_menu_search_result_user.support_user_aria_label')"
       /> -->
       <BtnAction
         @click="openModal()"
@@ -17,13 +17,12 @@
         @keydown="handleTabPress(true, $event)"
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
-        label="_global.share"
+        label="i18n._global.share"
         :rightIcon="IconMap.SHARE"
         fontSize="lg"
         :ariaLabel="
           $t(
-            i18nMap.components.tooltip_menu_search_result_user
-              .share_user_aria_label
+            'i18n.components.tooltip_menu_search_result_user.share_user_aria_label'
           )
         "
       />
@@ -39,7 +38,6 @@
 
 <script setup lang="ts">
 import type { User } from "~/types/auth/user";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

@@ -11,26 +11,26 @@
       <PageBreadcrumbs class="mt-2" />
       <div v-if="page === 0" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t(i18nMap.pages._global.create.information) }}
+          {{ $t("i18n.pages._global.create.information") }}
         </h1>
         <p class="mt-4">
-          {{ $t(i18nMap.pages.events.create.subtext_0) }}
+          {{ $t("i18n.pages.events.create.subtext_0") }}
         </p>
       </div>
       <div v-if="page === 1" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t(i18nMap.pages.events.create.header_1) }}
+          {{ $t("i18n.pages.events.create.header_1") }}
         </h1>
         <p class="mt-4">
-          {{ $t(i18nMap.pages.events.create.subtext_1) }}
+          {{ $t("i18n.pages.events.create.subtext_1") }}
         </p>
       </div>
       <div v-if="page === 2" class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t(i18nMap.pages.events.create.header_2) }}
+          {{ $t("i18n.pages.events.create.header_2") }}
         </h1>
         <p class="mt-4">
-          {{ $t(i18nMap.pages.events.create.subtext_2) }}
+          {{ $t("i18n.pages.events.create.subtext_2") }}
         </p>
       </div>
       <form
@@ -46,7 +46,7 @@
           >
             <div class="w-1/2">
               <label for="name" class="responsive-h3 block font-medium"
-                >{{ $t(i18nMap.pages.events.create.events_name) }}*</label
+                >{{ $t("i18n.pages.events.create.events_name") }}*</label
               >
               <input
                 v-model="formData.name"
@@ -55,13 +55,13 @@
                 type="text"
                 name="name"
                 :placeholder="
-                  $t(i18nMap.pages.events.create.events_name_placeholder)
+                  $t('i18n.pages.events.create.events_name_placeholder')
                 "
               />
             </div>
             <div class="w-1/2">
               <label for="tagline" class="responsive-h3 block font-medium">{{
-                $t(i18nMap.pages._global.create.tagline)
+                $t("i18n.pages._global.create.tagline")
               }}</label>
               <input
                 v-model="formData.tagline"
@@ -70,17 +70,17 @@
                 type="text"
                 name="tagline"
                 :placeholder="
-                  $t(i18nMap.pages.events.create.tagline_placeholder)
+                  $t('i18n.pages.events.create.tagline_placeholder')
                 "
               />
             </div>
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <label for="organizer" class="responsive-h3 block font-medium"
-              >{{ $t(i18nMap.pages.events.create.organizer) }}*</label
+              >{{ $t("i18n.pages.events.create.organizer") }}*</label
             >
             <span id="organizer-instructions" class="block font-medium">{{
-              $t(i18nMap.pages.events.create.organizer_instructions)
+              $t("i18n.pages.events.create.organizer_instructions")
             }}</span>
             <input
               v-model="formData.organizer"
@@ -89,7 +89,7 @@
               type="select"
               name="organizer"
               :placeholder="
-                $t(i18nMap.pages.events.create.organizer_placeholder)
+                $t('i18n.pages.events.create.organizer_placeholder')
               "
               aria-describedby="organizer-instructions"
             />
@@ -99,7 +99,7 @@
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <label for="description" class="responsive-h3 block font-medium"
-              >{{ $t(i18nMap.pages._global.create.description) }}*</label
+              >{{ $t("i18n.pages._global.create.description") }}*</label
             >
             <textarea
               v-model="formData.description"
@@ -107,7 +107,7 @@
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="description"
               :placeholder="
-                $t(i18nMap.pages.events.create.description_placeholder)
+                $t('i18n.pages.events.create.description_placeholder')
               "
             ></textarea>
           </div>
@@ -118,7 +118,7 @@
           >
             <div class="w-1/5">
               <label for="event-type" class="responsive-h3 block font-medium">
-                {{ $t(i18nMap.pages.events.create.event_type) }}*
+                {{ $t("i18n.pages.events.create.event_type") }}*
               </label>
               <FormRadioGroup
                 @update:modelValue="updateEventType"
@@ -131,7 +131,7 @@
             </div>
             <div class="w-3/5">
               <label for="format" class="responsive-h3 block font-medium">{{
-                $t(i18nMap.pages.events.create.format)
+                $t("i18n.pages.events.create.format")
               }}</label>
               <input
                 v-model="formData.format"
@@ -139,9 +139,7 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="text"
                 name="format"
-                :placeholder="
-                  $t(i18nMap.pages.events.create.format_placeholder)
-                "
+                :placeholder="$t('i18n.pages.events.create.format_placeholder')"
               />
             </div>
           </div>
@@ -158,7 +156,7 @@
           >
             <div class="w-full">
               <label for="roles" class="responsive-h3 block font-medium"
-                >{{ $t(i18nMap.pages.events.create.roles) }}*</label
+                >{{ $t("i18n.pages.events.create.roles") }}*</label
               >
               <!-- TODO: replace this input with something that lets you make
                 roles and such -->
@@ -182,7 +180,7 @@
           >
             <div class="w-1/5">
               <label for="setting" class="responsive-h3 block font-medium">
-                {{ $t(i18nMap.pages.events.create.setting) }}*
+                {{ $t("i18n.pages.events.create.setting") }}*
               </label>
               <FormRadioGroup
                 @update:modelValue="updateSetting"
@@ -195,7 +193,7 @@
             </div>
             <div class="w-2/5">
               <label for="location" class="responsive-h3 block font-medium"
-                >{{ $t(i18nMap.pages._global.create.location) }}*</label
+                >{{ $t("i18n.pages._global.create.location") }}*</label
               >
               <input
                 v-model="formData.location"
@@ -204,13 +202,13 @@
                 type="text"
                 name="location"
                 :placeholder="
-                  $t(i18nMap.pages.events.create.location_placeholder)
+                  $t('i18n.pages.events.create.location_placeholder')
                 "
               />
             </div>
             <div class="w-2/5">
               <label for="link" class="responsive-h3 block font-medium"
-                >{{ $t(i18nMap.pages._global.create.link) }}*</label
+                >{{ $t("i18n.pages._global.create.link") }}*</label
               >
               <input
                 v-model="formData.link"
@@ -218,7 +216,7 @@
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
                 type="url"
                 name="link"
-                :placeholder="$t(i18nMap.pages.events.create.link_placeholder)"
+                :placeholder="$t('i18n.pages.events.create.link_placeholder')"
               />
             </div>
           </div>
@@ -232,14 +230,14 @@
               <FormCheckbox id="terms" />
               <label for="terms" class="flex font-medium">
                 <p>
-                  {{ $t(i18nMap.pages._global.terms_of_service_pt_1) }}&nbsp;
+                  {{ $t("i18n.pages._global.terms_of_service_pt_1") }}&nbsp;
                 </p>
                 <NuxtLink
                   :to="localePath('/legal/privacy-policy')"
                   target="_blank"
                   class="link-text"
                   >{{
-                    $t(i18nMap.pages._global.terms_of_service_pt_2)
+                    $t("i18n.pages._global.terms_of_service_pt_2")
                   }}</NuxtLink
                 >
                 <p>.</p>
@@ -285,20 +283,20 @@
             class="absolute left-0 mr-2"
             :class="{ 'placeholder-class': hasPreviousPage }"
             :cta="false"
-            label="pages.events.create.button_left"
+            label="i18n.pages.events.create.button_left"
             leftIcon="←"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="pages.events.create.go_to_previous_page"
+            ariaLabel="i18n.pages.events.create.go_to_previous_page"
           />
           <BtnAction
             v-if="!hasNextPage"
             type="submit"
             :cta="true"
             class="absolute right-0 ml-2 flex"
-            label="pages.events.create.submit"
+            label="i18n.pages.events.create.submit"
             fontSize="lg"
-            ariaLabel="pages.events.create.submit_aria_label"
+            ariaLabel="i18n.pages.events.create.submit_aria_label"
           />
           <BtnAction
             v-if="hasNextPage"
@@ -306,11 +304,11 @@
             type="button"
             class="absolute right-0 ml-2"
             :cta="false"
-            label="pages.events.create.button_right"
+            label="i18n.pages.events.create.button_right"
             rightIcon="→"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="pages.events.create.go_to_previous_page"
+            ariaLabel="i18n.pages.events.create.go_to_previous_page"
           />
         </div>
       </form>
@@ -319,8 +317,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-
 const localePath = useLocalePath();
 
 const settingValue = ref("");

@@ -4,7 +4,7 @@
     <div class="flex flex-col md:flex-row">
       <div class="flex items-center gap-5">
         <h3 class="responsive-h3 text-left font-display">
-          {{ $t(i18nMap.components._global.get_involved) }}
+          {{ $t("i18n.components._global.get_involved") }}
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
@@ -16,20 +16,24 @@
         <BtnRouteInternal
           v-if="organization.groups && organization.groups.length > 0"
           :cta="true"
-          :linkTo="'/organizations/' + id + '/groups'"
-          label="components.card_get_involved_organization.view_all_groups"
+          :linkTo="'/organizations/' + orgId + '/groups'"
+          label="
+            i18n.components.card_get_involved_organization.view_all_groups
+          "
           fontSize="sm"
-          ariaLabel="components.card_get_involved_organization.view_all_groups_aria_label"
+          ariaLabel="
+            i18n.components.card_get_involved_organization.view_all_groups_aria_label
+          "
         />
         <BtnRouteInternal
           v-if="organization && organization.getInvolvedUrl"
           :cta="true"
           :linkTo="organization.getInvolvedUrl"
-          label="_global.join_organization"
+          label="i18n._global.join_organization"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="_global.join_organization_aria_label"
+          ariaLabel="i18n._global.join_organization_aria_label"
         />
       </div>
     </div>
@@ -37,7 +41,7 @@
       <div v-if="organization.groups && organization.groups.length > 0">
         <p>
           {{
-            $t(i18nMap.components._global.working_groups_subtext, {
+            $t("i18n.components._global.working_groups_subtext", {
               entity_name: organization.name,
             })
           }}:
@@ -50,7 +54,7 @@
         </p>
         <p v-else>
           {{
-            $t(i18nMap.components._global.join_organization_subtext, {
+            $t("i18n.components._global.join_organization_subtext", {
               entity_name: organization.name,
             })
           }}
@@ -60,8 +64,7 @@
         <p>
           {{
             $t(
-              i18nMap.components.card_get_involved_organization
-                .join_organization_no_info,
+              "i18n.components.card_get_involved_organization.join_organization_no_info",
               {
                 entity_name: organization.name,
               }
@@ -75,7 +78,6 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextOrganization } = useModalHandlers(
@@ -84,11 +86,11 @@ const { openModal: openModalEditTextOrganization } = useModalHandlers(
 
 const { userIsSignedIn } = useUser();
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(id);
+await organizationStore.fetchById(orgId);
 
 const { organization } = organizationStore;
 </script>

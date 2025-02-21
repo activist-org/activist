@@ -12,7 +12,7 @@ jobs:
       - name: Cleanup Old Checkout
         run: chmod +w -R ${GITHUB_WORKSPACE}; rm -rf ${GITHUB_WORKSPACE}/*;
 
-      - name: Checkout
+      - name: Checkout Project
         uses: actions/checkout@v4
 
       - name: Clean Any Existing Containers

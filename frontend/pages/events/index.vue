@@ -2,11 +2,11 @@
 <template>
   <div class="bg-layer-0 px-8 text-primary-text">
     <Head>
-      <Title>{{ $t(i18nMap.pages.events.index.header_title) }} </Title>
+      <Title>{{ $t("i18n.pages.events.index.header_title") }} </Title>
     </Head>
     <HeaderAppPage
-      :header="$t(i18nMap.pages.events.index.header_title)"
-      :tagline="$t(i18nMap.pages.events.index.subheader)"
+      :header="$t('i18n.pages.events.index.header_title')"
+      :tagline="$t('i18n.pages.events.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
         <ComboboxTopics />
@@ -22,8 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-
 const eventStore = useEventStore();
 await eventStore.fetchAll();
 

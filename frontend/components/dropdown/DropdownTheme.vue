@@ -4,10 +4,10 @@
     class="dropdown-theme"
     :location="location"
     :menuButtonIcon="menuButtonIcon"
-    :menuButtonLabel="$t(i18nMap.components.dropdown_theme.label)"
+    :menuButtonLabel="$t('i18n.components.dropdown_theme.label')"
     :isMenuButtonUppercase="false"
     :menuButtonAriaLabel="
-      $t(i18nMap.components.dropdown_theme.open_dropdown_aria_label)
+      $t('i18n.components.dropdown_theme.open_dropdown_aria_label')
     "
   >
     <div class="px-2 py-2">
@@ -32,7 +32,6 @@
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
 import { computed } from "vue";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { DropdownLocation } from "~/types/location";
 
@@ -54,20 +53,20 @@ const labelsOpt = [
   {
     optColorMode: "system",
     iconName: `${IconMap.COLOR_MODE_SYSTEM}`,
-    label: "components.dropdown_theme.system",
-    ariaLabel: "components.dropdown_theme.system_aria_label",
+    label: "i18n.components.dropdown_theme.system",
+    ariaLabel: "i18n.components.dropdown_theme.system_aria_label",
   },
   {
     optColorMode: "light",
     iconName: `${IconMap.COLOR_MODE_LIGHT}`,
-    label: "components.dropdown_theme.light",
-    ariaLabel: "components.dropdown_theme.light_aria_label",
+    label: "i18n.components.dropdown_theme.light",
+    ariaLabel: "i18n.components.dropdown_theme.light_aria_label",
   },
   {
     optColorMode: "dark",
     iconName: `${IconMap.COLOR_MODE_DARK}`,
-    label: "components.dropdown_theme.dark",
-    ariaLabel: "components.dropdown_theme.dark_aria_label",
+    label: "i18n.components.dropdown_theme.dark",
+    ariaLabel: "i18n.components.dropdown_theme.dark_aria_label",
   },
 ];
 

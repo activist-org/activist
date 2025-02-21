@@ -12,7 +12,7 @@ export function getGroupSubPages(): SubPageSelector[] {
 
   const groupAboutPageSelector: SubPageSelector = {
     id: 0,
-    label: i18n.t("_global.about"),
+    label: i18n.t("i18n._global.about"),
     iconName: `${IconMap.ABOUT}`,
     routeUrl: `/organizations/${organizationId}/groups/${groupId}/about`,
     selected: false,
@@ -20,7 +20,7 @@ export function getGroupSubPages(): SubPageSelector[] {
 
   const groupEventPageSelector: SubPageSelector = {
     id: 1,
-    label: i18n.t("_global.events"),
+    label: i18n.t("i18n._global.events"),
     iconName: `${IconMap.EVENT}`,
     routeUrl: `/organizations/${organizationId}/groups/${groupId}/events`,
     selected: false,
@@ -28,7 +28,7 @@ export function getGroupSubPages(): SubPageSelector[] {
 
   const groupEventResourcesSelector: SubPageSelector = {
     id: 2,
-    label: i18n.t("_global.resources"),
+    label: i18n.t("i18n._global.resources"),
     iconName: "IconResource",
     routeUrl: `/organizations/${organizationId}/groups/${groupId}/resources`,
     selected: false,
@@ -36,7 +36,7 @@ export function getGroupSubPages(): SubPageSelector[] {
 
   const groupEventFAQSelector: SubPageSelector = {
     id: 3,
-    label: i18n.t("_global.faq"),
+    label: i18n.t("i18n._global.faq"),
     iconName: "IconFAQ",
     routeUrl: `/organizations/${organizationId}/groups/${groupId}/faq`,
     selected: false,

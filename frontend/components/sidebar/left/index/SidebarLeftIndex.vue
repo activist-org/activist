@@ -27,7 +27,7 @@
           class="elem-shadow-sm"
           :imgUrl="logoUrl"
           :alt="
-            $t(i18nMap._global.entity_logo, {
+            $t('i18n._global.entity_logo', {
               entity_name: name,
             })
           "
@@ -55,7 +55,7 @@
           class="elem-shadow-sm"
           eventType="action"
           :alt="
-            $t(i18nMap._global.entity_logo, {
+            $t('i18n._global.entity_logo', {
               entity_name: name,
             })
           "
@@ -94,7 +94,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import { SidebarType } from "~/types/sidebar-type";
 

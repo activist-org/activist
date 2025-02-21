@@ -5,12 +5,14 @@
     :menuButtonIcon="IconMap.CIRCLE_PERSON"
     :menuButtonLabel="
       userIsSignedIn
-        ? $t(i18nMap.components.dropdown_user_options.username)
-        : $t(i18nMap.components.dropdown_user_options.join_activist)
+        ? $t('i18n.components.dropdown_user_options.username')
+        : $t('i18n.components.dropdown_user_options.join_activist')
     "
     :isMenuButtonUppercase="false"
     :isMenuButtonBold="true"
-    menuButtonAriaLabel="components.dropdown_user_options.username_aria_label"
+    menuButtonAriaLabel="
+      i18n.components.dropdown_user_options.username_aria_label
+    "
   >
     <DropdownItemsLayout
       :location="location"
@@ -20,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { DropdownLocation } from "~/types/location";
 import type { MenuSelector } from "~/types/menu/menu-selector";
@@ -33,42 +34,42 @@ defineProps<{
 const userOptionsSignedIn: MenuSelector[] = [
   {
     id: 1,
-    label: "components.dropdown_user_options.your_profile",
+    label: "i18n.components.dropdown_user_options.your_profile",
     routeUrl: "/",
     iconUrl: `${IconMap.CIRCLE_PERSON}`,
     selected: false,
   },
   {
     id: 2,
-    label: "components.dropdown_user_options.your_events",
+    label: "i18n.components.dropdown_user_options.your_events",
     routeUrl: "/",
     iconUrl: `${IconMap.EVENT}`,
     selected: false,
   },
   {
     id: 3,
-    label: "components.dropdown_user_options.your_orgs",
+    label: "i18n.components.dropdown_user_options.your_orgs",
     routeUrl: "/",
     iconUrl: `${IconMap.ORGANIZATION}`,
     selected: false,
   },
   {
     id: 4,
-    label: "_global.notifications",
+    label: "i18n._global.notifications",
     routeUrl: "/",
     iconUrl: `${IconMap.BELL}`,
     selected: false,
   },
   {
     id: 5,
-    label: "_global.settings",
+    label: "i18n._global.settings",
     routeUrl: "/",
     iconUrl: `${IconMap.SETTINGS}`,
     selected: false,
   },
   {
     id: 6,
-    label: "components.dropdown_user_options.sign_out",
+    label: "i18n.components.dropdown_user_options.sign_out",
     routeUrl: "/",
     iconUrl: `${IconMap.SIGN_OUT}`,
     selected: false,
@@ -78,14 +79,14 @@ const userOptionsSignedIn: MenuSelector[] = [
 const userOptionsSignedOut: MenuSelector[] = [
   {
     id: 1,
-    label: "_global.sign_up",
+    label: "i18n._global.sign_up",
     routeUrl: "/auth/sign-up",
     iconUrl: `${IconMap.SIGN_IN}`,
     selected: false,
   },
   {
     id: 1,
-    label: "_global.sign_in",
+    label: "i18n._global.sign_in",
     routeUrl: "/auth/sign-in",
     iconUrl: `${IconMap.CIRCLE_PERSON}`,
     selected: false,

@@ -21,7 +21,7 @@
             'h-[17.5rem]': !props.fullscreen,
           }"
           :src="img"
-          :alt="$t(i18nMap.components.media_image_carousel.img_alt_text)"
+          :alt="$t('i18n.components.media_image_carousel.img_alt_text')"
         />
       </swiper-slide>
     </swiper-container>
@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps({
@@ -71,10 +70,10 @@ const handleCloseModal = () => {
 
 <style>
 swiper-container::part(bullet) {
-  @apply focus-brand bg-cta-orange/80;
+  @apply rounded-sm bg-cta-orange/80 focus:outline-none focus-visible:border-link-text focus-visible:ring-2 focus-visible:ring-link-text;
 }
 
 swiper-container::part(bullet-active) {
-  @apply focus-brand bg-cta-orange;
+  @apply rounded-sm bg-cta-orange focus:outline-none focus-visible:border-link-text focus-visible:ring-2 focus-visible:ring-link-text;
 }
 </style>

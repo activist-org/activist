@@ -3,16 +3,15 @@
   <DropdownBase
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_PLUS"
-    :menuButtonLabel="$t(i18nMap.components.dropdown_create.create)"
+    :menuButtonLabel="$t('i18n.components.dropdown_create.create')"
     :isMenuButtonUppercase="false"
-    menuButtonAriaLabel="components.dropdown_create.create_aria_label"
+    menuButtonAriaLabel="i18n.components.dropdown_create.create_aria_label"
   >
     <DropdownItemsLayout :location="location" :options="createOptions" />
   </DropdownBase>
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import type { DropdownLocation } from "~/types/location";
 import type { MenuSelector } from "~/types/menu/menu-selector";
@@ -24,28 +23,28 @@ defineProps<{
 const createOptions: MenuSelector[] = [
   {
     id: 1,
-    label: "_global.new_event",
+    label: "i18n._global.new_event",
     routeUrl: "/events/create",
     iconUrl: `${IconMap.EVENT}`,
     selected: false,
   },
   {
     id: 2,
-    label: "components.dropdown_create.new_organization",
+    label: "i18n.components.dropdown_create.new_organization",
     routeUrl: "/organizations/create",
     iconUrl: "IconOrganization",
     selected: false,
   },
   {
     id: 3,
-    label: "_global.new_group",
+    label: "i18n._global.new_group",
     routeUrl: "/groups/create",
     iconUrl: "IconGroup",
     selected: false,
   },
   {
     id: 4,
-    label: "_global.new_resource",
+    label: "i18n._global.new_resource",
     routeUrl: "/resources/create",
     iconUrl: "IconResource",
     selected: false,

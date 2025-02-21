@@ -61,7 +61,7 @@ export default {
     {
       rel: "icon",
       type: "image/svg+xml",
-      href: "favicons/favicon.svg",
+      href: "icons/favicons/favicon.svg",
     },
     {
       hid: "canonical",

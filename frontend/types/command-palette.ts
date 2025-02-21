@@ -7,7 +7,7 @@ export const commandPaletteData = [
     category: "home",
     path: "home",
     iconName: "HOME",
-    displayName: "_global.home",
+    displayName: "i18n._global.home",
     action: () => console.log("home"),
   },
   {
@@ -15,7 +15,7 @@ export const commandPaletteData = [
     category: "discussions",
     path: "discussions",
     iconName: "DISCUSSION",
-    displayName: "_global.discussions",
+    displayName: "i18n._global.discussions",
     action: () => console.log("discussions"),
   },
   {
@@ -23,7 +23,7 @@ export const commandPaletteData = [
     category: "events",
     path: "events",
     iconName: "EVENT",
-    displayName: "_global.events",
+    displayName: "i18n._global.events",
     action: () => console.log("events"),
   },
   {
@@ -31,7 +31,7 @@ export const commandPaletteData = [
     category: "notifications",
     path: "notifications",
     iconName: "BELL",
-    displayName: "_global.notifications",
+    displayName: "i18n._global.notifications",
     action: () => console.log("notifications"),
   },
   {
@@ -39,7 +39,7 @@ export const commandPaletteData = [
     category: "organizations",
     path: "organizations",
     iconName: "ORGANIZATION",
-    displayName: "_global.organization_name",
+    displayName: "i18n._global.organization_name",
     action: () => console.log("organizations"),
   },
   // {
@@ -47,7 +47,7 @@ export const commandPaletteData = [
   //   category: "resources",
   //   path: "resources",
   //   iconName: "RESOURCE",
-  //   displayName: "_global.resources_lower",
+  //   displayName: "i18n._global.resources_lower,
   //   action: () => console.log('resources')
   // },
   {
@@ -55,7 +55,7 @@ export const commandPaletteData = [
     category: "upcoming-events",
     path: "upcoming-events",
     iconName: "EVENT",
-    displayName: "types.command_palette.upcoming_events",
+    displayName: "i18n.types.command_palette.upcoming_events",
     action: () => console.log("upcoming-events"),
   },
 ];

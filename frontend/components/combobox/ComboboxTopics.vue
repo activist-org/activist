@@ -37,7 +37,7 @@
               v-if="filteredTopics.length === 0 && query !== ''"
               class="relative cursor-default select-none px-4 py-2 text-distinct-text"
             >
-              {{ $t(i18nMap.components.combobox_topics.no_matching_topics) }}
+              {{ $t("i18n.components.combobox_topics.no_matching_topics") }}
             </div>
             <ComboboxOption
               v-for="topic in filteredTopics"
@@ -86,13 +86,12 @@ import {
   ComboboxOptions,
   TransitionRoot,
 } from "@headlessui/vue";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 import { GLOBAL_TOPICS } from "~/types/topics";
 
 const i18n = useI18n();
 
-const topics = [{ id: 1, name: "components.combobox_topics.all_topics" }];
+const topics = [{ id: 1, name: "i18n.components.combobox_topics.all_topics" }];
 
 let nextId = topics.length + 1;
 for (const t of GLOBAL_TOPICS) {
@@ -119,7 +118,7 @@ function displayValue() {
     return "";
   } else {
     return selectedTopic.value.id == 1
-      ? "Filter by topic"
+      ? i18n.t("i18n.components.combobox_topics.filter_by_topic")
       : selectedTopic.value.name;
   }
 }

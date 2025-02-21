@@ -40,7 +40,7 @@
       v-if="contentCopied"
       class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
       :iconName="IconMap.SQUARE_CHECK"
-      :text="$t(i18nMap.components.btn_share_icon.url_copied)"
+      :text="$t('i18n.components.btn_share_icon.url_copied')"
       :iconSize="iconSize"
     />
   </div>
@@ -58,7 +58,6 @@ import {
   STwitter,
 } from "vue-socials";
 import { toast } from "vue-sonner";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const vueSocials: { [key: string]: Component } = {
@@ -110,9 +109,9 @@ const { t } = useI18n();
 const contentCopied = ref(false);
 
 const getCurrentI18n: { [key: string]: string } = {
-  signal: "components.btn_share_icon.opening_signal",
-  matrix: "components.btn_share_icon.opening_matrix",
-  instagram: "components.btn_share_icon.opening_instagram",
+  signal: "i18n.components.btn_share_icon.opening_signal",
+  matrix: "i18n.components.btn_share_icon.opening_matrix",
+  instagram: "i18n.components.btn_share_icon.opening_instagram",
 };
 
 const copyToClipboardThenOpenUrl = async (
