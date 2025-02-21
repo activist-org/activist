@@ -5,14 +5,16 @@ import { getI18nString } from "~/utils/i18n";
 export const newSignInMenu = (parent: Page | Locator) => ({
   toggleOpenButton: parent.locator("#user-options").getByRole("button", {
     name: new RegExp(
-      getI18nString("components.dropdown_user_options.username_aria_label"),
+      getI18nString(
+        "i18n.components.dropdown_user_options.username_aria_label"
+      ),
       "i"
     ),
   }),
   signInOption: parent.locator("#user-options").getByRole("menuitem", {
-    name: new RegExp(getI18nString("_global.sign_in"), "i"),
+    name: new RegExp(getI18nString("i18n._global.sign_in"), "i"),
   }),
   signUpOption: parent.locator("#user-options").getByRole("menuitem", {
-    name: new RegExp(getI18nString("_global.sign_up"), "i"),
+    name: new RegExp(getI18nString("i18n._global.sign_up"), "i"),
   }),
 });

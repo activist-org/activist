@@ -7,28 +7,28 @@ export const newThemeMenu = (parent: Page | Locator) => ({
   menu: parent.locator(".dropdown-theme").getByRole("menu"),
   toggleOpenButton: parent.getByRole("button", {
     name: new RegExp(
-      getI18nString("components.dropdown_theme.open_dropdown_aria_label"),
+      getI18nString("i18n.components.dropdown_theme.open_dropdown_aria_label"),
       "i"
     ),
   }),
 
   systemThemeOption: parent.getByRole("menuitem", {
     name: new RegExp(
-      getI18nString("components.dropdown_theme.system_aria_label"),
+      getI18nString("i18n.components.dropdown_theme.system_aria_label"),
       "i"
     ),
   }),
 
   lightThemeOption: parent.getByRole("menuitem", {
     name: new RegExp(
-      getI18nString("components.dropdown_theme.light_aria_label"),
+      getI18nString("i18n.components.dropdown_theme.light_aria_label"),
       "i"
     ),
   }),
 
   darkThemeOption: parent.getByRole("menuitem", {
     name: new RegExp(
-      getI18nString("components.dropdown_theme.dark_aria_label"),
+      getI18nString("i18n.components.dropdown_theme.dark_aria_label"),
       "i"
     ),
   }),

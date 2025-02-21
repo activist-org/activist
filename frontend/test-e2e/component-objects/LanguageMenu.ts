@@ -45,7 +45,7 @@ export const newLanguageMenu = (
         toggleOpenButton: parent.getByRole("button", {
           name: new RegExp(
             getI18nString(
-              "components.dropdown_language.open_dropdown_aria_label"
+              "i18n.components.dropdown_language.open_dropdown_aria_label"
             ),
             "i"
           ),

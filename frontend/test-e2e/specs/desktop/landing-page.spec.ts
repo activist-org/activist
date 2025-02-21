@@ -16,7 +16,7 @@ import { getI18nString } from "~/utils/i18n";
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    new RegExp(getI18nString("components.landing_splash.header"), "i")
+    new RegExp(getI18nString("i18n.components.landing_splash.header"), "i")
   );
 });
 

@@ -54,7 +54,7 @@ export const newSidebarRight = (
         closeButton: parent.getByRole("button", {
           name: new RegExp(
             getI18nString(
-              "components.sidebar_right_hamburger.collapse_aria_label"
+              "i18n.components.sidebar_right_hamburger.collapse_aria_label"
             ),
             "i"
           ),
@@ -62,7 +62,7 @@ export const newSidebarRight = (
         openButton: parent.getByRole("button", {
           name: new RegExp(
             getI18nString(
-              "components.sidebar_right_hamburger.collapse_aria_label"
+              "i18n.components.sidebar_right_hamburger.collapse_aria_label"
             ),
             "i"
           ),

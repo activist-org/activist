@@ -116,7 +116,8 @@ function updateShareBtnLabel() {
   if (windowWidth.value < BreakpointMap.SMALL) {
     shareButtonLabel.value = "i18n._global.share";
   } else {
-    shareButtonLabel.value = "pages.organizations.groups.about.share_group";
+    shareButtonLabel.value =
+      "i18n.pages.organizations.groups.about.share_group";
   }
 }
 
