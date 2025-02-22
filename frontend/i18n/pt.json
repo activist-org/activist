@@ -10,7 +10,7 @@
   "i18n._global.entity_logo": "{entity_name} logotipo",
   "i18n._global.events": "Eventos",
   "i18n._global.faq": "FAQ",
-  "i18n._global.header": "Onde nós começamos.",
+  "i18n.components.landing_splash.header": "Onde nós começamos.",
   "i18n._global.home": "Início",
   "i18n._global.join_group": "Junte-se ao grupo",
   "i18n._global.join_group_aria_label": "Inicie o processo de adesão ao grupo",

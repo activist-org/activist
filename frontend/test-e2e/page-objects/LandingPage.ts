@@ -3,5 +3,5 @@ import type { LOCALE_CODE } from "~/locales";
 import { getLocalText } from "~/utils/localeFileHandler";
 
 export const newLandingPage = (locale?: LOCALE_CODE) => ({
-  headingText: getLocalText(locale)["i18n._global.header"],
+  headingText: getLocalText(locale)["i18n.components.landing_splash.header"],
 });

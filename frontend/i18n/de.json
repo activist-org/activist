@@ -12,7 +12,7 @@
   "i18n._global.entity_logo": "{entity_name}-Logo",
   "i18n._global.events": "Ereignisse",
   "i18n._global.faq": "Häufig gestellte Fragen",
-  "i18n._global.header": "Wo wir anfangen.",
+  "i18n.components.landing_splash.header": "Wo wir anfangen.",
   "i18n._global.home": "Zurück",
   "i18n._global.join_group": "Gruppe beitreten",
   "i18n._global.join_group_aria_label": "Beitrittsprozess zur Gruppe starten",
