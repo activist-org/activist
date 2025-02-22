@@ -9,7 +9,6 @@ export const ACTIVIST_LANDING_LINK_NAME = new RegExp(
   getI18nString("i18n.components.logo_activist.aria_label"),
   "i"
 );
-
 export const SIGN_IN_LINK_NAME = new RegExp(
   getI18nString("i18n._global.sign_in_aria_label"),
   "i"
