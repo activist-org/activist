@@ -24,9 +24,7 @@
       :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
       :counter="discussionEntry.votes"
-      ariaLabel="
-        i18n.components.card.discussion._global.upvote_discussion_aria_label
-      "
+      ariaLabel="i18n.components.card.discussion._global.upvote_discussion_aria_label"
     />
   </div>
 </template>
