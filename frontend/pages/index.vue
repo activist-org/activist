@@ -65,10 +65,8 @@
         text="i18n.pages.index.our_supporters_text"
         imageAltText=""
         btnText1="i18n.pages.index.become_supporter"
-        btnUrl1="/supporters/join"
-        btnAriaLabel1="
-          i18n.pages.index.our_supporters_btn_become_aria_label
-        "
+        btnUrl1="https://docs.activist.org/activist/welcome/support-us"
+        btnAriaLabel1="i18n.pages.index.our_supporters_btn_become_aria_label"
         btnText2="i18n.pages.index.view_all_supporters"
         btnUrl2="https://docs.activist.org/activist/organization/community/supporters"
         btnAriaLabel2="i18n.pages.index.our_supporters_btn_view_aria_label"

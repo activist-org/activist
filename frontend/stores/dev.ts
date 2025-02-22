@@ -6,7 +6,7 @@ export const useDevMode = defineStore("devMode", {
 
   actions: {
     check() {
-      this.active = window.location.href.includes("localhost:3000");
+      this.active = window.location.href.includes(":3000");
     },
   },
 });

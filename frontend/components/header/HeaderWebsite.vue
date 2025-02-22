@@ -99,7 +99,7 @@
               label="i18n._global.sign_up"
               linkTo="/auth/sign-up"
               fontSize="sm"
-              ariaLabel="i18n.components._global.sign_up_aria_label"
+              ariaLabel="i18n._global.sign_up_aria_label"
             />
             <BtnRouteInternal
               v-else-if="aboveMediumBP && devMode.active"
@@ -109,7 +109,7 @@
               label="i18n._global.sign_up"
               linkTo="/auth/sign-up"
               fontSize="xs"
-              ariaLabel="i18n.components._global.sign_up_aria_label"
+              ariaLabel="i18n._global.sign_up_aria_label"
             />
             <BtnRouteInternal
               v-if="aboveLargeBP && !devMode.active"

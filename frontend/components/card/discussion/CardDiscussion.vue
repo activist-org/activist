@@ -40,9 +40,7 @@
               fontSize="sm"
               :leftIcon="IconMap.ARROW_UP"
               iconSize="1.25em"
-              ariaLabel="
-                i18n.components.card.discussion._global.upvote_discussion_aria_label
-              "
+              ariaLabel="i18n.components.card.discussion._global.upvote_discussion_aria_label"
             />
             <BtnAction
               class="mt-1 flex"
@@ -50,9 +48,7 @@
               :label="discussion.category"
               fontSize="sm"
               iconSize="1.25em"
-              ariaLabel="
-                i18n.components.card_discussion.filter_discussion_category_aria_label
-              "
+              ariaLabel="i18n.components.card_discussion.filter_discussion_category_aria_label"
             />
           </div>
         </div>
