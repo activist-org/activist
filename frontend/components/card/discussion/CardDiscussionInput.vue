@@ -10,9 +10,7 @@
               :cta="true"
               :label="$t('i18n.components.card_discussion_input.write')"
               fontSize="sm"
-              ariaLabel="
-                i18n.components.card_discussion_input.write_aria_label
-              "
+              ariaLabel="i18n.components.card_discussion_input.write_aria_label"
             />
           </div>
           <div class="w-min md:w-min">
@@ -21,9 +19,7 @@
               :cta="false"
               :label="$t('i18n.components.card_discussion_input.preview')"
               fontSize="sm"
-              ariaLabel="
-                i18n.components.card_discussion_input.preview_aria_label
-              "
+              ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
             />
           </div>
         </div>
@@ -140,9 +136,7 @@
             :cta="true"
             :label="$t('i18n.components.card_discussion_input.comment')"
             fontSize="sm"
-            ariaLabel="
-              i18n.components.card_discussion_input.comment_aria_label
-            "
+            ariaLabel="i18n.components.card_discussion_input.comment_aria_label"
           />
         </div>
       </div>

@@ -91,7 +91,7 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
           ),
           "i"
         ),
-        url: "/supporters/join",
+        url: "https://docs.activist.org/activist/welcome/support-us",
       },
 
       {

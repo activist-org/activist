@@ -116,9 +116,7 @@
               class="flex"
               label="i18n.pages.organizations.create.complete_application"
               fontSize="lg"
-              ariaLabel="
-                i18n.pages.organizations.create.complete_application_aria_label
-              "
+              ariaLabel="i18n.pages.organizations.create.complete_application_aria_label"
             />
           </div>
         </div>

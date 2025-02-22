@@ -19,7 +19,7 @@
         linkTo="/auth/sign-up"
         :cta="true"
         fontSize="lg"
-        :ariaLabel="$t('i18n.components._global.sign_up_aria_label')"
+        :ariaLabel="$t('i18n._global.sign_up_aria_label')"
       />
     </div>
   </TooltipBase>

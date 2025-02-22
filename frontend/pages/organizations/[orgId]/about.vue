@@ -28,9 +28,7 @@
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="organization.supporters.length"
-          ariaLabel="
-            i18n._global.support_organization_aria_label
-          "
+          ariaLabel="i18n._global.support_organization_aria_label"
         /> -->
           <BtnAction
             @click="openModalSharePage()"

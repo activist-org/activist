@@ -14,6 +14,6 @@ export const SIGN_IN_LINK_NAME = new RegExp(
   "i"
 );
 export const SIGN_UP_LINK_NAME = new RegExp(
-  getI18nString("i18n._global.auth.sign_up_aria_label"),
+  getI18nString("i18n._global.sign_up_aria_label"),
   "i"
 );

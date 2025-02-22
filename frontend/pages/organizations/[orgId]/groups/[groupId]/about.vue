@@ -32,9 +32,7 @@
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="group.supporters"
-          ariaLabel="
-            i18n.pages.organizations.groups._global.support_group_aria_label
-          "
+          ariaLabel="i18n.pages.organizations.groups._global.support_group_aria_label"
         /> -->
         <BtnAction
           @click="openModal()"
