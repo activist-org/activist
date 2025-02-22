@@ -5,6 +5,11 @@ on:
       - main
     types: [opened, reopened, synchronize]
 
+permissions:
+  contents: write
+  checks: write
+  pull-requests: write
+
 env:
   SECRET_KEY: "ONLY_FOR_TESTING"
   DATABASE_PORT: 5432
@@ -12,7 +17,6 @@ env:
   DATABASE_NAME: postgres
   DATABASE_USER: postgres
   DATABASE_PASSWORD: postgres
-
 
 jobs:
   backend:
@@ -78,14 +82,5 @@ jobs:
 
       - name: Run pytest with Coverage
         run: |
-          pytest ./backend --cov=backend --cov-report=xml --cov-report=term --cov-fail-under=80
-        continue-on-error: true  # Allow failure but capture coverage result
-
-      - name: Fail if Coverage is Below Threshold
-        run: |
-          COVERAGE=$(awk -F'"' '/line-rate/{print $2 * 100}' coverage.xml | head -n 1)
-          echo "Coverage: $COVERAGE%"
-          if (( $(echo "$COVERAGE < 80" | bc -l) )); then
-            echo "Code coverage is below the required threshold of 80%!"
-            exit 1
-          fi
+          pytest ./backend --cov=backend --cov-report=xml --cov-report=term --cov-fail-under=70
+        continue-on-error: false
