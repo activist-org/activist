@@ -74,13 +74,13 @@ jobs:
           python ./backend/manage.py makemigrations
           python ./backend/manage.py migrate
 
-      - name: Pytest coverage comment
+      - name: Build Coverage File
+        run: |
+          pytest ./backend --cov=backend --junitxml=pytest.xml --cov-report=xml --cov-report=term --cov-fail-under=70 | tee pytest-coverage.txt
+        continue-on-error: false
+
+      - name: Pytest Coverage Comment
         uses: MishaKav/pytest-coverage-comment@main
         with:
           pytest-coverage-path: ./coverage.xml
           junitxml-path: ./pytest.xml
-
-      - name: Run pytest with Coverage
-        run: |
-          pytest ./backend --cov=backend --cov-report=xml --cov-report=term --cov-fail-under=70
-        continue-on-error: false
