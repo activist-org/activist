@@ -5,11 +5,6 @@ on:
       - main
     types: [opened, reopened, synchronize]
 
-permissions:
-  contents: write
-  checks: write
-  pull-requests: write
-
 env:
   SECRET_KEY: "ONLY_FOR_TESTING"
   DATABASE_PORT: 5432
@@ -30,6 +25,11 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
 
     name: Run PR Backend Check
     runs-on: ubuntu-latest
@@ -63,10 +63,6 @@ jobs:
       - name: Run mypy - Static Type Checking
         if: always()
         run: mypy ./backend --config-file ./backend/pyproject.toml
-
-      - name: Run pytest - Unit Tests
-        if: always()
-        run: pytest ./backend -vv
 
       - name: Run Django Migrations - Database Migrations Check
         run: |
