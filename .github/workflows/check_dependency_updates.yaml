@@ -19,7 +19,7 @@ jobs:
       
       - name: Initialize Report
         run: |
-          echo "# Dependency Update Report $(date '+%B %d, %Y')" > reports.md
+          echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖 📝" > reports.md
           echo "## Updated Dependencies" >> reports.md
           
       - name: Set up Python
