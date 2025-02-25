@@ -14,7 +14,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
       - name: Initialize Report
         run: |
           echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖 📝" > reports.md
@@ -24,7 +23,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.11'
-
       - name: Setup Yarn
         working-directory: frontend
         continue-on-error: true
@@ -84,11 +82,21 @@ jobs:
           echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md     
           node compare_versions.js | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
        
+      - name: Create Python Virtual Environment
+        id: setup-venv
+        working-directory: backend
+        continue-on-error: true
+        run: |
+          python -m venv .venv
+          echo "Created Python virtual environment in backend/.venv"
+
       - name: Install Backend Dependencies
         id: install-backend
         working-directory: backend
         continue-on-error: true
         run: |
+          source .venv/bin/activate
+          python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python -m pip install mypy
 
@@ -97,6 +105,7 @@ jobs:
         working-directory: backend
         continue-on-error: true
         run: |
+          source .venv/bin/activate
           cp requirements.txt requirements.old.txt
           pip install -U pip-tools
           pip-compile --upgrade requirements.in
@@ -132,6 +141,7 @@ jobs:
         working-directory: backend
         continue-on-error: true
         run: |
+          source .venv/bin/activate
           echo -e "\n## Test Results" >> ../reports.md
           echo -e "\n### Mypy Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
