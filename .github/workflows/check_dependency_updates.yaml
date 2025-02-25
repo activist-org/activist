@@ -149,9 +149,15 @@ jobs:
         continue-on-error: true
         run: |
           echo -e "\n### Prettier Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
           yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+          
           echo -e "\n### Type Check Results" >> ../reports.md
-          yarn nuxi typecheck 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+         
+          yarn nuxi typecheck 2>&1 | sed 's/\[.*\]/\n&\n/g' | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
       
       - name: Create GitHub Issue
         if: always()
