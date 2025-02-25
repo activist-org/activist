@@ -158,6 +158,7 @@ jobs:
         working-directory: frontend
         continue-on-error: true
         run: |
+          echo "compare_versions.js" >> ../.prettierignore
           echo -e "\n### Prettier Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
