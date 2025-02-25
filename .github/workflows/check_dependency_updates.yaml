@@ -1,44 +1,30 @@
 name: check_dependency_updates
-
 on:
   schedule:
     - cron: '0 0 15 */2 *'
   workflow_dispatch:
-
 jobs:
   update_dependencies:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
+      
       - name: Set up Node Environment
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      
+
       - name: Initialize Report
         run: |
           echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖 📝" > reports.md
-          echo "## Updated Dependencies" >> reports.md
+          echo "## Available Update ⚙️" >> reports.md
           
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.11'
-          
-      - name: Update Frontend Dependencies
-        id: frontend-updates
-        working-directory: frontend
-        continue-on-error: true
-        run: |
-          cp package.json package.old.json
-          npm install -g npm-check-updates
-          ncu -u
-          echo -e "\n### Frontend Dependencies" >> ../reports.md
-          echo "Changes:" >> ../reports.md
-          diff package.old.json package.json | grep "^>" | sed 's/^>/- /' >> ../reports.md || true
-        
+
       - name: Setup Yarn
         working-directory: frontend
         continue-on-error: true
@@ -52,42 +38,55 @@ jobs:
         continue-on-error: true
         run: |
           rm -rf .yarn .pnp.* yarn.lock node_modules
-        
           yarn set version 4.6.0
-          
           yarn install --no-immutable
-          
           yarn remove eslint @nuxtjs/eslint-config-typescript nuxt prettier || true
           yarn add -D eslint@^8.0.0 prettier@^3.0.0
           yarn add -D nuxt@^3.0.0
           
-      - name: Run Frontend Tests
-        id: frontend-tests
+      - name: Update Frontend Dependencies
+        id: frontend-updates
         working-directory: frontend
         continue-on-error: true
         run: |
-          echo -e "\n### Prettier Results" >> ../reports.md
-          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
-          echo -e "\n### Type Check Results" >> ../reports.md
-          yarn nuxi typecheck 2>&1 | tee -a ../reports.md || true
-          echo -e "\n### ESLint Results" >> ../reports.md
-          yarn eslint . 2>&1 | tee -a ../reports.md || true
-      
-      - name: Update Backend Dependencies
-        id: backend-updates
-        working-directory: backend
-        continue-on-error: true
-        run: |
-          cp requirements.txt requirements.old.txt
+          cp package.json package.old.json
+          npm install -g npm-check-updates
+          cat > compare_versions.js << 'EOF'
+          #!/usr/bin/env node
+          const oldPkg = require('./package.old.json');
+          const newPkg = require('./package.json');
           
-          pip install -U pip-tools
-          pip-compile --upgrade requirements.in
+          const allDeps = new Set([
+            ...Object.keys(oldPkg.dependencies || {}),
+            ...Object.keys(oldPkg.devDependencies || {}),
+            ...Object.keys(newPkg.dependencies || {}),
+            ...Object.keys(newPkg.devDependencies || {})
+          ]);
           
-          echo -e "\n### Backend Dependencies" >> ../reports.md
-          echo "\`\`\`diff" >> ../reports.md
-          diff requirements.old.txt requirements.txt >> ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
+          const getVersion = (pkg, name) => {
+            return (pkg.dependencies && pkg.dependencies[name]) || 
+                   (pkg.devDependencies && pkg.devDependencies[name]) || 
+                   'not present';
+          };
           
+          for (const dep of Array.from(allDeps).sort()) {
+            const oldVersion = getVersion(oldPkg, dep);
+            const newVersion = getVersion(newPkg, dep);
+            
+            if (oldVersion !== newVersion) {
+              console.log(`- ${dep}: ${oldVersion} → ${newVersion}`);
+            }
+          }
+          EOF
+          
+          chmod +x compare_versions.js
+          ncu -u
+          
+          echo -e "\n### Dependencies" >> ../reports.md
+          echo -e "| Package | Old Version | New Version | Type |" >> ../reports.md
+          echo -e "|---------|-------------|-------------|------|" >> ../reports.md     
+          node compare_versions.js | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
+       
       - name: Install Backend Dependencies
         id: install-backend
         working-directory: backend
@@ -95,6 +94,41 @@ jobs:
         run: |
           python -m pip install -r requirements.txt
           python -m pip install mypy
+
+      - name: Update Backend Dependencies
+        id: backend-updates
+        working-directory: backend
+        continue-on-error: true
+        run: |
+          cp requirements.txt requirements.old.txt
+          pip install -U pip-tools
+          pip-compile --upgrade requirements.in
+          
+          cat > compare_versions.py << 'EOF'
+          import re
+          def parse_req_file(filename):
+              deps = {}
+              with open(filename, "r") as f:
+                  for line in f:
+                      line = line.strip()
+                      if line and not line.startswith("#") and "==" in line:
+                          parts = re.split("==|>=|<=", line, 1)
+                          if len(parts) == 2:
+                              name = parts[0].strip()
+                              version = parts[1].strip()
+                              deps[name] = version
+              return deps
+          old_deps = parse_req_file("requirements.old.txt")
+          new_deps = parse_req_file("requirements.txt")
+          all_deps = set(list(old_deps.keys()) + list(new_deps.keys()))
+          for dep in sorted(all_deps):
+              old_ver = old_deps.get(dep, "not present")
+              new_ver = new_deps.get(dep, "not present")
+              if old_ver != new_ver:
+                  print(f"| {dep} | {old_ver} | {new_ver} | Backend |")
+          EOF
+          
+          python compare_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
           
       - name: Run Backend Tests
         id: backend-tests
@@ -111,12 +145,22 @@ jobs:
           echo "\`\`\`" >> ../reports.md
           DJANGO_SETTINGS_MODULE=app.settings.test python manage.py test 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
-          
+
+      - name: Run Frontend Tests
+        id: frontend-tests
+        working-directory: frontend
+        continue-on-error: true
+        run: |
+          echo -e "\n### Prettier Results" >> ../reports.md
+          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
+          echo -e "\n### Type Check Results" >> ../reports.md
+          yarn nuxi typecheck 2>&1 | tee -a ../reports.md || true
+      
       - name: Create GitHub Issue
         if: always()
         uses: peter-evans/create-issue-from-file@v4
         with:
-          title: "Dependency Update Errors - $(date '+%B %d, %Y') 🤖"
+          title: "Dependency Update Report - $(date '+%B %d, %Y') 🤖"
           content-filepath: reports.md
           labels: |
             dependencies
