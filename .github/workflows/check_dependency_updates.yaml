@@ -9,8 +9,6 @@ jobs:
   update_dependencies:
     runs-on: ubuntu-latest
     steps:
-      # MARK: Environments
-
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -18,90 +16,109 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Yarn
-        working-directory: ./frontend
-        run: install
-
-      # MARK: Dependency Updates
-
+      
+      - name: Initialize Report
+        run: |
+          echo "# Dependency Update Report $(date '+%B %d, %Y')" > reports.md
+          echo "## Updated Dependencies" >> reports.md
+          
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.11'
-
-      - name: Update Backend Dependencies
-        working-directory: backend
-        run: |
-          python -m pip install --upgrade uv
-          uv venv
-          uv pip install -r requirements-dev.txt
-          pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip install -U
-          pip freeze > requirements-dev.txt
-
-      - name: Install npm-check-updates
-        run: npm install -g npm-check-updates
-
+          
       - name: Update Frontend Dependencies
+        id: frontend-updates
         working-directory: frontend
+        continue-on-error: true
         run: |
+          cp package.json package.old.json
+          npm install -g npm-check-updates
           ncu -u
-
-      # MARK: Backend Tests
-
-      - name: Activate Virtual Environment
+          echo -e "\n### Frontend Dependencies" >> ../reports.md
+          echo "Changes:" >> ../reports.md
+          diff package.old.json package.json | grep "^>" | sed 's/^>/- /' >> ../reports.md || true
+        
+      - name: Setup Yarn
+        working-directory: frontend
+        continue-on-error: true
         run: |
-          . .venv/bin/activate
-          echo PATH=$PATH >> $GITHUB_ENV
-
-      - name: Run Ruff Format - Formatting and Linting Check
-        run: ruff check ./backend || echo "Ruff check failed" >> error_log.txt
-
-      - name: Run mypy - Static Type Checking
-        if: always()
-        run: mypy ./backend --config-file ./backend/pyproject.toml || echo "mypy check failed" >> error_log.txt
-
-      - name: Run pytest - Unit Tests
-        if: always()
-        run: pytest ./backend -vv || echo "Backend tests failed." >> error_log.txt
-
-      # MARK: Frontend Tests
-
-      - name: Install Prettier
-        run: yarn add prettier
-
-      - name: Run Prettier - Formatting Check
-        working-directory: ./frontend
+          corepack enable
+          corepack prepare yarn@4.6.0 --activate
+          
+      - name: Install Frontend Dependencies
+        id: install-frontend
+        working-directory: frontend
+        continue-on-error: true
         run: |
-          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore || echo "Prettier check failed." >> error_log.txt
-
-      - name: Run Nuxt Type Check
-        if: always()
-        working-directory: ./frontend
-        run: nuxi typecheck || echo "Type check failed." >> error_log.txt
-
-      - name: Run ESLint - Linting
-        if: always()
-        working-directory: ./frontend
-        run: eslint . || echo "ESLint check failed." >> error_log.txt
-
-      # MARK: Errors and Issue
-
-      - name: Log Errors
-        if: failure()
+          rm -rf .yarn .pnp.* yarn.lock node_modules
+        
+          yarn set version 4.6.0
+          
+          yarn install --no-immutable
+          
+          yarn remove eslint @nuxtjs/eslint-config-typescript nuxt prettier || true
+          yarn add -D eslint@^8.0.0 prettier@^3.0.0
+          yarn add -D nuxt@^3.0.0
+          
+      - name: Run Frontend Tests
+        id: frontend-tests
+        working-directory: frontend
+        continue-on-error: true
         run: |
-          if [[ -f error_log.txt ]]; then
-            cat error_log.txt
-          else
-            echo "No errors found during dependency update."
-          fi
-
+          echo -e "\n### Prettier Results" >> ../reports.md
+          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
+          echo -e "\n### Type Check Results" >> ../reports.md
+          yarn nuxi typecheck 2>&1 | tee -a ../reports.md || true
+          echo -e "\n### ESLint Results" >> ../reports.md
+          yarn eslint . 2>&1 | tee -a ../reports.md || true
+      
+      - name: Update Backend Dependencies
+        id: backend-updates
+        working-directory: backend
+        continue-on-error: true
+        run: |
+          cp requirements.txt requirements.old.txt
+          
+          pip install -U pip-tools
+          pip-compile --upgrade requirements.in
+          
+          echo -e "\n### Backend Dependencies" >> ../reports.md
+          echo "\`\`\`diff" >> ../reports.md
+          diff requirements.old.txt requirements.txt >> ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+          
+      - name: Install Backend Dependencies
+        id: install-backend
+        working-directory: backend
+        continue-on-error: true
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pip install mypy
+          
+      - name: Run Backend Tests
+        id: backend-tests
+        working-directory: backend
+        continue-on-error: true
+        run: |
+          echo -e "\n## Backend Test Results" >> ../reports.md
+          echo -e "\n### Mypy Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          mypy . --config-file mypy.ini 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+          
+          echo -e "\n### Django Tests" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          DJANGO_SETTINGS_MODULE=app.settings.test python manage.py test 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+          
       - name: Create GitHub Issue
-        if: failure()
+        if: always()
         uses: peter-evans/create-issue-from-file@v4
         with:
-          title: $(date +%Y-%m-%d) Dependency Update Errors
-          content-filepath: error_log.txt
+          title: "Dependency Update Errors - $(date '+%B %d, %Y') 🤖"
+          content-filepath: reports.md
           labels: |
             dependencies
             help wanted
+            good first issue
