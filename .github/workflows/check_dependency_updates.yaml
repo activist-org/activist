@@ -40,9 +40,6 @@ jobs:
           rm -rf .yarn .pnp.* yarn.lock node_modules
           yarn set version 4.6.0
           yarn install --no-immutable
-          yarn remove eslint @nuxtjs/eslint-config-typescript nuxt prettier || true
-          yarn add -D eslint@^8.0.0 prettier@^3.0.0
-          yarn add -D nuxt@^3.0.0
           
       - name: Update Frontend Dependencies
         id: frontend-updates
@@ -83,8 +80,8 @@ jobs:
           ncu -u
           
           echo -e "\n### Dependencies" >> ../reports.md
-          echo -e "| Package | Old Version | New Version | Type |" >> ../reports.md
-          echo -e "|---------|-------------|-------------|------|" >> ../reports.md     
+          echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
+          echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md     
           node compare_versions.js | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
        
       - name: Install Backend Dependencies
@@ -135,7 +132,7 @@ jobs:
         working-directory: backend
         continue-on-error: true
         run: |
-          echo -e "\n## Backend Test Results" >> ../reports.md
+          echo -e "\n## Test Results" >> ../reports.md
           echo -e "\n### Mypy Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           mypy . --config-file mypy.ini 2>&1 | tee -a ../reports.md || true
