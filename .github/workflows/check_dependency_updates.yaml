@@ -14,6 +14,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          
       - name: Initialize Report
         run: |
           echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖 📝" > reports.md
@@ -23,6 +24,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.11'
+          
       - name: Setup Yarn
         working-directory: frontend
         continue-on-error: true
@@ -86,10 +88,8 @@ jobs:
         id: setup-venv
         working-directory: backend
         continue-on-error: true
-        run: |
-          python -m venv .venv
-          echo "Created Python virtual environment in backend/.venv"
-
+        run: python -m venv .venv
+          
       - name: Install Backend Dependencies
         id: install-backend
         working-directory: backend
@@ -99,13 +99,14 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python -m pip install mypy
-
+          
       - name: Update Backend Dependencies
         id: backend-updates
         working-directory: backend
         continue-on-error: true
         run: |
           source .venv/bin/activate
+          echo PATH=$PATH >> $GITHUB_ENV
           cp requirements.txt requirements.old.txt
           pip install -U pip-tools
           pip-compile --upgrade requirements.in
@@ -152,7 +153,7 @@ jobs:
           echo "\`\`\`" >> ../reports.md
           DJANGO_SETTINGS_MODULE=app.settings.test python manage.py test 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
-
+          
       - name: Run Frontend Tests
         id: frontend-tests
         working-directory: frontend
@@ -166,7 +167,6 @@ jobs:
           
           echo -e "\n### Type Check Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-         
           yarn nuxi typecheck 2>&1 | sed 's/\[.*\]/\n&\n/g' | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
       
