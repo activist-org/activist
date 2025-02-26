@@ -8,7 +8,7 @@
     <DisclosureButton class="focus-brand rounded-md px-4 py-2">
       <div class="flex select-none items-center gap-3 text-primary-text">
         <Icon :name="IconMap.LEGAL" class="fill-primary-text" />
-        <p>{{ $t(i18nMap.components.card_legal_disclaimer.header) }}</p>
+        <p>{{ $t("i18n.components.card_legal_disclaimer.header") }}</p>
         <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
         <Icon v-else :name="IconMap.CHEVRON_DOWN" />
       </div>
@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

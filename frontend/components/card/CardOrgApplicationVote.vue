@@ -17,7 +17,7 @@
             :src="organization.iconUrl"
             class="h-full w-12"
             :alt="
-              $t(i18nMap._global.entity_logo, {
+              $t('i18n._global.entity_logo', {
                 entity_name: organization.name,
               })
             "
@@ -35,7 +35,7 @@
         :leftIcon="IconMap.ARROW_UP"
         iconSize="1.25em"
         :disabled="isVotingDisabled"
-        :ariaLabel="i18nMap.components._global.upvote_application_aria_label"
+        ariaLabel="i18n.components._global.upvote_application_aria_label"
       />
       <BtnAction
         @click="$emit('down-vote')"
@@ -46,10 +46,7 @@
         :leftIcon="IconMap.ARROW_DOWN"
         iconSize="1.25em"
         :disabled="isVotingDisabled"
-        :ariaLabel="
-          i18nMap.components.card_org_application_vote
-            .downvote_application_aria_label
-        "
+        ariaLabel="i18n.components.card_org_application_vote.downvote_application_aria_label"
       />
     </div>
   </div>
@@ -57,7 +54,6 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/communities/organization";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 /**

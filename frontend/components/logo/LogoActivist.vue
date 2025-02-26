@@ -3,7 +3,7 @@
   <NuxtLink
     :to="localePath('/')"
     class="focus-brand logo-activist"
-    :aria-label="$t(i18nMap.components.logo_activist.aria_label)"
+    :aria-label="$t('i18n.components.logo_activist.aria_label')"
   >
     <svg
       class="fill-primary-text transition duration-100 hover:fill-distinct-text"
@@ -19,14 +19,12 @@
       />
     </svg>
     <span class="sr-only">{{
-      $t(i18nMap.components._global.navigate_to_start)
+      $t("i18n.components._global.navigate_to_start")
     }}</span>
   </NuxtLink>
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-
 const localePath = useLocalePath();
 
 defineProps<{

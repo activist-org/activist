@@ -415,9 +415,9 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 > [!NOTE]
 > The Vitest test suite is still in a very early stage. There is a lot of work left to do to increase test coverage, and some features still need troubleshooting. If you need assistance then feel free to open a PR and we'll support!
 
-### End to End Testing
+### End to End Testing (E2E)
 
-#### Local E2E
+#### Run Local E2E Tests
 
 activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Please run the following command in the frontend:
 
@@ -461,7 +461,13 @@ yarn test:local
 yarn playwright show-report
 ```
 
+Or, instead of the third shell, you can also run the whole suite or run individual tests using Playwright's VS Code extension. You can find a link in the [Development environment](#dev-env-) section, under Suggested IDE setup.
+
 Thank you for testing locally! ✨
+
+#### Writing E2E Tests
+
+The [frontend testing guide](FRONTEND_TESTING.md) also has a guide for writing E2E tests.
 
 #### Remote E2E
 

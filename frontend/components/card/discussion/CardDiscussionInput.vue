@@ -8,22 +8,18 @@
             <BtnAction
               class="w-small mt-1 flex"
               :cta="true"
-              :label="$t(i18nMap.components.card_discussion_input.write)"
+              :label="$t('i18n.components.card_discussion_input.write')"
               fontSize="sm"
-              :ariaLabel="
-                i18nMap.components.card_discussion_input.write_aria_label
-              "
+              ariaLabel="i18n.components.card_discussion_input.write_aria_label"
             />
           </div>
           <div class="w-min md:w-min">
             <BtnAction
               class="w-small mt-1 flex"
               :cta="false"
-              :label="$t(i18nMap.components.card_discussion_input.preview)"
+              :label="$t('i18n.components.card_discussion_input.preview')"
               fontSize="sm"
-              :ariaLabel="
-                i18nMap.components.card_discussion_input.preview_aria_label
-              "
+              ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
             />
           </div>
         </div>
@@ -92,7 +88,7 @@
           rows="4"
           class="focus-brand block w-full rounded-lg border border-action-red bg-layer-0 p-2.5 text-sm placeholder-action-red focus:border-none dark:border-action-red dark:text-primary-text dark:placeholder-action-red"
           :placeholder="
-            $t(i18nMap.components.card_discussion_input.leave_comment_high_risk)
+            $t('i18n.components.card_discussion_input.leave_comment_high_risk')
           "
         ></textarea>
       </div>
@@ -102,13 +98,13 @@
           rows="4"
           class="focus-brand block w-full rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text"
           :placeholder="
-            $t(i18nMap.components.card_discussion_input.leave_comment)
+            $t('i18n.components.card_discussion_input.leave_comment')
           "
         ></textarea>
       </div>
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
-          {{ $t(i18nMap.components.card_discussion_input.markdown_support) }}
+          {{ $t("i18n.components.card_discussion_input.markdown_support") }}
           <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
         </p>
         <div class="flex items-center space-x-3">
@@ -138,11 +134,9 @@
           <BtnAction
             class="w-small inline-flex items-center justify-center"
             :cta="true"
-            :label="$t(i18nMap.components.card_discussion_input.comment)"
+            :label="$t('i18n.components.card_discussion_input.comment')"
             fontSize="sm"
-            :ariaLabel="
-              i18nMap.components.card_discussion_input.comment_aria_label
-            "
+            ariaLabel="i18n.components.card_discussion_input.comment_aria_label"
           />
         </div>
       </div>
@@ -152,7 +146,6 @@
 
 <script setup lang="ts">
 import type { DiscussionInput } from "~/types/content/discussion";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const showTooltip = ref(false);

@@ -234,22 +234,21 @@ activist is a global platform and must function in countless different regions a
 
 Localization keys should be defined based on the file in which they're used within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 
-- Please use the [i18n-check](https://github.com/activist-org/i18n-check) `i18nMap` object for all texts within the frontend
-  - This object returns the sequence of object methods as a string and allows the type checker to be used to check key accuracy
-  - Ex: Using the `i18nMap` object:
-    - ✅ `i18nMap._global.foo`
+- In following [i18n-check](https://github.com/activist-org/i18n-check) standards, please prepend all i18n keys with `i18n`
+  - This allows us to check all keys that are in use against those found in the `en-US.json` file
+    - ✅ `i18n._global.foo`
     - ❌ `"_global.foo"`
 - Separate directories and references by `.` and PascalCase/camelCase file name components by `_` in keys
-  - Ex: `i18nMap.components.landing_splash.CONTENT_REFERENCE` for the `LandingSplash` component
+  - Ex: `i18n.components.landing_splash.CONTENT_REFERENCE` for the `LandingSplash` component
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
   - Ex: If you're defining a key within `CardAbout`:
-    - ✅ `i18nMap.components.footer_flex.CONTENT_REFERENCE`
-    - ❌ `i18nMap.components.footer.footer_flex.CONTENT_REFERENCE`
+    - ✅ `i18n.components.footer_flex.CONTENT_REFERENCE`
+    - ❌ `i18n.components.footer.footer_flex.CONTENT_REFERENCE`
 - Define keys based on the lowest level file in which they're used
 - Use `_global` to indicate that a key is used in multiple places in a given directory
   - Ex: You're creating a key that's used by multiple landing page components:
-    - ✅ `i18nMap.components.landing._global.CONTENT_REFERENCE`
-    - ❌ `i18nMap.components.landing.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE`
+    - ✅ `i18n.components.landing._global.CONTENT_REFERENCE`
+    - ❌ `i18n.components.landing.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE`
 - Please end all aria-label keys with `_alt_text` so the localization team knows that they're for screen readers
 - If you need a capitalized and lower case version of a word, signify the lower case version with `_lower` at the end of the key
 - For pages with long texts please follow the below naming criteria:

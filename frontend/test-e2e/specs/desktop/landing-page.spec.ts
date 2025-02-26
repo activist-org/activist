@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
-import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
-
 import { LOCALE_CODE, LOCALE_NAME } from "~/locales";
+import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import {
   ROADMAP_LINK_NAME,
   SIGN_IN_LINK_NAME,
@@ -12,11 +11,12 @@ import { expectTheme } from "~/test-e2e/assertions";
 import { newLanguageMenu } from "~/test-e2e/component-objects/LanguageMenu";
 import { newThemeMenu } from "~/test-e2e/component-objects/ThemeMenu";
 import { newLandingPage } from "~/test-e2e/page-objects/LandingPage";
+import { getI18nString } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /where we start/i
+    new RegExp(getI18nString("i18n.components.landing_splash.header"), "i")
   );
 });
 
