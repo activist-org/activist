@@ -3,35 +3,36 @@ on:
   schedule:
     - cron: '0 0 15 */2 *'
   workflow_dispatch:
+
 jobs:
   update_dependencies:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      
+
       - name: Set up Node Environment
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          
+
       - name: Initialize Report
         run: |
-          echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖 📝" > reports.md
+          echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖📝" > reports.md
           echo "## Available Update ⚙️" >> reports.md
-          
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.11'
-          
+
       - name: Setup Yarn
         working-directory: frontend
         continue-on-error: true
         run: |
           corepack enable
           corepack prepare yarn@4.6.0 --activate
-          
+
       - name: Install Frontend Dependencies
         id: install-frontend
         working-directory: frontend
@@ -40,7 +41,7 @@ jobs:
           rm -rf .yarn .pnp.* yarn.lock node_modules
           yarn set version 4.6.0
           yarn install --no-immutable
-          
+
       - name: Update Frontend Dependencies
         id: frontend-updates
         working-directory: frontend
@@ -52,44 +53,44 @@ jobs:
           #!/usr/bin/env node
           const oldPkg = require('./package.old.json');
           const newPkg = require('./package.json');
-          
+
           const allDeps = new Set([
             ...Object.keys(oldPkg.dependencies || {}),
             ...Object.keys(oldPkg.devDependencies || {}),
             ...Object.keys(newPkg.dependencies || {}),
             ...Object.keys(newPkg.devDependencies || {})
           ]);
-          
+
           const getVersion = (pkg, name) => {
-            return (pkg.dependencies && pkg.dependencies[name]) || 
-                   (pkg.devDependencies && pkg.devDependencies[name]) || 
-                   'not present';
+            return (pkg.dependencies && pkg.dependencies[name])
+              || (pkg.devDependencies && pkg.devDependencies[name])
+              || 'not present';
           };
-          
+
           for (const dep of Array.from(allDeps).sort()) {
             const oldVersion = getVersion(oldPkg, dep);
             const newVersion = getVersion(newPkg, dep);
-            
+
             if (oldVersion !== newVersion) {
               console.log(`- ${dep}: ${oldVersion} → ${newVersion}`);
             }
           }
           EOF
-          
+
           chmod +x compare_versions.js
           ncu -u
-          
+
           echo -e "\n### Dependencies" >> ../reports.md
           echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
-          echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md     
+          echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
           node compare_versions.js | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
-       
+
       - name: Create Python Virtual Environment
         id: setup-venv
         working-directory: backend
         continue-on-error: true
         run: python -m venv .venv
-          
+
       - name: Install Backend Dependencies
         id: install-backend
         working-directory: backend
@@ -99,7 +100,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python -m pip install mypy
-          
+
       - name: Update Backend Dependencies
         id: backend-updates
         working-directory: backend
@@ -110,7 +111,7 @@ jobs:
           cp requirements.txt requirements.old.txt
           pip install -U pip-tools
           pip-compile --upgrade requirements.in
-          
+
           cat > compare_versions.py << 'EOF'
           import re
           def parse_req_file(filename):
@@ -134,9 +135,9 @@ jobs:
               if old_ver != new_ver:
                   print(f"| {dep} | {old_ver} | {new_ver} | Backend |")
           EOF
-          
+
           python compare_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
-          
+
       - name: Run Backend Tests
         id: backend-tests
         working-directory: backend
@@ -148,12 +149,12 @@ jobs:
           echo "\`\`\`" >> ../reports.md
           mypy . --config-file mypy.ini 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
-          
+
           echo -e "\n### Django Tests" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           DJANGO_SETTINGS_MODULE=app.settings.test python manage.py test 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
-          
+
       - name: Run Frontend Tests
         id: frontend-tests
         working-directory: frontend
@@ -164,12 +165,12 @@ jobs:
           echo "\`\`\`" >> ../reports.md
           yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
-          
+
           echo -e "\n### Type Check Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           yarn nuxi typecheck 2>&1 | sed 's/\[.*\]/\n&\n/g' | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
-      
+
       - name: Create GitHub Issue
         if: always()
         uses: peter-evans/create-issue-from-file@v4
