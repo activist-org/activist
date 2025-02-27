@@ -3,7 +3,7 @@
   <CardGetInvolved>
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t(i18nMap.components._global.participate) }}
+        {{ $t("i18n.components._global.participate") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
@@ -15,9 +15,9 @@
       <p v-if="event.texts.getInvolved">
         {{ event.texts.getInvolved }}
       </p>
-      <p v-else>{{ $t(i18nMap.components._global.participate_subtext) }}</p>
+      <p v-else>{{ $t("i18n.components._global.participate_subtext") }}</p>
       <!-- <p>
-        {{ $t(i18nMap.components.card_get_involved_event.legal_disclaimer_subtext) }}
+        {{ $t("i18n.components.card_get_involved_event.legal_disclaimer_subtext") }}
       </p>
       <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" /> -->
       <div class="flex w-max pt-2">
@@ -25,11 +25,11 @@
           class="w-full"
           :cta="true"
           linkTo="/"
-          :label="i18nMap._global.offer_to_help"
+          label="i18n._global.offer_to_help"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          :ariaLabel="i18nMap._global.offer_to_help_aria_label"
+          ariaLabel="i18n._global.offer_to_help_aria_label"
         />
       </div>
     </div>
@@ -38,7 +38,6 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextEvent } =
@@ -46,11 +45,11 @@ const { openModal: openModalEditTextEvent } =
 
 const { userIsSignedIn } = useUser();
 
-const idParam = useRoute().params.id;
-const id = typeof idParam === "string" ? idParam : undefined;
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const eventStore = useEventStore();
-await eventStore.fetchById(id);
+await eventStore.fetchById(eventId);
 
 const { event } = eventStore;
 </script>

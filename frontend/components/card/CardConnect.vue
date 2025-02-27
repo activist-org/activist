@@ -3,7 +3,7 @@
   <div class="card-style px-5 py-5">
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t(i18nMap.components._global.connect) }}
+        {{ $t("i18n.components._global.connect") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
@@ -53,7 +53,6 @@ import type {
 } from "~/types/communities/organization";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -65,11 +64,13 @@ const { openModal: openModalEditSocialLinks } = useModalHandlers(
 );
 
 const { userIsSignedIn } = useUser();
-const paramsId = useRoute().params.id;
+const paramsOrgId = useRoute().params.orgId;
 const paramsGroupId = useRoute().params.groupId;
+const paramsEventId = useRoute().params.eventId;
 
-const id = typeof paramsId === "string" ? paramsId : undefined;
-const idGroup = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
@@ -80,13 +81,13 @@ let group: Group;
 let event: Event;
 
 if (props.pageType == "organization") {
-  await organizationStore.fetchById(id);
+  await organizationStore.fetchById(orgId);
   organization = organizationStore.organization;
 } else if (props.pageType == "group") {
-  await groupStore.fetchById(idGroup);
+  await groupStore.fetchById(groupId);
   group = groupStore.group;
 } else if (props.pageType == "event") {
-  await eventStore.fetchById(id);
+  await eventStore.fetchById(eventId);
   event = eventStore.event;
 }
 

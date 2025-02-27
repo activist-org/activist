@@ -2,7 +2,7 @@
 <template>
   <div class="overflow-hidden bg-layer-0">
     <Head>
-      <Title>{{ $t(i18nMap.pages.index.title) }}</Title>
+      <Title>{{ $t("i18n.pages.index.title") }}</Title>
     </Head>
     <LandingSplash />
     <LandingCommunityBanner />
@@ -11,75 +11,69 @@
     >
       <LandingContent
         contentPosition="left"
-        :header="i18nMap.pages.index.get_active"
-        :tagline="i18nMap.pages.index.get_active_tagline"
-        :text="i18nMap.pages.index.get_active_text"
+        header="i18n.pages.index.get_active"
+        tagline="i18n.pages.index.get_active_tagline"
+        text="i18n.pages.index.get_active_text"
         :imgUrl="GET_ACTIVE_IMAGE_URL"
-        :imageAltText="i18nMap.pages.index.get_active_img_alt_text"
-        :btnText1="i18nMap.pages.index.learn_more"
+        imageAltText="i18n.pages.index.get_active_img_alt_text"
+        btnText1="i18n.pages.index.learn_more"
         btnUrl1="https://docs.activist.org/activist"
-        :btnAriaLabel1="i18nMap.pages.index.get_active_aria_label"
+        btnAriaLabel1="i18n.pages.index.get_active_aria_label"
         btnId1="btn-get-active"
       />
       <LandingContent
         contentPosition="right"
-        :header="i18nMap.pages.index.get_organized"
-        :tagline="i18nMap.pages.index.get_organized_tagline"
-        :text="i18nMap.pages.index.get_organized_text"
+        header="i18n.pages.index.get_organized"
+        tagline="i18n.pages.index.get_organized_tagline"
+        text="i18n.pages.index.get_organized_text"
         :imgUrl="GET_ORGANIZED_IMAGE_URL"
-        :imageAltText="i18nMap.pages.index.get_organized_img_alt_text"
-        :btnText1="i18nMap.pages.index.learn_more"
+        imageAltText="i18n.pages.index.get_organized_img_alt_text"
+        btnText1="i18n.pages.index.learn_more"
         btnUrl1="https://docs.activist.org/activist"
-        :btnAriaLabel1="i18nMap.pages.index.get_organized_aria_label"
+        btnAriaLabel1="i18n.pages.index.get_organized_aria_label"
         btnId1="btn-get-organized"
       />
       <LandingContent
         contentPosition="left"
-        :header="i18nMap.pages.index.grow_organization_header"
-        :tagline="i18nMap.pages.index.grow_organization_tagline"
-        :text="i18nMap.pages.index.grow_organization_text"
+        header="i18n.pages.index.grow_organization_header"
+        tagline="i18n.pages.index.grow_organization_tagline"
+        text="i18n.pages.index.grow_organization_text"
         :imgUrl="GROW_ORGANIZATION_IMAGE_URL"
-        :imageAltText="i18nMap.pages.index.grow_organization_img_alt_text"
-        :btnText1="i18nMap.pages.index.learn_more"
+        imageAltText="i18n.pages.index.grow_organization_img_alt_text"
+        btnText1="i18n.pages.index.learn_more"
         btnUrl1="https://docs.activist.org/activist"
-        :btnAriaLabel1="i18nMap.pages.index.grow_organization_aria_label"
+        btnAriaLabel1="i18n.pages.index.grow_organization_aria_label"
         btnId1="btn-grow-organization"
       />
       <LandingTechBanner />
       <LandingContent
         contentPosition="right"
-        :header="i18nMap.pages.index.about_us"
-        :tagline="i18nMap.pages.index.activist_section_tagline"
-        :text="i18nMap.pages.index.activist_section_text"
+        header="i18n.pages.index.about_us"
+        tagline="i18n.pages.index.activist_section_tagline"
+        text="i18n.pages.index.activist_section_text"
         imgUrl="/icons/activist/activist_icon"
-        :imageAltText="i18nMap._global.activist_icon_img_alt_text"
-        :btnText1="i18nMap.pages.index.learn_more"
+        imageAltText="i18n._global.activist_icon_img_alt_text"
+        btnText1="i18n.pages.index.learn_more"
         btnUrl1="https://docs.activist.org/activist"
-        :btnAriaLabel1="i18nMap.pages.index.activist_section_btn_aria_label"
+        btnAriaLabel1="i18n.pages.index.activist_section_btn_aria_label"
         btnId1="btn-activist"
       />
       <LandingContent
         contentPosition="top"
-        :header="i18nMap.pages.index.our_supporters"
-        :tagline="i18nMap.pages.index.our_supporters_tagline"
-        :text="i18nMap.pages.index.our_supporters_text"
+        header="i18n.pages.index.our_supporters"
+        tagline="i18n.pages.index.our_supporters_tagline"
+        text="i18n.pages.index.our_supporters_text"
         imageAltText=""
-        :btnText1="i18nMap.pages.index.become_supporter"
-        btnUrl1="/supporters/join"
-        :btnAriaLabel1="
-          i18nMap.pages.index.our_supporters_btn_become_aria_label
-        "
-        :btnText2="i18nMap.pages.index.view_all_supporters"
+        btnText1="i18n.pages.index.become_supporter"
+        btnUrl1="https://docs.activist.org/activist/welcome/support-us"
+        btnAriaLabel1="i18n.pages.index.our_supporters_btn_become_aria_label"
+        btnText2="i18n.pages.index.view_all_supporters"
         btnUrl2="https://docs.activist.org/activist/organization/community/supporters"
-        :btnAriaLabel2="i18nMap.pages.index.our_supporters_btn_view_aria_label"
-        :subText="i18nMap.pages.index.our_supporters_sub_text"
+        btnAriaLabel2="i18n.pages.index.our_supporters_btn_view_aria_label"
+        subText="i18n.pages.index.our_supporters_sub_text"
         btnId1="btn-become-supporter"
         btnId2="btn-our-supporters"
       />
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-</script>

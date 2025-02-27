@@ -2,12 +2,8 @@
 <template>
   <div class="space-y-2">
     <h3 class="responsive-h3 text-left font-display">
-      {{ $t(i18nMap._global.discussion) }}
+      {{ $t("i18n._global.discussion") }}
     </h3>
     <hr />
   </div>
 </template>
-
-<script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-</script>

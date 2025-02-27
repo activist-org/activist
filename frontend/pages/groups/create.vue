@@ -11,10 +11,10 @@
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
         <h1 class="responsive-h2 font-bold">
-          {{ $t(i18nMap.pages.groups.create.header) }}
+          {{ $t("i18n.pages.groups.create.header") }}
         </h1>
         <p class="mt-4">
-          {{ $t(i18nMap.pages.groups.create.subtext) }}
+          {{ $t("i18n.pages.groups.create.subtext") }}
         </p>
       </div>
       <form
@@ -26,7 +26,7 @@
         >
           <div class="w-1/2">
             <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t(i18nMap.pages.groups.create.group_name) }}*</label
+              >{{ $t("i18n.pages.groups.create.group_name") }}*</label
             >
             <input
               v-model="formData.name"
@@ -35,13 +35,13 @@
               type="text"
               name="name"
               :placeholder="
-                $t(i18nMap.pages.groups.create.group_name_placeholder)
+                $t('i18n.pages.groups.create.group_name_placeholder')
               "
             />
           </div>
           <div class="w-1/2">
             <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t(i18nMap.pages._global.create.location) }}*</label
+              >{{ $t("i18n.pages._global.create.location") }}*</label
             >
             <input
               v-model="formData.location"
@@ -49,15 +49,13 @@
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               name="location"
-              :placeholder="
-                $t(i18nMap.pages.groups.create.location_placeholder)
-              "
+              :placeholder="$t('i18n.pages.groups.create.location_placeholder')"
             />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t(i18nMap.pages._global.create.description) }}*</label
+            >{{ $t("i18n.pages._global.create.description") }}*</label
           >
           <textarea
             v-model="formData.description"
@@ -65,20 +63,20 @@
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
             :placeholder="
-              $t(i18nMap.pages.groups.create.description_placeholder)
+              $t('i18n.pages.groups.create.description_placeholder')
             "
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
           <label for="tagline" class="responsive-h3 block font-medium">{{
-            $t(i18nMap.pages._global.create.tagline)
+            $t("i18n.pages._global.create.tagline")
           }}</label>
           <input
             v-model="formData.tagline"
             id="tagline"
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="tagline"
-            :placeholder="$t(i18nMap.pages.groups.create.tagline_placeholder)"
+            :placeholder="$t('i18n.pages.groups.create.tagline_placeholder')"
           />
         </div>
         <CardTopicSelection
@@ -93,9 +91,9 @@
           <div class="flex space-x-2">
             <FormCheckbox />
             <label for="terms" class="flex font-medium">
-              <p>{{ $t(i18nMap.pages._global.terms_of_service_pt_1) }}&nbsp;</p>
+              <p>{{ $t("i18n.pages._global.terms_of_service_pt_1") }}&nbsp;</p>
               <a href="#" class="text-blue-500">{{
-                $t(i18nMap.pages._global.terms_of_service_pt_2)
+                $t("i18n.pages._global.terms_of_service_pt_2")
               }}</a>
               <p>.</p>
             </label>
@@ -105,9 +103,9 @@
               type="submit"
               :cta="true"
               class="flex"
-              :label="i18nMap._global.create_group"
+              label="i18n._global.create_group"
               fontSize="lg"
-              :ariaLabel="i18nMap.pages.groups.create.create_group_aria_label"
+              ariaLabel="i18n.pages.groups.create.create_group_aria_label"
             />
           </div>
         </div>
@@ -117,8 +115,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
-
 const formData = ref({
   name: "",
   location: "",

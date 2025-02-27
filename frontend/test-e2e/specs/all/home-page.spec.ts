@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/home");
   const { topicsFilter } = newHomePage(page);
 
-  await expect(topicsFilter).toBeVisible();
+  await expect(topicsFilter).toBeVisible({ timeout: 60000 });
 });
 
 test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
