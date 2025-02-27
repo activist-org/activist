@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
+from typing import Any
+
 from django.db.models import Q
 from rest_framework import status, viewsets
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -301,12 +303,13 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ImageViewSet(viewsets.ModelViewSet):
+class ImageViewSet(viewsets.ModelViewSet[Image]):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     parser_classes = (MultiPartParser, FormParser)
 
-    def create(self, request, *args, **kwargs):
+    # Using 'Any' type until a more correct type is determined.
+    def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
         serializer = self.get_serializer(
             data=request.data,
             context={"request": request},  # Pass request to serializer

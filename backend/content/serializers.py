@@ -3,7 +3,7 @@
 Serializers for the content app.
 """
 
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
 from rest_framework import serializers
@@ -46,25 +46,27 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             raise serializers.ValidationError("No file was submitted.")
         return data
 
-    def create(self, validated_data):
+    # Using 'Any' type until a more correct type is determined.
+    def create(self, validated_data: Dict[str, Any]) -> Image:
         # Handle file upload properly
         file_obj = self.context["request"].FILES.get("file_object")
         if file_obj:
             validated_data["file_object"] = file_obj
-        
+
         # Create the image first
         image = super().create(validated_data)
-        
+
         # Get the organization from the request
-        organization_id = self.context['request'].data.get('organization_id')
+        organization_id = self.context["request"].data.get("organization_id")
         if organization_id:
             # Create OrganizationImage with next sequence index
             from communities.organizations.models import OrganizationImage
-            next_index = OrganizationImage.objects.filter(org_id=organization_id).count()
+
+            next_index = OrganizationImage.objects.filter(
+                org_id=organization_id
+            ).count()
             OrganizationImage.objects.create(
-                org_id=organization_id,
-                image=image,
-                sequence_index=next_index
+                org_id=organization_id, image=image, sequence_index=next_index
             )
         return image
 
