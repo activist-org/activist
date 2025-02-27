@@ -21,7 +21,6 @@ env:
   DATABASE_USER: postgres
   DATABASE_PASSWORD: postgres
 
-
 jobs:
   backend:
     services:
@@ -34,6 +33,11 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
 
     name: Run PR Backend Check
     runs-on: ubuntu-latest
@@ -68,12 +72,12 @@ jobs:
         if: always()
         run: mypy ./backend --config-file ./backend/pyproject.toml
 
-      - name: Run pytest - Unit Tests
-        if: always()
-        run: pytest ./backend -vv
-
       - name: Run Django Migrations - Database Migrations Check
         run: |
           . .venv/bin/activate
           python ./backend/manage.py makemigrations
           python ./backend/manage.py migrate
+
+      - name: Run pytest - Unit Tests
+        run: |
+          pytest ./backend --cov=backend --cov-report=term-missing --cov-fail-under=60 --cov-config=./backend/pyproject.toml
