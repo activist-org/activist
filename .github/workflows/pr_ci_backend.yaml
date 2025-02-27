@@ -80,4 +80,4 @@ jobs:
 
       - name: Run pytest - Unit Tests
         run: |
-          pytest ./backend --cov=backend --cov-report=term --cov-fail-under=70
+          pytest ./backend --cov=backend --cov-report=term-missing:skip-covered --cov-fail-under=70 --cov-config=./backend/pyproject.toml

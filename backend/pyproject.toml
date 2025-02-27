@@ -46,7 +46,7 @@ line_length = 88
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "core.settings"
 python_files = "tests.py test_*.py *_tests.py"
-addopts = "--nomigrations --cov=. --cov-report=html --cov-report=term"
+addopts = "--nomigrations"
 
 [tool.coverage.run]
 omit = [
@@ -57,6 +57,7 @@ omit = [
     "wsgi.py",
     "manage.py",
     "*/__init__.py",
+    "*/factories.py",
 ]
 
 [tool.mypy]
