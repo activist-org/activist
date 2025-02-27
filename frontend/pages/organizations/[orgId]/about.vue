@@ -64,7 +64,7 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :organizationId="id"
+            :organizationId="orgId"
           />
         </div>
       </div>

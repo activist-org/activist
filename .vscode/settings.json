@@ -8,12 +8,14 @@
   "typescript.tsdk": "./frontend/node_modules/typescript/lib",
   "cSpell.words": [
     "headlessui",
+    "Nuxt",
     "organizationimage",
     "viewsets",
-    "vuedraggable"
+    "vuedraggable",
+    "vueuse"
   ],
   // This gets rid of  'Unknown at-rule @apply' messages in VSCode 'Problems' tab. First noticed in MediaImageCarousel.vue.
-  // Look at tailwind.json for more info.  
+  // Look at tailwind.json for more info.
   // https://github.com/tailwindlabs/tailwindcss/discussions/5258#discussioncomment-1979394
   "css.customData": [
     ".vscode/tailwind.json"

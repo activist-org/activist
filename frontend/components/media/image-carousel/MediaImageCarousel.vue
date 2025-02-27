@@ -33,16 +33,15 @@
       {{ $t(i18nMap.components.media_image_carousel.upload_error) }}
     </p>
     <button
-      @click="openModal()"
+      @click="openModalUploadImages()"
       class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
       <Icon :name="IconMap.PLUS" size="1.5em" />
     </button>
     <ModalUploadImages
-      @closeModal="handleCloseModal"
-      @upload-complete="fetchOrganizationImages"
+      @upload-complete="forwardUploadCompleteEmit"
+      @closeModal="handleCloseModalUploadImages"
       @upload-error="uploadError = true"
-      :isOpen="modalIsOpen"
       :organizationId="organizationId"
     />
   </div>
@@ -51,89 +50,27 @@
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
 import { IconMap } from "~/types/icon-map";
+import { useModalHandlers } from "~/composables/useModalHandlers";
 
 const props = defineProps({
   fullscreen: Boolean,
   organizationId: String,
+  imageUrls: Array<string>,
 });
 
 register();
 
-const colorMode = useColorMode();
-const imageColor = colorMode.value;
-
-const defaultImageUrls = [
-  `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
-  `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
-  `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
-];
-
-const imageUrls = ref(defaultImageUrls);
-const swiperRef = ref<{ swiper: Swiper | null }>(null);
-const modals = useModals();
-const modalName = "ModalUploadImages";
-const modalIsOpen = ref(false);
-const uploadError = ref(false);
-
-// Use this to get rid of 'any' type in imageUrls.value data.map function
-interface OrganizationImage {
-  id: string;
-  fileObject: string;
-  creation_date: string;
-}
-
-async function fetchOrganizationImages() {
-  if (props.organizationId) {
-    try {
-      const response = await fetch(
-        `${BASE_BACKEND_URL}/communities/organizations/${props.organizationId}/images/`,
-        {
-          headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.length > 0) {
-          imageUrls.value = data.map(
-            (img: OrganizationImage) => img.fileObject
-          );
-          uploadError.value = false;
-        } else {
-          imageUrls.value = defaultImageUrls;
-        }
-      } else {
-        uploadError.value = true;
-      }
-    } catch (error) {
-      console.error("Error fetching organization images:", error);
-      uploadError.value = true;
-    }
-  }
-}
-
-onMounted(() => {
-  fetchOrganizationImages();
-  const swiperEl = document.querySelector("swiper-container");
-  if (swiperEl) {
-    swiperRef.value = { swiper: swiperEl.swiper };
-    swiperEl.addEventListener("swiper-ready", () => {
-      swiperRef.value = { swiper: swiperEl.swiper };
-    });
-  }
-});
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
+// Forward the upload-complete event to the parent component.
+// Building out an event bus would be a better solution, but only a quick fix is needed here.
+const emit = defineEmits(["upload-complete"]);
+const forwardUploadCompleteEmit = () => {
+  emit("upload-complete");
 };
+
+const {
+  openModal: openModalUploadImages,
+  handleCloseModal: handleCloseModalUploadImages,
+} = useModalHandlers("ModalUploadImages");
 </script>
 
 <style>
