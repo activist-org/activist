@@ -254,6 +254,7 @@
   "i18n.components.media_image_carousel.img_alt_text": "Image of the organization or their work.",
   "i18n.components.media_map.change_profile": "Change profile [p]",
   "i18n.components.media_map.clear_directions": "Clear directions",
+  "i18n.components.media_map.click_for_directions": "Click map for directions",
   "i18n.components.media_map.fullscreen": "Fullscreen",
   "i18n.components.media_map.geolocate": "Geolocate",
   "i18n.components.media_map.maplibre_gl_alert": "Your browser does not support our mapping service MapLibre GL, so we won't be able to display maps.",

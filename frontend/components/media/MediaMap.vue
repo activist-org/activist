@@ -1,6 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
+    @click="resetDirectionsControl(map)"
     id="map"
     class="card-style-base dark:brightness-95 dark:contrast-[90%] dark:hue-rotate-180 dark:invert"
   ></div>
@@ -103,7 +104,6 @@ const walkingRouteProfileControl = `
     border-radius: 5px;
     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
     cursor: pointer"
-    opacity: 5;
   >
   `;
 
@@ -119,7 +119,6 @@ const bikeRouteProfileControl = `
     border-radius: 5px;
     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
     cursor: pointer"
-    opacity: 5;
   >
   `;
 
@@ -157,13 +156,74 @@ const setSelectedRoute = () => {
   return selectedRoute;
 };
 
+let map: Map;
+let directions: MapLibreGlDirections;
+
+// MARK: Directions Control
+
+function resetDirectionsControl() {
+  const existingDirectionControl =
+    document.getElementById("directions-control");
+  if (existingDirectionControl) {
+    existingDirectionControl.remove();
+  }
+
+  const directionControl = {
+    onAdd: function () {
+      const div = document.createElement("div");
+      div.className = "maplibregl-ctrl";
+      div.id = "directions-control";
+
+      let directionsControlLabel =
+        directions.waypoints.length == 0
+          ? i18n.t("i18n.components.media_map.click_for_directions")
+          : i18n.t("i18n.components.media_map.clear_directions");
+
+      // Add hotkey if we're above mobile and there are waypoints.
+      if (window.innerWidth >= 768 && directions.waypoints.length != 0) {
+        directionsControlLabel = directionsControlLabel += " [x]";
+      }
+
+      const clearDirectionsBtn = `
+        <div style="
+          background-color: rgba(255, 255, 255, 1);
+          padding: 1px 5px;
+          border-radius: 5px;
+          box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+          color: grey;
+          cursor: pointer"
+        >
+          ${directionsControlLabel}
+        </div>
+      `;
+
+      div.innerHTML = clearDirectionsBtn;
+      div.addEventListener("click", () => directions.clear());
+      if (window.innerWidth < 768) {
+        div.addEventListener("touchend", () => directions.clear());
+      } else {
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "x") {
+            directions.clear();
+            resetDirectionsControl();
+          }
+        });
+      }
+      return div;
+    },
+    onRemove: function () {},
+  };
+
+  map.addControl(directionControl, "bottom-left");
+}
+
 // MARK: Map Creation
 
 onMounted(() => {
   if (!isWebglSupported()) {
     alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
-    const map = new maplibregl.Map({
+    map = new maplibregl.Map({
       container: "map",
       style: {
         version: 8,
@@ -289,15 +349,15 @@ onMounted(() => {
 
     const popup = new maplibregl.Popup({
       offset: 25,
-    }).setHTML(
-      `<div style="
-            text-align: center;
-            color: grey;"
-          >
-            <div style="font-size: 13px;">${props.eventNames[0]}</div>
-            <div style="color: grey;">${props.eventLocations[0].displayName}</div>
-          </div>`
-    );
+    }).setHTML(`
+      <div style="
+        text-align: center;
+        color: grey;"
+      >
+        <div style="font-size: 13px;">${props.eventNames[0]}</div>
+        <div style="color: grey;">${props.eventLocations[0].displayName}</div>
+      </div>
+      `);
 
     const marker = new maplibregl.Marker({
       color: `${props.markerColors[0]}`,
@@ -353,7 +413,7 @@ onMounted(() => {
         filter: ["==", ["get", "route"], "SELECTED"],
       });
 
-      let directions = new MapLibreGlDirections(map, {
+      directions = new MapLibreGlDirections(map, {
         ...(selectedRoute = setSelectedRoute()),
         requestOptions: {
           alternatives: "true",
@@ -403,11 +463,10 @@ onMounted(() => {
               });
             };
 
+            div.addEventListener("click", updateSelectedProfile);
             if (window.innerWidth < 768) {
               div.addEventListener("touched", updateSelectedProfile);
-              div.addEventListener("click", updateSelectedProfile);
             } else {
-              div.addEventListener("click", updateSelectedProfile);
               document.addEventListener("keydown", (event) => {
                 if (event.key === "p") {
                   updateSelectedProfile();
@@ -421,58 +480,7 @@ onMounted(() => {
         "top-right"
       );
 
-      // MARK: Clear Directions
-
-      const clearDirectionsControl = `
-          <div style="
-            background-color: rgba(255, 255, 255, 1);
-            padding: 1px 5px;
-            border-radius: 5px;
-            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: grey;
-            cursor: pointer"
-          >
-            ${i18n.t("i18n.components.media_map.clear_directions")}
-          </div>
-        `;
-
-      const clearDirectionsHotkeyControl = `
-          <div style="
-            background-color: rgba(255, 255, 255, 1);
-            padding: 1px 5px;
-            border-radius: 5px;
-            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: grey;
-            cursor: pointer;"
-          >
-            ${i18n.t("i18n.components.media_map.clear_directions")} [x]
-          </div>
-        `;
-
-      map.addControl(
-        {
-          onAdd: function () {
-            const div = document.createElement("div");
-            div.className = "maplibregl-ctrl";
-            if (window.innerWidth < 768) {
-              div.innerHTML = clearDirectionsControl;
-              div.addEventListener("touchend", () => directions.clear());
-              div.addEventListener("click", () => directions.clear()); // for small desktops or tiling
-            } else {
-              div.innerHTML = clearDirectionsHotkeyControl;
-              div.addEventListener("click", () => directions.clear());
-              document.addEventListener("keydown", (event) => {
-                if (event.key === "x") {
-                  directions.clear();
-                }
-              });
-            }
-            return div;
-          },
-          onRemove: function () {},
-        },
-        "bottom-left"
-      );
+      resetDirectionsControl(map);
     });
   }
 });
