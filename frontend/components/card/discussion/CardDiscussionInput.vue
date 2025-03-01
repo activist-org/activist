@@ -136,7 +136,7 @@
               v-show="showTooltip"
               class="-mt-64 md:-mt-56"
             />
-          </Button>
+          </Button>¬
           <BtnAction
             class="w-small inline-flex items-center justify-center"
             :cta="true"

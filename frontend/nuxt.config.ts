@@ -6,7 +6,7 @@ import applyMiddleware from "./applyMiddleware";
 import head from "./head";
 import locales from "./locales";
 import modules from "./modules";
-import tailwindTypography from "@tailwindcss/typography"
+import tailwindTypography from "@tailwindcss/typography";
 
 export default defineNuxtConfig({
   app: {
@@ -55,8 +55,8 @@ export default defineNuxtConfig({
     cssPath: "~/assets/css/tailwind.css",
     configPath: "tailwind.config.ts",
     config: {
-      plugins: [tailwindTypography]
-    }
+      plugins: [tailwindTypography],
+    },
   },
   postcss: {
     plugins: {
