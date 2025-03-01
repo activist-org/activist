@@ -3,13 +3,13 @@
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
       <Title
-        >{{ event.name }}&nbsp;{{ $t(i18nMap._global.resources_lower) }}</Title
+        >{{ event.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}</Title
       >
     </Head>
     <HeaderAppPage
       :event="event"
-      :header="event.name + ' ' + $t(i18nMap._global.resources_lower)"
-      :tagline="$t(i18nMap.pages.events.resources.tagline)"
+      :header="event.name + ' ' + $t('i18n._global.resources_lower')"
+      :tagline="$t('i18n.pages.events.resources.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -17,11 +17,11 @@
           class="w-max"
           :cta="true"
           linkTo="/"
-          :label="i18nMap._global.new_resource"
+          label="i18n._global.new_resource"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          :ariaLabel="i18nMap.pages._global.resources.new_resource_aria_label"
+          ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
         />
       </div>
     </HeaderAppPage>
@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const paramsEventId = useRoute().params.eventId;

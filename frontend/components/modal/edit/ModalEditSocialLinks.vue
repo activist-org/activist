@@ -4,7 +4,7 @@
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
-          $t(i18nMap.components.modal_edit_social_links.social_links)
+          $t("i18n.components.modal_edit_social_links.social_links")
         }}</label>
         <div class="flex flex-col space-y-3">
           <div
@@ -19,7 +19,7 @@
               class="focus-brand w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               :placeholder="
-                i18n.t(i18nMap.components.modal_edit_social_links.new_link_url)
+                i18n.t('i18n.components.modal_edit_social_links.new_link_url')
               "
             />
             <!-- Bind to 'socLink.link' -->
@@ -28,9 +28,7 @@
               class="focus-brand w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               type="text"
               :placeholder="
-                i18n.t(
-                  i18nMap.components.modal_edit_social_links.new_link_label
-                )
+                i18n.t('i18n.components.modal_edit_social_links.new_link_label')
               "
             />
           </div>
@@ -40,20 +38,20 @@
         <BtnAction
           @click="addNewLink()"
           :cta="true"
-          :label="$t(i18nMap.components.modal_edit_social_links.add_link)"
+          :label="$t('i18n.components.modal_edit_social_links.add_link')"
           fontSize="base"
           :ariaLabel="
-            $t(i18nMap.components.modal_edit_social_links.add_link_aria_label)
+            $t('i18n.components.modal_edit_social_links.add_link_aria_label')
           "
         />
         <BtnAction
           @click="handleSubmit()"
           :cta="true"
-          :label="$t(i18nMap.components.modal_edit_social_links.update_links)"
+          :label="$t('i18n.components.modal_edit_social_links.update_links')"
           fontSize="base"
           :ariaLabel="
             $t(
-              i18nMap.components.modal_edit_social_links.update_links_aria_label
+              'i18n.components.modal_edit_social_links.update_links_aria_label'
             )
           "
         />
@@ -74,7 +72,6 @@ import type {
   SocialLinkFormData,
 } from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
-import { i18nMap } from "~/types/i18n-map";
 
 const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";

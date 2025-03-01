@@ -3,7 +3,7 @@
   <div class="card-style px-5 py-5">
     <div class="flex items-center gap-5">
       <h3 class="responsive-h3 text-left font-display">
-        {{ $t(i18nMap.components._global.connect) }}
+        {{ $t("i18n.components._global.connect") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
@@ -53,7 +53,6 @@ import type {
 } from "~/types/communities/organization";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import render from "@/test/render";
-import { fireEvent, screen, waitFor } from "@testing-library/vue";
-import { registerEndpoint } from "@nuxt/test-utils/runtime";
-import { createError } from "h3";
-
 import SignIn from "@/pages/auth/sign-in.vue";
+import render from "@/test/render";
+import { registerEndpoint } from "@nuxt/test-utils/runtime";
+import { fireEvent, screen, waitFor } from "@testing-library/vue";
+import { createError } from "h3";
 
 const TOKEN = "8b27c52516b94f5bb58d8d137a5379ca";
 

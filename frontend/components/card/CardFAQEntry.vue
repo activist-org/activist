@@ -18,8 +18,8 @@
               @closeModal="handleCloseModal"
               :faqEntry="faqEntry"
               :sectionsToEdit="[
-                $t(i18nMap.components.card_faq_entry.question),
-                $t(i18nMap.components.card_faq_entry.answer),
+                $t('i18n.components.card_faq_entry.question'),
+                $t('i18n.components.card_faq_entry.answer'),
               ]"
               :textsToEdit="[faqEntry.question, faqEntry.answer]"
               :isOpen="modalIsOpen"
@@ -41,7 +41,6 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import type { FaqEntry } from "~/types/content/faq-entry";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

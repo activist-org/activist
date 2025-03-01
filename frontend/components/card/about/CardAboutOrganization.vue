@@ -19,7 +19,7 @@
     <div class="flex-col space-y-3">
       <div class="flex items-center gap-5">
         <h3 class="responsive-h3 text-left font-display">
-          {{ $t(i18nMap._global.about) }}
+          {{ $t("i18n._global.about") }}
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
@@ -38,7 +38,7 @@
           />
           <!-- <MetaTagMembers
               :members="organization.members.length"
-              :label="$t(i18nMap.components.card.about._global.members_lower)"
+              :label="$t('i18n.components.card.about._global.members_lower')"
             /> -->
         </div>
         <div>
@@ -59,10 +59,10 @@
               "
               class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
-                $t(i18nMap.components.card.about._global.full_text_aria_label)
+                $t('i18n.components.card.about._global.full_text_aria_label')
               "
             >
-              {{ $t(i18nMap.components.card.about._global.full_text) }}
+              {{ $t("i18n.components.card.about._global.full_text") }}
             </button>
             <button
               v-else-if="descriptionExpandable"
@@ -72,10 +72,10 @@
               "
               class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
-                $t(i18nMap.components.card.about._global.reduce_text_aria_label)
+                $t('i18n.components.card.about._global.reduce_text_aria_label')
               "
             >
-              {{ $t(i18nMap.components.card.about._global.reduce_text) }}
+              {{ $t("i18n.components.card.about._global.reduce_text") }}
             </button>
           </div>
         </div>
@@ -86,7 +86,6 @@
 
 <script setup lang="ts">
 import { useModalHandlers } from "~/composables/useModalHandlers";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextOrganization } = useModalHandlers(

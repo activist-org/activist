@@ -4,7 +4,7 @@
     <Head>
       <Title
         >{{ organization.name }}&nbsp;{{
-          $t(i18nMap.pages.organizations._global.events_lower)
+          $t("i18n.pages.organizations._global.events_lower")
         }}</Title
       >
     </Head>
@@ -13,20 +13,20 @@
       :header="
         organization.name +
         ' ' +
-        $t(i18nMap.pages.organizations._global.events_lower)
+        $t('i18n.pages.organizations._global.events_lower')
       "
-      :tagline="$t(i18nMap.pages.organizations._global.events_tagline)"
+      :tagline="$t('i18n.pages.organizations._global.events_tagline')"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
           class="w-max"
           :cta="true"
           linkTo="/"
-          :label="i18nMap._global.new_event"
+          label="i18n._global.new_event"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          :ariaLabel="i18nMap.pages.organizations.events.new_event_aria_label"
+          ariaLabel="i18n.pages.organizations.events.new_event_aria_label"
         />
       </div>
     </HeaderAppPage>
@@ -46,7 +46,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const paramsOrgId = useRoute().params.orgId;

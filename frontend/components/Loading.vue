@@ -11,13 +11,13 @@
         v-if="$colorMode.value == 'light'"
         class="h-40"
         :src="ACTIVIST_ICON_LIGHT_URL"
-        :alt="$t(i18nMap._global.activist_icon_img_alt_text)"
+        :alt="$t('i18n._global.activist_icon_img_alt_text')"
       />
       <img
         v-else-if="$colorMode.value == 'dark'"
         class="h-40"
         :src="ACTIVIST_ICON_DARK_URL"
-        :alt="$t(i18nMap._global.activist_icon_img_alt_text)"
+        :alt="$t('i18n._global.activist_icon_img_alt_text')"
       />
     </div>
   </div> -->

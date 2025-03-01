@@ -18,23 +18,21 @@
           class="w-max"
           :cta="true"
           :linkTo="group.getInvolvedUrl"
-          :label="i18nMap._global.join_group"
+          label="i18n._global.join_group"
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          :ariaLabel="i18nMap._global.join_group_aria_label"
+          ariaLabel="i18n._global.join_group_aria_label"
         />
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          :label="i18nMap._global.support"
+          :label=""i18n._global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="group.supporters"
-          ariaLabel="
-            pages.organizations.groups._global.support_group_aria_label
-          "
+          ariaLabel="i18n.pages.organizations.groups._global.support_group_aria_label"
         /> -->
         <BtnAction
           @click="openModal()"
@@ -47,7 +45,7 @@
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
           :ariaLabel="
-            $t(i18nMap.pages.organizations.groups.about.share_group_aria_label)
+            $t('i18n.pages.organizations.groups.about.share_group_aria_label')
           "
         />
         <ModalSharePage
@@ -87,10 +85,9 @@
 
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
 import type { Group } from "~/types/communities/group";
+import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
-import { i18nMap } from "~/types/i18n-map";
 
 const aboveLargeBP = useBreakpoint("lg");
 
@@ -115,9 +112,10 @@ const shareButtonLabel = ref("");
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
-    shareButtonLabel.value = i18nMap._global.share;
+    shareButtonLabel.value = "i18n._global.share";
   } else {
-    shareButtonLabel.value = "pages.organizations.groups.about.share_group";
+    shareButtonLabel.value =
+      "i18n.pages.organizations.groups.about.share_group";
   }
 }
 

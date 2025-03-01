@@ -4,25 +4,25 @@
     <Head>
       <Title
         >{{ event.name }}&nbsp;{{
-          $t(i18nMap.pages._global.team.team_lower)
+          $t("i18n.pages._global.team.team_lower")
         }}</Title
       >
     </Head>
     <HeaderAppPage
       :event="event"
-      :header="event.name + ' ' + $t(i18nMap.pages._global.team.team_lower)"
-      :tagline="$t(i18nMap.pages.events.team.tagline)"
+      :header="event.name + ' ' + $t('i18n.pages._global.team.team_lower')"
+      :tagline="$t('i18n.pages.events.team.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
           class="w-max"
           :cta="true"
-          :label="i18nMap.pages._global.team.invite_someone"
+          label="i18n.pages._global.team.invite_someone"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          :ariaLabel="i18nMap.pages.events.team.invite_someone_event_aria_label"
+          ariaLabel="i18n.pages.events.team.invite_someone_event_aria_label"
         />
       </div>
     </HeaderAppPage>
@@ -39,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const paramsEventId = useRoute().params.eventId;

@@ -21,7 +21,7 @@
             'h-[17.5rem]': !props.fullscreen,
           }"
           :src="img"
-          :alt="$t(i18nMap.components.media_image_carousel.img_alt_text)"
+          :alt="$t('i18n.components.media_image_carousel.img_alt_text')"
         />
       </swiper-slide>
     </swiper-container>
@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps({

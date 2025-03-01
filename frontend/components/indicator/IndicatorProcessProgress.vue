@@ -17,20 +17,19 @@
       :to="localePath('/')"
       :aria-label="
         $t(
-          i18nMap.components.indicator_process_progress.close_process_aria_label
+          'i18n.components.indicator_process_progress.close_process_aria_label'
         )
       "
     >
       <Icon :name="IconMap.X_LG" />
       <span>{{
-        $t(i18nMap.components.indicator_process_progress.close_process)
+        $t("i18n.components.indicator_process_progress.close_process")
       }}</span>
     </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
-import { i18nMap } from "~/types/i18n-map";
 import { IconMap } from "~/types/icon-map";
 
 export interface Props {
