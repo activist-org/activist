@@ -1,0 +1,14 @@
+10016	IGNORE	http://www.activist.org/en/	Cross-Domain Misconfiguration
+10020	IGNORE	http://www.activist.org/en/	X-Frame-Options Header
+10021	IGNORE	http://www.activist.org/en/	X-Content-Type-Options Header
+10038	IGNORE	http://www.activist.org/en/	Content Security Policy (CSP) Header Not Set
+10063	IGNORE	http://www.activist.org/en/	Permissions Policy Header
+90022	IGNORE	http://www.activist.org/en/	Application Error Disclosure
+10049	IGNORE	http://www.activist.org/en/	Non-Storable Content
+10109	IGNORE	http://www.activist.org/en/	Modern Web Application
+10096	IGNORE	http://www.activist.org/en/	Timestamp Disclosure
+10055	IGNORE	http://www.activist.org/en/	CSP Scanner
+40032	IGNORE	http://www.activist.org/en/	.htaccess Information Leak
+2	IGNORE	http://www.activist.org/en/	Private IP Disclosure
+10202	IGNORE	http://www.activist.org/en/	Absence of Anti-CSRF Tokens
+10104	IGNORE	http://www.activist.org/en/	User Agent Fuzzer
