@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="card-style flex w-full flex-col px-3 py-4 md:flex-row">
-    <div class="flex-col space-y-3 pt-3 md:grow md:space-y-4 md:pl-2 md:pt-0">
+    <div class="w-full flex-col space-y-3 pt-3 md:space-y-4 md:p-2 md:pt-0">
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <div class="w-min md:w-min">
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div
-          class="mt-2 flex w-full items-center space-x-1 md:w-fit md:flex-row lg:space-x-3"
+          class="mt-2 flex w-full items-center justify-center space-x-1 pt-3 md:w-fit md:flex-row md:pt-0 lg:space-x-3"
         >
           <Icon
             @click="at()"
@@ -95,16 +95,18 @@
             $t('i18n.components.card_discussion_input.leave_comment_high_risk')
           "
         ></textarea>
+        <editor-content :editor="editor" />
       </div>
       <div v-else class="w-full md:w-full">
-        <textarea
+        <!-- <textarea
           id="message"
           rows="4"
           class="focus-brand block w-full rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text"
           :placeholder="
             $t('i18n.components.card_discussion_input.leave_comment')
           "
-        ></textarea>
+        ></textarea> -->
+        <editor-content :editor="editor" />
       </div>
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
@@ -153,6 +155,23 @@
 <script setup lang="ts">
 import type { DiscussionInput } from "~/types/content/discussion";
 import { IconMap } from "~/types/icon-map";
+import { useEditor, EditorContent } from "@tiptap/vue-3";
+import StarterKit from "@tiptap/starter-kit";
+import Link from "@tiptap/extension-link";
+
+const editor = useEditor({
+  content: `
+  <h1>Hiiii</h1>
+  <p>I'm running Tiptap with Vue.js. 🎉</p>
+  `,
+  extensions: [StarterKit, Link],
+  editorProps: {
+    attributes: {
+      class:
+        "focus-brand block w-full max-w-full rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text prose dark:prose-invert text-clip",
+    },
+  },
+});
 
 const showTooltip = ref(false);
 
@@ -165,15 +184,19 @@ const at = () => {
 };
 const heading = () => {
   console.log("click on heading");
+  editor.value?.chain().focus().toggleHeading({ level: 1 }).run();
 };
 const bold = () => {
   console.log("click on bold");
+  editor.value?.chain().focus().toggleBold().run();
 };
 const italic = () => {
   console.log("click on italic");
+  editor.value?.chain().focus().toggleItalic().run();
 };
 const blockquote = () => {
   console.log("click on blockquote");
+  editor.value?.chain().focus().toggleCodeBlock().run();
 };
 const link = () => {
   console.log("click on link");
@@ -184,8 +207,10 @@ const link = () => {
 // };
 const listul = () => {
   console.log("click on listul");
+  editor.value?.chain().focus().toggleBulletList().run();
 };
 const listol = () => {
   console.log("click on listol");
+  editor.value?.chain().focus().toggleOrderedList().run();
 };
 </script>

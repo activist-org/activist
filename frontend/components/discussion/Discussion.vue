@@ -1,15 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="space-y-6">
-    <DiscussionHeader />
-    <div v-if="discussionEntries" class="space-y-6">
-      <CardDiscussionEntry
-        v-for="discussionEntry in discussionEntries"
-        :key="discussionEntry.id"
-        :isPrivate="false"
-        :discussionEntry="discussionEntry"
-      />
-    </div>
     <CardDiscussionInput
       v-if="organizations && discussionInput"
       :discussionInput="discussionInput"
