@@ -22,6 +22,8 @@ from communities.organizations.serializers import (
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
 )
+from content.models import Image
+from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 
 # MARK: Main Tables
@@ -191,3 +193,15 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
 class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
     queryset = OrganizationText.objects.all()
     serializer_class = OrganizationTextSerializer
+
+
+class OrganizationImageViewSet(viewsets.ModelViewSet[Image]):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+
+    def list(self, request: Request, org_id: UUID) -> Response:
+        images = self.queryset.filter(organizationimage__org_id=org_id).order_by(
+            "organizationimage__sequence_index"
+        )
+        serializer = self.get_serializer(images, many=True)
+        return Response(serializer.data)
