@@ -281,11 +281,11 @@ function resetDirectionsControl() {
         <div
           title="${directionsControlTooltip}"
           style="
-            background-color: rgba(255, 255, 255, 1);
+            background-color: rgba(255, 255, 255, 0.75);
             padding: 1px 5px;
             border-radius: 5px;
             box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: grey;
+            color: rgba(0, 0, 0, 0.8);
             cursor: pointer
           "
         >
@@ -508,3 +508,9 @@ onMounted(() => {
   }
 });
 </script>
+
+<style>
+.maplibregl-ctrl-group {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+</style>
