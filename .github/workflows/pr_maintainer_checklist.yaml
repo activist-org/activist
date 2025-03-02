@@ -29,7 +29,7 @@ jobs:
 
             The following is a checklist for maintainers to make sure this process goes as well as possible. Feel free to address the points below yourself in further commits if you realize that actions are needed :)
 
-            - [ ] The TypeScript and formatting workflows within the [PR checks](https://github.com/activist-org/activist/pull/${{ github.event.pull_request.number }}/checks) do not indicate new errors in the files changed
+            - [ ] The TypeScript, pytest and formatting workflows within the [PR checks](https://github.com/activist-org/activist/pull/${{ github.event.pull_request.number }}/checks) do not indicate new errors in the files changed
 
             - [ ] The Playwright end to end and Zap penetration tests have been ran and are passing (if necessary)
 
