@@ -30,7 +30,7 @@
       v-if="uploadError"
       class="absolute bottom-2 right-12 z-10 rounded bg-layer-0/80 p-1 text-sm text-action-red"
     >
-      {{ $t(i18nMap.components.media_image_carousel.upload_error) }}
+      {{ $t("i18n.components.media_image_carousel.upload_error") }}
     </p>
     <button
       @click="openModalUploadImages()"
