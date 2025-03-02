@@ -200,8 +200,8 @@ class OrganizationImageViewSet(viewsets.ModelViewSet[Image]):
     serializer_class = ImageSerializer
 
     def list(self, request: Request, org_id: UUID) -> Response:
-        images = self.queryset.filter(
-            organizationimage__org_id=org_id
-        ).order_by('organizationimage__sequence_index')
+        images = self.queryset.filter(organizationimage__org_id=org_id).order_by(
+            "organizationimage__sequence_index"
+        )
         serializer = self.get_serializer(images, many=True)
         return Response(serializer.data)

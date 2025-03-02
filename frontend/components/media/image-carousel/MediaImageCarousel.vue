@@ -28,7 +28,7 @@
     </swiper-container>
     <p
       v-if="uploadError"
-      class="absolute bottom-2 right-12 z-10 rounded bg-white/80 p-1 text-sm text-action-red dark:bg-black/80"
+      class="absolute bottom-2 right-12 z-10 rounded bg-layer-0/80 p-1 text-sm text-action-red"
     >
       {{ $t(i18nMap.components.media_image_carousel.upload_error) }}
     </p>
@@ -49,8 +49,8 @@
 
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
-import { IconMap } from "~/types/icon-map";
 import { useModalHandlers } from "~/composables/useModalHandlers";
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps({
   fullscreen: Boolean,
