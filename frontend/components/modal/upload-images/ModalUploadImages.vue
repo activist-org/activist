@@ -76,7 +76,8 @@
             </template>
           </draggable>
           <BtnAction
-            @click="true"
+            v-if="files.length > 0"
+            @click="handleUpload"
             :cta="true"
             :label="$t('i18n.components.modal_upload_images.upload')"
             fontSize="sm"
@@ -96,15 +97,33 @@ import { DialogTitle } from "@headlessui/vue";
 import draggable from "vuedraggable";
 import { IconMap } from "~/types/icon-map";
 
-const { files, handleFiles, removeFile } = useFileManager();
+const { files, handleFiles, removeFile, uploadFiles } = useFileManager();
 
 export interface Props {
   uploadLimit?: number;
+  organizationId?: string;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
+  organizationId: undefined,
 });
 
 const modalName = "ModalUploadImages";
+const uploadError = ref(false);
+
+const emit = defineEmits(["upload-complete", "upload-error"]);
+
+const handleUpload = async () => {
+  try {
+    await uploadFiles(props.organizationId);
+    const modals = useModals();
+    modals.closeModal(modalName);
+    emit("upload-complete");
+    uploadError.value = false;
+  } catch (error) {
+    console.error("Error uploading images:", error);
+    emit("upload-error");
+  }
+};
 </script>
