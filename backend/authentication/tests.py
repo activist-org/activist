@@ -247,7 +247,7 @@ def test_create_user_and_superuser():
     """
     manager = UserModel.objects
 
-    # Test creating a user with email
+    # Test creating a user with email.
     user = manager.create_user(
         username="testuser1",
         password="StrongPassword123$",
@@ -260,7 +260,7 @@ def test_create_user_and_superuser():
     assert not user.is_superuser
     assert user.is_active
 
-    # Test creating a user without email
+    # Test creating a user without email.
     user_no_email = manager.create_user(
         username="testuser2",
         password="StrongPassword123$",
@@ -268,7 +268,7 @@ def test_create_user_and_superuser():
     assert user_no_email.username == "testuser2"
     assert user_no_email.email == ""
 
-    # Test creating a superuser with all required flags
+    # Test creating a superuser with all required flags.
     superuser = manager.create_superuser(
         email="admin@example.com",
         username="admin",
@@ -280,7 +280,7 @@ def test_create_user_and_superuser():
     assert superuser.is_superuser
     assert superuser.is_active
 
-    # Test that creating a superuser with is_staff=False raises the expected error
+    # Test that creating a superuser with is_staff=False raises the expected error.
     with pytest.raises(ValueError, match="Superuser must be assigned to is_staff=True."):
         manager.create_superuser(
             email="admin2@example.com",
@@ -289,7 +289,7 @@ def test_create_user_and_superuser():
             is_staff=False,
         )
 
-    # Test that creating a superuser with is_superuser=False raises the expected error
+    # Test that creating a superuser with is_superuser=False raises the expected error.
     with pytest.raises(ValueError, match="Superuser must be assigned to is_superuser=True."):
         manager.create_superuser(
             email="admin3@example.com",
