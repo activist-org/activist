@@ -86,26 +86,7 @@
           />
         </div>
       </div>
-      <div v-if="discussionInput.highRisk" class="w-full md:w-full">
-        <textarea
-          id="message"
-          rows="4"
-          class="focus-brand block w-full rounded-lg border border-action-red bg-layer-0 p-2.5 text-sm placeholder-action-red focus:border-none dark:border-action-red dark:text-primary-text dark:placeholder-action-red"
-          :placeholder="
-            $t('i18n.components.card_discussion_input.leave_comment_high_risk')
-          "
-        ></textarea>
-        <editor-content :editor="editor" />
-      </div>
-      <div v-else class="w-full md:w-full">
-        <!-- <textarea
-          id="message"
-          rows="4"
-          class="focus-brand block w-full rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text"
-          :placeholder="
-            $t('i18n.components.card_discussion_input.leave_comment')
-          "
-        ></textarea> -->
+      <div class="w-full md:w-full">
         <editor-content :editor="editor" />
       </div>
       <div class="flex items-center justify-between px-1">
@@ -158,13 +139,30 @@ import { IconMap } from "~/types/icon-map";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
+import Mention from "@tiptap/extension-mention";
+import Suggestion from "./Suggestion";
+
+const showTooltip = ref(false);
+const props = defineProps<{
+  discussionInput: DiscussionInput;
+}>();
+const i18n = useI18n();
 
 const editor = useEditor({
-  content: `
-  <h1>Hiiii</h1>
-  <p>I'm running Tiptap with Vue.js. 🎉</p>
-  `,
-  extensions: [StarterKit, Link],
+  content: props.discussionInput.highRisk
+    ? i18n.t("i18n.components.card_discussion_input.leave_comment_high_risk")
+    : i18n.t("i18n.components.card_discussion_input.leave_comment"),
+  extensions: [
+    StarterKit,
+    Link,
+    Mention.configure({
+      HTMLAttributes: {
+        class:
+          "bg-purple-300 rounded-2xl box-decoration-clone text-purple-900 px-1 py-0.5",
+      },
+      suggestion: Suggestion,
+    }),
+  ],
   editorProps: {
     attributes: {
       class:
@@ -173,14 +171,15 @@ const editor = useEditor({
   },
 });
 
-const showTooltip = ref(false);
-
-defineProps<{
-  discussionInput: DiscussionInput;
-}>();
+// background-color: var(--purple-light);
+// border-radius: 0.4rem;
+// box-decoration-break: clone;
+// color: var(--purple);
+// padding: 0.1rem 0.3rem;
 
 const at = () => {
   console.log("click on at");
+  editor.value?.chain().focus().insertContent(" @").run();
 };
 const heading = () => {
   console.log("click on heading");
@@ -200,6 +199,24 @@ const blockquote = () => {
 };
 const link = () => {
   console.log("click on link");
+  const previousUrl = editor.value?.getAttributes("link").href;
+  const url = window.prompt("URL", previousUrl);
+
+  if (url === null) {
+    return;
+  }
+
+  if (url === "") {
+    editor.value?.chain().focus().extendMarkRange("link").unsetLink().run();
+    return;
+  }
+
+  editor.value
+    ?.chain()
+    .focus()
+    .extendMarkRange("link")
+    .setLink({ href: url })
+    .run();
 };
 // There is as of now no plan to add in attachments.
 // const attach = () => {

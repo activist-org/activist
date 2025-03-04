@@ -3596,6 +3596,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-mention@npm:^2.11.5":
+  version: 2.11.5
+  resolution: "@tiptap/extension-mention@npm:2.11.5"
+  peerDependencies:
+    "@tiptap/core": ^2.7.0
+    "@tiptap/pm": ^2.7.0
+    "@tiptap/suggestion": ^2.7.0
+  checksum: 10c0/f3cbd7bd38f09e672326581456eb7ba62220d2588e3ec27676676a23b748688331e36e158f9a1500eb5cdda3cc4704dc29eaa5385621fb1fe4b28962e6e81d99
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-ordered-list@npm:^2.11.5":
   version: 2.11.5
   resolution: "@tiptap/extension-ordered-list@npm:2.11.5"
@@ -3693,6 +3704,16 @@ __metadata:
     "@tiptap/extension-text-style": "npm:^2.11.5"
     "@tiptap/pm": "npm:^2.11.5"
   checksum: 10c0/e367a1642f2f8e47f16f12faf648ea87e6f79c3f8f126d025ecdf2bf2dba521602ed4bd730384caaee21beb6857108a5f09046a8f709d482c065bccbb4fa3807
+  languageName: node
+  linkType: hard
+
+"@tiptap/suggestion@npm:^2.11.5":
+  version: 2.11.5
+  resolution: "@tiptap/suggestion@npm:2.11.5"
+  peerDependencies:
+    "@tiptap/core": ^2.7.0
+    "@tiptap/pm": ^2.7.0
+  checksum: 10c0/5fa63a3115171f3430b590060e83c57db04d331f8eb7dbbc151102486ebfb325be1fcafdf5d2c618bc771e5f718d97f9733b16f9f1a4906fdf0f69a0512e1a0d
   languageName: node
   linkType: hard
 
@@ -4950,6 +4971,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vueuse/math@npm:^12.7.0":
+  version: 12.7.0
+  resolution: "@vueuse/math@npm:12.7.0"
+  dependencies:
+    "@vueuse/shared": "npm:12.7.0"
+    vue: "npm:^3.5.13"
+  checksum: 10c0/e386051857301b47149195e4c5b317dc24fbb0beb4955ff18bc34e868f6fc57232d446ec9912471537bcf882f2755047326327f26926630e3e7671318322ae98
+  languageName: node
+  linkType: hard
+
 "@vueuse/metadata@npm:12.5.0":
   version: 12.5.0
   resolution: "@vueuse/metadata@npm:12.5.0"
@@ -4978,6 +5009,15 @@ __metadata:
   dependencies:
     vue: "npm:^3.5.13"
   checksum: 10c0/c64e148b05c404c5e930d7e768a1bc23741e9f6219b2d4e898e76e4cddb6e68f5595723286e0a7aa6696055fe5ee9066558e7db80f5fa10c59714cbc76f99439
+  languageName: node
+  linkType: hard
+
+"@vueuse/shared@npm:12.7.0":
+  version: 12.7.0
+  resolution: "@vueuse/shared@npm:12.7.0"
+  dependencies:
+    vue: "npm:^3.5.13"
+  checksum: 10c0/b9508af450146feb5f1e9c53f0854e9a7b4e819ebd56a8cdeaf717287c4ade72bbfa4d4c90d656c27141288986dd712156b4d0463582616be8bd42f9368e7243
   languageName: node
   linkType: hard
 
@@ -5068,8 +5108,10 @@ __metadata:
     "@testing-library/vue": "npm:8.1.0"
     "@tiptap/core": "npm:^2.11.5"
     "@tiptap/extension-link": "npm:^2.11.5"
+    "@tiptap/extension-mention": "npm:^2.11.5"
     "@tiptap/pm": "npm:^2.11.5"
     "@tiptap/starter-kit": "npm:^2.11.5"
+    "@tiptap/suggestion": "npm:^2.11.5"
     "@tiptap/vue-3": "npm:^2.11.5"
     "@types/geojson": "npm:7946.0.16"
     "@types/node": "npm:22.12.0"
@@ -5078,6 +5120,7 @@ __metadata:
     "@unocss/reset": "npm:65.4.3"
     "@vue/test-utils": "npm:2.4.6"
     "@vueuse/core": "npm:12.5.0"
+    "@vueuse/math": "npm:^12.7.0"
     "@vueuse/nuxt": "npm:12.5.0"
     axe-core: "npm:4.10.2"
     axe-html-reporter: "npm:2.2.11"
@@ -5111,6 +5154,7 @@ __metadata:
     swiper: "npm:11.2.1"
     tailwind-scrollbar: "npm:3.1.0"
     tailwindcss: "npm:3.4.17"
+    tippy.js: "npm:^6.3.7"
     typescript: "npm:5.7.3"
     unocss: "npm:65.4.3"
     uuid: "npm:11.0.5"
