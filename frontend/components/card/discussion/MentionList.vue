@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="relative flex flex-col gap-0.5 overflow-auto rounded-lg border border-gray-200 bg-white p-2 shadow-md"
