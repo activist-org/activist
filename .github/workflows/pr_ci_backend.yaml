@@ -1,5 +1,6 @@
 name: pr_ci_backend
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
