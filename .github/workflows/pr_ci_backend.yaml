@@ -73,6 +73,7 @@ jobs:
       - name: Run Django Migrations - Database Migrations Check
         if: always()
         run: |
+          . .venv/bin/activate
           python ./backend/manage.py makemigrations
           python ./backend/manage.py migrate
 
