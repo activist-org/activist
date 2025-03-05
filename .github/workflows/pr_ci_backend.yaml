@@ -71,10 +71,12 @@ jobs:
         run: mypy ./backend --config-file ./backend/pyproject.toml
 
       - name: Run Django Migrations - Database Migrations Check
+        if: always()
         run: |
           python ./backend/manage.py makemigrations
           python ./backend/manage.py migrate
 
       - name: Run pytest - Unit Tests
+        if: always()
         run: |
           pytest ./backend --cov=backend --cov-report=term-missing --cov-fail-under=60 --cov-config=./backend/pyproject.toml
