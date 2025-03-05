@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import json
-from typing import Dict, List
+from typing import Any, Dict, List
 from uuid import UUID
 
 from django.db import transaction
@@ -128,7 +128,12 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
     queryset = EventSocialLink.objects.all()
     serializer_class = EventSocialLinkSerializer
 
-    def update(self, request: Request, pk: UUID | str) -> Response:
+    def update(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        pk = kwargs.get("pk")
+        if not isinstance(pk, (str, UUID)):
+            return Response(
+                {"error": "Invalid ID format"}, status=status.HTTP_400_BAD_REQUEST
+            )
         event = Event.objects.filter(id=pk).first()
         if not event:
             return Response(

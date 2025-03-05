@@ -17,6 +17,9 @@ __pycache__
 venv/
 .mypy_cache
 
+# Don't know why content/migrations are being tracked.
+backend/content/migrations/*
+
 # Testing
 .coverage
 cov_html/
