@@ -43,12 +43,14 @@ jobs:
       - name: Run Nuxt Type Check
         if: always()
         working-directory: ./frontend
-        run: sudo yarn typecheck
+        run: sudo yarn typecheck; echo $?
 
       - name: Run ESLint - Linting
+        if: always()
         working-directory: ./frontend
         run: sudo yarn lint
 
       - name: Run Vitest - Component Testing
+        if: always()
         working-directory: ./frontend
         run: sudo yarn test
