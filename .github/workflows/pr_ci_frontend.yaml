@@ -41,16 +41,13 @@ jobs:
           sudo yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
 
       - name: Run Nuxt Type Check
-        if: always()
         working-directory: ./frontend
         run: sudo yarn typecheck || exit 1
 
       - name: Run ESLint - Linting
-        if: always()
         working-directory: ./frontend
         run: sudo yarn lint
 
       - name: Run Vitest - Component Testing
-        if: always()
         working-directory: ./frontend
         run: sudo yarn test
