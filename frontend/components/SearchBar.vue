@@ -121,9 +121,14 @@ const notUsingEditor = computed(
 );
 const { slash } = useMagicKeys({
   passive: false,
-  // onEventFired(e) {
-  //   if (e.key === "/" && e.type === "keydown") e.preventDefault();
-  // },
+  onEventFired(e) {
+    if (
+      e.key === "/" &&
+      e.type === "keydown" &&
+      !activeElement.value?.classList.contains("tiptap")
+    )
+      e.preventDefault();
+  },
 });
 
 whenever(logicAnd(slash, notUsingEditor), () => {

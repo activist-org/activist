@@ -5,33 +5,7 @@ import MentionList from "./MentionList.vue";
 
 export default {
   items: ({ query }) => {
-    return [
-      "Lea Thompson",
-      "Cyndi Lauper",
-      "Tom Cruise",
-      "Madonna",
-      "Jerry Hall",
-      "Joan Collins",
-      "Winona Ryder",
-      "Christina Applegate",
-      "Alyssa Milano",
-      "Molly Ringwald",
-      "Ally Sheedy",
-      "Debbie Harry",
-      "Olivia Newton-John",
-      "Elton John",
-      "Michael J. Fox",
-      "Axl Rose",
-      "Emilio Estevez",
-      "Ralph Macchio",
-      "Rob Lowe",
-      "Jennifer Grey",
-      "Mickey Rourke",
-      "John Cusack",
-      "Matthew Broderick",
-      "Justine Bateman",
-      "Lisa Bonet",
-    ]
+    return ["Jay Doe", "Jane Doe", "John Doe"]
       .filter((item) => item.toLowerCase().startsWith(query.toLowerCase()))
       .slice(0, 5);
   },
@@ -43,10 +17,6 @@ export default {
     return {
       onStart: (props) => {
         component = new VueRenderer(MentionList, {
-          // using vue 2:
-          // parent: this,
-          // propsData: props,
-          // using vue 3:
           props,
           editor: props.editor,
         });

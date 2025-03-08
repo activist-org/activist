@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="relative flex flex-col gap-0.5 overflow-auto rounded-lg border border-gray-200 bg-white p-2 shadow-md"
+    class="relative flex flex-col gap-0.5 overflow-auto rounded-lg border border-section-div bg-layer-2 p-2 text-primary-text shadow-md"
   >
     <template v-if="items.length">
       <button
@@ -9,9 +9,9 @@
         @click="selectItem(index)"
         :key="index"
         :class="{
-          'is-selected rounded-lg bg-gray-50': index === selectedIndex,
+          'is-selected rounded-lg bg-cta-orange/30': index === selectedIndex,
         }"
-        class="flex w-full items-center gap-1 bg-transparent text-left hover:bg-gray-200 [&.is-selected]:bg-gray-300 hover:[&.is-selected]:bg-gray-400"
+        class="hover:[&.is-selected]:bg-bg-cta-orange/50 [&.is-selected]:bg-bg-cta-orange/50 flex w-full items-center gap-1 rounded-lg bg-transparent text-left hover:bg-cta-orange/50"
       >
         <div class="px-1 py-0.5">
           {{ item }}
@@ -60,8 +60,8 @@ export default {
         return true;
       }
 
-      if (event.key === "Enter") {
-        this.enterHandler();
+      if (event.key === "Enter" || event.key === "Tab") {
+        this.selectHandler();
         return true;
       }
 
@@ -77,7 +77,7 @@ export default {
       this.selectedIndex = (this.selectedIndex + 1) % this.items.length;
     },
 
-    enterHandler() {
+    selectHandler() {
       this.selectItem(this.selectedIndex);
     },
 

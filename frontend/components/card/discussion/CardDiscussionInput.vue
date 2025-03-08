@@ -137,6 +137,7 @@
 import type { DiscussionInput } from "~/types/content/discussion";
 import { IconMap } from "~/types/icon-map";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
+import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Mention from "@tiptap/extension-mention";
@@ -149,16 +150,20 @@ const props = defineProps<{
 const i18n = useI18n();
 
 const editor = useEditor({
-  content: props.discussionInput.highRisk
-    ? i18n.t("i18n.components.card_discussion_input.leave_comment_high_risk")
-    : i18n.t("i18n.components.card_discussion_input.leave_comment"),
   extensions: [
     StarterKit,
+    Placeholder.configure({
+      placeholder: props.discussionInput.highRisk
+        ? i18n.t(
+            "i18n.components.card_discussion_input.leave_comment_high_risk"
+          )
+        : i18n.t("i18n.components.card_discussion_input.leave_comment"),
+    }),
     Link,
     Mention.configure({
       HTMLAttributes: {
         class:
-          "bg-purple-300 rounded-2xl box-decoration-clone text-purple-900 px-1 py-0.5",
+          "hover:underline font-bold rounded-2xl box-decoration-clone px-1 py-0.5",
       },
       suggestion: Suggestion,
     }),
@@ -170,12 +175,6 @@ const editor = useEditor({
     },
   },
 });
-
-// background-color: var(--purple-light);
-// border-radius: 0.4rem;
-// box-decoration-break: clone;
-// color: var(--purple);
-// padding: 0.1rem 0.3rem;
 
 const at = () => {
   console.log("click on at");
@@ -218,10 +217,12 @@ const link = () => {
     .setLink({ href: url })
     .run();
 };
-// There is as of now no plan to add in attachments.
+
+// Note: There is as of now no plan to add in attachments.
 // const attach = () => {
 //   console.log("click on attach");
 // };
+
 const listul = () => {
   console.log("click on listul");
   editor.value?.chain().focus().toggleBulletList().run();
@@ -231,3 +232,13 @@ const listol = () => {
   editor.value?.chain().focus().toggleOrderedList().run();
 };
 </script>
+
+<style>
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+</style>
