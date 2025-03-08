@@ -168,7 +168,7 @@ jobs:
 
           echo -e "\n### Type Check Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn nuxi typecheck 2>&1 | sed 's/\[.*\]/\n&\n/g' | tee -a ../reports.md || true
+          yarn typecheck 2>&1 | sed 's/\[.*\]/\n&\n/g' | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       - name: Create GitHub Issue
