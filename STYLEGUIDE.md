@@ -137,7 +137,7 @@ Before opening a new PR, it is recommended to first generate the current types, 
 
 1. cd into `frontend`
 2. run `yarn run postinstall` to generate types in `frontend/.nuxt`
-3. run `yarn nuxi typecheck`
+3. run `yarn typecheck`
 
 Within VS Code TS errors are visible, however, running these commands will help to ensure the new code does not introduce unintended TS errors at build time. Existing TS errors may be ignored. PRs are always welcome to address these errors!
 

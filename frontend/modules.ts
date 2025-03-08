@@ -4,18 +4,18 @@ import type { NuxtModule } from "@nuxt/schema";
 const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
   "@nuxt/content",
   "nuxt-icon",
-  [
-    "nuxt-mail",
-    {
-      message: {
-        to: "team@activist.org",
-      },
-      smtp: {
-        host: "smtp.activist.org",
-        port: 587,
-      },
-    },
-  ],
+  // [
+  //   "nuxt-mail",
+  //   {
+  //     message: {
+  //       to: "team@activist.org",
+  //     },
+  //     smtp: {
+  //       host: "smtp.activist.org",
+  //       port: 587,
+  //     },
+  //   },
+  // ],
   "@nuxtjs/color-mode",
   "@nuxtjs/device",
   "@nuxt/devtools",

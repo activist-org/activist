@@ -394,6 +394,7 @@ You can further run the following commands for TypeScript type checks on the fro
 
 ```bash
 # Within ./frontend:
+yarn install  # necessary for non-Linux as node_modules are set via Docker
 yarn run postinstall
 yarn typecheck
 ```
