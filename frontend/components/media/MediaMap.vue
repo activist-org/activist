@@ -11,7 +11,7 @@
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
-import maplibregl, { type Map } from "maplibre-gl";
+import maplibregl, { type Map, type LayerSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Location } from "~/types/content/location";
 
@@ -52,7 +52,7 @@ function isWebglSupported() {
 
 // MARK: Map Layers
 
-const mapLayers = [
+const mapLayers: LayerSpecification[] = [
   {
     id: "background",
     type: "background",
@@ -217,7 +217,7 @@ function resetRouteProfileControl() {
             requestOptions: {
               alternatives: "true",
             },
-            mapLayers,
+            layers: mapLayers,
           });
 
           directions.interactive = true;
