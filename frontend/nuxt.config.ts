@@ -14,8 +14,8 @@ export default defineNuxtConfig({
   modules: modules,
   ssr: false,
   typescript: {
-    // strict: true,
-    // typeCheck: true,
+    strict: true,
+    typeCheck: true,
   },
   devtools: {
     enabled: true,
