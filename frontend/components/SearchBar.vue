@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMagicKeys, whenever } from "@vueuse/core";
+import { useActiveElement, useMagicKeys, whenever } from "@vueuse/core";
 import { IconMap } from "~/types/icon-map";
 import { SearchBarLocation } from "~/types/location";
 
@@ -113,16 +113,25 @@ const sidebar = useSidebar();
 const { isMacOS } = useDevice();
 
 const input = ref();
+const activeElement = useActiveElement();
 const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
+const notUsingEditor = computed(
+  () => !activeElement.value?.classList.contains("tiptap")
+);
 const { slash } = useMagicKeys({
   passive: false,
   onEventFired(e) {
-    if (e.key === "/" && e.type === "keydown") e.preventDefault();
+    if (
+      e.key === "/" &&
+      e.type === "keydown" &&
+      !activeElement.value?.classList.contains("tiptap")
+    )
+      e.preventDefault();
   },
 });
 
-whenever(slash, () => {
+whenever(logicAnd(slash, notUsingEditor), () => {
   setTimeout(() => {
     if (input.value) {
       input.value.focus();
