@@ -46,11 +46,9 @@ jobs:
         run: sudo yarn typecheck
 
       - name: Run ESLint - Linting
-        if: always()
         working-directory: ./frontend
         run: sudo yarn lint
 
       - name: Run Vitest - Component Testing
-        if: always()
         working-directory: ./frontend
         run: sudo yarn test
