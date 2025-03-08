@@ -76,7 +76,7 @@
     "@types/geojson": "7946.0.16",
     "@unocss/reset": "65.4.3",
     "@vueuse/math": "^12.7.0",
-    "axios": "1.7.9",
+    "axios": "1.8.2",
     "dotenv": "16.4.7",
     "eslint-config-prettier": "10.0.1",
     "eslint-flat-config-utils": "2.0.0",
