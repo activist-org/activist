@@ -3,7 +3,6 @@
 import tailwindTypography from "@tailwindcss/typography";
 import type { NuxtPage } from "nuxt/schema";
 import { resolve } from "path";
-import { checker } from "vite-plugin-checker";
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
 import locales from "./locales";
@@ -33,11 +32,6 @@ export default defineNuxtConfig({
     dirs: ["./stores"],
   },
   vite: {
-    plugins: [
-      checker({
-        vueTsc: true,
-      }),
-    ],
     server: {
       watch: {
         usePolling: true,
