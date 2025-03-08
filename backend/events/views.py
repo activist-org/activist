@@ -134,6 +134,7 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
             return Response(
                 {"error": "Invalid ID format"}, status=status.HTTP_400_BAD_REQUEST
             )
+
         event = Event.objects.filter(id=pk).first()
         if not event:
             return Response(

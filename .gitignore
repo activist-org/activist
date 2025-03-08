@@ -17,8 +17,9 @@ __pycache__
 venv/
 .mypy_cache
 
-# Don't know why content/migrations are being tracked.
-backend/content/migrations/*
+# Don't include migrations for now.
+*migrations/*
+!*migrations/__init__.py
 
 # Testing
 .coverage

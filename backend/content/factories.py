@@ -116,13 +116,13 @@ class ImageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Image
 
-    # Generate a UUID automatically for each image instance
+    # Generate a UUID automatically for each image instance.
     id = factory.LazyFunction(uuid4)
 
-    # Create a dummy image file for the file_object field
+    # Create a dummy image file for the file_object field.
     file_object = factory.django.ImageField(upload_to="images/")
 
-    # Use Faker to generate a random creation date within the last 10 years
+    # Use Faker to generate a random creation date within the last 10 years.
     creation_date = factory.Faker("date_time_this_decade")
 
 

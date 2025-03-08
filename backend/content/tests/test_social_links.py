@@ -1,12 +1,4 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-
-# docker compose --env-file .env.dev up backend --build -d
-# docker exec -it django_backend sh
-# pytest -s -v content/tests/test_social_links.py
-
-# TODO: DON'T FORGET TO REMOVE THE VOLUME AFTER TESTS ARE DONE.
-#  - ./backend/content:/app/content
-
 """
 Tests for Organization, Group, and Event SocialLinks.
 """
@@ -32,8 +24,9 @@ from events.factories import EventFactory, EventSocialLinkFactory
 from events.models import EventSocialLink
 from events.serializers import EventSocialLinkSerializer
 
-
 #  Mark: Social link Model
+
+
 @pytest.mark.django_db
 def test_create_social_link() -> None:
     """
@@ -49,6 +42,8 @@ def test_create_social_link() -> None:
 
 
 # Mark: Serializers
+
+
 @pytest.mark.django_db
 def test_organization_social_link_serializer() -> None:
     """
@@ -110,6 +105,8 @@ def test_event_social_link_serializer() -> None:
 
 
 # Mark: Views - List
+
+
 @pytest.mark.django_db
 def test_organization_social_link_list_view(client: APIClient) -> None:
     """
@@ -159,6 +156,8 @@ def test_event_social_link_list_view(client: APIClient) -> None:
 
 
 # Mark: Views - Create
+
+
 @pytest.mark.django_db
 def test_organization_social_link_create_view(client: APIClient) -> None:
     """
@@ -177,6 +176,7 @@ def test_organization_social_link_create_view(client: APIClient) -> None:
         formData,
         content_type="application/json",
     )
+
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
     # The PUT method will delete all existing social links and replace them with the ones in formData.
@@ -201,6 +201,7 @@ def test_group_social_link_create_view(client: APIClient) -> None:
         formData,
         content_type="application/json",
     )
+
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
     # The PUT method will delete all existing social links and replace them with the ones in formData.
@@ -225,6 +226,7 @@ def test_event_social_link_create_view(client: APIClient) -> None:
         formData,
         content_type="application/json",
     )
+
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
     # The PUT method will delete all existing social links and replace them with the ones in formData.

@@ -26,10 +26,11 @@ def image_with_file() -> Generator[Image, None, None]:
     Fixture for creating an image with a file.
     Deletes the file after the test.
     """
-    # Clean up any leftover files
-    image = ImageFactory()  # Create image using the factory
+    # Clean up any leftover files.
+    image = ImageFactory()  # create image using the factory
     yield image
-    # Cleanup after the test
+
+    # Cleanup after the test.
     file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
     if os.path.exists(file_path):
         os.remove(file_path)
@@ -74,7 +75,7 @@ def test_image_serializer_missing_file() -> None:
     """
     Test the serializer with a missing file.
     """
-    serializer = ImageSerializer(data={})  # No file_object
+    serializer = ImageSerializer(data={})  # no file_object
     assert not serializer.is_valid()
     assert "file_object" in serializer.errors
 
@@ -106,14 +107,13 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
     Test the create view for images.
     This is like a POST request.
     """
-
     # Use the 'image_with_file' fixture to create an image.
     # This is "the file on the user's computer". The rest of the test is "uploading it to the server".
     # That is the default, correct behavior. The fixture will delete the file after the test.
     image = image_with_file
 
     # Image.objects (there should be only one) in the database are a side effect of the fixture. Delete them here.
-    # The client.post call will create a file 'on the server' and a database entry.
+    # The client.post call will create a file "on the server" and a database entry.
     Image.objects.all().delete()
 
     org = OrganizationFactory()
@@ -128,16 +128,16 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
 
     assert (
         response.status_code == 201
-    ), f"Expected status code 201, but got {response.status_code}"
+    ), f"Expected status code 201, but got {response.status_code}."
     assert (
         Image.objects.count() == 1
-    ), "Expected one image in the database, but found more than one"
+    ), "Expected one image in the database, but found more than one."
 
-    # Check if the file was 'uploaded'.
+    # Check if the file was "uploaded".
     uploaded_file = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
     assert os.path.exists(uploaded_file)
 
-    # Get the actual filename of the 'uploaded' file, so we can delete it from the file system.
+    # Get the actual filename of the "uploaded" file, so we can delete it from the file system.
     # This is for test cleanup. In production, the file is not deleted.
     file_object = response.json()["fileObject"].split("/")[-1]
     file_to_delete = os.path.join(settings.MEDIA_ROOT, "images", file_object)
@@ -152,7 +152,7 @@ def test_image_create_missing_file(client: APIClient) -> None:
     """
 
     org = OrganizationFactory()
-    data = {"organization_id": str(org.id)}  # No file_object provided.
+    data = {"organization_id": str(org.id)}  # no file_object provided
     response = client.post("/v1/content/images/", data, format="multipart")
 
     assert response.status_code == 400
