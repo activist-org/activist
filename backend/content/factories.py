@@ -1,20 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import datetime
 import random
+from uuid import uuid4
 
 import factory
 
-from content.models import Faq, Location, Resource, Task, Topic
+from content.models import Faq, Image, Location, Resource, Task, Topic
 
-# MARK: Main Tables
-
-
-class FaqFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Faq
-
-    name = factory.Faker("name")
-    question = factory.Faker("text")
+# MARK: Main Table
 
 
 class EntityLocationFactory(factory.django.DjangoModelFactory):
@@ -109,6 +102,28 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
         self.lon = random_locations[self.location_idx][1]
         self.bbox = random_locations[self.location_idx][2]
         self.display_name = random_locations[self.location_idx][3]
+
+
+class FaqFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Faq
+
+    name = factory.Faker("name")
+    question = factory.Faker("text")
+
+
+class ImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Image
+
+    # Generate a UUID automatically for each image instance.
+    id = factory.LazyFunction(uuid4)
+
+    # Create a dummy image file for the file_object field.
+    file_object = factory.django.ImageField(upload_to="images/")
+
+    # Use Faker to generate a random creation date within the last 10 years.
+    creation_date = factory.Faker("date_time_this_decade")
 
 
 class ResourceFactory(factory.django.DjangoModelFactory):

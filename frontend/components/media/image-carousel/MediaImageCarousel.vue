@@ -11,7 +11,7 @@
       :pagination="{ clickable: true }"
     >
       <swiper-slide
-        v-for="[idx, img] of imageUrls.entries()"
+        v-for="[idx, img] of imageUrls?.entries()"
         :key="idx"
         class="swiper-zoom-container flex items-center justify-center bg-layer-2"
       >
@@ -59,6 +59,8 @@ const props = defineProps({
 });
 
 register();
+
+const uploadError = ref(false);
 
 // Forward the upload-complete event to the parent component.
 // Building out an event bus would be a better solution, but only a quick fix is needed here.

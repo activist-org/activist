@@ -17,6 +17,10 @@ __pycache__
 venv/
 .mypy_cache
 
+# Don't include migrations for now.
+*migrations/*
+!*migrations/__init__.py
+
 # Testing
 .coverage
 cov_html/
