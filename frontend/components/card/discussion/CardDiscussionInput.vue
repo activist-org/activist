@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="card-style flex w-full flex-col px-3 py-4 md:flex-row">
-    <div class="flex-col space-y-3 pt-3 md:grow md:space-y-4 md:pl-2 md:pt-0">
+    <div class="w-full flex-col space-y-3 pt-3 md:space-y-4 md:p-2 md:pt-0">
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <div class="w-min md:w-min">
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div
-          class="mt-2 flex w-full items-center space-x-1 md:w-fit md:flex-row lg:space-x-3"
+          class="mt-2 flex w-full items-center justify-center space-x-1 pt-3 md:w-fit md:flex-row md:pt-0 lg:space-x-3"
         >
           <Icon
             @click="at()"
@@ -82,25 +82,8 @@
           />
         </div>
       </div>
-      <div v-if="discussionInput.highRisk" class="w-full md:w-full">
-        <textarea
-          id="message"
-          rows="4"
-          class="focus-brand block w-full rounded-lg border border-action-red bg-layer-0 p-2.5 text-sm placeholder-action-red focus:border-none dark:border-action-red dark:text-primary-text dark:placeholder-action-red"
-          :placeholder="
-            $t('i18n.components.card_discussion_input.leave_comment_high_risk')
-          "
-        ></textarea>
-      </div>
-      <div v-else class="w-full md:w-full">
-        <textarea
-          id="message"
-          rows="4"
-          class="focus-brand block w-full rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text"
-          :placeholder="
-            $t('i18n.components.card_discussion_input.leave_comment')
-          "
-        ></textarea>
+      <div class="w-full md:w-full">
+        <editor-content :editor="editor" />
       </div>
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
@@ -147,39 +130,109 @@
 <script setup lang="ts">
 import type { DiscussionInput } from "~/types/content/discussion";
 import { IconMap } from "~/types/icon-map";
+import { useEditor, EditorContent } from "@tiptap/vue-3";
+import Placeholder from "@tiptap/extension-placeholder";
+import StarterKit from "@tiptap/starter-kit";
+import Link from "@tiptap/extension-link";
+import Mention from "@tiptap/extension-mention";
+import Suggestion from "./Suggestion";
 
 const showTooltip = ref(false);
-
-defineProps<{
+const props = defineProps<{
   discussionInput: DiscussionInput;
 }>();
+const i18n = useI18n();
+
+const editor = useEditor({
+  extensions: [
+    StarterKit,
+    Placeholder.configure({
+      placeholder: props.discussionInput.highRisk
+        ? i18n.t(
+            "i18n.components.card_discussion_input.leave_comment_high_risk"
+          )
+        : i18n.t("i18n.components.card_discussion_input.leave_comment"),
+    }),
+    Link,
+    Mention.configure({
+      HTMLAttributes: {
+        class:
+          "hover:underline font-bold rounded-2xl box-decoration-clone px-1 py-0.5",
+      },
+      suggestion: Suggestion,
+    }),
+  ],
+  editorProps: {
+    attributes: {
+      class:
+        "focus-brand block w-full max-w-full rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text prose dark:prose-invert text-clip",
+    },
+  },
+});
 
 const at = () => {
   console.log("click on at");
+  editor.value?.chain().focus().insertContent(" @").run();
 };
 const heading = () => {
   console.log("click on heading");
+  editor.value?.chain().focus().toggleHeading({ level: 1 }).run();
 };
 const bold = () => {
   console.log("click on bold");
+  editor.value?.chain().focus().toggleBold().run();
 };
 const italic = () => {
   console.log("click on italic");
+  editor.value?.chain().focus().toggleItalic().run();
 };
 const blockquote = () => {
   console.log("click on blockquote");
+  editor.value?.chain().focus().toggleCodeBlock().run();
 };
 const link = () => {
   console.log("click on link");
+  const previousUrl = editor.value?.getAttributes("link").href;
+  const url = window.prompt("URL", previousUrl);
+
+  if (url === null) {
+    return;
+  }
+
+  if (url === "") {
+    editor.value?.chain().focus().extendMarkRange("link").unsetLink().run();
+    return;
+  }
+
+  editor.value
+    ?.chain()
+    .focus()
+    .extendMarkRange("link")
+    .setLink({ href: url })
+    .run();
 };
-// There is as of now no plan to add in attachments.
+
+// Note: There is as of now no plan to add in attachments.
 // const attach = () => {
 //   console.log("click on attach");
 // };
+
 const listul = () => {
   console.log("click on listul");
+  editor.value?.chain().focus().toggleBulletList().run();
 };
 const listol = () => {
   console.log("click on listol");
+  editor.value?.chain().focus().toggleOrderedList().run();
 };
 </script>
+
+<style>
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+</style>
