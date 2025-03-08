@@ -1,5 +1,6 @@
 name: pr_ci_backend
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
@@ -50,16 +51,13 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Dependencies
+      - name: Create Environment and Install Dependencies
         run: |
           python -m pip install --upgrade uv
           uv venv
-          uv pip install -r backend/requirements-dev.txt
-
-      - name: Activate Virtual Environment
-        run: |
           . .venv/bin/activate
           echo PATH=$PATH >> $GITHUB_ENV
+          uv pip install -r backend/requirements-dev.txt
 
       - name: Run Ruff Format - Formatting Check
         run: ruff format ./backend
@@ -73,11 +71,13 @@ jobs:
         run: mypy ./backend --config-file ./backend/pyproject.toml
 
       - name: Run Django Migrations - Database Migrations Check
+        if: always()
         run: |
           . .venv/bin/activate
           python ./backend/manage.py makemigrations
           python ./backend/manage.py migrate
 
       - name: Run pytest - Unit Tests
+        if: always()
         run: |
           pytest ./backend --cov=backend --cov-report=term-missing --cov-fail-under=60 --cov-config=./backend/pyproject.toml

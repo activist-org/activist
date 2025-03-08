@@ -394,7 +394,8 @@ You can further run the following commands for TypeScript type checks on the fro
 
 ```bash
 # Within ./frontend:
-yarn run postinstall
+yarn install  # necessary for non-Linux users as node_modules are set via Docker
+yarn postinstall  # prepare types in frontend/.nuxt
 yarn typecheck
 ```
 

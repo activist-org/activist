@@ -62,7 +62,7 @@ const defaultImageUrls = [
 
 const imageUrls = ref(defaultImageUrls);
 const uploadError = ref(false);
-const swiperRef = ref<{ swiper: Swiper | null }>(null);
+const swiperRef = ref<{ swiper: Swiper | null }>();
 
 interface OrganizationImage {
   id: string;

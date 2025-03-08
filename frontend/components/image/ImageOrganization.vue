@@ -7,9 +7,9 @@
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
-      class="flex h-full w-full items-center justify-center rounded-r-md border bg-distinct-text text-layer-1"
+      class="flex h-full w-full items-center justify-center text-primary-text"
     >
-      <Icon class="mb-1" :name="IconMap.PEOPLE" />
+      <Icon class="h-[75%] w-[75%]" :name="IconMap.ORGANIZATION" />
     </div>
   </div>
 </template>

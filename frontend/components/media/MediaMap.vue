@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    @click="resetDirectionsControl(map)"
+    @click="resetDirectionsControl()"
     id="map"
     class="card-style-base dark:brightness-95 dark:contrast-[90%] dark:hue-rotate-180 dark:invert"
   ></div>
@@ -185,6 +185,7 @@ const setSelectedRoute = () => {
 };
 
 let map: Map;
+let marker: maplibregl.Marker;
 let directions: MapLibreGlDirections;
 
 // MARK: Profile Switcher
@@ -432,7 +433,7 @@ onMounted(() => {
       </div>
       `);
 
-    const marker = new maplibregl.Marker({
+    marker = new maplibregl.Marker({
       color: `${props.markerColors[0]}`,
     });
 
@@ -503,7 +504,7 @@ onMounted(() => {
         directions.interactive = true;
       });
 
-      resetDirectionsControl(map);
+      resetDirectionsControl();
     });
   }
 });

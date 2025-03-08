@@ -53,7 +53,6 @@ const defaultIndex = computed(() => {
 function changeTab(index: number) {
   const selectedRoute = props.selectors[index]?.routeUrl;
   if (selectedRoute) {
-    // @ts-expect-error 'nuxtApp.$localePath' is of type 'unknown'
     router.push(nuxtApp.$localePath(selectedRoute));
   }
 }
