@@ -355,7 +355,7 @@ class PasswordResetSerializerTest(TestCase):
         )
 
     def test_validate_with_invalid_email(self):
-        """Test validation with invalid email (tests else branch)."""
+        """Test validation with invalid email (tests else branch). """
         serializer = PasswordResetSerializer(data={
             'email': 'invalid_email@activist.com',
             'password': 'newpassword123'
