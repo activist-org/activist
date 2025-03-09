@@ -135,7 +135,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Mention from "@tiptap/extension-mention";
-import Suggestion from "./Suggestion";
+import Suggestion from "../../../utils/mentionSuggestion";
 
 const showTooltip = ref(false);
 const props = defineProps<{

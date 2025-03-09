@@ -1,7 +1,7 @@
 import { VueRenderer } from "@tiptap/vue-3";
 import tippy from "tippy.js";
 
-import MentionList from "./MentionList.vue";
+import MentionList from "../components/tooltip/TooltipMentionList.vue";
 
 export default {
   items: ({ query }) => {

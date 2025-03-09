@@ -11,7 +11,7 @@
         :class="{
           'is-selected rounded-lg bg-cta-orange/30': index === selectedIndex,
         }"
-        class="hover:[&.is-selected]:bg-bg-cta-orange/50 [&.is-selected]:bg-bg-cta-orange/50 flex w-full items-center gap-1 rounded-lg bg-transparent text-left hover:bg-cta-orange/50"
+        class="flex w-full items-center gap-1 rounded-lg bg-transparent text-left hover:bg-cta-orange/50 [&.is-selected]:bg-cta-orange/50 hover:[&.is-selected]:bg-cta-orange/50"
       >
         <div class="px-1 py-0.5">
           {{ item }}
