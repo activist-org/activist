@@ -302,8 +302,6 @@ def test_create_user_and_superuser():
             is_superuser=False,
         )
 
-    # Test that creating a superuser with is_active=False raises the expected error.
-
 
 class PasswordResetSerializerTest(TestCase):
     """
