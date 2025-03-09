@@ -3,10 +3,9 @@
 Serializers for the content app.
 """
 
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 from django.utils.translation import gettext as _
-from PIL import Image as PilImage
 from rest_framework import serializers
 
 from content.models import (
@@ -38,37 +37,36 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
 class ImageSerializer(serializers.ModelSerializer[Image]):
     class Meta:
         model = Image
-        fields = ["id", "file_location", "creation_date"]
+        fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        image_extensions = [".jpg", ".jpeg", ".png"]
-        img_format = ""
-
-        file_location = data["file_location"]
-        if isinstance(file_location, str):
-            try:
-                with PilImage.open(file_location) as img:
-                    img.verify()
-                    img_format = img.format.lower()
-
-            except Exception as e:
-                raise serializers.ValidationError(
-                    _("The image is not valid."), code="corrupted_file"
-                ) from e
-
-            if img_format not in image_extensions:
-                raise serializers.ValidationError(
-                    _("The image must be in jpg, jpeg or png format."),
-                    code="invalid_extension",
-                )
-
-        else:
-            raise serializers.ValidationError(
-                _("The file location must be a string."), code="invalid_file_location"
-            )
+        # Remove string validation since we're getting a file object.
+        if "file_object" not in data:
+            raise serializers.ValidationError("No file was submitted.")
 
         return data
+
+    # Using 'Any' type until a more correct type is determined.
+    def create(self, validated_data: Dict[str, Any]) -> Image:
+        if file_obj := self.context["request"].FILES.get("file_object"):
+            validated_data["file_object"] = file_obj
+
+        # Create the image first.
+        image = super().create(validated_data)
+
+        if organization_id := self.context["request"].data.get("organization_id"):
+            # Create OrganizationImage with next sequence index.
+            from communities.organizations.models import OrganizationImage
+
+            next_index = OrganizationImage.objects.filter(
+                org_id=organization_id
+            ).count()
+            OrganizationImage.objects.create(
+                org_id=organization_id, image=image, sequence_index=next_index
+            )
+
+        return image
 
 
 class LocationSerializer(serializers.ModelSerializer[Location]):

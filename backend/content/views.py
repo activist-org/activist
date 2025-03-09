@@ -1,15 +1,19 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
+from typing import Any
+
 from django.db.models import Q
 from rest_framework import status, viewsets
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from content.models import Discussion, DiscussionEntry, Resource
+from content.models import Discussion, DiscussionEntry, Image, Resource
 from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
+    ImageSerializer,
     ResourceSerializer,
 )
 from core.paginator import CustomPagination
@@ -297,3 +301,22 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         self.perform_destroy(item)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ImageViewSet(viewsets.ModelViewSet[Image]):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    parser_classes = (MultiPartParser, FormParser)
+
+    # Using 'Any' type until a more correct type is determined.
+    def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        serializer = self.get_serializer(
+            data=request.data,
+            context={"request": request},  # pass request to serializer
+        )
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

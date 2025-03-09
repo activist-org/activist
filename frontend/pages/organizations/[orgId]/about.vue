@@ -62,7 +62,10 @@
           }"
         />
         <div class="h-full w-full">
-          <MediaImageCarouselFull v-if="!textExpanded || !aboveLargeBP" />
+          <MediaImageCarouselFull
+            v-if="!textExpanded || !aboveLargeBP"
+            :organizationId="orgId"
+          />
         </div>
       </div>
       <CardGetInvolvedOrganization />

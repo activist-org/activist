@@ -1,5 +1,6 @@
 name: pr_ci_frontend
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
@@ -42,7 +43,7 @@ jobs:
       - name: Run Nuxt Type Check
         if: always()
         working-directory: ./frontend
-        run: sudo yarn nuxi typecheck
+        run: sudo yarn typecheck
 
       - name: Run ESLint - Linting
         if: always()

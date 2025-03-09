@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindTypography from "@tailwindcss/typography";
 import type { NuxtPage } from "nuxt/schema";
 import { resolve } from "path";
 import applyMiddleware from "./applyMiddleware";
@@ -53,6 +54,9 @@ export default defineNuxtConfig({
   tailwindcss: {
     cssPath: "~/assets/css/tailwind.css",
     configPath: "tailwind.config.ts",
+    config: {
+      plugins: [tailwindTypography],
+    },
   },
   postcss: {
     plugins: {

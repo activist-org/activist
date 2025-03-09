@@ -1,6 +1,6 @@
 name: pr_ci_i18n
-
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
