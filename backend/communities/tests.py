@@ -43,10 +43,10 @@ def test_status_and_status_type_str_methods() -> None:
 
     status_type = StatusType.objects.create(name="Active")
 
-    # Create an organization to use with Status
+    # Create an organization to use with Status.
     organization = OrganizationFactory.create()
 
-    # Create a user for the Status
+    # Create a user for the Status.
     user = UserFactory.create()
 
     status = Status.objects.create(
