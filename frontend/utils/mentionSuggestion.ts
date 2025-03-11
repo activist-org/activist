@@ -1,21 +1,23 @@
 import { VueRenderer } from "@tiptap/vue-3";
 import tippy from "tippy.js";
+import type { Instance as TippyInstance } from "tippy.js";
 
 import MentionList from "../components/tooltip/TooltipMentionList.vue";
+import type { MentionProps, RendererProps } from "~/types/mention-suggestions";
 
 export default {
-  items: ({ query }) => {
+  items: ({ query }: MentionProps): string[] => {
     return ["Jay Doe", "Jane Doe", "John Doe"]
       .filter((item) => item.toLowerCase().startsWith(query.toLowerCase()))
       .slice(0, 5);
   },
 
   render: () => {
-    let component;
-    let popup;
+    let component: VueRenderer;
+    let popup: TippyInstance[];
 
     return {
-      onStart: (props) => {
+      onStart: (props: RendererProps) => {
         component = new VueRenderer(MentionList, {
           props,
           editor: props.editor,
@@ -36,7 +38,7 @@ export default {
         });
       },
 
-      onUpdate(props) {
+      onUpdate(props: RendererProps) {
         component.updateProps(props);
 
         if (!props.clientRect) {
@@ -48,7 +50,7 @@ export default {
         });
       },
 
-      onKeyDown(props) {
+      onKeyDown(props: { event: KeyboardEvent }) {
         if (props.event.key === "Escape") {
           popup[0].hide();
 
