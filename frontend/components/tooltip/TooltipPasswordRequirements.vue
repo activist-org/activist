@@ -15,7 +15,10 @@
         :name="rule.isValid ? IconMap.CIRCLE_CHECK_FILL : IconMap.CIRCLE_X_FILL"
         size="0.9em"
         :style="{ color: rule.isValid ? '#198754' : '#BA3D3B' }"
-      />
+        role="img"
+      >
+        <title>{{ rule.isValid ? "passed" : "failed" }}</title>
+      </Icon>
       <span class="truncate text-sm">{{
         $t(passwordRequirementsDict[rule.message])
       }}</span>

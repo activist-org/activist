@@ -19,6 +19,7 @@
       :value="modelValue"
       :placeholder="placeholder"
       :type="refInputType"
+      :data-testid="placeholder"
     />
     <span
       v-for="(i, index) in icons"
