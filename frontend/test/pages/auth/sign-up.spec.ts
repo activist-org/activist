@@ -14,7 +14,7 @@ describe("sign-up", () => {
       "border-interactive"
     );
 
-    fakeWait(1001, async () => {
+    await fakeWait(1001, async () => {
       await fireEvent.update(passwordInput, "a");
       await fireEvent.blur(passwordInput);
     });
