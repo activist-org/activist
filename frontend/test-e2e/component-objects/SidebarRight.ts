@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 import { LOCALE_CODE } from "~/locales";
-import { getI18nString } from "~/utils/i18n";
+import { getEnglishText } from "~/utils/i18n";
 
 export const newSidebarRight = (
   parent: Page | Locator,
@@ -53,7 +53,7 @@ export const newSidebarRight = (
         parent,
         closeButton: parent.getByRole("button", {
           name: new RegExp(
-            getI18nString(
+            getEnglishText(
               "i18n.components.sidebar_right_hamburger.collapse_aria_label"
             ),
             "i"
@@ -61,7 +61,7 @@ export const newSidebarRight = (
         }),
         openButton: parent.getByRole("button", {
           name: new RegExp(
-            getI18nString(
+            getEnglishText(
               "i18n.components.sidebar_right_hamburger.collapse_aria_label"
             ),
             "i"

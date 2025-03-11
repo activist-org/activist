@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "@playwright/test";
-import { getI18nString } from "~/utils/i18n";
+import { getEnglishText } from "~/utils/i18n";
 
 export const newSignInPage = (page: Page) => ({
   signUpLink: page.getByRole("link", {
-    name: new RegExp(getI18nString("i18n._global.sign_up_aria_label"), "i"),
+    name: new RegExp(getEnglishText("i18n._global.sign_up_aria_label"), "i"),
   }),
   usernameInput: page.locator("#sign-in-username input"),
   passwordInput: page.locator("#sign-in-password input"),
@@ -14,12 +14,12 @@ export const newSignInPage = (page: Page) => ({
   // Currently a button but should be a link
   forgotPasswordLink: page.getByRole("button", {
     name: new RegExp(
-      getI18nString("i18n._global.auth.reset_password_forgot_password"),
+      getEnglishText("i18n._global.auth.reset_password_forgot_password"),
       "i"
     ),
   }),
 
   signInButton: page.getByRole("button", {
-    name: new RegExp(getI18nString("i18n._global.sign_in_aria_label"), "i"),
+    name: new RegExp(getEnglishText("i18n._global.sign_in_aria_label"), "i"),
   }),
 });
