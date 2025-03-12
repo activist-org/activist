@@ -152,7 +152,7 @@ jobs:
 
           echo -e "\n### Django Tests" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          DJANGO_SETTINGS_MODULE=app.settings.test python manage.py test 2>&1 | tee -a ../reports.md || true
+          DJANGO_SETTINGS_MODULE=core.settings python manage.py test 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       - name: Run Frontend Tests
@@ -168,7 +168,10 @@ jobs:
 
           echo -e "\n### Type Check Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn typecheck 2>&1 | sed 's/\[.*\]/\n&\n/g' | tee -a ../reports.md || true
+          yarn typecheck 2>&1 | \
+            grep -E "error TS|exited with non-zero status" | \
+            sed 's/.*\/\([^/]*\.vue\)/\1/' | \
+            tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       - name: Create GitHub Issue
