@@ -217,7 +217,8 @@ function resetRouteProfileControl() {
             requestOptions: {
               alternatives: "true",
             },
-            layers: mapLayers,
+            // @ts-expect-error Will break route profile change.
+            mapLayers,
           });
 
           directions.interactive = true;
