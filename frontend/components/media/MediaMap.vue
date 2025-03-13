@@ -217,6 +217,7 @@ function resetRouteProfileControl() {
             requestOptions: {
               alternatives: "true",
             },
+            // @ts-expect-error Will break route profile change.
             mapLayers,
           });
 

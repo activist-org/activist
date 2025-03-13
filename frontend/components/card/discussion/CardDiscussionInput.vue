@@ -159,6 +159,7 @@ const editor = useEditor({
         class:
           "hover:underline font-bold rounded-2xl box-decoration-clone px-1 py-0.5",
       },
+      // @ts-expect-error Ignore mismatched types.
       suggestion: Suggestion,
     }),
   ],
