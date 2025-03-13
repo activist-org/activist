@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { VueRenderer } from "@tiptap/vue-3";
-import tippy from "tippy.js";
 import type { Instance as TippyInstance } from "tippy.js";
+import tippy from "tippy.js";
 
-import MentionList from "../components/tooltip/TooltipMentionList.vue";
 import type { MentionProps, RendererProps } from "~/types/mention-suggestions";
+import MentionList from "../components/tooltip/TooltipMentionList.vue";
 
 export default {
   items: ({ query }: MentionProps): string[] => {
@@ -31,7 +31,7 @@ export default {
         popup = tippy("body", {
           getReferenceClientRect: props.clientRect,
           appendTo: () => document.body,
-          content: component.element,
+          content: component.element ?? "Default content",
           showOnCreate: true,
           interactive: true,
           trigger: "manual",

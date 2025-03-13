@@ -217,7 +217,7 @@ function resetRouteProfileControl() {
             requestOptions: {
               alternatives: "true",
             },
-            layers: mapLayers,
+            mapLayers,
           });
 
           directions.interactive = true;
