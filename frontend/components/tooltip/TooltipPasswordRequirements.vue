@@ -7,18 +7,21 @@
       $t("i18n.components.tooltip_password_requirements.password_rules_message")
     }}</span>
     <div
-      v-for="(rule, index) in rules"
-      :key="`password-rule-${index}`"
+      v-for="rule in rules"
+      :key="rule.message"
+      :data-testid="rule.message"
       class="flex items-center space-x-2 px-2"
     >
       <Icon
+        aria-hidden="false"
+        :aria-labelledby="rule.message"
         :name="rule.isValid ? IconMap.CIRCLE_CHECK_FILL : IconMap.CIRCLE_X_FILL"
         size="0.9em"
         :style="{ color: rule.isValid ? '#198754' : '#BA3D3B' }"
-        role="img"
-      >
-        <title>{{ rule.isValid ? "passed" : "failed" }}</title>
-      </Icon>
+      />
+      <title :id="rule.message" class="sr-only">
+        {{ rule.isValid ? "passed" : "failed" }}
+      </title>
       <span class="truncate text-sm">{{
         $t(passwordRequirementsDict[rule.message])
       }}</span>
