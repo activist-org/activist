@@ -9,12 +9,12 @@ import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
 import { newThemeMenu } from "~/test-e2e/component-objects/ThemeMenu";
 import { newLandingPage } from "~/test-e2e/page-objects/LandingPage";
-import { getI18nString } from "~/utils/i18n";
+import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    new RegExp(getI18nString("i18n.components.landing_splash.header"), "i")
+    new RegExp(getEnglishText("i18n.components.landing_splash.header"), "i")
   );
 });
 
