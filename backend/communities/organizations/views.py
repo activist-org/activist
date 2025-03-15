@@ -6,9 +6,12 @@ from uuid import UUID
 
 from django.db import transaction
 from django.utils import timezone
+from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
+from rest_framework.generics import GenericAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from communities.models import StatusType
 from communities.organizations.models import (
@@ -29,15 +32,49 @@ from core.paginator import CustomPagination
 # MARK: Main Tables
 
 
+class OrganizationAPIView(GenericAPIView[Organization]):
+    queryset = Organization.objects.all().order_by("id")
+    serializer_class = OrganizationSerializer
+    pagination_class = CustomPagination
+
+    @extend_schema(
+        responses=OrganizationSerializer(many=True),
+    )
+    def get(self, request: Request) -> Response:
+        """Returns a paginated list of organizations."""
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request: Request) -> Response:
+        pass
+
+
+class OrganizationDetailAPIView(APIView):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
+
+    def get(self, request: Request, pk=None | UUID) -> Response:
+        if pk is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            org = Organization.objects.get(id=pk)
+            serializer = OrganizationSerializer(org)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Organization.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-
-    def list(self, request: Request) -> Response:
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
