@@ -51,18 +51,17 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data)
 
-    def post(self, request: Request) -> Response:
-        pass
+    # def post(self, request: Request) -> Response:
+    #     pass
 
 
 class OrganizationDetailAPIView(APIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
-    def get(self, request: Request, pk=None | UUID) -> Response:
+    def get(self, request: Request, pk: None | UUID = None) -> Response:
         if pk is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
         try:
             org = Organization.objects.get(id=pk)
             serializer = OrganizationSerializer(org)
