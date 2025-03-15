@@ -5,10 +5,13 @@ from typing import Dict, List
 from uuid import UUID
 
 from django.db import transaction
+from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,7 +28,7 @@ from communities.organizations.serializers import (
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
 )
-from content.models import Image
+from content.models import Image, Location
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 
@@ -36,6 +39,8 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     @extend_schema(
         responses=OrganizationSerializer(many=True),
@@ -51,8 +56,38 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data)
 
-    # def post(self, request: Request) -> Response:
-    #     pass
+    # def create(self, request: Request) -> Response:
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     org = serializer.save(created_by=request.user)
+    #     OrganizationApplication.objects.create(org=org)
+    #     data = {"message": f"New organization created: {serializer.data}"}
+
+    #     return Response(data, status=status.HTTP_201_CREATED)
+
+    def post(self, request: Request) -> Response:
+        """Create a new organization"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        location = serializer.validated_data["location"]
+        location_id = Location.objects.create(**location)
+        serializer.validated_data["location"] = location_id
+
+        # location post-cleanup if the organization creation fails,
+        # necessary because of a not null constraint on the location field
+        try:
+            org = serializer.save(created_by=request.user)
+        except (IntegrityError, OperationalError) as e:
+            Location.objects.filter(id=location_id).delete()
+            return Response(
+                {"error": f"Failed to create organization: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        org.application.create()
+
+        data = {"message": f"New organization created: {serializer.data}"}
+        return Response(data, status=status.HTTP_201_CREATED)
 
 
 class OrganizationDetailAPIView(APIView):
