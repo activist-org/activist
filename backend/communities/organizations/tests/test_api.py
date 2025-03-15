@@ -6,6 +6,8 @@ from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
+from communities.factories import StatusTypeFactory
+from communities.models import StatusType
 from communities.organizations.factories import OrganizationFactory
 from communities.organizations.models import Organization, OrganizationApplication
 from content.factories import EntityLocationFactory
@@ -14,6 +16,12 @@ from content.factories import EntityLocationFactory
 class UserDict(TypedDict):
     user: UserModel
     plaintext_password: str
+
+
+@pytest.fixture
+def status_types() -> StatusType:
+    status_type = StatusTypeFactory.create(name="Active")
+    return status_type
 
 
 @pytest.fixture
@@ -37,7 +45,7 @@ def logged_in_user(new_user) -> dict:
 
 
 @pytest.mark.django_db
-def test_OrganizationAPIView(logged_in_user) -> None:
+def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     """Test OrganizationAPIView
 
     # GET request
@@ -77,8 +85,6 @@ def test_OrganizationAPIView(logged_in_user) -> None:
     new_org = OrganizationFactory.build(org_name="new_org", terms_checked=True)
     location = EntityLocationFactory.build()
 
-    print("new_org", new_org.__dict__)
-
     token = logged_in_user["token"]
 
     payload = {
@@ -100,6 +106,8 @@ def test_OrganizationAPIView(logged_in_user) -> None:
     response = client.post(
         "/v1/communities/organizations/", data=payload, format="json"
     )
+    org = Organization.objects.get(org_name=new_org.org_name)
+    print(org)
     assert response.status_code == 201
     assert Organization.objects.filter(org_name=new_org.org_name).exists()
     assert OrganizationApplication.objects.filter(

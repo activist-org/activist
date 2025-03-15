@@ -70,16 +70,16 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        location = serializer.validated_data["location"]
-        location_id = Location.objects.create(**location)
-        serializer.validated_data["location"] = location_id
+        location_dict = serializer.validated_data["location"]
+        location = Location.objects.create(**location_dict)
+        serializer.validated_data["location"] = location
 
         # location post-cleanup if the organization creation fails,
         # necessary because of a not null constraint on the location field
         try:
             org = serializer.save(created_by=request.user)
         except (IntegrityError, OperationalError) as e:
-            Location.objects.filter(id=location_id).delete()
+            Location.objects.filter(id=location.id).delete()
             return Response(
                 {"error": f"Failed to create organization: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,

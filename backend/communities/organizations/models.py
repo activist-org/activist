@@ -7,7 +7,6 @@ from uuid import uuid4
 
 from django.db import models
 
-from authentication import enums
 from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
@@ -34,9 +33,8 @@ class Organization(models.Model):
     terms_checked = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
     status = models.ForeignKey(
-        "StatusType",
+        "communities.StatusType",
         on_delete=models.CASCADE,
-        default=enums.StatusTypes.PENDING.value,
         blank=True,
         null=True,
     )
@@ -60,7 +58,9 @@ class OrganizationApplication(models.Model):
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="application"
     )
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
+    status = models.ForeignKey(
+        "StatusType", on_delete=models.CASCADE, blank=True, null=True
+    )
     orgs_in_favor = models.ManyToManyField(
         "communities.Organization", related_name="in_favor", blank=True
     )
