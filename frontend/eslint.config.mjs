@@ -40,7 +40,7 @@ export default withNuxt({
         alphabetical: false,
       },
     ],
-    "vue/component-tags-order": [
+    "vue/block-order": [
       "error",
       {
         order: ["template", "script", "style"],
