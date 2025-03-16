@@ -113,3 +113,24 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     assert OrganizationApplication.objects.filter(
         org__org_name=new_org.org_name
     ).exists()
+
+
+@pytest.mark.django_db
+def test_organizationDetaiAPIView() -> None:
+    """Test OrganizationDetailAPIView
+
+    # GET request
+
+    1. Create a new organization
+    2. Verify the organization exists in the database
+    3. Test the detail view endpoint
+    4. Verify the response status code is 200 (OK)
+    5. Verify the response data matches the organization data
+    """
+    client = APIClient()
+    new_org = OrganizationFactory.create()
+    assert Organization.objects.filter(org_name=new_org.org_name).exists()
+
+    response = client.get(f"/v1/communities/organizations/{new_org.id}/")
+    assert response.status_code == 200
+    assert response.data["org_name"] == new_org.org_name

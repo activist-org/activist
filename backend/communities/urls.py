@@ -9,6 +9,7 @@ from communities.groups.views import (
 )
 from communities.organizations.views import (
     OrganizationAPIView,
+    OrganizationDetailAPIView,
     OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
@@ -55,4 +56,5 @@ router.register(
 urlpatterns = [
     path("", include(router.urls)),
     path("organizations/", OrganizationAPIView.as_view()),
+    path("organizations/<uuid:org_id>/", OrganizationDetailAPIView.as_view()),
 ]
