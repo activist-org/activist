@@ -1,5 +1,3 @@
-__author__ = "narmadha-raghu"
-
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Testing for the authentication app.
@@ -298,5 +296,3 @@ def test_create_user_and_superuser():
             password="AdminPassword123$",
             is_superuser=False,
         )
-
-
