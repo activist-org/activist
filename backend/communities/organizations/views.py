@@ -6,6 +6,9 @@ from uuid import UUID
 
 from django.db import transaction
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 from rest_framework import status, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -23,6 +26,11 @@ from communities.organizations.serializers import (
     OrganizationTextSerializer,
 )
 from core.paginator import CustomPagination
+from core.settings import (
+    CACHE_DURATION,
+    ORGANIZATION_LIST_CACHE_PREFIX,
+    ORGANIZATION_RETRIEVE_CACHE_PREFIX,
+)
 
 # MARK: Main Tables
 
@@ -32,6 +40,10 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
 
+    @method_decorator(
+        cache_page(CACHE_DURATION * 60, key_prefix=ORGANIZATION_LIST_CACHE_PREFIX)
+    )
+    @vary_on_cookie
     def list(self, request: Request) -> Response:
         serializer = self.get_serializer(self.get_queryset(), many=True)
 
@@ -46,6 +58,9 @@ class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
 
         return Response(data, status=status.HTTP_201_CREATED)
 
+    @method_decorator(
+        cache_page(CACHE_DURATION * 60, key_prefix=ORGANIZATION_RETRIEVE_CACHE_PREFIX)
+    )
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         if pk is not None:
             if org := self.queryset.filter(id=pk).first():

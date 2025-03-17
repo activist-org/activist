@@ -32,8 +32,11 @@ services:
       - DEBUG=${DEBUG}
       - SECRET_KEY=${SECRET_KEY}
       - VITE_FRONTEND_URL=${VITE_FRONTEND_URL}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     depends_on:
       - db
+      - cache
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:${BACKEND_PORT}/health/ || exit 1"]
       interval: 10s
@@ -71,6 +74,18 @@ services:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${DATABASE_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cache:
+    image: redis/redis-stack:latest
+    container_name: redis
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    healthcheck: 
+      test: ["CMD", "redis-cli ping | grep PONG"]
       interval: 10s
       timeout: 5s
       retries: 5
