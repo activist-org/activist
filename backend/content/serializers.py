@@ -5,9 +5,12 @@ Serializers for the content app.
 
 from typing import Any, Dict, Union
 
+from django.conf import settings
+from django.core.files.uploadedfile import UploadedFile
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
+from communities.organizations.models import OrganizationImage
 from content.models import (
     Discussion,
     DiscussionEntry,
@@ -40,10 +43,20 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        # Remove string validation since we're getting a file object.
+    def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
+
+        # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
+        # For whatever reason, the file size limit is not being enforced. To get around this,
+        # we're checking the file size here.
+        if (
+            data["file_object"].size is not None
+            and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
+        ):
+            raise serializers.ValidationError(
+                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
+            )
 
         return data
 
@@ -56,9 +69,6 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         image = super().create(validated_data)
 
         if organization_id := self.context["request"].data.get("organization_id"):
-            # Create OrganizationImage with next sequence index.
-            from communities.organizations.models import OrganizationImage
-
             next_index = OrganizationImage.objects.filter(
                 org_id=organization_id
             ).count()
