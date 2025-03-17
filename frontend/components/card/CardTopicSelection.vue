@@ -95,7 +95,7 @@ import { GLOBAL_TOPICS } from "~/types/topics";
 const props = defineProps({
   modelValue: {
     type: Array as PropType<Topic[]>,
-    required: true,
+    required: false,
     default: () => [],
   },
   pageType: {

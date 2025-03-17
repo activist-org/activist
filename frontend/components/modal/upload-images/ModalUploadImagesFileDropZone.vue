@@ -1,77 +1,31 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <button
-    @drop.prevent="onDrop"
-    @dragenter.prevent="activate"
-    @dragover.prevent="activate"
-    @dragleave.prevent="deactivate"
-    class="card-style-base flex w-full rounded-lg"
-    :class="{
-      'bg-highlight': isActive,
-      'bg-layer-1': !isActive,
-    }"
+  <div
+    @dragenter.prevent="isDropZoneActive = true"
+    @dragleave.prevent="isDropZoneActive = false"
+    @dragover.prevent="isDropZoneActive = true"
+    @drop.prevent="
+      isDropZoneActive = false;
+      $emit('files-dropped', ($event.dataTransfer as DataTransfer)?.files);
+    "
+    @click="$refs.file.click()"
+    class="flex h-32 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-primary-text bg-layer-0 p-4 text-center text-primary-text"
   >
-    <label
-      for="file-input"
-      class="flex h-80 w-full cursor-pointer items-center justify-center"
-    >
-      <slot :isDropZoneActive="isActive"></slot>
-      <input
-        @change="onInputChange"
-        id="file-input"
-        class="hidden"
-        type="file"
-        multiple
-      />
-    </label>
-  </button>
+    <input
+      @change="
+        $emit('files-dropped', ($event.target as HTMLInputElement)?.files)
+      "
+      ref="file"
+      type="file"
+      class="hidden"
+      accept="image/jpeg,image/png"
+      multiple
+    />
+    <slot :isDropZoneActive="isDropZoneActive" />
+  </div>
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(["files-dropped"]);
-
-const isActive = ref(false);
-
-let deactivateTimeoutKey: number | null = null;
-
-const activate = () => {
-  isActive.value = true;
-  if (deactivateTimeoutKey) clearTimeout(deactivateTimeoutKey);
-};
-
-const deactivate = () => {
-  isActive.value = false;
-  deactivateTimeoutKey = window.setTimeout(() => {
-    isActive.value = false;
-  }, 50);
-};
-
-function onDrop(e: DragEvent) {
-  if (!e.dataTransfer) return;
-  emit("files-dropped", [...e.dataTransfer.files]);
-}
-
-function onInputChange(e: Event) {
-  const target = e.target as HTMLInputElement;
-  if (!target.files) return;
-  emit("files-dropped", [...target.files]);
-}
-
-function preventDefaults(e: Event) {
-  e.preventDefault();
-}
-
-const events = ["dragenter", "dragover", "dragleave", "drop"];
-
-onMounted(() => {
-  events.forEach((eventName) => {
-    document.body.addEventListener(eventName, preventDefaults);
-  });
-});
-
-onUnmounted(() => {
-  events.forEach((eventName) => {
-    document.body.removeEventListener(eventName, preventDefaults);
-  });
-});
+const isDropZoneActive = ref(false);
+defineEmits(["files-dropped"]);
 </script>

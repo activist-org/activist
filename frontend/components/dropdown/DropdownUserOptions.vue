@@ -10,9 +10,7 @@
     "
     :isMenuButtonUppercase="false"
     :isMenuButtonBold="true"
-    menuButtonAriaLabel="
-      i18n.components.dropdown_user_options.username_aria_label
-    "
+    menuButtonAriaLabel="i18n.components.dropdown_user_options.username_aria_label"
   >
     <DropdownItemsLayout
       :location="location"

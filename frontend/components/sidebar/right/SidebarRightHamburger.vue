@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 export interface Props {
-  menuOpen: boolean;
+  menuOpen?: boolean;
 }
 withDefaults(defineProps<Props>(), {
   menuOpen: false,

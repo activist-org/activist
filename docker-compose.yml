@@ -42,6 +42,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./backend/media:/app/media
 
   frontend:
     env_file:

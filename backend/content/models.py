@@ -42,7 +42,7 @@ class Faq(models.Model):
 
 class Image(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    file_location = models.ImageField(
+    file_object = models.ImageField(
         upload_to="images/", validators=[validate_image_file_extension]
     )
     creation_date = models.DateTimeField(auto_now_add=True)

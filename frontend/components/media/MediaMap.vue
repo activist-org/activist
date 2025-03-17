@@ -1,6 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
+    @click="resetDirectionsControl()"
     id="map"
     class="card-style-base dark:brightness-95 dark:contrast-[90%] dark:hue-rotate-180 dark:invert"
   ></div>
@@ -10,7 +11,7 @@
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
-import maplibregl, { type Map } from "maplibre-gl";
+import maplibregl, { type Map, type LayerSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Location } from "~/types/content/location";
 
@@ -49,10 +50,38 @@ function isWebglSupported() {
   return false;
 }
 
+// MARK: Map Layers
+
+const mapLayers: LayerSpecification[] = [
+  {
+    id: "background",
+    type: "background",
+    paint: {
+      "background-color":
+        colorMode.preference == "dark" ? "#131316" : "#F6F8FA",
+    },
+  },
+  {
+    id: "default-layer",
+    type: "raster",
+    source: "raster-tiles",
+    minzoom: 0,
+  },
+  {
+    id: "cycle-layer",
+    type: "raster",
+    source: "cycle-raster-tiles",
+    minzoom: 0,
+    layout: {
+      visibility: "none",
+    },
+  },
+];
+
 // MARK: Routing
 
-const bikeDirectionsIcon = `/icons/map/bike_directions_${colorMode.value}.png`;
-const walkDirectionsIcon = `/icons/map/walk_directions_${colorMode.value}.png`;
+const bikeDirectionsIcon = `/icons/map/bike_directions.png`;
+const walkDirectionsIcon = `/icons/map/walk_directions.png`;
 
 interface RouteProfileOption {
   FOOT: string;
@@ -103,7 +132,6 @@ const walkingRouteProfileControl = `
     border-radius: 5px;
     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
     cursor: pointer"
-    opacity: 5;
   >
   `;
 
@@ -119,7 +147,6 @@ const bikeRouteProfileControl = `
     border-radius: 5px;
     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
     cursor: pointer"
-    opacity: 5;
   >
   `;
 
@@ -157,13 +184,145 @@ const setSelectedRoute = () => {
   return selectedRoute;
 };
 
+let map: Map;
+let marker: maplibregl.Marker;
+let directions: MapLibreGlDirections;
+
+// MARK: Profile Switcher
+
+function resetRouteProfileControl() {
+  const existingRouteProfileControl = document.getElementById(
+    "route-profile-control"
+  );
+  if (existingRouteProfileControl) {
+    existingRouteProfileControl.remove();
+  }
+
+  map.addControl(
+    {
+      onAdd: function () {
+        const div = document.createElement("div");
+        div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
+        div.id = "route-profile-control";
+        div.innerHTML = currentProfile;
+
+        const updateSelectedProfile = () => {
+          toggleLayerHandler(map);
+
+          directions.destroy();
+          div.innerHTML = routeProfileHandler();
+
+          directions = new MapLibreGlDirections(map, {
+            ...(selectedRoute = setSelectedRoute()),
+            requestOptions: {
+              alternatives: "true",
+            },
+            // @ts-expect-error Will break route profile change.
+            mapLayers,
+          });
+
+          directions.interactive = true;
+          marker.getElement().addEventListener("mouseenter", () => {
+            directions.interactive = false;
+          });
+
+          marker.getElement().addEventListener("mouseleave", () => {
+            directions.interactive = true;
+          });
+        };
+
+        div.addEventListener("click", updateSelectedProfile);
+        if (window.innerWidth < 768) {
+          div.addEventListener("touched", updateSelectedProfile);
+        } else {
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "p") {
+              updateSelectedProfile();
+            }
+          });
+        }
+        return div;
+      },
+      onRemove: function () {},
+    },
+    "top-left"
+  );
+}
+
+// MARK: Directions Control
+
+function resetDirectionsControl() {
+  const existingDirectionControl =
+    document.getElementById("directions-control");
+  if (existingDirectionControl) {
+    existingDirectionControl.remove();
+  }
+
+  const directionControl = {
+    onAdd: function () {
+      const div = document.createElement("div");
+      div.className = "maplibregl-ctrl";
+      div.id = "directions-control";
+
+      let directionsControlLabel =
+        directions.waypoints.length == 0
+          ? i18n.t("i18n.components.media_map.click_for_directions")
+          : i18n.t("i18n.components.media_map.clear_directions");
+
+      const directionsControlTooltip =
+        directions.waypoints.length == 0
+          ? i18n.t("i18n.components.media_map.click_for_directions_tooltip")
+          : i18n.t("i18n.components.media_map.clear_directions_tooltip");
+
+      // Add hotkey if we're above mobile and there are waypoints.
+      if (window.innerWidth >= 768 && directions.waypoints.length != 0) {
+        directionsControlLabel = directionsControlLabel += " [x]";
+      }
+
+      const clearDirectionsBtn = `
+        <div
+          title="${directionsControlTooltip}"
+          style="
+            background-color: rgba(255, 255, 255, 0.75);
+            padding: 1px 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+            color: rgba(0, 0, 0, 0.8);
+            cursor: pointer
+          "
+        >
+          ${directionsControlLabel}
+        </div>
+      `;
+
+      div.innerHTML = clearDirectionsBtn;
+      div.addEventListener("click", () => directions.clear());
+      if (window.innerWidth < 768) {
+        div.addEventListener("touchend", () => directions.clear());
+      } else {
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "x") {
+            directions.clear();
+            resetDirectionsControl();
+          }
+        });
+      }
+      return div;
+    },
+    onRemove: function () {},
+  };
+
+  map.addControl(directionControl, "top-left");
+  resetRouteProfileControl();
+}
+
 // MARK: Map Creation
 
 onMounted(() => {
   if (!isWebglSupported()) {
     alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
-    const map = new maplibregl.Map({
+    map = new maplibregl.Map({
       container: "map",
       style: {
         version: 8,
@@ -187,31 +346,7 @@ onMounted(() => {
               '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a>',
           },
         },
-        layers: [
-          {
-            id: "background",
-            type: "background",
-            paint: {
-              "background-color":
-                colorMode.preference == "dark" ? "#131316" : "#F6F8FA",
-            },
-          },
-          {
-            id: "default-layer",
-            type: "raster",
-            source: "raster-tiles",
-            minzoom: 0,
-          },
-          {
-            id: "cycle-layer",
-            type: "raster",
-            source: "cycle-raster-tiles",
-            minzoom: 0,
-            layout: {
-              visibility: "none",
-            },
-          },
-        ],
+        layers: mapLayers,
       },
       pitch: 20,
       maxZoom: 20,
@@ -236,11 +371,21 @@ onMounted(() => {
 
     // MARK: Basic Controls
 
+    // Localize FullscreenControl
+    const fullscreenControl = new maplibregl.FullscreenControl();
+    map.addControl(fullscreenControl);
+
+    const fullscreenButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-fullscreen");
+    if (fullscreenButton)
+      fullscreenButton.title = i18n.t("i18n.components.media_map.fullscreen");
+
     map.addControl(
       new maplibregl.NavigationControl({
         visualizePitch: true,
       }),
-      "top-left"
+      "top-right"
     );
 
     // Add localized tooltips for NavigationControl buttons
@@ -262,16 +407,6 @@ onMounted(() => {
     if (compassButton)
       compassButton.title = i18n.t("i18n.components.media_map.reset_north");
 
-    // Localize FullscreenControl
-    const fullscreenControl = new maplibregl.FullscreenControl();
-    map.addControl(fullscreenControl);
-
-    const fullscreenButton: HTMLElement | null = map
-      .getContainer()
-      .querySelector(".maplibregl-ctrl-fullscreen");
-    if (fullscreenButton)
-      fullscreenButton.title = i18n.t("i18n.components.media_map.fullscreen");
-
     // Localize GeolocateControl
     const geolocateControl = new maplibregl.GeolocateControl({
       positionOptions: {
@@ -289,17 +424,17 @@ onMounted(() => {
 
     const popup = new maplibregl.Popup({
       offset: 25,
-    }).setHTML(
-      `<div style="
-            text-align: center;
-            color: grey;"
-          >
-            <div style="font-size: 13px;">${props.eventNames[0]}</div>
-            <div style="color: grey;">${props.eventLocations[0].displayName}</div>
-          </div>`
-    );
+    }).setHTML(`
+      <div style="
+        text-align: center;
+        color: grey;"
+      >
+        <div style="font-size: 13px;">${props.eventNames[0]}</div>
+        <div style="color: grey;">${props.eventLocations[0].displayName}</div>
+      </div>
+      `);
 
-    const marker = new maplibregl.Marker({
+    marker = new maplibregl.Marker({
       color: `${props.markerColors[0]}`,
     });
 
@@ -353,7 +488,7 @@ onMounted(() => {
         filter: ["==", ["get", "route"], "SELECTED"],
       });
 
-      let directions = new MapLibreGlDirections(map, {
+      directions = new MapLibreGlDirections(map, {
         ...(selectedRoute = setSelectedRoute()),
         requestOptions: {
           alternatives: "true",
@@ -370,110 +505,14 @@ onMounted(() => {
         directions.interactive = true;
       });
 
-      // MARK: Profile Switcher
-
-      map.addControl(
-        {
-          onAdd: function () {
-            const div = document.createElement("div");
-            div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
-            div.innerHTML = currentProfile;
-
-            const updateSelectedProfile = () => {
-              toggleLayerHandler(map);
-
-              directions.destroy();
-              div.innerHTML = routeProfileHandler();
-
-              directions = new MapLibreGlDirections(map, {
-                ...(selectedRoute = setSelectedRoute()),
-                requestOptions: {
-                  alternatives: "true",
-                },
-                layers,
-              });
-
-              directions.interactive = true;
-              marker.getElement().addEventListener("mouseenter", () => {
-                directions.interactive = false;
-              });
-
-              marker.getElement().addEventListener("mouseleave", () => {
-                directions.interactive = true;
-              });
-            };
-
-            if (window.innerWidth < 768) {
-              div.addEventListener("touched", updateSelectedProfile);
-              div.addEventListener("click", updateSelectedProfile);
-            } else {
-              div.addEventListener("click", updateSelectedProfile);
-              document.addEventListener("keydown", (event) => {
-                if (event.key === "p") {
-                  updateSelectedProfile();
-                }
-              });
-            }
-            return div;
-          },
-          onRemove: function () {},
-        },
-        "top-right"
-      );
-
-      // MARK: Clear Directions
-
-      const clearDirectionsControl = `
-          <div style="
-            background-color: rgba(255, 255, 255, 1);
-            padding: 1px 5px;
-            border-radius: 5px;
-            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: grey;
-            cursor: pointer"
-          >
-            ${i18n.t("i18n.components.media_map.clear_directions")}
-          </div>
-        `;
-
-      const clearDirectionsHotkeyControl = `
-          <div style="
-            background-color: rgba(255, 255, 255, 1);
-            padding: 1px 5px;
-            border-radius: 5px;
-            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: grey;
-            cursor: pointer;"
-          >
-            ${i18n.t("i18n.components.media_map.clear_directions")} [x]
-          </div>
-        `;
-
-      map.addControl(
-        {
-          onAdd: function () {
-            const div = document.createElement("div");
-            div.className = "maplibregl-ctrl";
-            if (window.innerWidth < 768) {
-              div.innerHTML = clearDirectionsControl;
-              div.addEventListener("touchend", () => directions.clear());
-              div.addEventListener("click", () => directions.clear()); // for small desktops or tiling
-            } else {
-              div.innerHTML = clearDirectionsHotkeyControl;
-              div.addEventListener("click", () => directions.clear());
-              document.addEventListener("keydown", (event) => {
-                if (event.key === "x") {
-                  directions.clear();
-                }
-              });
-            }
-            return div;
-          },
-          onRemove: function () {},
-        },
-        "bottom-left"
-      );
+      resetDirectionsControl();
     });
   }
 });
 </script>
+
+<style>
+.maplibregl-ctrl-group {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+</style>

@@ -50,7 +50,7 @@ const page = computed(() => {
   const authRoutes = [
     {
       route: "sign-in",
-      btnAriaLabel: "i18n._global.auth.sign_up_aria_label",
+      btnAriaLabel: "i18n._global.sign_up_aria_label",
       btnLabel: "i18n._global.sign_up",
       btnLink: "/auth/sign-up",
       message: "i18n.layouts.auth.sign_in_welcome_back",
@@ -58,7 +58,7 @@ const page = computed(() => {
     },
     {
       route: "sign-up",
-      btnAriaLabel: "i18n._global.auth.sign_in_aria_label",
+      btnAriaLabel: "i18n._global.sign_in_aria_label",
       btnLabel: "i18n._global.sign_in",
       btnLink: "/auth/sign-in",
       message: "i18n.layouts.auth.sign_up_welcome",
@@ -66,7 +66,7 @@ const page = computed(() => {
     },
     {
       route: "reset-password",
-      btnAriaLabel: "i18n._global.auth.sign_in_aria_label",
+      btnAriaLabel: "i18n._global.sign_in_aria_label",
       btnLabel: "i18n._global.sign_in",
       btnLink: "/auth/sign-in",
       message: "i18n._global.auth.reset_password_forgot_password",
@@ -74,7 +74,7 @@ const page = computed(() => {
     },
     {
       route: "set-password",
-      btnAriaLabel: "i18n._global.auth.sign_in_aria_label",
+      btnAriaLabel: "i18n._global.sign_in_aria_label",
       btnLabel: "i18n._global.sign_in",
       btnLink: "/auth/sign-in",
       message: "i18n.layouts.auth.set_new_password",

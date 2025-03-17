@@ -17,13 +17,9 @@
           v-if="organization.groups && organization.groups.length > 0"
           :cta="true"
           :linkTo="'/organizations/' + orgId + '/groups'"
-          label="
-            i18n.components.card_get_involved_organization.view_all_groups
-          "
+          label="i18n.components.card_get_involved_organization.view_all_groups"
           fontSize="sm"
-          ariaLabel="
-            i18n.components.card_get_involved_organization.view_all_groups_aria_label
-          "
+          ariaLabel="i18n.components.card_get_involved_organization.view_all_groups_aria_label"
         />
         <BtnRouteInternal
           v-if="organization && organization.getInvolvedUrl"

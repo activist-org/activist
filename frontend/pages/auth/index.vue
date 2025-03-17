@@ -15,7 +15,7 @@
         linkTo="/auth/sign-up"
         :cta="true"
         fontSize="lg"
-        ariaLabel="i18n._global.auth.sign_up_aria_label"
+        ariaLabel="i18n._global.sign_up_aria_label"
       />
       <BtnRouteInternal
         class="w-full"
@@ -23,7 +23,7 @@
         linkTo="/auth/sign-in"
         :cta="true"
         fontSize="lg"
-        ariaLabel="i18n._global.auth.sign_in_aria_label"
+        ariaLabel="i18n._global.sign_in_aria_label"
       />
     </div>
   </div>

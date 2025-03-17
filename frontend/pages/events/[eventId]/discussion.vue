@@ -53,4 +53,17 @@ const eventStore = useEventStore();
 await eventStore.fetchById(eventId);
 
 const { event } = eventStore;
+// const event = {
+//   name: "Test Event",
+//   discussion: [
+//     {
+//       id: 1,
+//       author: "string",
+//       content: "string",
+//       votes: 1,
+//       date: "datetime",
+//     },
+//   ],
+//   orgs: [],
+// };
 </script>

@@ -64,9 +64,7 @@
               label="i18n.components.empty_state.create_organization"
               linkTo="/organizations/create"
               fontSize="lg"
-              ariaLabel="
-                i18n.components.empty_state.create_organization_aria_label
-              "
+              ariaLabel="i18n.components.empty_state.create_organization_aria_label"
             />
             <BtnRouteInternal
               v-if="pageType == 'groups'"
@@ -75,9 +73,7 @@
               label="i18n._global.create_group"
               linkTo="/groups/create"
               fontSize="lg"
-              ariaLabel="
-                i18n.components.empty_state.create_group_aria_label
-              "
+              ariaLabel="i18n.components.empty_state.create_group_aria_label"
             />
             <BtnRouteInternal
               v-if="pageType == 'events'"
@@ -86,9 +82,7 @@
               label="i18n.components.empty_state.create_event"
               linkTo="/events/create"
               fontSize="lg"
-              ariaLabel="
-                i18n.components.empty_state.create_event_aria_label
-              "
+              ariaLabel="i18n.components.empty_state.create_event_aria_label"
             />
             <BtnRouteInternal
               v-if="pageType == 'resources'"
@@ -97,9 +91,7 @@
               label="i18n._global.create_resource"
               linkTo="/resources/create"
               fontSize="lg"
-              ariaLabel="
-                i18n.components.empty_state.create_resource_aria_label
-              "
+              ariaLabel="i18n.components.empty_state.create_resource_aria_label"
             />
           </div>
           <PageCommunityFooter
