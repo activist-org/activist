@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+from pathlib import Path
 from typing import TypedDict
 
 import pytest
+from django.conf import settings
 from django.core.management import call_command
 from rest_framework.test import APIClient
 
@@ -39,8 +41,16 @@ def login_user(user_data: UserDict) -> dict:
 
 @pytest.fixture(scope="session")
 def status_types(django_db_setup, django_db_blocker) -> None:
-    with django_db_blocker.unblock():
-        call_command("loaddata", "fixtures/status_types.json")
+    print(f"Current directory: {Path.cwd()}")
+    try:
+        with django_db_blocker.unblock():
+            fixture_path = Path(settings.BASE_DIR) / "fixtures" / "status_types.json"
+            print(f"Attempting to load fixture from: {fixture_path}")
+            call_command("loaddata", str(fixture_path), verbosity=2)
+            print("Fixture loaded successfully")
+    except Exception as e:
+        print(f"Failed to load fixture: {e}")
+        raise
 
 
 @pytest.fixture
