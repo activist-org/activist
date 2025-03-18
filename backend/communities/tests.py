@@ -39,9 +39,12 @@ def test_str_methods() -> None:
     assert str(group_member) == str(group_member.id)
 
 def test_status_and_status_type_str_methods() -> None:
-    """Test the __str__ methods of the Status and StatusType models."""
+    """Test the __str__ methods of the Status and StatusType models.
 
-    status_type = StatusType.objects.create(name="Active")
+    There are status types preloaded into the test database by the fixture "fixtures/status_types.json".
+    """
+
+    status_type = StatusType.objects.create(name="New Status")
 
     # Create an organization to use with Status.
     organization = OrganizationFactory.create()
@@ -55,5 +58,5 @@ def test_status_and_status_type_str_methods() -> None:
         user=user
     )
 
-    assert str(status_type) == "Active"
-    assert str(status) == f"{organization.name} - {status_type}"
+    assert str(status_type) == "New Status"
+    assert str(status) == f"{organization.name} - New Status"

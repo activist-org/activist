@@ -6,6 +6,7 @@ from uuid import UUID
 
 from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
+from django.utils import timezone
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -15,6 +16,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
     OrganizationSocialLink,
@@ -99,6 +101,38 @@ class OrganizationDetailAPIView(APIView):
                 {"error": "Failed to retrieve the organization"},
                 status=status.HTTP_404_NOT_FOUND,
             )
+
+    def delete(self, request: Request, org_id: None | UUID = None) -> Response:
+        """Delete an organization by ID"""
+        if org_id is None:
+            return Response(
+                {"error": "Organization ID is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            org = Organization.objects.select_related("created_by").get(id=org_id)
+        except Organization.DoesNotExist:
+            return Response(
+                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != org.created_by:
+            return Response(
+                {"error": "You are not authorized to delete this organization"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status
+        org.deletion_date = timezone.now()
+        org.is_high_risk = False
+        org.status_updated = None
+        org.tagline = ""
+        org.save()
+
+        return Response(
+            {"message": "Organization deleted successfully."}, status.HTTP_200_OK
+        )
 
 
 # class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
