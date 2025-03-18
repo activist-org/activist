@@ -188,7 +188,7 @@ const italic = () => {
 };
 const blockquote = () => {
   console.log("click on blockquote");
-  editor.value?.chain().focus().toggleCodeBlock().run();
+  editor.value?.chain().focus().toggleBlockquote().run();
 };
 const link = () => {
   console.log("click on link");
@@ -234,5 +234,9 @@ const listol = () => {
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+.tiptap blockquote {
+  @apply border-l-4 border-gray-300 dark:border-gray-600 pl-4 py-2 my-2 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-r-md italic;
 }
 </style>
