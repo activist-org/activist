@@ -5,6 +5,7 @@ Testing for Image upload-related functionality.
 
 import io
 import os
+import uuid
 from datetime import datetime
 from typing import Generator
 
@@ -141,7 +142,15 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
     uploaded_file = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
     assert os.path.exists(uploaded_file)
 
-    # Get the actual filename of the "uploaded" file, so we can delete it from the file system.
+    filename_without_ext = os.path.splitext(os.path.basename(uploaded_file))[0]
+
+    try:
+        uuid_obj = uuid.UUID(filename_without_ext, version=4)
+        assert str(uuid_obj) == filename_without_ext
+    except ValueError:
+        assert False, f"Filename is not a valid UUID: {filename_without_ext}"
+
+    # Get the path and filename of the "uploaded" file, so we can delete it from the file system.
     # This is for test cleanup. In production, the file is not deleted.
     file_object = response.json()["fileObject"].split("/")[-1]
     file_to_delete = os.path.join(settings.MEDIA_ROOT, "images", file_object)
