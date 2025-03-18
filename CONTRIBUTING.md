@@ -408,8 +408,10 @@ We use [Vitest](https://vitest.dev/) for component and unit testing.  You can ru
 
 ```bash
 # Within ./frontend:
-yarn test
+yarn test --silent
 ```
+> [!NOTE]
+> The `--silent` flag is to suppress a lot of warnings from existing issues between Nuxt and Vitest.  If you need to see the warnings omit the `--silent` flag.
 
 Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
 
