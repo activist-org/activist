@@ -41,7 +41,13 @@
         :name="IconMap.HIDDEN"
         size="1.4em"
       />
-      <Icon v-else :name="i" size="1.2em" :color="getIconColor(i)" />
+      <Icon
+        v-else
+        :name="i"
+        size="1.2em"
+        :color="getIconColor(i)"
+        data-testid="extra-icon"
+      />
     </span>
   </div>
 </template>

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import SignUp from "@/pages/auth/sign-up.vue";
+import SetPassword from "@/pages/auth/set-password.vue";
 import render from "@/test/render";
 import { fireEvent, screen, waitFor, within } from "@testing-library/vue";
 
-describe("sign-up", () => {
+describe("reset-password", () => {
   it("shows error border on blur when password invalid", async () => {
-    await render(SignUp);
+    await render(SetPassword);
 
     const passwordInput = screen.getByPlaceholderText(/enter your password/i);
 
@@ -24,7 +24,7 @@ describe("sign-up", () => {
   });
 
   it("shows green check when passwords match", async () => {
-    await render(SignUp);
+    await render(SetPassword);
 
     const passwordInput = screen.getByPlaceholderText(/enter your password/i);
 
@@ -45,12 +45,6 @@ describe("sign-up", () => {
       expect(icon.style.color).toBe("#3BA55C");
     });
   });
-
-  // it.each([
-  //   []
-  // ])("shows password %s has strength of %s", async () => {
-
-  // });
 
   it.each([
     [
@@ -94,7 +88,7 @@ describe("sign-up", () => {
       ],
     ],
   ])("shows rule violations for password: %s", async (password, rules) => {
-    await render(SignUp);
+    await render(SetPassword);
 
     const passwordInput = screen.getByPlaceholderText(/enter your password/i);
 
