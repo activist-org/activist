@@ -146,18 +146,20 @@ def test_organizationDetaiAPIView(logged_in_user, logged_in_created_by_user) -> 
 
     # GET request
 
-    1. Create a new organization
-    2. Verify the organization exists in the database
-    3. Test the detail view endpoint
-    4. Verify the response status code is 200 (OK)
-    5. Verify the response data matches the organization data
+    1. Create a new organization and verify it exists in the database.
+    2. Test the detail view endpoint for the organization.
+    3. Verify the response status code is 200 (OK).
+    4. Ensure the response data matches the organization data.
+
+    # PUT request
+
+    1. Attempt to update the organization with a user that is not the created_by user and verify it fails.
+    2. Update the organization with the created_by user and verify the changes are saved.
 
     # DELETE request
 
-    1. Try to delte the organization with a user that is not the created_by user
-    2. Try to delete the organization with the created_by user
+    1. Delete the organization with the created_by user and verify it is removed from the database.
     """
-
     client = APIClient()
     created_by_user, token_created_by = logged_in_created_by_user.values()
 
@@ -168,10 +170,23 @@ def test_organizationDetaiAPIView(logged_in_user, logged_in_created_by_user) -> 
     assert response.status_code == 200
     assert response.data["org_name"] == new_org.org_name
 
-    token = logged_in_user["token"]
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(f"/v1/communities/organizations/{new_org.id}/")
+    updated_payload = {"org_name": "updated_org_name"}
+    response = client.put(
+        f"/v1/communities/organizations/{new_org.id}/",
+        data=updated_payload,
+        format="json",
+    )
     assert response.status_code == 401
+
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
+    response = client.put(
+        f"/v1/communities/organizations/{new_org.id}/",
+        data=updated_payload,
+        format="json",
+    )
+    assert response.status_code == 200
+    updated_org = Organization.objects.get(id=new_org.id)
+    assert updated_org.org_name == "updated_org_name"
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
     response = client.delete(f"/v1/communities/organizations/{new_org.id}/")
