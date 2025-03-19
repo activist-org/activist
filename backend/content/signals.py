@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# mypy: disable-error-code="attr-defined"
+from typing import Any
+
 from django.core.cache import cache
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -14,7 +18,7 @@ from core.settings import (
 
 
 @receiver([post_delete, post_save], sender=Discussion)
-def invalidate_event_cache(sender, instance, **kwargs):
+def invalidate_discussion_cache(sender : Discussion, **kwargs : Any) -> None:
     print("Invalidating Discussion cache")
 
     keys_to_delete = cache.keys(f"*{DISCUSSION_LIST_CACHE_PREFIX}*") + cache.keys(
@@ -24,7 +28,7 @@ def invalidate_event_cache(sender, instance, **kwargs):
 
 
 @receiver([post_delete, post_save], sender=DiscussionEntry)
-def invalidate_event_cache(sender, instance, **kwargs):
+def invalidate_discussion_entry_cache(sender : DiscussionEntry, **kwargs : Any) -> None:
     print("Invalidating DiscussionEntry cache")
 
     keys_to_delete = cache.keys(f"*{DISCUSSIONENTRY_LIST_CACHE_PREFIX}*") + cache.keys(
@@ -34,7 +38,7 @@ def invalidate_event_cache(sender, instance, **kwargs):
 
 
 @receiver([post_delete, post_save], sender=Resource)
-def invalidate_event_cache(sender, instance, **kwargs):
+def invalidate_resource_cache(sender : Resource, **kwargs : Any) -> None:
     print("Invalidating Resource cache")
 
     keys_to_delete = cache.keys(f"*{RESOURCE_LIST_CACHE_PREFIX}*") + cache.keys(

@@ -6,5 +6,5 @@ class contentConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "content"
 
-    def ready(self):
-        import content.signals
+    def ready(self) -> None:
+        import content.signals    # noqa

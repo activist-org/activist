@@ -9,4 +9,5 @@
   "css.customData": [
     ".vscode/tailwind.json"
   ],
+  "python.analysis.autoImportCompletions": false,
 }
