@@ -21,10 +21,8 @@ def test_organization_application_str() -> None:
 
     org = OrganizationFactory.build()
     status = StatusTypeFactory()
-    """
-    In this test I am using OrganizationApplication directly instead of OrganizationApplicationFactory
-    which was giving me many-to-many field assignment issues
-    """
+
+    # OrganizationApplication instead of OrganizationApplicationFactory (many-to-many field assignment issues).
     org_application = OrganizationApplication(
         org=org,
         status=status,
