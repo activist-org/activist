@@ -1,21 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { VueRenderer } from "@tiptap/vue-3";
+import type { Instance as TippyInstance } from "tippy.js";
 import tippy from "tippy.js";
 
+import type { MentionProps, RendererProps } from "~/types/mention-suggestions";
 import MentionList from "../components/tooltip/TooltipMentionList.vue";
 
 export default {
-  items: ({ query }) => {
+  items: ({ query }: MentionProps): string[] => {
     return ["Jay Doe", "Jane Doe", "John Doe"]
       .filter((item) => item.toLowerCase().startsWith(query.toLowerCase()))
       .slice(0, 5);
   },
 
   render: () => {
-    let component;
-    let popup;
+    let component: VueRenderer;
+    let popup: TippyInstance[];
 
     return {
-      onStart: (props) => {
+      onStart: (props: RendererProps) => {
         component = new VueRenderer(MentionList, {
           props,
           editor: props.editor,
@@ -28,7 +31,7 @@ export default {
         popup = tippy("body", {
           getReferenceClientRect: props.clientRect,
           appendTo: () => document.body,
-          content: component.element,
+          content: component.element ?? "Default content",
           showOnCreate: true,
           interactive: true,
           trigger: "manual",
@@ -36,7 +39,7 @@ export default {
         });
       },
 
-      onUpdate(props) {
+      onUpdate(props: RendererProps) {
         component.updateProps(props);
 
         if (!props.clientRect) {
@@ -48,7 +51,7 @@ export default {
         });
       },
 
-      onKeyDown(props) {
+      onKeyDown(props: { event: KeyboardEvent }) {
         if (props.event.key === "Escape") {
           popup[0].hide();
 

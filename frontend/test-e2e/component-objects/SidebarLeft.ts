@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 import { expect } from "playwright/test";
-import { getI18nString } from "~/utils/i18n";
+import { getEnglishText } from "~/utils/i18n";
 
 export const newSidebarLeft = (page: Page) => new SidebarLeft(page);
 
@@ -20,7 +20,7 @@ export class SidebarLeft {
 
     this.lockToggle = this.root.getByRole("button", {
       name: new RegExp(
-        getI18nString(
+        getEnglishText(
           "i18n.components.sidebar_left_header.sidebar_collapse_aria_label"
         ),
         "i"

@@ -45,3 +45,11 @@ def test_group_text_languages() -> None:
     assert secondary_text.primary is False
     assert secondary_text.iso == "spa"
     assert secondary_text.description == "Description"
+
+
+def test_group_text_str_representation() -> None:
+    """Test string representation of GroupText model."""
+    group = GroupFactory()
+    group_text = GroupTextFactory(group=group, iso="eng")
+
+    assert str(group_text) == f"{group_text.group} - {group_text.iso}"

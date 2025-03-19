@@ -17,9 +17,9 @@ const localeFiles: Record<LOCALE_CODE, LocaleFile> = {
 };
 
 export function getLocaleText(locale?: LOCALE_CODE): LocaleFile {
-  return localeFiles[locale || LOCALE_CODE.ENGLISH];
+  return localeFiles[locale ?? LOCALE_CODE.ENGLISH];
 }
 
-export const getI18nString = (key: string) => {
+export const getEnglishText = (key: string) => {
   return getLocaleText(LOCALE_CODE.ENGLISH)[key];
 };
