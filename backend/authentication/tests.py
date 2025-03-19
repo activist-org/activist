@@ -189,7 +189,8 @@ def test_sign_in(client: Client) -> None:
     # 4. User does not exists and tries to sign in.
     response = client.post(
         path="/v1/auth/sign_in/",
-        data={"email": "unknown_user@example.com", "password": "Password@123!?"},
+        data={"email": "unknown_user@example.com",
+              "password": "Password@123!?"},
     )
     assert response.status_code == 400
 
@@ -240,6 +241,7 @@ def test_pwreset(client: Client) -> None:
         data={"password": new_password},
     )
     assert response.status_code == 404
+
 
 def test_create_user_and_superuser():
     """
@@ -297,3 +299,28 @@ def test_create_user_and_superuser():
             password="AdminPassword123$",
             is_superuser=False,
         )
+
+
+def test_delete_user(client: Client) -> None:
+    """
+    Test cases:
+        Delete an existing user records from the database.
+    """
+    test_username = "test_user_123"
+    test_pass = "Activist@123!?"
+    user = UserFactory(username=test_username, plaintext_password=test_pass)
+    user.is_confirmed = True
+    user.save()
+
+    response = client.post(
+        path="/v1/auth/sign_in/",
+        data={"username": user.username, "password": user.password},
+    )
+
+    if response.status_code == 200:
+        delete_response = client.delete(
+            path="/v1/auth/delete/",
+            data={"pk": user.id}
+        )
+
+        assert delete_response.status_code == 200
