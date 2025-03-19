@@ -20,7 +20,6 @@ from content.factories import ImageFactory
 from content.models import Image
 from content.serializers import ImageSerializer
 
-# Adjust MEDIA_ROOT for testing (temporary directory)
 MEDIA_ROOT = settings.MEDIA_ROOT  # Ensure this points to the imagefolder
 
 
@@ -30,8 +29,7 @@ def image_with_file() -> Generator[Image, None, None]:
     Fixture for creating an image with a file.
     Deletes the file after the test.
     """
-    # Clean up any leftover files.
-    image = ImageFactory()  # create image using the factory
+    image = ImageFactory()
 
     yield image
 
@@ -49,7 +47,6 @@ def test_image_creation(image_with_file: Image) -> None:
     """
     image = image_with_file
 
-    # Check if the file exists in MEDIA_ROOT.
     file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
     assert os.path.exists(file_path)
 
@@ -70,7 +67,6 @@ def test_image_serializer(image_with_file: Image) -> None:
     assert "file_object" in serializer.data
     assert "creation_date" in serializer.data
 
-    # Check if the file exists in MEDIA_ROOT.
     file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
     assert os.path.exists(file_path)
 
@@ -80,7 +76,7 @@ def test_image_serializer_missing_file() -> None:
     """
     Test the serializer with a missing file.
     """
-    serializer = ImageSerializer(data={})  # no file_object
+    serializer = ImageSerializer(data={})
     assert not serializer.is_valid()
     assert "file_object" in serializer.errors
 
@@ -99,7 +95,6 @@ def test_image_list_view(client: APIClient) -> None:
     assert response.status_code == 200
     assert response.json()["count"] == 3
 
-    # Test cleanup. Delete files from the filesystem.
     for filename in filenames:
         file_path = os.path.join(settings.MEDIA_ROOT, filename)
         if os.path.exists(file_path):
@@ -111,14 +106,19 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
     """
     Test the create view for images.
     This is like a POST request.
+
+    1. Create an image file using the image_with_file fixture.
+    2. Delete created image entry from the test database. This entry is a side effect of the fixture and is unneeded.
+    3. Create an organization.
+    4. Make a POST request to the image create endpoint with org info and image file.
+    5. Check that the response is a 201 status code.
+    6. Check that the image was inserted into the database.
+    7. Check that the uploaded/savedfile has a sanitized, UUID filename.
+    8. Delete the file from the file system. This is for test cleanup and does not happen in production.
     """
-    # Use the 'image_with_file' fixture to create an image.
-    # This is "the file on the user's computer". The rest of the test is "uploading it to the server".
-    # That is the default, correct behavior. The fixture will delete the file after the test.
+
     image = image_with_file
 
-    # Image.objects (there should be only one) in the database are a side effect of the fixture. Delete them here.
-    # The client.post call will create a file "on the server" and a database entry.
     Image.objects.all().delete()
 
     org = OrganizationFactory()
@@ -126,9 +126,6 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
 
     data = {"organization_id": str(org.id), "file_object": image.file_object}
 
-    # Make the POST request to the image create endpoint.
-    # This will create a second copy of the image file in the media root. This copy will have a UUID filename.
-    # This is correct, default, upload behavior. POST is supposed to put a file on the server and add an Image entry to the database.
     response = client.post("/v1/content/images/", data, format="multipart")
 
     assert (
@@ -138,20 +135,17 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
         Image.objects.count() == 1
     ), "Expected one image in the database, but found more than one."
 
-    # Check if the file was "uploaded". "Uploaded" filename will be a UUID.
     uploaded_file = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
     assert os.path.exists(uploaded_file)
 
-    filename_without_ext = os.path.splitext(os.path.basename(uploaded_file))[0]
+    uuid_filename = os.path.splitext(os.path.basename(uploaded_file))[0]
 
     try:
-        uuid_obj = uuid.UUID(filename_without_ext, version=4)
-        assert str(uuid_obj) == filename_without_ext
+        uuid_obj = uuid.UUID(uuid_filename, version=4)
+        assert str(uuid_obj) == uuid_filename
     except ValueError:
-        assert False, f"Filename is not a valid UUID: {filename_without_ext}"
+        assert False, f"Filename is not a valid UUID: {uuid_filename}"
 
-    # Get the path and filename of the "uploaded" file, so we can delete it from the file system.
-    # This is for test cleanup. In production, the file is not deleted.
     file_object = response.json()["fileObject"].split("/")[-1]
     file_to_delete = os.path.join(settings.MEDIA_ROOT, "images", file_object)
     if os.path.exists(file_to_delete):
