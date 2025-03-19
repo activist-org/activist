@@ -102,4 +102,20 @@ export default defineNuxtConfig({
   nitro: {
     preset: "netlify-static",
   },
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        "img-src": [
+          "'self'",
+          "data:",
+          "blob:",
+          import.meta.env.VITE_BACKEND_URL || "",
+        ],
+      },
+    },
+    removeLoggers: false, // When true, turns off console.log output? Also lookk at unplugin-remove Vite Plugin by Talljack
+    requestSizeLimiter: {
+      maxUploadFileRequestInBytes: 5000000,
+    },
+  },
 });
