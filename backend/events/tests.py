@@ -5,11 +5,7 @@ Testing for the events app.
 
 # mypy: ignore-errors
 import pytest
-<<<<<<< HEAD
-=======
-from core.settings import EVENT_LIST_CACHE_PREFIX, EVENT_RETRIEVE_CACHE_PREFIX
-from django.core.cache import cache
->>>>>>> 275821d1 (Fixing license and linter errors)
+
 from events.factories import (
     EventFactory,
     EventAttendeeFactory,

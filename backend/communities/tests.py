@@ -14,6 +14,7 @@ from communities.organizations.factories import (
 )
 from communities.models import Status, StatusType
 from authentication.factories import UserFactory
+from unittest.mock import patch
 
 
 pytestmark = pytest.mark.django_db
@@ -61,3 +62,23 @@ def test_status_and_status_type_str_methods() -> None:
 
     assert str(status_type) == "Active"
     assert str(status) == f"{organization.name} - {status_type}"
+
+
+@patch("communities.signals.cache.keys")
+@patch("communities.signals.cache.delete_many")
+def test_invalidate_group_cache(mock_keys, mock_delete_many) -> None:
+    group = GroupFactory.create()
+    group.save()
+
+    mock_keys.assert_called()
+    mock_delete_many.assert_called()
+
+
+@patch("communities.signals.cache.keys")
+@patch("communities.signals.cache.delete_many")
+def test_invalidate_organization_cache(mock_keys, mock_delete_many) -> None:
+    organization = OrganizationFactory.create()
+    organization.save()
+
+    mock_keys.assert_called()
+    mock_delete_many.assert_called()
