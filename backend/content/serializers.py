@@ -45,7 +45,6 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
     Remove EXIF data from JPEGs and text metadata from PNGs.
     """
     try:
-        # img = PILImage.open(image_file)
         img: PILImage.Image = PILImage.open(image_file)
         output_format = img.format
 

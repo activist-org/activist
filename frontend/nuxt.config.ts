@@ -113,6 +113,12 @@ export default defineNuxtConfig({
         ],
       },
     },
+    rateLimiter: {
+      // 150 requests per minute. Local machine is not rate limited.
+      tokensPerInterval: 150,
+      interval: "minute",
+      whiteList: ["127.0.0.1"],
+    },
     removeLoggers: false, // When true, turns off console.log output? Also lookk at unplugin-remove Vite Plugin by Talljack
     requestSizeLimiter: {
       maxUploadFileRequestInBytes: 5000000,
