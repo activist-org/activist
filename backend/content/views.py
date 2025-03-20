@@ -3,6 +3,9 @@
 from typing import Any
 
 from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 from rest_framework import status, viewsets
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -17,6 +20,15 @@ from content.serializers import (
     ResourceSerializer,
 )
 from core.paginator import CustomPagination
+from core.settings import (
+    CACHE_DURATION,
+    DISCUSSION_LIST_CACHE_PREFIX,
+    DISCUSSION_RETRIEVE_CACHE_PREFIX,
+    DISCUSSIONENTRY_LIST_CACHE_PREFIX,
+    DISCUSSIONENTRY_RETRIEVE_CACHE_PREFIX,
+    RESOURCE_LIST_CACHE_PREFIX,
+    RESOURCE_RETRIEVE_CACHE_PREFIX,
+)
 
 # MARK: Main Tables
 
@@ -41,6 +53,10 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
             status=status.HTTP_403_FORBIDDEN,
         )
 
+    @method_decorator(
+        cache_page(CACHE_DURATION * 60, key_prefix=DISCUSSION_RETRIEVE_CACHE_PREFIX)
+    )
+    @vary_on_cookie
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         queryset = self.get_queryset()
         if pk is not None:
@@ -55,6 +71,10 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @method_decorator(
+        cache_page(CACHE_DURATION * 60, key_prefix=DISCUSSION_LIST_CACHE_PREFIX)
+    )
+    @vary_on_cookie
     def list(self, request: Request) -> Response:
         if request.user.is_authenticated:
             query = self.queryset.filter(
@@ -132,6 +152,10 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
             status=status.HTTP_403_FORBIDDEN,
         )
 
+    @method_decorator(
+        cache_page(CACHE_DURATION * 60, key_prefix=RESOURCE_RETRIEVE_CACHE_PREFIX)
+    )
+    @vary_on_cookie
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         if request.user.is_authenticated:
             if pk is not None:
@@ -158,6 +182,10 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
 
         return Response(serializer.data)
 
+    @method_decorator(
+        cache_page(CACHE_DURATION * 60, key_prefix=RESOURCE_LIST_CACHE_PREFIX)
+    )
+    @vary_on_cookie
     def list(self, request: Request) -> Response:
         if request.user.is_authenticated:
             query = self.queryset.filter(
@@ -234,6 +262,12 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
             status=status.HTTP_403_FORBIDDEN,
         )
 
+    @method_decorator(
+        cache_page(
+            CACHE_DURATION * 60, key_prefix=DISCUSSIONENTRY_RETRIEVE_CACHE_PREFIX
+        )
+    )
+    @vary_on_cookie
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         queryset = self.get_queryset()
         if pk is not None:
@@ -248,6 +282,10 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @method_decorator(
+        cache_page(CACHE_DURATION * 60, key_prefix=DISCUSSIONENTRY_LIST_CACHE_PREFIX)
+    )
+    @vary_on_cookie
     def list(self, request: Request) -> Response:
         if request.user.is_authenticated:
             query = self.queryset.filter(

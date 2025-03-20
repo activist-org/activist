@@ -5,6 +5,9 @@ from typing import Dict, List
 from uuid import UUID
 
 from django.db import transaction
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 from rest_framework import status, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -16,6 +19,11 @@ from communities.groups.serializers import (
     GroupTextSerializer,
 )
 from core.paginator import CustomPagination
+from core.settings import (
+    CACHE_DURATION,
+    GROUP_LIST_CACHE_PREFIX,
+    GROUP_RETRIEVE_CACHE_PREFIX,
+)
 
 # MARK: Main Tables
 
@@ -25,6 +33,10 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
 
+    @method_decorator(
+        cache_page(CACHE_DURATION * 60, key_prefix=GROUP_LIST_CACHE_PREFIX)
+    )
+    @vary_on_cookie
     def list(self, request: Request, *args: str, **kwargs: int) -> Response:
         serializer = self.get_serializer(self.queryset, many=True)
 
@@ -38,6 +50,9 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
 
         return Response(data, status=status.HTTP_201_CREATED)
 
+    @method_decorator(
+        cache_page(CACHE_DURATION * 60, key_prefix=GROUP_RETRIEVE_CACHE_PREFIX)
+    )
     def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
         try:
             pk = str(kwargs["pk"])

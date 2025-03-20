@@ -94,6 +94,7 @@ CORS_ALLOWED_ORIGINS = [
 
 ROOT_URLCONF = "core.urls"
 
+
 # MARK: Templates
 
 TEMPLATES = [
@@ -126,6 +127,38 @@ DATABASES = {
         "PORT": DATABASE_PORT,
     },
 }
+
+
+# MARK: Cache
+# https://docs.djangoproject.com/en/4.2/topics/cache/#redis
+
+REDIS_PORT = os.getenv("REDIS_PORT")
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://redis:{REDIS_PORT}",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": REDIS_PASSWORD,
+        },
+    }
+}
+CACHE_DURATION = 10  # mins
+
+EVENT_LIST_CACHE_PREFIX = "events_list"
+EVENT_RETRIEVE_CACHE_PREFIX = "event"
+GROUP_LIST_CACHE_PREFIX = "groups_list"
+GROUP_RETRIEVE_CACHE_PREFIX = "group"
+RESOURCE_LIST_CACHE_PREFIX = "resources_list"
+RESOURCE_RETRIEVE_CACHE_PREFIX = "resource"
+DISCUSSION_LIST_CACHE_PREFIX = "discussions_list"
+DISCUSSION_RETRIEVE_CACHE_PREFIX = "discussion"
+ORGANIZATION_LIST_CACHE_PREFIX = "organizations_list"
+ORGANIZATION_RETRIEVE_CACHE_PREFIX = "organization"
+DISCUSSIONENTRY_LIST_CACHE_PREFIX = "discussion_entries_list"
+DISCUSSIONENTRY_RETRIEVE_CACHE_PREFIX = "discussion_entry"
 
 
 # MARK: Pass Validation
