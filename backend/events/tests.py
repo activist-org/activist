@@ -13,6 +13,7 @@ from events.factories import (
     FormatFactory,
     RoleFactory,
 )
+from events.models import EventText
 
 pytestmark = pytest.mark.django_db
 
@@ -29,3 +30,14 @@ def test_str_methods() -> None:
     assert str(event_attendee_status) == event_attendee_status.status_name
     assert str(_format) == _format.name
     assert str(role) == role.name
+
+def test_event_text_str_method() -> None:
+    event = EventFactory.create()
+    event_text = EventText.objects.create(
+        event=event,
+        iso="en",
+        primary=True,
+        description="Test description",
+        get_involved="Get involved text"
+    )
+    assert str(event_text) == f"{event_text.event} - {event_text.iso}"
