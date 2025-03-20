@@ -5,8 +5,6 @@ Testing for the events app.
 
 # mypy: ignore-errors
 import pytest
-from core.settings import EVENT_LIST_CACHE_PREFIX, EVENT_RETRIEVE_CACHE_PREFIX
-from django.core.cache import cache
 from events.factories import (
     EventFactory,
     EventAttendeeFactory,
