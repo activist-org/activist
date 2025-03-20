@@ -3,7 +3,7 @@
 Serializers for the content app.
 """
 
-import io
+from io import BytesIO
 from typing import Any, Dict, Union
 
 from django.conf import settings
@@ -40,44 +40,83 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
 
 
 # MARK: Clear out image meta data. Used in Image Serializer, below.
+# def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
+#     """
+#     Remove EXIF data from JPEGs and text metadata from PNGs.
+#     """
+#     try:
+#         img = PILImage.open(image_file)
+#
+#         if img.format == "JPEG":
+#             img = img.convert("RGB")
+#             output_format = "JPEG"
+#         elif img.format == "PNG":
+#             img = img.copy()
+#             img.info = {}
+#             output_format = "PNG"
+#         else:
+#             return image_file
+#
+#         # Save the cleaned image
+#         output = io.BytesIO()
+#         img.save(
+#             output,
+#             format=output_format,
+#             quality=95 if output_format == "JPEG" else None,
+#         )
+#         output.seek(0)
+#
+#         return InMemoryUploadedFile(
+#             output,
+#             "ImageField",
+#             image_file.name,
+#             f"image/{output_format.lower()}",
+#             output.getbuffer().nbytes,
+#             None,
+#         )
+#
+#     except Exception as e:
+#         print(f"Error scrubbing EXIF: {e}")
+#         return image_file
 def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
     """
     Remove EXIF data from JPEGs and text metadata from PNGs.
     """
     try:
         img = PILImage.open(image_file)
+        output_format = img.format
 
-        if img.format == "JPEG":
-            img = img.convert("RGB")
-            output_format = "JPEG"
-        elif img.format == "PNG":
+        if output_format == "JPEG":
+            img = img.convert("RGB")  # Remove EXIF and ensure compatibility
+        elif output_format == "PNG":
             img = img.copy()
-            img.info = {}
-            output_format = "PNG"
+            img.info = {}  # Clear metadata
         else:
-            return image_file
+            return image_file  # Return as-is if it's not JPEG or PNG
 
-        # Save the cleaned image
-        output = io.BytesIO()
+        # Save the cleaned image into a buffer
+        output = BytesIO()
         img.save(
             output,
             format=output_format,
-            quality=95 if output_format == "JPEG" else None,
+            quality=95 if output_format == "JPEG" else None,  # Set JPEG quality
+            optimize=True if output_format == "JPEG" else False,  # Optimize JPEG
         )
         output.seek(0)
 
+        # Return a new InMemoryUploadedFile
         return InMemoryUploadedFile(
             output,
-            "ImageField",
+            image_file.field_name,  # Use original field name
             image_file.name,
             f"image/{output_format.lower()}",
             output.getbuffer().nbytes,
-            None,
+            image_file.charset,  # Preserve charset (if applicable)
         )
 
     except Exception as e:
         print(f"Error scrubbing EXIF: {e}")
-        return image_file
+        return image_file  # Return original file in case of error
 
 
 class ImageSerializer(serializers.ModelSerializer[Image]):
