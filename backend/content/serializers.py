@@ -40,57 +40,20 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
 
 
 # MARK: Clear out image meta data. Used in Image Serializer, below.
-# def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
-#     """
-#     Remove EXIF data from JPEGs and text metadata from PNGs.
-#     """
-#     try:
-#         img = PILImage.open(image_file)
-#
-#         if img.format == "JPEG":
-#             img = img.convert("RGB")
-#             output_format = "JPEG"
-#         elif img.format == "PNG":
-#             img = img.copy()
-#             img.info = {}
-#             output_format = "PNG"
-#         else:
-#             return image_file
-#
-#         # Save the cleaned image
-#         output = io.BytesIO()
-#         img.save(
-#             output,
-#             format=output_format,
-#             quality=95 if output_format == "JPEG" else None,
-#         )
-#         output.seek(0)
-#
-#         return InMemoryUploadedFile(
-#             output,
-#             "ImageField",
-#             image_file.name,
-#             f"image/{output_format.lower()}",
-#             output.getbuffer().nbytes,
-#             None,
-#         )
-#
-#     except Exception as e:
-#         print(f"Error scrubbing EXIF: {e}")
-#         return image_file
 def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
     """
     Remove EXIF data from JPEGs and text metadata from PNGs.
     """
     try:
-        img = PILImage.open(image_file)
+        # img = PILImage.open(image_file)
+        img: PILImage.Image = PILImage.open(image_file)
         output_format = img.format
 
         if output_format == "JPEG":
-            img = img.convert("RGB")  # Remove EXIF and ensure compatibility
+            img = img.convert("RGB")
         elif output_format == "PNG":
             img = img.copy()
-            img.info = {}  # Clear metadata
+            img.info = {}
         else:
             return image_file  # Return as-is if it's not JPEG or PNG
 
