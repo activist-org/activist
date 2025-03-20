@@ -3,11 +3,13 @@
 Serializers for the content app.
 """
 
+import io
 from typing import Any, Dict, Union
 
 from django.conf import settings
-from django.core.files.uploadedfile import UploadedFile
+from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
 from django.utils.translation import gettext as _
+from PIL import Image as PILImage
 from rest_framework import serializers
 
 from communities.organizations.models import OrganizationImage
@@ -37,6 +39,47 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
         fields = "__all__"
 
 
+# MARK: Clear out image meta data. Used in Image Serializer, below.
+def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
+    """
+    Remove EXIF data from JPEGs and text metadata from PNGs.
+    """
+    try:
+        img = PILImage.open(image_file)
+
+        if img.format == "JPEG":
+            img = img.convert("RGB")
+            output_format = "JPEG"
+        elif img.format == "PNG":
+            img = img.copy()
+            img.info = {}
+            output_format = "PNG"
+        else:
+            return image_file
+
+        # Save the cleaned image
+        output = io.BytesIO()
+        img.save(
+            output,
+            format=output_format,
+            quality=95 if output_format == "JPEG" else None,
+        )
+        output.seek(0)
+
+        return InMemoryUploadedFile(
+            output,
+            "ImageField",
+            image_file.name,
+            f"image/{output_format.lower()}",
+            output.getbuffer().nbytes,
+            None,
+        )
+
+    except Exception as e:
+        print(f"Error scrubbing EXIF: {e}")
+        return image_file
+
+
 class ImageSerializer(serializers.ModelSerializer[Image]):
     class Meta:
         model = Image
@@ -62,13 +105,16 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
     # Using 'Any' type until a more correct type is determined.
     def create(self, validated_data: Dict[str, Any]) -> Image:
-        if file_obj := self.context["request"].FILES.get("file_object"):
-            validated_data["file_object"] = file_obj
+        request = self.context["request"]
 
-        # Create the image first.
+        if file_obj := request.FILES.get("file_object"):
+            validated_data["file_object"] = scrub_exif(file_obj)
+
+        # Create the image instance
         image = super().create(validated_data)
 
-        if organization_id := self.context["request"].data.get("organization_id"):
+        # Handle organization image indexing if applicable
+        if organization_id := request.data.get("organization_id"):
             next_index = OrganizationImage.objects.filter(
                 org_id=organization_id
             ).count()
