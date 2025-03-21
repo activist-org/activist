@@ -126,12 +126,12 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
     # This is correct, default, upload behavior. POST is supposed to put a file on the server and add an Image entry to the database.
     response = client.post("/v1/content/images/", data, format="multipart")
 
-    assert (
-        response.status_code == 201
-    ), f"Expected status code 201, but got {response.status_code}."
-    assert (
-        Image.objects.count() == 1
-    ), "Expected one image in the database, but found more than one."
+    assert response.status_code == 201, (
+        f"Expected status code 201, but got {response.status_code}."
+    )
+    assert Image.objects.count() == 1, (
+        "Expected one image in the database, but found more than one."
+    )
 
     # Check if the file was "uploaded".
     uploaded_file = os.path.join(settings.MEDIA_ROOT, image.file_object.name)

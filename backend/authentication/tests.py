@@ -304,8 +304,10 @@ def test_create_user_and_superuser():
 def test_delete_user(client: Client) -> None:
     """
     Test cases:
-        Delete an existing user records from the database.
+        1. Delete an existing user records from the database as an authorized user.
+        2. Delete an non-existing user records from the database as an un-authorized user.
     """
+    # Test case for deleting an existing user records from the database as an authorized user.
     test_username = "test_user_123"
     test_pass = "Activist@123!?"
     user = UserFactory(username=test_username, plaintext_password=test_pass)
@@ -324,3 +326,11 @@ def test_delete_user(client: Client) -> None:
         )
 
         assert delete_response.status_code == 200
+
+    # Test case for deleting an non-existing user records from the database as an un-authorized user.
+    response = client.delete(
+        path="/v1/auth/delete/",
+        data={"pk": None}
+    )
+
+    assert response.status_code == 401
