@@ -13,7 +13,9 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_resource_creation() -> None:
-    """Test creating a GroupResource instance."""
+    """
+    Test creating a GroupResource instance.
+    """
     group = GroupFactory()
     resource = ResourceFactory()
 
@@ -24,7 +26,9 @@ def test_group_resource_creation() -> None:
 
 
 def test_multiple_resources_per_group() -> None:
-    """Test multiple resources for a single group."""
+    """
+    Test multiple resources for a single group.
+    """
     group = GroupFactory()
     resources = ResourceFactory.create_batch(3)
 

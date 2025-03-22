@@ -20,7 +20,9 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_creation() -> None:
-    """Test complete group creation with all fields."""
+    """
+    Test complete group creation with all fields.
+    """
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
     location = EntityLocationFactory()
@@ -47,7 +49,9 @@ def test_group_creation() -> None:
 
 
 def test_url_validations() -> None:
-    """Test that get_involved_url field is a valid URL."""
+    """
+    Test that get_involved_url field is a valid URL.
+    """
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
     location = EntityLocationFactory()
@@ -84,7 +88,9 @@ def test_url_validations() -> None:
 
 
 def test_multiple_groups_per_org() -> None:
-    """Test that multiple groups can be created per organization."""
+    """
+    Test that multiple groups can be created per organization.
+    """
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
     location = EntityLocationFactory()

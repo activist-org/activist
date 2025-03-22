@@ -13,7 +13,9 @@ pytestmark = pytest.mark.django_db
 
 
 def test_multiple_events_per_group() -> None:
-    """Test multiple events for a single group."""
+    """
+    Test multiple events for a single group.
+    """
     group = GroupFactory.create()
     events = EventFactory.create_batch(3)
 
