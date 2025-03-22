@@ -86,7 +86,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.23.0, @babel/core@npm:^7.26.0, @babel/core@npm:^7.26.7":
+"@babel/core@npm:^7.23.0, @babel/core@npm:^7.25.2, @babel/core@npm:^7.26.0, @babel/core@npm:^7.26.7":
   version: 7.26.10
   resolution: "@babel/core@npm:7.26.10"
   dependencies:
@@ -109,7 +109,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/generator@npm:^7.26.10":
+"@babel/generator@npm:^7.25.0, @babel/generator@npm:^7.26.10":
   version: 7.26.10
   resolution: "@babel/generator@npm:7.26.10"
   dependencies:
@@ -385,7 +385,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.25.9, @babel/traverse@npm:^7.26.10, @babel/traverse@npm:^7.26.5, @babel/traverse@npm:^7.26.9":
+"@babel/traverse@npm:^7.25.3, @babel/traverse@npm:^7.25.9, @babel/traverse@npm:^7.26.10, @babel/traverse@npm:^7.26.5, @babel/traverse@npm:^7.26.9":
   version: 7.26.10
   resolution: "@babel/traverse@npm:7.26.10"
   dependencies:
@@ -2015,6 +2015,36 @@ __metadata:
     unimport: "npm:^4.1.2"
     untyped: "npm:^2.0.0"
   checksum: 10c0/f423f3b123f7e01996610df52a5709754fcc9f3bef6aaf60ad665402e320793a089bbfbeba7a4125335cda788f2637d82cc7940d0d5490cfb69b1e291c9c76f3
+  languageName: node
+  linkType: hard
+
+"@nuxt/kit@npm:^3.11.2":
+  version: 3.16.1
+  resolution: "@nuxt/kit@npm:3.16.1"
+  dependencies:
+    c12: "npm:^3.0.2"
+    consola: "npm:^3.4.2"
+    defu: "npm:^6.1.4"
+    destr: "npm:^2.0.3"
+    errx: "npm:^0.1.0"
+    exsolve: "npm:^1.0.4"
+    globby: "npm:^14.1.0"
+    ignore: "npm:^7.0.3"
+    jiti: "npm:^2.4.2"
+    klona: "npm:^2.0.6"
+    knitwork: "npm:^1.2.0"
+    mlly: "npm:^1.7.4"
+    ohash: "npm:^2.0.11"
+    pathe: "npm:^2.0.3"
+    pkg-types: "npm:^2.1.0"
+    scule: "npm:^1.3.0"
+    semver: "npm:^7.7.1"
+    std-env: "npm:^3.8.1"
+    ufo: "npm:^1.5.4"
+    unctx: "npm:^2.4.1"
+    unimport: "npm:^4.1.2"
+    untyped: "npm:^2.0.0"
+  checksum: 10c0/90fdd7cb4e89206aab54be3af31cf36cb4bfd18c06a79e8f95d0b4da2d6a0c03744b0c669f9e88cfa0653875536c65f48e028a5b7a55c2e2133862cdf67055f5
   languageName: node
   linkType: hard
 
@@ -5124,6 +5154,7 @@ __metadata:
     nuxt: "npm:3.15.4"
     nuxt-icon: "npm:0.6.10"
     nuxt-mail: "npm:5.1.1"
+    nuxt-security: "npm:2.2.0"
     pinia: "npm:2.3.1"
     pinia-plugin-persistedstate: "npm:4.2.0"
     playwright: "npm:1.49"
@@ -5520,6 +5551,15 @@ __metadata:
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: 10c0/f23823513b63173a001030fae4f2dabe283b99a9d324ade3ad3d148e218134676f1ee8568c877cd79ec1c53158dcf2d2ba527a97c606618928ba99dd930102bf
+  languageName: node
+  linkType: hard
+
+"basic-auth@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "basic-auth@npm:2.0.1"
+  dependencies:
+    safe-buffer: "npm:5.1.2"
+  checksum: 10c0/05f56db3a0fc31c89c86b605231e32ee143fb6ae38dc60616bc0970ae6a0f034172def99e69d3aed0e2c9e7cac84e2d63bc51a0b5ff6ab5fc8808cc8b29923c1
   languageName: node
   linkType: hard
 
@@ -6115,7 +6155,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^2.20.0":
+"commander@npm:^2.20.0, commander@npm:^2.20.3":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
   checksum: 10c0/74c781a5248c2402a0a3e966a0a2bba3c054aad144f5c023364be83265e796b20565aa9feff624132ff629aa64e16999fa40a743c10c12f7c61e96a794b99288
@@ -6219,6 +6259,13 @@ __metadata:
   version: 3.4.1
   resolution: "consola@npm:3.4.1"
   checksum: 10c0/956003b5bb3d42ae0ab5c00b753e043e56c475861f31058af0c7c5741c80a95fab52d36eea5ea758212d8c52912cf9369536216fc35d1fe55396bfed67722a11
+  languageName: node
+  linkType: hard
+
+"consola@npm:^3.4.2":
+  version: 3.4.2
+  resolution: "consola@npm:3.4.2"
+  checksum: 10c0/7cebe57ecf646ba74b300bcce23bff43034ed6fbec9f7e39c27cee1dc00df8a21cd336b466ad32e304ea70fba04ec9e890c200270de9a526ce021ba8a7e4c11a
   languageName: node
   linkType: hard
 
@@ -6461,6 +6508,13 @@ __metadata:
   bin:
     cssesc: bin/cssesc
   checksum: 10c0/6bcfd898662671be15ae7827120472c5667afb3d7429f1f917737f3bf84c4176003228131b643ae74543f17a394446247df090c597bb9a728cce298606ed0aa7
+  languageName: node
+  linkType: hard
+
+"cssfilter@npm:0.0.10":
+  version: 0.0.10
+  resolution: "cssfilter@npm:0.0.10"
+  checksum: 10c0/478a227a616fb6e9bb338eb95f690df141b86231ec737cbea574484f31a09a51db894b4921afc4987459dae08d584355fd689ff2a7a7c7a74de4bb4c072ce553
   languageName: node
   linkType: hard
 
@@ -6781,7 +6835,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"defu@npm:^6.1.2, defu@npm:^6.1.4":
+"defu@npm:^6.1.1, defu@npm:^6.1.2, defu@npm:^6.1.4":
   version: 6.1.4
   resolution: "defu@npm:6.1.4"
   checksum: 10c0/2d6cc366262dc0cb8096e429368e44052fdf43ed48e53ad84cc7c9407f890301aa5fcb80d0995abaaf842b3949f154d060be4160f7a46cb2bc2f7726c81526f5
@@ -11762,6 +11816,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nuxt-csurf@npm:^1.6.5":
+  version: 1.6.5
+  resolution: "nuxt-csurf@npm:1.6.5"
+  dependencies:
+    "@nuxt/kit": "npm:^3.13.2"
+    defu: "npm:^6.1.4"
+    uncsrf: "npm:^1.2.0"
+  checksum: 10c0/104b2c5ff89af3615c6f6bd2c4adc05531f20271104b331d2acbd73ee9caf6ea8b066d98d470ffd829ee21850619bf5815c87559e8e8f1723f5eeaf6ca738822
+  languageName: node
+  linkType: hard
+
 "nuxt-icon@npm:0.6.10":
   version: 0.6.10
   resolution: "nuxt-icon@npm:0.6.10"
@@ -11798,6 +11863,21 @@ __metadata:
     "@dword-design/functions": "npm:^4.0.0"
     "@nuxt/kit": "npm:^3.0.0"
   checksum: 10c0/519cdc516e6c2935e97fb237bdc591b58e83e4a727e010c0e447b7ccfc1fef4ca8af9579b2ab39932c35e0fe84edd92200b34838b7532ec85b9aca2b242805ce
+  languageName: node
+  linkType: hard
+
+"nuxt-security@npm:2.2.0":
+  version: 2.2.0
+  resolution: "nuxt-security@npm:2.2.0"
+  dependencies:
+    "@nuxt/kit": "npm:^3.11.2"
+    basic-auth: "npm:^2.0.1"
+    defu: "npm:^6.1.1"
+    nuxt-csurf: "npm:^1.6.5"
+    pathe: "npm:^1.0.0"
+    unplugin-remove: "npm:^1.0.3"
+    xss: "npm:^1.0.14"
+  checksum: 10c0/feb7e44a35ccf75e4661bfca992f35496a038bfd0b4e4080d513d8a30fc14c24aaca10ecc43aba139298c2be89057c8b199625ab8f1913da4949b813693b4780
   languageName: node
   linkType: hard
 
@@ -14405,17 +14485,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"safe-buffer@npm:5.1.2, safe-buffer@npm:~5.1.0, safe-buffer@npm:~5.1.1":
+  version: 5.1.2
+  resolution: "safe-buffer@npm:5.1.2"
+  checksum: 10c0/780ba6b5d99cc9a40f7b951d47152297d0e260f0df01472a1b99d4889679a4b94a13d644f7dbc4f022572f09ae9005fa2fbb93bbbd83643316f365a3e9a45b21
+  languageName: node
+  linkType: hard
+
 "safe-buffer@npm:5.2.1, safe-buffer@npm:^5.0.1, safe-buffer@npm:^5.1.0, safe-buffer@npm:~5.2.0":
   version: 5.2.1
   resolution: "safe-buffer@npm:5.2.1"
   checksum: 10c0/6501914237c0a86e9675d4e51d89ca3c21ffd6a31642efeba25ad65720bce6921c9e7e974e5be91a786b25aa058b5303285d3c15dbabf983a919f5f630d349f3
-  languageName: node
-  linkType: hard
-
-"safe-buffer@npm:~5.1.0, safe-buffer@npm:~5.1.1":
-  version: 5.1.2
-  resolution: "safe-buffer@npm:5.1.2"
-  checksum: 10c0/780ba6b5d99cc9a40f7b951d47152297d0e260f0df01472a1b99d4889679a4b94a13d644f7dbc4f022572f09ae9005fa2fbb93bbbd83643316f365a3e9a45b21
   languageName: node
   linkType: hard
 
@@ -15718,6 +15798,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uncsrf@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "uncsrf@npm:1.2.0"
+  checksum: 10c0/608a5fe8a37bd2e06aae3c1a969cdfa4e67d9ced384b0d4405b2eabe5f21ce0e7607f937b866797bf397e742d94f2239c5164d01ac2a2f0d5f1249370bcd4122
+  languageName: node
+  linkType: hard
+
 "unctx@npm:^2.3.1, unctx@npm:^2.4.1":
   version: 2.4.1
   resolution: "unctx@npm:2.4.1"
@@ -15987,6 +16074,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unplugin-remove@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "unplugin-remove@npm:1.0.3"
+  dependencies:
+    "@babel/core": "npm:^7.25.2"
+    "@babel/generator": "npm:^7.25.0"
+    "@babel/parser": "npm:^7.25.3"
+    "@babel/traverse": "npm:^7.25.3"
+    "@rollup/pluginutils": "npm:^5.1.0"
+    magic-string: "npm:^0.30.11"
+    unplugin: "npm:^1.12.0"
+  checksum: 10c0/7a382e3ca1b786adc2a8cf7469f7f35d1d3220b31bba610b1a65497978875e875ba1ccf9d7178dd463e67e2ff79311b031abe0f6f223fda7a094e712fb0d32d3
+  languageName: node
+  linkType: hard
+
 "unplugin-utils@npm:^0.2.4":
   version: 0.2.4
   resolution: "unplugin-utils@npm:0.2.4"
@@ -16071,7 +16173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin@npm:^1.1.0, unplugin@npm:^1.10.0, unplugin@npm:^1.16.1":
+"unplugin@npm:^1.1.0, unplugin@npm:^1.10.0, unplugin@npm:^1.12.0, unplugin@npm:^1.16.1":
   version: 1.16.1
   resolution: "unplugin@npm:1.16.1"
   dependencies:
@@ -17195,6 +17297,18 @@ __metadata:
   version: 2.1.2
   resolution: "xmlhttprequest-ssl@npm:2.1.2"
   checksum: 10c0/70d60869323e823f473a238f78fd108437edbc3690ecd5859c39c83217080090a18899b272e515769c0d1f518cc64cbed6b6995b23fdd7ba13b297d530b6e631
+  languageName: node
+  linkType: hard
+
+"xss@npm:^1.0.14":
+  version: 1.0.15
+  resolution: "xss@npm:1.0.15"
+  dependencies:
+    commander: "npm:^2.20.3"
+    cssfilter: "npm:0.0.10"
+  bin:
+    xss: bin/xss
+  checksum: 10c0/9b31bee62a208f78e2b7bc8154e3ee87d980f4661dc4ab850ce6f4de7bc50eb152f0bdc13fa759ff8ab6d9bfdf8c0d79cf9f6f86249872b92181912309bccd08
   languageName: node
   linkType: hard
 

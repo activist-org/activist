@@ -120,5 +120,29 @@ export default defineNuxtConfig({
     preset: "netlify-static",
   },
 
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        "img-src": [
+          "'self'",
+          "data:",
+          "blob:",
+          import.meta.env.VITE_BACKEND_URL || "",
+        ],
+      },
+    },
+    rateLimiter: {
+      // 150 requests per minute. Local machine is not rate limited.
+      tokensPerInterval: 150,
+      interval: "minute",
+      whiteList: ["127.0.0.1"],
+    },
+    // When true, turns off console.log output? Also look at unplugin-remove Vite Plugin by Talljack.
+    removeLoggers: false,
+    requestSizeLimiter: {
+      maxUploadFileRequestInBytes: 5000000,
+    },
+  },
+
   compatibilityDate: "2025-03-12",
 });
