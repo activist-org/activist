@@ -189,8 +189,7 @@ def test_sign_in(client: Client) -> None:
     # 4. User does not exists and tries to sign in.
     response = client.post(
         path="/v1/auth/sign_in/",
-        data={"email": "unknown_user@example.com",
-              "password": "Password@123!?"},
+        data={"email": "unknown_user@example.com", "password": "Password@123!?"},
     )
     assert response.status_code == 400
 
@@ -303,8 +302,7 @@ def test_create_user_and_superuser():
 
 def test_delete_user(client: Client) -> None:
     """
-    Test cases:
-        Delete an existing user records from the database.
+    Test the deletion of existing user records from the database.
     """
     test_username = "test_user_123"
     test_pass = "Activist@123!?"
