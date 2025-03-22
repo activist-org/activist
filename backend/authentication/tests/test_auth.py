@@ -12,14 +12,12 @@ from authentication.factories import (
 )
 from authentication.models import UserModel
 
-from django.test import Client
 from django.core import mail
 from faker import Faker
 
 from django.test import Client
 from uuid import UUID
 import uuid
-
 
 pytestmark = pytest.mark.django_db
 
@@ -240,6 +238,7 @@ def test_pwreset(client: Client) -> None:
         data={"password": new_password},
     )
     assert response.status_code == 404
+
 
 def test_create_user_and_superuser():
     """
