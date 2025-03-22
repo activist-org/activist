@@ -527,7 +527,7 @@ Guidelines for bug reports:
 - What actually happens
 - Notes (why this might be happening, things tried that didn't work, etc)
 
-To make the above steps easier, the activist team asks that contributors report bugs using the [bug report template](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&projects=activist-org%2F1&template=bug_report.yml), with these issues further being marked with the [`bug`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Abug) label.
+To make the above steps easier, the activist team asks that contributors report bugs using the [bug report template](https://github.com/activist-org/activist/issues/new?assignees=&labels=bug&projects=activist-org%2F1&template=bug_report.yml), with these issues further being marked with the [`Bug`](https://github.com/activist-org/activist/issues?q=is%3Aissue%20state%3Aopen%20type%3ABug) type.
 
 Again, thank you for your time in reporting issues!
 
@@ -535,7 +535,7 @@ Again, thank you for your time in reporting issues!
 
 ## Feature requests [`⇧`](#contents)
 
-Feature requests are more than welcome! Please take a moment to find out whether your idea fits with the scope and aims of the project. When making a suggestion, provide as much detail and context as possible, and further make clear the degree to which you would like to contribute in its development. Feature requests are marked with the [`feature`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Afeature) label in the [issues](https://github.com/activist-org/activist/issues).
+Feature requests are more than welcome! Please take a moment to find out whether your idea fits with the scope and aims of the project. When making a suggestion, provide as much detail and context as possible, and further make clear the degree to which you would like to contribute in its development. Feature requests are marked with the [`Feature`](https://github.com/activist-org/activist/issues?q=is%3Aissue%20state%3Aopen%20type%3AFeature) type in the [issues](https://github.com/activist-org/activist/issues).
 
 <a name="pull-requests-"></a>
 
