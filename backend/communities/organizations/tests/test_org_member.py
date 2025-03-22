@@ -15,13 +15,17 @@ pytestmark = pytest.mark.django_db
 
 
 def test_org_member_str() -> None:
-    """Test string representation of OrganizationMember model."""
+    """
+    Test string representation of OrganizationMember model.
+    """
     org_member = OrganizationMemberFactory.build()
     assert str(org_member) == f"{org_member.id}"
 
 
 def test_org_member_roles() -> None:
-    """Test the different roles an organization member can have."""
+    """
+    Test the different roles an organization member can have.
+    """
     user = UserFactory()
     org = OrganizationFactory()
 
@@ -53,7 +57,9 @@ def test_org_member_roles() -> None:
 
 
 def test_multiple_members_per_org() -> None:
-    """Test multiple members in a single organization."""
+    """
+    Test multiple members in a single organization.
+    """
     org = OrganizationFactory()
     members = [OrganizationMemberFactory(org=org) for _ in range(3)]
 

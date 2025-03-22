@@ -13,7 +13,9 @@ pytestmark = pytest.mark.django_db
 
 
 def test_org_topic_creation() -> None:
-    """Test creating a OrganizationTopic instance."""
+    """
+    Test creating a OrganizationTopic instance.
+    """
     org = OrganizationFactory()
     topic = TopicFactory()
 
@@ -24,7 +26,9 @@ def test_org_topic_creation() -> None:
 
 
 def test_multiple_topics_per_org() -> None:
-    """Test multiple topics for a single organization."""
+    """
+    Test multiple topics for a single organization.
+    """
     org = OrganizationFactory()
     topics = TopicFactory.create_batch(3)
 
