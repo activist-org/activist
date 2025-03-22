@@ -128,13 +128,13 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionInput } from "~/types/content/discussion";
-import { IconMap } from "~/types/icon-map";
-import { useEditor, EditorContent } from "@tiptap/vue-3";
-import Placeholder from "@tiptap/extension-placeholder";
-import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Mention from "@tiptap/extension-mention";
+import Placeholder from "@tiptap/extension-placeholder";
+import StarterKit from "@tiptap/starter-kit";
+import { EditorContent, useEditor } from "@tiptap/vue-3";
+import type { DiscussionInput } from "~/types/content/discussion";
+import { IconMap } from "~/types/icon-map";
 import Suggestion from "../../../utils/mentionSuggestion";
 
 const showTooltip = ref(false);
@@ -189,7 +189,7 @@ const italic = () => {
 };
 const blockquote = () => {
   console.log("click on blockquote");
-  editor.value?.chain().focus().toggleCodeBlock().run();
+  editor.value?.chain().focus().toggleBlockquote().run();
 };
 const link = () => {
   console.log("click on link");
@@ -235,5 +235,9 @@ const listol = () => {
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+.tiptap blockquote {
+  @apply my-2 rounded-r-md border-l-4 border-section-div bg-layer-2 py-1 pl-4 italic text-distinct-text;
 }
 </style>
