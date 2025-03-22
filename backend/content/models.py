@@ -26,7 +26,7 @@ class Discussion(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class Faq(models.Model):
@@ -45,9 +45,10 @@ class Faq(models.Model):
 # This is used to set the filename to the UUID of the model, in the Image model.
 def set_filename_to_uuid(instance: Any, filename: str) -> str:
     """Generate a new filename using the model's UUID and keep the original extension."""
-    ext = os.path.splitext(filename)[1]  # Extract file extension
-    new_filename = f"{instance.id}{ext}"  # Use model UUID as filename
-    return os.path.join("images/", new_filename)  # Store in 'images/' folder
+    ext = os.path.splitext(filename)[1]  # extract file extension
+    new_filename = f"{instance.id}{ext}"  # use model UUID as filename
+
+    return os.path.join("images/", new_filename)  # store in 'images/' folder
 
 
 class Image(models.Model):
@@ -72,7 +73,7 @@ class Location(models.Model):
     display_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class Resource(models.Model):
@@ -128,7 +129,7 @@ class Tag(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class Task(models.Model):
@@ -174,4 +175,4 @@ class DiscussionEntry(models.Model):
     deletion_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)

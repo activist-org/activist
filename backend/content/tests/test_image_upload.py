@@ -143,6 +143,7 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
     try:
         uuid_obj = uuid.UUID(uuid_filename, version=4)
         assert str(uuid_obj) == uuid_filename
+
     except ValueError:
         assert False, f"Filename is not a valid UUID: {uuid_filename}"
 
@@ -183,9 +184,9 @@ def test_image_create_corrupted_file(client: APIClient) -> None:
     img = TestImage.new("RGB", (100, 100), color="red")
     img_file = io.BytesIO()
     img.save(img_file, format="JPEG")
-    # Take the first 100 bytes
+    # Take the first 100 bytes.
     corrupted_img = img_file.getvalue()[:100]
-    # Add some corrupt data after
+    # Add some corrupt data after.
     corrupted_img += b"corrupteddata"
     # Wrap the corrupted image data in a SimpleUploadedFile.
     file = SimpleUploadedFile(
@@ -231,8 +232,7 @@ def test_image_create_large_file(client: APIClient) -> None:
     assert response.status_code == 400
 
     # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
-    # For whatever reason, the file size limit is not being enforced. To get around this,
-    # we're checking the file size in the serializer validation.
+    # The file size limit is not being enforced. We're checking the file size in the serializer validation.
     assert (
         f"The file size ({file.size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
         in response.json()["nonFieldErrors"]

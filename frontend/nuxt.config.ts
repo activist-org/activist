@@ -137,7 +137,8 @@ export default defineNuxtConfig({
       interval: "minute",
       whiteList: ["127.0.0.1"],
     },
-    removeLoggers: false, // When true, turns off console.log output? Also lookk at unplugin-remove Vite Plugin by Talljack
+    // When true, turns off console.log output? Also look at unplugin-remove Vite Plugin by Talljack.
+    removeLoggers: false,
     requestSizeLimiter: {
       maxUploadFileRequestInBytes: 5000000,
     },

@@ -39,10 +39,12 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
         fields = "__all__"
 
 
-# MARK: Clear out image meta data. Used in Image Serializer, below.
+# MARK: Clear Metadata
+
+
 def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
     """
-    Remove EXIF data from JPEGs and text metadata from PNGs.
+    Remove EXIF metadata from JPEGs and text metadata from PNGs.
     """
     try:
         img: PILImage.Image = PILImage.open(image_file)
@@ -50,35 +52,37 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
 
         if output_format == "JPEG":
             img = img.convert("RGB")
+
         elif output_format == "PNG":
             img = img.copy()
             img.info = {}
-        else:
-            return image_file  # Return as-is if it's not JPEG or PNG
 
-        # Save the cleaned image into a buffer
+        else:
+            return image_file  # return as-is if it's not JPEG or PNG
+
+        # Save the cleaned image into a buffer.
         output = BytesIO()
         img.save(
             output,
             format=output_format,
-            quality=95 if output_format == "JPEG" else None,  # Set JPEG quality
-            optimize=True if output_format == "JPEG" else False,  # Optimize JPEG
+            quality=95 if output_format == "JPEG" else None,  # set JPEG quality
+            optimize=output_format == "JPEG",  # optimize JPEG
         )
         output.seek(0)
 
         # Return a new InMemoryUploadedFile
         return InMemoryUploadedFile(
             output,
-            image_file.field_name,  # Use original field name
+            image_file.field_name,  # use original field name
             image_file.name,
             f"image/{output_format.lower()}",
             output.getbuffer().nbytes,
-            image_file.charset,  # Preserve charset (if applicable)
+            image_file.charset,  # preserve charset (if applicable)
         )
 
     except Exception as e:
         print(f"Error scrubbing EXIF: {e}")
-        return image_file  # Return original file in case of error
+        return image_file  # return original file in case of error
 
 
 class ImageSerializer(serializers.ModelSerializer[Image]):
@@ -92,8 +96,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             raise serializers.ValidationError("No file was submitted.")
 
         # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
-        # For whatever reason, the file size limit is not being enforced. To get around this,
-        # we're checking the file size here.
+        # The file size limit is not being enforced. We're checking the file size here.
         if (
             data["file_object"].size is not None
             and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
@@ -111,10 +114,10 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         if file_obj := request.FILES.get("file_object"):
             validated_data["file_object"] = scrub_exif(file_obj)
 
-        # Create the image instance
+        # Create the image instance.
         image = super().create(validated_data)
 
-        # Handle organization image indexing if applicable
+        # Handle organization image indexing if applicable.
         if organization_id := request.data.get("organization_id"):
             next_index = OrganizationImage.objects.filter(
                 org_id=organization_id

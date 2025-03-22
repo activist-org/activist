@@ -51,7 +51,7 @@ class GroupImage(models.Model):
     sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class GroupMember(models.Model):
@@ -68,7 +68,7 @@ class GroupMember(models.Model):
     is_comms = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class GroupSocialLink(SocialLink):
