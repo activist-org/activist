@@ -41,14 +41,16 @@
           }}</span>
           <PageCommunityFooter
             header="i18n.components.empty_state.cta_header_no_permission"
-            ><BtnRouteInternal
+          >
+            <BtnRouteInternal
               class="w-full"
               :cta="false"
               label="i18n._global.return_home"
               linkTo="/home"
               fontSize="lg"
               ariaLabel="i18n._global.return_home_aria_label"
-          /></PageCommunityFooter>
+            />
+          </PageCommunityFooter>
         </div>
         <div v-else class="flex flex-col space-y-6 py-6">
           <span class="responsive-h4">{{
@@ -97,14 +99,16 @@
           <PageCommunityFooter
             header="i18n.components.empty_state.cta_header_no_permission"
             :helpNeeded="true"
-            ><BtnRouteInternal
+          >
+            <BtnRouteInternal
               class="w-full"
               :cta="false"
               label="i18n._global.return_home"
               linkTo="/home"
               fontSize="lg"
               ariaLabel="i18n._global.return_home_aria_label"
-          /></PageCommunityFooter>
+            />
+          </PageCommunityFooter>
         </div>
       </div>
     </PageContent>

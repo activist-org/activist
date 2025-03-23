@@ -7,11 +7,11 @@
   />
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
-      <Title
-        >{{ group.name }}&nbsp;{{
+      <Title>
+        {{ group.name }}&nbsp;{{
           $t("i18n.pages.organizations._global.events_lower")
-        }}</Title
-      >
+        }}
+      </Title>
     </Head>
     <HeaderAppPage
       :group="group"

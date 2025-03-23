@@ -86,6 +86,7 @@ import {
   ComboboxOptions,
   TransitionRoot,
 } from "@headlessui/vue";
+
 import { IconMap } from "~/types/icon-map";
 import { GLOBAL_TOPICS } from "~/types/topics";
 

@@ -52,6 +52,7 @@
 
 <script setup lang="ts">
 import type { FeedItem } from "~/types/feed/feed-item";
+
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

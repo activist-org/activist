@@ -66,7 +66,8 @@
               :to="localePath('/legal/privacy-policy')"
               target="_blank"
               class="link-text ml-1 sm:block"
-              >{{ $t("i18n.pages._global.terms_of_service_pt_2") }}
+            >
+              {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
             </NuxtLink>
           </p>
         </div>
@@ -83,8 +84,9 @@
         <NuxtLink
           :to="localePath('/auth/sign-in')"
           class="link-text ml-2 font-extrabold"
-          >{{ $t("i18n._global.sign_in") }}</NuxtLink
         >
+          {{ $t("i18n._global.sign_in") }}
+        </NuxtLink>
       </div>
     </form>
   </div>

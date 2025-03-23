@@ -25,9 +25,9 @@
           class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
         >
           <div class="w-1/2">
-            <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("i18n.pages.resources.create.title") }}*</label
-            >
+            <label for="name" class="responsive-h3 block font-medium">
+              {{ $t("i18n.pages.resources.create.title") }}*
+            </label>
             <input
               v-model="formData.name"
               id="name"
@@ -40,9 +40,9 @@
             />
           </div>
           <div class="w-1/2">
-            <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("i18n.pages._global.create.link") }}*</label
-            >
+            <label for="location" class="responsive-h3 block font-medium">
+              {{ $t("i18n.pages._global.create.link") }}*
+            </label>
             <input
               v-model="formData.link"
               id="location"
@@ -54,9 +54,9 @@
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("i18n.pages.resources.create.description") }}*</label
-          >
+          <label for="description" class="responsive-h3 block font-medium">
+            {{ $t("i18n.pages.resources.create.description") }}*
+          </label>
           <textarea
             v-model="formData.description"
             id="description"

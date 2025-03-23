@@ -87,6 +87,7 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
+
 import { IconMap } from "~/types/icon-map";
 import { DropdownLocation } from "~/types/location";
 

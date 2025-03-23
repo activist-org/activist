@@ -20,16 +20,13 @@
       />
     </div>
     <div v-if="allowCustomValue" class="flex w-full flex-1">
-      <label
-        v-if="showAdditionalInput"
-        :for="customValueType"
-        class="sr-only"
-        >{{
+      <label v-if="showAdditionalInput" :for="customValueType" class="sr-only">
+        {{
           $t(
             "i18n.components.form_radio_group.custom_numeric_value_placeholder"
           )
-        }}</label
-      >
+        }}
+      </label>
       <input
         v-if="showAdditionalInput"
         v-model="customValue"
@@ -60,6 +57,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+
 import { IconMap } from "~/types/icon-map";
 
 // TODO: This type should be defined for the props definition type from FromRadioButton and FromRadio.

@@ -86,6 +86,7 @@
 
 <script setup lang="ts">
 import type { Discussion } from "~/types/content/discussion";
+
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

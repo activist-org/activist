@@ -65,6 +65,7 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import { useRoute } from "vue-router";
+
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

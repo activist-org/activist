@@ -2,11 +2,9 @@
 <template>
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
-      <Title
-        >{{ organization.name }}&nbsp;{{
-          $t("i18n._global.resources_lower")
-        }}</Title
-      >
+      <Title>
+        {{ organization.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+      </Title>
     </Head>
     <HeaderAppPage
       :organization="organization"
@@ -41,6 +39,7 @@
 
 <script setup lang="ts">
 import type { Resource } from "~/types/content/resource";
+
 import { IconMap } from "~/types/icon-map";
 
 const paramsOrgId = useRoute().params.orgId;

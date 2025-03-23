@@ -60,8 +60,9 @@
                 <span
                   class="block truncate"
                   :class="{ 'font-medium': selected, 'font-normal': !selected }"
-                  >{{ $t(menuEntry.label) }}</span
                 >
+                  {{ $t(menuEntry.label) }}
+                </span>
               </li>
             </NuxtLink>
           </ListboxOption>
@@ -78,8 +79,10 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
-import { IconMap } from "~/types/icon-map";
+
 import type MenuEntry from "~/types/menu/menu-entry";
+
+import { IconMap } from "~/types/icon-map";
 import { SidebarType } from "~/types/sidebar-type";
 import {
   currentRoutePathIncludes,

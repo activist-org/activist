@@ -97,6 +97,7 @@
 
 <script setup lang="ts">
 import { useActiveElement, useMagicKeys, whenever } from "@vueuse/core";
+
 import { IconMap } from "~/types/icon-map";
 import { SearchBarLocation } from "~/types/location";
 

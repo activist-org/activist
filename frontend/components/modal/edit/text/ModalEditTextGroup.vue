@@ -49,8 +49,9 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import type { GroupUpdateTextFormData } from "~/types/communities/group";
+
+import { useModalHandlers } from "~/composables/useModalHandlers";
 
 const modalName = "ModalEditTextGroup";
 const { handleCloseModal } = useModalHandlers(modalName);

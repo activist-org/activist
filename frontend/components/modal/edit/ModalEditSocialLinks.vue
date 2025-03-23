@@ -61,7 +61,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import type { Group, GroupSocialLink } from "~/types/communities/group";
 import type {
   Organization,
@@ -72,6 +71,8 @@ import type {
   SocialLinkFormData,
 } from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
+
+import { useModalHandlers } from "~/composables/useModalHandlers";
 
 const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";

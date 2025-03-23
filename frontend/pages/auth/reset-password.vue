@@ -20,8 +20,8 @@
         />
       </div>
       <div class="link-text pt-16 text-center text-xl font-extrabold">
-        <NuxtLink :to="localePath('/auth/sign-in')"
-          >{{ $t("i18n.pages.auth.reset_password.index.back_to_sign_in") }}
+        <NuxtLink :to="localePath('/auth/sign-in')">
+          {{ $t("i18n.pages.auth.reset_password.index.back_to_sign_in") }}
         </NuxtLink>
       </div>
     </form>

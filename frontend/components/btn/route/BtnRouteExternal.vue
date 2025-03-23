@@ -20,6 +20,7 @@
 
 <script setup lang="ts">
 import type { BtnRoute } from "~/types/btn-props";
+
 import { getBtnDynamicClass } from "~/utils/btnUtils";
 
 const props = defineProps<BtnRoute>();

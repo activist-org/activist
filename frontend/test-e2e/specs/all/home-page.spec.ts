@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
+
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { pressControlKey } from "~/test-e2e/actions/keyboard";
 import { newSearchModal } from "~/test-e2e/component-objects/SearchModal";

@@ -30,6 +30,7 @@
 
 <script setup lang="ts">
 import { RadioGroup, RadioGroupOption } from "@headlessui/vue";
+
 import { ViewType } from "~/types/view-types";
 
 const props = defineProps({
