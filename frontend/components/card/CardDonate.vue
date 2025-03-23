@@ -22,7 +22,9 @@
         />
       </div>
     </div>
-    <p v-if="donationPrompt">{{ donationPrompt }}</p>
+    <p v-if="donationPrompt">
+      {{ donationPrompt }}
+    </p>
     <p v-else>
       {{ $t("i18n.components.card_donate.template_text") }}
     </p>

@@ -16,7 +16,9 @@
         </p>
       </div>
     </div>
-    <p class="text-lg">{{ discussionEntry.content }}</p>
+    <p class="text-lg">
+      {{ discussionEntry.content }}
+    </p>
     <BtnAction
       class="block"
       :cta="true"

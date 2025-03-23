@@ -44,7 +44,10 @@
             class="invisible -mt-8"
             :text="$t('i18n.components._global.slash_tooltip_label')"
           />
-          <p class="-mt-[0.075rem]">/</p>
+          <p class="-mt-[0.075rem]">
+            <!-- Preserve line break. -->
+            /
+          </p>
         </div>
         <div
           v-if="isMacOS"
