@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
 import type { Topic, TopicsTag } from "~/types/topics";
+
 import { GLOBAL_TOPICS } from "~/types/topics";
 
 const props = defineProps({

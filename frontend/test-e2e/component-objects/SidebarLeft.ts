@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
+
 import { expect } from "playwright/test";
+
 import { getEnglishText } from "~/utils/i18n";
 
 export const newSidebarLeft = (page: Page) => new SidebarLeft(page);

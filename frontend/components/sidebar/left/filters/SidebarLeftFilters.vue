@@ -83,6 +83,7 @@
 
 <script setup lang="ts">
 import type { Filters } from "~/types/filters";
+
 import { IconMap } from "~/types/icon-map";
 
 const sidebar = useSidebar();

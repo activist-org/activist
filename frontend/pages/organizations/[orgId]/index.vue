@@ -37,12 +37,13 @@
         <div
           class="flex w-full items-center space-x-2 text-left text-sm font-medium"
         >
-          <span class="width-1/6"
-            ><Icon
+          <span class="width-1/6">
+            <Icon
               v-if="button.iconUrl"
               :name="button.iconUrl"
               class="h-5 w-5 flex-shrink-0"
-          /></span>
+            />
+          </span>
           <p
             class="width-5/6 hover:menu-selection select-none whitespace-nowrap text-lg font-bold"
           >
@@ -66,10 +67,11 @@
 </template>
 
 <script setup lang="ts">
+import type { MenuSelector } from "~/types/menu/menu-selector";
+
 import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
-import type { MenuSelector } from "~/types/menu/menu-selector";
 
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;

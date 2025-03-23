@@ -18,14 +18,14 @@
       </div>
       <div class="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div class="flex w-full flex-col lg:w-1/2">
-          <label for="new-username" class="responsive-h4 font-bold"
-            >{{
+          <label for="new-username" class="responsive-h4 font-bold">
+            {{
               $t(
                 "i18n.components.card_change_account_info_username.new_username"
               )
             }}
-            *</label
-          >
+            *
+          </label>
           <input
             id="new-username"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
@@ -37,9 +37,9 @@
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/2">
-          <label for="password" class="responsive-h4 font-bold"
-            >{{ $t("i18n._global.enter_password") }} *</label
-          >
+          <label for="password" class="responsive-h4 font-bold">
+            {{ $t("i18n._global.enter_password") }} *
+          </label>
           <input
             id="password"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"

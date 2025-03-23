@@ -18,14 +18,14 @@
       </div>
       <div class="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div class="flex w-full flex-col lg:w-1/3">
-          <label for="current-password" class="responsive-h4 pb-2 font-bold"
-            >{{
+          <label for="current-password" class="responsive-h4 pb-2 font-bold">
+            {{
               $t(
                 "i18n.components.card_change_account_info_password.current_password"
               )
             }}
-            *</label
-          >
+            *
+          </label>
           <input
             id="current-password"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
@@ -37,14 +37,14 @@
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/3">
-          <label for="new-password" class="responsive-h4 pb-2 font-bold"
-            >{{
+          <label for="new-password" class="responsive-h4 pb-2 font-bold">
+            {{
               $t(
                 "i18n.components.card_change_account_info_password.new_password"
               )
             }}
-            *</label
-          >
+            *
+          </label>
           <input
             id="password"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
@@ -56,9 +56,9 @@
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/3">
-          <label for="repeat-password" class="responsive-h4 pb-2 font-bold"
-            >{{ $t("i18n._global.repeat_password") }} *</label
-          >
+          <label for="repeat-password" class="responsive-h4 pb-2 font-bold">
+            {{ $t("i18n._global.repeat_password") }} *
+          </label>
           <input
             id="confirm-password"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"

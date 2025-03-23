@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
+
 import { LOCALE_CODE, LOCALE_NAME } from "~/locales";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { ROADMAP_LINK_NAME } from "~/test-e2e/accessibility/accessible-names";

@@ -10,7 +10,8 @@
       iconName="IconOrganization"
       :value="organization.name"
       class="pr-2"
-  /></NuxtLink>
+    />
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">

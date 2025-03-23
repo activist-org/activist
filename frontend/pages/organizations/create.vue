@@ -26,9 +26,9 @@
           class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
         >
           <div class="w-1/2">
-            <label for="name" class="responsive-h3 block font-medium"
-              >{{ $t("i18n._global.organization_name") }}*</label
-            >
+            <label for="name" class="responsive-h3 block font-medium">
+              {{ $t("i18n._global.organization_name") }}*
+            </label>
             <input
               v-model="formData.name"
               id="name"
@@ -43,9 +43,9 @@
             />
           </div>
           <div class="w-1/2">
-            <label for="location" class="responsive-h3 block font-medium"
-              >{{ $t("i18n.pages._global.create.location") }}*</label
-            >
+            <label for="location" class="responsive-h3 block font-medium">
+              {{ $t("i18n.pages._global.create.location") }}*
+            </label>
             <input
               v-model="formData.location"
               id="location"
@@ -59,9 +59,9 @@
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium"
-            >{{ $t("i18n.pages._global.create.description") }}*</label
-          >
+          <label for="description" class="responsive-h3 block font-medium">
+            {{ $t("i18n.pages._global.create.description") }}*
+          </label>
           <textarea
             v-model="formData.description"
             id="description"
@@ -103,9 +103,9 @@
                 :to="localePath('/legal/privacy-policy')"
                 target="_blank"
                 class="link-text"
-                >{{ $t("i18n.pages._global.terms_of_service_pt_2") }}</NuxtLink
               >
-
+                {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
+              </NuxtLink>
               <p>.</p>
             </label>
           </div>
@@ -127,6 +127,7 @@
 
 <script setup lang="ts">
 import { Toaster, toast } from "vue-sonner";
+
 import type { OrganizationCreateFormData } from "~/types/communities/organization";
 
 const formData = ref<OrganizationCreateFormData>({
