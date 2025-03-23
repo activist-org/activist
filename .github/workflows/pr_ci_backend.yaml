@@ -30,9 +30,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          - POSTGRES_USER: ${{ env.DATABASE_USER }}
-          - POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
-          - POSTGRES_DB: ${{ env.DATABASE_NAME }}
+            POSTGRES_USER: ${{ env.DATABASE_USER }}
+            POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
+            POSTGRES_DB: ${{ env.DATABASE_NAME }}
         ports:
           - 5432:5432
         options: >-
@@ -44,7 +44,7 @@ jobs:
       redis:
         image: redis/redis-stack:latest
         env:
-          - REDIS_PASSWORD: ${{ env.REDIS_PASSWORD }}
+            REDIS_PASSWORD: ${{ env.REDIS_PASSWORD }}
         ports:
           - 6379:6379
         options: >-
