@@ -13,7 +13,9 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_topic_creation() -> None:
-    """Test creating a GroupTopic instance."""
+    """
+    Test creating a GroupTopic instance.
+    """
     group = GroupFactory()
     topic = TopicFactory()
 
@@ -24,7 +26,9 @@ def test_group_topic_creation() -> None:
 
 
 def test_multiple_topics_per_group() -> None:
-    """Test multiple topics for a single group."""
+    """
+    Test multiple topics for a single group.
+    """
     group = GroupFactory()
     topics = TopicFactory.create_batch(3)
 

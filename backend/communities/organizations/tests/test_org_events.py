@@ -13,7 +13,9 @@ pytestmark = pytest.mark.django_db
 
 
 def test_multiple_events_per_org() -> None:
-    """Test multiple events for a single organization."""
+    """
+    Test multiple events for a single organization.
+    """
     org = OrganizationFactory.create()
     events = EventFactory.create_batch(3)
 

@@ -72,7 +72,7 @@ class OrganizationApplication(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.creation_date}"
+        return str(self.creation_date)
 
 
 class OrganizationApplicationStatus(models.Model):
@@ -89,7 +89,7 @@ class OrganizationImage(models.Model):
     sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class OrganizationMember(models.Model):
@@ -100,7 +100,7 @@ class OrganizationMember(models.Model):
     is_comms = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class OrganizationSocialLink(SocialLink):
@@ -118,7 +118,7 @@ class OrganizationTask(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class OrganizationText(models.Model):

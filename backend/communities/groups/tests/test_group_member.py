@@ -12,13 +12,17 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_member_str() -> None:
-    """Test string representation of GroupMember model."""
+    """
+    Test string representation of GroupMember model.
+    """
     group_member = GroupMemberFactory.build()
     assert str(group_member) == f"{group_member.id}"
 
 
 def test_group_member_roles() -> None:
-    """Test the different roles a group member can have."""
+    """
+    Test the different roles a group member can have.
+    """
     user = UserFactory()
     group = GroupFactory()
 
@@ -50,7 +54,9 @@ def test_group_member_roles() -> None:
 
 
 def test_multiple_members_per_group() -> None:
-    """Test multiple members in a single group."""
+    """
+    Test multiple members in a single group.
+    """
     group = GroupFactory()
     members = [GroupMemberFactory(group=group) for _ in range(3)]
 

@@ -20,7 +20,9 @@ pytestmark = pytest.mark.django_db
 
 
 def test_str_methods() -> None:
-    """Test the __str__ methods of the communities."""
+    """
+    Test the __str__ methods of the communities.
+    """
     organization = OrganizationFactory.create()
     # Note: Needs to be updated to reflect the recent changes.
     # organization_application = OrganizationApplicationFactory.create()
@@ -39,8 +41,8 @@ def test_str_methods() -> None:
     assert str(group_member) == str(group_member.id)
 
 def test_status_and_status_type_str_methods() -> None:
-    """Test the __str__ methods of the Status and StatusType models.
-
+    """
+    Test the __str__ methods of the Status and StatusType models.
     There are status types preloaded into the test database by the fixture "fixtures/status_types.json".
     """
 
