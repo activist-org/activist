@@ -83,7 +83,7 @@ class Support(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class UserModel(AbstractUser, PermissionsMixin):

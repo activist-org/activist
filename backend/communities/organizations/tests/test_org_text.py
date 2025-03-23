@@ -14,13 +14,17 @@ pytestmark = pytest.mark.django_db
 
 
 def test_org_text_str() -> None:
-    """Test string representation of OrganizationText model."""
+    """
+    Test string representation of OrganizationText model.
+    """
     org_text = OrganizationTextFactory.build()
     assert hasattr(org_text, "description")
 
 
 def test_org_text_languages() -> None:
-    """Test organization text with different ISO languages."""
+    """
+    Test organization text with different ISO languages.
+    """
     org = OrganizationFactory()
 
     # 1. Test primary language text.

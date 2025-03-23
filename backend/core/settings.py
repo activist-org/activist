@@ -291,6 +291,10 @@ LOGGING = {
     },
 }
 
+# MARK: Image / Data Upload size limits
+IMAGE_UPLOAD_MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # 5MB
+
 # MARK: API Settings
 
 from rest_framework import viewsets  # noqa: E402

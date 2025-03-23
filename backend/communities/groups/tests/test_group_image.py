@@ -12,7 +12,9 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_image_str() -> None:
-    """Test string representation of GroupImage model."""
+    """
+    Test string representation of GroupImage model.
+    """
     group = GroupFactory()
     image = ImageFactory()
     group_image = GroupImageFactory(group=group, image=image, sequence_index=1)

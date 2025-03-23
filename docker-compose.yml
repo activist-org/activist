@@ -32,6 +32,7 @@ services:
       - DEBUG=${DEBUG}
       - SECRET_KEY=${SECRET_KEY}
       - VITE_FRONTEND_URL=${VITE_FRONTEND_URL}
+      - VITE_BACKEND_URL=${VITE_BACKEND_URL}
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     depends_on:
