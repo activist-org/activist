@@ -78,6 +78,7 @@
     "@unocss/reset": "65.4.3",
     "@vueuse/math": "12.7.0",
     "axios": "1.8.2",
+    "dompurify": "^3.2.4",
     "dotenv": "16.4.7",
     "eslint-config-prettier": "10.1.1",
     "eslint-flat-config-utils": "2.0.1",
