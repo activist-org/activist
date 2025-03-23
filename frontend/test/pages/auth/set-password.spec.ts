@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import SetPassword from "@/pages/auth/set-password.vue";
+import {
+  PASSWORD_STRENGTH_COLOR as COLOR,
+  PASSWORD_RATING as RATING,
+} from "~/test-utils/constants";
 import render from "@/test/render";
 import { fireEvent, screen, waitFor, within } from "@testing-library/vue";
 
@@ -45,6 +49,75 @@ describe("reset-password", () => {
       expect(icon.style.color).toBe("#3BA55C");
     });
   });
+
+  it.each([
+    ["a", RATING.VERY_WEAK],
+    ["Activis", RATING.WEAK],
+    ["Activist4Climat", RATING.MEDIUM],
+    ["Activist4ClimateChange", RATING.STRONG],
+    ["Activist4ClimateChange!", RATING.VERY_STRONG],
+  ])("shows password %s has rating of %s", async (password, ratingText) => {
+    await render(SetPassword);
+
+    const passwordInput = screen.getByPlaceholderText(/enter your password/i);
+
+    await fireEvent.update(passwordInput, password);
+
+    await waitFor(() => {
+      const rating = screen.getByTestId("sign-in-password-strength-text");
+      expect(rating.textContent).toContain(ratingText);
+    });
+  });
+
+  it.each([
+    [
+      "a",
+      "20%",
+      (progressBar: HTMLElement) =>
+        expect(progressBar.className).toMatch(COLOR.RED),
+    ],
+    [
+      "Activis",
+      "40%",
+      (progressBar: HTMLElement) =>
+        expect(progressBar.className).toMatch(COLOR.ORANGE),
+    ],
+    [
+      "Activist4Climat",
+      "60%",
+      (progressBar: HTMLElement) =>
+        expect(progressBar.className).toMatch(COLOR.YELLOW),
+    ],
+    [
+      "Activist4ClimateChange",
+      "80%",
+      (progressBar: HTMLElement) =>
+        expect(progressBar.className).toMatch(COLOR.GREEN),
+    ],
+    [
+      "Activist4ClimateChange!",
+      "100%",
+      (progressBar: HTMLElement) =>
+        expect(progressBar.classList).not.toContain("bg"),
+    ],
+  ])(
+    "shows password %s has progress of %s",
+    async (password, progress, expectColor) => {
+      await render(SetPassword);
+
+      const passwordInput = screen.getByPlaceholderText(/enter your password/i);
+
+      await fireEvent.update(passwordInput, password);
+
+      await waitFor(() => {
+        const progressBar = screen.getByTestId(
+          "password-strength-indicator-progress"
+        );
+        expect(progressBar.style.width).toBe(progress);
+        expectColor(progressBar);
+      });
+    }
+  );
 
   it.each([
     [

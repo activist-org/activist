@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 
-import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import {
   PASSWORD_STRENGTH_COLOR as COLOR,
-  newPasswordStrength,
   PASSWORD_PROGRESS as PROGRESS,
   PASSWORD_RATING as RATING,
-} from "~/test-e2e/component-objects/PasswordStrength";
+} from "~/test-utils/constants";
+import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
+import { newPasswordStrength } from "~/test-e2e/component-objects/PasswordStrength";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
 
 test.beforeEach(async ({ page }) => {
@@ -45,7 +45,7 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
     const passwords: {
       password: string;
       expected: {
-        text: RegExp;
+        text: string;
         color: RegExp | "";
         progress: RegExp;
       };
