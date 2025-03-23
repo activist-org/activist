@@ -60,7 +60,9 @@
                 <span
                   class="block truncate"
                   :class="{ 'font-medium': selected, 'font-normal': !selected }"
-                  >{{ $t(menuEntry.label) }}</span>
+                >
+                  {{ $t(menuEntry.label) }}
+                </span>
               </li>
             </NuxtLink>
           </ListboxOption>
