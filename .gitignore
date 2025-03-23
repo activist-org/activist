@@ -24,6 +24,8 @@ venv/
 # Testing
 .coverage
 cov_html/
+# For Docker testing add ./tmp:/tmp to the needed container.
+/tmp
 
 # Playwright
 frontend/test-results/
