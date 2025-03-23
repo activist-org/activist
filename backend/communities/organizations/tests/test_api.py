@@ -20,13 +20,17 @@ class UserDict(TypedDict):
 
 
 def create_user(password: str) -> UserDict:
-    """Create a user and return the user and password"""
+    """
+    Create a user and return the user and password.
+    """
     user = UserFactory.create(plaintext_password=password, is_confirmed=True)
     return {"user": user, "plaintext_password": password}
 
 
 def login_user(user_data: UserDict) -> dict:
-    """Log in a user and return the user and token"""
+    """
+    Log in a user and return the user and token.
+    """
     client = APIClient()
     response = client.post(
         "/v1/auth/sign_in/",
@@ -41,7 +45,9 @@ def login_user(user_data: UserDict) -> dict:
 
 @pytest.fixture(scope="session")
 def status_types(django_db_setup, django_db_blocker) -> None:
-    """Load the status_types fixture into the test database"""
+    """
+    Load the status_types fixture into the test database.
+    """
     with django_db_blocker.unblock():
         fixture_path = Path(settings.BASE_DIR) / "fixtures" / "status_types.json"
         call_command("loaddata", str(fixture_path), verbosity=2)
@@ -54,13 +60,17 @@ def new_user() -> UserDict:
 
 @pytest.fixture
 def created_by_user() -> UserModel:
-    """Create a user and return the user object"""
+    """
+    Create a user and return the user object.
+    """
     return create_user("Creator@123!?")["user"]
 
 
 @pytest.fixture
 def logged_in_user(new_user) -> dict:
-    """Create a user and log in the user"""
+    """
+    Create a user and log in the user.
+    """
     return login_user(new_user)
 
 
@@ -71,7 +81,8 @@ def logged_in_created_by_user(created_by_user) -> dict:
 
 @pytest.mark.django_db
 def test_OrganizationAPIView(logged_in_user, status_types) -> None:
-    """Test OrganizationAPIView
+    """
+    Test OrganizationAPIView
 
     # GET request
 
@@ -131,8 +142,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     response = client.post(
         "/v1/communities/organizations/", data=payload, format="json"
     )
-    org = Organization.objects.get(org_name=new_org.org_name)
-    print(org)
+
     assert response.status_code == 201
     assert Organization.objects.filter(org_name=new_org.org_name).exists()
     assert OrganizationApplication.objects.filter(
@@ -141,8 +151,9 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
 
 
 @pytest.mark.django_db
-def test_organizationDetaiAPIView(logged_in_user, logged_in_created_by_user) -> None:
-    """Test OrganizationDetailAPIView
+def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
+    """
+    Test OrganizationDetailAPIView
 
     # GET request
 
@@ -185,6 +196,7 @@ def test_organizationDetaiAPIView(logged_in_user, logged_in_created_by_user) -> 
         format="json",
     )
     assert response.status_code == 200
+
     updated_org = Organization.objects.get(id=new_org.id)
     assert updated_org.org_name == "updated_org_name"
 

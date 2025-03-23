@@ -45,7 +45,9 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         responses=OrganizationSerializer(many=True),
     )
     def get(self, request: Request) -> Response:
-        """Returns a paginated list of organizations."""
+        """
+        Returns a paginated list of organizations.
+        """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -56,7 +58,9 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         return Response(serializer.data)
 
     def post(self, request: Request) -> Response:
-        """Create a new organization"""
+        """
+        Create a new organization.
+        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -64,10 +68,11 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         location = Location.objects.create(**location_dict)
         serializer.validated_data["location"] = location
 
-        # location post-cleanup if the organization creation fails,
-        # necessary because of a not null constraint on the location field
+        # Location post-cleanup if the organization creation fails.
+        # This is necessary because of a not null constraint on the location field.
         try:
             org = serializer.save(created_by=request.user)
+
         except (IntegrityError, OperationalError):
             Location.objects.filter(id=location.id).delete()
             return Response(
@@ -95,7 +100,9 @@ class OrganizationDetailAPIView(APIView):
         }
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
-        """Retrieve a single organization by ID."""
+        """
+        Retrieve a single organization by ID.
+        """
         if id is None:
             return Response(
                 {"error": "Organization ID is required"},
@@ -105,6 +112,7 @@ class OrganizationDetailAPIView(APIView):
             org = Organization.objects.get(id=id)
             serializer = OrganizationSerializer(org)
             return Response(serializer.data, status=status.HTTP_200_OK)
+
         except Organization.DoesNotExist:
             return Response(
                 {"error": "Failed to retrieve the organization"},
@@ -119,7 +127,9 @@ class OrganizationDetailAPIView(APIView):
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
-        """Update an organization by ID"""
+        """
+        Update an organization by ID.
+        """
         if id is None:
             return Response(
                 {"error": "Organization ID is required"},
@@ -128,6 +138,7 @@ class OrganizationDetailAPIView(APIView):
 
         try:
             org = Organization.objects.get(id=id)
+
         except Organization.DoesNotExist:
             return Response(
                 {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
@@ -158,7 +169,9 @@ class OrganizationDetailAPIView(APIView):
         }
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:
-        """Delete an organization by ID"""
+        """
+        Delete an organization by ID.
+        """
         if id is None:
             return Response(
                 {"error": "Organization ID is required"},
@@ -167,12 +180,13 @@ class OrganizationDetailAPIView(APIView):
 
         try:
             org = Organization.objects.select_related("created_by").get(id=id)
+
         except Organization.DoesNotExist:
             return Response(
                 {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != org.created_by:
+        if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"error": "You are not authorized to delete this organization"},
                 status=status.HTTP_401_UNAUTHORIZED,
