@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "~/utils/i18n";
 
 export const PASSWORD_RATING = {
