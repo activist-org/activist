@@ -56,5 +56,5 @@ router.register(
 urlpatterns = [
     path("", include(router.urls)),
     path("organizations/", OrganizationAPIView.as_view()),
-    path("organizations/<uuid:org_id>/", OrganizationDetailAPIView.as_view()),
+    path("organizations/<uuid:id>/", OrganizationDetailAPIView.as_view()),
 ]

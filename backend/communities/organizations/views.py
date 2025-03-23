@@ -94,15 +94,15 @@ class OrganizationDetailAPIView(APIView):
             ),
         }
     )
-    def get(self, request: Request, org_id: None | UUID = None) -> Response:
+    def get(self, request: Request, id: None | UUID = None) -> Response:
         """Retrieve a single organization by ID."""
-        if org_id is None:
+        if id is None:
             return Response(
                 {"error": "Organization ID is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            org = Organization.objects.get(id=org_id)
+            org = Organization.objects.get(id=id)
             serializer = OrganizationSerializer(org)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Organization.DoesNotExist:
@@ -118,16 +118,16 @@ class OrganizationDetailAPIView(APIView):
             404: OpenApiResponse(response={"error": "Organization not found"}),
         }
     )
-    def put(self, request: Request, org_id: None | UUID = None) -> Response:
+    def put(self, request: Request, id: None | UUID = None) -> Response:
         """Update an organization by ID"""
-        if org_id is None:
+        if id is None:
             return Response(
                 {"error": "Organization ID is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
-            org = Organization.objects.get(id=org_id)
+            org = Organization.objects.get(id=id)
         except Organization.DoesNotExist:
             return Response(
                 {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
@@ -157,16 +157,16 @@ class OrganizationDetailAPIView(APIView):
             404: OpenApiResponse(response={"error": "Organization not found"}),
         }
     )
-    def delete(self, request: Request, org_id: None | UUID = None) -> Response:
+    def delete(self, request: Request, id: None | UUID = None) -> Response:
         """Delete an organization by ID"""
-        if org_id is None:
+        if id is None:
             return Response(
                 {"error": "Organization ID is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
-            org = Organization.objects.select_related("created_by").get(id=org_id)
+            org = Organization.objects.select_related("created_by").get(id=id)
         except Organization.DoesNotExist:
             return Response(
                 {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
