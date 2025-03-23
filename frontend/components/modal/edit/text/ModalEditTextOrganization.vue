@@ -8,7 +8,6 @@
         }}</label>
         <textarea
           v-model="formData.description"
-          v-sanitize
           id="textarea"
           class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import DOMPurify from "dompurify";
 
 interface DirectiveBinding {
@@ -9,6 +11,7 @@ interface DirectiveBinding {
 
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
+    // TODO: Find out where these come from and what they are.
     const allowedTags = binding.value?.allowedTags || [];
     const allowedAttrs = binding.value?.allowedAttrs || [];
 
