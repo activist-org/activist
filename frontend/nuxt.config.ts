@@ -1,7 +1,7 @@
-import type { NuxtPage } from "nuxt/schema";
-
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import type { NuxtPage } from "nuxt/schema";
+
 import tailwindTypography from "@tailwindcss/typography";
 import { resolve } from "path";
 

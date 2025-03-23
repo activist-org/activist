@@ -1,5 +1,6 @@
-import useColorModeImages from "@/composables/useColorModeImages";
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import useColorModeImages from "@/composables/useColorModeImages";
+
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 
 mockNuxtImport("useColorMode", () => useColorModeMock);
