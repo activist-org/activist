@@ -2,9 +2,10 @@
 import { config } from "@vue/test-utils";
 import { createPinia, defineStore, setActivePinia } from "pinia";
 import { createI18n } from "vue-i18n";
-import en from "~/i18n/en-US.json" assert { type: "json" };
 
 import type { UseColorModeFn } from "~/test/vitest-globals";
+
+import en from "~/i18n/en-US.json" assert { type: "json" };
 
 // Set up Pinia.
 setActivePinia(createPinia());

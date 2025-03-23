@@ -58,6 +58,7 @@ import {
   STwitter,
 } from "vue-socials";
 import { toast } from "vue-sonner";
+
 import { IconMap } from "~/types/icon-map";
 
 const vueSocials: { [key: string]: Component } = {

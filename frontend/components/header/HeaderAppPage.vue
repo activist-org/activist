@@ -78,6 +78,7 @@
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
+
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

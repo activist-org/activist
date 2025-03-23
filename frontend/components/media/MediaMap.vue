@@ -13,6 +13,7 @@ import MapLibreGlDirections, {
 } from "@maplibre/maplibre-gl-directions";
 import maplibregl, { type Map, type LayerSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+
 import type { Location } from "~/types/content/location";
 
 const props = defineProps<{

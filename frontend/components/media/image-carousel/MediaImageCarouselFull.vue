@@ -26,9 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import type { Swiper } from "swiper/types";
+
+import { useModalHandlers } from "~/composables/useModalHandlers";
+import { IconMap } from "~/types/icon-map";
 
 const {
   openModal: openMediaImageCarousel,

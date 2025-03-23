@@ -42,6 +42,7 @@
     "cross-env": "7.0.3",
     "env-cmd": "10.1.0",
     "eslint": "9.22.0",
+    "eslint-plugin-perfectionist": "^4.10.1",
     "eslint-plugin-vue": "10.0.0",
     "eslint-plugin-vuejs-accessibility": "2.4.1",
     "happy-dom": "15.11.6",

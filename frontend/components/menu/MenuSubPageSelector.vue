@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
+
 import type { SubPageSelector } from "~/types/sub-page-selector";
 
 const props = defineProps<{

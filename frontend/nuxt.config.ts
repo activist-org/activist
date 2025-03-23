@@ -1,8 +1,10 @@
+import type { NuxtPage } from "nuxt/schema";
+
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindTypography from "@tailwindcss/typography";
-import type { NuxtPage } from "nuxt/schema";
 import { resolve } from "path";
+
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
 import locales from "./locales";

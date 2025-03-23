@@ -61,7 +61,8 @@
           id="sign-in-signup-link"
           :to="localePath('/auth/sign-up')"
           class="link-text ml-2 font-extrabold"
-          >{{ $t("i18n._global.sign_up") }}
+        >
+          {{ $t("i18n._global.sign_up") }}
         </NuxtLink>
       </div>
     </form>

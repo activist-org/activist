@@ -24,8 +24,9 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
 import type { PasswordRules } from "~/types/password-rules";
+
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   rules: PasswordRules[];
