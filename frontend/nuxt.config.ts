@@ -121,6 +121,8 @@ export default defineNuxtConfig({
   },
 
   security: {
+    // Cors not needed for frontend.
+    corsHandler: false,
     headers: {
       contentSecurityPolicy: {
         "img-src": [
