@@ -9,7 +9,7 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_update_group(client: Client) -> None:
+def test_partial_update_group(client: Client) -> None:
     """
     Test Cases:
         1. Unauthorized user trying to update data.
@@ -20,24 +20,14 @@ def test_update_group(client: Client) -> None:
     group_id = group.id
 
     update_group_name = "Test_Group_Name_123"
-    update_name = "test_name_123"
-    update_group_tagline = "test_tagline"
-    update_group_creation = group.creation_date
-    update_group_terms = group.terms_checked
-    update_group_category = "test_category"
-    update_group_location = group.location
+    update_name = "testname123"
 
     # 1. Unauthorized user trying to update data.
-    response = client.put(
+    response = client.patch(
         path=f"/v1/communities/groups/{group_id}/",
         data={
             "group_name": update_group_name,
             "name": update_name,
-            "tagline": update_group_tagline,
-            "creation_date": update_group_creation,
-            "terms_checked": update_group_terms,
-            "category": update_group_category,
-            "location": update_group_location,
         },
     )
 
@@ -49,7 +39,7 @@ def test_update_group(client: Client) -> None:
     user.is_confirmed = True
     user.is_staff = True
     user.save()
-    login_response = client.put(
+    login_response = client.patch(
         path="/v1/auth/sign_in/",
         data={
             "email": user.email,
@@ -58,7 +48,7 @@ def test_update_group(client: Client) -> None:
     )
 
     if login_response.status_code == 200:
-        response = client.put(
+        response = client.patch(
             path=f"/v1/communities/groups/{group_id}/",
             data={
                 "group_name": update_group_name,
@@ -69,7 +59,7 @@ def test_update_group(client: Client) -> None:
 
     # 3. Bad UUID gives group as None.
     bad_uuid = uuid.uuid4()
-    response = client.put(
+    response = client.patch(
         path=f"/v1/communities/groups/{bad_uuid}/",
         data={
             "group_name": update_group_name,

@@ -1,4 +1,4 @@
-from uuid import UUID
+import uuid
 
 import pytest
 from django.test import Client
@@ -9,7 +9,7 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_update_group(client: Client) -> None:
+def test_delete_group(client: Client) -> None:
     """
     Test Cases:
         1. Unauthorized user trying to delete data.
@@ -34,8 +34,7 @@ def test_update_group(client: Client) -> None:
     assert response.status_code == 401
 
     # 2. Authorized client deletes data.
-    plaintext_password = "Activist@123!?"
-    user = UserFactory(plaintext_password=plaintext_password)
+    user = UserFactory()
     user.is_confirmed = True
     user.is_staff = True
     user.save()
@@ -43,7 +42,7 @@ def test_update_group(client: Client) -> None:
         path="/v1/auth/sign_in/",
         data={
             "email": user.email,
-            "password": plaintext_password,
+            "password": user.password,
         },
     )
 
@@ -58,7 +57,7 @@ def test_update_group(client: Client) -> None:
         assert response.status_code == 200
 
     # 3. Bad UUID gives group as None.
-    bad_uuid = UUID
+    bad_uuid = uuid.uuid4()
     response = client.delete(
         path=f"/v1/communities/groups/{bad_uuid}/",
         data={
