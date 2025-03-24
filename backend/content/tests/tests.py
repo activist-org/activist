@@ -18,7 +18,7 @@ from content.models import (
     Tag,
     DiscussionEntry
 )
-
+from authentication.factories import UserFactory
 pytestmark = pytest.mark.django_db
 
 
