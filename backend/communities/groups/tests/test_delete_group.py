@@ -12,22 +12,22 @@ pytestmark = pytest.mark.django_db
 def test_delete_group(client: Client) -> None:
     """
     Test Cases:
-        1. Unauthorized user trying to delete data.
-        2. Authorized client deletes data.
-        3. Bad UUID gives group as None.
+    1. Unauthorized user trying to delete data.
+    2. Authorized client deletes data.
+    3. Bad UUID gives group as None.
     """
     group = GroupFactory.create()
     group_id = group.id
 
-    update_group_name = "Test_Group_Name_123"
-    update_name = "testname123"
+    delete_group_name = "Test_Group_Name_123"
+    delete_name = "testname123"
 
     # 1. Unauthorized user trying to delete data.
     response = client.delete(
         path=f"/v1/communities/groups/{group_id}/",
         data={
-            "group_name": update_group_name,
-            "name": update_name,
+            "group_name": delete_group_name,
+            "name": delete_name,
         },
     )
 
@@ -50,8 +50,8 @@ def test_delete_group(client: Client) -> None:
         response = client.delete(
             path=f"/v1/communities/groups/{group_id}/",
             data={
-                "group_name": update_group_name,
-                "name": update_name,
+                "group_name": delete_group_name,
+                "name": delete_name,
             },
         )
         assert response.status_code == 200
@@ -61,8 +61,8 @@ def test_delete_group(client: Client) -> None:
     response = client.delete(
         path=f"/v1/communities/groups/{bad_uuid}/",
         data={
-            "group_name": update_group_name,
-            "name": update_name,
+            "group_name": delete_group_name,
+            "name": delete_name,
         },
     )
 
