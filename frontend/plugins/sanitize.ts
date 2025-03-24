@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import sanitizeDirective from "@/directives/sanitize"; // Import the existing directive
+import sanitizeDirective from "~/directives/sanitize"; // Import the existing directive
+interface SanitizedHTMLElement extends HTMLElement {
+  _sanitizeHandler: (event: Event) => void;
+}
 
 export default defineNuxtPlugin((nuxtApp) => {
   // Register directive globally
@@ -11,7 +14,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const applySanitizeDirective = () => {
     document.querySelectorAll("input[type='text'], textarea").forEach((el) => {
       if (!el.hasAttribute("data-sanitized")) {
-        sanitizeDirective.mounted(el, {}); // Manually apply directive
+        sanitizeDirective.mounted(el as SanitizedHTMLElement, { value: {} }); // Manually apply directive
         el.setAttribute("data-sanitized", "true"); // Prevent duplicate applications
       }
     });

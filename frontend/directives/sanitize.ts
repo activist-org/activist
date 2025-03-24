@@ -9,8 +9,12 @@ interface DirectiveBinding {
   };
 }
 
+interface SanitizedHTMLElement extends HTMLElement {
+  _sanitizeHandler: (event: Event) => void;
+}
+
 export default {
-  mounted(el: HTMLElement, binding: DirectiveBinding) {
+  mounted(el: SanitizedHTMLElement, binding: DirectiveBinding) {
     // TODO: Find out where these come from and what they are.
     const allowedTags = binding.value?.allowedTags || [];
     const allowedAttrs = binding.value?.allowedAttrs || [];
@@ -55,12 +59,12 @@ export default {
     }
 
     // Save sanitize function to remove event listener later
-    (el as any)._sanitizeHandler = sanitize;
+    (el as SanitizedHTMLElement)._sanitizeHandler = sanitize;
   },
-  beforeUnmount(el: HTMLElement) {
+  beforeUnmount(el: SanitizedHTMLElement) {
     // Clean up event listener when directive is removed
-    if ((el as any)._sanitizeHandler) {
-      el.removeEventListener("input", (el as any)._sanitizeHandler);
+    if (el._sanitizeHandler) {
+      el.removeEventListener("input", el._sanitizeHandler);
     }
   },
 };
