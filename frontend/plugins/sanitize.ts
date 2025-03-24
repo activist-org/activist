@@ -9,7 +9,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   // Register directive globally
   nuxtApp.vueApp.directive("sanitize", sanitizeDirective);
 
-  if (process.server) return; // Prevent execution on the server
+  if (import.meta.server) return; // Prevent execution on the server
 
   const applySanitizeDirective = () => {
     document.querySelectorAll("input[type='text'], textarea").forEach((el) => {
