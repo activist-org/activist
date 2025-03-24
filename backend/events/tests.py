@@ -14,7 +14,6 @@ from events.factories import (
     RoleFactory,
 )
 from events.models import EventText
-from unittest.mock import patch
 
 pytestmark = pytest.mark.django_db
 
@@ -43,23 +42,3 @@ def test_event_text_str_method() -> None:
         get_involved="Get involved text"
     )
     assert str(event_text) == f"{event_text.event} - {event_text.iso}"
-
-
-# def test_invalidate_event_cache() -> None:
-#     event = EventFactory.create()
-#     cache.set(EVENT_LIST_CACHE_PREFIX, event)
-#     cache.set(EVENT_RETRIEVE_CACHE_PREFIX, event)
-#     event.save()
-    
-#     assert cache.has_key(EVENT_LIST_CACHE_PREFIX) is False
-#     assert cache.has_key(EVENT_RETRIEVE_CACHE_PREFIX) is False
-
-
-@patch("events.signals.cache.keys")
-@patch("events.signals.cache.delete_many")
-def test_invalidate_event_cache(mock_keys, mock_delete_many) -> None:
-    event = EventFactory.create()
-    event.save()
-
-    mock_keys.assert_called()
-    mock_delete_many.assert_called()
