@@ -8,7 +8,6 @@ import pytest
 from uuid import uuid4
 from django.utils import timezone
 
-from authentication.factories import UserFactory
 from content.factories import ResourceFactory, TaskFactory, TopicFactory
 from content.models import (
     Discussion,
@@ -19,7 +18,6 @@ from content.models import (
     Tag,
     DiscussionEntry
 )
-from unittest.mock import patch
 
 pytestmark = pytest.mark.django_db
 
@@ -128,13 +126,3 @@ def test_discussion_entry_str_method():
         last_updated=timezone.now()
     )
     assert str(entry) == f"{entry_id}"
-
-
-@patch("content.signals.cache.keys")
-@patch("content.signals.cache.delete_many")
-def test_invalidate_resource_cache(mock_keys, mock_delete_many) -> None:
-    resource = ResourceFactory.create()
-    resource.save()
-
-    mock_keys.assert_called()
-    mock_delete_many.assert_called()

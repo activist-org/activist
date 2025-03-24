@@ -21,8 +21,6 @@ env:
   DATABASE_NAME: postgres
   DATABASE_USER: postgres
   DATABASE_PASSWORD: postgres
-  REDIS_PORT: 6379
-  REDIS_PASSWORD: redis
 
 jobs:
   backend:
@@ -35,23 +33,6 @@ jobs:
             POSTGRES_DB: ${{ env.DATABASE_NAME }}
         ports:
           - 5432:5432
-        options: >-
-          --health-cmd "pg_isready"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-      redis:
-        image: redis/redis-stack:latest
-        env:
-            REDIS_PASSWORD: ${{ env.REDIS_PASSWORD }}
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping | grep PONG"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     permissions:
       contents: write
