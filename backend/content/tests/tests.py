@@ -19,11 +19,8 @@ from content.models import (
     DiscussionEntry
 )
 from authentication.factories import UserFactory
-<<<<<<< HEAD
 from unittest.mock import patch
 
-=======
->>>>>>> 85ac00a5 (Revert incorrect changes)
 pytestmark = pytest.mark.django_db
 
 
