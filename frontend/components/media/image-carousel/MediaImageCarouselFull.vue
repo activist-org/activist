@@ -74,11 +74,14 @@ interface OrganizationImage {
 async function fetchOrganizationImages() {
   if (props.organizationId) {
     try {
+      const { getToken } = useToken();
+      const token = await  getToken();
+
       const response = await fetch(
         `${BASE_BACKEND_URL}/communities/organizations/${props.organizationId}/images/`,
         {
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `Token ${token}`,
           },
         }
       );

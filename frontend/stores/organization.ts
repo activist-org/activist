@@ -56,7 +56,8 @@ export const useOrganizationStore = defineStore("organization", {
     async create(formData: OrganizationCreateFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
+      const { getToken } = useToken();
+      const token = await getToken();
 
       const responseOrg = await useFetch(
         `${BASE_BACKEND_URL}/communities/organizations/`,
@@ -179,7 +180,8 @@ export const useOrganizationStore = defineStore("organization", {
     ) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
+      const { getToken } = useToken();
+      const token = await  getToken();
 
       const responseOrg = await $fetch(
         BASE_BACKEND_URL + `/communities/organizations/${org.id}/`,
@@ -232,7 +234,8 @@ export const useOrganizationStore = defineStore("organization", {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
+      const { getToken } = useToken();
+      const token = await  getToken();
 
       // Endpoint needs socialLink id's but they are not available here.
       // 'update()' in the viewset 'class OrganizationSocialLinkViewSet' handles this

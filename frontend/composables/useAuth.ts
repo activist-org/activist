@@ -6,12 +6,13 @@ interface LoginResponse {
 export const useAuth = () => {
   const localePath = useLocalePath();
   const authUser = useUser();
+  const tokenStore = usePersistedToken();
   const signIn = async (username: string, password: string) => {
     await $fetch<LoginResponse>(`${BASE_BACKEND_URL}/auth/sign_in/`, {
       method: "POST",
       body: JSON.stringify({ username, password }),
       onResponse: ({ response }) => {
-        localStorage.setItem("accessToken", response._data.token);
+        tokenStore.persistToken(response._data.token || null);
         authUser.signInUser(["user"]);
         navigateTo(localePath("/home"));
       },
@@ -27,7 +28,7 @@ export const useAuth = () => {
   };
 
   const logout = async () => {
-    localStorage.removeItem("accessToken");
+    tokenStore.resetToken();
   };
 
   return {

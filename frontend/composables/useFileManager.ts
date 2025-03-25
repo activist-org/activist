@@ -14,13 +14,16 @@ export default function useFileManager(initialFiles: File[] = []) {
     }
 
     try {
+      const { getToken } = useToken();
+      const token = await  getToken();
+
       const response = await fetch(
         `${BASE_BACKEND_URL as string}/content/images/`,
         {
           method: "POST",
           body: formData,
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `Token ${token}`,
           },
         }
       );

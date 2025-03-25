@@ -22,7 +22,8 @@ export const fetchWithOptionalToken = async (
   url: string,
   data: object | undefined
 ) => {
-  const token = localStorage.getItem("accessToken");
+  const { getToken } = useToken();
+  const token = await  getToken();
 
   if (token) {
     const res = await $fetch.raw(BASE_BACKEND_URL + url, {
