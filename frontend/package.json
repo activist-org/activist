@@ -28,7 +28,7 @@
     "@nuxtjs/i18n": "9.3.0",
     "@nuxtjs/tailwindcss": "6.12.2",
     "@pinia/nuxt": "0.9.0",
-    "@playwright/test": "1.49.1",
+    "@playwright/test": "1.51.1",
     "@tailwindcss/typography": "0.5.16",
     "@testing-library/vue": "8.1.0",
     "@types/node": "22.12.0",
@@ -46,15 +46,14 @@
     "eslint-plugin-vue": "10.0.0",
     "eslint-plugin-vuejs-accessibility": "2.4.1",
     "happy-dom": "15.11.6",
-    "nuxt": "3.15.4",
+    "nuxt": "3.16.1",
     "nuxt-icon": "0.6.10",
     "nuxt-security": "2.2.0",
-    "playwright": "1.49",
     "prettier": "3.4.2",
     "prettier-plugin-tailwindcss": "0.6.11",
     "rollup": "4.32.1",
     "typescript": "5.7.3",
-    "vite": "6.0.11",
+    "vite": "6.0.12",
     "vitest": "3.0.5",
     "vue": "3.5.13",
     "vue-tsc": "2.2.0"
@@ -87,7 +86,7 @@
     "nuxt-mail": "5.1.1",
     "pinia": "2.3.1",
     "pinia-plugin-persistedstate": "4.2.0",
-    "playwright-core": "1.49",
+    "playwright-core": "1.51.1",
     "postcss": "8.5.1",
     "postcss-custom-properties": "14.0.4",
     "qrcode": "1.5.4",
@@ -110,7 +109,7 @@
   },
   "resolutions": {
     "chokidar": "3.6.0",
-    "playwright-core": "1.49"
+    "playwright-core": "1.51.1"
   },
   "packageManager": "yarn@4.7.0"
 }

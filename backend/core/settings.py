@@ -94,6 +94,7 @@ CORS_ALLOWED_ORIGINS = [
 
 ROOT_URLCONF = "core.urls"
 
+
 # MARK: Templates
 
 TEMPLATES = [

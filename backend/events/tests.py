@@ -5,7 +5,6 @@ Testing for the events app.
 
 # mypy: ignore-errors
 import pytest
-
 from events.factories import (
     EventFactory,
     EventAttendeeFactory,
@@ -30,6 +29,7 @@ def test_str_methods() -> None:
     assert str(event_attendee_status) == event_attendee_status.status_name
     assert str(_format) == _format.name
     assert str(role) == role.name
+
 
 def test_event_text_str_method() -> None:
     event = EventFactory.create()

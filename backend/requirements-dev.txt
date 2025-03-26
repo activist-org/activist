@@ -187,7 +187,6 @@ virtualenv==20.28.1
     # via pre-commit
 wheel==0.45.1
     # via pip-tools
-
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
