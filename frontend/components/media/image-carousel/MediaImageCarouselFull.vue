@@ -3,6 +3,7 @@
   <div class="relative">
     <MediaImageCarousel
       @upload-complete="fetchOrganizationImages"
+      @delete-complete="fetchOrganizationImages"
       :fullscreen="false"
       :organizationId="organizationId"
       :imageUrls="imageUrls"
@@ -23,10 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Swiper } from "swiper/types";
-
-import { useModalHandlers } from "~/composables/useModalHandlers";
-import { useOrganizationImages } from "~/composables/useOrganizationImages";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{ organizationId?: string }>();
@@ -39,20 +36,9 @@ const { imageUrls, fetchOrganizationImages } = useOrganizationImages(
   props.organizationId
 );
 
-const swiperRef = ref<{ swiper: Swiper | null }>();
-
-function setupSwiper() {
-  const swiperEl = document.querySelector("swiper-container");
-  if (swiperEl) {
-    swiperRef.value = { swiper: swiperEl.swiper };
-    swiperEl.addEventListener("swiper-ready", () => {
-      swiperRef.value = { swiper: swiperEl.swiper };
-    });
+onMounted(async () => {
+  if (props.organizationId) {
+    await fetchOrganizationImages();
   }
-}
-
-onMounted(() => {
-  fetchOrganizationImages();
-  setupSwiper();
 });
 </script>

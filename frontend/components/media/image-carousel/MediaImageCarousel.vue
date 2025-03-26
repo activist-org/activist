@@ -2,7 +2,6 @@
 <template>
   <div class="relative">
     <swiper-container
-      @slideChange="onSlideChange"
       ref="swiperRef"
       class="swiper card-style h-full w-full cursor-pointer overflow-clip"
       :slidesPerView="1"
@@ -34,7 +33,7 @@
       {{ $t("i18n.components.media_image_carousel.upload_error") }}
     </p>
     <button
-      @click="handleDeleteClick(currentImageId)"
+      @click="handleDeleteClick"
       class="focus-brand absolute bottom-12 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
       <Icon :name="IconMap.MINUS" size="1.5em" />
@@ -55,12 +54,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Swiper as SwiperClass } from "swiper/types";
-
 import { register } from "swiper/element/bundle";
 
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
+
+const { deleteImage } = useOrganizationImages();
 
 const props = defineProps({
   fullscreen: Boolean,
@@ -71,14 +70,41 @@ const props = defineProps({
 register();
 
 const uploadError = ref(false);
-const currentImageId = ref<number | null>(null);
+const currentImageId = ref<string>("");
 
-const onSlideChange = (swiper: SwiperClass) => {
-  currentImageId.value = swiper.realIndex; // Get the index of the current slide
-};
-// Forward the upload-complete event to the parent component.
+// Get the swiper instance. Use this instance to listen for the slideChange event.
+const swiperRef = ref(null);
+
+onMounted(() => {
+  const swiper = swiperRef.value.swiper;
+
+  swiper.on("slideChange", () => {
+    const activeIndex = swiper.realIndex;
+    const img = props.imageUrls[activeIndex];
+
+    // Check if the img is valid
+    if (img) {
+      const regex = /\/([a-f0-9\-]{36})\.jpg$/;
+      const uuid = img.match(regex);
+      if (uuid) {
+        currentImageId.value = uuid[1];
+      }
+    }
+  });
+});
+
+// This forces the swiper to re-render and recalculate the slides after deleting an image.
+onUpdated(() => {
+  const swiper = swiperRef.value.swiper;
+  if (swiper) {
+    swiper.update();
+  }
+});
+
+const emit = defineEmits(["upload-complete", "delete-complete"]);
+
+// Forward the upload-complete from ModalUploadImages event to the parent component.
 // Building out an event bus would be a better solution, but only a quick fix is needed here.
-const emit = defineEmits(["upload-complete"]);
 const forwardUploadCompleteEmit = () => {
   emit("upload-complete");
 };
@@ -88,9 +114,18 @@ const {
   handleCloseModal: handleCloseModalUploadImages,
 } = useModalHandlers("ModalUploadImages");
 
-const handleDeleteClick = (imageId: number | null) => {
-  console.log("handleDeleteClick:", imageId);
-  // Add your deletion logic here
+const handleDeleteClick = async () => {
+  try {
+    await deleteImage(currentImageId.value);
+
+    // Update Swiper after deleting an image
+    const swiper = swiperRef.value.swiper;
+    swiper.update();
+
+    emit("delete-complete");
+  } catch (error) {
+    console.error("Delete image failed:", error);
+  }
 };
 </script>
 

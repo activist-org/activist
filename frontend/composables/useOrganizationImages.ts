@@ -68,6 +68,7 @@ export function useOrganizationImages(organizationId?: string) {
         const data = (await response.json()) as OrganizationImage[];
         files.value = [];
         fetchOrganizationImages(); // Refresh images after upload
+
         return data;
       }
     } catch (error) {
@@ -75,8 +76,27 @@ export function useOrganizationImages(organizationId?: string) {
     }
   }
 
+  async function deleteImage(imageId: string) {
+    if (!imageId) return;
+
+    try {
+      const response = await fetch(
+        `${BASE_BACKEND_URL}/content/images/${imageId}/`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.error("Delete image failed:", error);
+    }
+  }
+
   function handleFiles(newFiles: File[]) {
-    console.log("handleFiles", newFiles);
     const allowedTypes = ["image/jpeg", "image/png"];
     const validFiles = [...newFiles].filter((file) =>
       allowedTypes.includes(file.type)
@@ -100,7 +120,7 @@ export function useOrganizationImages(organizationId?: string) {
     }
   }
 
-  watch(() => organizationId, fetchOrganizationImages, { immediate: true });
+  // watch(() => organizationId, fetchOrganizationImages, { immediate: true });
 
   return {
     imageUrls,
@@ -108,6 +128,7 @@ export function useOrganizationImages(organizationId?: string) {
     files,
     fetchOrganizationImages,
     uploadFiles,
+    deleteImage,
     handleFiles,
     removeFile,
   };
