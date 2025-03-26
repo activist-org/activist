@@ -4,11 +4,11 @@
     <swiper-container
       ref="swiperRef"
       class="swiper card-style h-full w-full cursor-pointer overflow-clip"
+      @slideChange="onSlideChange"
       :slidesPerView="1"
       :spaceBetween="0"
       :loop="true"
       :keyboard="true"
-      @slideChange="onSlideChange"
       :pagination="{ clickable: true }"
     >
       <swiper-slide
@@ -56,11 +56,10 @@
 
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
+import type { Swiper as SwiperClass } from "swiper/types";
 
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
-
-import type { Swiper as SwiperClass } from "swiper/types";
 
 const props = defineProps({
   fullscreen: Boolean,
