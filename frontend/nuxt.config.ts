@@ -2,7 +2,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import type { NuxtPage } from "nuxt/schema";
 
-import tailwindTypography from "@tailwindcss/typography";
 import { resolve } from "path";
 
 import applyMiddleware from "./applyMiddleware";
@@ -67,9 +66,6 @@ export default defineNuxtConfig({
   tailwindcss: {
     cssPath: "~/assets/css/tailwind.css",
     configPath: "tailwind.config.ts",
-    config: {
-      plugins: [tailwindTypography],
-    },
   },
 
   postcss: {
@@ -141,10 +137,9 @@ export default defineNuxtConfig({
          *
          * Chromium and Firefox still allow http requests to localhost even with this header.
          */
-        "upgrade-insecure-requests":
+        "upgrade-insecure-requests": !(
           import.meta.env.VITE_FRONTEND_URL === "http://localhost:3000"
-            ? false
-            : true,
+        ),
       },
     },
     rateLimiter: {
