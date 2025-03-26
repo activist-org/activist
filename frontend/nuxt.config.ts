@@ -133,6 +133,18 @@ export default defineNuxtConfig({
           "blob:",
           import.meta.env.VITE_BACKEND_URL || "",
         ],
+        /**
+         * Header: "upgrade-insecure-requests" forces http requests to use https.
+         *
+         * Disabled in local dev environments to allow http requests in Safari.
+         * https://bugs.webkit.org/show_bug.cgi?id=250776
+         *
+         * Chromium and Firefox still allow http requests to localhost even with this header.
+         */
+        "upgrade-insecure-requests":
+          import.meta.env.VITE_FRONTEND_URL === "http://localhost:3000"
+            ? false
+            : true,
       },
     },
     rateLimiter: {
