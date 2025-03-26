@@ -120,8 +120,6 @@ export function useOrganizationImages(organizationId?: string) {
     }
   }
 
-  // watch(() => organizationId, fetchOrganizationImages, { immediate: true });
-
   return {
     imageUrls,
     uploadError,

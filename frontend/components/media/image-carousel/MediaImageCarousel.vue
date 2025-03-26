@@ -54,6 +54,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Swiper as SwiperInstance } from "swiper";
+
 import { register } from "swiper/element/bundle";
 
 import { useModalHandlers } from "~/composables/useModalHandlers";
@@ -72,8 +74,13 @@ register();
 const uploadError = ref(false);
 const currentImageId = ref<string>("");
 
+const {
+  openModal: openModalUploadImages,
+  handleCloseModal: handleCloseModalUploadImages,
+} = useModalHandlers("ModalUploadImages");
+
 // Get the swiper instance. Use this instance to listen for the slideChange event.
-const swiperRef = ref(null);
+const swiperRef = ref<{ swiper?: SwiperInstance } | null>(null);
 
 onMounted(() => {
   const swiperEl = swiperRef.value;
@@ -108,11 +115,6 @@ const emit = defineEmits(["upload-complete", "delete-complete"]);
 const forwardUploadCompleteEmit = () => {
   emit("upload-complete");
 };
-
-const {
-  openModal: openModalUploadImages,
-  handleCloseModal: handleCloseModalUploadImages,
-} = useModalHandlers("ModalUploadImages");
 
 const handleDeleteClick = async () => {
   try {
