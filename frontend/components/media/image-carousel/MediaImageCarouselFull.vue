@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 import type { Swiper } from "swiper/types";
+
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { useOrganizationImages } from "~/composables/useOrganizationImages";
 import { IconMap } from "~/types/icon-map";

@@ -8,8 +8,8 @@
       :spaceBetween="0"
       :loop="true"
       :keyboard="true"
-      :pagination="{ clickable: true }"
       @slideChange="onSlideChange"
+      :pagination="{ clickable: true }"
     >
       <swiper-slide
         v-for="[idx, img] of imageUrls?.entries()"
@@ -60,6 +60,8 @@ import { register } from "swiper/element/bundle";
 import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
+import type { Swiper as SwiperClass } from "swiper/types";
+
 const props = defineProps({
   fullscreen: Boolean,
   organizationId: String,
@@ -71,7 +73,7 @@ register();
 const uploadError = ref(false);
 const currentImageId = ref<number | null>(null);
 
-const onSlideChange = (swiper: any) => {
+const onSlideChange = (swiper: SwiperClass) => {
   currentImageId.value = swiper.realIndex; // Get the index of the current slide
 };
 // Forward the upload-complete event to the parent component.
