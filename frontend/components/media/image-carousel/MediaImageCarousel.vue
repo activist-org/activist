@@ -9,6 +9,7 @@
       :loop="true"
       :keyboard="true"
       :pagination="{ clickable: true }"
+      @slideChange="onSlideChange"
     >
       <swiper-slide
         v-for="[idx, img] of imageUrls?.entries()"
@@ -32,6 +33,12 @@
     >
       {{ $t("i18n.components.media_image_carousel.upload_error") }}
     </p>
+    <button
+      @click="handleDeleteClick(currentImageId)"
+      class="focus-brand absolute bottom-12 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+    >
+      <Icon :name="IconMap.MINUS" size="1.5em" />
+    </button>
     <button
       @click="openModalUploadImages()"
       class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
@@ -62,7 +69,11 @@ const props = defineProps({
 register();
 
 const uploadError = ref(false);
+const currentImageId = ref<number | null>(null);
 
+const onSlideChange = (swiper: any) => {
+  currentImageId.value = swiper.realIndex; // Get the index of the current slide
+};
 // Forward the upload-complete event to the parent component.
 // Building out an event bus would be a better solution, but only a quick fix is needed here.
 const emit = defineEmits(["upload-complete"]);
@@ -74,6 +85,11 @@ const {
   openModal: openModalUploadImages,
   handleCloseModal: handleCloseModalUploadImages,
 } = useModalHandlers("ModalUploadImages");
+
+const handleDeleteClick = (imageId: number | null) => {
+  console.log("handleDeleteClick:", imageId);
+  // Add your deletion logic here
+};
 </script>
 
 <style>

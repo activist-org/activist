@@ -133,6 +133,8 @@ export default defineNuxtConfig({
           "blob:",
           import.meta.env.VITE_BACKEND_URL || "",
         ],
+        // Safari-specific CSP settings.
+        "upgrade-insecure-requests": false,
       },
     },
     rateLimiter: {

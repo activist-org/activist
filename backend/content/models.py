@@ -66,7 +66,6 @@ class Image(models.Model):
 
 
 @receiver(post_delete, sender=Image)
-# def delete_image_file(sender, instance, **kwargs):
 def delete_image_file(sender: Type[Image], instance: Image, **kwargs: Any) -> None:
     """Delete the file from the filesystem when the Image instance is deleted."""
     if instance.file_object:
