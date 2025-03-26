@@ -73,31 +73,31 @@ const uploadError = ref(false);
 const currentImageId = ref<string>("");
 
 // Get the swiper instance. Use this instance to listen for the slideChange event.
-const swiperRef = ref<HTMLElement | null>(null);
+const swiperRef = ref<HTMLDivElement | null>(null);
 
 onMounted(() => {
-  const swiper = swiperRef.value?.swiper;
-  if (!swiper) return; // Ensure swiper exists before using it
+  const swiperEl = swiperRef.value;
+  // Now we assert swiperRef value is a Swiper instance
+  if (swiperEl?.swiper) {
+    swiperEl.swiper.on("slideChange", () => {
+      const activeIndex = swiperEl.swiper.realIndex;
+      const img = (props.imageUrls ?? [])[activeIndex];
 
-  swiper.on("slideChange", () => {
-    const activeIndex = swiper.realIndex;
-    const img = (props.imageUrls ?? [])[activeIndex];
-
-    if (img) {
-      const regex = /\/([a-f0-9-]{36})\.jpg$/;
-      const uuid = img.match(regex);
-      if (uuid) {
-        currentImageId.value = uuid[1];
+      if (img) {
+        const regex = /\/([a-f0-9-]{36})\.jpg$/;
+        const uuid = img.match(regex);
+        if (uuid) {
+          currentImageId.value = uuid[1];
+        }
       }
-    }
-  });
+    });
+  }
 });
 
-// This forces the swiper to re-render and recalculate the slides after deleting an image.
 onUpdated(() => {
-  const swiper = swiperRef.value?.swiper;
-  if (swiper) {
-    swiper.update();
+  const swiperEl = swiperRef.value;
+  if (swiperEl?.swiper) {
+    swiperEl.swiper.update();
   }
 });
 
