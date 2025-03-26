@@ -56,6 +56,7 @@
 
 <script setup lang="ts">
 import type { Swiper as SwiperClass } from "swiper/types";
+
 import { register } from "swiper/element/bundle";
 
 import { useModalHandlers } from "~/composables/useModalHandlers";
