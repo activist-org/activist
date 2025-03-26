@@ -73,16 +73,16 @@ const uploadError = ref(false);
 const currentImageId = ref<string>("");
 
 // Get the swiper instance. Use this instance to listen for the slideChange event.
-const swiperRef = ref(null);
+const swiperRef = ref<HTMLElement | null>(null);
 
 onMounted(() => {
   const swiper = swiperRef.value?.swiper;
+  if (!swiper) return; // Ensure swiper exists before using it
 
   swiper.on("slideChange", () => {
     const activeIndex = swiper.realIndex;
     const img = (props.imageUrls ?? [])[activeIndex];
 
-    // Check if the img is valid
     if (img) {
       const regex = /\/([a-f0-9-]{36})\.jpg$/;
       const uuid = img.match(regex);
