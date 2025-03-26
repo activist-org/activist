@@ -87,7 +87,7 @@ onMounted(() => {
   // Now we assert swiperRef value is a Swiper instance
   if (swiperEl?.swiper) {
     swiperEl.swiper.on("slideChange", () => {
-      const activeIndex = swiperEl.swiper.realIndex;
+      const activeIndex = swiperEl?.swiper?.realIndex ?? 1;
       const img = (props.imageUrls ?? [])[activeIndex];
 
       if (img) {
