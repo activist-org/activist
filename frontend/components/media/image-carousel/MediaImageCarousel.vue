@@ -76,15 +76,15 @@ const currentImageId = ref<string>("");
 const swiperRef = ref(null);
 
 onMounted(() => {
-  const swiper = swiperRef.value.swiper;
+  const swiper = swiperRef.value?.swiper;
 
   swiper.on("slideChange", () => {
     const activeIndex = swiper.realIndex;
-    const img = props.imageUrls[activeIndex];
+    const img = (props.imageUrls ?? [])[activeIndex];
 
     // Check if the img is valid
     if (img) {
-      const regex = /\/([a-f0-9\-]{36})\.jpg$/;
+      const regex = /\/([a-f0-9-]{36})\.jpg$/;
       const uuid = img.match(regex);
       if (uuid) {
         currentImageId.value = uuid[1];
@@ -95,7 +95,7 @@ onMounted(() => {
 
 // This forces the swiper to re-render and recalculate the slides after deleting an image.
 onUpdated(() => {
-  const swiper = swiperRef.value.swiper;
+  const swiper = swiperRef.value?.swiper;
   if (swiper) {
     swiper.update();
   }
@@ -119,8 +119,8 @@ const handleDeleteClick = async () => {
     await deleteImage(currentImageId.value);
 
     // Update Swiper after deleting an image
-    const swiper = swiperRef.value.swiper;
-    swiper.update();
+    const swiper = swiperRef.value?.swiper;
+    swiper?.update();
 
     emit("delete-complete");
   } catch (error) {
