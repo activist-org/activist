@@ -303,3 +303,18 @@ def test_image_destroy_view(client: APIClient) -> None:
     assert not Image.objects.filter(
         id=file_id
     ).exists(), f"Image with ID {file_id} was not deleted from the database"
+
+
+@pytest.mark.django_db
+def test_destroy_non_existent_file_view(client: APIClient) -> None:
+    """
+    Test the destroy/delete view for a non-existent file.
+
+    This test can output a 'Not Found: /v1/content/images/some_random_uuid/' console warning.
+    This is expected.
+    """
+
+    non_existent_file_uuid = uuid.uuid4()  # Generates a random UUID
+
+    response = client.delete(f"/v1/content/images/{non_existent_file_uuid}/")
+    assert response.status_code == 404
