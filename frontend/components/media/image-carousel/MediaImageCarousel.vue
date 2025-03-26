@@ -73,7 +73,7 @@ const uploadError = ref(false);
 const currentImageId = ref<string>("");
 
 // Get the swiper instance. Use this instance to listen for the slideChange event.
-const swiperRef = ref<HTMLDivElement | null>(null);
+const swiperRef = ref(null);
 
 onMounted(() => {
   const swiperEl = swiperRef.value;
