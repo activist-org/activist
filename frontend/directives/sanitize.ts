@@ -1,5 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
+import { useNuxtApp } from "#app";
 import DOMPurify from "dompurify";
 
 interface DirectiveBinding {
@@ -15,9 +14,16 @@ interface SanitizedHTMLElement extends HTMLElement {
 
 export default {
   mounted(el: SanitizedHTMLElement, binding: DirectiveBinding) {
-    const i18n = useI18n();
+    // Directives don't have access to the Vue component instances to which they are applied.
+    // We need to use useNuxtApp() to get access to things like i18n module.
+    const { $i18n } = useNuxtApp();
 
-    // TODO: Find out where these come from and what they are.
+    if (!$i18n) {
+      console.error("$i18n is not available from useNuxtApp().");
+      return;
+    }
+
+    // TODO: To better understand / use this directive, find out where these come from and what their values are.
     const allowedTags = binding.value?.allowedTags || [];
     const allowedAttrs = binding.value?.allowedAttrs || [];
 
@@ -30,12 +36,11 @@ export default {
         ALLOWED_ATTR: allowedAttrs,
       });
 
-      // If the value has been sanitized, update the input and show an alert.
       if (originalValue !== sanitizedValue) {
         target.value = sanitizedValue;
         target.dispatchEvent(new Event("input")); // ensure Vue updates v-model
 
-        alert(i18n.t("i18n.directives.sanitize.suspicious_input_detected"));
+        alert($i18n.t("i18n.directives.sanitize.suspicious_input_detected"));
       }
     };
 
