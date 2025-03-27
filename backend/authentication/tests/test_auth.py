@@ -12,14 +12,12 @@ from authentication.factories import (
 )
 from authentication.models import UserModel
 
-from django.test import Client
 from django.core import mail
 from faker import Faker
 
 from django.test import Client
 from uuid import UUID
 import uuid
-
 
 pytestmark = pytest.mark.django_db
 
