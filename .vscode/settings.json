@@ -9,12 +9,5 @@
   "css.customData": [
     ".vscode/tailwind.json"
   ],
-<<<<<<< HEAD
-<<<<<<< HEAD
   "vitest.rootConfig": "./frontend/vitest.config.mts",
-=======
-  "python.analysis.autoImportCompletions": false,
->>>>>>> 275821d1 (Fixing license and linter errors)
-=======
->>>>>>> 487b6dd2 (Adding more tests to check coverage and trying to fix port issue)
 }
