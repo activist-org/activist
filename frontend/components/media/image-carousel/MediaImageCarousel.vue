@@ -50,7 +50,6 @@
 <script setup lang="ts">
 import { register } from "swiper/element/bundle";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps({

@@ -28,7 +28,6 @@
 <script setup lang="ts">
 import type { Swiper } from "swiper/types";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
 const {
