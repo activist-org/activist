@@ -8,7 +8,6 @@
     }"
   >
     <input
-      v-model="model"
       class="h-5 w-full bg-transparent placeholder-distinct-text outline-none"
       :class="{
         'py-3': !$slots.icons,
@@ -24,7 +23,6 @@
 defineOptions({
   inheritAttrs: false,
 });
-const model = defineModel<string>();
 
 export interface Props {
   hasError?: boolean;

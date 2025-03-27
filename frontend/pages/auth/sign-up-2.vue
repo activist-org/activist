@@ -4,7 +4,8 @@
     <form @submit.prevent="signUp" @enter="signUp" class="space-y-4">
       <div class="col">
         <FormTextInput2
-          v-model="userName"
+          @input="(event) => (userName = event.target.value)"
+          :value="userName"
           :placeholder="$t('i18n.pages.auth.sign_up.index.enter_user_name')"
         />
       </div>
@@ -27,7 +28,8 @@
       />
       <div>
         <FormPasswordInput
-          v-model="confirmPassword"
+          @input="(event) => (confirmPassword = event.target.value)"
+          :value="confirmPassword"
           :placeholder="$t('i18n._global.repeat_password')"
         >
           <template #icons>
