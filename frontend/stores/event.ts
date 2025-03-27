@@ -62,7 +62,8 @@ export const useEventStore = defineStore("event", {
     async create(formData: EventCreateFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
+      const { getToken } = useToken();
+      const token = await  getToken();
 
       const responseEvent = await useFetch(
         `${BASE_BACKEND_URL}/events/events/`,
@@ -181,7 +182,8 @@ export const useEventStore = defineStore("event", {
     async updateTexts(event: Event, formData: EventUpdateTextFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
+      const { getToken } = useToken();
+      const token = await  getToken();
 
       const responseEvent = await $fetch(
         BASE_BACKEND_URL + `/events/events/${event.id}/`,
@@ -234,7 +236,8 @@ export const useEventStore = defineStore("event", {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
+      const { getToken } = useToken();
+      const token = await  getToken();
 
       // Endpoint needs socialLink id's but they are not available here.
       // 'update()' in the viewset 'class EventSocialLinkViewSet' handles this
