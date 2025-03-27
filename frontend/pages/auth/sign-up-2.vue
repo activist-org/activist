@@ -3,54 +3,45 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form @submit.prevent="signUp" @enter="signUp" class="space-y-4">
       <div class="col">
-        <FormTextInput
-          @update:model-value="userNameValue = $event"
+        <FormTextInput2
+          v-model="userName"
           :placeholder="$t('i18n.pages.auth.sign_up.index.enter_user_name')"
-          :model-value="userNameValue"
         />
       </div>
       <div>
-        <FormTextInput
-          @update:model-value="passwordValue = $event"
-          @input="checkRules"
-          @blurred="
-            isBlurred = true;
-            isFocused = false;
-          "
-          @focused="
-            isFocused = true;
-            isBlurred = false;
-          "
+        <FormPasswordInput
+          @input="handlePasswordInput"
+          @blur="isPasswordFocused = false"
+          @focus="isPasswordFocused = true"
+          :value="password"
           :placeholder="$t('i18n._global.enter_password')"
-          :is-icon-visible="true"
-          input-type="password"
-          :model-value="passwordValue"
-          :icons="[IconMap.VISIBLE]"
-          :error="!isAllRulesValid && isBlurred"
+          :hasError="
+            !isPasswordFocused && password.length > 0 && !isAllRulesValid
+          "
         />
       </div>
-      <IndicatorPasswordStrength :password-value="passwordValue" />
+      <IndicatorPasswordStrength :password-value="password" />
       <TooltipPasswordRequirements
-        v-if="
-          !!passwordValue?.length &&
-          !isAllRulesValid &&
-          (!isBlurred || isFocused)
-        "
+        v-if="isPasswordFocused && password.length > 0 && !isAllRulesValid"
         :rules="rules"
       />
       <div>
-        <FormTextInput
-          @update:model-value="confirmPasswordValue = $event"
+        <FormPasswordInput
+          v-model="confirmPassword"
           :placeholder="$t('i18n._global.repeat_password')"
-          :is-icon-visible="true"
-          input-type="password"
-          :model-value="confirmPasswordValue"
-          :icons="
-            isPasswordMatch(passwordValue, confirmPasswordValue)
-              ? [IconMap.CHECK, IconMap.VISIBLE]
-              : [IconMap.X_LG, IconMap.VISIBLE]
-          "
-        />
+        >
+          <template #icons>
+            <span>
+              <Icon
+                v-if="doPasswordsMatch"
+                :name="IconMap.CHECK"
+                size="1.2em"
+                color="#3BA55C"
+              />
+              <Icon v-else :name="IconMap.X_LG" size="1.2em" color="#BA3D3B" />
+            </span>
+          </template>
+        </FormPasswordInput>
       </div>
       <div class="flex flex-col space-y-3">
         <FriendlyCaptcha />
@@ -93,19 +84,29 @@
 </template>
 
 <script setup lang="ts">
+// I have no idea why Nuxt can't find this component
+import FormPasswordInput from "~/components/form/text/FormPasswordInput.vue";
 import { IconMap } from "~/types/icon-map";
 
 const localePath = useLocalePath();
 
-const userNameValue = ref("");
-const passwordValue = ref("");
-const confirmPasswordValue = ref("");
+const userName = ref("");
+const password = ref("");
+const confirmPassword = ref("");
 const hasRed = ref(false);
-const isBlurred = ref(false);
-const isFocused = ref(false);
+const isPasswordFocused = ref(false);
 
 const { rules, isAllRulesValid, checkRules, isPasswordMatch } =
   usePasswordRules();
+
+const doPasswordsMatch = computed<boolean>(() =>
+  isPasswordMatch(password.value, confirmPassword.value)
+);
+
+const handlePasswordInput = (event: Event & { target: HTMLInputElement }) => {
+  checkRules(event);
+  password.value = event.target.value;
+};
 
 const signUp = () => {};
 </script>
