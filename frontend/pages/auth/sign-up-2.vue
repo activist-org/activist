@@ -4,9 +4,10 @@
     <form @submit.prevent="signUp" @enter="signUp" class="space-y-4">
       <div class="col">
         <FormTextInput2
-          @input="(event) => (userName = event.target.value)"
+          @input="userName = $event.target.value"
           :value="userName"
           :placeholder="$t('i18n.pages.auth.sign_up.index.enter_user_name')"
+          :data-testid="$t('i18n.pages.auth.sign_up.index.enter_user_name')"
         />
       </div>
       <div>
@@ -16,6 +17,7 @@
           @focus="isPasswordFocused = true"
           :value="password"
           :placeholder="$t('i18n._global.enter_password')"
+          :data-testid="$t('i18n._global.enter_password')"
           :hasError="
             !isPasswordFocused && password.length > 0 && !isAllRulesValid
           "
@@ -28,9 +30,10 @@
       />
       <div>
         <FormPasswordInput
-          @input="(event) => (confirmPassword = event.target.value)"
+          @input="confirmPassword = $event.target.value"
           :value="confirmPassword"
           :placeholder="$t('i18n._global.repeat_password')"
+          :data-testid="$t('i18n._global.repeat_password')"
         >
           <template #icons>
             <span>
@@ -39,8 +42,15 @@
                 :name="IconMap.CHECK"
                 size="1.2em"
                 color="#3BA55C"
+                data-testid="extra-icon"
               />
-              <Icon v-else :name="IconMap.X_LG" size="1.2em" color="#BA3D3B" />
+              <Icon
+                v-else
+                :name="IconMap.X_LG"
+                size="1.2em"
+                color="#BA3D3B"
+                data-testid="extra-icon"
+              />
             </span>
           </template>
         </FormPasswordInput>
@@ -86,8 +96,6 @@
 </template>
 
 <script setup lang="ts">
-// I have no idea why Nuxt can't find this component
-import FormPasswordInput from "~/components/form/text/FormPasswordInput.vue";
 import { IconMap } from "~/types/icon-map";
 
 const localePath = useLocalePath();
