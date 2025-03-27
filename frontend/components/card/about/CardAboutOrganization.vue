@@ -85,7 +85,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextOrganization } = useModalHandlers(
