@@ -5,7 +5,7 @@
       <div class="col">
         <FormTextInput
           @update:model-value="userNameValue = $event"
-          :placeholder="$t('i18n.pages.auth._global.enter_user_name')"
+          :placeholder="$t('i18n.pages.auth._global.enter_a_user_name')"
           :model-value="userNameValue"
         />
       </div>

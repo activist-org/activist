@@ -6,8 +6,8 @@
         <FormTextInput2
           @input="userName = $event.target.value"
           :value="userName"
-          :placeholder="$t('i18n.pages.auth._global.enter_user_name')"
-          :data-testid="$t('i18n.pages.auth._global.enter_user_name')"
+          :placeholder="$t('i18n.pages.auth._global.enter_a_user_name')"
+          :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
         />
       </div>
       <div>
