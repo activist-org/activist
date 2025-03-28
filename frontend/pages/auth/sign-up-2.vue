@@ -18,14 +18,12 @@
           :value="password"
           :placeholder="$t('i18n._global.enter_password')"
           :data-testid="$t('i18n._global.enter_password')"
-          :hasError="
-            !isPasswordFocused && password.length > 0 && !isAllRulesValid
-          "
+          :hasError="showPasswordError.border"
         />
       </div>
       <IndicatorPasswordStrength :password-value="password" />
       <TooltipPasswordRequirements
-        v-if="isPasswordFocused && password.length > 0 && !isAllRulesValid"
+        v-if="showPasswordError.tooltip"
         :rules="rules"
       />
       <div>
@@ -113,9 +111,19 @@ const doPasswordsMatch = computed<boolean>(() =>
   isPasswordMatch(password.value, confirmPassword.value)
 );
 
+const showPasswordError = computed<{ border: boolean; tooltip: boolean }>(
+  () => {
+    const error = password.value.length > 0 && !isAllRulesValid.value;
+    return {
+      border: !isPasswordFocused.value && error,
+      tooltip: isPasswordFocused.value && error,
+    };
+  }
+);
+
 const handlePasswordInput = (event: Event & { target: HTMLInputElement }) => {
-  checkRules(event);
   password.value = event.target.value;
+  checkRules(event);
 };
 
 const signUp = () => {};
