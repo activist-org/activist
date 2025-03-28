@@ -6,8 +6,8 @@
         <FormTextInput2
           @input="userName = $event.target.value"
           :value="userName"
-          :placeholder="$t('i18n.pages.auth.sign_up.index.enter_user_name')"
-          :data-testid="$t('i18n.pages.auth.sign_up.index.enter_user_name')"
+          :placeholder="$t('i18n.pages.auth._global.enter_user_name')"
+          :data-testid="$t('i18n.pages.auth._global.enter_user_name')"
         />
       </div>
       <div>
@@ -81,7 +81,7 @@
         />
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
-        <h6>{{ $t("i18n.pages.auth.sign_up.index.have_account") }}</h6>
+        <h6>{{ $t("i18n.pages.auth._global.have_account") }}</h6>
         <NuxtLink
           :to="localePath('/auth/sign-in')"
           class="link-text ml-2 font-extrabold"
