@@ -7,7 +7,7 @@ import io
 import os
 import uuid
 from datetime import datetime
-from typing import Generator
+from typing import Any, Dict, Generator
 
 import pytest
 from django.conf import settings
@@ -37,6 +37,27 @@ def image_with_file() -> Generator[Image, None, None]:
     file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
     if os.path.exists(file_path):
         os.remove(file_path)
+
+
+def create_organization_and_image() -> Dict[str, Any]:
+    """
+    Helper function to create a test organization and a simple test image.
+    """
+    org = OrganizationFactory()
+    assert org is not None, "Organization was not created"
+
+    img = TestImage.new("RGB", (100, 100), color="red")
+    img_file = io.BytesIO()
+    img.save(img_file, format="JPEG")
+    img_file.seek(0)
+
+    file = SimpleUploadedFile(
+        "test_create_image.jpg", img_file.getvalue(), content_type="image/jpeg"
+    )
+
+    data = {"organization_id": str(org.id), "file_object": file}
+
+    return data
 
 
 @pytest.mark.django_db
@@ -102,29 +123,21 @@ def test_image_list_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
+def test_image_create_view(client: APIClient) -> None:
     """
     Test the create view for images.
     This is like a POST request.
 
-    1. Create an image file using the image_with_file fixture.
-    2. Delete created image entry from the test database. This entry is a side effect of the fixture and is unneeded.
-    3. Create an organization.
-    4. Make a POST request to the image create endpoint with org info and image file.
-    5. Check that the response is a 201 status code.
-    6. Check that the image was inserted into the database.
-    7. Check that the uploaded/savedfile has a sanitized, UUID filename.
+    1. Create an organization and a test image.
+    2. Make a POST request to the image create endpoint with org info and image file.
+    3. Check that the response is a 201 status code.
+    4. Check that the image was inserted into the database.
+    5. Check that the file was uploaded/saved to the media root.
+    6. Check that the uploaded/savedfile has a sanitized, UUID filename.
     8. Delete the file from the file system. This is for test cleanup and does not happen in production.
     """
 
-    image = image_with_file
-
-    Image.objects.all().delete()
-
-    org = OrganizationFactory()
-    assert org is not None, "Organization was not created"
-
-    data = {"organization_id": str(org.id), "file_object": image.file_object}
+    data = create_organization_and_image()
 
     response = client.post("/v1/content/images/", data, format="multipart")
 
@@ -135,8 +148,14 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
         Image.objects.count() == 1
     ), "Expected one image in the database, but found more than one."
 
-    uploaded_file = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
-    assert os.path.exists(uploaded_file)
+    # Assert file exists in filesystem.
+    file_url = response.json()["fileObject"]
+    relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
+    uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
+
+    assert os.path.exists(
+        uploaded_file
+    ), f"File {uploaded_file} was not found in the filesystem"
 
     uuid_filename = os.path.splitext(os.path.basename(uploaded_file))[0]
 
@@ -149,6 +168,7 @@ def test_image_create_view(client: APIClient, image_with_file: Image) -> None:
 
     file_object = response.json()["fileObject"].split("/")[-1]
     file_to_delete = os.path.join(settings.MEDIA_ROOT, "images", file_object)
+
     if os.path.exists(file_to_delete):
         os.remove(file_to_delete)
 
@@ -237,3 +257,64 @@ def test_image_create_large_file(client: APIClient) -> None:
         f"The file size ({file.size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
         in response.json()["nonFieldErrors"]
     )
+
+
+@pytest.mark.django_db
+def test_image_destroy_view(client: APIClient) -> None:
+    """
+    Test the destroy/delete view for an existing image.
+
+    The default DRF destroy() method in the view is used (there is no written 'destroy' method in the view).
+    A signal to delete the file from the filesystem is triggered when the Image instance is deleted.
+    The signal is triggered in the Image model.
+
+    This is like a DELETE request.
+
+    1. Create an org and image and upload the org/image as 'data'.
+    2. Delete the image from the database and the file from the file system.
+    """
+
+    data = create_organization_and_image()
+
+    response = client.post("/v1/content/images/", data, format="multipart")
+    file_id = response.json()["id"]
+
+    # Assert file exists in filesystem and the database.
+    file_url = response.json()["fileObject"]
+    relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
+    uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
+
+    assert os.path.exists(
+        uploaded_file
+    ), f"File {uploaded_file} was not found in the filesystem"
+    assert Image.objects.filter(
+        id=file_id
+    ).exists(), f"Image with ID {file_id} was not found in the database"
+
+    # Delete the image from the database and the file from the file system.
+    # The signal to delete the file from the filesystem is triggered in the Image model.
+    response = client.delete(f"/v1/content/images/{file_id}/")
+
+    # Assert file is deleted from filesystem and the database.
+    assert response.status_code == 204
+    assert not os.path.exists(
+        uploaded_file
+    ), f"File {uploaded_file} was not deleted from the filesystem"
+    assert not Image.objects.filter(
+        id=file_id
+    ).exists(), f"Image with ID {file_id} was not deleted from the database"
+
+
+@pytest.mark.django_db
+def test_destroy_non_existent_file_view(client: APIClient) -> None:
+    """
+    Test the destroy/delete view for a non-existent file.
+
+    This test can output a 'Not Found: /v1/content/images/some_random_uuid/' console warning.
+    This is expected.
+    """
+
+    non_existent_file_uuid = uuid.uuid4()  # Generates a random UUID
+
+    response = client.delete(f"/v1/content/images/{non_existent_file_uuid}/")
+    assert response.status_code == 404

@@ -320,3 +320,6 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Use the default destroy() provided by DRF / ModelViewSet. No need to write destroy() code here.
+    # The model uses a signal to delete the file from the filesystem when the Image instance is deleted.
