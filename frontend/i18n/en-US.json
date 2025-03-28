@@ -363,6 +363,7 @@
   "i18n.composables.use_menu_entries_state.groups": "Groups",
   "i18n.composables.use_menu_entries_state.tasks": "Tasks",
   "i18n.composables.use_menu_entries_state.team": "Team",
+  "i18n.directives.sanitize.suspicious_input_detected": "Suspicious input detected and sanitized.",
   "i18n.error.message": "Oops, something went wrong:",
   "i18n.error.title": "Error • activist",
   "i18n.layouts.auth.auth": "Auth",
