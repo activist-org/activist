@@ -5,6 +5,7 @@ Testing for the events app.
 
 # mypy: ignore-errors
 import pytest
+
 from events.factories import (
     EventFactory,
     EventAttendeeFactory,

@@ -58,7 +58,6 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
 const { deleteImage } = useOrganizationImages();
