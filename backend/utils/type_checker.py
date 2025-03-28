@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-# Script to check backend models against corresponding frontend TypeScript files.
+# Script to check backend models field against corresponding frontend TypeScript files field.
 import ast
 from typing import Dict, Set
 
