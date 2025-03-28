@@ -81,7 +81,7 @@ class UserAdmin(BaseUserAdmin[UserModel]):
     # The forms to add and change user instances.
     form = UserChangeForm
     add_form = UserCreationForm
-
+    
     # The fields to be used in displaying the User model.
     list_display = ["username", "email", "is_admin"]
     list_filter = ["is_admin"]
