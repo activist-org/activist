@@ -8,10 +8,11 @@ from communities.groups.views import (
     GroupViewSet,
 )
 from communities.organizations.views import (
+    OrganizationAPIView,
+    OrganizationDetailAPIView,
     OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
-    OrganizationViewSet,
 )
 from communities.views import StatusViewSet
 
@@ -22,9 +23,6 @@ router = DefaultRouter()
 # MARK: Main Tables
 
 router.register(prefix=r"groups", viewset=GroupViewSet, basename="group")
-router.register(
-    prefix=r"organizations", viewset=OrganizationViewSet, basename="organization"
-)
 router.register(prefix=r"statuses", viewset=StatusViewSet)
 
 # MARK: Bridge Tables
@@ -57,4 +55,6 @@ router.register(
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("organizations/", OrganizationAPIView.as_view()),
+    path("organizations/<uuid:id>/", OrganizationDetailAPIView.as_view()),
 ]

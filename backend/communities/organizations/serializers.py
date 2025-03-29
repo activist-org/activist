@@ -40,7 +40,7 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     texts = OrganizationTextSerializer(many=True, read_only=True)
     social_links = OrganizationSocialLinkSerializer(many=True, read_only=True)
-    location = LocationSerializer(read_only=True)
+    location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
     events = EventSerializer(many=True, read_only=True)
