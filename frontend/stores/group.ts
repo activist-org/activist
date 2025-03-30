@@ -61,7 +61,8 @@ export const useGroupStore = defineStore("group", {
     async create(formData: GroupCreateFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
+      const { getToken } = useToken();
+      const token = await  getToken();
 
       const responseGroup = await useFetch(
         `${BASE_BACKEND_URL}/communities/groups/`,
@@ -173,7 +174,8 @@ export const useGroupStore = defineStore("group", {
     async updateTexts(group: Group, formData: GroupUpdateTextFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
+      const { getToken } = useToken();
+      const token = await  getToken();
 
       const responseOrg = await $fetch(
         BASE_BACKEND_URL + `/communities/groups/${group.id}/`,
@@ -226,7 +228,8 @@ export const useGroupStore = defineStore("group", {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
+      const { getToken } = useToken();
+      const token = await  getToken();
 
       // Endpoint needs socialLink id's but they are not available here.
       // 'update()' in the viewset 'class GroupSocialLinkViewSet' handles this
