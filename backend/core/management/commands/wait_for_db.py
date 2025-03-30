@@ -2,11 +2,12 @@
 import sys
 import time
 from argparse import ArgumentParser
-from typing import TypedDict, Unpack
+from typing import TypedDict
 
 from django.core.management.base import BaseCommand
 from django.db import connection
 from django.db.utils import OperationalError
+from typing_extensions import Unpack
 
 
 class Options(TypedDict):
