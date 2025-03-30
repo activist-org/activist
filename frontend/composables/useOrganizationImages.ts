@@ -17,7 +17,9 @@ export function useOrganizationImages(organizationId?: string) {
   const files = ref<UploadableFile[]>([]);
 
   async function fetchOrganizationImages() {
-    if (!organizationId) return;
+    if (!organizationId) {
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -46,7 +48,9 @@ export function useOrganizationImages(organizationId?: string) {
   }
 
   async function uploadFiles(organizationId?: string) {
-    if (!organizationId) return;
+    if (!organizationId) {
+      return;
+    }
 
     const formData = new FormData();
     files.value.forEach((uploadableFile: UploadableFile) => {
@@ -67,7 +71,7 @@ export function useOrganizationImages(organizationId?: string) {
       if (response.ok) {
         const data = (await response.json()) as OrganizationImage[];
         files.value = [];
-        fetchOrganizationImages(); // Refresh images after upload
+        fetchOrganizationImages(); // refresh images after upload
 
         return data;
       }
@@ -77,20 +81,17 @@ export function useOrganizationImages(organizationId?: string) {
   }
 
   async function deleteImage(imageId: string) {
-    if (!imageId) return;
+    if (!imageId) {
+      return;
+    }
 
     try {
-      const response = await fetch(
-        `${BASE_BACKEND_URL}/content/images/${imageId}/`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-
-      return response;
+      return await fetch(`${BASE_BACKEND_URL}/content/images/${imageId}/`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Token ${localStorage.getItem("accessToken")}`,
+        },
+      });
     } catch (error) {
       console.error("Delete image failed:", error);
     }
