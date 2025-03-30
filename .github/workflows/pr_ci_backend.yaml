@@ -8,6 +8,8 @@ on:
       - opened
       - reopened
       - synchronize
+    paths:
+      - "backend/**"
   push:
     branches:
       - main

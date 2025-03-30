@@ -8,6 +8,8 @@ on:
       - opened
       - reopened
       - synchronize
+    paths:
+      - "frontend/**"
   push:
     branches:
       - main
