@@ -83,7 +83,7 @@ const swiperRef = ref<{ swiper?: SwiperInstance } | null>(null);
 
 onMounted(() => {
   const swiperEl = swiperRef.value;
-  // Now we assert swiperRef value is a Swiper instance
+  // Now we assert swiperRef value is a Swiper instance.
   if (swiperEl?.swiper) {
     swiperEl.swiper.on("slideChange", () => {
       const activeIndex = swiperEl?.swiper?.realIndex ?? 1;
@@ -119,7 +119,7 @@ const handleDeleteClick = async () => {
   try {
     await deleteImage(currentImageId.value);
 
-    // Update Swiper after deleting an image
+    // Update Swiper after deleting an image.
     const swiper = swiperRef.value?.swiper;
     swiper?.update();
 

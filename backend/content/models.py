@@ -48,7 +48,8 @@ class Faq(models.Model):
 def set_filename_to_uuid(instance: Any, filename: str) -> str:
     """Generate a new filename using the model's UUID and keep the original extension."""
     ext = os.path.splitext(filename)[1]  # extract file extension
-    new_filename = f"{instance.id}{ext.lower()}"  # use model UUID as filename. Force extension to lowercase.
+    # Note: Force extension to lowercase.
+    new_filename = f"{instance.id}{ext.lower()}"  # use model UUID as filename
 
     return os.path.join("images/", new_filename)  # store in 'images/' folder
 
