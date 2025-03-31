@@ -56,6 +56,7 @@ export enum IconMap {
   MASTODON = "simple-icons:mastodon",
   MATRIX = "IconMatrix",
   MESSENGER = "simple-icons:messenger",
+  MINUS = "bi:dash-lg",
   ORGANIZATION = "IconOrganization",
   PEOPLE = "bi:people",
   PERSON = "bi:person",
