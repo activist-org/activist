@@ -73,6 +73,24 @@ class ModelVisitor(ast.NodeVisitor):
 
         return interfaces
 
+    def _resolve_interface_inheritance(interface_data: dict) -> dict[str, set[str]]:
+        """Resolve inheritance to create complete field sets for each interface."""
+        resolved_interfaces = {}
+
+        for interface_name, data in interface_data.items():
+            # Start with the interface's direct fields
+            all_fields = set(data["fields"])
+            parent_name = data["parent"]
+
+            # Follow the inheritance chain to collect all parent fields
+            while parent_name and parent_name in interface_data:
+                all_fields.update(interface_data[parent_name]["fields"])
+                parent_name = interface_data[parent_name]["parent"]
+
+            resolved_interfaces[interface_name] = all_fields
+
+        return resolved_interfaces
+
 
 def main():
     print("In progress....")
