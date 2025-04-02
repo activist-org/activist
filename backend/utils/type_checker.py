@@ -2,6 +2,7 @@
 
 # Script to check backend models field against corresponding frontend TypeScript files field.
 import ast
+import re
 from typing import Dict, Set
 
 
@@ -52,6 +53,25 @@ class ModelVisitor(ast.NodeVisitor):
                     field_type in node.value.func.attr for field_type in field_types
                 ):
                     self.models[self.current_model].add(target.id)
+
+    def _extract_interface_definitions(content: str) -> dict:
+        """Extract interface definitions with their direct fields and parent interfaces."""
+        interfaces = {}
+        interface_pattern = (
+            r"(?:export\s+)?interface\s+(\w+)(?:\s+extends\s+(\w+))?\s*{([\s\S]*?)}"
+        )
+
+        for match in re.finditer(interface_pattern, content):
+            interface_name = match.group(1)
+            parent_name = match.group(2)  # May be None if no parent
+            interface_body = match.group(3)
+
+            # Get both normal and commented fields
+            fields = set(re.findall(r"(?://\s*)?(\w+)\s*[?]?\s*:", interface_body))
+
+            interfaces[interface_name] = {"fields": fields, "parent": parent_name}
+
+        return interfaces
 
 
 def main():
