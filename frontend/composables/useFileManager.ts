@@ -5,7 +5,8 @@ interface OrganizationImage {
   creation_date: string;
 }
 
-export function useOrganizationImages(organizationId?: string) {
+export function useFileManager(organizationId?: string) {
+  // TODO: Make these dark again.
   const defaultImageUrls = [
     `${GET_ACTIVE_IMAGE_URL}_dark.png`,
     `${GET_ORGANIZED_IMAGE_URL}_dark.png`,

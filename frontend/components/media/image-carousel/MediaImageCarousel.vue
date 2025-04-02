@@ -60,7 +60,7 @@ import { register } from "swiper/element/bundle";
 
 import { IconMap } from "~/types/icon-map";
 
-const { deleteImage } = useOrganizationImages();
+const { deleteImage } = useFileManager();
 
 const props = defineProps({
   fullscreen: Boolean,

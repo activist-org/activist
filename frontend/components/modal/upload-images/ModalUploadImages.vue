@@ -98,7 +98,7 @@ import draggable from "vuedraggable";
 
 import { IconMap } from "~/types/icon-map";
 
-const { files, handleFiles, removeFile, uploadFiles } = useOrganizationImages();
+const { files, handleFiles, removeFile, uploadFiles } = useFileManager();
 
 export interface Props {
   uploadLimit?: number;
