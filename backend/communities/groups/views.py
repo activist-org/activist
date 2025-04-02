@@ -15,6 +15,7 @@ from communities.groups.serializers import (
     GroupSocialLinkSerializer,
     GroupTextSerializer,
 )
+from content.models import Location
 from core.paginator import CustomPagination
 
 # MARK: Main Tables
@@ -32,7 +33,13 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
 
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
+        # print("create", serializer.initial_data)
         serializer.is_valid(raise_exception=True)
+
+        location_dict = serializer.validated_data["location"]
+        location = Location.objects.create(**location_dict)
+        serializer.validated_data["location"] = location
+
         serializer.save(created_by=request.user)
         data = {"message": f"New group created: {serializer.data}."}
 

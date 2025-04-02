@@ -11,8 +11,6 @@ from authentication.factories import UserFactory
 from authentication.models import UserModel
 from communities.groups.factories import GroupFactory
 from communities.groups.models import Group
-from communities.organizations.factories import OrganizationFactory
-from communities.organizations.models import Organization
 from content.factories import EntityLocationFactory
 
 
@@ -85,27 +83,24 @@ def logged_in_created_by_user(created_by_user) -> dict:
 def test_GroupListAPIView(logged_in_user, status_types):
     # create a bunch of groups using group factories
     """
+    Test OrganizationAPIView
+
     # GET request
-    call the api
-    check response
-    check data in response
-    do the # of groups match the page size
-    pagination keys?
-    check pagination links
+
+    1. Verify the number of groups in the database
+    2. Test the list view endpoint
 
     # POST request
-    call the api
-    check response
-    check data in response
-    does the payload match the given data
-    assert that the returned response is expected
+
+    1. Create a new organization with a valid payload
+    2. Verify the response status code is 201 (Created)
     """
 
     client = APIClient()
     number_of_groups = 10
 
-    OrganizationFactory.create_batch(number_of_groups)
-    assert Organization.objects.count() == number_of_groups
+    GroupFactory.create_batch(number_of_groups)
+    assert Group.objects.count() == number_of_groups
 
     response = client.get("/v1/communities/groups/")
     assert response.status_code == 200
@@ -132,3 +127,57 @@ def test_GroupListAPIView(logged_in_user, status_types):
     response = client.post("/v1/communities/groups/", data=payload, format="json")
     assert response.status_code == 201
     assert Group.objects.filter(group_name=newGroup.group_name).exists()
+
+
+@pytest.mark.django_db
+def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
+    """
+    Test GroupDetailAPIView
+
+    # GET request
+
+    1. Create a new group and verify it exists in the database.
+    2. Test the detail view endpoint for the group.
+    3. Verify the response status code is 200 (OK).
+    4. Ensure the response data matches the group data.
+
+    # PUT request
+
+    1. Update the group with the created_by user and verify the changes are saved.
+
+    # DELETE request
+
+    1. Delete the group with the created_by user and verify it is removed from the database.
+    """
+    client = APIClient()
+    created_by_user, token_created_by = logged_in_created_by_user.values()
+
+    newGroup = GroupFactory.create(created_by=created_by_user)
+    assert Group.objects.filter(group_name=newGroup.group_name).exists()
+
+    response = client.get(f"/v1/communities/groups/{newGroup.id}/")
+    assert response.status_code == 200
+    assert response.data["group_name"] == newGroup.group_name
+
+    updated_payload = {"group_name": "updated_group_name"}
+    response = client.put(
+        f"/v1/communities/groups/{newGroup.id}/",
+        data=updated_payload,
+        format="json",
+    )
+    assert response.status_code == 401
+
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
+    response = client.put(
+        f"/v1/communities/groups/{newGroup.id}/",
+        data=updated_payload,
+        format="json",
+    )
+    assert response.status_code == 200
+
+    updated_group = Group.objects.get(id=newGroup.id)
+    assert updated_group.group_name == "updated_group_name"
+
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
+    response = client.delete(f"/v1/communities/groups/{newGroup.id}/")
+    assert response.status_code == 200
