@@ -4,20 +4,20 @@ Testing for the authentication app.
 """
 
 # mypy: ignore-errors
+import uuid
+from uuid import UUID
+
 import pytest
+from django.core import mail
+from django.test import Client
+from faker import Faker
+
 from authentication.factories import (
     SupportEntityTypeFactory,
     SupportFactory,
     UserFactory,
 )
 from authentication.models import UserModel
-
-from django.core import mail
-from faker import Faker
-
-from django.test import Client
-from uuid import UUID
-import uuid
 
 pytestmark = pytest.mark.django_db
 
@@ -280,7 +280,9 @@ def test_create_user_and_superuser():
     assert superuser.is_active
 
     # Test that creating a superuser with is_staff=False raises the expected error.
-    with pytest.raises(ValueError, match="Superuser must be assigned to is_staff=True."):
+    with pytest.raises(
+        ValueError, match="Superuser must be assigned to is_staff=True."
+    ):
         manager.create_superuser(
             email="admin2@example.com",
             username="admin2",
@@ -289,7 +291,9 @@ def test_create_user_and_superuser():
         )
 
     # Test that creating a superuser with is_superuser=False raises the expected error.
-    with pytest.raises(ValueError, match="Superuser must be assigned to is_superuser=True."):
+    with pytest.raises(
+        ValueError, match="Superuser must be assigned to is_superuser=True."
+    ):
         manager.create_superuser(
             email="admin3@example.com",
             username="admin3",
@@ -314,9 +318,6 @@ def test_delete_user(client: Client) -> None:
     )
 
     if response.status_code == 200:
-        delete_response = client.delete(
-            path="/v1/auth/delete/",
-            data={"pk": user.id}
-        )
+        delete_response = client.delete(path="/v1/auth/delete/", data={"pk": user.id})
 
         assert delete_response.status_code == 200
