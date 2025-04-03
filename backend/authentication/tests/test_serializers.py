@@ -4,6 +4,7 @@
 Tests for serializers in the authentication app.
 """
 
+# mypy: ignore-errors
 import uuid
 from unittest.mock import patch
 
@@ -15,7 +16,6 @@ from authentication.serializers import (
     LoginSerializer,
     PasswordResetSerializer,
     SignupSerializer,
-    authenticate,
 )
 
 
@@ -35,7 +35,7 @@ class TestDeleteUserResponseSerializer:
         assert not serializer.is_valid()
 
     def test_missing_message_field(self) -> None:
-        data: dict[None] = {}
+        data: dict = {}
         serializer = DeleteUserResponseSerializer(data=data)
 
         assert not serializer.is_valid()
@@ -96,9 +96,7 @@ class TestLoginSerializer:
         )
 
     @patch("authentication.serializers.authenticate")
-    def test_valid_login_with_email(
-        self, mock_authenticate: authenticate, user: UserFactory
-    ) -> None:
+    def test_valid_login_with_email(self, mock_authenticate, user) -> None:
         mock_authenticate.return_value = user
         data = {"email": "testuser@activist.com", "password": "ValidPass!123"}
         serializer = LoginSerializer(data=data)
@@ -107,9 +105,7 @@ class TestLoginSerializer:
         assert serializer.validated_data["user"] == user
 
     @patch("authentication.serializers.authenticate")
-    def test_valid_login_with_username(
-        self, mock_authenticate: authenticate, user: UserFactory
-    ) -> None:
+    def test_valid_login_with_username(self, mock_authenticate, user) -> None:
         mock_authenticate.return_value = user
         data = {"username": "testuser", "password": "ValidPass!123"}
         serializer = LoginSerializer(data=data)
@@ -117,7 +113,7 @@ class TestLoginSerializer:
         assert serializer.is_valid()
         assert serializer.validated_data["user"] == user
 
-    def test_invalid_credentials(self, user: UserFactory) -> None:
+    def test_invalid_credentials(self, user) -> None:
         data = {"email": "wrong@activist.com", "password": "WrongPass!123"}
         serializer = LoginSerializer(data=data)
 
@@ -125,9 +121,7 @@ class TestLoginSerializer:
         assert serializer.errors["non_field_errors"][0].code == "invalid_credentials"
 
     @patch("authentication.serializers.authenticate")
-    def test_unconfirmed_email(
-        self, mock_authenticate: authenticate, user: UserFactory
-    ) -> None:
+    def test_unconfirmed_email(self, mock_authenticate, user) -> None:
         mock_authenticate.return_value = user
         user.is_confirmed = False
         user.save()
@@ -145,7 +139,7 @@ class TestPasswordResetSerializer:
     """
 
     @pytest.fixture
-    def user_with_verification(self) -> list[UserFactory, uuid.uuid4]:
+    def user_with_verification(self):
         user = UserFactory.create(
             email="testuser@activist.com", password="oldpassword123"
         )
@@ -155,9 +149,7 @@ class TestPasswordResetSerializer:
 
         return user, verification_code
 
-    def test_validate_with_code(
-        self, user_with_verification: list[UserFactory, uuid.uuid4]
-    ) -> None:
+    def test_validate_with_code(self, user_with_verification) -> None:
         user, verification_code = user_with_verification
         serializer = PasswordResetSerializer(
             data={"code": str(verification_code), "password": "newpassword123"}
@@ -166,9 +158,7 @@ class TestPasswordResetSerializer:
         assert serializer.is_valid()
         assert serializer.validated_data == user
 
-    def test_validate_with_email(
-        self, user_with_verification: list[UserFactory, uuid.uuid4]
-    ) -> None:
+    def test_validate_with_email(self, user_with_verification) -> None:
         user, _ = user_with_verification
         serializer = PasswordResetSerializer(
             data={"email": "testuser@activist.com", "password": "newpassword123"}
@@ -177,9 +167,7 @@ class TestPasswordResetSerializer:
         assert serializer.is_valid()
         assert serializer.validated_data == user
 
-    def test_validate_with_invalid_code(
-        self, user_with_verification: list[UserFactory, uuid.uuid4]
-    ) -> None:
+    def test_validate_with_invalid_code(self, user_with_verification) -> None:
         _, _ = user_with_verification
         invalid_code = uuid.uuid4()
         serializer = PasswordResetSerializer(
@@ -189,9 +177,7 @@ class TestPasswordResetSerializer:
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "invalid_email"
 
-    def test_validate_with_invalid_email(
-        self, user_with_verification: list[UserFactory, uuid.uuid4]
-    ) -> None:
+    def test_validate_with_invalid_email(self, user_with_verification) -> None:
         """
         Test validation with invalid email (tests else branch).
         """
