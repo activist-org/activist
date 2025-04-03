@@ -27,14 +27,16 @@ class TestDeleteUserResponseSerializer:
         assert serializer.validated_data == data
 
     def test_message_max_length_exceeded(self) -> None:
-        long_message = "A" * 201  # Exceeding 200 characters
+        long_message = "A" * 201  # exceeding 200 characters
         data = {"message": long_message}
         serializer = DeleteUserResponseSerializer(data=data)
+
         assert not serializer.is_valid()
 
     def test_missing_message_field(self) -> None:
-        data: dict = {}
+        data: dict[str:str] = {}
         serializer = DeleteUserResponseSerializer(data=data)
+
         assert not serializer.is_valid()
 
 
@@ -48,6 +50,7 @@ class TestSignupSerializer:
             "email": "testuser@example.com",
         }
         serializer = SignupSerializer(data=data)
+
         assert serializer.is_valid()
 
     def test_password_mismatch(self) -> None:
@@ -57,6 +60,7 @@ class TestSignupSerializer:
             "password_confirmed": "WrongPass!123",
         }
         serializer = SignupSerializer(data=data)
+
         assert not serializer.is_valid()
         assert (
             serializer.errors["non_field_errors"][0].code
@@ -70,6 +74,7 @@ class TestSignupSerializer:
             "password_confirmed": "weakpass",
         }
         serializer = SignupSerializer(data=data)
+
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "invalid_password"
 
@@ -81,7 +86,7 @@ class TestLoginSerializer:
     """
 
     @pytest.fixture
-    def user(self):
+    def user(self) -> UserFactory:
         return UserFactory.create(
             email="testuser@activist.com",
             username="testuser",
@@ -90,34 +95,40 @@ class TestLoginSerializer:
         )
 
     @patch("authentication.serializers.authenticate")
-    def test_valid_login_with_email(self, mock_authenticate, user) -> None:
+    def test_valid_login_with_email(self, mock_authenticate, user: UserFactory) -> None:
         mock_authenticate.return_value = user
         data = {"email": "testuser@activist.com", "password": "ValidPass!123"}
         serializer = LoginSerializer(data=data)
+
         assert serializer.is_valid()
         assert serializer.validated_data["user"] == user
 
     @patch("authentication.serializers.authenticate")
-    def test_valid_login_with_username(self, mock_authenticate, user) -> None:
+    def test_valid_login_with_username(
+        self, mock_authenticate, user: UserFactory
+    ) -> None:
         mock_authenticate.return_value = user
         data = {"username": "testuser", "password": "ValidPass!123"}
         serializer = LoginSerializer(data=data)
+
         assert serializer.is_valid()
         assert serializer.validated_data["user"] == user
 
-    def test_invalid_credentials(self, user) -> None:
+    def test_invalid_credentials(self, user: UserFactory) -> None:
         data = {"email": "wrong@activist.com", "password": "WrongPass!123"}
         serializer = LoginSerializer(data=data)
+
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "invalid_credentials"
 
     @patch("authentication.serializers.authenticate")
-    def test_unconfirmed_email(self, mock_authenticate, user) -> None:
+    def test_unconfirmed_email(self, mock_authenticate, user: UserFactory) -> None:
         mock_authenticate.return_value = user
         user.is_confirmed = False
         user.save()
         data = {"email": "testuser@activist.com", "password": "ValidPass!123"}
         serializer = LoginSerializer(data=data)
+
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "email_not_confirmed"
 
@@ -129,16 +140,19 @@ class TestPasswordResetSerializer:
     """
 
     @pytest.fixture
-    def user_with_verification(self):
+    def user_with_verification(self) -> [UserFactory, uuid.uuid4]:
         user = UserFactory.create(
             email="testuser@activist.com", password="oldpassword123"
         )
         verification_code = uuid.uuid4()
         user.verification_code = verification_code
         user.save()
+
         return user, verification_code
 
-    def test_validate_with_code(self, user_with_verification) -> None:
+    def test_validate_with_code(
+        self, user_with_verification: [UserFactory, uuid.uuid4]
+    ) -> None:
         user, verification_code = user_with_verification
         serializer = PasswordResetSerializer(
             data={"code": str(verification_code), "password": "newpassword123"}
@@ -147,24 +161,32 @@ class TestPasswordResetSerializer:
         assert serializer.is_valid()
         assert serializer.validated_data == user
 
-    def test_validate_with_email(self, user_with_verification) -> None:
+    def test_validate_with_email(
+        self, user_with_verification: [UserFactory, uuid.uuid4]
+    ) -> None:
         user, _ = user_with_verification
         serializer = PasswordResetSerializer(
             data={"email": "testuser@activist.com", "password": "newpassword123"}
         )
+
         assert serializer.is_valid()
         assert serializer.validated_data == user
 
-    def test_validate_with_invalid_code(self, user_with_verification) -> None:
+    def test_validate_with_invalid_code(
+        self, user_with_verification: [UserFactory, uuid.uuid4]
+    ) -> None:
         _, _ = user_with_verification
         invalid_code = uuid.uuid4()
         serializer = PasswordResetSerializer(
             data={"code": str(invalid_code), "password": "newpassword123"}
         )
+
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "invalid_email"
 
-    def test_validate_with_invalid_email(self, user_with_verification) -> None:
+    def test_validate_with_invalid_email(
+        self, user_with_verification: [UserFactory, uuid.uuid4]
+    ) -> None:
         """
         Test validation with invalid email (tests else branch).
         """
@@ -172,6 +194,7 @@ class TestPasswordResetSerializer:
         serializer = PasswordResetSerializer(
             data={"email": "invalid_email@activist.com", "password": "newpassword123"}
         )
+
         assert not serializer.is_valid()
         assert "non_field_errors" in serializer.errors
         assert serializer.errors["non_field_errors"][0].code == "invalid_email"
