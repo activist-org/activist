@@ -7,9 +7,9 @@ interface OrganizationImage {
 
 export function useOrganizationImages(organizationId?: string) {
   const defaultImageUrls = [
-    `${GET_ACTIVE_IMAGE_URL}_dark.png`,
-    `${GET_ORGANIZED_IMAGE_URL}_dark.png`,
-    `${GROW_ORGANIZATION_IMAGE_URL}_dark.png`,
+    useColorModeImages()(`${GET_ACTIVE_IMAGE_URL}`),
+    useColorModeImages()(`${GET_ORGANIZED_IMAGE_URL}`),
+    useColorModeImages()(`${GROW_ORGANIZATION_IMAGE_URL}`),
   ];
 
   const imageUrls = ref(defaultImageUrls);
