@@ -55,7 +55,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        if parse_datetime(data["start_time"]) > parse_datetime(data["end_time"]):  # type: ignore
+        if parse_datetime(str(data["start_time"])) > parse_datetime(str(data["end_time"])):  # type: ignore
             raise serializers.ValidationError(
                 _("The start time cannot be after the end time."),
                 code="invalid_time_order",

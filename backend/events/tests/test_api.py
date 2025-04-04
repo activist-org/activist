@@ -1,17 +1,14 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-from pathlib import Path
-from typing import TypedDict
+from typing import Any, TypedDict
 
 import pytest
-from django.conf import settings
-from django.core.management import call_command
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
-from content.factories import EntityLocationFactory
-from events.models import Event
+from communities.organizations.factories import OrganizationFactory
 from events.factories import EventFactory
+from events.models import Event
 
 
 class UserDict(TypedDict):
@@ -21,15 +18,15 @@ class UserDict(TypedDict):
 
 def create_user(password: str) -> UserDict:
     """
-    Create a user and return the user and password.
+    Create a user. Returns the user and password.
     """
     user = UserFactory.create(plaintext_password=password, is_confirmed=True)
     return {"user": user, "plaintext_password": password}
 
 
-def login_user(user_data: UserDict) -> dict:
+def login_user(user_data: UserDict) -> dict[Any, Any]:
     """
-    Log in a user and return the user and token.
+    Log in a user. Returns the user and token.
     """
     client = APIClient()
     response = client.post(
@@ -44,33 +41,15 @@ def login_user(user_data: UserDict) -> dict:
 
 
 @pytest.fixture
-def new_user() -> UserDict:
-    return create_user("Activist@123!?")
-
-
-@pytest.fixture
-def created_by_user() -> UserModel:
-    """
-    Create a user and return the user object.
-    """
-    return create_user("Creator@123!?")["user"]
-
-
-@pytest.fixture
-def logged_in_user(new_user) -> dict:
+def logged_in_user() -> dict[Any, Any]:
     """
     Create a user and log in the user.
     """
-    return login_user(new_user)
-
-
-@pytest.fixture
-def logged_in_created_by_user(created_by_user) -> dict:
-    return login_user({"user": created_by_user, "plaintext_password": "Creator@123!?"})
+    return login_user(create_user("Activist@123!?"))
 
 
 @pytest.mark.django_db
-def test_EventListAPIView(logged_in_user) -> None:
+def test_EventListAPIView(logged_in_user) -> None:      # type: ignore[no-untyped-def]
     EVENTS_URL = "/v1/events/events/"
     client = APIClient()
     number_of_events = 10
@@ -89,34 +68,31 @@ def test_EventListAPIView(logged_in_user) -> None:
     # ---------------------------------
 
     # ------- Test post() method -------
-    test_event = EventFactory.build(name="test_event", terms_checked=True)
-    location = EntityLocationFactory.build()
+    org = OrganizationFactory.create(org_name="test_org")
     token = logged_in_user["token"]
 
     payload = {
-        "name": test_event.name,
-        "orgs": test_event.orgs,
-        "offline_location": {
-            "lat": location.lat,
-            "lon": location.lon,
-            "bbox": location.bbox,
-            "display_name": location.display_name
-        }
+        "name": "test_event",
+        "orgs_id": org.id,
+        "type": "test",
+        "start_time": "2020-09-18T21:39:14",
+        "end_time": "2020-09-18T21:39:14",
+        "terms_checked": True,
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(EVENTS_URL, data=payload, format="json")
 
     assert response.status_code == 201
-    assert Event.objects.filter(name=test_event.name).exists()
+    assert Event.objects.filter(name=payload["name"]).exists()
     # ----------------------------------
 
 
 @pytest.mark.django_db
-def test_EventDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
+def test_EventDetailAPIView(logged_in_user) -> None:    # type: ignore[no-untyped-def]
     EVENTS_URL = "/v1/events/events"
     client = APIClient()
-    created_by_user, token_created_by = logged_in_created_by_user.values()
+    created_by_user, token = logged_in_user.values()
 
     test_event = EventFactory.create(created_by=created_by_user)
     assert Event.objects.filter(name=test_event.name).exists()
@@ -130,22 +106,27 @@ def test_EventDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     # ------- Test put() method -------
     # -- 401
-    payload = {"name": "test_event"}
-    response = client.put(f"{EVENTS_URL}/{test_event.id}", data=payload, format="json")
+    payload = {
+        "name": "test_event",
+        "start_time": "2020-09-18T21:39:14",
+        "end_time": "2020-09-18T21:39:14",
+        "terms_checked": True,
+    }
+    response = client.put(f"{EVENTS_URL}/{test_event.id}/", data=payload, format="json")
 
     assert response.status_code == 401
 
     # -- 200
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
-    response = client.put(f"{EVENTS_URL}/{test_event.id}", data=payload, format="json")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    response = client.put(f"{EVENTS_URL}/{test_event.id}/", data=payload, format="json")
 
     assert response.status_code == 200
     assert payload["name"] == Event.objects.get(id=test_event.id).name
     # ---------------------------------
 
     # ------- Test delete() method -------
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
-    response = client.delete(f"{EVENTS_URL}/{test_event.id}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    response = client.delete(f"{EVENTS_URL}/{test_event.id}/")
 
     assert response.status_code == 200
     assert not Event.objects.filter(id=test_event.id).exists()

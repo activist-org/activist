@@ -64,11 +64,9 @@ class EventListAPIView(GenericAPIView[Event]):
         serializer.is_valid(raise_exception=True)
 
         try:
-            event = serializer.save(created_by=request.user)
+            serializer.save(created_by=request.user)
         except(IntegrityError, OperationalError):
             return Response({"error": "Failed to create event."}, status=status.HTTP_400_BAD_REQUEST)
-
-        event.objects.create()
 
         data = {"message": f"New event created: {serializer.data}"}
         return Response(data, status=status.HTTP_201_CREATED)
@@ -93,7 +91,7 @@ class EventDetailAPIView(APIView):
             return Response({"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            event = self.queryset.get(id)
+            event = self.queryset.get(id=id)
             serializer = self.serializer_class(event)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -116,7 +114,7 @@ class EventDetailAPIView(APIView):
             return Response({"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            event = self.queryset.get(id)
+            event = self.queryset.get(id=id)
         except Event.DoesNotExist:
             return Response({"error": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -145,7 +143,7 @@ class EventDetailAPIView(APIView):
             return Response({"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            event = self.queryset.get(id)
+            event = self.queryset.get(id=id)
         except Event.DoesNotExist:
             return Response({"error": "Event Not Found"}, status=status.HTTP_404_NOT_FOUND)
         
