@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Models for the events app.
+Models for event management and organization.
 """
 
 from uuid import uuid4
@@ -14,6 +14,10 @@ from utils.models import ISO_CHOICES
 
 
 class Event(models.Model):
+    """
+    Event information including timing, location, and organizational data.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     created_by = models.ForeignKey(
         "authentication.UserModel",
@@ -50,10 +54,27 @@ class Event(models.Model):
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     def __str__(self) -> str:
+        """
+        Return string representation of the event.
+
+        Parameters
+        ----------
+        self : Event
+            Event instance.
+
+        Returns
+        -------
+        str
+            Event name as string.
+        """
         return self.name
 
 
 class Format(models.Model):
+    """
+    Standardized event formats like workshop, lecture, protest, rally, etc.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
@@ -62,10 +83,27 @@ class Format(models.Model):
     deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
+        """
+        Return string representation of the format.
+
+        Parameters
+        ----------
+        self : Format
+            Format instance.
+
+        Returns
+        -------
+        str
+            Format name as string.
+        """
         return self.name
 
 
 class Role(models.Model):
+    """
+    Event roles such as organizer, speaker, volunteer, etc.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     is_custom = models.BooleanField(default=False)
@@ -75,6 +113,19 @@ class Role(models.Model):
     deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
+        """
+        Return string representation of the role.
+
+        Parameters
+        ----------
+        self : Role
+            Role instance.
+
+        Returns
+        -------
+        str
+            Role name as string.
+        """
         return self.name
 
 
@@ -82,6 +133,10 @@ class Role(models.Model):
 
 
 class EventAttendee(models.Model):
+    """
+    Link between users and events, tracking roles and attendance status.
+    """
+
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, related_name="event_attendees"
     )
@@ -94,24 +149,62 @@ class EventAttendee(models.Model):
     )
 
     def __str__(self) -> str:
+        """
+        Return string representation of the event attendee.
+
+        Parameters
+        ----------
+        self : EventAttendee
+            EventAttendee instance.
+
+        Returns
+        -------
+        str
+            String in format "user - event".
+        """
         return f"{self.user} - {self.event}"
 
 
 class EventAttendeeStatus(models.Model):
+    """
+    Attendance statuses like confirmed, pending, cancelled, etc.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     status_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
+        """
+        Return string representation of the attendee status.
+
+        Parameters
+        ----------
+        self : EventAttendeeStatus
+            EventAttendeeStatus instance.
+
+        Returns
+        -------
+        str
+            Status name as string.
+        """
         return self.status_name
 
 
 class EventSocialLink(SocialLink):
+    """
+    Extension of the base SocialLink model for events.
+    """
+
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
 
 class EventText(models.Model):
+    """
+    Translatable text content for events in different languages.
+    """
+
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="texts"
     )
@@ -121,4 +214,17 @@ class EventText(models.Model):
     get_involved = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
+        """
+        Return string representation of the event text.
+
+        Parameters
+        ----------
+        self : EventText
+            EventText instance.
+
+        Returns
+        -------
+        str
+            String in format "event - iso".
+        """
         return f"{self.event} - {self.iso}"
