@@ -40,8 +40,10 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
         ----------
         request : Request
             HTTP request object.
+
         *args : tuple
             Variable positional arguments.
+
         **kwargs : dict
             Variable keyword arguments.
 
@@ -62,8 +64,10 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
         ----------
         request : Request
             HTTP request with event data.
+
         *args : tuple
             Variable positional arguments.
+
         **kwargs : dict
             Variable keyword arguments.
 
@@ -87,8 +91,10 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
         ----------
         request : Request
             HTTP request object.
+
         *args : tuple
             Variable positional arguments.
+
         **kwargs : dict
             Variable keyword arguments containing 'pk' as event ID.
 
@@ -115,8 +121,10 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
         ----------
         request : Request
             HTTP request with updated data.
+
         *args : tuple
             Variable positional arguments.
+
         **kwargs : dict
             Variable keyword arguments containing 'pk' as event ID.
 
@@ -158,8 +166,10 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
         ----------
         request : Request
             HTTP request with partial data.
+
         *args : tuple
             Variable positional arguments.
+
         **kwargs : dict
             Variable keyword arguments containing 'pk' as event ID.
 
@@ -200,8 +210,10 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
         ----------
         request : Request
             HTTP request object.
+
         *args : tuple
             Variable positional arguments.
+
         **kwargs : dict
             Variable keyword arguments containing 'pk' as event ID.
 
@@ -250,8 +262,10 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
         ----------
         request : Request
             HTTP request with social link data.
+
         *args : tuple
             Variable positional arguments.
+
         **kwargs : dict
             Variable keyword arguments containing 'pk' as event ID.
 
