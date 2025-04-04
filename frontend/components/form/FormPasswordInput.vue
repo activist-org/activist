@@ -2,6 +2,7 @@
 <template>
   <FormTextInput
     :id="id"
+    :label="label"
     :hasError="hasError"
     :type="isPassword ? 'password' : 'text'"
   >
@@ -22,6 +23,7 @@ import { IconMap } from "~/types/icon-map";
 
 export interface Props {
   id: string;
+  label: string;
   hasError?: boolean;
 }
 

@@ -1,22 +1,53 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="flex max-h-[40px] select-none items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left text-distinct-text"
-    :class="{
-      'border-action-red dark:border-action-red': hasError,
-      'border-interactive': !hasError,
-    }"
+    class="primary-text relative inline-flex w-full flex-col space-y-2 align-top"
   >
-    <input
-      :id="id"
-      class="h-5 w-full bg-transparent placeholder-distinct-text outline-none"
+    <label
+      class="z-1 absolute"
       :class="{
-        'py-3': !$slots.icons,
+        'translate-x-4 text-sm text-distinct-text': shrinkLabel,
+        'translate-y-[1.125rem] pl-[12px]': !shrinkLabel,
       }"
-      type="text"
-      v-bind="$attrs"
-    />
-    <slot name="icons"></slot>
+      :for="id"
+    >
+      {{ label }}
+    </label>
+    <div
+      class="border-box relative inline-flex select-none items-center text-left text-distinct-text"
+    >
+      <input
+        @focus="shrinkLabel = true"
+        @blur="handleBlur"
+        :id="id"
+        class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text outline-none"
+        type="text"
+        v-bind="$attrs"
+      />
+      <span v-if="$slots.icons" class="flex items-center gap-2 px-[10px]">
+        <slot name="icons"></slot>
+      </span>
+
+      <!-- Using a fieldset allows the label overlay the border -->
+      <fieldset
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 -top-[5px] bottom-0 rounded border pl-[12px] pr-[10px]"
+        :class="{
+          'border-action-red dark:border-action-red': hasError,
+          'border-interactive': !hasError,
+        }"
+      >
+        <legend
+          class="invisible h-3 text-sm"
+          :class="{ 'max-w-[0.01px]': !shrinkLabel }"
+        >
+          <!-- This span overlays the border when expanded -->
+          <span class="visible px-1 opacity-0">
+            {{ label }}
+          </span>
+        </legend>
+      </fieldset>
+    </div>
   </div>
 </template>
 
@@ -27,10 +58,20 @@ defineOptions({
 
 export interface Props {
   id: string;
+  label: string;
   hasError?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
   hasError: false,
 });
+
+const shrinkLabel = ref<boolean>(false);
+
+const handleBlur = (event: FocusEvent) => {
+  const target = event.target as HTMLInputElement | null;
+  if (!target?.value) {
+    shrinkLabel.value = false;
+  }
+};
 </script>
