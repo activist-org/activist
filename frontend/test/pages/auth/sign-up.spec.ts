@@ -167,6 +167,8 @@ describe("sign-up", () => {
     const passwordInput = screen.getByPlaceholderText(/enter your password/i);
 
     await fireEvent.update(passwordInput, password);
+    await fireEvent.focus(passwordInput);
+
     await screen.findByText(/for your security/i);
 
     for (const { rule, passed } of rules) {

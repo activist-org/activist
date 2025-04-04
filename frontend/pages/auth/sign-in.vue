@@ -4,28 +4,25 @@
     <form @submit.prevent="signInUser" class="space-y-4">
       <div class="col">
         <FormTextInput
-          @update:model-value="userNameValue = $event"
+          @input="userName = $event.target.value"
           @keydown.enter.prevent="signInUser"
           id="sign-in-username"
-          :placeholder="$t('i18n.pages.auth._global.enter_user_name')"
-          :model-value="userNameValue"
+          :value="userName"
+          :placeholder="$t('i18n.pages.auth.sign_in.enter_user_name')"
         />
       </div>
       <div>
-        <FormTextInput
-          @update:model-value="passwordValue = $event"
+        <FormPasswordInput
+          @input="password = $event.target.value"
           @keydown.enter.prevent="signInUser"
           id="sign-in-password"
+          :value="password"
           :placeholder="$t('i18n._global.enter_password')"
-          :is-icon-visible="true"
-          input-type="password"
-          :model-value="passwordValue"
-          :icons="[IconMap.VISIBLE]"
         />
       </div>
       <IndicatorPasswordStrength
         id="sign-in-password-strength"
-        :password-value="passwordValue"
+        :password-value="password"
       />
       <div class="flex flex-col space-y-3">
         <FriendlyCaptcha id="sign-in-captcha" />
@@ -70,20 +67,18 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-
 const localePath = useLocalePath();
 
 // TODO: Please change with result of captcha check and remove the comment.
 const isForgotPasswordDisabled = false;
 const hovered = ref(false);
 
-const userNameValue = ref("");
-const passwordValue = ref("");
+const userName = ref("");
+const password = ref("");
 
 const { signIn } = useAuth();
 
 const signInUser = async () => {
-  await signIn(userNameValue.value, passwordValue.value);
+  await signIn(userName.value, password.value);
 };
 </script>

@@ -6,9 +6,10 @@
         {{ $t("i18n.pages.auth.reset_password.index.reset_password_info") }}
       </p>
       <FormTextInput
-        @update:model-value="input = $event"
+        @input="input = $event.target.value"
+        id="reset-password-username"
+        :value="input"
         :placeholder="$t('i18n.pages.auth.reset_password.enter_username_mail')"
-        :model-value="input"
       />
       <div class="pt-4">
         <BtnAction
