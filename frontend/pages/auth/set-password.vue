@@ -6,7 +6,7 @@
         @input="userName = $event.target.value"
         id="set-password-username"
         :value="userName"
-        :placeholder="$t('i18n.pages.auth._global.enter_a_user_name')"
+        :label="$t('i18n.pages.auth._global.enter_a_user_name')"
         :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
       />
       <FormPasswordInput
@@ -15,7 +15,7 @@
         @focus="isPasswordFocused = true"
         id="set-password-password"
         :value="password"
-        :placeholder="$t('i18n._global.enter_password')"
+        :label="$t('i18n._global.enter_password')"
         :data-testid="$t('i18n._global.enter_password')"
         :hasError="showPasswordError.border"
       />
@@ -28,7 +28,7 @@
         @input="confirmPassword = $event.target.value"
         id="set-password-confirm-password"
         :value="confirmPassword"
-        :placeholder="$t('i18n._global.repeat_password')"
+        :label="$t('i18n._global.repeat_password')"
         :data-testid="$t('i18n._global.repeat_password')"
       >
         <template #icons>
