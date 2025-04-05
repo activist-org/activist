@@ -14,6 +14,10 @@ from utils.models import ISO_CHOICES
 
 
 class Event(models.Model):
+    """
+    Base event model.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     created_by = models.ForeignKey(
         "authentication.UserModel",
@@ -54,6 +58,10 @@ class Event(models.Model):
 
 
 class Format(models.Model):
+    """
+    Standardized event formats.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
@@ -66,6 +74,10 @@ class Format(models.Model):
 
 
 class Role(models.Model):
+    """
+    Event roles for users.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     is_custom = models.BooleanField(default=False)
@@ -82,6 +94,10 @@ class Role(models.Model):
 
 
 class EventAttendee(models.Model):
+    """
+    Link events and users including roles and attendance status.
+    """
+
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, related_name="event_attendees"
     )
@@ -98,6 +114,10 @@ class EventAttendee(models.Model):
 
 
 class EventAttendeeStatus(models.Model):
+    """
+    Attendance statuses for users to events.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     status_name = models.CharField(max_length=255)
 
@@ -106,12 +126,20 @@ class EventAttendeeStatus(models.Model):
 
 
 class EventSocialLink(SocialLink):
+    """
+    Extension of the base SocialLink model for events.
+    """
+
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
 
 class EventText(models.Model):
+    """
+    Translatable text content for events in different languages.
+    """
+
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="texts"
     )
