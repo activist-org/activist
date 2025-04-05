@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Configure Django admin for the communities app.
+"""
+
 from django.contrib import admin
 
 from communities.groups.models import Group, GroupImage, GroupMember, GroupText

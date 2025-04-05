@@ -77,7 +77,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         Parameters
         ----------
         data : Dict[str, Union[str, int]]
-            Event data dictionary to validate, containing start_time, end_time, and other fields.
+            Event data dictionary to validate.
 
         Returns
         -------

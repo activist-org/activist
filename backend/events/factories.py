@@ -38,17 +38,14 @@ class EventFactory(factory.django.DjangoModelFactory):
     online_location_link = factory.Faker("url")
     offline_location = factory.SubFactory("content.factories.EventLocationFactory")
     is_private = factory.Faker("boolean")
-    # Returns current UTC time
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
-    # Returns time one day in the future
     end_time = factory.LazyAttribute(
         lambda x: (
             datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
         )
     )
-    # Returns current UTC time
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -71,11 +68,9 @@ class FormatFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     description = factory.Faker("text")
-    # Returns current UTC time
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
-    # Returns current UTC time
     last_updated = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -93,11 +88,9 @@ class RoleFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     is_custom = factory.Faker("boolean")
     description = factory.Faker("text")
-    # Returns current UTC time
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
-    # Returns current UTC time
     last_updated = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -143,11 +136,9 @@ class EventSocialLinkFactory(factory.django.DjangoModelFactory):
     link = "https://www.activist.org"
     label = "social link"
     order = random.randint(0, 10)
-    # Returns current UTC time
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
-    # Returns current UTC time
     last_updated = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )

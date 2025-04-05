@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Models for event management and organization.
+Models for the events app.
 """
 
 from uuid import uuid4
@@ -15,7 +15,7 @@ from utils.models import ISO_CHOICES
 
 class Event(models.Model):
     """
-    Event information including timing, location, and organizational data.
+    Base event model.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -54,25 +54,12 @@ class Event(models.Model):
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     def __str__(self) -> str:
-        """
-        Return string representation of the event.
-
-        Parameters
-        ----------
-        self : Event
-            Event instance.
-
-        Returns
-        -------
-        str
-            Event name as string.
-        """
         return self.name
 
 
 class Format(models.Model):
     """
-    Standardized event formats like workshop, lecture, protest, rally, etc.
+    Standardized event formats.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -83,25 +70,12 @@ class Format(models.Model):
     deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
-        """
-        Return string representation of the format.
-
-        Parameters
-        ----------
-        self : Format
-            Format instance.
-
-        Returns
-        -------
-        str
-            Format name as string.
-        """
         return self.name
 
 
 class Role(models.Model):
     """
-    Event roles such as organizer, speaker, volunteer, etc.
+    Event roles for users.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -113,19 +87,6 @@ class Role(models.Model):
     deprecation_date = models.DateTimeField(null=True)
 
     def __str__(self) -> str:
-        """
-        Return string representation of the role.
-
-        Parameters
-        ----------
-        self : Role
-            Role instance.
-
-        Returns
-        -------
-        str
-            Role name as string.
-        """
         return self.name
 
 
@@ -134,7 +95,7 @@ class Role(models.Model):
 
 class EventAttendee(models.Model):
     """
-    Link between users and events, tracking roles and attendance status.
+    Link events and users including roles and attendance status.
     """
 
     event = models.ForeignKey(
@@ -149,44 +110,18 @@ class EventAttendee(models.Model):
     )
 
     def __str__(self) -> str:
-        """
-        Return string representation of the event attendee.
-
-        Parameters
-        ----------
-        self : EventAttendee
-            EventAttendee instance.
-
-        Returns
-        -------
-        str
-            String in format "user - event".
-        """
         return f"{self.user} - {self.event}"
 
 
 class EventAttendeeStatus(models.Model):
     """
-    Attendance statuses like confirmed, pending, cancelled, etc.
+    Attendance statuses for users to events.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     status_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
-        """
-        Return string representation of the attendee status.
-
-        Parameters
-        ----------
-        self : EventAttendeeStatus
-            EventAttendeeStatus instance.
-
-        Returns
-        -------
-        str
-            Status name as string.
-        """
         return self.status_name
 
 
@@ -214,17 +149,4 @@ class EventText(models.Model):
     get_involved = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
-        """
-        Return string representation of the event text.
-
-        Parameters
-        ----------
-        self : EventText
-            EventText instance.
-
-        Returns
-        -------
-        str
-            String in format "event - iso".
-        """
         return f"{self.event} - {self.iso}"

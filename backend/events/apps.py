@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Events app configuration.
+Configuration for the events app.
 """
 
 from django.apps import AppConfig
