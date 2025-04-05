@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import random
 from argparse import ArgumentParser
-from typing import List, TypedDict, Unpack
+from typing import List, TypedDict
 
 from django.core.management.base import BaseCommand
+from typing_extensions import Unpack
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
