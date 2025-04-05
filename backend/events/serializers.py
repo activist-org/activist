@@ -21,24 +21,40 @@ from utils.utils import (
 
 
 class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
+    """
+    Serializer for EventSocialLink model data.
+    """
+
     class Meta:
         model = EventSocialLink
         fields = "__all__"
 
 
 class EventTextSerializer(serializers.ModelSerializer[EventText]):
+    """
+    Serializer for EventText model data.
+    """
+
     class Meta:
         model = EventText
         fields = "__all__"
 
 
 class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
+    """
+    Serializer for Organization model data specific to events.
+    """
+
     class Meta:
         model = Organization
         fields = "__all__"
 
 
 class EventSerializer(serializers.ModelSerializer[Event]):
+    """
+    Serializer for Event model with related fields.
+    """
+
     texts = EventTextSerializer(many=True, read_only=True)
     social_links = EventSocialLinkSerializer(many=True, read_only=True)
     offline_location = LocationSerializer(read_only=True)
@@ -55,7 +71,25 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        if parse_datetime(str(data["start_time"])) > parse_datetime(str(data["end_time"])):  # type: ignore
+        """
+        Validate event data including time constraints and terms.
+
+        Parameters
+        ----------
+        data : Dict[str, Union[str, int]]
+            Event data dictionary to validate.
+
+        Returns
+        -------
+        Dict[str, Union[str, int]]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If validation fails for any field.
+        """
+         if parse_datetime(str(data["start_time"])) > parse_datetime(str(data["end_time"])):  # type: ignore
             raise serializers.ValidationError(
                 _("The start time cannot be after the end time."),
                 code="invalid_time_order",
@@ -71,6 +105,19 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         return data
 
     def create(self, validated_data: dict[str, Any]) -> Event:
+        """
+        Create event and associated text record.
+
+        Parameters
+        ----------
+        validated_data : dict[str, Any]
+            Dictionary of validated data for creating the event.
+
+        Returns
+        -------
+        Event
+            Created Event instance.
+        """
         event = Event.objects.create(**validated_data)
 
         if event:
@@ -80,11 +127,33 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
 
 class FormatSerializer(serializers.ModelSerializer[Event]):
+    """
+    Serializer for Format model data.
+    """
+
     class Meta:
         model = Format
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        """
+        Validate format data including date constraints.
+
+        Parameters
+        ----------
+        data : Dict[str, Union[str, int]]
+            Format data dictionary to validate with creation and deprecation dates.
+
+        Returns
+        -------
+        Dict[str, Union[str, int]]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If validation fails for dates.
+        """
         validate_creation_and_deprecation_dates(data)
 
         return data

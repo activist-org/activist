@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+API views for event management.
+"""
+
 import json
 from typing import Any, Dict, List
 from uuid import UUID
