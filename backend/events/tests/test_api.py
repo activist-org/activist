@@ -49,7 +49,7 @@ def logged_in_user() -> dict[Any, Any]:
 
 
 @pytest.mark.django_db
-def test_EventListAPIView(logged_in_user) -> None:      # type: ignore[no-untyped-def]
+def test_EventListAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-def]
     EVENTS_URL = "/v1/events/events/"
     client = APIClient()
     number_of_events = 10
@@ -89,7 +89,7 @@ def test_EventListAPIView(logged_in_user) -> None:      # type: ignore[no-untype
 
 
 @pytest.mark.django_db
-def test_EventDetailAPIView(logged_in_user) -> None:    # type: ignore[no-untyped-def]
+def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-def]
     EVENTS_URL = "/v1/events/events"
     client = APIClient()
     created_by_user, token = logged_in_user.values()

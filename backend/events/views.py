@@ -36,41 +36,42 @@ class EventListAPIView(GenericAPIView[Event]):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    @extend_schema(
-        responses={
-            200: EventSerializer(many=True)
-        }
-    )
+    @extend_schema(responses={200: EventSerializer(many=True)})
     def get(self, request: Request) -> Response:
         """
-            Returns paginated list of Events.
+        Returns paginated list of Events.
         """
         page = self.paginate_queryset(self.queryset)
 
         if page is not None:
             serializer = self.serializer_class(page, many=True)
             return self.get_paginated_response(serializer.data)
-        
+
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(serializer.data)
 
     @extend_schema(
         responses={
-            200: OpenApiResponse(response={"message": "New event created: {{ event_details }}"}),
-            400: OpenApiResponse(response={"error": "Failed to create event."})
+            200: OpenApiResponse(
+                response={"message": "New event created: {{ event_details }}"}
+            ),
+            400: OpenApiResponse(response={"error": "Failed to create event."}),
         }
     )
     def post(self, request: Request) -> Response:
         """
-            Create a new Event.
+        Create a new Event.
         """
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         try:
             serializer.save(created_by=request.user)
-        except(IntegrityError, OperationalError):
-            return Response({"error": "Failed to create event."}, status=status.HTTP_400_BAD_REQUEST)
+
+        except (IntegrityError, OperationalError):
+            return Response(
+                {"error": "Failed to create event."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         data = {"message": f"New event created: {serializer.data}"}
         return Response(data, status=status.HTTP_201_CREATED)
@@ -84,46 +85,57 @@ class EventDetailAPIView(APIView):
         responses={
             200: EventSerializer,
             400: OpenApiResponse(response={"error": "Event ID is required."}),
-            404: OpenApiResponse(response={"error": "Event Not Found."})
+            404: OpenApiResponse(response={"error": "Event Not Found."}),
         }
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
         """
-            Retrieve an event by ID.
+        Retrieve an event by ID.
         """
         if id is None:
-            return Response({"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response(
+                {"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         try:
             event = self.queryset.get(id=id)
             serializer = self.serializer_class(event)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Event.DoesNotExist:
-            return Response({"error": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
+            )
 
     @extend_schema(
         responses={
             200: EventSerializer,
             400: OpenApiResponse(response={"error": "Event ID is required."}),
             401: OpenApiResponse(response={"error": "User not authorised."}),
-            404: OpenApiResponse(response={"error": "Event Not Found."})
+            404: OpenApiResponse(response={"error": "Event Not Found."}),
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
         """
-            Update an event by ID.
+        Update an event by ID.
         """
         if id is None:
-            return Response({"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response(
+                {"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         try:
             event = self.queryset.get(id=id)
+
         except Event.DoesNotExist:
-            return Response({"error": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
+            )
 
         if request.user != event.created_by:
-            return Response({"error": "User not authorised."}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorised."}, status=status.HTTP_401_UNAUTHORIZED
+            )
 
         serializer = self.serializer_class(event, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
@@ -136,26 +148,35 @@ class EventDetailAPIView(APIView):
             200: OpenApiResponse(response={"message": "Event deleted successfully."}),
             400: OpenApiResponse(response={"error": "Event ID is required."}),
             401: OpenApiResponse(response={"error": "User not authorised."}),
-            404: OpenApiResponse(response={"error": "Event Not Found."})
+            404: OpenApiResponse(response={"error": "Event Not Found."}),
         }
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:
         """
-            Delete an event by ID.
+        Delete an event by ID.
         """
         if id is None:
-            return Response({"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response(
+                {"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         try:
             event = self.queryset.get(id=id)
+
         except Event.DoesNotExist:
-            return Response({"error": "Event Not Found"}, status=status.HTTP_404_NOT_FOUND)
-        
+            return Response(
+                {"error": "Event Not Found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
         if request.user != event.created_by:
-            return Response({"error": "User not authorised."}, status=status.HTTP_401_UNAUTHORIZED)
-        
+            return Response(
+                {"error": "User not authorised."}, status=status.HTTP_401_UNAUTHORIZED
+            )
+
         event.delete()
-        return Response({"message": "Event deleted successfully."}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Event deleted successfully."}, status=status.HTTP_200_OK
+        )
 
 
 # MARK: Bridge Tables
