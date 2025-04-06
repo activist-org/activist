@@ -81,7 +81,6 @@ def logged_in_created_by_user(created_by_user) -> dict:
 
 @pytest.mark.django_db
 def test_GroupListAPIView(logged_in_user, status_types):
-    # create a bunch of groups using group factories
     """
     Test OrganizationAPIView
 
@@ -89,6 +88,10 @@ def test_GroupListAPIView(logged_in_user, status_types):
 
     1. Verify the number of groups in the database
     2. Test the list view endpoint
+    3. Check if the pagination keys are present
+    4. Test if query_param page_size is working properly
+    5. Verify the number of groups in the response matches the page_size
+    6. Check the pagination links in the response
 
     # POST request
 
@@ -98,12 +101,23 @@ def test_GroupListAPIView(logged_in_user, status_types):
 
     client = APIClient()
     number_of_groups = 10
+    test_page_size = 1
 
     GroupFactory.create_batch(number_of_groups)
     assert Group.objects.count() == number_of_groups
 
     response = client.get("/v1/communities/groups/")
     assert response.status_code == 200
+
+    pagination_keys = ["count", "next", "previous", "results"]
+    assert all(key in response.data for key in pagination_keys)
+
+    response = client.get(f"/v1/communities/groups/?pageSize={test_page_size}")
+    assert response.status_code == 200
+
+    assert len(response.data["results"]) == test_page_size
+    assert response.data["previous"] is None
+    assert response.data["next"] is not None
 
     newGroup = GroupFactory.build(group_name="new_group", terms_checked=True)
     location = EntityLocationFactory.build()
@@ -143,7 +157,8 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     # PUT request
 
-    1. Update the group with the created_by user and verify the changes are saved.
+    1. Check if groups can be edited without the proper credentials
+    2. Update the group with the created_by user and verify the changes are saved.
 
     # DELETE request
 

@@ -7,7 +7,9 @@ from uuid import UUID
 from django.db import transaction
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -27,19 +29,29 @@ class GroupListAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
+    @extend_schema(
+        responses=GroupSerializer(many=True),
+    )
     def get(self, request: Request) -> Response:
+        """
+        Returns a paginated list of Groups.
+        """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
-
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: Request) -> Response:
+        """
+        Create a new Group.
+        """
         serializer = self.get_serializer(data=request.data)
-        # print("create", serializer.initial_data)
         serializer.is_valid(raise_exception=True)
 
         location_dict = serializer.validated_data["location"]
@@ -154,128 +166,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        # group.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status
-        # group.deletion_date = timezone.now()
-        # group.is_high_risk = False
-        # group.status_updated = None
-        # group.tagline = ""
-        # group.save()
-
         return Response({"message": "Group deleted successfully."}, status.HTTP_200_OK)
-
-
-class GroupViewSet(viewsets.ModelViewSet[Group]):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    pagination_class = CustomPagination
-
-    def list(self, request: Request, *args: str, **kwargs: int) -> Response:
-        serializer = self.get_serializer(self.queryset, many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def create(self, request: Request) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        # print("create", serializer.initial_data)
-        serializer.is_valid(raise_exception=True)
-
-        location_dict = serializer.validated_data["location"]
-        location = Location.objects.create(**location_dict)
-        serializer.validated_data["location"] = location
-
-        serializer.save(created_by=request.user)
-        data = {"message": f"New group created: {serializer.data}."}
-
-        return Response(data, status=status.HTTP_201_CREATED)
-
-    def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
-        try:
-            pk = str(kwargs["pk"])
-            group = self.queryset.get(id=pk)
-            serializer = self.get_serializer(group)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except group.DoesNotExist:
-            return Response({"error": "Group not found"}, status.HTTP_404_NOT_FOUND)
-
-    def update(self, request: Request, pk: str | None = None) -> Response:
-        if pk is not None:
-            group = self.queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if group is None:
-            return Response({"error": "Group not found"}, status.HTTP_404_NOT_FOUND)
-
-        if request.user != group.created_by and not request.user.is_staff:
-            return Response(
-                {"error": "You are not authorized to update this group"},
-                status.HTTP_401_UNAUTHORIZED,
-            )
-
-        serializer = self.get_serializer(group, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
-        pk = str(kwargs["pk"])
-        if pk is not None:
-            group = self.queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if group is None:
-            return Response(
-                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        if request.user != group.created_by and not request.user.is_staff:
-            return Response(
-                {"error": "You are not authorized to update this group"},
-                status.HTTP_401_UNAUTHORIZED,
-            )
-
-        serializer = self.get_serializer(group, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
-        pk = str(kwargs["pk"])
-        if pk is not None:
-            group = self.queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if group is None:
-            return Response(
-                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        if request.user != group.created_by and not request.user.is_staff:
-            return Response(
-                {"error": "You are not authorized to delete this group"},
-                status.HTTP_401_UNAUTHORIZED,
-            )
-
-        group.delete()
-
-        return Response(
-            {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
-        )
 
 
 class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
