@@ -1,0 +1,107 @@
+import pytest
+from django.test import Client
+
+from authentication.factories import UserFactory
+from communities.groups.factories import GroupFactory
+
+pytestmark = pytest.mark.django_db
+
+
+def test_group_partial_update(client: Client) -> None:
+    test_username = "test_user"
+    test_plaintext_password = "test_pass"
+    user = UserFactory(
+        username=test_username, plaintext_password=test_plaintext_password
+    )
+    group = GroupFactory()
+
+    user.verified = True
+    user.is_confirmed = True
+    user.save()
+    """
+    1. Unauthorized user patches updates.
+    """
+    user.verified = True
+    user.is_confirmed = True
+    user.save()
+
+    # Login to get token
+    login_response = client.post(
+        path="/v1/auth/sign_in/",
+        data={
+            "username": test_username,
+            "password": test_plaintext_password,
+        },
+    )
+
+    assert login_response.status_code == 200
+    login_response_body = login_response.json()
+    token = login_response_body.get("token")
+
+    group.created_by = user
+
+    response = client.get(path=f"/v1/communities/groups/{group.id}/")
+
+    assert response.status_code == 200
+
+    request_body = client.patch(
+        path=f"/v1/communities/groups/{group.id}/",
+        data={
+            "groupName": "new_test_group",
+            "name": "new_test_name",
+            "category": "new_test_category",
+        },
+        headers={"Authorization": "Token " + str(token)},
+        content_type="application/json",
+    )
+
+    assert request_body.status_code == 401
+    request_body_json = request_body.json()
+    assert request_body_json["error"] == "You are not authorized to update this group"
+
+    """
+    2. Authorized user patches updates.
+    """
+    test_username = "test_user"
+    test_plaintext_password = "test_pass"
+    user = UserFactory(
+        username=test_username, plaintext_password=test_plaintext_password
+    )
+    group = GroupFactory()
+
+    user.verified = True
+    user.is_confirmed = True
+    user.is_staff = True
+    user.save()
+
+    # Login to get token
+    login_response = client.post(
+        path="/v1/auth/sign_in/",
+        data={
+            "username": test_username,
+            "password": test_plaintext_password,
+        },
+    )
+
+    assert login_response.status_code == 200
+    login_response_body = login_response.json()
+    token = login_response_body.get("token")
+
+    group.created_by = user
+
+    response = client.get(path=f"/v1/communities/groups/{group.id}/")
+
+    assert response.status_code == 200
+
+    request_body = client.patch(
+        path=f"/v1/communities/groups/{group.id}/",
+        data={
+            "groupName": "new_test_group",
+            "name": "new_test_name",
+            "category": "new_test_category",
+        },
+        headers={"Authorization": "Token " + str(token)},
+        content_type="application/json",
+    )
+
+    assert request_body.status_code == 200
