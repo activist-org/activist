@@ -36,10 +36,12 @@
           'border-action-red dark:border-action-red': hasError,
           'border-interactive': !hasError,
         }"
+        :data-testid="`${id}-border`"
       >
         <legend
           class="invisible h-3 text-sm"
           :class="{ 'max-w-[0.01px]': !shrinkLabel }"
+          data-testid="hidden-legend"
         >
           <!-- This span overlays the border when expanded -->
           <span class="visible px-1 opacity-0">
