@@ -19,7 +19,6 @@
           id="sign-up-password"
           :value="password"
           :label="$t('i18n._global.enter_password')"
-          :data-testid="$t('i18n._global.enter_password')"
           :hasError="showPasswordError.border"
         />
       </div>
@@ -34,24 +33,23 @@
           id="sign-up-confirm-password"
           :value="confirmPassword"
           :label="$t('i18n._global.repeat_password')"
-          :data-testid="$t('i18n._global.repeat_password')"
         >
           <template #icons>
             <span>
               <Icon
-                v-if="doPasswordsMatch"
-                :name="IconMap.CHECK"
+                :name="doPasswordsMatch ? IconMap.CHECK : IconMap.X_LG"
                 size="1.2em"
-                color="#3BA55C"
-                data-testid="extra-icon"
+                :color="doPasswordsMatch ? '#3BA55C' : '#BA3D3B'"
+                aria-hidden="false"
+                aria-labelledby="sign-up-confirm-password-match"
               />
-              <Icon
-                v-else
-                :name="IconMap.X_LG"
-                size="1.2em"
-                color="#BA3D3B"
-                data-testid="extra-icon"
-              />
+              <title id="sign-up-confirm-password-match" class="sr-only">
+                {{
+                  doPasswordsMatch
+                    ? $t("i18n.pages.auth._global.passwords_match")
+                    : $t("i18n.pages.auth._global.passwords_do_not_match")
+                }}
+              </title>
             </span>
           </template>
         </FormPasswordInput>
