@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+URL routing for the content app.
+"""
+
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
