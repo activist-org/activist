@@ -105,6 +105,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         Response
             Paginated response with filtered discussions.
         """
+
         if request.user.is_authenticated:
             query = self.queryset.filter(
                 Q(is_private=False) | Q(is_private=True, created_by=request.user)
