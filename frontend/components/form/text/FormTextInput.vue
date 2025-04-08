@@ -1,4 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!-- Based on Material-UI text input styling. -->
+<!-- https://mui.com/material-ui/react-text-field/ -->
 <template>
   <div
     class="primary-text relative inline-flex w-full flex-col space-y-2 align-top"
