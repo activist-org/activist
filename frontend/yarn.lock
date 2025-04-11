@@ -5370,7 +5370,7 @@ __metadata:
     unocss: "npm:65.4.3"
     uuid: "npm:11.0.5"
     v-calendar: "npm:3.1.2"
-    vite: "npm:6.0.14"
+    vite: "npm:6.0.15"
     vitest: "npm:3.0.5"
     vue: "npm:3.5.13"
     vue-i18n: "npm:10.0.6"
@@ -16872,9 +16872,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:6.0.14":
-  version: 6.0.14
-  resolution: "vite@npm:6.0.14"
+"vite@npm:6.0.15":
+  version: 6.0.15
+  resolution: "vite@npm:6.0.15"
   dependencies:
     esbuild: "npm:^0.24.2"
     fsevents: "npm:~2.3.3"
@@ -16920,7 +16920,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10c0/b8f56a855f3907b6667173c1f16f714fffb89560069d04509363859fd6dde6d3f77c28e310be12ee06c8929259d59e7d41b26c678aa8b38308112641063d05cb
+  checksum: 10c0/40177bb7faffa76767b7dc6131e28ddf54863db3b94abb788fab0e7e2dbff273d5affb8f36f36f007aea3e1822091099e0e5b392e3ed5bda5600d9380ccdc679
   languageName: node
   linkType: hard
 
