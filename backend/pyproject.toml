@@ -68,7 +68,9 @@ exclude = ["^.*/factories\\.py$"]
 
 [[tool.mypy.overrides]]
 module = ["authentication.*", "content.*", "communities.*", "events.*"]
-follow_imports = "skip"
+#follow_imports = "skip"  # Commented out to enable django-stubs
+ignore_errors = true
+
 
 [tool.django-stubs]
 django_settings_module = "core.settings"
