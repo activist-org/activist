@@ -20,7 +20,15 @@
         :style="{ color: rule.isValid ? '#198754' : '#BA3D3B' }"
       />
       <title :id="rule.message" class="sr-only">
-        {{ rule.isValid ? "passed" : "failed" }}
+        {{
+          rule.isValid
+            ? $t(
+                "i18n.components.tooltip_password_requirements.password_passed_rule"
+              )
+            : $t(
+                "i18n.components.tooltip_password_requirements.password_failed_rule"
+              )
+        }}
       </title>
       <span class="truncate text-sm">{{
         $t(passwordRequirementsDict[rule.message])

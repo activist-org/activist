@@ -9,7 +9,7 @@
         @input="input = $event.target.value"
         id="reset-password-username"
         :value="input"
-        :placeholder="$t('i18n.pages.auth.reset_password.enter_username_mail')"
+        :label="$t('i18n.pages.auth.reset_password.enter_username_mail')"
       />
       <div class="pt-4">
         <BtnAction
