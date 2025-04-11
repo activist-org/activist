@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Factory classes for creating content test instances.
+"""
+
 import datetime
 import random
 from uuid import uuid4
@@ -11,6 +15,10 @@ from content.models import Faq, Image, Location, Resource, Task, Topic
 
 
 class EntityLocationFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Location model instances.
+    """
+
     class Meta:
         model = Location
 
@@ -58,6 +66,10 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
 
 
 class EventLocationFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Location model instances.
+    """
+
     class Meta:
         model = Location
 
@@ -105,6 +117,10 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
 
 
 class FaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
     class Meta:
         model = Faq
 
@@ -113,6 +129,10 @@ class FaqFactory(factory.django.DjangoModelFactory):
 
 
 class ImageFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Image model instances.
+    """
+
     class Meta:
         model = Image
 
@@ -127,6 +147,10 @@ class ImageFactory(factory.django.DjangoModelFactory):
 
 
 class ResourceFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Resource model instances.
+    """
+
     class Meta:
         model = Resource
 
@@ -146,6 +170,10 @@ class ResourceFactory(factory.django.DjangoModelFactory):
 
 
 class TaskFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Task model instances.
+    """
+
     class Meta:
         model = Task
 
@@ -157,6 +185,10 @@ class TaskFactory(factory.django.DjangoModelFactory):
 
 
 class TopicFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Topic model instances.
+    """
+
     class Meta:
         model = Topic
 
