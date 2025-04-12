@@ -22,6 +22,7 @@ def test_group_social_link_update(client: Client) -> None:
     user.is_staff = True
     user.save()
 
+    # Login to get token.
     login = client.post(
         path="/v1/auth/sign_in/",
         data={"username": test_user, "password": test_plaintext_password},
@@ -39,7 +40,7 @@ def test_group_social_link_update(client: Client) -> None:
             "label": social_links.label,
             "order": social_links.order,
         },
-        headers={"Authorization": "Token " + str(token)},
+        headers={"Authorization": f"Token {str(token)}"},
         content_type="application/json",
     )
 
@@ -58,7 +59,7 @@ def test_group_social_link_update(client: Client) -> None:
             "label": social_links.label,
             "order": social_links.order,
         },
-        headers={"Authorization": "Token " + str(token)},
+        headers={"Authorization": f"Token {str(token)}"},
         content_type="application/json",
     )
 

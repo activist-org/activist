@@ -19,6 +19,7 @@ def test_group_partial_update(client: Client) -> None:
     user.verified = True
     user.is_confirmed = True
     user.save()
+
     """
     1. Unauthorized user patches updates.
     """
@@ -26,7 +27,7 @@ def test_group_partial_update(client: Client) -> None:
     user.is_confirmed = True
     user.save()
 
-    # Login to get token
+    # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in/",
         data={
@@ -36,6 +37,7 @@ def test_group_partial_update(client: Client) -> None:
     )
 
     assert login_response.status_code == 200
+
     login_response_body = login_response.json()
     token = login_response_body.get("token")
 
@@ -52,11 +54,12 @@ def test_group_partial_update(client: Client) -> None:
             "name": "new_test_name",
             "category": "new_test_category",
         },
-        headers={"Authorization": "Token " + str(token)},
+        headers={"Authorization": f"Token {str(token)}"},
         content_type="application/json",
     )
 
     assert request_body.status_code == 401
+
     request_body_json = request_body.json()
     assert request_body_json["error"] == "You are not authorized to update this group"
 
@@ -75,7 +78,7 @@ def test_group_partial_update(client: Client) -> None:
     user.is_staff = True
     user.save()
 
-    # Login to get token
+    # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in/",
         data={
@@ -85,6 +88,7 @@ def test_group_partial_update(client: Client) -> None:
     )
 
     assert login_response.status_code == 200
+
     login_response_body = login_response.json()
     token = login_response_body.get("token")
 
@@ -101,7 +105,7 @@ def test_group_partial_update(client: Client) -> None:
             "name": "new_test_name",
             "category": "new_test_category",
         },
-        headers={"Authorization": "Token " + str(token)},
+        headers={"Authorization": f"Token {str(token)}"},
         content_type="application/json",
     )
 

@@ -14,7 +14,6 @@ def test_retrieve_groups(client: Client) -> None:
     """
     1. Group ID exists in the database.
     """
-
     response = client.get(
         path=f"/v1/communities/groups/{group_id}/",
     )
