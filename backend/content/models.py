@@ -19,6 +19,10 @@ from utils.models import ISO_CHOICES
 
 
 class Discussion(models.Model):
+    """
+    Discussion model for community conversations.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -32,6 +36,10 @@ class Discussion(models.Model):
 
 
 class Faq(models.Model):
+    """
+    Frequently Asked Questions model.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
@@ -44,9 +52,28 @@ class Faq(models.Model):
         return self.question
 
 
-# This is used to set the filename to the UUID of the model, in the Image model.
 def set_filename_to_uuid(instance: Any, filename: str) -> str:
-    """Generate a new filename using the model's UUID and keep the original extension."""
+    """
+    Generate a new filename using the model's UUID and keep the original extension.
+
+    Parameters
+    ----------
+    instance : Any
+        The model instance that the file is being attached to.
+
+    filename : str
+        The original filename of the uploaded file.
+
+    Returns
+    -------
+    str
+        The new file path with UUID-based filename.
+
+    Notes
+    -----
+    This function is used to maintain unique filenames and prevent collisions.
+    File extensions are forced to lowercase for consistency.
+    """
     ext = os.path.splitext(filename)[1]  # extract file extension
     # Note: Force extension to lowercase.
     new_filename = f"{instance.id}{ext.lower()}"  # use model UUID as filename
@@ -55,6 +82,10 @@ def set_filename_to_uuid(instance: Any, filename: str) -> str:
 
 
 class Image(models.Model):
+    """
+    Image model for storing uploaded images.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     file_object = models.ImageField(
         upload_to=set_filename_to_uuid,
@@ -70,12 +101,32 @@ class Image(models.Model):
 def delete_image_file(sender: Type[Image], instance: Image, **kwargs: Any) -> None:
     """
     Delete the file from the filesystem when the Image instance is deleted.
+
+    Parameters
+    ----------
+    sender : Type[Image]
+        The model class that sent the signal.
+
+    instance : Image
+        The actual instance being deleted.
+
+    **kwargs : Any
+        Additional keyword arguments passed to the receiver.
+
+    Notes
+    -----
+    This signal handler prevents orphaned files in the filesystem
+    when Image model instances are deleted.
     """
     if instance.file_object:
         instance.file_object.delete(save=False)
 
 
 class Location(models.Model):
+    """
+    Location model for geographic data.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     lat = models.CharField(max_length=24)
     lon = models.CharField(max_length=24)
@@ -89,6 +140,10 @@ class Location(models.Model):
 
 
 class Resource(models.Model):
+    """
+    Resource model for sharing useful links and information.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -111,6 +166,10 @@ class Resource(models.Model):
 
 
 class Role(models.Model):
+    """
+    Role model for defining user roles.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     is_custom = models.BooleanField(default=False)
@@ -123,6 +182,10 @@ class Role(models.Model):
 
 
 class SocialLink(models.Model):
+    """
+    SocialLink model for storing links to social media profiles.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     link = models.CharField(max_length=255)
     label = models.CharField(max_length=255)
@@ -135,6 +198,10 @@ class SocialLink(models.Model):
 
 
 class Tag(models.Model):
+    """
+    Tag model for content categorization.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     text = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -145,6 +212,10 @@ class Tag(models.Model):
 
 
 class Task(models.Model):
+    """
+    Task model for tracking actionable items.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
@@ -158,6 +229,10 @@ class Task(models.Model):
 
 
 class Topic(models.Model):
+    """
+    Topic model for categorizing content by subject matter.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
@@ -176,6 +251,10 @@ class Topic(models.Model):
 
 
 class DiscussionEntry(models.Model):
+    """
+    DiscussionEntry model for individual posts within a discussion.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     discussion = models.ForeignKey(
         "content.Discussion", on_delete=models.CASCADE, related_name="discussion_entry"
