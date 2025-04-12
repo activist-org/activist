@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<!-- Based on Material-UI text input styling. -->
-<!-- https://mui.com/material-ui/react-text-field/ -->
+<!-- Note: Based on Material-UI text input styling. -->
+<!-- See: https://mui.com/material-ui/react-text-field/ -->
 <template>
   <div
     class="primary-text relative inline-flex w-full flex-col space-y-2 align-top"
@@ -30,7 +30,7 @@
         <slot name="icons"></slot>
       </span>
 
-      <!-- Using a fieldset allows the label overlay the border -->
+      <!-- Using a fieldset allows the label to overlay the border. -->
       <fieldset
         aria-hidden="true"
         class="pointer-events-none absolute inset-0 -top-[5px] bottom-0 rounded border pl-[12px] pr-[10px]"
@@ -45,7 +45,7 @@
           :class="{ 'max-w-[0.01px]': !shrinkLabel }"
           data-testid="hidden-legend"
         >
-          <!-- This span overlays the border when expanded -->
+          <!-- This span overlays the border when expanded. -->
           <span class="visible px-1 opacity-0">
             {{ label }}
           </span>
