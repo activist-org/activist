@@ -60,6 +60,7 @@ def set_filename_to_uuid(instance: Any, filename: str) -> str:
     ----------
     instance : Any
         The model instance that the file is being attached to.
+
     filename : str
         The original filename of the uploaded file.
 
@@ -105,8 +106,10 @@ def delete_image_file(sender: Type[Image], instance: Image, **kwargs: Any) -> No
     ----------
     sender : Type[Image]
         The model class that sent the signal.
+
     instance : Image
         The actual instance being deleted.
+
     **kwargs : Any
         Additional keyword arguments passed to the receiver.
 

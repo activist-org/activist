@@ -70,6 +70,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         ----------
         request : Request
             HTTP request object.
+
         pk : str or None
             Primary key of the discussion to retrieve.
 
@@ -126,6 +127,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         ----------
         request : Request
             HTTP request with updated discussion data.
+
         pk : str or None
             Primary key of the discussion to update.
 
@@ -158,6 +160,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         ----------
         request : Request
             HTTP request with partial discussion data.
+
         pk : str or None
             Primary key of the discussion to update.
 
@@ -191,6 +194,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         ----------
         request : Request
             HTTP request object.
+
         pk : str or None
             Primary key of the discussion to delete.
 
@@ -258,6 +262,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         ----------
         request : Request
             HTTP request object.
+
         pk : str or None
             Primary key of the resource to retrieve.
 
@@ -335,6 +340,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         ----------
         request : Request
             HTTP request with updated resource data.
+
         pk : str or None
             Primary key of the resource to update.
 
@@ -368,6 +374,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         ----------
         request : Request
             HTTP request with partial resource data.
+
         pk : str or None
             Primary key of the resource to update.
 
@@ -454,6 +461,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         ----------
         request : Request
             HTTP request object.
+
         pk : str or None
             Primary key of the discussion entry to retrieve.
 
@@ -502,6 +510,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         ----------
         request : Request
             HTTP request with updated discussion entry data.
+
         pk : str or None
             Primary key of the discussion entry to update.
 
@@ -535,6 +544,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         ----------
         request : Request
             HTTP request with partial discussion entry data.
+
         pk : str or None
             Primary key of the discussion entry to update.
 
@@ -568,6 +578,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         ----------
         request : Request
             HTTP request object.
+
         pk : str or None
             Primary key of the discussion entry to delete.
 
@@ -609,8 +620,10 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
         ----------
         request : Request
             HTTP request containing image file data.
+
         *args : Any
             Variable positional arguments.
+
         **kwargs : Any
             Variable keyword arguments.
 

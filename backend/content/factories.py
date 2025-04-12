@@ -16,7 +16,7 @@ from content.models import Faq, Image, Location, Resource, Task, Topic
 
 class EntityLocationFactory(factory.django.DjangoModelFactory):
     """
-    Factory for creating Location model instances.
+    Factory for creating Location model instances for entities.
     """
 
     class Meta:
@@ -67,7 +67,7 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
 
 class EventLocationFactory(factory.django.DjangoModelFactory):
     """
-    Factory for creating Location model instances.
+    Factory for creating Location model instances for events.
     """
 
     class Meta:
