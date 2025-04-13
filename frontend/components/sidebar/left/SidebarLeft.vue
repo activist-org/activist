@@ -39,6 +39,7 @@
     >
       <SearchBar class="mt-1" :location="SearchBarLocation.SIDEBAR" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
+      asdf
       <SidebarLeftIndex
         v-if="
           sidebarType === SidebarType.ORGANIZATION_PAGE ||

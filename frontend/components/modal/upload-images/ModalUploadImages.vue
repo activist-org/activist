@@ -34,7 +34,7 @@
           {{ files.length }}
         </p>
         <p
-          v-if="uploadLimit == 1 && files.length == uploadLimit"
+          v-if="uploadLimit == 1 && files.length > uploadLimit"
           class="text-action-red"
         >
           {{ $t("i18n.components.modal_upload_images.picture_limit_1") }}
@@ -84,7 +84,7 @@
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
             :ariaLabel="'i18n.components._global.upvote_application_aria_label'"
-            :disabled="files.length >= uploadLimit"
+            :disabled="files.length === 0 || files.length > uploadLimit"
           />
         </div>
       </div>
@@ -98,16 +98,22 @@ import draggable from "vuedraggable";
 
 import { IconMap } from "~/types/icon-map";
 
-const { files, handleFiles, removeFile, uploadFiles } = useFileManager();
+import type { FileUploadEntity } from "~/types/content/file-upload-entity";
+
+// TODO: Remove stubUploadFiles after everything is working.
+const { files, handleFiles, removeFile, uploadFiles, stubUploadFiles } =
+  useFileManager();
+
+const eventStore = useEventStore();
+const groupStore = useGroupStore();
+const organizationStore = useOrganizationStore();
 
 export interface Props {
-  uploadLimit?: number;
-  organizationId?: string;
+  fileUploadEntity: FileUploadEntity;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  uploadLimit: 10,
-  organizationId: undefined,
+  fileUploadEntity: undefined,
 });
 
 const modalName = "ModalUploadImages";
@@ -115,9 +121,54 @@ const uploadError = ref(false);
 
 const emit = defineEmits(["upload-complete", "upload-error"]);
 
+const UPLOAD_LIMITS = {
+  "event-icon": 1,
+  "group-carousel": 10,
+  "group-icon": 1,
+  "organization-carousel": 10,
+  "organization-icon": 1,
+} as const;
+
+const uploadLimit = computed(
+  () => UPLOAD_LIMITS[props.fileUploadEntity as keyof typeof UPLOAD_LIMITS] ?? 0
+);
+
 const handleUpload = async () => {
+  const msg =
+    "Error in ModalUploadImages.handleUpload: No fileUploadEntity provided, should be one of the entries in file-upload-entity.ts.";
+
+  if (!props.fileUploadEntity || props.fileUploadEntity === undefined) {
+    throw new Error(msg);
+  }
+
   try {
-    await uploadFiles(props.organizationId);
+    switch (props.fileUploadEntity) {
+      case "event-icon":
+        stubUploadFiles(eventStore.event.id, props.fileUploadEntity);
+        break;
+      case "group-carousel":
+        stubUploadFiles(groupStore.group.id, props.fileUploadEntity);
+        break;
+      case "group-icon":
+        stubUploadFiles(groupStore.group.id, props.fileUploadEntity);
+        break;
+      case "organization-carousel":
+        stubUploadFiles(
+          organizationStore.organization.id,
+          props.fileUploadEntity
+        );
+        break;
+      case "organization-icon":
+        stubUploadFiles(
+          organizationStore.organization.id,
+          props.fileUploadEntity
+        );
+        break;
+      default: {
+        console.log("Default: Couldn't figure out props.fileUploadEntity.");
+      }
+    }
+    // await uploadFiles(props.organizationId);
     const modals = useModals();
     modals.closeModal(modalName);
     emit("upload-complete");

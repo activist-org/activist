@@ -16,13 +16,15 @@
       >
         <button
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModal()"
+          @click="openModalUploadImages()"
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <!-- Attn: Disabled -->
-        <!-- <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" /> -->
+        <ModalUploadImages
+          @closeModal="handleCloseModalUploadImages"
+          :fileUploadEntity="FileUploadEntity.ORGANIZATION_ICON"
+        />
         <ImageOrganization
           class="elem-shadow-sm"
           :imgUrl="logoUrl"
@@ -45,12 +47,15 @@
       >
         <button
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModal()"
+          @click="openModalUploadImages()"
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
+        <ModalUploadImages
+          @closeModal="handleCloseModalUploadImages"
+          :fileUploadEntity="FileUploadEntity.EVENT_ICON"
+        />
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"
@@ -96,6 +101,7 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 import { SidebarType } from "~/types/sidebar-type";
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 
 const props = defineProps<{
   name: string;
@@ -107,17 +113,9 @@ const sidebarTypeToDisplay = computed(() => props.sidebarType);
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
-const modals = useModals();
-const modalName = "ModalUploadImages";
-const modalIsOpen = ref(false);
 
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
+const {
+  openModal: openModalUploadImages,
+  handleCloseModal: handleCloseModalUploadImages,
+} = useModalHandlers("ModalUploadImages");
 </script>

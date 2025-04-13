@@ -44,17 +44,18 @@
     >
       <Icon :name="IconMap.PLUS" size="1.5em" />
     </button>
-    <ModalUploadImages
+    <!-- <ModalUploadImages
       @upload-complete="forwardUploadCompleteEmit"
       @closeModal="handleCloseModalUploadImages"
       @upload-error="uploadError = true"
-      :organizationId="organizationId"
-    />
+      :fileUploadEntity="FileUploadEntity.ORGANIZATION_CAROUSEL"
+    /> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Swiper as SwiperInstance } from "swiper";
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 
 import { register } from "swiper/element/bundle";
 

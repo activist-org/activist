@@ -24,7 +24,7 @@ export function useFileManager(organizationId?: string) {
 
     try {
       const response = await fetch(
-        `${BASE_BACKEND_URL}/communities/organizations/${organizationId}/images/`,
+        `${BASE_BACKEND_URL as string}/communities/organizations/${organizationId}/images/`,
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("accessToken")}`,
@@ -48,6 +48,23 @@ export function useFileManager(organizationId?: string) {
     }
   }
 
+  async function stubUploadFiles(id: string, entity: string) {
+    // fetch (patch, put or delete)  image/s
+    // TODO make sure endponts are correct.
+    const ENDPOINT_PATHS = {
+      "event-icon": `/events/${id}/images/`,
+      "group-carousel": `/groups/${id}/images/`,
+      "group-icon": `/groups/${id}/images/`,
+      "organization-carousel": `/communities/organizations/${id}/images/`,
+      "organization-icon": `/communities/organizations/${id}/images/`,
+    } as const;
+
+    const endpointPath = computed(
+      () => ENDPOINT_PATHS[entity as keyof typeof ENDPOINT_PATHS] ?? ""
+    );
+    console.log("stubUploadFiles: ", id, entity, endpointPath.value);
+  }
+
   async function uploadFiles(organizationId?: string) {
     if (!organizationId) {
       return;
@@ -61,18 +78,20 @@ export function useFileManager(organizationId?: string) {
     formData.append("organization_id", organizationId);
 
     try {
-      const response = await fetch(`${BASE_BACKEND_URL}/content/images/`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Token ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const response = await fetch(
+        `${BASE_BACKEND_URL as string}/content/images/`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const data = (await response.json()) as OrganizationImage[];
         files.value = [];
-        fetchOrganizationImages(); // refresh images after upload
 
         return data;
       }
@@ -87,12 +106,15 @@ export function useFileManager(organizationId?: string) {
     }
 
     try {
-      return await fetch(`${BASE_BACKEND_URL}/content/images/${imageId}/`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Token ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      return await fetch(
+        `${BASE_BACKEND_URL as string}/content/images/${imageId}/`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
     } catch (error) {
       console.error("Delete image failed:", error);
     }
@@ -131,6 +153,7 @@ export function useFileManager(organizationId?: string) {
     deleteImage,
     handleFiles,
     removeFile,
+    stubUploadFiles,
   };
 }
 
