@@ -100,8 +100,8 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-import { SidebarType } from "~/types/sidebar-type";
 import { FileUploadEntity } from "~/types/content/file-upload-entity";
+import { SidebarType } from "~/types/sidebar-type";
 
 const props = defineProps<{
   name: string;

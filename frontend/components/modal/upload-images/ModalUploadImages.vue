@@ -95,10 +95,8 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 import draggable from "vuedraggable";
-
-import { IconMap } from "~/types/icon-map";
-
 import type { FileUploadEntity } from "~/types/content/file-upload-entity";
+import { IconMap } from "~/types/icon-map";
 
 // TODO: Remove stubUploadFiles after everything is working.
 const { files, handleFiles, removeFile, uploadFiles, stubUploadFiles } =

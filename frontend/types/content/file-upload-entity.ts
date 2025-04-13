@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 export enum FileUploadEntity {
   EVENT_ICON = "event-icon",
   GROUP_ICON = "group-icon",

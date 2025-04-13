@@ -55,9 +55,9 @@
 
 <script setup lang="ts">
 import type { Swiper as SwiperInstance } from "swiper";
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
-
 import { register } from "swiper/element/bundle";
+
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 
 import { IconMap } from "~/types/icon-map";
 
