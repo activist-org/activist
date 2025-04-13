@@ -4,53 +4,55 @@
     <form @submit.prevent="signUp" @enter="signUp" class="space-y-4">
       <div class="col">
         <FormTextInput
-          @update:model-value="userNameValue = $event"
-          :placeholder="$t('i18n.pages.auth._global.enter_a_user_name')"
-          :model-value="userNameValue"
+          @input="userName = $event.target.value"
+          id="sign-up-username"
+          :value="userName"
+          :label="$t('i18n.pages.auth._global.enter_a_user_name')"
+          :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
         />
       </div>
       <div>
-        <FormTextInput
-          @update:model-value="passwordValue = $event"
-          @input="checkRules"
-          @blurred="
-            isBlurred = true;
-            isFocused = false;
-          "
-          @focused="
-            isFocused = true;
-            isBlurred = false;
-          "
-          :placeholder="$t('i18n._global.enter_password')"
-          :is-icon-visible="true"
-          input-type="password"
-          :model-value="passwordValue"
-          :icons="[IconMap.VISIBLE]"
-          :error="!isAllRulesValid && isBlurred"
+        <FormPasswordInput
+          @input="handlePasswordInput"
+          @blur="isPasswordFocused = false"
+          @focus="isPasswordFocused = true"
+          id="sign-up-password"
+          :value="password"
+          :label="$t('i18n._global.enter_password')"
+          :hasError="showPasswordError.border"
         />
       </div>
-      <IndicatorPasswordStrength :password-value="passwordValue" />
+      <IndicatorPasswordStrength :password-value="password" />
       <TooltipPasswordRequirements
-        v-if="
-          !!passwordValue?.length &&
-          !isAllRulesValid &&
-          (!isBlurred || isFocused)
-        "
+        v-if="showPasswordError.tooltip"
         :rules="rules"
       />
       <div>
-        <FormTextInput
-          @update:model-value="confirmPasswordValue = $event"
-          :placeholder="$t('i18n._global.repeat_password')"
-          :is-icon-visible="true"
-          input-type="password"
-          :model-value="confirmPasswordValue"
-          :icons="
-            isPasswordMatch(passwordValue, confirmPasswordValue)
-              ? [IconMap.CHECK, IconMap.VISIBLE]
-              : [IconMap.X_LG, IconMap.VISIBLE]
-          "
-        />
+        <FormPasswordInput
+          @input="confirmPassword = $event.target.value"
+          id="sign-up-confirm-password"
+          :value="confirmPassword"
+          :label="$t('i18n._global.repeat_password')"
+        >
+          <template #icons>
+            <span>
+              <Icon
+                :name="doPasswordsMatch ? IconMap.CHECK : IconMap.X_LG"
+                size="1.2em"
+                :color="doPasswordsMatch ? '#3BA55C' : '#BA3D3B'"
+                aria-hidden="false"
+                aria-labelledby="sign-up-confirm-password-match"
+              />
+              <title id="sign-up-confirm-password-match" class="sr-only">
+                {{
+                  doPasswordsMatch
+                    ? $t("i18n.pages.auth._global.passwords_match")
+                    : $t("i18n.pages.auth._global.passwords_do_not_match")
+                }}
+              </title>
+            </span>
+          </template>
+        </FormPasswordInput>
       </div>
       <div class="flex flex-col space-y-3">
         <FriendlyCaptcha />
@@ -80,7 +82,7 @@
         />
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
-        <h6>{{ $t("i18n.pages.auth._global.have_account") }}</h6>
+        <h6>{{ $t("i18n.pages.auth.sign_up.have_account") }}</h6>
         <NuxtLink
           :to="localePath('/auth/sign-in')"
           class="link-text ml-2 font-extrabold"
@@ -97,15 +99,33 @@ import { IconMap } from "~/types/icon-map";
 
 const localePath = useLocalePath();
 
-const userNameValue = ref("");
-const passwordValue = ref("");
-const confirmPasswordValue = ref("");
+const userName = ref("");
+const password = ref("");
+const confirmPassword = ref("");
 const hasRed = ref(false);
-const isBlurred = ref(false);
-const isFocused = ref(false);
+const isPasswordFocused = ref(false);
 
 const { rules, isAllRulesValid, checkRules, isPasswordMatch } =
   usePasswordRules();
+
+const doPasswordsMatch = computed<boolean>(() =>
+  isPasswordMatch(password.value, confirmPassword.value)
+);
+
+const showPasswordError = computed<{ border: boolean; tooltip: boolean }>(
+  () => {
+    const error = password.value.length > 0 && !isAllRulesValid.value;
+    return {
+      border: !isPasswordFocused.value && error,
+      tooltip: isPasswordFocused.value && error,
+    };
+  }
+);
+
+const handlePasswordInput = (event: Event & { target: HTMLInputElement }) => {
+  password.value = event.target.value;
+  checkRules(event);
+};
 
 const signUp = () => {};
 </script>
