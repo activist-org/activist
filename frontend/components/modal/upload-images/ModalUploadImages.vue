@@ -112,9 +112,7 @@ export interface Props {
   fileUploadEntity: FileUploadEntity;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  fileUploadEntity: undefined,
-});
+const props = defineProps<Props>();
 
 const modalName = "ModalUploadImages";
 const uploadError = ref(false);
