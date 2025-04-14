@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 from pathlib import Path
-from typing import TypedDict
 
 import pytest
 from django.conf import settings
@@ -14,12 +13,21 @@ from communities.groups.models import Group
 from content.factories import EntityLocationFactory
 
 
-class UserDict(TypedDict):
-    user: UserModel
-    plaintext_password: str
+class UserAndPassword:
+    def __init__(self, plaintext_password="Creator@!123?"):
+        self.user = UserFactory.create(
+            plaintext_password=plaintext_password, is_confirmed=True
+        )
+        self.password = plaintext_password
 
 
-def create_user(password: str) -> UserDict:
+class UserLogin:
+    def __init__(self, user: UserModel, token: str):
+        self.user = user
+        self.token = token
+
+
+def create_user(password: str) -> dict:
     """
     Create a user and return the user and password.
     """
@@ -27,7 +35,7 @@ def create_user(password: str) -> UserDict:
     return {"user": user, "plaintext_password": password}
 
 
-def login_user(user_data: UserDict) -> dict:
+def login_user(user_data: UserAndPassword) -> UserLogin:
     """
     Log in a user and return the user and token.
     """
@@ -35,12 +43,12 @@ def login_user(user_data: UserDict) -> dict:
     response = client.post(
         "/v1/auth/sign_in/",
         {
-            "username": user_data["user"].username,
-            "password": user_data["plaintext_password"],
+            "username": user_data.user.username,
+            "password": user_data.password,
         },
     )
     assert response.status_code == 200
-    return {"user": user_data["user"], "token": response.data["token"]}
+    return UserLogin(user_data.user, response.data["token"])
 
 
 @pytest.fixture(scope="session")
@@ -54,20 +62,20 @@ def status_types(django_db_setup, django_db_blocker) -> None:
 
 
 @pytest.fixture
-def new_user() -> UserDict:
-    return create_user("Activist@123!?")
+def new_user() -> UserAndPassword:
+    return UserAndPassword("Activist@123!?")
 
 
 @pytest.fixture
-def created_by_user() -> UserModel:
+def created_by_user() -> UserAndPassword:
     """
     Create a user and return the user object.
     """
-    return create_user("Creator@123!?")["user"]
+    return UserAndPassword()
 
 
 @pytest.fixture
-def logged_in_user(new_user) -> dict:
+def logged_in_user(new_user) -> UserLogin:
     """
     Create a user and log in the user.
     """
@@ -75,8 +83,8 @@ def logged_in_user(new_user) -> dict:
 
 
 @pytest.fixture
-def logged_in_created_by_user(created_by_user) -> dict:
-    return login_user({"user": created_by_user, "plaintext_password": "Creator@123!?"})
+def logged_in_created_by_user(created_by_user) -> UserLogin:
+    return login_user(created_by_user)
 
 
 @pytest.mark.django_db
@@ -135,7 +143,7 @@ def test_GroupListAPIView(logged_in_user, status_types):
         "category": newGroup.category,
     }
 
-    token = logged_in_user["token"]
+    token = logged_in_user.token
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post("/v1/communities/groups/", data=payload, format="json")
@@ -162,10 +170,14 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     # DELETE request
 
-    1. Delete the group with the created_by user and verify it is removed from the database.
+    1. Check if groups can be deleted without the proper credentials
+    2. Delete the group with the created_by user and verify it is removed from the database.
     """
     client = APIClient()
-    created_by_user, token_created_by = logged_in_created_by_user.values()
+    created_by_user, token_created_by = (
+        logged_in_created_by_user.user,
+        logged_in_created_by_user.token,
+    )
 
     newGroup = GroupFactory.create(created_by=created_by_user)
     assert Group.objects.filter(group_name=newGroup.group_name).exists()
@@ -192,6 +204,10 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     updated_group = Group.objects.get(id=newGroup.id)
     assert updated_group.group_name == "updated_group_name"
+
+    client.credentials()
+    response = client.delete(f"/v1/communities/groups/{newGroup.id}/")
+    assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
     response = client.delete(f"/v1/communities/groups/{newGroup.id}/")
