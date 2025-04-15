@@ -50,7 +50,7 @@
 
 # Our goals [`⇧`](#contents)
 
-The activist community is creating a global platform where movements grow and people are inspired to join in political actions. We want to update how power is distributed in our society by removing barriers and enabling more people to safely engage in activism.
+The activist community is creating a global platform where movements grow and people are inspired to join in political actions. We want to update how power is distributed in our society by removing barriers and enabling more people to engage in activism safely.
 
 <a id="topics"></a>
 
