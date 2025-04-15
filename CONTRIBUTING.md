@@ -683,7 +683,7 @@ All branding elements such as logos, icons, colors and fonts should follow those
 
 ## Troubleshooting [`⇧`](#contents)
 
-### Nuxt Auto Import Errors
+### Nuxt Auto Import Errors...
 
 Nuxt uses auto imports to make frontend development more seamless, but at times these imports malfunction. For the `Property 'PROPERTY_NAME' does not exist on type...` errors, this is caused both by having an out of sync `yarn.lock` file and having Nuxt improperly installed.
 
