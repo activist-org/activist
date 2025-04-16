@@ -33,6 +33,6 @@ repos:
   # - repo: https://github.com/numpy/numpydoc
   #   rev: v1.8.0
   #   hooks:
-  #     - id: numpydoc-validation
-  #       files: ^backend/
-  #       exclude: ^backend/tests/
+  #    - id: numpydoc-validation
+  #      files: ^backend/
+  #      exclude: ^backend/tests/|views\.py$
