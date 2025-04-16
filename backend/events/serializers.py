@@ -49,6 +49,9 @@ class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
         model = Organization
         fields = "__all__"
 
+    # def save(self, validated_data: dict[str, Any]) -> Organization:
+    #     return Organization.objects.get_or_create(validated_data)
+
 
 class EventSerializer(serializers.ModelSerializer[Event]):
     """
@@ -57,9 +60,10 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
     texts = EventTextSerializer(many=True, read_only=True)
     social_links = EventSocialLinkSerializer(many=True, read_only=True)
-    offline_location = LocationSerializer(read_only=True)
+    offline_location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
-    orgs = EventOrganizationSerializer(read_only=True)
+    orgs = EventOrganizationSerializer()
+    # orgs_id = serializers.SlugRelatedField(queryset=Organization.objects.all(), slug_field='orgs')
 
     class Meta:
         model = Event

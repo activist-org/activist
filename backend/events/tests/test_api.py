@@ -7,6 +7,7 @@ from rest_framework.test import APIClient
 from authentication.factories import UserFactory
 from authentication.models import UserModel
 from communities.organizations.factories import OrganizationFactory
+from content.factories import EntityLocationFactory
 from events.factories import EventFactory
 from events.models import Event
 
@@ -68,12 +69,24 @@ def test_EventListAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-de
     # ---------------------------------
 
     # ------- Test post() method -------
-    org = OrganizationFactory.create(org_name="test_org")
+    org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
+    location = EntityLocationFactory.build()
     token = logged_in_user["token"]
 
     payload = {
         "name": "test_event",
-        "orgs_id": org.id,
+        "orgs": {
+            "org_name": org.org_name,
+            "name": org.name,
+            "created_by": org.created_by.id,
+            "location": org.location.id,
+        },
+        "offline_location": {
+            "lat": location.lat,
+            "lon": location.lon,
+            "bbox": location.bbox,
+            "display_name": location.display_name,
+        },
         "type": "test",
         "start_time": "2020-09-18T21:39:14",
         "end_time": "2020-09-18T21:39:14",

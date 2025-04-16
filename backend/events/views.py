@@ -19,6 +19,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.paginator import CustomPagination
+from communities.organizations.models import Organization
+from content.models import Location
 from events.models import Event, EventSocialLink, EventText
 from events.serializers import (
     EventSerializer,
@@ -65,10 +67,15 @@ class EventListAPIView(GenericAPIView[Event]):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        location_data = serializer.validated_data["offline_location"]
+        location = Location.objects.create(**location_data)
+        serializer.validated_data["offline_location"] = location
+
         try:
             serializer.save(created_by=request.user)
 
         except (IntegrityError, OperationalError):
+            Location.objects.filter(id=location.id).delete()
             return Response(
                 {"error": "Failed to create event."}, status=status.HTTP_400_BAD_REQUEST
             )
