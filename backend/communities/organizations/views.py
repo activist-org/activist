@@ -5,15 +5,20 @@ from typing import Dict, List
 from uuid import UUID
 
 from django.db import transaction
+from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
+from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
-    OrganizationApplication,
     OrganizationSocialLink,
     OrganizationText,
 )
@@ -22,116 +27,169 @@ from communities.organizations.serializers import (
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
 )
-from content.models import Image
+from content.models import Image, Location
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 
 # MARK: Main Tables
 
 
-class OrganizationViewSet(viewsets.ModelViewSet[Organization]):
-    queryset = Organization.objects.all()
+class OrganizationAPIView(GenericAPIView[Organization]):
+    queryset = Organization.objects.all().order_by("id")
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    def list(self, request: Request) -> Response:
-        serializer = self.get_serializer(self.get_queryset(), many=True)
+    @extend_schema(
+        responses=OrganizationSerializer(many=True),
+    )
+    def get(self, request: Request) -> Response:
+        """
+        Returns a paginated list of organizations.
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request: Request) -> Response:
+        """
+        Create a new organization.
+        """
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        location_dict = serializer.validated_data["location"]
+        location = Location.objects.create(**location_dict)
+        serializer.validated_data["location"] = location
+
+        # Location post-cleanup if the organization creation fails.
+        # This is necessary because of a not null constraint on the location field.
+        try:
+            org = serializer.save(created_by=request.user)
+
+        except (IntegrityError, OperationalError):
+            Location.objects.filter(id=location.id).delete()
+            return Response(
+                {"error": "Failed to create organization"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        org.application.create()
+
+        data = {"message": f"New organization created: {serializer.data}"}
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
+class OrganizationDetailAPIView(APIView):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
+
+    @extend_schema(
+        responses={
+            200: OrganizationSerializer,
+            400: OpenApiResponse(response={"error": "Organization ID is required"}),
+            404: OpenApiResponse(
+                response={"error": "Failed to retrieve the organization"}
+            ),
+        }
+    )
+    def get(self, request: Request, id: None | UUID = None) -> Response:
+        """
+        Retrieve a single organization by ID.
+        """
+        if id is None:
+            return Response(
+                {"error": "Organization ID is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            org = Organization.objects.get(id=id)
+            serializer = OrganizationSerializer(org)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Organization.DoesNotExist:
+            return Response(
+                {"error": "Failed to retrieve the organization"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+    @extend_schema(
+        responses={
+            200: OrganizationSerializer,
+            400: OpenApiResponse(response={"error": "Organization ID is required"}),
+            404: OpenApiResponse(response={"error": "Organization not found"}),
+        }
+    )
+    def put(self, request: Request, id: None | UUID = None) -> Response:
+        """
+        Update an organization by ID.
+        """
+        if id is None:
+            return Response(
+                {"error": "Organization ID is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            org = Organization.objects.get(id=id)
+
+        except Organization.DoesNotExist:
+            return Response(
+                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {"error": "You are not authorized to update this organization"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = self.serializer_class(org, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def create(self, request: Request) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        org = serializer.save(created_by=request.user)
-        OrganizationApplication.objects.create(org=org)
-        data = {"message": f"New organization created: {serializer.data}"}
-
-        return Response(data, status=status.HTTP_201_CREATED)
-
-    def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        if pk is not None:
-            if org := self.queryset.filter(id=pk).first():
-                serializer = self.get_serializer(org)
-
-                return Response(serializer.data, status=status.HTTP_200_OK)
-
-        else:
+    @extend_schema(
+        responses={
+            200: OpenApiResponse(
+                response={"message": "Organization deleted successfully."}
+            ),
+            400: OpenApiResponse(response={"error": "Organization ID is required"}),
+            401: OpenApiResponse(
+                response={"error": "You are not authorized to delete this organization"}
+            ),
+            404: OpenApiResponse(response={"error": "Organization not found"}),
+        }
+    )
+    def delete(self, request: Request, id: None | UUID = None) -> Response:
+        """
+        Delete an organization by ID.
+        """
+        if id is None:
             return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+                {"error": "Organization ID is required"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response({"error": "Organization not found"}, status.HTTP_404_NOT_FOUND)
+        try:
+            org = Organization.objects.select_related("created_by").get(id=id)
 
-    def update(self, request: Request, pk: str | None = None) -> Response:
-        if pk is not None:
-            org = self.queryset.filter(id=pk).first()
-
-        else:
+        except Organization.DoesNotExist:
             return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if org is None:
-            return Response(
-                {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
-            )
-
-        if request.user != org.created_by and not request.user.is_staff:
-            return Response(
-                {"error": "You are not authorized to update this organization"},
-                status.HTTP_401_UNAUTHORIZED,
-            )
-
-        serializer = self.get_serializer(org, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def partial_update(self, request: Request, pk: str | None = None) -> Response:
-        if pk is not None:
-            org = self.queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if org is None:
-            return Response(
-                {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
-            )
-
-        if request.user != org.created_by and not request.user.is_staff:
-            return Response(
-                {"error": "You are not authorized to update this organization"},
-                status.HTTP_401_UNAUTHORIZED,
-            )
-
-        serializer = self.get_serializer(org, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def destroy(self, request: Request, pk: str | None = None) -> Response:
-        if pk is not None:
-            org = self.queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if org is None:
-            return Response(
-                {"error": "Organization not found"}, status.HTTP_404_NOT_FOUND
+                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"error": "You are not authorized to delete this organization"},
-                status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_401_UNAUTHORIZED,
             )
 
         org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status
