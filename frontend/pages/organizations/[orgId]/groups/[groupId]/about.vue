@@ -84,8 +84,9 @@
 </template>
 
 <script setup lang="ts">
-import { BreakpointMap } from "~/types/breakpoint-map";
 import type { Group } from "~/types/communities/group";
+
+import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 

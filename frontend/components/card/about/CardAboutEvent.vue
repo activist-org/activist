@@ -60,8 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
-
 const { openModal: openModalEditTextEvent } =
   useModalHandlers("ModalEditTextEvent");
 

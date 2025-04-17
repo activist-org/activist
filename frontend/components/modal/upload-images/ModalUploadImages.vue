@@ -95,9 +95,10 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 import draggable from "vuedraggable";
+
 import { IconMap } from "~/types/icon-map";
 
-const { files, handleFiles, removeFile, uploadFiles } = useFileManager();
+const { files, handleFiles, removeFile, uploadFiles } = useOrganizationImages();
 
 export interface Props {
   uploadLimit?: number;

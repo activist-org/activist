@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Loading />
+  <LoadingScreen />
   <div>
     <NuxtLayout>
       <ModalCommandPalette :paletteData="commandPaletteData" />
@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
-import { useModalHandlers } from "~/composables/useModalHandlers";
+
 import { commandPaletteData } from "~/types/command-palette";
 
 const { openModal: openModalCommandPalette } = useModalHandlers(

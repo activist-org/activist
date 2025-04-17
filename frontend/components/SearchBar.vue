@@ -44,7 +44,10 @@
             class="invisible -mt-8"
             :text="$t('i18n.components._global.slash_tooltip_label')"
           />
-          <p class="-mt-[0.075rem]">/</p>
+          <p class="-mt-[0.075rem]">
+            <!-- Preserve line break. -->
+            /
+          </p>
         </div>
         <div
           v-if="isMacOS"
@@ -97,6 +100,7 @@
 
 <script setup lang="ts">
 import { useActiveElement, useMagicKeys, whenever } from "@vueuse/core";
+
 import { IconMap } from "~/types/icon-map";
 import { SearchBarLocation } from "~/types/location";
 

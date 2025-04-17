@@ -19,6 +19,8 @@ from content.models import (
     DiscussionEntry
 )
 from authentication.factories import UserFactory
+from unittest.mock import patch
+
 pytestmark = pytest.mark.django_db
 
 
@@ -31,6 +33,7 @@ def test_str_methods() -> None:
     assert str(task) == task.name
     assert str(topics) == topics.name
 
+
 def test_discussion_str_method():
     """Test the __str__ method of the Discussion model."""
     user = UserFactory()
@@ -41,6 +44,7 @@ def test_discussion_str_method():
         creation_date=timezone.now()
     )
     assert str(discussion) == f"{discussion.id}"
+
 
 def test_faq_str_method():
     """Test the __str__ method of the Faq model."""
@@ -55,6 +59,7 @@ def test_faq_str_method():
     )
     assert str(faq) == faq.question
 
+
 def test_image_str_method():
     """Test the __str__ method of the Image model."""
     image_id = uuid4()
@@ -63,6 +68,7 @@ def test_image_str_method():
         creation_date=timezone.now()
     )
     assert str(image) == f"{image_id}"
+
 
 def test_location_str_method():
     """Test the __str__ method of the Location model."""
@@ -74,6 +80,7 @@ def test_location_str_method():
         display_name="New York City"
     )
     assert str(location) == f"{location_id}"
+
 
 def test_social_link_str_method():
     """Test the __str__ method of the SocialLink model."""
@@ -87,6 +94,7 @@ def test_social_link_str_method():
     )
     assert str(social_link) == social_link.label
 
+
 def test_tag_str_method():
     """Test the __str__ method of the Tag model."""
     tag_id = uuid4()
@@ -97,6 +105,7 @@ def test_tag_str_method():
         creation_date=timezone.now()
     )
     assert str(tag) == f"{tag_id}"
+
 
 def test_discussion_entry_str_method():
     """Test the __str__ method of the DiscussionEntry model."""

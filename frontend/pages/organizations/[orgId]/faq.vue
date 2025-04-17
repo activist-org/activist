@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import type { FaqEntry } from "~/types/content/faq-entry.d";
+
 import { IconMap } from "~/types/icon-map";
 
 const paramsOrgId = useRoute().params.orgId;

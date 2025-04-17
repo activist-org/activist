@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Factory classes for creating event test instances.
+"""
+
 import datetime
 import random
 
@@ -18,6 +22,10 @@ from events.models import (
 
 
 class EventFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Event model instances.
+    """
+
     class Meta:
         model = Event
         django_get_or_create = ("created_by", "orgs")
@@ -51,6 +59,10 @@ class EventFactory(factory.django.DjangoModelFactory):
 
 
 class FormatFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Format model instances.
+    """
+
     class Meta:
         model = Format
 
@@ -66,6 +78,10 @@ class FormatFactory(factory.django.DjangoModelFactory):
 
 
 class RoleFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Role model instances.
+    """
+
     class Meta:
         model = Role
 
@@ -85,6 +101,10 @@ class RoleFactory(factory.django.DjangoModelFactory):
 
 
 class EventAttendeeFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating EventAttendee model instances.
+    """
+
     class Meta:
         model = EventAttendee
 
@@ -95,6 +115,10 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
 
 
 class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating EventAttendeeStatus model instances.
+    """
+
     class Meta:
         model = EventAttendeeStatus
 
@@ -102,6 +126,10 @@ class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
 
 
 class EventSocialLinkFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating EventSocialLink model instances.
+    """
+
     class Meta:
         model = EventSocialLink
 
@@ -117,6 +145,10 @@ class EventSocialLinkFactory(factory.django.DjangoModelFactory):
 
 
 class EventTextFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating EventText model instances.
+    """
+
     class Meta:
         model = EventText
 

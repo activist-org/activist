@@ -15,7 +15,9 @@
       <p v-if="event.texts.getInvolved">
         {{ event.texts.getInvolved }}
       </p>
-      <p v-else>{{ $t("i18n.components._global.participate_subtext") }}</p>
+      <p v-else>
+        {{ $t("i18n.components._global.participate_subtext") }}
+      </p>
       <!-- <p>
         {{ $t("i18n.components.card_get_involved_event.legal_disclaimer_subtext") }}
       </p>
@@ -37,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextEvent } =

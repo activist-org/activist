@@ -14,9 +14,9 @@
         >
           &#60;
         </NuxtLink>
-        <span v-else class="mx-[0.45rem] mb-[0.2rem] text-distinct-text"
-          >|</span
-        >
+        <span v-else class="mx-[0.45rem] mb-[0.2rem] text-distinct-text">
+          |
+        </span>
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <NuxtLink
             v-if="isValidUUID(breadcrumb) && pageType == 'event'"
@@ -74,6 +74,7 @@
 
 <script setup lang="ts">
 import { validate as isValidUUID } from "uuid";
+
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";

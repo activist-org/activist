@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Testing for the events app.
+Tests for the events app models.
 """
 
 # mypy: ignore-errors
@@ -19,6 +19,9 @@ pytestmark = pytest.mark.django_db
 
 
 def test_str_methods() -> None:
+    """
+    Test string representation methods for event-related models.
+    """
     event = EventFactory.create()
     event_attendee = EventAttendeeFactory.create()
     event_attendee_status = EventAttendeeStatusFactory.create()
@@ -31,7 +34,11 @@ def test_str_methods() -> None:
     assert str(_format) == _format.name
     assert str(role) == role.name
 
+
 def test_event_text_str_method() -> None:
+    """
+    Test string representation method for EventText model.
+    """
     event = EventFactory.create()
     event_text = EventText.objects.create(
         event=event,

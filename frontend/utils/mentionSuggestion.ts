@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { VueRenderer } from "@tiptap/vue-3";
 import type { Instance as TippyInstance } from "tippy.js";
+
+import { VueRenderer } from "@tiptap/vue-3";
 import tippy from "tippy.js";
 
 import type { MentionProps, RendererProps } from "~/types/mention-suggestions";
+
 import MentionList from "../components/tooltip/TooltipMentionList.vue";
 
 export default {

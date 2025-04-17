@@ -45,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import type { Group, GroupSocialLink } from "~/types/communities/group";
 import type {
   Organization,
@@ -53,6 +52,7 @@ import type {
 } from "~/types/communities/organization";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
+
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

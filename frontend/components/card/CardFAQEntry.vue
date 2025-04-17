@@ -40,7 +40,9 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+
 import type { FaqEntry } from "~/types/content/faq-entry";
+
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

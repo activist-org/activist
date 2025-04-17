@@ -5,7 +5,9 @@
       :name="props.iconName"
       :size="props.iconSize ? props.iconSize : '1em'"
     />
-    <p :class="props.textUtilityClasses">{{ props.text }}</p>
+    <p :class="props.textUtilityClasses">
+      {{ props.text }}
+    </p>
   </div>
 </template>
 

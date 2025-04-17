@@ -28,10 +28,13 @@
 </template>
 
 <script setup lang="ts">
-import { MenuItem } from "@headlessui/vue";
 import type { LocaleObject } from "@nuxtjs/i18n";
-import { IconMap } from "~/types/icon-map";
+
+import { MenuItem } from "@headlessui/vue";
+
 import type { DropdownLocation } from "~/types/location";
+
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   location?: DropdownLocation;

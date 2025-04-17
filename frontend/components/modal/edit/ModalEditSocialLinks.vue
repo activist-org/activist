@@ -61,7 +61,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import type { Group, GroupSocialLink } from "~/types/communities/group";
 import type {
   Organization,

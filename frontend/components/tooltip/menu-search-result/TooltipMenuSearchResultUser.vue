@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import type { User } from "~/types/auth/user";
+
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{
