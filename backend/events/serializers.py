@@ -89,15 +89,34 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         ValidationError
             If validation fails for any field.
         """
-        if parse_datetime(data["start_time"]) > parse_datetime(data["end_time"]):  # type: ignore
+
+        start = data.get("start_time")
+        end = data.get("end_time")
+
+        # Only validate if both times are provided
+        if start and end and parse_datetime(start) > parse_datetime(end):
+            # if start and end and parse_datetime(start) > parse_datetime(end):  # type: ignore
             raise serializers.ValidationError(
                 _("The start time cannot be after the end time."),
                 code="invalid_time_order",
             )
 
-        validate_creation_and_deletion_dates(data)
+        creation_date = data.get("creation_date")
+        deletion_date = data.get("deletion_date")
 
-        if data.get("terms_checked") is False:
+        if creation_date and deletion_date:
+            if parse_datetime(creation_date) > parse_datetime(deletion_date):
+                raise serializers.ValidationError(
+                    _("The creation date cannot be after the deletion date."),
+                    code="invalid_date_order",
+                )
+
+            validate_creation_and_deletion_dates(data)
+
+        terms_checked = data.get("terms_checked")
+
+        # if data.get("terms_checked") is False:
+        if terms_checked and terms_checked is False:
             raise serializers.ValidationError(
                 "You must accept the terms of service to create an event."
             )

@@ -131,42 +131,32 @@ const uploadLimit = computed(
   () => UPLOAD_LIMITS[props.fileUploadEntity as keyof typeof UPLOAD_LIMITS] ?? 0
 );
 
-const handleUpload = async () => {
-  const msg =
-    "Error in ModalUploadImages.handleUpload: No fileUploadEntity provided, should be one of the entries in file-upload-entity.ts.";
+const entityId = computed(() => {
+  switch (props.fileUploadEntity) {
+    case "event-icon":
+      return eventStore.event.id;
+    case "group-carousel":
+    case "group-icon":
+      return groupStore.group.id;
+    case "organization-carousel":
+    case "organization-icon":
+      return organizationStore.organization.id;
+    default:
+      return undefined;
+  }
+});
 
-  if (!props.fileUploadEntity || props.fileUploadEntity === undefined) {
-    throw new Error(msg);
+const handleUpload = async () => {
+  if (!entityId.value) {
+    throw new Error(
+      `No entity ID found for props.fileUploadEntity: ${props.fileUploadEntity}`
+    );
   }
 
   try {
-    switch (props.fileUploadEntity) {
-      case "event-icon":
-        stubUploadFiles(eventStore.event.id, props.fileUploadEntity);
-        break;
-      case "group-carousel":
-        stubUploadFiles(groupStore.group.id, props.fileUploadEntity);
-        break;
-      case "group-icon":
-        stubUploadFiles(groupStore.group.id, props.fileUploadEntity);
-        break;
-      case "organization-carousel":
-        stubUploadFiles(
-          organizationStore.organization.id,
-          props.fileUploadEntity
-        );
-        break;
-      case "organization-icon":
-        stubUploadFiles(
-          organizationStore.organization.id,
-          props.fileUploadEntity
-        );
-        break;
-      default: {
-        console.log("Default: Couldn't figure out props.fileUploadEntity.");
-      }
-    }
     // await uploadFiles(props.organizationId);
+    stubUploadFiles(entityId.value, props.fileUploadEntity);
+
     const modals = useModals();
     modals.closeModal(modalName);
     emit("upload-complete");

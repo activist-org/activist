@@ -49,20 +49,46 @@ export function useFileManager(organizationId?: string) {
   }
 
   async function stubUploadFiles(id: string, entity: string) {
-    // fetch (patch, put or delete)  image/s
+    // fetch (patch, post or delete)  image/s
     // TODO make sure endponts are correct.
     const ENDPOINT_PATHS = {
-      "event-icon": `/events/${id}/images/`,
-      "group-carousel": `/groups/${id}/images/`,
-      "group-icon": `/groups/${id}/images/`,
-      "organization-carousel": `/communities/organizations/${id}/images/`,
-      "organization-icon": `/communities/organizations/${id}/images/`,
+      "event-icon": `${BASE_BACKEND_URL as string}/events/events/${id}/`,
+      "group-carousel": `${BASE_BACKEND_URL as string}/communities/groups/${id}/images/`,
+      "group-icon": `${BASE_BACKEND_URL as string}/communities/groups/${id}/images/`,
+      "organization-carousel": `${BASE_BACKEND_URL as string}/content/images/`,
+      "organization-icon": `${BASE_BACKEND_URL as string}/content/images/`,
     } as const;
 
     const endpointPath = computed(
       () => ENDPOINT_PATHS[entity as keyof typeof ENDPOINT_PATHS] ?? ""
     );
     console.log("stubUploadFiles: ", id, entity, endpointPath.value);
+
+    const formData = new FormData();
+    files.value.forEach((uploadableFile: UploadableFile) => {
+      formData.append("file_object", uploadableFile.file);
+    });
+
+    formData.append("id", id);
+
+    try {
+      const response = await fetch(endpointPath.value, {
+        method: "PATCH",
+        body: formData,
+        headers: {
+          Authorization: `Token ${localStorage.getItem("accessToken")}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = (await response.json()) as OrganizationImage[];
+        files.value = [];
+
+        return data;
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
   }
 
   async function uploadFiles(organizationId?: string) {
