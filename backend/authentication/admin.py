@@ -1,4 +1,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+
+"""
+Admin module for managing user-related models in the authentication app.
+
+This module includes custom admin configuration for UserModel,
+Support, and SupportEntityType, as well as custom user creation and change forms.
+"""
+
 from typing import Any
 
 from django import forms
@@ -40,11 +48,25 @@ class UserCreationForm(forms.ModelForm[UserModel]):
     )
 
     class Meta:
+        """Metadata for the UserCreationForm."""
+
         model = UserModel
         fields = ["email"]
 
     def clean_password2(self) -> Any | None:
-        # Check that the two password entries match
+        """
+        Validate that the two entered passwords match.
+
+        Raises
+        -------
+        ValidationError
+            If the two passwords do not match.
+
+        Returns
+        -------
+        Any | None
+            The second password if valid.
+        """
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
@@ -53,7 +75,19 @@ class UserCreationForm(forms.ModelForm[UserModel]):
         return password2
 
     def save(self, commit: bool = True) -> UserModel:
-        # Save the provided password in hashed format
+        """
+        Save the user instance with a hashed password.
+
+        Parameters
+        ----------
+        commit : bool, optional
+            Whether to save the user to the database immediately. Default is True.
+
+        Returns
+        -------
+        UserModel
+            The newly created user instance.
+        """
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
@@ -73,12 +107,20 @@ class UserChangeForm(forms.ModelForm[UserModel]):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
+        """Metadata for the UserChangeForm."""
+
         model = UserModel
         fields = "__all__"
 
 
 class UserAdmin(BaseUserAdmin[UserModel]):
     # The forms to add and change user instances.
+    """
+    Custom admin interface for the UserModel.
+
+    This class configures the fields, filters, and forms displayed in the Django admin panel.
+    """
+
     form = UserChangeForm
     add_form = UserCreationForm
 
