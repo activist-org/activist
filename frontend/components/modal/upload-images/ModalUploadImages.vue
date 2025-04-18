@@ -100,8 +100,7 @@ import type { FileUploadEntity } from "~/types/content/file-upload-entity";
 
 import { IconMap } from "~/types/icon-map";
 
-// TODO: Remove stubUploadFiles after everything is working.
-const { files, handleFiles, removeFile, uploadFiles, stubUploadFiles } =
+const { files, handleFiles, removeFile, uploadFiles, uploadSingleFile } =
   useFileManager();
 
 const eventStore = useEventStore();
@@ -155,7 +154,7 @@ const handleUpload = async () => {
 
   try {
     // await uploadFiles(props.organizationId);
-    stubUploadFiles(entityId.value, props.fileUploadEntity);
+    uploadSingleFile(entityId.value, props.fileUploadEntity);
 
     const modals = useModals();
     modals.closeModal(modalName);

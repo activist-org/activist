@@ -6,21 +6,24 @@ Testing for Image upload-related functionality.
 import io
 import os
 import uuid
-from datetime import datetime
 from typing import Any, Dict, Generator
 
 import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image as TestImage
+from requests import Response
 from rest_framework.test import APIClient
 
+from authentication.factories import UserFactory
+from authentication.models import UserModel
 from communities.organizations.factories import OrganizationFactory
 from content.factories import ImageFactory
 from content.models import Image
 from content.serializers import ImageSerializer
+from events.factories import EventFactory
 
-MEDIA_ROOT = settings.MEDIA_ROOT  # Ensure this points to the imagefolder
+MEDIA_ROOT = settings.MEDIA_ROOT  # Ensure this points to the image folder
 
 
 @pytest.fixture
@@ -60,20 +63,48 @@ def create_organization_and_image() -> Dict[str, Any]:
     return data
 
 
-@pytest.mark.django_db
-def test_image_creation(image_with_file: Image) -> None:
+def create_event_and_image(user: UserModel) -> Dict[str, Any]:
     """
-    Test the creation of an image with a file.
-    This is like a Model test.
+    Helper function to create a test event and a simple test image.
+
+    'user' is needed to fill out 'created_by' field and use in tests.
     """
-    image = image_with_file
+    event = EventFactory(created_by=user)
+    assert event is not None, "Event was not created"
 
-    file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
-    assert os.path.exists(file_path)
+    img = TestImage.new("RGB", (100, 100), color="red")
+    img_file = io.BytesIO()
+    img.save(img_file, format="JPEG")
+    img_file.seek(0)
 
-    assert image.id is not None
-    assert image.file_object.name.endswith(".jpg")
-    assert isinstance(image.creation_date, datetime)
+    file = SimpleUploadedFile(
+        "test_event_image.jpg", img_file.getvalue(), content_type="image/jpeg"
+    )
+
+    data = {"event_id": str(event.id), "file_object": file}
+
+    return data
+
+
+def get_uploaded_file_path(response: Response) -> str:
+    """
+    Helper function to get the uploaded file URL from the response.
+    """
+    file_url = response
+    relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
+    uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
+
+    return uploaded_file
+
+
+def get_file_to_delete(response: Response) -> str:
+    """
+    Helper function to get the file to delete from the response.
+    """
+    file_object = response.split("/")[-1]
+    file_to_delete = os.path.join(settings.MEDIA_ROOT, "images", file_object)
+
+    return file_to_delete
 
 
 @pytest.mark.django_db
@@ -318,3 +349,54 @@ def test_destroy_non_existent_file_view(client: APIClient) -> None:
 
     response = client.delete(f"/v1/content/images/{non_existent_file_uuid}/")
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_event_icon_image_upload(client: APIClient) -> None:
+    """
+    Test the event image icon upload view.
+
+    Don't re-test the file upload functionality here. It's covered in the test_image_create_view() test.
+
+    1. Create a user and authenticate so that we can update the event icon_url field.
+    2. Upload an event icon image along with the event id.
+    3. Update the event icon_url field with the uploaded image URL.
+    4. Return the updated icon_url field.
+    """
+
+    user = UserFactory()
+    # Force the client to be type APIClient. Don't know why it's not already, since it's typed in the function signature.
+    client = APIClient()
+    client.force_authenticate(user=user)
+
+    data = create_event_and_image(user)
+
+    # Upload the image.
+    response = client.post("/v1/content/images/", data, format="multipart")
+
+    # Don't test file upload outcome here. It's covered in the test_image_create_view() test.
+
+    uploaded_file = get_uploaded_file_path(response.json()["fileObject"])
+    uuid_filename = os.path.splitext(os.path.basename(uploaded_file))[0]
+
+    # Don't test the filename is a valid UUID here. It's covered in the test_image_create_view() test.
+
+    # Update the event icon_url_id field with the uploaded image URL.
+    patch_response = client.patch(
+        f"/v1/events/events/{data['event_id']}/",
+        {"iconUrl": uuid_filename},
+        format="json",
+    )
+
+    assert (
+        patch_response.status_code == 200
+    ), f"Expected 200 on event patch, got {patch_response.status_code}"
+    assert (
+        patch_response.json()["iconUrl"] == uuid_filename
+    ), f"Expected iconUrl to be updated to {uuid_filename}, got {patch_response.json()['iconUrl']}"
+
+    # Clean up the uploaded file after the test.
+    file_to_delete = get_file_to_delete(response.json()["fileObject"])
+
+    if os.path.exists(file_to_delete):
+        os.remove(file_to_delete)

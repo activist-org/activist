@@ -185,9 +185,7 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
             if event is None:
                 return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
 
-            # if request.user != event.created_by:
             # If the user didn't create the event and is not a staff member / admin
-            # TODO: also add to update, above
             if request.user != event.created_by and not request.user.is_staff:
                 return Response(
                     {"error": "You are not authorized to update this event"},
