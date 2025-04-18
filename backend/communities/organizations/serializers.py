@@ -20,7 +20,7 @@ from communities.organizations.models import (
 from content.serializers import LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
-# MARK: Main Tables
+# MARK: Organization
 
 
 class OrganizationSocialLinkSerializer(

@@ -22,7 +22,7 @@ from content.serializers import (
 )
 from core.paginator import CustomPagination
 
-# MARK: Main Tables
+# MARK: Discussion
 
 
 class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
@@ -217,6 +217,199 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         self.perform_destroy(item)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# MARK: Discussion Entry
+
+
+class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
+    """
+    Viewset for operations on DiscussionEntry objects.
+    """
+
+    queryset = DiscussionEntry.objects.all()
+    serializer_class = DiscussionEntrySerializer
+    pagination_class = CustomPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        """
+        Create a new discussion entry with the authenticated user as creator.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request containing discussion entry data.
+
+        Returns
+        -------
+        Response
+            Response with created discussion entry data or error message.
+        """
+        if request.user.is_authenticated:
+            request.data["created_by"] = request.user
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(
+            {"error": "You are not allowed to create a discussion entry."},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    def retrieve(self, request: Request, pk: str | None = None) -> Response:
+        """
+        Retrieve a specific discussion entry by ID.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request object.
+
+        pk : str or None
+            Primary key of the discussion entry to retrieve.
+
+        Returns
+        -------
+        Response
+            Response with discussion entry data or error message.
+        """
+        queryset = self.get_queryset()
+        if pk is not None:
+            item = queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = self.get_serializer(item)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def list(self, request: Request) -> Response:
+        """
+        List all discussion entries.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request object.
+
+        Returns
+        -------
+        Response
+            Paginated response with discussion entries.
+        """
+        query = self.queryset.filter()
+        serializer = self.get_serializer(query, many=True)
+
+        return self.get_paginated_response(self.paginate_queryset(serializer.data))
+
+    def update(self, request: Request, pk: str | None = None) -> Response:
+        """
+        Update a discussion entry if the user is the creator.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request with updated discussion entry data.
+
+        pk : str or None
+            Primary key of the discussion entry to update.
+
+        Returns
+        -------
+        Response
+            Response with updated data or error message.
+
+        Notes
+        -----
+        Only the user who created the discussion entry can update it.
+        """
+        item = self.get_object()
+        if item.created_by != request.user:
+            return Response(
+                {"error": "You are not allowed to update this discussion entry."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(item, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def partial_update(self, request: Request, pk: str | None = None) -> Response:
+        """
+        Partially update a discussion entry if the user is the creator.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request with partial discussion entry data.
+
+        pk : str or None
+            Primary key of the discussion entry to update.
+
+        Returns
+        -------
+        Response
+            Response with updated data or error message.
+
+        Notes
+        -----
+        Only the user who created the discussion entry can update it.
+        """
+        item = self.get_object()
+        if item.created_by != request.user:
+            return Response(
+                {"error": "You are not allowed to update this discussion entry."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(item, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request: Request, pk: str | None = None) -> Response:
+        """
+        Delete a discussion entry if the user is the creator.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request object.
+
+        pk : str or None
+            Primary key of the discussion entry to delete.
+
+        Returns
+        -------
+        Response
+            Empty response on success or error message.
+
+        Notes
+        -----
+        Only the user who created the discussion entry can delete it.
+        """
+        item = self.get_object()
+        if item.created_by != request.user:
+            return Response(
+                {"error": "You are not allowed to delete this discussion entry."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        self.perform_destroy(item)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# MARK: Resource
 
 
 class ResourceViewSet(viewsets.ModelViewSet[Resource]):
@@ -416,191 +609,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
 # MARK: Bridge Tables
 
 
-class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
-    """
-    Viewset for operations on DiscussionEntry objects.
-    """
-
-    queryset = DiscussionEntry.objects.all()
-    serializer_class = DiscussionEntrySerializer
-    pagination_class = CustomPagination
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def create(self, request: Request) -> Response:
-        """
-        Create a new discussion entry with the authenticated user as creator.
-
-        Parameters
-        ----------
-        request : Request
-            HTTP request containing discussion entry data.
-
-        Returns
-        -------
-        Response
-            Response with created discussion entry data or error message.
-        """
-        if request.user.is_authenticated:
-            request.data["created_by"] = request.user
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(
-            {"error": "You are not allowed to create a discussion entry."},
-            status=status.HTTP_403_FORBIDDEN,
-        )
-
-    def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        """
-        Retrieve a specific discussion entry by ID.
-
-        Parameters
-        ----------
-        request : Request
-            HTTP request object.
-
-        pk : str or None
-            Primary key of the discussion entry to retrieve.
-
-        Returns
-        -------
-        Response
-            Response with discussion entry data or error message.
-        """
-        queryset = self.get_queryset()
-        if pk is not None:
-            item = queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = self.get_serializer(item)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def list(self, request: Request) -> Response:
-        """
-        List all discussion entries.
-
-        Parameters
-        ----------
-        request : Request
-            HTTP request object.
-
-        Returns
-        -------
-        Response
-            Paginated response with discussion entries.
-        """
-        query = self.queryset.filter()
-        serializer = self.get_serializer(query, many=True)
-
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
-
-    def update(self, request: Request, pk: str | None = None) -> Response:
-        """
-        Update a discussion entry if the user is the creator.
-
-        Parameters
-        ----------
-        request : Request
-            HTTP request with updated discussion entry data.
-
-        pk : str or None
-            Primary key of the discussion entry to update.
-
-        Returns
-        -------
-        Response
-            Response with updated data or error message.
-
-        Notes
-        -----
-        Only the user who created the discussion entry can update it.
-        """
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"error": "You are not allowed to update this discussion entry."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer = self.get_serializer(item, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def partial_update(self, request: Request, pk: str | None = None) -> Response:
-        """
-        Partially update a discussion entry if the user is the creator.
-
-        Parameters
-        ----------
-        request : Request
-            HTTP request with partial discussion entry data.
-
-        pk : str or None
-            Primary key of the discussion entry to update.
-
-        Returns
-        -------
-        Response
-            Response with updated data or error message.
-
-        Notes
-        -----
-        Only the user who created the discussion entry can update it.
-        """
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"error": "You are not allowed to update this discussion entry."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer = self.get_serializer(item, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def destroy(self, request: Request, pk: str | None = None) -> Response:
-        """
-        Delete a discussion entry if the user is the creator.
-
-        Parameters
-        ----------
-        request : Request
-            HTTP request object.
-
-        pk : str or None
-            Primary key of the discussion entry to delete.
-
-        Returns
-        -------
-        Response
-            Empty response on success or error message.
-
-        Notes
-        -----
-        Only the user who created the discussion entry can delete it.
-        """
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"error": "You are not allowed to delete this discussion entry."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        self.perform_destroy(item)
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+# MARK: Image
 
 
 class ImageViewSet(viewsets.ModelViewSet[Image]):
