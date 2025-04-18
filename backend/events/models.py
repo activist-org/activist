@@ -33,8 +33,8 @@ class Event(models.Model):
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
     TYPE_CHOICES = [
-        ("action", "Action"),
         ("learn", "Learn"),
+        ("action", "Action"),
     ]
     type = models.CharField(max_length=255, choices=TYPE_CHOICES)
     SETTING_CHOICES = [
