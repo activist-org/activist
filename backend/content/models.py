@@ -177,25 +177,6 @@ class Resource(models.Model):
         return self.name
 
 
-# MARK: Role
-
-
-class Role(models.Model):
-    """
-    Role model for defining user roles.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    is_custom = models.BooleanField(default=False)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(blank=True, null=True)
-
-    def __str__(self) -> str:
-        return self.name
-
-
 # MARK: Social Link
 
 
