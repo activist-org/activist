@@ -6,7 +6,7 @@ from communities.models import Status
 from communities.serializers import StatusSerializer
 from core.paginator import CustomPagination
 
-# MARK: Main Tables
+# MARK: Status
 
 
 class StatusViewSet(viewsets.ModelViewSet[Status]):

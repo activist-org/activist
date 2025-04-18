@@ -28,7 +28,7 @@ from events.serializers import (
     EventTextSerializer,
 )
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class EventListAPIView(GenericAPIView[Event]):
@@ -203,6 +203,9 @@ class EventDetailAPIView(APIView):
         return Response(
             {"message": "Event deleted successfully."}, status=status.HTTP_200_OK
         )
+
+
+# MARK: Bridge Tables
 
 
 # MARK: Bridge Tables

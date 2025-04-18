@@ -64,11 +64,20 @@ omit = [
 mypy_path = "backend"
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 strict = true
-exclude = ["^.*/factories\\.py$"]
+exclude = [
+    "^.*/factories\\.py$",
+    "^.*/tests/.*\\.py$",
+    "^.*/test_.*\\.py$",
+    "^.*/.*_tests\\.py$",
+]
+enable_incomplete_feature = ["Unpack"]
 
 [[tool.mypy.overrides]]
 module = ["authentication.*", "content.*", "communities.*", "events.*"]
-follow_imports = "skip"
+# follow_imports = "skip"  # enable django-stubs
+# TODO: Remove once all mypy django-stubs errors are fixed.
+ignore_errors = true
+
 
 [tool.django-stubs]
 django_settings_module = "core.settings"

@@ -16,11 +16,17 @@ from authentication.models import UserModel
 USER = get_user_model()
 
 
+# MARK: Delete
+
+
 class DeleteUserResponseSerializer(serializers.Serializer[UserModel]):
     message = serializers.CharField(max_length=200)
 
 
-class SignupSerializer(serializers.ModelSerializer[UserModel]):
+# MARK: Sign Up
+
+
+class SignUpSerializer(serializers.ModelSerializer[UserModel]):
     password_confirmed = serializers.CharField(write_only=True)
 
     class Meta:
@@ -56,7 +62,10 @@ class SignupSerializer(serializers.ModelSerializer[UserModel]):
         return user
 
 
-class LoginSerializer(serializers.Serializer[UserModel]):
+# MARK: Sign In
+
+
+class SignInSerializer(serializers.Serializer[UserModel]):
     email = serializers.EmailField(required=False)
     username = serializers.CharField(required=False)
     password = serializers.CharField(write_only=True)
@@ -97,6 +106,9 @@ class LoginSerializer(serializers.Serializer[UserModel]):
         data["user"] = user
 
         return data
+
+
+# MARK: Password
 
 
 class PasswordResetSerializer(serializers.Serializer[UserModel]):

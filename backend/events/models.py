@@ -10,7 +10,7 @@ from django.db import models
 from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class Event(models.Model):
@@ -66,6 +66,9 @@ class Event(models.Model):
         return self.name
 
 
+# MARK: Format
+
+
 class Format(models.Model):
     """
     Standardized event formats.
@@ -80,6 +83,9 @@ class Format(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+# MARK: Role
 
 
 class Role(models.Model):
