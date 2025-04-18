@@ -25,7 +25,7 @@ from core.paginator import CustomPagination
 # MARK: Group
 
 
-class GroupListAPIView(GenericAPIView[Group]):
+class GroupAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
     pagination_class = CustomPagination

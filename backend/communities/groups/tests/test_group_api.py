@@ -88,7 +88,7 @@ def logged_in_created_by_user(created_by_user) -> UserLogin:
 
 
 @pytest.mark.django_db
-def test_GroupListAPIView(logged_in_user, status_types):
+def test_GroupAPIView(logged_in_user, status_types):
     """
     Test OrganizationAPIView
 

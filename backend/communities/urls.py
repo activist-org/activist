@@ -3,8 +3,8 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from communities.groups.views import (
+    GroupAPIView,
     GroupDetailAPIView,
-    GroupListAPIView,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
@@ -55,7 +55,7 @@ router.register(
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("groups/", GroupListAPIView.as_view()),
+    path("groups/", GroupAPIView.as_view()),
     path("groups/<uuid:id>/", GroupDetailAPIView.as_view()),
     path("organizations/", OrganizationAPIView.as_view()),
     path("organizations/<uuid:id>/", OrganizationDetailAPIView.as_view()),

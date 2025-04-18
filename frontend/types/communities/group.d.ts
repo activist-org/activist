@@ -66,18 +66,24 @@ export interface GroupResponse extends GroupBase {
   texts: GroupText[];
 }
 
+export interface GroupsResponseBody {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results: GroupResponse[];
+}
+
 export interface PiniaResGroup {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
+  __v_isShallow: boolean;
   _rawValue: GroupResponse;
   _value: GroupResponse;
 }
-
 export interface PiniaResGroups {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: GroupResponse[];
-  _value: GroupResponse[];
+  __v_isShallow: boolean;
+  _rawValue: GroupsResponseBody;
+  _value: GroupsResponseBody;
 }
 
 // MARK: Form Data
