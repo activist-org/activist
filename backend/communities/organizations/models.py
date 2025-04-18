@@ -11,7 +11,7 @@ from authentication import enums
 from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
-# MARK: Main Tables
+# MARK: Organization
 
 
 class Organization(models.Model):

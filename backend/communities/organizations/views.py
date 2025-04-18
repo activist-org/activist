@@ -31,7 +31,7 @@ from content.models import Image, Location
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 
-# MARK: Main Tables
+# MARK: Organization
 
 
 class OrganizationAPIView(GenericAPIView[Organization]):
@@ -202,6 +202,9 @@ class OrganizationDetailAPIView(APIView):
         return Response(
             {"message": "Organization deleted successfully."}, status.HTTP_200_OK
         )
+
+
+# MARK: Bridge Tables
 
 
 class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):

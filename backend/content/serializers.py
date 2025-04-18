@@ -24,7 +24,7 @@ from content.models import (
 )
 from utils.utils import validate_creation_and_deprecation_dates
 
-# MARK: Main Tables
+# MARK: Discussion
 
 
 class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
@@ -37,6 +37,9 @@ class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
         fields = "__all__"
 
 
+# MARK: FAQ
+
+
 class FaqSerializer(serializers.ModelSerializer[Faq]):
     """
     Serializer for Faq model data.
@@ -47,7 +50,7 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
         fields = "__all__"
 
 
-# MARK: Clear Metadata
+# MARK: Image
 
 
 def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
@@ -197,6 +200,9 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         return image
 
 
+# MARK: Location
+
+
 class LocationSerializer(serializers.ModelSerializer[Location]):
     """
     Serializer for Location model data.
@@ -207,6 +213,9 @@ class LocationSerializer(serializers.ModelSerializer[Location]):
         fields = "__all__"
 
 
+# MARK: Resource
+
+
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
     """
     Serializer for Resource model data.
@@ -215,6 +224,9 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
     class Meta:
         model = Resource
         fields = "__all__"
+
+
+# MARK: Topic
 
 
 class TopicSerializer(serializers.ModelSerializer[Topic]):

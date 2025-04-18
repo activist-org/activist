@@ -17,7 +17,7 @@ from utils.utils import (
     validate_creation_and_deprecation_dates,
 )
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
@@ -124,6 +124,9 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             EventText.objects.create(event=event)
 
         return event
+
+
+# MARK: Format
 
 
 class FormatSerializer(serializers.ModelSerializer[Event]):

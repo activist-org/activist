@@ -20,7 +20,7 @@ from events.serializers import (
     EventTextSerializer,
 )
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class EventViewSet(viewsets.ModelViewSet[Event]):
@@ -244,6 +244,9 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
             return Response(
                 {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
             )
+
+
+# MARK: Bridge Tables
 
 
 class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):

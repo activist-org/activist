@@ -18,7 +18,7 @@ from events.models import (
     Role,
 )
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class EventFactory(factory.django.DjangoModelFactory):
@@ -58,6 +58,9 @@ class EventFactory(factory.django.DjangoModelFactory):
     )
 
 
+# MARK: Format
+
+
 class FormatFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating Format model instances.
@@ -75,6 +78,9 @@ class FormatFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     deprecation_date = factory.Faker("future_date", end_date="+30d")
+
+
+# MARK: Role
 
 
 class RoleFactory(factory.django.DjangoModelFactory):

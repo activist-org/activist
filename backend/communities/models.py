@@ -5,7 +5,7 @@ Models for the communities app.
 
 from django.db import models
 
-# MARK: Main Tables
+# MARK: Status
 
 
 class Status(models.Model):
