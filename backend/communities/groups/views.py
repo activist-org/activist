@@ -9,7 +9,7 @@ from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -31,6 +31,16 @@ class GroupListAPIView(GenericAPIView[Group]):
     pagination_class = CustomPagination
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_permissions(self):
+        """
+        Returns the permissions for the view.
+        """
+        if self.request.method in "POST":
+            self.permission_classes = (IsAuthenticated,)
+        else:
+            self.permission_classes = (IsAuthenticatedOrReadOnly,)
+        return super().get_permissions()
 
     @extend_schema(
         responses=GroupSerializer(many=True),
