@@ -28,7 +28,9 @@ directories_to_skip = [
     str((frontend_directory / ".output").resolve()),
     str((frontend_directory / "dist").resolve()),
     str((frontend_directory / "node_modules").resolve()),
+    str((frontend_directory / "test").resolve()),
     str((frontend_directory / "test-e2e").resolve()),
+    str((frontend_directory / "test-utils").resolve()),
 ]
 files_to_skip = []
 file_types_to_check = [".vue", ".ts", ".js"]

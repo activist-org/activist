@@ -19,6 +19,8 @@ from content.models import (
     DiscussionEntry
 )
 from authentication.factories import UserFactory
+from unittest.mock import patch
+
 pytestmark = pytest.mark.django_db
 
 

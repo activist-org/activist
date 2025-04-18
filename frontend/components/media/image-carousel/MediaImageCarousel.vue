@@ -33,6 +33,12 @@
       {{ $t("i18n.components.media_image_carousel.upload_error") }}
     </p>
     <button
+      @click="handleDeleteClick"
+      class="focus-brand absolute bottom-12 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+    >
+      <Icon :name="IconMap.MINUS" size="1.5em" />
+    </button>
+    <button
       @click="openModalUploadImages()"
       class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
@@ -48,10 +54,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Swiper as SwiperInstance } from "swiper";
+
 import { register } from "swiper/element/bundle";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
+
+const { deleteImage } = useOrganizationImages();
 
 const props = defineProps({
   fullscreen: Boolean,
@@ -62,18 +71,63 @@ const props = defineProps({
 register();
 
 const uploadError = ref(false);
-
-// Forward the upload-complete event to the parent component.
-// Building out an event bus would be a better solution, but only a quick fix is needed here.
-const emit = defineEmits(["upload-complete"]);
-const forwardUploadCompleteEmit = () => {
-  emit("upload-complete");
-};
+const currentImageId = ref<string>("");
 
 const {
   openModal: openModalUploadImages,
   handleCloseModal: handleCloseModalUploadImages,
 } = useModalHandlers("ModalUploadImages");
+
+// Get the swiper instance. Use this instance to listen for the slideChange event.
+const swiperRef = ref<{ swiper?: SwiperInstance } | null>(null);
+
+onMounted(() => {
+  const swiperEl = swiperRef.value;
+  // Now we assert swiperRef value is a Swiper instance.
+  if (swiperEl?.swiper) {
+    swiperEl.swiper.on("slideChange", () => {
+      const activeIndex = swiperEl?.swiper?.realIndex ?? 1;
+      const img = (props.imageUrls ?? [])[activeIndex];
+
+      if (img) {
+        const regex = /\/([a-f0-9-]{36})\.jpg$/;
+        const uuid = img.match(regex);
+        if (uuid) {
+          currentImageId.value = uuid[1];
+        }
+      }
+    });
+  }
+});
+
+onUpdated(() => {
+  const swiperEl = swiperRef.value;
+  if (swiperEl?.swiper) {
+    swiperEl.swiper.update();
+  }
+});
+
+const emit = defineEmits(["upload-complete", "delete-complete"]);
+
+// Forward the upload-complete from ModalUploadImages event to the parent component.
+// Building out an event bus would be a better solution, but only a quick fix is needed here.
+const forwardUploadCompleteEmit = () => {
+  emit("upload-complete");
+};
+
+const handleDeleteClick = async () => {
+  try {
+    await deleteImage(currentImageId.value);
+
+    // Update Swiper after deleting an image.
+    const swiper = swiperRef.value?.swiper;
+    swiper?.update();
+
+    emit("delete-complete");
+  } catch (error) {
+    console.error("Delete image failed:", error);
+  }
+};
 </script>
 
 <style>

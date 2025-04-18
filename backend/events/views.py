@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+API views for event management.
+"""
+
 import json
 from typing import Any, Dict, List
 from uuid import UUID
@@ -16,20 +20,62 @@ from events.serializers import (
     EventTextSerializer,
 )
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class EventViewSet(viewsets.ModelViewSet[Event]):
+    """
+    Viewset for CRUD operations on Event objects.
+    """
+
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     pagination_class = CustomPagination
 
     def list(self, request: Request, *args: str, **kwargs: int) -> Response:
+        """
+        List all events.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request object.
+
+        *args : tuple
+            Variable positional arguments.
+
+        **kwargs : dict
+            Variable keyword arguments.
+
+        Returns
+        -------
+        Response
+            Response with serialized events.
+        """
         serializer = self.get_serializer(self.get_queryset(), many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request: Request, *args: str, **kwargs: int) -> Response:
+        """
+        Create new event and assign current user as creator.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request with event data.
+
+        *args : tuple
+            Variable positional arguments.
+
+        **kwargs : dict
+            Variable keyword arguments.
+
+        Returns
+        -------
+        Response
+            Response with confirmation message.
+        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(created_by=request.user)
@@ -38,6 +84,25 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
         return Response(data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, *args: str, **kwargs: int) -> Response:
+        """
+        Retrieve specific event by ID.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request object.
+
+        *args : tuple
+            Variable positional arguments.
+
+        **kwargs : dict
+            Variable keyword arguments containing 'pk' as event ID.
+
+        Returns
+        -------
+        Response
+            Response with event data or error.
+        """
         try:
             pk = str(kwargs["pk"])
             event = self.queryset.get(id=pk)
@@ -49,6 +114,25 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
             return Response({"error": "Event not found"}, status.HTTP_404_NOT_FOUND)
 
     def update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        """
+        Update an event if user is the creator.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request with updated data.
+
+        *args : tuple
+            Variable positional arguments.
+
+        **kwargs : dict
+            Variable keyword arguments containing 'pk' as event ID.
+
+        Returns
+        -------
+        Response
+            Response with updated data or error.
+        """
         try:
             pk = str(kwargs["pk"])
             event = self.queryset.filter(id=pk).first()
@@ -75,6 +159,25 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
             )
 
     def partial_update(self, request: Request, *args: str, **kwargs: int) -> Response:
+        """
+        Partially update an event if user is the creator.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request with partial data.
+
+        *args : tuple
+            Variable positional arguments.
+
+        **kwargs : dict
+            Variable keyword arguments containing 'pk' as event ID.
+
+        Returns
+        -------
+        Response
+            Response with updated data or error.
+        """
         try:
             pk = str(kwargs["pk"])
             event = self.queryset.filter(id=pk).first()
@@ -100,6 +203,25 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
             )
 
     def destroy(self, request: Request, *args: str, **kwargs: int) -> Response:
+        """
+        Delete an event if user is the creator.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request object.
+
+        *args : tuple
+            Variable positional arguments.
+
+        **kwargs : dict
+            Variable keyword arguments containing 'pk' as event ID.
+
+        Returns
+        -------
+        Response
+            Response with success message or error.
+        """
         try:
             pk = str(kwargs["pk"])
             event = self.queryset.filter(id=pk).first()
@@ -124,11 +246,37 @@ class EventViewSet(viewsets.ModelViewSet[Event]):
             )
 
 
+# MARK: Bridge Tables
+
+
 class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
+    """
+    Viewset for operations on EventSocialLink objects.
+    """
+
     queryset = EventSocialLink.objects.all()
     serializer_class = EventSocialLinkSerializer
 
     def update(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        """
+        Update all social links for an event.
+
+        Parameters
+        ----------
+        request : Request
+            HTTP request with social link data.
+
+        *args : tuple
+            Variable positional arguments.
+
+        **kwargs : dict
+            Variable keyword arguments containing 'pk' as event ID.
+
+        Returns
+        -------
+        Response
+            Response with updated links or error.
+        """
         pk = kwargs.get("pk")
         if not isinstance(pk, (str, UUID)):
             return Response(
@@ -175,5 +323,9 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
 
 
 class EventTextViewSet(viewsets.ModelViewSet[EventText]):
+    """
+    Viewset for CRUD operations on EventText objects.
+    """
+
     queryset = EventText.objects.all()
     serializer_class = EventTextSerializer
