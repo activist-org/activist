@@ -69,28 +69,32 @@ def test_EventListAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-de
     # ---------------------------------
 
     # ------- Test post() method -------
+
+    # Not Authenticated
+    response = client.post(EVENTS_URL)
+    assert response.status_code == 401
+
+    # Authenticated and successful
     org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
     location = EntityLocationFactory.build()
     token = logged_in_user["token"]
 
     payload = {
         "name": "test_event",
-        "orgs": {
-            "org_name": org.org_name,
-            "name": org.name,
-            "created_by": org.created_by.id,
-            "location": org.location.id,
-        },
+        "org_id": org.id,
+        "tagline": "test_tagline",
+        "description": "test_description",
         "offline_location": {
             "lat": location.lat,
             "lon": location.lon,
             "bbox": location.bbox,
             "display_name": location.display_name,
         },
-        "type": "test",
+        "type": "action",
         "start_time": "2020-09-18T21:39:14",
         "end_time": "2020-09-18T21:39:14",
         "terms_checked": True,
+        "setting": "offline",
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")

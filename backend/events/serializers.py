@@ -53,6 +53,38 @@ class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
     #     return Organization.objects.get_or_create(validated_data)
 
 
+class EventPOSTSerializer(serializers.ModelSerializer[Event]):
+    """
+    Serializer for creating events with related fields.
+    """
+
+    texts = EventTextSerializer(write_only=True, required=False)
+    social_links = EventSocialLinkSerializer(write_only=True, required=False)
+    offline_location = LocationSerializer(write_only=True)
+    org_id = serializers.PrimaryKeyRelatedField(
+        queryset=Organization.objects.all(), source="orgs"
+    )
+
+    class Meta:
+        model = Event
+
+        exclude = (
+            "resources",
+            "dicussions",
+            "faqs",
+            "formats",
+            "roles",
+            "tags",
+            "tasks",
+            "topics",
+            "orgs",
+            "created_by",
+            "get_involved_url",
+            "icon_url",
+            "deletion_date",
+        )
+
+
 class EventSerializer(serializers.ModelSerializer[Event]):
     """
     Serializer for Event model with related fields.
@@ -62,8 +94,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     social_links = EventSocialLinkSerializer(many=True, read_only=True)
     offline_location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
-    orgs = EventOrganizationSerializer()
-    # orgs_id = serializers.SlugRelatedField(queryset=Organization.objects.all(), slug_field='orgs')
+    orgs = EventOrganizationSerializer(read_only=True)
 
     class Meta:
         model = Event

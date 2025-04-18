@@ -13,16 +13,16 @@ from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.paginator import CustomPagination
-from communities.organizations.models import Organization
 from content.models import Location
+from core.paginator import CustomPagination
 from events.models import Event, EventSocialLink, EventText
 from events.serializers import (
+    EventPOSTSerializer,
     EventSerializer,
     EventSocialLinkSerializer,
     EventTextSerializer,
@@ -37,6 +37,24 @@ class EventListAPIView(GenericAPIView[Event]):
     pagination_class = CustomPagination
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_permissions(self):
+        """
+        Returns the permissions for the view.
+        """
+        if self.request.method == "POST":
+            self.permission_classes = (IsAuthenticated,)
+        else:
+            self.permission_classes = (IsAuthenticatedOrReadOnly,)
+        return super().get_permissions()
+
+    def get_serializer_class(self) -> EventSerializer | EventPOSTSerializer:
+        """
+        Returns the serializer class for the view.
+        """
+        if self.request.method == "POST":
+            return EventPOSTSerializer
+        return EventSerializer
 
     @extend_schema(responses={200: EventSerializer(many=True)})
     def get(self, request: Request) -> Response:
@@ -53,26 +71,27 @@ class EventListAPIView(GenericAPIView[Event]):
         return Response(serializer.data)
 
     @extend_schema(
+        request=EventPOSTSerializer,
         responses={
             200: OpenApiResponse(
                 response={"message": "New event created: {{ event_details }}"}
             ),
             400: OpenApiResponse(response={"error": "Failed to create event."}),
-        }
+        },
     )
     def post(self, request: Request) -> Response:
         """
         Create a new Event.
         """
-        serializer = self.serializer_class(data=request.data)
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         location_data = serializer.validated_data["offline_location"]
         location = Location.objects.create(**location_data)
-        serializer.validated_data["offline_location"] = location
 
         try:
-            serializer.save(created_by=request.user)
+            serializer.save(created_by=request.user, offline_location=location)
 
         except (IntegrityError, OperationalError):
             Location.objects.filter(id=location.id).delete()
