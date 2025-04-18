@@ -606,9 +606,6 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# MARK: Bridge Tables
-
-
 # MARK: Image
 
 
