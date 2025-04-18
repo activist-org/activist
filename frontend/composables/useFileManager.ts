@@ -5,6 +5,31 @@ interface ContentImage {
   creation_date: string;
 }
 
+type Entity =
+  | "event-icon"
+  | "group-carousel"
+  | "group-icon"
+  | "organization-carousel"
+  | "organization-icon";
+
+const ENTITY_ID_FIELDS = {
+  "event-icon": {
+    id_field: "event_id",
+  },
+  "group-carousel": {
+    id_field: "group_id",
+  },
+  "group-icon": {
+    id_field: "group_id",
+  },
+  "organization-carousel": {
+    id_field: "org_id",
+  },
+  "organization-icon": {
+    id_field: "org_id",
+  },
+} as const;
+
 export function useFileManager(organizationId?: string) {
   // TODO: Make these dark again.
   const defaultImageUrls = [
@@ -48,87 +73,22 @@ export function useFileManager(organizationId?: string) {
     }
   }
 
-  async function uploadSingleFile(id: string, entity: string) {
-    // TODO make sure endponts are correct.
-    const ENDPOINT_PATHS = {
-      "event-icon": `${BASE_BACKEND_URL as string}/events/events/${id}/`,
-      // "group-carousel": `${BASE_BACKEND_URL as string}/communities/groups/${id}/images/`,
-      // "group-icon": `${BASE_BACKEND_URL as string}/communities/groups/${id}/images/`,
-      // "organization-carousel": `${BASE_BACKEND_URL as string}/content/images/`,
-      // "organization-icon": `${BASE_BACKEND_URL as string}/content/images/`,
-    } as const;
-
-    const endpointPath = computed(
-      () => ENDPOINT_PATHS[entity as keyof typeof ENDPOINT_PATHS] ?? ""
-    );
-    console.log("uploadSingleFile: ", id, entity, endpointPath.value);
+  async function uploadSingleFile(id: string, entity: Entity) {
+    const entityIdField =
+      ENTITY_ID_FIELDS[entity as keyof typeof ENTITY_ID_FIELDS]?.id_field ?? "";
 
     const formData = new FormData();
+
+    // Entities are handled in backend/content/serializers.py ImageSerializer.create()
+    formData.append(entityIdField, id);
 
     files.value.forEach((uploadableFile: UploadableFile) => {
       formData.append("file_object", uploadableFile.file);
     });
 
     for (const pair of formData.entries()) {
-      console.log(`formData:${pair[0]}:`, pair[1]);
+      console.log(`formData: ${pair[0]}:`, pair[1]);
     }
-
-    let data: ContentImage[] | null = null;
-
-    // Upload image file. Get the uuid filename to update the event icon_url field with.
-    // Upload always happens, in all use cases.
-    // Sometimes it's a single file (icon upload). In this case, you need to update the icon_url field in the associated entity.
-    // Sometimes it's multiple files (carousel upload).
-    try {
-      const response = await fetch(
-        `${BASE_BACKEND_URL as string}/content/images/`,
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        data = (await response.json()) as ContentImage[];
-
-        files.value = [];
-
-        // return data;
-      }
-    } catch (error) {
-      console.error("Upload failed:", error);
-    }
-
-    console.log("after image upload data.id: ", data?.[0]?.id);
-
-    // Update event icon_url field with the uploaded image URL.
-    try {
-      const response = await fetch(endpointPath.value, {
-        method: "PATCH",
-        body: JSON.stringify({ iconUrl: data?.[0]?.id }),
-        headers: {
-          Authorization: `Token ${localStorage.getItem("accessToken")}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log("RESPONSE: ", response);
-
-      if (response.ok) {
-        data = (await response.json()) as ContentImage[];
-        files.value = [];
-
-        console.log("after event update: ", data);
-
-        return data;
-      }
-    } catch (error) {
-      console.error("Update failed:", error);
-    }
-    // In parent/caller, call <<getEvent/Group/Organization/???/ById()>> to get the updated entity and therefore the updated icon_url field.
   }
 
   async function uploadFiles(organizationId?: string) {

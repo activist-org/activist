@@ -187,12 +187,36 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         # Handle organization image indexing if applicable.
         if organization_id := request.data.get("organization_id"):
+            # if request.data.get("entity") == "organization-icon":
+
+            #  elif request.data.get("entity") == "organization-carousel":
             next_index = OrganizationImage.objects.filter(
                 org_id=organization_id
             ).count()
             OrganizationImage.objects.create(
                 org_id=organization_id, image=image, sequence_index=next_index
             )
+
+        # if group_id := request.data.get("group_id"):
+        #     if request.data.get("entity") == "group-icon":
+        #         group = Group.objects.get(id=group_id)
+        #         group.iconUrl = image.file_object.url
+        #         group.save()
+        #     elif request.data.get("entity") == "group-carousel":
+        #       next_index = GroupImage.objects.filter(
+        #           group_id=group_id
+        #       ).count()
+        #       GroupImage.objects.create(
+        #           group_id=group_id, image=image, sequence_index=next_index
+        #       )
+
+        # if event_id := request.data.get("event_id"):
+        #     if request.data.get("entity") == "event-icon":
+        #     event = Event.objects.get(id=event_id)
+        #     event.iconUrl = image.file_object.url # use icon image uuid
+        #     event.save()
+        #     elif request.data.get("entity") == "event-carousel":
+        #       return ({"message": "Event carousel not implemented yet."})
 
         return image
 
