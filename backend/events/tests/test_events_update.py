@@ -45,4 +45,4 @@ def test_event_update(client: Client) -> None:
 
     assert response.status_code == 401
     response_body = response.json()
-    assert response_body["error"] == "You are not authorized to update this event"
+    assert response_body["error"] == "User not authorised."
