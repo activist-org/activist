@@ -3,8 +3,8 @@ import type {
   Organization,
   OrganizationCreateFormData,
   OrganizationResponse,
+  OrganizationsResponseBody,
   OrganizationUpdateTextFormData,
-  PiniaResOrganizations,
 } from "~/types/communities/organization";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
@@ -134,18 +134,15 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<PiniaResOrganizations>(
+      const { data, status } = await useAsyncData<OrganizationsResponseBody>(
         async () =>
           (await fetchWithoutToken(
             `/communities/organizations/`,
             {}
-          )) as PiniaResOrganizations
+          )) as OrganizationsResponseBody
       );
 
-      console.log("Organizations: " + JSON.stringify(data, null, 2));
-
       if (status.value === "success") {
-        // @ts-expect-error: Methods on data response are correct.
         const organizations = data.value!.results!.map(
           (org: OrganizationResponse) => {
             return {

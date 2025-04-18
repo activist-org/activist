@@ -3,7 +3,6 @@
 Utility functions for date formatting and logic validation as well as other common operations.
 """
 
-import re
 from typing import Any
 
 from django.utils.translation import gettext as _
@@ -27,12 +26,6 @@ def validate_creation_and_deletion_dates(data: Any) -> None:
         If creation_date format is invalid or if deletion_date
         is before creation_date.
     """
-
-    if not re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$", data["creation_date"]):
-        raise serializers.ValidationError(
-            _("Invalid creation_date format. It needs to be in ISO format."),
-            code="invalid_creation_date",
-        )
 
     if data.get("deletion_date") and data.get("deletion_date") < data["creation_date"]:
         raise serializers.ValidationError(
