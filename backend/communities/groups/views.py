@@ -132,7 +132,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 
         if request.user != group.created_by and not request.user.is_staff:
             return Response(
-                {"error": "You are not authorized to update this Group"},
+                {"error": "You are not authorized to update this group"},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
@@ -147,7 +147,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             200: OpenApiResponse(response={"message": "Group deleted successfully."}),
             400: OpenApiResponse(response={"error": "Group ID is required"}),
             401: OpenApiResponse(
-                response={"error": "You are not authorized to delete this Group"}
+                response={"error": "You are not authorized to delete this group"}
             ),
             404: OpenApiResponse(response={"error": "Group not found"}),
         }
@@ -172,7 +172,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 
         if request.user != group.created_by and not request.user.is_staff:
             return Response(
-                {"error": "You are not authorized to delete this Group"},
+                {"error": "You are not authorized to delete this group"},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
