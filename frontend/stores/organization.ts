@@ -142,8 +142,6 @@ export const useOrganizationStore = defineStore("organization", {
           )) as PiniaResOrganizations
       );
 
-      console.log("Organizations: " + JSON.stringify(data, null, 2));
-
       if (status.value === "success") {
         // @ts-expect-error: Methods on data response are correct.
         const organizations = data.value!.results!.map(

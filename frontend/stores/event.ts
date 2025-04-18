@@ -5,6 +5,7 @@ import type {
   EventCreateFormData,
   EventResponse,
   EventUpdateTextFormData,
+  PiniaResEvents,
 } from "~/types/events/event";
 
 interface EventStore {
@@ -141,13 +142,14 @@ export const useEventStore = defineStore("event", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<EventResponse[]>(
+      const { data, status } = await useAsyncData<PiniaResEvents[]>(
         async () =>
-          (await fetchWithoutToken(`/events/events/`, {})) as EventResponse[]
+          (await fetchWithoutToken(`/events/events/`, {})) as PiniaResEvents[]
       );
 
       if (status.value === "success") {
-        const events = data.value!.map((event: EventResponse) => {
+        // @ts-expect-error: Methods on data response are correct.
+        const events = data.value!.results!.map((event: EventResponse) => {
           return {
             id: event.id,
             name: event.name,

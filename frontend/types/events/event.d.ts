@@ -60,17 +60,27 @@ export interface EventResponse extends EventBase {
 }
 
 export interface PiniaResEvent {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
+  __v_isShallow: boolean;
   _rawValue: EventResponse;
   _value: EventResponse;
 }
 
 export interface PiniaResEvents {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: EventResponse[];
-  _value: EventResponse[];
+  __v_isShallow: boolean;
+  _rawValue: {
+    count: number;
+    next: number | null;
+    previous: number | null;
+    results: EventResponse[];
+  };
+  _value: {
+    count: number;
+    next: number | null;
+    previous: number | null;
+    results: EventResponse[];
+  };
 }
 
 // MARK: Form Data
