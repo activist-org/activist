@@ -12,7 +12,7 @@ from communities.groups.models import (
     GroupText,
 )
 
-# MARK: Main Tables
+# MARK: Group
 
 
 class GroupFactory(factory.django.DjangoModelFactory):

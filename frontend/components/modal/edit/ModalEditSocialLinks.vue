@@ -72,8 +72,6 @@ import type {
 } from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
-
 const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";
 }>();

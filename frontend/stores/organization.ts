@@ -3,6 +3,7 @@ import type {
   Organization,
   OrganizationCreateFormData,
   OrganizationResponse,
+  OrganizationsResponseBody,
   OrganizationUpdateTextFormData,
 } from "~/types/communities/organization";
 import type { SocialLinkFormData } from "~/types/content/social-link";
@@ -133,37 +134,39 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<OrganizationResponse[]>(
+      const { data, status } = await useAsyncData<OrganizationsResponseBody>(
         async () =>
           (await fetchWithoutToken(
             `/communities/organizations/`,
             {}
-          )) as OrganizationResponse[]
+          )) as OrganizationsResponseBody
       );
 
       if (status.value === "success") {
-        const organizations = data.value!.map((org: OrganizationResponse) => {
-          return {
-            id: org.id,
-            orgName: org.orgName,
-            name: org.name,
-            tagline: org.tagline,
-            createdBy: org.createdBy,
-            iconUrl: org.iconUrl,
+        const organizations = data.value!.results!.map(
+          (org: OrganizationResponse) => {
+            return {
+              id: org.id,
+              orgName: org.orgName,
+              name: org.name,
+              tagline: org.tagline,
+              createdBy: org.createdBy,
+              iconUrl: org.iconUrl,
 
-            location: org.location,
+              location: org.location,
 
-            getInvolvedUrl: org.getInvolvedUrl,
-            socialLinks: org.socialLinks,
-            status: org.status,
-            creationDate: org.creationDate,
+              getInvolvedUrl: org.getInvolvedUrl,
+              socialLinks: org.socialLinks,
+              status: org.status,
+              creationDate: org.creationDate,
 
-            groups: org.groups,
-            events: org.events,
+              groups: org.groups,
+              events: org.events,
 
-            texts: org.texts[0],
-          };
-        });
+              texts: org.texts[0],
+            };
+          }
+        );
 
         this.organizations = organizations;
       }

@@ -27,14 +27,18 @@ describe("sign-in", () => {
 
     await render(SignIn);
 
-    const usernameInput = screen.getByPlaceholderText(/enter username/i);
+    const usernameInput = screen.getByLabelText(
+      getEnglishText("i18n.pages.auth.sign_in.enter_user_name")
+    );
     await fireEvent.update(usernameInput, "admin");
 
-    const passwordInput = screen.getByPlaceholderText(/enter your password/i);
+    const passwordInput = screen.getByLabelText(
+      getEnglishText("i18n._global.enter_password")
+    );
     await fireEvent.update(passwordInput, "password");
 
     const submitButton = screen.getByRole("button", {
-      name: /sign in to your account/i,
+      name: getEnglishText("i18n._global.sign_in_aria_label"),
     });
     await fireEvent.click(submitButton);
 
@@ -57,14 +61,18 @@ describe("sign-in", () => {
 
     await render(SignIn);
 
-    const usernameInput = screen.getByPlaceholderText(/enter username/i);
+    const usernameInput = screen.getByLabelText(
+      getEnglishText("i18n.pages.auth.sign_in.enter_user_name")
+    );
     await fireEvent.update(usernameInput, "admin");
 
-    const passwordInput = screen.getByPlaceholderText(/enter your password/i);
+    const passwordInput = screen.getByLabelText(
+      getEnglishText("i18n._global.enter_password")
+    );
     await fireEvent.update(passwordInput, "password");
 
     const submitButton = screen.getByRole("button", {
-      name: /sign in to your account/i,
+      name: getEnglishText("i18n._global.sign_in_aria_label"),
     });
     await fireEvent.click(submitButton);
 

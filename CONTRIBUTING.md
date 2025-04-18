@@ -425,6 +425,7 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Please run the following command in the frontend:
 
 ```bash
+# This and all following steps need to be ran each time Playwright is updated.
 yarn playwright install --with-deps
 ```
 

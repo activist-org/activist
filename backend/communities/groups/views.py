@@ -22,7 +22,7 @@ from communities.groups.serializers import (
 from content.models import Location
 from core.paginator import CustomPagination
 
-# MARK: Main Tables
+# MARK: Group
 
 
 class GroupListAPIView(GenericAPIView[Group]):
@@ -177,6 +177,9 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             )
 
         return Response({"message": "Group deleted successfully."}, status.HTTP_200_OK)
+
+
+# MARK: Bridge Tables
 
 
 class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):

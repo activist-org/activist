@@ -18,7 +18,7 @@ from communities.organizations.models import Organization
 from content.serializers import LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
-# MARK: Main Tables
+# MARK: Group
 
 
 class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):

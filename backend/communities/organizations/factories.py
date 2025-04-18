@@ -15,7 +15,7 @@ from communities.organizations.models import (
     OrganizationText,
 )
 
-# MARK: Main Tables
+# MARK: Organization
 
 
 class OrganizationFactory(factory.django.DjangoModelFactory):

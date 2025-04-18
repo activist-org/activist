@@ -10,10 +10,14 @@ from django.db import models
 from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class Event(models.Model):
+    """
+    Base event model.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     created_by = models.ForeignKey(
         "authentication.UserModel",
@@ -28,7 +32,16 @@ class Event(models.Model):
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
-    type = models.CharField(max_length=255)
+    TYPE_CHOICES = [
+        ("learn", "Learn"),
+        ("action", "Action"),
+    ]
+    type = models.CharField(max_length=255, choices=TYPE_CHOICES)
+    SETTING_CHOICES = [
+        ("online", "Online"),
+        ("offline", "Offline"),
+    ]
+    setting = models.CharField(max_length=255, choices=SETTING_CHOICES)
     online_location_link = models.CharField(max_length=255, blank=True)
     offline_location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
@@ -53,7 +66,14 @@ class Event(models.Model):
         return self.name
 
 
+# MARK: Format
+
+
 class Format(models.Model):
+    """
+    Standardized event formats.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
@@ -65,7 +85,14 @@ class Format(models.Model):
         return self.name
 
 
+# MARK: Role
+
+
 class Role(models.Model):
+    """
+    Event roles for users.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     is_custom = models.BooleanField(default=False)
@@ -82,6 +109,10 @@ class Role(models.Model):
 
 
 class EventAttendee(models.Model):
+    """
+    Link events and users including roles and attendance status.
+    """
+
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, related_name="event_attendees"
     )
@@ -98,6 +129,10 @@ class EventAttendee(models.Model):
 
 
 class EventAttendeeStatus(models.Model):
+    """
+    Attendance statuses for users to events.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     status_name = models.CharField(max_length=255)
 
@@ -106,12 +141,20 @@ class EventAttendeeStatus(models.Model):
 
 
 class EventSocialLink(SocialLink):
+    """
+    Extension of the base SocialLink model for events.
+    """
+
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
 
 class EventText(models.Model):
+    """
+    Translatable text content for events in different languages.
+    """
+
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="texts"
     )

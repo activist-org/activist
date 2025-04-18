@@ -51,8 +51,6 @@
 <script setup lang="ts">
 import type { EventUpdateTextFormData } from "~/types/events/event";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
-
 const modalName = "ModalEditTextEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 

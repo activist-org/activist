@@ -1,16 +1,20 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+URL routing for the events app.
+"""
+
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from events.views import EventSocialLinkViewSet, EventTextViewSet, EventViewSet
+from events.views import (
+    EventDetailAPIView,
+    EventListAPIView,
+    EventSocialLinkViewSet,
+    EventTextViewSet,
+)
 
 app_name = "events"
-
 router = DefaultRouter()
-
-# MARK: Main Tables
-
-router.register(prefix=r"events", viewset=EventViewSet, basename="events")
 
 # MARK: Bridge Tables
 
@@ -23,4 +27,6 @@ router.register(prefix=r"event_texts", viewset=EventTextViewSet, basename="event
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("events/", EventListAPIView.as_view()),
+    path("events/<uuid:id>/", EventDetailAPIView.as_view()),
 ]

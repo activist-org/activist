@@ -80,7 +80,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 

@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Config } from "tailwindcss";
 
+import tailwindTypography from "@tailwindcss/typography";
+
 export default <Partial<Config>>{
   content: [
     "./components/**/*.{js,vue,ts}",
@@ -11,7 +13,10 @@ export default <Partial<Config>>{
     "./app.vue",
   ],
   darkMode: "class",
-  plugins: [require("tailwind-scrollbar")({ nocompatible: true })], // eslint-disable-line
+  plugins: [
+    require("tailwind-scrollbar")({ nocompatible: true }), // eslint-disable-line
+    tailwindTypography,
+  ],
   theme: {
     extend: {
       fontFamily: {
