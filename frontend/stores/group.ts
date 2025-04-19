@@ -3,6 +3,7 @@ import type {
   Group,
   GroupCreateFormData,
   GroupResponse,
+  GroupsResponseBody,
   GroupUpdateTextFormData,
 } from "~/types/communities/group";
 import type { SocialLinkFormData } from "~/types/content/social-link";
@@ -133,16 +134,16 @@ export const useGroupStore = defineStore("group", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<GroupResponse[]>(
+      const { data, status } = await useAsyncData<GroupsResponseBody>(
         async () =>
           (await fetchWithoutToken(
             `/communities/groups/`,
             {}
-          )) as GroupResponse[]
+          )) as GroupsResponseBody
       );
 
       if (status.value === "success") {
-        const groups = data.value!.map((group: GroupResponse) => {
+        const groups = data.value!.results.map((group: GroupResponse) => {
           return {
             id: group.id,
             groupName: group.groupName,

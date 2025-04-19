@@ -70,7 +70,7 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
 
         exclude = (
             "resources",
-            "dicussions",
+            "discussions",
             "faqs",
             "formats",
             "roles",
@@ -130,7 +130,6 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
         # Only validate if both times are provided
         if start and end and parse_datetime(start) > parse_datetime(end):
-            # if start and end and parse_datetime(start) > parse_datetime(end):  # type: ignore
             raise serializers.ValidationError(
                 _("The start time cannot be after the end time."),
                 code="invalid_time_order",

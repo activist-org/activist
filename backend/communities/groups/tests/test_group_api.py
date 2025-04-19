@@ -9,11 +9,13 @@ from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
+from communities.groups.factories import GroupFactory
+from communities.groups.models import Group
 from communities.organizations.factories import OrganizationFactory
-from communities.organizations.models import Organization, OrganizationApplication
 from content.factories import EntityLocationFactory
 
-ORGS_URL = "/v1/communities/organizations/"
+GROUPS_URL = "/v1/communities/groups/"
+
 
 class UserDict(TypedDict):
     user: UserModel
@@ -28,9 +30,9 @@ def create_user(password: str) -> UserDict:
     return {"user": user, "plaintext_password": password}
 
 
-def login_user(user_data: UserDict) -> dict:
+def login_user(user_data: UserDict) -> dict[Any, Any]:
     """
-    Log in a user and return the user and token.
+    Log in a user. Returns the user and token.
     """
     client = APIClient()
     response = client.post(
@@ -81,17 +83,17 @@ def logged_in_created_by_user(created_by_user) -> dict:
 
 
 @pytest.mark.django_db
-def test_OrganizationAPIView(logged_in_user, status_types) -> None:
+def test_GroupAPIView(logged_in_user, status_types):
     """
     Test OrganizationAPIView
 
     # GET request
 
-    1. Verify the number of organizations in the database
+    1. Verify the number of groups in the database
     2. Test the list view endpoint
-    3. Check if the response contains the pagination keys
+    3. Check if the pagination keys are present
     4. Test if query_param page_size is working properly
-    5. Verify the number of organizations in the response matches the page_size
+    5. Verify the number of groups in the response matches the page_size
     6. Check the pagination links in the response
 
     # POST request
@@ -100,21 +102,21 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     2. Verify the response status code is 201 (Created)
     """
     client = APIClient()
-    number_of_orgs = 10
+    number_of_groups = 10
     test_page_size = 1
 
-    OrganizationFactory.create_batch(number_of_orgs)
-    assert Organization.objects.count() == number_of_orgs
+    # MARK: List GET
 
-    response = client.get(ORGS_URL)
+    GroupFactory.create_batch(number_of_groups)
+    assert Group.objects.count() == number_of_groups
 
+    response = client.get(GROUPS_URL)
     assert response.status_code == 200
 
     pagination_keys = ["count", "next", "previous", "results"]
     assert all(key in response.data for key in pagination_keys)
 
-    response = client.get(f"{ORGS_URL}?pageSize={test_page_size}")
-
+    response = client.get(f"{GROUPS_URL}?pageSize={test_page_size}")
     assert response.status_code == 200
 
     assert len(response.data["results"]) == test_page_size
@@ -124,80 +126,77 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     # MARK: List POST
 
     # Not Authenticated.
-    response = client.post(ORGS_URL)
+    response = client.post(GROUPS_URL)
     assert response.status_code == 401
 
     # Authenticated and successful.
-    new_org = OrganizationFactory.build(org_name="new_org", terms_checked=True)
+    org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
+    new_group = GroupFactory.build(group_name="new_group", terms_checked=True)
     location = EntityLocationFactory.build()
-
     token = logged_in_user["token"]
 
     payload = {
+        "org_id": org.id,
+        "group_name": new_group.name,
+        "name": new_group.name,
+        "tagline": new_group.tagline,
         "location": {
+            "id": location.id,
             "lat": location.lat,
             "lon": location.lon,
             "bbox": location.bbox,
             "display_name": location.display_name,
         },
-        "org_name": new_org.org_name,
-        "name": new_org.name,
-        "tagline": new_org.tagline,
-        "get_involved_url": new_org.get_involved_url,
-        "terms_checked": new_org.terms_checked,
-        "is_high_risk": new_org.is_high_risk,
+        "category": new_group.category,
+        "terms_checked": new_group.terms_checked,
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    
-    response = client.post(ORGS_URL, data=payload, format="json")
-
+    response = client.post(GROUPS_URL, data=payload, format="json")
 
     assert response.status_code == 201
-    assert Organization.objects.filter(org_name=new_org.org_name).exists()
-    assert OrganizationApplication.objects.filter(
-        org__org_name=new_org.org_name
-    ).exists()
+    assert Group.objects.filter(name=new_group.name).exists()
 
 
 @pytest.mark.django_db
-def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
+def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     """
-    Test OrganizationDetailAPIView
+    Test GroupDetailAPIView
 
     # GET request
 
-    1. Create a new organization and verify it exists in the database.
-    2. Test the detail view endpoint for the organization.
+    1. Create a new group and verify it exists in the database.
+    2. Test the detail view endpoint for the group.
     3. Verify the response status code is 200 (OK).
-    4. Ensure the response data matches the organization data.
+    4. Ensure the response data matches the group data.
 
     # PUT request
 
-    1. Attempt to update the organization with a user that is not the created_by user and verify it fails.
-    2. Update the organization with the created_by user and verify the changes are saved.
+    1. Check if groups can be edited without the proper credentials
+    2. Update the group with the created_by user and verify the changes are saved.
 
     # DELETE request
 
-    1. Delete the organization with the created_by user and verify it is removed from the database.
+    1. Check if groups can be deleted without the proper credentials
+    2. Delete the group with the created_by user and verify it is removed from the database.
     """
     client = APIClient()
     created_by_user, token_created_by = logged_in_created_by_user.values()
 
-    new_org = OrganizationFactory.create(created_by=created_by_user)
-    assert Organization.objects.filter(org_name=new_org.org_name).exists()
+    new_group = GroupFactory.create(created_by=created_by_user)
+    assert Group.objects.filter(group_name=new_group.group_name).exists()
 
     # MARK: Detail GET
 
-    response = client.get(f"{ORGS_URL}{new_org.id}/")
+    response = client.get(f"{GROUPS_URL}{new_group.id}/")
     assert response.status_code == 200
-    assert response.data["org_name"] == new_org.org_name
+    assert response.data["group_name"] == new_group.group_name
 
     # MARK: Detail PUT
 
-    updated_payload = {"org_name": "updated_org_name"}
+    updated_payload = {"group_name": "updated_group_name"}
     response = client.put(
-        f"{ORGS_URL}{new_org.id}/",
+        f"{GROUPS_URL}{new_group.id}/",
         data=updated_payload,
         format="json",
     )
@@ -205,22 +204,22 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
     response = client.put(
-        f"{ORGS_URL}{new_org.id}/",
+        f"{GROUPS_URL}{new_group.id}/",
         data=updated_payload,
         format="json",
     )
     assert response.status_code == 200
 
-    updated_org = Organization.objects.get(id=new_org.id)
-    assert updated_org.org_name == "updated_org_name"
+    updated_group = Group.objects.get(id=new_group.id)
+    assert updated_group.group_name == "updated_group_name"
 
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{ORGS_URL}{new_org.id}/")
+    response = client.delete(f"{GROUPS_URL}{new_group.id}/")
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
-    response = client.delete(f"{ORGS_URL}{new_org.id}/")
+    response = client.delete(f"{GROUPS_URL}{new_group.id}/")
 
     assert response.status_code == 200
