@@ -50,11 +50,12 @@ class Event(models.Model):
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
 
     resources = models.ManyToManyField("content.Resource", blank=True)
-    dicussions = models.ManyToManyField("content.Discussion", blank=True)
+    discussions = models.ManyToManyField("content.Discussion", blank=True)
     faqs = models.ManyToManyField("content.Faq", blank=True)
     formats = models.ManyToManyField("events.Format", blank=True)
     roles = models.ManyToManyField("events.Role", blank=True)

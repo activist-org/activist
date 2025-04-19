@@ -70,7 +70,7 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
 
         exclude = (
             "resources",
-            "dicussions",
+            "discussions",
             "faqs",
             "formats",
             "roles",

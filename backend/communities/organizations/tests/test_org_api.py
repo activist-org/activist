@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 from pathlib import Path
-from typing import TypedDict
+from typing import Any, TypedDict
 
 import pytest
 from django.conf import settings
@@ -12,6 +12,8 @@ from authentication.models import UserModel
 from communities.organizations.factories import OrganizationFactory
 from communities.organizations.models import Organization, OrganizationApplication
 from content.factories import EntityLocationFactory
+
+ORGS_URL = "/v1/communities/organizations/"
 
 
 class UserDict(TypedDict):
@@ -67,7 +69,7 @@ def created_by_user() -> UserModel:
 
 
 @pytest.fixture
-def logged_in_user(new_user) -> dict:
+def logged_in_user(new_user) -> dict[Any, Any]:
     """
     Create a user and log in the user.
     """
@@ -99,28 +101,36 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     2. Verify the response status code is 201 (Created)
     """
     client = APIClient()
-    test_page_size = 1
     number_of_orgs = 10
+    test_page_size = 1
+
+    # MARK: List GET
 
     OrganizationFactory.create_batch(number_of_orgs)
     assert Organization.objects.count() == number_of_orgs
 
-    response = client.get("/v1/communities/organizations/")
+    response = client.get(ORGS_URL)
     assert response.status_code == 200
 
     pagination_keys = ["count", "next", "previous", "results"]
     assert all(key in response.data for key in pagination_keys)
 
-    response = client.get(f"/v1/communities/organizations/?pageSize={test_page_size}")
+    response = client.get(f"{ORGS_URL}?pageSize={test_page_size}")
     assert response.status_code == 200
 
     assert len(response.data["results"]) == test_page_size
     assert response.data["previous"] is None
     assert response.data["next"] is not None
 
+    # MARK: List POST
+
+    # Not Authenticated.
+    response = client.post(ORGS_URL)
+    assert response.status_code == 401
+
+    # Authenticated and successful.
     new_org = OrganizationFactory.build(org_name="new_org", terms_checked=True)
     location = EntityLocationFactory.build()
-
     token = logged_in_user["token"]
 
     payload = {
@@ -139,9 +149,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.post(
-        "/v1/communities/organizations/", data=payload, format="json"
-    )
+    response = client.post(ORGS_URL, data=payload, format="json")
 
     assert response.status_code == 201
     assert Organization.objects.filter(org_name=new_org.org_name).exists()
@@ -177,13 +185,17 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     new_org = OrganizationFactory.create(created_by=created_by_user)
     assert Organization.objects.filter(org_name=new_org.org_name).exists()
 
-    response = client.get(f"/v1/communities/organizations/{new_org.id}/")
+    # MARK: Detail GET
+
+    response = client.get(f"{ORGS_URL}{new_org.id}/")
     assert response.status_code == 200
     assert response.data["org_name"] == new_org.org_name
 
+    # MARK: Detail PUT
+
     updated_payload = {"org_name": "updated_org_name"}
     response = client.put(
-        f"/v1/communities/organizations/{new_org.id}/",
+        f"{ORGS_URL}{new_org.id}/",
         data=updated_payload,
         format="json",
     )
@@ -191,7 +203,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
     response = client.put(
-        f"/v1/communities/organizations/{new_org.id}/",
+        f"{ORGS_URL}{new_org.id}/",
         data=updated_payload,
         format="json",
     )
@@ -200,6 +212,13 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     updated_org = Organization.objects.get(id=new_org.id)
     assert updated_org.org_name == "updated_org_name"
 
+    # MARK: Detail DELETE
+
+    client.credentials()
+    response = client.delete(f"{ORGS_URL}{new_org.id}/")
+    assert response.status_code == 401
+
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
-    response = client.delete(f"/v1/communities/organizations/{new_org.id}/")
+    response = client.delete(f"{ORGS_URL}{new_org.id}/")
+
     assert response.status_code == 200
