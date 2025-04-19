@@ -17,14 +17,13 @@ def test_org_delete(client: Client) -> None:
         username=test_username, plaintext_password=test_plaintext_password
     )
     org = OrganizationFactory()
-    org_id = org.id
 
     """
     Un-authorized user deleting org info.
     """
 
     response = client.delete(
-        path=f"/v1/communities/organizations/{org_id}/",
+        path=f"/v1/communities/organizations/{org.id}/",
         data={"orgName": "new_org", "name": "test_org"},
     )
 
@@ -89,7 +88,7 @@ def test_org_delete(client: Client) -> None:
     # org.created_by = user
 
     # response = client.delete(
-    #     path=f"/v1/communities/organizations/{org_id}/",
+    #     path=f"/v1/communities/organizations/{org.id}/",
     #     headers={"Authorization": f"Token {token}"},
     # )
 

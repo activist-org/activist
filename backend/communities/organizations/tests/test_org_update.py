@@ -17,14 +17,13 @@ def test_org_update(client: Client) -> None:
         username=test_username, plaintext_password=test_plaintext_password
     )
     org = OrganizationFactory()
-    org_id = org.id
 
     """
     Un-authorized user updating org info.
     """
 
     response = client.put(
-        path=f"/v1/communities/organizations/{org_id}/",
+        path=f"/v1/communities/organizations/{org.id}/",
         data={"orgName": "new_org", "name": "test_org"},
     )
 
@@ -91,7 +90,7 @@ def test_org_update(client: Client) -> None:
     org.created_by = user
 
     response = client.put(
-        path=f"/v1/communities/organizations/{org_id}/",
+        path=f"/v1/communities/organizations/{org.id}/",
         data={"orgName": "new_org", "name": "test_org"},
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",

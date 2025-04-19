@@ -9,10 +9,9 @@ pytestmark = pytest.mark.django_db
 
 def test_org_retrieve(client: Client) -> None:
     org = OrganizationFactory()
-    org_id = org.id
 
     response = client.get(
-        path=f"/v1/communities/organizations/{org_id}/",
+        path=f"/v1/communities/organizations/{org.id}/",
     )
 
     assert response.status_code == 200
