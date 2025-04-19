@@ -11,6 +11,8 @@ from content.factories import EntityLocationFactory
 from events.factories import EventFactory
 from events.models import Event
 
+EVENTS_URL = "/v1/events/events/"
+
 
 class UserDict(TypedDict):
     user: UserModel
@@ -50,50 +52,72 @@ def logged_in_user() -> dict[Any, Any]:
 
 
 @pytest.mark.django_db
-def test_EventListAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-def]
-    EVENTS_URL = "/v1/events/events/"
+def test_EventListAPIView(logged_in_user) -> None:
+    """
+    Test OrganizationAPIView
+
+    # GET request
+
+    1. Verify the number of events in the database
+    2. Test the list view endpoint
+    3. Check if the pagination keys are present
+    4. Test if query_param page_size is working properly
+    5. Verify the number of events in the response matches the page_size
+    6. Check the pagination links in the response
+
+    # POST request
+
+    1. Create a new organization with a valid payload
+    2. Verify the response status code is 201 (Created)
+    """
     client = APIClient()
     number_of_events = 10
-    page_size = 1
+    test_page_size = 1
 
-    # ------- Test get() method -------
+    # MARK: List GET
+
     EventFactory.create_batch(number_of_events)
     assert Event.objects.count() == number_of_events
 
-    response = client.get(f"{EVENTS_URL}?pageSize={page_size}")
+    response = client.get(EVENTS_URL)
     assert response.status_code == 200
 
     pagination_key = ["count", "next", "previous", "results"]
     assert all(key in response.data for key in pagination_key)
-    assert len(response.data["results"]) == page_size
-    # ---------------------------------
 
-    # ------- Test post() method -------
+    response = client.get(f"{EVENTS_URL}?pageSize={test_page_size}")
+    assert response.status_code == 200
 
-    # Not Authenticated
+    assert len(response.data["results"]) == test_page_size
+    assert response.data["previous"] is None
+    assert response.data["next"] is not None
+
+    # MARK: List POST
+
+    # Not Authenticated.
     response = client.post(EVENTS_URL)
     assert response.status_code == 401
 
-    # Authenticated and successful
+    # Authenticated and successful.
     org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
+    new_event = EventFactory.build(name="new_event", terms_checked=True)
     location = EntityLocationFactory.build()
     token = logged_in_user["token"]
 
     payload = {
-        "name": "test_event",
+        "name": new_event.name,
         "org_id": org.id,
-        "tagline": "test_tagline",
-        "description": "test_description",
+        "tagline": new_event.tagline,
         "offline_location": {
             "lat": location.lat,
             "lon": location.lon,
             "bbox": location.bbox,
             "display_name": location.display_name,
         },
-        "type": "action",
-        "start_time": "2020-09-18T21:39:14",
-        "end_time": "2020-09-18T21:39:14",
-        "terms_checked": True,
+        "type": new_event.type,
+        "start_time": new_event.start_time,
+        "end_time": new_event.end_time,
+        "terms_checked": new_event.terms_checked,
         "setting": "offline",
     }
 
@@ -101,50 +125,50 @@ def test_EventListAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-de
     response = client.post(EVENTS_URL, data=payload, format="json")
 
     assert response.status_code == 201
-    assert Event.objects.filter(name=payload["name"]).exists()
-    # ----------------------------------
+    assert Event.objects.filter(name=new_event.name).exists()
 
 
 @pytest.mark.django_db
 def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-def]
-    EVENTS_URL = "/v1/events/events"
     client = APIClient()
     created_by_user, token = logged_in_user.values()
 
-    test_event = EventFactory.create(created_by=created_by_user)
-    assert Event.objects.filter(name=test_event.name).exists()
+    new_event = EventFactory.create(created_by=created_by_user)
+    assert Event.objects.filter(name=new_event.name).exists()
 
-    # ------- Test get() method -------
-    response = client.get(f"{EVENTS_URL}/{test_event.id}/")
+    # MARK: Detail GET
+
+    response = client.get(f"{EVENTS_URL}{new_event.id}/")
 
     assert response.status_code == 200
-    assert response.data["name"] == test_event.name
-    # ---------------------------------
+    assert response.data["name"] == new_event.name
 
-    # ------- Test put() method -------
-    # -- 401
+    # MARK: Detail PUT
+
     payload = {
-        "name": "test_event",
+        "name": "new_event",
         "start_time": "2020-09-18T21:39:14",
         "end_time": "2020-09-18T21:39:14",
         "terms_checked": True,
     }
-    response = client.put(f"{EVENTS_URL}/{test_event.id}/", data=payload, format="json")
+    response = client.put(f"{EVENTS_URL}{new_event.id}/", data=payload, format="json")
 
     assert response.status_code == 401
 
-    # -- 200
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.put(f"{EVENTS_URL}/{test_event.id}/", data=payload, format="json")
+    response = client.put(f"{EVENTS_URL}{new_event.id}/", data=payload, format="json")
 
     assert response.status_code == 200
-    assert payload["name"] == Event.objects.get(id=test_event.id).name
-    # ---------------------------------
+    assert payload["name"] == Event.objects.get(id=new_event.id).name
 
-    # ------- Test delete() method -------
+    # MARK: Detail DELETE
+
+    client.credentials()
+    response = client.delete(f"{EVENTS_URL}{new_event.id}/")
+    assert response.status_code == 401
+
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(f"{EVENTS_URL}/{test_event.id}/")
+    response = client.delete(f"{EVENTS_URL}{new_event.id}/")
 
     assert response.status_code == 200
-    assert not Event.objects.filter(id=test_event.id).exists()
-    # ------------------------------------
+    assert not Event.objects.filter(id=new_event.id).exists()

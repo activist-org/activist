@@ -19,12 +19,15 @@ class Group(models.Model):
         "communities.Organization",
         on_delete=models.CASCADE,
         related_name="groups",
-        null=True,
+        null=False,
     )
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
+    icon_url = models.OneToOneField(
+        "content.Image", on_delete=models.CASCADE, blank=True, null=True
+    )
     location = models.ForeignKey(
         "content.Location", on_delete=models.CASCADE, blank=False, null=False
     )
