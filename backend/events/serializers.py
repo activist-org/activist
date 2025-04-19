@@ -17,7 +17,7 @@ from utils.utils import (
     validate_creation_and_deprecation_dates,
 )
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
@@ -49,6 +49,41 @@ class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
         model = Organization
         fields = "__all__"
 
+    # def save(self, validated_data: dict[str, Any]) -> Organization:
+    #     return Organization.objects.get_or_create(validated_data)
+
+
+class EventPOSTSerializer(serializers.ModelSerializer[Event]):
+    """
+    Serializer for creating events with related fields.
+    """
+
+    texts = EventTextSerializer(write_only=True, required=False)
+    social_links = EventSocialLinkSerializer(write_only=True, required=False)
+    offline_location = LocationSerializer(write_only=True)
+    org_id = serializers.PrimaryKeyRelatedField(
+        queryset=Organization.objects.all(), source="orgs"
+    )
+
+    class Meta:
+        model = Event
+
+        exclude = (
+            "resources",
+            "dicussions",
+            "faqs",
+            "formats",
+            "roles",
+            "tags",
+            "tasks",
+            "topics",
+            "orgs",
+            "created_by",
+            "get_involved_url",
+            "icon_url",
+            "deletion_date",
+        )
+
 
 class EventSerializer(serializers.ModelSerializer[Event]):
     """
@@ -57,7 +92,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
     texts = EventTextSerializer(many=True, read_only=True)
     social_links = EventSocialLinkSerializer(many=True, read_only=True)
-    offline_location = LocationSerializer(read_only=True)
+    offline_location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)
 
@@ -146,6 +181,9 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             EventText.objects.create(event=event)
 
         return event
+
+
+# MARK: Format
 
 
 class FormatSerializer(serializers.ModelSerializer[Event]):

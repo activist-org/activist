@@ -10,7 +10,7 @@ from django.db import models
 from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
-# MARK: Main Tables
+# MARK: Group
 
 
 class Group(models.Model):

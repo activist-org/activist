@@ -5,7 +5,7 @@ interface ContentImage {
   creation_date: string;
 }
 
-type Entity =
+type ImageUploadEntity =
   | "event-icon"
   | "group-carousel"
   | "group-icon"
@@ -42,6 +42,7 @@ export function useFileManager(organizationId?: string) {
   const uploadError = ref(false);
   const files = ref<UploadableFile[]>([]);
 
+  // TODO: refactor this as fetchEntityImage
   async function fetchOrganizationImages() {
     if (!organizationId) {
       return;
@@ -73,11 +74,16 @@ export function useFileManager(organizationId?: string) {
     }
   }
 
-  async function uploadSingleFile(id: string, entity: Entity) {
-    const entityIdField =
-      ENTITY_ID_FIELDS[entity as keyof typeof ENTITY_ID_FIELDS]?.id_field ?? "";
+  async function uploadFiles(id: string, entity: ImageUploadEntity) {
+    if (!id || !entity) {
+      console.error("Missing id or entity");
+      return;
+    }
 
     const formData = new FormData();
+
+    const entityIdField =
+      ENTITY_ID_FIELDS[entity as keyof typeof ENTITY_ID_FIELDS]?.id_field ?? "";
 
     // Entities are handled in backend/content/serializers.py ImageSerializer.create()
     formData.append(entityIdField, id);
@@ -85,23 +91,6 @@ export function useFileManager(organizationId?: string) {
     files.value.forEach((uploadableFile: UploadableFile) => {
       formData.append("file_object", uploadableFile.file);
     });
-
-    for (const pair of formData.entries()) {
-      console.log(`formData: ${pair[0]}:`, pair[1]);
-    }
-  }
-
-  async function uploadFiles(organizationId?: string) {
-    if (!organizationId) {
-      return;
-    }
-
-    const formData = new FormData();
-    files.value.forEach((uploadableFile: UploadableFile) => {
-      formData.append("file_object", uploadableFile.file);
-    });
-
-    formData.append("organization_id", organizationId);
 
     try {
       const response = await fetch(
@@ -118,6 +107,8 @@ export function useFileManager(organizationId?: string) {
       if (response.ok) {
         const data = (await response.json()) as ContentImage[];
         files.value = [];
+
+        console.log("Uploaded images:", data);
 
         return data;
       }
@@ -179,7 +170,6 @@ export function useFileManager(organizationId?: string) {
     deleteImage,
     handleFiles,
     removeFile,
-    uploadSingleFile,
   };
 }
 

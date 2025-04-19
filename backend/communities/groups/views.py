@@ -17,7 +17,7 @@ from communities.groups.serializers import (
 )
 from core.paginator import CustomPagination
 
-# MARK: Main Tables
+# MARK: Group
 
 
 class GroupViewSet(viewsets.ModelViewSet[Group]):
@@ -126,6 +126,9 @@ class GroupViewSet(viewsets.ModelViewSet[Group]):
         return Response(
             {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
         )
+
+
+# MARK: Bridge Tables
 
 
 class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):

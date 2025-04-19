@@ -100,8 +100,7 @@ import type { FileUploadEntity } from "~/types/content/file-upload-entity";
 
 import { IconMap } from "~/types/icon-map";
 
-const { files, handleFiles, removeFile, uploadFiles, uploadSingleFile } =
-  useFileManager();
+const { files, handleFiles, removeFile, uploadFiles } = useFileManager();
 
 const eventStore = useEventStore();
 const groupStore = useGroupStore();
@@ -153,8 +152,7 @@ const handleUpload = async () => {
   }
 
   try {
-    // await uploadFiles(props.organizationId);
-    uploadSingleFile(entityId.value, props.fileUploadEntity);
+    await uploadFiles(entityId.value, props.fileUploadEntity);
 
     const modals = useModals();
     modals.closeModal(modalName);

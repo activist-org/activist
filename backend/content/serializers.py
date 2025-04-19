@@ -24,7 +24,7 @@ from content.models import (
 )
 from utils.utils import validate_creation_and_deprecation_dates
 
-# MARK: Main Tables
+# MARK: Discussion
 
 
 class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
@@ -37,6 +37,9 @@ class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
         fields = "__all__"
 
 
+# MARK: FAQ
+
+
 class FaqSerializer(serializers.ModelSerializer[Faq]):
     """
     Serializer for Faq model data.
@@ -47,7 +50,7 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
         fields = "__all__"
 
 
-# MARK: Clear Metadata
+# MARK: Image
 
 
 def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
@@ -187,22 +190,24 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         # Handle organization image indexing if applicable.
         if organization_id := request.data.get("organization_id"):
-            # if request.data.get("entity") == "organization-icon":
+            if request.data.get("entity") == "organization-icon":
+                return ("organization-icon organization_id:", organization_id)
+            elif request.data.get("entity") == "organization-carousel":
+                next_index = OrganizationImage.objects.filter(
+                    org_id=organization_id
+                ).count()
+                OrganizationImage.objects.create(
+                    org_id=organization_id, image=image, sequence_index=next_index
+                )
 
-            #  elif request.data.get("entity") == "organization-carousel":
-            next_index = OrganizationImage.objects.filter(
-                org_id=organization_id
-            ).count()
-            OrganizationImage.objects.create(
-                org_id=organization_id, image=image, sequence_index=next_index
-            )
-
-        # if group_id := request.data.get("group_id"):
-        #     if request.data.get("entity") == "group-icon":
-        #         group = Group.objects.get(id=group_id)
-        #         group.iconUrl = image.file_object.url
-        #         group.save()
-        #     elif request.data.get("entity") == "group-carousel":
+        if group_id := request.data.get("group_id"):
+            if request.data.get("entity") == "group-icon":
+                return ("group-icon group_id:", group_id)
+            #         group = Group.objects.get(id=group_id)
+            #         group.iconUrl = image.file_object.url
+            #         group.save()
+            elif request.data.get("entity") == "group-carousel":
+                return ("group-carousel group_id:", group_id)
         #       next_index = GroupImage.objects.filter(
         #           group_id=group_id
         #       ).count()
@@ -210,15 +215,19 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         #           group_id=group_id, image=image, sequence_index=next_index
         #       )
 
-        # if event_id := request.data.get("event_id"):
-        #     if request.data.get("entity") == "event-icon":
-        #     event = Event.objects.get(id=event_id)
-        #     event.iconUrl = image.file_object.url # use icon image uuid
-        #     event.save()
-        #     elif request.data.get("entity") == "event-carousel":
-        #       return ({"message": "Event carousel not implemented yet."})
+        if event_id := request.data.get("event_id"):
+            if request.data.get("entity") == "event-icon":
+                return ("event-icon event_id:", event_id)
+            #     event = Event.objects.get(id=event_id)
+            #     event.iconUrl = image.file_object.url # use icon image uuid
+            #     event.save()
+            elif request.data.get("entity") == "event-carousel":
+                return "event-carousel not yeet implented."
 
         return image
+
+
+# MARK: Location
 
 
 class LocationSerializer(serializers.ModelSerializer[Location]):
@@ -231,6 +240,9 @@ class LocationSerializer(serializers.ModelSerializer[Location]):
         fields = "__all__"
 
 
+# MARK: Resource
+
+
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
     """
     Serializer for Resource model data.
@@ -239,6 +251,9 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
     class Meta:
         model = Resource
         fields = "__all__"
+
+
+# MARK: Topic
 
 
 class TopicSerializer(serializers.ModelSerializer[Topic]):

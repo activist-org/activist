@@ -10,7 +10,7 @@ from django.db import models
 from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class Event(models.Model):
@@ -32,7 +32,16 @@ class Event(models.Model):
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
-    type = models.CharField(max_length=255)
+    TYPE_CHOICES = [
+        ("learn", "Learn"),
+        ("action", "Action"),
+    ]
+    type = models.CharField(max_length=255, choices=TYPE_CHOICES)
+    SETTING_CHOICES = [
+        ("online", "Online"),
+        ("offline", "Offline"),
+    ]
+    setting = models.CharField(max_length=255, choices=SETTING_CHOICES)
     online_location_link = models.CharField(max_length=255, blank=True)
     offline_location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
@@ -57,6 +66,9 @@ class Event(models.Model):
         return self.name
 
 
+# MARK: Format
+
+
 class Format(models.Model):
     """
     Standardized event formats.
@@ -71,6 +83,9 @@ class Format(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+# MARK: Role
 
 
 class Role(models.Model):
