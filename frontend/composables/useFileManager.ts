@@ -23,10 +23,10 @@ const ENTITY_ID_FIELDS = {
     id_field: "group_id",
   },
   "organization-carousel": {
-    id_field: "org_id",
+    id_field: "organization_id",
   },
   "organization-icon": {
-    id_field: "org_id",
+    id_field: "organization_id",
   },
 } as const;
 
@@ -87,10 +87,16 @@ export function useFileManager(organizationId?: string) {
 
     // Entities are handled in backend/content/serializers.py ImageSerializer.create()
     formData.append(entityIdField, id);
+    formData.append("entity", entity);
 
     files.value.forEach((uploadableFile: UploadableFile) => {
       formData.append("file_object", uploadableFile.file);
     });
+
+    // Log FormData contents
+    for (const pair of formData.entries()) {
+      console.log("FormData:", pair[0], pair[1]);
+    }
 
     try {
       const response = await fetch(

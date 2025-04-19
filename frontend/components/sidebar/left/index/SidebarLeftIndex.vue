@@ -4,6 +4,7 @@
     class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-2 text-primary-text transition-all duration-500"
   >
     <div class="flex flex-col items-center">
+      asdf {{ sidebarTypeToDisplay }}
       <div
         v-if="sidebarTypeToDisplay === SidebarType.ORGANIZATION_PAGE"
         class="relative"
