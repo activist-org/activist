@@ -25,6 +25,7 @@ def test_event_update_social_links(client: Client) -> None:
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
 

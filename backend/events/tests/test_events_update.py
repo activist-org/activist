@@ -25,6 +25,7 @@ def test_event_update(client: Client) -> None:
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
 
@@ -43,5 +44,6 @@ def test_event_update(client: Client) -> None:
     )
 
     assert response.status_code == 401
+
     response_body = response.json()
-    assert response_body["error"] == "User not authorised."
+    assert response_body["error"] == "User not authorized."

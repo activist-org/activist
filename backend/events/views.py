@@ -137,7 +137,7 @@ class EventDetailAPIView(APIView):
         responses={
             200: EventSerializer,
             400: OpenApiResponse(response={"error": "Event ID is required."}),
-            401: OpenApiResponse(response={"error": "User not authorised."}),
+            401: OpenApiResponse(response={"error": "User not authorized."}),
             404: OpenApiResponse(response={"error": "Event Not Found."}),
         }
     )
@@ -160,7 +160,7 @@ class EventDetailAPIView(APIView):
 
         if request.user != event.created_by:
             return Response(
-                {"error": "User not authorised."}, status=status.HTTP_401_UNAUTHORIZED
+                {"error": "User not authorized."}, status=status.HTTP_401_UNAUTHORIZED
             )
 
         serializer = self.serializer_class(event, data=request.data, partial=True)
@@ -173,7 +173,7 @@ class EventDetailAPIView(APIView):
         responses={
             200: OpenApiResponse(response={"message": "Event deleted successfully."}),
             400: OpenApiResponse(response={"error": "Event ID is required."}),
-            401: OpenApiResponse(response={"error": "User not authorised."}),
+            401: OpenApiResponse(response={"error": "User not authorized."}),
             404: OpenApiResponse(response={"error": "Event Not Found."}),
         }
     )
@@ -196,7 +196,7 @@ class EventDetailAPIView(APIView):
 
         if request.user != event.created_by:
             return Response(
-                {"error": "User not authorised."}, status=status.HTTP_401_UNAUTHORIZED
+                {"error": "User not authorized."}, status=status.HTTP_401_UNAUTHORIZED
             )
 
         event.delete()

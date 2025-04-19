@@ -12,7 +12,6 @@ def test_event_delete(client: Client) -> None:
     """
     User who is not the owner of the event tries to delete.
     """
-
     test_username = "test_username"
     test_password = "test_password"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -26,6 +25,7 @@ def test_event_delete(client: Client) -> None:
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
 
@@ -37,5 +37,6 @@ def test_event_delete(client: Client) -> None:
     )
 
     assert response.status_code == 401
+
     response_body = response.json()
-    assert response_body["error"] == "User not authorised."
+    assert response_body["error"] == "User not authorized."
