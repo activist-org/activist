@@ -29,17 +29,16 @@ def test_event_update(client: Client) -> None:
     token = login_body["token"]
 
     event = EventFactory.create()
-    event_id = event.id
 
     response = client.put(
-        path=f"/v1/events/events/{event_id}/",
+        path=f"/v1/events/events/{event.id}/",
         data={
             "name": "test_name",
             "type": "test_type",
             "startTime": event.start_time,
             "endTime": event.end_time,
         },
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 

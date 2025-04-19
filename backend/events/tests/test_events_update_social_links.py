@@ -30,17 +30,16 @@ def test_event_update_social_links(client: Client) -> None:
 
     event = EventFactory.create()
     event.created_by = user
-    event_id = event.id
 
     links = EventSocialLinkFactory()
 
     response = client.put(
-        path=f"/v1/events/event_social_links/{event_id}/",
+        path=f"/v1/events/event_social_links/{event.id}/",
         data={
             "link": links.link,
             "label": links.label,
         },
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 

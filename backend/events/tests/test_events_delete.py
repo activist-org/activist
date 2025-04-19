@@ -30,11 +30,10 @@ def test_event_delete(client: Client) -> None:
     token = login_body["token"]
 
     event = EventFactory.create()
-    event_id = event.id
 
     response = client.delete(
-        path=f"/v1/events/events/{event_id}/",
-        headers={"Authorization": f"Token {str(token)}"},
+        path=f"/v1/events/events/{event.id}/",
+        headers={"Authorization": f"Token {token}"},
     )
 
     assert response.status_code == 401
