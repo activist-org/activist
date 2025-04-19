@@ -7,8 +7,8 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from events.views import (
+    EventAPIView,
     EventDetailAPIView,
-    EventListAPIView,
     EventSocialLinkViewSet,
     EventTextViewSet,
 )
@@ -27,6 +27,6 @@ router.register(prefix=r"event_texts", viewset=EventTextViewSet, basename="event
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("events/", EventListAPIView.as_view()),
+    path("events/", EventAPIView.as_view()),
     path("events/<uuid:id>/", EventDetailAPIView.as_view()),
 ]

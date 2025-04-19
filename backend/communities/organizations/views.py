@@ -58,6 +58,13 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data)
 
+    @extend_schema(
+        request=OrganizationSerializer,
+        responses={
+            201: OrganizationSerializer,
+            400: OpenApiResponse(response={"error": "Failed to create organization"}),
+        },
+    )
     def post(self, request: Request) -> Response:
         """
         Create a new organization.
@@ -83,8 +90,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
         org.application.create()
 
-        data = {"message": f"New organization created: {serializer.data}"}
-        return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class OrganizationDetailAPIView(APIView):

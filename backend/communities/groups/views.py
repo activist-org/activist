@@ -75,9 +75,7 @@ class GroupAPIView(GenericAPIView[Group]):
     @extend_schema(
         request=GroupPOSTSerializer,
         responses={
-            200: OpenApiResponse(
-                response={"message": "New group created: {{ group_details }}"}
-            ),
+            201: GroupPOSTSerializer,
             400: OpenApiResponse(response={"error": "Failed to create group."}),
         },
     )
@@ -86,7 +84,7 @@ class GroupAPIView(GenericAPIView[Group]):
         Create a new Group.
         """
         serializer_class = self.get_serializer_class()
-        serializer = serializer_class(data=request.data)
+        serializer: GroupPOSTSerializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         location_dict = serializer.validated_data["location"]
@@ -101,8 +99,7 @@ class GroupAPIView(GenericAPIView[Group]):
                 {"error": "Failed to create group."}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        data = {"message": f"New group created: {serializer.data}."}
-        return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class GroupDetailAPIView(GenericAPIView[Group]):
