@@ -56,6 +56,7 @@ class EventFactory(factory.django.DjangoModelFactory):
             + datetime.timedelta(days=30),
         ]
     )
+    setting = random.choice(["online", "offline"])
 
 
 # MARK: Format

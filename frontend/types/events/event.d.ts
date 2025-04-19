@@ -59,18 +59,25 @@ export interface EventResponse extends EventBase {
   texts: EventText[];
 }
 
+export interface EventsResponseBody {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results: EventResponse[];
+}
+
 export interface PiniaResEvent {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
+  __v_isShallow: boolean;
   _rawValue: EventResponse;
   _value: EventResponse;
 }
 
 export interface PiniaResEvents {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: EventResponse[];
-  _value: EventResponse[];
+  __v_isShallow: boolean;
+  _rawValue: EventsResponseBody;
+  _value: EventsResponseBody;
 }
 
 // MARK: Form Data

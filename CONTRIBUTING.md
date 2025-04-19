@@ -374,6 +374,9 @@ docker exec -it django_backend sh
 # Run backend tests:
 pytest
 
+# To run a specific test:
+pytest path/to/test_file.py::test_function
+
 # Once tests are finished:
 exit
 ```
