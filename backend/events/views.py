@@ -44,8 +44,10 @@ class EventListAPIView(GenericAPIView[Event]):
         """
         if self.request.method == "POST":
             self.permission_classes = (IsAuthenticated,)
+
         else:
             self.permission_classes = (IsAuthenticatedOrReadOnly,)
+
         return super().get_permissions()
 
     def get_serializer_class(self) -> EventSerializer | EventPOSTSerializer:
@@ -54,6 +56,7 @@ class EventListAPIView(GenericAPIView[Event]):
         """
         if self.request.method == "POST":
             return EventPOSTSerializer
+
         return EventSerializer
 
     @extend_schema(responses={200: EventSerializer(many=True)})
@@ -203,9 +206,6 @@ class EventDetailAPIView(APIView):
         return Response(
             {"message": "Event deleted successfully."}, status=status.HTTP_200_OK
         )
-
-
-# MARK: Bridge Tables
 
 
 # MARK: Bridge Tables

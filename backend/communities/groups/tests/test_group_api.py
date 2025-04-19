@@ -155,7 +155,7 @@ def test_GroupAPIView(logged_in_user, status_types):
     response = client.post(GROUPS_URL, data=payload, format="json")
 
     assert response.status_code == 201
-    assert Group.objects.filter(group_name=new_group.group_name).exists()
+    assert Group.objects.filter(name=new_group.name).exists()
 
 
 @pytest.mark.django_db

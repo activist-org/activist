@@ -42,7 +42,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     @extend_schema(
-        responses=OrganizationSerializer(many=True),
+        responses={200: OrganizationSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
         """
@@ -50,6 +50,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
+
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
@@ -108,6 +109,7 @@ class OrganizationDetailAPIView(APIView):
                 {"error": "Organization ID is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         try:
             org = Organization.objects.get(id=id)
             serializer = OrganizationSerializer(org)

@@ -5,6 +5,7 @@ from typing import Dict, List
 from uuid import UUID
 
 from django.db import transaction
+from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -15,6 +16,7 @@ from rest_framework.response import Response
 
 from communities.groups.models import Group, GroupSocialLink, GroupText
 from communities.groups.serializers import (
+    GroupPOSTSerializer,
     GroupSerializer,
     GroupSocialLinkSerializer,
     GroupTextSerializer,
@@ -38,12 +40,23 @@ class GroupAPIView(GenericAPIView[Group]):
         """
         if self.request.method in "POST":
             self.permission_classes = (IsAuthenticated,)
+
         else:
             self.permission_classes = (IsAuthenticatedOrReadOnly,)
+
         return super().get_permissions()
 
+    def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
+        """
+        Returns the serializer class for the view.
+        """
+        if self.request.method == "POST":
+            return GroupPOSTSerializer
+
+        return GroupSerializer
+
     @extend_schema(
-        responses=GroupSerializer(many=True),
+        responses={200: GroupSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
         """
@@ -51,26 +64,44 @@ class GroupAPIView(GenericAPIView[Group]):
         """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
+
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
+
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @extend_schema(
+        request=GroupPOSTSerializer,
+        responses={
+            200: OpenApiResponse(
+                response={"message": "New group created: {{ group_details }}"}
+            ),
+            400: OpenApiResponse(response={"error": "Failed to create group."}),
+        },
+    )
     def post(self, request: Request) -> Response:
         """
         Create a new Group.
         """
-        serializer = self.get_serializer(data=request.data)
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         location_dict = serializer.validated_data["location"]
         location = Location.objects.create(**location_dict)
-        serializer.validated_data["location"] = location
 
-        serializer.save(created_by=request.user)
+        try:
+            serializer.save(created_by=request.user, location=location)
+
+        except (IntegrityError, OperationalError):
+            Location.objects.filter(id=location.id).delete()
+            return Response(
+                {"error": "Failed to create group."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         data = {"message": f"New group created: {serializer.data}."}
-
         return Response(data, status=status.HTTP_201_CREATED)
 
 
@@ -96,6 +127,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
                 {"error": "Group ID is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         try:
             group = Group.objects.get(id=id)
             serializer = GroupSerializer(group)

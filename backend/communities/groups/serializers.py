@@ -39,6 +39,32 @@ class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
         fields = "__all__"
 
 
+class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
+    """
+    Serializer for creating groups with related fields.
+    """
+
+    texts = GroupTextSerializer(write_only=True, required=False)
+    social_links = GroupSocialLinkSerializer(write_only=True, required=False)
+    location = LocationSerializer(write_only=True)
+    org_id = serializers.PrimaryKeyRelatedField(
+        queryset=Organization.objects.all(), source="org"
+    )
+
+    class Meta:
+        model = Group
+
+        exclude = (
+            "resources",
+            "faqs",
+            "topics",
+            "org",
+            "created_by",
+            "get_involved_url",
+            "icon_url",
+        )
+
+
 class GroupSerializer(serializers.ModelSerializer[Group]):
     texts = GroupTextSerializer(many=True, read_only=True)
     social_links = GroupSocialLinkSerializer(many=True, read_only=True)
