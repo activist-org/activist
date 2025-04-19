@@ -42,7 +42,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     @extend_schema(
-        responses=OrganizationSerializer(many=True),
+        responses={200: OrganizationSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
         """
@@ -50,6 +50,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
+
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
@@ -57,6 +58,13 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data)
 
+    @extend_schema(
+        request=OrganizationSerializer,
+        responses={
+            201: OrganizationSerializer,
+            400: OpenApiResponse(response={"error": "Failed to create organization"}),
+        },
+    )
     def post(self, request: Request) -> Response:
         """
         Create a new organization.
@@ -82,8 +90,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
         org.application.create()
 
-        data = {"message": f"New organization created: {serializer.data}"}
-        return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class OrganizationDetailAPIView(APIView):
@@ -108,6 +115,7 @@ class OrganizationDetailAPIView(APIView):
                 {"error": "Organization ID is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         try:
             org = Organization.objects.get(id=id)
             serializer = OrganizationSerializer(org)

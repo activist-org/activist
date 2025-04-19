@@ -31,7 +31,7 @@ from events.serializers import (
 # MARK: Event
 
 
-class EventListAPIView(GenericAPIView[Event]):
+class EventAPIView(GenericAPIView[Event]):
     queryset = Event.objects.all().order_by("id")
     serializer_class = EventSerializer
     pagination_class = CustomPagination
@@ -44,8 +44,10 @@ class EventListAPIView(GenericAPIView[Event]):
         """
         if self.request.method == "POST":
             self.permission_classes = (IsAuthenticated,)
+
         else:
             self.permission_classes = (IsAuthenticatedOrReadOnly,)
+
         return super().get_permissions()
 
     def get_serializer_class(self) -> EventSerializer | EventPOSTSerializer:
@@ -54,6 +56,7 @@ class EventListAPIView(GenericAPIView[Event]):
         """
         if self.request.method == "POST":
             return EventPOSTSerializer
+
         return EventSerializer
 
     @extend_schema(responses={200: EventSerializer(many=True)})
@@ -73,9 +76,7 @@ class EventListAPIView(GenericAPIView[Event]):
     @extend_schema(
         request=EventPOSTSerializer,
         responses={
-            200: OpenApiResponse(
-                response={"message": "New event created: {{ event_details }}"}
-            ),
+            201: EventPOSTSerializer,
             400: OpenApiResponse(response={"error": "Failed to create event."}),
         },
     )
@@ -84,7 +85,7 @@ class EventListAPIView(GenericAPIView[Event]):
         Create a new Event.
         """
         serializer_class = self.get_serializer_class()
-        serializer = serializer_class(data=request.data)
+        serializer: EventPOSTSerializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         location_data = serializer.validated_data["offline_location"]
@@ -99,8 +100,7 @@ class EventListAPIView(GenericAPIView[Event]):
                 {"error": "Failed to create event."}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        data = {"message": f"New event created: {serializer.data}"}
-        return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class EventDetailAPIView(APIView):
@@ -203,9 +203,6 @@ class EventDetailAPIView(APIView):
         return Response(
             {"message": "Event deleted successfully."}, status=status.HTTP_200_OK
         )
-
-
-# MARK: Bridge Tables
 
 
 # MARK: Bridge Tables
