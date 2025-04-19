@@ -24,7 +24,6 @@ def test_org_update_social_links(client: Client) -> None:
 
     org = OrganizationFactory()
     org.created_by = user
-    org_id = org.id
 
     links = OrganizationSocialLinkFactory()
     test_link = links.link
@@ -41,9 +40,9 @@ def test_org_update_social_links(client: Client) -> None:
     token = login_body["token"]
 
     response = client.put(
-        path=f"/v1/communities/organization_social_links/{org_id}/",
+        path=f"/v1/communities/organization_social_links/{org.id}/",
         data={"link": test_link, "label": test_label, "order": test_order},
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 

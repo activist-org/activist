@@ -59,7 +59,7 @@ def test_org_delete(client: Client) -> None:
 
     response = client.delete(
         path=f"/v1/communities/organizations/{bad_org_id}/",
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
     )
 
     assert response.status_code == 404
@@ -90,7 +90,7 @@ def test_org_delete(client: Client) -> None:
 
     # response = client.delete(
     #     path=f"/v1/communities/organizations/{org_id}/",
-    #     headers={"Authorization": f"Token {str(token)}"},
+    #     headers={"Authorization": f"Token {token}"},
     # )
 
     # assert response.status_code == 200

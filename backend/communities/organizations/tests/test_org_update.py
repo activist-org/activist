@@ -60,7 +60,7 @@ def test_org_update(client: Client) -> None:
     response = client.put(
         path=f"/v1/communities/organizations/{bad_org_id}/",
         data={"orgName": "new_org", "name": "test_org"},
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
@@ -93,7 +93,7 @@ def test_org_update(client: Client) -> None:
     response = client.put(
         path=f"/v1/communities/organizations/{org_id}/",
         data={"orgName": "new_org", "name": "test_org"},
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
