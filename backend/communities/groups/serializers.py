@@ -60,8 +60,10 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
             "topics",
             "org",
             "created_by",
+            "category",
             "get_involved_url",
             "icon_url",
+            "events",
         )
 
 
