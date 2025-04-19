@@ -144,6 +144,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (status.value === "success") {
         const organizations = data.value!.results.map(
+
           (org: OrganizationResponse) => {
             return {
               id: org.id,

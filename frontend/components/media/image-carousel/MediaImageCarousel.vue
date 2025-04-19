@@ -44,12 +44,12 @@
     >
       <Icon :name="IconMap.PLUS" size="1.5em" />
     </button>
-    <ModalUploadImages
+    <!-- <ModalUploadImages
       @upload-complete="forwardUploadCompleteEmit"
       @closeModal="handleCloseModalUploadImages"
       @upload-error="uploadError = true"
-      :organizationId="organizationId"
-    />
+      :fileUploadEntity="FileUploadEntity.ORGANIZATION_CAROUSEL"
+    /> -->
   </div>
 </template>
 
@@ -58,9 +58,10 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 
-const { deleteImage } = useOrganizationImages();
+const { deleteImage } = useFileManager();
 
 const props = defineProps({
   fullscreen: Boolean,

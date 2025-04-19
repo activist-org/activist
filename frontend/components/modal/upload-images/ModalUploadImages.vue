@@ -34,7 +34,7 @@
           {{ files.length }}
         </p>
         <p
-          v-if="uploadLimit == 1 && files.length == uploadLimit"
+          v-if="uploadLimit == 1 && files.length > uploadLimit"
           class="text-action-red"
         >
           {{ $t("i18n.components.modal_upload_images.picture_limit_1") }}
@@ -84,7 +84,7 @@
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
             :ariaLabel="'i18n.components._global.upvote_application_aria_label'"
-            :disabled="files.length >= uploadLimit"
+            :disabled="files.length === 0 || files.length > uploadLimit"
           />
         </div>
       </div>
@@ -96,28 +96,64 @@
 import { DialogTitle } from "@headlessui/vue";
 import draggable from "vuedraggable";
 
+import type { FileUploadEntity } from "~/types/content/file-upload-entity";
+
 import { IconMap } from "~/types/icon-map";
 
-const { files, handleFiles, removeFile, uploadFiles } = useOrganizationImages();
+const { files, handleFiles, removeFile, uploadFiles } = useFileManager();
+
+const eventStore = useEventStore();
+const groupStore = useGroupStore();
+const organizationStore = useOrganizationStore();
 
 export interface Props {
-  uploadLimit?: number;
-  organizationId?: string;
+  fileUploadEntity: FileUploadEntity;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  uploadLimit: 10,
-  organizationId: undefined,
-});
+const props = defineProps<Props>();
 
 const modalName = "ModalUploadImages";
 const uploadError = ref(false);
 
 const emit = defineEmits(["upload-complete", "upload-error"]);
 
+const UPLOAD_LIMITS = {
+  "event-icon": 1,
+  "group-carousel": 10,
+  "group-icon": 1,
+  "organization-carousel": 10,
+  "organization-icon": 1,
+} as const;
+
+const uploadLimit = computed(
+  () => UPLOAD_LIMITS[props.fileUploadEntity as keyof typeof UPLOAD_LIMITS] ?? 0
+);
+
+const entityId = computed(() => {
+  switch (props.fileUploadEntity) {
+    case "event-icon":
+      return eventStore.event.id;
+    case "group-carousel":
+    case "group-icon":
+      return groupStore.group.id;
+    case "organization-carousel":
+    case "organization-icon":
+      return organizationStore.organization.id;
+    default:
+      return undefined;
+  }
+});
+
 const handleUpload = async () => {
+  if (!entityId.value) {
+    throw new Error(
+      `No entity ID found for props.fileUploadEntity: ${props.fileUploadEntity}`
+    );
+  }
+
   try {
-    await uploadFiles(props.organizationId);
+    await uploadFiles(entityId.value, props.fileUploadEntity);
+
     const modals = useModals();
     modals.closeModal(modalName);
     emit("upload-complete");

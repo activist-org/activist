@@ -190,12 +190,39 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         # Handle organization image indexing if applicable.
         if organization_id := request.data.get("organization_id"):
-            next_index = OrganizationImage.objects.filter(
-                org_id=organization_id
-            ).count()
-            OrganizationImage.objects.create(
-                org_id=organization_id, image=image, sequence_index=next_index
-            )
+            if request.data.get("entity") == "organization-icon":
+                return ("organization-icon organization_id:", organization_id)
+            elif request.data.get("entity") == "organization-carousel":
+                next_index = OrganizationImage.objects.filter(
+                    org_id=organization_id
+                ).count()
+                OrganizationImage.objects.create(
+                    org_id=organization_id, image=image, sequence_index=next_index
+                )
+
+        if group_id := request.data.get("group_id"):
+            if request.data.get("entity") == "group-icon":
+                return ("group-icon group_id:", group_id)
+            #         group = Group.objects.get(id=group_id)
+            #         group.iconUrl = image.file_object.url
+            #         group.save()
+            elif request.data.get("entity") == "group-carousel":
+                return ("group-carousel group_id:", group_id)
+        #       next_index = GroupImage.objects.filter(
+        #           group_id=group_id
+        #       ).count()
+        #       GroupImage.objects.create(
+        #           group_id=group_id, image=image, sequence_index=next_index
+        #       )
+
+        if event_id := request.data.get("event_id"):
+            if request.data.get("entity") == "event-icon":
+                return ("event-icon event_id:", event_id)
+            #     event = Event.objects.get(id=event_id)
+            #     event.iconUrl = image.file_object.url # use icon image uuid
+            #     event.save()
+            elif request.data.get("entity") == "event-carousel":
+                return "event-carousel not yeet implented."
 
         return image
 

@@ -32,7 +32,7 @@ const {
   openModal: openMediaImageCarousel,
   handleCloseModal: handleCloseMediaImageCarousel,
 } = useModalHandlers("ModalMediaImage");
-const { imageUrls, fetchOrganizationImages } = useOrganizationImages(
+const { imageUrls, fetchOrganizationImages } = useFileManager(
   props.organizationId
 );
 

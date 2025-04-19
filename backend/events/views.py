@@ -31,6 +31,7 @@ from events.serializers import (
 # MARK: Event
 
 
+
 class EventAPIView(GenericAPIView[Event]):
     queryset = Event.objects.all().order_by("id")
     serializer_class = EventSerializer

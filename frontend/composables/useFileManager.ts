@@ -1,11 +1,37 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-interface OrganizationImage {
+interface ContentImage {
   id: string;
   fileObject: string;
   creation_date: string;
 }
 
-export function useOrganizationImages(organizationId?: string) {
+type ImageUploadEntity =
+  | "event-icon"
+  | "group-carousel"
+  | "group-icon"
+  | "organization-carousel"
+  | "organization-icon";
+
+const ENTITY_ID_FIELDS = {
+  "event-icon": {
+    id_field: "event_id",
+  },
+  "group-carousel": {
+    id_field: "group_id",
+  },
+  "group-icon": {
+    id_field: "group_id",
+  },
+  "organization-carousel": {
+    id_field: "org_id",
+  },
+  "organization-icon": {
+    id_field: "org_id",
+  },
+} as const;
+
+export function useFileManager(organizationId?: string) {
+  // TODO: Make these dark again.
   const defaultImageUrls = [
     useColorModeImages()(`${GET_ACTIVE_IMAGE_URL}`),
     useColorModeImages()(`${GET_ORGANIZED_IMAGE_URL}`),
@@ -16,6 +42,7 @@ export function useOrganizationImages(organizationId?: string) {
   const uploadError = ref(false);
   const files = ref<UploadableFile[]>([]);
 
+  // TODO: refactor this as fetchEntityImage
   async function fetchOrganizationImages() {
     if (!organizationId) {
       return;
@@ -23,7 +50,7 @@ export function useOrganizationImages(organizationId?: string) {
 
     try {
       const response = await fetch(
-        `${BASE_BACKEND_URL}/communities/organizations/${organizationId}/images/`,
+        `${BASE_BACKEND_URL as string}/communities/organizations/${organizationId}/images/`,
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("accessToken")}`,
@@ -32,10 +59,10 @@ export function useOrganizationImages(organizationId?: string) {
       );
 
       if (response.ok) {
-        const data = (await response.json()) as OrganizationImage[];
+        const data = (await response.json()) as ContentImage[];
         imageUrls.value =
           data.length > 0
-            ? data.map((img: OrganizationImage) => img.fileObject)
+            ? data.map((img: ContentImage) => img.fileObject)
             : defaultImageUrls;
         uploadError.value = false;
       } else {
@@ -47,31 +74,41 @@ export function useOrganizationImages(organizationId?: string) {
     }
   }
 
-  async function uploadFiles(organizationId?: string) {
-    if (!organizationId) {
+  async function uploadFiles(id: string, entity: ImageUploadEntity) {
+    if (!id || !entity) {
+      console.error("Missing id or entity");
       return;
     }
 
     const formData = new FormData();
+
+    const entityIdField =
+      ENTITY_ID_FIELDS[entity as keyof typeof ENTITY_ID_FIELDS]?.id_field ?? "";
+
+    // Entities are handled in backend/content/serializers.py ImageSerializer.create()
+    formData.append(entityIdField, id);
+
     files.value.forEach((uploadableFile: UploadableFile) => {
       formData.append("file_object", uploadableFile.file);
     });
 
-    formData.append("organization_id", organizationId);
-
     try {
-      const response = await fetch(`${BASE_BACKEND_URL}/content/images/`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Token ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const response = await fetch(
+        `${BASE_BACKEND_URL as string}/content/images/`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       if (response.ok) {
-        const data = (await response.json()) as OrganizationImage[];
+        const data = (await response.json()) as ContentImage[];
         files.value = [];
-        fetchOrganizationImages(); // refresh images after upload
+
+        console.log("Uploaded images:", data);
 
         return data;
       }
@@ -86,12 +123,15 @@ export function useOrganizationImages(organizationId?: string) {
     }
 
     try {
-      return await fetch(`${BASE_BACKEND_URL}/content/images/${imageId}/`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Token ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      return await fetch(
+        `${BASE_BACKEND_URL as string}/content/images/${imageId}/`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
     } catch (error) {
       console.error("Delete image failed:", error);
     }

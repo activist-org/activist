@@ -213,6 +213,9 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 # MARK: Bridge Tables
 
 
+# MARK: Bridge Tables
+
+
 class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
     queryset = GroupSocialLink.objects.all()
     serializer_class = GroupSocialLinkSerializer
