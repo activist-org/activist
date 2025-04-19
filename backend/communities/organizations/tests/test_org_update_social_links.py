@@ -36,6 +36,7 @@ def test_org_update_social_links(client: Client) -> None:
     )
 
     assert login_response.status_code == 200
+
     login_body = login_response.json()
     token = login_body["token"]
 

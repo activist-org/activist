@@ -9,6 +9,8 @@ from communities.organizations.factories import OrganizationFactory
 
 pytestmark = pytest.mark.django_db
 
+ORGS_URL = "/v1/communities/organizations"
+
 
 def test_org_update(client: Client) -> None:
     test_username = "test_user"
@@ -21,9 +23,8 @@ def test_org_update(client: Client) -> None:
     """
     Un-authorized user updating org info.
     """
-
     response = client.put(
-        path=f"/v1/communities/organizations/{org.id}/",
+        path=f"{ORGS_URL}/{org.id}/",
         data={"orgName": "new_org", "name": "test_org"},
     )
 
@@ -50,6 +51,7 @@ def test_org_update(client: Client) -> None:
     )
 
     assert login_response.status_code == 200
+
     login_response_json = login_response.json()
     token = login_response_json["token"]
 
@@ -57,13 +59,14 @@ def test_org_update(client: Client) -> None:
     org.created_by = user
 
     response = client.put(
-        path=f"/v1/communities/organizations/{bad_org_id}/",
+        path=f"{ORGS_URL}/{bad_org_id}/",
         data={"orgName": "new_org", "name": "test_org"},
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
     assert response.status_code == 404
+
     response_body = response.json()
     assert response_body["error"] == "Organization not found"
 
@@ -84,13 +87,14 @@ def test_org_update(client: Client) -> None:
     )
 
     assert login_response.status_code == 200
+
     login_response_json = login_response.json()
     token = login_response_json["token"]
 
     org.created_by = user
 
     response = client.put(
-        path=f"/v1/communities/organizations/{org.id}/",
+        path=f"{ORGS_URL}/{org.id}/",
         data={"orgName": "new_org", "name": "test_org"},
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",

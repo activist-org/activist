@@ -9,6 +9,8 @@ from communities.organizations.factories import OrganizationFactory
 
 pytestmark = pytest.mark.django_db
 
+ORGS_URL = "/v1/communities/organizations"
+
 
 def test_org_delete(client: Client) -> None:
     test_username = "test_user"
@@ -21,13 +23,13 @@ def test_org_delete(client: Client) -> None:
     """
     Un-authorized user deleting org info.
     """
-
     response = client.delete(
-        path=f"/v1/communities/organizations/{org.id}/",
+        path=f"{ORGS_URL}/{org.id}/",
         data={"orgName": "new_org", "name": "test_org"},
     )
 
     assert response.status_code == 401
+
     response_body = response.json()
     assert (
         response_body["error"] == "You are not authorized to delete this organization"
@@ -50,6 +52,7 @@ def test_org_delete(client: Client) -> None:
     )
 
     assert login_response.status_code == 200
+
     login_response_json = login_response.json()
     token = login_response_json["token"]
 
@@ -57,16 +60,18 @@ def test_org_delete(client: Client) -> None:
     org.created_by = user
 
     response = client.delete(
-        path=f"/v1/communities/organizations/{bad_org_id}/",
+        path=f"{ORGS_URL}/{bad_org_id}/",
         headers={"Authorization": f"Token {token}"},
     )
 
     assert response.status_code == 404
+
     response_body = response.json()
     assert response_body["error"] == "Organization not found"
 
     """
-    Authorized User deleting Org info. (Uncomment test when the StatusType Class is more developed.)
+    Authorized User deleting Org info.
+    Uncomment test when the StatusType Class is more developed.
     """
     # user.is_confirmed = True
     # user.verified = True
@@ -88,7 +93,7 @@ def test_org_delete(client: Client) -> None:
     # org.created_by = user
 
     # response = client.delete(
-    #     path=f"/v1/communities/organizations/{org.id}/",
+    #     path=f"{ORGS_URL}/{org.id}/",
     #     headers={"Authorization": f"Token {token}"},
     # )
 
