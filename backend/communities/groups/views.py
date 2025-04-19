@@ -77,6 +77,8 @@ class GroupAPIView(GenericAPIView[Group]):
 class GroupDetailAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    authentication_classes = (TokenAuthentication,)
+    permissions_classes = (IsAuthenticatedOrReadOnly,)
 
     @extend_schema(
         responses={

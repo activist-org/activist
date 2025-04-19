@@ -19,7 +19,7 @@ class Group(models.Model):
         "communities.Organization",
         on_delete=models.CASCADE,
         related_name="groups",
-        null=True,
+        null=False,
     )
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     group_name = models.CharField(max_length=255)
