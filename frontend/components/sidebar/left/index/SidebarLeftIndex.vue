@@ -4,7 +4,6 @@
     class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-2 text-primary-text transition-all duration-500"
   >
     <div class="flex flex-col items-center">
-      asdf {{ sidebarTypeToDisplay }}
       <div
         v-if="sidebarTypeToDisplay === SidebarType.ORGANIZATION_PAGE"
         class="relative"
@@ -55,9 +54,42 @@
         </button>
         <ModalUploadImages
           @closeModal="handleCloseModalUploadImages"
+          @upload-complete="handleUploadComplete(FileUploadEntity.EVENT_ICON)"
           :fileUploadEntity="FileUploadEntity.EVENT_ICON"
         />
         <ImageEvent
+          class="elem-shadow-sm"
+          eventType="action"
+          :imgUrl="logoUrl"
+          :alt="
+            $t('i18n._global.entity_logo', {
+              entity_name: name,
+            })
+          "
+        />
+      </div>
+      <div
+        v-else-if="sidebarTypeToDisplay === SidebarType.GROUP_PAGE"
+        class="relative"
+        :class="{
+          'h-32 w-32':
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          'h-10 w-10':
+            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        }"
+      >
+        <button
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @click="openModalUploadImages()"
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+        >
+          <Icon :name="IconMap.PLUS" size="1em" />
+        </button>
+        <ModalUploadImages
+          @closeModal="handleCloseModalUploadImages"
+          :fileUploadEntity="FileUploadEntity.GROUP_ICON"
+        />
+        <ImageGroup
           class="elem-shadow-sm"
           eventType="action"
           :alt="
@@ -106,17 +138,35 @@ import { SidebarType } from "~/types/sidebar-type";
 
 const props = defineProps<{
   name: string;
-  sidebarType: SidebarType.ORGANIZATION_PAGE | SidebarType.EVENT_PAGE;
+  sidebarType:
+    | SidebarType.ORGANIZATION_PAGE
+    | SidebarType.EVENT_PAGE
+    | SidebarType.GROUP_PAGE;
   logoUrl?: string;
 }>();
+
+const logoUrl = ref(props.logoUrl);
 
 const sidebarTypeToDisplay = computed(() => props.sidebarType);
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
+const { imageUrls } = useFileManager();
 
 const {
   openModal: openModalUploadImages,
   handleCloseModal: handleCloseModalUploadImages,
 } = useModalHandlers("ModalUploadImages");
+
+const handleUploadComplete = (fileUploadEntity: FileUploadEntity) => {
+  console.log(`SidebarLeftIndex ${fileUploadEntity} upload-complete emit.`);
+  console.log(
+    "SidebarLeftIndex handleUploadComplete imageUrls.value:",
+    imageUrls.value
+  );
+
+  logoUrl.value = imageUrls.value[0];
+  // fetchIconImage("f6534ede-4d29-4658-a1b1-44d11fc33511", fileUploadEntity);
+  // console.log("imageUrls.value:", imageUrls.value);
+};
 </script>

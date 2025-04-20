@@ -152,10 +152,12 @@ const handleUpload = async () => {
   }
 
   try {
+    // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
     await uploadFiles(entityId.value, props.fileUploadEntity);
 
     const modals = useModals();
     modals.closeModal(modalName);
+
     emit("upload-complete");
     uploadError.value = false;
   } catch (error) {

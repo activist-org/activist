@@ -30,15 +30,17 @@ const ENTITY_ID_FIELDS = {
   },
 } as const;
 
-export function useFileManager(organizationId?: string) {
-  // TODO: Make these dark again.
-  const defaultImageUrls = [
-    useColorModeImages()(`${GET_ACTIVE_IMAGE_URL}`),
-    useColorModeImages()(`${GET_ORGANIZED_IMAGE_URL}`),
-    useColorModeImages()(`${GROW_ORGANIZATION_IMAGE_URL}`),
-  ];
+// TODO: Make these dark again.
+const defaultImageUrls = [
+  useColorModeImages()(`${GET_ACTIVE_IMAGE_URL}`),
+  useColorModeImages()(`${GET_ORGANIZED_IMAGE_URL}`),
+  useColorModeImages()(`${GROW_ORGANIZATION_IMAGE_URL}`),
+];
 
-  const imageUrls = ref(defaultImageUrls);
+const imageUrls = ref(defaultImageUrls);
+
+export function useFileManager(organizationId?: string) {
+  // const imageUrls = ref(defaultImageUrls);
   const uploadError = ref(false);
   const files = ref<UploadableFile[]>([]);
 
@@ -74,6 +76,41 @@ export function useFileManager(organizationId?: string) {
     }
   }
 
+  async function fetchIconImage(id: string, entity: ImageUploadEntity) {
+    if (!id || !entity) {
+      console.error("Missing id or entity");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${BASE_BACKEND_URL as string}/content/images/${id}/`,
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = (await response.json()) as ContentImage[];
+
+        console.log("fetchIconImage data:", data);
+
+        //         imageUrls.value =
+        //           data.length > 0
+        //             ? data.map((img: ContentImage) => img.fileObject)
+        //             : defaultImageUrls;
+        //
+        //         console.log("imageUrls.value:", imageUrls.value);
+
+        return data;
+      }
+    } catch (error) {
+      console.error("Error fetching icon image:", error);
+    }
+  }
+
   async function uploadFiles(id: string, entity: ImageUploadEntity) {
     if (!id || !entity) {
       console.error("Missing id or entity");
@@ -94,9 +131,9 @@ export function useFileManager(organizationId?: string) {
     });
 
     // Log FormData contents
-    for (const pair of formData.entries()) {
-      console.log("FormData:", pair[0], pair[1]);
-    }
+    // for (const pair of formData.entries()) {
+    //   console.log("FormData:", pair[0], pair[1]);
+    // }
 
     try {
       const response = await fetch(
@@ -111,10 +148,15 @@ export function useFileManager(organizationId?: string) {
       );
 
       if (response.ok) {
-        const data = (await response.json()) as ContentImage[];
+        const rawData = (await response.json()) as ContentImage[];
+        const data = Array.isArray(rawData) ? rawData : [rawData];
+
         files.value = [];
 
-        console.log("Uploaded images:", data);
+        imageUrls.value =
+          data.length > 0
+            ? data.map((img: ContentImage) => img.fileObject)
+            : defaultImageUrls;
 
         return data;
       }
@@ -171,6 +213,7 @@ export function useFileManager(organizationId?: string) {
     imageUrls,
     uploadError,
     files,
+    fetchIconImage,
     fetchOrganizationImages,
     uploadFiles,
     deleteImage,

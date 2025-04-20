@@ -317,7 +317,7 @@ const imageUrl = computed<string>(() => {
   } else if (props.group && props.group.iconUrl) {
     return props.group.iconUrl;
   } else if (props.event && props.event.iconUrl) {
-    return props.event.iconUrl;
+    return `${BASE_BACKEND_URL_NO_V1}/${props.event.iconUrl.fileObject}`;
   } else if (props.user && props.user.iconUrl) {
     return props.user.iconUrl;
   } else {
