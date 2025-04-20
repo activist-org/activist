@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from communities.organizations.models import Organization
-from content.serializers import LocationSerializer, ResourceSerializer
+from content.serializers import ImageSerializer, LocationSerializer, ResourceSerializer
 from events.models import Event, EventSocialLink, EventText, Format
 from utils.utils import (
     validate_creation_and_deletion_dates,
@@ -95,6 +95,8 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     offline_location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)
+    # icon_url = ImageSerializer(read_only=True)
+    icon_url = ImageSerializer()
 
     class Meta:
         model = Event

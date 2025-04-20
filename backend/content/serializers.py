@@ -239,8 +239,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                     raise serializers.ValidationError(
                         f"An unexpected error occurred while updating the event: {str(e)}"
                     )
-            elif request.data.get("entity") == "event-carousel":
-                logger.warning("event-carousel not yet implented.")
+            # TODO: Implement event-carousel if needed.
 
         return image
 
