@@ -87,7 +87,7 @@ Further prototypes and designs are available in the [designs for activist](https
 
 <a href="https://matrix.to/#/#activist_community:matrix.org"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/MatrixLogoGrey.png" height="50" alt="Public Matrix Chat" align="right"></a>
 
-Activist uses [Matrix](https://matrix.org/) for internal communication. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions, or just say hi to the team :)
+activist uses [Matrix](https://matrix.org/) for internal communication. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi to the team :)
 
 Please see the [contribution guidelines](CONTRIBUTING.md) and [style guide](STYLEGUIDE.md) if you are interested in contributing. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
 
@@ -96,7 +96,7 @@ Please see the [contribution guidelines](CONTRIBUTING.md) and [style guide](STYL
 
 Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first-time contributors. For those new to coding or our tech stack, we've collected [links to helpful documentation pages](CONTRIBUTING.md#learning-the-tech) in the [contribution guidelines](CONTRIBUTING.md).
 
-We would be happy to discuss granting you further rights as a contributor after your first pull requests, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive, diverse, and supportive organization. We'd love to have you on the team!
+We would be happy to discuss granting you further rights as a contributor after your first pull requests, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive, diverse and supportive organization. We'd love to have you on the team!
 
 <a id="how-you-can-help"></a>
 
@@ -309,7 +309,7 @@ Other event features include:
 
 > A simple link hub for organizations.
 
-Organizations can keep important links (chats, articles, pads, etc.) in one place, group related items, and pin to the top what’s currently most important. Private by default, resources can also be made public to share information and best practices.
+Organizations can keep important links (chats, articles, pads, etc.) in one place and are split into working groups to present structure. Private by default, resources can also be made public to share information and best practices.
 
 ### Onboarding [`⇧`](#contents)
 
