@@ -26,7 +26,11 @@ export const useOrganizationStore = defineStore("organization", {
       name: "",
       tagline: "",
       createdBy: "",
-      iconUrl: "",
+      iconUrl: {
+        id: "",
+        fileObject: "",
+        creation_date: "",
+      },
 
       location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 
@@ -144,7 +148,6 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (status.value === "success") {
         const organizations = data.value!.results.map(
-
           (org: OrganizationResponse) => {
             return {
               id: org.id,

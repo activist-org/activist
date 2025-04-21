@@ -233,6 +233,7 @@ import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Resource } from "~/types/content/resource";
 import type { Event } from "~/types/events/event";
+
 import { useLinkURL } from "~/composables/useLinkURL";
 import { IconMap } from "~/types/icon-map";
 
@@ -315,7 +316,7 @@ const eventType = computed<"action" | "learn">(() => {
 // This is because orgs use regular img tags and events use the ImageEvent component.
 // It looks like ImageEvent is better at displaying images.
 const imageUrl = computed<string>(() => {
-  if (props.organization && props.organization.iconUrl) {
+  if (props.organization && props.organization.iconUrl.fileObject) {
     return `${props.organization.iconUrl.fileObject}`;
   } else if (props.group && props.group.iconUrl) {
     return props.group.iconUrl;

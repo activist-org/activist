@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Location } from "~/types/content/location";
-import type { SocialLink } from "~/types/content/social-link";
 import type { ContentImage } from "~/types/content/image";
+import type { SocialLink } from "~/types/content/social-link";
 // MARK: Main Table
 
 interface EventBase {

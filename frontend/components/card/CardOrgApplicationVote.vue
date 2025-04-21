@@ -16,7 +16,7 @@
         />
         <div v-else class="rounded border border-section-div">
           <img
-            :src="organization.iconUrl"
+            :src="organization.iconUrl.fileObject"
             class="h-full w-12"
             :alt="
               $t('i18n._global.entity_logo', {

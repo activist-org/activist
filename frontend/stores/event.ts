@@ -149,7 +149,6 @@ export const useEventStore = defineStore("event", {
 
       if (status.value === "success") {
         const events = data.value!.results.map((event: EventResponse) => {
-
           return {
             id: event.id,
             name: event.name,

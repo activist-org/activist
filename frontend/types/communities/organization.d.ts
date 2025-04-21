@@ -2,8 +2,8 @@
 // Note: We need to import here to overwrite base types.
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
-import type { Event } from "~/types/events/event";
 import type { ContentImage } from "~/types/content/image";
+import type { Event } from "~/types/events/event";
 // MARK: Main Table
 
 interface OrganizationBase {
