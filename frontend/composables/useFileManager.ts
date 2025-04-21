@@ -122,7 +122,7 @@ export function useFileManager(organizationId?: string) {
     const entityIdField =
       ENTITY_ID_FIELDS[entity as keyof typeof ENTITY_ID_FIELDS]?.id_field ?? "";
 
-    // Entities are handled in backend/content/serializers.py ImageSerializer.create()
+    // Entities are sorted out in backend/content/serializers.py ImageSerializer.create()
     formData.append(entityIdField, id);
     formData.append("entity", entity);
 
@@ -148,6 +148,10 @@ export function useFileManager(organizationId?: string) {
       );
 
       if (response.ok) {
+        // imageUrls works with arrays.
+        // Icon upload returns a single object.
+        // Carousel upload returns an array of objects.
+        // This is why we need to check if the rawData is an array.
         const rawData = (await response.json()) as ContentImage[];
         const data = Array.isArray(rawData) ? rawData : [rawData];
 

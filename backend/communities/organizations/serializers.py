@@ -17,7 +17,7 @@ from communities.organizations.models import (
     OrganizationTask,
     OrganizationText,
 )
-from content.serializers import LocationSerializer, ResourceSerializer
+from content.serializers import ImageSerializer, LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
 # MARK: Organization
@@ -44,6 +44,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     resources = ResourceSerializer(many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
     events = EventSerializer(many=True, read_only=True)
+    icon_url = ImageSerializer()
 
     class Meta:
         model = Organization

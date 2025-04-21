@@ -95,7 +95,6 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     offline_location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)
-    # icon_url = ImageSerializer(read_only=True)
     icon_url = ImageSerializer()
 
     class Meta:

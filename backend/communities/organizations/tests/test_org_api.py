@@ -15,6 +15,7 @@ from content.factories import EntityLocationFactory
 
 ORGS_URL = "/v1/communities/organizations/"
 
+
 class UserDict(TypedDict):
     user: UserModel
     plaintext_password: str
@@ -149,9 +150,8 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    
-    response = client.post(ORGS_URL, data=payload, format="json")
 
+    response = client.post(ORGS_URL, data=payload, format="json")
 
     assert response.status_code == 201
     assert Organization.objects.filter(org_name=new_org.org_name).exists()

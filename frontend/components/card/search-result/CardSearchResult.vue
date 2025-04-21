@@ -311,13 +311,17 @@ const eventType = computed<"action" | "learn">(() => {
   }
 });
 
+// Organization icon URL does not need to be prefixed with the backend URL.
+// However, event icon URL does need to be prefixed with the backend URL.
+// This is because orgs use regular img tags and events use the ImageEvent component.
+// It looks like ImageEvent is better at displaying images.
 const imageUrl = computed<string>(() => {
   if (props.organization && props.organization.iconUrl) {
-    return props.organization.iconUrl;
+    return `${props.organization.iconUrl.fileObject}`;
   } else if (props.group && props.group.iconUrl) {
     return props.group.iconUrl;
   } else if (props.event && props.event.iconUrl) {
-    return `${BASE_BACKEND_URL_NO_V1}/${props.event.iconUrl.fileObject}`;
+    return `${BASE_BACKEND_URL_NO_V1}${props.event.iconUrl.fileObject}`;
   } else if (props.user && props.user.iconUrl) {
     return props.user.iconUrl;
   } else {

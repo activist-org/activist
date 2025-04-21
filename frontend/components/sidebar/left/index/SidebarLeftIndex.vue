@@ -23,6 +23,7 @@
         </button>
         <ModalUploadImages
           @closeModal="handleCloseModalUploadImages"
+          @upload-complete="handleUploadComplete"
           :fileUploadEntity="FileUploadEntity.ORGANIZATION_ICON"
         />
         <ImageOrganization
@@ -54,7 +55,7 @@
         </button>
         <ModalUploadImages
           @closeModal="handleCloseModalUploadImages"
-          @upload-complete="handleUploadComplete(FileUploadEntity.EVENT_ICON)"
+          @upload-complete="handleUploadComplete"
           :fileUploadEntity="FileUploadEntity.EVENT_ICON"
         />
         <ImageEvent
@@ -86,6 +87,7 @@
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
         <ModalUploadImages
+          @upload-complete="handleUploadComplete"
           @closeModal="handleCloseModalUploadImages"
           :fileUploadEntity="FileUploadEntity.GROUP_ICON"
         />
@@ -158,15 +160,7 @@ const {
   handleCloseModal: handleCloseModalUploadImages,
 } = useModalHandlers("ModalUploadImages");
 
-const handleUploadComplete = (fileUploadEntity: FileUploadEntity) => {
-  console.log(`SidebarLeftIndex ${fileUploadEntity} upload-complete emit.`);
-  console.log(
-    "SidebarLeftIndex handleUploadComplete imageUrls.value:",
-    imageUrls.value
-  );
-
+const handleUploadComplete = () => {
   logoUrl.value = imageUrls.value[0];
-  // fetchIconImage("f6534ede-4d29-4658-a1b1-44d11fc33511", fileUploadEntity);
-  // console.log("imageUrls.value:", imageUrls.value);
 };
 </script>
