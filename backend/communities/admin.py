@@ -31,18 +31,42 @@ admin.site.register(StatusType)
 
 
 class GroupAdmin(admin.ModelAdmin[Group]):
+    """
+    Admin interface for the Group model.
+
+    Displays the group's internal name and display name in the admin list view.
+    """
+
     list_display = ["group_name", "name"]
 
 
 class GroupTextAdmin(admin.ModelAdmin[GroupText]):
+    """
+    Admin interface for the GroupText model.
+
+    Displays the ID and associated Group in the admin list view.
+    """
+
     list_display = ["id", "group"]
 
 
 class OrganizationAdmin(admin.ModelAdmin[Organization]):
+    """
+    Admin interface for the Organization model.
+
+    Displays the organization's internal name and display name in the admin list view.
+    """
+
     list_display = ["org_name", "name"]
 
 
 class OrganizationTextAdmin(admin.ModelAdmin[OrganizationText]):
+    """
+    Admin interface for the OrganizationText model.
+
+    Displays only the ID in the admin list view.
+    """
+
     list_display = ["id"]
 
 

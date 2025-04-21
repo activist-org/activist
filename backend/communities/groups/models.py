@@ -14,6 +14,10 @@ from utils.models import ISO_CHOICES
 
 
 class Group(models.Model):
+    """
+    Creating a group for general parameters.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org = models.ForeignKey(
         "communities.Organization",
@@ -39,6 +43,14 @@ class Group(models.Model):
     resources = models.ManyToManyField("content.Resource", blank=True)
 
     def __str__(self) -> str:
+        """
+        Return the name of the group as its string representation.
+
+        Returns
+        -------
+        str
+            The name of the group.
+        """
         return self.name
 
 
@@ -46,15 +58,32 @@ class Group(models.Model):
 
 
 class GroupImage(models.Model):
+    """
+    Creating a group image for general parameters.
+    """
+
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="images")
     image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
     sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
+        """
+        Return the name of the group as its string representation.
+
+        Returns
+        -------
+        str
+            The images of the group.
+        """
+
         return str(self.id)
 
 
 class GroupMember(models.Model):
+    """
+    Creating a group member for general parameters.
+    """
+
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, related_name="group_members"
     )
@@ -68,16 +97,32 @@ class GroupMember(models.Model):
     is_comms = models.BooleanField(default=False)
 
     def __str__(self) -> str:
+        """
+        Return the name of the group as its string representation.
+
+        Returns
+        -------
+        str
+            Create member of the group.
+        """
         return str(self.id)
 
 
 class GroupSocialLink(SocialLink):
+    """
+    Creating a group social link for general parameters.
+    """
+
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
 
 class GroupText(models.Model):
+    """
+    Creating a group text for general parameters.
+    """
+
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="texts"
     )
@@ -88,4 +133,12 @@ class GroupText(models.Model):
     donate_prompt = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
+        """
+        Return the name of the group as its string representation.
+
+        Returns
+        -------
+        str
+            Create text of the group.
+        """
         return f"{self.group} - {self.iso}"

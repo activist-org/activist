@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Test group update functionality.
+"""
+
 import pytest
 from django.test import Client
 
@@ -11,6 +15,16 @@ pytestmark = pytest.mark.django_db
 def test_group_update(client: Client) -> None:
     """
     1. Test for when the user is not authorized (not staff).
+
+    Parameters
+    ----------
+    client : Client
+        A Django test client used for making requests.
+
+    Returns
+    -------
+    None
+        This test asserts the correctness of HTTP status codes (401 for unauthorized, 200 for success).
     """
     test_username = "test_user"
     test_plaintext_password = "test_pass"

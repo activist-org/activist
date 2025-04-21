@@ -9,6 +9,10 @@ from django.db import models
 
 
 class Status(models.Model):
+    """
+    Represent the status of a user within a specific organization.
+    """
+
     status_type = models.ForeignKey("StatusType", on_delete=models.CASCADE)
     org = models.ForeignKey(
         "communities.Organization",
@@ -18,6 +22,14 @@ class Status(models.Model):
     user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
+        """
+        Return the string representation of the status object.
+
+        Returns
+        -------
+        str
+            The string representation of the status object.
+        """
         return f"{self.org.name} - {self.status_type}"
 
 
@@ -25,7 +37,19 @@ class Status(models.Model):
 
 
 class StatusType(models.Model):
+    """
+    Describe the possible types of user statuses within organizations.
+    """
+
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
+        """
+        Return the name of the status type.
+
+        Returns
+        -------
+        str
+            The name of the status type.
+        """
         return self.name

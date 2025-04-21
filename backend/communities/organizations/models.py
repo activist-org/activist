@@ -15,6 +15,10 @@ from utils.models import ISO_CHOICES
 
 
 class Organization(models.Model):
+    """
+    Create the organization model.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     created_by = models.ForeignKey(
         "authentication.UserModel",
@@ -50,6 +54,14 @@ class Organization(models.Model):
     discussions = models.ManyToManyField("content.Discussion", blank=True)
 
     def __str__(self) -> str:
+        """
+        Return the string representation of the organization.
+
+        Returns
+        -------
+        str
+            The string representation of the organization.
+        """
         return self.name
 
 
@@ -57,6 +69,10 @@ class Organization(models.Model):
 
 
 class OrganizationApplication(models.Model):
+    """
+    Create the organization application model.
+    """
+
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
     orgs_in_favor = models.ManyToManyField(
@@ -68,27 +84,63 @@ class OrganizationApplication(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
+        """
+        Return the string representation of the organization.
+
+        Returns
+        -------
+        str
+            The string representation of the OrganizationApplication.
+        """
         return str(self.creation_date)
 
 
 class OrganizationApplicationStatus(models.Model):
+    """
+    Create the organization application status model.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     status_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
+        """
+        Return the string representation of the organization.
+
+        Returns
+        -------
+        str
+            The string representation of the OrganizationApplicationStatus.
+        """
         return self.status_name
 
 
 class OrganizationImage(models.Model):
+    """
+    Create the organization image model.
+    """
+
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
     sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
+        """
+        Return the string representation of the organization.
+
+        Returns
+        -------
+        str
+            The string representation of the OrganizationImage.
+        """
         return str(self.id)
 
 
 class OrganizationMember(models.Model):
+    """
+    Create the organization member model.
+    """
+
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
@@ -96,16 +148,32 @@ class OrganizationMember(models.Model):
     is_comms = models.BooleanField(default=False)
 
     def __str__(self) -> str:
+        """
+        Return the string representation of the organization.
+
+        Returns
+        -------
+        str
+            The string representation of the OrganizationMember.
+        """
         return str(self.id)
 
 
 class OrganizationSocialLink(SocialLink):
+    """
+    Create the organization social link model.
+    """
+
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
 
 class OrganizationTask(models.Model):
+    """
+    Create the organization task model.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task = models.ForeignKey("content.Task", on_delete=models.CASCADE)
@@ -114,10 +182,22 @@ class OrganizationTask(models.Model):
     )
 
     def __str__(self) -> str:
+        """
+        Return the string representation of the organization.
+
+        Returns
+        -------
+        str
+            The string representation of the OrganizationTask.
+        """
         return str(self.id)
 
 
 class OrganizationText(models.Model):
+    """
+    Create the organization text model.
+    """
+
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="texts"
     )
@@ -128,4 +208,12 @@ class OrganizationText(models.Model):
     donate_prompt = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
+        """
+        Return the string representation of the organization.
+
+        Returns
+        -------
+        str
+            The string representation of the OrganizationText.
+        """
         return f"{self.org} - {self.iso}"

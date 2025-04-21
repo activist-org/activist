@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Test Group Social Link Update.
+"""
+
 from uuid import uuid4
 
 import pytest
@@ -11,6 +15,19 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_social_link_update(client: Client) -> None:
+    """
+    Test Group Social Link Update.
+
+    Parameters
+    ----------
+    client : Client
+        A Django test client used to send HTTP requests to the application.
+
+    Returns
+    -------
+    None
+        This test asserts the correctness of status codes (200 for success, 404 for not found).
+    """
     test_user = "test_user"
     test_plaintext_password = "test_pass"
     user = UserFactory(username=test_user, plaintext_password=test_plaintext_password)

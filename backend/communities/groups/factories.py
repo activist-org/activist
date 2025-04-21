@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Factories for creating Group-related model instances for tests and development.
+"""
+
 import datetime
 import random
 
@@ -16,7 +20,15 @@ from communities.groups.models import (
 
 
 class GroupFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Group-related model instances.
+    """
+
     class Meta:
+        """
+        Metadata for the GroupFactory.
+        """
+
         model = Group
 
     created_by = factory.SubFactory("authentication.factories.UserFactory")
@@ -34,7 +46,15 @@ class GroupFactory(factory.django.DjangoModelFactory):
 
 
 class GroupImageFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating image Group-related model instances.
+    """
+
     class Meta:
+        """
+        Metadata for the GroupImageFactory.
+        """
+
         model = GroupImage
 
     group = factory.SubFactory(GroupFactory)
@@ -42,7 +62,15 @@ class GroupImageFactory(factory.django.DjangoModelFactory):
 
 
 class GroupMemberFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating members Group-related model instances.
+    """
+
     class Meta:
+        """
+        Metadata for the GroupMemberFactory.
+        """
+
         model = GroupMember
 
     group = factory.SubFactory(GroupFactory)
@@ -51,7 +79,15 @@ class GroupMemberFactory(factory.django.DjangoModelFactory):
 
 
 class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating social links Group-related model instances.
+    """
+
     class Meta:
+        """
+        Metadata for the GroupSocialLinkFactory.
+        """
+
         model = GroupSocialLink
 
     link = "https://www.activist.org"
@@ -66,7 +102,15 @@ class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
 
 
 class GroupTextFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating text Group-related model instances.
+    """
+
     class Meta:
+        """
+        Metadata for the GroupTextFactory.
+        """
+
         model = GroupText
 
     iso = "en"
