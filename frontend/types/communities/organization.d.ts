@@ -3,7 +3,7 @@
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Event } from "~/types/events/event";
-
+import type { ContentImage } from "~/types/content/image";
 // MARK: Main Table
 
 interface OrganizationBase {
@@ -12,7 +12,7 @@ interface OrganizationBase {
   name: string;
   tagline: string;
   createdBy: string;
-  iconUrl: string;
+  iconUrl: ContentImage;
   location: Location;
   getInvolvedUrl: string;
   socialLinks: OrganizationSocialLink[];

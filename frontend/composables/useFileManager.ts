@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-interface ContentImage {
-  id: string;
-  fileObject: string;
-  creation_date: string;
-}
+
+import type { ContentImage } from "~/types/content/image";
 
 type ImageUploadEntity =
   | "event-icon"
