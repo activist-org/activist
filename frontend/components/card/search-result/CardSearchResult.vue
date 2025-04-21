@@ -319,11 +319,11 @@ const imageUrl = computed<string>(() => {
   if (props.organization && props.organization.iconUrl.fileObject) {
     return `${props.organization.iconUrl.fileObject}`;
   } else if (props.group && props.group.iconUrl) {
-    return props.group.iconUrl;
+    return props.group.iconUrl.fileObject;
   } else if (props.event && props.event.iconUrl) {
     return `${BASE_BACKEND_URL_NO_V1}${props.event.iconUrl.fileObject}`;
   } else if (props.user && props.user.iconUrl) {
-    return props.user.iconUrl;
+    return props.user.iconUrl.fileObject;
   } else {
     return "";
   }

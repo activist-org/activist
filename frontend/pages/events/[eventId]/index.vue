@@ -10,7 +10,7 @@
     <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
         :eventType="event.type"
-        :imgUrl="event.iconUrl.fileObject ? event.iconUrl.fileObject : ''"
+        :imgUrl="event.iconUrl?.fileObject || ''"
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: event?.name,
