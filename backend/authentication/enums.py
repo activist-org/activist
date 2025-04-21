@@ -7,7 +7,9 @@ from enum import Enum
 
 
 class StatusTypes(Enum):
-    """Represents the possible statuses of a user."""
+    """
+    Represents the possible statuses of a user.
+    """
 
     PENDING = 1
     ACTIVE = 2
@@ -16,7 +18,9 @@ class StatusTypes(Enum):
 
 
 class SupportEntityTypes(Enum):
-    """Defines the types of entities that can support users."""
+    """
+    Defines the types of entities that can support users.
+    """
 
     ORGANIZATION = 1
     GROUP = 2

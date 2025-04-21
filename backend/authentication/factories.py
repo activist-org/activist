@@ -101,8 +101,10 @@ class UserFactory(factory.django.DjangoModelFactory):
         ----------
         create : bool
             Whether the object is being created (True) or just built (False).
+
         extracted : bool
             Whether a value was passed for this field during creation.
+
         **kwargs : dict[str, Any]
             Additional keyword arguments.
         """

@@ -80,7 +80,7 @@ class UserCreationForm(forms.ModelForm[UserModel]):
 
         Parameters
         ----------
-        commit : bool, optional
+        commit : bool, optional, default=True
             Whether to save the user to the database immediately. Default is True.
 
         Returns
