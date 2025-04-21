@@ -60,7 +60,7 @@ def test_group_delete(client: Client) -> None:
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{group.id}/",
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
     )
 
     assert delete_response.status_code == 401
@@ -98,7 +98,7 @@ def test_group_delete(client: Client) -> None:
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{test_uuid}/",
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
     )
 
     assert delete_response.status_code == 404
@@ -131,7 +131,7 @@ def test_group_delete(client: Client) -> None:
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{group.id}/",
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
     )
 
     assert delete_response.status_code == 200

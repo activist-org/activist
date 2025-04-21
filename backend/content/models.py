@@ -15,7 +15,7 @@ from django.dispatch import receiver
 
 from utils.models import ISO_CHOICES
 
-# MARK: Main Tables
+# MARK: Discussion
 
 
 class Discussion(models.Model):
@@ -35,6 +35,9 @@ class Discussion(models.Model):
         return str(self.id)
 
 
+# MARK: FAQ
+
+
 class Faq(models.Model):
     """
     Frequently Asked Questions model.
@@ -50,6 +53,9 @@ class Faq(models.Model):
 
     def __str__(self) -> str:
         return self.question
+
+
+# MARK: Image
 
 
 def set_filename_to_uuid(instance: Any, filename: str) -> str:
@@ -122,6 +128,9 @@ def delete_image_file(sender: Type[Image], instance: Image, **kwargs: Any) -> No
         instance.file_object.delete(save=False)
 
 
+# MARK: Location
+
+
 class Location(models.Model):
     """
     Location model for geographic data.
@@ -137,6 +146,9 @@ class Location(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+
+
+# MARK: Resource
 
 
 class Resource(models.Model):
@@ -165,20 +177,7 @@ class Resource(models.Model):
         return self.name
 
 
-class Role(models.Model):
-    """
-    Role model for defining user roles.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    is_custom = models.BooleanField(default=False)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    deletion_date = models.DateTimeField(blank=True, null=True)
-
-    def __str__(self) -> str:
-        return self.name
+# MARK: Social Link
 
 
 class SocialLink(models.Model):
@@ -197,6 +196,9 @@ class SocialLink(models.Model):
         return self.label
 
 
+# MARK: Tag
+
+
 class Tag(models.Model):
     """
     Tag model for content categorization.
@@ -209,6 +211,9 @@ class Tag(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+
+
+# MARK: Task
 
 
 class Task(models.Model):
@@ -226,6 +231,9 @@ class Task(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+# MARK: Topic
 
 
 class Topic(models.Model):

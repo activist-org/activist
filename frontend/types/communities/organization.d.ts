@@ -74,18 +74,25 @@ export interface OrganizationResponse extends OrganizationBase {
   texts: OrganizationText[];
 }
 
+export interface OrganizationsResponseBody {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results: OrganizationResponse[];
+}
+
 export interface PiniaResOrganization {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
+  __v_isShallow: boolean;
   _rawValue: OrganizationResponse;
   _value: OrganizationResponse;
 }
 
 export interface PiniaResOrganizations {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: OrganizationResponse[];
-  _value: OrganizationResponse[];
+  __v_isShallow: boolean;
+  _rawValue: OrganizationsResponseBody;
+  _value: OrganizationsResponseBody;
 }
 
 // MARK: Form Data

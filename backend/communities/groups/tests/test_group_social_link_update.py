@@ -57,7 +57,7 @@ def test_group_social_link_update(client: Client) -> None:
             "label": social_links.label,
             "order": social_links.order,
         },
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
@@ -76,7 +76,7 @@ def test_group_social_link_update(client: Client) -> None:
             "label": social_links.label,
             "order": social_links.order,
         },
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 

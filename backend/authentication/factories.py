@@ -15,7 +15,7 @@ import factory
 
 from authentication.models import Support, SupportEntityType, UserModel
 
-# MARK: Main Tables
+# MARK: Support
 
 
 class SupportEntityTypeFactory(factory.django.DjangoModelFactory):
@@ -56,6 +56,9 @@ class SupportFactory(factory.django.DjangoModelFactory):
     )
 
 
+# MARK: User
+
+
 class UserFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating UserModel instances.
@@ -84,9 +87,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     creation_date = factory.Faker("date_time_this_decade", before_now=True)
     plaintext_password = factory.PostGenerationMethodCall("set_password", "password")
 
-    # Workaround for the build method
-    # Does not work with the create method at the moment
-    # verification_partner field references itself
+    # Workaround for the build method.
+    # Does not work with the create method at the moment.
+    # verification_partner field references itself.
     @factory.post_generation
     def verification_partner(
         self, create: bool, extracted: bool, **kwargs: dict[str, Any]

@@ -7,7 +7,7 @@ from rest_framework import serializers
 
 from communities.models import Status, StatusType
 
-# MARK: Main Tables
+# MARK: Status
 
 
 class StatusSerializer(serializers.ModelSerializer[Status]):

@@ -18,7 +18,7 @@ from communities.organizations.models import Organization
 from content.serializers import LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
-# MARK: Main Tables
+# MARK: Group
 
 
 class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
@@ -63,6 +63,34 @@ class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
         fields = "__all__"
 
 
+class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
+    """
+    Serializer for creating groups with related fields.
+    """
+
+    texts = GroupTextSerializer(write_only=True, required=False)
+    social_links = GroupSocialLinkSerializer(write_only=True, required=False)
+    location = LocationSerializer(write_only=True)
+    org_id = serializers.PrimaryKeyRelatedField(
+        queryset=Organization.objects.all(), source="org"
+    )
+
+    class Meta:
+        model = Group
+
+        exclude = (
+            "resources",
+            "faqs",
+            "topics",
+            "org",
+            "created_by",
+            "category",
+            "get_involved_url",
+            "icon_url",
+            "events",
+        )
+
+
 class GroupSerializer(serializers.ModelSerializer[Group]):
     """
     Serializer for Group.
@@ -70,7 +98,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
     texts = GroupTextSerializer(many=True, read_only=True)
     social_links = GroupSocialLinkSerializer(many=True, read_only=True)
-    location = LocationSerializer(read_only=True)
+    location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)

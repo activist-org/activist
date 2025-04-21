@@ -63,7 +63,7 @@ def test_group_update(client: Client) -> None:
             "name": "new_test_name",
             "category": "new_test_category",
         },
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
@@ -114,7 +114,7 @@ def test_group_update(client: Client) -> None:
             "name": "new_test_name",
             "category": "new_test_category",
         },
-        headers={"Authorization": f"Token {str(token)}"},
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 

@@ -12,7 +12,6 @@ from content.models import (
     Image,
     Location,
     Resource,
-    Role,
     SocialLink,
     Tag,
     Task,
@@ -26,7 +25,6 @@ admin.site.register(Faq)
 admin.site.register(Image)
 admin.site.register(Location)
 admin.site.register(Resource)
-admin.site.register(Role)
 admin.site.register(SocialLink)
 admin.site.register(Tag)
 admin.site.register(Task)

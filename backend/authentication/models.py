@@ -15,7 +15,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
-# MARK: Main Tables
+# MARK: Account Manager
 
 
 class CustomAccountManager(BaseUserManager["UserModel"]):
@@ -102,6 +102,9 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         return user
 
 
+# MARK: Support
+
+
 class SupportEntityType(models.Model):
     """
     Represents a type of support entity, such as organization, group, event, or user.
@@ -161,6 +164,9 @@ class Support(models.Model):
             The string representation of the support instance.
         """
         return str(self.id)
+
+
+# MARK: User
 
 
 class UserModel(AbstractUser, PermissionsMixin):
