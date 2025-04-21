@@ -89,3 +89,9 @@ checks = [
     "EX01",
     "SA01",
 ]
+
+exclude = [
+    "^.*\\.Meta$",  # Exclude all Meta classes
+    "^.*\\.__str__$",  # Exclude all __str__ methods
+    "^__init__$"  # Exclude module __init__ files
+]
