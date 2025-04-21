@@ -92,9 +92,9 @@ activist uses [Matrix](https://matrix.org/) for internal communication. You're m
 Please see the [contribution guidelines](CONTRIBUTING.md) and [style guide](STYLEGUIDE.md) if you are interested in contributing. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
 
 > [!NOTE]
-> Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
+> Just because an issue is assigned on GitHub doesn't mean the team isn't open to your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
 
-Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors. For those new to coding or our tech stack, we've collected [links to helpful documentation pages](CONTRIBUTING.md#learning-the-tech) in the [contribution guidelines](CONTRIBUTING.md).
+Also check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first-time contributors. For those new to coding or our tech stack, we've collected [links to helpful documentation pages](CONTRIBUTING.md#learning-the-tech) in the [contribution guidelines](CONTRIBUTING.md).
 
 We would be happy to discuss granting you further rights as a contributor after your first pull requests, with a maintainer role then being possible after continued interest in the project. activist seeks to be an inclusive, diverse and supportive organization. We'd love to have you on the team!
 
@@ -309,13 +309,13 @@ Other event features include:
 
 > A simple link hub for organizations.
 
-Organizations can keep important links (chats, articles, pads, etc.) in one place, group what belongs together and pin to the top what’s currently most important. Private by default, resources can also be made public to share information and best practices.
+Organizations can keep important links (chats, articles, pads, etc.) in one place and are split into working groups to present structure. Private by default, resources can also be made public to share information and best practices.
 
 ### Onboarding [`⇧`](#contents)
 
 > Safe methods to onboard new members.
 
-We are working on a conversational onboarding interface based on the [Matrix protocol](https://matrix.org/) that operates across messengers while not compromising data sovereignty for organizations or individuals. Organizations will also have the option to include their existing processes if preferred.
+We are working on a conversational onboarding interface based on the [Matrix protocol](https://matrix.org/) that operates across messengers without compromising data sovereignty for organizations or individuals. Organizations will also have the option to include their existing processes if preferred.
 
 ### Search [`⇧`](#contents)
 
