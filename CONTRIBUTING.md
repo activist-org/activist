@@ -14,7 +14,7 @@ If you have questions or would like to communicate with the team, please [join u
 
 - [First steps as a contributor](#first-steps-)
 - [Tech stack](#tech-stack-)
-- [Learning the tech stack](#learning-the-tech-)
+- [Learning the tech stack](#learning-the-tech-stack-)
 - [Development environment](#dev-env-)
 - [Style guide](#style-guide-)
 - [Linting](#linting-)
@@ -74,7 +74,7 @@ The following are the current and planned technologies for [activist.org](https:
 > [!NOTE]
 > Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
-<a id="learning-the-tech-"></a>
+<a id="learning-the-tech-stack-"></a>
 
 ## Learning the tech stack [`⇧`](#contents)
 
