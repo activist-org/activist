@@ -16,16 +16,15 @@
       >
         <button
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModalUploadImages()"
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.ORGANIZATION_ICON,
+            })
+          "
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages
-          @closeModal="handleCloseModalUploadImages"
-          @upload-complete="handleUploadComplete"
-          :fileUploadEntity="FileUploadEntity.ORGANIZATION_ICON"
-        />
         <ImageOrganization
           class="elem-shadow-sm"
           :imgUrl="logoUrl"
@@ -48,16 +47,15 @@
       >
         <button
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModalUploadImages()"
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.EVENT_ICON,
+            })
+          "
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages
-          @closeModal="handleCloseModalUploadImages"
-          @upload-complete="handleUploadComplete"
-          :fileUploadEntity="FileUploadEntity.EVENT_ICON"
-        />
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"
@@ -81,16 +79,15 @@
       >
         <button
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModalUploadImages()"
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.GROUP_ICON,
+            })
+          "
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages
-          @upload-complete="handleUploadComplete"
-          @closeModal="handleCloseModalUploadImages"
-          :fileUploadEntity="FileUploadEntity.GROUP_ICON"
-        />
         <ImageGroup
           class="elem-shadow-sm"
           eventType="action"
@@ -155,10 +152,8 @@ const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
 const { imageUrls } = useFileManager();
 
-const {
-  openModal: openModalUploadImages,
-  handleCloseModal: handleCloseModalUploadImages,
-} = useModalHandlers("ModalUploadImages");
+const { openModal: openModalUploadImages } =
+  useModalHandlers("ModalUploadImages");
 
 const handleUploadComplete = () => {
   logoUrl.value = imageUrls.value[0];

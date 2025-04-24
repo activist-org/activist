@@ -1,6 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
+    <!-- Should receive the entity (xxx_icon or xxx_carousel) to upload into. -->
+    <ModalUploadImages
+      @closeModal="handleCloseModalUploadImages"
+      @upload-complete="handleUploadComplete"
+    />
     <SidebarLeft
       v-if="aboveMediumBP"
       @mouseover="sidebarHover = true"
@@ -29,6 +34,8 @@ import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
+
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 
 const aboveMediumBP = useBreakpoint("md");
 
