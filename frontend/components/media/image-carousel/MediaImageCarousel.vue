@@ -58,7 +58,7 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
+// import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 
 const { deleteImage } = useFileManager();

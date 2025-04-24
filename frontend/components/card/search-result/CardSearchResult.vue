@@ -316,13 +316,13 @@ const eventType = computed<"action" | "learn">(() => {
 // This is because orgs use regular img tags and events use the ImageEvent component.
 // It looks like ImageEvent is better at displaying images.
 const imageUrl = computed<string>(() => {
-  if (props.organization && props.organization.iconUrl.fileObject) {
+  if (props.organization && props.organization.iconUrl?.fileObject) {
     return `${props.organization.iconUrl.fileObject}`;
-  } else if (props.group && props.group.iconUrl) {
+  } else if (props.group && props.group.iconUrl?.fileObject) {
     return props.group.iconUrl.fileObject;
-  } else if (props.event && props.event.iconUrl) {
+  } else if (props.event && props.event.iconUrl?.fileObject) {
     return `${BASE_BACKEND_URL_NO_V1}${props.event.iconUrl.fileObject}`;
-  } else if (props.user && props.user.iconUrl) {
+  } else if (props.user && props.user.iconUrl?.fileObject) {
     return props.user.iconUrl.fileObject;
   } else {
     return "";

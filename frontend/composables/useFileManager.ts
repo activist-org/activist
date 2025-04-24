@@ -27,17 +27,20 @@ const ENTITY_ID_FIELDS = {
   },
 } as const;
 
-// TODO: Make these dark again.
-const defaultImageUrls = [
-  useColorModeImages()(`${GET_ACTIVE_IMAGE_URL}`),
-  useColorModeImages()(`${GET_ORGANIZED_IMAGE_URL}`),
-  useColorModeImages()(`${GROW_ORGANIZATION_IMAGE_URL}`),
-];
+const colorMode = useColorMode();
+
+const defaultImageUrls = computed(() => {
+  const imageColor = colorMode?.value || "light";
+  return [
+    `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
+    `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
+    `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
+  ];
+});
 
 const imageUrls = ref(defaultImageUrls);
 
 export function useFileManager(organizationId?: string) {
-  // const imageUrls = ref(defaultImageUrls);
   const uploadError = ref(false);
   const files = ref<UploadableFile[]>([]);
 
