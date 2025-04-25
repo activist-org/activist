@@ -7,7 +7,12 @@ from uuid import UUID
 from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
-from drf_spectacular.utils import OpenApiResponse, extend_schema
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiResponse,
+    OpenApiTypes,
+    extend_schema,
+)
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
@@ -98,13 +103,32 @@ class OrganizationDetailAPIView(APIView):
     serializer_class = OrganizationSerializer
 
     @extend_schema(
+        summary="Retrieve a single organization by ID",
         responses={
             200: OrganizationSerializer,
-            400: OpenApiResponse(response={"error": "Organization ID is required"}),
-            404: OpenApiResponse(
-                response={"error": "Failed to retrieve the organization"}
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Organization ID is required",
+                examples=[
+                    OpenApiExample(
+                        name="Organization ID required",
+                        value={"error": "Organization ID is required"},
+                        media_type="application/json",
+                    )
+                ],
             ),
-        }
+            404: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Failed to retrieve the organization",
+                examples=[
+                    OpenApiExample(
+                        name="Organization not found",
+                        value={"error": "Failed to retrieve the organization"},
+                        media_type="application/json",
+                    )
+                ],
+            ),
+        },
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
         """
