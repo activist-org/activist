@@ -18,7 +18,7 @@ from rest_framework.test import APIClient
 )
 def test_anon_throttle_on_swagger_ui():
     """
-    This test hits the SwaggerUI endpoint as an anonymous user
+    This test hits the SwaggerUI endpoint as an anon user
     and confirms that the DRF throttle activates after 5 requests.
     """
     client = APIClient()
