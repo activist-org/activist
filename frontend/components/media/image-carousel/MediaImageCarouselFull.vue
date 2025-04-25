@@ -1,13 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="relative">
-    <!-- <MediaImageCarousel
-      @upload-complete="fetchOrganizationImages"
-      @delete-complete="fetchOrganizationImages"
-      :fullscreen="false"
-      :organizationId="organizationId"
-      :imageUrls="imageUrls"
-    /> -->
     <MediaImageCarousel
       @upload-complete="fetchOrganizationImages"
       @delete-complete="fetchOrganizationImages"
@@ -31,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { isEntityName } from "typescript";
 import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 
@@ -51,7 +43,7 @@ const entityId = computed(() => {
       return groupStore.group.id;
     default:
       console.log("Invalid file upload entity: ", props.fileUploadEntity);
-      return null;
+      return undefined;
   }
 });
 
@@ -69,6 +61,7 @@ onMounted(async () => {
       if (entityId.value) {
         await fetchOrganizationImages();
       }
+      break;
     case FileUploadEntity.GROUP_CAROUSEL:
       // console.log("groupStore.group", groupStore.group);
       return groupStore.group?.id;

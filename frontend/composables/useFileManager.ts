@@ -38,7 +38,8 @@ const defaultImageUrls = computed(() => {
   ];
 });
 
-const imageUrls = ref(defaultImageUrls.value);
+// const imageUrls = ref(defaultImageUrls.value);
+const imageUrls = ref<string[]>([...defaultImageUrls.value]);
 
 export function useFileManager(entityId?: string) {
   const uploadError = ref(false);
@@ -67,7 +68,7 @@ export function useFileManager(entityId?: string) {
         imageUrls.value =
           data.length > 0
             ? data.map((img: ContentImage) => img.fileObject)
-            : defaultImageUrls;
+            : [...defaultImageUrls.value];
         uploadError.value = false;
       } else {
         uploadError.value = true;
@@ -162,7 +163,7 @@ export function useFileManager(entityId?: string) {
         imageUrls.value =
           data.length > 0
             ? data.map((img: ContentImage) => img.fileObject)
-            : defaultImageUrls;
+            : [...defaultImageUrls.value];
 
         return data;
       }

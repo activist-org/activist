@@ -150,12 +150,7 @@ const sidebarTypeToDisplay = computed(() => props.sidebarType);
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
-const { imageUrls } = useFileManager();
 
 const { openModal: openModalUploadImages } =
   useModalHandlers("ModalUploadImages");
-
-const handleUploadComplete = () => {
-  logoUrl.value = imageUrls.value[0];
-};
 </script>

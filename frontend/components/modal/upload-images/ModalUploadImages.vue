@@ -10,7 +10,6 @@
           {{ $t("i18n.components.modal_upload_images.upload_an_image") }}
         </p>
       </DialogTitle>
-      <p>fileUploadEntity: {{ fileUploadEntity }}</p>
       <div class="mt-4">
         <ModalUploadImagesFileDropZone
           v-if="files.length != uploadLimit"
@@ -146,7 +145,7 @@ const entityId = computed(() => {
 const handleUpload = async () => {
   if (!entityId.value) {
     throw new Error(
-      `No entity ID found for fileUploadEntity: ${fileUploadEntity}`
+      `No entity ID found for fileUploadEntity: ${fileUploadEntity.value}`
     );
   }
 

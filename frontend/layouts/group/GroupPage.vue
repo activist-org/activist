@@ -1,7 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <!-- Should receive the entity (xxx_icon or xxx_carousel) to upload into. -->
     <ModalUploadImages
       @closeModal="handleCloseModalUploadImages"
       @upload-complete="handleUploadComplete"
@@ -35,7 +34,8 @@ import {
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
 
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
+const { handleCloseModal: handleCloseModalUploadImages } =
+  useModalHandlers("ModalUploadImages");
 
 const aboveMediumBP = useBreakpoint("md");
 

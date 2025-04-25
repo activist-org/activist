@@ -56,16 +56,19 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
+import type { FileUploadEntity } from "~/types/content/file-upload-entity";
+
 import { IconMap } from "~/types/icon-map";
 
 const { deleteImage } = useFileManager();
 
-const props = defineProps({
-  fullscreen: Boolean,
-  fileUploadEntity: FileUploadEntity,
-  imageUrls: Array<string>,
-});
+interface Props {
+  fullscreen: boolean;
+  fileUploadEntity: FileUploadEntity;
+  imageUrls: string[];
+}
+
+const props = defineProps<Props>();
 
 register();
 
@@ -105,12 +108,6 @@ onUpdated(() => {
 });
 
 const emit = defineEmits(["upload-complete", "delete-complete"]);
-
-// Forward the upload-complete from ModalUploadImages event to the parent component.
-// Building out an event bus would be a better solution, but only a quick fix is needed here.
-const forwardUploadCompleteEmit = () => {
-  emit("upload-complete");
-};
 
 const handleDeleteClick = async () => {
   try {
