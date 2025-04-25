@@ -16,14 +16,74 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import type { Location } from "~/types/content/location";
 
+
+//  Expanded tooltip helper:
+//  Returns a <div> containing the whole card so we can pass it
+//  straight into popup.setDOMContent().
+const organizationIcon = `/icons/map/tooltip_organization.png`;
+const calendarIcon = `/icons/map/tooltip_datetime.png`;
+const locationIcon = `/icons/map/tooltip_location.png`;
+
+function buildExpandedTooltip(opts: {
+  name: string;
+  url: string;
+  organization: string;
+  datetime: string;
+  location: string;
+  attendLabel: string;
+}) {
+  const root = document.createElement("div");
+  root.className = "w-[220px] cursor-pointer font-sans";
+
+  root.innerHTML = `
+    <a href="${opts.url}" class="no-underline text-inherit">
+      <div class="overflow-hidden rounded-md bg-layer-0 shadow-sm border border-zinc-200 dark:border-zinc-600">
+        <div class="p-3">
+          <h3 class="font-display text-lg font-bold mb-2 leading-tight">${opts.name}</h3>
+
+          <div class="flex items-center text-[14px] text-primary-text mb-1.5 font-semibold">
+            <img src="${organizationIcon}"
+            <span>${opts.organization}</span>
+          </div>
+
+          <div class="flex items-center text-[14px] text-primary-text mb-1.5 font-semibold">
+            <img src="${calendarIcon}"
+            <span>${opts.datetime}</span>
+          </div>
+
+          <div class="flex items-center text-[14px] text-primary-text mb-1.5 font-semibold">
+            <img src="${locationIcon}"
+            <span>${opts.location}</span>
+          </div>
+
+          <button
+            type="button"
+            class="style-cta mt-3 px-3 py-1 text-sm font-bold"
+          >
+            ${opts.attendLabel}
+          </button>
+        </div>
+      </div>
+    </a>
+  `;
+
+  return root;
+}
+
 const props = defineProps<{
   markerColors: string[];
   eventNames: string[];
   eventLocations: Location[];
 }>();
 
+console.log(props)
+
 const i18n = useI18n();
 const colorMode = useColorMode();
+
+const attendLabelKey = "i18n.components.tooltip_menu_search_result_event.attend";
+const attendLabel = i18n.t(attendLabelKey) as string;
+
 
 const isTouchDevice =
   // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
@@ -423,17 +483,16 @@ onMounted(() => {
     if (geolocateButton)
       geolocateButton.title = i18n.t("i18n.components.media_map.geolocate");
 
-    const popup = new maplibregl.Popup({
-      offset: 25,
-    }).setHTML(`
-      <div style="
-        text-align: center;
-        color: grey;"
-      >
-        <div style="font-size: 13px;">${props.eventNames[0]}</div>
-        <div style="color: grey;">${props.eventLocations[0].displayName}</div>
-      </div>
-      `);
+    const popup = new maplibregl.Popup({ offset: 35, maxWidth: "260px" }).setDOMContent(
+      buildExpandedTooltip({
+        name: props.eventNames[0],
+        url: ``,   // TODO: Pass in event webpage URL
+        organization: "Organization",   // TODO: Pass in event's organization name
+        datetime: "Date & Time",   // TODO: Pass in event's date and time information
+        location: props.eventLocations[0].displayName,
+        attendLabel,
+      })
+    );
 
     marker = new maplibregl.Marker({
       color: `${props.markerColors[0]}`,
