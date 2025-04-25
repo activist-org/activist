@@ -39,17 +39,15 @@
       <Icon :name="IconMap.MINUS" size="1.5em" />
     </button>
     <button
-      @click="openModalUploadImages()"
+      @click="
+        openModalUploadImages({
+          fileUploadEntity: props.fileUploadEntity,
+        })
+      "
       class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
       <Icon :name="IconMap.PLUS" size="1.5em" />
     </button>
-    <!-- <ModalUploadImages
-      @upload-complete="forwardUploadCompleteEmit"
-      @closeModal="handleCloseModalUploadImages"
-      @upload-error="uploadError = true"
-      :fileUploadEntity="FileUploadEntity.ORGANIZATION_CAROUSEL"
-    /> -->
   </div>
 </template>
 
@@ -58,14 +56,14 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
-// import { FileUploadEntity } from "~/types/content/file-upload-entity";
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 
 const { deleteImage } = useFileManager();
 
 const props = defineProps({
   fullscreen: Boolean,
-  organizationId: String,
+  fileUploadEntity: FileUploadEntity,
   imageUrls: Array<string>,
 });
 
@@ -74,10 +72,8 @@ register();
 const uploadError = ref(false);
 const currentImageId = ref<string>("");
 
-const {
-  openModal: openModalUploadImages,
-  handleCloseModal: handleCloseModalUploadImages,
-} = useModalHandlers("ModalUploadImages");
+const { openModal: openModalUploadImages } =
+  useModalHandlers("ModalUploadImages");
 
 // Get the swiper instance. Use this instance to listen for the slideChange event.
 const swiperRef = ref<{ swiper?: SwiperInstance } | null>(null);

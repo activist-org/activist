@@ -38,21 +38,22 @@ const defaultImageUrls = computed(() => {
   ];
 });
 
-const imageUrls = ref(defaultImageUrls);
+const imageUrls = ref(defaultImageUrls.value);
 
-export function useFileManager(organizationId?: string) {
+export function useFileManager(entityId?: string) {
   const uploadError = ref(false);
   const files = ref<UploadableFile[]>([]);
 
-  // TODO: refactor this as fetchEntityImage
+  // TODO: Refactor this to fetchEntityImages (group, org, etc.)
   async function fetchOrganizationImages() {
-    if (!organizationId) {
+    if (!entityId) {
+      console.error("useFileManager fetchOrganizationImages: Missing entityId");
       return;
     }
 
     try {
       const response = await fetch(
-        `${BASE_BACKEND_URL as string}/communities/organizations/${organizationId}/images/`,
+        `${BASE_BACKEND_URL as string}/communities/organizations/${entityId}/images/`,
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("accessToken")}`,
@@ -62,6 +63,7 @@ export function useFileManager(organizationId?: string) {
 
       if (response.ok) {
         const data = (await response.json()) as ContentImage[];
+
         imageUrls.value =
           data.length > 0
             ? data.map((img: ContentImage) => img.fileObject)
@@ -132,7 +134,7 @@ export function useFileManager(organizationId?: string) {
 
     // Log FormData contents
     // for (const pair of formData.entries()) {
-    //   console.log("FormData:", pair[0], pair[1]);
+    //   console.log("FormData: ", pair[0], pair[1]);
     // }
 
     try {

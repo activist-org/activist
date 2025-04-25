@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
+
 interface Modal {
   isOpen: boolean;
+  fileUploadEntity?: FileUploadEntity;
 }
 
 export const useModals = defineStore("modals", {
@@ -26,9 +29,27 @@ export const useModals = defineStore("modals", {
     // The following are called in useModalHandlers.ts.
     // They allow for multiple modal handlers on a page / component.
     // We can rename the modal handlers so that the code is a little more self-documenting and readable.
-    openModalAndUpdateState(modalName: string) {
+    // openModalAndUpdateState(
+    //   modalName: string,
+    //   fileUploadEntity?: FileUploadEntity
+    // ) {
+    //   this.openModal(modalName);
+    //   this.modals[modalName].data = fileUploadEntity;
+    //   return this.modals[modalName].isOpen, this.modals[modalName].data;
+    // },
+
+    openModalAndUpdateState(
+      modalName: string,
+      fileUploadEntity?: FileUploadEntity
+    ) {
       this.openModal(modalName);
-      return this.modals[modalName].isOpen;
+
+      this.modals[modalName] = {
+        ...this.modals[modalName],
+        data: fileUploadEntity ?? this.modals[modalName]?.fileUploadEntity,
+      };
+
+      return this.modals[modalName];
     },
 
     closeModalAndUpdateState(modalName: string) {

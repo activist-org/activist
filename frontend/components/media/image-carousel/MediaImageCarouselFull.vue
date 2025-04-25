@@ -1,11 +1,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="relative">
-    <MediaImageCarousel
+    <!-- <MediaImageCarousel
       @upload-complete="fetchOrganizationImages"
       @delete-complete="fetchOrganizationImages"
       :fullscreen="false"
       :organizationId="organizationId"
+      :imageUrls="imageUrls"
+    /> -->
+    <MediaImageCarousel
+      @upload-complete="fetchOrganizationImages"
+      @delete-complete="fetchOrganizationImages"
+      :fullscreen="false"
+      :fileUploadEntity="props.fileUploadEntity"
       :imageUrls="imageUrls"
     />
     <button
@@ -24,21 +31,50 @@
 </template>
 
 <script setup lang="ts">
+import { isEntityName } from "typescript";
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 
-const props = defineProps<{ organizationId?: string }>();
+const props = defineProps<{ fileUploadEntity: FileUploadEntity }>();
+
+const orgStore = useOrganizationStore();
+const groupStore = useGroupStore();
+
+// TODO: Refactor this. ModalUploadImages also figures ids out. Needed here because of the useFileManager hook, to get the initial iamge set on mount
+const entityId = computed(() => {
+  switch (props.fileUploadEntity) {
+    case FileUploadEntity.ORGANIZATION_CAROUSEL:
+      // console.log("orgStore.organization: ", orgStore.organization);
+      return orgStore.organization.id;
+    case FileUploadEntity.GROUP_CAROUSEL:
+      // console.log("groupStore.group", groupStore.group);
+      return groupStore.group.id;
+    default:
+      console.log("Invalid file upload entity: ", props.fileUploadEntity);
+      return null;
+  }
+});
 
 const {
   openModal: openMediaImageCarousel,
   handleCloseModal: handleCloseMediaImageCarousel,
 } = useModalHandlers("ModalMediaImage");
-const { imageUrls, fetchOrganizationImages } = useFileManager(
-  props.organizationId
-);
+
+const { imageUrls, fetchOrganizationImages } = useFileManager(entityId.value);
 
 onMounted(async () => {
-  if (props.organizationId) {
-    await fetchOrganizationImages();
+  switch (props.fileUploadEntity) {
+    case FileUploadEntity.ORGANIZATION_CAROUSEL:
+      // console.log("orgStore.organization", orgStore.organization);
+      if (entityId.value) {
+        await fetchOrganizationImages();
+      }
+    case FileUploadEntity.GROUP_CAROUSEL:
+      // console.log("groupStore.group", groupStore.group);
+      return groupStore.group?.id;
+    default:
+      console.log("Invalid file upload entity: ", props.fileUploadEntity);
+      return null;
   }
 });
 </script>

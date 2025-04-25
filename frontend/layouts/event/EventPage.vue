@@ -5,7 +5,6 @@
     <ModalUploadImages
       @closeModal="handleCloseModalUploadImages"
       @upload-complete="handleUploadComplete"
-      :fileUploadEntity="FileUploadEntity.EVENT_ICON"
     />
     <SidebarLeft
       v-if="aboveMediumBP"

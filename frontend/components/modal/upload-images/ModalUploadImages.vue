@@ -10,6 +10,7 @@
           {{ $t("i18n.components.modal_upload_images.upload_an_image") }}
         </p>
       </DialogTitle>
+      <p>fileUploadEntity: {{ fileUploadEntity }}</p>
       <div class="mt-4">
         <ModalUploadImagesFileDropZone
           v-if="files.length != uploadLimit"
@@ -96,8 +97,6 @@
 import { DialogTitle } from "@headlessui/vue";
 import draggable from "vuedraggable";
 
-import type { FileUploadEntity } from "~/types/content/file-upload-entity";
-
 import { IconMap } from "~/types/icon-map";
 
 const { files, handleFiles, removeFile, uploadFiles } = useFileManager();
@@ -106,11 +105,11 @@ const eventStore = useEventStore();
 const groupStore = useGroupStore();
 const organizationStore = useOrganizationStore();
 
-export interface Props {
-  fileUploadEntity: FileUploadEntity;
-}
+const modals = useModals();
 
-const props = defineProps<Props>();
+const fileUploadEntity = computed(() => {
+  return modals.modals[modalName].data.fileUploadEntity;
+});
 
 const modalName = "ModalUploadImages";
 const uploadError = ref(false);
@@ -126,11 +125,11 @@ const UPLOAD_LIMITS = {
 } as const;
 
 const uploadLimit = computed(
-  () => UPLOAD_LIMITS[props.fileUploadEntity as keyof typeof UPLOAD_LIMITS] ?? 0
+  () => UPLOAD_LIMITS[fileUploadEntity.value as keyof typeof UPLOAD_LIMITS] ?? 0
 );
 
 const entityId = computed(() => {
-  switch (props.fileUploadEntity) {
+  switch (fileUploadEntity.value) {
     case "event-icon":
       return eventStore.event.id;
     case "group-carousel":
@@ -147,13 +146,13 @@ const entityId = computed(() => {
 const handleUpload = async () => {
   if (!entityId.value) {
     throw new Error(
-      `No entity ID found for props.fileUploadEntity: ${props.fileUploadEntity}`
+      `No entity ID found for fileUploadEntity: ${fileUploadEntity}`
     );
   }
 
   try {
     // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
-    await uploadFiles(entityId.value, props.fileUploadEntity);
+    await uploadFiles(entityId.value, fileUploadEntity.value);
 
     const modals = useModals();
     modals.closeModal(modalName);
