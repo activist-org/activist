@@ -18,7 +18,6 @@ jobs:
           chmod 777 zap-reports
 
       - name: ZAP Scan
-        id: zap_scan
         uses: zaproxy/action-full-scan@v0.10.0
         with:
           docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
@@ -29,19 +28,6 @@ jobs:
           fail_action: false
           allow_issue_writing: true
           artifact_name: 'zap-scan-artifact'
-
-      - name: Create clean scan issue
-        if: success() && steps.zap_scan.outputs.alerts_number == '0'
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'ZAP Scan - All Clear!',
-              body: '🎉 Security scan completed successfully. No vulnerabilities were found!'
-            });
-
       - name: Upload ZAP Scan Results
         uses: actions/upload-artifact@v4
         with:
