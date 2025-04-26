@@ -5,9 +5,7 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/events");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /events/i
-  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/events/i);
 });
 
 test.describe("Events Page", { tag: ["@desktop", "@mobile"] }, () => {

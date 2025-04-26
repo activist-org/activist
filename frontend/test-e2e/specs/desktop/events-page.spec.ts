@@ -3,9 +3,7 @@ import { expect, test } from "playwright/test";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/events");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /events/i
-  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/events/i);
 });
 
 test.describe("Events Page", { tag: "@desktop" }, () => {
