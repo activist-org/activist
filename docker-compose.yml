@@ -48,9 +48,24 @@ services:
     build:
       context: ./frontend
     container_name: nuxt_frontend
-    command: sh -c "corepack enable && yarn install && yarn dev --port ${FRONTEND_PORT}"
+    command: >
+      sh -c "
+        echo 'nodeLinker: node-modules' > .yarnrc.yml &&
+        rm -rf .yarn .pnp* node_modules &&
+        export NODE_OPTIONS=--no-warnings &&
+        export YARN_NODE_LINKER=node-modules &&
+        yarn install &&
+        yarn dev --host 0.0.0.0 --port ${FRONTEND_PORT}
+      "
+    environment:
+      - NODE_OPTIONS=--no-warnings
+      - YARN_NODE_LINKER=node-modules
     volumes:
       - ./frontend:/app
+      - /app/node_modules
+      - /app/.yarn
+      - /app/.pnp.cjs
+      - /app/.pnp.loader.mjs
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
       - "24678:24678"

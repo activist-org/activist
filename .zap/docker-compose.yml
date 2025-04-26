@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  zap-scan:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    volumes:
+      - .:/zap/wrk
+      - ../zap-reports:/zap/reports
+    command: >
+      zap-full-scan.py
+      -t https://www.activist.org/en/
+      -r "report-$(date +%Y-%m-%d).html"
+      -a -j -S -T 60 -m 10
+      -z "-config scanner.attackStrength=HIGH -config scanner.alertThreshold=MEDIUM"
+      -c /zap/wrk/rules.tsv
