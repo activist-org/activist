@@ -123,12 +123,14 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
-import { useLinkURL } from "~/composables/useLinkURL";
+
 import type { User } from "~/types/auth/user";
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Resource } from "~/types/content/resource";
 import type { Event } from "~/types/events/event";
+
+import { useLinkURL } from "~/composables/useLinkURL";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

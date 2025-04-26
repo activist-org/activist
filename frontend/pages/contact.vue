@@ -73,8 +73,9 @@
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
-                style="vertical-align: baseline" /></a
-            >.
+                style="vertical-align: baseline"
+            /></a>
+            .
             {{ $t("i18n.pages.contact.section_1_paragraph_2_2") }}
             <a
               class="focus-brand link-text items-center"
@@ -85,8 +86,9 @@
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
-                style="vertical-align: baseline" /></a
-            >.
+                style="vertical-align: baseline"
+            /></a>
+            .
           </p>
         </div>
         <div>
@@ -101,8 +103,8 @@
                 >{{ $t("i18n.pages.contact.name") }}
                 <span v-if="!nameValidated">{{
                   $t("i18n.pages.contact.error_empty")
-                }}</span></label
-              >
+                }}</span>
+              </label>
               <input
                 v-model="name"
                 @blur="validateName"
@@ -125,13 +127,11 @@
                 }"
                 for="email"
                 >{{ $t("i18n.pages.contact.email_label") }}
-                <span v-if="!emailValidated"
-                  >{{
-                    $t("i18n.pages.contact.valid")
-                  }}
-                  (example@mail.com).</span
-                ></label
-              >
+                <span v-if="!emailValidated">
+                  {{ $t("i18n.pages.contact.valid") }}
+                  (example@mail.com).
+                </span>
+              </label>
               <input
                 v-model="email"
                 @blur="validateEmail"
@@ -153,11 +153,12 @@
                   'text-primary-text': subjectValidated,
                 }"
                 for="subject"
-                >{{ $t("i18n.pages.contact.subject_label") }}
-                <span v-if="!subjectValidated">{{
-                  $t("i18n.pages.contact.error_empty")
-                }}</span></label
               >
+                {{ $t("i18n.pages.contact.subject_label") }}
+                <span v-if="!subjectValidated">
+                  {{ $t("i18n.pages.contact.error_empty") }}
+                </span>
+              </label>
               <input
                 v-model="subject"
                 @blur="validateSubject"
@@ -179,9 +180,10 @@
                   'text-primary-text': messageValidated,
                 }"
                 for="message"
-                >{{ $t("i18n.pages.contact.message_label") }}
-                <span v-if="!messageValidated">cannot be empty.</span></label
               >
+                {{ $t("i18n.pages.contact.message_label") }}
+                <span v-if="!messageValidated">cannot be empty.</span>
+              </label>
               <textarea
                 v-model="message"
                 @blur="validateMessage"

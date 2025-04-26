@@ -9,12 +9,12 @@ on:
       - reopened
       - synchronize
     paths:
-      - "**/en-US.json"
+      - "frontend/**"
   push:
     branches:
       - main
     paths:
-      - "**/en-US.json"
+      - "frontend/**"
 
 jobs:
   i18n_check:

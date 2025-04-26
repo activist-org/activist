@@ -62,10 +62,11 @@
 
 <script setup lang="ts">
 import type { User } from "~/types/auth/user";
-import type { Resource } from "~/types/content/resource";
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
+import type { Resource } from "~/types/content/resource";
 import type { Event } from "~/types/events/event";
+
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

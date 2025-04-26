@@ -160,12 +160,14 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 import { Toaster } from "vue-sonner";
+
 import type { User } from "~/types/auth/user";
 import type { BtnAction } from "~/types/btn-props";
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Resource } from "~/types/content/resource";
 import type { Event } from "~/types/events/event";
+
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

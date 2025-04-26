@@ -11,7 +11,7 @@ from authentication import enums
 from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
-# MARK: Main Tables
+# MARK: Organization
 
 
 class Organization(models.Model):
@@ -57,8 +57,12 @@ class Organization(models.Model):
 
 
 class OrganizationApplication(models.Model):
-    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
+    org = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="application"
+    )
+    status = models.ForeignKey(
+        "StatusType", on_delete=models.CASCADE, blank=True, null=True
+    )
     orgs_in_favor = models.ManyToManyField(
         "communities.Organization", related_name="in_favor", blank=True
     )
@@ -68,7 +72,7 @@ class OrganizationApplication(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.creation_date}"
+        return str(self.creation_date)
 
 
 class OrganizationApplicationStatus(models.Model):
@@ -85,7 +89,7 @@ class OrganizationImage(models.Model):
     sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class OrganizationMember(models.Model):
@@ -96,7 +100,7 @@ class OrganizationMember(models.Model):
     is_comms = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class OrganizationSocialLink(SocialLink):
@@ -114,7 +118,7 @@ class OrganizationTask(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
 
 
 class OrganizationText(models.Model):

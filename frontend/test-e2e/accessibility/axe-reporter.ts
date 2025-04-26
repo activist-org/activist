@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type {
   Reporter,
+  Suite,
   TestCase,
   TestResult,
-  Suite,
 } from "@playwright/test/reporter";
-import { createHtmlReport } from "axe-html-reporter";
 import type { AxeResults } from "axe-core";
+
+import { createHtmlReport } from "axe-html-reporter";
+
 import { RESULTS_PATH } from "~/playwright.config";
 
 class AxeReporter implements Reporter {

@@ -64,6 +64,7 @@
 
 <script setup lang="ts">
 import type { Filters } from "~/types/filters";
+
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
 import { Topic } from "~/types/topics";

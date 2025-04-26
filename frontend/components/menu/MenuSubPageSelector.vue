@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
+
 import type { SubPageSelector } from "~/types/sub-page-selector";
 
 const props = defineProps<{
@@ -53,7 +54,7 @@ const defaultIndex = computed(() => {
 function changeTab(index: number) {
   const selectedRoute = props.selectors[index]?.routeUrl;
   if (selectedRoute) {
-    // @ts-expect-error 'nuxtApp.$localePath' is of type 'unknown'
+    // @ts-expect-error: 'nuxtApp.$localePath' is of type 'unknown'.
     router.push(nuxtApp.$localePath(selectedRoute));
   }
 }

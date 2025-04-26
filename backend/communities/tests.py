@@ -12,12 +12,17 @@ from communities.organizations.factories import (
     OrganizationMemberFactory,
     OrganizationTaskFactory,
 )
+from communities.models import Status, StatusType
+from authentication.factories import UserFactory
+
 
 pytestmark = pytest.mark.django_db
 
 
 def test_str_methods() -> None:
-    """Test the __str__ methods of the communities."""
+    """
+    Test the __str__ methods of the communities.
+    """
     organization = OrganizationFactory.create()
     # Note: Needs to be updated to reflect the recent changes.
     # organization_application = OrganizationApplicationFactory.create()
@@ -34,3 +39,26 @@ def test_str_methods() -> None:
 
     assert str(group) == group.name
     assert str(group_member) == str(group_member.id)
+
+def test_status_and_status_type_str_methods() -> None:
+    """
+    Test the __str__ methods of the Status and StatusType models.
+    There are status types preloaded into the test database by the fixture "fixtures/status_types.json".
+    """
+
+    status_type = StatusType.objects.create(name="New Status")
+
+    # Create an organization to use with Status.
+    organization = OrganizationFactory.create()
+
+    # Create a user for the Status.
+    user = UserFactory.create()
+
+    status = Status.objects.create(
+        status_type=status_type,
+        org=organization,
+        user=user
+    )
+
+    assert str(status_type) == "New Status"
+    assert str(status) == f"{organization.name} - New Status"

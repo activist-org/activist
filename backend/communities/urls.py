@@ -3,15 +3,17 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from communities.groups.views import (
+    GroupAPIView,
+    GroupDetailAPIView,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
-    GroupViewSet,
 )
 from communities.organizations.views import (
+    OrganizationAPIView,
+    OrganizationDetailAPIView,
     OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
-    OrganizationViewSet,
 )
 from communities.views import StatusViewSet
 
@@ -21,10 +23,6 @@ router = DefaultRouter()
 
 # MARK: Main Tables
 
-router.register(prefix=r"groups", viewset=GroupViewSet, basename="group")
-router.register(
-    prefix=r"organizations", viewset=OrganizationViewSet, basename="organization"
-)
 router.register(prefix=r"statuses", viewset=StatusViewSet)
 
 # MARK: Bridge Tables
@@ -57,4 +55,8 @@ router.register(
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("groups/", GroupAPIView.as_view()),
+    path("groups/<uuid:id>/", GroupDetailAPIView.as_view()),
+    path("organizations/", OrganizationAPIView.as_view()),
+    path("organizations/<uuid:id>/", OrganizationDetailAPIView.as_view()),
 ]

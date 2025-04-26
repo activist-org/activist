@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
+
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

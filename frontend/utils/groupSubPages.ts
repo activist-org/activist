@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { IconMap } from "~/types/icon-map";
 import type { SubPageSelector } from "~/types/sub-page-selector";
+
+import { IconMap } from "~/types/icon-map";
 
 export function getGroupSubPages(): SubPageSelector[] {
   const i18n = useI18n();

@@ -4,22 +4,20 @@ Testing for the authentication app.
 """
 
 # mypy: ignore-errors
+import uuid
+from uuid import UUID
+
 import pytest
+from django.core import mail
+from django.test import Client
+from faker import Faker
+
 from authentication.factories import (
     SupportEntityTypeFactory,
     SupportFactory,
     UserFactory,
 )
 from authentication.models import UserModel
-
-from django.test import Client
-from django.core import mail
-from faker import Faker
-
-from django.test import Client
-from uuid import UUID
-import uuid
-
 
 pytestmark = pytest.mark.django_db
 
@@ -241,6 +239,7 @@ def test_pwreset(client: Client) -> None:
     )
     assert response.status_code == 404
 
+
 def test_create_user_and_superuser():
     """
     Test create_user and create_superuser methods of the CustomAccountManager.
@@ -281,7 +280,9 @@ def test_create_user_and_superuser():
     assert superuser.is_active
 
     # Test that creating a superuser with is_staff=False raises the expected error.
-    with pytest.raises(ValueError, match="Superuser must be assigned to is_staff=True."):
+    with pytest.raises(
+        ValueError, match="Superuser must be assigned to is_staff=True."
+    ):
         manager.create_superuser(
             email="admin2@example.com",
             username="admin2",
@@ -290,10 +291,33 @@ def test_create_user_and_superuser():
         )
 
     # Test that creating a superuser with is_superuser=False raises the expected error.
-    with pytest.raises(ValueError, match="Superuser must be assigned to is_superuser=True."):
+    with pytest.raises(
+        ValueError, match="Superuser must be assigned to is_superuser=True."
+    ):
         manager.create_superuser(
             email="admin3@example.com",
             username="admin3",
             password="AdminPassword123$",
             is_superuser=False,
         )
+
+
+def test_delete_user(client: Client) -> None:
+    """
+    Test the deletion of existing user records from the database.
+    """
+    test_username = "test_user_123"
+    test_pass = "Activist@123!?"
+    user = UserFactory(username=test_username, plaintext_password=test_pass)
+    user.is_confirmed = True
+    user.save()
+
+    response = client.post(
+        path="/v1/auth/sign_in/",
+        data={"username": user.username, "password": user.password},
+    )
+
+    if response.status_code == 200:
+        delete_response = client.delete(path="/v1/auth/delete/", data={"pk": user.id})
+
+        assert delete_response.status_code == 200

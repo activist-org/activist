@@ -25,6 +25,7 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

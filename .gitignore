@@ -18,12 +18,14 @@ venv/
 .mypy_cache
 
 # Don't include migrations for now.
-*migrations/*
+**/migrations/*
 !*migrations/__init__.py
 
 # Testing
 .coverage
 cov_html/
+# For Docker testing add ./tmp:/tmp to the needed container.
+/tmp
 
 # Playwright
 frontend/test-results/

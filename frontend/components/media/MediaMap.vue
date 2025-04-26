@@ -11,8 +11,9 @@
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
-import maplibregl, { type Map, type LayerSpecification } from "maplibre-gl";
+import maplibregl, { type LayerSpecification, type Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+
 import type { Location } from "~/types/content/location";
 
 const props = defineProps<{
@@ -217,7 +218,8 @@ function resetRouteProfileControl() {
             requestOptions: {
               alternatives: "true",
             },
-            layers: mapLayers,
+            // @ts-expect-error: Will break route profile change.
+            mapLayers,
           });
 
           directions.interactive = true;

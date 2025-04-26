@@ -15,7 +15,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
-# MARK: Main Tables
+# MARK: Account Manager
 
 
 class CustomAccountManager(BaseUserManager["UserModel"]):
@@ -55,6 +55,9 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         return user
 
 
+# MARK: Support
+
+
 class SupportEntityType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
@@ -83,7 +86,10 @@ class Support(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return str(self.id)
+
+
+# MARK: User
 
 
 class UserModel(AbstractUser, PermissionsMixin):

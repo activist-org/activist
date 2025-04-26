@@ -12,13 +12,14 @@ from communities.groups.models import (
     GroupText,
 )
 
-# MARK: Main Tables
+# MARK: Group
 
 
 class GroupFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Group
 
+    org = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")

@@ -58,6 +58,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
+
 import { IconMap } from "~/types/icon-map";
 
 const filterOptions = [

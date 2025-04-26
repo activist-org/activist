@@ -1,14 +1,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { useNuxtApp } from "#app";
 import { config } from "@vue/test-utils";
 import { createPinia, defineStore, setActivePinia } from "pinia";
+import { createI18n } from "vue-i18n";
+
 import type { UseColorModeFn } from "~/test/vitest-globals";
+
+import en from "~/i18n/en-US.json" assert { type: "json" };
 
 // Set up Pinia.
 setActivePinia(createPinia());
 
 // Auto-import version of define store doesn't exist in the test env.
-// @ts-expect-error Can't type this due to conflict with Nuxt.
+// @ts-expect-error: Can't type this due to conflict with Nuxt.
 globalThis.defineStore = defineStore;
 
 // Set up Color Mode mock.
@@ -19,19 +22,15 @@ const useColorModeFn: UseColorModeFn = () => ({
 globalThis.useColorModeMock = vi.fn(useColorModeFn);
 
 // Set up I18n.
-beforeAll(() => {
-  // https://github.com/nuxt/test-utils/issues/566
-  const nuxtApp = useNuxtApp();
-
-  config.global.plugins.push({
-    async install(app, ...options) {
-      // @ts-expect-error Typescript cannot detect Nuxt plugins.
-      const i18n = nuxtApp.vueApp.__VUE_I18N__;
-
-      await i18n.install(app, ...options);
-    },
-  });
+// https://github.com/nuxt-modules/i18n/issues/2637#issuecomment-2233566361
+const i18n = createI18n({
+  legacy: false,
+  locale: "en",
+  fallbackLocale: "en",
+  messages: Object.assign({ en }),
 });
+
+config.global.plugins.push(i18n);
 
 afterEach(() => {
   // Clean up Pinia.
@@ -43,6 +42,6 @@ afterEach(() => {
 });
 
 afterAll(() => {
-  // @ts-expect-error type This will be present during the tests.
+  // @ts-expect-error: This will be present during the tests.
   delete globalThis.useColorModeMock;
 });

@@ -49,7 +49,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import type { EventUpdateTextFormData } from "~/types/events/event";
 
 const modalName = "ModalEditTextEvent";

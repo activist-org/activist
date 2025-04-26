@@ -1,7 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="card-style px-10 py-5">
-    <h3 class="responsive-h3 text-left font-display">{{ title }}</h3>
+    <h3 class="responsive-h3 text-left font-display">
+      {{ title }}
+    </h3>
     <div class="flex flex-row py-3">
       <div
         v-for="organization in availableOrganizations"
@@ -54,6 +56,7 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/communities/organization";
+
 import { IconMap } from "~/types/icon-map";
 
 /**

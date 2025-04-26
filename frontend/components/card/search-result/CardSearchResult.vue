@@ -117,17 +117,18 @@
             >
               <h2 class="responsive-h3 font-bold">
                 {{ name }}
-              </h2></NuxtLink
-            >
+              </h2>
+            </NuxtLink>
             <a
               v-else-if="resource"
               :href="linkUrl"
               target="_blank"
               :aria-label="$t(ariaLabel)"
-              ><h2 class="responsive-h3 font-bold">
-                {{ name }}
-              </h2></a
             >
+              <h2 class="responsive-h3 font-bold">
+                {{ name }}
+              </h2>
+            </a>
             <MenuSearchResult
               v-if="organization"
               class="max-md:absolute max-md:right-0 max-md:top-0"
@@ -209,8 +210,8 @@
         </div> -->
         <div v-if="entityName">
           <NuxtLink :to="localePath(linkUrl)" :aria-label="$t(ariaLabel)">
-            @{{ entityName }}</NuxtLink
-          >
+            @{{ entityName }}
+          </NuxtLink>
         </div>
         <p
           class="justify-center md:justify-start md:px-0 md:py-0"
@@ -227,12 +228,13 @@
 </template>
 
 <script setup lang="ts">
-import { useLinkURL } from "~/composables/useLinkURL";
 import type { User } from "~/types/auth/user";
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Resource } from "~/types/content/resource";
 import type { Event } from "~/types/events/event";
+
+import { useLinkURL } from "~/composables/useLinkURL";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{

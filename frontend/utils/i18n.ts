@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { LOCALE_CODE } from "~/locales";
-import enUS from "../i18n/en-US.json" assert { type: "json" };
+
 import de from "../i18n/de.json" assert { type: "json" };
+import enUS from "../i18n/en-US.json" assert { type: "json" };
 import es from "../i18n/es.json" assert { type: "json" };
 import fr from "../i18n/fr.json" assert { type: "json" };
 import pt from "../i18n/pt.json" assert { type: "json" };
@@ -17,9 +18,9 @@ const localeFiles: Record<LOCALE_CODE, LocaleFile> = {
 };
 
 export function getLocaleText(locale?: LOCALE_CODE): LocaleFile {
-  return localeFiles[locale || LOCALE_CODE.ENGLISH];
+  return localeFiles[locale ?? LOCALE_CODE.ENGLISH];
 }
 
-export const getI18nString = (key: string) => {
+export const getEnglishText = (key: string) => {
   return getLocaleText(LOCALE_CODE.ENGLISH)[key];
 };
