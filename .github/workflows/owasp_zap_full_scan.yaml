@@ -25,3 +25,8 @@ jobs:
           issue_title: 'OWASP ZAP Security Report'
           fail_action: false
           allow_issue_writing: true
+      - name: Upload ZAP Scan Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: zap-scan-results  # Valid name (no spaces or special characters)
+          path: zap-reports/
