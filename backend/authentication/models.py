@@ -22,6 +22,8 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
     """
     Custom manager for creating users and superusers.
 
+    Notes
+    -----
     The `create_user` method creates a regular user, while `create_superuser`
     creates a superuser with additional permissions (is_staff, is_superuser).
     """
@@ -115,6 +117,8 @@ class SupportEntityType(models.Model):
     """
     Represents a type of support entity, such as organization, group, event, or user.
 
+    Notes
+    -----
     This model is used in the `Support` relationship to define the type of entity
     involved in the support system.
     """
@@ -130,6 +134,8 @@ class Support(models.Model):
     """
     Represents a support relationship between two entities.
 
+    Notes
+    -----
     A `Support` connects a supporter entity (like an organization) to a supported entity.
     Both entities are represented by their type and specific instances.
     """
@@ -163,13 +169,9 @@ class UserModel(AbstractUser, PermissionsMixin):
     """
     Custom user model for authentication.
 
-    Extends Django's `AbstractUser` and adds custom fields for handling
-    user attributes such as location, description, verification, etc.
-
-    This model includes:
-    - Fields for user personal info, like `username`, `name`, `location`.
-    - Fields for verification details, like `verified`, `verification_code`.
-    - Security fields, including `password`, `is_private`, `is_high_risk`.
+    Notes
+    -----
+    Extends Django's `AbstractUser` and adds platform-specific fields.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)

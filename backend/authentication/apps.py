@@ -9,8 +9,6 @@ from django.apps import AppConfig
 class AuthenticationConfig(AppConfig):
     """
     Configuration class for the authentication app.
-
-    Sets the default auto field and app name for Django.
     """
 
     default_auto_field = "django.db.models.BigAutoField"

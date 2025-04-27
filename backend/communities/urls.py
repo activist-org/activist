@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-URL configuration for the communities' app.
+URL configuration for the communities app.
 """
 
 from django.urls import include, path

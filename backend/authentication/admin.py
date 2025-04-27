@@ -1,10 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-
 """
 Admin module for managing user-related models in the authentication app.
-
-This module includes custom admin configuration for UserModel,
-Support, and SupportEntityType, as well as custom user creation and change forms.
 """
 
 from typing import Any
@@ -79,7 +75,7 @@ class UserCreationForm(forms.ModelForm[UserModel]):
         Parameters
         ----------
         commit : bool, optional, default=True
-            Whether to save the user to the database immediately. Default is True.
+            Whether to save the user to the database immediately.
 
         Returns
         -------

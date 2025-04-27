@@ -15,8 +15,6 @@ from authentication.models import Support, SupportEntityType, UserModel
 class SupportEntityTypeFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating SupportEntityType model instances.
-
-    This class is used to generate mock `SupportEntityType` objects for testing.
     """
 
     class Meta:
@@ -29,6 +27,8 @@ class SupportFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating Support model instances.
 
+    Notes
+    -----
     This class generates mock `Support` instances, which associate supporters with supported entities.
     It uses other factories like `SupportEntityTypeFactory` to generate related data.
     """
@@ -52,9 +52,6 @@ class SupportFactory(factory.django.DjangoModelFactory):
 class UserFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating UserModel instances.
-
-    This class generates mock `UserModel` instances with random data,
-    including username, email, description, and password.
     """
 
     class Meta:

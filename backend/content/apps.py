@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Configuration for the content app.
+App configuration for the content module.
 """
 
 from django.apps import AppConfig
