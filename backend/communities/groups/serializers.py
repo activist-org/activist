@@ -22,18 +22,30 @@ from events.serializers import EventSerializer
 
 
 class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
+    """
+    Serializer for GroupSocialLink model data.
+    """
+
     class Meta:
         model = GroupSocialLink
         fields = "__all__"
 
 
 class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
+    """
+    Serializer for GroupText model data.
+    """
+
     class Meta:
         model = GroupText
         fields = "__all__"
 
 
 class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
+    """
+    Serializer for GroupOrganization model data.
+    """
+
     class Meta:
         model = Organization
         fields = "__all__"
@@ -68,6 +80,10 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
 
 
 class GroupSerializer(serializers.ModelSerializer[Group]):
+    """
+    Serializer for Group model data.
+    """
+
     texts = GroupTextSerializer(many=True, read_only=True)
     social_links = GroupSocialLinkSerializer(many=True, read_only=True)
     location = LocationSerializer()
@@ -84,6 +100,19 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         fields = "__all__"
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Validate the data before creating a group.
+
+        Parameters
+        ----------
+        data : dict[str, Any]
+            Data from a request to validate.
+
+        Returns
+        -------
+        dict[str, Any]
+            Validated data for processing.
+        """
         if data.get("terms_checked") is False:
             raise serializers.ValidationError(
                 "You must accept the terms of service to create a group."
@@ -92,6 +121,19 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         return data
 
     def create(self, validated_data: dict[str, Any]) -> Group:
+        """
+        Create and return a new Group instance.
+
+        Parameters
+        ----------
+        validated_data : dict[str, Any]
+            Data from a request to validate.
+
+        Returns
+        -------
+        Group
+            A new Group instance.
+        """
         group = Group.objects.create(**validated_data)
 
         if group:
@@ -104,12 +146,20 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
 
 class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
+    """
+    Serializer for GroupImage model data.
+    """
+
     class Meta:
         model = GroupImage
         fields = "__all__"
 
 
 class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
+    """
+    Serializer for GroupMember model data.
+    """
+
     class Meta:
         model = GroupMember
         fields = "__all__"

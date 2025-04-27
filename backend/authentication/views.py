@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+API views for authentication management.
+"""
+
 import os
 import uuid
 from uuid import UUID
@@ -38,9 +42,6 @@ class SignUpView(APIView):
     serializer_class = SignUpSerializer
 
     def post(self, request: Request) -> Response:
-        """
-        Create a new user.
-        """
         serializer = SignUpSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user: UserModel = serializer.save()
@@ -78,9 +79,6 @@ class SignUpView(APIView):
         parameters=[OpenApiParameter(name="verification_code", type=str, required=True)]
     )
     def get(self, request: Request) -> Response:
-        """
-        Confirm a user's email address.
-        """
         verification_code = request.GET.get("verification_code")
         user = UserModel.objects.filter(verification_code=verification_code).first()
 
@@ -106,11 +104,6 @@ class SignInView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request: Request) -> Response:
-        """
-        Sign in a user.
-
-        Sign in is possible with either email or username.
-        """
         serializer = SignInSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

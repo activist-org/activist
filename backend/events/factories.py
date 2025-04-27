@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Factory classes for creating event test instances.
+Factories for creating mock instances of models in the events app.
 """
 
 import datetime

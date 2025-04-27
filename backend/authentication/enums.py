@@ -1,13 +1,16 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Enums for the authentication app.
-More details about Enums can be found in schema section on Figma.
 """
 
 from enum import Enum
 
 
 class StatusTypes(Enum):
+    """
+    Represents the possible statuses of a user.
+    """
+
     PENDING = 1
     ACTIVE = 2
     SUSPENDED = 3
@@ -15,6 +18,10 @@ class StatusTypes(Enum):
 
 
 class SupportEntityTypes(Enum):
+    """
+    Defines the types of entities that can support users.
+    """
+
     ORGANIZATION = 1
     GROUP = 2
     EVENT = 3

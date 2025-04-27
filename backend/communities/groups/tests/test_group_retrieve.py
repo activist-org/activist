@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Test retrievable group.
+"""
+
 import pytest
 from django.test import Client
 
@@ -8,6 +12,20 @@ pytestmark = pytest.mark.django_db
 
 
 def test_retrieve_groups(client: Client) -> None:
+    """
+    Test retrieving groups.
+
+    Parameters
+    ----------
+    client : Client
+        A Django test client used to send HTTP requests to the application.
+
+    Returns
+    -------
+    None
+        This test does not return any value. It asserts the correctness of HTTP status
+        codes and the existence of the group when fetched by its ID.
+    """
     group = GroupFactory()
     group_id = group.id
 

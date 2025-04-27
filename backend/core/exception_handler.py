@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Provides functions for exception handling.
+"""
+
 import logging
 from typing import Any
 
@@ -9,8 +13,24 @@ logger = logging.getLogger(__name__)
 
 
 def bad_request_logger(exception: Any, context: dict[str, Any]) -> Response | None:
+    """
+    Logger for bad requests used within the backend settings.
+
+    Parameters
+    ----------
+    exception : Any
+        An exception raised by a bad request.
+
+    context : dict[str, Any]
+        Context of the request to derive attributes like the path.
+
+    Returns
+    -------
+    Response | None
+        The bad response or None.
+    """
     # Get the DRF exception handler standard error response.
-    response = exception_handler(exception, context)
+    response = exception_handler(exc=exception, context=context)
 
     if response is not None:
         logger.warning(
