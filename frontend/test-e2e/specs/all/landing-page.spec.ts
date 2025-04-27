@@ -19,13 +19,18 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
 
   test("User can go to the docs from the landing page", async ({ page }) => {
     // Check for at least one link to the docs site
-    const docsLinks = page.getByRole('link', { name: /.*/ }).filter({ hasText: /.*/ });
+    const docsLinks = page
+      .getByRole("link", { name: /.*/ })
+      .filter({ hasText: /.*/ });
 
     // Find if any link points to docs.activist.org/activist
     const docsLinkCount = await docsLinks.evaluateAll(
-      (links) => links.filter(link =>
-        (link as HTMLAnchorElement).href.includes('https://docs.activist.org/activist')
-      ).length
+      (links) =>
+        links.filter((link) =>
+          (link as HTMLAnchorElement).href.includes(
+            "https://docs.activist.org/activist"
+          )
+        ).length
     );
 
     // Assert that at least one matching link exists
