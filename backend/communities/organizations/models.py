@@ -11,7 +11,7 @@ from authentication import enums
 from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
-# MARK: Main Tables
+# MARK: Organization
 
 
 class Organization(models.Model):
@@ -65,8 +65,12 @@ class OrganizationApplication(models.Model):
     Class covering the application of an organization to join the platform.
     """
 
-    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
+    org = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="application"
+    )
+    status = models.ForeignKey(
+        "StatusType", on_delete=models.CASCADE, blank=True, null=True
+    )
     orgs_in_favor = models.ManyToManyField(
         "communities.Organization", related_name="in_favor", blank=True
     )
