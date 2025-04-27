@@ -22,14 +22,6 @@ class Status(models.Model):
     user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        """
-        Return the string representation of the status object.
-
-        Returns
-        -------
-        str
-            The string representation of the status object.
-        """
         return f"{self.org.name} - {self.status_type}"
 
 
@@ -44,12 +36,4 @@ class StatusType(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
-        """
-        Return the name of the status type.
-
-        Returns
-        -------
-        str
-            The name of the status type.
-        """
         return self.name

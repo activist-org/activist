@@ -42,10 +42,13 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         ----------
         email : str
             Email of the user.
+
         username : str
             Username of the user.
+
         password : str
             Password of the user.
+
         **other_fields : bool
             Additional fields to set on the user.
 
@@ -81,10 +84,13 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         ----------
         username : str
             Username of the user.
+
         password : str
             Password of the user.
+
         email : str
             Email of the user.
+
         **other_fields : Any
             The other_fields of the user.
 
@@ -117,14 +123,6 @@ class SupportEntityType(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
-        """
-        Return the string representation of the entity type.
-
-        Returns
-        -------
-        str
-            The string representation of the entity type.
-        """
         return self.name
 
 
@@ -155,14 +153,6 @@ class Support(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        """
-        Return the string representation of the support instance (ID).
-
-        Returns
-        -------
-        str
-            The string representation of the support instance.
-        """
         return str(self.id)
 
 
@@ -217,12 +207,4 @@ class UserModel(AbstractUser, PermissionsMixin):
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     def __str__(self) -> str:
-        """
-        Return the string representation of the user by their username.
-
-        Returns
-        -------
-        str
-            The user's username.
-        """
         return self.username

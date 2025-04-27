@@ -23,42 +23,30 @@ from events.serializers import EventSerializer
 
 class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
     """
-    Serializer for GroupSocialLink.
+    Serializer for GroupSocialLink model data.
     """
 
     class Meta:
-        """
-        Metadata for GroupSocialLink.
-        """
-
         model = GroupSocialLink
         fields = "__all__"
 
 
 class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
     """
-    Serializer for GroupText.
+    Serializer for GroupText model data.
     """
 
     class Meta:
-        """
-        Metadata for GroupText.
-        """
-
         model = GroupText
         fields = "__all__"
 
 
 class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
     """
-    Serializer for GroupOrganization.
+    Serializer for GroupOrganization model data.
     """
 
     class Meta:
-        """
-        Metadata for GroupOrganization.
-        """
-
         model = Organization
         fields = "__all__"
 
@@ -93,7 +81,7 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
 
 class GroupSerializer(serializers.ModelSerializer[Group]):
     """
-    Serializer for Group.
+    Serializer for Group model data.
     """
 
     texts = GroupTextSerializer(many=True, read_only=True)
@@ -104,10 +92,6 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     events = EventSerializer(many=True, read_only=True)
 
     class Meta:
-        """
-        Metadata for Group.
-        """
-
         model = Group
         extra_kwargs = {
             "created_by": {"read_only": True},
@@ -122,12 +106,12 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         Parameters
         ----------
         data : dict[str, Any]
-            Data to validate.
+            Data from a request to validate.
 
         Returns
         -------
         dict[str, Any]
-            Validated data.
+            Validated data for processing.
         """
         if data.get("terms_checked") is False:
             raise serializers.ValidationError(
@@ -138,17 +122,17 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
     def create(self, validated_data: dict[str, Any]) -> Group:
         """
-        Create and return a new `Group` instance.
+        Create and return a new Group instance.
 
         Parameters
         ----------
         validated_data : dict[str, Any]
-            Data to validate.
+            Data from a request to validate.
 
         Returns
         -------
         Group
-            New `Group` instance.
+            A new Group instance.
         """
         group = Group.objects.create(**validated_data)
 
@@ -163,27 +147,19 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
 class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
     """
-    Serializer for GroupImage.
+    Serializer for GroupImage model data.
     """
 
     class Meta:
-        """
-        Metadata for GroupImage.
-        """
-
         model = GroupImage
         fields = "__all__"
 
 
 class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):
     """
-    Serializer for GroupMember.
+    Serializer for GroupMember model data.
     """
 
     class Meta:
-        """
-        Metadata for GroupMember.
-        """
-
         model = GroupMember
         fields = "__all__"

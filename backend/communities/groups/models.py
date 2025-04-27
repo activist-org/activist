@@ -15,7 +15,7 @@ from utils.models import ISO_CHOICES
 
 class Group(models.Model):
     """
-    Creating a group for general parameters.
+    General group class with all base parameters.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -46,14 +46,6 @@ class Group(models.Model):
     resources = models.ManyToManyField("content.Resource", blank=True)
 
     def __str__(self) -> str:
-        """
-        Return the name of the group as its string representation.
-
-        Returns
-        -------
-        str
-            The name of the group.
-        """
         return self.name
 
 
@@ -62,7 +54,7 @@ class Group(models.Model):
 
 class GroupImage(models.Model):
     """
-    Creating a group image for general parameters.
+    Class for adding image parameters to groups.
     """
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="images")
@@ -70,21 +62,12 @@ class GroupImage(models.Model):
     sequence_index = models.IntegerField()
 
     def __str__(self) -> str:
-        """
-        Return the name of the group as its string representation.
-
-        Returns
-        -------
-        str
-            The images of the group.
-        """
-
         return str(self.id)
 
 
 class GroupMember(models.Model):
     """
-    Creating a group member for general parameters.
+    Class for adding user membership parameters to groups.
     """
 
     group = models.ForeignKey(
@@ -100,20 +83,12 @@ class GroupMember(models.Model):
     is_comms = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        """
-        Return the name of the group as its string representation.
-
-        Returns
-        -------
-        str
-            Create member of the group.
-        """
         return str(self.id)
 
 
 class GroupSocialLink(SocialLink):
     """
-    Creating a group social link for general parameters.
+    Class for adding social link parameters to groups.
     """
 
     group = models.ForeignKey(
@@ -123,7 +98,7 @@ class GroupSocialLink(SocialLink):
 
 class GroupText(models.Model):
     """
-    Creating a group text for general parameters.
+    Class for adding text parameters to groups.
     """
 
     group = models.ForeignKey(
@@ -136,12 +111,4 @@ class GroupText(models.Model):
     donate_prompt = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
-        """
-        Return the name of the group as its string representation.
-
-        Returns
-        -------
-        str
-            Create text of the group.
-        """
         return f"{self.group} - {self.iso}"

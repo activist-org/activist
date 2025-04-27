@@ -48,8 +48,6 @@ class UserCreationForm(forms.ModelForm[UserModel]):
     )
 
     class Meta:
-        """Metadata for the UserCreationForm."""
-
         model = UserModel
         fields = ["email"]
 
@@ -107,8 +105,6 @@ class UserChangeForm(forms.ModelForm[UserModel]):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        """Metadata for the UserChangeForm."""
-
         model = UserModel
         fields = "__all__"
 

@@ -15,6 +15,10 @@ from utils.models import ISO_CHOICES
 
 
 class Organization(models.Model):
+    """
+    General organization class with all base parameters.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     created_by = models.ForeignKey(
         "authentication.UserModel",
@@ -57,6 +61,10 @@ class Organization(models.Model):
 
 
 class OrganizationApplication(models.Model):
+    """
+    Class covering the application of an organization to join the platform.
+    """
+
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     status = models.ForeignKey("StatusType", on_delete=models.CASCADE, default=1)
     orgs_in_favor = models.ManyToManyField(
@@ -72,6 +80,10 @@ class OrganizationApplication(models.Model):
 
 
 class OrganizationApplicationStatus(models.Model):
+    """
+    Class handling the status of an organization application.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     status_name = models.CharField(max_length=255)
 
@@ -80,6 +92,10 @@ class OrganizationApplicationStatus(models.Model):
 
 
 class OrganizationImage(models.Model):
+    """
+    Class for adding image parameters to organizations.
+    """
+
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
     sequence_index = models.IntegerField()
@@ -89,6 +105,10 @@ class OrganizationImage(models.Model):
 
 
 class OrganizationMember(models.Model):
+    """
+    Class for adding user membership parameters to organizations.
+    """
+
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
     is_owner = models.BooleanField(default=False)
@@ -100,12 +120,20 @@ class OrganizationMember(models.Model):
 
 
 class OrganizationSocialLink(SocialLink):
+    """
+    Class for adding social link parameters to organizations.
+    """
+
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
 
 class OrganizationTask(models.Model):
+    """
+    Class for adding task parameters to organizations.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
     task = models.ForeignKey("content.Task", on_delete=models.CASCADE)
@@ -118,6 +146,10 @@ class OrganizationTask(models.Model):
 
 
 class OrganizationText(models.Model):
+    """
+    Class for adding text parameters to organizations.
+    """
+
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="texts"
     )

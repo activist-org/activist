@@ -1,12 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Factories for creating mock instances of models in the `authentication` app.
-
-This file contains factories used for generating mock `Support`, `SupportEntityType`,
-and `UserModel` instances with random data. These factories are useful for unit tests
-and testing the application's functionality.
-
-The factories utilize `factory_boy` and `django-factory` to create model instances.
+Factories for creating mock instances of models in the authentication app.
 """
 
 from typing import Any
@@ -20,14 +14,12 @@ from authentication.models import Support, SupportEntityType, UserModel
 
 class SupportEntityTypeFactory(factory.django.DjangoModelFactory):
     """
-    Factory for creating instances of SupportEntityType.
+    Factory for creating SupportEntityType model instances.
 
     This class is used to generate mock `SupportEntityType` objects for testing.
     """
 
     class Meta:
-        """Meta configuration for the factory."""
-
         model = SupportEntityType
 
     name = factory.Faker("word")
@@ -35,15 +27,13 @@ class SupportEntityTypeFactory(factory.django.DjangoModelFactory):
 
 class SupportFactory(factory.django.DjangoModelFactory):
     """
-    Factory for creating instances of Support.
+    Factory for creating Support model instances.
 
     This class generates mock `Support` instances, which associate supporters with supported entities.
     It uses other factories like `SupportEntityTypeFactory` to generate related data.
     """
 
     class Meta:
-        """Meta configuration for the factory."""
-
         model = Support
 
     supporter_type = factory.SubFactory(SupportEntityTypeFactory)
@@ -68,8 +58,6 @@ class UserFactory(factory.django.DjangoModelFactory):
     """
 
     class Meta:
-        """Meta configuration for the factory."""
-
         model = UserModel
         exclude = ("plaintext_password",)
         django_get_or_create = ("username",)

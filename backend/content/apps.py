@@ -7,5 +7,9 @@ from django.apps import AppConfig
 
 
 class contentConfig(AppConfig):
+    """
+    Class for configuring the content app.
+    """
+
     default_auto_field = "django.db.models.BigAutoField"
     name = "content"

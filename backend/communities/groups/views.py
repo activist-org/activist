@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
+"""
+API views for group management.
+"""
+
 import json
 from typing import Dict, List
 from uuid import UUID
@@ -35,9 +39,6 @@ class GroupAPIView(GenericAPIView[Group]):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_permissions(self):
-        """
-        Returns the permissions for the view.
-        """
         if self.request.method in "POST":
             self.permission_classes = (IsAuthenticated,)
 
@@ -47,9 +48,6 @@ class GroupAPIView(GenericAPIView[Group]):
         return super().get_permissions()
 
     def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
-        """
-        Returns the serializer class for the view.
-        """
         if self.request.method == "POST":
             return GroupPOSTSerializer
 
@@ -59,9 +57,6 @@ class GroupAPIView(GenericAPIView[Group]):
         responses={200: GroupSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
-        """
-        Returns a paginated list of Groups.
-        """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
 
@@ -80,9 +75,6 @@ class GroupAPIView(GenericAPIView[Group]):
         },
     )
     def post(self, request: Request) -> Response:
-        """
-        Create a new Group.
-        """
         serializer_class = self.get_serializer_class()
         serializer: GroupPOSTSerializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -116,9 +108,6 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         }
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Retrieve a single Group by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Group ID is required"},
@@ -144,9 +133,6 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Update an Group by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Group ID is required"},
@@ -184,9 +170,6 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         }
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Delete an Group by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Group ID is required"},

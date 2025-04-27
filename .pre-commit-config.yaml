@@ -24,15 +24,16 @@ repos:
         language: python
         stages: [pre-commit]
 
+  # Note: Disabled as it breaks on TOC links.
   # - repo: https://github.com/tcort/markdown-link-check
   #   rev: v3.13.6
   #   hooks:
   #     - id: markdown-link-check
   #       args: [-q]
 
-  #- repo: https://github.com/numpy/numpydoc
-  #  rev: v1.8.0
-  #  hooks:
-  #    - id: numpydoc-validation
-  #      files: ^backend/
-  #      exclude: ^backend/tests/|views\.py$|__init__\.py$
+  - repo: https://github.com/numpy/numpydoc
+    rev: v1.8.0
+    hooks:
+      - id: numpydoc-validation
+        files: ^backend/
+        exclude: ^backend/.*/(tests(/.*)?|views\.py|__init__\.py)$

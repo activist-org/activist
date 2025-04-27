@@ -87,7 +87,7 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
 
 class EventSerializer(serializers.ModelSerializer[Event]):
     """
-    Serializer for Event model with related fields.
+    Serializer for Event model data.
     """
 
     texts = EventTextSerializer(many=True, read_only=True)

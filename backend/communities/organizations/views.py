@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
+"""
+API views for organization management.
+"""
+
 import json
 from typing import Dict, List
 from uuid import UUID
@@ -45,9 +49,6 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         responses={200: OrganizationSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
-        """
-        Returns a paginated list of organizations.
-        """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
 
@@ -66,9 +67,6 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         },
     )
     def post(self, request: Request) -> Response:
-        """
-        Create a new organization.
-        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -107,9 +105,6 @@ class OrganizationDetailAPIView(APIView):
         }
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Retrieve a single organization by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Organization ID is required"},
@@ -135,9 +130,6 @@ class OrganizationDetailAPIView(APIView):
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Update an organization by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Organization ID is required"},
@@ -177,9 +169,6 @@ class OrganizationDetailAPIView(APIView):
         }
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Delete an organization by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Organization ID is required"},

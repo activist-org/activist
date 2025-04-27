@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Factories for creating Group-related model instances for tests and development.
+Factories for creating mock instances of Group models in the communities app.
 """
 
 import datetime
@@ -21,14 +21,10 @@ from communities.groups.models import (
 
 class GroupFactory(factory.django.DjangoModelFactory):
     """
-    Factory for creating Group-related model instances.
+    Factory for creating Group model instances.
     """
 
     class Meta:
-        """
-        Metadata for the GroupFactory.
-        """
-
         model = Group
 
     org = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
@@ -48,14 +44,10 @@ class GroupFactory(factory.django.DjangoModelFactory):
 
 class GroupImageFactory(factory.django.DjangoModelFactory):
     """
-    Factory for creating image Group-related model instances.
+    Factory for creating GroupImage model instances.
     """
 
     class Meta:
-        """
-        Metadata for the GroupImageFactory.
-        """
-
         model = GroupImage
 
     group = factory.SubFactory(GroupFactory)
@@ -64,14 +56,10 @@ class GroupImageFactory(factory.django.DjangoModelFactory):
 
 class GroupMemberFactory(factory.django.DjangoModelFactory):
     """
-    Factory for creating members Group-related model instances.
+    Factory for creating GroupMember model instances.
     """
 
     class Meta:
-        """
-        Metadata for the GroupMemberFactory.
-        """
-
         model = GroupMember
 
     group = factory.SubFactory(GroupFactory)
@@ -81,14 +69,10 @@ class GroupMemberFactory(factory.django.DjangoModelFactory):
 
 class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
     """
-    Factory for creating social links Group-related model instances.
+    Factory for creating GroupSocialLink model instances.
     """
 
     class Meta:
-        """
-        Metadata for the GroupSocialLinkFactory.
-        """
-
         model = GroupSocialLink
 
     link = "https://www.activist.org"
@@ -104,14 +88,10 @@ class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
 
 class GroupTextFactory(factory.django.DjangoModelFactory):
     """
-    Factory for creating text Group-related model instances.
+    Factory for creating GroupText model instances.
     """
 
     class Meta:
-        """
-        Metadata for the GroupTextFactory.
-        """
-
         model = GroupText
 
     iso = "en"

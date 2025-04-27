@@ -27,35 +27,27 @@ class OrganizationSocialLinkSerializer(
     serializers.ModelSerializer[OrganizationSocialLink]
 ):
     """
-    Return a serialized representation of an OrganizationSocialLink.
+    Serializer for OrganizationSocialLink model data.
     """
 
     class Meta:
-        """
-        Metaclass for the OrganizationSocialLink.
-        """
-
         model = OrganizationSocialLink
         fields = "__all__"
 
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
     """
-    Return a serialized representation of an OrganizationText.
+    Serializer for OrganizationText model data.
     """
 
     class Meta:
-        """
-        Metaclass for the OrganizationText.
-        """
-
         model = OrganizationText
         fields = "__all__"
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     """
-    Return a serialized representation of an Organization.
+    Serializer for Organization model data.
     """
 
     texts = OrganizationTextSerializer(many=True, read_only=True)
@@ -66,10 +58,6 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     events = EventSerializer(many=True, read_only=True)
 
     class Meta:
-        """
-        Metaclass for the Organization.
-        """
-
         model = Organization
 
         extra_kwargs = {
@@ -87,12 +75,12 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         Parameters
         ----------
         data : dict[str, Any]
-            Data to validate.
+            Data from a request to validate.
 
         Returns
         -------
         dict[str, Any]
-            Validated data.
+            Validated data for processing.
         """
         if data.get("terms_checked") is False:
             raise serializers.ValidationError(
@@ -103,7 +91,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
 
     def create(self, validated_data: dict[str, Any]) -> Organization:
         """
-        Create an organization with default text.
+        Create and return a new Organization instance.
 
         Parameters
         ----------
@@ -113,7 +101,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
         Returns
         -------
         Organization
-            Create Organization.
+            A new  Organization instance.
         """
         org = Organization.objects.create(**validated_data)
 
@@ -130,55 +118,39 @@ class OrganizationApplicationSerializer(
     serializers.ModelSerializer[OrganizationApplication]
 ):
     """
-    Return a serialized representation of an OrganizationApplication.
+    Serializer for OrganizationApplication model data.
     """
 
     class Meta:
-        """
-        Metaclass for the OrganizationApplication.
-        """
-
         model = OrganizationApplication
         fields = "__all__"
 
 
 class OrganizationMemberSerializer(serializers.ModelSerializer[OrganizationMember]):
     """
-    Return a serialized representation of an OrganizationMember.
+    Serializer for OrganizationMember model data.
     """
 
     class Meta:
-        """
-        Metaclass for the OrganizationMember.
-        """
-
         model = OrganizationMember
         fields = "__all__"
 
 
 class OrganizationImageSerializer(serializers.ModelSerializer[OrganizationImage]):
     """
-    Return a serialized representation of an OrganizationImage.
+    Serializer for OrganizationImage model data.
     """
 
     class Meta:
-        """
-        Metaclass for the OrganizationImage.
-        """
-
         model = OrganizationImage
         fields = "__all__"
 
 
 class OrganizationTaskSerializer(serializers.ModelSerializer[OrganizationTask]):
     """
-    Return a serialized representation of an OrganizationTask.
+    Serializer for OrganizationTask model data.
     """
 
     class Meta:
-        """
-        Metaclass for the OrganizationTask.
-        """
-
         model = OrganizationTask
         fields = "__all__"
