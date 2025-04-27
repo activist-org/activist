@@ -378,7 +378,7 @@ pytest
 pytest path/to/test_file.py::test_function
 
 # To run with a coverage report as is done in PRs:
-pytest ./backend --cov=./backend --cov-report=term-missing --cov-config=./backend/pyproject.toml -vv
+pytest --cov --cov-report=term-missing --cov-config=pyproject.toml -vv
 
 # Once tests are finished:
 exit
