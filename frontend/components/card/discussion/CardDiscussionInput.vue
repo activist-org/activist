@@ -7,8 +7,9 @@
           <div class="w-min md:w-min">
             <BtnAction
               class="w-small mt-1 flex"
-              :cta="true"
+              :cta="!isMarkdownPreview"
               :label="$t('i18n.components.card_discussion_input.write')"
+              @click="writePreviewSelector()"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.write_aria_label"
             />
@@ -16,14 +17,16 @@
           <div class="w-min md:w-min">
             <BtnAction
               class="w-small mt-1 flex"
-              :cta="false"
+              :cta="isMarkdownPreview"
               :label="$t('i18n.components.card_discussion_input.preview')"
+              @click="writePreviewSelector()"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
             />
           </div>
         </div>
         <div
+          v-if="!isMarkdown"
           class="mt-2 flex w-full items-center justify-center space-x-1 pt-3 md:w-fit md:flex-row md:pt-0 lg:space-x-3"
         >
           <Icon
@@ -83,9 +86,21 @@
         </div>
       </div>
       <div class="w-full md:w-full">
-        <editor-content :editor="editor" />
+        <textarea
+          class="focus-brand prose block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text dark:prose-invert"
+          v-if="!isMarkdownPreview"
+          @input="
+            (event) =>
+              updateTheVariable((event.target as HTMLTextAreaElement).value)
+          "
+          v-model="markdown"
+          ref="textarea"
+          rows="5"
+        />
+        <editor-content v-else :editor="writeEditor" />
       </div>
       <div class="flex items-center justify-between px-1">
+        <
         <p class="inline-flex items-center">
           {{ $t("i18n.components.card_discussion_input.markdown_support") }}
           <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
@@ -133,6 +148,7 @@ import Mention from "@tiptap/extension-mention";
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
+import { Markdown } from "tiptap-markdown";
 
 import type { DiscussionInput } from "~/types/content/discussion";
 
@@ -141,12 +157,30 @@ import { IconMap } from "~/types/icon-map";
 import Suggestion from "../../../utils/mentionSuggestion";
 
 const showTooltip = ref(false);
+const isMarkdownPreview = ref(false);
 const props = defineProps<{
   discussionInput: DiscussionInput;
 }>();
 const i18n = useI18n();
+const markdown = ref("");
 
-const editor = useEditor({
+const textarea = ref<HTMLTextAreaElement | null>(null);
+const isMarkdown = ref(true);
+
+const autoResize = () => {
+  const el = textarea.value;
+  if (!el) return;
+  el.style.height = "auto";
+  el.style.height = `${el.scrollHeight}px`;
+};
+
+watch(markdown, () => {
+  autoResize();
+});
+
+const writeEditor = useEditor({
+  content: markdown,
+  editable: !isMarkdownPreview.value,
   extensions: [
     StarterKit,
     Placeholder.configure({
@@ -165,6 +199,7 @@ const editor = useEditor({
       // @ts-expect-error: Ignore mismatched types.
       suggestion: Suggestion,
     }),
+    Markdown,
   ],
   editorProps: {
     attributes: {
@@ -174,29 +209,39 @@ const editor = useEditor({
   },
 });
 
+const updateTheVariable = (value: any) => {
+  markdown.value = value;
+};
+
+const writePreviewSelector = () => {
+  isMarkdownPreview.value = !isMarkdownPreview.value;
+  writeEditor.value?.setEditable(!isMarkdownPreview.value);
+  writeEditor.value?.commands.setContent(markdown.value);
+};
+
 const at = () => {
   console.log("click on at");
-  editor.value?.chain().focus().insertContent(" @").run();
+  writeEditor.value?.chain().focus().insertContent(" @").run();
 };
 const heading = () => {
   console.log("click on heading");
-  editor.value?.chain().focus().toggleHeading({ level: 1 }).run();
+  writeEditor.value?.chain().focus().toggleHeading({ level: 1 }).run();
 };
 const bold = () => {
   console.log("click on bold");
-  editor.value?.chain().focus().toggleBold().run();
+  writeEditor.value?.chain().focus().toggleBold().run();
 };
 const italic = () => {
   console.log("click on italic");
-  editor.value?.chain().focus().toggleItalic().run();
+  writeEditor.value?.chain().focus().toggleItalic().run();
 };
 const blockquote = () => {
   console.log("click on blockquote");
-  editor.value?.chain().focus().toggleBlockquote().run();
+  writeEditor.value?.chain().focus().toggleBlockquote().run();
 };
 const link = () => {
   console.log("click on link");
-  const previousUrl = editor.value?.getAttributes("link").href;
+  const previousUrl = writeEditor.value?.getAttributes("link").href;
   const url = window.prompt("URL", previousUrl);
 
   if (url === null) {
@@ -204,11 +249,16 @@ const link = () => {
   }
 
   if (url === "") {
-    editor.value?.chain().focus().extendMarkRange("link").unsetLink().run();
+    writeEditor.value
+      ?.chain()
+      .focus()
+      .extendMarkRange("link")
+      .unsetLink()
+      .run();
     return;
   }
 
-  editor.value
+  writeEditor.value
     ?.chain()
     .focus()
     .extendMarkRange("link")
@@ -223,11 +273,11 @@ const link = () => {
 
 const listul = () => {
   console.log("click on listul");
-  editor.value?.chain().focus().toggleBulletList().run();
+  writeEditor.value?.chain().focus().toggleBulletList().run();
 };
 const listol = () => {
   console.log("click on listol");
-  editor.value?.chain().focus().toggleOrderedList().run();
+  writeEditor.value?.chain().focus().toggleOrderedList().run();
 };
 </script>
 
