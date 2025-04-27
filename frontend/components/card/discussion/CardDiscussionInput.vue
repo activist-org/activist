@@ -3,7 +3,10 @@
   <div class="card-style flex w-full flex-col px-3 py-4 md:flex-row">
     <div class="w-full flex-col space-y-3 pt-3 md:space-y-4 md:p-2 md:pt-0">
       <div class="flex flex-col justify-between md:flex-row">
-        <div class="flex items-center justify-center space-x-2 md:space-x-4">
+        <div
+          v-if="isMarkdown"
+          class="flex items-center justify-center space-x-2 md:space-x-4"
+        >
           <div class="w-min md:w-min">
             <BtnAction
               class="w-small mt-1 flex"
@@ -95,14 +98,20 @@
           "
           v-model="markdown"
           ref="textarea"
-          rows="5"
+          rows="1"
         />
         <editor-content v-else :editor="writeEditor" />
       </div>
       <div class="flex items-center justify-between px-1">
-        <
         <p class="inline-flex items-center">
-          {{ $t("i18n.components.card_discussion_input.markdown_support") }}
+          <FormCheckbox
+            class="mr-1"
+            @update:modelValue="toggleIsMarkdown()"
+            :modelValue="isMarkdown"
+            value="yes"
+          />
+          <!-- {{ $t("i18n.components.card_discussion_input.markdown_support") }} -->
+          Enable Markdown support
           <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
         </p>
         <div class="flex items-center space-x-3">
@@ -157,15 +166,15 @@ import { IconMap } from "~/types/icon-map";
 import Suggestion from "../../../utils/mentionSuggestion";
 
 const showTooltip = ref(false);
-const isMarkdownPreview = ref(false);
 const props = defineProps<{
   discussionInput: DiscussionInput;
 }>();
 const i18n = useI18n();
 const markdown = ref("");
 
-const textarea = ref<HTMLTextAreaElement | null>(null);
+const isMarkdownPreview = ref(false);
 const isMarkdown = ref(true);
+const textarea = ref<HTMLTextAreaElement | null>(null);
 
 const autoResize = () => {
   const el = textarea.value;
@@ -211,6 +220,11 @@ const writeEditor = useEditor({
 
 const updateTheVariable = (value: any) => {
   markdown.value = value;
+};
+
+const toggleIsMarkdown = () => {
+  isMarkdown.value = !isMarkdown.value;
+  writeEditor.value?.setEditable(true);
 };
 
 const writePreviewSelector = () => {
