@@ -1,5 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import os
-import shutil
 
 IMAGE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "media", "images")
 ENVIRONMENT = os.environ.get("ENVIRONMENT")
