@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
+"""
+API views for organization management.
+"""
+
 import json
 from typing import Dict, List
 from uuid import UUID
@@ -7,7 +11,12 @@ from uuid import UUID
 from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
-from drf_spectacular.utils import OpenApiResponse, extend_schema
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiResponse,
+    OpenApiTypes,
+    extend_schema,
+)
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
@@ -45,9 +54,6 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         responses={200: OrganizationSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
-        """
-        Returns a paginated list of organizations.
-        """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
 
@@ -59,16 +65,24 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         return Response(serializer.data)
 
     @extend_schema(
+        summary="Create a new organization",
         request=OrganizationSerializer,
         responses={
             201: OrganizationSerializer,
-            400: OpenApiResponse(response={"error": "Failed to create organization"}),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Failed to create an organization",
+                examples=[
+                    OpenApiExample(
+                        name="Failed to create organization",
+                        value={"error": "Failed to create organization"},
+                        media_type="application/json",
+                    )
+                ],
+            ),
         },
     )
     def post(self, request: Request) -> Response:
-        """
-        Create a new organization.
-        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -98,18 +112,34 @@ class OrganizationDetailAPIView(APIView):
     serializer_class = OrganizationSerializer
 
     @extend_schema(
+        summary="Retrieve a single organization by ID",
         responses={
             200: OrganizationSerializer,
-            400: OpenApiResponse(response={"error": "Organization ID is required"}),
-            404: OpenApiResponse(
-                response={"error": "Failed to retrieve the organization"}
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Organization ID is required",
+                examples=[
+                    OpenApiExample(
+                        name="Organization ID required",
+                        value={"error": "Organization ID is required"},
+                        media_type="application/json",
+                    )
+                ],
             ),
-        }
+            404: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Failed to retrieve the organization",
+                examples=[
+                    OpenApiExample(
+                        name="Organization not found",
+                        value={"error": "Failed to retrieve the organization"},
+                        media_type="application/json",
+                    )
+                ],
+            ),
+        },
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Retrieve a single organization by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Organization ID is required"},
@@ -130,14 +160,31 @@ class OrganizationDetailAPIView(APIView):
     @extend_schema(
         responses={
             200: OrganizationSerializer,
-            400: OpenApiResponse(response={"error": "Organization ID is required"}),
-            404: OpenApiResponse(response={"error": "Organization not found"}),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Organization ID is required",
+                examples=[
+                    OpenApiExample(
+                        name="Organization ID required",
+                        value={"error": "Organization ID is required"},
+                        media_type="application/json",
+                    )
+                ],
+            ),
+            404: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Organization not found",
+                examples=[
+                    OpenApiExample(
+                        name="Organization not found",
+                        value={"error": "Organization not found"},
+                        media_type="application/json",
+                    )
+                ],
+            ),
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Update an organization by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Organization ID is required"},
@@ -165,21 +212,57 @@ class OrganizationDetailAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(
+        summary="Delete an organization by ID",
         responses={
             200: OpenApiResponse(
-                response={"message": "Organization deleted successfully."}
+                response=OpenApiTypes.OBJECT,
+                description="Organization deleted successfully",
+                examples=[
+                    OpenApiExample(
+                        name="Organization deleted",
+                        value={"message": "Organization deleted successfully."},
+                        media_type="application/json",
+                    )
+                ],
             ),
-            400: OpenApiResponse(response={"error": "Organization ID is required"}),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Organization ID is required",
+                examples=[
+                    OpenApiExample(
+                        name="Organization ID required",
+                        value={"error": "Organization ID is required"},
+                        media_type="application/json",
+                    )
+                ],
+            ),
             401: OpenApiResponse(
-                response={"error": "You are not authorized to delete this organization"}
+                response=OpenApiTypes.OBJECT,
+                description="You are not authorized to delete this organization",
+                examples=[
+                    OpenApiExample(
+                        name="Unauthorized",
+                        value={
+                            "error": "You are not authorized to delete this organization"
+                        },
+                        media_type="application/json",
+                    )
+                ],
             ),
-            404: OpenApiResponse(response={"error": "Organization not found"}),
-        }
+            404: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Organization not found",
+                examples=[
+                    OpenApiExample(
+                        name="Organization not found",
+                        value={"error": "Organization not found"},
+                        media_type="application/json",
+                    )
+                ],
+            ),
+        },
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Delete an organization by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Organization ID is required"},

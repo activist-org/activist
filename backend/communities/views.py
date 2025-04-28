@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # mypy: disable-error-code="override"
+"""
+API views for community model management.
+"""
+
 from rest_framework import viewsets
 
 from communities.models import Status

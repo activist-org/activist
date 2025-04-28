@@ -104,7 +104,7 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         )
         output.seek(0)
 
-        # Return a new InMemoryUploadedFile
+        # Return a new InMemoryUploadedFile.
         return InMemoryUploadedFile(
             output,
             image_file.field_name,  # use original field name
