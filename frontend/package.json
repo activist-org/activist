@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@axe-core/playwright": "4.10.0",
-    "@maplibre/maplibre-gl-directions": "0.7.2",
+    "@maplibre/maplibre-gl-directions": "^0.8.0",
     "@nuxtjs/plausible": "1.2.0",
     "@opentelemetry/api": "1.9.0",
     "@popperjs/core": "2.11.8",
@@ -82,7 +82,7 @@
     "eslint-config-prettier": "10.1.1",
     "eslint-flat-config-utils": "2.0.1",
     "floating-vue": "5.2.2",
-    "maplibre-gl": "4.7.1",
+    "maplibre-gl": "^5.4.0",
     "nuxt-mail": "5.1.1",
     "pinia": "2.3.1",
     "pinia-plugin-persistedstate": "4.2.0",
