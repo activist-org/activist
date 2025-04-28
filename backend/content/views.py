@@ -307,12 +307,14 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
     def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
         serializer = self.get_serializer(
             data=request.data,
-            context={"request": request},  # pass request to serializer
+            context={"request": request},
         )
         if serializer.is_valid():
-            serializer.save()
+            images = serializer.save()  # This returns a list of images
+            # We need to serialize the list of images
+            response_serializer = self.get_serializer(images, many=True)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

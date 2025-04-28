@@ -100,14 +100,7 @@ onMounted(() => {
   }
 });
 
-onUpdated(() => {
-  const swiperEl = swiperRef.value;
-  if (swiperEl?.swiper) {
-    swiperEl.swiper.update();
-  }
-});
-
-const emit = defineEmits(["upload-complete", "delete-complete"]);
+const emit = defineEmits(["delete-complete"]);
 
 const handleDeleteClick = async () => {
   try {
@@ -117,7 +110,7 @@ const handleDeleteClick = async () => {
     const swiper = swiperRef.value?.swiper;
     swiper?.update();
 
-    emit("delete-complete");
+    emit("delete-complete", props.fileUploadEntity);
   } catch (error) {
     console.error("Delete image failed:", error);
   }

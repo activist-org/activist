@@ -153,7 +153,7 @@ def test_image_list_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_image_create_view(client: APIClient) -> None:
+def test_image_create_single_file_view(client: APIClient) -> None:
     """
     Test the create view for images.
     This is like a POST request.
@@ -179,7 +179,10 @@ def test_image_create_view(client: APIClient) -> None:
     ), "Expected one image in the database, but found more than one."
 
     # Assert file exists in filesystem.
-    file_url = response.json()["fileObject"]
+    response_data = response.json()
+    assert len(response_data) == 1, "Expected one image in response"
+    file_url = response_data[0]["fileObject"]
+
     relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
     uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
 
@@ -196,11 +199,66 @@ def test_image_create_view(client: APIClient) -> None:
     except ValueError:
         assert False, f"Filename is not a valid UUID: {uuid_filename}"
 
-    file_object = response.json()["fileObject"].split("/")[-1]
+    file_object = response_data[0]["fileObject"].split("/")[-1]
     file_to_delete = os.path.join(settings.MEDIA_ROOT, "images", file_object)
 
     if os.path.exists(file_to_delete):
         os.remove(file_to_delete)
+
+
+@pytest.mark.django_db
+def test_image_create_multiple_files_view(client: APIClient) -> None:
+    """
+    Test the create view for multipleimages.
+    This is like a POST request.
+
+    1. Create 3 images.
+    2. Create an organization.
+    3. Make a POST request to the image create endpoint with org info and image files.
+    4. Check that the response is a 201 status code.
+    5. Check that the images were inserted into the database.
+    6. Check that the files were uploaded/saved to the media root.
+    7. Delete the files from the file system. This is for test cleanup and does not happen in production.
+    """
+
+    org = OrganizationFactory()
+    files = []
+
+    # Create multiple test files
+    files = []
+    for i in range(3):
+        img = TestImage.new("RGB", (100, 100), color="red")
+        img_file = io.BytesIO()
+        img.save(img_file, format="JPEG")
+        img_file.seek(0)
+
+        file = SimpleUploadedFile(
+            f"test_image_{i}.jpg", img_file.getvalue(), content_type="image/jpeg"
+        )
+        files.append(file)
+
+    data = {"organization_id": str(org.id), "file_object": files}
+
+    response = client.post("/v1/content/images/", data, format="multipart")
+
+    # Assert that the response is a 201 status code.
+    assert response.status_code == 201
+
+    # Assert that the images were inserted into the database.
+    assert Image.objects.count() == 3
+
+    # Assert that the files were uploaded/saved to the media root
+    for image in Image.objects.all():
+        file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
+        assert os.path.exists(
+            file_path
+        ), f"File {file_path} was not found in the filesystem"
+
+    # Cleanup
+    for image in Image.objects.all():
+        file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
 
 @pytest.mark.django_db
@@ -307,10 +365,12 @@ def test_image_destroy_view(client: APIClient) -> None:
     data = create_organization_and_image()
 
     response = client.post("/v1/content/images/", data, format="multipart")
-    file_id = response.json()["id"]
+    response_data = response.json()
+    assert len(response_data) == 1, "Expected one image in response"
+    file_id = response_data[0]["id"]
 
     # Assert file exists in filesystem and the database.
-    file_url = response.json()["fileObject"]
+    file_url = response_data[0]["fileObject"]
     relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
     uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
 

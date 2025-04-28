@@ -2,8 +2,7 @@
 <template>
   <div class="relative">
     <MediaImageCarousel
-      @upload-complete="fetchOrganizationImages"
-      @delete-complete="fetchOrganizationImages"
+      @delete-complete="handleDeleteComplete"
       :fullscreen="false"
       :fileUploadEntity="props.fileUploadEntity"
       :imageUrls="imageUrls"
@@ -53,6 +52,22 @@ const {
 } = useModalHandlers("ModalMediaImage");
 
 const { imageUrls, fetchOrganizationImages } = useFileManager(entityId.value);
+
+const handleDeleteComplete = async (fileUploadEntity: FileUploadEntity) => {
+  const orgStore = useOrganizationStore();
+  //   const groupStore = useGroupStore();
+  //   const eventStore = useEventStore();
+  //
+  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_CAROUSEL) {
+    const { fetchOrganizationImages } = useFileManager(
+      orgStore.organization.id
+    );
+    await fetchOrganizationImages();
+  }
+  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_ICON) {
+    console.log("OrganizationPage handleUploadComplete ORGANIZATION_ICON");
+  }
+};
 
 onMounted(async () => {
   switch (props.fileUploadEntity) {

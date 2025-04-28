@@ -5,7 +5,7 @@ Serializers for the content app.
 
 import logging
 from io import BytesIO
-from typing import Any, Dict, Union
+from typing import Any, Dict, List, Union
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
@@ -163,7 +163,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
-    def create(self, validated_data: Dict[str, Any]) -> Image:
+    def create(self, validated_data: Dict[str, Any]) -> List[Image]:
         """
         Create an Image instance with privacy-enhanced processing.
 
@@ -186,62 +186,66 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         """
         request = self.context["request"]
 
-        if file_obj := request.FILES.get("file_object"):
-            validated_data["file_object"] = scrub_exif(file_obj)
+        images = []
 
-        # Create the image instance.
-        image = super().create(validated_data)
+        files = request.FILES.getlist("file_object")
 
-        # Handle organization image indexing if applicable.
-        if organization_id := request.data.get("organization_id"):
-            if request.data.get("entity") == "organization-icon":
-                try:
-                    organization = Organization.objects.get(id=organization_id)
-                    organization.icon_url = image
-                    organization.save()
-                except Exception as e:
-                    raise serializers.ValidationError(
-                        f"An unexpected error occurred while updating the event: {str(e)}"
+        for file_obj in files:
+            file_data = validated_data.copy()
+            file_data["file_object"] = scrub_exif(file_obj)
+            image = super().create(file_data)
+
+            images.append(image)
+
+            if organization_id := request.data.get("organization_id"):
+                if request.data.get("entity") == "organization-icon":
+                    try:
+                        organization = Organization.objects.get(id=organization_id)
+                        organization.icon_url = image
+                        organization.save()
+                    except Exception as e:
+                        raise serializers.ValidationError(
+                            f"An unexpected error occurred while updating the event: {str(e)}"
+                        )
+                elif request.data.get("entity") == "organization-carousel":
+                    next_index = OrganizationImage.objects.filter(
+                        org_id=organization_id
+                    ).count()
+                    OrganizationImage.objects.create(
+                        org_id=organization_id, image=image, sequence_index=next_index
                     )
-            elif request.data.get("entity") == "organization-carousel":
-                next_index = OrganizationImage.objects.filter(
-                    org_id=organization_id
-                ).count()
-                OrganizationImage.objects.create(
-                    org_id=organization_id, image=image, sequence_index=next_index
-                )
 
-        if group_id := request.data.get("group_id"):
-            if request.data.get("entity") == "group-icon":
-                logger.warning("ENTITY:", request.data.get("entity"))
-                logger.warning("GROUP-ICON group_id:", group_id)
-            #         group = Group.objects.get(id=group_id)
-            #         group.iconUrl = image.file_object.url
-            #         group.save()
-            elif request.data.get("entity") == "group-carousel":
-                logger.warning("ENTITY:", request.data.get("entity"))
-                logger.warning("GROUP-CAROUSEL group_id:", group_id)
-        #       next_index = GroupImage.objects.filter(
-        #           group_id=group_id
-        #       ).count()
-        #       GroupImage.objects.create(
-        #           group_id=group_id, image=image, sequence_index=next_index
-        #       )
+            if group_id := request.data.get("group_id"):
+                if request.data.get("entity") == "group-icon":
+                    logger.warning("ENTITY:", request.data.get("entity"))
+                    logger.warning("GROUP-ICON group_id:", group_id)
+                #         group = Group.objects.get(id=group_id)
+                #         group.iconUrl = image.file_object.url
+                #         group.save()
+                elif request.data.get("entity") == "group-carousel":
+                    logger.warning("ENTITY:", request.data.get("entity"))
+                    logger.warning("GROUP-CAROUSEL group_id:", group_id)
+            #       next_index = GroupImage.objects.filter(
+            #           group_id=group_id
+            #       ).count()
+            #       GroupImage.objects.create(
+            #           group_id=group_id, image=image, sequence_index=next_index
+            #       )
 
-        if event_id := request.data.get("event_id"):
-            if request.data.get("entity") == "event-icon":
-                try:
-                    event = Event.objects.get(id=event_id)
-                    event.icon_url = image
-                    event.save()
-                    logger.info("Updated Event %s with icon %s", event_id, image.id)
-                except Exception as e:
-                    raise serializers.ValidationError(
-                        f"An unexpected error occurred while updating the event: {str(e)}"
-                    )
-            # TODO: Implement event-carousel if needed.
+            if event_id := request.data.get("event_id"):
+                if request.data.get("entity") == "event-icon":
+                    try:
+                        event = Event.objects.get(id=event_id)
+                        event.icon_url = image
+                        event.save()
+                        logger.info("Updated Event %s with icon %s", event_id, image.id)
+                    except Exception as e:
+                        raise serializers.ValidationError(
+                            f"An unexpected error occurred while updating the event: {str(e)}"
+                        )
+                # TODO: Implement event-carousel if needed.
 
-        return image
+        return images
 
 
 # MARK: Location

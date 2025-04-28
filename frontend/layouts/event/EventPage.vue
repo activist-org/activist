@@ -37,6 +37,9 @@ import {
 const { handleCloseModal: handleCloseModalUploadImages } =
   useModalHandlers("ModalUploadImages");
 
+const handleUploadComplete = () => {
+  console.log("EventPage handleUploadComplete");
+};
 const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);

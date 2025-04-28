@@ -156,7 +156,7 @@ const handleUpload = async () => {
     const modals = useModals();
     modals.closeModal(modalName);
 
-    emit("upload-complete");
+    emit("upload-complete", fileUploadEntity.value);
     uploadError.value = false;
   } catch (error) {
     console.error("Error uploading images:", error);
