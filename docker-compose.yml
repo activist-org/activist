@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   backend:
     env_file:
@@ -6,7 +8,11 @@ services:
       context: ./backend
     container_name: django_backend
     restart: unless-stopped
-    command: sh -c "python manage.py wait_for_db &&
+    command: sh -c "
+      if [ \"$ENVIRONMENT\" = \"development\" ]; then
+        python /app/backend/scripts/clear_images.py;
+      fi;
+      python manage.py wait_for_db &&
       python manage.py makemigrations &&
       python manage.py migrate &&
       python manage.py loaddata fixtures/superuser.json &&
@@ -33,6 +39,7 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - VITE_FRONTEND_URL=${VITE_FRONTEND_URL}
       - VITE_BACKEND_URL=${VITE_BACKEND_URL}
+      - ENVIRONMENT=development
     depends_on:
       - db
     healthcheck:
@@ -67,9 +74,9 @@ services:
     image: postgres:15
     container_name: postgres_db
     environment:
-      - POSTGRES_DB=${DATABASE_NAME}
-      - POSTGRES_USER=${DATABASE_USER}
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}  # activist
+      POSTGRES_USER: ${DATABASE_USER} # postgres
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD} # postgres
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
     healthcheck:
@@ -77,3 +84,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+
+# filescan:
+#   image: clamav/clamav:latest
+#   container_name: filescan
+#   ports:
+#     - "3310:3310" # Expose the ClamAV port if needed for pyClamd
+#   restart: always
+#   volumes:
+#     - clamav_db:/var/lib/clamav # Persist the virus definition database
+
+# volumes:
+#  clamav_db:
