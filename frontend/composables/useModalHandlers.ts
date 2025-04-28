@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { FileUploadEntity } from "~/types/content/file-upload-entity";
 
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import { useModals } from "~/stores/modals";
 
 export function useModalHandlers(modalName: string) {
