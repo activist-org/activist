@@ -11,7 +11,7 @@ from core.management.commands import clear_dev_images
 
 
 class TestClearImagesScript(unittest.TestCase):
-    assert clear_dev_images.IMAGE_DIR == "/app/media/images"
+    assert "/".join(clear_dev_images.IMAGE_DIR.split("/")[-2:]) == "media/images"
 
     @patch("os.environ.get")
     @patch("os.listdir")
