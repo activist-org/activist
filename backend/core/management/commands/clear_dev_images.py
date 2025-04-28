@@ -12,7 +12,11 @@ This script is ran in docker-compose.yaml when the backend is started up.
 import os
 
 IMAGE_DIR = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "media", "images"
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    ),
+    "media",
+    "images",
 )
 
 

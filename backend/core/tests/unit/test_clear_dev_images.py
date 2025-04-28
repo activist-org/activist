@@ -7,7 +7,7 @@ import os
 import unittest
 from unittest.mock import patch
 
-from scripts import clear_dev_images
+from core.management.commands import clear_dev_images
 
 
 class TestClearImagesScript(unittest.TestCase):

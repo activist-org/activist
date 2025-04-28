@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     command: sh -c "
       if [ \"$ENVIRONMENT\" = \"development\" ]; then
-        python /app/scripts/clear_dev_images.py;
+        python /app/core/management/commands/clear_dev_images.py;
       fi;
       python manage.py wait_for_db &&
       python manage.py makemigrations &&

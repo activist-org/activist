@@ -29,13 +29,16 @@ class Command(BaseCommand):
         for retry in range(max_retries):
             try:
                 connection.ensure_connection()
+
             except OperationalError as error:
                 self.stdout.write(
                     f"Database unavailable on attempt {retry + 1}/{max_retries}: {error}"
                 )
                 time.sleep(poll_seconds)
+
             else:
                 break
+
         else:
             self.stdout.write(self.style.ERROR("Database unavailable"))
             sys.exit(1)
