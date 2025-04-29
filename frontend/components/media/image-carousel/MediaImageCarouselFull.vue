@@ -9,7 +9,7 @@
     />
     <button
       @click="openMediaImageCarousel"
-      @keydown.enter="openMediaImageCarousel"
+      @keydown.enter="openMediaImageCarousel()"
       class="focus-brand absolute right-2 top-2 z-10 hidden rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80 md:block"
     >
       <Icon :name="IconMap.FULL_SCREEN" size="1.5em" />
