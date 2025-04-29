@@ -124,9 +124,16 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         ValidationError
             If validation fails for any field.
         """
-        if parse_datetime(str(data["start_time"])) > parse_datetime(
-            str(data["end_time"])
-        ):  # type: ignore
+        start_time = parse_datetime(str(data["start_time"]))
+        end_time = parse_datetime(str(data["end_time"]))
+
+        if start_time is None or end_time is None:
+            raise serializers.ValidationError(
+                _("Both start time and end time must be provided."),
+                code="missing_time",
+            )
+
+        if start_time > end_time:
             raise serializers.ValidationError(
                 _("The start time cannot be after the end time."),
                 code="invalid_time_order",

@@ -5,7 +5,7 @@ API views for group management.
 """
 
 import json
-from typing import Dict, List
+from typing import Any, Dict, List, Sequence, Type, Union
 from uuid import UUID
 
 from django.db import transaction
@@ -14,7 +14,10 @@ from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -36,18 +39,19 @@ class GroupAPIView(GenericAPIView[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes_default = (IsAuthenticatedOrReadOnly,)
+    permission_classes_post = (IsAuthenticated,)
 
-    def get_permissions(self):
-        if self.request.method in "POST":
-            self.permission_classes = (IsAuthenticated,)
+    def get_permissions(self) -> Sequence[Any]:
+        if self.request.method == "POST":
+            self.permission_classes = self.permission_classes_post
 
         else:
-            self.permission_classes = (IsAuthenticatedOrReadOnly,)
+            self.permission_classes = self.permission_classes_default
 
         return super().get_permissions()
 
-    def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
+    def get_serializer_class(self) -> Type[Union[GroupSerializer, GroupPOSTSerializer]]:
         if self.request.method == "POST":
             return GroupPOSTSerializer
 
@@ -76,7 +80,7 @@ class GroupAPIView(GenericAPIView[Group]):
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer: GroupPOSTSerializer = serializer_class(data=request.data)
+        serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         location_dict = serializer.validated_data["location"]
