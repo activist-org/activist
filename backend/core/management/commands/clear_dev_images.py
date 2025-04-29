@@ -10,14 +10,9 @@ This script is ran in docker-compose.yaml when the backend is started up.
 # ATTN: This file should not be edited as it removes files from a specific local directory.
 
 import os
+from pathlib import Path
 
-IMAGE_DIR = os.path.join(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    ),
-    "media",
-    "images",
-)
+IMAGE_DIR = Path(__file__).resolve().parent.parent.parent.parent / "media" / "images"
 
 
 def main() -> None:
@@ -33,7 +28,7 @@ def main() -> None:
                 f
                 for f in os.listdir(IMAGE_DIR)
                 if os.path.isfile(os.path.join(IMAGE_DIR, f))
-                and (f[-3:] in ["png", "jpg"] or f[-4:] in ["jpeg"])
+                and (f.lower()[-3:] in ["png", "jpg"] or f.lower()[-4:] in ["jpeg"])
             ]
             for filename in image_files_to_delete:
                 file_path = os.path.join(IMAGE_DIR, filename)
