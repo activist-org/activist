@@ -20,7 +20,7 @@ from content.factories import ImageFactory
 from content.models import Image
 from content.serializers import ImageSerializer
 
-MEDIA_ROOT = settings.MEDIA_ROOT  # Ensure this points to the imagefolder
+MEDIA_ROOT = settings.MEDIA_ROOT  # ensure this points to the images folder
 
 
 @pytest.fixture
@@ -55,9 +55,7 @@ def create_organization_and_image() -> Dict[str, Any]:
         "test_create_image.jpg", img_file.getvalue(), content_type="image/jpeg"
     )
 
-    data = {"organization_id": str(org.id), "file_object": file}
-
-    return data
+    return {"organization_id": str(org.id), "file_object": file}
 
 
 @pytest.mark.django_db
@@ -133,7 +131,7 @@ def test_image_create_view(client: APIClient) -> None:
     3. Check that the response is a 201 status code.
     4. Check that the image was inserted into the database.
     5. Check that the file was uploaded/saved to the media root.
-    6. Check that the uploaded/savedfile has a sanitized, UUID filename.
+    6. Check that the uploaded/saved file has a sanitized, UUID filename.
     8. Delete the file from the file system. This is for test cleanup and does not happen in production.
     """
 
