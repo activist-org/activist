@@ -1,13 +1,21 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <MediaImageCarousel :fullscreen="true" :imageUrls="props.imageUrls || []" />
+    <MediaImageCarousel
+      :fullscreen="true"
+      :imageUrls="imageUrls || []"
+      :fileUploadEntity="props.fileUploadEntity"
+    />
   </ModalBase>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  imageUrls: Array<string>,
-});
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
+
+const props = defineProps<{
+  imageUrls: string[];
+  fileUploadEntity: FileUploadEntity;
+}>();
+
 const modalName = "ModalMediaImage";
 </script>
