@@ -3,10 +3,11 @@
 Unit tests for the utilities.
 """
 
-import pytest
 from datetime import datetime, timedelta
 
+import pytest
 from rest_framework.exceptions import ValidationError
+
 from utils.utils import (
     validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
