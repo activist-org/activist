@@ -107,7 +107,7 @@ const organizationStore = useOrganizationStore();
 const modals = useModals();
 
 const fileUploadEntity = computed(() => {
-  return modals.modals[modalName].data.fileUploadEntity;
+  return modals.modals[modalName]?.data?.fileUploadEntity;
 });
 
 const modalName = "ModalUploadImages";
@@ -143,7 +143,7 @@ const entityId = computed(() => {
 });
 
 const handleUpload = async () => {
-  if (!entityId.value) {
+  if (!entityId.value || !fileUploadEntity.value) {
     throw new Error(
       `No entity ID found for fileUploadEntity: ${fileUploadEntity.value}`
     );

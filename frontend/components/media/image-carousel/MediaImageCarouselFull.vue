@@ -18,6 +18,7 @@
       @upload-complete="fetchOrganizationImages"
       @closeModal="handleCloseMediaImageCarousel"
       :imageUrls="imageUrls"
+      :fileUploadEntity="props.fileUploadEntity"
     />
   </div>
 </template>

@@ -74,7 +74,10 @@
           :group="group"
         />
         <div class="h-full w-full">
-          <MediaImageCarouselFull v-if="!textExpanded || !aboveLargeBP" />
+          <MediaImageCarouselFull
+            v-if="!textExpanded || !aboveLargeBP"
+            :fileUploadEntity="FileUploadEntity.GROUP_CAROUSEL"
+          />
         </div>
       </div>
       <CardGetInvolvedGroup :group="group" />
@@ -85,6 +88,7 @@
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
+import type { FileUploadEntity } from "~/types/content/file-upload-entity";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";

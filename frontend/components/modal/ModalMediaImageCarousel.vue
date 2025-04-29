@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
+import type { FileUploadEntity } from "~/types/content/file-upload-entity";
 
 const props = defineProps<{
   imageUrls: string[];
