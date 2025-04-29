@@ -1,10 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImages
+    <!-- <ModalUploadImages
       @closeModal="handleCloseModalUploadImages"
       @upload-complete="handleUploadComplete"
-    />
+    /> -->
+    <ModalUploadImages @upload-complete="handleUploadComplete" />
     <SidebarLeft
       v-if="aboveMediumBP"
       @mouseover="sidebarHover = true"

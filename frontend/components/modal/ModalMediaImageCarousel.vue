@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <MediaImageCarousel :fullscreen="true" :imageUrls="props.imageUrls" />
+    <MediaImageCarousel :fullscreen="true" :imageUrls="props.imageUrls || []" />
   </ModalBase>
 </template>
 
