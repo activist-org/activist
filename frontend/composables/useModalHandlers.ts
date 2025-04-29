@@ -6,8 +6,8 @@ import { useModals } from "~/stores/modals";
 export function useModalHandlers(modalName: string) {
   const modals = useModals();
 
-  const openModal = (fileUploadEntity?: FileUploadEntity) => {
-    modals.openModalAndUpdateState(modalName, fileUploadEntity);
+  const openModal = (params?: { fileUploadEntity?: FileUploadEntity }) => {
+    modals.openModalAndUpdateState(modalName, params);
   };
   const handleCloseModal = () => modals.closeModalAndUpdateState(modalName);
 
