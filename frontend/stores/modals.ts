@@ -33,13 +33,17 @@ export const useModals = defineStore("modals", {
     // We can rename the modal handlers so that the code is a little more self-documenting and readable.
     openModalAndUpdateState(
       modalName: string,
-      fileUploadEntity?: FileUploadEntity
+      params?: { fileUploadEntity?: FileUploadEntity }
     ) {
       this.openModal(modalName);
 
       this.modals[modalName] = {
         ...this.modals[modalName],
-        data: fileUploadEntity ?? this.modals[modalName]?.fileUploadEntity,
+        data: {
+          fileUploadEntity:
+            params?.fileUploadEntity ??
+            this.modals[modalName]?.data?.fileUploadEntity,
+        },
       };
 
       return this.modals[modalName];
