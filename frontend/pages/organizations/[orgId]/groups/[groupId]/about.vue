@@ -88,9 +88,9 @@
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
-import type { FileUploadEntity } from "~/types/content/file-upload-entity";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 
