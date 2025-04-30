@@ -5370,7 +5370,7 @@ __metadata:
     unocss: "npm:65.4.3"
     uuid: "npm:11.0.5"
     v-calendar: "npm:3.1.2"
-    vite: "npm:6.0.15"
+    vite: "npm:6.1.6"
     vitest: "npm:3.0.5"
     vue: "npm:3.5.13"
     vue-i18n: "npm:10.0.6"
@@ -13358,7 +13358,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.47, postcss@npm:^8.4.48, postcss@npm:^8.4.49, postcss@npm:^8.5.1, postcss@npm:^8.5.3":
+"postcss@npm:^8.4.47, postcss@npm:^8.4.48, postcss@npm:^8.5.1, postcss@npm:^8.5.2, postcss@npm:^8.5.3":
   version: 8.5.3
   resolution: "postcss@npm:8.5.3"
   dependencies:
@@ -14524,7 +14524,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^4.23.0, rollup@npm:^4.30.1":
+"rollup@npm:^4.30.1":
   version: 4.36.0
   resolution: "rollup@npm:4.36.0"
   dependencies:
@@ -16865,14 +16865,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:6.0.15":
-  version: 6.0.15
-  resolution: "vite@npm:6.0.15"
+"vite@npm:6.1.6":
+  version: 6.1.6
+  resolution: "vite@npm:6.1.6"
   dependencies:
     esbuild: "npm:^0.24.2"
     fsevents: "npm:~2.3.3"
-    postcss: "npm:^8.4.49"
-    rollup: "npm:^4.23.0"
+    postcss: "npm:^8.5.2"
+    rollup: "npm:^4.30.1"
   peerDependencies:
     "@types/node": ^18.0.0 || ^20.0.0 || >=22.0.0
     jiti: ">=1.21.0"
@@ -16913,7 +16913,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10c0/40177bb7faffa76767b7dc6131e28ddf54863db3b94abb788fab0e7e2dbff273d5affb8f36f36f007aea3e1822091099e0e5b392e3ed5bda5600d9380ccdc679
+  checksum: 10c0/4e63ba225b6c5d57e67193d8ac02fcf2a49ce010ddc8b4a37421056acf27988d78b376dae3b74ffccd01598e8bf11570b299c6aec80a1b49324228add085138f
   languageName: node
   linkType: hard
 
