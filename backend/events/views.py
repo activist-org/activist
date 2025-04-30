@@ -10,7 +10,7 @@ from uuid import UUID
 from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
-from rest_framework import serializers, status, viewsets
+from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -36,19 +36,14 @@ class EventAPIView(GenericAPIView[Event]):
     serializer_class = EventSerializer
     pagination_class = CustomPagination
     authentication_classes = (TokenAuthentication,)
-    permission_classes_default = (IsAuthenticatedOrReadOnly,)
-    permission_classes_post = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_permissions(self) -> Sequence[Any]:
         if self.request.method == "POST":
-            self.permission_classes = self.permission_classes_post
+            return [IsAuthenticated()]
+        return [IsAuthenticatedOrReadOnly()]
 
-        else:
-            self.permission_classes = self.permission_classes_default
-
-        return super().get_permissions()
-
-    def get_serializer_class(self) -> Type[serializers.ModelSerializer[Event]]:
+    def get_serializer_class(self) -> Type[EventPOSTSerializer | EventSerializer]:
         if self.request.method == "POST":
             return EventPOSTSerializer
 
@@ -74,7 +69,9 @@ class EventAPIView(GenericAPIView[Event]):
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer = serializer_class(data=request.data)
+        serializer: EventPOSTSerializer | EventSerializer = serializer_class(
+            data=request.data
+        )
         serializer.is_valid(raise_exception=True)
 
         location_data = serializer.validated_data["offline_location"]

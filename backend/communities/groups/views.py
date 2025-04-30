@@ -5,7 +5,7 @@ API views for group management.
 """
 
 import json
-from typing import Any, Dict, List, Sequence, Type, Union
+from typing import Any, Dict, List, Sequence, Type
 from uuid import UUID
 
 from django.db import transaction
@@ -39,19 +39,14 @@ class GroupAPIView(GenericAPIView[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
     authentication_classes = (TokenAuthentication,)
-    permission_classes_default = (IsAuthenticatedOrReadOnly,)
-    permission_classes_post = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_permissions(self) -> Sequence[Any]:
         if self.request.method == "POST":
-            self.permission_classes = self.permission_classes_post
+            return [IsAuthenticated()]
+        return [IsAuthenticatedOrReadOnly()]
 
-        else:
-            self.permission_classes = self.permission_classes_default
-
-        return super().get_permissions()
-
-    def get_serializer_class(self) -> Type[Union[GroupSerializer, GroupPOSTSerializer]]:
+    def get_serializer_class(self) -> Type[GroupSerializer | GroupPOSTSerializer]:
         if self.request.method == "POST":
             return GroupPOSTSerializer
 
@@ -80,7 +75,9 @@ class GroupAPIView(GenericAPIView[Group]):
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer = serializer_class(data=request.data)
+        serializer: GroupPOSTSerializer | GroupSerializer = serializer_class(
+            data=request.data
+        )
         serializer.is_valid(raise_exception=True)
 
         location_dict = serializer.validated_data["location"]
