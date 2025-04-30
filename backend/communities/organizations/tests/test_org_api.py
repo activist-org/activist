@@ -104,18 +104,18 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     number_of_orgs = 10
     test_page_size = 1
 
+    # MARK: List GET
+
     OrganizationFactory.create_batch(number_of_orgs)
     assert Organization.objects.count() == number_of_orgs
 
     response = client.get(ORGS_URL)
-
     assert response.status_code == 200
 
     pagination_keys = ["count", "next", "previous", "results"]
     assert all(key in response.data for key in pagination_keys)
 
     response = client.get(f"{ORGS_URL}?pageSize={test_page_size}")
-
     assert response.status_code == 200
 
     assert len(response.data["results"]) == test_page_size
@@ -131,7 +131,6 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     # Authenticated and successful.
     new_org = OrganizationFactory.build(org_name="new_org", terms_checked=True)
     location = EntityLocationFactory.build()
-
     token = logged_in_user["token"]
 
     payload = {
@@ -150,7 +149,6 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.post(ORGS_URL, data=payload, format="json")
 
     assert response.status_code == 201
