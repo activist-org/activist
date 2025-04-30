@@ -6,23 +6,21 @@ Testing for Image upload-related functionality.
 import io
 import os
 import uuid
+from datetime import datetime
 from typing import Any, Dict, Generator
 
 import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image as TestImage
-from requests import Response
 from rest_framework.test import APIClient
 
-from authentication.models import UserModel
 from communities.organizations.factories import OrganizationFactory
 from content.factories import ImageFactory
 from content.models import Image
 from content.serializers import ImageSerializer
-from events.factories import EventFactory
 
-MEDIA_ROOT = settings.MEDIA_ROOT  # Ensure this points to the image folder
+MEDIA_ROOT = settings.MEDIA_ROOT  # ensure this points to the images folder
 
 
 @pytest.fixture
@@ -57,53 +55,23 @@ def create_organization_and_image() -> Dict[str, Any]:
         "test_create_image.jpg", img_file.getvalue(), content_type="image/jpeg"
     )
 
-    data = {"organization_id": str(org.id), "file_object": file}
-
-    return data
+    return {"organization_id": str(org.id), "file_object": file}
 
 
-def create_event_and_image(user: UserModel) -> Dict[str, Any]:
+@pytest.mark.django_db
+def test_image_creation(image_with_file: Image) -> None:
     """
-    Helper function to create a test event and a simple test image.
-
-    'user' is needed to fill out 'created_by' field and use in tests.
+    Test the creation of an image with a file.
+    This is like a Model test.
     """
-    event = EventFactory(created_by=user)
-    assert event is not None, "Event was not created"
+    image = image_with_file
 
-    img = TestImage.new("RGB", (100, 100), color="red")
-    img_file = io.BytesIO()
-    img.save(img_file, format="JPEG")
-    img_file.seek(0)
+    file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
+    assert os.path.exists(file_path)
 
-    file = SimpleUploadedFile(
-        "test_event_image.jpg", img_file.getvalue(), content_type="image/jpeg"
-    )
-
-    data = {"event_id": str(event.id), "file_object": file}
-
-    return data
-
-
-def get_uploaded_file_path(response: Response) -> str:
-    """
-    Helper function to get the uploaded file URL from the response.
-    """
-    file_url = response
-    relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
-    uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
-
-    return uploaded_file
-
-
-def get_file_to_delete(response: Response) -> str:
-    """
-    Helper function to get the file to delete from the response.
-    """
-    file_object = response.split("/")[-1]
-    file_to_delete = os.path.join(settings.MEDIA_ROOT, "images", file_object)
-
-    return file_to_delete
+    assert image.id is not None
+    assert image.file_object.name.endswith(".jpg")
+    assert isinstance(image.creation_date, datetime)
 
 
 @pytest.mark.django_db
@@ -163,7 +131,7 @@ def test_image_create_single_file_view(client: APIClient) -> None:
     3. Check that the response is a 201 status code.
     4. Check that the image was inserted into the database.
     5. Check that the file was uploaded/saved to the media root.
-    6. Check that the uploaded/savedfile has a sanitized, UUID filename.
+    6. Check that the uploaded/saved file has a sanitized, UUID filename.
     8. Delete the file from the file system. This is for test cleanup and does not happen in production.
     """
 
