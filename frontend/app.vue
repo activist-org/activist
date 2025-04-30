@@ -46,11 +46,3 @@ whenever(ctrl_k, () => {
   }
 });
 </script>
-
-<style>
-.dark img {
-  background-color: #1a1a1a;
-  padding: 8px;
-  border-radius: 4px;
-}
-</style>
