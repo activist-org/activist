@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <NuxtLayout name="group-list">
+  <NuxtLayout
+    :name="
+      !/organizations-orgId-groups-groupId.*/.test($route.name)
+        ? 'organization-page'
+        : false
+    "
+  >
     <NuxtPage />
   </NuxtLayout>
 </template>

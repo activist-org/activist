@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <NuxtLayout name="group-list">
+  <NuxtLayout name="event-page">
     <NuxtPage />
   </NuxtLayout>
 </template>
