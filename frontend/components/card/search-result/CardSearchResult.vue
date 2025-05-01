@@ -16,6 +16,7 @@
           >
             <img
               v-if="organization && imageUrl"
+              class="rounded-md"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
@@ -31,6 +32,7 @@
             />
             <img
               v-if="group && imageUrl"
+              class="rounded-md"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,

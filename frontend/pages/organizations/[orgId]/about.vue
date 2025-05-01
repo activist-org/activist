@@ -81,9 +81,8 @@
 
 <script setup lang="ts">
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
-
-import { FileUploadEntity } from "../../../types/content/file-upload-entity";
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
