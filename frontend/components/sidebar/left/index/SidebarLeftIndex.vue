@@ -16,13 +16,15 @@
       >
         <button
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModal()"
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.ORGANIZATION_ICON,
+            })
+          "
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <!-- Attn: Disabled -->
-        <!-- <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" /> -->
         <ImageOrganization
           class="elem-shadow-sm"
           :imgUrl="logoUrl"
@@ -45,13 +47,48 @@
       >
         <button
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModal()"
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.EVENT_ICON,
+            })
+          "
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         >
           <Icon :name="IconMap.PLUS" size="1em" />
         </button>
-        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
         <ImageEvent
+          class="elem-shadow-sm"
+          eventType="action"
+          :imgUrl="logoUrl"
+          :alt="
+            $t('i18n._global.entity_logo', {
+              entity_name: name,
+            })
+          "
+        />
+      </div>
+      <div
+        v-else-if="sidebarTypeToDisplay === SidebarType.GROUP_PAGE"
+        class="relative"
+        :class="{
+          'h-32 w-32':
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          'h-10 w-10':
+            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        }"
+      >
+        <button
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.GROUP_ICON,
+            })
+          "
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+        >
+          <Icon :name="IconMap.PLUS" size="1em" />
+        </button>
+        <ImageGroup
           class="elem-shadow-sm"
           eventType="action"
           :alt="
@@ -94,30 +131,26 @@
 </template>
 
 <script setup lang="ts">
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 import { SidebarType } from "~/types/sidebar-type";
 
 const props = defineProps<{
   name: string;
-  sidebarType: SidebarType.ORGANIZATION_PAGE | SidebarType.EVENT_PAGE;
+  sidebarType:
+    | SidebarType.ORGANIZATION_PAGE
+    | SidebarType.EVENT_PAGE
+    | SidebarType.GROUP_PAGE;
   logoUrl?: string;
 }>();
+
+const logoUrl = ref(props.logoUrl);
 
 const sidebarTypeToDisplay = computed(() => props.sidebarType);
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
-const modals = useModals();
-const modalName = "ModalUploadImages";
-const modalIsOpen = ref(false);
 
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
-};
+const { openModal: openModalUploadImages } =
+  useModalHandlers("ModalUploadImages");
 </script>

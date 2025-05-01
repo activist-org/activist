@@ -10,10 +10,9 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from communities.organizations.models import Organization
-from content.serializers import LocationSerializer, ResourceSerializer
+from content.serializers import ImageSerializer, LocationSerializer, ResourceSerializer
 from events.models import Event, EventSocialLink, EventText, Format
 from utils.utils import (
-    validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
 )
 
@@ -95,6 +94,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     offline_location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)
+    icon_url = ImageSerializer(required=False)
 
     class Meta:
         model = Event
@@ -124,17 +124,48 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         ValidationError
             If validation fails for any field.
         """
-        if parse_datetime(str(data["start_time"])) > parse_datetime(
-            str(data["end_time"])
-        ):  # type: ignore
-            raise serializers.ValidationError(
-                _("The start time cannot be after the end time."),
-                code="invalid_time_order",
+
+        start = data.get("start_time")
+        end = data.get("end_time")
+
+        # Only validate if both times are provided.
+        if start and end:
+            # Convert to datetime if they're strings.
+            start_dt = parse_datetime(start) if isinstance(start, str) else start
+            end_dt = parse_datetime(end) if isinstance(end, str) else end
+
+            if start_dt > end_dt:
+                raise serializers.ValidationError(
+                    _("The start time cannot be after the end time."),
+                    code="invalid_time_order",
+                )
+
+        creation_date = data.get("creation_date")
+        deletion_date = data.get("deletion_date")
+
+        if creation_date and deletion_date:
+            # Convert to datetime if they're strings.
+            creation_dt = (
+                parse_datetime(creation_date)
+                if isinstance(creation_date, str)
+                else creation_date
+            )
+            deletion_dt = (
+                parse_datetime(deletion_date)
+                if isinstance(deletion_date, str)
+                else deletion_date
             )
 
-        validate_creation_and_deletion_dates(data)
+            if creation_dt > deletion_dt:
+                raise serializers.ValidationError(
+                    _("The creation date cannot be after the deletion date."),
+                    code="invalid_date_order",
+                )
 
-        if data.get("terms_checked") is False:
+        terms_checked = data.get("terms_checked")
+
+        # If data.get("terms_checked") is False.
+        if terms_checked and terms_checked is False:
             raise serializers.ValidationError(
                 "You must accept the terms of service to create an event."
             )
