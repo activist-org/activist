@@ -2,7 +2,9 @@
 <template>
   <NuxtLayout
     :name="
-      !/organizations-orgId.*/.test($route.name) ? 'organization-list' : false
+      !/organizations-orgId.*/.test($route.name as string)
+        ? 'organization-list'
+        : false
     "
   >
     <NuxtPage />

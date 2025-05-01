@@ -2,7 +2,7 @@
 <template>
   <NuxtLayout
     :name="
-      !/organizations-orgId-groups-groupId.*/.test($route.name)
+      !/organizations-orgId-groups-groupId.*/.test($route.name as string)
         ? 'organization-page'
         : false
     "
