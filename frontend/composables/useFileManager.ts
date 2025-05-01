@@ -97,16 +97,6 @@ export function useFileManager(entityId?: string) {
 
       if (response.ok) {
         const data = (await response.json()) as ContentImage[];
-
-        console.log("fetchIconImage data:", data);
-
-        //         imageUrls.value =
-        //           data.length > 0
-        //             ? data.map((img: ContentImage) => img.fileObject)
-        //             : defaultImageUrls;
-        //
-        //         console.log("imageUrls.value:", imageUrls.value);
-
         return data;
       }
     } catch (error) {
@@ -132,11 +122,6 @@ export function useFileManager(entityId?: string) {
     files.value.forEach((uploadableFile: UploadableFile) => {
       formData.append("file_object", uploadableFile.file);
     });
-
-    // Log FormData contents
-    // for (const pair of formData.entries()) {
-    //   console.log("FormData: ", pair[0], pair[1]);
-    // }
 
     try {
       const response = await fetch(

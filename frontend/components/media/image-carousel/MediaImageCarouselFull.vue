@@ -32,14 +32,13 @@ const props = defineProps<{ fileUploadEntity: FileUploadEntity }>();
 const orgStore = useOrganizationStore();
 const groupStore = useGroupStore();
 
-// TODO: Refactor this. ModalUploadImages also figures ids out. Needed here because of the useFileManager hook, to get the initial iamge set on mount
+// TODO: Refactor this. ModalUploadImages also figures ids out.
+// Needed here because of the useFileManager hook, to get the initial image set on mount.
 const entityId = computed(() => {
   switch (props.fileUploadEntity) {
     case FileUploadEntity.ORGANIZATION_CAROUSEL:
-      // console.log("orgStore.organization: ", orgStore.organization);
       return orgStore.organization.id;
     case FileUploadEntity.GROUP_CAROUSEL:
-      // console.log("groupStore.group", groupStore.group);
       return groupStore.group.id;
     default:
       console.log("Invalid file upload entity: ", props.fileUploadEntity);
@@ -73,13 +72,11 @@ const handleDeleteComplete = async (fileUploadEntity: FileUploadEntity) => {
 onMounted(async () => {
   switch (props.fileUploadEntity) {
     case FileUploadEntity.ORGANIZATION_CAROUSEL:
-      // console.log("orgStore.organization", orgStore.organization);
       if (entityId.value) {
         await fetchOrganizationImages();
       }
       break;
     case FileUploadEntity.GROUP_CAROUSEL:
-      // console.log("groupStore.group", groupStore.group);
       return groupStore.group?.id;
     default:
       console.log("Invalid file upload entity: ", props.fileUploadEntity);

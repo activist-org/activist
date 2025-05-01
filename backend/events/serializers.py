@@ -128,9 +128,9 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         start = data.get("start_time")
         end = data.get("end_time")
 
-        # Only validate if both times are provided
+        # Only validate if both times are provided.
         if start and end:
-            # Convert to datetime if they're strings
+            # Convert to datetime if they're strings.
             start_dt = parse_datetime(start) if isinstance(start, str) else start
             end_dt = parse_datetime(end) if isinstance(end, str) else end
 
@@ -144,7 +144,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         deletion_date = data.get("deletion_date")
 
         if creation_date and deletion_date:
-            # Convert to datetime if they're strings
+            # Convert to datetime if they're strings.
             creation_dt = (
                 parse_datetime(creation_date)
                 if isinstance(creation_date, str)
@@ -164,7 +164,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
         terms_checked = data.get("terms_checked")
 
-        # if data.get("terms_checked") is False:
+        # If data.get("terms_checked") is False.
         if terms_checked and terms_checked is False:
             raise serializers.ValidationError(
                 "You must accept the terms of service to create an event."

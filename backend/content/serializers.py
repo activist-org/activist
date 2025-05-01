@@ -203,10 +203,12 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                         organization = Organization.objects.get(id=organization_id)
                         organization.icon_url = image
                         organization.save()
+
                     except Exception as e:
                         raise serializers.ValidationError(
                             f"An unexpected error occurred while updating the event: {str(e)}"
                         )
+
                 elif request.data.get("entity") == "organization-carousel":
                     next_index = OrganizationImage.objects.filter(
                         org_id=organization_id
@@ -222,6 +224,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                 #         group = Group.objects.get(id=group_id)
                 #         group.iconUrl = image.file_object.url
                 #         group.save()
+
                 elif request.data.get("entity") == "group-carousel":
                     logger.warning("ENTITY:", request.data.get("entity"))
                     logger.warning("GROUP-CAROUSEL group_id:", group_id)
@@ -239,11 +242,11 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                         event.icon_url = image
                         event.save()
                         logger.info("Updated Event %s with icon %s", event_id, image.id)
+
                     except Exception as e:
                         raise serializers.ValidationError(
                             f"An unexpected error occurred while updating the event: {str(e)}"
                         )
-                # TODO: Implement event-carousel if needed.
 
         return images
 

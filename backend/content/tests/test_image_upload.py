@@ -177,7 +177,7 @@ def test_image_create_single_file_view(client: APIClient) -> None:
 @pytest.mark.django_db
 def test_image_create_multiple_files_view(client: APIClient) -> None:
     """
-    Test the create view for multipleimages.
+    Test the create view for multiple images.
     This is like a POST request.
 
     1. Create 3 images.
@@ -192,7 +192,7 @@ def test_image_create_multiple_files_view(client: APIClient) -> None:
     org = OrganizationFactory()
     files = []
 
-    # Create multiple test files
+    # Create multiple test files.
     files = []
     for i in range(3):
         img = TestImage.new("RGB", (100, 100), color="red")
@@ -215,14 +215,14 @@ def test_image_create_multiple_files_view(client: APIClient) -> None:
     # Assert that the images were inserted into the database.
     assert Image.objects.count() == 3
 
-    # Assert that the files were uploaded/saved to the media root
+    # Assert that the files were uploaded/saved to the media root.
     for image in Image.objects.all():
         file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
         assert os.path.exists(
             file_path
         ), f"File {file_path} was not found in the filesystem"
 
-    # Cleanup
+    # Cleanup all test files.
     for image in Image.objects.all():
         file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
         if os.path.exists(file_path):
