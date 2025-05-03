@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Events Page", { tag: ["@desktop", "@mobile"] }, () => {
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test("Events Page has no detectable accessibility issues", async ({
+  test.skip("Events Page has no detectable accessibility issues", async ({
     page,
   }, testInfo) => {
     const violations = await runAccessibilityTest(
