@@ -32,17 +32,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry.d";
 
 import { IconMap } from "~/types/icon-map";
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
+defineProps<{
+  organization: Organization;
+}>();
 
 const orgFAQs: FaqEntry[] = [];
 </script>

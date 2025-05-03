@@ -40,17 +40,16 @@
 </template>
 
 <script setup lang="ts">
+import type { Event } from "~/types/events/event";
+
 import { IconMap } from "~/types/icon-map";
+
+defineProps<{
+  event: Event;
+}>();
 
 const aboveMediumBP = useBreakpoint("md");
 
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-
-const { event } = eventStore;
 // const event = {
 //   name: "Test Event",
 //   discussion: [

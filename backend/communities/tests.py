@@ -43,6 +43,9 @@ def test_str_methods() -> None:
 def test_status_and_status_type_str_methods() -> None:
     """
     Test the __str__ methods of the Status and StatusType models.
+
+    Notes
+    -----
     There are status types preloaded into the test database by the fixture "fixtures/status_types.json".
     """
 
