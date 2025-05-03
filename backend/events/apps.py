@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Configuration for the events app.
+App configuration for the events module.
 """
 
 from django.apps import AppConfig
@@ -8,7 +8,7 @@ from django.apps import AppConfig
 
 class EventsConfig(AppConfig):
     """
-    Django application configuration for events.
+    Class for configuring the events app.
     """
 
     default_auto_field = "django.db.models.BigAutoField"

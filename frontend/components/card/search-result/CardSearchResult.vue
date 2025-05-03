@@ -16,6 +16,7 @@
           >
             <img
               v-if="organization && imageUrl"
+              class="rounded-md"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
@@ -31,6 +32,7 @@
             />
             <img
               v-if="group && imageUrl"
+              class="rounded-md"
               :class="{
                 'h-[150px] w-[150px]': isReduced,
                 'h-[200px] w-[200px]': !isReduced,
@@ -311,15 +313,19 @@ const eventType = computed<"action" | "learn">(() => {
   }
 });
 
+// Organization icon URL does not need to be prefixed with the backend URL.
+// However, event icon URL does.
+// This is because orgs use regular img tags and events use the ImageEvent component.
+// It looks like ImageEvent is better at displaying images.
 const imageUrl = computed<string>(() => {
-  if (props.organization && props.organization.iconUrl) {
-    return props.organization.iconUrl;
-  } else if (props.group && props.group.iconUrl) {
-    return props.group.iconUrl;
-  } else if (props.event && props.event.iconUrl) {
-    return props.event.iconUrl;
-  } else if (props.user && props.user.iconUrl) {
-    return props.user.iconUrl;
+  if (props.organization && props.organization.iconUrl?.fileObject) {
+    return `${props.organization.iconUrl.fileObject}`;
+  } else if (props.group && props.group.iconUrl?.fileObject) {
+    return props.group.iconUrl.fileObject;
+  } else if (props.event && props.event.iconUrl?.fileObject) {
+    return `${BASE_BACKEND_URL_NO_V1}${props.event.iconUrl.fileObject}`;
+  } else if (props.user && props.user.iconUrl?.fileObject) {
+    return props.user.iconUrl.fileObject;
   } else {
     return "";
   }

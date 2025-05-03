@@ -39,17 +39,15 @@
       <Icon :name="IconMap.MINUS" size="1.5em" />
     </button>
     <button
-      @click="openModalUploadImages()"
+      @click="
+        openModalUploadImages({
+          fileUploadEntity: props.fileUploadEntity,
+        })
+      "
       class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
       <Icon :name="IconMap.PLUS" size="1.5em" />
     </button>
-    <ModalUploadImages
-      @upload-complete="forwardUploadCompleteEmit"
-      @closeModal="handleCloseModalUploadImages"
-      @upload-error="uploadError = true"
-      :organizationId="organizationId"
-    />
   </div>
 </template>
 
@@ -58,25 +56,27 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
+import type { FileUploadEntity } from "~/types/content/file-upload-entity";
+
 import { IconMap } from "~/types/icon-map";
 
-const { deleteImage } = useOrganizationImages();
+const { deleteImage } = useFileManager();
 
-const props = defineProps({
-  fullscreen: Boolean,
-  organizationId: String,
-  imageUrls: Array<string>,
-});
+interface Props {
+  fullscreen: boolean;
+  fileUploadEntity: FileUploadEntity;
+  imageUrls: string[];
+}
+
+const props = defineProps<Props>();
 
 register();
 
 const uploadError = ref(false);
 const currentImageId = ref<string>("");
 
-const {
-  openModal: openModalUploadImages,
-  handleCloseModal: handleCloseModalUploadImages,
-} = useModalHandlers("ModalUploadImages");
+const { openModal: openModalUploadImages } =
+  useModalHandlers("ModalUploadImages");
 
 // Get the swiper instance. Use this instance to listen for the slideChange event.
 const swiperRef = ref<{ swiper?: SwiperInstance } | null>(null);
@@ -100,20 +100,7 @@ onMounted(() => {
   }
 });
 
-onUpdated(() => {
-  const swiperEl = swiperRef.value;
-  if (swiperEl?.swiper) {
-    swiperEl.swiper.update();
-  }
-});
-
-const emit = defineEmits(["upload-complete", "delete-complete"]);
-
-// Forward the upload-complete from ModalUploadImages event to the parent component.
-// Building out an event bus would be a better solution, but only a quick fix is needed here.
-const forwardUploadCompleteEmit = () => {
-  emit("upload-complete");
-};
+const emit = defineEmits(["delete-complete"]);
 
 const handleDeleteClick = async () => {
   try {
@@ -123,7 +110,7 @@ const handleDeleteClick = async () => {
     const swiper = swiperRef.value?.swiper;
     swiper?.update();
 
-    emit("delete-complete");
+    emit("delete-complete", props.fileUploadEntity);
   } catch (error) {
     console.error("Delete image failed:", error);
   }

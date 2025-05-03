@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Tests for the Swagger endpoints.
+"""
+
 from rest_framework.test import APIClient
 
 

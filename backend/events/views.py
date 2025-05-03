@@ -39,9 +39,6 @@ class EventAPIView(GenericAPIView[Event]):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_permissions(self):
-        """
-        Returns the permissions for the view.
-        """
         if self.request.method == "POST":
             self.permission_classes = (IsAuthenticated,)
 
@@ -51,9 +48,6 @@ class EventAPIView(GenericAPIView[Event]):
         return super().get_permissions()
 
     def get_serializer_class(self) -> EventSerializer | EventPOSTSerializer:
-        """
-        Returns the serializer class for the view.
-        """
         if self.request.method == "POST":
             return EventPOSTSerializer
 
@@ -61,9 +55,6 @@ class EventAPIView(GenericAPIView[Event]):
 
     @extend_schema(responses={200: EventSerializer(many=True)})
     def get(self, request: Request) -> Response:
-        """
-        Returns paginated list of Events.
-        """
         page = self.paginate_queryset(self.queryset)
 
         if page is not None:
@@ -81,9 +72,6 @@ class EventAPIView(GenericAPIView[Event]):
         },
     )
     def post(self, request: Request) -> Response:
-        """
-        Create a new Event.
-        """
         serializer_class = self.get_serializer_class()
         serializer: EventPOSTSerializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -115,9 +103,6 @@ class EventDetailAPIView(APIView):
         }
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Retrieve an event by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST
@@ -142,9 +127,6 @@ class EventDetailAPIView(APIView):
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Update an event by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST
@@ -178,9 +160,6 @@ class EventDetailAPIView(APIView):
         }
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Delete an event by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST
