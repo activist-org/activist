@@ -22,8 +22,9 @@
 </template>
 
 <script setup lang="ts">
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchAll();
+import type { Organization } from "~/types/communities/organization";
 
-const { organizations } = organizationStore;
+defineProps<{
+  organizations: Organization[];
+}>();
 </script>

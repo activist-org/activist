@@ -42,11 +42,9 @@
 </template>
 
 <script setup lang="ts">
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+import type { Organization } from "~/types/communities/organization";
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
+defineProps<{
+  organization: Organization;
+}>();
 </script>

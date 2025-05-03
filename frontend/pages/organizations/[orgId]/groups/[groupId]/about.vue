@@ -94,15 +94,11 @@ import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 
+defineProps<{
+  group: Group;
+}>();
+
 const aboveLargeBP = useBreakpoint("lg");
-
-const paramsGroupId = useRoute().params.groupid;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-
-const group: Group = groupStore.group;
 
 const groupSubPages = getGroupSubPages();
 

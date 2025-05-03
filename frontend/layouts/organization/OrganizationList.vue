@@ -19,7 +19,7 @@
         class="bg-layer-0 pt-8 transition-padding duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage />
+        <NuxtPage :organizations="organizations" />
       </div>
       <FooterWebsite
         class="pb-24 transition-padding duration-500 md:pb-12"
@@ -36,12 +36,15 @@ import {
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
 
-const handleUploadComplete = async (fileUploadEntity: FileUploadEntity) => {
-  const orgStore = useOrganizationStore();
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchAll();
 
+const { organizations } = organizationStore;
+
+const handleUploadComplete = async (fileUploadEntity: FileUploadEntity) => {
   if (fileUploadEntity === FileUploadEntity.ORGANIZATION_CAROUSEL) {
     const { fetchOrganizationImages } = useFileManager(
-      orgStore.organization.id
+      organizationStore.organization.id
     );
     await fetchOrganizationImages();
   }
