@@ -22,8 +22,9 @@
 </template>
 
 <script setup lang="ts">
-const eventStore = useEventStore();
-await eventStore.fetchAll();
+import type { Event } from "~/types/events/event";
 
-const { events } = eventStore;
+defineProps<{
+  events: Event[];
+}>();
 </script>

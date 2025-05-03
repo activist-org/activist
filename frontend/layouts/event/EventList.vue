@@ -18,7 +18,7 @@
         class="bg-layer-0 pt-8 transition-padding duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage />
+        <NuxtPage :events="events" />
       </div>
       <FooterWebsite
         class="pb-24 transition-padding duration-500 md:pb-12"
@@ -33,6 +33,11 @@ import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
+
+const eventStore = useEventStore();
+await eventStore.fetchAll();
+
+const { events } = eventStore;
 
 const { handleCloseModal: handleCloseModalUploadImages } =
   useModalHandlers("ModalUploadImages");
