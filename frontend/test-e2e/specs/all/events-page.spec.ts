@@ -4,19 +4,17 @@ import { expect, test } from "playwright/test";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/organizations");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /organizations/i
-  );
+  await page.goto("/events");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/events/i);
 });
 
-test.describe("Organizations Page", { tag: ["@desktop", "@mobile"] }, () => {
+test.describe("Events Page", { tag: ["@desktop", "@mobile"] }, () => {
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test.skip("Organizations Page has no detectable accessibility issues", async ({
+  test.skip("Events Page has no detectable accessibility issues", async ({
     page,
   }, testInfo) => {
     const violations = await runAccessibilityTest(
-      "Organizations Page",
+      "Events Page",
       page,
       testInfo
     );
