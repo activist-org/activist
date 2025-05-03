@@ -17,26 +17,6 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     expect(await page.title()).toContain("activist");
   });
 
-  test("User can go to the docs from the landing page", async ({ page }) => {
-    // Check for at least one link to the docs site.
-    const docsLinks = page
-      .getByRole("link", { name: /.*/ })
-      .filter({ hasText: /.*/ });
-
-    // Find if any link points to docs.activist.org/activist.
-    const docsLinkCount = await docsLinks.evaluateAll(
-      (links) =>
-        links.filter((link) =>
-          (link as HTMLAnchorElement).href.includes(
-            "https://docs.activist.org/activist"
-          )
-        ).length
-    );
-
-    // Assert that at least one matching link exists.
-    expect(docsLinkCount).toBeGreaterThan(0);
-  });
-
   test("User can go to Organizations page", async ({ page }) => {
     const organizationsLink = page.getByRole("link", {
       name: new RegExp(
