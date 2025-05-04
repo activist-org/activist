@@ -7,6 +7,18 @@ set -e
 
 echo "Starting OWASP ZAP scan using ZAP Desktop API..."
 
+# Check if ZAP is already running and kill existing instances if found
+ZAP_PROCESSES=$(ps aux | grep -i "zap.sh" | grep -v grep | awk '{print $2}')
+if [ -n "$ZAP_PROCESSES" ]; then
+  echo "Found existing ZAP processes running. Terminating them first..."
+  for pid in $ZAP_PROCESSES; do
+    echo "Killing ZAP process $pid"
+    kill -9 "$pid" 2>/dev/null || true
+  done
+  # Give time for processes to terminate
+  sleep 2
+fi
+
 # Check if ZAP is installed (macOS locations)
 ZAP_PATHS=(
   "/Applications/OWASP ZAP.app/Contents/Java/zap.sh"
@@ -31,9 +43,15 @@ fi
 REPORTS_DIR="$(pwd)/zap-reports"
 mkdir -p "$REPORTS_DIR"
 
+# Create a temporary home directory to avoid conflicts
+TEMP_HOME_DIR="/tmp/zap_home_$(date +%s)"
+mkdir -p "$TEMP_HOME_DIR"
+echo "Using temporary ZAP home directory: $TEMP_HOME_DIR"
+
 # Start ZAP in daemon mode with optimized configuration
 echo "Starting ZAP in daemon mode..."
 "$ZAP_PATH" -daemon -host 127.0.0.1 -port 8080 \
+  -dir "$TEMP_HOME_DIR" \
   -config api.disablekey=true \
   -config selenium.browsers.firefox.path="" \
   -config client.launchBrowser=false \
@@ -43,24 +61,56 @@ echo "Starting ZAP in daemon mode..."
   -config connection.socketTimeoutInSecs=30 \
   -config scanner.threadPerHost=2 \
   -config scanner.hostPerScan=2 \
-  -config scanner.delayInMs=500 &
+  -config scanner.delayInMs=500 \
+  -silent -nostdout &
 ZAP_PID=$!
 
-# Wait for ZAP to start (increased wait time)
-echo "Waiting for ZAP to initialize..."
-sleep 20
+# Check if ZAP was started correctly
+if ! ps -p $ZAP_PID > /dev/null; then
+  echo "Error: ZAP failed to start. Please check the logs."
+  exit 1
+fi
+
+echo "Waiting for ZAP to initialize (max 120 seconds)..."
+
+# More robust API readiness check with timeout
+MAX_WAIT=120
+START_TIME=$(date +%s)
+API_READY=false
+
+while [ "$API_READY" = false ]; do
+  # Check if we've exceeded the timeout
+  CURRENT_TIME=$(date +%s)
+  ELAPSED=$((CURRENT_TIME - START_TIME))
+
+  if [ $ELAPSED -gt $MAX_WAIT ]; then
+    echo "Error: Timed out waiting for ZAP API to become responsive after ${MAX_WAIT} seconds."
+    echo "Terminating ZAP process $ZAP_PID"
+    kill $ZAP_PID 2>/dev/null || true
+    exit 1
+  fi
+
+  # Check if ZAP is listening
+  if curl -s -m 1 "http://localhost:8080/" > /dev/null 2>&1; then
+    # Try the API endpoint
+    API_RESPONSE=$(curl -s -m 2 "http://localhost:8080/JSON/core/view/version/" 2>/dev/null)
+    if [[ "$API_RESPONSE" == *"version"* ]]; then
+      echo "ZAP API is responsive after ${ELAPSED} seconds!"
+      API_READY=true
+    else
+      echo "ZAP API not fully initialized yet (${ELAPSED}s)... waiting"
+      sleep 3
+    fi
+  else
+    echo "Waiting for ZAP to start listening on port 8080 (${ELAPSED}s)..."
+    sleep 2
+  fi
+done
+
+# Removed: Certificate check using API which fails in newer ZAP versions
 
 # The target URL
 TARGET_URL="https://www.activist.org/en/"
-
-# First, check if ZAP API is responding
-echo "Checking if ZAP API is responsive..."
-API_TEST=$(curl -s "http://localhost:8080/JSON/core/view/version/")
-if [[ "$API_TEST" != *"version"* ]]; then
-  echo "Error: ZAP API is not responding properly. Please check if ZAP started correctly."
-  kill $ZAP_PID 2>/dev/null || true
-  exit 1
-fi
 
 # Access the URL to add it to the site tree
 echo "Adding target URL to site tree..."
