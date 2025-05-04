@@ -26,7 +26,11 @@ export const useOrganizationStore = defineStore("organization", {
       name: "",
       tagline: "",
       createdBy: "",
-      iconUrl: "",
+      iconUrl: {
+        id: "",
+        fileObject: "",
+        creation_date: "",
+      },
 
       location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 

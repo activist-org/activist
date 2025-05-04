@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Note: We need to import here to overwrite base types.
+import type { ContentImage } from "~/types/content/image";
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Event } from "~/types/events/event";
-
 // MARK: Main Table
 
 interface GroupBase {
@@ -12,7 +12,7 @@ interface GroupBase {
   name: string;
   tagline: string;
   createdBy: User;
-  iconUrl?: string;
+  iconUrl?: ContentImage;
   location: Location;
   getInvolvedUrl: string;
   socialLinks: GroupSocialLink[];

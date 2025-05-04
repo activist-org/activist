@@ -64,7 +64,7 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :organizationId="orgId"
+            :fileUploadEntity="FileUploadEntity.ORGANIZATION_CAROUSEL"
           />
         </div>
       </div>
@@ -80,20 +80,19 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/communities/organization";
+
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
+
+defineProps<{
+  organization: Organization;
+}>();
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const aboveLargeBP = useBreakpoint("lg");
-
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Test cases for updating events.
+"""
+
 import pytest
 from django.test import Client
 

@@ -38,15 +38,11 @@
 </template>
 
 <script setup lang="ts">
-import { getGroupSubPages } from "~/utils/groupSubPages";
+import type { Group } from "~/types/communities/group";
+
+defineProps<{
+  group: Group;
+}>();
 
 const groupSubPages = getGroupSubPages();
-
-const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-
-const { group } = groupStore;
 </script>

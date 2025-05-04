@@ -42,7 +42,8 @@
       <SidebarLeftIndex
         v-if="
           sidebarType === SidebarType.ORGANIZATION_PAGE ||
-          sidebarType === SidebarType.EVENT_PAGE
+          sidebarType === SidebarType.EVENT_PAGE ||
+          sidebarType === SidebarType.GROUP_PAGE
         "
         class="my-3"
         :name="placeholderName ? placeholderName : 'Name'"

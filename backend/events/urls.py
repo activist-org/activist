@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-URL routing for the events app.
+URL configuration for the events app.
 """
 
 from django.urls import include, path

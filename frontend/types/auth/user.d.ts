@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { ContentImage } from "~/types/content/image";
+
 // MARK: Main Table
 
 export interface User {
@@ -7,7 +9,7 @@ export interface User {
   name: string;
   location?: string;
   description?: string;
-  iconUrl?: string;
+  iconUrl?: ContentImage;
   // verified?: boolean;
   // verificationMethod?: string;
   // verificationPartner?: User;

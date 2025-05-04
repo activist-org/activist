@@ -11,6 +11,10 @@ from communities.models import Status, StatusType
 
 
 class StatusSerializer(serializers.ModelSerializer[Status]):
+    """
+    Serializer for status model data.
+    """
+
     class Meta:
         model = Status
         fields = "__all__"
@@ -20,6 +24,10 @@ class StatusSerializer(serializers.ModelSerializer[Status]):
 
 
 class StatusTypeSerializer(serializers.ModelSerializer[StatusType]):
+    """
+    Serializer for StatusType model data.
+    """
+
     class Meta:
         model = StatusType
         fields = "__all__"

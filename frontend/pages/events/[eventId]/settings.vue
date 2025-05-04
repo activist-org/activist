@@ -38,11 +38,9 @@
 </template>
 
 <script setup lang="ts">
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+import type { Event } from "~/types/events/event";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-
-const { event } = eventStore;
+defineProps<{
+  event: Event;
+}>();
 </script>

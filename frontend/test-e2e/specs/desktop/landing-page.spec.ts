@@ -22,6 +22,26 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Landing Page", { tag: "@desktop" }, () => {
+  test("User can go to the docs from the landing page", async ({ page }) => {
+    // Check for at least one link to the docs site.
+    const docsLinks = page
+      .getByRole("link", { name: /.*/ })
+      .filter({ hasText: /.*/ });
+
+    // Find if any link points to docs.activist.org/activist.
+    const docsLinkCount = await docsLinks.evaluateAll(
+      (links) =>
+        links.filter((link) =>
+          (link as HTMLAnchorElement).href.includes(
+            "https://docs.activist.org/activist"
+          )
+        ).length
+    );
+
+    // Assert that at least one matching link exists.
+    expect(docsLinkCount).toBe(14);
+  });
+
   test("User can go to Roadmap on desktop", async ({ page }) => {
     await page.getByRole("link", { name: ROADMAP_LINK_NAME }).click();
     await page.waitForURL("**/about/roadmap");

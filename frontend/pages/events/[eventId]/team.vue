@@ -37,13 +37,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Event } from "~/types/events/event";
+
 import { IconMap } from "~/types/icon-map";
 
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-
-const { event } = eventStore;
+defineProps<{
+  event: Event;
+}>();
 </script>

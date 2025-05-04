@@ -11,7 +11,7 @@
     ></div>
     <img
       v-if="imgUrl && imgUrl !== ''"
-      class="object-cover"
+      class="w-[80%] rounded-r-md object-cover"
       :src="imgUrl"
       :alt="alt"
     />
