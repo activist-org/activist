@@ -14,17 +14,12 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModal()"
-          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-        >
-          <Icon :name="IconMap.PLUS" size="1em" />
-        </button>
-        <!-- Attn: Disabled -->
-        <!-- <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" /> -->
+
+
+      <p>
+
         <ImageOrganization
-          class="elem-shadow-sm"
+        class="elem-shadow-sm"
           :imgUrl="logoUrl"
           :alt="
             $t('i18n._global.entity_logo', {
@@ -32,6 +27,63 @@
             })
           "
         />
+        </p>
+
+        <p v-if="showButton" style="padding-top:20px">
+          <!-- Attn: Disabled -->
+        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
+        <button
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @click="openModal()"
+          class="focus-brand absolute bottom-1 right-1 z-10 items-centre justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+
+        >
+         <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
+         &nbsp; &nbsp; Upload &nbsp; &nbsp;
+        </button>
+        </p>
+
+        </div>
+
+
+      <div
+        v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
+        class="relative"
+        :class="{
+          'h-32 w-32':
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false,
+          'h-10 w-10':
+            sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+        }"
+      >
+      <p>
+      <ImageEvent
+          class="elem-shadow-sm"
+          eventType="action"
+          :alt="
+            $t('i18n._global.entity_logo', {
+              entity_name: name,
+            })
+          "
+        />
+
+
+      </p>
+      <p v-if="showButton">
+      <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
+          <button
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @click="openModal()"
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+        >
+          <!--<Icon :name="IconMap.PLUS" size="1em" />-->
+         &nbsp; &nbsp; Upload &nbsp; &nbsp;
+        </button>
+        </p>
+        <p v-if="!showButton">
+
+        </p>
+
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
@@ -43,14 +95,8 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModal()"
-          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-        >
-          <Icon :name="IconMap.PLUS" size="1em" />
-        </button>
-        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
+
+
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"
@@ -60,7 +106,11 @@
             })
           "
         />
+
+
+
       </div>
+
       <ul
         id="submenu"
         class="mb-1 flex w-full flex-col px-1"
@@ -73,7 +123,7 @@
         <li
           v-for="menuEntry in sidebarTypeToDisplay ===
           SidebarType.ORGANIZATION_PAGE
-            ? menuEntriesState.organizationEntry.value
+          ? menuEntriesState.organizationEntry.value
             : menuEntriesState.eventEntry.value"
         >
           <SidebarLeftSelector
@@ -110,14 +160,51 @@ const menuEntriesState = useMenuEntriesState();
 const modals = useModals();
 const modalName = "ModalUploadImages";
 const modalIsOpen = ref(false);
+const showButton = true; //temporarily until the upload function is done below
 
 function openModal() {
   modals.openModal(modalName);
   modalIsOpen.value = modals.modals[modalName].isOpen;
 }
-
 const handleCloseModal = () => {
   modals.closeModal(modalName);
   modalIsOpen.value = modals.modals[modalName].isOpen;
 };
+//function for uploading and having upload button disappear after upload is done
+/*export default {
+  data() {
+    return {
+      file: null,
+      uploading: false,
+      uploadSuccess: false,
+      showButton: true,
+    };
+  },
+  methods: {
+    handleFileUpload(event) {
+      this.file = event.target.files[0];
+    },
+    async uploadFile() {
+      if (!this.file) {
+        return;
+      }
+
+      this.uploading = true;
+      this.showButton = false;
+
+      try {
+        // Simulate an upload process (replace with actual upload logic)
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        this.uploadSuccess = true;
+      } catch (error) {
+        console.error("Upload failed:", error);
+        this.uploadSuccess = false;
+        this.showButton = true; //Re-enable the button in case of error
+      } finally {
+        this.uploading = false;
+      }
+    },
+  },
+}; */
 </script>
