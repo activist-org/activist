@@ -8,40 +8,121 @@ The security testing is configured to focus on the most effective and critical s
 
 ### Key Features
 
+- **Automation Framework**: Uses ZAP's modern automation framework with YAML configuration
 - **High Attack Strength**: Configured to use HIGH attack strength for more thorough testing
 - **Medium Alert Threshold**: Set to MEDIUM to balance between finding important vulnerabilities and reducing false positives
-- **Optimized Scan Time**: Set to 60 minutes maximum with 10 threads for efficient scanning
-- **Weekly Scheduled Scans**: Automatically runs every Monday at 2 AM UTC
-- **Custom Rules**: Excludes tests known to produce false positives or less critical findings
+- **AJAX Spider**: Includes both standard and AJAX spidering for comprehensive coverage
+- **Optimized Scan Time**: Efficient scanning with configured timeouts and depth limits
+- **Weekly Scheduled Scans**: Automatically runs every Monday at 2 AM UTC via GitHub Actions
+- **Custom Alert Filters**: Excludes tests known to produce false positives or less critical findings
 
-## Rules File Explanation
+## ZAP Automation Configuration
 
-The `rules.tsv` file contains a list of rules that are either included or excluded from the scan. The format is:
+The `zap.yaml` file defines the entire security testing workflow, including:
 
+1. **Context Definition**: Target URLs and scan boundaries
+2. **Spidering**: Both traditional and AJAX spidering to discover endpoints
+3. **Passive Scanning**: Analyzes responses for security issues without sending additional requests
+4. **Active Scanning**: Sends crafted requests to test for vulnerabilities
+5. **Alert Filtering**: Manages false positives and categorizes findings
+6. **Reporting**: Generates standardized HTML and JSON reports
+
+### Alert Filtering
+
+We've excluded certain alerts that are typically false positives or lower risk:
+
+```yaml
+alertFilters:
+  - ruleId: 10016     # Cross-Domain Misconfiguration
+    newRisk: "False Positive"
+  - ruleId: 10020     # X-Frame-Options Header
+    newRisk: "False Positive"
+  # ... additional filters
 ```
-[rule ID]  [IGNORE/WARN/FAIL]  [URL regex]  [Description]
+
+## Usage Instructions
+
+### Running a Scan Locally
+
+To run a scan locally using Docker:
+
+```bash
+# Basic scan with default settings
+./run_local_scan.sh
+
+# Scan a specific target
+./run_local_scan.sh -t https://example.com
+
+# Customize the scan
+./run_local_scan.sh -t https://example.com -o json -d 15 -T 120
 ```
 
-### Excluded Rules Rationale
+Options:
+- `-t, --target URL`: Target URL to scan (default: https://www.activist.org/en/)
+- `-o, --output FORMAT`: Output format: html, json, xml, md (default: html)
+- `-d, --max-depth DEPTH`: Maximum crawl depth (default: 10)
+- `-T, --timeout SECONDS`: Timeout in seconds (default: 60)
 
-We've excluded certain rules for the following reasons:
+### Using Docker Compose
 
-1. **Header-related checks** (10020, 10021, 10038, 10063): These are often handled by CDNs or WAFs in production
-2. **Information disclosure** (90022, 10096, 40032, 2): These often produce false positives
-3. **Non-critical issues** (10049, 10109): These are informational and not security vulnerabilities
-4. **Complex analysis** (10055, 10202, 10104): These require manual verification and often produce false positives
+You can also run the scan using Docker Compose:
 
-## Best Practices Implemented
+```bash
+cd .zap
+docker-compose up
+```
 
-1. **Focus on Critical Vulnerabilities**: Prioritizing OWASP Top 10 vulnerabilities
-2. **Reduced False Positives**: Excluding rules known to produce noise
-3. **Regular Scanning**: Weekly automated scans
-4. **Non-Blocking**: Security findings are reported but don't block the workflow
-5. **High Attack Strength**: More thorough testing for critical endpoints
+### Testing GitHub Actions Locally with Act
 
-## Recommended Follow-up
+To test the GitHub Actions workflow locally before pushing to GitHub:
 
-- Review security reports weekly
-- Perform manual verification of findings
-- Consider adding authenticated scanning for protected areas
-- Update excluded rules based on application changes
+```bash
+# Run the GitHub Actions workflow locally using Act
+./.zap/run_with_act.sh
+```
+
+This uses the [Act](https://github.com/nektos/act) tool to simulate GitHub Actions on your local machine. It will execute the same workflow that would run in CI/CD, allowing you to verify your configuration changes work correctly.
+
+### Running with ZAP Desktop UI
+
+If you prefer a graphical interface for exploring the scan results or want more interactive control:
+
+```bash
+# Start ZAP with the desktop UI
+./.zap/run_with_zap_desktop.sh
+```
+
+This launches the ZAP Desktop application in a Docker container, with:
+- Pre-configured proxy settings
+- The target application loaded
+- Access to the full ZAP interface for manual testing
+- Persistence of ZAP session data
+
+You can use the desktop UI to:
+- Explore discovered endpoints
+- Examine specific alerts in detail
+- Run targeted scans on specific functionality
+- Use manual testing tools like the intercepting proxy
+
+### GitHub Actions Integration
+
+The scan runs automatically in GitHub Actions via the workflow in `.github/workflows/owasp_zap_full_scan.yaml`.
+
+You can also trigger it manually from the GitHub Actions tab by selecting the "OWASP ZAP Optimized Security Scan" workflow and clicking "Run workflow".
+
+## Customizing the Scan
+
+To modify the scan configuration, edit the `zap.yaml` file. Common customizations include:
+
+1. **Changing Target URLs**: Update the URLs in the `contexts` section
+2. **Adjusting Spider Depth**: Modify `maxDepth` or `maxCrawlDepth` parameters
+3. **Adding Alert Filters**: Add new entries to the `alertFilters` section
+4. **Changing Scan Intensity**: Modify the `strength` and `threshold` parameters
+
+## Best Practices
+
+1. **Start with Low Depth**: Begin with a lower spider depth and increase gradually
+2. **Review Reports Carefully**: Examine all findings, especially those marked as High risk
+3. **Update Alert Filters**: Continuously refine the alert filters based on findings
+4. **Scan Regularly**: Run scans after significant changes to the application
+5. **Combine with Other Tools**: ZAP is powerful but should be part of a broader security strategy
