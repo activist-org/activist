@@ -8,14 +8,14 @@ env:
     progressToStdout: true
 
 jobs:
-  # Spidering (Standard)
+  # Use a spider as the standard approach.
   - type: spider
     parameters:
       context: activist-org-en
       maxDuration: 10
       maxDepth: 10
 
-  # AJAX Spider for dynamic content
+  # AJAX spider for dynamic content.
   - type: spiderAjax
     parameters:
       context: activist-org-en
@@ -23,12 +23,12 @@ jobs:
       maxCrawlDepth: 10
       browserId: firefox-headless
 
-  # Passive Scan - Waits for spiders/other actions
+  # Passive Scan - Waits for spiders/other actions.
   - type: passiveScan-wait
     parameters:
       maxDuration: 60
 
-  # Active Scan - using proper policy configuration
+  # Active Scan - using proper policy configuration.
   - type: activeScan
     parameters:
       context: activist-org-en
@@ -36,12 +36,12 @@ jobs:
         strength: HIGH
         threshold: MEDIUM
 
-  # Reporting (JSON Summary) - Using reports directory for writing
+  # Reporting (JSON Summary) - Using reports directory for writing.
   - type: outputSummary
     parameters:
       summaryFile: /zap/reports/zap_summary.json
 
-  # Alert Filtering with proper format according to documentation
+  # Alert Filtering with proper format according to documentation.
   - type: alertFilter
     parameters:
       deleteGlobalAlerts: true
@@ -75,7 +75,7 @@ jobs:
       - ruleId: 10104
         newRisk: "False Positive"
 
-  # Reporting (HTML Report) - Standardized path and filename
+  # Reporting (HTML Report) - Standardized path and filename.
   - type: report
     parameters:
       template: traditional-html

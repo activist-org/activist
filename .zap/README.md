@@ -9,9 +9,9 @@ The security testing is configured to focus on the most effective and critical s
 ### Key Features
 
 - **Automation Framework**: Uses ZAP's modern automation framework with YAML configuration
-- **High Attack Strength**: Configured to use HIGH attack strength for more thorough testing
-- **Medium Alert Threshold**: Set to MEDIUM to balance between finding important vulnerabilities and reducing false positives
-- **AJAX Spider**: Includes both standard and AJAX spidering for comprehensive coverage
+- **High Attack Strength**: Configured to use `HIGH` attack strength for more thorough testing
+- **Medium Alert Threshold**: Set to `MEDIUM` to balance between finding important vulnerabilities and reducing false positives
+- **AJAX Spider**: Includes both standard and AJAX spider usage for comprehensive coverage
 - **Optimized Scan Time**: Efficient scanning with configured timeouts and depth limits
 - **Weekly Scheduled Scans**: Automatically runs every Monday at 2 AM UTC via GitHub Actions
 - **Custom Alert Filters**: Excludes tests known to produce false positives or less critical findings
@@ -21,7 +21,7 @@ The security testing is configured to focus on the most effective and critical s
 The `zap.yaml` file defines the entire security testing workflow, including:
 
 1. **Context Definition**: Target URLs and scan boundaries
-2. **Spidering**: Both traditional and AJAX spidering to discover endpoints
+2. **Spider Scanning**: Both traditional and AJAX spider usage to discover endpoints
 3. **Passive Scanning**: Analyzes responses for security issues without sending additional requests
 4. **Active Scanning**: Sends crafted requests to test for vulnerabilities
 5. **Alert Filtering**: Manages false positives and categorizes findings
@@ -33,27 +33,26 @@ We've excluded certain alerts that are typically false positives or lower risk:
 
 ```yaml
 alertFilters:
-  - ruleId: 10016     # Cross-Domain Misconfiguration
+  - ruleId: 10016     # cross-domain Misconfiguration
     newRisk: "False Positive"
-  - ruleId: 10020     # X-Frame-Options Header
+  - ruleId: 10020     # x-frame-options header
     newRisk: "False Positive"
-  # ... additional filters
 ```
 
 ## Usage Instructions
 
-### Running a Scan Locally
+### Docker
 
-To run a scan locally using Docker:
+To run a scan locally using Docker via the following commands:
 
 ```bash
-# Basic scan with default settings
+# Basic scan with default settings.
 ./run_local_scan.sh
 
-# Scan a specific target
+# Scan a specific target.
 ./run_local_scan.sh -t https://example.com
 
-# Customize the scan
+# Customize the scan.
 ./run_local_scan.sh -t https://example.com -o json -d 15 -T 120
 ```
 
@@ -63,7 +62,7 @@ Options:
 - `-d, --max-depth DEPTH`: Maximum crawl depth (default: 10)
 - `-T, --timeout SECONDS`: Timeout in seconds (default: 60)
 
-### Using Docker Compose
+### Docker Compose
 
 You can also run the scan using Docker Compose:
 
@@ -77,7 +76,7 @@ docker-compose up
 To test the GitHub Actions workflow locally before pushing to GitHub:
 
 ```bash
-# Run the GitHub Actions workflow locally using Act
+# Run the GitHub Actions workflow locally using Act.
 ./.zap/run_with_act.sh
 ```
 
@@ -88,17 +87,19 @@ This uses the [Act](https://github.com/nektos/act) tool to simulate GitHub Actio
 If you prefer a graphical interface for exploring the scan results or want more interactive control:
 
 ```bash
-# Start ZAP with the desktop UI
+# Start ZAP with the desktop UI.
 ./.zap/run_with_zap_desktop.sh
 ```
 
 This launches the ZAP Desktop application in a Docker container, with:
+
 - Pre-configured proxy settings
 - The target application loaded
 - Access to the full ZAP interface for manual testing
 - Persistence of ZAP session data
 
 You can use the desktop UI to:
+
 - Explore discovered endpoints
 - Examine specific alerts in detail
 - Run targeted scans on specific functionality
