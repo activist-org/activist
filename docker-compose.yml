@@ -18,13 +18,7 @@ services:
       python manage.py loaddata fixtures/superuser.json &&
       python manage.py loaddata fixtures/status_types.json &&
       python manage.py loaddata fixtures/topics.json &&
-      python manage.py populate_db \
-        --users 10 \
-        --orgs-per-user 1 \
-        --groups-per-org 1 \
-        --events-per-org 1 \
-        --resources-per-entity 1 \
-        --faq-entries-per-entity 1 &&
+      python manage.py populate_db --users 10 --orgs-per-user 1 --groups-per-org 1 --events-per-org 1 --resources-per-entity 1 --faq-entries-per-entity 1 &&
       python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
@@ -85,15 +79,22 @@ services:
       timeout: 5s
       retries: 5
 
-
-# filescan:
-#   image: clamav/clamav:latest
-#   container_name: filescan
-#   ports:
-#     - "3310:3310" # Expose the ClamAV port if needed for pyClamd
-#   restart: always
-#   volumes:
-#     - clamav_db:/var/lib/clamav # Persist the virus definition database
-
-# volumes:
-#  clamav_db:
+  filescan:
+    image: clamav/clamav:latest
+    container_name: filescan
+    ports:
+      - "3310:3310"
+    restart: always
+    volumes:
+      - clamav_db:/var/lib/clamav
+      - clamav_log:/var/log/clamav  # Mount a volume for logs
+    command: sh -c "freshclam -v && clamd --foreground=yes --log=/var/log/clamav/clamd.log"
+    
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "3310"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  clamav_db:
+  clamav_log:

@@ -257,6 +257,11 @@ LOGGING = {
             "propagate": True,
         },
     },
+    'serializers': {  # Or the name of the logger you used in serializers.py
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
 }
 
 # MARK: Image / Data Upload size limits
@@ -273,3 +278,7 @@ from rest_framework.settings import api_settings  # noqa: E402
 
 # Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
 api_settings.reload()
+
+
+CLAMD_HOST = 'filescan'  # The name of the ClamAV Docker service
+CLAMD_PORT = 3310

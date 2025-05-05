@@ -94,3 +94,5 @@ urllib3==2.3.0
     # via
     #   requests
     #   types-requests
+pyclamd
+factory-boy

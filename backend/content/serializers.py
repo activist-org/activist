@@ -22,7 +22,11 @@ from content.models import (
     Resource,
     Topic,
 )
+from utils.malware_scanner import scan_file_in_memory
 from utils.utils import validate_creation_and_deprecation_dates
+import logging
+
+logger = logging.getLogger(__name__)
 
 # MARK: Main Tables
 
@@ -104,6 +108,29 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             raise serializers.ValidationError(
                 f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
             )
+
+        # Malware scanning integration
+        uploaded_file = data["file_object"]
+        file_content = uploaded_file.read()
+        logger.info("About to scan uploaded file in memory.")  # Add this log
+        scan_result = scan_file_in_memory(file_content)
+        logger.info(f"Scan result: {scan_result}")  # Add this log
+        uploaded_file.seek(0)  # Reset the file pointer after reading
+
+        if scan_result:
+            raise serializers.ValidationError(f"Malware detected in the uploaded file: {scan_result}")
+
+        return data
+
+    def create(self, validated_data: Dict[str, Any]) -> Image:
+        request = self.context["request"]
+
+        if file_obj := request.FILES.get("file_object"):
+            validated_data["file_object"] = scrub_exif(file_obj)
+
+        logger.info("Creating a new Image object.")  # Add this log
+        image = super().create(validated_data)
+        logger.info(f"Image object created with ID: {image.id}") # Add this log
 
         return data
 
