@@ -36,6 +36,7 @@ const resourcesLinks = [
   {
     name: "i18n.components._global.documentation",
     url: "https://docs.activist.org/activist",
+    ariaLabel: "i18n.components.footer_website.documentation_aria_label"
   },
   // {
   //   name: "i18n._global.contact,
@@ -47,14 +48,17 @@ const organizationLinks = [
   {
     name: "i18n._global.about",
     url: "https://docs.activist.org/activist/organization/community",
+    ariaLabel: "i18n.components.footer_website.about_aria_label"
   },
   {
     name: "i18n.components.footer_website.supporters",
     url: "https://docs.activist.org/activist/organization/community/supporters",
+    ariaLabel: "i18n.components.footer_website.supporters_aria_label"
   },
   {
     name: "i18n.components.footer_website.imprint",
     url: "https://docs.activist.org/activist/organization/legal/imprint",
+    ariaLabel: "i18n.components.footer_website.imprint_aria_label"
   },
 ];
 
@@ -73,6 +77,7 @@ const platformLinks = [
     name: "i18n.components._global.roadmap",
     isLocalePath: true,
     url: "https://docs.activist.org/activist/product/about/roadmap",
+    ariaLabel: "i18n.components.footer.website.road_map_aria_label"
   },
 ];
 
@@ -80,10 +85,12 @@ const legalLinks = [
   {
     name: "i18n.components.footer_website.trademark_policy",
     url: "https://docs.activist.org/activist/organization/legal/trademark",
+    ariaLabel: "i18n.components.footer_website.trademark_policy_aria_label"
   },
   {
     name: "i18n.components.footer_website.privacy_policy",
     url: "https://docs.activist.org/activist/product/data-and-security/privacy-policy",
+    ariaLabel: "i18n.components.footer_website.privacy_policy_aria_label"
   },
 ];
 
