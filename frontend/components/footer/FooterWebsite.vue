@@ -67,11 +67,13 @@ const platformLinks = [
     name: "i18n.components.footer_website.version_number",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist/releases",
+    ariaLabel: "i18n.components.footer_website.version_number_aria_label"
   },
   {
     name: "i18n.components.footer_website.source_code",
     isLocalePath: false,
     url: "https://github.com/activist-org/activist",
+    ariaLabel: "i18n.components.footer_website.source_code_aria_label"
   },
   {
     name: "i18n.components._global.roadmap",

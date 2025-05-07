@@ -30,6 +30,7 @@
               class="focus-brand"
               :href="platform.url"
               target="_blank"
+              :aria-label="$t(platform.ariaLabel)"
             >
               {{ $t(platform.name) }}
             </a>
