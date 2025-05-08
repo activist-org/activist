@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Factory classes for creating content test instances.
+Factories for creating mock instances of models in the content app.
 """
 
 import datetime
@@ -24,6 +24,21 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def location(self, create, extracted, **kwargs):
+        """
+        Add a location to an entity.
+
+        Parameters
+        ----------
+        create : Any
+            A boolean indicating which strategy was used.
+
+        extracted : Any
+            Arguments extracted for this method.
+            None unless a value was passed in for the PostGeneration declaration at Factory declaration time.
+
+        **kwargs : Any
+            Extra parameters passed as attr__key=value when calling the Factory.
+        """
         # Latitude, longitude, bounding box and display name for preselected locations.
         random_locations = [
             [
@@ -75,6 +90,21 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def location(self, create, extracted, **kwargs):
+        """
+        Add a location to an event.
+
+        Parameters
+        ----------
+        create : Any
+            A boolean indicating which strategy was used.
+
+        extracted : Any
+            Arguments extracted for this method.
+            None unless a value was passed in for the PostGeneration declaration at Factory declaration time.
+
+        **kwargs : Any
+            Extra parameters passed as attr__key=value when calling the Factory.
+        """
         # Latitude, longitude, bounding box and display name for preselected locations.
         random_locations = [
             [

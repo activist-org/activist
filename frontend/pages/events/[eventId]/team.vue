@@ -6,8 +6,7 @@
         {{ event.name }}&nbsp;{{ $t("i18n.pages._global.team.team_lower") }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :event="event"
+    <HeaderAppPageEvent
       :header="event.name + ' ' + $t('i18n.pages._global.team.team_lower')"
       :tagline="$t('i18n.pages.events.team.tagline')"
       :underDevelopment="true"
@@ -23,7 +22,7 @@
           ariaLabel="i18n.pages.events.team.invite_someone_event_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageEvent>
     <!-- <div v-if="event.members" class="space-y-3 py-4">
       <CardSearchResultUser
         v-for="(u, i) in event.members"
@@ -37,13 +36,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Event } from "~/types/events/event";
+
 import { IconMap } from "~/types/icon-map";
 
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-
-const { event } = eventStore;
+defineProps<{
+  event: Event;
+}>();
 </script>

@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Test Group Delete API.
+"""
+
 from uuid import uuid4
 
 import pytest
@@ -11,6 +15,19 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_delete(client: Client) -> None:
+    """
+    Test Group Delete API.
+
+    Parameters
+    ----------
+    client : Client
+        A Django test client used for making requests.
+
+    Returns
+    -------
+    None
+        This test asserts the correctness of HTTP status codes (401 for unauthorized, 200 for success).
+    """
     test_username = "test_user"
     test_plaintext_password = "test_pass"
     user = UserFactory(
