@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
-from django.test import Client
+from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from content.factories import DiscussionFactory
@@ -8,7 +8,8 @@ from content.factories import DiscussionFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_discussion_create(client: Client):
+def test_discussion_create():
+    client = APIClient()
     test_user = "test_user"
     test_pass = "test_pass"
     user = UserFactory(username=test_user, plaintext_password=test_pass)
@@ -16,7 +17,9 @@ def test_discussion_create(client: Client):
     user.verified = True
     user.save()
 
-    discussion_thread = DiscussionFactory()
+    discussion_thread = DiscussionFactory(
+        title="Unique Title", category="Unique Category"
+    )
 
     login = client.post(
         path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
@@ -26,15 +29,10 @@ def test_discussion_create(client: Client):
     login_body = login.json()
     token = login_body["token"]
 
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
         path="/v1/content/discussions/",
-        data={
-            "title": discussion_thread.title,
-            "category": discussion_thread.category,
-            "created_by": user.id,
-        },
-        headers={"Authorization": f"Token {token}"},
-        content_type="application/json",
+        data={"title": discussion_thread.title, "category": discussion_thread.category},
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 201
