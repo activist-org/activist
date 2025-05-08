@@ -38,7 +38,6 @@ import {
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchAll();
-
 const { organizations } = organizationStore;
 
 const handleUploadComplete = async (fileUploadEntity: FileUploadEntity) => {

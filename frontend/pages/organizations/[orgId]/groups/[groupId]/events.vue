@@ -13,8 +13,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :group="group"
+    <HeaderAppPageGroup
       :header="
         group.name + ' ' + $t('i18n.pages.organizations._global.events_lower')
       "
@@ -33,7 +32,7 @@
           ariaLabel="i18n.pages.organizations.groups._global.support_group_aria_label"
         /> -->
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageGroup>
     <PagePreviewEvent />
     <!-- <div v-if="group.events" class="space-y-3 py-4">
       <CardSearchResultEvent

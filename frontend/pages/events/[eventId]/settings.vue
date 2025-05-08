@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :event="event"
+    <HeaderAppPageEvent
       :header="
         event.name + ' ' + $t('i18n.pages._global.settings.settings_lower')
       "
@@ -24,7 +23,7 @@
           ariaLabel="i18n.pages._global.settings.save_settings_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageEvent>
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="$t('i18n.pages.events.settings.danger_zone_event_description')"

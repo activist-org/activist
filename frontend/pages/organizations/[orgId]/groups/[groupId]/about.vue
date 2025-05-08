@@ -11,7 +11,7 @@
     <Head>
       <Title>{{ group.name }}</Title>
     </Head>
-    <HeaderAppPage pageType="group">
+    <HeaderAppPageGroup>
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
           v-if="group.getInvolvedUrl"
@@ -55,7 +55,7 @@
           :isOpen="modalIsOpen"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageGroup>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
@@ -81,7 +81,7 @@
         </div>
       </div>
       <CardGetInvolvedGroup :group="group" />
-      <CardConnect pageType="group" />
+      <CardConnectGroup />
     </div>
   </div>
 </template>
