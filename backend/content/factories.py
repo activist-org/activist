@@ -3,6 +3,7 @@
 Factories for creating mock instances of models in the content app.
 """
 
+# mypy: ignore-errors
 import datetime
 import random
 from uuid import uuid4
