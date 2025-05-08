@@ -3,14 +3,13 @@
 Tests for authentication.admin.
 """
 
-# mypy: ignore-errors
 import pytest
 from django.contrib import admin
 from django.contrib.auth.hashers import check_password
 
-from authentication.admin import UserCreationForm, UserChangeForm, UserAdmin
-from authentication.models import UserModel
+from authentication.admin import UserAdmin, UserChangeForm, UserCreationForm
 from authentication.factories import UserFactory
+from authentication.models import UserModel
 
 pytestmark = pytest.mark.django_db
 
@@ -27,6 +26,7 @@ def test_user_creation_form_valid():
     }
     form = UserCreationForm(data=form_data)
     assert form.is_valid()
+
     user = form.save()
     assert user.email == "testuser@example.com"
     assert check_password("SecurePass123!", user.password)
@@ -54,6 +54,7 @@ def test_user_change_form_password_readonly():
     user = UserFactory()
     form = UserChangeForm(instance=user)
     assert "password" in form.fields
+
 
 def test_user_model_registered_with_user_admin():
     """
