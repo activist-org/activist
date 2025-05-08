@@ -98,7 +98,6 @@ const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
-
 const { organization } = organizationStore;
 
 const description = ref();

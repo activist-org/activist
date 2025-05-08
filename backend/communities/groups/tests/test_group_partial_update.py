@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Test group_partial_update.py API.
+"""
+
 import pytest
 from django.test import Client
 
@@ -9,6 +13,20 @@ pytestmark = pytest.mark.django_db
 
 
 def test_group_partial_update(client: Client) -> None:
+    """
+    Test group_partial_update.
+
+    Parameters
+    ----------
+    client : Client
+        A Django test client used to send HTTP requests to the application.
+
+    Returns
+    -------
+    None
+        This test does not return any value. It asserts the correctness of HTTP status codes
+        and error messages for the scenarios described.
+    """
     test_username = "test_user"
     test_plaintext_password = "test_pass"
     user = UserFactory(

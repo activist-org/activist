@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  zap-scan:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    volumes:
+      - .:/zap/wrk
+      - ../zap-reports:/zap/reports
+    command: >
+      zap.sh -cmd -autorun /zap/wrk/zap.yaml

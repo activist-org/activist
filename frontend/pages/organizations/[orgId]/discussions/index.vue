@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="
         organization.name + ' ' + $t('i18n.pages._global.discussions_lower')
       "
@@ -29,7 +28,7 @@
           ariaLabel="i18n.pages._global.new_discussion_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <!-- <div v-if="organization.discussions" class="space-y-6 pb-6 pt-3 md:pt-4">
       <CardDiscussion
         v-for="(d, i) in organization.discussions"
@@ -43,15 +42,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/communities/organization";
+
 import { IconMap } from "~/types/icon-map";
 
 const aboveMediumBP = useBreakpoint("md");
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
+defineProps<{
+  organization: Organization;
+}>();
 </script>
