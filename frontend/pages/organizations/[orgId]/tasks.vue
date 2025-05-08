@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="
         organization.name + ' ' + $t('i18n.pages._global.tasks.tasks_lower')
       "
@@ -27,7 +26,7 @@
           ariaLabel="i18n.pages._global.tasks.new_task_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div class="space-y-3 py-4"></div>
     <!-- <div v-if="organization.tasks" class="space-y-3 py-4"></div>
     <EmptyState v-else pageType="tasks" :permission="false" class="py-4" /> -->

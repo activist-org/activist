@@ -6,7 +6,7 @@
     <Head>
       <Title>{{ event.name }}</Title>
     </Head>
-    <HeaderAppPage pageType="event">
+    <HeaderAppPageEvent>
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
           v-if="event.getInvolvedUrl"
@@ -35,16 +35,16 @@
           @keydown.enter="openModalSharePage()"
           class="w-max"
           :cta="true"
-          :label="$t(shareButtonLabel)"
+          label="shareButtonLabel"
           :hideLabelOnMobile="false"
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="$t('i18n._global.share_event_aria_label')"
+          ariaLabel="i18n._global.share_event_aria_label"
         />
         <ModalSharePage :cta="true" :event="event" />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageEvent>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
@@ -64,8 +64,8 @@
         <MediaMap
           v-if="event.offlineLocation && !textExpanded"
           class="h-[17.5rem] w-full"
-          :markerColors="event.type === 'learn' ? ['#2176AE'] : ['#BA3D3B']"
           :eventNames="[event.name]"
+          :eventTypes="[event.type]"
           :eventLocations="[event.offlineLocation]"
         />
       </div>
@@ -74,7 +74,7 @@
         :event="event"
         disclaimer="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
       />
-      <CardConnect pageType="event" />
+      <CardConnectEvent />
     </div>
   </div>
 </template>

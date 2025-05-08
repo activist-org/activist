@@ -6,7 +6,7 @@
     <Head>
       <Title>{{ organization.name }}</Title>
     </Head>
-    <HeaderAppPage pageType="organization">
+    <HeaderAppPageOrganization>
       <div class="flex pb-3 lg:pb-4">
         <div class="flex space-x-2 lg:space-x-3">
           <BtnRouteExternal
@@ -35,17 +35,17 @@
             @keydown.enter="openModalSharePage()"
             class="w-max"
             :cta="true"
-            :label="$t(shareButtonLabel)"
+            :label="shareButtonLabel"
             :hideLabelOnMobile="false"
             fontSize="sm"
             :rightIcon="IconMap.SHARE"
             iconSize="1.45em"
-            :ariaLabel="$t('i18n._global.share_organization_aria_label')"
+            ariaLabel="i18n._global.share_organization_aria_label"
           />
         </div>
         <ModalSharePage :cta="true" :organization="organization" />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
@@ -69,7 +69,7 @@
         </div>
       </div>
       <CardGetInvolvedOrganization />
-      <CardConnect pageType="organization" />
+      <CardConnectOrganization />
       <!-- <CardDonate
         v-if="organization.status === 2"
         :userIsAdmin="true"

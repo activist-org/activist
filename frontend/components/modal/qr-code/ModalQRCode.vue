@@ -61,16 +61,14 @@
           @main-btn-clicked="handleMainBtnClicked"
           class="block w-fit"
           :cta="true"
-          :label="$t('i18n.components.modal_qr_code.download_qr_code')"
+          label="i18n.components.modal_qr_code.download_qr_code"
           fontSize="lg"
           iconSize="1.25em"
           :dropdownIcon="IconMap.CHEVRON_DOWN"
           :dropdownOptions="availableFormats"
           :dropdownOptionsCallback="downloadQRCode"
-          :ariaLabel="'i18n.components.modal_qr_code.download_qr_code_aria_label'"
-          :ariaLabelDropdown="
-            $t('i18n.components.modal_qr_code.qr_code_options_aria_label')
-          "
+          ariaLabel="i18n.components.modal_qr_code.download_qr_code_aria_label"
+          ariaLabelDropdown="i18n.components.modal_qr_code.qr_code_options_aria_label"
         />
       </div>
       <div class="flex px-4 md:pb-2 md:pl-8">
@@ -104,18 +102,14 @@
         @main-btn-clicked="handleMainBtnClicked"
         class="w-fit"
         :cta="true"
-        :label="$t('i18n.components.modal_qr_code.download_qr_code')"
+        label="i18n.components.modal_qr_code.download_qr_code"
         fontSize="lg"
         iconSize="1.25em"
         :dropdownIcon="IconMap.CHEVRON_DOWN"
         :dropdownOptions="availableFormats"
         :dropdownOptionsCallback="downloadQRCode"
-        :ariaLabel="
-          $t('i18n.components.modal_qr_code.download_qr_code_aria_label')
-        "
-        :ariaLabelDropdown="
-          $t('i18n.components.modal_qr_code.qr_code_options_aria_label')
-        "
+        ariaLabel="i18n.components.modal_qr_code.download_qr_code_aria_label"
+        ariaLabelDropdown="i18n.components.modal_qr_code.qr_code_options_aria_label"
       />
     </div>
   </ModalBase>

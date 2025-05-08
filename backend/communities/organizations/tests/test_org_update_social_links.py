@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+from uuid import uuid4
+
 import pytest
 from django.test import Client
 
@@ -48,3 +50,15 @@ def test_org_update_social_links(client: Client) -> None:
     )
 
     assert response.status_code == 200
+
+    bad_uuid = uuid4()
+    response = client.put(
+        path=f"/v1/communities/organization_social_links/{bad_uuid}/",
+        data={"link": test_link, "label": test_label, "order": test_order},
+        headers={"Authorization": f"Token {token}"},
+        content_type="application/json",
+    )
+
+    assert response.status_code == 404
+    response_body = response.json()
+    assert response_body["error"] == "Organization not found"

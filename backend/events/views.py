@@ -4,7 +4,7 @@ API views for event management.
 """
 
 import json
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Sequence, Type
 from uuid import UUID
 
 from django.db import transaction
@@ -38,16 +38,12 @@ class EventAPIView(GenericAPIView[Event]):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    def get_permissions(self):
+    def get_permissions(self) -> Sequence[Any]:
         if self.request.method == "POST":
-            self.permission_classes = (IsAuthenticated,)
+            return [IsAuthenticated()]
+        return [IsAuthenticatedOrReadOnly()]
 
-        else:
-            self.permission_classes = (IsAuthenticatedOrReadOnly,)
-
-        return super().get_permissions()
-
-    def get_serializer_class(self) -> EventSerializer | EventPOSTSerializer:
+    def get_serializer_class(self) -> Type[EventPOSTSerializer | EventSerializer]:
         if self.request.method == "POST":
             return EventPOSTSerializer
 
@@ -73,7 +69,9 @@ class EventAPIView(GenericAPIView[Event]):
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer: EventPOSTSerializer = serializer_class(data=request.data)
+        serializer: EventPOSTSerializer | EventSerializer = serializer_class(
+            data=request.data
+        )
         serializer.is_valid(raise_exception=True)
 
         location_data = serializer.validated_data["offline_location"]

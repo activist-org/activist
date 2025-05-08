@@ -46,10 +46,10 @@
         <BtnAction
           id="sign-in-submit"
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
-          :label="$t('i18n._global.sign_in')"
+          label="i18n._global.sign_in"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('i18n._global.sign_in_aria_label')"
+          ariaLabel="i18n._global.sign_in_aria_label"
         />
       </div>
       <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">

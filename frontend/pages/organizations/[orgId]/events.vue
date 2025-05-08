@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="
         organization.name +
         ' ' +
@@ -29,7 +28,7 @@
           ariaLabel="i18n.pages.organizations.events.new_event_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div
       v-if="organization.events && organization.events.length > 0"
       class="space-y-3 py-4"
