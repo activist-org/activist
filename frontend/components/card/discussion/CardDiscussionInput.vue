@@ -91,11 +91,11 @@
       <div class="w-full md:w-full">
         <textarea
           v-if="!isMarkdownPreview"
+          v-model="markdown"
           @input="
             (event) =>
               updateTheVariable((event.target as HTMLTextAreaElement).value)
           "
-          v-model="markdown"
           ref="textarea"
           class="focus-brand prose block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text dark:prose-invert"
           rows="1"
