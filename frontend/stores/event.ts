@@ -4,6 +4,7 @@ import type {
   Event,
   EventCreateFormData,
   EventResponse,
+  EventsResponseBody,
   EventUpdateTextFormData,
 } from "~/types/events/event";
 
@@ -24,7 +25,11 @@ export const useEventStore = defineStore("event", {
       name: "",
       tagline: "",
       createdBy: "",
-      iconUrl: "",
+      iconUrl: {
+        id: "",
+        fileObject: "",
+        creation_date: "",
+      },
       type: "learn",
       onlineLocationLink: "",
 
@@ -141,13 +146,13 @@ export const useEventStore = defineStore("event", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<EventResponse[]>(
+      const { data, status } = await useAsyncData<EventsResponseBody>(
         async () =>
-          (await fetchWithoutToken(`/events/events/`, {})) as EventResponse[]
+          (await fetchWithoutToken(`/events/events/`, {})) as EventsResponseBody
       );
 
       if (status.value === "success") {
-        const events = data.value!.map((event: EventResponse) => {
+        const events = data.value!.results.map((event: EventResponse) => {
           return {
             id: event.id,
             name: event.name,

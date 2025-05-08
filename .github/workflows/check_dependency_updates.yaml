@@ -44,7 +44,7 @@ jobs:
           python-version: '3.11'
 
       - name: Setup Yarn
-        working-directory: frontend
+        working-directory: ./frontend
         continue-on-error: true
         run: |
           corepack enable
@@ -52,7 +52,7 @@ jobs:
 
       - name: Install Frontend Dependencies
         id: install-frontend
-        working-directory: frontend
+        working-directory: ./frontend
         continue-on-error: true
         run: |
           rm -rf .yarn .pnp.* yarn.lock node_modules
@@ -61,7 +61,7 @@ jobs:
 
       - name: Update Frontend Dependencies
         id: frontend-updates
-        working-directory: frontend
+        working-directory: ./frontend
         continue-on-error: true
         run: |
           cp package.json package.old.json
@@ -104,13 +104,13 @@ jobs:
 
       - name: Create Python Virtual Environment
         id: setup-venv
-        working-directory: backend
+        working-directory: ./backend
         continue-on-error: true
         run: python -m venv .venv
 
       - name: Install Backend Dependencies
         id: install-backend
-        working-directory: backend
+        working-directory: ./backend
         continue-on-error: true
         run: |
           source .venv/bin/activate
@@ -120,7 +120,7 @@ jobs:
 
       - name: Update Backend Dependencies
         id: backend-updates
-        working-directory: backend
+        working-directory: ./backend
         continue-on-error: true
         run: |
           source .venv/bin/activate
@@ -157,7 +157,7 @@ jobs:
 
       - name: Run Backend Tests
         id: backend-tests
-        working-directory: backend
+        working-directory: ./backend
         continue-on-error: true
         run: |
           source .venv/bin/activate
@@ -174,7 +174,7 @@ jobs:
 
       - name: Run Frontend Tests
         id: frontend-tests
-        working-directory: frontend
+        working-directory: ./frontend
         continue-on-error: true
         run: |
           echo "compare_versions.js" >> ../.prettierignore

@@ -1,9 +1,14 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Classes controlling the CLI command to populate the database when starting the backend.
+"""
+
 import random
 from argparse import ArgumentParser
-from typing import List, TypedDict, Unpack
+from typing import List, TypedDict
 
 from django.core.management.base import BaseCommand
+from typing_extensions import Unpack
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
@@ -25,6 +30,10 @@ from events.models import Event
 
 
 class Options(TypedDict):
+    """
+    Options available to the populate_db management CLI command.
+    """
+
     users: int
     orgs_per_user: int
     groups_per_org: int
@@ -34,9 +43,21 @@ class Options(TypedDict):
 
 
 class Command(BaseCommand):
+    """
+    The populate_db CLI command for populating the database when starting the backend.
+    """
+
     help = "Populate the database with dummy data"
 
     def add_arguments(self, parser: ArgumentParser) -> None:
+        """
+        Add arguments into the parser.
+
+        Parameters
+        ----------
+        parser : ArgumentParser
+            A parser for passing CLI arguments to the command.
+        """
         parser.add_argument("--users", type=int, default=10)
         parser.add_argument("--orgs-per-user", type=int, default=1)
         parser.add_argument("--groups-per-org", type=int, default=1)
@@ -45,6 +66,17 @@ class Command(BaseCommand):
         parser.add_argument("--faq-entries-per-entity", type=int, default=1)
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
+        """
+        Handle arguments passed to the parser.
+
+        Parameters
+        ----------
+        *args : str
+            Optional string arguments.
+
+        **options : Unpack[Options]
+            Options that can be used to control the database wait functionality.
+        """
         num_users = options["users"]
         num_orgs_per_user = options["orgs_per_user"]
         num_groups_per_org = options["groups_per_org"]

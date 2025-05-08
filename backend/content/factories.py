@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Factories for creating mock instances of models in the content app.
+"""
+
 import datetime
 import random
 from uuid import uuid4
@@ -11,11 +15,30 @@ from content.models import Faq, Image, Location, Resource, Task, Topic
 
 
 class EntityLocationFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Location model instances for entities.
+    """
+
     class Meta:
         model = Location
 
     @factory.post_generation
     def location(self, create, extracted, **kwargs):
+        """
+        Add a location to an entity.
+
+        Parameters
+        ----------
+        create : Any
+            A boolean indicating which strategy was used.
+
+        extracted : Any
+            Arguments extracted for this method.
+            None unless a value was passed in for the PostGeneration declaration at Factory declaration time.
+
+        **kwargs : Any
+            Extra parameters passed as attr__key=value when calling the Factory.
+        """
         # Latitude, longitude, bounding box and display name for preselected locations.
         random_locations = [
             [
@@ -58,11 +81,30 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
 
 
 class EventLocationFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Location model instances for events.
+    """
+
     class Meta:
         model = Location
 
     @factory.post_generation
     def location(self, create, extracted, **kwargs):
+        """
+        Add a location to an event.
+
+        Parameters
+        ----------
+        create : Any
+            A boolean indicating which strategy was used.
+
+        extracted : Any
+            Arguments extracted for this method.
+            None unless a value was passed in for the PostGeneration declaration at Factory declaration time.
+
+        **kwargs : Any
+            Extra parameters passed as attr__key=value when calling the Factory.
+        """
         # Latitude, longitude, bounding box and display name for preselected locations.
         random_locations = [
             [
@@ -105,6 +147,10 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
 
 
 class FaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
     class Meta:
         model = Faq
 
@@ -113,6 +159,10 @@ class FaqFactory(factory.django.DjangoModelFactory):
 
 
 class ImageFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Image model instances.
+    """
+
     class Meta:
         model = Image
 
@@ -127,6 +177,10 @@ class ImageFactory(factory.django.DjangoModelFactory):
 
 
 class ResourceFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Resource model instances.
+    """
+
     class Meta:
         model = Resource
 
@@ -146,6 +200,10 @@ class ResourceFactory(factory.django.DjangoModelFactory):
 
 
 class TaskFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Task model instances.
+    """
+
     class Meta:
         model = Task
 
@@ -157,6 +215,10 @@ class TaskFactory(factory.django.DjangoModelFactory):
 
 
 class TopicFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Topic model instances.
+    """
+
     class Meta:
         model = Topic
 

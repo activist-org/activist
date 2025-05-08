@@ -14,7 +14,7 @@ If you have questions or would like to communicate with the team, please [join u
 
 - [First steps as a contributor](#first-steps-)
 - [Tech stack](#tech-stack-)
-- [Learning the tech stack](#learning-the-tech-)
+- [Learning the tech stack](#learning-the-tech-stack-)
 - [Development environment](#dev-env-)
 - [Style guide](#style-guide-)
 - [Linting](#linting-)
@@ -74,7 +74,7 @@ The following are the current and planned technologies for [activist.org](https:
 > [!NOTE]
 > Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
-<a id="learning-the-tech-"></a>
+<a id="learning-the-tech-stack-"></a>
 
 ## Learning the tech stack [`⇧`](#contents)
 
@@ -374,6 +374,12 @@ docker exec -it django_backend sh
 # Run backend tests:
 pytest
 
+# To run a specific test:
+pytest path/to/test_file.py::test_function
+
+# To run with a coverage report as is done in PRs:
+pytest --cov --cov-report=term-missing --cov-config=pyproject.toml -vv
+
 # Once tests are finished:
 exit
 ```
@@ -502,9 +508,9 @@ Thank you for testing your PRs! 🎉
 The [issue tracker for activist](https://github.com/activist-org/activist/issues) is the preferred channel for [bug reports](#bug-reports), [features requests](#feature-requests) and [submitting pull requests](#pull-requests). activist also organizes related issues into [projects](https://github.com/activist-org/activist/projects).
 
 > [!NOTE]
-> Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
+> Just because an issue is assigned on GitHub doesn't mean the team isn't open to your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
 
-Be sure to check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
+Be sure to check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first-time contributors.
 
 <a name="bug-reports"></a>
 

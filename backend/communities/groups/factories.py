@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Factories for creating mock instances of Group models in the communities app.
+"""
+
 import datetime
 import random
 
@@ -12,13 +16,18 @@ from communities.groups.models import (
     GroupText,
 )
 
-# MARK: Main Tables
+# MARK: Group
 
 
 class GroupFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Group model instances.
+    """
+
     class Meta:
         model = Group
 
+    org = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
@@ -34,6 +43,10 @@ class GroupFactory(factory.django.DjangoModelFactory):
 
 
 class GroupImageFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating GroupImage model instances.
+    """
+
     class Meta:
         model = GroupImage
 
@@ -42,6 +55,10 @@ class GroupImageFactory(factory.django.DjangoModelFactory):
 
 
 class GroupMemberFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating GroupMember model instances.
+    """
+
     class Meta:
         model = GroupMember
 
@@ -51,6 +68,10 @@ class GroupMemberFactory(factory.django.DjangoModelFactory):
 
 
 class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating GroupSocialLink model instances.
+    """
+
     class Meta:
         model = GroupSocialLink
 
@@ -66,6 +87,10 @@ class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
 
 
 class GroupTextFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating GroupText model instances.
+    """
+
     class Meta:
         model = GroupText
 

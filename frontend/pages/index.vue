@@ -11,7 +11,7 @@
     >
       <LandingContent
         contentPosition="left"
-        header="i18n.pages.index.get_active"
+        header="i18n.pages.index.get_active_header"
         tagline="i18n.pages.index.get_active_tagline"
         text="i18n.pages.index.get_active_text"
         :imgUrl="GET_ACTIVE_IMAGE_URL"
@@ -23,7 +23,7 @@
       />
       <LandingContent
         contentPosition="right"
-        header="i18n.pages.index.get_organized"
+        header="i18n.pages.index.get_organized_header"
         tagline="i18n.pages.index.get_organized_tagline"
         text="i18n.pages.index.get_organized_text"
         :imgUrl="GET_ORGANIZED_IMAGE_URL"

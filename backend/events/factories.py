@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Factory classes for creating event test instances.
+Factories for creating mock instances of models in the events app.
 """
 
 import datetime
@@ -18,7 +18,7 @@ from events.models import (
     Role,
 )
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class EventFactory(factory.django.DjangoModelFactory):
@@ -56,6 +56,10 @@ class EventFactory(factory.django.DjangoModelFactory):
             + datetime.timedelta(days=30),
         ]
     )
+    setting = random.choice(["online", "offline"])
+
+
+# MARK: Format
 
 
 class FormatFactory(factory.django.DjangoModelFactory):
@@ -75,6 +79,9 @@ class FormatFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     deprecation_date = factory.Faker("future_date", end_date="+30d")
+
+
+# MARK: Role
 
 
 class RoleFactory(factory.django.DjangoModelFactory):

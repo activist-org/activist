@@ -6,8 +6,7 @@
         {{ organization.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="organization.name + ' ' + $t('i18n._global.resources_lower')"
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="true"
@@ -24,7 +23,7 @@
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div v-if="orgResources.length > 0" class="space-y-3 py-4">
       <CardSearchResultResource
         v-for="(r, i) in orgResources"
@@ -38,17 +37,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/communities/organization";
 import type { Resource } from "~/types/content/resource";
 
 import { IconMap } from "~/types/icon-map";
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
+defineProps<{
+  organization: Organization;
+}>();
 
 const orgResources: Resource[] = [];
 </script>

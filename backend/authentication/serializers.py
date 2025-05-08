@@ -17,10 +17,21 @@ USER = get_user_model()
 
 
 class DeleteUserResponseSerializer(serializers.Serializer[UserModel]):
+    """
+    Serializer for the response data of a user deletion request.
+    """
+
     message = serializers.CharField(max_length=200)
 
 
-class SignupSerializer(serializers.ModelSerializer[UserModel]):
+# MARK: Sign Up
+
+
+class SignUpSerializer(serializers.ModelSerializer[UserModel]):
+    """
+    Serializer for the sign up flow data.
+    """
+
     password_confirmed = serializers.CharField(write_only=True)
 
     class Meta:
@@ -29,6 +40,19 @@ class SignupSerializer(serializers.ModelSerializer[UserModel]):
         extra_kwargs = {"password": {"write_only": True}, "email": {"required": False}}
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+        """
+        Validate the data before signing up a user.
+
+        Parameters
+        ----------
+        data : dict[str, Union[str, Any]]
+            Data from a request to validate.
+
+        Returns
+        -------
+        dict[str, Union[str, Any]]
+            Validated data for processing.
+        """
         pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
 
         if not re.match(pattern, data["password"]):
@@ -48,6 +72,19 @@ class SignupSerializer(serializers.ModelSerializer[UserModel]):
         return data
 
     def create(self, validated_data: Dict[str, Union[str, Any]]) -> UserModel:
+        """
+        Create and return a new UserModel instance.
+
+        Parameters
+        ----------
+        validated_data : dict[str, Union[str, Any]]
+            Data from a request to validate.
+
+        Returns
+        -------
+        UserModel
+            A new UserModel instance.
+        """
         validated_data.pop("password_confirmed")
 
         user: UserModel = UserModel.objects.create_user(**validated_data)
@@ -56,14 +93,35 @@ class SignupSerializer(serializers.ModelSerializer[UserModel]):
         return user
 
 
-class LoginSerializer(serializers.Serializer[UserModel]):
+# MARK: Sign In
+
+
+class SignInSerializer(serializers.Serializer[UserModel]):
+    """
+    Serializer for the sign in flow data.
+    """
+
     email = serializers.EmailField(required=False)
     username = serializers.CharField(required=False)
     password = serializers.CharField(write_only=True)
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+        """
+        Validate the data before signing in a user.
+
+        Parameters
+        ----------
+        data : dict[str, Union[str, Any]]
+            Data from a request to validate.
+
+        Returns
+        -------
+        dict[str, Union[str, Any]]
+            Validated data for processing.
+        """
         if not data.get("email"):
             user = UserModel.objects.filter(username=data.get("username")).first()
+
         else:
             user = UserModel.objects.filter(email=data.get("email")).first()
 
@@ -100,13 +158,31 @@ class LoginSerializer(serializers.Serializer[UserModel]):
 
 
 class PasswordResetSerializer(serializers.Serializer[UserModel]):
+    """
+    Serializer for the password reset flow data.
+    """
+
     email = serializers.EmailField(required=False)
     password = serializers.CharField(write_only=True)
     code = serializers.UUIDField(required=False)
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> UserModel:
+        """
+        Validate the data before signing up a user.
+
+        Parameters
+        ----------
+        data : dict[str, Union[str, Any]]
+            Data from a request to validate.
+
+        Returns
+        -------
+        UserModel
+            The user with a reset password.
+        """
         if data.get("code") is not None:
             user = UserModel.objects.filter(verification_code=data.get("code")).first()
+
         else:
             user = UserModel.objects.filter(email=data.get("email")).first()
 

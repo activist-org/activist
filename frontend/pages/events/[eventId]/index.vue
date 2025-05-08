@@ -10,7 +10,7 @@
     <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
         :eventType="event.type"
-        :imgUrl="event.iconUrl ? event.iconUrl : ''"
+        :imgUrl="event.iconUrl?.fileObject || ''"
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: event?.name,
@@ -68,19 +68,16 @@
 </template>
 
 <script setup lang="ts">
+import type { Event } from "~/types/events/event";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 
 import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-
-const { event } = eventStore;
+const props = defineProps<{
+  event: Event;
+}>();
 
 const localPath = useLocalePath();
 
@@ -101,10 +98,10 @@ const handleResize = () => {
     const currentRoute = useRoute();
 
     if (
-      currentRoute.path !== `/${locale.value}/events/${eventId}/about` ||
-      currentRoute.path === `/${locale.value}/events/${eventId}/`
+      currentRoute.path !== `/${locale.value}/events/${props.event.id}/about` ||
+      currentRoute.path === `/${locale.value}/events/${props.event.id}/`
     ) {
-      navigateTo(`/${locale.value}/events/${eventId}/about`);
+      navigateTo(`/${locale.value}/events/${props.event.id}/about`);
     }
   }
 };

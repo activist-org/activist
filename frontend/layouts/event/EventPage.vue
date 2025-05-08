@@ -1,6 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
+    <ModalUploadImages
+      @closeModal="handleCloseModalUploadImages"
+      @upload-complete="handleUploadComplete"
+    />
     <SidebarLeft
       v-if="aboveMediumBP"
       @mouseover="sidebarHover = true"
@@ -14,7 +18,7 @@
         class="bg-layer-0 pt-8 transition-padding duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage />
+        <NuxtPage :event="event" />
       </div>
       <FooterWebsite
         class="pb-24 transition-padding duration-500 md:pb-12"
@@ -30,6 +34,19 @@ import {
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
 
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+
+const eventStore = useEventStore();
+await eventStore.fetchById(eventId);
+const { event } = eventStore;
+
+const { handleCloseModal: handleCloseModalUploadImages } =
+  useModalHandlers("ModalUploadImages");
+
+const handleUploadComplete = () => {
+  console.log("EventPage handleUploadComplete");
+};
 const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);

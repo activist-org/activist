@@ -39,6 +39,26 @@
             &nbsp; &nbsp; Upload &nbsp; &nbsp;
           </button>
         </p>
+        <button
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.ORGANIZATION_ICON,
+            })
+          "
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+        >
+          <Icon :name="IconMap.PLUS" size="1em" />
+        </button>
+        <ImageOrganization
+          class="elem-shadow-sm"
+          :imgUrl="logoUrl"
+          :alt="
+            $t('i18n._global.entity_logo', {
+              entity_name: name,
+            })
+          "
+        />
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
@@ -76,6 +96,27 @@
             &nbsp; &nbsp; Upload &nbsp; &nbsp;
           </button>
         </p>
+        <button
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.EVENT_ICON,
+            })
+          "
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+        >
+          <Icon :name="IconMap.PLUS" size="1em" />
+        </button>
+        <ImageEvent
+          class="elem-shadow-sm"
+          eventType="action"
+          :imgUrl="logoUrl"
+          :alt="
+            $t('i18n._global.entity_logo', {
+              entity_name: name,
+            })
+          "
+        />
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.GROUP_PAGE"
@@ -112,6 +153,26 @@
             &nbsp; &nbsp; Upload &nbsp; &nbsp;
           </button>
         </p>
+        <button
+          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.GROUP_ICON,
+            })
+          "
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+        >
+          <Icon :name="IconMap.PLUS" size="1em" />
+        </button>
+        <ImageGroup
+          class="elem-shadow-sm"
+          eventType="action"
+          :alt="
+            $t('i18n._global.entity_logo', {
+              entity_name: name,
+            })
+          "
+        />
       </div>
       <ul
         id="submenu"
@@ -146,6 +207,8 @@
 </template>
 
 <script setup lang="ts">
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
+import { IconMap } from "~/types/icon-map";
 import { SidebarType } from "~/types/sidebar-type";
 
 const props = defineProps<{
@@ -163,11 +226,13 @@ const sidebarTypeToDisplay = computed(() => props.sidebarType);
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
-const showButton = true; //temporarily until the upload function is done below
 
 const { openModal: openModalUploadImages } =
   useModalHandlers("ModalUploadImages");
-//function for uploading and having upload button disappear after upload is done
+
+const showButton = true; // temporary until the upload function is done below
+
+// Function for uploading and having upload button disappear after upload is done.
 /*export default {
   data() {
     return {
@@ -190,14 +255,14 @@ const { openModal: openModalUploadImages } =
       this.showButton = false;
 
       try {
-        // Simulate an upload process (replace with actual upload logic)
+        // Simulate an upload process (replace with actual upload logic).
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         this.uploadSuccess = true;
       } catch (error) {
         console.error("Upload failed:", error);
         this.uploadSuccess = false;
-        this.showButton = true; //Re-enable the button in case of error
+        this.showButton = true; // re-enable the button in case of error
       } finally {
         this.uploading = false;
       }

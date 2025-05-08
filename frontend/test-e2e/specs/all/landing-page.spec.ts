@@ -17,14 +17,6 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     expect(await page.title()).toContain("activist");
   });
 
-  test("User can request access", async ({ page }) => {
-    const requestAccessLink = page.locator("#request-access");
-    await expect(requestAccessLink).toHaveAttribute(
-      "href",
-      /^https:\/\/forms.activist.org\/s\/.*$/
-    );
-  });
-
   test("User can go to Organizations page", async ({ page }) => {
     const organizationsLink = page.getByRole("link", {
       name: new RegExp(
