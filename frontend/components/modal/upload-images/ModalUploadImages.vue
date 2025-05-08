@@ -79,7 +79,7 @@
             v-if="files.length > 0"
             @click="handleUpload"
             :cta="true"
-            label="i18n.components._global.upload"
+            label="i18n.components.modal_upload_images.upload"
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"

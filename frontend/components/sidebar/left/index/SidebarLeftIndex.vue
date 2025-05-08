@@ -6,9 +6,9 @@
     <div class="flex flex-col items-center">
       <div
         v-if="sidebarTypeToDisplay === SidebarType.ORGANIZATION_PAGE"
-        class="flex flex-col items-center"
+        class="relative"
         :class="{
-          'h-40 w-32':
+          'h-32 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
           'h-10 w-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -23,7 +23,7 @@
             })
           "
         />
-        <BtnAction
+        <button
           v-if="
             showButton &&
             (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
@@ -33,20 +33,17 @@
               fileUploadEntity: FileUploadEntity.ORGANIZATION_ICON,
             })
           "
-          class="-mb-2 mt-2"
-          :cta="true"
-          label="i18n.components._global.upload"
-          fontSize="xs"
-          :leftIcon="IconMap.PLUS"
-          iconSize="1.25em"
-          ariaLabel="i18n.components.sidebar_left_index.upload_aria_label"
-        />
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          ariaLabel="i18n.components.sidebar_left_index.edit_aria_label"
+        >
+          <Icon :name="IconMap.EDIT" size="1em" />
+        </button>
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
-        class="flex flex-col items-center"
+        class="relative"
         :class="{
-          'h-40 w-32':
+          'h-32 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
           'h-10 w-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -62,7 +59,7 @@
             })
           "
         />
-        <BtnAction
+        <button
           v-if="
             showButton &&
             (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
@@ -72,20 +69,17 @@
               fileUploadEntity: FileUploadEntity.EVENT_ICON,
             })
           "
-          class="-mb-2 mt-2"
-          :cta="true"
-          label="i18n.components._global.upload"
-          fontSize="xs"
-          :leftIcon="IconMap.PLUS"
-          iconSize="1.25em"
-          ariaLabel="i18n.components.sidebar_left_index.upload_aria_label"
-        />
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          ariaLabel="i18n.components.sidebar_left_index.edit_aria_label"
+        >
+          <Icon :name="IconMap.EDIT" size="1em" />
+        </button>
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.GROUP_PAGE"
-        class="flex flex-col items-center"
+        class="relative"
         :class="{
-          'h-40 w-32':
+          'h-32 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
           'h-10 w-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
@@ -100,7 +94,7 @@
             })
           "
         />
-        <BtnAction
+        <button
           v-if="
             showButton &&
             (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
@@ -110,14 +104,11 @@
               fileUploadEntity: FileUploadEntity.GROUP_ICON,
             })
           "
-          class="-mb-2 mt-2"
-          :cta="true"
-          label="i18n.components._global.upload"
-          fontSize="xs"
-          :leftIcon="IconMap.PLUS"
-          iconSize="1.25em"
-          ariaLabel="i18n.components.sidebar_left_index.upload_aria_label"
-        />
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          ariaLabel="i18n.components.sidebar_left_index.edit_aria_label"
+        >
+          <Icon :name="IconMap.EDIT" size="1em" />
+        </button>
       </div>
       <ul
         id="submenu"
