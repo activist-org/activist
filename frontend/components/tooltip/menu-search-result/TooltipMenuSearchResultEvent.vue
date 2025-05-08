@@ -14,7 +14,7 @@
       <!-- <BtnAction
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
-        label="i18n.components.tooltip_menu_search_result_event.attend"
+        label="i18n.components._global.attend"
         leftIcon="IconJoin"
         fontSize="lg"
         ariaLabel="i18n.components.tooltip_menu_search_result_event.attend_aria_label"

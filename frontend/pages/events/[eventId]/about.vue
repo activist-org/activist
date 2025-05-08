@@ -64,8 +64,8 @@
         <MediaMap
           v-if="event.offlineLocation && !textExpanded"
           class="h-[17.5rem] w-full"
-          :markerColors="event.type === 'learn' ? ['#2176AE'] : ['#BA3D3B']"
           :eventNames="[event.name]"
+          :eventTypes="[event.type]"
           :eventLocations="[event.offlineLocation]"
         />
       </div>
