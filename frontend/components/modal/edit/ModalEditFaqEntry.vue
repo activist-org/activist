@@ -35,11 +35,9 @@
       <BtnAction
         @click="true"
         :cta="true"
-        :label="$t('i18n.components.modal.edit._global.update_texts')"
+        label="i18n.components.modal.edit._global.update_texts"
         fontSize="base"
-        :ariaLabel="
-          $t('i18n.components.modal.edit._global.update_texts_aria_label')
-        "
+        ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
       />
     </div>
   </ModalBase>
