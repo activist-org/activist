@@ -27,13 +27,13 @@
         />
       </div>
     </HeaderAppPageEvent>
-    <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
+    <!-- <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
       <Discussion
         :discussionInput="event.discussion"
         :discussionEntries="[event.discussion?.entries]"
         :organizations="event.orgs"
       />
-    </div>
+    </div> -->
     <!-- <EmptyState v-else pageType="discussions" :permission="false" /> -->
   </div>
 </template>
@@ -49,18 +49,17 @@ defineProps<{
 
 const aboveMediumBP = useBreakpoint("md");
 
-// const { event } = eventStore;
-const event = {
-  name: "Test Event",
-  discussion: [
-    {
-      id: 1,
-      author: "string",
-      content: "string",
-      votes: 1,
-      date: "datetime",
-    },
-  ],
-  orgs: [],
-};
+// const event = {
+//   name: "Test Event",
+//   discussion: [
+//     {
+//       id: 1,
+//       author: "string",
+//       content: "string",
+//       votes: 1,
+//       date: "datetime",
+//     },
+//   ],
+//   orgs: [],
+// };
 </script>

@@ -9,20 +9,20 @@
         >
           <div class="w-min md:w-min">
             <BtnAction
+              @click="writePreviewSelector()"
               class="w-small mt-1 flex"
               :cta="!isMarkdownPreview"
               :label="$t('i18n.components.card_discussion_input.write')"
-              @click="writePreviewSelector()"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.write_aria_label"
             />
           </div>
           <div class="w-min md:w-min">
             <BtnAction
+              @click="writePreviewSelector()"
               class="w-small mt-1 flex"
               :cta="isMarkdownPreview"
               :label="$t('i18n.components.card_discussion_input.preview')"
-              @click="writePreviewSelector()"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
             />
@@ -90,7 +90,6 @@
       </div>
       <div class="w-full md:w-full">
         <textarea
-          class="focus-brand prose block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text dark:prose-invert"
           v-if="!isMarkdownPreview"
           @input="
             (event) =>
@@ -98,6 +97,7 @@
           "
           v-model="markdown"
           ref="textarea"
+          class="focus-brand prose block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text dark:prose-invert"
           rows="1"
         />
         <editor-content v-else :editor="writeEditor" />
@@ -105,8 +105,8 @@
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
           <FormCheckbox
-            class="mr-1"
             @update:modelValue="toggleIsMarkdown()"
+            class="mr-1"
             :modelValue="isMarkdown"
             value="yes"
           />
