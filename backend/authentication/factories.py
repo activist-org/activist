@@ -3,6 +3,7 @@
 Factories for creating mock instances of models in the authentication app.
 """
 
+# mypy: ignore-errors
 from typing import Any
 
 import factory

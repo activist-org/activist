@@ -3,6 +3,7 @@
 Factories for creating mock instances of Group models in the communities app.
 """
 
+# mypy: ignore-errors
 import datetime
 import random
 

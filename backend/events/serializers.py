@@ -134,7 +134,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             start_dt = parse_datetime(start) if isinstance(start, str) else start
             end_dt = parse_datetime(end) if isinstance(end, str) else end
 
-            if start_dt > end_dt:
+            if end_dt and start_dt > end_dt:
                 raise serializers.ValidationError(
                     _("The start time cannot be after the end time."),
                     code="invalid_time_order",
@@ -156,7 +156,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 else deletion_date
             )
 
-            if creation_dt > deletion_dt:
+            if deletion_dt and creation_dt > deletion_dt:
                 raise serializers.ValidationError(
                     _("The creation date cannot be after the deletion date."),
                     code="invalid_date_order",
