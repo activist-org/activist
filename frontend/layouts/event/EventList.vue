@@ -36,7 +36,6 @@ import {
 
 const eventStore = useEventStore();
 await eventStore.fetchAll();
-
 const { events } = eventStore;
 
 const { handleCloseModal: handleCloseModalUploadImages } =

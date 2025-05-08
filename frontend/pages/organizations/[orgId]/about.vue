@@ -6,7 +6,7 @@
     <Head>
       <Title>{{ organization.name }}</Title>
     </Head>
-    <HeaderAppPage pageType="organization">
+    <HeaderAppPageOrganization>
       <div class="flex pb-3 lg:pb-4">
         <div class="flex space-x-2 lg:space-x-3">
           <BtnRouteExternal
@@ -45,7 +45,7 @@
         </div>
         <ModalSharePage :cta="true" :organization="organization" />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
@@ -69,7 +69,7 @@
         </div>
       </div>
       <CardGetInvolvedOrganization />
-      <CardConnect pageType="organization" />
+      <CardConnectOrganization />
       <!-- <CardDonate
         v-if="organization.status === 2"
         :userIsAdmin="true"

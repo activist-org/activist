@@ -85,7 +85,7 @@
           pageType="group"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect pageType="other" />
+          <CardConnectGroup />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">

@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="
         organization.name +
         ' ' +
@@ -26,7 +25,7 @@
           ariaLabel="i18n.pages._global.settings.save_settings_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="

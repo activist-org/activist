@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="
         organization.name + ' ' + $t('i18n.pages._global.team.team_lower')
       "
@@ -27,7 +26,7 @@
           ariaLabel="i18n.pages.organizations.team.invite_someone_org_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div class="space-y-3 py-4"></div>
     <!-- <div v-if="organization.members" class="space-y-3 py-4">
       <CardSearchResultUser

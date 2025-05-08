@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <PageBreadcrumbs class="mt-4 hidden md:block" :pageType="pageType" />
+  <PageBreadcrumbs class="mt-4 hidden md:block" />
   <div
     v-if="underDevelopment"
     class="mt-5 flex w-full flex-wrap rounded-md border border-primary-text bg-warn-yellow/40 px-3 py-1 text-primary-text dark:border-warn-yellow dark:bg-warn-yellow/30 dark:text-warn-yellow"
@@ -56,9 +56,8 @@
   <div
     class="flex w-full grow flex-col items-start justify-between space-y-4 pt-2 lg:flex-row lg:items-center lg:space-y-0 xl:pt-4"
   >
-    <!-- organization.status === 1 means it's application is pending. -->
     <h2
-      v-if="organization && organization.status === 1"
+      v-if="statusPending"
       class="responsive-h4 text-warn-yellow transition-all duration-500"
     >
       {{ $t("i18n.components.header_app_page.status_pending") }}
@@ -75,55 +74,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Event } from "~/types/events/event";
-
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   header?: string;
   tagline?: string;
-  pageType?: "organization" | "group" | "event";
   underDevelopment?: boolean;
+  statusPending?: boolean;
 }>();
-
-const paramsOrgId = useRoute().params.orgId;
-const paramsGroupId = useRoute().params.groupId;
-const paramsEventId = useRoute().params.eventId;
-
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
-const organizationStore = useOrganizationStore();
-const groupStore = useGroupStore();
-const eventStore = useEventStore();
-
-let organization: Organization;
-let group: Group;
-let event: Event;
-
-if (props.pageType === "organization") {
-  await organizationStore.fetchById(orgId);
-  organization = organizationStore.organization;
-} else if (props.pageType === "group") {
-  await groupStore.fetchById(groupId);
-  group = groupStore.group;
-} else if (props.pageType === "event") {
-  await eventStore.fetchById(eventId);
-  event = eventStore.event;
-}
 
 const headerName = computed<string>(() => {
   if (props.header) {
     return props.header;
-  } else if (props.pageType === "organization") {
-    return organization.name;
-  } else if (props.pageType === "group") {
-    return group.name;
-  } else if (props.pageType === "event") {
-    return event.name;
   } else {
     return "";
   }
@@ -132,22 +94,8 @@ const headerName = computed<string>(() => {
 const headerTagline = computed(() => {
   if (props.tagline) {
     return props.tagline;
-  } else if (props.pageType === "organization") {
-    return organization.tagline;
-  } else if (props.pageType === "group") {
-    return group.tagline;
-  } else if (props.pageType === "event") {
-    return event.tagline;
   } else {
     return "";
   }
 });
-
-// const headerStatus = computed<number>(() => {
-//   if (props.organization) {
-//     return props.organization.status;
-//   } else {
-//     return 1;
-//   }
-// });
 </script>

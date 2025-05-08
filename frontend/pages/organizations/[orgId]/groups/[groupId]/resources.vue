@@ -11,8 +11,7 @@
         {{ group.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :group="group"
+    <HeaderAppPageGroup
       :header="group.name + ' ' + $t('i18n._global.resources_lower')"
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="true"
@@ -29,7 +28,7 @@
           ariaLabel="i18n.pages.organizations.groups._global.support_group_aria_label"
         /> -->
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageGroup>
     <div v-if="group.resources" class="space-y-3 py-4">
       <CardSearchResultResource
         v-for="(r, i) in group.resources"
