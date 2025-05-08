@@ -38,7 +38,7 @@ class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
 
     class Meta:
         model = Discussion
-        fields = "__all__"
+        exclude = "created_by", "deletion_date"
 
 
 # MARK: FAQ
