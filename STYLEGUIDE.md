@@ -235,9 +235,9 @@ activist is a global platform and must function in countless different regions a
 Localization keys should be defined based on the file in which they're used within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 
 - In following [i18n-check](https://github.com/activist-org/i18n-check) standards, please prepend all i18n keys with `i18n`
+  - ✅ `i18n._global.foo`
+  - ❌ `"_global.foo"`
   - This allows us to check all keys that are in use against those found in the `en-US.json` file
-    - ✅ `i18n._global.foo`
-    - ❌ `"_global.foo"`
 - Separate directories and references by `.` and PascalCase/camelCase file name components by `_` in keys
   - Ex: `i18n.components.landing_splash.CONTENT_REFERENCE` for the `LandingSplash` component
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key

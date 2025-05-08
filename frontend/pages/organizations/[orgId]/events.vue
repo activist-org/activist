@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="
         organization.name +
         ' ' +
@@ -29,7 +28,7 @@
           ariaLabel="i18n.pages.organizations.events.new_event_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div
       v-if="organization.events && organization.events.length > 0"
       class="space-y-3 py-4"
@@ -46,13 +45,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/communities/organization";
+
 import { IconMap } from "~/types/icon-map";
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
+defineProps<{
+  organization: Organization;
+}>();
 </script>

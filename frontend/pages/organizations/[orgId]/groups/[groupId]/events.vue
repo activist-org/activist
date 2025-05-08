@@ -13,8 +13,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :group="group"
+    <HeaderAppPageGroup
       :header="
         group.name + ' ' + $t('i18n.pages.organizations._global.events_lower')
       "
@@ -25,7 +24,7 @@
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          :label=""i18n._global.support"
+          :label="i18n._global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
@@ -33,7 +32,7 @@
           ariaLabel="i18n.pages.organizations.groups._global.support_group_aria_label"
         /> -->
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageGroup>
     <PagePreviewEvent />
     <!-- <div v-if="group.events" class="space-y-3 py-4">
       <CardSearchResultEvent
@@ -48,13 +47,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Group } from "~/types/communities/group";
+
+defineProps<{
+  group: Group;
+}>();
+
 const groupSubPages = getGroupSubPages();
-
-const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-
-const { group } = groupStore;
 </script>

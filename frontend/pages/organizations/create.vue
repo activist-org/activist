@@ -92,7 +92,7 @@
           pageType="organization"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect pageType="other" />
+          <CardConnectOrganization />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">

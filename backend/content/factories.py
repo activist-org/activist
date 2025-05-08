@@ -9,7 +9,7 @@ from uuid import uuid4
 
 import factory
 
-from content.models import Faq, Image, Location, Resource, Task, Topic
+from content.models import Discussion, Faq, Image, Location, Resource, Task, Topic
 
 # MARK: Main Table
 
@@ -229,3 +229,19 @@ class TopicFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     deprecation_date = factory.Faker("date")
+
+
+class DiscussionFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Discussion model instances.
+    """
+
+    class Meta:
+        model = Discussion
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    title = factory.Faker("text")
+    category = factory.Faker("text")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )

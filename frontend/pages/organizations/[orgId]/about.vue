@@ -6,7 +6,7 @@
     <Head>
       <Title>{{ organization.name }}</Title>
     </Head>
-    <HeaderAppPage pageType="organization">
+    <HeaderAppPageOrganization>
       <div class="flex pb-3 lg:pb-4">
         <div class="flex space-x-2 lg:space-x-3">
           <BtnRouteExternal
@@ -35,17 +35,17 @@
             @keydown.enter="openModalSharePage()"
             class="w-max"
             :cta="true"
-            :label="$t(shareButtonLabel)"
+            :label="shareButtonLabel"
             :hideLabelOnMobile="false"
             fontSize="sm"
             :rightIcon="IconMap.SHARE"
             iconSize="1.45em"
-            :ariaLabel="$t('i18n._global.share_organization_aria_label')"
+            ariaLabel="i18n._global.share_organization_aria_label"
           />
         </div>
         <ModalSharePage :cta="true" :organization="organization" />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
@@ -64,12 +64,12 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :organizationId="orgId"
+            :fileUploadEntity="FileUploadEntity.ORGANIZATION_CAROUSEL"
           />
         </div>
       </div>
       <CardGetInvolvedOrganization />
-      <CardConnect pageType="organization" />
+      <CardConnectOrganization />
       <!-- <CardDonate
         v-if="organization.status === 2"
         :userIsAdmin="true"
@@ -80,20 +80,19 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/communities/organization";
+
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
+
+defineProps<{
+  organization: Organization;
+}>();
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const aboveLargeBP = useBreakpoint("lg");
-
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

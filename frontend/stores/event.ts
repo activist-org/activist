@@ -25,7 +25,11 @@ export const useEventStore = defineStore("event", {
       name: "",
       tagline: "",
       createdBy: "",
-      iconUrl: "",
+      iconUrl: {
+        id: "",
+        fileObject: "",
+        creation_date: "",
+      },
       type: "learn",
       onlineLocationLink: "",
 

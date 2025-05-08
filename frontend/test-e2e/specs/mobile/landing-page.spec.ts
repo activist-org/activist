@@ -20,6 +20,26 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Landing Page", { tag: "@mobile" }, () => {
+  test("User can go to the docs from the landing page", async ({ page }) => {
+    // Check for at least one link to the docs site.
+    const docsLinks = page
+      .getByRole("link", { name: /.*/ })
+      .filter({ hasText: /.*/ });
+
+    // Find if any link points to docs.activist.org/activist.
+    const docsLinkCount = await docsLinks.evaluateAll(
+      (links) =>
+        links.filter((link) =>
+          (link as HTMLAnchorElement).href.includes(
+            "https://docs.activist.org/activist"
+          )
+        ).length
+    );
+
+    // Assert that at least one matching link exists.
+    expect(docsLinkCount).toBe(13);
+  });
+
   test("Roadmap link is not in mobile layout", async ({ page }) => {
     expect(
       page.getByRole("link", { name: ROADMAP_LINK_NAME })

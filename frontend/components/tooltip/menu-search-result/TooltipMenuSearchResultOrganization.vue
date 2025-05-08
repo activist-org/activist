@@ -9,7 +9,7 @@
         label="i18n._global.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        :ariaLabel="$t('i18n._global.support_organization_aria_label')"
+        ariaLabel="i18n._global.support_organization_aria_label"
       /> -->
       <!-- <BtnRouteInternal
         class="flex max-h-[40px] w-full"
@@ -18,9 +18,7 @@
         leftIcon="IconJoin"
         linkTo="/"
         fontSize="lg"
-        :ariaLabel="
-          $t('i18n._global.join_organization_aria_label')
-        "
+        ariaLabel="i18n._global.join_organization_aria_label"
       /> -->
       <BtnAction
         v-if="organization"
@@ -32,7 +30,7 @@
         label="i18n._global.share"
         :rightIcon="IconMap.SHARE"
         fontSize="lg"
-        :ariaLabel="$t('i18n._global.share_organization_aria_label')"
+        ariaLabel="i18n._global.share_organization_aria_label"
       />
       <ModalSharePage
         v-if="organization"

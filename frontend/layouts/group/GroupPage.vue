@@ -1,6 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
+    <ModalUploadImages
+      @closeModal="handleCloseModalUploadImages"
+      @upload-complete="handleUploadComplete"
+    />
     <SidebarLeft
       v-if="aboveMediumBP"
       @mouseover="sidebarHover = true"
@@ -14,7 +18,7 @@
         class="bg-layer-0 pt-8 transition-padding duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage />
+        <NuxtPage :group="group" />
       </div>
       <FooterWebsite
         class="pb-24 transition-padding duration-500 md:pb-12"
@@ -29,6 +33,20 @@ import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
+
+const paramsGroupId = useRoute().params.groupid;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+
+const groupStore = useGroupStore();
+await groupStore.fetchById(groupId);
+const { group } = groupStore;
+
+const { handleCloseModal: handleCloseModalUploadImages } =
+  useModalHandlers("ModalUploadImages");
+
+const handleUploadComplete = () => {
+  console.log("GroupPage handleUploadComplete");
+};
 
 const aboveMediumBP = useBreakpoint("md");
 

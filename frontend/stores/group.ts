@@ -33,7 +33,11 @@ export const useGroupStore = defineStore("group", {
         iconUrl: "",
       },
       createdBy: "",
-      iconUrl: "",
+      iconUrl: {
+        id: "",
+        fileObject: "",
+        creation_date: "",
+      },
 
       location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 

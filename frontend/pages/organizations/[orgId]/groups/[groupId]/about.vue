@@ -11,7 +11,7 @@
     <Head>
       <Title>{{ group.name }}</Title>
     </Head>
-    <HeaderAppPage pageType="group">
+    <HeaderAppPageGroup>
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
           v-if="group.getInvolvedUrl"
@@ -27,7 +27,7 @@
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          :label=""i18n._global.support"
+          :label="i18n._global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
@@ -39,14 +39,12 @@
           @keydown.enter="openModal()"
           class="w-max"
           :cta="true"
-          :label="$t(shareButtonLabel)"
+          :label="shareButtonLabel"
           :hideLabelOnMobile="false"
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="
-            $t('i18n.pages.organizations.groups.about.share_group_aria_label')
-          "
+          ariaLabel="i18n.pages.organizations.groups.about.share_group_aria_label"
         />
         <ModalSharePage
           @closeModal="handleCloseModal"
@@ -55,7 +53,7 @@
           :isOpen="modalIsOpen"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageGroup>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
@@ -74,11 +72,14 @@
           :group="group"
         />
         <div class="h-full w-full">
-          <MediaImageCarouselFull v-if="!textExpanded || !aboveLargeBP" />
+          <MediaImageCarouselFull
+            v-if="!textExpanded || !aboveLargeBP"
+            :fileUploadEntity="FileUploadEntity.GROUP_CAROUSEL"
+          />
         </div>
       </div>
       <CardGetInvolvedGroup :group="group" />
-      <CardConnect pageType="group" />
+      <CardConnectGroup />
     </div>
   </div>
 </template>
@@ -87,18 +88,15 @@
 import type { Group } from "~/types/communities/group";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 
+defineProps<{
+  group: Group;
+}>();
+
 const aboveLargeBP = useBreakpoint("lg");
-
-const paramsGroupId = useRoute().params.groupid;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-
-const group: Group = groupStore.group;
 
 const groupSubPages = getGroupSubPages();
 

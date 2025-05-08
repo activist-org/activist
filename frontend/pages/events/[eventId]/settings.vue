@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :event="event"
+    <HeaderAppPageEvent
       :header="
         event.name + ' ' + $t('i18n.pages._global.settings.settings_lower')
       "
@@ -24,7 +23,7 @@
           ariaLabel="i18n.pages._global.settings.save_settings_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageEvent>
     <!-- <div class="space-y-6 pb-6">
       <CardDangerZone
         :description="$t('i18n.pages.events.settings.danger_zone_event_description')"
@@ -38,11 +37,9 @@
 </template>
 
 <script setup lang="ts">
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+import type { Event } from "~/types/events/event";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-
-const { event } = eventStore;
+defineProps<{
+  event: Event;
+}>();
 </script>

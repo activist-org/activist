@@ -22,10 +22,9 @@
 </template>
 
 <script setup lang="ts">
-const { data: groups } = await useFetch(
-  `${BASE_BACKEND_URL}/communities/groups/`,
-  {
-    method: "GET",
-  }
-);
+import type { Group } from "~/types/communities/group";
+
+defineProps<{
+  groups: Group[];
+}>();
 </script>
