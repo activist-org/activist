@@ -14,31 +14,31 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-       <p>
-        <ImageOrganization
-        class="elem-shadow-sm"
-          :imgUrl="logoUrl"
-          :alt="
-            $t('i18n._global.entity_logo', {
-              entity_name: name,
-            })
-          "
-        />
+        <p>
+          <ImageOrganization
+            class="elem-shadow-sm"
+            :imgUrl="logoUrl"
+            :alt="
+              $t('i18n._global.entity_logo', {
+                entity_name: name,
+              })
+            "
+          />
         </p>
-          <p v-if="showButton" style="padding-top:20px">
+        <p v-if="showButton" style="padding-top: 20px">
           <!-- Attn: Disabled -->
-        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModal()"
-          class="focus-brand absolute bottom-1 right-1 z-10 items-centre justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-
-        >
-         <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
-         &nbsp; &nbsp; Upload &nbsp; &nbsp;
-        </button>
+          <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
+          <button
+            v-if="
+              sidebar.collapsed == false || sidebar.collapsedSwitch == false
+            "
+            @click="openModal()"
+            class="focus-brand items-centre absolute bottom-1 right-1 z-10 justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          >
+            <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
+            &nbsp; &nbsp; Upload &nbsp; &nbsp;
+          </button>
         </p>
-
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
@@ -51,31 +51,31 @@
         }"
       >
         <p>
-         <ImageEvent
-          class="elem-shadow-sm"
-          eventType="action"
-          :imgUrl="logoUrl"
-          :alt="
-            $t('i18n._global.entity_logo', {
-              entity_name: name,
-            })
-          "
-        />
+          <ImageEvent
+            class="elem-shadow-sm"
+            eventType="action"
+            :imgUrl="logoUrl"
+            :alt="
+              $t('i18n._global.entity_logo', {
+                entity_name: name,
+              })
+            "
+          />
         </p>
-          <p v-if="showButton" style="padding-top:20px">
+        <p v-if="showButton" style="padding-top: 20px">
           <!-- Attn: Disabled -->
-        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModal()"
-          class="focus-brand absolute bottom-1 right-1 z-10 items-centre justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-
-        >
-         <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
-         &nbsp; &nbsp; Upload &nbsp; &nbsp;
-        </button>
+          <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
+          <button
+            v-if="
+              sidebar.collapsed == false || sidebar.collapsedSwitch == false
+            "
+            @click="openModal()"
+            class="focus-brand items-centre absolute bottom-1 right-1 z-10 justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          >
+            <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
+            &nbsp; &nbsp; Upload &nbsp; &nbsp;
+          </button>
         </p>
-
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.GROUP_PAGE"
@@ -87,32 +87,31 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-
         <p>
-        <ImageGroup
-          class="elem-shadow-sm"
-          eventType="action"
-          :alt="
-            $t('i18n._global.entity_logo', {
-              entity_name: name,
-            })
-          "
-        />
+          <ImageGroup
+            class="elem-shadow-sm"
+            eventType="action"
+            :alt="
+              $t('i18n._global.entity_logo', {
+                entity_name: name,
+              })
+            "
+          />
         </p>
-          <p v-if="showButton" style="padding-top:20px">
+        <p v-if="showButton" style="padding-top: 20px">
           <!-- Attn: Disabled -->
-        <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="openModal()"
-          class="focus-brand absolute bottom-1 right-1 z-10 items-centre justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-
-        >
-         <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
-         &nbsp; &nbsp; Upload &nbsp; &nbsp;
-        </button>
+          <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
+          <button
+            v-if="
+              sidebar.collapsed == false || sidebar.collapsedSwitch == false
+            "
+            @click="openModal()"
+            class="focus-brand items-centre absolute bottom-1 right-1 z-10 justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          >
+            <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
+            &nbsp; &nbsp; Upload &nbsp; &nbsp;
+          </button>
         </p>
-
       </div>
       <ul
         id="submenu"
@@ -129,7 +128,7 @@
             ? menuEntriesState.organizationEntry.value
             : menuEntriesState.eventEntry.value"
         >
-         <SidebarLeftSelector
+          <SidebarLeftSelector
             :id="
               (sidebarType === SidebarType.ORGANIZATION_PAGE
                 ? 'org-'
@@ -147,8 +146,6 @@
 </template>
 
 <script setup lang="ts">
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
-import { IconMap } from "~/types/icon-map";
 import { SidebarType } from "~/types/sidebar-type";
 
 const props = defineProps<{
@@ -157,7 +154,7 @@ const props = defineProps<{
     | SidebarType.ORGANIZATION_PAGE
     | SidebarType.EVENT_PAGE
     | SidebarType.GROUP_PAGE;
-    logoUrl?: string;
+  logoUrl?: string;
 }>();
 
 const logoUrl = ref(props.logoUrl);
