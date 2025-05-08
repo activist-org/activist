@@ -316,6 +316,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const localePath = useLocalePath();
 
 const settingValue = ref("");
