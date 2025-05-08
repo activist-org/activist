@@ -27,7 +27,7 @@
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          :label=""i18n._global.support"
+          :label="i18n._global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
@@ -39,14 +39,12 @@
           @keydown.enter="openModal()"
           class="w-max"
           :cta="true"
-          :label="$t(shareButtonLabel)"
+          :label="shareButtonLabel"
           :hideLabelOnMobile="false"
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="
-            $t('i18n.pages.organizations.groups.about.share_group_aria_label')
-          "
+          ariaLabel="i18n.pages.organizations.groups.about.share_group_aria_label"
         />
         <ModalSharePage
           @closeModal="handleCloseModal"

@@ -304,7 +304,7 @@
             class="absolute right-0 ml-2"
             :cta="false"
             label="i18n.pages.events.create.button_right"
-            rightIcon="→"
+            :rightIcon="IconMap.ARROW_RIGHT"
             fontSize="lg"
             iconSize="1.25em"
             ariaLabel="i18n.pages.events.create.go_to_previous_page"

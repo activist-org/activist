@@ -18,7 +18,7 @@
         <!-- <BtnAction
           class="w-max"
           :cta="true"
-          :label=""i18n._global.support"
+          :label="i18n._global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"

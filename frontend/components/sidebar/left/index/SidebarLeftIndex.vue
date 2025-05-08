@@ -6,50 +6,14 @@
     <div class="flex flex-col items-center">
       <div
         v-if="sidebarTypeToDisplay === SidebarType.ORGANIZATION_PAGE"
-        class="relative"
+        class="flex flex-col items-center"
         :class="{
-          'h-32 w-32':
+          'h-40 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
           'h-10 w-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <p>
-          <ImageOrganization
-            class="elem-shadow-sm"
-            :imgUrl="logoUrl"
-            :alt="
-              $t('i18n._global.entity_logo', {
-                entity_name: name,
-              })
-            "
-          />
-        </p>
-        <p v-if="showButton" style="padding-top: 20px">
-          <!-- Attn: Disabled -->
-          <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
-          <button
-            v-if="
-              sidebar.collapsed == false || sidebar.collapsedSwitch == false
-            "
-            @click="openModal()"
-            class="focus-brand items-centre absolute bottom-1 right-1 z-10 justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-          >
-            <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
-            &nbsp; &nbsp; Upload &nbsp; &nbsp;
-          </button>
-        </p>
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="
-            openModalUploadImages({
-              fileUploadEntity: FileUploadEntity.ORGANIZATION_ICON,
-            })
-          "
-          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-        >
-          <Icon :name="IconMap.PLUS" size="1em" />
-        </button>
         <ImageOrganization
           class="elem-shadow-sm"
           :imgUrl="logoUrl"
@@ -59,54 +23,35 @@
             })
           "
         />
+        <BtnAction
+          v-if="
+            showButton &&
+            (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
+          "
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.ORGANIZATION_ICON,
+            })
+          "
+          class="-mb-2 mt-2"
+          :cta="true"
+          label="i18n.components._global.upload"
+          fontSize="xs"
+          :leftIcon="IconMap.PLUS"
+          iconSize="1.25em"
+          ariaLabel="i18n.components.sidebar_left_index.upload_aria_label"
+        />
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
-        class="relative"
+        class="flex flex-col items-center"
         :class="{
-          'h-32 w-32':
+          'h-40 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
           'h-10 w-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <p>
-          <ImageEvent
-            class="elem-shadow-sm"
-            eventType="action"
-            :imgUrl="logoUrl"
-            :alt="
-              $t('i18n._global.entity_logo', {
-                entity_name: name,
-              })
-            "
-          />
-        </p>
-        <p v-if="showButton" style="padding-top: 20px">
-          <!-- Attn: Disabled -->
-          <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
-          <button
-            v-if="
-              sidebar.collapsed == false || sidebar.collapsedSwitch == false
-            "
-            @click="openModal()"
-            class="focus-brand items-centre absolute bottom-1 right-1 z-10 justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-          >
-            <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
-            &nbsp; &nbsp; Upload &nbsp; &nbsp;
-          </button>
-        </p>
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="
-            openModalUploadImages({
-              fileUploadEntity: FileUploadEntity.EVENT_ICON,
-            })
-          "
-          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-        >
-          <Icon :name="IconMap.PLUS" size="1em" />
-        </button>
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"
@@ -117,53 +62,35 @@
             })
           "
         />
+        <BtnAction
+          v-if="
+            showButton &&
+            (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
+          "
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.EVENT_ICON,
+            })
+          "
+          class="-mb-2 mt-2"
+          :cta="true"
+          label="i18n.components._global.upload"
+          fontSize="xs"
+          :leftIcon="IconMap.PLUS"
+          iconSize="1.25em"
+          ariaLabel="i18n.components.sidebar_left_index.upload_aria_label"
+        />
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.GROUP_PAGE"
-        class="relative"
+        class="flex flex-col items-center"
         :class="{
-          'h-32 w-32':
+          'h-40 w-32':
             sidebar.collapsed == false || sidebar.collapsedSwitch == false,
           'h-10 w-10':
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <p>
-          <ImageGroup
-            class="elem-shadow-sm"
-            eventType="action"
-            :alt="
-              $t('i18n._global.entity_logo', {
-                entity_name: name,
-              })
-            "
-          />
-        </p>
-        <p v-if="showButton" style="padding-top: 20px">
-          <!-- Attn: Disabled -->
-          <ModalUploadImages @closeModal="handleCloseModal" :uploadLimit="1" />
-          <button
-            v-if="
-              sidebar.collapsed == false || sidebar.collapsedSwitch == false
-            "
-            @click="openModal()"
-            class="focus-brand items-centre absolute bottom-1 right-1 z-10 justify-center rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-          >
-            <!-- <Icon :name="IconMap.PLUS" size="1em" /> -->
-            &nbsp; &nbsp; Upload &nbsp; &nbsp;
-          </button>
-        </p>
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="
-            openModalUploadImages({
-              fileUploadEntity: FileUploadEntity.GROUP_ICON,
-            })
-          "
-          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-        >
-          <Icon :name="IconMap.PLUS" size="1em" />
-        </button>
         <ImageGroup
           class="elem-shadow-sm"
           eventType="action"
@@ -172,6 +99,24 @@
               entity_name: name,
             })
           "
+        />
+        <BtnAction
+          v-if="
+            showButton &&
+            (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
+          "
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.GROUP_ICON,
+            })
+          "
+          class="-mb-2 mt-2"
+          :cta="true"
+          label="i18n.components._global.upload"
+          fontSize="xs"
+          :leftIcon="IconMap.PLUS"
+          iconSize="1.25em"
+          ariaLabel="i18n.components.sidebar_left_index.upload_aria_label"
         />
       </div>
       <ul
@@ -230,43 +175,5 @@ const menuEntriesState = useMenuEntriesState();
 const { openModal: openModalUploadImages } =
   useModalHandlers("ModalUploadImages");
 
-const showButton = true; // temporary until the upload function is done below
-
-// Function for uploading and having upload button disappear after upload is done.
-/*export default {
-  data() {
-    return {
-      file: null,
-      uploading: false,
-      uploadSuccess: false,
-      showButton: true,
-    };
-  },
-  methods: {
-    handleFileUpload(event) {
-      this.file = event.target.files[0];
-    },
-    async uploadFile() {
-      if (!this.file) {
-        return;
-      }
-
-      this.uploading = true;
-      this.showButton = false;
-
-      try {
-        // Simulate an upload process (replace with actual upload logic).
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        this.uploadSuccess = true;
-      } catch (error) {
-        console.error("Upload failed:", error);
-        this.uploadSuccess = false;
-        this.showButton = true; // re-enable the button in case of error
-      } finally {
-        this.uploading = false;
-      }
-    },
-  },
-}; */
+const showButton = true;
 </script>

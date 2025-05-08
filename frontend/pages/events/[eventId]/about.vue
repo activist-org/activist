@@ -35,12 +35,12 @@
           @keydown.enter="openModalSharePage()"
           class="w-max"
           :cta="true"
-          :label="$t(shareButtonLabel)"
+          label="shareButtonLabel"
           :hideLabelOnMobile="false"
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
-          :ariaLabel="$t('i18n._global.share_event_aria_label')"
+          ariaLabel="i18n._global.share_event_aria_label"
         />
         <ModalSharePage :cta="true" :event="event" />
       </div>
