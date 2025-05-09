@@ -10,7 +10,16 @@ from uuid import uuid4
 
 import factory
 
-from content.models import Discussion, Faq, Image, Location, Resource, Task, Topic
+from content.models import (
+    Discussion,
+    DiscussionEntry,
+    Faq,
+    Image,
+    Location,
+    Resource,
+    Task,
+    Topic,
+)
 
 # MARK: Main Table
 
@@ -188,7 +197,7 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("name")
     description = factory.Faker("text")
-    location = factory.SubFactory(EntityLocationFactory)
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
     terms_checked = factory.Faker("boolean")
@@ -244,5 +253,24 @@ class DiscussionFactory(factory.django.DjangoModelFactory):
     title = factory.Faker("text")
     category = factory.Faker("text")
     creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+class DiscussionEntryFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Discussion Entry instances.
+    """
+
+    class Meta:
+        model = DiscussionEntry
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    discussion = factory.SubFactory("content.factories.DiscussionFactory")
+    text = factory.Faker("text")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )

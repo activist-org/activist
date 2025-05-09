@@ -122,10 +122,9 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
 
     def create(self, request: Request) -> Response:
         if request.user.is_authenticated:
-            request.data["created_by"] = request.user
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            serializer.save(created_by=request.user)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
