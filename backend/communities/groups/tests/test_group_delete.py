@@ -26,7 +26,7 @@ def test_group_delete(client: Client) -> None:
     Returns
     -------
     None
-         This test asserts the correctness of HTTP status codes (401 for unauthorized, 200 for success).
+        This test asserts the correctness of HTTP status codes (401 for unauthorized, 200 for success).
     """
     test_username = "test_user"
     test_plaintext_password = "test_pass"

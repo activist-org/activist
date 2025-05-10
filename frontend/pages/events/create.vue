@@ -95,7 +95,7 @@
             />
           </div>
           <div class="mx-14 mt-5 w-full">
-            <CardConnect pageType="event" />
+            <CardConnectEvent />
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <label for="description" class="responsive-h3 block font-medium">
@@ -304,7 +304,7 @@
             class="absolute right-0 ml-2"
             :cta="false"
             label="i18n.pages.events.create.button_right"
-            rightIcon="→"
+            :rightIcon="IconMap.ARROW_RIGHT"
             fontSize="lg"
             iconSize="1.25em"
             ariaLabel="i18n.pages.events.create.go_to_previous_page"
@@ -316,6 +316,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
 const localePath = useLocalePath();
 
 const settingValue = ref("");

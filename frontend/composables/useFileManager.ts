@@ -30,7 +30,7 @@ const ENTITY_ID_FIELDS = {
 const colorMode = useColorMode();
 
 const defaultImageUrls = computed(() => {
-  const imageColor = colorMode?.value || "light";
+  const imageColor = colorMode?.preference == "light" ? "light" : "dark";
   return [
     `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
     `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,

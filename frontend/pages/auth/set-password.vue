@@ -53,10 +53,10 @@
       <div class="pt-4">
         <BtnAction
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
-          :label="$t('i18n.pages.auth.set_password.set_password')"
+          label="i18n.pages.auth.set_password.set_password"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('i18n.pages.auth.set_password.set_password')"
+          ariaLabel="i18n.pages.auth.set_password.set_password"
         />
       </div>
     </form>

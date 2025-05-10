@@ -4,8 +4,7 @@
     <Head>
       <Title>{{ organization.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="organization.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages.organizations._global.faq_tagline')"
       :underDevelopment="true"
@@ -21,7 +20,7 @@
           ariaLabel="i18n.pages.organizations.faq.new_faq_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div v-if="orgFAQs.length > 0" class="py-4">
       <div v-for="f in orgFAQs" class="mb-4">
         <CardFAQEntry :faqEntry="f" />

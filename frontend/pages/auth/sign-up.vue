@@ -75,10 +75,10 @@
         </div>
         <BtnAction
           class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
-          :label="'i18n._global.sign_up'"
+          label="i18n._global.sign_up"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="'i18n._global.sign_up_aria_label'"
+          ariaLabel="i18n._global.sign_up_aria_label"
         />
       </div>
       <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
