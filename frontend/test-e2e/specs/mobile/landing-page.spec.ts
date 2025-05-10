@@ -3,7 +3,22 @@ import { expect, test } from "playwright/test";
 
 import { LOCALE_CODE, LOCALE_NAME } from "~/locales";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
-import { ROADMAP_LINK_NAME } from "~/test-e2e/accessibility/accessible-names";
+import {
+  ROADMAP_LINK_NAME,
+  GET_ACTIVE_LEARN_MORE_LINK_NAME,
+  GET_ORGANIZED_LEARN_MORE_LINK_NAME,
+  GROW_ORGANIZATION_LEARN_MORE_LINK_NAME,
+  ACTIVIST_SECTION_LEARN_MORE_LINK_NAME,
+  OUR_SUPPORTERS_BECOME_LINK_NAME,
+  OUR_SUPPORTERS_VIEW_LINK_NAME,
+  FOOTER_ROADMAP_LINK_NAME,
+  FOOTER_TRADEMARK_LINK_NAME,
+  FOOTER_PRIVACY_LINK_NAME,
+  FOOTER_DOCUMENTATION_LINK_NAME,
+  FOOTER_ABOUT_LINK_NAME,
+  FOOTER_SUPPORTERS_LINK_NAME,
+  FOOTER_IMPRINT_LINK_NAME,
+} from "~/test-e2e/accessibility/accessible-names";
 import { expectTheme } from "~/test-e2e/assertions";
 import { newLanguageMenu } from "~/test-e2e/component-objects/LanguageMenu";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
@@ -20,24 +35,123 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Landing Page", { tag: "@mobile" }, () => {
-  test("User can go to the docs from the landing page", async ({ page }) => {
-    // Check for at least one link to the docs site.
-    const docsLinks = page
-      .getByRole("link", { name: /.*/ })
-      .filter({ hasText: /.*/ });
+  test("User can go to Learn More page from Get Active learn more link", async ({
+    page,
+  }) => {
+    await page
+      .getByRole("link", { name: GET_ACTIVE_LEARN_MORE_LINK_NAME })
+      .click();
+    await page.waitForURL("**/activist");
 
-    // Find if any link points to docs.activist.org/activist.
-    const docsLinkCount = await docsLinks.evaluateAll(
-      (links) =>
-        links.filter((link) =>
-          (link as HTMLAnchorElement).href.includes(
-            "https://docs.activist.org/activist"
-          )
-        ).length
-    );
+    expect(page.url()).toContain("/activist");
+  });
 
-    // Assert that at least one matching link exists.
-    expect(docsLinkCount).toBe(13);
+  test("User can go to Learn More page from Get Organized learn more link", async ({
+    page,
+  }) => {
+    await page
+      .getByRole("link", { name: GET_ORGANIZED_LEARN_MORE_LINK_NAME })
+      .click();
+    await page.waitForURL("**/activist");
+
+    expect(page.url()).toContain("/activist");
+  });
+
+  test("User can go to Learn More page from Grow Organization learn more link", async ({
+    page,
+  }) => {
+    await page
+      .getByRole("link", { name: GROW_ORGANIZATION_LEARN_MORE_LINK_NAME })
+      .click();
+    await page.waitForURL("**/activist");
+
+    expect(page.url()).toContain("/activist");
+  });
+
+  test("User can go to Learn More page from Activist section learn more link", async ({
+    page,
+  }) => {
+    await page
+      .getByRole("link", { name: ACTIVIST_SECTION_LEARN_MORE_LINK_NAME })
+      .click();
+    await page.waitForURL("**/activist");
+
+    expect(page.url()).toContain("/activist");
+  });
+
+  test("User can go to Support Us page from Become a Supporter button", async ({
+    page,
+  }) => {
+    await page
+      .getByRole("link", { name: OUR_SUPPORTERS_BECOME_LINK_NAME })
+      .click();
+    await page.waitForURL("**/welcome/support-us");
+
+    expect(page.url()).toContain("/welcome/support-us");
+  });
+
+  test("User can go to Supporters page from View all Supporters button", async ({
+    page,
+  }) => {
+    await page
+      .getByRole("link", { name: OUR_SUPPORTERS_VIEW_LINK_NAME })
+      .click();
+    await page.waitForURL("**/organization/community/supporters");
+
+    expect(page.url()).toContain("/organization/community/supporters");
+  });
+
+  test("User can go to Roadmap page from Footer link", async ({ page }) => {
+    await page.getByRole("link", { name: FOOTER_ROADMAP_LINK_NAME }).click();
+    await page.waitForURL("**/product/about/roadmap");
+
+    expect(page.url()).toContain("/product/about/roadmap");
+  });
+
+  test("User can go to Documentation from Footer link", async ({ page }) => {
+    await page
+      .getByRole("link", { name: FOOTER_DOCUMENTATION_LINK_NAME })
+      .click();
+    await page.waitForURL("**/activist");
+
+    expect(page.url()).toContain("/activist");
+  });
+
+  test("User can go to About page from Footer link", async ({ page }) => {
+    await page.getByRole("link", { name: FOOTER_ABOUT_LINK_NAME }).click();
+    await page.waitForURL("**/organization/community");
+
+    expect(page.url()).toContain("/organization/community");
+  });
+
+  test("User can go to Supporters page from Footer link", async ({ page }) => {
+    await page.getByRole("link", { name: FOOTER_SUPPORTERS_LINK_NAME }).click();
+    await page.waitForURL("**/organization/community/supporters");
+
+    expect(page.url()).toContain("/organization/community/supporters");
+  });
+
+  test("User can go to Imprint page from Footer link", async ({ page }) => {
+    await page.getByRole("link", { name: FOOTER_IMPRINT_LINK_NAME }).click();
+    await page.waitForURL("**/organization/legal/imprint");
+
+    expect(page.url()).toContain("/organization/legal/imprint");
+  });
+
+  test("User can go to Trademark page from Footer link", async ({ page }) => {
+    await page.getByRole("link", { name: FOOTER_TRADEMARK_LINK_NAME }).click();
+    await page.waitForURL("**/organization/legal/trademark");
+
+    expect(page.url()).toContain("/organization/legal/trademark");
+  });
+
+  test("User can go to Privacy Policy page from Footer link", async ({
+    page,
+  }) => {
+    await page.getByRole("link", { name: FOOTER_PRIVACY_LINK_NAME }).click();
+    await page.waitForURL("**/product/data-and-security/privacy-policy");
+
+    expect(page.url()).toContain("/product/data-and-security/privacy-policy");
   });
 
   test("Roadmap link is not in mobile layout", async ({ page }) => {
