@@ -128,13 +128,15 @@ test.describe("Landing Page", { tag: "@desktop" }, () => {
     await expect(page.url()).toContain("/product/about/roadmap");
   });
 
-  test("User can go to Trademark page", async ({ page }) => {
+  test("User can go to Trademark page from Footer link", async ({ page }) => {
     await page.getByRole("link", { name: FOOTER_TRADEMARK_LINK_NAME }).click();
 
     await expect(page.url()).toContain("/organization/legal/trademark");
   });
 
-  test("User can go to Privacy Policy page", async ({ page }) => {
+  test("User can go to Privacy Policy page from Footer link", async ({
+    page,
+  }) => {
     await page.getByRole("link", { name: FOOTER_PRIVACY_LINK_NAME }).click();
 
     await expect(page.url()).toContain(
@@ -150,19 +152,19 @@ test.describe("Landing Page", { tag: "@desktop" }, () => {
     await expect(page.url()).toContain("/activist");
   });
 
-  test("User can go to About page", async ({ page }) => {
+  test("User can go to About page from Footer link", async ({ page }) => {
     await page.getByRole("link", { name: FOOTER_ABOUT_LINK_NAME }).click();
 
     await expect(page.url()).toContain("/organization/community");
   });
 
-  test("User can go to Supporters page", async ({ page }) => {
+  test("User can go to Supporters page from Footer link", async ({ page }) => {
     await page.getByRole("link", { name: FOOTER_SUPPORTERS_LINK_NAME }).click();
 
-    await expect(page.url()).toContain("/organization/community");
+    await expect(page.url()).toContain("/organization/community/supporters");
   });
 
-  test("User can go to Imprint page", async ({ page }) => {
+  test("User can go to Imprint page from Footer link", async ({ page }) => {
     await page.getByRole("link", { name: FOOTER_IMPRINT_LINK_NAME }).click();
 
     await expect(page.url()).toContain("/organization/legal/imprint");

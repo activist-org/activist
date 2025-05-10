@@ -42,7 +42,7 @@ export const OUR_SUPPORTERS_VIEW_LINK_NAME = new RegExp(
   "i"
 );
 export const FOOTER_ROADMAP_LINK_NAME = new RegExp(
-  getEnglishText("i18n.components.footer.website.road_map_aria_label"),
+  getEnglishText("i18n.components.footer_website.road_map_aria_label"),
   "i"
 );
 export const FOOTER_TRADEMARK_LINK_NAME = new RegExp(
