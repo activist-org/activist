@@ -345,7 +345,6 @@
   "i18n.components.tooltip_discussion_warning.phone_numbers": "Telefones",
   "i18n.components.tooltip_discussion_warning.text": "Por favor, use os nomes de usuário para se referir às pessoas e NÃO forneça nenhuma informação pessoal, como:",
   "i18n.components.tooltip_mention_list.no_result": "Nenhum resultado",
-  "i18n.components.tooltip_menu_search_result_event.attend": "Participar",
   "i18n.components.tooltip_menu_search_result_event.attend_aria_label": "Participar deste evento",
   "i18n.components.tooltip_menu_search_result_user.share_user": "Compartilhar usuário",
   "i18n.components.tooltip_menu_search_result_user.share_user_aria_label": "Veja como compartilhar este usuário com outros",
