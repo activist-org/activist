@@ -10,6 +10,13 @@
     >
       <ComboboxTopics class="pb-3 lg:pb-4" />
     </HeaderAppPage>
+    <MediaMap
+          v-if="events.length"
+          class="h-[calc(50vh-1rem)] w-full"
+          :markerColors="['#BA3D3B']"
+          :events="events"
+          :isThereClustering ="true"
+        />
     <!-- <div class="space-y-6 pb-6">
       <div
         class="flex flex-col space-y-6 lg:mr-6 lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:space-x-6 lg:space-y-0"
@@ -28,3 +35,14 @@
     </div> -->
   </div>
 </template>
+<script setup lang="ts">
+import { BreakpointMap } from "~/types/breakpoint-map";
+import { IconMap } from "~/types/icon-map";
+
+const eventStore = useEventStore();
+await eventStore.fetchAll();
+
+const { events } = eventStore;
+
+window.addEventListener('resize', () => map.resize());
+</script>
