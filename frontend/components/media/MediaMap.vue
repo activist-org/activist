@@ -15,11 +15,14 @@ import maplibregl, { type LayerSpecification, type Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import type { Location } from "~/types/content/location";
+import type { Event } from "~/types/events/event";
 
 const props = defineProps<{
   eventNames: string[];
   eventTypes: string[];
   eventLocations: Location[];
+  events?: Event[];
+  isThereClustering?: boolean;
 }>();
 
 // MARK: Map Tooltip Helper
@@ -419,7 +422,29 @@ onMounted(() => {
       maxZoom: 20,
     });
 
-    map.fitBounds(
+    if (props.isThereClustering){
+      props.events?.forEach((event) => {
+        map.fitBounds(
+      [
+        [
+          parseFloat(event.offlineLocation?.bbox[2]),
+          parseFloat(event.offlineLocation?.bbox[0]),
+        ],
+        [
+          parseFloat(event.offlineLocation?.bbox[3]),
+          parseFloat(event.offlineLocation?.bbox[1]),
+        ],
+      ],
+      {
+        duration: 0,
+        padding: 120,
+      }
+    );
+      });
+
+
+    }else {
+      map.fitBounds(
       [
         [
           parseFloat(props.eventLocations[0].bbox[2]),
@@ -435,6 +460,7 @@ onMounted(() => {
         padding: 120,
       }
     );
+    }
 
     // MARK: Basic Controls
 
@@ -511,13 +537,28 @@ onMounted(() => {
     });
 
     marker.addClassName("cursor-pointer");
-    marker
+    if ( props.isThereClustering){
+      props.events.forEach(event => {
+        const eventMarker = new maplibregl.Marker({
+          color: `${props.markerColors[0]}`,
+        });
+
+        eventMarker
+          .setLngLat([
+        parseFloat(event.offlineLocation.lon),
+        parseFloat(event.offlineLocation.lat),
+          ])
+          .addTo(map);
+      });
+      } else{
+      marker
       .setLngLat([
         parseFloat(props.eventLocations[0].lon),
         parseFloat(props.eventLocations[0].lat),
       ])
       .setPopup(popup)
       .addTo(map);
+    }
 
     // Arrow icon for directions.
     map
