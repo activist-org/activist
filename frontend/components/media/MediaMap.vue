@@ -8,6 +8,8 @@
 </template>
 
 <script setup lang="ts">
+import { useMap } from "@/composables/useMap";
+import { useRouting } from "@/composables/useRouting";
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
@@ -25,71 +27,22 @@ const props = defineProps<{
   isThereClustering?: boolean;
 }>();
 
+const { buildExpandedTooltip, isWebglSupported, createMap } = useMap();
+
 // MARK: Map Tooltip Helper
 
 //  Returns a <div> containing the whole card so we can pass it to popup.setDOMContent().
-const organizationIcon = `/icons/map/tooltip_organization.png`;
-const calendarIcon = `/icons/map/tooltip_datetime.png`;
-const locationIcon = `/icons/map/tooltip_location.png`;
-
-function buildExpandedTooltip(opts: {
-  name: string;
-  url: string;
-  organization: string;
-  datetime: string;
-  location: string;
-  attendLabel: string;
-}) {
-  const root = document.createElement("div");
-  root.className = "w-[220px] cursor-pointer font-sans";
-
-  let tooltipClass = "";
-  if (props.eventTypes[0] === "learn") {
-    tooltipClass =
-      "overflow-hidden bg-white rounded-sm border-l-8 border-l-[#2176AE]";
-  } else {
-    tooltipClass =
-      "overflow-hidden bg-white rounded-sm border-l-8 border-l-[#BA3D3B]";
-  }
-
-  root.innerHTML = `
-    <a href="${opts.url}" class="no-underline">
-      <div class="${tooltipClass}">
-        <div class="px-3 py-1">
-          <h3 class="font-display text-base text-black font-bold mb-2 leading-tight">${opts.name}</h3>
-
-          <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
-            <img src="${organizationIcon}"/>
-            <span>${opts.organization}</span>
-          </div>
-
-          <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
-            <img src="${calendarIcon}"/>
-            <span>${opts.datetime}</span>
-          </div>
-
-          <div class="flex items-start text-xs text-black mb-1.5 font-semibold space-x-2">
-            <img src="${locationIcon}"/>
-            <span>${opts.location}</span>
-          </div>
-        </div>
-      </div>
-    </a>
-  `;
-
-  // Note: Use for adding an attend button later.
-  // <button
-  //   type="button"
-  //   class="style-cta mt-2 px-3 py-1 text-sm font-bold"
-  // >
-  //   ${opts.attendLabel}
-  // </button>
-
-  return root;
-}
 
 const i18n = useI18n();
 const colorMode = useColorMode();
+let map: Map;
+let marker: maplibregl.Marker;
+let directions: MapLibreGlDirections;
+const {
+  setSelectedRoute,
+  resetDirectionsControl,
+  directionControl
+} = useRouting(map, directions,marker);
 
 const attendLabelKey = "i18n.components._global.attend";
 const attendLabel = i18n.t(attendLabelKey) as string;
@@ -101,24 +54,6 @@ const isTouchDevice =
   navigator.msMaxTouchPoints > 0 ||
   "ontouchstart" in window ||
   navigator.maxTouchPoints > 0;
-
-function isWebglSupported() {
-  if (window.WebGLRenderingContext) {
-    const canvas = document.createElement("canvas");
-    try {
-      const context = canvas.getContext("webgl2") || canvas.getContext("webgl");
-      if (context && typeof context.getParameter == "function") {
-        return true;
-      }
-    } catch (e) {
-      // WebGL is supported, but disabled.
-      console.log(e);
-    }
-    return false;
-  }
-  // WebGL not supported.
-  return false;
-}
 
 // MARK: Map Layers
 
@@ -148,243 +83,10 @@ const mapLayers: LayerSpecification[] = [
   },
 ];
 
-// MARK: Routing
 
-const bikeDirectionsIcon = `/icons/map/bike_directions.png`;
-const walkDirectionsIcon = `/icons/map/walk_directions.png`;
-
-interface RouteProfileOption {
-  FOOT: string;
-  BIKE: string;
-  DRIVING: string;
-  CAR: string;
-}
-
-const routeProfileOptions: RouteProfileOption = {
-  FOOT: "foot",
-  BIKE: "bike",
-  DRIVING: "driving",
-  CAR: "car",
-};
-
-interface RouteProfile {
-  profile: string;
-  api: string;
-}
-
-const routingAPI = "https://routing.openstreetmap.de/routed-";
-const routingAPIVersion = "/route/v1/";
-
-const routeProfileMap: RouteProfile[] = [
-  {
-    api: `${routingAPI}${routeProfileOptions.FOOT}${routingAPIVersion}`,
-    profile: routeProfileOptions.FOOT,
-  },
-  {
-    api: `${routingAPI}${routeProfileOptions.BIKE}${routingAPIVersion}`,
-    profile: routeProfileOptions.BIKE,
-  },
-  {
-    api: `${routingAPI}${routeProfileOptions.DRIVING}${routingAPIVersion}`,
-    profile: routeProfileOptions.DRIVING,
-  },
-];
-
-const walkingRouteProfileControl = `
-  <div
-    title="${i18n.t("i18n.components.media_map.change_profile")}"
-    id=${routeProfileOptions.FOOT}
-    style="
-    background-image: url(${walkDirectionsIcon});
-    width: 30px;
-    height: 30px;
-    background-size: 30px 30px;
-    border-radius: 5px;
-    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-    cursor: pointer"
-  >
-  `;
-
-const bikeRouteProfileControl = `
-  <div
-    title="${i18n.t("i18n.components.media_map.change_profile")}"
-    id=${routeProfileOptions.BIKE}
-    style="
-    background-image: url(${bikeDirectionsIcon});
-    width: 30px;
-    height: 30px;
-    background-size: 30px 30px;
-    border-radius: 5px;
-    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-    cursor: pointer"
-  >
-  `;
-
-let currentProfile = walkingRouteProfileControl;
-
-const mapProfile = (profile: string) => {
-  return routeProfileMap.find((item) => item.profile === profile);
-};
-
-let selectedRoute = mapProfile(routeProfileOptions.FOOT);
-
-const toggleLayerHandler = (map: Map) => {
-  if (currentProfile === walkingRouteProfileControl) {
-    map.setLayoutProperty("cycle-layer", "visibility", "visible");
-  } else {
-    map.setLayoutProperty("cycle-layer", "visibility", "none");
-  }
-};
-
-const routeProfileHandler = () => {
-  if (currentProfile === walkingRouteProfileControl) {
-    currentProfile = bikeRouteProfileControl;
-  } else {
-    currentProfile = walkingRouteProfileControl;
-  }
-  return currentProfile;
-};
-
-const setSelectedRoute = () => {
-  if (currentProfile === walkingRouteProfileControl) {
-    selectedRoute = mapProfile(routeProfileOptions.FOOT);
-  } else {
-    selectedRoute = mapProfile(routeProfileOptions.BIKE);
-  }
-  return selectedRoute;
-};
-
-let map: Map;
-let marker: maplibregl.Marker;
-let directions: MapLibreGlDirections;
-
-// MARK: Profile Switcher
-
-function resetRouteProfileControl() {
-  const existingRouteProfileControl = document.getElementById(
-    "route-profile-control"
-  );
-  if (existingRouteProfileControl) {
-    existingRouteProfileControl.remove();
-  }
-
-  map.addControl(
-    {
-      onAdd: function () {
-        const div = document.createElement("div");
-        div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
-        div.id = "route-profile-control";
-        div.innerHTML = currentProfile;
-
-        const updateSelectedProfile = () => {
-          toggleLayerHandler(map);
-
-          directions.destroy();
-          div.innerHTML = routeProfileHandler();
-
-          directions = new MapLibreGlDirections(map, {
-            ...(selectedRoute = setSelectedRoute()),
-            requestOptions: {
-              alternatives: "true",
-            },
-            // @ts-expect-error: Will break route profile change.
-            mapLayers,
-          });
-
-          directions.interactive = true;
-          marker.getElement().addEventListener("mouseenter", () => {
-            directions.interactive = false;
-          });
-
-          marker.getElement().addEventListener("mouseleave", () => {
-            directions.interactive = true;
-          });
-        };
-
-        div.addEventListener("click", updateSelectedProfile);
-        if (window.innerWidth < 768) {
-          div.addEventListener("touched", updateSelectedProfile);
-        } else {
-          document.addEventListener("keydown", (event) => {
-            if (event.key === "p") {
-              updateSelectedProfile();
-            }
-          });
-        }
-        return div;
-      },
-      onRemove: function () {},
-    },
-    "top-left"
-  );
-}
-
-// MARK: Directions Control
-
-function resetDirectionsControl() {
-  const existingDirectionControl =
-    document.getElementById("directions-control");
-  if (existingDirectionControl) {
-    existingDirectionControl.remove();
-  }
-
-  const directionControl = {
-    onAdd: function () {
-      const div = document.createElement("div");
-      div.className = "maplibregl-ctrl";
-      div.id = "directions-control";
-
-      let directionsControlLabel =
-        directions.waypoints.length == 0
-          ? i18n.t("i18n.components.media_map.click_for_directions")
-          : i18n.t("i18n.components.media_map.clear_directions");
-
-      const directionsControlTooltip =
-        directions.waypoints.length == 0
-          ? i18n.t("i18n.components.media_map.click_for_directions_tooltip")
-          : i18n.t("i18n.components.media_map.clear_directions_tooltip");
-
-      // Add hotkey if we're above mobile and there are waypoints.
-      if (window.innerWidth >= 768 && directions.waypoints.length != 0) {
-        directionsControlLabel = directionsControlLabel += " [x]";
-      }
-
-      const clearDirectionsBtn = `
-        <div
-          title="${directionsControlTooltip}"
-          style="
-            background-color: rgba(255, 255, 255, 0.75);
-            padding: 1px 5px;
-            border-radius: 5px;
-            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: rgba(0, 0, 0, 0.8);
-            cursor: pointer
-          "
-        >
-          ${directionsControlLabel}
-        </div>
-      `;
-
-      div.innerHTML = clearDirectionsBtn;
-      div.addEventListener("click", () => directions.clear());
-      if (window.innerWidth < 768) {
-        div.addEventListener("touchend", () => directions.clear());
-      } else {
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "x") {
-            directions.clear();
-            resetDirectionsControl();
-          }
-        });
-      }
-      return div;
-    },
-    onRemove: function () {},
-  };
 
   map.addControl(directionControl, "top-left");
   resetRouteProfileControl();
-}
 
 // MARK: Map Creation
 
@@ -392,74 +94,44 @@ onMounted(() => {
   if (!isWebglSupported()) {
     alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
-    map = new maplibregl.Map({
-      container: "map",
-      style: {
-        version: 8,
-        sources: {
-          "raster-tiles": {
-            type: "raster",
-            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-            tileSize: 256,
-            attribution:
-              '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a>',
-          },
-          "cycle-raster-tiles": {
-            type: "raster",
-            tiles: [
-              "https://a.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
-              "https://b.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
-              "https://c.tile-cyclosm.openstreetmap.fr/cyclosm-lite/{z}/{x}/{y}.png",
-            ],
-            tileSize: 256,
-            attribution:
-              '<a href="https://www.cyclosm.org" target="_blank">CyclOSM</a>',
-          },
-        },
-        layers: mapLayers,
-      },
-      pitch: 20,
-      maxZoom: 20,
-    });
+    map = createMap(mapLayers);
 
-    if (props.isThereClustering){
+    if (props.isThereClustering) {
       props.events?.forEach((event) => {
         map.fitBounds(
-      [
-        [
-          parseFloat(event.offlineLocation?.bbox[2]),
-          parseFloat(event.offlineLocation?.bbox[0]),
-        ],
-        [
-          parseFloat(event.offlineLocation?.bbox[3]),
-          parseFloat(event.offlineLocation?.bbox[1]),
-        ],
-      ],
-      {
-        duration: 0,
-        padding: 120,
-      }
-    );
+          [
+            [
+              parseFloat(event.offlineLocation?.bbox[2]),
+              parseFloat(event.offlineLocation?.bbox[0]),
+            ],
+            [
+              parseFloat(event.offlineLocation?.bbox[3]),
+              parseFloat(event.offlineLocation?.bbox[1]),
+            ],
+          ],
+          {
+            duration: 0,
+            padding: 120,
+          }
+        );
       });
-
-
-    }else {
+    } else {
       map.fitBounds(
-      [
         [
-          parseFloat(props.eventLocations[0].bbox[2]),
-          parseFloat(props.eventLocations[0].bbox[0]),
+          [
+            parseFloat(props.eventLocations[0].bbox[2]),
+            parseFloat(props.eventLocations[0].bbox[0]),
+          ],
+          [
+            parseFloat(props.eventLocations[0].bbox[3]),
+            parseFloat(props.eventLocations[0].bbox[1]),
+          ],
         ],
-        [
-          parseFloat(props.eventLocations[0].bbox[3]),
-          parseFloat(props.eventLocations[0].bbox[1]),
-        ],
-      ],
-      {
-        duration: 0,
-        padding: 120,
-      }
-    );
+        {
+          duration: 0,
+          padding: 120,
+        }
+      );
     }
 
     // MARK: Basic Controls
@@ -514,50 +186,57 @@ onMounted(() => {
       .querySelector(".maplibregl-ctrl-geolocate");
     if (geolocateButton)
       geolocateButton.title = i18n.t("i18n.components.media_map.geolocate");
-
-    const popup = new maplibregl.Popup({
-      offset: 25,
-      maxWidth: "260px",
-    }).setDOMContent(
-      buildExpandedTooltip({
-        name: props.eventNames[0],
-        url: ``, // TODO: Pass in event webpage URL
-        organization: "Organization", // TODO: Pass in event's organization name
-        datetime: "Date & Time", // TODO: Pass in event's date and time information
-        location: props.eventLocations[0].displayName
-          .split(",")
-          .slice(0, 3)
-          .join(", "),
-        attendLabel,
-      })
-    );
+    let popup: maplibregl.Popup;
+    if (props.isThereClustering!) {
+      popup = new maplibregl.Popup({
+        offset: 25,
+        maxWidth: "260px",
+      }).setDOMContent(
+        buildExpandedTooltip({
+          name: props.eventNames[0],
+          url: ``, // TODO: Pass in event webpage URL
+          organization: "Organization", // TODO: Pass in event's organization name
+          datetime: "Date & Time", // TODO: Pass in event's date and time information
+          location: props.eventLocations[0].displayName
+            .split(",")
+            .slice(0, 3)
+            .join(", "),
+          attendLabel,
+          eventType: props.eventTypes[0],
+        })
+      );
+    }
 
     marker = new maplibregl.Marker({
-      color: props.eventTypes[0] === "learn" ? "#2176AE" : "#BA3D3B",
+      color:
+        (props.eventTypes ?? props.eventTypes[0] === "learn")
+          ? "#2176AE"
+          : "#BA3D3B",
     });
 
     marker.addClassName("cursor-pointer");
-    if ( props.isThereClustering){
-      props.events.forEach(event => {
+    console.log(props.isThereClustering);
+    if (props.isThereClustering) {
+      props.events.forEach((event) => {
         const eventMarker = new maplibregl.Marker({
           color: `${props.markerColors[0]}`,
         });
 
         eventMarker
           .setLngLat([
-        parseFloat(event.offlineLocation.lon),
-        parseFloat(event.offlineLocation.lat),
+            parseFloat(event.offlineLocation.lon),
+            parseFloat(event.offlineLocation.lat),
           ])
           .addTo(map);
       });
-      } else{
+    } else {
       marker
-      .setLngLat([
-        parseFloat(props.eventLocations[0].lon),
-        parseFloat(props.eventLocations[0].lat),
-      ])
-      .setPopup(popup)
-      .addTo(map);
+        .setLngLat([
+          parseFloat(props.eventLocations[0].lon),
+          parseFloat(props.eventLocations[0].lat),
+        ])
+        .setPopup(popup)
+        .addTo(map);
     }
 
     // Arrow icon for directions.
