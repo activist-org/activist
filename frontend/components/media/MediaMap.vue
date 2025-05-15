@@ -27,7 +27,15 @@ const props = defineProps<{
   isThereClustering?: boolean;
 }>();
 
-const { buildExpandedTooltip, isWebglSupported, createMap } = useMap();
+const {
+  createMap,
+  isWebglSupported,
+  createMap,
+  createMarker,
+  createFullScreenControl,
+  createNavigationControl,
+  createGeoLocateControl
+} = useMap();
 
 // MARK: Map Tooltip Helper
 
@@ -38,11 +46,8 @@ const colorMode = useColorMode();
 let map: Map;
 let marker: maplibregl.Marker;
 let directions: MapLibreGlDirections;
-const {
-  setSelectedRoute,
-  resetDirectionsControl,
-  directionControl
-} = useRouting(map, directions,marker);
+const { setSelectedRoute, resetDirectionsControl, directionControl } =
+  useRouting(map, directions, marker);
 
 const attendLabelKey = "i18n.components._global.attend";
 const attendLabel = i18n.t(attendLabelKey) as string;
@@ -83,10 +88,8 @@ const mapLayers: LayerSpecification[] = [
   },
 ];
 
-
-
-  map.addControl(directionControl, "top-left");
-  resetRouteProfileControl();
+map.addControl(directionControl, "top-left");
+resetRouteProfileControl();
 
 // MARK: Map Creation
 
@@ -96,48 +99,27 @@ onMounted(() => {
   } else {
     map = createMap(mapLayers);
 
-    if (props.isThereClustering) {
-      props.events?.forEach((event) => {
-        map.fitBounds(
-          [
-            [
-              parseFloat(event.offlineLocation?.bbox[2]),
-              parseFloat(event.offlineLocation?.bbox[0]),
-            ],
-            [
-              parseFloat(event.offlineLocation?.bbox[3]),
-              parseFloat(event.offlineLocation?.bbox[1]),
-            ],
-          ],
-          {
-            duration: 0,
-            padding: 120,
-          }
-        );
-      });
-    } else {
-      map.fitBounds(
+    map.fitBounds(
+      [
         [
-          [
-            parseFloat(props.eventLocations[0].bbox[2]),
-            parseFloat(props.eventLocations[0].bbox[0]),
-          ],
-          [
-            parseFloat(props.eventLocations[0].bbox[3]),
-            parseFloat(props.eventLocations[0].bbox[1]),
-          ],
+          parseFloat(props.eventLocations[0].bbox[2]),
+          parseFloat(props.eventLocations[0].bbox[0]),
         ],
-        {
-          duration: 0,
-          padding: 120,
-        }
-      );
-    }
+        [
+          parseFloat(props.eventLocations[0].bbox[3]),
+          parseFloat(props.eventLocations[0].bbox[1]),
+        ],
+      ],
+      {
+        duration: 0,
+        padding: 120,
+      }
+    );
 
     // MARK: Basic Controls
 
     // Localize FullscreenControl
-    const fullscreenControl = new maplibregl.FullscreenControl();
+    const fullscreenControl = createFullScreenControl();
     map.addControl(fullscreenControl);
 
     const fullscreenButton: HTMLElement | null = map
@@ -146,12 +128,9 @@ onMounted(() => {
     if (fullscreenButton)
       fullscreenButton.title = i18n.t("i18n.components.media_map.fullscreen");
 
-    map.addControl(
-      new maplibregl.NavigationControl({
-        visualizePitch: true,
-      }),
-      "top-right"
-    );
+    const navigationControl = createNavigationControl();
+
+    map.addControl(navigationControl, "top-right");
 
     // Add localized tooltips for NavigationControl buttons
     const zoomInButton: HTMLElement | null = map
@@ -173,13 +152,8 @@ onMounted(() => {
       compassButton.title = i18n.t("i18n.components.media_map.reset_north");
 
     // Localize GeolocateControl
-    const geolocateControl = new maplibregl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true,
-    });
-    map.addControl(geolocateControl);
+    const geoLocateControl = createGeoLocateControl();
+    map.addControl(geoLocateControl);
 
     const geolocateButton: HTMLElement | null = map
       .getContainer()
@@ -188,11 +162,7 @@ onMounted(() => {
       geolocateButton.title = i18n.t("i18n.components.media_map.geolocate");
     let popup: maplibregl.Popup;
     if (props.isThereClustering!) {
-      popup = new maplibregl.Popup({
-        offset: 25,
-        maxWidth: "260px",
-      }).setDOMContent(
-        buildExpandedTooltip({
+      popup = createPopUp({
           name: props.eventNames[0],
           url: ``, // TODO: Pass in event webpage URL
           organization: "Organization", // TODO: Pass in event's organization name
@@ -204,18 +174,17 @@ onMounted(() => {
           attendLabel,
           eventType: props.eventTypes[0],
         })
-      );
     }
 
-    marker = new maplibregl.Marker({
-      color:
-        (props.eventTypes ?? props.eventTypes[0] === "learn")
-          ? "#2176AE"
-          : "#BA3D3B",
-    });
+    // Arrow icon for directions.
+    map
+      .loadImage("/icons/from_library/bootstrap_arrow_right.png")
+      .then((image) => {
+        if (image) {
+          map.addImage("route-direction-arrow", image.data);
+        }
+      });
 
-    marker.addClassName("cursor-pointer");
-    console.log(props.isThereClustering);
     if (props.isThereClustering) {
       props.events.forEach((event) => {
         const eventMarker = new maplibregl.Marker({
@@ -230,23 +199,14 @@ onMounted(() => {
           .addTo(map);
       });
     } else {
-      marker
-        .setLngLat([
-          parseFloat(props.eventLocations[0].lon),
-          parseFloat(props.eventLocations[0].lat),
-        ])
-        .setPopup(popup)
-        .addTo(map);
+      marker = createMarker(
+        (props.eventTypes ?? props.eventTypes[0] === "learn")
+          ? "#2176AE"
+          : "#BA3D3B",
+        props.eventLocations[0],
+        popup
+      ).addTo(map);
     }
-
-    // Arrow icon for directions.
-    map
-      .loadImage("/icons/from_library/bootstrap_arrow_right.png")
-      .then((image) => {
-        if (image) {
-          map.addImage("route-direction-arrow", image.data);
-        }
-      });
 
     map.on("load", () => {
       const layers = layersFactory(

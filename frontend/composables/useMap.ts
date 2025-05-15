@@ -106,9 +106,69 @@ export const useMap = () => {
     return map;
   }
 
+  const createMarker = (color:string,  latitude:{lon:string, lat:string}, popup?:maplibregl.Popup) => {
+    const marker = new maplibregl.Marker({
+      color
+    });
+
+    marker.addClassName("cursor-pointer");
+    marker
+        .setLngLat([
+          parseFloat(latitude.lon),
+          parseFloat(latitude.lat),
+        ])
+        .setPopup(popup)
+        return marker;
+  }
+
+  const createClusteringToMap = () => {}
+
+  const createFullScreenControl = () => {
+    return new maplibregl.FullscreenControl();
+  }
+
+  const createNavigationControl = () => {
+    return new maplibregl.NavigationControl({
+      visualizePitch: true,
+    });
+  }
+
+  const createGeoLocateControl = () => {
+    return new maplibregl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
+  }
+
+  const createPopUp = (opts: { name:string, url?:string, organization:string, datetime: string, location: string, attendLabel: string, eventType:EventType }) => {
+    const { name, url = '', organization, datetime, location, attendLabel, eventType } = opts;
+    return new maplibregl.Popup({
+      offset: 25,
+      maxWidth: "260px",
+    }).setDOMContent(
+      buildExpandedTooltip({
+        name,
+        url,
+        organization, // TODO: Pass in event's organization name
+        datetime, // TODO: Pass in event's date and time information
+        location,
+        attendLabel,
+        eventType,
+      })
+    )
+  }
+
+
 return {
     buildExpandedTooltip,
     isWebglSupported,
-    createMap
+    createMap,
+    createMarker,
+    createFullScreenControl,
+    createNavigationControl,
+    createGeoLocateControl,
+    createPopUp,
   };
 }
