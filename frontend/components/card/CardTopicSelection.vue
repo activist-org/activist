@@ -240,6 +240,7 @@ const selectTopic = (topic: TopicsTag) => {
   value.value = updatedValue;
   if (isFirst) {
     focusFirstTopic();
+    //temp comment
   }
 };
 
