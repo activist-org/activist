@@ -356,7 +356,7 @@ Users will be able to subscribe for updates on events and organizations that wor
 
 # Securely hosted [`⇧`](#contents)
 
-We are hosting our data in Iceland with a reputable hosting provider that is trusted by whistleblowers, activists and investigative journalists: [FlokiNET]().
+We are hosting our data in Iceland with a reputable hosting provider that is trusted by whistleblowers, activists and investigative journalists: [FlokiNET](https://flokinet.is/).
 
 Iceland is a strong supporter for net neutrality with strict privacy protection laws and freedom of the press. All these factors have contributed to making Iceland a preferred destination for data centers.
 
