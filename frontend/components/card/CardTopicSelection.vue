@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
 import type { Topic, TopicsTag } from "~/types/topics";
+import { nextTick } from 'vue';
 
 import { GLOBAL_TOPICS } from "~/types/topics";
 
@@ -230,13 +231,16 @@ const query = ref("");
 const selectTopic = (topic: TopicsTag) => {
   const updatedValue = [...props.modelValue];
   const index = updatedValue.indexOf(topic.value);
-
+  const isFirst=filteredTopics.value[0]?.value === topic.value;
   if (index === -1) {
     updatedValue.push(topic.value);
   } else {
     updatedValue.splice(index, 1);
   }
   value.value = updatedValue;
+  if (isFirst) {
+    focusFirstTopic();
+  }
 };
 
 function isActiveTopic(topic: Topic) {
@@ -260,6 +264,16 @@ const topics = computed((): TopicsTag[] => {
     ),
   ];
 });
+const focusFirstTopic = () => {
+  nextTick(() => {
+    const firstDesktop = document.querySelector(".topic");
+    const firstMobile = document.querySelector(".mobileTopic");
+    const target = firstDesktop || firstMobile;
+    if (target instanceof HTMLElement) {
+      target.focus();
+    }
+  });
+};
 
 const filteredTopics = computed(() => {
   return topics.value.filter((topic) => {
