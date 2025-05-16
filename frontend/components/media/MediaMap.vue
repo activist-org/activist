@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { useMap } from "@/composables/useMap";
-import { useRouting } from "@/composables/useRouting";
+import { useRouting } from "~/composables/useRoutingMap";
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
@@ -18,24 +18,22 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import type { Location } from "~/types/content/location";
 import type { Event, EventType } from "~/types/events/event";
+import { MapType } from "~/types/map";
 
 const props = defineProps<{
-  eventNames: string[];
-  eventTypes: EventType[];
-  eventLocations: Location[];
+  eventNames?: string[];
+  eventTypes?: EventType[];
+  eventLocations?: Location[];
   events?: Event[];
-  isThereClustering?: boolean;
+  type: MapType;
 }>();
 
 const {
   createMap,
   isWebglSupported,
-  createMarker,
   createFullScreenControl,
-  createNavigationControl,
-  createGeoLocateControl,
-  createPopUp,
-  addDirectionsLayer
+  createMapForMarkerTypeMap,
+  createMapForClusterTypeMap
 } = useMap();
 
 // MARK: Map Tooltip Helper
@@ -47,8 +45,11 @@ const colorMode = useColorMode();
 let map: Map;
 let marker: maplibregl.Marker;
 let directions: MapLibreGlDirections;
-const { setSelectedRoute, resetDirectionsControl } =
-  useRouting(map, directions, marker);
+const { setSelectedRoute, resetDirectionsControl } = useRouting(
+  map,
+  directions,
+  marker
+);
 
 const attendLabelKey = "i18n.components._global.attend";
 const attendLabel = i18n.t(attendLabelKey) as string;
@@ -97,23 +98,6 @@ onMounted(() => {
   } else {
     map = createMap(mapLayers);
 
-    map.fitBounds(
-      [
-        [
-          parseFloat(props.eventLocations[0].bbox[2]),
-          parseFloat(props.eventLocations[0].bbox[0]),
-        ],
-        [
-          parseFloat(props.eventLocations[0].bbox[3]),
-          parseFloat(props.eventLocations[0].bbox[1]),
-        ],
-      ],
-      {
-        duration: 0,
-        padding: 120,
-      }
-    );
-
     // MARK: Basic Controls
 
     // Localize FullscreenControl
@@ -125,88 +109,21 @@ onMounted(() => {
       .querySelector(".maplibregl-ctrl-fullscreen");
     if (fullscreenButton)
       fullscreenButton.title = i18n.t("i18n.components.media_map.fullscreen");
-
-    const navigationControl = createNavigationControl();
-
-    map.addControl(navigationControl, "top-right");
-
-    // Add localized tooltips for NavigationControl buttons
-    const zoomInButton: HTMLElement | null = map
-      .getContainer()
-      .querySelector(".maplibregl-ctrl-zoom-in");
-    if (zoomInButton)
-      zoomInButton.title = i18n.t("i18n.components.media_map.zoom_in");
-
-    const zoomOutButton: HTMLElement | null = map
-      .getContainer()
-      .querySelector(".maplibregl-ctrl-zoom-out");
-    if (zoomOutButton)
-      zoomOutButton.title = i18n.t("i18n.components.media_map.zoom_out");
-
-    const compassButton: HTMLElement | null = map
-      .getContainer()
-      .querySelector(".maplibregl-ctrl-compass");
-    if (compassButton)
-      compassButton.title = i18n.t("i18n.components.media_map.reset_north");
-
-    // Localize GeolocateControl
-    const geoLocateControl = createGeoLocateControl();
-    map.addControl(geoLocateControl);
-
-    const geolocateButton: HTMLElement | null = map
-      .getContainer()
-      .querySelector(".maplibregl-ctrl-geolocate");
-    if (geolocateButton)
-      geolocateButton.title = i18n.t("i18n.components.media_map.geolocate");
-
-    const popup = createPopUp({
-      name: props.eventNames[0],
-      url: ``, // TODO: Pass in event webpage URL
-      organization: "Organization", // TODO: Pass in event's organization name
-      datetime: "Date & Time", // TODO: Pass in event's date and time information
-      location: props.eventLocations[0].displayName
-        .split(",")
-        .slice(0, 3)
-        .join(", "),
-      attendLabel,
-      eventType: props.eventTypes[0],
-    });
-
-    // Arrow icon for directions.
-    map
-      .loadImage("/icons/from_library/bootstrap_arrow_right.png")
-      .then((image) => {
-        if (image) {
-          map.addImage("route-direction-arrow", image.data);
-        }
-      });
-
-    marker = createMarker(
-      (props.eventTypes ?? props.eventTypes[0] === "learn")
-        ? "#2176AE"
-        : "#BA3D3B",
-      props.eventLocations[0],
-      popup
-    ).addTo(map);
-
-    map.on("load", () => {
-      const layers = layersFactory(
-        isTouchDevice ? 1.5 : 1,
-        isTouchDevice ? 2 : 1
-      );
-
-      // MARK: Directions Layer
-
-      // Add arrow to directions layer.
-      addDirectionsLayer(
+    if (props.type === MapType.MARK)
+      createMapForMarkerTypeMap(
         map,
-        layers,
+        {
+          name: props.eventNames[0],
+          type: props.eventTypes[0],
+          location: props.eventLocations[0],
+        },
+        attendLabel,
+        isTouchDevice,
         setSelectedRoute(),
-        marker
+        marker,
+        resetDirectionsControl
       );
-
-      resetDirectionsControl();
-    });
+      if (props.type === MapType.CLUSTER) createMapForClusterTypeMap(map,props.events || [], isTouchDevice)
   }
 });
 </script>

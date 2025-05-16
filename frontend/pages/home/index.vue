@@ -15,7 +15,7 @@
           class="h-[calc(50vh-1rem)] w-full"
           :markerColors="['#BA3D3B']"
           :events="events"
-          :isThereClustering ="true"
+          :type = "MapType.CLUSTER"
         />
     <!-- <div class="space-y-6 pb-6">
       <div
@@ -36,13 +36,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
+import { MapType } from "~/types/map";
 
 const eventStore = useEventStore();
 await eventStore.fetchAll();
 
 const { events } = eventStore;
-
-window.addEventListener('resize', () => map.resize());
 </script>

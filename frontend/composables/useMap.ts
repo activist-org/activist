@@ -1,11 +1,14 @@
 import maplibregl, { type LayerSpecification } from "maplibre-gl";
-import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
-import type { EventType } from "~/types/events/event";
+import MapLibreGlDirections, {
+  layersFactory,
+} from "@maplibre/maplibre-gl-directions";
+import type { EventType, Event } from "~/types/events/event";
+import type { Location } from "~/types/content/location";
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
-
 export const useMap = () => {
+  const i18n = useI18n();
   function buildExpandedTooltip(opts: {
     name: string;
     url: string;
@@ -59,7 +62,8 @@ export const useMap = () => {
     if (window.WebGLRenderingContext) {
       const canvas = document.createElement("canvas");
       try {
-        const context = canvas.getContext("webgl2") || canvas.getContext("webgl");
+        const context =
+          canvas.getContext("webgl2") || canvas.getContext("webgl");
         if (context && typeof context.getParameter == "function") {
           return true;
         }
@@ -104,36 +108,189 @@ export const useMap = () => {
       maxZoom: 20,
     });
     return map;
-  }
+  };
 
-  const createMarker = (color:string,  latitude:{lon:string, lat:string}, popup?:maplibregl.Popup) => {
+
+  const createMarker = (
+    color: string,
+    latitude: { lon: string; lat: string },
+    popup?: maplibregl.Popup
+  ) => {
     const marker = new maplibregl.Marker({
-      color
+      color,
     });
 
     marker.addClassName("cursor-pointer");
     marker
-        .setLngLat([
-          parseFloat(latitude.lon),
-          parseFloat(latitude.lat),
-        ])
-        .setPopup(popup)
-        return marker;
+      .setLngLat([parseFloat(latitude.lon), parseFloat(latitude.lat)])
+      .setPopup(popup);
+    return marker;
+  };
+
+  const createLayersCluster = (iconScale:any,circleScale:any) => {
+    const layerTypes = ['action', 'learn'];
+  return layerTypes.map((type) => {
+    return {
+      id: `${type}-layer`,
+      type: 'circle',
+      source: 'events',
+      filter: ['==', ['get', 'type'], type],
+      paint: {
+        'circle-color': {
+          learn: '#FF5733',
+          action: '#33C3FF',
+        }[type],
+        'circle-radius': 10 * circleScale,
+        'circle-opacity': 0.7,
+      },
+    };
+  });
   }
 
-  const addClusterLayer = (map:maplibregl.Map, clusterLayer:LayerSpecification) => {
-    map.addSource(clusterLayer.id, {
-      type: "geojson",
-      data: clusterLayer.source,
-      cluster: true,
-      clusterMaxZoom: 14,
-      clusterRadius: 50,
+  const createMapForClusterTypeMap = (map:maplibregl.Map, events: Event[], isTouchDevice: boolean) => {
+    map.on('load', () => {
+      map.addSource('events', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: events
+            .filter(event => event.offlineLocation?.bbox !== undefined)
+            .map(event => ({
+              type: 'Feature',
+              properties: {
+                id: event.id,
+                name: event.name,
+                type: event.type,
+              },
+              geometry: {
+                type: 'Point',
+                coordinates: event.offlineLocation!.bbox.map(coord => parseFloat(coord)),
+              },
+            })),
+        },
+        cluster: true,
+        clusterRadius: 80,
+        clusterProperties: {
+          learn: ['+', ['case', ['==', ['get', 'type'], 'learn'], 1, 0]],
+          action: ['+', ['case', ['==', ['get', 'type'], 'action'], 1, 0]],
+        },
+      });
+
+      const layers = createLayersCluster(
+        isTouchDevice ? 1.5 : 1,
+        isTouchDevice ? 2 : 1
+      );
+
+      layers.forEach((layer) => {
+        map.addLayer(layer as maplibregl.CircleLayerSpecification);
+      });
+    });
+  };
+
+  const createMapForMarkerTypeMap = (
+    map: maplibregl.Map,
+    event: { name: string; location: Location; type: EventType },
+    attendLabel: string,
+    isTouchDevice: boolean,
+    selectedRoute: any,
+    marker: maplibregl.Marker,
+    fn?: () => any
+  ) => {
+    map.fitBounds(
+      [
+        [
+          parseFloat(event.location.bbox[2]),
+          parseFloat(event.location.bbox[0]),
+        ],
+        [
+          parseFloat(event.location.bbox[3]),
+          parseFloat(event.location.bbox[1]),
+        ],
+      ],
+      {
+        duration: 0,
+        padding: 120,
+      }
+    );
+    const navigationControl = createNavigationControl();
+
+    map.addControl(navigationControl, "top-right");
+
+    // Add localized tooltips for NavigationControl buttons
+    const zoomInButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-zoom-in");
+    if (zoomInButton)
+      zoomInButton.title = i18n.t("i18n.components.media_map.zoom_in");
+
+    const zoomOutButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-zoom-out");
+    if (zoomOutButton)
+      zoomOutButton.title = i18n.t("i18n.components.media_map.zoom_out");
+
+    const compassButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-compass");
+    if (compassButton)
+      compassButton.title = i18n.t("i18n.components.media_map.reset_north");
+
+    // Localize GeolocateControl
+    const geoLocateControl = createGeoLocateControl();
+    map.addControl(geoLocateControl);
+
+    const geolocateButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-geolocate");
+    if (geolocateButton)
+      geolocateButton.title = i18n.t("i18n.components.media_map.geolocate");
+
+    const popup = createPopUp({
+      name: event.name,
+      url: ``, // TODO: Pass in event webpage URL
+      organization: "Organization", // TODO: Pass in event's organization name
+      datetime: "Date & Time", // TODO: Pass in event's date and time information
+      location: event.location.displayName.split(",").slice(0, 3).join(", "),
+      attendLabel,
+      eventType: event.type,
     });
 
-    map.addLayer(clusterLayer);
-  }
+    // Arrow icon for directions.
+    map
+      .loadImage("/icons/from_library/bootstrap_arrow_right.png")
+      .then((image) => {
+        if (image) {
+          map.addImage("route-direction-arrow", image.data);
+        }
+      });
 
-  const addDirectionsLayer = (map:maplibregl.Map, layers:LayerSpecification[], selectedRoute:any, marker:maplibregl.Marker) => {
+    marker = createMarker(
+      event?.type === "learn" ? "#2176AE" : "#BA3D3B",
+      event.location,
+      popup
+    ).addTo(map);
+
+    map.on("load", () => {
+      const layers = layersFactory(
+        isTouchDevice ? 1.5 : 1,
+        isTouchDevice ? 2 : 1
+      );
+
+      // MARK: Directions Layer
+
+      // Add arrow to directions layer.
+      addDirectionsLayer(map, layers, selectedRoute, marker);
+
+      fn && fn();
+    });
+  };
+
+  const addDirectionsLayer = (
+    map: maplibregl.Map,
+    layers: LayerSpecification[],
+    selectedRoute: any,
+    marker: maplibregl.Marker
+  ) => {
     // Add arrow to directions layer.
     layers.push({
       id: "maplibre-gl-directions-route-line-direction-arrow",
@@ -174,19 +331,19 @@ export const useMap = () => {
     marker.getElement().addEventListener("mouseleave", () => {
       directions.interactive = true;
     });
-  }
+  };
 
-  const createClustering = () => {}
+  const createClustering = () => {};
 
   const createFullScreenControl = () => {
     return new maplibregl.FullscreenControl();
-  }
+  };
 
   const createNavigationControl = () => {
     return new maplibregl.NavigationControl({
       visualizePitch: true,
     });
-  }
+  };
 
   const createGeoLocateControl = () => {
     return new maplibregl.GeolocateControl({
@@ -195,10 +352,26 @@ export const useMap = () => {
       },
       trackUserLocation: true,
     });
-  }
+  };
 
-  const createPopUp = (opts: { name:string, url?:string, organization:string, datetime: string, location: string, attendLabel: string, eventType:EventType }) => {
-    const { name, url = '', organization, datetime, location, attendLabel, eventType } = opts;
+  const createPopUp = (opts: {
+    name: string;
+    url?: string;
+    organization: string;
+    datetime: string;
+    location: string;
+    attendLabel: string;
+    eventType: EventType;
+  }) => {
+    const {
+      name,
+      url = "",
+      organization,
+      datetime,
+      location,
+      attendLabel,
+      eventType,
+    } = opts;
     return new maplibregl.Popup({
       offset: 25,
       maxWidth: "260px",
@@ -212,11 +385,10 @@ export const useMap = () => {
         attendLabel,
         eventType,
       })
-    )
-  }
+    );
+  };
 
-
-return {
+  return {
     buildExpandedTooltip,
     isWebglSupported,
     createMap,
@@ -225,6 +397,8 @@ return {
     createNavigationControl,
     createGeoLocateControl,
     createPopUp,
-    addDirectionsLayer
+    addDirectionsLayer,
+    createMapForMarkerTypeMap,
+    createMapForClusterTypeMap,
   };
-}
+};
