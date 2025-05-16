@@ -17,11 +17,11 @@ import maplibregl, { type LayerSpecification, type Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import type { Location } from "~/types/content/location";
-import type { Event } from "~/types/events/event";
+import type { Event, EventType } from "~/types/events/event";
 
 const props = defineProps<{
   eventNames: string[];
-  eventTypes: string[];
+  eventTypes: EventType[];
   eventLocations: Location[];
   events?: Event[];
   isThereClustering?: boolean;
@@ -30,11 +30,12 @@ const props = defineProps<{
 const {
   createMap,
   isWebglSupported,
-  createMap,
   createMarker,
   createFullScreenControl,
   createNavigationControl,
-  createGeoLocateControl
+  createGeoLocateControl,
+  createPopUp,
+  addDirectionsLayer
 } = useMap();
 
 // MARK: Map Tooltip Helper
@@ -46,7 +47,7 @@ const colorMode = useColorMode();
 let map: Map;
 let marker: maplibregl.Marker;
 let directions: MapLibreGlDirections;
-const { setSelectedRoute, resetDirectionsControl, directionControl } =
+const { setSelectedRoute, resetDirectionsControl, directionControl, selectedRoute, resetRouteProfileControl, createDirections } =
   useRouting(map, directions, marker);
 
 const attendLabelKey = "i18n.components._global.attend";
@@ -160,21 +161,19 @@ onMounted(() => {
       .querySelector(".maplibregl-ctrl-geolocate");
     if (geolocateButton)
       geolocateButton.title = i18n.t("i18n.components.media_map.geolocate");
-    let popup: maplibregl.Popup;
-    if (props.isThereClustering!) {
-      popup = createPopUp({
-          name: props.eventNames[0],
-          url: ``, // TODO: Pass in event webpage URL
-          organization: "Organization", // TODO: Pass in event's organization name
-          datetime: "Date & Time", // TODO: Pass in event's date and time information
-          location: props.eventLocations[0].displayName
-            .split(",")
-            .slice(0, 3)
-            .join(", "),
-          attendLabel,
-          eventType: props.eventTypes[0],
-        })
-    }
+
+    const popup = createPopUp({
+      name: props.eventNames[0],
+      url: ``, // TODO: Pass in event webpage URL
+      organization: "Organization", // TODO: Pass in event's organization name
+      datetime: "Date & Time", // TODO: Pass in event's date and time information
+      location: props.eventLocations[0].displayName
+        .split(",")
+        .slice(0, 3)
+        .join(", "),
+      attendLabel,
+      eventType: props.eventTypes[0],
+    });
 
     // Arrow icon for directions.
     map
@@ -185,28 +184,13 @@ onMounted(() => {
         }
       });
 
-    if (props.isThereClustering) {
-      props.events.forEach((event) => {
-        const eventMarker = new maplibregl.Marker({
-          color: `${props.markerColors[0]}`,
-        });
-
-        eventMarker
-          .setLngLat([
-            parseFloat(event.offlineLocation.lon),
-            parseFloat(event.offlineLocation.lat),
-          ])
-          .addTo(map);
-      });
-    } else {
-      marker = createMarker(
-        (props.eventTypes ?? props.eventTypes[0] === "learn")
-          ? "#2176AE"
-          : "#BA3D3B",
-        props.eventLocations[0],
-        popup
-      ).addTo(map);
-    }
+    marker = createMarker(
+      (props.eventTypes ?? props.eventTypes[0] === "learn")
+        ? "#2176AE"
+        : "#BA3D3B",
+      props.eventLocations[0],
+      popup
+    ).addTo(map);
 
     map.on("load", () => {
       const layers = layersFactory(
@@ -217,45 +201,12 @@ onMounted(() => {
       // MARK: Directions Layer
 
       // Add arrow to directions layer.
-      layers.push({
-        id: "maplibre-gl-directions-route-line-direction-arrow",
-        type: "symbol",
-        source: "maplibre-gl-directions",
-        layout: {
-          "symbol-placement": "line-center",
-          "icon-image": "route-direction-arrow",
-          "icon-size": [
-            "interpolate",
-            ["exponential", 1.5],
-            ["zoom"],
-            12,
-            0.85,
-            18,
-            1.4,
-          ],
-        },
-        paint: {
-          "icon-opacity": 1,
-        },
-        filter: ["==", ["get", "route"], "SELECTED"],
-      });
-
-      directions = new MapLibreGlDirections(map, {
-        ...(selectedRoute = setSelectedRoute()),
-        requestOptions: {
-          alternatives: "true",
-        },
+      addDirectionsLayer(
+        map,
         layers,
-      });
-
-      directions.interactive = true;
-      marker.getElement().addEventListener("mouseenter", () => {
-        directions.interactive = false;
-      });
-
-      marker.getElement().addEventListener("mouseleave", () => {
-        directions.interactive = true;
-      });
+        setSelectedRoute(),
+        marker
+      );
 
       resetDirectionsControl();
     });

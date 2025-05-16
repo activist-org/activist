@@ -1,5 +1,5 @@
 import maplibregl, { type LayerSpecification } from "maplibre-gl";
-
+import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import type { EventType } from "~/types/events/event";
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
@@ -121,7 +121,62 @@ export const useMap = () => {
         return marker;
   }
 
-  const createClusteringToMap = () => {}
+  const addClusterLayer = (map:maplibregl.Map, clusterLayer:LayerSpecification) => {
+    map.addSource(clusterLayer.id, {
+      type: "geojson",
+      data: clusterLayer.source,
+      cluster: true,
+      clusterMaxZoom: 14,
+      clusterRadius: 50,
+    });
+
+    map.addLayer(clusterLayer);
+  }
+
+  const addDirectionsLayer = (map:maplibregl.Map, layers:LayerSpecification[], selectedRoute:any, marker:maplibregl.Marker) => {
+    // Add arrow to directions layer.
+    layers.push({
+      id: "maplibre-gl-directions-route-line-direction-arrow",
+      type: "symbol",
+      source: "maplibre-gl-directions",
+      layout: {
+        "symbol-placement": "line-center",
+        "icon-image": "route-direction-arrow",
+        "icon-size": [
+          "interpolate",
+          ["exponential", 1.5],
+          ["zoom"],
+          12,
+          0.85,
+          18,
+          1.4,
+        ],
+      },
+      paint: {
+        "icon-opacity": 1,
+      },
+      filter: ["==", ["get", "route"], "SELECTED"],
+    });
+
+    const directions = new MapLibreGlDirections(map, {
+      ...selectedRoute,
+      requestOptions: {
+        alternatives: "true",
+      },
+      layers,
+    });
+
+    directions.interactive = true;
+    marker.getElement().addEventListener("mouseenter", () => {
+      directions.interactive = false;
+    });
+
+    marker.getElement().addEventListener("mouseleave", () => {
+      directions.interactive = true;
+    });
+  }
+
+  const createClustering = () => {}
 
   const createFullScreenControl = () => {
     return new maplibregl.FullscreenControl();
@@ -170,5 +225,6 @@ return {
     createNavigationControl,
     createGeoLocateControl,
     createPopUp,
+    addDirectionsLayer
   };
 }

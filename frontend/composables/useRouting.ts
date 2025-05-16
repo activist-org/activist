@@ -1,5 +1,4 @@
-import type maplibregl from "maplibre-gl";
-
+import  maplibregl, { type LayerSpecification } from "maplibre-gl";
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 
 export const useRouting = (map:maplibregl.Map, directions:MapLibreGlDirections, marker:maplibregl.Marker  ) => {
@@ -240,6 +239,6 @@ return {
   mapProfile,
   routeProfileMap,
   directionControl,
-  resetRouteProfileControl
+  resetRouteProfileControl,
 }
 }
