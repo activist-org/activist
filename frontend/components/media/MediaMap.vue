@@ -33,7 +33,7 @@ const {
   isWebglSupported,
   createFullScreenControl,
   createMapForMarkerTypeMap,
-  createMapForClusterTypeMap
+  createMapForClusterTypeMap,
 } = useMap();
 
 // MARK: Map Tooltip Helper
@@ -113,9 +113,14 @@ onMounted(() => {
       createMapForMarkerTypeMap(
         map,
         {
-          name: props.eventNames[0],
-          type: props.eventTypes[0],
-          location: props.eventLocations[0],
+          name: props.eventNames[0] || "",
+          type: props.eventTypes[0] || "learn",
+          location: props.eventLocations[0] || {
+            name: "",
+            address: "",
+            lat: 0,
+            lon: 0,
+          },
         },
         attendLabel,
         isTouchDevice,
@@ -123,7 +128,8 @@ onMounted(() => {
         marker,
         resetDirectionsControl
       );
-      if (props.type === MapType.CLUSTER) createMapForClusterTypeMap(map,props.events || [], isTouchDevice)
+    if (props.type === MapType.CLUSTER)
+      createMapForClusterTypeMap(map, props.events || [], isTouchDevice);
   }
 });
 </script>
