@@ -47,7 +47,7 @@ const colorMode = useColorMode();
 let map: Map;
 let marker: maplibregl.Marker;
 let directions: MapLibreGlDirections;
-const { setSelectedRoute, resetDirectionsControl, directionControl, selectedRoute, resetRouteProfileControl, createDirections } =
+const { setSelectedRoute, resetDirectionsControl } =
   useRouting(map, directions, marker);
 
 const attendLabelKey = "i18n.components._global.attend";
@@ -88,9 +88,6 @@ const mapLayers: LayerSpecification[] = [
     },
   },
 ];
-
-map.addControl(directionControl, "top-left");
-resetRouteProfileControl();
 
 // MARK: Map Creation
 
