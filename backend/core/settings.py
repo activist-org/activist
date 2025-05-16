@@ -280,5 +280,6 @@ from rest_framework.settings import api_settings  # noqa: E402
 api_settings.reload()
 
 
-CLAMD_HOST = 'filescan'  # The name of the ClamAV Docker service
-CLAMD_PORT = 3310
+CLAMD_HOST = 'filescan' 
+CLAMD_PORT = 3310  
+

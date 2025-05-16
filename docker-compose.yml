@@ -8,10 +8,11 @@ services:
       context: ./backend
     container_name: django_backend
     restart: unless-stopped
-    command: sh -c "
+    command: sh -c  "
       if [ \"$ENVIRONMENT\" = \"development\" ]; then
         python /app/backend/scripts/clear_images.py;
       fi;
+
       python manage.py wait_for_db &&
       python manage.py makemigrations &&
       python manage.py migrate &&
@@ -87,7 +88,7 @@ services:
     restart: always
     volumes:
       - clamav_db:/var/lib/clamav
-      - clamav_log:/var/log/clamav  # Mount a volume for logs
+      - clamav_log:/var/log/clamav  
     command: sh -c "freshclam -v && clamd --foreground=yes --log=/var/log/clamav/clamd.log"
     
     healthcheck:
@@ -98,3 +99,4 @@ services:
 volumes:
   clamav_db:
   clamav_log:
+  
