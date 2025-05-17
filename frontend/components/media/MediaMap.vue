@@ -10,9 +10,7 @@
 <script setup lang="ts">
 import { useMap } from "@/composables/useMap";
 import { useRouting } from "~/composables/useRoutingMap";
-import MapLibreGlDirections, {
-  layersFactory,
-} from "@maplibre/maplibre-gl-directions";
+import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import maplibregl, { type LayerSpecification, type Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
