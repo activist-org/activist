@@ -405,19 +405,19 @@ export const useMap = () => {
       .getContainer()
       .querySelector(".maplibregl-ctrl-zoom-in");
     if (zoomInButton)
-      zoomInButton.title = i18n.t("i18n.components.media_map.zoom_in");
+      zoomInButton.title = i18n.t("i18n.composables.use_map.zoom_in");
 
     const zoomOutButton: HTMLElement | null = map
       .getContainer()
       .querySelector(".maplibregl-ctrl-zoom-out");
     if (zoomOutButton)
-      zoomOutButton.title = i18n.t("i18n.components.media_map.zoom_out");
+      zoomOutButton.title = i18n.t("i18n.composables.use_map.zoom_out");
 
     const compassButton: HTMLElement | null = map
       .getContainer()
       .querySelector(".maplibregl-ctrl-compass");
     if (compassButton)
-      compassButton.title = i18n.t("i18n.components.media_map.reset_north");
+      compassButton.title = i18n.t("i18n.composables.use_map.reset_north");
 
     // Localize GeolocateControl
     const geoLocateControl = createGeoLocateControl();
@@ -427,7 +427,7 @@ export const useMap = () => {
       .getContainer()
       .querySelector(".maplibregl-ctrl-geolocate");
     if (geolocateButton)
-      geolocateButton.title = i18n.t("i18n.components.media_map.geolocate");
+      geolocateButton.title = i18n.t("i18n.composables.use_map.geolocate");
 
     const popup = createPopUp({
       name: event.name,

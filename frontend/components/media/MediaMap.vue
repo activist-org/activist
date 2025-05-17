@@ -107,18 +107,15 @@ onMounted(() => {
       .querySelector(".maplibregl-ctrl-fullscreen");
     if (fullscreenButton)
       fullscreenButton.title = i18n.t("i18n.components.media_map.fullscreen");
-    if (props.type === MapType.MARK)
+    if (props.type === MapType.MARK) {
       createMapForMarkerTypeMap(
         map,
         {
-          name: props.eventNames[0] || "",
-          type: props.eventTypes[0] || "learn",
-          location: props.eventLocations[0] || {
-            name: "",
-            address: "",
-            lat: 0,
-            lon: 0,
-          },
+          name: props.eventNames ? props.eventNames[0] : "",
+          type: props.eventTypes ? props.eventTypes[0] : "learn",
+          location: props.eventLocations
+            ? props.eventLocations[0]
+            :  {} as Location,
         },
         attendLabel,
         isTouchDevice,
@@ -126,6 +123,7 @@ onMounted(() => {
         marker,
         resetDirectionsControl
       );
+    }
     if (props.type === MapType.CLUSTER)
       createMapForClusterTypeMap(map, props.events || [], isTouchDevice);
   }
