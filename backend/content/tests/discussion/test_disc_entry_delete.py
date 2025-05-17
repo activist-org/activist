@@ -23,13 +23,13 @@ def test_disc_entry_delete():
         verified=True,
     )
 
-    # User login
-    login = client.post(
+    # Login to get token.
+    login_response = client.post(
         path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
     )
 
-    assert login.status_code == 200
-    login_body = login.json()
+    assert login_response.status_code == 200
+    login_body = login_response.json()
     token = login_body["token"]
 
     discussion_entry = DiscussionEntryFactory(created_by=user)
@@ -50,6 +50,7 @@ def test_disc_entry_delete():
     )
 
     assert error_response.status_code == 403
+
     error_response_body = error_response.json()
     assert (
         error_response_body["error"]

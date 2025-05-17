@@ -24,13 +24,14 @@ def test_discussion_delete():
     discussion_thread = DiscussionFactory(created_by=user)
     unowned_discussion_thread = DiscussionFactory()
 
-    # User login
-    login = client.post(
+    # Login to get token.
+    login_response = client.post(
         path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
     )
 
-    assert login.status_code == 200
-    login_body = login.json()
+    assert login_response.status_code == 200
+
+    login_body = login_response.json()
     token = login_body["token"]
 
     # Authorized owner deletes the discussion.
@@ -45,5 +46,6 @@ def test_discussion_delete():
     )
 
     assert response.status_code == 403
+
     body = response.json()
     assert body["error"] == "You are not allowed to delete this discussion."

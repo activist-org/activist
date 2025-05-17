@@ -23,13 +23,14 @@ def test_resource_create():
         verified=True,
     )
 
-    # User Login
-    login = client.post(
+    # Login to get token.
+    login_response = client.post(
         path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
     )
 
-    assert login.status_code == 200
-    login_body = login.json()
+    assert login_response.status_code == 200
+
+    login_body = login_response.json()
     token = login_body["token"]
 
     resource_instance = ResourceFactory(created_by=user)
@@ -51,4 +52,3 @@ def test_resource_create():
     response = client.post(path="/v1/content/resources/", data=payload)
 
     assert response.status_code == 201
-    print(response.json())

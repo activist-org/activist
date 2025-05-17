@@ -26,14 +26,14 @@ def test_resource_delete():
     resource = ResourceFactory(created_by=user)
     unowned_resource = ResourceFactory()
 
-    # User Login
-    login = client.post(
+    # Login to get token.
+    login_response = client.post(
         path="/v1/auth/sign_in/",
         data={"username": test_user, "password": test_pass},
     )
 
-    assert login.status_code == 200
-    login_body = login.json()
+    assert login_response.status_code == 200
+    login_body = login_response.json()
     token = login_body["token"]
 
     # Authorized owner tried to delete the resource.
@@ -45,5 +45,6 @@ def test_resource_delete():
     # Authorized non-owner tries to delete the resource.
     error_response = client.delete(path=f"/v1/content/resources/{unowned_resource.id}/")
     assert error_response.status_code == 403
+
     error_body = error_response.json()
     assert error_body["error"] == "You are not allowed to delete this resource."

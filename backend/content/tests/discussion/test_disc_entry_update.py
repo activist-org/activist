@@ -10,7 +10,7 @@ pytestmark = pytest.mark.django_db
 
 def test_disc_entry_update():
     """
-    Test to partial update a discussion entry.
+    Test for updating a discussion entry.
     """
     client = APIClient()
 
@@ -26,27 +26,28 @@ def test_disc_entry_update():
     discussion_thread = DiscussionFactory(created_by=user)
     entry_instance = DiscussionEntryFactory(created_by=user)
 
-    # User login
-    login = client.post(
+    # Login to get token.
+    login_response = client.post(
         path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
     )
 
-    assert login.status_code == 200
-    login_body = login.json()
+    assert login_response.status_code == 200
+
+    login_body = login_response.json()
     token = login_body["token"]
 
-    # Authorized owner partial updates the entry.
+    # Authorized owner updates the entry.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.patch(
+    response = client.put(
         path=f"/v1/content/discussion_entries/{entry_instance.id}/",
         data={"discussion": discussion_thread.id},
     )
 
     assert response.status_code == 200
 
-    # Unauthorized owner partially updates the entry.
+    # Authorized non-owner updates the entry.
     unowned_instance = DiscussionEntryFactory()
-    response = client.patch(
+    response = client.put(
         path=f"/v1/content/discussion_entries/{unowned_instance.id}/",
         data={"discussion": discussion_thread.id},
     )
