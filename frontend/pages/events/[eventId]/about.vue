@@ -67,6 +67,7 @@
           :eventNames="[event.name]"
           :eventTypes="[event.type]"
           :eventLocations="[event.offlineLocation]"
+          :type="MapType.MARK"
         />
       </div>
       <CardAboutEvent :event="event" />
@@ -81,6 +82,7 @@
 
 <script setup lang="ts">
 import type { Event } from "~/types/events/event";
+import { MapType } from "~/types/map";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
