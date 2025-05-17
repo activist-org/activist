@@ -1,4 +1,6 @@
-import  maplibregl, { type LayerSpecification } from "maplibre-gl";
+
+// SPDX-License-Identifier: AGPL-3.0-or-laterimport  maplibregl, { type LayerSpecification } from "maplibre-gl";
+
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 
 export const useRouting = (map:maplibregl.Map, directions:MapLibreGlDirections, marker:maplibregl.Marker  ) => {
