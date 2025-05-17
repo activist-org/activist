@@ -19,8 +19,8 @@ def test_flagEntity_create():
     login = client.post(
         path="/v1/auth/sign_in/",
         data={
-            "username": user.username,
-            "password": user.password,
+            "username": username,
+            "password": password,
         },
     )
 
