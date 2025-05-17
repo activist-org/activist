@@ -13,10 +13,19 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from content.models import Discussion, DiscussionEntry, Image, Resource
+from content.models import (
+    Discussion,
+    DiscussionEntry,
+    Flag,
+    FlagEntity,
+    Image,
+    Resource,
+)
 from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
+    FlagEntitySerializer,
+    FlagSerializer,
     ImageSerializer,
     ResourceSerializer,
 )
@@ -320,3 +329,36 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
 
     # Use the default destroy() provided by DRF / ModelViewSet. No need to write destroy() code here.
     # The model uses a signal to delete the file from the filesystem when the Image instance is deleted.
+
+
+# MARK: FlagEntity
+
+
+class FlagEntityViewSet(viewsets.ModelViewSet[FlagEntity]):
+    queryset = FlagEntity.objects.all()
+    serializer_class = FlagEntitySerializer
+
+    def create(self, request: Request) -> Response:
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        else:
+            return Response(
+                {"error": "You are not allowed to created this FlagEntity."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+    def list(self, request: Request) -> Response:
+        query = self.queryset.filter()
+        serializer = self.get_serializer(query)
+
+        return Response(serializer.data)
+
+
+class FlagViewSet(viewsets.ModelViewSet[Flag]):
+    queryset = Flag.objects.all()
+    serializer_class = FlagSerializer
