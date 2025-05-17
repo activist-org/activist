@@ -122,10 +122,9 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
 
     def create(self, request: Request) -> Response:
         if request.user.is_authenticated:
-            request.data["created_by"] = request.user
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            serializer.save(created_by=request.user)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -217,29 +216,24 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         )
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        if request.user.is_authenticated:
-            if pk is not None:
-                query = self.queryset.filter(
+        if not request.user.is_authenticated:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if pk is not None:
+            try:
+                query = self.queryset.get(
                     Q(is_private=False) | Q(is_private=True, created_by=request.user),
                     id=pk,
                 )
-
-            else:
+            except Resource.DoesNotExist:
                 return Response(
-                    {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-                )
-
-        else:
-            if pk is not None:
-                query = self.queryset.filter(Q(is_private=False), id=pk)
-
-            else:
-                return Response(
-                    {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+                    {"error": "Resource not found."},
+                    status=status.HTTP_404_NOT_FOUND,
                 )
 
         serializer = self.get_serializer(query)
-
         return Response(serializer.data)
 
     def list(self, request: Request) -> Response:

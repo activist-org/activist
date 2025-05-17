@@ -336,4 +336,4 @@ class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
 
     class Meta:
         model = DiscussionEntry
-        fields = "__all__"
+        exclude = "created_by", "deletion_date"
