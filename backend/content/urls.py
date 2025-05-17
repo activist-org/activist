@@ -21,6 +21,9 @@ router.register(prefix=r"images", viewset=views.ImageViewSet)
 # MARK: Bridge Tables
 
 router.register(prefix=r"discussion_entries", viewset=views.DiscussionEntryViewSet)
+router.register(
+    prefix=r"flag_entity", viewset=views.FlagEntityViewSet, basename="FlagEntity"
+)
 
 urlpatterns = [
     path("", include(router.urls)),

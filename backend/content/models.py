@@ -13,6 +13,7 @@ from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
+from authentication.enums import FlagEntityTypes
 from utils.models import ISO_CHOICES
 
 # MARK: Discussion
@@ -275,3 +276,28 @@ class DiscussionEntry(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+
+
+# MARK: Flag
+
+
+class Flag(models.Model):
+    """
+    Flag model draft.
+    """
+
+    user_id = models.ForeignKey(
+        "authentication.UserModel",
+        on_delete=models.CASCADE,
+    )
+    flagged_type = models.IntegerField(choices=FlagEntityTypes.choices())
+    flagged_entity = models.ForeignKey("content.FlagEntity", on_delete=models.CASCADE)
+
+
+class FlagEntity(models.Model):
+    """
+    FlagEntity model draft.
+    """
+
+    id = models.UUIDField(primary_key=True, default=True, editable=False)
+    name = models.CharField(max_length=255)

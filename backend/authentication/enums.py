@@ -26,3 +26,22 @@ class SupportEntityTypes(Enum):
     GROUP = 2
     EVENT = 3
     USER = 4
+
+
+class FlagEntityTypes(Enum):
+    """
+    Defines the types of entities in the Flag Model.
+    """
+
+    ORGANIZATION = 1
+    GROUP = 2
+    EVENT = 3
+    USER = 4
+    RESOURCE = 5
+
+    @classmethod
+    def choices(cls):
+        """
+        Return the choice.
+        """
+        return tuple((i.value, i.name) for i in cls)

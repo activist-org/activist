@@ -9,6 +9,8 @@ from content.models import (
     Discussion,
     DiscussionEntry,
     Faq,
+    Flag,
+    FlagEntity,
     Image,
     Location,
     Resource,
@@ -22,6 +24,7 @@ from content.models import (
 
 admin.site.register(Discussion)
 admin.site.register(Faq)
+admin.site.register(Flag)
 admin.site.register(Image)
 admin.site.register(Location)
 admin.site.register(Resource)
@@ -33,3 +36,4 @@ admin.site.register(Topic)
 # MARK: Bridge Tables
 
 admin.site.register(DiscussionEntry)
+admin.site.register(FlagEntity)

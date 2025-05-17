@@ -18,6 +18,8 @@ from content.models import (
     Discussion,
     DiscussionEntry,
     Faq,
+    Flag,
+    FlagEntity,
     Image,
     Location,
     Resource,
@@ -337,3 +339,23 @@ class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
     class Meta:
         model = DiscussionEntry
         fields = "__all__"
+
+
+class FlagSerializer(serializers.ModelSerializer[Flag]):
+    """
+    Serializer for Flag model.
+    """
+
+    class Meta:
+        model = Flag
+        fields = "__all__"
+
+
+class FlagEntitySerializer(serializers.ModelSerializer[FlagEntity]):
+    """
+    Serializer for FlagEntity model.
+    """
+
+    class Meta:
+        model = FlagEntity
+        fields = ["name"]
