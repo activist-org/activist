@@ -12,7 +12,7 @@
               @click="writePreviewSelector()"
               class="w-small mt-1 flex"
               :cta="!isMarkdownPreview"
-              :label="$t('i18n.components.card_discussion_input.write')"
+              label="i18n.components.card_discussion_input.write"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.write_aria_label"
             />
@@ -22,7 +22,7 @@
               @click="writePreviewSelector()"
               class="w-small mt-1 flex"
               :cta="isMarkdownPreview"
-              :label="$t('i18n.components.card_discussion_input.preview')"
+              label="i18n.components.card_discussion_input.preview"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
             />
@@ -141,7 +141,7 @@
           <BtnAction
             class="w-small inline-flex items-center justify-center"
             :cta="true"
-            :label="$t('i18n.components.card_discussion_input.comment')"
+            label="i18n.components.card_discussion_input.comment"
             fontSize="sm"
             ariaLabel="i18n.components.card_discussion_input.comment_aria_label"
           />

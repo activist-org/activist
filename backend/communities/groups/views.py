@@ -5,7 +5,7 @@ API views for group management.
 """
 
 import json
-from typing import Dict, List
+from typing import Any, Dict, List, Sequence, Type
 from uuid import UUID
 
 from django.db import transaction
@@ -14,7 +14,10 @@ from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -38,16 +41,12 @@ class GroupAPIView(GenericAPIView[Group]):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    def get_permissions(self):
-        if self.request.method in "POST":
-            self.permission_classes = (IsAuthenticated,)
+    def get_permissions(self) -> Sequence[Any]:
+        if self.request.method == "POST":
+            return [IsAuthenticated()]
+        return [IsAuthenticatedOrReadOnly()]
 
-        else:
-            self.permission_classes = (IsAuthenticatedOrReadOnly,)
-
-        return super().get_permissions()
-
-    def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
+    def get_serializer_class(self) -> Type[GroupSerializer | GroupPOSTSerializer]:
         if self.request.method == "POST":
             return GroupPOSTSerializer
 
@@ -76,7 +75,9 @@ class GroupAPIView(GenericAPIView[Group]):
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer: GroupPOSTSerializer = serializer_class(data=request.data)
+        serializer: GroupPOSTSerializer | GroupSerializer = serializer_class(
+            data=request.data
+        )
         serializer.is_valid(raise_exception=True)
 
         location_dict = serializer.validated_data["location"]

@@ -79,11 +79,11 @@
             v-if="files.length > 0"
             @click="handleUpload"
             :cta="true"
-            :label="$t('i18n.components.modal_upload_images.upload')"
+            label="i18n.components.modal_upload_images.upload"
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
-            :ariaLabel="'i18n.components._global.upvote_application_aria_label'"
+            ariaLabel="i18n.components._global.upvote_application_aria_label"
             :disabled="files.length === 0 || files.length > uploadLimit"
           />
         </div>

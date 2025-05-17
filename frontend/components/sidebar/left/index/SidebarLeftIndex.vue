@@ -14,17 +14,6 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="
-            openModalUploadImages({
-              fileUploadEntity: FileUploadEntity.ORGANIZATION_ICON,
-            })
-          "
-          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-        >
-          <Icon :name="IconMap.PLUS" size="1em" />
-        </button>
         <ImageOrganization
           class="elem-shadow-sm"
           :imgUrl="logoUrl"
@@ -34,6 +23,21 @@
             })
           "
         />
+        <button
+          v-if="
+            showButton &&
+            (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
+          "
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.ORGANIZATION_ICON,
+            })
+          "
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          ariaLabel="i18n.components.sidebar_left_index.edit_aria_label"
+        >
+          <Icon :name="IconMap.EDIT" size="1em" />
+        </button>
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
@@ -45,17 +49,6 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="
-            openModalUploadImages({
-              fileUploadEntity: FileUploadEntity.EVENT_ICON,
-            })
-          "
-          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-        >
-          <Icon :name="IconMap.PLUS" size="1em" />
-        </button>
         <ImageEvent
           class="elem-shadow-sm"
           eventType="action"
@@ -66,6 +59,21 @@
             })
           "
         />
+        <button
+          v-if="
+            showButton &&
+            (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
+          "
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.EVENT_ICON,
+            })
+          "
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          ariaLabel="i18n.components.sidebar_left_index.edit_aria_label"
+        >
+          <Icon :name="IconMap.EDIT" size="1em" />
+        </button>
       </div>
       <div
         v-else-if="sidebarTypeToDisplay === SidebarType.GROUP_PAGE"
@@ -77,17 +85,6 @@
             sidebar.collapsed == true && sidebar.collapsedSwitch == true,
         }"
       >
-        <button
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
-          @click="
-            openModalUploadImages({
-              fileUploadEntity: FileUploadEntity.GROUP_ICON,
-            })
-          "
-          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-[0.125em] text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-        >
-          <Icon :name="IconMap.PLUS" size="1em" />
-        </button>
         <ImageGroup
           class="elem-shadow-sm"
           eventType="action"
@@ -97,6 +94,21 @@
             })
           "
         />
+        <button
+          v-if="
+            showButton &&
+            (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
+          "
+          @click="
+            openModalUploadImages({
+              fileUploadEntity: FileUploadEntity.GROUP_ICON,
+            })
+          "
+          class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          ariaLabel="i18n.components.sidebar_left_index.edit_aria_label"
+        >
+          <Icon :name="IconMap.EDIT" size="1em" />
+        </button>
       </div>
       <ul
         id="submenu"
@@ -153,4 +165,6 @@ const menuEntriesState = useMenuEntriesState();
 
 const { openModal: openModalUploadImages } =
   useModalHandlers("ModalUploadImages");
+
+const showButton = true;
 </script>

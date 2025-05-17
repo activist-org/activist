@@ -3,13 +3,23 @@
 Factories for creating mock instances of models in the content app.
 """
 
+# mypy: ignore-errors
 import datetime
 import random
 from uuid import uuid4
 
 import factory
 
-from content.models import Faq, Image, Location, Resource, Task, Topic
+from content.models import (
+    Discussion,
+    DiscussionEntry,
+    Faq,
+    Image,
+    Location,
+    Resource,
+    Task,
+    Topic,
+)
 
 # MARK: Main Table
 
@@ -187,7 +197,7 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("name")
     description = factory.Faker("text")
-    location = factory.SubFactory(EntityLocationFactory)
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
     terms_checked = factory.Faker("boolean")
@@ -229,3 +239,38 @@ class TopicFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     deprecation_date = factory.Faker("date")
+
+
+class DiscussionFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Discussion model instances.
+    """
+
+    class Meta:
+        model = Discussion
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    title = factory.Faker("text")
+    category = factory.Faker("text")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+class DiscussionEntryFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Discussion Entry instances.
+    """
+
+    class Meta:
+        model = DiscussionEntry
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    discussion = factory.SubFactory("content.factories.DiscussionFactory")
+    text = factory.Faker("text")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )

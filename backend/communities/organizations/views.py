@@ -11,10 +11,10 @@ from uuid import UUID
 from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiResponse,
-    OpenApiTypes,
     extend_schema,
 )
 from rest_framework import status, viewsets

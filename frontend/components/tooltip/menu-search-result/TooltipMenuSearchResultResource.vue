@@ -9,7 +9,7 @@
         label="i18n.components._global.star"
         :leftIcon="IconMap.STAR"
         fontSize="lg"
-        :ariaLabel="$t('i18n.components._global.star')"
+        ariaLabel="i18n.components._global.star"
       /> -->
       <BtnAction
         @click="openModal()"
@@ -20,7 +20,7 @@
         label="i18n._global.share"
         :rightIcon="IconMap.SHARE"
         fontSize="lg"
-        :ariaLabel="$t('i18n._global.share')"
+        ariaLabel="i18n._global.share"
       />
       <ModalSharePage
         @closeModal="handleCloseModal"

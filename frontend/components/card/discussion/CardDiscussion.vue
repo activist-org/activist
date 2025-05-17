@@ -11,7 +11,7 @@
       fontSize="sm"
       :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
-      :ariaLabel="'i18n.components.card.discussion._global.upvote_discussion_aria_label'"
+      ariaLabel="i18n.components.card.discussion._global.upvote_discussion_aria_label"
     />
     <div class="flex-col space-y-3 md:grow md:space-y-4 md:pl-4 lg:pl-6">
       <div class="flex flex-col justify-between md:flex-row">
