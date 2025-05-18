@@ -4,20 +4,20 @@ import { expect, test } from "playwright/test";
 import { LOCALE_CODE, LOCALE_NAME } from "~/locales";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import {
-  ROADMAP_LINK_NAME,
+  ACTIVIST_SECTION_LEARN_MORE_LINK_NAME,
+  FOOTER_ABOUT_LINK_NAME,
+  FOOTER_DOCUMENTATION_LINK_NAME,
+  FOOTER_IMPRINT_LINK_NAME,
+  FOOTER_PRIVACY_LINK_NAME,
+  FOOTER_ROADMAP_LINK_NAME,
+  FOOTER_SUPPORTERS_LINK_NAME,
+  FOOTER_TRADEMARK_LINK_NAME,
   GET_ACTIVE_LEARN_MORE_LINK_NAME,
   GET_ORGANIZED_LEARN_MORE_LINK_NAME,
   GROW_ORGANIZATION_LEARN_MORE_LINK_NAME,
-  ACTIVIST_SECTION_LEARN_MORE_LINK_NAME,
   OUR_SUPPORTERS_BECOME_LINK_NAME,
   OUR_SUPPORTERS_VIEW_LINK_NAME,
-  FOOTER_ROADMAP_LINK_NAME,
-  FOOTER_TRADEMARK_LINK_NAME,
-  FOOTER_PRIVACY_LINK_NAME,
-  FOOTER_DOCUMENTATION_LINK_NAME,
-  FOOTER_ABOUT_LINK_NAME,
-  FOOTER_SUPPORTERS_LINK_NAME,
-  FOOTER_IMPRINT_LINK_NAME,
+  ROADMAP_LINK_NAME,
 } from "~/test-e2e/accessibility/accessible-names";
 import { expectTheme } from "~/test-e2e/assertions";
 import { newLanguageMenu } from "~/test-e2e/component-objects/LanguageMenu";
@@ -106,6 +106,66 @@ test.describe("Landing Page", { tag: "@mobile" }, () => {
     await page.waitForURL("**/product/about/roadmap");
 
     expect(page.url()).toContain("/product/about/roadmap");
+  });
+
+  // Socials banner, open-source section and footer twice in source code and community section.
+  test("There are four links to the activist GitHub on the landing page", async ({
+    page,
+  }) => {
+    const landingPageLinks = page
+      .getByRole("link", { name: /.*/ })
+      .filter({ hasText: /.*/ });
+
+    const GitHubLinkCount = await landingPageLinks.evaluateAll(
+      (links) =>
+        links.filter(
+          (link) =>
+            (link as HTMLAnchorElement).href ===
+            "https://github.com/activist-org/activist"
+        ).length
+    );
+
+    expect(GitHubLinkCount).toBe(4);
+  });
+
+  // Socials banner and footer.
+  test("There are two links to the activist public Matrix community on the landing page", async ({
+    page,
+  }) => {
+    const landingPageLinks = page
+      .getByRole("link", { name: /.*/ })
+      .filter({ hasText: /.*/ });
+
+    const MatrixLinkCount = await landingPageLinks.evaluateAll(
+      (links) =>
+        links.filter((link) =>
+          (link as HTMLAnchorElement).href.includes(
+            "https://matrix.to/#/#activist_community:matrix.org"
+          )
+        ).length
+    );
+
+    expect(MatrixLinkCount).toBe(2);
+  });
+
+  // Socials banner and footer.
+  test("There are two links to the activist Instagram on the landing page", async ({
+    page,
+  }) => {
+    const landingPageLinks = page
+      .getByRole("link", { name: /.*/ })
+      .filter({ hasText: /.*/ });
+
+    const InstagramLinkCount = await landingPageLinks.evaluateAll(
+      (links) =>
+        links.filter((link) =>
+          (link as HTMLAnchorElement).href.includes(
+            "https://instagram.com/activist_org"
+          )
+        ).length
+    );
+
+    expect(InstagramLinkCount).toBe(2);
   });
 
   test("User can go to Documentation from Footer link", async ({ page }) => {
