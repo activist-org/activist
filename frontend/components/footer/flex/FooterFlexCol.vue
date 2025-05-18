@@ -20,10 +20,17 @@
               v-if="platform.isLocalePath"
               class="focus-brand"
               :to="localePath(platform.url)"
+              :aria-label="$t(platform.ariaLabel)"
             >
               {{ $t(platform.name) }}
             </NuxtLink>
-            <a v-else :href="platform.url" class="focus-brand" target="_blank">
+            <a
+              v-else
+              :href="platform.url"
+              class="focus-brand"
+              target="_blank"
+              :aria-label="$t(platform.ariaLabel)"
+            >
               {{ $t(platform.name) }}
             </a>
           </div>
@@ -71,7 +78,11 @@
               class="mt-2 text-base hover:text-primary-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
-              <NuxtLink class="focus-brand" :to="localePath(resource.url)">
+              <NuxtLink
+                class="focus-brand"
+                :to="localePath(resource.url)"
+                :aria-label="$t(resource.ariaLabel)"
+              >
                 {{ $t(resource.name) }}
               </NuxtLink>
               <span
@@ -95,7 +106,11 @@
               class="mt-2 text-base hover:text-primary-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
-              <NuxtLink class="focus-brand" :to="localePath(oLink.url)">
+              <NuxtLink
+                class="focus-brand"
+                :to="localePath(oLink.url)"
+                :aria-label="$t(oLink.ariaLabel)"
+              >
                 {{ $t(oLink.name) }}
               </NuxtLink>
               <span
@@ -114,7 +129,11 @@
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(policy, index) in links.legalLinks">
           <div class="hover:text-primary-text">
-            <NuxtLink class="focus-brand" :to="localePath(policy.url)">
+            <NuxtLink
+              class="focus-brand"
+              :to="localePath(policy.url)"
+              :aria-label="$t(policy.ariaLabel)"
+            >
               {{ $t(policy.name) }}
             </NuxtLink>
             <span
@@ -153,24 +172,29 @@ defineProps<{
       name: string;
       url: string;
       isLocalePath: boolean;
+      ariaLabel: string;
     }[];
     legalLinks: {
       name: string;
       url: string;
+      ariaLabel: string;
     }[];
     connectLinks: {
       name: string;
       url: string;
       iconName: string;
       iconSize: string;
+      ariaLabel: string;
     }[];
     resourcesLinks: {
       name: string;
       url: string;
+      ariaLabel: string;
     }[];
     organizationLinks: {
       name: string;
       url: string;
+      ariaLabel: string;
     }[];
   };
 }>();

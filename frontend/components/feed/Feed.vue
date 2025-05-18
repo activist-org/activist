@@ -63,7 +63,7 @@ const handleResize = () => {
   if (resizeTimeout) {
     clearTimeout(resizeTimeout);
   }
-  resizeTimeout = setTimeout(updateWidth, 100);
+  resizeTimeout = setTimeout(updateWidth, 10);
 };
 
 onMounted(() => {
