@@ -264,6 +264,7 @@ const topics = computed((): TopicsTag[] => {
     ),
   ];
 });
+
 const focusFirstTopic = () => {
   nextTick(() => {
     const firstDesktop = document.querySelector(".topic");
