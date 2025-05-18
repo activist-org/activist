@@ -90,7 +90,6 @@
 
 <script setup lang="ts">
 import type { Topic, TopicsTag } from "~/types/topics";
-import { nextTick } from "vue";
 
 import { GLOBAL_TOPICS } from "~/types/topics";
 
