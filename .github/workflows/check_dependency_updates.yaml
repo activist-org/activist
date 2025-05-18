@@ -191,11 +191,15 @@ jobs:
             tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
+      - name: Set date
+        id: date
+        run: echo "REPORT_DATE=$(date '+%B %d, %Y')" >> $GITHUB_ENV
+
       - name: Create GitHub Issue
         if: always()
         uses: peter-evans/create-issue-from-file@v4
         with:
-          title: "Dependency Update Report - $(date '+%B %d, %Y') 🤖"
+          title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖"
           content-filepath: reports.md
           labels: |
             dependencies
