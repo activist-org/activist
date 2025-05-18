@@ -8,7 +8,7 @@ from content.factories import DiscussionFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_discussion_create():
+def test_discussion_update():
     client = APIClient()
     test_user = "test_user"
     test_pass = "test_pass"
@@ -17,22 +17,22 @@ def test_discussion_create():
     user.verified = True
     user.save()
 
-    discussion_thread = DiscussionFactory(
-        title="Unique Title", category="Unique Category"
-    )
+    thread = DiscussionFactory(created_by=user)
 
-    login = client.post(
+    # Login to get token.
+    login_response = client.post(
         path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
     )
 
-    assert login.status_code == 200
-    login_body = login.json()
+    assert login_response.status_code == 200
+
+    login_body = login_response.json()
     token = login_body["token"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.post(
-        path="/v1/content/discussions/",
-        data={"title": discussion_thread.title, "category": discussion_thread.category},
+    response = client.put(
+        path=f"/v1/content/discussions/{thread.id}/",
+        data={"title": thread.title},
     )
 
-    assert response.status_code == 201
+    assert response.status_code == 200
