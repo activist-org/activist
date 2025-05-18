@@ -15,8 +15,8 @@ def test_anon_throttle():
     """
     Test the anonymous user throttle mechanism.
     """
-    # Override the autouse fixture by resetting throttle rates for this test
-    # and clear the cache to ensure a clean state
+    # Override the autouse fixture by resetting throttle rates for this test.
+    # Clear the cache to ensure a clean state.
     cache.clear()
     client = APIClient()
 
@@ -31,8 +31,8 @@ def test_anon_throttle():
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
 
-    # Reset the throttle rates
-    # This is necessary to ensure that the test does not affect other tests
+    # Reset the throttle rates.
+    # This is necessary to ensure that the test does not affect other tests.
     cache.clear()
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"] = None
 
@@ -42,8 +42,8 @@ def test_auth_throttle():
     """
     Test the user authentication throttle mechanism.
     """
-    # Override the autouse fixture by resetting throttle rates for this test
-    # and clear the cache to ensure a clean state
+    # Override the autouse fixture by resetting throttle rates for this test.
+    # Clear the cache to ensure a clean state.
     cache.clear()
     client = APIClient()
 
@@ -73,10 +73,10 @@ def test_auth_throttle():
         assert response.status_code == status.HTTP_200_OK
 
     response = client.get(endpoint)
-    print(f"Request {6}")
+    print("Request 6")
     assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
 
-    # Reset the throttle rates
-    # This is necessary to ensure that the test does not affect other tests
+    # Reset the throttle rates.
+    # This is necessary to ensure that the test does not affect other tests.
     cache.clear()
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["user"] = None

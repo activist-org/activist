@@ -11,21 +11,26 @@ def api_client() -> APIClient:
 @pytest.fixture(autouse=True)
 def turn_off_throttling(settings, request: pytest.FixtureRequest):
     """
-        Automatically disables API throttling for all tests unless the test is marked with 'enable_throttling'.
+    Automatically disables API throttling for all tests unless the test is marked with 'enable_throttling'.
 
-    This fixture modifies the Django REST Framework settings to set throttle rates for both anonymous and authenticated users to None,
-    effectively turning off request throttling during test execution. If the test is explicitly marked with 'enable_throttling',
-    this fixture does not alter the throttling settings.
+    This fixture modifies the Django REST Framework settings to set throttle rates for both anonymous and authenticated users to None.
+    This effectively turns off request throttling during test execution.
+    If the test is explicitly marked with 'enable_throttling', this fixture does not alter the throttling settings.
 
-    Args:
-        settings: The Django settings fixture, used to modify REST framework configuration.
-        request (pytest.FixtureRequest): Provides information about the requesting test function, including markers.
+    Parameters
+    ----------
+    settings : django.conf.settings
+        The Django settings fixture, used to modify REST framework configuration.
 
-    Usage:
-        To enable throttling for a specific test, mark it with @pytest.mark.enable_throttling.
+    request : pytest.FixtureRequest)
+        Provides information about the requesting test function, including markers.
+
+    Notes
+    -----
+    To enable throttling for a specific test, mark it with @pytest.mark.enable_throttling.
     """
     if "enable_throttling" in request.keywords:
-        # If the test has the disable_throttling marker, skip this fixture
+        # If the test has the disable_throttling marker, skip this fixture.
         return
 
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {
