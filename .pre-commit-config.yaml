@@ -38,7 +38,7 @@ repos:
         files: ^backend/
         exclude: ^backend/.*/(tests(/.*)?|views\.py|__init__\.py)$
 
-  # SkyWalking Eyes License header check https://github.com/apache/skywalking-eyes.
+  # SkyWalking Eyes License header check (https://github.com/apache/skywalking-eyes).
   -   repo: local
       hooks:
       - id: license-check
