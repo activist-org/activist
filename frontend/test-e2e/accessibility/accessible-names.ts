@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "~/utils/i18n";
 
+// MARK: Landing Page
+
 export const ROADMAP_LINK_NAME = new RegExp(
   getEnglishText("i18n.components.btn_road_map.aria_label"),
   "i"
@@ -39,6 +41,21 @@ export const OUR_SUPPORTERS_BECOME_LINK_NAME = new RegExp(
 );
 export const OUR_SUPPORTERS_VIEW_LINK_NAME = new RegExp(
   getEnglishText("i18n.pages.index.our_supporters_btn_view_aria_label"),
+  "i"
+);
+
+// MARK: Footer
+
+export const FOOTER_GITHUB_LINK_NAME = new RegExp(
+  getEnglishText("i18n.components._global.github_aria_label"),
+  "i"
+);
+export const FOOTER_MATRIX_LINK_NAME = new RegExp(
+  getEnglishText("i18n.components._global.matrix_aria_label"),
+  "i"
+);
+export const FOOTER_INSTAGRAM_LINK_NAME = new RegExp(
+  getEnglishText("i18n.components._global.instagram_aria_label"),
   "i"
 );
 export const FOOTER_ROADMAP_LINK_NAME = new RegExp(

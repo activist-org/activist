@@ -172,24 +172,29 @@ defineProps<{
       name: string;
       url: string;
       isLocalePath: boolean;
+      ariaLabel: string;
     }[];
     legalLinks: {
       name: string;
       url: string;
+      ariaLabel: string;
     }[];
     connectLinks: {
       name: string;
       url: string;
       iconName: string;
       iconSize: string;
+      ariaLabel: string;
     }[];
     resourcesLinks: {
       name: string;
       url: string;
+      ariaLabel: string;
     }[];
     organizationLinks: {
       name: string;
       url: string;
+      ariaLabel: string;
     }[];
   };
 }>();

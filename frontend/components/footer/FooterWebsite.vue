@@ -17,18 +17,21 @@ const connectLinks = [
     url: "https://github.com/activist-org/activist",
     iconName: `${IconMap.GITHUB}`,
     iconSize: "1.05em",
+    ariaLabel: "i18n.components._global.github_aria_label",
   },
   {
     name: "i18n.components._global.matrix",
     url: "https://matrix.to/#/#activist_community:matrix.org",
     iconName: `${IconMap.MATRIX}`,
     iconSize: "1.061em",
+    ariaLabel: "i18n.components._global.matrix_aria_label",
   },
   {
     name: "i18n.components._global.instagram",
     url: "https://instagram.com/activist_org",
     iconName: `${IconMap.INSTAGRAM}`,
     iconSize: "1em",
+    ariaLabel: "i18n.components._global.instagram_aria_label",
   },
 ];
 
@@ -41,6 +44,7 @@ const resourcesLinks = [
   // {
   //   name: "i18n._global.contact,
   //   url: "/contact",
+  //   ariaLabel: "",
   // },
 ];
 
