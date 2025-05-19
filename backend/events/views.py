@@ -38,6 +38,13 @@ class EventAPIView(GenericAPIView[Event]):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+    def get_queryset(self):
+        org_id = self.request.query_params.get("org_id")
+        queryset = Event.objects.all().order_by("id")
+        if org_id:
+            queryset = queryset.filter(orgs__id=org_id)
+        return queryset
+
     def get_permissions(self) -> Sequence[Any]:
         if self.request.method == "POST":
             return [IsAuthenticated()]

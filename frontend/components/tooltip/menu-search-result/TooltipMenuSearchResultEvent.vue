@@ -30,6 +30,17 @@
         fontSize="lg"
         ariaLabel="i18n._global.share_event_aria_label"
       />
+      <BtnAction
+          @click="subscribeToCalendar"
+          @keydown.enter="subscribeToCalendar"
+          class="flex max-h-[40px] w-full items-center"
+          :cta="true"
+          label="i18n._global.subscribe"
+          :hideLabelOnMobile="false"
+          :rightIcon="IconMap.CALENDAR"
+          fontSize="lg"
+          ariaLabel="i18n._global.subscribe_to_event_aria_label"
+        />
       <ModalSharePage
         @closeModal="handleCloseModal"
         :cta="true"
@@ -55,6 +66,8 @@ const { handleTabPress } = useTabNavigationEmit(emit);
 const modals = useModals();
 const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
+
+const subscribeToCalendar = () => {};
 
 function openModal() {
   modals.openModal(modalName);

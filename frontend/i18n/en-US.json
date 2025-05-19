@@ -41,6 +41,8 @@
   "i18n._global.share_event_aria_label": "View options to share this event with others",
   "i18n._global.share_organization": "Share organization",
   "i18n._global.share_organization_aria_label": "View options to share this organization with others",
+  "i18n._global.subscribe": "Subscribe",
+  "i18n._global.subscribe_to_event_aria_label": "Subscribe to this event's calendar feed",
   "i18n._global.sign_in": "Sign in",
   "i18n._global.sign_in_aria_label": "Sign in to your account",
   "i18n._global.sign_up": "Sign up",

@@ -35,12 +35,24 @@
           @keydown.enter="openModalSharePage()"
           class="w-max"
           :cta="true"
-          label="shareButtonLabel"
+          label="Share"
           :hideLabelOnMobile="false"
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
           ariaLabel="i18n._global.share_event_aria_label"
+        />
+        <BtnAction
+          @click="subscribeToCalendar"
+          @keydown.enter="subscribeToCalendar"
+          class="w-max"
+          :cta="true"
+          label="Subscribe to this event"
+          :hideLabelOnMobile="false"
+          fontSize="sm"
+          :rightIcon="IconMap.CALENDAR"
+          iconSize="1.45em"
+          ariaLabel="i18n._global.subscribe_to_event_aria_label"
         />
         <ModalSharePage :cta="true" :event="event" />
       </div>
@@ -108,6 +120,8 @@ function updateShareBtnLabel() {
     shareButtonLabel.value = "i18n._global.share_event";
   }
 }
+
+const subscribeToCalendar = () => {};
 
 onMounted(() => {
   window.addEventListener("resize", updateShareBtnLabel);

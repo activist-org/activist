@@ -141,6 +141,48 @@ export const useEventStore = defineStore("event", {
       this.loading = false;
     },
 
+    // MARK: Fetch By ID
+
+    async fetchByOrg(orgId: string) {
+      this.loading = true;
+
+      const { data, status } = await useAsyncData<EventsResponseBody>(
+        async () =>
+          (await fetchWithoutToken(
+            `/events/events/?org=${orgId}`,
+            {}
+          )) as EventsResponseBody
+      );
+
+      if (status.value === "success") {
+        const events = data.value!.results.map((event: EventResponse) => {
+          return {
+            id: event.id,
+            name: event.name,
+            tagline: event.tagline,
+            createdBy: event.createdBy,
+            iconUrl: event.iconUrl,
+            type: event.type,
+
+            onlineLocationLink: event.onlineLocationLink,
+            offlineLocation: event.offlineLocation,
+            getInvolvedUrl: event.getInvolvedUrl,
+            socialLinks: event.socialLinks,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            creationDate: event.creationDate,
+            orgs: event.orgs,
+
+            texts: event.texts[0],
+          };
+        });
+
+        this.events = events;
+      }
+
+  this.loading = false;
+},
+
     // MARK: Fetch All
 
     async fetchAll() {
