@@ -392,6 +392,7 @@ Please check the formatting of your code using Prettier and run the static type 
 
 ```bash
 # Within ./frontend:
+yarn install  # necessary for non-Linux users as node_modules are set via Docker
 yarn format
 yarn lint
 ```
