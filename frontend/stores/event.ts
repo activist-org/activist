@@ -180,8 +180,8 @@ export const useEventStore = defineStore("event", {
         this.events = events;
       }
 
-  this.loading = false;
-},
+      this.loading = false;
+    },
 
     // MARK: Fetch All
 
