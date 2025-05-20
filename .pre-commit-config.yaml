@@ -47,3 +47,11 @@ repos:
   #       entry: --rm apache/skywalking-eyes:0.7.0 --config .licenserc.yaml header check
   #       types_or: [python, ts, javascript, vue, css]
   #       exclude_types: [directory, wsgi]
+
+  - repo: local
+    hooks:
+      - id: prettier-format-check
+        name: Run Prettier Format Check
+        entry: bash -c 'cd frontend && yarn format'
+        language: system
+        pass_filenames: false
