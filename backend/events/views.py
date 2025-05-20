@@ -43,6 +43,7 @@ class EventAPIView(GenericAPIView[Event]):
         queryset = Event.objects.all().order_by("id")
         if org_id:
             queryset = queryset.filter(orgs__id=org_id)
+
         return queryset
 
     def get_permissions(self) -> Sequence[Any]:
