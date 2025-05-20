@@ -50,8 +50,8 @@ repos:
 
   - repo: local
     hooks:
-      - id: format-check
-        name: Run Format Check
+      - id: prettier-format-check
+        name: Run Prettier Format Check
         entry: bash -c 'cd frontend && yarn format'
         language: system
         pass_filenames: false
