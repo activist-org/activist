@@ -5,7 +5,7 @@ const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
   const { locale } = useI18n();
   const router = useRouter();
 
-  const id = router.currentRoute.value.params.orgId || router.currentRoute.value.params.eventId;
+  const id = router.currentRoute.value.params.orgId || router.currentRoute.value.params.groupId || router.currentRoute.value.params.eventId  || router.currentRoute.value.params.id;
   const routeUrl = `/${locale.value}/${basePath}/${id}/${label
     .split(".")
     .pop()!
