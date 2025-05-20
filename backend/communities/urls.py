@@ -15,6 +15,7 @@ from communities.groups.views import (
 from communities.organizations.views import (
     OrganizationAPIView,
     OrganizationDetailAPIView,
+    OrganizationFlagViewSet,
     OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
@@ -55,6 +56,11 @@ router.register(
     prefix=r"organizations/(?P<org_id>[^/.]+)/images",
     viewset=OrganizationImageViewSet,
     basename="organization-images",
+)
+router.register(
+    prefix=r"organization_flag",
+    viewset=OrganizationFlagViewSet,
+    basename="organization-flag",
 )
 
 urlpatterns = [

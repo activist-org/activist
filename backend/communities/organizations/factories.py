@@ -13,6 +13,7 @@ from communities.organizations.models import (
     Organization,
     OrganizationApplication,
     OrganizationApplicationStatus,
+    OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
     OrganizationSocialLink,
@@ -43,6 +44,21 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     is_high_risk = factory.Faker("boolean")
     location = factory.SubFactory("content.factories.EntityLocationFactory")
     acceptance_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+class OrganizationFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating a flag for an organization.
+    """
+
+    class Meta:
+        model = OrganizationFlag
+
+    flagged_org_id = factory.SubFactory(OrganizationFactory)
+    flagger_id = factory.SubFactory("authentication.factories.UserFactory")
+    flagged_on = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
