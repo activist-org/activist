@@ -1,8 +1,10 @@
 node_modules/
 .nuxt/
 .output/
+venv/
 
 dist/
+build/
 playwright-report/
 tests-examples/
 test-results/
