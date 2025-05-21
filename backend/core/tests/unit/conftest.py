@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
 from rest_framework.test import APIClient
-
+from rest_framework.test import force_authenticate
 
 @pytest.fixture
 def api_client() -> APIClient:
@@ -15,7 +15,7 @@ def authenticated_client(api_client) -> APIClient:
     Creates a test user and forces authentication for all requests made with this client.
     This eliminates the need to manually handle authentication in most test cases.
     """
-    User = get_user_model()
+    factory = APIRequestFactory()
     user = User.objects.create_user(
         username="testuser",
         password="testpass123",
