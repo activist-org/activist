@@ -27,12 +27,11 @@ interface EventBase {
   // supportingUsers?: User[];
 }
 
-export type EventType = "action" | "learn"
+export type EventType = "action" | "learn";
 
 export interface Event extends EventBase {
   texts: EventText;
 }
-
 
 // MARK: Bridge Tables
 

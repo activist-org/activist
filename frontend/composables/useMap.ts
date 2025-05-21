@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import maplibregl, { type LayerSpecification } from "maplibre-gl";
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
-import type { EventType, Event } from "~/types/events/event";
+import maplibregl, { type LayerSpecification } from "maplibre-gl";
+
 import type { Location } from "~/types/content/location";
+import type { EventType, Event } from "~/types/events/event";
+import type { RouteProfile } from "~/types/map";
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
@@ -137,11 +139,7 @@ export const useMap = () => {
     return marker;
   };
 
-  const createMapForClusterTypeMap = (
-    map: maplibregl.Map,
-    events: Event[],
-    isTouchDevice: boolean
-  ) => {
+  const createMapForClusterTypeMap = (map: maplibregl.Map, events: Event[]) => {
     map.on("load", () => {
       // Cleanup existing sources/layers
       if (map.getSource("events")) map.removeSource("events");
@@ -376,9 +374,9 @@ export const useMap = () => {
     event: { name: string; location: Location; type: EventType },
     attendLabel: string,
     isTouchDevice: boolean,
-    selectedRoute: any,
+    selectedRoute: RouteProfile,
     marker: maplibregl.Marker,
-    fn?: () => any
+    fn?: () => void
   ) => {
     map.fitBounds(
       [
@@ -465,14 +463,14 @@ export const useMap = () => {
       // Add arrow to directions layer.
       addDirectionsLayer(map, layers, selectedRoute, marker);
 
-      fn && fn();
+      if (fn) fn();
     });
   };
 
   const addDirectionsLayer = (
     map: maplibregl.Map,
     layers: LayerSpecification[],
-    selectedRoute: any,
+    selectedRoute: RouteProfile,
     marker: maplibregl.Marker
   ) => {
     // Add arrow to directions layer.
@@ -516,8 +514,6 @@ export const useMap = () => {
       directions.interactive = true;
     });
   };
-
-  const createClustering = () => {};
 
   const createFullScreenControl = () => {
     return new maplibregl.FullscreenControl();

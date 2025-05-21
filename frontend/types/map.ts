@@ -4,3 +4,8 @@ export enum MapType {
   MARK = "mark",
   CLUSTER = "cluster",
 }
+
+export interface RouteProfile {
+  profile: string;
+  api: string;
+}

@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import maplibregl from "maplibre-gl";
+import type maplibregl from "maplibre-gl";
+
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 
+import type { RouteProfile } from "~/types/map";
 export const useRouting = (
   map: maplibregl.Map,
   directions: MapLibreGlDirections,
@@ -25,11 +27,6 @@ export const useRouting = (
     DRIVING: "driving",
     CAR: "car",
   };
-
-  interface RouteProfile {
-    profile: string;
-    api: string;
-  }
 
   const routingAPI = "https://routing.openstreetmap.de/routed-";
   const routingAPIVersion = "/route/v1/";

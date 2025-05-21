@@ -8,14 +8,17 @@
 </template>
 
 <script setup lang="ts">
-import { useMap } from "@/composables/useMap";
-import { useRouting } from "~/composables/useRoutingMap";
-import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
-import maplibregl, { type LayerSpecification, type Map } from "maplibre-gl";
+import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
+import type { LayerSpecification, Map } from "maplibre-gl";
+import type maplibregl from "maplibre-gl";
+
 import "maplibre-gl/dist/maplibre-gl.css";
+import { useMap } from "@/composables/useMap";
 
 import type { Location } from "~/types/content/location";
 import type { Event, EventType } from "~/types/events/event";
+
+import { useRouting } from "~/composables/useRoutingMap";
 import { MapType } from "~/types/map";
 
 const props = defineProps<{
@@ -115,7 +118,7 @@ onMounted(() => {
           type: props.eventTypes ? props.eventTypes[0] : "learn",
           location: props.eventLocations
             ? props.eventLocations[0]
-            :  {} as Location,
+            : ({} as Location),
         },
         attendLabel,
         isTouchDevice,
