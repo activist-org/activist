@@ -7,6 +7,22 @@ from rest_framework.test import APIClient
 def api_client() -> APIClient:
     return APIClient()
 
+@pytest.fixture
+def authenticated_client(api_client) -> APIClient:
+    """
+    Provides an authenticated API client for testing.
+    
+    Creates a test user and forces authentication for all requests made with this client.
+    This eliminates the need to manually handle authentication in most test cases.
+    """
+    User = get_user_model()
+    user = User.objects.create_user(
+        username="testuser",
+        password="testpass123",
+        email="testuser@example.com"
+    )
+    api_client.force_authenticate(user=user)
+    return api_client
 
 @pytest.fixture(autouse=True)
 def turn_off_throttling(settings, request: pytest.FixtureRequest):
