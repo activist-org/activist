@@ -2,6 +2,7 @@
 import pytest
 from rest_framework.test import APIClient
 from rest_framework.test import force_authenticate
+from django.contrib.auth import get_user_model
 
 @pytest.fixture
 def api_client() -> APIClient:
@@ -15,7 +16,7 @@ def authenticated_client(api_client) -> APIClient:
     Creates a test user and forces authentication for all requests made with this client.
     This eliminates the need to manually handle authentication in most test cases.
     """
-    factory = APIRequestFactory()
+    User = get_user_model() 
     user = User.objects.create_user(
         username="testuser",
         password="testpass123",
@@ -23,6 +24,7 @@ def authenticated_client(api_client) -> APIClient:
     )
     api_client.force_authenticate(user=user)
     return api_client
+
 
 @pytest.fixture(autouse=True)
 def turn_off_throttling(settings, request: pytest.FixtureRequest):
