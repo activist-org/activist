@@ -5,14 +5,11 @@ import type maplibregl from "maplibre-gl";
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 
 import type { RouteProfile } from "~/types/map";
-export const useRouting = (
-  map: maplibregl.Map,
-  directions: MapLibreGlDirections,
-  marker: maplibregl.Marker
-) => {
+export const useRouting = () => {
   const i18n = useI18n();
   const bikeDirectionsIcon = `/icons/map/bike_directions.png`;
   const walkDirectionsIcon = `/icons/map/walk_directions.png`;
+  let directions: MapLibreGlDirections;
 
   interface RouteProfileOption {
     FOOT: string;
@@ -84,7 +81,7 @@ export const useRouting = (
 
   let selectedRoute = mapProfile(routeProfileOptions.FOOT);
 
-  const toggleLayerHandler = () => {
+  const toggleLayerHandler = (map: maplibregl.Map) => {
     if (currentProfile === walkingRouteProfileControl) {
       map.setLayoutProperty("cycle-layer", "visibility", "visible");
     } else {
@@ -109,7 +106,10 @@ export const useRouting = (
     }
     return selectedRoute;
   };
-  function resetRouteProfileControl() {
+  function resetRouteProfileControl(
+    map: maplibregl.Map,
+    marker: maplibregl.Marker
+  ) {
     const existingRouteProfileControl = document.getElementById(
       "route-profile-control"
     );
@@ -126,7 +126,7 @@ export const useRouting = (
           div.innerHTML = currentProfile;
 
           const updateSelectedProfile = () => {
-            toggleLayerHandler();
+            toggleLayerHandler(map);
 
             directions.destroy();
             div.innerHTML = routeProfileHandler();

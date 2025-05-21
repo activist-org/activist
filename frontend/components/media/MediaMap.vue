@@ -8,9 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
-import type { LayerSpecification, Map } from "maplibre-gl";
-import type maplibregl from "maplibre-gl";
+import type { LayerSpecification } from "maplibre-gl";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useMap } from "@/composables/useMap";
@@ -43,14 +41,7 @@ const {
 
 const i18n = useI18n();
 const colorMode = useColorMode();
-let map: Map;
-let marker: maplibregl.Marker;
-let directions: MapLibreGlDirections;
-const { setSelectedRoute, resetDirectionsControl } = useRouting(
-  map,
-  directions,
-  marker
-);
+const { setSelectedRoute, resetDirectionsControl } = useRouting();
 
 const attendLabelKey = "i18n.components._global.attend";
 const attendLabel = i18n.t(attendLabelKey) as string;
@@ -97,7 +88,7 @@ onMounted(() => {
   if (!isWebglSupported()) {
     alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
-    map = createMap(mapLayers);
+    const map = createMap(mapLayers);
 
     // MARK: Basic Controls
 
@@ -123,12 +114,11 @@ onMounted(() => {
         attendLabel,
         isTouchDevice,
         setSelectedRoute(),
-        marker,
         resetDirectionsControl
       );
     }
     if (props.type === MapType.CLUSTER)
-      createMapForClusterTypeMap(map, props.events || [], isTouchDevice);
+      createMapForClusterTypeMap(map, props.events || []);
   }
 });
 </script>

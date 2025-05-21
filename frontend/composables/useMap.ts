@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import type { Feature, Point, GeoJsonProperties } from "geojson";
+
 import MapLibreGlDirections, {
   layersFactory,
 } from "@maplibre/maplibre-gl-directions";
@@ -139,6 +141,83 @@ export const useMap = () => {
     return marker;
   };
 
+  const createDonutChart = (props: GeoJsonProperties) => {
+    if (!props) throw new Error("Cluster properties are missing.");
+    const offsets = [];
+    const counts = [props.learn || 0, props.action || 0];
+    let total = 0;
+    for (let i = 0; i < counts.length; i++) {
+      offsets.push(total);
+      total += counts[i];
+    }
+    const r = 20;
+    const r0 = Math.round(r * 0.6);
+    const w = r * 2;
+
+    let html = `<div><svg width="${w}" height="${w}" viewbox="0 0 ${w} ${w}" text-anchor="middle" style="font: 12px sans-serif; display: block">`;
+
+    for (let i = 0; i < counts.length; i++) {
+      html += donutSegment(
+        offsets[i] / total,
+        (offsets[i] + counts[i]) / total,
+        r,
+        r0,
+        i === 0 ? "#51bbd6" : "#f28cb1"
+      );
+    }
+    html += `<circle cx="${r}" cy="${r}" r="${r0}" fill="white" /><text dominant-baseline="central" transform="translate(${r}, ${r})">${total}</text></svg></div>`;
+
+    const el = document.createElement("div");
+    el.innerHTML = html;
+    return el.firstChild as HTMLElement;
+  };
+
+  const donutSegment = (
+    start: number,
+    end: number,
+    r: number,
+    r0: number,
+    color: string
+  ) => {
+    if (end - start === 1) end -= 0.00001;
+    const a0 = 2 * Math.PI * (start - 0.25);
+    const a1 = 2 * Math.PI * (end - 0.25);
+    const x0 = Math.cos(a0),
+      y0 = Math.sin(a0);
+    const x1 = Math.cos(a1),
+      y1 = Math.sin(a1);
+    const largeArc = end - start > 0.5 ? 1 : 0;
+
+    return [
+      '<path d="M',
+      r + r0 * x0,
+      r + r0 * y0,
+      "L",
+      r + r * x0,
+      r + r * y0,
+      "A",
+      r,
+      r,
+      0,
+      largeArc,
+      1,
+      r + r * x1,
+      r + r * y1,
+      "L",
+      r + r0 * x1,
+      r + r0 * y1,
+      "A",
+      r0,
+      r0,
+      0,
+      largeArc,
+      0,
+      r + r0 * x0,
+      r + r0 * y0,
+      `" fill="${color}" />`,
+    ].join(" ");
+  };
+
   const createMapForClusterTypeMap = (map: maplibregl.Map, events: Event[]) => {
     map.on("load", () => {
       // Cleanup existing sources/layers
@@ -148,7 +227,7 @@ export const useMap = () => {
       });
 
       // Process events
-      const features = events
+      const features: Feature<Point, GeoJsonProperties>[] = events
         .filter(
           (event) => event.offlineLocation?.lat && event.offlineLocation?.lon
         )
@@ -162,8 +241,8 @@ export const useMap = () => {
           geometry: {
             type: "Point",
             coordinates: [
-              parseFloat(event.offlineLocation.lon),
-              parseFloat(event.offlineLocation.lat),
+              parseFloat(event?.offlineLocation?.lon || "0"),
+              parseFloat(event?.offlineLocation?.lat || "0"),
             ],
           },
         }));
@@ -239,7 +318,8 @@ export const useMap = () => {
       });
       if (features.length > 0) {
         const bounds = features.reduce(
-          (acc, feature) => acc.extend(feature.geometry.coordinates),
+          (acc, feature) =>
+            acc.extend(feature.geometry.coordinates as [number, number]),
           new maplibregl.LngLatBounds()
         );
         // Add stable bounds check
@@ -258,29 +338,33 @@ export const useMap = () => {
         });
       }
       // Optional: Add custom HTML markers for clusters
-      const markers = {};
-      let markersOnScreen = {};
+      const markers: { [key: string]: maplibregl.Marker } = {};
+      let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
 
       function updateMarkers() {
-        const newMarkers = {};
+        const newMarkers: { [key: string]: maplibregl.Marker } = {};
         const features = map.querySourceFeatures("events");
 
         for (let i = 0; i < features.length; i++) {
-          const coords = features[i].geometry.coordinates;
-          const props = features[i].properties;
-          if (!props.cluster) continue;
-          const id = props.cluster_id;
+          const geometry = features[i].geometry;
+          if (geometry.type === "Point") {
+            const coords = geometry.coordinates as [number, number];
+            const props = features[i].properties;
 
-          let marker = markers[id];
-          if (!marker) {
-            const el = createDonutChart(props);
-            marker = markers[id] = new maplibregl.Marker({
-              element: el,
-            }).setLngLat(coords);
+            if (!props.cluster) continue;
+            const id = props.cluster_id;
+
+            let marker = markers[id];
+            if (!marker) {
+              const el = createDonutChart(props);
+              marker = markers[id] = new maplibregl.Marker({
+                element: el,
+              }).setLngLat(coords);
+            }
+            newMarkers[id] = marker;
+
+            if (!markersOnScreen[id]) marker.addTo(map);
           }
-          newMarkers[id] = marker;
-
-          if (!markersOnScreen[id]) marker.addTo(map);
         }
 
         for (const id in markersOnScreen) {
@@ -289,83 +373,13 @@ export const useMap = () => {
         markersOnScreen = newMarkers;
       }
 
-      map.on("data", (e) => {
+      map.on("sourcedata", (e) => {
         if (e.sourceId !== "events" || !e.isSourceLoaded) return;
 
         map.on("move", updateMarkers);
         map.on("moveend", updateMarkers);
         updateMarkers();
       });
-
-      function createDonutChart(props) {
-        const offsets = [];
-        const counts = [props.learn || 0, props.action || 0];
-        let total = 0;
-        for (let i = 0; i < counts.length; i++) {
-          offsets.push(total);
-          total += counts[i];
-        }
-        const r = 20;
-        const r0 = Math.round(r * 0.6);
-        const w = r * 2;
-
-        let html = `<div><svg width="${w}" height="${w}" viewbox="0 0 ${w} ${w}" text-anchor="middle" style="font: 12px sans-serif; display: block">`;
-
-        for (let i = 0; i < counts.length; i++) {
-          html += donutSegment(
-            offsets[i] / total,
-            (offsets[i] + counts[i]) / total,
-            r,
-            r0,
-            i === 0 ? "#51bbd6" : "#f28cb1"
-          );
-        }
-        html += `<circle cx="${r}" cy="${r}" r="${r0}" fill="white" /><text dominant-baseline="central" transform="translate(${r}, ${r})">${total}</text></svg></div>`;
-
-        const el = document.createElement("div");
-        el.innerHTML = html;
-        return el.firstChild;
-      }
-
-      function donutSegment(start, end, r, r0, color) {
-        if (end - start === 1) end -= 0.00001;
-        const a0 = 2 * Math.PI * (start - 0.25);
-        const a1 = 2 * Math.PI * (end - 0.25);
-        const x0 = Math.cos(a0),
-          y0 = Math.sin(a0);
-        const x1 = Math.cos(a1),
-          y1 = Math.sin(a1);
-        const largeArc = end - start > 0.5 ? 1 : 0;
-
-        return [
-          '<path d="M',
-          r + r0 * x0,
-          r + r0 * y0,
-          "L",
-          r + r * x0,
-          r + r * y0,
-          "A",
-          r,
-          r,
-          0,
-          largeArc,
-          1,
-          r + r * x1,
-          r + r * y1,
-          "L",
-          r + r0 * x1,
-          r + r0 * y1,
-          "A",
-          r0,
-          r0,
-          0,
-          largeArc,
-          0,
-          r + r0 * x0,
-          r + r0 * y0,
-          `" fill="${color}" />`,
-        ].join(" ");
-      }
     });
   };
 
@@ -374,8 +388,7 @@ export const useMap = () => {
     event: { name: string; location: Location; type: EventType },
     attendLabel: string,
     isTouchDevice: boolean,
-    selectedRoute: RouteProfile,
-    marker: maplibregl.Marker,
+    selectedRoute: RouteProfile | undefined,
     fn?: () => void
   ) => {
     map.fitBounds(
@@ -446,7 +459,7 @@ export const useMap = () => {
         }
       });
 
-    marker = createMarker(
+    const marker = createMarker(
       event?.type === "learn" ? "#2176AE" : "#BA3D3B",
       event.location,
       popup
@@ -461,7 +474,7 @@ export const useMap = () => {
       // MARK: Directions Layer
 
       // Add arrow to directions layer.
-      addDirectionsLayer(map, layers, selectedRoute, marker);
+      addDirectionsLayer(map, layers, selectedRoute as RouteProfile, marker);
 
       if (fn) fn();
     });
