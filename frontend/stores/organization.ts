@@ -41,7 +41,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       groups: [],
       events: [],
-      faqEntries:[],
+      faqEntries: [],
 
       texts: {
         id: 0,
