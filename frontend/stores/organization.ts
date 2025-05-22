@@ -41,6 +41,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       groups: [],
       events: [],
+      faqEntries:[],
 
       texts: {
         id: 0,
@@ -128,6 +129,7 @@ export const useOrganizationStore = defineStore("organization", {
 
         this.organization.groups = organization.groups;
         this.organization.events = organization.events;
+        this.organization.faqEntries = organization.faqEntries;
       }
 
       this.loading = false;
@@ -166,6 +168,7 @@ export const useOrganizationStore = defineStore("organization", {
 
               groups: org.groups,
               events: org.events,
+              faqEntries: org.faqEntries,
 
               texts: org.texts[0],
             };

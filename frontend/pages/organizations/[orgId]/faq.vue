@@ -21,8 +21,8 @@
         />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="orgFAQs.length > 0" class="py-4">
-      <div v-for="f in orgFAQs" class="mb-4">
+    <div v-if="organization.faqEntries!.length > 0" class="py-4">
+      <div v-for="f in organization.faqEntries" class="mb-4">
         <CardFAQEntry :faqEntry="f" />
       </div>
     </div>
@@ -39,6 +39,4 @@ import { IconMap } from "~/types/icon-map";
 defineProps<{
   organization: Organization;
 }>();
-
-const orgFAQs: FaqEntry[] = [];
 </script>
