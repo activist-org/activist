@@ -17,9 +17,6 @@ __pycache__
 venv/
 .mypy_cache
 
-# Package build metadata
-*.egg-info/
-
 # Don't include migrations for now.
 **/migrations/*
 !*migrations/__init__.py

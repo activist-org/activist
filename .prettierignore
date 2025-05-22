@@ -4,7 +4,6 @@ node_modules/
 venv/
 
 dist/
-build/
 playwright-report/
 tests-examples/
 test-results/
