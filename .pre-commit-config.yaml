@@ -20,6 +20,7 @@ repos:
     hooks:
       - id: run-i18n-checks
         name: Run i18n Checks
+        files: ^frontend/
         entry: python frontend/i18n/check/run_i18n_checks.py
         language: python
         stages: [pre-commit]
