@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/communities/organization";
-import type { FaqEntry } from "~/types/content/faq-entry.d";
 
 import { IconMap } from "~/types/icon-map";
 
