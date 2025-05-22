@@ -44,15 +44,18 @@ repos:
     hooks:
       - id: run-i18n-checks
         name: Run i18n Checks
+        files: ^frontend/
         entry: python frontend/i18n/check/run_i18n_checks.py
         language: python
       - id: prettier-format-check
         name: Run Prettier Format Check
-        entry: bash -c 'cd frontend && yarn format'
+        files: ^frontend/
+        entry: ./pre_commit_prettier_format_check.sh
         language: system
         pass_filenames: false
       - id: eslint-lint-check
         name: Run ESLint - Static Type Checking
+        files: ^frontend/
         entry: bash -c 'cd frontend && yarn lint .'
         language: system
         types_or: [javascript, ts, tsx, jsx, vue]
