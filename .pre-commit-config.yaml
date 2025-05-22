@@ -20,6 +20,7 @@ repos:
     hooks:
       - id: run-i18n-checks
         name: Run i18n Checks
+        files: ^frontend/
         entry: python frontend/i18n/check/run_i18n_checks.py
         language: python
         stages: [pre-commit]
@@ -52,6 +53,6 @@ repos:
     hooks:
       - id: prettier-format-check
         name: Run Prettier Format Check
-        entry: bash -c 'cd frontend && yarn format'
         language: system
+        entry: ./pre_commit_prettier_format_check.sh
         pass_filenames: false
