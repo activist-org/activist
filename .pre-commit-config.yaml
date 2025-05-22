@@ -27,7 +27,7 @@ repos:
       - id: numpydoc-validation
         name: run numpydoc docstring validation
         files: ^backend/
-        exclude: ^backend/(setup\.py|.*/(tests(/.*)?|views\.py|__init__\.py))$
+        exclude: ^backend/(.*/(tests(/.*)?|views\.py|__init__\.py))$
 
   - repo: local
     hooks:
