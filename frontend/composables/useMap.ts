@@ -218,6 +218,54 @@ export const useMap = () => {
     ].join(" ");
   };
 
+  const updateMarkers = (
+    map: maplibregl.Map,
+    markers: { [key: string]: maplibregl.Marker },
+    markersOnScreen: { [key: string]: maplibregl.Marker } = {}
+  ) => {
+    const newMarkers: { [key: string]: maplibregl.Marker } = {};
+    const features = map.querySourceFeatures("events");
+
+    for (let i = 0; i < features.length; i++) {
+      const geometry = features[i].geometry;
+      if (geometry.type === "Point") {
+        const coords = geometry.coordinates as [number, number];
+        const props = features[i].properties;
+        if (props.cluster) {
+          const id = props.cluster_id;
+          let marker = markers[id];
+          if (!marker) {
+            const el = createDonutChart(props);
+            marker = markers[id] = new maplibregl.Marker({
+              element: el,
+            }).setLngLat(coords);
+          }
+          newMarkers[id] = marker;
+
+          if (!markersOnScreen[id]) marker.addTo(map);
+        } else {
+          const color = props.type === "learn" ? "#2176AE" : "#BA3D3B";
+
+          const marker = createMarker(color, {
+            lon: coords[0].toString(),
+            lat: coords[1].toString(),
+          }).setLngLat(coords);
+
+          newMarkers[props.id] = marker;
+          if (!markersOnScreen[props.id]) marker.addTo(map);
+        }
+      }
+    }
+
+    for (const id in markersOnScreen) {
+      if (!newMarkers[id]) markersOnScreen[id].remove();
+    }
+    markersOnScreen = newMarkers;
+    return {
+      markersOnScreen,
+    };
+  };
+
   const createMapForClusterTypeMap = (map: maplibregl.Map, events: Event[]) => {
     map.on("load", () => {
       // Cleanup existing sources/layers
@@ -227,11 +275,8 @@ export const useMap = () => {
       });
 
       // Process events
-      const features: Feature<Point, GeoJsonProperties>[] = events
-        .filter(
-          (event) => event.offlineLocation?.lat && event.offlineLocation?.lon
-        )
-        .map((event) => ({
+      const features: Feature<Point, GeoJsonProperties>[] = events.map(
+        (event) => ({
           type: "Feature",
           properties: {
             id: event.id,
@@ -245,7 +290,8 @@ export const useMap = () => {
               parseFloat(event?.offlineLocation?.lat || "0"),
             ],
           },
-        }));
+        })
+      );
       // Add a clustered GeoJSON source for events
       map.addSource("events", {
         type: "geojson",
@@ -265,14 +311,11 @@ export const useMap = () => {
       // Add a layer for unclustered points
       map.addLayer({
         id: "unclustered-points",
-        type: "circle",
         source: "events",
-        filter: ["!=", "cluster", true],
+        type: "symbol",
+        filter: ["!", ["has", "point_count"]],
         paint: {
-          "circle-color": "#11b4da",
-          "circle-radius": 8,
-          "circle-stroke-width": 1,
-          "circle-stroke-color": "#fff",
+          "icon-opacity": 1,
         },
       });
 
@@ -281,7 +324,7 @@ export const useMap = () => {
         id: "clusters",
         type: "circle",
         source: "events",
-        filter: ["==", "cluster", true],
+        filter: ["all", ["==", "cluster", true], [">", "point_count", 1]], // <-- Here
         paint: {
           "circle-color": [
             "step",
@@ -309,7 +352,7 @@ export const useMap = () => {
         id: "cluster-count",
         type: "symbol",
         source: "events",
-        filter: ["==", "cluster", true],
+        filter: ["all", ["==", "cluster", true], [">", "point_count", 1]], // <-- Here
         layout: {
           "text-field": "{point_count_abbreviated}",
           "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
@@ -337,48 +380,30 @@ export const useMap = () => {
           zoom: 1.5,
         });
       }
-      // Optional: Add custom HTML markers for clusters
-      const markers: { [key: string]: maplibregl.Marker } = {};
-      let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
-
-      function updateMarkers() {
-        const newMarkers: { [key: string]: maplibregl.Marker } = {};
-        const features = map.querySourceFeatures("events");
-
-        for (let i = 0; i < features.length; i++) {
-          const geometry = features[i].geometry;
-          if (geometry.type === "Point") {
-            const coords = geometry.coordinates as [number, number];
-            const props = features[i].properties;
-
-            if (!props.cluster) continue;
-            const id = props.cluster_id;
-
-            let marker = markers[id];
-            if (!marker) {
-              const el = createDonutChart(props);
-              marker = markers[id] = new maplibregl.Marker({
-                element: el,
-              }).setLngLat(coords);
-            }
-            newMarkers[id] = marker;
-
-            if (!markersOnScreen[id]) marker.addTo(map);
-          }
-        }
-
-        for (const id in markersOnScreen) {
-          if (!newMarkers[id]) markersOnScreen[id].remove();
-        }
-        markersOnScreen = newMarkers;
-      }
 
       map.on("sourcedata", (e) => {
+        // Optional: Add custom HTML markers for clusters
+        const markers: { [key: string]: maplibregl.Marker } = {};
+        let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
         if (e.sourceId !== "events" || !e.isSourceLoaded) return;
 
-        map.on("move", updateMarkers);
-        map.on("moveend", updateMarkers);
-        updateMarkers();
+        map.on("move", () => {
+          const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+            map,
+            markers,
+            markersOnScreen
+          );
+          markersOnScreen = newMarkersOnScreen;
+        });
+        map.on("moveend", () => {
+          const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+            map,
+            markers,
+            markersOnScreen
+          );
+          markersOnScreen = newMarkersOnScreen;
+        });
+        updateMarkers(map, markers, markersOnScreen);
       });
     });
   };

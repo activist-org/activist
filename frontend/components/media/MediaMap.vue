@@ -101,7 +101,7 @@ onMounted(() => {
       .querySelector(".maplibregl-ctrl-fullscreen");
     if (fullscreenButton)
       fullscreenButton.title = i18n.t("i18n.components.media_map.fullscreen");
-    if (props.type === MapType.MARK) {
+    if (props.type === MapType.MARK)
       createMapForMarkerTypeMap(
         map,
         {
@@ -116,7 +116,6 @@ onMounted(() => {
         setSelectedRoute(),
         resetDirectionsControl
       );
-    }
     if (props.type === MapType.CLUSTER)
       createMapForClusterTypeMap(map, props.events || []);
   }

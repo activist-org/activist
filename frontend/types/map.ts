@@ -9,3 +9,10 @@ export interface RouteProfile {
   profile: string;
   api: string;
 }
+
+export interface RouteProfileOption {
+  FOOT: string;
+  BIKE: string;
+  DRIVING: string;
+  CAR: string;
+}
