@@ -139,12 +139,12 @@ def test_image_create_single_file_view(client: APIClient) -> None:
 
     response = client.post("/v1/content/images/", data, format="multipart")
 
-    assert (
-        response.status_code == 201
-    ), f"Expected status code 201, but got {response.status_code}."
-    assert (
-        Image.objects.count() == 1
-    ), "Expected one image in the database, but found more than one."
+    assert response.status_code == 201, (
+        f"Expected status code 201, but got {response.status_code}."
+    )
+    assert Image.objects.count() == 1, (
+        "Expected one image in the database, but found more than one."
+    )
 
     # Assert file exists in filesystem.
     response_data = response.json()
@@ -154,9 +154,9 @@ def test_image_create_single_file_view(client: APIClient) -> None:
     relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
     uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
 
-    assert os.path.exists(
-        uploaded_file
-    ), f"File {uploaded_file} was not found in the filesystem"
+    assert os.path.exists(uploaded_file), (
+        f"File {uploaded_file} was not found in the filesystem"
+    )
 
     uuid_filename = os.path.splitext(os.path.basename(uploaded_file))[0]
 
@@ -218,9 +218,9 @@ def test_image_create_multiple_files_view(client: APIClient) -> None:
     # Assert that the files were uploaded/saved to the media root.
     for image in Image.objects.all():
         file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
-        assert os.path.exists(
-            file_path
-        ), f"File {file_path} was not found in the filesystem"
+        assert os.path.exists(file_path), (
+            f"File {file_path} was not found in the filesystem"
+        )
 
     # Cleanup all test files.
     for image in Image.objects.all():
@@ -342,12 +342,12 @@ def test_image_destroy_view(client: APIClient) -> None:
     relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
     uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
 
-    assert os.path.exists(
-        uploaded_file
-    ), f"File {uploaded_file} was not found in the filesystem"
-    assert Image.objects.filter(
-        id=file_id
-    ).exists(), f"Image with ID {file_id} was not found in the database"
+    assert os.path.exists(uploaded_file), (
+        f"File {uploaded_file} was not found in the filesystem"
+    )
+    assert Image.objects.filter(id=file_id).exists(), (
+        f"Image with ID {file_id} was not found in the database"
+    )
 
     # Delete the image from the database and the file from the file system.
     # The signal to delete the file from the filesystem is triggered in the Image model.
@@ -355,12 +355,12 @@ def test_image_destroy_view(client: APIClient) -> None:
 
     # Assert file is deleted from filesystem and the database.
     assert response.status_code == 204
-    assert not os.path.exists(
-        uploaded_file
-    ), f"File {uploaded_file} was not deleted from the filesystem"
-    assert not Image.objects.filter(
-        id=file_id
-    ).exists(), f"Image with ID {file_id} was not deleted from the database"
+    assert not os.path.exists(uploaded_file), (
+        f"File {uploaded_file} was not deleted from the filesystem"
+    )
+    assert not Image.objects.filter(id=file_id).exists(), (
+        f"Image with ID {file_id} was not deleted from the database"
+    )
 
 
 @pytest.mark.django_db
