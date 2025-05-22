@@ -164,7 +164,10 @@ class FaqFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Faq
 
-    name = factory.Faker("name")
+    iso = "en"
+    primary = factory.Faker("boolean")
+    order = factory.Faker("random_int", min=1, max=100)
+    answer = factory.Faker("text")
     question = factory.Faker("text")
 
 
