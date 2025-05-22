@@ -1,13 +1,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import os
-import subprocess
 import sys
 
-os.chdir("frontend")
-yarn_install_command = subprocess.run(["yarn", "install"])
-if yarn_install_command.returncode != 0:
-    sys.exit(yarn_install_command.returncode)
+from utils import run_shell_command
 
-yarn_format_command = subprocess.run(["yarn", "format"])
-if yarn_format_command.returncode != 0:
-    sys.exit(yarn_format_command.returncode)
+os.chdir("frontend")
+if not sys.platform.startswith("win"):
+    run_shell_command("corepack enable")
+
+run_shell_command("yarn install")
+run_shell_command("yarn lint")
