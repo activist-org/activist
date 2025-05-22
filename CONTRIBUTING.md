@@ -36,10 +36,10 @@ If you have questions or would like to communicate with the team, please [join u
 Thank you for your interest in contributing to activist.org! We look forward to welcoming you to the community and working with you to build a global platform for political action :) The following are some suggested steps for people interested in joining our community:
 
 - Please join the [public Matrix chat](https://matrix.to/#/#activist_community:matrix.org) to connect with the community
-  - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
-  - activist would suggest that you use the [Element](https://element.io/) client
-  - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
-  - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
+    - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
+    - activist would suggest that you use the [Element](https://element.io/) client
+    - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
+    - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
 - Read through this contributing guide and the [style guide](STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
@@ -84,9 +84,9 @@ activist is very open to contributions from people in the early stages of their 
 <p>
 
 - [Mozilla Developer Network Learning Area](https://developer.mozilla.org/en-US/docs/Learn)
-  - Doing MDN sections for HTML, CSS and JavaScript is the best ways to get into web development!
+    - Doing MDN sections for HTML, CSS and JavaScript is the best ways to get into web development!
 - [Open Source Guides](https://opensource.guide/)
-   - Guides from GitHub about open-source software including how to start and much more!
+    - Guides from GitHub about open-source software including how to start and much more!
 
 </p>
 </details>
