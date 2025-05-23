@@ -78,7 +78,10 @@ class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
     Displays only the Organization ID, ID of user who flagged the Organization and the date of the report.
     """
 
-    list_display = ["flagger_id", "flagged_org_id", "flagged_on"]
+    list_display = [
+        "created_by",
+        "created_on",
+    ]  # removed flagged_org as list_display cannot include a many-to-many field.
 
 
 admin.site.register(Group, GroupAdmin)

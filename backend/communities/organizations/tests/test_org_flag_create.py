@@ -24,7 +24,7 @@ def test_org_flag_create():
 
     error_response = client.post(
         path="/v1/communities/organization_flag/",
-        data={"flaggedOrgId": org.id, "flaggerId": user.id},
+        data={"flagged_org": org.id, "created_by": user.id},
         content_type="application/json",
     )
 
@@ -41,7 +41,7 @@ def test_org_flag_create():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
         path="/v1/communities/organization_flag/",
-        data={"flagged_org_id": org.id, "flagger_id": user.id},
+        data={"flagged_org": org.id, "created_by": user.id},
     )
 
     assert response.status_code == 201
