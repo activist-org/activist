@@ -10,8 +10,8 @@
 <script setup lang="ts">
 import type { LayerSpecification } from "maplibre-gl";
 
-import "maplibre-gl/dist/maplibre-gl.css";
 import { useMap } from "@/composables/useMap";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 import type { Location } from "~/types/content/location";
 import type { Event, EventType } from "~/types/events/event";

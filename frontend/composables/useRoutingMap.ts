@@ -106,6 +106,7 @@ export const useRouting = () => {
     }
     return selectedRoute;
   };
+
   function resetRouteProfileControl(
     map: maplibregl.Map,
     marker: maplibregl.Marker
@@ -167,6 +168,7 @@ export const useRouting = () => {
       "top-left"
     );
   }
+
   function resetDirectionsControl() {
     const existingDirectionControl =
       document.getElementById("directions-control");

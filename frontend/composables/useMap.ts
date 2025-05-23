@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { Feature, Point, GeoJsonProperties } from "geojson";
+import type { Feature, GeoJsonProperties, Point } from "geojson";
 
 import MapLibreGlDirections, {
   layersFactory,
@@ -8,13 +8,14 @@ import MapLibreGlDirections, {
 import maplibregl, { type LayerSpecification } from "maplibre-gl";
 
 import type { Location } from "~/types/content/location";
-import type { EventType, Event } from "~/types/events/event";
+import type { Event, EventType } from "~/types/events/event";
 
 import { type RouteProfile, ColorByEventType } from "~/types/map";
 
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
+
 export const useMap = () => {
   const i18n = useI18n();
   const colorByType = {
@@ -116,14 +117,14 @@ export const useMap = () => {
         },
         layers: mapLayers,
       },
-      center: [0, 20], // Default center
-      zoom: 1.5, // Shows entire world
+      center: [0, 20], // default center
+      zoom: 1.5, // shows entire world
       minZoom: 1,
       maxZoom: 18,
       renderWorldCopies: false,
       cooperativeGestures: true,
     });
-    // Remove automatic resize handler
+    // Remove automatic resize handler.
     map.on("load", () => {
       map.resize();
     });
@@ -148,7 +149,9 @@ export const useMap = () => {
   };
 
   const createDonutChart = (props: GeoJsonProperties) => {
-    if (!props) throw new Error("Cluster properties are missing.");
+    if (!props) {
+      throw new Error("Cluster properties are missing.");
+    }
     const offsets = [];
     const counts = [props.learn || 0, props.action || 0];
     let total = 0;
@@ -160,6 +163,7 @@ export const useMap = () => {
     const r0 = Math.round(r * 0.6);
     const w = r * 2;
 
+    // Note: This HTML can't be formatted.
     let html = `<div><svg width="${w}" height="${w}" viewbox="0 0 ${w} ${w}" text-anchor="middle" style="font: 12px sans-serif; display: block">`;
 
     for (let i = 0; i < counts.length; i++) {
@@ -185,7 +189,9 @@ export const useMap = () => {
     r0: number,
     color: string
   ) => {
-    if (end - start === 1) end -= 0.00001;
+    if (end - start === 1) {
+      end -= 0.00001;
+    }
     const a0 = 2 * Math.PI * (start - 0.25);
     const a1 = 2 * Math.PI * (end - 0.25);
     const x0 = Math.cos(a0),
@@ -232,22 +238,22 @@ export const useMap = () => {
     const newMarkers: { [key: string]: maplibregl.Marker } = {};
     const features = map.querySourceFeatures("events");
 
-    // Add this at the top of your updateMarkers function
+    // Add this at the top of your updateMarkers function.
     const currentZoom = map.getZoom();
     const DECLUSTER_ZOOM = 8;
     console.log("Current zoom level:", currentZoom);
     for (let i = 0; i < features.length; i++) {
-      const geometry = features[i].geometry;
+      const { geometry } = features[i];
       if (geometry.type === "Point") {
         const coords = geometry.coordinates as [number, number];
         const props = features[i].properties;
 
         if (props.cluster) {
-          // Cluster handling with zoom-based declustering
+          // Cluster handling with zoom-based declustering.
           const id = props.cluster_id;
 
           if (currentZoom >= DECLUSTER_ZOOM) {
-            // Show individual markers for clusters at high zoom
+            // Show individual markers for clusters at high zoom.
             const source = map.getSource("events") as maplibregl.GeoJSONSource;
 
             source.getClusterLeaves(id, props.point_count, 0).then((leaves) => {
@@ -270,7 +276,7 @@ export const useMap = () => {
               });
             });
           } else {
-            // Show cluster markers at low zoom
+            // Show cluster markers at low zoom.
             let marker = markers[id];
             if (!marker) {
               const el = createDonutChart(props);
@@ -279,10 +285,12 @@ export const useMap = () => {
               }).setLngLat(coords);
             }
             newMarkers[id] = marker;
-            if (!markersOnScreen[id]) marker.addTo(map);
+            if (!markersOnScreen[id]) {
+              marker.addTo(map);
+            }
           }
         } else {
-          // Individual point handling
+          // Individual point handling.
           const color = colorByType[props.type as EventType];
           const marker = createMarker(color, {
             lon: coords[0].toString(),
@@ -290,13 +298,17 @@ export const useMap = () => {
           }).setLngLat(coords);
 
           newMarkers[props.id] = marker;
-          if (!markersOnScreen[props.id]) marker.addTo(map);
+          if (!markersOnScreen[props.id]) {
+            marker.addTo(map);
+          }
         }
       }
     }
 
     for (const id in markersOnScreen) {
-      if (!newMarkers[id]) markersOnScreen[id].remove();
+      if (!newMarkers[id]) {
+        markersOnScreen[id].remove();
+      }
     }
     markersOnScreen = newMarkers;
     return {
@@ -306,13 +318,18 @@ export const useMap = () => {
 
   const createMapForClusterTypeMap = (map: maplibregl.Map, events: Event[]) => {
     map.on("load", () => {
-      // Cleanup existing sources/layers
-      if (map.getSource("events")) map.removeSource("events");
+      // Cleanup existing sources/layers.
+      if (map.getSource("events")) {
+        map.removeSource("events");
+      }
       ["clusters", "cluster-count", "unclustered-points"].forEach((layerId) => {
-        if (map.getLayer(layerId)) map.removeLayer(layerId);
+        if (map.getLayer(layerId)) {
+          map.removeLayer(layerId);
+        }
       });
 
-      // Process events
+      // MARK: Process Events
+
       const features: Feature<Point, GeoJsonProperties>[] = events.map(
         (event) => ({
           type: "Feature",
@@ -330,7 +347,7 @@ export const useMap = () => {
           },
         })
       );
-      // Add a clustered GeoJSON source for events
+      // Add a clustered GeoJSON source for events.
       map.addSource("events", {
         type: "geojson",
         data: {
@@ -338,31 +355,31 @@ export const useMap = () => {
           features,
         },
         cluster: true,
-        clusterRadius: 80, // Adjust cluster density by zoom
-        clusterMaxZoom: 14, // Max zoom where clustering occurs
+        clusterRadius: 80, // adjust cluster density by zoom
+        clusterMaxZoom: 14, // max zoom where clustering occurs
         clusterProperties: {
-          // Example: Count events by type
+          // Example: Count events by type.
           learn: ["+", ["case", ["==", ["get", "type"], "learn"], 1, 0]],
           action: ["+", ["case", ["==", ["get", "type"], "action"], 1, 0]],
         },
       });
 
-      // Add a layer for unclustered points
+      // Add a layer for unclustered points.
       map.addLayer({
         id: "unclustered-points",
         source: "events",
         type: "symbol",
         filter: [
           "any",
-          ["!", ["has", "point_count"]], // Individual points
-          ["==", ["get", "point_count"], 1], // Single-event clusters
+          ["!", ["has", "point_count"]], // individual points
+          ["==", ["get", "point_count"], 1], // single-event clusters
         ],
         paint: {
           "icon-opacity": 1,
         },
       });
 
-      // Add a layer for clusters
+      // Add a layer for clusters.
       map.addLayer({
         id: "clusters",
         type: "circle",
@@ -372,7 +389,7 @@ export const useMap = () => {
           ["==", "cluster", true],
           [">", "point_count", 1],
           ["<", ["zoom"], 13],
-        ], // <-- Here
+        ], // TODO: <-- here
         paint: {
           "circle-color": [
             "step",
@@ -405,7 +422,7 @@ export const useMap = () => {
           ["==", "cluster", true],
           [">", "point_count", 1],
           [">=", ["zoom"], 12],
-        ], // <-- Here
+        ], // TODO: <-- here
         layout: {
           "text-field": "{point_count_abbreviated}",
           "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
@@ -418,16 +435,18 @@ export const useMap = () => {
             acc.extend(feature.geometry.coordinates as [number, number]),
           new maplibregl.LngLatBounds()
         );
-        // Add stable bounds check
-        if (bounds.isEmpty()) return;
+        // Add stable bounds check.
+        if (bounds.isEmpty()) {
+          return;
+        }
 
         map.fitBounds(bounds, {
           padding: 50,
-          maxZoom: 3, // Reduced from 12 to maintain wider view
-          duration: 0, // Instant transition
+          maxZoom: 3, // reduced from 12 to maintain wider view
+          duration: 0, // instant transition
         });
       } else {
-        // Explicitly set world view when no events
+        // Explicitly set world view when no events.
         map.jumpTo({
           center: [0, 20],
           zoom: 1.5,
@@ -435,15 +454,17 @@ export const useMap = () => {
       }
 
       map.on("sourcedata", (e) => {
-        // Optional: Add custom HTML markers for clusters
+        // Optional: Add custom HTML markers for clusters.
         const markers: { [key: string]: maplibregl.Marker } = {};
         let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
-        if (e.sourceId !== "events" || !e.isSourceLoaded) return;
+        if (e.sourceId !== "events" || !e.isSourceLoaded) {
+          return;
+        }
 
         map.on("zoomend", () => {
           const currentZoom = map.getZoom();
 
-          // Adjust cluster visibility
+          // Adjust cluster visibility.
           map.setFilter("clusters", [
             "all",
             ["==", "cluster", true],
@@ -451,14 +472,14 @@ export const useMap = () => {
             ["<", currentZoom, 13],
           ]);
 
-          // Adjust individual points visibility
+          // Adjust individual points visibility.
           map.setFilter("unclustered-points", [
             "all",
             ["!=", "cluster", true],
             [">=", currentZoom, 12],
           ]);
 
-          // Force re-render of markers
+          // Force re-render of markers.
           const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
             map,
             markers,
@@ -475,6 +496,7 @@ export const useMap = () => {
           );
           markersOnScreen = newMarkersOnScreen;
         });
+
         map.on("moveend", () => {
           const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
             map,
@@ -516,40 +538,44 @@ export const useMap = () => {
 
     map.addControl(navigationControl, "top-right");
 
-    // Add localized tooltips for NavigationControl buttons
+    // Add localized tooltips for NavigationControl buttons.
     const zoomInButton: HTMLElement | null = map
       .getContainer()
       .querySelector(".maplibregl-ctrl-zoom-in");
-    if (zoomInButton)
+    if (zoomInButton) {
       zoomInButton.title = i18n.t("i18n.composables.use_map.zoom_in");
+    }
 
     const zoomOutButton: HTMLElement | null = map
       .getContainer()
       .querySelector(".maplibregl-ctrl-zoom-out");
-    if (zoomOutButton)
+    if (zoomOutButton) {
       zoomOutButton.title = i18n.t("i18n.composables.use_map.zoom_out");
+    }
 
     const compassButton: HTMLElement | null = map
       .getContainer()
       .querySelector(".maplibregl-ctrl-compass");
-    if (compassButton)
+    if (compassButton) {
       compassButton.title = i18n.t("i18n.composables.use_map.reset_north");
+    }
 
-    // Localize GeolocateControl
+    // Localize GeolocateControl.
     const geoLocateControl = createGeoLocateControl();
     map.addControl(geoLocateControl);
 
     const geolocateButton: HTMLElement | null = map
       .getContainer()
       .querySelector(".maplibregl-ctrl-geolocate");
-    if (geolocateButton)
+    if (geolocateButton) {
       geolocateButton.title = i18n.t("i18n.composables.use_map.geolocate");
+    }
 
     const popup = createPopUp({
       name: event.name,
-      url: ``, // TODO: Pass in event webpage URL
-      organization: "Organization", // TODO: Pass in event's organization name
-      datetime: "Date & Time", // TODO: Pass in event's date and time information
+      url: ``, // TODO: pass in event webpage URL
+      organization: "Organization", // TODO: pass in event's organization name
+      datetime: "Date & Time", // TODO: pass in event's date and time information
       location: event.location.displayName.split(",").slice(0, 3).join(", "),
       attendLabel,
       eventType: event.type,
@@ -581,7 +607,9 @@ export const useMap = () => {
       // Add arrow to directions layer.
       addDirectionsLayer(map, layers, selectedRoute as RouteProfile, marker);
 
-      if (fn) fn();
+      if (fn) {
+        fn();
+      }
     });
   };
 
@@ -677,8 +705,8 @@ export const useMap = () => {
       buildExpandedTooltip({
         name,
         url,
-        organization, // TODO: Pass in event's organization name
-        datetime, // TODO: Pass in event's date and time information
+        organization, // TODO: pass in event's organization name
+        datetime, // TODO: pass in event's date and time information
         location,
         attendLabel,
         eventType,
