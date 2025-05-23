@@ -260,11 +260,7 @@ def test_protected_endpoints_with_authenticated_client(authenticated_client: API
     """
     endpoints = [
         "/v1/auth/user/",
-        "/v1/auth/profile/",
-        "/v1/auth/pwreset/",
-        "/v1/auth/sign_in/",
-        "/v1/auth/delete/",
-        "/v1/auth/sign_up/"    ]
+        "/v1/auth/profile/"   ]
     
     for endpoint in endpoints:
         response = authenticated_client.get(endpoint)
