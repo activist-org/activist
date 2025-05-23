@@ -1,0 +1,378 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+import type { Feature, GeoJsonProperties, Point } from "geojson";
+
+import maplibregl from "maplibre-gl";
+
+import type { Event, EventType } from "~/types/events/event";
+
+import { colorByType } from "~/types/map";
+
+import usePointerMap from './usePointerMap'
+
+export const useClusterMap = () =>{
+  const { createPointerMarker } = usePointerMap()
+  const createDonutChart = (props: GeoJsonProperties) => {
+    if (!props) {
+      throw new Error("Cluster properties are missing.");
+    }
+    const offsets = [];
+    const counts = [props.learn || 0, props.action || 0];
+    let total = 0;
+    for (let i = 0; i < counts.length; i++) {
+      offsets.push(total);
+      total += counts[i];
+    }
+    const r = 20;
+    const r0 = Math.round(r * 0.6);
+    const w = r * 2;
+
+    // Note: This HTML can't be formatted.
+    let html = `<div><svg width="${w}" height="${w}" viewbox="0 0 ${w} ${w}" text-anchor="middle" style="font: 12px sans-serif; display: block">`;
+
+    for (let i = 0; i < counts.length; i++) {
+      html += donutSegment(
+        offsets[i] / total,
+        (offsets[i] + counts[i]) / total,
+        r,
+        r0,
+        i === 0 ? "#51bbd6" : "#f28cb1"
+      );
+    }
+    html += `<circle cx="${r}" cy="${r}" r="${r0}" fill="white" /><text dominant-baseline="central" transform="translate(${r}, ${r})">${total}</text></svg></div>`;
+
+    const el = document.createElement("div");
+    el.innerHTML = html;
+    return el.firstChild as HTMLElement;
+  };
+
+  const donutSegment = (
+    start: number,
+    end: number,
+    r: number,
+    r0: number,
+    color: string
+  ) => {
+    if (end - start === 1) {
+      end -= 0.00001;
+    }
+    const a0 = 2 * Math.PI * (start - 0.25);
+    const a1 = 2 * Math.PI * (end - 0.25);
+    const x0 = Math.cos(a0),
+      y0 = Math.sin(a0);
+    const x1 = Math.cos(a1),
+      y1 = Math.sin(a1);
+    const largeArc = end - start > 0.5 ? 1 : 0;
+
+    return [
+      '<path d="M',
+      r + r0 * x0,
+      r + r0 * y0,
+      "L",
+      r + r * x0,
+      r + r * y0,
+      "A",
+      r,
+      r,
+      0,
+      largeArc,
+      1,
+      r + r * x1,
+      r + r * y1,
+      "L",
+      r + r0 * x1,
+      r + r0 * y1,
+      "A",
+      r0,
+      r0,
+      0,
+      largeArc,
+      0,
+      r + r0 * x0,
+      r + r0 * y0,
+      `" fill="${color}" />`,
+    ].join(" ");
+  };
+  const updateMarkers = (
+    map: maplibregl.Map,
+    markers: { [key: string]: maplibregl.Marker },
+    markersOnScreen: { [key: string]: maplibregl.Marker } = {}
+  ) => {
+    const newMarkers: { [key: string]: maplibregl.Marker } = {};
+    const features = map.querySourceFeatures("events");
+
+    // Add this at the top of your updateMarkers function.
+    const currentZoom = map.getZoom();
+    const DECLUSTER_ZOOM = 8;
+    for (let i = 0; i < features.length; i++) {
+      const { geometry } = features[i];
+      if (geometry.type === "Point") {
+        const coords = geometry.coordinates as [number, number];
+        const props = features[i].properties;
+
+        if (props.cluster) {
+          // Cluster handling with zoom-based declustering.
+          const id = props.cluster_id;
+
+          if (currentZoom >= DECLUSTER_ZOOM) {
+            // Show individual markers for clusters at high zoom.
+            const source = map.getSource("events") as maplibregl.GeoJSONSource;
+
+            source.getClusterLeaves(id, props.point_count, 0).then((leaves) => {
+              leaves?.forEach((leaf) => {
+                const leafProps = leaf.properties!;
+                const color = colorByType[leafProps.type as EventType];
+                const markerId = leafProps.id;
+
+                if (!markersOnScreen[markerId]) {
+                  const marker = createPointerMarker(color, {
+                    lon: coords[0].toString(),
+                    lat: coords[1].toString(),
+                  }).setLngLat(coords);
+
+                  markers[markerId] = marker;
+                  marker.addTo(map);
+                  newMarkers[markerId] = marker;
+                }
+              });
+            });
+          } else {
+            // Show cluster markers at low zoom.
+            let marker = markers[id];
+            if (!marker) {
+              const el = createDonutChart(props);
+              marker = markers[id] = new maplibregl.Marker({
+                element: el,
+              }).setLngLat(coords);
+            }
+            newMarkers[id] = marker;
+            if (!markersOnScreen[id]) {
+              marker.addTo(map);
+            }
+          }
+        } else {
+          // Individual point handling.
+          const color = colorByType[props.type as EventType];
+          const marker = createPointerMarker(color, {
+            lon: coords[0].toString(),
+            lat: coords[1].toString(),
+          }).setLngLat(coords);
+
+          newMarkers[props.id] = marker;
+          if (!markersOnScreen[props.id]) {
+            marker.addTo(map);
+          }
+        }
+      }
+    }
+
+    for (const id in markersOnScreen) {
+      if (!newMarkers[id]) {
+        markersOnScreen[id].remove();
+      }
+    }
+    markersOnScreen = newMarkers;
+    return {
+      markersOnScreen,
+    };
+  };
+
+  const createMapForClusterTypeMap = (map: maplibregl.Map, events: Event[]) => {
+    map.on("load", () => {
+      // Cleanup existing sources/layers.
+      if (map.getSource("events")) {
+        map.removeSource("events");
+      }
+      ["clusters", "cluster-count", "unclustered-points"].forEach((layerId) => {
+        if (map.getLayer(layerId)) {
+          map.removeLayer(layerId);
+        }
+      });
+
+      // MARK: Process Events
+
+      const features: Feature<Point, GeoJsonProperties>[] = events.map(
+        (event) => ({
+          type: "Feature",
+          properties: {
+            id: event.id,
+            name: event.name,
+            type: event.type,
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [
+              parseFloat(event?.offlineLocation?.lon || "0"),
+              parseFloat(event?.offlineLocation?.lat || "0"),
+            ],
+          },
+        })
+      );
+      // Add a clustered GeoJSON source for events.
+      map.addSource("events", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features,
+        },
+        cluster: true,
+        clusterRadius: 80, // adjust cluster density by zoom
+        clusterMaxZoom: 14, // max zoom where clustering occurs
+        clusterProperties: {
+          // Example: Count events by type.
+          learn: ["+", ["case", ["==", ["get", "type"], "learn"], 1, 0]],
+          action: ["+", ["case", ["==", ["get", "type"], "action"], 1, 0]],
+        },
+      });
+
+      // Add a layer for unclustered points.
+      map.addLayer({
+        id: "unclustered-points",
+        source: "events",
+        type: "symbol",
+        filter: [
+          "any",
+          ["!", ["has", "point_count"]], // individual points
+          ["==", ["get", "point_count"], 1], // single-event clusters
+        ],
+        paint: {
+          "icon-opacity": 1,
+        },
+      });
+
+      // Add a layer for clusters.
+      map.addLayer({
+        id: "clusters",
+        type: "circle",
+        source: "events",
+        filter: [
+          "all",
+          ["==", "cluster", true],
+          [">=", "point_count", 1],
+          ["<", ["zoom"], 13],
+        ], // TODO: <-- here
+        paint: {
+          "circle-color": [
+            "step",
+            ["get", "point_count"],
+            "#51bbd6",
+            100,
+            "#f1f075",
+            750,
+            "#f28cb1",
+          ],
+          "circle-radius": [
+            "step",
+            ["get", "point_count"],
+            20,
+            100,
+            30,
+            750,
+            40,
+          ],
+        },
+      });
+
+      // Add a layer for cluster labels
+      map.addLayer({
+        id: "cluster-count",
+        type: "symbol",
+        source: "events",
+        filter: [
+          "all",
+          ["==", "cluster", true],
+          [">=", "point_count", 1],
+          [">=", ["zoom"], 12],
+        ], // TODO: <-- here
+        layout: {
+          "text-field": "{point_count_abbreviated}",
+          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-size": 12,
+        },
+      });
+      if (features.length > 0) {
+        const bounds = features.reduce(
+          (acc, feature) =>
+            acc.extend(feature.geometry.coordinates as [number, number]),
+          new maplibregl.LngLatBounds()
+        );
+        // Add stable bounds check.
+        if (bounds.isEmpty()) {
+          return;
+        }
+
+        map.fitBounds(bounds, {
+          padding: 50,
+          maxZoom: 3, // reduced from 12 to maintain wider view
+          duration: 0, // instant transition
+        });
+      } else {
+        // Explicitly set world view when no events.
+        map.jumpTo({
+          center: [0, 20],
+          zoom: 1.5,
+        });
+      }
+
+      map.on("sourcedata", (e) => {
+        // Optional: Add custom HTML markers for clusters.
+        const markers: { [key: string]: maplibregl.Marker } = {};
+        let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
+        if (e.sourceId !== "events" || !e.isSourceLoaded) {
+          return;
+        }
+
+        map.on("zoomend", () => {
+          const currentZoom = map.getZoom();
+
+          // Adjust cluster visibility.
+          map.setFilter("clusters", [
+            "all",
+            ["==", "cluster", true],
+            [">", "point_count", 1],
+            ["<", currentZoom, 13],
+          ]);
+
+          // Adjust individual points visibility.
+          map.setFilter("unclustered-points", [
+            "all",
+            ["!=", "cluster", true],
+            [">=", currentZoom, 12],
+          ]);
+
+          // Force re-render of markers.
+          const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+            map,
+            markers,
+            markersOnScreen
+          );
+          markersOnScreen = newMarkersOnScreen;
+        });
+
+        map.on("move", () => {
+          const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+            map,
+            markers,
+            markersOnScreen
+          );
+          markersOnScreen = newMarkersOnScreen;
+        });
+
+        map.on("moveend", () => {
+          const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+            map,
+            markers,
+            markersOnScreen
+          );
+          markersOnScreen = newMarkersOnScreen;
+        });
+        updateMarkers(map, markers, markersOnScreen);
+      });
+    });
+  };
+  return {
+    donutSegment,
+    createDonutChart,
+    createMapForClusterTypeMap
+  }
+}

@@ -16,6 +16,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import type { Location } from "~/types/content/location";
 import type { Event, EventType } from "~/types/events/event";
 
+import { useClusterMap } from "~/composables/useClusterMap";
 import { useRouting } from "~/composables/useRoutingMap";
 import { MapType } from "~/types/map";
 
@@ -27,13 +28,11 @@ const props = defineProps<{
   type: MapType;
 }>();
 
-const {
-  createMap,
-  isWebglSupported,
-  createFullScreenControl,
-  createMapForMarkerTypeMap,
-  createMapForClusterTypeMap,
-} = useMap();
+const { createMap, isWebglSupported, createFullScreenControl, createPopUp } =
+  useMap();
+
+const { createMapForClusterTypeMap } = useClusterMap();
+const { createMapForMarkerTypeMap } = usePointerMap();
 
 // MARK: Map Tooltip Helper
 
@@ -101,7 +100,22 @@ onMounted(() => {
       .querySelector(".maplibregl-ctrl-fullscreen");
     if (fullscreenButton)
       fullscreenButton.title = i18n.t("i18n.components.media_map.fullscreen");
-    if (props.type === MapType.MARK)
+    if (props.type === MapType.POINT) {
+      const eventType = props.eventTypes ? props.eventTypes[0] : "learn";
+      const popup = createPopUp({
+        url: ``, // TODO: pass in event webpage URL
+        organization: "Organization", // TODO: pass in event's organization name
+        datetime: "Date & Time", // TODO: pass in event's date and time information
+        attendLabel,
+        eventType,
+        location: props.eventLocations
+          ? props.eventLocations[0].displayName
+              .split(",")
+              .slice(0, 3)
+              .join(", ")
+          : "",
+        name: props.eventNames ? props.eventNames[0] : "",
+      });
       createMapForMarkerTypeMap(
         map,
         {
@@ -111,11 +125,13 @@ onMounted(() => {
             ? props.eventLocations[0]
             : ({} as Location),
         },
-        attendLabel,
         isTouchDevice,
         setSelectedRoute(),
+        eventType,
+        popup,
         resetDirectionsControl
       );
+    }
     if (props.type === MapType.CLUSTER)
       createMapForClusterTypeMap(map, props.events || []);
   }

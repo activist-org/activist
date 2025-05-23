@@ -67,7 +67,7 @@
           :eventNames="[event.name]"
           :eventTypes="[event.type]"
           :eventLocations="[event.offlineLocation]"
-          :type="MapType.MARK"
+          :type="MapType.POINT"
         />
       </div>
       <CardAboutEvent :event="event" />
