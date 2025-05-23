@@ -73,10 +73,14 @@ const translatedTexts = computed(() => {
 
 const modals = useModals();
 const modalName = "ModalEditFAQEntry";
-let modalIsOpen = computed(() => props.isOpen);
+const modalIsOpen = ref(false);
+modalIsOpen.value = props.isOpen;
 
 onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+  // Ensure modals.modals[modalName] is defined. If so, save isOpen in store.
+  if (modals.modals[modalName]) {
+    modalIsOpen.value = modals.modals[modalName].isOpen;
+  }
 });
 
 const handleCloseModal = () => {
