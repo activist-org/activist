@@ -8,10 +8,11 @@ import type { Event, EventType } from "~/types/events/event";
 
 import { colorByType } from "~/types/map";
 
-import usePointerMap from './usePointerMap'
+import usePointerMap from "./usePointerMap";
 
-export const useClusterMap = () =>{
-  const { createPointerMarker } = usePointerMap()
+export const useClusterMap = () => {
+  const { createPointerMarker } = usePointerMap();
+  const DECLUSTER_ZOOM = 8;
   const createDonutChart = (props: GeoJsonProperties) => {
     if (!props) {
       throw new Error("Cluster properties are missing.");
@@ -36,14 +37,16 @@ export const useClusterMap = () =>{
         (offsets[i] + counts[i]) / total,
         r,
         r0,
-        i === 0 ? "#51bbd6" : "#f28cb1"
+        i === 0 ? colorByType["learn"] : colorByType["action"]
       );
     }
     html += `<circle cx="${r}" cy="${r}" r="${r0}" fill="white" /><text dominant-baseline="central" transform="translate(${r}, ${r})">${total}</text></svg></div>`;
 
     const el = document.createElement("div");
     el.innerHTML = html;
-    return el.firstChild as HTMLElement;
+    const firstChild = el.firstChild as HTMLElement;
+    firstChild.id = `cluster-${props.id}`;
+    return firstChild;
   };
 
   const donutSegment = (
@@ -103,7 +106,7 @@ export const useClusterMap = () =>{
 
     // Add this at the top of your updateMarkers function.
     const currentZoom = map.getZoom();
-    const DECLUSTER_ZOOM = 8;
+
     for (let i = 0; i < features.length; i++) {
       const { geometry } = features[i];
       if (geometry.type === "Point") {
@@ -113,7 +116,6 @@ export const useClusterMap = () =>{
         if (props.cluster) {
           // Cluster handling with zoom-based declustering.
           const id = props.cluster_id;
-
           if (currentZoom >= DECLUSTER_ZOOM) {
             // Show individual markers for clusters at high zoom.
             const source = map.getSource("events") as maplibregl.GeoJSONSource;
@@ -123,12 +125,14 @@ export const useClusterMap = () =>{
                 const leafProps = leaf.properties!;
                 const color = colorByType[leafProps.type as EventType];
                 const markerId = leafProps.id;
+                const coords = (leaf.geometry as Point).coordinates;
+                const leafCoords = coords as [number, number];
 
                 if (!markersOnScreen[markerId]) {
                   const marker = createPointerMarker(color, {
-                    lon: coords[0].toString(),
-                    lat: coords[1].toString(),
-                  }).setLngLat(coords);
+                    lon: leafCoords[0].toString(),
+                    lat: leafCoords[1].toString(),
+                  }).setLngLat(leafCoords);
 
                   markers[markerId] = marker;
                   marker.addTo(map);
@@ -152,15 +156,36 @@ export const useClusterMap = () =>{
           }
         } else {
           // Individual point handling.
-          const color = colorByType[props.type as EventType];
-          const marker = createPointerMarker(color, {
-            lon: coords[0].toString(),
-            lat: coords[1].toString(),
-          }).setLngLat(coords);
+          if (currentZoom < DECLUSTER_ZOOM) {
+            if (!markersOnScreen[props.id]) {
+              const el = createDonutChart({
+                ...props,
+                learn: props.type === "learn",
+                action: props.type === "action",
+              });
+              const marker = new maplibregl.Marker({
+                element: el,
+              })
+                .setLngLat(coords)
+                .setLngLat(coords);
 
-          newMarkers[props.id] = marker;
-          if (!markersOnScreen[props.id]) {
-            marker.addTo(map);
+              newMarkers[props.id] = marker;
+              if (!markersOnScreen[props.id]) {
+                marker.addTo(map);
+              }
+            }
+          } else {
+            const element = document.getElementById(`cluster-${props.id}`);
+            element?.remove();
+            const color = colorByType[props.type as EventType];
+            const marker = createPointerMarker(color, {
+              lon: coords[0].toString(),
+              lat: coords[1].toString(),
+            }).setLngLat(coords);
+            newMarkers[props.id] = marker;
+            if (!markersOnScreen[props.id]) {
+              marker.addTo(map);
+            }
           }
         }
       }
@@ -230,11 +255,7 @@ export const useClusterMap = () =>{
         id: "unclustered-points",
         source: "events",
         type: "symbol",
-        filter: [
-          "any",
-          ["!", ["has", "point_count"]], // individual points
-          ["==", ["get", "point_count"], 1], // single-event clusters
-        ],
+        filter: ["==", "id", ""], // Never matches anything.
         paint: {
           "icon-opacity": 1,
         },
@@ -249,8 +270,8 @@ export const useClusterMap = () =>{
           "all",
           ["==", "cluster", true],
           [">=", "point_count", 1],
-          ["<", ["zoom"], 13],
-        ], // TODO: <-- here
+          ["<", ["zoom"], DECLUSTER_ZOOM],
+        ],
         paint: {
           "circle-color": [
             "step",
@@ -330,14 +351,14 @@ export const useClusterMap = () =>{
             "all",
             ["==", "cluster", true],
             [">", "point_count", 1],
-            ["<", currentZoom, 13],
+            ["<", currentZoom, 9],
           ]);
 
           // Adjust individual points visibility.
           map.setFilter("unclustered-points", [
             "all",
             ["!=", "cluster", true],
-            [">=", currentZoom, 12],
+            [">=", currentZoom, DECLUSTER_ZOOM],
           ]);
 
           // Force re-render of markers.
@@ -373,6 +394,6 @@ export const useClusterMap = () =>{
   return {
     donutSegment,
     createDonutChart,
-    createMapForClusterTypeMap
-  }
-}
+    createMapForClusterTypeMap,
+  };
+};
