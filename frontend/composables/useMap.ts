@@ -9,12 +9,18 @@ import maplibregl, { type LayerSpecification } from "maplibre-gl";
 
 import type { Location } from "~/types/content/location";
 import type { EventType, Event } from "~/types/events/event";
-import type { RouteProfile } from "~/types/map";
+
+import { type RouteProfile, ColorByEventType } from "~/types/map";
+
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
 export const useMap = () => {
   const i18n = useI18n();
+  const colorByType = {
+    learn: ColorByEventType.LEARN,
+    action: ColorByEventType.ACTION,
+  };
   function buildExpandedTooltip(opts: {
     name: string;
     url: string;
@@ -226,26 +232,58 @@ export const useMap = () => {
     const newMarkers: { [key: string]: maplibregl.Marker } = {};
     const features = map.querySourceFeatures("events");
 
+    // Add this at the top of your updateMarkers function
+    const currentZoom = map.getZoom();
+    const DECLUSTER_ZOOM = 8;
+    console.log("Current zoom level:", currentZoom);
     for (let i = 0; i < features.length; i++) {
       const geometry = features[i].geometry;
       if (geometry.type === "Point") {
         const coords = geometry.coordinates as [number, number];
         const props = features[i].properties;
+
         if (props.cluster) {
+          // Cluster handling with zoom-based declustering
           const id = props.cluster_id;
-          let marker = markers[id];
-          if (!marker) {
-            const el = createDonutChart(props);
-            marker = markers[id] = new maplibregl.Marker({
-              element: el,
-            }).setLngLat(coords);
+
+          if (currentZoom >= DECLUSTER_ZOOM) {
+            // Show individual markers for clusters at high zoom
+            const source = map.getSource("events") as maplibregl.GeoJSONSource;
+
+            source.getClusterLeaves(id, props.point_count, 0).then((leaves) => {
+              console.log(leaves);
+              leaves?.forEach((leaf) => {
+                const leafProps = leaf.properties!;
+                const color = colorByType[leafProps.type as EventType];
+                const markerId = leafProps.id;
+
+                if (!markersOnScreen[markerId]) {
+                  const marker = createMarker(color, {
+                    lon: coords[0].toString(),
+                    lat: coords[1].toString(),
+                  }).setLngLat(coords);
+
+                  markers[markerId] = marker;
+                  marker.addTo(map);
+                  newMarkers[markerId] = marker;
+                }
+              });
+            });
+          } else {
+            // Show cluster markers at low zoom
+            let marker = markers[id];
+            if (!marker) {
+              const el = createDonutChart(props);
+              marker = markers[id] = new maplibregl.Marker({
+                element: el,
+              }).setLngLat(coords);
+            }
+            newMarkers[id] = marker;
+            if (!markersOnScreen[id]) marker.addTo(map);
           }
-          newMarkers[id] = marker;
-
-          if (!markersOnScreen[id]) marker.addTo(map);
         } else {
-          const color = props.type === "learn" ? "#2176AE" : "#BA3D3B";
-
+          // Individual point handling
+          const color = colorByType[props.type as EventType];
           const marker = createMarker(color, {
             lon: coords[0].toString(),
             lat: coords[1].toString(),
@@ -300,7 +338,8 @@ export const useMap = () => {
           features,
         },
         cluster: true,
-        clusterRadius: 80,
+        clusterRadius: 80, // Adjust cluster density by zoom
+        clusterMaxZoom: 14, // Max zoom where clustering occurs
         clusterProperties: {
           // Example: Count events by type
           learn: ["+", ["case", ["==", ["get", "type"], "learn"], 1, 0]],
@@ -313,7 +352,11 @@ export const useMap = () => {
         id: "unclustered-points",
         source: "events",
         type: "symbol",
-        filter: ["!", ["has", "point_count"]],
+        filter: [
+          "any",
+          ["!", ["has", "point_count"]], // Individual points
+          ["==", ["get", "point_count"], 1], // Single-event clusters
+        ],
         paint: {
           "icon-opacity": 1,
         },
@@ -324,7 +367,12 @@ export const useMap = () => {
         id: "clusters",
         type: "circle",
         source: "events",
-        filter: ["all", ["==", "cluster", true], [">", "point_count", 1]], // <-- Here
+        filter: [
+          "all",
+          ["==", "cluster", true],
+          [">", "point_count", 1],
+          ["<", ["zoom"], 13],
+        ], // <-- Here
         paint: {
           "circle-color": [
             "step",
@@ -352,7 +400,12 @@ export const useMap = () => {
         id: "cluster-count",
         type: "symbol",
         source: "events",
-        filter: ["all", ["==", "cluster", true], [">", "point_count", 1]], // <-- Here
+        filter: [
+          "all",
+          ["==", "cluster", true],
+          [">", "point_count", 1],
+          [">=", ["zoom"], 12],
+        ], // <-- Here
         layout: {
           "text-field": "{point_count_abbreviated}",
           "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
@@ -386,6 +439,33 @@ export const useMap = () => {
         const markers: { [key: string]: maplibregl.Marker } = {};
         let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
         if (e.sourceId !== "events" || !e.isSourceLoaded) return;
+
+        map.on("zoomend", () => {
+          const currentZoom = map.getZoom();
+
+          // Adjust cluster visibility
+          map.setFilter("clusters", [
+            "all",
+            ["==", "cluster", true],
+            [">", "point_count", 1],
+            ["<", currentZoom, 13],
+          ]);
+
+          // Adjust individual points visibility
+          map.setFilter("unclustered-points", [
+            "all",
+            ["!=", "cluster", true],
+            [">=", currentZoom, 12],
+          ]);
+
+          // Force re-render of markers
+          const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+            map,
+            markers,
+            markersOnScreen
+          );
+          markersOnScreen = newMarkersOnScreen;
+        });
 
         map.on("move", () => {
           const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
@@ -485,7 +565,7 @@ export const useMap = () => {
       });
 
     const marker = createMarker(
-      event?.type === "learn" ? "#2176AE" : "#BA3D3B",
+      colorByType[event?.type || ("learn" as EventType)],
       event.location,
       popup
     ).addTo(map);

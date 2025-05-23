@@ -5,6 +5,11 @@ export enum MapType {
   CLUSTER = "cluster",
 }
 
+export enum ColorByEventType {
+  ACTION = "#BA3D3B",
+  LEARN = "#2176AE",
+}
+
 export interface RouteProfile {
   profile: string;
   api: string;
