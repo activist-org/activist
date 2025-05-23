@@ -1,10 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
       <div
         v-for="(s, i) in sectionsToEdit"
@@ -51,8 +47,9 @@ const props = defineProps<{
   faqEntry: FaqEntry;
   sectionsToEdit: string[];
   textsToEdit: string[];
-  isOpen: boolean;
 }>();
+
+console.log("ModalEditFaqEntry", props);
 
 const i18n = useI18n();
 const editedTexts = computed(() => props.textsToEdit);
@@ -71,19 +68,5 @@ const translatedTexts = computed(() => {
   });
 });
 
-const modals = useModals();
-const modalName = "ModalEditFAQEntry";
-const modalIsOpen = ref(false);
-modalIsOpen.value = props.isOpen;
-
-onMounted(() => {
-  // Ensure modals.modals[modalName] is defined. If so, save isOpen in store.
-  if (modals.modals[modalName]) {
-    modalIsOpen.value = modals.modals[modalName].isOpen;
-  }
-});
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-};
+const modalName = "ModalEditFaqEntry";
 </script>
