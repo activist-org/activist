@@ -1,11 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import os
-import subprocess
-import sys
+
+from utils import run_shell_command
 
 os.chdir("backend")
-mypy_config_file_command = subprocess.run(
-    ["mypy", ".", "--config-file", "./pyproject.toml"]
-)
-if mypy_config_file_command.returncode != 0:
-    sys.exit(mypy_config_file_command.returncode)
+run_shell_command("mypy . --config-file ./pyproject.toml")
