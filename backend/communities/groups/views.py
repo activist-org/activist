@@ -21,8 +21,9 @@ from rest_framework.permissions import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from communities.groups.models import Group, GroupSocialLink, GroupText
+from communities.groups.models import Group, GroupFlag, GroupSocialLink, GroupText
 from communities.groups.serializers import (
+    GroupFlagSerializer,
     GroupPOSTSerializer,
     GroupSerializer,
     GroupSocialLinkSerializer,
@@ -192,6 +193,27 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             )
 
         return Response({"message": "Group deleted successfully."}, status.HTTP_200_OK)
+
+
+class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
+    queryset = GroupFlag.objects.all()
+    serializer_class = GroupFlagSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination()
+    http_method_names = ["get", "post", "delete"]
+
+    def create(self, request: Request):
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(
+            {"error": "You are not allowed to flag this group."},
+            status=status.HTTP_401_UNAUTHORIZED,
+        )
 
 
 # MARK: Bridge Tables

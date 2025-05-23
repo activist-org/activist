@@ -9,6 +9,7 @@ from rest_framework import serializers
 
 from communities.groups.models import (
     Group,
+    GroupFlag,
     GroupImage,
     GroupMember,
     GroupSocialLink,
@@ -140,6 +141,16 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             GroupText.objects.create(group=group)
 
         return group
+
+
+class GroupFlagSerializer(serializers.ModelSerializer[GroupFlag]):
+    """
+    Serializers for GroupFlag model.
+    """
+
+    class Meta:
+        model = GroupFlag
+        fields = "__all__"
 
 
 # MARK: Bridge Tables
