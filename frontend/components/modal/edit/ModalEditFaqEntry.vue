@@ -49,8 +49,6 @@ const props = defineProps<{
   textsToEdit: string[];
 }>();
 
-console.log("ModalEditFaqEntry", props);
-
 const i18n = useI18n();
 const editedTexts = computed(() => props.textsToEdit);
 
