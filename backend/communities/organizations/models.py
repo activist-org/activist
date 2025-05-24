@@ -57,6 +57,19 @@ class Organization(models.Model):
         return self.name
 
 
+class OrganizationFlag(models.Model):
+    """
+    Model for flagged organizations.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    flagged_org = models.ManyToManyField(
+        "self", through="Organization", symmetrical=False, related_name="flaggedOrg"
+    )
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
+
 # MARK: Bridge Tables
 
 
