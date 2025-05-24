@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+pre-commit hook for running ESLint static type checks.
+"""
+
 import os
 import sys
 
