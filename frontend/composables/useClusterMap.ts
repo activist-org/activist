@@ -11,6 +11,7 @@ import { colorByType } from "~/types/map";
 import usePointerMap from "./usePointerMap";
 
 export const useClusterMap = () => {
+  const i18n = useI18n();
   const { createPointerMarker } = usePointerMap();
   const DECLUSTER_ZOOM = 8;
   const createDonutChart = (props: GeoJsonProperties) => {
@@ -29,7 +30,7 @@ export const useClusterMap = () => {
     const w = r * 2;
 
     // Note: This HTML can't be formatted.
-    let html = `<div><svg width="${w}" height="${w}" viewbox="0 0 ${w} ${w}" text-anchor="middle" style="font: 12px sans-serif; display: block">`;
+    let html = `<div style="cursor: pointer"><svg width="${w}" height="${w}" viewbox="0 0 ${w} ${w}" text-anchor="middle" style="font: 12px sans-serif; display: block">`;
 
     for (let i = 0; i < counts.length; i++) {
       html += donutSegment(
@@ -40,7 +41,7 @@ export const useClusterMap = () => {
         i === 0 ? colorByType["learn"] : colorByType["action"]
       );
     }
-    html += `<circle cx="${r}" cy="${r}" r="${r0}" fill="white" /><text dominant-baseline="central" transform="translate(${r}, ${r})">${total}</text></svg></div>`;
+    html += `<circle cx="${r}" cy="${r}" r="${r0}" fill="white"/><text dominant-baseline="central" transform="translate(${r}, ${r})">${total}</text></svg></div>`;
 
     const el = document.createElement("div");
     el.innerHTML = html;
@@ -114,29 +115,55 @@ export const useClusterMap = () => {
     const root = document.createElement("div");
     root.className = "w-[220px] cursor-pointer font-sans";
 
-    const tooltipClass =
+    let tooltipClass =
       "overflow-hidden bg-white rounded-sm border-l-8 border-l";
 
-    root.innerHTML = `
-        <div class="${tooltipClass}">
-          <div class="px-3 py-1">
-            <h3 class="font-display text-base text-black font-bold mb-2 leading-tight">Events in this area:</h3>
+    if (opts.learnAmount === 0) {
+      tooltipClass += "-[#BA3D3B]";
+    } else if (opts.actionAmount === 0) {
+      tooltipClass += "-[#2176AE]";
+    }
 
-            <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
-              <span>Learn events:${opts.learnAmount}</span>
-            </div>
-
-            <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
-              <span>Action events:${opts.actionAmount}</span>
-            </div>
-          </div>
-        </div>
+    const eventsInThisArea = i18n.t(
+      "i18n.composables.use_cluster_map.events_in_this_area"
+    );
+    let clusterTooltipHTML = `
+      <div class="${tooltipClass}">
+        <div class="px-3 pt-1">
+          <h3 class="font-display text-base text-black font-bold mb-2 leading-tight">${eventsInThisArea}:</h3>
     `;
+
+    const learnEvents = i18n.t("i18n.composables.use_cluster_map.learn_events");
+    if (opts.learnAmount > 0) {
+      clusterTooltipHTML += `
+        <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
+          <span>${learnEvents}: ${opts.learnAmount}</span>
+        </div>
+      `;
+    }
+
+    const actionEvents = i18n.t(
+      "i18n.composables.use_cluster_map.action_events"
+    );
+    if (opts.actionAmount > 0) {
+      clusterTooltipHTML += `
+        <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
+          <span>${actionEvents}: ${opts.actionAmount}</span>
+        </div>
+      `;
+    }
+
+    clusterTooltipHTML += `
+        </div>
+      </div>
+    `;
+
+    root.innerHTML = clusterTooltipHTML;
 
     return root;
   };
 
-  //TODO: REFACTOR THIS FUNCTION TO MAKE IT MORE READABLE
+  // TODO: REFACTOR THIS FUNCTION TO MAKE IT MORE READABLE
   const updateMarkers = (
     map: maplibregl.Map,
     markers: { [key: string]: maplibregl.Marker },

@@ -23,11 +23,11 @@ export const usePointerMap = () => {
       type: EventType;
       location: string;
       name: string;
-      id:string
+      id: string;
     }
   ) => {
     const marker = new maplibregl.Marker({
-      color
+      color,
     });
     marker.getElement().id = `pointer-${event.id}`;
     marker.addClassName("cursor-pointer");
@@ -47,7 +47,7 @@ export const usePointerMap = () => {
   };
   const createMapForMarkerTypeMap = (
     map: maplibregl.Map,
-    event: { name: string; location: Location; type: EventType, id: string },
+    event: { name: string; location: Location; type: EventType; id: string },
     isTouchDevice: boolean,
     selectedRoute: RouteProfile | undefined,
     attendLabel: string,
@@ -69,8 +69,8 @@ export const usePointerMap = () => {
         padding: 120,
       }
     );
-    const navigationControl = createNavigationControl();
 
+    const navigationControl = createNavigationControl();
     map.addControl(navigationControl, "top-right");
 
     // Localize GeolocateControl.
