@@ -28,10 +28,12 @@ from rest_framework.views import APIView
 from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
+    OrganizationFaq,
     OrganizationSocialLink,
     OrganizationText,
 )
 from communities.organizations.serializers import (
+    OrganizationFaqSerializer,
     OrganizationSerializer,
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
@@ -340,6 +342,49 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
                 {"error": f"Failed to update social links: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        
+class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
+    queryset = OrganizationFaq.objects.all()
+    serializer_class = OrganizationFaqSerializer
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        organization = Organization.objects.filter(id=pk).first()
+        if not organization:
+            return Response(
+                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                # Delete all existing faqs for this Organization.
+                OrganizationFaq.objects.filter(organization=organization).delete()
+
+                # Create new faqs from the submitted data.
+                faqs: List[Dict[str, str]] = []
+                for link_data in data:
+                    if isinstance(link_data, dict):
+                        faq = OrganizationFaq.objects.create(
+                            organization=organization,
+                            question=link_data.get("question"),
+                            answer=link_data.get("answer"),
+                        )
+                        faqs.append(faq)
+
+            serializer = self.get_serializer(faqs, many=True)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update faqs: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
 
 
 class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
