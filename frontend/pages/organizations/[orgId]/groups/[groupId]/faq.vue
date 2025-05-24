@@ -27,7 +27,7 @@
         /> -->
       </div>
     </HeaderAppPageGroup>
-    <div v-if="group.faqEntries" class="py-4">
+    <div v-if="group.faqEntries!.length > 0" class="py-4">
       <div v-for="f in group.faqEntries" class="mb-4">
         <CardFAQEntry :faqEntry="f" />
       </div>
