@@ -127,12 +127,20 @@ export const useClusterMap = () => {
                 const markerId = leafProps.id;
                 const coords = (leaf.geometry as Point).coordinates;
                 const leafCoords = coords as [number, number];
-
                 if (!markersOnScreen[markerId]) {
-                  const marker = createPointerMarker(color, {
-                    lon: leafCoords[0].toString(),
-                    lat: leafCoords[1].toString(),
-                  }).setLngLat(leafCoords);
+                  const marker = createPointerMarker(
+                    color,
+                    {
+                      lon: leafCoords[0].toString(),
+                      lat: leafCoords[1].toString(),
+                    },
+                    "",
+                    {
+                      type: leafProps.type,
+                      location: leafProps.location,
+                      name: leafProps.name,
+                    }
+                  ).setLngLat(leafCoords);
 
                   markers[markerId] = marker;
                   marker.addTo(map);
@@ -178,10 +186,19 @@ export const useClusterMap = () => {
             const element = document.getElementById(`cluster-${props.id}`);
             element?.remove();
             const color = colorByType[props.type as EventType];
-            const marker = createPointerMarker(color, {
-              lon: coords[0].toString(),
-              lat: coords[1].toString(),
-            }).setLngLat(coords);
+            const marker = createPointerMarker(
+              color,
+              {
+                lon: coords[0].toString(),
+                lat: coords[1].toString(),
+              },
+              "",
+              {
+                type: props.type,
+                location: props.location,
+                name: props.name,
+              }
+            ).setLngLat(coords);
             newMarkers[props.id] = marker;
             if (!markersOnScreen[props.id]) {
               marker.addTo(map);
@@ -223,6 +240,9 @@ export const useClusterMap = () => {
             id: event.id,
             name: event.name,
             type: event.type,
+            location: event.offlineLocation
+              ? event.offlineLocation.displayName
+              : "",
           },
           geometry: {
             type: "Point",

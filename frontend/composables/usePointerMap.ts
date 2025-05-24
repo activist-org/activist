@@ -10,18 +10,37 @@ import type { EventType } from "~/types/events/event";
 
 import { colorByType, type RouteProfile } from "~/types/map";
 
+const organizationIcon = `/icons/map/tooltip_organization.png`;
+const calendarIcon = `/icons/map/tooltip_datetime.png`;
+const locationIcon = `/icons/map/tooltip_location.png`;
 export const usePointerMap = () => {
   const i18n = useI18n();
   const createPointerMarker = (
     color: string,
     latitude: { lon: string; lat: string },
-    popup?: maplibregl.Popup
+    attendLabel: string,
+    event:{
+      type: EventType,
+      location: string,
+      name: string,
+    }
   ) => {
     const marker = new maplibregl.Marker({
       color,
     });
 
     marker.addClassName("cursor-pointer");
+    const popup = createPopUpForPointer({
+      url: ``, // TODO: pass in event webpage URL
+      organization: "Organization", // TODO: pass in event's organization name
+      datetime: "Date & Time", // TODO: pass in event's date and time information
+      attendLabel,
+      eventType:event.type,
+      location:event.location.split(",")
+      .slice(0, 3)
+      .join(", "),
+      name:event.name,
+    });
     marker
       .setLngLat([parseFloat(latitude.lon), parseFloat(latitude.lat)])
       .setPopup(popup);
@@ -32,8 +51,7 @@ export const usePointerMap = () => {
     event: { name: string; location: Location; type: EventType },
     isTouchDevice: boolean,
     selectedRoute: RouteProfile | undefined,
-    eventType: EventType,
-    popUp: maplibregl.Popup,
+    attendLabel: string,
     fn?: () => void
   ) => {
     map.fitBounds(
@@ -79,9 +97,14 @@ export const usePointerMap = () => {
       });
 
     const marker = createPointerMarker(
-      colorByType[eventType || "learn"],
+      colorByType[event.type || "learn"],
       event.location,
-      popUp
+      attendLabel,
+      {
+        type: event.type,
+        location: event.location.displayName,
+        name: event.name,
+      }
     ).addTo(map);
 
     map.on("load", () => {
@@ -162,6 +185,89 @@ export const usePointerMap = () => {
       },
       trackUserLocation: true,
     });
+  };
+
+  const buildExpandedTooltip = (opts: {
+    name: string;
+    url: string;
+    organization: string;
+    datetime: string;
+    location: string;
+    attendLabel: string;
+    eventType: EventType;
+  }) => {
+    const root = document.createElement("div");
+    root.className = "w-[220px] cursor-pointer font-sans";
+
+    let tooltipClass = "";
+    if (opts.eventType === "learn") {
+      tooltipClass =
+        "overflow-hidden bg-white rounded-sm border-l-8 border-l-[#2176AE]";
+    } else {
+      tooltipClass =
+        "overflow-hidden bg-white rounded-sm border-l-8 border-l-[#BA3D3B]";
+    }
+
+    root.innerHTML = `
+      <a href="${opts.url}" class="no-underline">
+        <div class="${tooltipClass}">
+          <div class="px-3 py-1">
+            <h3 class="font-display text-base text-black font-bold mb-2 leading-tight">${opts.name}</h3>
+
+            <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
+              <img src="${organizationIcon}"/>
+              <span>${opts.organization}</span>
+            </div>
+
+            <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
+              <img src="${calendarIcon}"/>
+              <span>${opts.datetime}</span>
+            </div>
+
+            <div class="flex items-start text-xs text-black mb-1.5 font-semibold space-x-2">
+              <img src="${locationIcon}"/>
+              <span>${opts.location}</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    `;
+
+    return root;
+  };
+
+  const createPopUpForPointer = (opts: {
+    name: string;
+    url?: string;
+    organization: string;
+    datetime: string;
+    location: string;
+    attendLabel: string;
+    eventType: EventType;
+  }) => {
+    const {
+      name,
+      url = "",
+      organization,
+      datetime,
+      location,
+      attendLabel,
+      eventType,
+    } = opts;
+    return new maplibregl.Popup({
+      offset: 25,
+      maxWidth: "260px",
+    }).setDOMContent(
+      buildExpandedTooltip({
+        name,
+        url,
+        organization, // TODO: pass in event's organization name
+        datetime, // TODO: pass in event's date and time information
+        location,
+        attendLabel,
+        eventType,
+      })
+    );
   };
 
   return {

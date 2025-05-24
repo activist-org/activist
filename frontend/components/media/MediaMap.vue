@@ -92,21 +92,6 @@ onMounted(() => {
     addDefaultControls(map);
 
     if (props.type === MapType.POINT) {
-      const eventType = props.eventTypes ? props.eventTypes[0] : "learn";
-      const popup = createPopUp({
-        url: ``, // TODO: pass in event webpage URL
-        organization: "Organization", // TODO: pass in event's organization name
-        datetime: "Date & Time", // TODO: pass in event's date and time information
-        attendLabel,
-        eventType,
-        location: props.eventLocations
-          ? props.eventLocations[0].displayName
-              .split(",")
-              .slice(0, 3)
-              .join(", ")
-          : "",
-        name: props.eventNames ? props.eventNames[0] : "",
-      });
       createMapForMarkerTypeMap(
         map,
         {
@@ -118,8 +103,7 @@ onMounted(() => {
         },
         isTouchDevice,
         setSelectedRoute(),
-        eventType,
-        popup,
+        attendLabel,
         resetDirectionsControl
       );
     }
