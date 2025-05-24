@@ -9,13 +9,14 @@ from rest_framework import serializers
 
 from communities.groups.models import (
     Group,
+    GroupFaq,
     GroupImage,
     GroupMember,
     GroupSocialLink,
     GroupText,
 )
 from communities.organizations.models import Organization
-from content.serializers import FaqSerializer, LocationSerializer, ResourceSerializer
+from content.serializers import LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
 # MARK: Group
@@ -28,6 +29,15 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
 
     class Meta:
         model = GroupSocialLink
+        fields = "__all__"
+
+class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
+    """
+    Serializer for GroupFaq model data.
+    """
+
+    class Meta:
+        model = GroupFaq
         fields = "__all__"
 
 
@@ -91,7 +101,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     org = GroupOrganizationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
     
-    faqEntries = FaqSerializer(source="faqs", many=True, read_only=True)
+    faqEntries = GroupFaqSerializer(source="faqs", many=True, read_only=True)
 
     class Meta:
         model = Group

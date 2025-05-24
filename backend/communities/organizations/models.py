@@ -8,7 +8,7 @@ from uuid import uuid4
 from django.db import models
 
 from authentication import enums
-from content.models import SocialLink
+from content.models import Faq, SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Organization
@@ -49,7 +49,7 @@ class Organization(models.Model):
     deletion_date = models.DateTimeField(blank=True, null=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
-    faqs = models.ManyToManyField("content.Faq", blank=True)
+    
     resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
 
@@ -132,6 +132,14 @@ class OrganizationSocialLink(SocialLink):
         Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
+class OrganizationFaq(Faq):
+    """
+    Class for adding faq parameters to organizations.
+    """
+
+    org = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, null=True, related_name="faqs"
+    )
 
 class OrganizationTask(models.Model):
     """

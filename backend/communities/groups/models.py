@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from django.db import models
 
-from content.models import SocialLink
+from content.models import Faq, SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Group
@@ -41,7 +41,7 @@ class Group(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
-    faqs = models.ManyToManyField("content.Faq", blank=True)
+    
     events = models.ManyToManyField("events.Event", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
 
@@ -93,6 +93,15 @@ class GroupSocialLink(SocialLink):
 
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="social_links"
+    )
+
+class GroupFaq(Faq):
+    """
+    Class for adding faq parameters to groups.
+    """
+
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, null=True, related_name="faqs"
     )
 
 

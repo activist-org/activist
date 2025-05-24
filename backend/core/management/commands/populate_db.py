@@ -14,12 +14,14 @@ from authentication.factories import UserFactory
 from authentication.models import UserModel
 from communities.groups.factories import (
     GroupFactory,
+    GroupFaqFactory,
     GroupSocialLinkFactory,
     GroupTextFactory,
 )
 from communities.groups.models import Group
 from communities.organizations.factories import (
     OrganizationFactory,
+    OrganizationFaqFactory,
     OrganizationSocialLinkFactory,
     OrganizationTextFactory,
 )
@@ -170,11 +172,11 @@ class Command(BaseCommand):
                         user_org_group.texts.set([group_texts])
                         user_org_group.social_links.set(group_social_links)
                         for f in range(num_faq_entries_per_entity):
-                            user_org_group_faq = FaqFactory()
+                            user_org_group_faq = GroupFaqFactory()
                             user_org_group.faqs.add(user_org_group_faq)
 
                     for f in range(num_faq_entries_per_entity):
-                        user_org_faq = FaqFactory()
+                        user_org_faq = OrganizationFaqFactory()
                         user_org.faqs.add(user_org_faq)
 
             num_orgs = num_users * num_orgs_per_user

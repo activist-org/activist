@@ -13,6 +13,7 @@ from communities.organizations.models import (
     Organization,
     OrganizationApplication,
     OrganizationApplicationStatus,
+    OrganizationFaq,
     OrganizationImage,
     OrganizationMember,
     OrganizationSocialLink,
@@ -126,6 +127,19 @@ class OrganizationSocialLinkFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
+class OrganizationFaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
+    class Meta:
+        model = OrganizationFaq
+
+    iso = "en"
+    primary = factory.Faker("boolean")
+    order = factory.Faker("random_int", min=1, max=100)
+    answer = factory.Faker("text")
+    question = factory.Faker("text")
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):
     """

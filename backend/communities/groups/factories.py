@@ -11,6 +11,7 @@ import factory
 
 from communities.groups.models import (
     Group,
+    GroupFaq,
     GroupImage,
     GroupMember,
     GroupSocialLink,
@@ -85,6 +86,20 @@ class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
     last_updated = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
+
+class GroupFaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
+    class Meta:
+        model = GroupFaq
+
+    iso = "en"
+    primary = factory.Faker("boolean")
+    order = factory.Faker("random_int", min=1, max=100)
+    answer = factory.Faker("text")
+    question = factory.Faker("text")
 
 
 class GroupTextFactory(factory.django.DjangoModelFactory):
