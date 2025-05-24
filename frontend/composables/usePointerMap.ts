@@ -19,27 +19,26 @@ export const usePointerMap = () => {
     color: string,
     latitude: { lon: string; lat: string },
     attendLabel: string,
-    event:{
-      type: EventType,
-      location: string,
-      name: string,
+    event: {
+      type: EventType;
+      location: string;
+      name: string;
+      id:string
     }
   ) => {
     const marker = new maplibregl.Marker({
-      color,
+      color
     });
-
+    marker.getElement().id = `pointer-${event.id}`;
     marker.addClassName("cursor-pointer");
     const popup = createPopUpForPointer({
       url: ``, // TODO: pass in event webpage URL
       organization: "Organization", // TODO: pass in event's organization name
       datetime: "Date & Time", // TODO: pass in event's date and time information
       attendLabel,
-      eventType:event.type,
-      location:event.location.split(",")
-      .slice(0, 3)
-      .join(", "),
-      name:event.name,
+      eventType: event.type,
+      location: event.location.split(",").slice(0, 3).join(", "),
+      name: event.name,
     });
     marker
       .setLngLat([parseFloat(latitude.lon), parseFloat(latitude.lat)])
@@ -48,7 +47,7 @@ export const usePointerMap = () => {
   };
   const createMapForMarkerTypeMap = (
     map: maplibregl.Map,
-    event: { name: string; location: Location; type: EventType },
+    event: { name: string; location: Location; type: EventType, id: string },
     isTouchDevice: boolean,
     selectedRoute: RouteProfile | undefined,
     attendLabel: string,
@@ -104,6 +103,7 @@ export const usePointerMap = () => {
         type: event.type,
         location: event.location.displayName,
         name: event.name,
+        id: event.id,
       }
     ).addTo(map);
 

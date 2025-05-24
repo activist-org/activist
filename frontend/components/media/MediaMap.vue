@@ -26,6 +26,7 @@ const props = defineProps<{
   eventLocations?: Location[];
   events?: Event[];
   type: MapType;
+  ids?: string[];
 }>();
 
 const { createMap, isWebglSupported, addDefaultControls } =
@@ -100,6 +101,7 @@ onMounted(() => {
           location: props.eventLocations
             ? props.eventLocations[0]
             : ({} as Location),
+          id: props.ids ? props.ids[0] : "",
         },
         isTouchDevice,
         setSelectedRoute(),

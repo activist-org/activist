@@ -67,6 +67,7 @@
           :eventNames="[event.name]"
           :eventTypes="[event.type]"
           :eventLocations="[event.offlineLocation]"
+          :ids="[event.id]"
           :type="MapType.POINT"
         />
       </div>

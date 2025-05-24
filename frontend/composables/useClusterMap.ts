@@ -97,6 +97,45 @@ export const useClusterMap = () => {
     ].join(" ");
   };
 
+  const createPopUpForCluster = (opts: {
+    learnAmount: number;
+    actionAmount: number;
+  }) => {
+    return new maplibregl.Popup({
+      offset: 25,
+      maxWidth: "260px",
+    }).setDOMContent(buildExpandedTooltip(opts));
+  };
+
+  const buildExpandedTooltip = (opts: {
+    learnAmount: number;
+    actionAmount: number;
+  }) => {
+    const root = document.createElement("div");
+    root.className = "w-[220px] cursor-pointer font-sans";
+
+    const tooltipClass =
+      "overflow-hidden bg-white rounded-sm border-l-8 border-l";
+
+    root.innerHTML = `
+        <div class="${tooltipClass}">
+          <div class="px-3 py-1">
+            <h3 class="font-display text-base text-black font-bold mb-2 leading-tight">Events in this area:</h3>
+
+            <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
+              <span>Learn events:${opts.learnAmount}</span>
+            </div>
+
+            <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
+              <span>Action events:${opts.actionAmount}</span>
+            </div>
+          </div>
+        </div>
+    `;
+
+    return root;
+  };
+
   //TODO: REFACTOR THIS FUNCTION TO MAKE IT MORE READABLE
   const updateMarkers = (
     map: maplibregl.Map,
@@ -141,6 +180,7 @@ export const useClusterMap = () => {
                       type: leafProps.type,
                       location: leafProps.location,
                       name: leafProps.name,
+                      id,
                     }
                   ).setLngLat(leafCoords);
 
@@ -152,12 +192,20 @@ export const useClusterMap = () => {
             });
           } else {
             // Show cluster markers at low zoom.
+            const element = document.getElementById(`pointer-${id}`);
+            element?.remove();
             let marker = markers[id];
             if (!marker) {
               const el = createDonutChart(props);
+              const popUp = createPopUpForCluster({
+                learnAmount: props.learn || 0,
+                actionAmount: props.action || 0,
+              });
               marker = markers[id] = new maplibregl.Marker({
                 element: el,
-              }).setLngLat(coords);
+              })
+                .setLngLat(coords)
+                .setPopup(popUp);
             }
             newMarkers[id] = marker;
             if (!markersOnScreen[id]) {
@@ -167,17 +215,24 @@ export const useClusterMap = () => {
         } else {
           // Individual point handling.
           if (currentZoom < DECLUSTER_ZOOM) {
+            const element = document.getElementById(`pointer-${props.id}`);
+            element?.remove();
             if (!markersOnScreen[props.id]) {
               const el = createDonutChart({
                 ...props,
                 learn: props.type === "learn",
                 action: props.type === "action",
               });
+              const popUp = createPopUpForCluster({
+                learnAmount: +(props.type === "learn"),
+                actionAmount: +(props.type === "action"),
+              });
               const marker = new maplibregl.Marker({
                 element: el,
               })
                 .setLngLat(coords)
-                .setLngLat(coords);
+                .setLngLat(coords)
+                .setPopup(popUp);
 
               newMarkers[props.id] = marker;
               if (!markersOnScreen[props.id]) {
@@ -199,6 +254,7 @@ export const useClusterMap = () => {
                 type: props.type,
                 location: props.location,
                 name: props.name,
+                id: props.id,
               }
             ).setLngLat(coords);
             newMarkers[props.id] = marker;
@@ -364,7 +420,11 @@ export const useClusterMap = () => {
             map.setLayoutProperty("unclustered-points", "visibility", "none");
           } else {
             map.setLayoutProperty("clusters", "visibility", "none");
-            map.setLayoutProperty("unclustered-points", "visibility", "visible");
+            map.setLayoutProperty(
+              "unclustered-points",
+              "visibility",
+              "visible"
+            );
           }
 
           // Force re-render of markers.
