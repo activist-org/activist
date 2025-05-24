@@ -13,16 +13,17 @@
         <div class="flex-col">
           <div class="flex select-none items-center gap-3 text-primary-text">
             <p>{{ faqEntry.question }}</p>
-            <IconEdit @click.stop="openModal()" @keydown.enter="openModal()" />
+            <IconEdit
+              @click.stop="openModalEditFaqEntry()"
+              @keydown.enter="openModalEditFaqEntry()"
+            />
             <ModalEditFaqEntry
-              @closeModal="handleCloseModal"
               :faqEntry="faqEntry"
               :sectionsToEdit="[
                 $t('i18n.components.card_faq_entry.question'),
                 $t('i18n.components.card_faq_entry.answer'),
               ]"
               :textsToEdit="[faqEntry.question, faqEntry.answer]"
-              :isOpen="modalIsOpen"
             />
           </div>
           <DisclosurePanel
@@ -49,13 +50,6 @@ defineProps<{
   faqEntry: FaqEntry;
 }>();
 
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modalIsOpen.value = true;
-}
-
-const handleCloseModal = () => {
-  modalIsOpen.value = false;
-};
+const { openModal: openModalEditFaqEntry } =
+  useModalHandlers("ModalEditFaqEntry");
 </script>

@@ -24,6 +24,7 @@ from communities.organizations.factories import (
     OrganizationTextFactory,
 )
 from communities.organizations.models import Organization
+from content.factories import FaqFactory
 from content.models import Topic
 from events.factories import EventFactory, EventSocialLinkFactory, EventTextFactory
 from events.models import Event
@@ -146,6 +147,10 @@ class Command(BaseCommand):
                         user_org_event.texts.set([event_texts])
                         user_org_event.social_links.set(event_social_links)
 
+                        for f in range(num_faq_entries_per_entity):
+                            user_org_event_faq = FaqFactory()
+                            user_org_event.faqs.add(user_org_event_faq)
+
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
                             created_by=user,
@@ -164,6 +169,13 @@ class Command(BaseCommand):
 
                         user_org_group.texts.set([group_texts])
                         user_org_group.social_links.set(group_social_links)
+                        for f in range(num_faq_entries_per_entity):
+                            user_org_group_faq = FaqFactory()
+                            user_org_group.faqs.add(user_org_group_faq)
+
+                    for f in range(num_faq_entries_per_entity):
+                        user_org_faq = FaqFactory()
+                        user_org.faqs.add(user_org_faq)
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org
