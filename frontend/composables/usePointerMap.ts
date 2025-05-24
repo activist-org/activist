@@ -56,30 +56,6 @@ export const usePointerMap = () => {
 
     map.addControl(navigationControl, "top-right");
 
-    // Add localized tooltips for NavigationControl buttons.
-    const zoomInButton: HTMLElement | null = map
-      .getContainer()
-      .querySelector(".maplibregl-ctrl-zoom-in");
-    if (zoomInButton) {
-      zoomInButton.title = i18n.t("i18n.composables.use_pointer_map.zoom_in");
-    }
-
-    const zoomOutButton: HTMLElement | null = map
-      .getContainer()
-      .querySelector(".maplibregl-ctrl-zoom-out");
-    if (zoomOutButton) {
-      zoomOutButton.title = i18n.t("i18n.composables.use_pointer_map.zoom_out");
-    }
-
-    const compassButton: HTMLElement | null = map
-      .getContainer()
-      .querySelector(".maplibregl-ctrl-compass");
-    if (compassButton) {
-      compassButton.title = i18n.t(
-        "i18n.composables.use_pointer_map.reset_north"
-      );
-    }
-
     // Localize GeolocateControl.
     const geoLocateControl = createGeoLocateControl();
     map.addControl(geoLocateControl);

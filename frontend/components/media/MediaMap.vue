@@ -28,7 +28,7 @@ const props = defineProps<{
   type: MapType;
 }>();
 
-const { createMap, isWebglSupported, createFullScreenControl, createPopUp } =
+const { createMap, isWebglSupported, addDefaultControls, createPopUp } =
   useMap();
 
 const { createMapForClusterTypeMap } = useClusterMap();
@@ -87,19 +87,10 @@ onMounted(() => {
   if (!isWebglSupported()) {
     alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
+
     const map = createMap(mapLayers);
+    addDefaultControls(map);
 
-    // MARK: Basic Controls
-
-    // Localize FullscreenControl
-    const fullscreenControl = createFullScreenControl();
-    map.addControl(fullscreenControl);
-
-    const fullscreenButton: HTMLElement | null = map
-      .getContainer()
-      .querySelector(".maplibregl-ctrl-fullscreen");
-    if (fullscreenButton)
-      fullscreenButton.title = i18n.t("i18n.components.media_map.fullscreen");
     if (props.type === MapType.POINT) {
       const eventType = props.eventTypes ? props.eventTypes[0] : "learn";
       const popup = createPopUp({

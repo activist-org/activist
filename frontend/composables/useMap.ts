@@ -2,7 +2,7 @@
 
 import maplibregl, { type LayerSpecification } from "maplibre-gl";
 
-import type {  EventType } from "~/types/events/event";
+import type { EventType } from "~/types/events/event";
 
 import { useClusterMap } from "./useClusterMap";
 import { usePointerMap } from "./usePointerMap";
@@ -13,6 +13,7 @@ const locationIcon = `/icons/map/tooltip_location.png`;
 export const useMap = () => {
   const { createMapForMarkerTypeMap } = usePointerMap();
   const { createMapForClusterTypeMap } = useClusterMap();
+  const i18n = useI18n();
   function buildExpandedTooltip(opts: {
     name: string;
     url: string;
@@ -80,6 +81,46 @@ export const useMap = () => {
     // WebGL not supported.
     return false;
   }
+
+  const addDefaultControls = (map: maplibregl.Map) => {
+    // MARK: Basic Controls
+
+    // Localize FullscreenControl
+    const fullscreenControl = createFullScreenControl();
+    map.addControl(fullscreenControl);
+
+    const fullscreenButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-fullscreen");
+    // Add localized tooltips for NavigationControl buttons.
+    const zoomInButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-zoom-in");
+    if (zoomInButton) {
+      zoomInButton.title = i18n.t("i18n.composables.use_map.zoom_in");
+    }
+
+    const zoomOutButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-zoom-out");
+    if (zoomOutButton) {
+      zoomOutButton.title = i18n.t("i18n.composables.use_map.zoom_out");
+    }
+
+    const compassButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-compass");
+    if (compassButton) {
+      compassButton.title = i18n.t("i18n.composables.use_map.reset_north");
+    }
+    const navigationControl = new maplibregl.NavigationControl({
+      visualizePitch: true,
+    });
+    map.addControl(navigationControl);
+
+    if (fullscreenButton)
+      fullscreenButton.title = i18n.t("i18n.composables.use_map.fullscreen");
+  };
 
   const createMap = (mapLayers: LayerSpecification[]) => {
     const map = new maplibregl.Map({
@@ -169,5 +210,6 @@ export const useMap = () => {
     createPopUp,
     createMapForMarkerTypeMap,
     createMapForClusterTypeMap,
+    addDefaultControls,
   };
 };
