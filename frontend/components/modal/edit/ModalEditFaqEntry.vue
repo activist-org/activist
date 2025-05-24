@@ -40,6 +40,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Group, GroupFaqEntry } from "~/types/communities/group";
+import type {
+  Organization,
+  OrganizationFaqEntry,
+} from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
 
 const props = defineProps<{
@@ -47,6 +52,7 @@ const props = defineProps<{
   faqEntry: FaqEntry;
   sectionsToEdit: string[];
   textsToEdit: string[];
+  pageType: "organization" | "group" | "event" | "other";
 }>();
 
 const i18n = useI18n();
@@ -67,4 +73,100 @@ const translatedTexts = computed(() => {
 });
 
 const modalName = "ModalEditFaqEntry";
+const { handleCloseModal } = useModalHandlers(modalName);
+
+const paramsOrgId = useRoute().params.orgId;
+const paramsGroupId = useRoute().params.groupId;
+// const paramsEventId = useRoute().params.eventId;
+
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+// const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+
+const organizationStore = useOrganizationStore();
+const groupStore = useGroupStore();
+// const eventStore = useEventStore();
+
+let organization: Organization;
+let group: Group;
+// let event: Event;
+
+const defaultFaqEntries: FaqEntry[] = [
+  {
+    id: "",
+    answer: "",
+    question: "",
+  },
+];
+
+const formData = ref<FaqEntry[]>([
+  {
+    id: "",
+    answer: "",
+    question: "",
+  },
+]);
+
+const faqEntriesRef = ref<
+  OrganizationFaqEntry[] | GroupFaqEntry[] | FaqEntry[]
+  // OrganizationFaqEntry[] | GroupFaqEntry[] | EventFaqEntry[] | FaqEntry[]
+>();
+
+if (props.pageType == "organization") {
+  await organizationStore.fetchById(orgId);
+  organization = organizationStore.organization;
+  faqEntriesRef.value = organization.faqEntries;
+  console.log("organization", organization);
+} else if (props.pageType == "group") {
+  await groupStore.fetchById(groupId);
+  group = groupStore.group;
+  faqEntriesRef.value = group.faqEntries;
+}
+// else if (props.pageType == "event") {
+//   await eventStore.fetchById(eventId);
+//   event = eventStore.event;
+//   faqEntriesRef.value = event.faqEntries;
+// }
+else {
+  faqEntriesRef.value = defaultFaqEntries;
+}
+
+function mapFaqEntriesToFormData() {
+  formData.value =
+    faqEntriesRef.value
+      ?.filter(
+        (faq) => faq.answer?.trim() !== "" && faq.question?.trim() !== ""
+      )
+      ?.map((faq) => ({
+        id: faq.id,
+        answer: faq.answer,
+        question: faq.question,
+      })) || [];
+}
+
+onMounted(() => {
+  mapFaqEntriesToFormData();
+});
+
+async function handleSubmit() {
+  // Sync formData with faqEntriesRef.
+  mapFaqEntriesToFormData();
+
+  let updateResponse = false;
+  if (props.pageType === "organization") {
+    updateResponse = await organizationStore.updateFaqEntries(
+      organization,
+      formData.value
+    );
+  } else if (props.pageType === "group") {
+    updateResponse = await groupStore.updateFaqEntries(group, formData.value);
+  }
+  // else if (props.pageType === "event") {
+  //   updateResponse = await eventStore.updateFaqEntries(event, formData.value);
+  // }
+
+  if (updateResponse) {
+    handleCloseModal();
+  }
+}
 </script>

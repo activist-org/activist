@@ -6,6 +6,7 @@ import type {
   GroupsResponseBody,
   GroupUpdateTextFormData,
 } from "~/types/communities/group";
+import type { FaqEntry } from "~/types/content/faq-entry";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
 interface GroupStore {
@@ -45,7 +46,7 @@ export const useGroupStore = defineStore("group", {
       socialLinks: [],
       creationDate: "",
 
-      faqEntries: [""],
+      faqEntries: [],
 
       texts: {
         id: 0,
@@ -261,6 +262,53 @@ export const useGroupStore = defineStore("group", {
       const responseSocialLinksData = responseSocialLinks.data
         .value as unknown as Group;
       if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates, to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ Entries
+
+    async updateFaqEntries(group: Group, formData: FaqEntry[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      // Endpoint needs socialLink id's but they are not available here.
+      // 'update()' in the viewset 'class GroupSocialLinkViewSet' handles this
+      // by using the group.id from the end of the URL.
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_social_links/${group.id}/`,
+        {
+          method: "PUT",
+          // Send entire formData array/dict in order to make a single API request.
+          body: JSON.stringify(
+            formData.map((data) => ({
+              question: data.question,
+              answer: data.answer,
+            }))
+          ),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Group;
+      if (responseFaqEntriesData) {
         responses.push(true);
       } else {
         responses.push(false);

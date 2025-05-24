@@ -24,6 +24,7 @@
                 $t('i18n.components.card_faq_entry.answer'),
               ]"
               :textsToEdit="[faqEntry.question, faqEntry.answer]"
+              :pageType="props.pageType"
             />
           </div>
           <DisclosurePanel
@@ -46,8 +47,10 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
+const props = defineProps<{
   faqEntry: FaqEntry;
+  pageType: "organization" | "group" | "other";
+  // pageType: "organization" | "group" | "event" | "other";
 }>();
 
 const { openModal: openModalEditFaqEntry } =
