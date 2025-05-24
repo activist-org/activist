@@ -28,7 +28,7 @@ const props = defineProps<{
   type: MapType;
 }>();
 
-const { createMap, isWebglSupported, addDefaultControls, createPopUp } =
+const { createMap, isWebglSupported, addDefaultControls } =
   useMap();
 
 const { createMapForClusterTypeMap } = useClusterMap();

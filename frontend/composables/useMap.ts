@@ -74,6 +74,7 @@ export const useMap = () => {
       container: "map",
       style: {
         version: 8,
+        glyphs: "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
         sources: {
           "raster-tiles": {
             type: "raster",

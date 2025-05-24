@@ -96,6 +96,8 @@ export const useClusterMap = () => {
       `" fill="${color}" />`,
     ].join(" ");
   };
+
+  //TODO: REFACTOR THIS FUNCTION TO MAKE IT MORE READABLE
   const updateMarkers = (
     map: maplibregl.Map,
     markers: { [key: string]: maplibregl.Marker },
@@ -286,12 +288,7 @@ export const useClusterMap = () => {
         id: "clusters",
         type: "circle",
         source: "events",
-        filter: [
-          "all",
-          ["==", "cluster", true],
-          [">=", "point_count", 1],
-          ["<", ["zoom"], DECLUSTER_ZOOM],
-        ],
+        filter: ["all", ["==", "cluster", true], [">=", "point_count", "1"]],
         paint: {
           "circle-color": [
             "step",
@@ -319,18 +316,14 @@ export const useClusterMap = () => {
         id: "cluster-count",
         type: "symbol",
         source: "events",
-        filter: [
-          "all",
-          ["==", "cluster", true],
-          [">=", "point_count", 1],
-          [">=", ["zoom"], 12],
-        ], // TODO: <-- here
+        filter: ["all", ["==", "cluster", true], [">=", "point_count", "1"]],
         layout: {
           "text-field": "{point_count_abbreviated}",
-          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-font": ["Open Sans Semibold"],
           "text-size": 12,
         },
       });
+
       if (features.length > 0) {
         const bounds = features.reduce(
           (acc, feature) =>
@@ -363,23 +356,16 @@ export const useClusterMap = () => {
           return;
         }
 
-        map.on("zoomend", () => {
+        map.on("zoomed", () => {
           const currentZoom = map.getZoom();
 
-          // Adjust cluster visibility.
-          map.setFilter("clusters", [
-            "all",
-            ["==", "cluster", true],
-            [">", "point_count", 1],
-            ["<", currentZoom, 9],
-          ]);
-
-          // Adjust individual points visibility.
-          map.setFilter("unclustered-points", [
-            "all",
-            ["!=", "cluster", true],
-            [">=", currentZoom, DECLUSTER_ZOOM],
-          ]);
+          if (currentZoom < DECLUSTER_ZOOM) {
+            map.setLayoutProperty("clusters", "visibility", "visible");
+            map.setLayoutProperty("unclustered-points", "visibility", "none");
+          } else {
+            map.setLayoutProperty("clusters", "visibility", "none");
+            map.setLayoutProperty("unclustered-points", "visibility", "visible");
+          }
 
           // Force re-render of markers.
           const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
