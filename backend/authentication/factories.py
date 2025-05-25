@@ -63,7 +63,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     username = factory.Faker("user_name")
     name = factory.Faker("name")
     location = factory.Faker("city")  # users just have a string location
-    description = factory.Faker("text", max_nb_chars=500)
+    description = factory.Faker(provider="text", locale="la", max_nb_chars=500)
     verified = factory.Faker("boolean")
     verification_method = factory.Faker("word")
     verification_code = factory.Faker("uuid4")

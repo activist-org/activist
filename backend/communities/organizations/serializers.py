@@ -17,7 +17,12 @@ from communities.organizations.models import (
     OrganizationTask,
     OrganizationText,
 )
-from content.serializers import ImageSerializer, LocationSerializer, ResourceSerializer
+from content.serializers import (
+    FaqSerializer,
+    ImageSerializer,
+    LocationSerializer,
+    ResourceSerializer,
+)
 from events.serializers import EventSerializer
 
 # MARK: Organization
@@ -56,6 +61,8 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     resources = ResourceSerializer(many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
     events = EventSerializer(many=True, read_only=True)
+    faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
+
     icon_url = ImageSerializer(required=False)
 
     class Meta:
