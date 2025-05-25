@@ -69,9 +69,9 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     social_links = OrganizationSocialLinkSerializer(many=True, read_only=True)
     location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
+    faq_entries = OrganizationFaqSerializer(source="faqs", many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
     events = EventSerializer(many=True, read_only=True)
-    faqEntries = OrganizationFaqSerializer(source="faqs", many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
 

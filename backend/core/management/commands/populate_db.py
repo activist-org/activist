@@ -153,7 +153,7 @@ class Command(BaseCommand):
                         user_org_event.texts.set([event_texts])
                         user_org_event.social_links.set(event_social_links)
 
-                        for f in range(num_faq_entries_per_entity):
+                        for _ in range(num_faq_entries_per_entity):
                             user_org_event_faq = EventFaqFactory()
                             user_org_event.faqs.add(user_org_event_faq)
 
@@ -175,11 +175,11 @@ class Command(BaseCommand):
 
                         user_org_group.texts.set([group_texts])
                         user_org_group.social_links.set(group_social_links)
-                        for f in range(num_faq_entries_per_entity):
+                        for _ in range(num_faq_entries_per_entity):
                             user_org_group_faq = GroupFaqFactory()
                             user_org_group.faqs.add(user_org_group_faq)
 
-                    for f in range(num_faq_entries_per_entity):
+                    for _ in range(num_faq_entries_per_entity):
                         user_org_faq = OrganizationFaqFactory()
                         user_org.faqs.add(user_org_faq)
 

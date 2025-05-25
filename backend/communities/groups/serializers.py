@@ -98,10 +98,9 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     social_links = GroupSocialLinkSerializer(many=True, read_only=True)
     location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
+    faq_entries = GroupFaqSerializer(source="faqs", many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
-
-    faqEntries = GroupFaqSerializer(source="faqs", many=True, read_only=True)
 
     class Meta:
         model = Group
