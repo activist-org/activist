@@ -127,6 +127,7 @@ class OrganizationSocialLinkFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
+
 class OrganizationFaqFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating Faq model instances.
@@ -140,6 +141,7 @@ class OrganizationFaqFactory(factory.django.DjangoModelFactory):
     question = factory.Faker(provider="text", locale="la")
     answer = factory.Faker(provider="text", locale="la")
     order = factory.Faker("random_int", min=1, max=100)
+
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):
     """

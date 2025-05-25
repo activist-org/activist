@@ -39,6 +39,7 @@ class OrganizationSocialLinkSerializer(
         model = OrganizationSocialLink
         fields = "__all__"
 
+
 class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
     """
     Serializer for OrganizationFaq model data.
@@ -47,6 +48,7 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
     class Meta:
         model = OrganizationFaq
         fields = "__all__"
+
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
     """

@@ -342,7 +342,8 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
                 {"error": f"Failed to update social links: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        
+
+
 class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
     queryset = OrganizationFaq.objects.all()
     serializer_class = OrganizationFaqSerializer
@@ -370,14 +371,15 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
                 faq.answer = data.get("answer", faq.answer)
                 faq.save()
 
-            return Response({"message": "FAQ updated successfully."}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+            )
 
         except Exception as e:
             return Response(
                 {"error": f"Failed to update faqs: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
 
 
 class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):

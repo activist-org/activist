@@ -41,7 +41,7 @@ class Group(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
-    
+
     events = models.ManyToManyField("events.Event", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
 
@@ -94,6 +94,7 @@ class GroupSocialLink(SocialLink):
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
+
 
 class GroupFaq(Faq):
     """

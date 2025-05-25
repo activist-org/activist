@@ -152,6 +152,7 @@ class EventSocialLinkFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
+
 class EventFaqFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating Faq model instances.

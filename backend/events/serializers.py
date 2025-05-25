@@ -33,6 +33,7 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
         model = EventSocialLink
         fields = "__all__"
 
+
 class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
     """
     Serializer for EventFaq model data.

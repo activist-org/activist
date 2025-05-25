@@ -235,6 +235,7 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+
 class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
     queryset = EventFaq.objects.all()
     serializer_class = EventFaqSerializer
@@ -262,7 +263,9 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
                 faq.answer = data.get("answer", faq.answer)
                 faq.save()
 
-            return Response({"message": "FAQ updated successfully."}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+            )
 
         except Exception as e:
             return Response(

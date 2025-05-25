@@ -87,6 +87,7 @@ class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
+
 class GroupFaqFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating Faq model instances.

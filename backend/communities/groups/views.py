@@ -241,6 +241,7 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+
 class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
     queryset = GroupFaq.objects.all()
     serializer_class = GroupFaqSerializer
@@ -268,7 +269,9 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
                 faq.answer = data.get("answer", faq.answer)
                 faq.save()
 
-            return Response({"message": "FAQ updated successfully."}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+            )
 
         except Exception as e:
             return Response(

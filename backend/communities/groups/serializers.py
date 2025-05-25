@@ -31,6 +31,7 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
         model = GroupSocialLink
         fields = "__all__"
 
+
 class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
     """
     Serializer for GroupFaq model data.
@@ -99,7 +100,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     resources = ResourceSerializer(many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
-    
+
     faqEntries = GroupFaqSerializer(source="faqs", many=True, read_only=True)
 
     class Meta:

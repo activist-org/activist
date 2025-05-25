@@ -49,7 +49,7 @@ class Organization(models.Model):
     deletion_date = models.DateTimeField(blank=True, null=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
-    
+
     resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
 
@@ -132,6 +132,7 @@ class OrganizationSocialLink(SocialLink):
         Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
+
 class OrganizationFaq(Faq):
     """
     Class for adding faq parameters to organizations.
@@ -140,6 +141,7 @@ class OrganizationFaq(Faq):
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="faqs"
     )
+
 
 class OrganizationTask(models.Model):
     """

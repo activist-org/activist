@@ -149,6 +149,7 @@ class EventSocialLink(SocialLink):
         Event, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
+
 class EventFaq(Faq):
     """
     Class for adding faq parameters to events.
