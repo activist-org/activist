@@ -10,7 +10,12 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from communities.organizations.models import Organization
-from content.serializers import ImageSerializer, LocationSerializer, ResourceSerializer
+from content.serializers import (
+    FaqSerializer,
+    ImageSerializer,
+    LocationSerializer,
+    ResourceSerializer,
+)
 from events.models import Event, EventSocialLink, EventText, Format
 from utils.utils import (
     validate_creation_and_deprecation_dates,
@@ -94,6 +99,8 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     offline_location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)
+    faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
+
     icon_url = ImageSerializer(required=False)
 
     class Meta:

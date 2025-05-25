@@ -11,7 +11,9 @@
           <Icon v-else :name="IconMap.CHEVRON_DOWN" />
         </div>
         <div class="flex-col">
-          <div class="flex select-none items-center gap-3 text-primary-text">
+          <div
+            class="flex select-text items-center gap-3 text-left text-primary-text"
+          >
             <p>{{ faqEntry.question }}</p>
             <IconEdit
               @click.stop="
