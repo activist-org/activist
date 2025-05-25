@@ -16,7 +16,7 @@ const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
 export const usePointerMap = () => {
-  const { addDirectionsLayer } = useRouting();
+  const { addDirectionsLayer, setSelectedRoute,resetDirectionsControl } = useRouting();
   const createPointerMarker = (
     color: string,
     latitude: { lon: string; lat: string },
@@ -58,13 +58,11 @@ export const usePointerMap = () => {
     }
     return marker;
   };
-  const createMapForMarkerTypeMap = (
+  const createMapForPointerTypeMap = (
     map: maplibregl.Map,
     event: { name: string; location: Location; type: EventType; id: string },
     isTouchDevice: boolean,
-    selectedRoute: RouteProfile | undefined,
-    attendLabel: string,
-    fn?: () => void
+    attendLabel: string
   ) => {
     map.fitBounds(
       [
@@ -83,6 +81,7 @@ export const usePointerMap = () => {
       }
     );
 
+    const selectedRoute = setSelectedRoute();
     map.on("load", () => {
       const layers = layersFactory(
         isTouchDevice ? 1.5 : 1,
@@ -107,11 +106,7 @@ export const usePointerMap = () => {
         directions
       ).addTo(map);
 
-      // MARK: Directions Layer
-
-      if (fn) {
-        fn();
-      }
+      resetDirectionsControl();
     });
   };
 
@@ -200,7 +195,7 @@ export const usePointerMap = () => {
 
   return {
     createPointerMarker,
-    createMapForMarkerTypeMap,
+    createMapForPointerTypeMap,
   };
 };
 export default usePointerMap;

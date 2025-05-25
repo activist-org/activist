@@ -16,7 +16,7 @@ import { useRouting } from "./useRoutingMap";
 export const useClusterMap = () => {
   const i18n = useI18n();
   const { createPointerMarker } = usePointerMap();
-  const { addDirectionsLayer } = useRouting();
+  const { addDirectionsLayer, setSelectedRoute, resetDirectionsControl } = useRouting();
   const DECLUSTER_ZOOM = 8;
   const createDonutChart = (props: GeoJsonProperties) => {
     if (!props) {
@@ -315,9 +315,8 @@ export const useClusterMap = () => {
     map: maplibregl.Map,
     events: Event[],
     isTouchDevice: boolean,
-    selectedRoute: RouteProfile | undefined,
-    fn?: () => void
   ) => {
+    const selectedRoute = setSelectedRoute()
     map.on("load", () => {
       // Cleanup existing sources/layers.
       if (map.getSource("events")) {
@@ -424,6 +423,7 @@ export const useClusterMap = () => {
         isTouchDevice ? 1.5 : 1,
         isTouchDevice ? 2 : 1
       );
+
       // Add arrow to directions layer.
       const directions = addDirectionsLayer(
         map,
@@ -514,9 +514,7 @@ export const useClusterMap = () => {
           directions
         );
         markersOnScreen = newMarkersOnScreen;
-        if (fn) {
-          fn();
-        }
+        resetDirectionsControl();
       });
     });
   };

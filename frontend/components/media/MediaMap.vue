@@ -32,7 +32,7 @@ const props = defineProps<{
 const { createMap, isWebglSupported, addDefaultControls } = useMap();
 
 const { createMapForClusterTypeMap } = useClusterMap();
-const { createMapForMarkerTypeMap } = usePointerMap();
+const { createMapForPointerTypeMap } = usePointerMap();
 
 // MARK: Map Tooltip Helper
 
@@ -40,7 +40,7 @@ const { createMapForMarkerTypeMap } = usePointerMap();
 
 const i18n = useI18n();
 const colorMode = useColorMode();
-const { setSelectedRoute, resetDirectionsControl } = useRouting();
+const { resetDirectionsControl } = useRouting();
 
 const attendLabelKey = "i18n.components._global.attend";
 const attendLabel = i18n.t(attendLabelKey) as string;
@@ -91,7 +91,7 @@ onMounted(() => {
     addDefaultControls(map);
 
     if (props.type === MapType.POINT) {
-      createMapForMarkerTypeMap(
+      createMapForPointerTypeMap(
         map,
         {
           name: props.eventNames ? props.eventNames[0] : "",
@@ -102,19 +102,14 @@ onMounted(() => {
           id: props.ids ? props.ids[0] : "",
         },
         isTouchDevice,
-        setSelectedRoute(),
-        attendLabel,
-        resetDirectionsControl
+        attendLabel
       );
     }
     if (props.type === MapType.CLUSTER)
       createMapForClusterTypeMap(
         map,
         props.events || [],
-        isTouchDevice,
-
-        setSelectedRoute(),
-        resetDirectionsControl
+        isTouchDevice
       );
   }
 });

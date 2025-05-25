@@ -6,7 +6,7 @@ import { useClusterMap } from "./useClusterMap";
 import { usePointerMap } from "./usePointerMap";
 
 export const useMap = () => {
-  const { createMapForMarkerTypeMap } = usePointerMap();
+  const { createMapForPointerTypeMap } = usePointerMap();
   const { createMapForClusterTypeMap } = useClusterMap();
   const i18n = useI18n();
 
@@ -154,7 +154,7 @@ export const useMap = () => {
     isWebglSupported,
     createMap,
     createFullScreenControl,
-    createMapForMarkerTypeMap,
+    createMapForPointerTypeMap,
     createMapForClusterTypeMap,
     addDefaultControls,
   };
