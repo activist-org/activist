@@ -59,10 +59,6 @@ export interface OrganizationSocialLink extends SocialLink {
   orgId: string;
 }
 
-export interface OrganizationFaqEntry extends FaqEntry {
-  orgId: string;
-}
-
 export interface OrganizationText {
   id: number;
   orgId: string;
