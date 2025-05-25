@@ -90,8 +90,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     resources = ResourceSerializer(many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
-    
-    faqEntries = FaqSerializer(source="faqs", many=True, read_only=True)
+    faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
 
     class Meta:
         model = Group
