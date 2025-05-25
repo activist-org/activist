@@ -29,8 +29,7 @@ const props = defineProps<{
   ids?: string[];
 }>();
 
-const { createMap, isWebglSupported, addDefaultControls } =
-  useMap();
+const { createMap, isWebglSupported, addDefaultControls } = useMap();
 
 const { createMapForClusterTypeMap } = useClusterMap();
 const { createMapForMarkerTypeMap } = usePointerMap();
@@ -88,7 +87,6 @@ onMounted(() => {
   if (!isWebglSupported()) {
     alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
-
     const map = createMap(mapLayers);
     addDefaultControls(map);
 
@@ -110,7 +108,14 @@ onMounted(() => {
       );
     }
     if (props.type === MapType.CLUSTER)
-      createMapForClusterTypeMap(map, props.events || []);
+      createMapForClusterTypeMap(
+        map,
+        props.events || [],
+        isTouchDevice,
+
+        setSelectedRoute(),
+        resetDirectionsControl
+      );
   }
 });
 </script>

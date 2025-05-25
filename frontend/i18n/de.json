@@ -254,7 +254,7 @@
   "i18n.composables.use_routing_map.change_profile": "Profil [p] ändern",
   "i18n.composables.use_routing_map.clear_directions": "Richtungen löschen",
   "i18n.composables.use_map.fullscreen": "Vollbild",
-  "i18n.composables.use_pointer_map.geolocate": "Geolokalisieren",
+  "i18n.composables.use_map.geolocate": "Geolokalisieren",
   "i18n.components.media_map.maplibre_gl_alert": "Ihr Browser unterstützt unseren Kartendienst MapLibre GL nicht, so dass wir keine Karten anzeigen können.",
   "i18n.composables.use_map.reset_north": "Zurücksetzen",
   "i18n.composables.use_map.zoom_in": "Vergrößern",

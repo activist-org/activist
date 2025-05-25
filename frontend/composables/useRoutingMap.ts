@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type maplibregl from "maplibre-gl";
+import type maplibregl  from "maplibre-gl";
+import type { LayerSpecification } from "maplibre-gl";
 
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 
@@ -233,6 +234,45 @@ export const useRouting = () => {
     onRemove: function () {},
   };
 
+  const addDirectionsLayer = (
+    map: maplibregl.Map,
+    layers: LayerSpecification[],
+    selectedRoute: RouteProfile
+  ) => {
+    // Add arrow to directions layer.
+    layers.push({
+      id: "maplibre-gl-directions-route-line-direction-arrow",
+      type: "symbol",
+      source: "maplibre-gl-directions",
+      layout: {
+        "symbol-placement": "line-center",
+        "icon-image": "route-direction-arrow",
+        "icon-size": [
+          "interpolate",
+          ["exponential", 1.5],
+          ["zoom"],
+          12,
+          0.85,
+          18,
+          1.4,
+        ],
+      },
+      paint: {
+        "icon-opacity": 1,
+      },
+      filter: ["==", ["get", "route"], "SELECTED"],
+    });
+
+    const directions = new MapLibreGlDirections(map, {
+      ...selectedRoute,
+      requestOptions: {
+        alternatives: "true",
+      },
+      layers,
+    });
+    return directions;
+  };
+
   return {
     routeProfileHandler,
     setSelectedRoute,
@@ -246,5 +286,6 @@ export const useRouting = () => {
     routeProfileMap,
     directionControl,
     resetRouteProfileControl,
+    addDirectionsLayer
   };
 };

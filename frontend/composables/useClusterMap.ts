@@ -1,18 +1,22 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import type { Feature, GeoJsonProperties, Point } from "geojson";
 
+import { layersFactory } from "@maplibre/maplibre-gl-directions";
 import maplibregl from "maplibre-gl";
 
 import type { Event, EventType } from "~/types/events/event";
 
-import { colorByType } from "~/types/map";
+import { colorByType, type RouteProfile } from "~/types/map";
 
 import usePointerMap from "./usePointerMap";
+import { useRouting } from "./useRoutingMap";
 
 export const useClusterMap = () => {
   const i18n = useI18n();
   const { createPointerMarker } = usePointerMap();
+  const { addDirectionsLayer } = useRouting();
   const DECLUSTER_ZOOM = 8;
   const createDonutChart = (props: GeoJsonProperties) => {
     if (!props) {
@@ -167,7 +171,8 @@ export const useClusterMap = () => {
   const updateMarkers = (
     map: maplibregl.Map,
     markers: { [key: string]: maplibregl.Marker },
-    markersOnScreen: { [key: string]: maplibregl.Marker } = {}
+    markersOnScreen: { [key: string]: maplibregl.Marker } = {},
+    directions: MapLibreGlDirections
   ) => {
     const newMarkers: { [key: string]: maplibregl.Marker } = {};
     const features = map.querySourceFeatures("events");
@@ -208,7 +213,8 @@ export const useClusterMap = () => {
                       location: leafProps.location,
                       name: leafProps.name,
                       id,
-                    }
+                    },
+                    directions
                   ).setLngLat(leafCoords);
 
                   markers[markerId] = marker;
@@ -282,7 +288,8 @@ export const useClusterMap = () => {
                 location: props.location,
                 name: props.name,
                 id: props.id,
-              }
+              },
+              directions
             ).setLngLat(coords);
             newMarkers[props.id] = marker;
             if (!markersOnScreen[props.id]) {
@@ -304,7 +311,13 @@ export const useClusterMap = () => {
     };
   };
 
-  const createMapForClusterTypeMap = (map: maplibregl.Map, events: Event[]) => {
+  const createMapForClusterTypeMap = (
+    map: maplibregl.Map,
+    events: Event[],
+    isTouchDevice: boolean,
+    selectedRoute: RouteProfile | undefined,
+    fn?: () => void
+  ) => {
     map.on("load", () => {
       // Cleanup existing sources/layers.
       if (map.getSource("events")) {
@@ -407,6 +420,17 @@ export const useClusterMap = () => {
         },
       });
 
+      const layers = layersFactory(
+        isTouchDevice ? 1.5 : 1,
+        isTouchDevice ? 2 : 1
+      );
+      // Add arrow to directions layer.
+      const directions = addDirectionsLayer(
+        map,
+        layers,
+        selectedRoute as RouteProfile
+      );
+
       if (features.length > 0) {
         const bounds = features.reduce(
           (acc, feature) =>
@@ -458,7 +482,8 @@ export const useClusterMap = () => {
           const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
             map,
             markers,
-            markersOnScreen
+            markersOnScreen,
+            directions
           );
           markersOnScreen = newMarkersOnScreen;
         });
@@ -467,7 +492,8 @@ export const useClusterMap = () => {
           const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
             map,
             markers,
-            markersOnScreen
+            markersOnScreen,
+            directions
           );
           markersOnScreen = newMarkersOnScreen;
         });
@@ -476,11 +502,21 @@ export const useClusterMap = () => {
           const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
             map,
             markers,
-            markersOnScreen
+            markersOnScreen,
+            directions
           );
           markersOnScreen = newMarkersOnScreen;
         });
-        updateMarkers(map, markers, markersOnScreen);
+        const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+          map,
+          markers,
+          markersOnScreen,
+          directions
+        );
+        markersOnScreen = newMarkersOnScreen;
+        if (fn) {
+          fn();
+        }
       });
     });
   };

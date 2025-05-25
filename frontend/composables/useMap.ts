@@ -60,13 +60,47 @@ export const useMap = () => {
     if (compassButton) {
       compassButton.title = i18n.t("i18n.composables.use_map.reset_north");
     }
-    const navigationControl = new maplibregl.NavigationControl({
-      visualizePitch: true,
-    });
-    map.addControl(navigationControl);
 
     if (fullscreenButton)
       fullscreenButton.title = i18n.t("i18n.composables.use_map.fullscreen");
+    const navigationControl = createNavigationControl();
+
+    map.addControl(navigationControl, "top-right");
+
+    // Localize GeolocateControl.
+    const geoLocateControl = createGeoLocateControl();
+    map.addControl(geoLocateControl);
+
+    const geolocateButton: HTMLElement | null = map
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-geolocate");
+    if (geolocateButton) {
+      geolocateButton.title = i18n.t("i18n.composables.use_map.geolocate");
+    }
+
+    // Arrow icon for directions.
+    map
+      .loadImage("/icons/from_library/bootstrap_arrow_right.png")
+      .then((image) => {
+        if (image) {
+          map.addImage("route-direction-arrow", image.data);
+        }
+      });
+  };
+
+  const createNavigationControl = () => {
+    return new maplibregl.NavigationControl({
+      visualizePitch: true,
+    });
+  };
+
+  const createGeoLocateControl = () => {
+    return new maplibregl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
   };
 
   const createMap = (mapLayers: LayerSpecification[]) => {
@@ -115,7 +149,6 @@ export const useMap = () => {
   const createFullScreenControl = () => {
     return new maplibregl.FullscreenControl();
   };
-
 
   return {
     isWebglSupported,

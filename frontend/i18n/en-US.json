@@ -375,7 +375,7 @@
   "i18n.composables.use_menu_entries_state.groups": "Groups",
   "i18n.composables.use_menu_entries_state.tasks": "Tasks",
   "i18n.composables.use_menu_entries_state.team": "Team",
-  "i18n.composables.use_pointer_map.geolocate": "Geolocate",
+  "i18n.composables.use_map.geolocate": "Geolocate",
   "i18n.composables.use_routing_map.change_profile": "Change profile [p]",
   "i18n.composables.use_routing_map.clear_directions": "Clear directions",
   "i18n.composables.use_routing_map.clear_directions_tooltip": "Click to clear all directions from the map",
