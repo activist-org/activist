@@ -11,7 +11,9 @@ export const useRouting = () => {
   const bikeDirectionsIcon = `/icons/map/bike_directions.png`;
   const walkDirectionsIcon = `/icons/map/walk_directions.png`;
   let directions: MapLibreGlDirections;
-
+  let map: maplibregl.Map;
+  let marker: maplibregl.Marker;
+  let mapLayers: LayerSpecification[];
   interface RouteProfileOption {
     FOOT: string;
     BIKE: string;
@@ -76,8 +78,20 @@ export const useRouting = () => {
 
   let currentProfile = walkingRouteProfileControl;
 
+  const setMapLayers = (newMapLayers: LayerSpecification[]) => {
+    mapLayers = newMapLayers;
+  };
+
   const setDirections = (newDirections: MapLibreGlDirections) => {
     directions = newDirections;
+  };
+
+  const setMarker = (newMarker: maplibregl.Marker) => {
+    marker = newMarker;
+  };
+
+  const setMap = (newMap: maplibregl.Map) => {
+    map = newMap;
   };
 
   const mapProfile = (profile: string) => {
@@ -112,10 +126,7 @@ export const useRouting = () => {
     return selectedRoute;
   };
 
-  function resetRouteProfileControl(
-    map: maplibregl.Map,
-    marker: maplibregl.Marker
-  ) {
+  function resetRouteProfileControl() {
     const existingRouteProfileControl = document.getElementById(
       "route-profile-control"
     );
@@ -174,10 +185,7 @@ export const useRouting = () => {
     );
   }
 
-  function resetDirectionsControl(
-    map: maplibregl.Map,
-    marker: maplibregl.Marker
-  ) {
+  function resetDirectionsControl() {
     const existingDirectionControl =
       document.getElementById("directions-control");
     if (existingDirectionControl) {
@@ -186,28 +194,30 @@ export const useRouting = () => {
 
     const directionControl = {
       onAdd: function () {
-      const div = document.createElement("div");
-      div.className = "maplibregl-ctrl";
-      div.id = "directions-control";
+        const div = document.createElement("div");
+        div.className = "maplibregl-ctrl";
+        div.id = "directions-control";
 
-      let directionsControlLabel =
-        directions.waypoints.length == 0
-          ? i18n.t("i18n.composables.use_routing_map.click_for_directions")
-          : i18n.t("i18n.composables.use_routing_map.clear_directions");
+        let directionsControlLabel =
+          directions.waypoints.length == 0
+            ? i18n.t("i18n.composables.use_routing_map.click_for_directions")
+            : i18n.t("i18n.composables.use_routing_map.clear_directions");
 
-      const directionsControlTooltip =
-        directions.waypoints.length == 0
-          ? i18n.t(
-              "i18n.composables.use_routing_map.click_for_directions_tooltip"
-            )
-          : i18n.t("i18n.composables.use_routing_map.clear_directions_tooltip");
+        const directionsControlTooltip =
+          directions.waypoints.length == 0
+            ? i18n.t(
+                "i18n.composables.use_routing_map.click_for_directions_tooltip"
+              )
+            : i18n.t(
+                "i18n.composables.use_routing_map.clear_directions_tooltip"
+              );
 
-      // Add hotkey if we're above mobile and there are waypoints.
-      if (window.innerWidth >= 768 && directions.waypoints.length != 0) {
-        directionsControlLabel = directionsControlLabel += " [x]";
-      }
+        // Add hotkey if we're above mobile and there are waypoints.
+        if (window.innerWidth >= 768 && directions.waypoints.length != 0) {
+          directionsControlLabel = directionsControlLabel += " [x]";
+        }
 
-      const clearDirectionsBtn = `
+        const clearDirectionsBtn = `
         <div
           title="${directionsControlTooltip}"
           style="
@@ -223,25 +233,25 @@ export const useRouting = () => {
         </div>
       `;
 
-      div.innerHTML = clearDirectionsBtn;
-      div.addEventListener("click", () => directions.clear());
-      if (window.innerWidth < 768) {
-        div.addEventListener("touchend", () => directions.clear());
-      } else {
+        div.innerHTML = clearDirectionsBtn;
+        div.addEventListener("click", () => directions.clear());
+        if (window.innerWidth < 768) {
+          div.addEventListener("touchend", () => directions.clear());
+        } else {
           document.addEventListener("keydown", (event) => {
             if (event.key === "x") {
               directions.clear();
-              resetDirectionsControl(map, marker);
+              resetDirectionsControl();
             }
           });
         }
-      return div;
-    },
-    onRemove: function () {},
-  };
-
+        return div;
+      },
+      onRemove: function () {},
+    };
+    if (!map) return;
     map.addControl(directionControl, "top-left");
-    resetRouteProfileControl(map, marker);
+    resetRouteProfileControl();
   }
 
   const addDirectionsLayer = (
@@ -297,5 +307,8 @@ export const useRouting = () => {
     resetRouteProfileControl,
     addDirectionsLayer,
     setDirections,
+    setMarker,
+    setMap,
+    setMapLayers,
   };
 };

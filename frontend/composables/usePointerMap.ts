@@ -16,7 +16,7 @@ const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
 export const usePointerMap = () => {
-  const { addDirectionsLayer, setSelectedRoute, resetDirectionsControl,setDirections } =
+  const { addDirectionsLayer, setSelectedRoute, resetDirectionsControl,setDirections, setMap, setMarker } =
     useRouting();
   const createPointerMarker = (
     color: string,
@@ -107,8 +107,9 @@ export const usePointerMap = () => {
         },
         directions
       ).addTo(map);
-
-      resetDirectionsControl(map,marker);
+      setMap(map);
+      setMarker(marker);
+      resetDirectionsControl();
     });
   };
 
