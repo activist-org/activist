@@ -34,8 +34,8 @@
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
-import type { Event } from "~/types/events/event";
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { Event } from "~/types/events/event";
 
 const props = defineProps<{
   faqEntry: FaqEntry;
