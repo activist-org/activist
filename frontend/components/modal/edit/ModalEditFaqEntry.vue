@@ -4,7 +4,7 @@
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.card_faq_entry.question")
+          $t("i18n.components.modal_edit_faq_entry.question")
         }}</label>
         <textarea
           v-model="formData.question"
@@ -12,7 +12,7 @@
           class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />
         <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.card_faq_entry.answer")
+          $t("i18n.components.modal_edit_faq_entry.answer")
         }}</label>
         <textarea
           v-model="formData.answer"
