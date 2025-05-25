@@ -72,7 +72,7 @@ class FormatFactory(factory.django.DjangoModelFactory):
         model = Format
 
     name = factory.Faker("word")
-    description = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -95,7 +95,7 @@ class RoleFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     is_custom = factory.Faker("boolean")
-    description = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
