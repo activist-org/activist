@@ -4,7 +4,6 @@ import type { ContentImage } from "~/types/content/image";
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Event } from "~/types/events/event";
-import type { FaqEntry } from "../content/faq-entry";
 // MARK: Main Table
 
 interface OrganizationBase {

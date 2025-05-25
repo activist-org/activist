@@ -3,7 +3,6 @@
 import type { ContentImage } from "~/types/content/image";
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
-import type { FaqEntry } from "~/types/content/faq-entry";
 import type { Event } from "~/types/events/event";
 // MARK: Main Table
 
