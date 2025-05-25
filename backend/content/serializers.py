@@ -51,7 +51,7 @@ class FaqSerializer(serializers.ModelSerializer[Faq]):
 
     class Meta:
         model = Faq
-        fields = ["question", "answer"]
+        fields = "__all__"
 
 
 # MARK: Image
