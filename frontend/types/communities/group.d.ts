@@ -47,10 +47,6 @@ export interface GroupMember {
   isComms: boolean;
 }
 
-export interface GroupFaqEntry extends FaqEntry {
-  groupId: string;
-}
-
 export interface GroupSocialLink extends SocialLink {
   groupId: string;
 }
