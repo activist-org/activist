@@ -37,7 +37,6 @@ repos:
         entry: python ./pre_commit_scripts/mypy_static_type_check.py
         language: python
         types: [python]
-        pass_filenames: false
 
   - repo: local
     hooks:
@@ -51,25 +50,14 @@ repos:
         name: run prettier formatting check
         files: ^frontend/
         entry: python ./pre_commit_scripts/prettier_formatting_check.py
-        language: node
-        additional_dependencies: ["prettier@3.5.3", "prettier-plugin-tailwindcss@0.6.11"]
-        pass_filenames: false
+        language: python
 
       - id: eslint-lint-check
         name: run eslint static type check
         files: ^frontend/
         entry: python ./pre_commit_scripts/eslint_static_type_check.py
-        language: node
+        language: python
         types_or: [javascript, ts, tsx, jsx, vue]
-        additional_dependencies: [
-          "eslint@9.22.0",
-          "eslint-config-prettier@10.1.1",
-          "eslint-flat-config-utils@2.0.1",
-          "eslint-plugin-perfectionist@^4.10.1",
-          "eslint-plugin-vue@10.0.0",
-          "eslint-plugin-vuejs-accessibility@2.4.1"
-        ]
-        pass_filenames: false
 
   # Note: Disabled as it breaks on TOC links.
   # - repo: https://github.com/tcort/markdown-link-check
