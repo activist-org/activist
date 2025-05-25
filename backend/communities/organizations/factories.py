@@ -56,9 +56,9 @@ class OrganizationFlagFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OrganizationFlag
 
-    # flagged_org = factory.SubFactory(OrganizationFactory)
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    created_on = factory.LazyFunction(
+    org = factory.SubFactory(OrganizationFactory)
+    created_at = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 

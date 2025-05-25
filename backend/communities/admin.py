@@ -80,7 +80,7 @@ class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
 
     list_display = [
         "created_by",
-        "created_on",
+        "created_at",
     ]  # removed flagged_org as list_display cannot include a many-to-many field.
 
 
