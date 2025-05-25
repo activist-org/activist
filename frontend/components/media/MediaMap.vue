@@ -5,6 +5,7 @@
     class="card-style-base dark:brightness-95 dark:contrast-[90%] dark:hue-rotate-180 dark:invert"
   ></div>
 </template>
+
 <script setup lang="ts">
 import type { LayerSpecification } from "maplibre-gl";
 
@@ -34,11 +35,11 @@ const { createMapForPointerTypeMap } = usePointerMap();
 
 // MARK: Map Tooltip Helper
 
-//  Returns a <div> containing the whole card so we can pass it to popup.setDOMContent().
+// Returns a <div> containing the whole card so we can pass it to popup.setDOMContent().
 
 const i18n = useI18n();
 const colorMode = useColorMode();
-const { setMapLayers, resetDirectionsControl, setMap } = useRouting();
+const { setMapLayers, setMap } = useRouting();
 
 const attendLabelKey = "i18n.components._global.attend";
 const attendLabel = i18n.t(attendLabelKey) as string;
