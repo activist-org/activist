@@ -74,6 +74,7 @@ const useMenuEntriesState = () => {
       `${IconMap.PEOPLE}`
     ),
     createMenuEntry("i18n._global.resources", "events", `${IconMap.RESOURCE}`),
+    createMenuEntry("i18n._global.faq", "events", `${IconMap.FAQ}`),
     createMenuEntry(
       "i18n.composables.use_menu_entries_state.tasks",
       "events",

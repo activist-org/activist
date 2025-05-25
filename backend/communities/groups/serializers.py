@@ -15,7 +15,7 @@ from communities.groups.models import (
     GroupText,
 )
 from communities.organizations.models import Organization
-from content.serializers import LocationSerializer, ResourceSerializer
+from content.serializers import FaqSerializer, LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
 # MARK: Group
@@ -90,6 +90,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     resources = ResourceSerializer(many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
+    faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
 
     class Meta:
         model = Group

@@ -43,6 +43,7 @@ export const useEventStore = defineStore("event", {
 
       getInvolvedUrl: "",
       socialLinks: [],
+      faqEntries: [],
       startTime: "",
       endTime: "",
       creationDate: "",
@@ -130,6 +131,7 @@ export const useEventStore = defineStore("event", {
 
         this.event.getInvolvedUrl = event.getInvolvedUrl;
         this.event.socialLinks = event.socialLinks;
+        this.event.faqEntries = event.faqEntries;
         this.event.startTime = event.startTime;
         this.event.endTime = event.endTime;
         this.event.creationDate = event.creationDate;
@@ -166,6 +168,7 @@ export const useEventStore = defineStore("event", {
 
             getInvolvedUrl: event.getInvolvedUrl,
             socialLinks: event.socialLinks,
+            faqEntries: event.faqEntries,
             startTime: event.startTime,
             endTime: event.endTime,
             creationDate: event.creationDate,
