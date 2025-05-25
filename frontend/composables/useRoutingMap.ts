@@ -249,7 +249,9 @@ export const useRouting = () => {
       },
       onRemove: function () {},
     };
-    if (!map) return;
+    if (!map) {
+      return;
+    }
     map.addControl(directionControl, "top-left");
     resetRouteProfileControl();
   }

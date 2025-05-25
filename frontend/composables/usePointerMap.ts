@@ -65,6 +65,7 @@ export const usePointerMap = () => {
     }
     return marker;
   };
+
   const createMapForPointerTypeMap = (
     map: maplibregl.Map,
     event: { name: string; location: Location; type: EventType; id: string },

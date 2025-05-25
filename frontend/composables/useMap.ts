@@ -31,7 +31,7 @@ export const useMap = () => {
   const addDefaultControls = (map: maplibregl.Map) => {
     // MARK: Basic Controls
 
-    // Localize FullscreenControl
+    // Localize FullscreenControl.
     const fullscreenControl = createFullScreenControl();
     map.addControl(fullscreenControl);
 
@@ -60,8 +60,9 @@ export const useMap = () => {
       compassButton.title = i18n.t("i18n.composables.use_map.reset_north");
     }
 
-    if (fullscreenButton)
+    if (fullscreenButton) {
       fullscreenButton.title = i18n.t("i18n.composables.use_map.fullscreen");
+    }
     const navigationControl = createNavigationControl();
 
     map.addControl(navigationControl, "top-right");
