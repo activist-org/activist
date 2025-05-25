@@ -280,26 +280,21 @@ export const useGroupStore = defineStore("group", {
 
     // MARK: Update FAQ Entries
 
-    async updateFaqEntries(group: Group, formData: FaqEntry[]) {
+    async updateFaqEntry(group: Group, formData: FaqEntry) {
       this.loading = true;
       const responses: boolean[] = [];
 
       const token = localStorage.getItem("accessToken");
 
-      // Endpoint needs socialLink id's but they are not available here.
-      // 'update()' in the viewset 'class GroupSocialLinkViewSet' handles this
-      // by using the group.id from the end of the URL.
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/group_social_links/${group.id}/`,
+        `${BASE_BACKEND_URL}/communities/group_faqs/${group.id}/`,
         {
           method: "PUT",
-          // Send entire formData array/dict in order to make a single API request.
-          body: JSON.stringify(
-            formData.map((data) => ({
-              question: data.question,
-              answer: data.answer,
-            }))
-          ),
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
           headers: {
             Authorization: `Token ${token}`,
           },

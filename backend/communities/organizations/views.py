@@ -348,8 +348,8 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
     serializer_class = OrganizationFaqSerializer
 
     def update(self, request: Request, pk: UUID | str) -> Response:
-        organization = Organization.objects.filter(id=pk).first()
-        if not organization:
+        org = Organization.objects.filter(id=pk).first()
+        if not org:
             return Response(
                 {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
             )
@@ -361,23 +361,16 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                # Delete all existing faqs for this Organization.
-                OrganizationFaq.objects.filter(organization=organization).delete()
+                faq = OrganizationFaq.objects.filter(id=data.get("id")).first()
+                if not faq:
+                    return Response(
+                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+                    )
+                faq.question = data.get("question", faq.question)
+                faq.answer = data.get("answer", faq.answer)
+                faq.save()
 
-                # Create new faqs from the submitted data.
-                faqs: List[Dict[str, str]] = []
-                for link_data in data:
-                    if isinstance(link_data, dict):
-                        faq = OrganizationFaq.objects.create(
-                            organization=organization,
-                            question=link_data.get("question"),
-                            answer=link_data.get("answer"),
-                        )
-                        faqs.append(faq)
-
-            serializer = self.get_serializer(faqs, many=True)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({"message": "FAQ updated successfully."}, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response(

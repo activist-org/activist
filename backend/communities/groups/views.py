@@ -259,23 +259,16 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                # Delete all existing faqs for this group.
-                GroupFaq.objects.filter(group=group).delete()
+                faq = GroupFaq.objects.filter(id=data.get("id")).first()
+                if not faq:
+                    return Response(
+                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+                    )
+                faq.question = data.get("question", faq.question)
+                faq.answer = data.get("answer", faq.answer)
+                faq.save()
 
-                # Create new faqs from the submitted data.
-                faqs: List[Dict[str, str]] = []
-                for link_data in data:
-                    if isinstance(link_data, dict):
-                        faq = GroupFaq.objects.create(
-                            group=group,
-                            question=link_data.get("question"),
-                            answer=link_data.get("answer"),
-                        )
-                        faqs.append(faq)
-
-            serializer = self.get_serializer(faqs, many=True)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({"message": "FAQ updated successfully."}, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response(

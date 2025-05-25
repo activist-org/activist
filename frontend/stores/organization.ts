@@ -287,26 +287,21 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Update FAQ Entries
 
-    async updateFaqEntries(org: Organization, formData: FaqEntry[]) {
+    async updateFaqEntry(org: Organization, formData: FaqEntry) {
       this.loading = true;
       const responses: boolean[] = [];
 
       const token = localStorage.getItem("accessToken");
 
-      // Endpoint needs socialLink id's but they are not available here.
-      // 'update()' in the viewset 'class GroupSocialLinkViewSet' handles this
-      // by using the group.id from the end of the URL.
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organization_social_links/${org.id}/`,
+        `${BASE_BACKEND_URL}/communities/organization_faqs/${org.id}/`,
         {
           method: "PUT",
-          // Send entire formData array/dict in order to make a single API request.
-          body: JSON.stringify(
-            formData.map((data) => ({
-              question: data.question,
-              answer: data.answer,
-            }))
-          ),
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
           headers: {
             Authorization: `Token ${token}`,
           },
@@ -322,7 +317,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated group data after successful updates, to update the frontend.
+        // Fetch updated org data after successful updates, to update the frontend.
         await this.fetchById(org.id);
         this.loading = false;
         return true;

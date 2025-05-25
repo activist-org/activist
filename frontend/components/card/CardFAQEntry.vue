@@ -14,16 +14,19 @@
           <div class="flex select-none items-center gap-3 text-primary-text">
             <p>{{ faqEntry.question }}</p>
             <IconEdit
-              @click.stop="openModalEditFaqEntry()"
-              @keydown.enter="openModalEditFaqEntry()"
+              @click.stop="
+                useModalHandlers(
+                  'ModalEditFaqEntry' + props.faqEntry.id
+                ).openModal()
+              "
+              @keydown.enter="
+                useModalHandlers(
+                  'ModalEditFaqEntry' + props.faqEntry.id
+                ).openModal()
+              "
             />
             <ModalEditFaqEntry
               :faqEntry="faqEntry"
-              :sectionsToEdit="[
-                $t('i18n.components.card_faq_entry.question'),
-                $t('i18n.components.card_faq_entry.answer'),
-              ]"
-              :textsToEdit="[faqEntry.question, faqEntry.answer]"
               :pageType="props.pageType"
             />
           </div>
@@ -52,7 +55,4 @@ const props = defineProps<{
   pageType: "organization" | "group" | "other";
   // pageType: "organization" | "group" | "event" | "other";
 }>();
-
-const { openModal: openModalEditFaqEntry } =
-  useModalHandlers("ModalEditFaqEntry");
 </script>
