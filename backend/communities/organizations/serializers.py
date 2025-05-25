@@ -61,7 +61,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     resources = ResourceSerializer(many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
     events = EventSerializer(many=True, read_only=True)
-    faqEntries = FaqSerializer(source="faqs", many=True, read_only=True)
+    faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
 

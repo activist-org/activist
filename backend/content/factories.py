@@ -166,9 +166,9 @@ class FaqFactory(factory.django.DjangoModelFactory):
 
     iso = "en"
     primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
     order = factory.Faker("random_int", min=1, max=100)
-    answer = factory.Faker("text")
-    question = factory.Faker("text")
 
 
 class ImageFactory(factory.django.DjangoModelFactory):
@@ -199,7 +199,7 @@ class ResourceFactory(factory.django.DjangoModelFactory):
 
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("name")
-    description = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la")
     location = factory.SubFactory("content.factories.EntityLocationFactory")
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
@@ -221,7 +221,7 @@ class TaskFactory(factory.django.DjangoModelFactory):
         model = Task
 
     name = factory.Faker("word")
-    description = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -237,7 +237,7 @@ class TopicFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     active = factory.Faker("boolean")
-    description = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -253,8 +253,8 @@ class DiscussionFactory(factory.django.DjangoModelFactory):
         model = Discussion
 
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    title = factory.Faker("text")
-    category = factory.Faker("text")
+    title = factory.Faker(provider="text", locale="la")
+    category = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -270,7 +270,7 @@ class DiscussionEntryFactory(factory.django.DjangoModelFactory):
 
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     discussion = factory.SubFactory("content.factories.DiscussionFactory")
-    text = factory.Faker("text")
+    text = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
