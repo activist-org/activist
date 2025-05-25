@@ -29,15 +29,15 @@ repos:
         files: ^backend/
         exclude: ^backend/(.*/(tests(/.*)?|views\.py|__init__\.py))$
 
-  # - repo: local
-  #   hooks:
-  #     - id: mypy-check
-  #       name: run mypy static type checking
-  #       files: ^backend/
-  #       entry: python ./pre_commit_scripts/mypy_static_type_check.py
-  #       language: python
-  #       types: [python]
-  #       pass_filenames: false
+  - repo: local
+    hooks:
+      - id: mypy-check
+        name: run mypy static type checking
+        files: ^backend/
+        entry: python ./pre_commit_scripts/mypy_static_type_check.py
+        language: python
+        types: [python]
+        pass_filenames: false
 
   - repo: local
     hooks:
@@ -47,20 +47,29 @@ repos:
         entry: python frontend/i18n/check/run_i18n_checks.py
         language: python
 
-      # - id: prettier-format-check
-      #   name: run prettier formatting check
-      #   files: ^frontend/
-      #   entry: python ./pre_commit_scripts/prettier_formatting_check.py
-      #   language: node
-      #   pass_filenames: false
+      - id: prettier-format-check
+        name: run prettier formatting check
+        files: ^frontend/
+        entry: python ./pre_commit_scripts/prettier_formatting_check.py
+        language: node
+        additional_dependencies: ["prettier@3.5.3", "prettier-plugin-tailwindcss@0.6.11"]
+        pass_filenames: false
 
-      # - id: eslint-lint-check
-      #   name: run eslint static type check
-      #   files: ^frontend/
-      #   entry: python ./pre_commit_scripts/eslint_static_type_check.py
-      #   language: node
-      #   types_or: [javascript, ts, tsx, jsx, vue]
-      #   pass_filenames: false
+      - id: eslint-lint-check
+        name: run eslint static type check
+        files: ^frontend/
+        entry: python ./pre_commit_scripts/eslint_static_type_check.py
+        language: node
+        types_or: [javascript, ts, tsx, jsx, vue]
+        additional_dependencies: [
+          "eslint@9.22.0",
+          "eslint-config-prettier@10.1.1",
+          "eslint-flat-config-utils@2.0.1",
+          "eslint-plugin-perfectionist@^4.10.1",
+          "eslint-plugin-vue@10.0.0",
+          "eslint-plugin-vuejs-accessibility@2.4.1"
+        ]
+        pass_filenames: false
 
   # Note: Disabled as it breaks on TOC links.
   # - repo: https://github.com/tcort/markdown-link-check
