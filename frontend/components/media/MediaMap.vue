@@ -1,12 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    @click="resetDirectionsControl()"
     id="map"
     class="card-style-base dark:brightness-95 dark:contrast-[90%] dark:hue-rotate-180 dark:invert"
   ></div>
 </template>
-
 <script setup lang="ts">
 import type { LayerSpecification } from "maplibre-gl";
 
@@ -40,7 +38,7 @@ const { createMapForPointerTypeMap } = usePointerMap();
 
 const i18n = useI18n();
 const colorMode = useColorMode();
-const { resetDirectionsControl, setMapLayers } = useRouting();
+const { setMapLayers, resetDirectionsControl, setMap } = useRouting();
 
 const attendLabelKey = "i18n.components._global.attend";
 const attendLabel = i18n.t(attendLabelKey) as string;
@@ -90,6 +88,7 @@ onMounted(() => {
     const map = createMap(mapLayers);
     addDefaultControls(map);
     setMapLayers(mapLayers);
+    setMap(map);
 
     if (props.type === MapType.POINT) {
       createMapForPointerTypeMap(

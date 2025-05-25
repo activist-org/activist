@@ -1,19 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import type maplibregl from "maplibre-gl";
 import type { LayerSpecification } from "maplibre-gl";
 
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
+import { ref } from "vue";
 
 import type { RouteProfile } from "~/types/map";
+
 export const useRouting = () => {
   const i18n = useI18n();
   const bikeDirectionsIcon = `/icons/map/bike_directions.png`;
   const walkDirectionsIcon = `/icons/map/walk_directions.png`;
-  let directions: MapLibreGlDirections;
-  let map: maplibregl.Map;
-  let marker: maplibregl.Marker;
-  let mapLayers: LayerSpecification[];
+  const directionsRef = ref<MapLibreGlDirections | null>(null);
+  const mapRef = ref<maplibregl.Map | null>(null);
+  const markerRef = ref<maplibregl.Marker | null>(null);
+  const mapLayersRef = ref<LayerSpecification[]>([]);
+
   interface RouteProfileOption {
     FOOT: string;
     BIKE: string;
@@ -47,61 +49,60 @@ export const useRouting = () => {
   ];
 
   const walkingRouteProfileControl = `
-  <div
-    title="${i18n.t("i18n.composables.use_routing_map.change_profile")}"
-    id=${routeProfileOptions.FOOT}
-    style="
-    background-image: url(${walkDirectionsIcon});
-    width: 30px;
-    height: 30px;
-    background-size: 30px 30px;
-    border-radius: 5px;
-    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-    cursor: pointer"
-  >
-  `;
+    <div
+      title="${i18n.t("i18n.composables.use_routing_map.change_profile")}"
+      id=${routeProfileOptions.FOOT}
+      style="
+      background-image: url(${walkDirectionsIcon});
+      width: 30px;
+      height: 30px;
+      background-size: 30px 30px;
+      border-radius: 5px;
+      box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+      cursor: pointer"
+    ></div>`;
 
   const bikeRouteProfileControl = `
-  <div
-    title="${i18n.t("i18n.composables.use_routing_map.change_profile")}"
-    id=${routeProfileOptions.BIKE}
-    style="
-    background-image: url(${bikeDirectionsIcon});
-    width: 30px;
-    height: 30px;
-    background-size: 30px 30px;
-    border-radius: 5px;
-    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-    cursor: pointer"
-  >
-  `;
+    <div
+      title="${i18n.t("i18n.composables.use_routing_map.change_profile")}"
+      id=${routeProfileOptions.BIKE}
+      style="
+      background-image: url(${bikeDirectionsIcon});
+      width: 30px;
+      height: 30px;
+      background-size: 30px 30px;
+      border-radius: 5px;
+      box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
+      cursor: pointer"
+    ></div>`;
 
-  let currentProfile = walkingRouteProfileControl;
+  const currentProfile = ref(walkingRouteProfileControl);
+  const selectedRoute = ref<RouteProfile | undefined>(
+    routeProfileMap.find((item) => item.profile === routeProfileOptions.FOOT)
+  );
 
   const setMapLayers = (newMapLayers: LayerSpecification[]) => {
-    mapLayers = newMapLayers;
+    mapLayersRef.value = newMapLayers;
   };
 
   const setDirections = (newDirections: MapLibreGlDirections) => {
-    directions = newDirections;
+    directionsRef.value = newDirections;
   };
 
   const setMarker = (newMarker: maplibregl.Marker) => {
-    marker = newMarker;
+    markerRef.value = newMarker;
   };
 
   const setMap = (newMap: maplibregl.Map) => {
-    map = newMap;
+    mapRef.value = newMap;
   };
 
   const mapProfile = (profile: string) => {
     return routeProfileMap.find((item) => item.profile === profile);
   };
 
-  let selectedRoute = mapProfile(routeProfileOptions.FOOT);
-
   const toggleLayerHandler = (map: maplibregl.Map) => {
-    if (currentProfile === walkingRouteProfileControl) {
+    if (currentProfile.value === walkingRouteProfileControl) {
       map.setLayoutProperty("cycle-layer", "visibility", "visible");
     } else {
       map.setLayoutProperty("cycle-layer", "visibility", "none");
@@ -109,30 +110,28 @@ export const useRouting = () => {
   };
 
   const routeProfileHandler = () => {
-    if (currentProfile === walkingRouteProfileControl) {
-      currentProfile = bikeRouteProfileControl;
-    } else {
-      currentProfile = walkingRouteProfileControl;
-    }
-    return currentProfile;
+    currentProfile.value =
+      currentProfile.value === walkingRouteProfileControl
+        ? bikeRouteProfileControl
+        : walkingRouteProfileControl;
+    return currentProfile.value;
   };
 
   const setSelectedRoute = () => {
-    if (currentProfile === walkingRouteProfileControl) {
-      selectedRoute = mapProfile(routeProfileOptions.FOOT);
-    } else {
-      selectedRoute = mapProfile(routeProfileOptions.BIKE);
-    }
-    return selectedRoute;
+    selectedRoute.value =
+      currentProfile.value === walkingRouteProfileControl
+        ? mapProfile(routeProfileOptions.FOOT)
+        : mapProfile(routeProfileOptions.BIKE);
+    return selectedRoute.value;
   };
 
-  function resetRouteProfileControl() {
-    const existingRouteProfileControl = document.getElementById(
-      "route-profile-control"
-    );
-    if (existingRouteProfileControl) {
-      existingRouteProfileControl.remove();
-    }
+  const resetRouteProfileControl = () => {
+    console.log("Resetting route profile control");
+    const existing = document.getElementById("route-profile-control");
+    if (existing) existing.remove();
+
+    const map = mapRef.value as unknown as maplibregl.Map;
+    if (!map) return;
 
     map.addControl(
       {
@@ -140,128 +139,119 @@ export const useRouting = () => {
           const div = document.createElement("div");
           div.className = "maplibregl-ctrl maplibregl-ctrl-custom-image";
           div.id = "route-profile-control";
-          div.innerHTML = currentProfile;
+          div.innerHTML = currentProfile.value;
 
           const updateSelectedProfile = () => {
             toggleLayerHandler(map);
 
-            directions.destroy();
+            if (directionsRef.value) directionsRef.value.destroy();
             div.innerHTML = routeProfileHandler();
+            selectedRoute.value = setSelectedRoute() as RouteProfile;
+            const mapLayers =
+              mapLayersRef.value as unknown as LayerSpecification[];
 
-            directions = new MapLibreGlDirections(map, {
-              ...(selectedRoute = setSelectedRoute()),
-              requestOptions: {
-                alternatives: "true",
-              },
-              // @ts-expect-error: Will break route profile change.
-              mapLayers,
+            const newDirections = new MapLibreGlDirections(map, {
+              ...selectedRoute.value,
+              requestOptions: { alternatives: "true" },
+              layers: mapLayers || [],
             });
+            newDirections.interactive = true;
+            setDirections(newDirections);
 
-            directions.interactive = true;
-            marker.getElement().addEventListener("mouseenter", () => {
-              directions.interactive = false;
-            });
-
-            marker.getElement().addEventListener("mouseleave", () => {
-              directions.interactive = true;
-            });
+            const marker = markerRef.value as unknown as maplibregl.Marker;
+            if (marker) {
+              marker.getElement().addEventListener("mouseenter", () => {
+                newDirections.interactive = false;
+              });
+              marker.getElement().addEventListener("mouseleave", () => {
+                newDirections.interactive = true;
+              });
+            }
           };
 
           div.addEventListener("click", updateSelectedProfile);
           if (window.innerWidth < 768) {
-            div.addEventListener("touched", updateSelectedProfile);
+            div.addEventListener("touchend", updateSelectedProfile);
           } else {
             document.addEventListener("keydown", (event) => {
-              if (event.key === "p") {
-                updateSelectedProfile();
-              }
+              if (event.key === "p") updateSelectedProfile();
             });
           }
+
           return div;
         },
-        onRemove: function () {},
+        onRemove: () => {},
       },
       "top-left"
     );
-  }
+    map.on("click", () => {
+      resetDirectionsControl();
+    });
+  };
 
-  function resetDirectionsControl() {
-    const existingDirectionControl =
-      document.getElementById("directions-control");
-    if (existingDirectionControl) {
-      existingDirectionControl.remove();
-    }
+  const resetDirectionsControl = () => {
+    const map = mapRef.value;
+    const directions = directionsRef.value;
+    if (!map || !directions) return;
 
-    const directionControl = {
-      onAdd: function () {
-        const div = document.createElement("div");
-        div.className = "maplibregl-ctrl";
-        div.id = "directions-control";
+    const existing = document.getElementById("directions-control");
+    if (existing) existing.remove();
 
-        let directionsControlLabel =
-          directions.waypoints.length == 0
-            ? i18n.t("i18n.composables.use_routing_map.click_for_directions")
-            : i18n.t("i18n.composables.use_routing_map.clear_directions");
+    map.addControl(
+      {
+        onAdd: function () {
+          const div = document.createElement("div");
+          div.className = "maplibregl-ctrl";
+          div.id = "directions-control";
 
-        const directionsControlTooltip =
-          directions.waypoints.length == 0
-            ? i18n.t(
-                "i18n.composables.use_routing_map.click_for_directions_tooltip"
-              )
-            : i18n.t(
-                "i18n.composables.use_routing_map.clear_directions_tooltip"
-              );
+          let label =
+            directions.waypoints.length === 0
+              ? i18n.t("i18n.composables.use_routing_map.click_for_directions")
+              : i18n.t("i18n.composables.use_routing_map.clear_directions");
 
-        // Add hotkey if we're above mobile and there are waypoints.
-        if (window.innerWidth >= 768 && directions.waypoints.length != 0) {
-          directionsControlLabel = directionsControlLabel += " [x]";
-        }
+          const tooltip =
+            directions.waypoints.length === 0
+              ? i18n.t(
+                  "i18n.composables.use_routing_map.click_for_directions_tooltip"
+                )
+              : i18n.t(
+                  "i18n.composables.use_routing_map.clear_directions_tooltip"
+                );
 
-        const clearDirectionsBtn = `
-        <div
-          title="${directionsControlTooltip}"
-          style="
-            background-color: rgba(255, 255, 255, 0.75);
-            padding: 1px 5px;
-            border-radius: 5px;
-            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-            color: rgba(0, 0, 0, 0.8);
-            cursor: pointer
-          "
-        >
-          ${directionsControlLabel}
-        </div>
-      `;
+          if (window.innerWidth >= 768 && directions.waypoints.length !== 0) {
+            label += " [x]";
+          }
 
-        div.innerHTML = clearDirectionsBtn;
-        div.addEventListener("click", () => directions.clear());
-        if (window.innerWidth < 768) {
-          div.addEventListener("touchend", () => directions.clear());
-        } else {
-          document.addEventListener("keydown", (event) => {
-            if (event.key === "x") {
-              directions.clear();
-              resetDirectionsControl();
-            }
-          });
-        }
-        return div;
+          div.innerHTML = `<div title="${tooltip}" style="background-color: rgba(255,255,255,0.75); padding: 1px 5px; border-radius: 5px; box-shadow: 0 0 1px 2px rgba(0,0,0,0.15); color: rgba(0,0,0,0.8); cursor: pointer">${label}</div>`;
+          console.log(directions);
+
+          div.addEventListener("click", () => directions.clear());
+          if (window.innerWidth < 768) {
+            div.addEventListener("touchend", () => directions.clear());
+          } else {
+            document.addEventListener("keydown", (event) => {
+              if (event.key === "x") {
+                directions.clear();
+                resetDirectionsControl();
+              }
+            });
+          }
+
+          return div;
+        },
+        onRemove: () => {},
       },
-      onRemove: function () {},
-    };
-    if (!map) {
-      return;
-    }
-    map.addControl(directionControl, "top-left");
+      "top-left"
+    );
+
     resetRouteProfileControl();
-  }
+  };
 
   const addDirectionsLayer = (
     map: maplibregl.Map,
     layers: LayerSpecification[],
     selectedRoute: RouteProfile
   ) => {
-    // Add arrow to directions layer.
     layers.push({
       id: "maplibre-gl-directions-route-line-direction-arrow",
       type: "symbol",
@@ -279,19 +269,16 @@ export const useRouting = () => {
           1.4,
         ],
       },
-      paint: {
-        "icon-opacity": 1,
-      },
+      paint: { "icon-opacity": 1 },
       filter: ["==", ["get", "route"], "SELECTED"],
     });
 
     const directions = new MapLibreGlDirections(map, {
       ...selectedRoute,
-      requestOptions: {
-        alternatives: "true",
-      },
+      requestOptions: { alternatives: "true" },
       layers,
     });
+    setDirections(directions);
     return directions;
   };
 
