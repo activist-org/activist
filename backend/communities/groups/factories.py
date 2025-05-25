@@ -97,9 +97,9 @@ class GroupFaqFactory(factory.django.DjangoModelFactory):
 
     iso = "en"
     primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
     order = factory.Faker("random_int", min=1, max=100)
-    answer = factory.Faker("text")
-    question = factory.Faker("text")
 
 
 class GroupTextFactory(factory.django.DjangoModelFactory):

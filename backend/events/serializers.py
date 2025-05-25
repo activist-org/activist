@@ -16,7 +16,7 @@ from content.serializers import (
     LocationSerializer,
     ResourceSerializer,
 )
-from events.models import Event, EventSocialLink, EventText, Format
+from events.models import Event, EventFaq, EventSocialLink, EventText, Format
 from utils.utils import (
     validate_creation_and_deprecation_dates,
 )
@@ -31,6 +31,15 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
 
     class Meta:
         model = EventSocialLink
+        fields = "__all__"
+
+class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
+    """
+    Serializer for EventFaq model data.
+    """
+
+    class Meta:
+        model = EventFaq
         fields = "__all__"
 
 

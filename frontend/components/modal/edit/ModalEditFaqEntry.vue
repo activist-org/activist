@@ -46,19 +46,19 @@ const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsOrgId = useRoute().params.orgId;
 const paramsGroupId = useRoute().params.groupId;
-// const paramsEventId = useRoute().params.eventId;
+const paramsEventId = useRoute().params.eventId;
 
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-// const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const organizationStore = useOrganizationStore();
 const groupStore = useGroupStore();
-// const eventStore = useEventStore();
+const eventStore = useEventStore();
 
 let organization: Organization;
 let group: Group;
-// let event: Event;
+let event: Event;
 
 const formData = ref<FaqEntry>({
   id: props.faqEntry.id,
@@ -75,11 +75,10 @@ if (props.pageType == "organization") {
 } else if (props.pageType == "group") {
   await groupStore.fetchById(groupId);
   group = groupStore.group;
+} else if (props.pageType == "event") {
+  await eventStore.fetchById(eventId);
+  event = eventStore.event;
 }
-// else if (props.pageType == "event") {
-//   await eventStore.fetchById(eventId);
-//   event = eventStore.event;
-// }
 
 async function handleSubmit() {
   let updateResponse = false;
@@ -90,10 +89,9 @@ async function handleSubmit() {
     );
   } else if (props.pageType === "group") {
     updateResponse = await groupStore.updateFaqEntry(group, formData.value);
+  } else if (props.pageType === "event") {
+    updateResponse = await eventStore.updateFaqEntry(event, formData.value);
   }
-  // else if (props.pageType === "event") {
-  //   updateResponse = await eventStore.updateFaqEntry(event, formData.value);
-  // }
 
   if (updateResponse) {
     handleCloseModal();

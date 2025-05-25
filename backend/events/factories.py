@@ -13,6 +13,7 @@ from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventFaq,
     EventSocialLink,
     EventText,
     Format,
@@ -150,6 +151,20 @@ class EventSocialLinkFactory(factory.django.DjangoModelFactory):
     last_updated = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
+
+class EventFaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
+    class Meta:
+        model = EventFaq
+
+    iso = "en"
+    primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
+    order = factory.Faker("random_int", min=1, max=100)
 
 
 class EventTextFactory(factory.django.DjangoModelFactory):

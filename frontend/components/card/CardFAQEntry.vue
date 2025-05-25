@@ -54,7 +54,6 @@ import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   faqEntry: FaqEntry;
-  pageType: "organization" | "group" | "other";
-  // pageType: "organization" | "group" | "event" | "other";
+  pageType: "organization" | "group" | "event" | "other";
 }>();
 </script>

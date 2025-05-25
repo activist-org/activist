@@ -26,9 +26,13 @@ from communities.organizations.factories import (
     OrganizationTextFactory,
 )
 from communities.organizations.models import Organization
-from content.factories import FaqFactory
 from content.models import Topic
-from events.factories import EventFactory, EventSocialLinkFactory, EventTextFactory
+from events.factories import (
+    EventFactory,
+    EventFaqFactory,
+    EventSocialLinkFactory,
+    EventTextFactory,
+)
 from events.models import Event
 
 
@@ -150,7 +154,7 @@ class Command(BaseCommand):
                         user_org_event.social_links.set(event_social_links)
 
                         for f in range(num_faq_entries_per_entity):
-                            user_org_event_faq = FaqFactory()
+                            user_org_event_faq = EventFaqFactory()
                             user_org_event.faqs.add(user_org_event_faq)
 
                     for g in range(num_groups_per_org):

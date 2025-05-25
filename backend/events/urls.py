@@ -9,6 +9,7 @@ from rest_framework.routers import DefaultRouter
 from events.views import (
     EventAPIView,
     EventDetailAPIView,
+    EventFaqViewSet,
     EventSocialLinkViewSet,
     EventTextViewSet,
 )
@@ -24,6 +25,12 @@ router.register(
     basename="event-social-links",
 )
 router.register(prefix=r"event_texts", viewset=EventTextViewSet, basename="event-text")
+
+router.register(
+    prefix=r"event_faqs",
+    viewset=EventFaqViewSet,
+    basename="event-faqs",
+)
 
 urlpatterns = [
     path("", include(router.urls)),
