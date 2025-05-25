@@ -78,7 +78,6 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
 
         exclude = (
             "resources",
-            "faqs",
             "topics",
             "org",
             "created_by",
