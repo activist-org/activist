@@ -1,7 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    @click="resetDirectionsControl()"
     id="map"
     class="card-style-base dark:brightness-95 dark:contrast-[90%] dark:hue-rotate-180 dark:invert"
   ></div>
@@ -17,7 +16,6 @@ import type { Location } from "~/types/content/location";
 import type { Event, EventType } from "~/types/events/event";
 
 import { useClusterMap } from "~/composables/useClusterMap";
-import { useRouting } from "~/composables/useRoutingMap";
 import { MapType } from "~/types/map";
 
 const props = defineProps<{
@@ -40,7 +38,6 @@ const { createMapForPointerTypeMap } = usePointerMap();
 
 const i18n = useI18n();
 const colorMode = useColorMode();
-const { resetDirectionsControl } = useRouting();
 
 const attendLabelKey = "i18n.components._global.attend";
 const attendLabel = i18n.t(attendLabelKey) as string;

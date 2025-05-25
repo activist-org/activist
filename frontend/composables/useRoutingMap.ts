@@ -76,6 +76,10 @@ export const useRouting = () => {
 
   let currentProfile = walkingRouteProfileControl;
 
+  const setDirections = (newDirections: MapLibreGlDirections) => {
+    directions = newDirections;
+  };
+
   const mapProfile = (profile: string) => {
     return routeProfileMap.find((item) => item.profile === profile);
   };
@@ -170,16 +174,18 @@ export const useRouting = () => {
     );
   }
 
-  function resetDirectionsControl() {
+  function resetDirectionsControl(
+    map: maplibregl.Map,
+    marker: maplibregl.Marker
+  ) {
     const existingDirectionControl =
       document.getElementById("directions-control");
     if (existingDirectionControl) {
       existingDirectionControl.remove();
     }
-  }
 
-  const directionControl = {
-    onAdd: function () {
+    const directionControl = {
+      onAdd: function () {
       const div = document.createElement("div");
       div.className = "maplibregl-ctrl";
       div.id = "directions-control";
@@ -222,17 +228,21 @@ export const useRouting = () => {
       if (window.innerWidth < 768) {
         div.addEventListener("touchend", () => directions.clear());
       } else {
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "x") {
-            directions.clear();
-            resetDirectionsControl();
-          }
-        });
-      }
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "x") {
+              directions.clear();
+              resetDirectionsControl(map, marker);
+            }
+          });
+        }
       return div;
     },
     onRemove: function () {},
   };
+
+    map.addControl(directionControl, "top-left");
+    resetRouteProfileControl(map, marker);
+  }
 
   const addDirectionsLayer = (
     map: maplibregl.Map,
@@ -284,8 +294,8 @@ export const useRouting = () => {
     resetDirectionsControl,
     mapProfile,
     routeProfileMap,
-    directionControl,
     resetRouteProfileControl,
     addDirectionsLayer,
+    setDirections,
   };
 };

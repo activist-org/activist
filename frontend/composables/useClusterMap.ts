@@ -16,7 +16,7 @@ import { useRouting } from "./useRoutingMap";
 export const useClusterMap = () => {
   const i18n = useI18n();
   const { createPointerMarker } = usePointerMap();
-  const { addDirectionsLayer, setSelectedRoute, resetDirectionsControl } =
+  const { addDirectionsLayer, setSelectedRoute, resetDirectionsControl,setDirections } =
     useRouting();
   const DECLUSTER_ZOOM = 8;
   const createDonutChart = (props: GeoJsonProperties) => {
@@ -244,6 +244,7 @@ export const useClusterMap = () => {
             newMarkers[id] = marker;
             if (!markersOnScreen[id]) {
               marker.addTo(map);
+              resetDirectionsControl(map, marker);
             }
           }
         } else {
@@ -295,6 +296,7 @@ export const useClusterMap = () => {
             newMarkers[props.id] = marker;
             if (!markersOnScreen[props.id]) {
               marker.addTo(map);
+              resetDirectionsControl(map, marker);
             }
           }
         }
@@ -431,7 +433,7 @@ export const useClusterMap = () => {
         layers,
         selectedRoute as RouteProfile
       );
-
+      setDirections(directions);
       if (features.length > 0) {
         const bounds = features.reduce(
           (acc, feature) =>
@@ -515,7 +517,6 @@ export const useClusterMap = () => {
           directions
         );
         markersOnScreen = newMarkersOnScreen;
-        resetDirectionsControl();
       });
     });
   };
