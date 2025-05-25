@@ -16,7 +16,8 @@ import { useRouting } from "./useRoutingMap";
 export const useClusterMap = () => {
   const i18n = useI18n();
   const { createPointerMarker } = usePointerMap();
-  const { addDirectionsLayer, setSelectedRoute, resetDirectionsControl } = useRouting();
+  const { addDirectionsLayer, setSelectedRoute, resetDirectionsControl } =
+    useRouting();
   const DECLUSTER_ZOOM = 8;
   const createDonutChart = (props: GeoJsonProperties) => {
     if (!props) {
@@ -314,9 +315,9 @@ export const useClusterMap = () => {
   const createMapForClusterTypeMap = (
     map: maplibregl.Map,
     events: Event[],
-    isTouchDevice: boolean,
+    isTouchDevice: boolean
   ) => {
-    const selectedRoute = setSelectedRoute()
+    const selectedRoute = setSelectedRoute();
     map.on("load", () => {
       // Cleanup existing sources/layers.
       if (map.getSource("events")) {

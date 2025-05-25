@@ -106,11 +106,7 @@ onMounted(() => {
       );
     }
     if (props.type === MapType.CLUSTER)
-      createMapForClusterTypeMap(
-        map,
-        props.events || [],
-        isTouchDevice
-      );
+      createMapForClusterTypeMap(map, props.events || [], isTouchDevice);
   }
 });
 </script>
