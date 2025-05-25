@@ -3,30 +3,47 @@ import pytest
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
-@pytest.fixture
-def api_client() -> APIClient:
-    return APIClient()
 
 @pytest.fixture
-def authenticated_client(api_client) -> APIClient:
+def api_client() -> APIClient:
+    """
+    Returns a Django REST Framework APIClient instance for testing.
+
+    Returns
+    -------
+    APIClient
+        An instance of DRF's APIClient for making test requests.
+    """
+    return APIClient()
+
+
+@pytest.fixture
+def authenticated_client(api_client: APIClient) -> APIClient:
     """
     Provides an authenticated API client for testing.
-    
+
     Creates a test user and forces authentication for all requests made with this client.
-    This eliminates the need to manually handle authentication in most test cases.
+
+    Parameters
+    ----------
+    api_client : APIClient
+        The Django REST Framework APIClient instance to authenticate.
+
+    Returns
+    -------
+    APIClient
+        The APIClient instance authenticated as the created test user.
     """
-    User = get_user_model() 
+    User = get_user_model()
     user = User.objects.create_user(
-        username="testuser",
-        password="testpass123",
-        email="testuser@example.com"
+        username="testuser", password="testpass123", email="testuser@example.com"
     )
     api_client.force_authenticate(user=user)
     return api_client
 
 
 @pytest.fixture(autouse=True)
-def turn_off_throttling(settings, request: pytest.FixtureRequest):
+def turn_off_throttling(settings, request: pytest.FixtureRequest) -> None:
     """
     Automatically disables API throttling for all tests unless the test is marked with 'enable_throttling'.
 
