@@ -466,59 +466,41 @@ export const useClusterMap = () => {
           zoom: 1.5,
         });
       }
+      // Optional: Add custom HTML markers for clusters.
+      const markers: { [key: string]: maplibregl.Marker } = {};
+      let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
 
-      map.on("sourcedata", (e) => {
-        // Optional: Add custom HTML markers for clusters.
-        const markers: { [key: string]: maplibregl.Marker } = {};
-        let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
-        if (e.sourceId !== "events" || !e.isSourceLoaded) {
-          return;
+      map.on("zoomed", () => {
+        const currentZoom = map.getZoom();
+
+        if (currentZoom < DECLUSTER_ZOOM) {
+          map.setLayoutProperty("clusters", "visibility", "visible");
+          map.setLayoutProperty("unclustered-points", "visibility", "none");
+        } else {
+          map.setLayoutProperty("clusters", "visibility", "none");
+          map.setLayoutProperty("unclustered-points", "visibility", "visible");
         }
 
-        map.on("zoomed", () => {
-          const currentZoom = map.getZoom();
+        // Force re-render of markers.
+        const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+          map,
+          markers,
+          markersOnScreen,
+          directions
+        );
+        markersOnScreen = newMarkersOnScreen;
+      });
 
-          if (currentZoom < DECLUSTER_ZOOM) {
-            map.setLayoutProperty("clusters", "visibility", "visible");
-            map.setLayoutProperty("unclustered-points", "visibility", "none");
-          } else {
-            map.setLayoutProperty("clusters", "visibility", "none");
-            map.setLayoutProperty(
-              "unclustered-points",
-              "visibility",
-              "visible"
-            );
-          }
-
-          // Force re-render of markers.
-          const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
-            map,
-            markers,
-            markersOnScreen,
-            directions
-          );
-          markersOnScreen = newMarkersOnScreen;
-        });
-
-        map.on("move", () => {
-          const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
-            map,
-            markers,
-            markersOnScreen,
-            directions
-          );
-          markersOnScreen = newMarkersOnScreen;
-        });
-
-        map.on("moveend", () => {
-          const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
-            map,
-            markers,
-            markersOnScreen,
-            directions
-          );
-          markersOnScreen = newMarkersOnScreen;
-        });
+      map.on("moveend", () => {
+        const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
+          map,
+          markers,
+          markersOnScreen,
+          directions
+        );
+        markersOnScreen = newMarkersOnScreen;
+      });
+      map.once("idle", () => {
         const { markersOnScreen: newMarkersOnScreen } = updateMarkers(
           map,
           markers,
