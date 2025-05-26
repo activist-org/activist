@@ -445,6 +445,7 @@ export const useClusterMap = () => {
       );
       setMap(map);
       setDirections(directions);
+      resetDirectionsControl();
       if (features.length > 0) {
         const bounds = features.reduce(
           (acc, feature) =>

@@ -149,24 +149,22 @@ export const useRouting = () => {
             selectedRoute.value = setSelectedRoute() as RouteProfile;
             const mapLayers =
               mapLayersRef.value as unknown as LayerSpecification[];
+            const newDirections = addDirectionsLayer(
+              map,
+              mapLayers,
+              selectedRoute.value as RouteProfile
+            );
 
-            const newDirections = new MapLibreGlDirections(map, {
-              ...selectedRoute.value,
-              requestOptions: { alternatives: "true" },
-              layers: mapLayers || [],
-            });
             newDirections.interactive = true;
-            setDirections(newDirections);
 
             const marker = markerRef.value as unknown as maplibregl.Marker;
-            if (marker) {
-              marker.getElement().addEventListener("mouseenter", () => {
-                newDirections.interactive = false;
-              });
-              marker.getElement().addEventListener("mouseleave", () => {
-                newDirections.interactive = true;
-              });
-            }
+            if (!marker) return;
+            marker.getElement().addEventListener("mouseenter", () => {
+              newDirections.interactive = false;
+            });
+            marker.getElement().addEventListener("mouseleave", () => {
+              newDirections.interactive = true;
+            });
           };
 
           div.addEventListener("click", updateSelectedProfile);
@@ -268,12 +266,12 @@ export const useRouting = () => {
       paint: { "icon-opacity": 1 },
       filter: ["==", ["get", "route"], "SELECTED"],
     });
-
     const directions = new MapLibreGlDirections(map, {
       ...selectedRoute,
       requestOptions: { alternatives: "true" },
       layers,
     });
+    setMapLayers(layers);
     setDirections(directions);
     return directions;
   };
