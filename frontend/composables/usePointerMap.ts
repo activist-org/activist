@@ -116,7 +116,9 @@ export const usePointerMap = () => {
       ).addTo(map);
       setMap(map);
       setMarker(marker);
-      resetDirectionsControl();
+      map.on("click", () => {
+        resetDirectionsControl();
+      });
     });
   };
 

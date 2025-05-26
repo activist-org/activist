@@ -251,7 +251,6 @@ export const useClusterMap = () => {
             if (!markersOnScreen[id]) {
               marker.addTo(map);
               setMarker(marker);
-              resetDirectionsControl();
             }
           }
         } else {
@@ -304,7 +303,6 @@ export const useClusterMap = () => {
             if (!markersOnScreen[props.id]) {
               marker.addTo(map);
               setMarker(marker);
-              resetDirectionsControl();
             }
           }
         }
@@ -338,7 +336,9 @@ export const useClusterMap = () => {
           map.removeLayer(layerId);
         }
       });
-
+      map.on("click", () => {
+        resetDirectionsControl();
+      });
       // MARK: Process Events
 
       const features: Feature<Point, GeoJsonProperties>[] = events.map(
