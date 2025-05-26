@@ -20,8 +20,9 @@ from rest_framework.views import APIView
 
 from content.models import Location
 from core.paginator import CustomPagination
-from events.models import Event, EventSocialLink, EventText
+from events.models import Event, EventFaq, EventSocialLink, EventText
 from events.serializers import (
+    EventFaqSerializer,
     EventPOSTSerializer,
     EventSerializer,
     EventSocialLinkSerializer,
@@ -231,6 +232,44 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
         except Exception as e:
             return Response(
                 {"error": f"Failed to update social links: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
+    queryset = EventFaq.objects.all()
+    serializer_class = EventFaqSerializer
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        event = Event.objects.filter(id=pk).first()
+        if not event:
+            return Response(
+                {"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                faq = EventFaq.objects.filter(id=data.get("id")).first()
+                if not faq:
+                    return Response(
+                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+                    )
+                faq.question = data.get("question", faq.question)
+                faq.answer = data.get("answer", faq.answer)
+                faq.save()
+
+            return Response(
+                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update faqs: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

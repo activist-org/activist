@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { FaqEntry } from "~/types/content/faq-entry";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
@@ -268,6 +269,48 @@ export const useEventStore = defineStore("event", {
       const responseSocialLinksData = responseSocialLinks.data
         .value as unknown as Event;
       if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates, to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ Entries
+
+    async updateFaqEntry(event: Event, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_faqs/${event.id}/`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
         responses.push(true);
       } else {
         responses.push(false);

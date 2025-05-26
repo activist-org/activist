@@ -29,7 +29,7 @@
     </HeaderAppPageGroup>
     <div v-if="group.faqEntries!.length > 0" class="py-4">
       <div v-for="f in group.faqEntries" class="mb-4">
-        <CardFAQEntry :faqEntry="f" />
+        <CardFAQEntry :pageType="'group'" :faqEntry="f" />
       </div>
     </div>
     <EmptyState v-else pageType="faq" :permission="false" />

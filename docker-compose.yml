@@ -22,7 +22,7 @@ services:
         --groups-per-org 1 \
         --events-per-org 1 \
         --resources-per-entity 1 \
-        --faq-entries-per-entity 2 &&
+        --faq-entries-per-entity 3 &&
       python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
