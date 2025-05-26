@@ -25,13 +25,13 @@ Emojis for the following are chosen based on [gitmoji](https://gitmoji.dev/).
 - Links to activist GitHub and socials as well as supporter websites.
 - All page elements are reactive to screen sizes for desktop and mobile usage.
 - Page media elements include an image carousel and a location map.
-  - Modal expand and full screen modes are available for media components.
-  - Image uploads are available through the image component with drag and drop and file selection being possible.
-  - Directions can be used on the media map to find ones way.
-  - Location services can be applied in browser so the user can find themselves on the map.
+    - Modal expand and full screen modes are available for media components.
+    - Image uploads are available through the image component with drag and drop and file selection being possible.
+    - Directions can be used on the media map to find ones way.
+    - Location services can be applied in browser so the user can find themselves on the map.
 - A left sidebar component has been made to house all the navigation for the platform.
-  - The sidebar has collapsed and expanded states to provide more room to work.
-  - The collapsed state transitions directly to expanded upon hovering or focussing.
+    - The sidebar has collapsed and expanded states to provide more room to work.
+    - The collapsed state transitions directly to expanded upon hovering or focussing.
 - A right sidebar component has been made to house select menu options given the page the user is on.
 - Header and tab bar components have been made for navigation on the frontend.
 

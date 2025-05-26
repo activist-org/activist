@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from django.db import models
 
-from content.models import SocialLink
+from content.models import Faq, SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Event
@@ -56,7 +56,6 @@ class Event(models.Model):
 
     resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
-    faqs = models.ManyToManyField("content.Faq", blank=True)
     formats = models.ManyToManyField("events.Format", blank=True)
     roles = models.ManyToManyField("events.Role", blank=True)
     tags = models.ManyToManyField("content.Tag", blank=True)
@@ -148,6 +147,16 @@ class EventSocialLink(SocialLink):
 
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="social_links"
+    )
+
+
+class EventFaq(Faq):
+    """
+    Class for adding faq parameters to events.
+    """
+
+    event = models.ForeignKey(
+        Event, on_delete=models.CASCADE, null=True, related_name="faqs"
     )
 
 

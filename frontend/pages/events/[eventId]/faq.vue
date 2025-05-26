@@ -2,10 +2,10 @@
 <template>
   <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
     <Head>
-      <Title>{{ organization.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ event.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
     <HeaderAppPageOrganization
-      :header="organization.name + ' ' + $t('i18n._global.faq')"
+      :header="event.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="true"
     >
@@ -21,9 +21,9 @@
         />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="organization.faqEntries!.length > 0" class="py-4">
-      <div v-for="f in organization.faqEntries" class="mb-4">
-        <CardFAQEntry :pageType="'organization'" :faqEntry="f" />
+    <div v-if="event.faqEntries!.length > 0" class="py-4">
+      <div v-for="f in event.faqEntries" class="mb-4">
+        <CardFAQEntry :pageType="'event'" :faqEntry="f" />
       </div>
     </div>
     <EmptyState v-else pageType="faq" :permission="false" class="py-4" />
@@ -31,11 +31,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
+import type { Event } from "~/types/events/event";
 
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{
-  organization: Organization;
+  event: Event;
 }>();
 </script>

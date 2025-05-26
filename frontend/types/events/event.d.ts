@@ -15,6 +15,7 @@ interface EventBase {
   offlineLocation?: Location;
   getInvolvedUrl?: string;
   socialLinks: EventSocialLink[];
+  faqEntries?: FaqEntry[];
   startTime: string;
   endTime?: string;
   creationDate?: string;

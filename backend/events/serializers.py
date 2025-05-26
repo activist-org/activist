@@ -10,8 +10,13 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from communities.organizations.models import Organization
-from content.serializers import ImageSerializer, LocationSerializer, ResourceSerializer
-from events.models import Event, EventSocialLink, EventText, Format
+from content.serializers import (
+    FaqSerializer,
+    ImageSerializer,
+    LocationSerializer,
+    ResourceSerializer,
+)
+from events.models import Event, EventFaq, EventSocialLink, EventText, Format
 from utils.utils import (
     validate_creation_and_deprecation_dates,
 )
@@ -26,6 +31,16 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
 
     class Meta:
         model = EventSocialLink
+        fields = "__all__"
+
+
+class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
+    """
+    Serializer for EventFaq model data.
+    """
+
+    class Meta:
+        model = EventFaq
         fields = "__all__"
 
 
@@ -70,7 +85,6 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
         exclude = (
             "resources",
             "discussions",
-            "faqs",
             "formats",
             "roles",
             "tags",
@@ -93,7 +107,9 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     social_links = EventSocialLinkSerializer(many=True, read_only=True)
     offline_location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
+    faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)
+
     icon_url = ImageSerializer(required=False)
 
     class Meta:

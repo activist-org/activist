@@ -9,12 +9,14 @@ from rest_framework.routers import DefaultRouter
 from communities.groups.views import (
     GroupAPIView,
     GroupDetailAPIView,
+    GroupFaqViewSet,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
 from communities.organizations.views import (
     OrganizationAPIView,
     OrganizationDetailAPIView,
+    OrganizationFaqViewSet,
     OrganizationFlagViewSet,
     OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
@@ -38,6 +40,11 @@ router.register(
     basename="group-social-links",
 )
 router.register(
+    prefix=r"group_faqs",
+    viewset=GroupFaqViewSet,
+    basename="group-faqs",
+)
+router.register(
     prefix=r"group_texts",
     viewset=GroupTextViewSet,
     basename="group-text",
@@ -46,6 +53,11 @@ router.register(
     prefix=r"organization_social_links",
     viewset=OrganizationSocialLinkViewSet,
     basename="organization-social-links",
+)
+router.register(
+    prefix=r"organization_faqs",
+    viewset=OrganizationFaqViewSet,
+    basename="organization-faqs",
 )
 router.register(
     prefix=r"organization_texts",
