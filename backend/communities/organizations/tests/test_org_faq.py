@@ -45,8 +45,7 @@ def test_org_faqs_update(client: Client) -> None:
     org.created_by = user
 
     faqs = OrganizationFaqFactory()
-    test_iso = faqs.iso
-    test_primary = faqs.primary
+    test_id = faqs.id
     test_question = faqs.question
     test_answer = faqs.answer
     test_order = faqs.order
@@ -67,8 +66,9 @@ def test_org_faqs_update(client: Client) -> None:
     response = client.put(
         path=f"/v1/communities/organization_faqs/{org.id}/",
         data={
-            "iso": test_iso,
-            "primary": test_primary,
+            "id": test_id,
+            "iso": "en",
+            "primary": True,
             "question": test_question,
             "answer": test_answer,
             "order": test_order,
@@ -85,8 +85,7 @@ def test_org_faqs_update(client: Client) -> None:
     response = client.put(
         path=f"/v1/communities/organization_faqs/{bad_uuid}/",
         data={
-            "iso": test_iso,
-            "primary": test_primary,
+            "id": test_id,
             "question": test_question,
             "answer": test_answer,
             "order": test_order,

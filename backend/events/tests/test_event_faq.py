@@ -41,8 +41,7 @@ def test_event_faqs_update(client: Client) -> None:
     event.created_by = user
 
     faqs = EventFaqFactory()
-    test_iso = faqs.iso
-    test_primary = faqs.primary
+    test_id = faqs.id
     test_question = faqs.question
     test_answer = faqs.answer
     test_order = faqs.order
@@ -63,8 +62,9 @@ def test_event_faqs_update(client: Client) -> None:
     response = client.put(
         path=f"/v1/events/event_faqs/{event.id}/",
         data={
-            "iso": test_iso,
-            "primary": test_primary,
+            "id": test_id,
+            "iso": "en",
+            "primary": True,
             "question": test_question,
             "answer": test_answer,
             "order": test_order,
@@ -82,8 +82,7 @@ def test_event_faqs_update(client: Client) -> None:
     response = client.put(
         path=f"/v1/events/event_faqs/{test_uuid}/",
         data={
-            "iso": test_iso,
-            "primary": test_primary,
+            "id": test_id,
             "question": test_question,
             "answer": test_answer,
             "order": test_order,

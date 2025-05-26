@@ -179,16 +179,16 @@ def test_organization_faq_create_view(client: APIClient) -> None:
     num_faqs = 3
     OrganizationFaqFactory.create_batch(num_faqs, org=org)
     assert OrganizationFaq.objects.count() == num_faqs
+    test_id = OrganizationFaq.objects.first().id
 
-    formData = [
-        {
-            "iso": "en",
-            "primary": True,
-            "question": "Question",
-            "answer": "Answer",
-            "order": 1,
-        }
-    ]
+    formData ={
+        "id": test_id,
+        "iso": "en",
+        "primary": True,
+        "question": "Test Question",
+        "answer": "Answer",
+        "order": 1,
+    }
 
     response = client.put(
         f"/v1/communities/organization_faqs/{org.id}/",
@@ -199,8 +199,7 @@ def test_organization_faq_create_view(client: APIClient) -> None:
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
 
-    # The PUT method will delete all existing FAQs and replace them with the ones in formData.
-    assert OrganizationFaq.objects.count() == 1
+    assert OrganizationFaq.objects.get(id=test_id).question == "Test Question"
 
 
 @pytest.mark.django_db
@@ -213,16 +212,16 @@ def test_group_faq_create_view(client: APIClient) -> None:
     num_faqs = 3
     GroupFaqFactory.create_batch(num_faqs, group=group)
     assert GroupFaq.objects.count() == num_faqs
+    test_id = GroupFaq.objects.first().id
 
-    formData = [
-        {
-            "iso": "en",
-            "primary": True,
-            "question": "Question",
-            "answer": "Answer",
-            "order": 1,
-        }
-    ]
+    formData ={
+        "id": test_id,
+        "iso": "en",
+        "primary": True,
+        "question": "Test Question",
+        "answer": "Answer",
+        "order": 1,
+    }
 
     response = client.put(
         f"/v1/communities/group_faqs/{group.id}/",
@@ -233,8 +232,7 @@ def test_group_faq_create_view(client: APIClient) -> None:
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
 
-    # The PUT method will delete all existing FAQs and replace them with the ones in formData.
-    assert GroupFaq.objects.count() == 1
+    assert GroupFaq.objects.get(id=test_id).question == "Test Question"
 
 
 @pytest.mark.django_db
@@ -247,16 +245,16 @@ def test_event_faq_create_view(client: APIClient) -> None:
     num_faqs = 3
     EventFaqFactory.create_batch(num_faqs, event=event)
     assert EventFaq.objects.count() == num_faqs
+    test_id = EventFaq.objects.first().id
 
-    formData = [
-        {
-            "iso": "en",
-            "primary": True,
-            "question": "Question",
-            "answer": "Answer",
-            "order": 1,
-        }
-    ]
+    formData ={
+        "id": test_id,
+        "iso": "en",
+        "primary": True,
+        "question": "Test Question",
+        "answer": "Answer",
+        "order": 1,
+    }
 
     response = client.put(
         f"/v1/events/event_faqs/{event.id}/",
@@ -267,5 +265,4 @@ def test_event_faq_create_view(client: APIClient) -> None:
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
 
-    # The PUT method will delete all existing FAQs and replace them with the ones in formData.
-    assert EventFaq.objects.count() == 1
+    assert EventFaq.objects.get(id=test_id).question == "Test Question"
