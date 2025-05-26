@@ -24,7 +24,7 @@ from events.factories import EventFactory, EventSocialLinkFactory
 from events.models import EventSocialLink
 from events.serializers import EventSocialLinkSerializer
 
-#  Mark: Social link Model
+# MARK: SocialLink Model
 
 
 @pytest.mark.django_db
@@ -41,7 +41,7 @@ def test_create_social_link() -> None:
     assert str(social_link) == "Example"
 
 
-# Mark: Serializers
+# MARK: Serializers
 
 
 @pytest.mark.django_db
@@ -104,7 +104,7 @@ def test_event_social_link_serializer() -> None:
     assert data["order"] == 1
 
 
-# Mark: Views - List
+# MARK: Views - List
 
 
 @pytest.mark.django_db
@@ -155,7 +155,7 @@ def test_event_social_link_list_view(client: APIClient) -> None:
     assert len(response.json()["socialLinks"]) == num_links
 
 
-# Mark: Views - Create
+# MARK: Views - Create
 
 
 @pytest.mark.django_db
@@ -179,6 +179,7 @@ def test_organization_social_link_create_view(client: APIClient) -> None:
 
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
+
     # The PUT method will delete all existing social links and replace them with the ones in formData.
     assert OrganizationSocialLink.objects.count() == 1
 
@@ -204,6 +205,7 @@ def test_group_social_link_create_view(client: APIClient) -> None:
 
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
+
     # The PUT method will delete all existing social links and replace them with the ones in formData.
     assert GroupSocialLink.objects.count() == 1
 
@@ -229,5 +231,6 @@ def test_event_social_link_create_view(client: APIClient) -> None:
 
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
+
     # The PUT method will delete all existing social links and replace them with the ones in formData.
     assert EventSocialLink.objects.count() == 1

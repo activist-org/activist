@@ -9,12 +9,15 @@ from rest_framework.routers import DefaultRouter
 from communities.groups.views import (
     GroupAPIView,
     GroupDetailAPIView,
+    GroupFaqViewSet,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
 from communities.organizations.views import (
     OrganizationAPIView,
     OrganizationDetailAPIView,
+    OrganizationFaqViewSet,
+    OrganizationFlagViewSet,
     OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
@@ -37,6 +40,11 @@ router.register(
     basename="group-social-links",
 )
 router.register(
+    prefix=r"group_faqs",
+    viewset=GroupFaqViewSet,
+    basename="group-faqs",
+)
+router.register(
     prefix=r"group_texts",
     viewset=GroupTextViewSet,
     basename="group-text",
@@ -47,6 +55,11 @@ router.register(
     basename="organization-social-links",
 )
 router.register(
+    prefix=r"organization_faqs",
+    viewset=OrganizationFaqViewSet,
+    basename="organization-faqs",
+)
+router.register(
     prefix=r"organization_texts",
     viewset=OrganizationTextViewSet,
     basename="organization-text",
@@ -55,6 +68,11 @@ router.register(
     prefix=r"organizations/(?P<org_id>[^/.]+)/images",
     viewset=OrganizationImageViewSet,
     basename="organization-images",
+)
+router.register(
+    prefix=r"organization_flag",
+    viewset=OrganizationFlagViewSet,
+    basename="organization-flag",
 )
 
 urlpatterns = [
