@@ -14,10 +14,8 @@ ORGS_URL = "/v1/communities/organizations"
 
 def test_org_delete(client: Client) -> None:
     test_username = "test_user"
-    test_plaintext_password = "test_pass"
-    user = UserFactory(
-        username=test_username, plaintext_password=test_plaintext_password
-    )
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
     org = OrganizationFactory()
 
     """
@@ -47,7 +45,7 @@ def test_org_delete(client: Client) -> None:
         path="/v1/auth/sign_in/",
         data={
             "username": test_username,
-            "password": test_plaintext_password,
+            "password": test_password,
         },
     )
 
@@ -82,7 +80,7 @@ def test_org_delete(client: Client) -> None:
     #     path="/v1/auth/sign_in/",
     #     data={
     #         "username": test_username,
-    #         "password": test_plaintext_password,
+    #         "password": test_password,
     #     }
     # )
 

@@ -122,3 +122,14 @@ class GroupText(models.Model):
 
     def __str__(self) -> str:
         return f"{self.group} - {self.iso}"
+      
+
+class GroupFlag(models.Model):
+    """
+    Models for flagged groups.
+    """
+
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    group = models.ForeignKey("communities.Group", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)

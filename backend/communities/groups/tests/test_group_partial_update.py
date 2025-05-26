@@ -28,10 +28,8 @@ def test_group_partial_update(client: Client) -> None:
         and error messages for the scenarios described.
     """
     test_username = "test_user"
-    test_plaintext_password = "test_pass"
-    user = UserFactory(
-        username=test_username, plaintext_password=test_plaintext_password
-    )
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
     group = GroupFactory()
 
     user.verified = True
@@ -50,7 +48,7 @@ def test_group_partial_update(client: Client) -> None:
         path="/v1/auth/sign_in/",
         data={
             "username": test_username,
-            "password": test_plaintext_password,
+            "password": test_password,
         },
     )
 

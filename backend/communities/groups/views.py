@@ -21,9 +21,10 @@ from rest_framework.permissions import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from communities.groups.models import Group, GroupFaq, GroupSocialLink, GroupText
+from communities.groups.models import Group, GroupFaq, GroupFlag, GroupSocialLink, GroupText
 from communities.groups.serializers import (
     GroupFaqSerializer,
+    GroupFlagSerializer,
     GroupPOSTSerializer,
     GroupSerializer,
     GroupSocialLinkSerializer,
@@ -193,6 +194,58 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             )
 
         return Response({"message": "Group deleted successfully."}, status.HTTP_200_OK)
+
+
+class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
+    queryset = GroupFlag.objects.all()
+    serializer_class = GroupFlagSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+    http_method_names = ["get", "post", "delete"]
+
+    def create(self, request: Request):
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(
+            {"error": "You are not allowed to flag this group."},
+            status=status.HTTP_401_UNAUTHORIZED,
+        )
+
+    def list(self, request: Request):
+        query = self.queryset.filter()
+        serializer = self.get_serializer(query, many=True)
+
+        return self.get_paginated_response(self.paginate_queryset(serializer.data))
+
+    def retrieve(self, request: Request, pk: str | None):
+        if pk is not None:
+            query = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = self.get_serializer(query)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request: Request):
+        item = self.get_object()
+        if request.user.is_staff:
+            self.perform_destroy(item)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        else:
+            return Response(
+                {"error": "You are not authorized to delete this flag."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
 
 # MARK: Bridge Tables
