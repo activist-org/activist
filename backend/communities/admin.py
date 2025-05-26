@@ -10,6 +10,7 @@ from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
     OrganizationApplication,
+    OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
     OrganizationTask,
@@ -80,7 +81,22 @@ class OrganizationTextAdmin(admin.ModelAdmin[OrganizationText]):
     list_display = ["id"]
 
 
+class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
+    """
+    Admin interface for OrganizationFlag model.
+
+    Displays only the Organization ID, ID of user who flagged the Organization and the date of the report.
+    """
+
+    # Remove flagged_org as list_display cannot include a many-to-many field.
+    list_display = [
+        "created_by",
+        "created_at",
+    ]
+
+
 admin.site.register(Group, GroupAdmin)
 admin.site.register(GroupText, GroupTextAdmin)
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(OrganizationText, OrganizationTextAdmin)
+admin.site.register(OrganizationFlag, OrganizationFlagAdmin)

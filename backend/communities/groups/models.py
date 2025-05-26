@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from django.db import models
 
-from content.models import SocialLink
+from content.models import Faq, SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Group
@@ -41,27 +41,12 @@ class Group(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
-    faqs = models.ManyToManyField("content.Faq", blank=True)
+
     events = models.ManyToManyField("events.Event", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
 
-    flags = models.ManyToManyField(
-        "authentication.UserModel", through="GroupFlag", related_name="GroupFlags"
-    )
-
     def __str__(self) -> str:
         return self.name
-
-
-class GroupFlag(models.Model):
-    """
-    Models for flagged groups.
-    """
-
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
-    group = models.ForeignKey("communities.Group", on_delete=models.CASCADE)
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
 
 
 # MARK: Bridge Tables
@@ -111,6 +96,16 @@ class GroupSocialLink(SocialLink):
     )
 
 
+class GroupFaq(Faq):
+    """
+    Class for adding faq parameters to groups.
+    """
+
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, null=True, related_name="faqs"
+    )
+
+
 class GroupText(models.Model):
     """
     Class for adding text parameters to groups.
@@ -127,3 +122,14 @@ class GroupText(models.Model):
 
     def __str__(self) -> str:
         return f"{self.group} - {self.iso}"
+      
+
+class GroupFlag(models.Model):
+    """
+    Models for flagged groups.
+    """
+
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    group = models.ForeignKey("communities.Group", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)

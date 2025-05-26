@@ -21,8 +21,9 @@ from rest_framework.permissions import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from communities.groups.models import Group, GroupFlag, GroupSocialLink, GroupText
+from communities.groups.models import Group, GroupFaq, GroupFlag, GroupSocialLink, GroupText
 from communities.groups.serializers import (
+    GroupFaqSerializer,
     GroupFlagSerializer,
     GroupPOSTSerializer,
     GroupSerializer,
@@ -290,6 +291,44 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
         except Exception as e:
             return Response(
                 {"error": f"Failed to update social links: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
+    queryset = GroupFaq.objects.all()
+    serializer_class = GroupFaqSerializer
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        group = Group.objects.filter(id=pk).first()
+        if not group:
+            return Response(
+                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                faq = GroupFaq.objects.filter(id=data.get("id")).first()
+                if not faq:
+                    return Response(
+                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+                    )
+                faq.question = data.get("question", faq.question)
+                faq.answer = data.get("answer", faq.answer)
+                faq.save()
+
+            return Response(
+                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update faqs: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

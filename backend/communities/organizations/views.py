@@ -28,10 +28,14 @@ from rest_framework.views import APIView
 from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
+    OrganizationFaq,
+    OrganizationFlag,
     OrganizationSocialLink,
     OrganizationText,
 )
 from communities.organizations.serializers import (
+    OrganizationFaqSerializer,
+    OrganizationFlagSerializer,
     OrganizationSerializer,
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
@@ -295,6 +299,58 @@ class OrganizationDetailAPIView(APIView):
         )
 
 
+class OrganizationFlagViewSet(viewsets.ModelViewSet[OrganizationFlag]):
+    queryset = OrganizationFlag.objects.all()
+    serializer_class = OrganizationFlagSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+    http_method_names = ["get", "post", "delete"]
+
+    def create(self, request: Request) -> Response:
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(
+            {"error": "You are not allowed to flag this organization"},
+            status=status.HTTP_401_UNAUTHORIZED,
+        )
+
+    def list(self, request: Request) -> Response:
+        query = self.queryset.filter()
+        serializer = self.get_serializer(query, many=True)
+
+        return self.get_paginated_response(self.paginate_queryset(serializer.data))
+
+    def retrieve(self, request: Request, pk: str | None):
+        if pk is not None:
+            query = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = self.get_serializer(query)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request: Request):
+        item = self.get_object()
+        if request.user.is_staff:
+            self.perform_destroy(item)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        else:
+            return Response(
+                {"error": "You are not allowed to delete this flag report."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+
 # MARK: Bridge Tables
 
 
@@ -338,6 +394,44 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
         except Exception as e:
             return Response(
                 {"error": f"Failed to update social links: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
+    queryset = OrganizationFaq.objects.all()
+    serializer_class = OrganizationFaqSerializer
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        org = Organization.objects.filter(id=pk).first()
+        if not org:
+            return Response(
+                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                faq = OrganizationFaq.objects.filter(id=data.get("id")).first()
+                if not faq:
+                    return Response(
+                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+                    )
+                faq.question = data.get("question", faq.question)
+                faq.answer = data.get("answer", faq.answer)
+                faq.save()
+
+            return Response(
+                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update faqs: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
