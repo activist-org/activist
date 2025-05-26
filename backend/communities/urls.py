@@ -10,6 +10,7 @@ from communities.groups.views import (
     GroupAPIView,
     GroupDetailAPIView,
     GroupFaqViewSet,
+    GroupFlagViewSet,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
@@ -49,6 +50,7 @@ router.register(
     viewset=GroupTextViewSet,
     basename="group-text",
 )
+router.register(prefix=r"group_flag", viewset=GroupFlagViewSet, basename="group-flags")
 router.register(
     prefix=r"organization_social_links",
     viewset=OrganizationSocialLinkViewSet,
