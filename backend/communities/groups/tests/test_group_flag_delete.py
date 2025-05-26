@@ -14,9 +14,9 @@ def test_flag_flag_delete():
     """
     client = APIClient()
 
-    test_user = "username"
+    test_username = "username"
     test_pass = "password"
-    user = UserFactory(username=test_user, plaintext_password=test_pass)
+    user = UserFactory(username=test_username, plaintext_password=test_pass)
     user.is_confirmed = True
     user.verified = True
     user.is_staff = True
@@ -25,10 +25,12 @@ def test_flag_flag_delete():
     flag = GroupFlagFactory()
 
     login = client.post(
-        path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
+        path="/v1/auth/sign_in/",
+        data={"username": test_username, "password": test_pass},
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
 

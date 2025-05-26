@@ -48,10 +48,8 @@ def test_auth_throttle():
     client = APIClient()
 
     test_username = "test_username"
-    test_plaintext_password = "test_password123!"
-    user = UserFactory(
-        username=test_username, plaintext_password=test_plaintext_password
-    )
+    test_password = "test_password123!"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
     user.is_confirmed = True
     user.verified = True
     user.is_staff = True
@@ -59,7 +57,7 @@ def test_auth_throttle():
 
     login_response = client.post(
         path="/v1/auth/sign_in/",
-        data={"username": test_username, "password": test_plaintext_password},
+        data={"username": test_username, "password": test_password},
     )
     token = login_response.json()["token"]
 

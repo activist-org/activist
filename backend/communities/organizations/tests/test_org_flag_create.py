@@ -13,9 +13,9 @@ def test_org_flag_create():
     Test to create a flag for an organization.
     """
     client = APIClient()
-    test_user = "username"
-    test_pass = "password"
-    user = UserFactory(username=test_user, plaintext_password=test_pass)
+    test_username = "test_user"
+    test_pass = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_pass)
     user.is_confirmed = True
     user.verified = True
     user.save()
@@ -31,7 +31,8 @@ def test_org_flag_create():
     assert error_response.status_code == 401
 
     login = client.post(
-        path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
+        path="/v1/auth/sign_in/",
+        data={"username": test_username, "password": test_pass},
     )
 
     assert login.status_code == 200

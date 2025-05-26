@@ -10,7 +10,7 @@ pytestmark = pytest.mark.django_db
 
 def test_group_flag_create():
     """
-    Test to flag a group.
+    Test to create a flag for a group.
     """
     client = APIClient()
 
@@ -29,6 +29,7 @@ def test_group_flag_create():
     )
 
     assert error_response.status_code == 401
+
     error_response_body = error_response.json()
     assert (
         error_response_body["detail"] == "Authentication credentials were not provided."
@@ -40,6 +41,7 @@ def test_group_flag_create():
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
 

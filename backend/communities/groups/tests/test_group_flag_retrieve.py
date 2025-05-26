@@ -9,7 +9,7 @@ pytestmark = pytest.mark.django_db
 
 def test_group_flag_retrieve():
     """
-    Test to retrieve a flag of an group.
+    Test to retrieve a flag of a group.
     """
     client = APIClient()
 
