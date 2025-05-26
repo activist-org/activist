@@ -12,6 +12,7 @@ from communities.organizations.models import (
     Organization,
     OrganizationApplication,
     OrganizationFaq,
+    OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
     OrganizationSocialLink,
@@ -127,6 +128,16 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             OrganizationText.objects.create(org=org)
 
         return org
+
+
+class OrganizationFlagSerializer(serializers.ModelSerializer[OrganizationFlag]):
+    """
+    Serializers for OrganizationFlag Model.
+    """
+
+    class Meta:
+        model = OrganizationFlag
+        fields = "__all__"
 
 
 # MARK: Bridge Tables

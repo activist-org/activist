@@ -52,9 +52,24 @@ class Organization(models.Model):
 
     resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
+    flags = models.ManyToManyField(
+        "authentication.UserModel",
+        through="OrganizationFlag",
+    )
 
     def __str__(self) -> str:
         return self.name
+
+
+class OrganizationFlag(models.Model):
+    """
+    Model for flagged organizations.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org = models.ForeignKey("communities.Organization", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
 
 
 # MARK: Bridge Tables
