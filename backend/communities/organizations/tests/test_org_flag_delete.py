@@ -29,6 +29,7 @@ def test_org_flag_delete():
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
 

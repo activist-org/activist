@@ -7,7 +7,7 @@ pytestmark = pytest.mark.django_db
 
 def test_org_flag_list():
     """
-    Test to list all organization Flags.
+    Test to list all organization flags.
     """
     client = APIClient()
 
