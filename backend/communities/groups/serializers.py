@@ -9,8 +9,8 @@ from rest_framework import serializers
 
 from communities.groups.models import (
     Group,
-    GroupFlag,
     GroupFaq,
+    GroupFlag,
     GroupImage,
     GroupMember,
     GroupSocialLink,
