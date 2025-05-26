@@ -219,9 +219,15 @@ export const useRouting = () => {
 
           div.innerHTML = `<div title="${tooltip}" style="background-color: rgba(255,255,255,0.75); padding: 1px 5px; border-radius: 5px; box-shadow: 0 0 1px 2px rgba(0,0,0,0.15); color: rgba(0,0,0,0.8); cursor: pointer">${label}</div>`;
 
-          div.addEventListener("click", () => directions.clear());
+          div.addEventListener("click", () => {
+            directions.clear();
+            resetDirectionsControl();
+          });
           if (window.innerWidth < 768) {
-            div.addEventListener("touchend", () => directions.clear());
+            div.addEventListener("touchend", () => {
+              directions.clear();
+              resetDirectionsControl();
+            });
           } else {
             document.addEventListener("keydown", (event) => {
               if (event.key === "x") {
