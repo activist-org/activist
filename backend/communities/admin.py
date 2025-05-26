@@ -50,6 +50,16 @@ class GroupTextAdmin(admin.ModelAdmin[GroupText]):
     list_display = ["id", "group"]
 
 
+class GroupFlagAdmin(admin.ModelAdmin[GroupAdmin]):
+    """
+    Admin panel for the GroupFlag model.
+
+    Displays the Groups which have been flagged and the users who flagged it.
+    """
+
+    list_display = ["group", "created_by", "created_on"]
+
+
 class OrganizationAdmin(admin.ModelAdmin[Organization]):
     """
     Admin interface for the Organization model.

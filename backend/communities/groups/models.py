@@ -45,6 +45,10 @@ class Group(models.Model):
     events = models.ManyToManyField("events.Event", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
 
+    flags = models.ManyToManyField(
+        "authentication.UserModel", through="GroupFlag", related_name="GroupFlags"
+    )
+
     def __str__(self) -> str:
         return self.name
 
@@ -55,12 +59,9 @@ class GroupFlag(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
-    # flagged_group = models.ForeignKey("Group", on_delete=models.CASCADE)
-    flagged_group = models.ManyToManyField(
-        "self", related_name="flagged", through="Group", symmetrical=False
-    )
+    group = models.ForeignKey("communities.Group", on_delete=models.CASCADE)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
 
 
 # MARK: Bridge Tables
