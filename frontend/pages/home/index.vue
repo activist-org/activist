@@ -16,7 +16,6 @@
     <MediaMap
       v-if="events.length"
       class="h-[calc(50vh-1rem)] w-full"
-      :markerColors="['#BA3D3B']"
       :events="events"
       :type="MapType.CLUSTER"
     />

@@ -339,6 +339,7 @@ export const useClusterMap = () => {
       map.on("click", () => {
         resetDirectionsControl();
       });
+
       // MARK: Process Events
 
       const features: Feature<Point, GeoJsonProperties>[] = events.map(
@@ -361,6 +362,7 @@ export const useClusterMap = () => {
           },
         })
       );
+
       // Add a clustered GeoJSON source for events.
       map.addSource("events", {
         type: "geojson",
@@ -417,7 +419,7 @@ export const useClusterMap = () => {
         },
       });
 
-      // Add a layer for cluster labels
+      // Add a layer for cluster labels.
       map.addLayer({
         id: "cluster-count",
         type: "symbol",
@@ -511,6 +513,7 @@ export const useClusterMap = () => {
       });
     });
   };
+
   return {
     donutSegment,
     createDonutChart,
