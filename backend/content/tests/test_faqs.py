@@ -181,7 +181,7 @@ def test_organization_faq_create_view(client: APIClient) -> None:
     assert OrganizationFaq.objects.count() == num_faqs
     test_id = OrganizationFaq.objects.first().id
 
-    formData ={
+    formData = {
         "id": test_id,
         "iso": "en",
         "primary": True,
@@ -214,7 +214,7 @@ def test_group_faq_create_view(client: APIClient) -> None:
     assert GroupFaq.objects.count() == num_faqs
     test_id = GroupFaq.objects.first().id
 
-    formData ={
+    formData = {
         "id": test_id,
         "iso": "en",
         "primary": True,
@@ -247,7 +247,7 @@ def test_event_faq_create_view(client: APIClient) -> None:
     assert EventFaq.objects.count() == num_faqs
     test_id = EventFaq.objects.first().id
 
-    formData ={
+    formData = {
         "id": test_id,
         "iso": "en",
         "primary": True,
