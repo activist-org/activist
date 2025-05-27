@@ -182,6 +182,17 @@ export const useOrganizationStore = defineStore("organization", {
       this.loading = false;
     },
 
+    // MARK: Reload
+    async reload() {
+      this.loading = true;
+      if (this.organization.id) {
+        await this.fetchById(this.organization.id);
+      } else {
+        await this.fetchAll();
+      }
+      this.loading = false;
+    },
+
     // MARK: Update Texts
 
     async updateTexts(
@@ -287,16 +298,16 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Update FAQ Entries
 
-    async updateFaqEntry(id: string, formData: FaqEntry) {
+    async updateFaqEntry(formData: FaqEntry) {
       this.loading = true;
       const result = await useFaqEntryStore().update(
         "organization",
-        id,
+        this.organization.id,
         formData
       );
       if (result) {
         // Fetch updated organization data after successful updates, to update the frontend.
-        await this.fetchById(id);
+        await this.reload();
       }
       this.loading = false;
       return result;

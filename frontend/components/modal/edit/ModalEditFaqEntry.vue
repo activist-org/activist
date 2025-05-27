@@ -51,49 +51,25 @@ const formData = ref<FaqEntry>({
 });
 
 const entityType: "organization" | "group" | "event" = props.pageType;
-let paramsEntityId: string | string[];
-
-switch (entityType) {
-  case "organization":
-    paramsEntityId = useRoute().params.orgId;
-    break;
-  case "group":
-    paramsEntityId = useRoute().params.groupId;
-    break;
-  case "event":
-    paramsEntityId = useRoute().params.eventId;
-    break;
-}
-const entityId =
-  typeof paramsEntityId === "string" ? paramsEntityId : undefined;
 
 async function handleSubmit() {
   let updateResponse = false;
 
-  if (entityId) {
-    switch (entityType) {
-      case "organization":
-        updateResponse = await useOrganizationStore().updateFaqEntry(
-          entityId,
-          formData.value
-        );
-        break;
-      case "group":
-        updateResponse = await useGroupStore().updateFaqEntry(
-          entityId,
-          formData.value
-        );
-        break;
-      case "event":
-        updateResponse = await useEventStore().updateFaqEntry(
-          entityId,
-          formData.value
-        );
-        break;
-    }
-    if (updateResponse) {
-      handleCloseModal();
-    }
+  switch (entityType) {
+    case "organization":
+      updateResponse = await useOrganizationStore().updateFaqEntry(
+        formData.value
+      );
+      break;
+    case "group":
+      updateResponse = await useGroupStore().updateFaqEntry(formData.value);
+      break;
+    case "event":
+      updateResponse = await useEventStore().updateFaqEntry(formData.value);
+      break;
+  }
+  if (updateResponse) {
+    handleCloseModal();
   }
 }
 </script>

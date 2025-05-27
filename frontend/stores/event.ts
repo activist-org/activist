@@ -185,6 +185,17 @@ export const useEventStore = defineStore("event", {
       this.loading = false;
     },
 
+    // MARK: Reload
+    async reload() {
+      this.loading = true;
+      if (this.event.id) {
+        await this.fetchById(this.event.id);
+      } else {
+        await this.fetchAll();
+      }
+      this.loading = false;
+    },
+
     // MARK: Update Texts
 
     async updateTexts(event: Event, formData: EventUpdateTextFormData) {
@@ -287,12 +298,16 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Update FAQ Entries
 
-    async updateFaqEntry(id: string, formData: FaqEntry) {
+    async updateFaqEntry(formData: FaqEntry) {
       this.loading = true;
-      const result = await useFaqEntryStore().update("event", id, formData);
+      const result = await useFaqEntryStore().update(
+        "event",
+        this.event.id,
+        formData
+      );
       if (result) {
         // Fetch updated organization data after successful updates, to update the frontend.
-        await this.fetchById(id);
+        await this.reload();
       }
       this.loading = false;
       return result;

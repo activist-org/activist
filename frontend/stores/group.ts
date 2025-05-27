@@ -178,6 +178,17 @@ export const useGroupStore = defineStore("group", {
       this.loading = false;
     },
 
+    // MARK: Reload
+    async reload() {
+      this.loading = true;
+      if (this.group.id) {
+        await this.fetchById(this.group.id);
+      } else {
+        await this.fetchAll();
+      }
+      this.loading = false;
+    },
+
     // MARK: Update Texts
 
     async updateTexts(group: Group, formData: GroupUpdateTextFormData) {
@@ -280,12 +291,16 @@ export const useGroupStore = defineStore("group", {
 
     // MARK: Update FAQ Entries
 
-    async updateFaqEntry(id: string, formData: FaqEntry) {
+    async updateFaqEntry(formData: FaqEntry) {
       this.loading = true;
-      const result = await useFaqEntryStore().update("group", id, formData);
+      const result = await useFaqEntryStore().update(
+        "group",
+        this.group.id,
+        formData
+      );
       if (result) {
         // Fetch updated organization data after successful updates, to update the frontend.
-        await this.fetchById(id);
+        await this.reload();
       }
       this.loading = false;
       return result;
