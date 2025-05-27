@@ -18,6 +18,12 @@ router.register(prefix=r"discussions", viewset=views.DiscussionViewSet)
 router.register(prefix=r"resources", viewset=views.ResourceViewSet)
 router.register(prefix=r"images", viewset=views.ImageViewSet)
 
+router.register(
+    prefix=r"faqs/(?P<entity_type>[^/.]+)",
+    viewset=views.FaqViewSet,
+    basename="faqs",
+)
+
 # MARK: Bridge Tables
 
 router.register(prefix=r"discussion_entries", viewset=views.DiscussionEntryViewSet)

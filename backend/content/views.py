@@ -4,8 +4,11 @@
 API views for content management.
 """
 
+import json
 from typing import Any
+from uuid import UUID
 
+from django.db import transaction
 from django.db.models import Q
 from rest_framework import status, viewsets
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -13,14 +16,18 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from content.models import Discussion, DiscussionEntry, Image, Resource
+from communities.groups.models import Group
+from communities.organizations.models import Organization
+from content.models import Discussion, DiscussionEntry, Faq, Image, Resource
 from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
+    FaqSerializer,
     ImageSerializer,
     ResourceSerializer,
 )
 from core.paginator import CustomPagination
+from events.models import Event
 
 # MARK: Discussion
 
@@ -314,3 +321,57 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
 
     # Use the default destroy() provided by DRF / ModelViewSet. No need to write destroy() code here.
     # The model uses a signal to delete the file from the filesystem when the Image instance is deleted.
+
+
+# MARK: FAQ
+
+
+class FaqViewSet(viewsets.ModelViewSet[Faq]):
+    queryset = Faq.objects.all()
+    serializer_class = FaqSerializer
+
+    def update(self, request: Request, entity_type: str, pk: UUID | str) -> Response:
+        match entity_type:
+            case "group":
+                Entity = Group
+            case "organization":
+                Entity = Organization
+            case "event":
+                Entity = Event
+            case _:
+                return Response(
+                    {"error": "Entity type not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+
+        ent = Entity.objects.filter(id=pk).first()
+        if not ent:
+            return Response(
+                {"error": f"Entity (of type {entity_type}) not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                faq = ent.faqs.filter(id=data.get("id")).first()
+                if not faq:
+                    return Response(
+                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+                    )
+                faq.question = data.get("question", faq.question)
+                faq.answer = data.get("answer", faq.answer)
+                faq.save()
+
+            return Response(
+                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update faqs: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )

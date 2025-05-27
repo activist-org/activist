@@ -32,34 +32,17 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
-import type { Event } from "~/types/events/event";
+
+import { useFaqEntryStore } from "~/stores/content";
 
 const props = defineProps<{
   faqEntry: FaqEntry;
-  pageType: "organization" | "group" | "event" | "other";
+  pageType: "organization" | "group" | "event";
 }>();
 
 const modalName = "ModalEditFaqEntry" + props.faqEntry.id;
 const { handleCloseModal } = useModalHandlers(modalName);
-
-const paramsOrgId = useRoute().params.orgId;
-const paramsGroupId = useRoute().params.groupId;
-const paramsEventId = useRoute().params.eventId;
-
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
-const organizationStore = useOrganizationStore();
-const groupStore = useGroupStore();
-const eventStore = useEventStore();
-
-let organization: Organization;
-let group: Group;
-let event: Event;
 
 const formData = ref<FaqEntry>({
   id: props.faqEntry.id,
@@ -69,32 +52,48 @@ const formData = ref<FaqEntry>({
   answer: props.faqEntry.answer,
 });
 
-if (props.pageType == "organization") {
-  await organizationStore.fetchById(orgId);
-  organization = organizationStore.organization;
-  console.log("organization", organization);
-} else if (props.pageType == "group") {
-  await groupStore.fetchById(groupId);
-  group = groupStore.group;
-} else if (props.pageType == "event") {
-  await eventStore.fetchById(eventId);
-  event = eventStore.event;
+const faqEntryStore = useFaqEntryStore();
+const entityType: "organization" | "group" | "event" = props.pageType;
+let paramsEntityId: string | string[];
+
+switch (entityType) {
+  case "organization":
+    paramsEntityId = useRoute().params.orgId;
+    break;
+  case "group":
+    paramsEntityId = useRoute().params.groupId;
+    break;
+  case "event":
+    paramsEntityId = useRoute().params.eventId;
+    break;
 }
+const entityId =
+  typeof paramsEntityId === "string" ? paramsEntityId : undefined;
 
 async function handleSubmit() {
   let updateResponse = false;
-  if (props.pageType === "organization") {
-    updateResponse = await organizationStore.updateFaqEntry(
-      organization,
+
+  if (entityId) {
+    updateResponse = await faqEntryStore.update(
+      entityType,
+      entityId,
       formData.value
     );
-  } else if (props.pageType === "group") {
-    updateResponse = await groupStore.updateFaqEntry(group, formData.value);
-  } else if (props.pageType === "event") {
-    updateResponse = await eventStore.updateFaqEntry(event, formData.value);
   }
 
   if (updateResponse) {
+    switch (entityType) {
+      case "organization":
+        useOrganizationStore().fetchById(entityId);
+        break;
+      case "group":
+        useGroupStore().fetchById(entityId);
+        break;
+      case "event":
+        useEventStore().fetchById(entityId);
+        break;
+    }
+
     handleCloseModal();
   }
 }
