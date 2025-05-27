@@ -58,7 +58,7 @@ omit = [
     "manage.py",
     "*/__init__.py",
     "*/factories.py",
-    "utils/type_checker",
+    "utils/type_checker/*",
 ]
 
 [tool.mypy]
