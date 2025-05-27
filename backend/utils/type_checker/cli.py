@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Command-line interface for type checking."""
+"""
+Command-line interface for type checking.
+"""
 
 import argparse
 import sys
@@ -17,9 +19,7 @@ def main() -> None:
 
     args = parser.parse_args()
     checker = TypeChecker(args.models_file, args.types_file)
-    missing = checker.check()
-
-    if missing:
+    if missing := checker.check():
         print("Missing TypeScript fields found:")
         print("\n".join(missing))
         sys.exit(1)

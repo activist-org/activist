@@ -58,6 +58,7 @@ omit = [
     "manage.py",
     "*/__init__.py",
     "*/factories.py",
+    "utils/type_checker",
 ]
 
 [tool.mypy]
@@ -66,7 +67,6 @@ plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 ignore_missing_imports = true
 strict = true
 exclude = ["^.*/factories\\.py$"]
-enable_incomplete_feature = ["Unpack"]
 
 [[tool.mypy.overrides]]
 module = ["authentication.*", "content.*", "communities.*", "events.*"]
