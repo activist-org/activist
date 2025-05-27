@@ -34,8 +34,6 @@
 <script setup lang="ts">
 import type { FaqEntry } from "~/types/content/faq-entry";
 
-import { useFaqEntryStore } from "~/stores/content";
-
 const props = defineProps<{
   faqEntry: FaqEntry;
   pageType: "organization" | "group" | "event";
@@ -52,7 +50,6 @@ const formData = ref<FaqEntry>({
   answer: props.faqEntry.answer,
 });
 
-const faqEntryStore = useFaqEntryStore();
 const entityType: "organization" | "group" | "event" = props.pageType;
 let paramsEntityId: string | string[];
 
@@ -74,27 +71,29 @@ async function handleSubmit() {
   let updateResponse = false;
 
   if (entityId) {
-    updateResponse = await faqEntryStore.update(
-      entityType,
-      entityId,
-      formData.value
-    );
-  }
-
-  if (updateResponse) {
     switch (entityType) {
       case "organization":
-        useOrganizationStore().fetchById(entityId);
+        updateResponse = await useOrganizationStore().updateFaqEntry(
+          entityId,
+          formData.value
+        );
         break;
       case "group":
-        useGroupStore().fetchById(entityId);
+        updateResponse = await useGroupStore().updateFaqEntry(
+          entityId,
+          formData.value
+        );
         break;
       case "event":
-        useEventStore().fetchById(entityId);
+        updateResponse = await useEventStore().updateFaqEntry(
+          entityId,
+          formData.value
+        );
         break;
     }
-
-    handleCloseModal();
+    if (updateResponse) {
+      handleCloseModal();
+    }
   }
 }
 </script>

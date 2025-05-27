@@ -122,7 +122,7 @@ class GroupText(models.Model):
 
     def __str__(self) -> str:
         return f"{self.group} - {self.iso}"
-      
+
 
 class GroupFlag(models.Model):
     """

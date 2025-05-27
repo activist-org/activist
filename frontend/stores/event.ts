@@ -287,44 +287,15 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Update FAQ Entries
 
-    async updateFaqEntry(event: Event, formData: FaqEntry) {
+    async updateFaqEntry(id: string, formData: FaqEntry) {
       this.loading = true;
-      const responses: boolean[] = [];
-
-      const token = localStorage.getItem("accessToken");
-
-      const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_faqs/${event.id}/`,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            id: formData.id,
-            question: formData.question,
-            answer: formData.answer,
-          }),
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-
-      const responseFaqEntriesData = responseFaqEntries.data
-        .value as unknown as Event;
-      if (responseFaqEntriesData) {
-        responses.push(true);
-      } else {
-        responses.push(false);
+      const result = await useFaqEntryStore().update("event", id, formData);
+      if (result) {
+        // Fetch updated organization data after successful updates, to update the frontend.
+        await this.fetchById(id);
       }
-
-      if (responses.every((r) => r === true)) {
-        // Fetch updated event data after successful updates, to update the frontend.
-        await this.fetchById(event.id);
-        this.loading = false;
-        return true;
-      } else {
-        this.loading = false;
-        return false;
-      }
+      this.loading = false;
+      return result;
     },
 
     // MARK: Delete
