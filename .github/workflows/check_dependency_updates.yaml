@@ -115,7 +115,6 @@ jobs:
         run: |
           source .venv/bin/activate
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
           python -m pip install -r requirements-dev.txt
 
       - name: Update Backend Dependencies
@@ -155,14 +154,18 @@ jobs:
 
           python compare_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
 
-      - name: Run Backend Tests
-        id: backend-tests
-        working-directory: ./backend
+      - name: Add Test Results Header
+        id: add-test-results-header
         continue-on-error: true
         run: |
           source .venv/bin/activate
           echo -e "\n## Test Results" >> ../reports.md
 
+      - name: Run Backend Tests
+        id: backend-tests
+        working-directory: ./backend
+        continue-on-error: true
+        run: |
           echo -e "\n### Ruff Format Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           ruff format . 2>&1 | tee -a ../reports.md || true
