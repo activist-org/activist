@@ -1,101 +1,81 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!-- Note: Based on Material-UI text input styling. -->
+<!-- See: https://mui.com/material-ui/react-text-field/ -->
 <template>
   <div
-    class="flex max-h-[40px] select-none items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left text-distinct-text"
-    :class="{
-      'border-action-red dark:border-action-red': error,
-      'border-interactive': !error,
-    }"
+    class="primary-text relative inline-flex w-full flex-col space-y-2 align-top"
   >
-    <input
-      @input="updateValue"
-      @blur="emit('blurred')"
-      @focus="emit('focused')"
-      :id="uuid"
-      class="h-5 w-full bg-transparent placeholder-distinct-text outline-none"
+    <label
+      class="z-1 absolute"
       :class="{
-        'py-3': !icons,
+        'translate-x-4 text-sm text-distinct-text': shrinkLabel,
+        'translate-y-[1.125rem] pl-[12px]': !shrinkLabel,
       }"
-      :value="modelValue"
-      :placeholder="placeholder"
-      :type="refInputType"
-      :data-testid="placeholder"
-    />
-    <span
-      v-for="(i, index) in icons"
-      @click="handleIconClick(i)"
-      @keypress.space="handleIconClick(i)"
-      @keypress.enter="handleIconClick(i)"
-      :key="index"
-      role="button"
-      tabindex="0"
-      class="cursor-pointer"
+      :for="id"
     >
-      <Icon
-        v-if="i === IconMap.VISIBLE && refInputType === 'password'"
-        :name="i"
-        size="1.4em"
+      {{ label }}
+    </label>
+    <div
+      class="border-box relative inline-flex select-none items-center text-left text-distinct-text"
+    >
+      <input
+        @focus="shrinkLabel = true"
+        @blur="handleBlur"
+        :id="id"
+        class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text outline-none"
+        type="text"
+        v-bind="$attrs"
       />
-      <Icon
-        v-else-if="i === IconMap.VISIBLE && refInputType === 'text'"
-        :name="IconMap.HIDDEN"
-        size="1.4em"
-      />
-      <Icon
-        v-else
-        :name="i"
-        size="1.2em"
-        :color="getIconColor(i)"
-        data-testid="extra-icon"
-      />
-    </span>
+      <span v-if="$slots.icons" class="flex items-center gap-2 px-[10px]">
+        <slot name="icons"></slot>
+      </span>
+
+      <!-- Using a fieldset allows the label to overlay the border. -->
+      <fieldset
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 -top-[5px] bottom-0 rounded border pl-[12px] pr-[10px]"
+        :class="{
+          'border-action-red dark:border-action-red': hasError,
+          'border-interactive': !hasError,
+        }"
+        :data-testid="`${id}-border`"
+      >
+        <legend
+          class="invisible h-3 text-sm"
+          :class="{ 'max-w-[0.01px]': !shrinkLabel }"
+          data-testid="hidden-legend"
+        >
+          <!-- This span overlays the border when expanded. -->
+          <span class="visible px-1 opacity-0">
+            {{ label }}
+          </span>
+        </legend>
+      </fieldset>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { v4 as uuidv4 } from "uuid";
-
-import useFormInput from "~/composables/useFormSetup";
-import { IconMap } from "~/types/icon-map";
-
-export interface Props {
-  placeholder?: string;
-  modelValue?: string;
-  inputType?: string;
-  isIconVisible?: boolean;
-  icons?: string[];
-  error?: boolean;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  placeholder: "",
-  modelValue: "",
-  inputType: "text",
-  isIconVisible: false,
-  error: false,
+defineOptions({
+  inheritAttrs: false,
 });
 
-const emit = defineEmits(["update:modelValue", "blurred", "focused"]);
-const { updateValue } = useFormInput({ value: props?.modelValue }, emit, false);
-const uuid = uuidv4();
-const refInputType = ref<string | undefined>(props?.inputType);
-const changeInputType = () => {
-  refInputType.value = refInputType.value === "password" ? "text" : "password";
-};
+export interface Props {
+  id: string;
+  label: string;
+  hasError?: boolean;
+}
 
-const handleIconClick = (icon: string) => {
-  if (icon === IconMap.VISIBLE) {
-    changeInputType();
-  }
-};
+withDefaults(defineProps<Props>(), {
+  hasError: false,
+});
 
-const getIconColor = (icon: string) => {
-  if (icon === `${IconMap.CHECK}`) {
-    return "#3BA55C";
-  } else if (icon === `${IconMap.X_LG}`) {
-    return "#BA3D3B";
-  } else {
-    return "#5A5A5A";
+const shrinkLabel = ref<boolean>(false);
+
+const handleBlur = (event: FocusEvent) => {
+  const target = event.target as HTMLInputElement | null;
+  if (!target?.value) {
+    shrinkLabel.value = false;
   }
 };
 </script>

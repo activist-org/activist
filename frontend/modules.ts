@@ -16,7 +16,6 @@ const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
       },
     },
   ],
-  "nuxt-security",
   "@nuxtjs/color-mode",
   "@nuxtjs/device",
   "@nuxt/devtools",
@@ -24,6 +23,7 @@ const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
   "@nuxtjs/i18n",
   "@nuxtjs/plausible",
   "@nuxtjs/tailwindcss",
+  "nuxt-security",
 ];
 
 // This plugin may depend on Pinia.

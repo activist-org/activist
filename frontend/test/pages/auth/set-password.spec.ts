@@ -12,41 +12,49 @@ describe("reset-password", () => {
   it("shows error border on blur when password invalid", async () => {
     await render(SetPassword);
 
-    const passwordInput = screen.getByPlaceholderText(/enter your password/i);
+    const inputBorder = screen.getByTestId("set-password-password-border");
+    expect(inputBorder.className).toMatch("border-interactive");
 
-    expect(passwordInput.parentElement!.className).toContain(
-      "border-interactive"
+    const passwordInput = screen.getByLabelText(
+      getEnglishText("i18n._global.enter_password")
     );
-
     await fireEvent.update(passwordInput, "a");
     await fireEvent.blur(passwordInput);
 
     await waitFor(() => {
       expect(
-        screen.getByTestId(/enter your password/i).parentElement!.className
-      ).toContain("border-action-red dark:border-action-red");
+        screen.getByTestId("set-password-password-border").className
+      ).toMatch("border-action-red dark:border-action-red");
     });
   });
 
   it("shows green check when passwords match", async () => {
     await render(SetPassword);
 
-    const passwordInput = screen.getByPlaceholderText(/enter your password/i);
+    const passwordInput = screen.getByLabelText(
+      getEnglishText("i18n._global.enter_password")
+    );
 
     await fireEvent.update(passwordInput, "abcd");
     await fireEvent.blur(passwordInput);
 
-    const repeatPasswordInput = screen.getByPlaceholderText(/repeat password/i);
+    const repeatPasswordInput = screen.getByLabelText(
+      getEnglishText("i18n._global.repeat_password")
+    );
 
     await fireEvent.update(repeatPasswordInput, "ab");
 
-    let icon = await screen.findByTestId("extra-icon");
+    let icon = await screen.findByRole("img", {
+      name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
+    });
     expect(icon.style.color).toBe("#BA3D3B");
 
     await fireEvent.update(repeatPasswordInput, "abcd");
 
     await waitFor(() => {
-      icon = screen.getByTestId("extra-icon");
+      icon = screen.getByRole("img", {
+        name: getEnglishText("i18n.pages.auth._global.passwords_match"),
+      });
       expect(icon.style.color).toBe("#3BA55C");
     });
   });
@@ -60,7 +68,9 @@ describe("reset-password", () => {
   ])("shows password %s has rating of %s", async (password, ratingText) => {
     await render(SetPassword);
 
-    const passwordInput = screen.getByPlaceholderText(/enter your password/i);
+    const passwordInput = screen.getByLabelText(
+      getEnglishText("i18n._global.enter_password")
+    );
 
     await fireEvent.update(passwordInput, password);
 
@@ -106,7 +116,9 @@ describe("reset-password", () => {
     async (password, progress, expectColor) => {
       await render(SetPassword);
 
-      const passwordInput = screen.getByPlaceholderText(/enter your password/i);
+      const passwordInput = screen.getByLabelText(
+        getEnglishText("i18n._global.enter_password")
+      );
 
       await fireEvent.update(passwordInput, password);
 
@@ -164,16 +176,30 @@ describe("reset-password", () => {
   ])("shows rule violations for password: %s", async (password, rules) => {
     await render(SetPassword);
 
-    const passwordInput = screen.getByPlaceholderText(/enter your password/i);
+    const passwordInput = screen.getByLabelText(
+      getEnglishText("i18n._global.enter_password")
+    );
 
     await fireEvent.update(passwordInput, password);
-    await screen.findByText(/for your security/i);
+    await fireEvent.focus(passwordInput);
+
+    await screen.findByText(
+      getEnglishText(
+        "i18n.components.tooltip_password_requirements.password_rules_message"
+      )
+    );
 
     for (const { rule, passed } of rules) {
       const line = screen.getByTestId(rule);
 
       const icon = await within(line).findByRole("img", {
-        name: passed ? "passed" : "failed",
+        name: passed
+          ? getEnglishText(
+              "i18n.components.tooltip_password_requirements.password_passed_rule"
+            )
+          : getEnglishText(
+              "i18n.components.tooltip_password_requirements.password_failed_rule"
+            ),
       });
 
       expect(icon.style.color).toBe(passed ? "#198754" : "#BA3D3B");

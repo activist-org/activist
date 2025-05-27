@@ -35,7 +35,9 @@ def test_str_methods() -> None:
 
 
 def test_discussion_str_method():
-    """Test the __str__ method of the Discussion model."""
+    """
+    Test the __str__ method of the Discussion model.
+    """
     user = UserFactory()
     discussion = Discussion(
         id=uuid4(),
@@ -47,7 +49,9 @@ def test_discussion_str_method():
 
 
 def test_faq_str_method():
-    """Test the __str__ method of the Faq model."""
+    """
+    Test the __str__ method of the Faq model.
+    """
     faq = Faq(
         id=uuid4(),
         iso="en",
@@ -61,7 +65,9 @@ def test_faq_str_method():
 
 
 def test_image_str_method():
-    """Test the __str__ method of the Image model."""
+    """
+    Test the __str__ method of the Image model.
+    """
     image_id = uuid4()
     image = Image(
         id=image_id,
@@ -71,7 +77,9 @@ def test_image_str_method():
 
 
 def test_location_str_method():
-    """Test the __str__ method of the Location model."""
+    """
+    Test the __str__ method of the Location model.
+    """
     location_id = uuid4()
     location = Location(
         id=location_id,
@@ -83,7 +91,9 @@ def test_location_str_method():
 
 
 def test_social_link_str_method():
-    """Test the __str__ method of the SocialLink model."""
+    """
+    Test the __str__ method of the SocialLink model.
+    """
     social_link = SocialLink(
         id=uuid4(),
         link="https://example.com",
@@ -96,7 +106,9 @@ def test_social_link_str_method():
 
 
 def test_tag_str_method():
-    """Test the __str__ method of the Tag model."""
+    """
+    Test the __str__ method of the Tag model.
+    """
     tag_id = uuid4()
     tag = Tag(
         id=tag_id,
@@ -108,7 +120,9 @@ def test_tag_str_method():
 
 
 def test_discussion_entry_str_method():
-    """Test the __str__ method of the DiscussionEntry model."""
+    """
+    Test the __str__ method of the DiscussionEntry model.
+    """
     user = UserFactory()
     discussion = Discussion(
         id=uuid4(),

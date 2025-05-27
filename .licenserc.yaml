@@ -7,6 +7,7 @@ header:
     - '**/*.test.ts'
     - '**/*.d.ts'
     - '**/*.js'
+    - '**/*.css'
     - '**/*.py'
   paths-ignore:
     - 'dist'

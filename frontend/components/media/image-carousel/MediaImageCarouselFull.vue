@@ -1,12 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="relative">
-    <!-- MediaImageCarousel is the main image display component. -->
-    <!-- 'fullscreen' just makes the images a bit bigger in the carousel. -->
     <MediaImageCarousel
-      @upload-complete="fetchOrganizationImages"
+      @delete-complete="handleDeleteComplete"
       :fullscreen="false"
-      :organizationId="organizationId"
+      :fileUploadEntity="props.fileUploadEntity"
       :imageUrls="imageUrls"
     />
     <button
@@ -16,89 +14,73 @@
     >
       <Icon :name="IconMap.FULL_SCREEN" size="1.5em" />
     </button>
-    <!-- ModalMediaImageCarousel is the full-screen/modal/popup. -->
     <ModalMediaImageCarousel
       @upload-complete="fetchOrganizationImages"
       @closeModal="handleCloseMediaImageCarousel"
       :imageUrls="imageUrls"
+      :fileUploadEntity="props.fileUploadEntity"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Swiper } from "swiper/types";
-
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
+
+const props = defineProps<{ fileUploadEntity: FileUploadEntity }>();
+
+const orgStore = useOrganizationStore();
+const groupStore = useGroupStore();
+
+// TODO: Refactor this. ModalUploadImages also figures ids out.
+// Needed here because of the useFileManager hook, to get the initial image set on mount.
+const entityId = computed(() => {
+  switch (props.fileUploadEntity) {
+    case FileUploadEntity.ORGANIZATION_CAROUSEL:
+      return orgStore.organization.id;
+    case FileUploadEntity.GROUP_CAROUSEL:
+      return groupStore.group.id;
+    default:
+      console.log("Invalid file upload entity: ", props.fileUploadEntity);
+      return undefined;
+  }
+});
 
 const {
   openModal: openMediaImageCarousel,
   handleCloseModal: handleCloseMediaImageCarousel,
 } = useModalHandlers("ModalMediaImage");
 
-const props = defineProps<{
-  organizationId?: string;
-}>();
+const { imageUrls, fetchOrganizationImages } = useFileManager(entityId.value);
 
-onMounted(() => {
-  fetchOrganizationImages();
-  const swiperEl = document.querySelector("swiper-container");
-  if (swiperEl) {
-    swiperRef.value = { swiper: swiperEl.swiper };
-    swiperEl.addEventListener("swiper-ready", () => {
-      swiperRef.value = { swiper: swiperEl.swiper };
-    });
+const handleDeleteComplete = async (fileUploadEntity: FileUploadEntity) => {
+  const orgStore = useOrganizationStore();
+  //   const groupStore = useGroupStore();
+  //   const eventStore = useEventStore();
+  //
+  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_CAROUSEL) {
+    const { fetchOrganizationImages } = useFileManager(
+      orgStore.organization.id
+    );
+    await fetchOrganizationImages();
+  }
+  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_ICON) {
+    console.log("OrganizationPage handleUploadComplete ORGANIZATION_ICON");
+  }
+};
+
+onMounted(async () => {
+  switch (props.fileUploadEntity) {
+    case FileUploadEntity.ORGANIZATION_CAROUSEL:
+      if (entityId.value) {
+        await fetchOrganizationImages();
+      }
+      break;
+    case FileUploadEntity.GROUP_CAROUSEL:
+      return groupStore.group?.id;
+    default:
+      console.log("Invalid file upload entity: ", props.fileUploadEntity);
+      return null;
   }
 });
-
-// TODO: All image-related logic could be moved to a composable / store.
-const colorMode = useColorMode();
-const imageColor = colorMode.value;
-
-const defaultImageUrls = [
-  `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
-  `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
-  `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
-];
-
-const imageUrls = ref(defaultImageUrls);
-const uploadError = ref(false);
-const swiperRef = ref<{ swiper: Swiper | null }>();
-
-interface OrganizationImage {
-  id: string;
-  fileObject: string;
-  creation_date: string;
-}
-
-async function fetchOrganizationImages() {
-  if (props.organizationId) {
-    try {
-      const response = await fetch(
-        `${BASE_BACKEND_URL}/communities/organizations/${props.organizationId}/images/`,
-        {
-          headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.length > 0) {
-          imageUrls.value = data.map(
-            (img: OrganizationImage) => img.fileObject
-          );
-          uploadError.value = false;
-        } else {
-          imageUrls.value = defaultImageUrls;
-        }
-      } else {
-        uploadError.value = true;
-      }
-    } catch (error) {
-      console.error("Error fetching organization images:", error);
-      uploadError.value = true;
-    }
-  }
-}
 </script>

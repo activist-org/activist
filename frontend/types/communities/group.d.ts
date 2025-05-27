@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Note: We need to import here to overwrite base types.
+import type { ContentImage } from "~/types/content/image";
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Event } from "~/types/events/event";
-
 // MARK: Main Table
 
 interface GroupBase {
@@ -12,7 +12,7 @@ interface GroupBase {
   name: string;
   tagline: string;
   createdBy: User;
-  iconUrl?: string;
+  iconUrl?: ContentImage;
   location: Location;
   getInvolvedUrl: string;
   socialLinks: GroupSocialLink[];
@@ -66,18 +66,24 @@ export interface GroupResponse extends GroupBase {
   texts: GroupText[];
 }
 
+export interface GroupsResponseBody {
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results: GroupResponse[];
+}
+
 export interface PiniaResGroup {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
+  __v_isShallow: boolean;
   _rawValue: GroupResponse;
   _value: GroupResponse;
 }
-
 export interface PiniaResGroups {
-  __v_isShallow: boolean;
   __v_isRef: boolean;
-  _rawValue: GroupResponse[];
-  _value: GroupResponse[];
+  __v_isShallow: boolean;
+  _rawValue: GroupsResponseBody;
+  _value: GroupsResponseBody;
 }
 
 // MARK: Form Data

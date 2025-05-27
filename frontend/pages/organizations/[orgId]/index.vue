@@ -9,7 +9,7 @@
     </Head>
     <div class="mx-auto h-[260px] w-3/4">
       <ImageOrganization
-        :imgUrl="organization?.iconUrl"
+        :imgUrl="organization?.iconUrl.fileObject"
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: organization?.name,
@@ -67,19 +67,16 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/communities/organization";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 
 import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
+const props = defineProps<{
+  organization: Organization;
+}>();
 
 const localePath = useLocalePath();
 
@@ -100,10 +97,14 @@ const handleResize = () => {
     const currentRoute = useRoute();
 
     if (
-      currentRoute.path !== `/${locale.value}/organizations/${orgId}/about` ||
-      currentRoute.path === `/${locale.value}/organizations/${orgId}/`
+      currentRoute.path !==
+        `/${locale.value}/organizations/${props.organization.id}/about` ||
+      currentRoute.path ===
+        `/${locale.value}/organizations/${props.organization.id}/`
     ) {
-      navigateTo(`/${locale.value}/organizations/${orgId}/about`);
+      navigateTo(
+        `/${locale.value}/organizations/${props.organization.id}/about`
+      );
     }
   }
 };

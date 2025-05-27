@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Configure Django admin for the events app.
+"""
+
 from django.contrib import admin
 
 from events.models import (

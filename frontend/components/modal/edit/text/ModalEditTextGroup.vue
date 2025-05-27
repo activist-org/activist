@@ -25,9 +25,11 @@
       <div class="flex flex-col space-y-3 text-primary-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
-            $t("i18n.components.modal.edit._global.join_group_link")
+            $t("i18n.components.modal_edit_text_group.join_group_link")
           }}</label>
-          <p>{{ $t("i18n.components.modal.edit._global.remember_https") }}</p>
+          <p>
+            {{ $t("i18n.components.modal.edit.text._global.remember_https") }}
+          </p>
           <input
             v-model="formData.getInvolvedUrl"
             id="textarea"
@@ -38,11 +40,9 @@
       <BtnAction
         @click="handleSubmit()"
         :cta="true"
-        :label="$t('i18n.components.modal.edit._global.update_texts')"
+        label="i18n.components.modal.edit._global.update_texts"
         fontSize="base"
-        :ariaLabel="
-          $t('i18n.components.modal.edit._global.update_texts_aria_label')
-        "
+        ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
       />
     </div>
   </ModalBase>

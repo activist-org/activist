@@ -3,8 +3,10 @@ import type {
   Group,
   GroupCreateFormData,
   GroupResponse,
+  GroupsResponseBody,
   GroupUpdateTextFormData,
 } from "~/types/communities/group";
+import type { FaqEntry } from "~/types/content/faq-entry";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
 interface GroupStore {
@@ -32,7 +34,11 @@ export const useGroupStore = defineStore("group", {
         iconUrl: "",
       },
       createdBy: "",
-      iconUrl: "",
+      iconUrl: {
+        id: "",
+        fileObject: "",
+        creation_date: "",
+      },
 
       location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 
@@ -40,7 +46,7 @@ export const useGroupStore = defineStore("group", {
       socialLinks: [],
       creationDate: "",
 
-      faqEntries: [""],
+      faqEntries: [],
 
       texts: {
         id: 0,
@@ -122,6 +128,8 @@ export const useGroupStore = defineStore("group", {
         this.group.getInvolvedUrl = group.getInvolvedUrl;
         this.group.socialLinks = group.socialLinks;
 
+        this.group.faqEntries = group.faqEntries;
+
         this.group.texts = group.texts[0];
       }
 
@@ -133,16 +141,16 @@ export const useGroupStore = defineStore("group", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<GroupResponse[]>(
+      const { data, status } = await useAsyncData<GroupsResponseBody>(
         async () =>
           (await fetchWithoutToken(
             `/communities/groups/`,
             {}
-          )) as GroupResponse[]
+          )) as GroupsResponseBody
       );
 
       if (status.value === "success") {
-        const groups = data.value!.map((group: GroupResponse) => {
+        const groups = data.value!.results.map((group: GroupResponse) => {
           return {
             id: group.id,
             groupName: group.groupName,
@@ -159,6 +167,8 @@ export const useGroupStore = defineStore("group", {
             creationDate: group.creationDate,
 
             texts: group.texts[0],
+
+            faqEntries: group.faqEntries,
           };
         });
 
@@ -252,6 +262,48 @@ export const useGroupStore = defineStore("group", {
       const responseSocialLinksData = responseSocialLinks.data
         .value as unknown as Group;
       if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates, to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ Entries
+
+    async updateFaqEntry(group: Group, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_faqs/${group.id}/`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Group;
+      if (responseFaqEntriesData) {
         responses.push(true);
       } else {
         responses.push(false);

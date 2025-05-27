@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Configure Django admin for the content app.
+"""
+
 from django.contrib import admin
 
 from content.models import (
@@ -8,7 +12,6 @@ from content.models import (
     Image,
     Location,
     Resource,
-    Role,
     SocialLink,
     Tag,
     Task,
@@ -22,7 +25,6 @@ admin.site.register(Faq)
 admin.site.register(Image)
 admin.site.register(Location)
 admin.site.register(Resource)
-admin.site.register(Role)
 admin.site.register(SocialLink)
 admin.site.register(Tag)
 admin.site.register(Task)

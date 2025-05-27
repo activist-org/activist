@@ -26,7 +26,7 @@
     <div class="space-y-3 pt-3">
       <p>
         {{
-          $t("i18n.components._global.join_group_subtext", {
+          $t("i18n.components.card_get_involved_group.join_group_subtext", {
             entity_name: group.name,
           })
         }}.
@@ -48,6 +48,5 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
-
 const { group } = groupStore;
 </script>

@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="
         organization.name +
         ' ' +
@@ -29,8 +28,8 @@
           ariaLabel="i18n.pages.organizations.groups.index.new_group_aria_label"
         />
       </div>
-    </HeaderAppPage>
-    <div v-if="organization.groups?.length > 0" class="space-y-3 py-4">
+    </HeaderAppPageOrganization>
+    <div v-if="organization.groups!.length > 0" class="space-y-3 py-4">
       <CardSearchResultGroup
         v-for="(g, i) in organization.groups"
         :key="i"
@@ -44,13 +43,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/communities/organization";
+
 import { IconMap } from "~/types/icon-map";
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
+defineProps<{
+  organization: Organization;
+}>();
 </script>

@@ -38,22 +38,16 @@
         <BtnAction
           @click="addNewLink()"
           :cta="true"
-          :label="$t('i18n.components.modal_edit_social_links.add_link')"
+          label="i18n.components.modal_edit_social_links.add_link"
           fontSize="base"
-          :ariaLabel="
-            $t('i18n.components.modal_edit_social_links.add_link_aria_label')
-          "
+          ariaLabel="i18n.components.modal_edit_social_links.add_link_aria_label"
         />
         <BtnAction
           @click="handleSubmit()"
           :cta="true"
-          :label="$t('i18n.components.modal_edit_social_links.update_links')"
+          label="i18n.components.modal_edit_social_links.update_links"
           fontSize="base"
-          :ariaLabel="
-            $t(
-              'i18n.components.modal_edit_social_links.update_links_aria_label'
-            )
-          "
+          ariaLabel="i18n.components.modal_edit_social_links.update_links_aria_label"
         />
       </div>
     </div>

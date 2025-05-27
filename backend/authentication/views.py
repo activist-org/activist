@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+API views for authentication management.
+"""
+
 import os
 import uuid
 from uuid import UUID
@@ -19,9 +23,9 @@ from rest_framework.views import APIView
 from authentication.models import UserModel
 from authentication.serializers import (
     DeleteUserResponseSerializer,
-    LoginSerializer,
     PasswordResetSerializer,
-    SignupSerializer,
+    SignInSerializer,
+    SignUpSerializer,
 )
 
 dotenv.load_dotenv()
@@ -35,13 +39,10 @@ ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
 class SignUpView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (AllowAny,)
-    serializer_class = SignupSerializer
+    serializer_class = SignUpSerializer
 
     def post(self, request: Request) -> Response:
-        """
-        Create a new user.
-        """
-        serializer = SignupSerializer(data=request.data)
+        serializer = SignUpSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user: UserModel = serializer.save()
 
@@ -78,9 +79,6 @@ class SignUpView(APIView):
         parameters=[OpenApiParameter(name="verification_code", type=str, required=True)]
     )
     def get(self, request: Request) -> Response:
-        """
-        Confirm a user's email address.
-        """
         verification_code = request.GET.get("verification_code")
         user = UserModel.objects.filter(verification_code=verification_code).first()
 
@@ -102,16 +100,11 @@ class SignUpView(APIView):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class SignInView(APIView):
-    serializer_class = LoginSerializer
+    serializer_class = SignInSerializer
     permission_classes = (AllowAny,)
 
     def post(self, request: Request) -> Response:
-        """
-        Sign in a user.
-
-        Sign in is possible with either email or username.
-        """
-        serializer = LoginSerializer(data=request.data)
+        serializer = SignInSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         login(request, serializer.validated_data.get("user"))

@@ -4,7 +4,14 @@ Testing for the authentication app.
 """
 
 # mypy: ignore-errors
+import uuid
+from uuid import UUID
+
 import pytest
+from django.core import mail
+from django.test import Client
+from faker import Faker
+
 from authentication.factories import (
     SupportEntityTypeFactory,
     SupportFactory,
@@ -12,19 +19,18 @@ from authentication.factories import (
 )
 from authentication.models import UserModel
 
-from django.test import Client
-from django.core import mail
-from faker import Faker
-
-from django.test import Client
-from uuid import UUID
-import uuid
-
-
 pytestmark = pytest.mark.django_db
 
 
 def test_str_methods() -> None:
+    """
+    Test the __str__ methods of models in the authentication app.
+
+    Checks that the string representation of:
+    - SupportEntityType returns its 'name' field
+    - Support returns its string representation of the 'id' field
+    - User returns its 'username' field
+    """
     support_entity_type = SupportEntityTypeFactory.build()
     support = SupportFactory.build()
     user = UserFactory.build()
@@ -36,17 +42,19 @@ def test_str_methods() -> None:
 
 def test_sign_up(client: Client) -> None:
     """
-    Test the sign up function.
+    Test the sign-up function.
 
-    Scenarios:
-    1. Password strength fails
-    2. Password confirmation fails
-    3. User is created successfully with an email
-        - Check response status code
-        - Check if user exists in the DB
-        - Check if user password is hashed
-    4. User already exists
-    5. User is created without an email
+    This test checks various user registration scenarios:
+    - Password too weak
+    - Password mismatch
+    - Successful registration
+    - Duplicate user
+    - Missing email
+
+    Parameters
+    ----------
+    client : Client
+        An authenticated client.
     """
     fake = Faker()
     username = fake.name()
@@ -148,11 +156,16 @@ def test_sign_in(client: Client) -> None:
     """
     Test sign in view.
 
-    Scenarios:
-    1. User that signed up with email, that has not confirmed their email
-    2. User that signed up with email, confirmed email address. Is logged in successfully
-    3. User exists but password is incorrect
-    4. User does not exists and tries to sign in
+    This test covers several user sign-in scenarios:
+    1. User that signed up with email but has not confirmed their email.
+    2. User that confirmed email address and logs in successfully.
+    3. User exists but password is incorrect.
+    4. User does not exist and tries to sign in.
+
+    Parameters
+    ----------
+    client : Client
+        An authenticated client.
     """
     plaintext_password = "Activist@123!?"
     user = UserFactory(plaintext_password=plaintext_password)
@@ -198,12 +211,18 @@ def test_pwreset(client: Client) -> None:
     """
     Test password reset view.
 
-    Scenarios:
-    1. Password reset email is sent successfully
-    2. Password reset with invalid email
-    3. Password reset is performed successfully
-    4. Password reset with invalid verification code
+    This test covers various password reset scenarios:
+    1. Password reset email is sent successfully for a valid user.
+    2. Password reset attempt with an invalid email.
+    3. Password reset is performed successfully with a valid verification code.
+    4. Password reset attempt with an invalid verification code.
+
+    Parameters
+    ----------
+    client : Client
+        An authenticated client.
     """
+
     # Setup
     old_password = "password123!?"
     new_password = "Activist@123!?"
@@ -282,7 +301,9 @@ def test_create_user_and_superuser():
     assert superuser.is_active
 
     # Test that creating a superuser with is_staff=False raises the expected error.
-    with pytest.raises(ValueError, match="Superuser must be assigned to is_staff=True."):
+    with pytest.raises(
+        ValueError, match="Superuser must be assigned to is_staff=True."
+    ):
         manager.create_superuser(
             email="admin2@example.com",
             username="admin2",
@@ -291,7 +312,9 @@ def test_create_user_and_superuser():
         )
 
     # Test that creating a superuser with is_superuser=False raises the expected error.
-    with pytest.raises(ValueError, match="Superuser must be assigned to is_superuser=True."):
+    with pytest.raises(
+        ValueError, match="Superuser must be assigned to is_superuser=True."
+    ):
         manager.create_superuser(
             email="admin3@example.com",
             username="admin3",
@@ -303,6 +326,11 @@ def test_create_user_and_superuser():
 def test_delete_user(client: Client) -> None:
     """
     Test the deletion of existing user records from the database.
+
+    Parameters
+    ----------
+    client : Client
+        An authenticated client.
     """
     test_username = "test_user_123"
     test_pass = "Activist@123!?"
@@ -316,9 +344,6 @@ def test_delete_user(client: Client) -> None:
     )
 
     if response.status_code == 200:
-        delete_response = client.delete(
-            path="/v1/auth/delete/",
-            data={"pk": user.id}
-        )
+        delete_response = client.delete(path="/v1/auth/delete/", data={"pk": user.id})
 
         assert delete_response.status_code == 200

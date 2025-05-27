@@ -3,8 +3,10 @@ import type {
   Organization,
   OrganizationCreateFormData,
   OrganizationResponse,
+  OrganizationsResponseBody,
   OrganizationUpdateTextFormData,
 } from "~/types/communities/organization";
+import type { FaqEntry } from "~/types/content/faq-entry";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
 interface OrganizationStore {
@@ -25,7 +27,11 @@ export const useOrganizationStore = defineStore("organization", {
       name: "",
       tagline: "",
       createdBy: "",
-      iconUrl: "",
+      iconUrl: {
+        id: "",
+        fileObject: "",
+        creation_date: "",
+      },
 
       location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
 
@@ -36,6 +42,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       groups: [],
       events: [],
+      faqEntries: [],
 
       texts: {
         id: 0,
@@ -123,6 +130,7 @@ export const useOrganizationStore = defineStore("organization", {
 
         this.organization.groups = organization.groups;
         this.organization.events = organization.events;
+        this.organization.faqEntries = organization.faqEntries;
       }
 
       this.loading = false;
@@ -133,37 +141,40 @@ export const useOrganizationStore = defineStore("organization", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<OrganizationResponse[]>(
+      const { data, status } = await useAsyncData<OrganizationsResponseBody>(
         async () =>
           (await fetchWithoutToken(
             `/communities/organizations/`,
             {}
-          )) as OrganizationResponse[]
+          )) as OrganizationsResponseBody
       );
 
       if (status.value === "success") {
-        const organizations = data.value!.map((org: OrganizationResponse) => {
-          return {
-            id: org.id,
-            orgName: org.orgName,
-            name: org.name,
-            tagline: org.tagline,
-            createdBy: org.createdBy,
-            iconUrl: org.iconUrl,
+        const organizations = data.value!.results.map(
+          (org: OrganizationResponse) => {
+            return {
+              id: org.id,
+              orgName: org.orgName,
+              name: org.name,
+              tagline: org.tagline,
+              createdBy: org.createdBy,
+              iconUrl: org.iconUrl,
 
-            location: org.location,
+              location: org.location,
 
-            getInvolvedUrl: org.getInvolvedUrl,
-            socialLinks: org.socialLinks,
-            status: org.status,
-            creationDate: org.creationDate,
+              getInvolvedUrl: org.getInvolvedUrl,
+              socialLinks: org.socialLinks,
+              status: org.status,
+              creationDate: org.creationDate,
 
-            groups: org.groups,
-            events: org.events,
+              groups: org.groups,
+              events: org.events,
+              faqEntries: org.faqEntries,
 
-            texts: org.texts[0],
-          };
-        });
+              texts: org.texts[0],
+            };
+          }
+        );
 
         this.organizations = organizations;
       }
@@ -265,6 +276,48 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated organization data after successful updates, to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ Entries
+
+    async updateFaqEntry(org: Organization, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_faqs/${org.id}/`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Organization;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates, to update the frontend.
         await this.fetchById(org.id);
         this.loading = false;
         return true;

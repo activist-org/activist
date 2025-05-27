@@ -37,9 +37,12 @@
       <div v-if="organization.groups && organization.groups.length > 0">
         <p>
           {{
-            $t("i18n.components._global.working_groups_subtext", {
-              entity_name: organization.name,
-            })
+            $t(
+              "i18n.components.card_get_involved_organization.working_groups_subtext",
+              {
+                entity_name: organization.name,
+              }
+            )
           }}:
         </p>
         <Feed :organization="organization" />
@@ -50,9 +53,12 @@
         </p>
         <p v-else>
           {{
-            $t("i18n.components._global.join_organization_subtext", {
-              entity_name: organization.name,
-            })
+            $t(
+              "i18n.components.card_get_involved_organization.join_organization_subtext",
+              {
+                entity_name: organization.name,
+              }
+            )
           }}
         </p>
       </div>
@@ -86,6 +92,5 @@ const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
-
 const { organization } = organizationStore;
 </script>

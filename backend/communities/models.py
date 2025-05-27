@@ -5,10 +5,14 @@ Models for the communities app.
 
 from django.db import models
 
-# MARK: Main Tables
+# MARK: Status
 
 
 class Status(models.Model):
+    """
+    Represent the status of a user within a specific organization.
+    """
+
     status_type = models.ForeignKey("StatusType", on_delete=models.CASCADE)
     org = models.ForeignKey(
         "communities.Organization",
@@ -25,6 +29,10 @@ class Status(models.Model):
 
 
 class StatusType(models.Model):
+    """
+    Describe the possible types of user statuses within organizations.
+    """
+
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:

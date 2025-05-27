@@ -6,8 +6,7 @@
         {{ event.name }}&nbsp;{{ $t("i18n.pages._global.discussions_lower") }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :event="event"
+    <HeaderAppPageEvent
       :header="
         event.name + ' ' + $t('i18n.pages.events.discussion.discussion_lower')
       "
@@ -27,7 +26,7 @@
           ariaLabel="i18n.pages._global.new_discussion_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageEvent>
     <!-- <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
       <Discussion
         :discussionInput="event.discussion"
@@ -40,17 +39,16 @@
 </template>
 
 <script setup lang="ts">
+import type { Event } from "~/types/events/event";
+
 import { IconMap } from "~/types/icon-map";
+
+defineProps<{
+  event: Event;
+}>();
 
 const aboveMediumBP = useBreakpoint("md");
 
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-
-const { event } = eventStore;
 // const event = {
 //   name: "Test Event",
 //   discussion: [

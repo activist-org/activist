@@ -1,30 +1,46 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Classes controlling the CLI command to populate the database when starting the backend.
+"""
+
 import random
 from argparse import ArgumentParser
-from typing import List, TypedDict, Unpack
+from typing import List, TypedDict
 
 from django.core.management.base import BaseCommand
+from typing_extensions import Unpack
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
 from communities.groups.factories import (
     GroupFactory,
+    GroupFaqFactory,
     GroupSocialLinkFactory,
     GroupTextFactory,
 )
 from communities.groups.models import Group
 from communities.organizations.factories import (
     OrganizationFactory,
+    OrganizationFaqFactory,
     OrganizationSocialLinkFactory,
     OrganizationTextFactory,
 )
 from communities.organizations.models import Organization
 from content.models import Topic
-from events.factories import EventFactory, EventSocialLinkFactory, EventTextFactory
+from events.factories import (
+    EventFactory,
+    EventFaqFactory,
+    EventSocialLinkFactory,
+    EventTextFactory,
+)
 from events.models import Event
 
 
 class Options(TypedDict):
+    """
+    Options available to the populate_db management CLI command.
+    """
+
     users: int
     orgs_per_user: int
     groups_per_org: int
@@ -34,9 +50,21 @@ class Options(TypedDict):
 
 
 class Command(BaseCommand):
+    """
+    The populate_db CLI command for populating the database when starting the backend.
+    """
+
     help = "Populate the database with dummy data"
 
     def add_arguments(self, parser: ArgumentParser) -> None:
+        """
+        Add arguments into the parser.
+
+        Parameters
+        ----------
+        parser : ArgumentParser
+            A parser for passing CLI arguments to the command.
+        """
         parser.add_argument("--users", type=int, default=10)
         parser.add_argument("--orgs-per-user", type=int, default=1)
         parser.add_argument("--groups-per-org", type=int, default=1)
@@ -45,6 +73,17 @@ class Command(BaseCommand):
         parser.add_argument("--faq-entries-per-entity", type=int, default=1)
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
+        """
+        Handle arguments passed to the parser.
+
+        Parameters
+        ----------
+        *args : str
+            Optional string arguments.
+
+        **options : Unpack[Options]
+            Options that can be used to control the database wait functionality.
+        """
         num_users = options["users"]
         num_orgs_per_user = options["orgs_per_user"]
         num_groups_per_org = options["groups_per_org"]
@@ -114,6 +153,10 @@ class Command(BaseCommand):
                         user_org_event.texts.set([event_texts])
                         user_org_event.social_links.set(event_social_links)
 
+                        for _ in range(num_faq_entries_per_entity):
+                            user_org_event_faq = EventFaqFactory()
+                            user_org_event.faqs.add(user_org_event_faq)
+
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
                             created_by=user,
@@ -132,6 +175,13 @@ class Command(BaseCommand):
 
                         user_org_group.texts.set([group_texts])
                         user_org_group.social_links.set(group_social_links)
+                        for _ in range(num_faq_entries_per_entity):
+                            user_org_group_faq = GroupFaqFactory()
+                            user_org_group.faqs.add(user_org_group_faq)
+
+                    for _ in range(num_faq_entries_per_entity):
+                        user_org_faq = OrganizationFaqFactory()
+                        user_org.faqs.add(user_org_faq)
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org

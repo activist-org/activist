@@ -3,8 +3,9 @@
 Serializers for the content app.
 """
 
+import logging
 from io import BytesIO
-from typing import Any, Dict, Union
+from typing import Any, Dict, List, Union
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
@@ -12,7 +13,7 @@ from django.utils.translation import gettext as _
 from PIL import Image as PILImage
 from rest_framework import serializers
 
-from communities.organizations.models import OrganizationImage
+from communities.organizations.models import Organization, OrganizationImage
 from content.models import (
     Discussion,
     DiscussionEntry,
@@ -22,29 +23,62 @@ from content.models import (
     Resource,
     Topic,
 )
+from events.models import Event
 from utils.utils import validate_creation_and_deprecation_dates
 
-# MARK: Main Tables
+logger = logging.getLogger(__name__)
+
+# MARK: Discussion
 
 
 class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
+    """
+    Serializer for Discussion model data.
+    """
+
     class Meta:
         model = Discussion
-        fields = "__all__"
+        exclude = "created_by", "deletion_date"
+
+
+# MARK: FAQ
 
 
 class FaqSerializer(serializers.ModelSerializer[Faq]):
+    """
+    Serializer for Faq model data.
+    """
+
     class Meta:
         model = Faq
         fields = "__all__"
 
 
-# MARK: Clear Metadata
+# MARK: Image
 
 
 def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
     """
     Remove EXIF metadata from JPEGs and text metadata from PNGs.
+
+    This function helps protect user privacy by removing potentially
+    sensitive metadata from uploaded image files.
+
+    Parameters
+    ----------
+    image_file : InMemoryUploadedFile
+        The uploaded image file to be processed.
+
+    Returns
+    -------
+    InMemoryUploadedFile
+        Processed image file with metadata removed.
+
+    Notes
+    -----
+    For JPEG files, the function converts to RGB and removes EXIF data.
+    For PNG files, it clears the metadata info dictionary.
+    Other file types are returned unchanged.
     """
     try:
         img: PILImage.Image = PILImage.open(image_file)
@@ -70,7 +104,7 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         )
         output.seek(0)
 
-        # Return a new InMemoryUploadedFile
+        # Return a new InMemoryUploadedFile.
         return InMemoryUploadedFile(
             output,
             image_file.field_name,  # use original field name
@@ -86,12 +120,34 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
 
 
 class ImageSerializer(serializers.ModelSerializer[Image]):
+    """
+    Serializer for Image model data.
+    """
+
     class Meta:
         model = Image
         fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
     def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
+        """
+        Validate uploaded image files.
+
+        Parameters
+        ----------
+        data : Dict[str, UploadedFile]
+            Dictionary containing the file_object.
+
+        Returns
+        -------
+        Dict[str, UploadedFile]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If no file was submitted or if the file size exceeds the maximum limit.
+        """
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
 
@@ -107,46 +163,152 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
-    # Using 'Any' type until a more correct type is determined.
-    def create(self, validated_data: Dict[str, Any]) -> Image:
+    def create(self, validated_data: Dict[str, Any]) -> List[Image]:
+        """
+        Create an Image instance with privacy-enhanced processing.
+
+        Parameters
+        ----------
+        validated_data : Dict[str, Any]
+            Dictionary containing validated data for creating the image.
+
+        Returns
+        -------
+        Image
+            Created Image instance.
+
+        Notes
+        -----
+        This method:
+        1. Processes the uploaded file to remove metadata
+        2. Creates the image record
+        3. Links the image to an organization if specified
+        """
         request = self.context["request"]
 
-        if file_obj := request.FILES.get("file_object"):
-            validated_data["file_object"] = scrub_exif(file_obj)
+        images = []
 
-        # Create the image instance.
-        image = super().create(validated_data)
+        files = request.FILES.getlist("file_object")
 
-        # Handle organization image indexing if applicable.
-        if organization_id := request.data.get("organization_id"):
-            next_index = OrganizationImage.objects.filter(
-                org_id=organization_id
-            ).count()
-            OrganizationImage.objects.create(
-                org_id=organization_id, image=image, sequence_index=next_index
-            )
+        for file_obj in files:
+            file_data = validated_data.copy()
+            file_data["file_object"] = scrub_exif(file_obj)
+            image = super().create(file_data)
 
-        return image
+            images.append(image)
+
+            if organization_id := request.data.get("organization_id"):
+                if request.data.get("entity") == "organization-icon":
+                    try:
+                        organization = Organization.objects.get(id=organization_id)
+                        organization.icon_url = image
+                        organization.save()
+
+                    except Exception as e:
+                        raise serializers.ValidationError(
+                            f"An unexpected error occurred while updating the event: {str(e)}"
+                        )
+
+                elif request.data.get("entity") == "organization-carousel":
+                    next_index = OrganizationImage.objects.filter(
+                        org_id=organization_id
+                    ).count()
+                    OrganizationImage.objects.create(
+                        org_id=organization_id, image=image, sequence_index=next_index
+                    )
+
+            if group_id := request.data.get("group_id"):
+                if request.data.get("entity") == "group-icon":
+                    logger.warning("ENTITY:", request.data.get("entity"))
+                    logger.warning("GROUP-ICON group_id:", group_id)
+                #         group = Group.objects.get(id=group_id)
+                #         group.iconUrl = image.file_object.url
+                #         group.save()
+
+                elif request.data.get("entity") == "group-carousel":
+                    logger.warning("ENTITY:", request.data.get("entity"))
+                    logger.warning("GROUP-CAROUSEL group_id:", group_id)
+            #       next_index = GroupImage.objects.filter(
+            #           group_id=group_id
+            #       ).count()
+            #       GroupImage.objects.create(
+            #           group_id=group_id, image=image, sequence_index=next_index
+            #       )
+
+            if event_id := request.data.get("event_id"):
+                if request.data.get("entity") == "event-icon":
+                    try:
+                        event = Event.objects.get(id=event_id)
+                        event.icon_url = image
+                        event.save()
+                        logger.info("Updated Event %s with icon %s", event_id, image.id)
+
+                    except Exception as e:
+                        raise serializers.ValidationError(
+                            f"An unexpected error occurred while updating the event: {str(e)}"
+                        )
+
+        return images
+
+
+# MARK: Location
 
 
 class LocationSerializer(serializers.ModelSerializer[Location]):
+    """
+    Serializer for Location model data.
+    """
+
     class Meta:
         model = Location
         fields = "__all__"
 
 
+# MARK: Resource
+
+
 class ResourceSerializer(serializers.ModelSerializer[Resource]):
+    """
+    Serializer for Resource model data.
+    """
+
     class Meta:
         model = Resource
         fields = "__all__"
 
 
+# MARK: Topic
+
+
 class TopicSerializer(serializers.ModelSerializer[Topic]):
+    """
+    Serializer for Topic model data.
+    """
+
     class Meta:
         model = Topic
         fields = "__all__"
 
     def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        """
+        Validate topic data including active status and deprecation date.
+
+        Parameters
+        ----------
+        data : Dict[str, Union[str, int]]
+            Topic data dictionary to validate.
+
+        Returns
+        -------
+        Dict[str, Union[str, int]]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If an active topic has a deprecation date or
+            an inactive topic doesn't have a deprecation date.
+        """
         if data["active"] is True and data.get("deprecation_date") is not None:
             raise serializers.ValidationError(
                 _("Active topics cannot have a deprecation date."),
@@ -168,6 +330,10 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
 
 
 class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
+    """
+    Serializer for DiscussionEntry model data.
+    """
+
     class Meta:
         model = DiscussionEntry
-        fields = "__all__"
+        exclude = "created_by", "deletion_date"
