@@ -296,7 +296,24 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
-    // MARK: Update FAQ Entries
+    // MARK: Create FAQ Entry
+
+    async createFaqEntry(formData: FaqEntry) {
+      this.loading = true;
+      const result = await useFaqEntryStore().create(
+        "organization",
+        this.organization.id,
+        formData
+      );
+      if (result) {
+        // Fetch updated organization data after successful creation, to update the frontend.
+        await this.reload();
+      }
+      this.loading = false;
+      return result;
+    },
+
+    // MARK: Update FAQ Entry
 
     async updateFaqEntry(formData: FaqEntry) {
       this.loading = true;

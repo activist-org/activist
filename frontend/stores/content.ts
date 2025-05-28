@@ -24,6 +24,51 @@ export const useFaqEntryStore = defineStore("faqEntry", {
     faqEntries: [],
   }),
   actions: {
+    // MARK: Create
+
+    async create(
+      entityType: "organization" | "group" | "event",
+      entityId: string,
+      formData: FaqEntry
+    ) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/content/faqs/${entityType}/${entityId}/`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            order: formData.order,
+            iso: formData.iso,
+            question: formData.question,
+            answer: formData.answer,
+          }),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as FaqEntry;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
     // MARK: Update
 
     async update(

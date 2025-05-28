@@ -330,6 +330,53 @@ class FaqViewSet(viewsets.ModelViewSet[Faq]):
     queryset = Faq.objects.all()
     serializer_class = FaqSerializer
 
+    def post(self, request: Request, entity_type: str, pk: UUID | str) -> Response:
+        match entity_type:
+            case "group":
+                Entity = Group
+            case "organization":
+                Entity = Organization
+            case "event":
+                Entity = Event
+            case _:
+                return Response(
+                    {"error": "Entity type not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+
+        ent = Entity.objects.filter(id=pk).first()
+        if not ent:
+            return Response(
+                {"error": f"Entity (of type {entity_type}) not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                create_data = {
+                    "question": data.get("question"),
+                    "answer": data.get("answer"),
+                    "iso": data.get("iso", "en"),
+                    "primary": data.get("primary", True),
+                    "order": data.get("order", 0),
+                }
+
+                ent.faqs.create(**create_data)
+
+            return Response(
+                {"message": "FAQ created successfully."}, status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to create faq: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
     def update(self, request: Request, entity_type: str, pk: UUID | str) -> Response:
         match entity_type:
             case "group":
