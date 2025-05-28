@@ -16,7 +16,7 @@ from content.serializers import (
     LocationSerializer,
     ResourceSerializer,
 )
-from events.models import Event, EventFaq, EventSocialLink, EventText, Format
+from events.models import Event, EventFaq, EventFlag, EventSocialLink, EventText, Format
 from utils.utils import (
     validate_creation_and_deprecation_dates,
 )
@@ -208,6 +208,19 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             EventText.objects.create(event=event)
 
         return event
+
+
+# MARK: Event Flag
+
+
+class EventFlagSerializers(serializers.ModelSerializer[EventFlag]):
+    """
+    Serializers for EventFlag Model.
+    """
+
+    class Meta:
+        model = EventFlag
+        fields = "__all__"
 
 
 # MARK: Format

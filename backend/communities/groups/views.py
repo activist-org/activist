@@ -21,7 +21,13 @@ from rest_framework.permissions import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from communities.groups.models import Group, GroupFaq, GroupFlag, GroupSocialLink, GroupText
+from communities.groups.models import (
+    Group,
+    GroupFaq,
+    GroupFlag,
+    GroupSocialLink,
+    GroupText,
+)
 from communities.groups.serializers import (
     GroupFaqSerializer,
     GroupFlagSerializer,

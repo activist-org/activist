@@ -61,9 +61,24 @@ class Event(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
+    flags = models.ManyToManyField("authentication.UserModel", through="EventFlag")
 
     def __str__(self) -> str:
         return self.name
+
+
+# MARK: Event Flag
+
+
+class EventFlag(models.Model):
+    """
+    Model for event flags.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    event = models.ForeignKey("Event", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
 
 
 # MARK: Format
