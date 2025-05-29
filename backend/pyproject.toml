@@ -1,7 +1,6 @@
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = [
-    "*/tests.py",
     "*/migrations/*.py",
     ".bzr",
     ".direnv",
@@ -45,14 +44,13 @@ line_length = 88
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "core.settings"
-python_files = "tests.py test_*.py *_tests.py"
+python_files = "test_*.py"
 addopts = "--nomigrations"
 
 [tool.coverage.run]
 omit = [
     "*/migrations/*",
     "*/tests/*",
-    "tests.py",
     "asgi.py",
     "wsgi.py",
     "manage.py",

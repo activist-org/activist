@@ -5,7 +5,13 @@ Configure Django admin for the communities app.
 
 from django.contrib import admin
 
-from communities.groups.models import Group, GroupImage, GroupMember, GroupText
+from communities.groups.models import (
+    Group,
+    GroupFlag,
+    GroupImage,
+    GroupMember,
+    GroupText,
+)
 from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
@@ -51,7 +57,7 @@ class GroupTextAdmin(admin.ModelAdmin[GroupText]):
     list_display = ["id", "group"]
 
 
-class GroupFlagAdmin(admin.ModelAdmin[GroupAdmin]):
+class GroupFlagAdmin(admin.ModelAdmin[GroupFlag]):
     """
     Admin panel for the GroupFlag model.
 
@@ -85,11 +91,11 @@ class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
     """
     Admin interface for OrganizationFlag model.
 
-    Displays only the Organization ID, ID of user who flagged the Organization and the date of the report.
+    Displays only the Organization and users who flagged it.
     """
 
-    # Remove flagged_org as list_display cannot include a many-to-many field.
     list_display = [
+        "org",
         "created_by",
         "created_at",
     ]
@@ -97,6 +103,7 @@ class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
 
 admin.site.register(Group, GroupAdmin)
 admin.site.register(GroupText, GroupTextAdmin)
+admin.site.register(GroupFlag, GroupFlagAdmin)
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(OrganizationText, OrganizationTextAdmin)
 admin.site.register(OrganizationFlag, OrganizationFlagAdmin)
