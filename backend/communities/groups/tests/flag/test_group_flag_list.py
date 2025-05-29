@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 pytestmark = pytest.mark.django_db
 
 
-def test_org_flag_list():
+def test_group_flag_list():
     """
     Test to list all group flags.
     """

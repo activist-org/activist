@@ -8,7 +8,7 @@ from communities.groups.factories import GroupFlagFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_flag_flag_delete():
+def test_group_flag_delete():
     """
     Test to delete a flag of a group.
     """

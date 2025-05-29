@@ -21,6 +21,7 @@ from content.models import (
     Image,
     Location,
     Resource,
+    ResourceFlag,
     Topic,
 )
 from events.models import Event
@@ -274,6 +275,19 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
 
     class Meta:
         model = Resource
+        fields = "__all__"
+
+
+# MARK: Resource Flag
+
+
+class ResourceFlagSerializer(serializers.ModelSerializer[ResourceFlag]):
+    """
+    Serializers for Resource Flag model.
+    """
+
+    class Meta:
+        model = ResourceFlag
         fields = "__all__"
 
 

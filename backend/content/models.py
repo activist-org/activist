@@ -157,7 +157,11 @@ class Resource(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        "authentication.UserModel",
+        on_delete=models.CASCADE,
+        related_name="created_resource",
+    )
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
     category = models.CharField(max_length=255, blank=True)
@@ -173,8 +177,24 @@ class Resource(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
 
+    flags = models.ManyToManyField(
+        "authentication.UserModel",
+        through="ResourceFlag",
+    )
+
     def __str__(self) -> str:
         return self.name
+
+
+class ResourceFlag(models.Model):
+    """
+    Model for flagged resources.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    resource = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
 
 
 # MARK: Social Link
