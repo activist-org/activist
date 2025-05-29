@@ -22,6 +22,11 @@ class TypeScriptInterface:
 class TypeScriptParser:
     """
     Parser for TypeScript interface files.
+
+    Parameters
+    ----------
+    file_path : str
+        The file path for the TypeScript file to parse.
     """
 
     def __init__(self, file_path: str) -> None:
@@ -32,6 +37,11 @@ class TypeScriptParser:
     def parse_interfaces(self) -> Dict[str, TypeScriptInterface]:
         """
         Parse TypeScript interfaces from the file.
+
+        Returns
+        -------
+        Dict[str, TypeScriptInterface]
+            The interface parsed into a dictionary for future processing.
         """
         interfaces = {}
         interface_pattern = (
@@ -53,6 +63,11 @@ class TypeScriptParser:
     def get_backend_only_fields(self) -> Set[str]:
         """
         Extract fields marked as backend-only in comments.
+
+        Returns
+        -------
+        Set[str]
+            The field names that are marked with a backend-only identifier to ignore them.
         """
         patterns = [
             r"//.*?Note:\s*(\w+)\s+is\s+backend\s+only",
@@ -68,6 +83,16 @@ class TypeScriptParser:
     def _extract_fields(interface_body: str) -> Set[str]:
         """
         Extract field names from interface body.
+
+        Parameters
+        ----------
+        interface_body : str
+            A string representation of the interface body of the model.
+
+        Returns
+        -------
+        Set[str]
+            The field names from the model interface body.
         """
         fields = set()
 

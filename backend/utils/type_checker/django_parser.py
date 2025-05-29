@@ -35,7 +35,17 @@ class DjangoModelVisitor(ast.NodeVisitor):
         self.current_model: str | None = None
 
     def visit_ClassDef(self, node: ast.ClassDef) -> None:
-        if node.bases:  # Only process classes that inherit from something
+        """
+        Check class definitions, specifically those that inherit from other classes.
+
+        Parameters
+        ----------
+        node : ast.ClassDef
+            A class definition from Python AST (Abstract Syntax Tree).
+            It contains information about the class, such as its name, base classes, body, decorators, etc.
+        """
+        # Only process classes that inherit from something.
+        if node.bases:
             self.current_model = node.name
             if self.current_model not in self.models:
                 self.models[self.current_model] = set()
@@ -45,6 +55,15 @@ class DjangoModelVisitor(ast.NodeVisitor):
         self.current_model = None
 
     def visit_Assign(self, node: ast.Assign) -> None:
+        """
+        Check assignment statements within a class.
+
+        Parameters
+        ----------
+        node : ast.Assign
+            An assignment definition from Python AST (Abstract Syntax Tree).
+            It represents an assignment statement (e.g., x = 42).
+        """
         if not self.current_model:
             return
 
@@ -64,6 +83,16 @@ class DjangoModelVisitor(ast.NodeVisitor):
 def extract_model_fields(models_file: str) -> Dict[str, Set[str]]:
     """
     Extract fields from Django models file.
+
+    Parameters
+    ----------
+    models_file : str
+        A models.py file that defines Django models.
+
+    Returns
+    -------
+    Dict[str, Set[str]]
+        The fields from the models file extracted into a dictionary for future processing.
     """
     with open(models_file, "r", encoding="utf-8") as f:
         tree = ast.parse(f.read())

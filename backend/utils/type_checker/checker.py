@@ -13,6 +13,14 @@ from .utils import snake_to_camel
 class TypeChecker:
     """
     Main class for checking Django models against TypeScript types.
+
+    Parameters
+    ----------
+    models_file : str
+        The file path for the models file to check.
+
+    types_file : str
+        The file path for the TypeScript file to check.
     """
 
     def __init__(self, models_file: str, types_file: str) -> None:
@@ -24,7 +32,14 @@ class TypeChecker:
         self.backend_only = self.ts_parser.get_backend_only_fields()
 
     def check(self) -> List[str]:
-        """Check models against TypeScript types."""
+        """
+        Check models against TypeScript types.
+
+        Returns
+        -------
+        list
+            A list of fields missing from the TypeScript file.
+        """
         missing_fields = []
 
         for model_name, fields in self.model_fields.items():
@@ -47,6 +62,16 @@ class TypeChecker:
     def _find_matching_interfaces(self, model_name: str) -> Dict[str, Set[str]]:
         """
         Find matching TypeScript interfaces for a model.
+
+        Parameters
+        ----------
+        model_name : str
+            The name of the model to check the frontend TypeScript file for.
+
+        Returns
+        -------
+        Dict[str, Set[str]]
+            Interfaces that match a model name.
         """
         potential_names = self._generate_potential_names(model_name)
         return {
@@ -59,6 +84,16 @@ class TypeChecker:
     def _generate_potential_names(model_name: str) -> List[str]:
         """
         Generate potential TypeScript interface names for a model.
+
+        Parameters
+        ----------
+        model_name : str
+            The name of the model to check the frontend TypeScript file for.
+
+        Returns
+        -------
+        List[str]
+            Possible names for the model to check for.
         """
         base_names = [
             model_name,
@@ -66,7 +101,7 @@ class TypeChecker:
         ]
 
         if "_" in model_name:
-            base_names.append(snake_to_camel(model_name))
+            base_names.append(snake_to_camel(input_str=model_name))
 
         suffixes = ["", "Base", "Response", "Type"]
         return [f"{base}{suffix}" for base in base_names for suffix in suffixes]
@@ -76,8 +111,21 @@ class TypeChecker:
     ) -> bool:
         """
         Check if a field is accounted for in TypeScript.
+
+        Parameters
+        ----------
+        field : str
+            The field that should be used in the frontend TypeScript file.
+
+        interfaces : Dict[str, Set[str]]
+            The interfaces from the frontend TypeScript file.
+
+        Returns
+        -------
+        Bool
+            Whether the field is accounted for in the frontend TypeScript file.
         """
-        camel_field = snake_to_camel(field)
+        camel_field = snake_to_camel(input_str=field)
         return (
             camel_field in self.backend_only
             or field in self.backend_only
@@ -88,6 +136,16 @@ class TypeChecker:
     def _format_missing_interface_message(model_name: str) -> str:
         """
         Format message for missing interface.
+
+        Parameters
+        ----------
+        model_name : str
+            The name of the model that an interface is missing from.
+
+        Returns
+        -------
+        str
+            The message displayed to the user when missing interfaces are found.
         """
         potential_names = TypeChecker._generate_potential_names(model_name)
         return (
@@ -101,8 +159,24 @@ class TypeChecker:
     ) -> str:
         """
         Format message for missing field.
+
+        Parameters
+        ----------
+        field : str
+            The model field that's missing.
+
+        model_name : str
+            The name of the model that the field is missing from.
+
+        interfaces : Dict[str, Set[str]]
+            The interfaces that have been searched.
+
+        Returns
+        -------
+        str
+            The message displayed to the user when missing fields are found.
         """
-        camel_field = snake_to_camel(field)
+        camel_field = snake_to_camel(input_str=field)
         return (
             f"\nField '{field}' (camelCase: '{camel_field}') from model '{model_name}' "
             f"is missing in TypeScript types.\n"

@@ -10,7 +10,9 @@ from .checker import TypeChecker
 
 
 def main() -> None:
-    """Main entry point."""
+    """
+    Main entry point.
+    """
     parser = argparse.ArgumentParser(
         description="Check model fields against TypeScript types"
     )
@@ -22,6 +24,9 @@ def main() -> None:
     if missing := checker.check():
         print("Missing TypeScript fields found:")
         print("\n".join(missing))
+        print(
+            f"\nPlease correct the {len(missing)} fields above to have backend models and frontend types fully synced."
+        )
         sys.exit(1)
 
     print("All model fields are properly typed in TypeScript!")
