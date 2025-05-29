@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
-from django.test import Client
+from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from events.factories import EventFactory
@@ -8,12 +8,11 @@ from events.factories import EventFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_delete(client: Client) -> None:
-    """
-    User who is not the owner of the event tries to delete.
-    """
-    test_username = "test_username"
-    test_password = "test_password"
+def test_event_flag_create():
+    client = APIClient()
+
+    test_username = "test_user"
+    test_password = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_password)
     user.is_confirmed = True
     user.verified = True
@@ -26,18 +25,14 @@ def test_event_delete(client: Client) -> None:
     )
 
     assert login.status_code == 200
-
     login_body = login.json()
     token = login_body["token"]
 
-    event = EventFactory.create()
+    event = EventFactory()
 
-    response = client.delete(
-        path=f"/v1/events/events/{event.id}/",
-        headers={"Authorization": f"Token {token}"},
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    response = client.post(
+        path="/v1/events/event_flag/", data={"event": event.id, "created_by": user.id}
     )
 
-    assert response.status_code == 401
-
-    response_body = response.json()
-    assert response_body["error"] == "User not authorized."
+    assert response.status_code == 201

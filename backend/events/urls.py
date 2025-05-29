@@ -10,6 +10,7 @@ from events.views import (
     EventAPIView,
     EventDetailAPIView,
     EventFaqViewSet,
+    EventFlagViewSet,
     EventSocialLinkViewSet,
     EventTextViewSet,
 )
@@ -31,6 +32,8 @@ router.register(
     viewset=EventFaqViewSet,
     basename="event-faqs",
 )
+
+router.register(prefix=r"event_flag", viewset=EventFlagViewSet, basename="event-flags")
 
 urlpatterns = [
     path("", include(router.urls)),

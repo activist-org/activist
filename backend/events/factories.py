@@ -14,6 +14,7 @@ from events.models import (
     EventAttendee,
     EventAttendeeStatus,
     EventFaq,
+    EventFlag,
     EventSocialLink,
     EventText,
     Format,
@@ -59,6 +60,24 @@ class EventFactory(factory.django.DjangoModelFactory):
         ]
     )
     setting = random.choice(["online", "offline"])
+
+
+# MARK: Event Flag
+
+
+class EventFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Event Flag models.
+    """
+
+    class Meta:
+        model = EventFlag
+
+    event = factory.SubFactory("events.factories.EventFactory")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    created_on = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 # MARK: Format

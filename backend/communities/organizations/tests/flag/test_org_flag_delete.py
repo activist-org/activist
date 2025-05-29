@@ -24,6 +24,7 @@ def test_org_flag_delete():
 
     flag = OrganizationFlagFactory()
 
+    # Login to get token.
     login = client.post(
         path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_pass},
