@@ -12,6 +12,8 @@ from communities.organizations.factories import (
     OrganizationApplicationStatusFactory,
     OrganizationFactory,
     OrganizationImageFactory,
+    OrganizationMemberFactory,
+    OrganizationTaskFactory,
     OrganizationTextFactory,
 )
 from communities.organizations.models import OrganizationApplication
@@ -61,3 +63,18 @@ def test_org_str_methods_text() -> None:
     org_text = OrganizationTextFactory.build(iso="en")
     org = org_text.org
     assert str(org_text) == f"{org} - en"
+
+
+def test_org_str_methods() -> None:
+    """
+    Test the __str__ methods of the communities.
+    """
+    organization = OrganizationFactory.create()
+    # Note: Needs to be updated to reflect the recent changes.
+    # organization_application = OrganizationApplicationFactory.create()
+    organization_member = OrganizationMemberFactory.create()
+    organization_task = OrganizationTaskFactory.create()
+
+    assert str(organization) == organization.name
+    assert str(organization_member) == str(organization_member.id)
+    assert str(organization_task) == str(organization_task.id)
