@@ -13,6 +13,7 @@ from communities.organizations.factories import OrganizationFactory
 from communities.organizations.models import Organization, OrganizationApplication
 from content.factories import EntityLocationFactory
 
+# Endpoint used for these tests:
 ORGS_URL = "/v1/communities/organizations/"
 
 

@@ -55,6 +55,7 @@ def test_auth_throttle():
     user.is_staff = True
     user.save()
 
+    # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_password},

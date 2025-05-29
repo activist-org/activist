@@ -14,6 +14,7 @@ from communities.groups.models import Group
 from communities.organizations.factories import OrganizationFactory
 from content.factories import EntityLocationFactory
 
+# Endpoint used for these tests:
 GROUPS_URL = "/v1/communities/groups/"
 
 
