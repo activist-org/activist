@@ -12,7 +12,7 @@ from events.factories import EventFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_multiple_events_per_org() -> None:
+def test_multiple_event_per_org() -> None:
     """
     Test multiple events for a single organization.
     """

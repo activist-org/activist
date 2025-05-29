@@ -9,7 +9,7 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-def test_org_list_images(client: Client) -> None:
+def test_org_list_image(client: Client) -> None:
     org = OrganizationFactory()
 
     response = client.get(
