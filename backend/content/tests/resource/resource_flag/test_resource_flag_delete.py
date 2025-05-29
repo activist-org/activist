@@ -3,31 +3,25 @@ import pytest
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
-from communities.groups.factories import GroupFlagFactory
+from content.factories import ResourceFlagFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_group_flag_delete():
-    """
-    Test to delete a flag of a group.
-    """
+def test_resource_flag_delete():
     client = APIClient()
-
-    test_username = "username"
-    test_pass = "password"
-    user = UserFactory(username=test_username, plaintext_password=test_pass)
+    test_username = "test_user"
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
     user.is_confirmed = True
     user.verified = True
     user.is_staff = True
     user.save()
 
-    flag = GroupFlagFactory()
-
     # Login to get token.
     login = client.post(
         path="/v1/auth/sign_in/",
-        data={"username": test_username, "password": test_pass},
+        data={"username": test_username, "password": test_password},
     )
 
     assert login.status_code == 200
@@ -35,7 +29,9 @@ def test_group_flag_delete():
     login_body = login.json()
     token = login_body["token"]
 
+    flag = ResourceFlagFactory()
+
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/communities/group_flag/{flag.id}/")
+    response = client.delete(path=f"/v1/content/resource_flag/{flag.id}/")
 
     assert response.status_code == 204

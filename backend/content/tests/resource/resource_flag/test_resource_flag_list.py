@@ -5,12 +5,9 @@ from rest_framework.test import APIClient
 pytestmark = pytest.mark.django_db
 
 
-def test_group_flag_list():
-    """
-    Test to list all group flags.
-    """
+def test_resource_flag_list():
     client = APIClient()
 
-    response = client.get(path="/v1/communities/group_flag/")
+    response = client.get(path="/v1/content/resource_flag/")
 
     assert response.status_code == 200

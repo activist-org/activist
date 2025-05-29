@@ -11,7 +11,7 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_retrieve_groups(client: Client) -> None:
+def test_group_retrieve(client: Client) -> None:
     """
     Test retrieving groups.
 
