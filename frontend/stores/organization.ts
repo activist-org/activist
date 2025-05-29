@@ -182,6 +182,17 @@ export const useOrganizationStore = defineStore("organization", {
       this.loading = false;
     },
 
+    // MARK: Reload
+    async reload() {
+      this.loading = true;
+      if (this.organization.id) {
+        await this.fetchById(this.organization.id);
+      } else {
+        await this.fetchAll();
+      }
+      this.loading = false;
+    },
+
     // MARK: Update Texts
 
     async updateTexts(
@@ -285,46 +296,38 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
-    // MARK: Update FAQ Entries
+    // MARK: Create FAQ Entry
 
-    async updateFaqEntry(org: Organization, formData: FaqEntry) {
+    async createFaqEntry(formData: FaqEntry) {
       this.loading = true;
-      const responses: boolean[] = [];
-
-      const token = localStorage.getItem("accessToken");
-
-      const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organization_faqs/${org.id}/`,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            id: formData.id,
-            question: formData.question,
-            answer: formData.answer,
-          }),
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
+      const result = await useFaqEntryStore().create(
+        "organization",
+        this.organization.id,
+        formData
       );
-
-      const responseFaqEntriesData = responseFaqEntries.data
-        .value as unknown as Organization;
-      if (responseFaqEntriesData) {
-        responses.push(true);
-      } else {
-        responses.push(false);
+      if (result) {
+        // Fetch updated organization data after successful creation, to update the frontend.
+        await this.reload();
       }
+      this.loading = false;
+      return result;
+    },
 
-      if (responses.every((r) => r === true)) {
-        // Fetch updated org data after successful updates, to update the frontend.
-        await this.fetchById(org.id);
-        this.loading = false;
-        return true;
-      } else {
-        this.loading = false;
-        return false;
+    // MARK: Update FAQ Entry
+
+    async updateFaqEntry(formData: FaqEntry) {
+      this.loading = true;
+      const result = await useFaqEntryStore().update(
+        "organization",
+        this.organization.id,
+        formData
+      );
+      if (result) {
+        // Fetch updated organization data after successful updates, to update the frontend.
+        await this.reload();
       }
+      this.loading = false;
+      return result;
     },
 
     // MARK: Delete
