@@ -10,7 +10,7 @@ repos:
       # - id: pretty-format-json
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.10
+    rev: v0.11.12
     hooks:
       - id: ruff-check
         name: run ruff linting check
@@ -20,6 +20,15 @@ repos:
       - id: ruff-format
         name: run ruff formatting check
         files: ^backend/
+
+  - repo: https://github.com/to-sta/spdx-checker-pre-commit
+    rev: v0.1.1
+    hooks:
+      - id: spdx-license-checker
+        name: spdx-license-checker
+        args: [-l, AGPL-3.0-or-later]
+        language_version: python3.13
+        types_or: [python, ts, javascript, vue, css, html]
 
   - repo: https://github.com/numpy/numpydoc
     rev: v1.8.0
