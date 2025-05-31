@@ -25,7 +25,7 @@ repos:
     rev: v0.1.1
     hooks:
       - id: spdx-license-checker
-        name: spdx-license-checker
+        name: run spdx-checker license check
         args: [-l, AGPL-3.0-or-later]
         language_version: python3.13
         types_or: [python, ts, javascript, vue, css, html]
@@ -78,13 +78,3 @@ repos:
   #   hooks:
   #     - id: markdown-link-check
   #       args: [-q]
-
-  # SkyWalking Eyes License header check (https://github.com/apache/skywalking-eyes).
-  # -   repo: local
-  #     hooks:
-  #     - id: license-check
-  #       name: license-check
-  #       language: docker_image
-  #       entry: --rm apache/skywalking-eyes:0.7.0 --config .licenserc.yaml header check
-  #       types_or: [python, ts, javascript, vue, css]
-  #       exclude_types: [directory, wsgi]
