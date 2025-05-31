@@ -3,6 +3,7 @@
 Classes controlling the CLI command to populate the database when starting the backend.
 """
 
+# mypy: ignore-errors
 import random
 from argparse import ArgumentParser
 from typing import List, TypedDict

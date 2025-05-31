@@ -41,6 +41,7 @@ def test_org_delete(client: Client) -> None:
     user.is_staff = True
     user.save()
 
+    # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in/",
         data={
@@ -76,6 +77,7 @@ def test_org_delete(client: Client) -> None:
     # user.is_staff = True
     # user.save()
 
+    # Login to get token.
     # login_response = client.post(
     #     path="/v1/auth/sign_in/",
     #     data={

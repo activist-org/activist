@@ -20,9 +20,10 @@ from rest_framework.views import APIView
 
 from content.models import Location
 from core.paginator import CustomPagination
-from events.models import Event, EventFaq, EventSocialLink, EventText
+from events.models import Event, EventFaq, EventFlag, EventSocialLink, EventText
 from events.serializers import (
     EventFaqSerializer,
+    EventFlagSerializers,
     EventPOSTSerializer,
     EventSerializer,
     EventSocialLinkSerializer,
@@ -181,6 +182,60 @@ class EventDetailAPIView(APIView):
         return Response(
             {"message": "Event deleted successfully."}, status=status.HTTP_200_OK
         )
+
+
+# MARK: Event Flag
+
+
+class EventFlagViewSet(viewsets.ModelViewSet[EventFlag]):
+    queryset = EventFlag.objects.all()
+    serializer_class = EventFlagSerializers
+    pagination_class = CustomPagination
+    http_method_names = ["get", "post", "delete"]
+
+    def create(self, request: Request) -> Response:
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        else:
+            return Response(
+                {"error": "You are not allowed to flag this event."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+    def list(self, request: Request) -> Response:
+        query = self.queryset.filter()
+        serializer = self.get_serializer(query, many=True)
+
+        return self.get_paginated_response(self.paginate_queryset(serializer.data))
+
+    def retrieve(self, request: Request, pk: str | None) -> Response:
+        if pk is not None:
+            query = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response({"error": "Invalid ID"}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.get_serializer(query)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request: Request) -> Response:
+        query = self.get_object()
+        if request.user.is_staff:
+            self.perform_destroy(query)
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        else:
+            return Response(
+                {"error": "You are not authorized to delete this event flag."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
 
 # MARK: Bridge Tables

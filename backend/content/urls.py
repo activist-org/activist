@@ -17,6 +17,7 @@ router = DefaultRouter()
 router.register(prefix=r"discussions", viewset=views.DiscussionViewSet)
 router.register(prefix=r"resources", viewset=views.ResourceViewSet)
 router.register(prefix=r"images", viewset=views.ImageViewSet)
+router.register(prefix=r"resource_flag", viewset=views.ResourceFlagViewSet)
 
 # MARK: Bridge Tables
 

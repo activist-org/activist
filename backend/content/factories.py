@@ -17,6 +17,7 @@ from content.models import (
     Image,
     Location,
     Resource,
+    ResourceFlag,
     Task,
     Topic,
 )
@@ -208,6 +209,21 @@ class ResourceFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+class ResourceFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating instances of ResourceFlag model.
+    """
+
+    class Meta:
+        model = ResourceFlag
+
+    resource = factory.SubFactory("content.factories.ResourceFactory")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    created_on = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
