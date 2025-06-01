@@ -16,7 +16,7 @@ class IsAdminStaffCreatorOrReadOnly(BasePermission):
     users to edit it. Read operations are allowed for any request.
     """
 
-    message = "You are not authorized to update this group"
+    message = "You are not authorized to perform this action."
 
     def has_permission(self, request: Request, view: APIView) -> bool:
         """
@@ -47,7 +47,7 @@ class IsAdminStaffCreatorOrReadOnly(BasePermission):
         Check if the user has permission for the specific object.
 
         Read permissions are allowed to any request.
-        Write permissions are only allowed to the creator of the group,
+        Write permissions are only allowed to the creator of the object,
         or admin/staff users.
 
         Parameters

@@ -15,7 +15,11 @@ from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    SAFE_METHODS,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -41,33 +45,21 @@ class GroupAPIView(GenericAPIView[Group]):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_permissions(self):
-        """
-        Returns the permissions for the view.
-        """
-        if self.request.method in "POST":
-            self.permission_classes = (IsAuthenticated,)
-
-        else:
+        if self.request.method in SAFE_METHODS:
             self.permission_classes = (IsAuthenticatedOrReadOnly,)
-
+        else:
+            self.permission_classes = (IsAuthenticated,)
         return super().get_permissions()
 
     def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
-        """
-        Returns the serializer class for the view.
-        """
-        if self.request.method == "POST":
-            return GroupPOSTSerializer
-
-        return GroupSerializer
+        if self.request.method in SAFE_METHODS:
+            return GroupSerializer
+        return GroupPOSTSerializer
 
     @extend_schema(
         responses={200: GroupSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
-        """
-        Returns a paginated list of Groups.
-        """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
 
@@ -86,9 +78,6 @@ class GroupAPIView(GenericAPIView[Group]):
         },
     )
     def post(self, request: Request) -> Response:
-        """
-        Create a new Group.
-        """
         serializer_class = self.get_serializer_class()
         serializer: GroupPOSTSerializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -122,9 +111,6 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         }
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Retrieve a single Group by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Group ID is required"},
@@ -134,9 +120,6 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         try:
             group = Group.objects.get(id=id)
             self.check_object_permissions(request, group)
-            serializer = GroupSerializer(group)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
         except Group.DoesNotExist:
             return Response(
                 {"error": "Failed to retrieve the Group"},
@@ -145,6 +128,9 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         except PermissionDenied as e:
             return Response({"error": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
+        serializer = GroupSerializer(group)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     @extend_schema(
         responses={
             200: GroupSerializer,
@@ -152,13 +138,13 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             401: OpenApiResponse(
                 response={"error": "You are not authorized to update this group"}
             ),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to perform this action."}
+            ),
             404: OpenApiResponse(response={"error": "Group not found"}),
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Update an Group by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Group ID is required"},
@@ -168,13 +154,10 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         try:
             group = Group.objects.get(id=id)
             self.check_object_permissions(request, group)
-
         except Group.DoesNotExist:
             return Response(
                 {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
             )
-        except PermissionDenied as e:
-            return Response({"error": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
         serializer = self.serializer_class(group, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
@@ -189,13 +172,13 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             401: OpenApiResponse(
                 response={"error": "You are not authorized to delete this group"}
             ),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to perform this action."}
+            ),
             404: OpenApiResponse(response={"error": "Group not found"}),
         }
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:
-        """
-        Delete an Group by ID.
-        """
         if id is None:
             return Response(
                 {"error": "Group ID is required"},
@@ -209,11 +192,6 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         except Group.DoesNotExist:
             return Response(
                 {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
-            )
-        except PermissionDenied:
-            return Response(
-                {"error": "You are not authorized to delete this group"},
-                status=status.HTTP_401_UNAUTHORIZED,
             )
 
         group.delete()
