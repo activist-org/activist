@@ -29,10 +29,8 @@ def test_group_delete(client: Client) -> None:
         This test asserts the correctness of HTTP status codes (401 for unauthorized, 200 for success).
     """
     test_username = "test_user"
-    test_plaintext_password = "test_pass"
-    user = UserFactory(
-        username=test_username, plaintext_password=test_plaintext_password
-    )
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
     group = GroupFactory()
 
     """
@@ -49,7 +47,7 @@ def test_group_delete(client: Client) -> None:
         path="/v1/auth/sign_in/",
         data={
             "username": test_username,
-            "password": test_plaintext_password,
+            "password": test_password,
         },
     )
 
@@ -88,7 +86,7 @@ def test_group_delete(client: Client) -> None:
         path="/v1/auth/sign_in/",
         data={
             "username": test_username,
-            "password": test_plaintext_password,
+            "password": test_password,
         },
     )
 
@@ -121,7 +119,7 @@ def test_group_delete(client: Client) -> None:
         path="/v1/auth/sign_in/",
         data={
             "username": test_username,
-            "password": test_plaintext_password,
+            "password": test_password,
         },
     )
 

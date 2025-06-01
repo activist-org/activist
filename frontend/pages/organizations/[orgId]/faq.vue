@@ -23,7 +23,7 @@
     </HeaderAppPageOrganization>
     <div v-if="organization.faqEntries!.length > 0" class="py-4">
       <div v-for="f in organization.faqEntries" class="mb-4">
-        <CardFAQEntry :faqEntry="f" />
+        <CardFAQEntry :pageType="'organization'" :faqEntry="f" />
       </div>
     </div>
     <EmptyState v-else pageType="faq" :permission="false" class="py-4" />

@@ -10,7 +10,7 @@ interface EventBase {
   tagline?: string;
   createdBy: User;
   iconUrl?: ContentImage;
-  type: "action" | "learn";
+  type: EventType;
   onlineLocationLink?: string;
   offlineLocation?: Location;
   getInvolvedUrl?: string;
@@ -27,6 +27,8 @@ interface EventBase {
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
 }
+
+export type EventType = "action" | "learn";
 
 export interface Event extends EventBase {
   texts: EventText;

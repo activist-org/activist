@@ -2,7 +2,7 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      - id: trailing-whitespace
+      # - id: trailing-whitespace  # handled by Ruff and Prettier
       - id: end-of-file-fixer
         exclude: ^docs/|README.md$
       - id: check-yaml
@@ -34,9 +34,10 @@ repos:
       - id: mypy-check
         name: run mypy static type checking
         files: ^backend/
-        entry: python ./pre_commit_scripts/mypy_static_type_check.py
+        entry: python ./pre_commit_scripts/mypy_check.py
         language: python
         types: [python]
+        pass_filenames: false
 
   - repo: local
     hooks:
@@ -45,19 +46,14 @@ repos:
         files: ^frontend/
         entry: python frontend/i18n/check/run_i18n_checks.py
         language: python
+        pass_filenames: false
 
-      - id: prettier-format-check
-        name: run prettier formatting check
+      - id: prettier-eslint-checks
+        name: run prettier and eslint checks
         files: ^frontend/
-        entry: python ./pre_commit_scripts/prettier_formatting_check.py
+        entry: python ./pre_commit_scripts/prettier_eslint_checks.py
         language: python
-
-      - id: eslint-lint-check
-        name: run eslint static type check
-        files: ^frontend/
-        entry: python ./pre_commit_scripts/eslint_static_type_check.py
-        language: python
-        types_or: [javascript, ts, tsx, jsx, vue]
+        pass_filenames: false
 
   # Note: Disabled as it breaks on TOC links.
   # - repo: https://github.com/tcort/markdown-link-check

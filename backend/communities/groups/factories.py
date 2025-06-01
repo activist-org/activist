@@ -11,6 +11,8 @@ import factory
 
 from communities.groups.models import (
     Group,
+    GroupFaq,
+    GroupFlag,
     GroupImage,
     GroupMember,
     GroupSocialLink,
@@ -87,6 +89,21 @@ class GroupSocialLinkFactory(factory.django.DjangoModelFactory):
     )
 
 
+class GroupFaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
+    class Meta:
+        model = GroupFaq
+
+    iso = "en"
+    primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
+    order = factory.Faker("random_int", min=1, max=100)
+
+
 class GroupTextFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating GroupText model instances.
@@ -100,3 +117,18 @@ class GroupTextFactory(factory.django.DjangoModelFactory):
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")
     donate_prompt = factory.Faker(provider="text", locale="la")
+
+
+class GroupFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating GroupFlag model instances.
+    """
+
+    class Meta:
+        model = GroupFlag
+
+    group = factory.SubFactory(GroupFactory)
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    created_on = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
