@@ -84,8 +84,7 @@ checks = [
 ]
 
 exclude = [
-    "^.*\\.Meta$",     # Meta classes
-    "^.*\\.__str__$",  # __str__ methods
-    "^__init__$",      # __init__ files
-    "^.*\\.__init__$", # __init__ methods
+    "^.*\\.Meta$",    # Meta classes
+    "^.*\\.__str__$", # __str__ methods
+    "^__init__$",     # __init__ files
 ]

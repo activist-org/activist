@@ -579,7 +579,7 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
     ```
 
 > [!NOTE]
-> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements-dev.txt](backend/requirements-dev.txt) file.
 >
 > ```bash
 > pip install pre-commit
