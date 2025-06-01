@@ -232,7 +232,7 @@ git remote add upstream https://github.com/activist-org/activist.git
     ```
 
 > [!NOTE]
-> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements-dev.txt](backend/requirements-dev.txt) file.
 >
 > ```bash
 > pip install pre-commit
