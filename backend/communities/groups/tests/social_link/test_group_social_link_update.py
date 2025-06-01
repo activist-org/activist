@@ -59,11 +59,13 @@ def test_group_social_link_update(client: Client) -> None:
 
     response = client.put(
         path=f"/v1/communities/group_social_links/{group.id}/",
-        data={
-            "link": test_link,
-            "label": test_label,
-            "order": test_order,
-        },
+        data=[
+            {
+                "link": test_link,
+                "label": test_label,
+                "order": test_order,
+            }
+        ],
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
@@ -76,11 +78,13 @@ def test_group_social_link_update(client: Client) -> None:
 
     response = client.put(
         path=f"/v1/communities/group_social_links/{test_uuid}/",
-        data={
-            "link": test_link,
-            "label": test_label,
-            "order": test_order,
-        },
+        data=[
+            {
+                "link": test_link,
+                "label": test_label,
+                "order": test_order,
+            }
+        ],
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
