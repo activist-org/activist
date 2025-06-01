@@ -68,7 +68,9 @@ def test_group_update(client: Client) -> None:
     assert request_body.status_code == 403
 
     request_body_json = request_body.json()
-    assert request_body_json["detail"] == "You are not authorized to update this group"
+    assert (
+        request_body_json["detail"] == "You are not authorized to perform this action."
+    )
 
     """
     2. Test for Authorized user updating the group information.
