@@ -10,10 +10,7 @@ from rest_framework.views import APIView
 
 class IsAdminStaffCreatorOrReadOnly(BasePermission):
     """
-    Allow creators or admin/staff to edit; read-only for others.
-
-    Custom permission to only allow creators of an object or admin/staff
-    users to edit it. Read operations are allowed for any request.
+    Allow creators or admin/staff to edit with all other users having read-only rights.
     """
 
     message = "You are not authorized to perform this action."
@@ -29,6 +26,7 @@ class IsAdminStaffCreatorOrReadOnly(BasePermission):
         ----------
         request : Request
             The current request.
+
         view : APIView
             The current view.
 
@@ -47,15 +45,16 @@ class IsAdminStaffCreatorOrReadOnly(BasePermission):
         Check if the user has permission for the specific object.
 
         Read permissions are allowed to any request.
-        Write permissions are only allowed to the creator of the object,
-        or admin/staff users.
+        Write permissions are only allowed to the creator of the object or admin/staff users.
 
         Parameters
         ----------
         request : Request
             The current request.
+
         view : APIView
             The current view.
+
         obj : Any
             The object being accessed.
 

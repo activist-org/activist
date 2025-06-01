@@ -55,13 +55,16 @@ class GroupAPIView(GenericAPIView[Group]):
     def get_permissions(self):
         if self.request.method in SAFE_METHODS:
             self.permission_classes = (IsAuthenticatedOrReadOnly,)
+
         else:
             self.permission_classes = (IsAuthenticated,)
+
         return super().get_permissions()
 
     def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
         if self.request.method in SAFE_METHODS:
             return GroupSerializer
+
         return GroupPOSTSerializer
 
     @extend_schema(
@@ -279,6 +282,7 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
         if isinstance(data, str):
             try:
                 data = json.loads(data)
+
             except json.JSONDecodeError:
                 return Response(
                     {"error": "Invalid JSON format"}, status=status.HTTP_400_BAD_REQUEST

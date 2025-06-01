@@ -16,7 +16,7 @@ pytestmark = pytest.mark.django_db
 
 def test_group_social_link_update(client: Client) -> None:
     """
-    Test Group Social Link Update.
+    Test Group Social Link updates.
 
     Parameters
     ----------
