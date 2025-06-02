@@ -29,7 +29,7 @@ def test_org_update(client: Client) -> None:
     assert response.status_code == 401
     response_body = response.json()
     assert (
-        response_body["error"] == "You are not authorized to update this organization"
+        response_body["error"] == "You are not authorized to update this organization."
     )
 
     """
@@ -67,7 +67,7 @@ def test_org_update(client: Client) -> None:
     assert response.status_code == 404
 
     response_body = response.json()
-    assert response_body["error"] == "Organization not found"
+    assert response_body["error"] == "Organization not found."
 
     """
     Authorized User updating Org info.

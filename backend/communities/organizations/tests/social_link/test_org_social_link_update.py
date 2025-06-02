@@ -82,4 +82,4 @@ def test_org_social_link_update(client: Client) -> None:
     assert response.status_code == 404
 
     response_body = response.json()
-    assert response_body["error"] == "Organization not found"
+    assert response_body["error"] == "Organization not found."

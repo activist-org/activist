@@ -30,7 +30,7 @@ def test_org_delete(client: Client) -> None:
 
     response_body = response.json()
     assert (
-        response_body["error"] == "You are not authorized to delete this organization"
+        response_body["error"] == "You are not authorized to delete this organization."
     )
 
     """
@@ -66,7 +66,7 @@ def test_org_delete(client: Client) -> None:
     assert response.status_code == 404
 
     response_body = response.json()
-    assert response_body["error"] == "Organization not found"
+    assert response_body["error"] == "Organization not found."
 
     """
     Authorized User deleting Org info.

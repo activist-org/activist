@@ -85,7 +85,8 @@ class EventAPIView(GenericAPIView[Event]):
         except (IntegrityError, OperationalError):
             Location.objects.filter(id=location.id).delete()
             return Response(
-                {"error": "Failed to create event."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Failed to create event."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -105,7 +106,8 @@ class EventDetailAPIView(APIView):
     def get(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Event ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
@@ -115,7 +117,8 @@ class EventDetailAPIView(APIView):
 
         except Event.DoesNotExist:
             return Response(
-                {"error": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Event Not Found."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
     @extend_schema(
@@ -129,7 +132,8 @@ class EventDetailAPIView(APIView):
     def put(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Event ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
@@ -137,12 +141,14 @@ class EventDetailAPIView(APIView):
 
         except Event.DoesNotExist:
             return Response(
-                {"error": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Event Not Found."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         if request.user != event.created_by:
             return Response(
-                {"error": "User not authorized."}, status=status.HTTP_401_UNAUTHORIZED
+                {"detail": "User not authorized."},
+                status=status.HTTP_401_UNAUTHORIZED,
             )
 
         serializer = self.serializer_class(event, data=request.data, partial=True)
@@ -154,15 +160,16 @@ class EventDetailAPIView(APIView):
     @extend_schema(
         responses={
             200: OpenApiResponse(response={"message": "Event deleted successfully."}),
-            400: OpenApiResponse(response={"error": "Event ID is required."}),
-            401: OpenApiResponse(response={"error": "User not authorized."}),
-            404: OpenApiResponse(response={"error": "Event Not Found."}),
+            400: OpenApiResponse(response={"detail": "Event ID is required."}),
+            401: OpenApiResponse(response={"detail": "User not authorized."}),
+            404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Event ID is required."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Event ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
@@ -170,12 +177,13 @@ class EventDetailAPIView(APIView):
 
         except Event.DoesNotExist:
             return Response(
-                {"error": "Event Not Found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != event.created_by:
             return Response(
-                {"error": "User not authorized."}, status=status.HTTP_401_UNAUTHORIZED
+                {"detail": "User not authorized."},
+                status=status.HTTP_401_UNAUTHORIZED,
             )
 
         event.delete()
@@ -203,7 +211,7 @@ class EventFlagViewSet(viewsets.ModelViewSet[EventFlag]):
 
         else:
             return Response(
-                {"error": "You are not allowed to flag this event."},
+                {"detail": "You are not allowed to flag this event."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
@@ -218,7 +226,9 @@ class EventFlagViewSet(viewsets.ModelViewSet[EventFlag]):
             query = self.queryset.filter(id=pk).first()
 
         else:
-            return Response({"error": "Invalid ID"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         serializer = self.get_serializer(query)
 
@@ -233,7 +243,7 @@ class EventFlagViewSet(viewsets.ModelViewSet[EventFlag]):
 
         else:
             return Response(
-                {"error": "You are not authorized to delete this event flag."},
+                {"detail": "You are not authorized to delete this event flag."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -249,13 +259,13 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
         pk = kwargs.get("pk")
         if not isinstance(pk, (str, UUID)):
             return Response(
-                {"error": "Invalid ID format"}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Invalid ID format."}, status=status.HTTP_400_BAD_REQUEST
             )
 
         event = Event.objects.filter(id=pk).first()
         if not event:
             return Response(
-                {"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Event not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         data = request.data
@@ -286,7 +296,7 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
 
         except Exception as e:
             return Response(
-                {"error": f"Failed to update social links: {str(e)}"},
+                {"detail": f"Failed to update social links: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -299,7 +309,7 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         event = Event.objects.filter(id=pk).first()
         if not event:
             return Response(
-                {"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Event not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         data = request.data
@@ -312,7 +322,7 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
                 faq = EventFaq.objects.filter(id=data.get("id")).first()
                 if not faq:
                     return Response(
-                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+                        {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
                     )
                 faq.question = data.get("question", faq.question)
                 faq.answer = data.get("answer", faq.answer)
@@ -324,7 +334,7 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
 
         except Exception as e:
             return Response(
-                {"error": f"Failed to update faqs: {str(e)}"},
+                {"detail": f"Failed to update faqs: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
