@@ -125,7 +125,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization ID required",
-                        value={"error": "Organization ID is required"},
+                        value={"detail": "Organization ID is required."},
                         media_type="application/json",
                     )
                 ],
@@ -136,7 +136,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization not found",
-                        value={"error": "Failed to retrieve the organization"},
+                        value={"detail": "Failed to retrieve the organization."},
                         media_type="application/json",
                     )
                 ],
@@ -170,7 +170,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization ID required",
-                        value={"error": "Organization ID is required"},
+                        value={"detail": "Organization ID is required."},
                         media_type="application/json",
                     )
                 ],
@@ -181,7 +181,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization not found",
-                        value={"error": "Organization not found"},
+                        value={"detail": "Organization not found."},
                         media_type="application/json",
                     )
                 ],
@@ -235,7 +235,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization ID required",
-                        value={"error": "Organization ID is required"},
+                        value={"detail": "Organization ID is required."},
                         media_type="application/json",
                     )
                 ],
@@ -247,7 +247,7 @@ class OrganizationDetailAPIView(APIView):
                     OpenApiExample(
                         name="Unauthorized",
                         value={
-                            "error": "You are not authorized to delete this organization"
+                            "detail": "You are not authorized to delete this organization."
                         },
                         media_type="application/json",
                     )
@@ -259,7 +259,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization not found",
-                        value={"error": "Organization not found"},
+                        value={"detail": "Organization not found."},
                         media_type="application/json",
                     )
                 ],

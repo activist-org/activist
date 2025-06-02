@@ -22,4 +22,4 @@ def test_org_retrieve(client: Client) -> None:
     response = client.get(path=f"/v1/communities/organizations/{bad_org_id}/")
     assert response.status_code == 404
     response_body = response.json()
-    assert response_body["error"] == "Failed to retrieve the organization."
+    assert response_body["detail"] == "Failed to retrieve the organization."

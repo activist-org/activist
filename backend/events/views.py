@@ -66,7 +66,7 @@ class EventAPIView(GenericAPIView[Event]):
         request=EventPOSTSerializer,
         responses={
             201: EventPOSTSerializer,
-            400: OpenApiResponse(response={"error": "Failed to create event."}),
+            400: OpenApiResponse(response={"detail": "Failed to create event."}),
         },
     )
     def post(self, request: Request) -> Response:
@@ -99,8 +99,8 @@ class EventDetailAPIView(APIView):
     @extend_schema(
         responses={
             200: EventSerializer,
-            400: OpenApiResponse(response={"error": "Event ID is required."}),
-            404: OpenApiResponse(response={"error": "Event Not Found."}),
+            400: OpenApiResponse(response={"detail": "Event ID is required."}),
+            404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
@@ -124,9 +124,9 @@ class EventDetailAPIView(APIView):
     @extend_schema(
         responses={
             200: EventSerializer,
-            400: OpenApiResponse(response={"error": "Event ID is required."}),
-            401: OpenApiResponse(response={"error": "User not authorized."}),
-            404: OpenApiResponse(response={"error": "Event Not Found."}),
+            400: OpenApiResponse(response={"detail": "Event ID is required."}),
+            401: OpenApiResponse(response={"detail": "User not authorized."}),
+            404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:

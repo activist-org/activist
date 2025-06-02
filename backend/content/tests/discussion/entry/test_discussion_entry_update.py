@@ -54,6 +54,6 @@ def test_disc_entry_update():
     )
     assert response.status_code == 403
     assert (
-        response.json()["error"]
+        response.json()["detail"]
         == "You are not allowed to update this discussion entry."
     )

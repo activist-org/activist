@@ -56,4 +56,4 @@ def test_discussion_partial_update():
     assert response.status_code == 403
 
     body = response.json()
-    assert body["error"] == "You are not allowed to update this discussion."
+    assert body["detail"] == "You are not allowed to update this discussion."

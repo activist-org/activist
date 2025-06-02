@@ -85,7 +85,7 @@ class GroupAPIView(GenericAPIView[Group]):
         request=GroupPOSTSerializer,
         responses={
             201: GroupPOSTSerializer,
-            400: OpenApiResponse(response={"error": "Failed to create group."}),
+            400: OpenApiResponse(response={"detail": "Failed to create group."}),
         },
     )
     def post(self, request: Request) -> Response:
@@ -118,8 +118,8 @@ class GroupDetailAPIView(GenericAPIView[Group]):
     @extend_schema(
         responses={
             200: GroupSerializer,
-            400: OpenApiResponse(response={"error": "Group ID is required"}),
-            404: OpenApiResponse(response={"error": "Failed to retrieve the Group"}),
+            400: OpenApiResponse(response={"detail": "Group ID is required"}),
+            404: OpenApiResponse(response={"detail": "Failed to retrieve the group."}),
         }
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
@@ -138,7 +138,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
                 status=status.HTTP_404_NOT_FOUND,
             )
         except PermissionDenied as e:
-            return Response({"error": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"detail": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
         serializer = GroupSerializer(group)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -146,14 +146,14 @@ class GroupDetailAPIView(GenericAPIView[Group]):
     @extend_schema(
         responses={
             200: GroupSerializer,
-            400: OpenApiResponse(response={"error": "Group ID is required"}),
+            400: OpenApiResponse(response={"detail": "Group ID is required."}),
             401: OpenApiResponse(
-                response={"error": "You are not authorized to update this group"}
+                response={"detail": "You are not authorized to update this group."}
             ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to perform this action."}
             ),
-            404: OpenApiResponse(response={"error": "Group not found"}),
+            404: OpenApiResponse(response={"detail": "Group not found."}),
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
@@ -180,14 +180,14 @@ class GroupDetailAPIView(GenericAPIView[Group]):
     @extend_schema(
         responses={
             200: OpenApiResponse(response={"message": "Group deleted successfully."}),
-            400: OpenApiResponse(response={"error": "Group ID is required"}),
+            400: OpenApiResponse(response={"detail": "Group ID is required."}),
             401: OpenApiResponse(
-                response={"error": "You are not authorized to delete this group"}
+                response={"detail": "You are not authorized to delete this group."}
             ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to perform this action."}
             ),
-            404: OpenApiResponse(response={"error": "Group not found"}),
+            404: OpenApiResponse(response={"detail": "Group not found."}),
         }
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:

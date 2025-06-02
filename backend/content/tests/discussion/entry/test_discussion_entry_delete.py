@@ -54,6 +54,6 @@ def test_disc_entry_delete():
 
     error_response_body = error_response.json()
     assert (
-        error_response_body["error"]
+        error_response_body["detail"]
         == "You are not allowed to delete this discussion entry."
     )
