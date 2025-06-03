@@ -41,7 +41,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(
-            {"error": "You are not allowed to create a discussion."},
+            {"detail": "You are not allowed to create a discussion."},
             status=status.HTTP_403_FORBIDDEN,
         )
 
@@ -52,7 +52,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
 
         else:
             return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
             )
 
         serializer = self.get_serializer(item)
@@ -76,7 +76,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
-                {"error": "You are not allowed to update this discussion."},
+                {"detail": "You are not allowed to update this discussion."},
                 status=status.HTTP_403_FORBIDDEN,
             )
         serializer = self.get_serializer(item, data=request.data)
@@ -89,7 +89,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
-                {"error": "You are not allowed to update this discussion."},
+                {"detail": "You are not allowed to update this discussion."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -103,7 +103,7 @@ class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
-                {"error": "You are not allowed to delete this discussion."},
+                {"detail": "You are not allowed to delete this discussion."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -130,7 +130,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(
-            {"error": "You are not allowed to create a discussion entry."},
+            {"detail": "You are not allowed to create a discussion entry."},
             status=status.HTTP_403_FORBIDDEN,
         )
 
@@ -141,7 +141,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
 
         else:
             return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
             )
 
         serializer = self.get_serializer(item)
@@ -158,7 +158,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
-                {"error": "You are not allowed to update this discussion entry."},
+                {"detail": "You are not allowed to update this discussion entry."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -172,7 +172,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
-                {"error": "You are not allowed to update this discussion entry."},
+                {"detail": "You are not allowed to update this discussion entry."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -186,7 +186,7 @@ class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
-                {"error": "You are not allowed to delete this discussion entry."},
+                {"detail": "You are not allowed to delete this discussion entry."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -212,14 +212,14 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(
-            {"error": "You are not allowed to create a resource."},
+            {"detail": "You are not allowed to create a resource."},
             status=status.HTTP_403_FORBIDDEN,
         )
 
     def retrieve(self, request: Request, pk: str | None = None) -> Response:
         if not request.user.is_authenticated:
             return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
             )
 
         if pk is not None:
@@ -230,7 +230,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
                 )
             except Resource.DoesNotExist:
                 return Response(
-                    {"error": "Resource not found."},
+                    {"detail": "Resource not found."},
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
@@ -253,7 +253,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
-                {"error": "You are not allowed to update this resource."},
+                {"detail": "You are not allowed to update this resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -267,7 +267,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
-                {"error": "You are not allowed to update this resource."},
+                {"detail": "You are not allowed to update this resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -281,7 +281,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         item = self.get_object()
         if item.created_by != request.user:
             return Response(
-                {"error": "You are not allowed to delete this resource."},
+                {"detail": "You are not allowed to delete this resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -309,7 +309,7 @@ class ResourceFlagViewSet(viewsets.ModelViewSet[ResourceFlag]):
 
         else:
             return Response(
-                {"error": "You are not allowed to flag this Resource."},
+                {"detail": "You are not allowed to flag this Resource."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
@@ -324,7 +324,9 @@ class ResourceFlagViewSet(viewsets.ModelViewSet[ResourceFlag]):
             query = self.queryset.filter(id=pk).first()
 
         else:
-            return Response({"error": "Invalid ID"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         serializer = self.get_serializer(query)
 
@@ -338,7 +340,7 @@ class ResourceFlagViewSet(viewsets.ModelViewSet[ResourceFlag]):
 
         else:
             return Response(
-                {"error": "You are not allowed to delete this resource."},
+                {"detail": "You are not allowed to delete this resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 

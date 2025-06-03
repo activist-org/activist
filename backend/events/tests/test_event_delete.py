@@ -40,4 +40,4 @@ def test_event_delete(client: Client) -> None:
     assert response.status_code == 401
 
     response_body = response.json()
-    assert response_body["error"] == "User not authorized."
+    assert response_body["detail"] == "User not authorized."
