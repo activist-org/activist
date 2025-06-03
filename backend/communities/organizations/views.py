@@ -415,15 +415,16 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                
-                serializer = self.get_serializer(OrganizationFaq, data=data, partial=True)
+                serializer = self.get_serializer(
+                    OrganizationFaq, data=data, partial=True
+                )
                 serializer.is_valid(raise_exception=True)
                 faq = {
                     "order": serializer.validated_data.get("order", 0),
                     "primary": serializer.validated_data.get("primary", False),
-                    "iso": serializer.validated_data.get("iso","en"),
+                    "iso": serializer.validated_data.get("iso", "en"),
                     "question": serializer.validated_data.get("question"),
-                    "answer": serializer.validated_data.get("answer")
+                    "answer": serializer.validated_data.get("answer"),
                 }
                 org.faqs.create(**faq)
 

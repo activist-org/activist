@@ -77,7 +77,6 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
 
         return data
 
-
     class Meta:
         model = OrganizationFaq
         fields = "__all__"

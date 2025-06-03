@@ -152,6 +152,7 @@ class OrganizationFaq(models.Model):
     """
     Organization Frequently Asked Questions model.
     """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)

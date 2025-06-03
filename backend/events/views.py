@@ -313,9 +313,9 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
                 faq = {
                     "order": serializer.validated_data.get("order", 0),
                     "primary": serializer.validated_data.get("primary", False),
-                    "iso": serializer.validated_data.get("iso","en"),
+                    "iso": serializer.validated_data.get("iso", "en"),
                     "question": serializer.validated_data.get("question"),
-                    "answer": serializer.validated_data.get("answer")
+                    "answer": serializer.validated_data.get("answer"),
                 }
                 event.faqs.create(**faq)
 
