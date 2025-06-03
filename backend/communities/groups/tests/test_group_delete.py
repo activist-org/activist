@@ -61,11 +61,12 @@ def test_group_delete(client: Client) -> None:
         headers={"Authorization": f"Token {token}"},
     )
 
-    assert delete_response.status_code == 401
+    assert delete_response.status_code == 403
 
     delete_response_json = delete_response.json()
     assert (
-        delete_response_json["error"] == "You are not authorized to delete this group"
+        delete_response_json["detail"]
+        == "You are not authorized to perform this action."
     )
 
     """
