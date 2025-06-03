@@ -192,7 +192,7 @@ def test_organization_faq_create_view(client: APIClient) -> None:
     }
 
     response = client.put(
-        f"/v1/communities/organization_faqs/{org.id}/",
+        f"/v1/communities/organization_faqs/{test_id}/",
         formData,
         content_type="application/json",
     )
@@ -225,7 +225,7 @@ def test_group_faq_create_view(client: APIClient) -> None:
     }
 
     response = client.put(
-        f"/v1/communities/group_faqs/{group.id}/",
+        f"/v1/communities/group_faqs/{test_id}/",
         formData,
         content_type="application/json",
     )
@@ -258,7 +258,7 @@ def test_event_faq_create_view(client: APIClient) -> None:
     }
 
     response = client.put(
-        f"/v1/events/event_faqs/{event.id}/",
+        f"/v1/events/event_faqs/{test_id}/",
         formData,
         content_type="application/json",
     )

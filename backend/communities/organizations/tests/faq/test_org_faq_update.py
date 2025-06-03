@@ -64,7 +64,7 @@ def test_org_faq_update(client: Client) -> None:
     token = login_body["token"]
 
     response = client.put(
-        path=f"/v1/communities/organization_faqs/{org.id}/",
+        path=f"/v1/communities/organization_faqs/{test_id}/",
         data={
             "id": test_id,
             "iso": "en",
