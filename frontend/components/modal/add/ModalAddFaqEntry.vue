@@ -4,7 +4,7 @@
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3 text-primary-text">
         <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal_edit_faq_entry.question")
+          $t("i18n.components.modal._global.question")
         }}</label>
         <textarea
           v-model="formData.question"
@@ -12,7 +12,7 @@
           class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />
         <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal_edit_faq_entry.answer")
+          $t("i18n.components.modal._global.answer")
         }}</label>
         <textarea
           v-model="formData.answer"
@@ -23,9 +23,9 @@
       <BtnAction
         @click="handleSubmit"
         :cta="true"
-        label="i18n.pages._global.faq.new_faq"
+        label="i18n._global.new_faq"
         fontSize="sm"
-        ariaLabel="i18n.pages._global.faq.new_faq_aria_label"
+        ariaLabel="i18n._global.new_faq_aria_label"
       />
     </div>
   </ModalBase>
