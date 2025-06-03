@@ -11,6 +11,7 @@ from content.factories import EntityLocationFactory
 from events.factories import EventFactory
 from events.models import Event
 
+# Endpoint used for these tests:
 EVENTS_URL = "/v1/events/events/"
 
 

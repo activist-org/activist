@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node Environment
         uses: actions/setup-node@v4
@@ -39,7 +39,7 @@ jobs:
           echo "## Available Update ⚙️" >> reports.md
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -115,8 +115,7 @@ jobs:
         run: |
           source .venv/bin/activate
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
-          python -m pip install mypy
+          python -m pip install -r requirements-dev.txt
 
       - name: Update Backend Dependencies
         id: backend-updates
@@ -155,21 +154,36 @@ jobs:
 
           python compare_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
 
+      - name: Add Test Results Header
+        id: add-test-results-header
+        continue-on-error: true
+        run: |
+          source .venv/bin/activate
+          echo -e "\n## Test Results" >> ../reports.md
+
       - name: Run Backend Tests
         id: backend-tests
         working-directory: ./backend
         continue-on-error: true
         run: |
-          source .venv/bin/activate
-          echo -e "\n## Test Results" >> ../reports.md
-          echo -e "\n### Mypy Results" >> ../reports.md
+          echo -e "\n### Ruff Format Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          mypy . --config-file mypy.ini 2>&1 | tee -a ../reports.md || true
+          ruff format . 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Django Tests" >> ../reports.md
+          echo -e "\n### Ruff Lint Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          DJANGO_SETTINGS_MODULE=core.settings python manage.py test 2>&1 | tee -a ../reports.md || true
+          ruff check . 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Mypy Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          mypy . --config-file pyproject.toml 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Pytest Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       - name: Run Frontend Tests
@@ -183,12 +197,19 @@ jobs:
           yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
+          echo -e "\n### ESLint Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          yarn lint 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
           echo -e "\n### Type Check Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn typecheck 2>&1 | \
-            grep -E "error TS|exited with non-zero status" | \
-            sed 's/.*\/\([^/]*\.vue\)/\1/' | \
-            tee -a ../reports.md || true
+          yarn typecheck 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Vitest Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          yarn test --silent 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       - name: Set date

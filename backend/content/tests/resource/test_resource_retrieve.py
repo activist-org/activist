@@ -11,10 +11,10 @@ pytestmark = pytest.mark.django_db
 def test_resource_retrieve():
     client = APIClient()
 
-    test_user = "test_user"
+    test_username = "test_user"
     test_pass = "test_pass"
     UserFactory(
-        username=test_user,
+        username=test_username,
         plaintext_password=test_pass,
         is_confirmed=True,
         verified=True,
@@ -24,7 +24,8 @@ def test_resource_retrieve():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
+        path="/v1/auth/sign_in/",
+        data={"username": test_username, "password": test_pass},
     )
 
     assert login_response.status_code == 200

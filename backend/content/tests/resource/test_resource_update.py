@@ -14,7 +14,7 @@ def test_resource_update():
     """
     client = APIClient()
 
-    test_user = "test_user"
+    test_username = "test_user"
     test_pass = "test_pass"
     user = UserFactory(
         username="test_user",
@@ -30,7 +30,7 @@ def test_resource_update():
     # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in/",
-        data={"username": test_user, "password": test_pass},
+        data={"username": test_username, "password": test_pass},
     )
 
     assert login_response.status_code == 200
@@ -61,4 +61,4 @@ def test_resource_update():
     assert error_response.status_code == 403
 
     error_body = error_response.json()
-    assert error_body["error"] == "You are not allowed to update this resource."
+    assert error_body["detail"] == "You are not allowed to update this resource."

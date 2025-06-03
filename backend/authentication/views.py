@@ -84,7 +84,7 @@ class SignUpView(APIView):
 
         if user is None:
             return Response(
-                {"message": "User does not exist."},
+                {"detail": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -130,7 +130,7 @@ class PasswordResetView(APIView):
 
         if user is None:
             return Response(
-                {"message": "User does not exist."},
+                {"detail": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -188,7 +188,7 @@ class DeleteUserView(APIView):
 
         if user is None:
             return Response(
-                {"message": "User does not exist."},
+                {"detail": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 

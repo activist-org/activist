@@ -23,6 +23,7 @@ def test_event_update(client: Client) -> None:
     user.verified = True
     user.save()
 
+    # Login to get token.
     login = client.post(
         path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_password},
@@ -50,4 +51,4 @@ def test_event_update(client: Client) -> None:
     assert response.status_code == 401
 
     response_body = response.json()
-    assert response_body["error"] == "User not authorized."
+    assert response_body["detail"] == "User not authorized."

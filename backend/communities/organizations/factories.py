@@ -13,6 +13,8 @@ from communities.organizations.models import (
     Organization,
     OrganizationApplication,
     OrganizationApplicationStatus,
+    OrganizationFaq,
+    OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
     OrganizationSocialLink,
@@ -43,6 +45,21 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     is_high_risk = factory.Faker("boolean")
     location = factory.SubFactory("content.factories.EntityLocationFactory")
     acceptance_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+class OrganizationFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating a flag for an organization.
+    """
+
+    class Meta:
+        model = OrganizationFlag
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    org = factory.SubFactory(OrganizationFactory)
+    created_at = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
@@ -125,6 +142,21 @@ class OrganizationSocialLinkFactory(factory.django.DjangoModelFactory):
     last_updated = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
+
+
+class OrganizationFaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
+    class Meta:
+        model = OrganizationFaq
+
+    iso = "en"
+    primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
+    order = factory.Faker("random_int", min=1, max=100)
 
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):

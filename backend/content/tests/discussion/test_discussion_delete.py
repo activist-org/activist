@@ -14,9 +14,9 @@ def test_discussion_delete():
     """
     client = APIClient()
 
-    test_user = "test_username"
+    test_username = "test_username"
     test_pass = "test_password"
-    user = UserFactory(username=test_user, plaintext_password=test_pass)
+    user = UserFactory(username=test_username, plaintext_password=test_pass)
     user.verified = True
     user.is_confirmed = True
     user.save()
@@ -26,7 +26,8 @@ def test_discussion_delete():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/", data={"username": test_user, "password": test_pass}
+        path="/v1/auth/sign_in/",
+        data={"username": test_username, "password": test_pass},
     )
 
     assert login_response.status_code == 200
@@ -48,4 +49,4 @@ def test_discussion_delete():
     assert response.status_code == 403
 
     body = response.json()
-    assert body["error"] == "You are not allowed to delete this discussion."
+    assert body["detail"] == "You are not allowed to delete this discussion."

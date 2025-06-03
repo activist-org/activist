@@ -160,18 +160,18 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
 
 - `focus-brand`
 
-  - Creates a custom brand styled orange ring around an element when it is focussed for both light and dark mode
-  - Should be used on all elements that the user can focus (buttons, links, dropdowns, menu items, etc)
+    - Creates a custom brand styled orange ring around an element when it is focussed for both light and dark mode
+    - Should be used on all elements that the user can focus (buttons, links, dropdowns, menu items, etc)
 
 - `link-text`
 
-  - Color and hover color are defined for links for both light and dark mode
+    - Color and hover color are defined for links for both light and dark mode
 
 - `card-style`
 
-  - Applies styles for consistent cards across activist's pages
-  - Colors are defined for light and dark mode with border width and radius also being applied
-  - Used in cases like about page sections, search results, etc
+    - Applies styles for consistent cards across activist's pages
+    - Colors are defined for light and dark mode with border width and radius also being applied
+    - Used in cases like about page sections, search results, etc
 
 > [!NOTE]
 > There's also custom styles available to make development easier such as `bg-breakpoint-test` that changes the background of the element it's applied to based on the current breakpoint.
@@ -235,36 +235,36 @@ activist is a global platform and must function in countless different regions a
 Localization keys should be defined based on the file in which they're used within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 
 - In following [i18n-check](https://github.com/activist-org/i18n-check) standards, please prepend all i18n keys with `i18n`
-  - ✅ `i18n._global.foo`
-  - ❌ `"_global.foo"`
-  - This allows us to check all keys that are in use against those found in the `en-US.json` file
+    - ✅ `i18n._global.foo`
+    - ❌ `"_global.foo"`
+    - This allows us to check all keys that are in use against those found in the `en-US.json` file
 - Separate directories and references by `.` and PascalCase/camelCase file name components by `_` in keys
-  - Ex: `i18n.components.landing_splash.CONTENT_REFERENCE` for the `LandingSplash` component
+    - Ex: `i18n.components.landing_splash.CONTENT_REFERENCE` for the `LandingSplash` component
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
-  - Ex: If you're defining a key within `CardAbout`:
-    - ✅ `i18n.components.footer_flex.CONTENT_REFERENCE`
-    - ❌ `i18n.components.footer.footer_flex.CONTENT_REFERENCE`
+    - Ex: If you're defining a key within `CardAbout`:
+        - ✅ `i18n.components.footer_flex.CONTENT_REFERENCE`
+        - ❌ `i18n.components.footer.footer_flex.CONTENT_REFERENCE`
 - Define keys based on the lowest level file in which they're used
 - Use `_global` to indicate that a key is used in multiple places in a given directory
-  - Ex: You're creating a key that's used by multiple landing page components:
-    - ✅ `i18n.components.landing._global.CONTENT_REFERENCE`
-    - ❌ `i18n.components.landing.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE`
+    - Ex: You're creating a key that's used by multiple landing page components:
+        - ✅ `i18n.components.landing._global.CONTENT_REFERENCE`
+        - ❌ `i18n.components.landing.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE`
 - Please end all aria-label keys with `_alt_text` so the localization team knows that they're for screen readers
 - If you need a capitalized and lower case version of a word, signify the lower case version with `_lower` at the end of the key
 - For pages with long texts please follow the below naming criteria:
-  - `"header"`: The main header (h1) of the given page
-  - `"section_#"`: A section that iterates by one with every header and subheader
-  - `"section_#_#"`: A subsection, with other `#_#` patterns also being possible (see below)
-  - `"section_#_subheader"`: Marks the start of a new section (h2 and beyond)
-  - `"section_#_paragraph_#"`: A paragraph with one or more sentences
-  - `"section_#_paragraph_#_#"`: A paragraph with separate parts to insert things like links
-  - `"section_#_list_#_item_#"`: An item in a list
-  - `"section_#_list_#_item_#_#"`: A subitem of the given item
+    - `"header"`: The main header (h1) of the given page
+    - `"section_#"`: A section that iterates by one with every header and subheader
+    - `"section_#_#"`: A subsection, with other `#_#` patterns also being possible (see below)
+    - `"section_#_subheader"`: Marks the start of a new section (h2 and beyond)
+    - `"section_#_paragraph_#"`: A paragraph with one or more sentences
+    - `"section_#_paragraph_#_#"`: A paragraph with separate parts to insert things like links
+    - `"section_#_list_#_item_#"`: An item in a list
+    - `"section_#_list_#_item_#_#"`: A subitem of the given item
 - If there are different uses of the same value in one file, then alphabetically combine the final keys with dashes (ex: `header_title`)
 - Please alphabetize the keys, with your code editor likely having built in functionality for this
 - Please always assign the full key as a string to assure that i18n content checks can pick up if the key has been used
-  - Eg: `section_1_2` and not `section_{var_number}_2`
-  - This makes sure that content writers and the i18n team are only working with language that's actively in use
+    - Eg: `section_1_2` and not `section_{var_number}_2`
+    - This makes sure that content writers and the i18n team are only working with language that's actively in use
 
 > [!NOTE]
 > The activist community maintains the [i18n-check project](https://github.com/activist-org/i18n-check) that enforces all of the above in pull requests. Do your best and we'll help you out during the PR process! You can also join us in the [localization room on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) if you have questions :)

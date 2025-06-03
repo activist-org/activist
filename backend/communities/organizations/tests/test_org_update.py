@@ -14,10 +14,8 @@ ORGS_URL = "/v1/communities/organizations"
 
 def test_org_update(client: Client) -> None:
     test_username = "test_user"
-    test_plaintext_password = "test_pass"
-    user = UserFactory(
-        username=test_username, plaintext_password=test_plaintext_password
-    )
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
     org = OrganizationFactory()
 
     """
@@ -31,7 +29,7 @@ def test_org_update(client: Client) -> None:
     assert response.status_code == 401
     response_body = response.json()
     assert (
-        response_body["error"] == "You are not authorized to update this organization"
+        response_body["detail"] == "You are not authorized to update this organization."
     )
 
     """
@@ -42,11 +40,12 @@ def test_org_update(client: Client) -> None:
     user.is_staff = True
     user.save()
 
+    # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in/",
         data={
             "username": test_username,
-            "password": test_plaintext_password,
+            "password": test_password,
         },
     )
 
@@ -68,7 +67,7 @@ def test_org_update(client: Client) -> None:
     assert response.status_code == 404
 
     response_body = response.json()
-    assert response_body["error"] == "Organization not found"
+    assert response_body["detail"] == "Organization not found."
 
     """
     Authorized User updating Org info.
@@ -78,11 +77,12 @@ def test_org_update(client: Client) -> None:
     user.is_staff = True
     user.save()
 
+    # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in/",
         data={
             "username": test_username,
-            "password": test_plaintext_password,
+            "password": test_password,
         },
     )
 
