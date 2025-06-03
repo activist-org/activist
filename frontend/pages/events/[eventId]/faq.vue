@@ -11,6 +11,8 @@
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
+          @click.stop="useModalHandlers('ModalAddFaqEntry').openModal()"
+          @keydown.enter="useModalHandlers('ModalAddFaqEntry').openModal()"
           class="w-max"
           :cta="true"
           label="i18n.pages._global.faq.new_faq"
@@ -19,6 +21,7 @@
           iconSize="1.35em"
           ariaLabel="i18n.pages._global.faq.new_faq_aria_label"
         />
+        <ModalAddFaqEntry :pageType="'event'" />
       </div>
     </HeaderAppPageOrganization>
     <div v-if="event.faqEntries!.length > 0" class="py-4">

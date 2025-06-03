@@ -295,13 +295,12 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
     queryset = EventFaq.objects.all()
     serializer_class = EventFaqSerializer
 
-    def update(self, request: Request, pk: UUID | str) -> Response:
-        event = Event.objects.filter(id=pk).first()
+    def create(self, request: Request) -> Response:
+        event = Event.objects.filter(id=request.data.get("event_id")).first()
         if not event:
             return Response(
                 {"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND
             )
-
         data = request.data
         if isinstance(data, str):
             data = json.loads(data)
@@ -309,13 +308,44 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                faq = EventFaq.objects.filter(id=data.get("id")).first()
-                if not faq:
-                    return Response(
-                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
-                    )
-                faq.question = data.get("question", faq.question)
-                faq.answer = data.get("answer", faq.answer)
+                serializer = self.get_serializer(EventFaq, data=data, partial=True)
+                serializer.is_valid(raise_exception=True)
+                faq = {
+                    "order": serializer.validated_data.get("order", 0),
+                    "primary": serializer.validated_data.get("primary", False),
+                    "iso": serializer.validated_data.get("iso","en"),
+                    "question": serializer.validated_data.get("question"),
+                    "answer": serializer.validated_data.get("answer")
+                }
+                event.faqs.create(**faq)
+
+            return Response(
+                {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update faqs: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        faq = EventFaq.objects.filter(id=pk).first()
+        if not faq:
+            return Response(
+                {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                serializer = self.get_serializer(faq, data=data, partial=True)
+                serializer.is_valid(raise_exception=True)
+                faq.question = serializer.validated_data.get("question")
+                faq.answer = serializer.validated_data.get("answer")
                 faq.save()
 
             return Response(

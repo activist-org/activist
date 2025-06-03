@@ -278,6 +278,49 @@ export const useGroupStore = defineStore("group", {
       }
     },
 
+    // MARK: Create FAQ Entries
+
+    async createFaqEntry(group: Group, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_faqs/`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            iso: formData.iso,
+            question: formData.question,
+            answer: formData.answer,
+            groupId: group.id,
+          }),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Group;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates, to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
     // MARK: Update FAQ Entries
 
     async updateFaqEntry(group: Group, formData: FaqEntry) {
@@ -287,7 +330,7 @@ export const useGroupStore = defineStore("group", {
       const token = localStorage.getItem("accessToken");
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/group_faqs/${group.id}/`,
+        `${BASE_BACKEND_URL}/communities/group_faqs/${formData.id}/`,
         {
           method: "PUT",
           body: JSON.stringify({

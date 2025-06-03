@@ -305,13 +305,12 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
     queryset = GroupFaq.objects.all()
     serializer_class = GroupFaqSerializer
 
-    def update(self, request: Request, pk: UUID | str) -> Response:
-        group = Group.objects.filter(id=pk).first()
+    def create(self, request: Request) -> Response:
+        group = Group.objects.filter(id=request.data.get("group_id")).first()
         if not group:
             return Response(
                 {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
             )
-
         data = request.data
         if isinstance(data, str):
             data = json.loads(data)
@@ -319,13 +318,44 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                faq = GroupFaq.objects.filter(id=data.get("id")).first()
-                if not faq:
-                    return Response(
-                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
-                    )
-                faq.question = data.get("question", faq.question)
-                faq.answer = data.get("answer", faq.answer)
+                serializer = self.get_serializer(GroupFaq, data=data, partial=True)
+                serializer.is_valid(raise_exception=True)
+                faq = {
+                    "order": serializer.validated_data.get("order", 0),
+                    "primary": serializer.validated_data.get("primary", False),
+                    "iso": serializer.validated_data.get("iso","en"),
+                    "question": serializer.validated_data.get("question"),
+                    "answer": serializer.validated_data.get("answer")
+                }
+                group.faqs.create(**faq)
+
+            return Response(
+                {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update faqs: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        faq = GroupFaq.objects.filter(id=pk).first()
+        if not faq:
+            return Response(
+                {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        try:
+            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
+            with transaction.atomic():
+                serializer = self.get_serializer(faq, data=data, partial=True)
+                serializer.is_valid(raise_exception=True)
+                faq.question = serializer.validated_data.get("question")
+                faq.answer = serializer.validated_data.get("answer")
                 faq.save()
 
             return Response(
