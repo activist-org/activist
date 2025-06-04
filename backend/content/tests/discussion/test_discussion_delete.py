@@ -49,4 +49,4 @@ def test_discussion_delete():
     assert response.status_code == 403
 
     body = response.json()
-    assert body["error"] == "You are not allowed to delete this discussion."
+    assert body["detail"] == "You are not allowed to delete this discussion."

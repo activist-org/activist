@@ -103,7 +103,7 @@ def test_group_delete(client: Client) -> None:
     assert delete_response.status_code == 404
 
     delete_response_json = delete_response.json()
-    assert delete_response_json["error"] == "Group not found"
+    assert delete_response_json["detail"] == "Group not found."
 
     """
     3. User is confirmed and is staff.
