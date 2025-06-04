@@ -43,15 +43,14 @@
           ariaLabel="i18n._global.share_event_aria_label"
         />
         <BtnAction
-          @click="subscribeToCalendar"
-          @keydown.enter="subscribeToCalendar"
+          @click="downloadCalendarEntry"
+          @keydown.enter="downloadCalendarEntry"
           class="w-max"
           :cta="true"
           label="i18n.pages.events.about.subscribe_to_event"
-          :hideLabelOnMobile="false"
           fontSize="sm"
-          :rightIcon="IconMap.CALENDAR"
-          iconSize="1.45em"
+          :leftIcon="IconMap.DATE"
+          iconSize="1.25em"
           ariaLabel="i18n._global.subscribe_to_event_aria_label"
         />
         <ModalSharePage :cta="true" :event="event" />
@@ -124,7 +123,7 @@ function updateShareBtnLabel() {
   }
 }
 
-const subscribeToCalendar = () => {};
+const downloadCalendarEntry = () => {};
 
 onMounted(() => {
   window.addEventListener("resize", updateShareBtnLabel);

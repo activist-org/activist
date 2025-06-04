@@ -31,13 +31,13 @@
         ariaLabel="i18n._global.share_event_aria_label"
       />
       <BtnAction
-        @click="subscribeToCalendar"
-        @keydown.enter="subscribeToCalendar"
+        @click="downloadCalendarEntry"
+        @keydown.enter="downloadCalendarEntry"
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
         label="i18n._global.subscribe"
         :hideLabelOnMobile="false"
-        :rightIcon="IconMap.CALENDAR"
+        :rightIcon="IconMap.DATE"
         fontSize="lg"
         ariaLabel="i18n._global.subscribe_to_event_aria_label"
       />
@@ -63,11 +63,11 @@ defineProps<{
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
 
+const downloadCalendarEntry = () => {};
+
 const modals = useModals();
 const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
-
-const subscribeToCalendar = () => {};
 
 function openModal() {
   modals.openModal(modalName);

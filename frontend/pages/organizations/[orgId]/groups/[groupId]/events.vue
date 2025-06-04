@@ -21,20 +21,31 @@
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <!-- <BtnAction
+        <BtnRouteInternal
           class="w-max"
           :cta="true"
-          :label="i18n._global.support"
+          linkTo="/"
+          label="i18n._global.new_event"
           fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.45em"
-          :counter="group.supportingUsers"
-          ariaLabel="i18n.pages.organizations.groups._global.support_group_aria_label"
-        /> -->
+          :leftIcon="IconMap.PLUS"
+          iconSize="1.35em"
+          ariaLabel="i18n.pages.organizations.groups.events.new_group_event_aria_label"
+        />
+        <BtnAction
+          @click="downloadCalendarEntries"
+          @keydown.enter="downloadCalendarEntries"
+          class="w-max"
+          :cta="true"
+          label="i18n.pages.organizations._global.subscribe_to_events"
+          fontSize="sm"
+          :leftIcon="IconMap.DATE"
+          iconSize="1.25em"
+          ariaLabel="i18n.pages.organizations._global.subscribe_to_events_aria_label"
+        />
       </div>
     </HeaderAppPageGroup>
     <PagePreviewEvent />
-    <!-- <div v-if="group.events" class="space-y-3 py-4">
+    <div v-if="group.events" class="space-y-3 py-4">
       <CardSearchResultEvent
         v-for="(u, i) in group.events"
         :key="i"
@@ -42,16 +53,20 @@
         :event="u"
       />
     </div>
-    <EmptyState v-else pageType="events" :permission="false" /> -->
+    <EmptyState v-else pageType="events" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
 
+import { IconMap } from "~/types/icon-map";
+
 defineProps<{
   group: Group;
 }>();
 
 const groupSubPages = getGroupSubPages();
+
+const downloadCalendarEntries = () => {};
 </script>

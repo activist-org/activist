@@ -9,7 +9,6 @@ export enum IconMap {
   AT = "bi:at",
   ATTACH = "bi:paperclip",
   BELL = "bi:bell",
-  CALENDAR = "bi:calendar",
   CHAT = "bi:chat-left",
   CHECK = "bi:check-lg",
   CHEVRON_BAR_LEFT = "bi:chevron-bar-left",

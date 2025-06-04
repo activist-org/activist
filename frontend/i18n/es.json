@@ -538,7 +538,7 @@
   "i18n.pages.organizations.create.subtext": "¡Gracias por traer su organización a Activist! Se solicita la siguiente información para que nuestra comunidad pueda comprender mejor cuáles son los objetivos de la organización. Esta información se reflejará en una solicitud para que su organización se una a la comunidad, y luego tendrá acceso completo después de que algunas organizaciones actuales hayan respaldado la solicitud. Verificar cada nueva organización lleva tiempo para todos nosotros, pero de esta manera podemos mantener la confianza dentro de la red. ¡Esperamos trabajar con usted y brindarle apoyo!",
   "i18n.pages.organizations.create.tagline_placeholder": "Un eslogan breve para la organización (opcional)",
   "i18n.pages.organizations.discussions.index.tagline": "Discusiones de la comunidad",
-  "i18n.pages.organizations.events.new_event_aria_label": "Crear un nuevo evento",
+  "i18n.pages.organizations.events.new_org_event_aria_label": "Crear un nuevo evento",
   "i18n.pages.organizations.groups._global.support_group_aria_label": "¡Apoya este grupo!",
   "i18n.pages.organizations.groups.about.share_group": "Compartir grupo",
   "i18n.pages.organizations.groups.about.share_group_aria_label": "Mostrar opciones para compartir este grupo con otros",
