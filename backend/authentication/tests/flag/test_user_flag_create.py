@@ -37,6 +37,7 @@ def test_user_flag_create():
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
 
