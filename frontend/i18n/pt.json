@@ -529,7 +529,7 @@
   "i18n.pages.organizations.create.subtext": "Obrigado por trazer sua organização para a plataforma activist! As informações a seguir nos ajudam a entender melhor os objetivos da sua organização. Esses dados farão parte da solicitação para que sua organização se junte à comunidade. O acesso completo será liberado após o apoio de algumas organizações já participantes. Verificar cada nova organização leva tempo, mas é assim que mantemos a confiança dentro da rede. Estamos animados para colaborar com você e oferecer nosso apoio!",
   "i18n.pages.organizations.create.tagline_placeholder": "Uma frase curta ou Slogan da organização (opcional)",
   "i18n.pages.organizations.discussions.index.tagline": "Discussões da comunidade",
-  "i18n.pages.organizations.events.new_event_aria_label": "Criar um novo evento",
+  "i18n.pages.organizations.events.new_org_event_aria_label": "Criar um novo evento",
   "i18n.pages.organizations.groups._global.support_group_aria_label": "Apoie este grupo",
   "i18n.pages.organizations.groups.about.share_group": "Compartilhar grupo",
   "i18n.pages.organizations.groups.about.share_group_aria_label": "Ver opções para compartilhar este grupo com outras pessoas",

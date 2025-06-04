@@ -522,7 +522,7 @@
   "i18n.pages.organizations.create.subtext": "Merci d’avoir fait participer votre organisation à Activist ! Les renseignements suivants sont demandés afin que notre communauté puisse mieux comprendre quels sont les objectifs de l’organisation. Ces renseignements seront consignés dans une demande d’adhésion à la communauté pour votre organisation, et l’accès complet sera accordé après que quelques organisations actuelles auront appuyé la demande. Vérifier chaque nouvelle organisation prend du temps pour nous tous, mais de cette façon, nous pouvons maintenir la confiance au sein du réseau. Nous sommes impatients de travailler avec vous et de vous soutenir !",
   "i18n.pages.organizations.create.tagline_placeholder": "Un court slogan pour l’organisation (facultatif)",
   "i18n.pages.organizations.discussions.index.tagline": "Discussions de la communauté",
-  "i18n.pages.organizations.events.new_event_aria_label": "Créer un nouvel évènement",
+  "i18n.pages.organizations.events.new_org_event_aria_label": "Créer un nouvel évènement",
   "i18n.pages.organizations.groups._global.support_group_aria_label": "Soutenir ce groupe",
   "i18n.pages.organizations.groups.about.share_group": "Partager groupe",
   "i18n.pages.organizations.groups.about.share_group_aria_label": "Afficher les options pour partager ce groupe avec d’autres",
