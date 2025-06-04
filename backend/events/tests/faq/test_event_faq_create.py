@@ -78,8 +78,8 @@ def test_event_faq_create(client: Client) -> None:
     response = client.post(
         path="/v1/events/event_faqs/",
         data={
-            "question": '',
-            "answer": '',
+            "question": "",
+            "answer": "",
             "order": test_order,
             "eventId": event.id,
         },

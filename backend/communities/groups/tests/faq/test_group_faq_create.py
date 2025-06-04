@@ -81,8 +81,8 @@ def test_group_faq_create(client: Client) -> None:
     response = client.post(
         path="/v1/communities/group_faqs/",
         data={
-            "question": '',
-            "answer": '',
+            "question": "",
+            "answer": "",
             "order": test_order,
             "groupId": group.id,
         },

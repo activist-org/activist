@@ -81,8 +81,8 @@ def test_org_faq_create(client: Client) -> None:
     response = client.post(
         path="/v1/communities/organization_faqs/",
         data={
-            "question": '',
-            "answer": '',
+            "question": "",
+            "answer": "",
             "order": test_order,
             "orgId": org.id,
         },
