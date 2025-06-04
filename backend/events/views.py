@@ -325,7 +325,7 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
 
         except Exception as e:
             return Response(
-                {"error": f"Failed to update faqs: {str(e)}"},
+                {"error": f"Failed to create faq: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
