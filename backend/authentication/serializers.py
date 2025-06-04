@@ -11,7 +11,7 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from authentication.models import UserModel
+from authentication.models import UserFlag, UserModel
 
 USER = get_user_model()
 
@@ -193,3 +193,16 @@ class PasswordResetSerializer(serializers.Serializer[UserModel]):
             )
 
         return user
+
+
+# MARK: UserFlag
+
+
+class UserFlagSerializers(serializers.ModelSerializer[UserFlag]):
+    """
+    Serializers for UserFlag model.
+    """
+
+    class Meta:
+        model = UserFlag
+        fields = "__all__"
