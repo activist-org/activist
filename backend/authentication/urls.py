@@ -3,13 +3,21 @@
 URL configuration for the authentication app.
 """
 
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
 from authentication import views
 
 app_name = "authentication"
 
+router = DefaultRouter()
+
+router.register(
+    prefix=r"user_flag", viewset=views.UserFlagViewSets, basename="user-flag"
+)
+
 urlpatterns = [
+    path("", include(router.urls)),
     path(route="sign_up/", view=views.SignUpView.as_view(), name="sign_up"),
     path(route="delete/", view=views.DeleteUserView.as_view(), name="delete"),
     path(route="sign_in/", view=views.SignInView.as_view(), name="sign_in"),
