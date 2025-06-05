@@ -179,26 +179,25 @@ class PasswordResetView(APIView):
         )
 
 
-class DeleteUserView(APIView):
+class DeleteUserView(viewsets.ModelViewSet[UserModel]):
     queryset = UserModel.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = DeleteUserResponseSerializer
+    http_method_names = ["delete"]
 
     def delete(self, request: Request, pk: UUID | str) -> Response:
         user = UserModel.objects.get(pk=pk)
 
-        if user is None:
+        if request.user.is_authenticated and request.user.id == pk:
+            user.delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        else:
             return Response(
-                {"detail": "User does not exist."},
-                status=status.HTTP_404_NOT_FOUND,
+                {"detail": "You are not authenticated to delete the user."},
+                status=status.HTTP_401_UNAUTHORIZED,
             )
-
-        user.delete()
-
-        return Response(
-            {"message": "User was deleted successfully."},
-            status=status.HTTP_204_NO_CONTENT,
-        )
 
 
 class UserFlagViewSets(viewsets.ModelViewSet[UserFlag]):

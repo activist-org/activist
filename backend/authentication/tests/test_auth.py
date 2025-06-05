@@ -338,12 +338,33 @@ def test_delete_user(client: Client) -> None:
     user.is_confirmed = True
     user.save()
 
-    response = client.post(
+    # User Login
+    login = client.post(
         path="/v1/auth/sign_in/",
-        data={"username": user.username, "password": user.password},
+        data={"username": test_username, "password": test_pass},
     )
 
-    if response.status_code == 200:
-        delete_response = client.delete(path="/v1/auth/delete/", data={"pk": user.id})
+    assert login.status_code == 200
+    login_body = login.json()
+    token = login_body["token"]
 
-        assert delete_response.status_code == 200
+    # User deletes themselves.
+    response = client.delete(
+        path=f"/v1/auth/delete/{user.id}/", headers={"Authorization": f"Token {token}"}
+    )
+
+    assert response.status_code == 204
+
+    dummy_user = UserFactory(
+        username="dummy_user",
+        plaintext_password="dummy_pass",
+        is_confirmed=True,
+        verified=True,
+    )
+
+    # User tries to delete another user.
+    error_response = client.delete(
+        path=f"/v1/auth/delete/{dummy_user.id}/",
+        headers={"Authorization": f"Token {token}"},
+    )
+    assert error_response.status_code == 401
