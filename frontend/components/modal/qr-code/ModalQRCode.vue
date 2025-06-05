@@ -5,6 +5,7 @@
       <p class="md:responsive-h2 text-3xl font-bold">
         {{ $t("i18n.components.modal_qr_code.header") }}
       </p>
+      
     </DialogTitle>
     <div
       class="flex flex-col items-center space-y-6 pb-6 md:grid md:grid-cols-2 md:grid-rows-1 lg:mr-14 lg:grid-cols-3 lg:grid-rows-1 lg:space-x-6 lg:space-y-0 lg:pr-8"
@@ -70,6 +71,7 @@
           ariaLabel="i18n.components.modal_qr_code.download_qr_code_aria_label"
           ariaLabelDropdown="i18n.components.modal_qr_code.qr_code_options_aria_label"
         />
+
       </div>
       <div class="flex px-4 md:pb-2 md:pl-8">
         <button
@@ -133,6 +135,15 @@ const props = defineProps<{
   event?: Event;
   resource?: Resource;
   user?: User;
+  suggested: {
+    type: boolean,
+    default: false
+  },
+
+  reasonForSuggesting: {
+    type: String,
+    default: ""
+  }
 }>();
 
 const aboveMediumBP = useBreakpoint("md");
