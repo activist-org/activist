@@ -3,8 +3,9 @@
 Serializers for groups in the communities app.
 """
 
-from typing import Any
+from typing import Any, Dict, Union
 
+from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from communities.groups.models import (
@@ -37,6 +38,36 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
     """
     Serializer for GroupFaq model data.
     """
+
+    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+        """
+        Validate event data including time constraints and terms.
+
+        Parameters
+        ----------
+        data : Dict[str, Union[str, int]]
+            Event data dictionary to validate.
+
+        Returns
+        -------
+        Dict[str, Union[str, int]]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If validation fails for any field.
+        """
+        question = data.get("question")
+        answer = data.get("answer")
+
+        if not question or not answer:
+            raise serializers.ValidationError(
+                _("Both question and answer fields are required."),
+                code="missing_fields",
+            )
+
+        return data
 
     class Meta:
         model = GroupFaq

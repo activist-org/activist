@@ -8,8 +8,8 @@ export function getGroupSubPages(): SubPageSelector[] {
   const route = useRoute();
 
   const routeParts = route.path.split("/");
-  const organizationId = routeParts[3];
-  const groupId = routeParts[5];
+  const organizationId = routeParts[2];
+  const groupId = routeParts[4];
 
   const groupAboutPageSelector: SubPageSelector = {
     id: 0,
