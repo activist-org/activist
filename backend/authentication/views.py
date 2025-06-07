@@ -5,7 +5,6 @@ API views for authentication management.
 
 import os
 import uuid
-from uuid import UUID
 
 import dotenv
 from django.contrib.auth import login
@@ -13,8 +12,15 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiParameter,
+    OpenApiResponse,
+    OpenApiTypes,
+    extend_schema,
+)
 from rest_framework import status, viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -183,22 +189,48 @@ class DeleteUserView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = DeleteUserResponseSerializer
+    authentication_classes = (TokenAuthentication,)
 
-    def delete(self, request: Request, pk: UUID | str) -> Response:
-        user = UserModel.objects.get(pk=pk)
-
-        if user is None:
-            return Response(
-                {"detail": "User does not exist."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        user.delete()
-
-        return Response(
-            {"message": "User was deleted successfully."},
-            status=status.HTTP_204_NO_CONTENT,
-        )
+    @extend_schema(
+        summary="Delete own account",
+        responses={
+            204: OpenApiResponse(
+                description="Account deleted successfully",
+            ),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Bad request",
+                examples=[
+                    OpenApiExample(
+                        name="Bad request",
+                        value={"detail": "Bad request."},
+                        media_type="application/json",
+                    )
+                ],
+            ),
+            401: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Unauthorized",
+                examples=[
+                    OpenApiExample(
+                        name="Unauthorized",
+                        value={"detail": "Invalid token."},
+                        media_type="application/json",
+                    ),
+                    OpenApiExample(
+                        name="User not authorized",
+                        value={
+                            "detail": "Authentication credentials were not provided."
+                        },
+                        media_type="application/json",
+                    ),
+                ],
+            ),
+        },
+    )
+    def delete(self, request: Request) -> Response:
+        request.user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserFlagViewSets(viewsets.ModelViewSet[UserFlag]):
