@@ -341,7 +341,7 @@ def test_delete_user() -> None:
 
     # User Login
     login = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_pass},
     )
 
@@ -352,6 +352,6 @@ def test_delete_user() -> None:
 
     # User deletes themselves.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path="/v1/auth/delete/")
+    response = client.delete(path="/v1/auth/delete")
 
     assert response.status_code == 204
