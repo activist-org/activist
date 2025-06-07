@@ -122,8 +122,8 @@ export const useClusterMap = () => {
     clusterProperties: ClusterProperties
   ) => {
     const newMarkers: { [key: string]: maplibregl.Marker } = {};
-    const features = map.querySourceFeatures("events");
-
+    const features = map.querySourceFeatures("pointers");
+    console.log("Querying features for pointers:", features);
     // Add this at the top of your updateMarkers function.
     const currentZoom = map.getZoom();
 
@@ -132,7 +132,7 @@ export const useClusterMap = () => {
       if (geometry.type === "Point") {
         const coords = geometry.coordinates as [number, number];
         const props = features[i].properties;
-
+        console.log("Processing feature:", props, coords);
         if (props.cluster) {
           // Cluster handling with zoom-based declustering.
           const id = props.cluster_id;
@@ -180,6 +180,7 @@ export const useClusterMap = () => {
             if (!marker) {
               const multipleDonutProps =
                 clusterProperties?.getMultipleDonutProps(props);
+              console.log("Multiple donut props:", multipleDonutProps);
               console.log(multipleDonutProps, id, props, coords);
               const el = createDonutChart(multipleDonutProps, id);
               const popUpContent = popupCreate(props);
@@ -275,8 +276,8 @@ export const useClusterMap = () => {
     const selectedRoute = setSelectedRoute();
     map.on("load", () => {
       // Cleanup existing sources/layers.
-      if (map.getSource("events")) {
-        map.removeSource("events");
+      if (map.getSource("pointers")) {
+        map.removeSource("pointers");
       }
       ["clusters", "cluster-count", "unclustered-points"].forEach((layerId) => {
         if (map.getLayer(layerId)) {
@@ -302,13 +303,12 @@ export const useClusterMap = () => {
           },
         })
       );
-
+      const logic: { [key: string]: unknown } = {};
       // Add a clustered GeoJSON source for events.
-      const logic = Object.keys(clusterProperties.cluster).map((key) => ({
-        [key]: clusterProperties.cluster[key as `value_${number}`].logic,
-      }));
-      console.log("Cluster properties logic:", logic);
-      map.addSource("pointer", {
+      Object.keys(clusterProperties.cluster).forEach(
+        (key) => (logic[key] = clusterProperties.cluster[key].logic)
+      );
+      map.addSource("pointers", {
         type: "geojson",
         data: {
           type: "FeatureCollection",
@@ -323,7 +323,7 @@ export const useClusterMap = () => {
       // Add a layer for unclustered points.
       map.addLayer({
         id: "unclustered-points",
-        source: "events",
+        source: "pointers",
         type: "symbol",
         filter: ["==", "id", ""], // Never matches anything.
         paint: {
