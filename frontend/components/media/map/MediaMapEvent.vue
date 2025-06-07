@@ -9,7 +9,8 @@
 <script setup lang="ts">
 import type { Event, EventType } from "~/types/events/event";
 
-import { colorByType, MapType, type Pointer } from "~/types/map";
+import { MapType, type Pointer } from "~/types/map";
+import { colorByType } from "~/utils/mapUtils";
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
