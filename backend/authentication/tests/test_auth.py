@@ -9,8 +9,8 @@ from uuid import UUID
 
 import pytest
 from django.core import mail
-from django.test import Client
 from faker import Faker
+from rest_framework.test import APIClient
 
 from authentication.factories import (
     SupportEntityTypeFactory,
@@ -40,7 +40,7 @@ def test_str_methods() -> None:
     assert str(user) == user.username
 
 
-def test_sign_up(client: Client) -> None:
+def test_sign_up(client: APIClient) -> None:
     """
     Test the sign-up function.
 
@@ -152,7 +152,7 @@ def test_sign_up(client: Client) -> None:
     assert user.verification_code is None
 
 
-def test_sign_in(client: Client) -> None:
+def test_sign_in(client: APIClient) -> None:
     """
     Test sign in view.
 
@@ -164,7 +164,7 @@ def test_sign_in(client: Client) -> None:
 
     Parameters
     ----------
-    client : Client
+    client : APIClient
         An authenticated client.
     """
     plaintext_password = "Activist@123!?"
@@ -207,7 +207,7 @@ def test_sign_in(client: Client) -> None:
     assert response.status_code == 400
 
 
-def test_pwreset(client: Client) -> None:
+def test_pwreset(client: APIClient) -> None:
     """
     Test password reset view.
 
@@ -219,7 +219,7 @@ def test_pwreset(client: Client) -> None:
 
     Parameters
     ----------
-    client : Client
+    client : APIClient
         An authenticated client.
     """
 
@@ -323,15 +323,16 @@ def test_create_user_and_superuser():
         )
 
 
-def test_delete_user(client: Client) -> None:
+def test_delete_user() -> None:
     """
     Test the deletion of existing user records from the database.
 
     Parameters
     ----------
-    client : Client
+    client : APIClient
         An authenticated client.
     """
+    client = APIClient()
     test_username = "test_user_123"
     test_pass = "Activist@123!?"
     user = UserFactory(username=test_username, plaintext_password=test_pass)
@@ -349,22 +350,9 @@ def test_delete_user(client: Client) -> None:
     token = login_body["token"]
 
     # User deletes themselves.
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
-        path=f"/v1/auth/delete/{user.id}/", headers={"Authorization": f"Token {token}"}
+        path="/v1/auth/delete/", headers={"Authorization": f"Token {token}"}
     )
 
     assert response.status_code == 204
-
-    dummy_user = UserFactory(
-        username="dummy_user",
-        plaintext_password="dummy_pass",
-        is_confirmed=True,
-        verified=True,
-    )
-
-    # User tries to delete another user.
-    error_response = client.delete(
-        path=f"/v1/auth/delete/{dummy_user.id}/",
-        headers={"Authorization": f"Token {token}"},
-    )
-    assert error_response.status_code == 401
