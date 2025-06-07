@@ -346,6 +346,7 @@ def test_delete_user() -> None:
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
 
