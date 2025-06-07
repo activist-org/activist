@@ -39,11 +39,12 @@
     >
       <SearchBar class="mt-1" :location="SearchBarLocation.SIDEBAR" />
       <SidebarLeftMainSectionSelectors class="mt-2" />
-      <SidebarLeftIndex
+      <SidebarLeftContent
         v-if="
           sidebarType === SidebarType.ORGANIZATION_PAGE ||
           sidebarType === SidebarType.EVENT_PAGE ||
-          sidebarType === SidebarType.GROUP_PAGE
+          sidebarType === SidebarType.GROUP_PAGE ||
+          sidebarType === SidebarType.EVENTS_PAGE
         "
         class="my-3"
         :name="placeholderName ? placeholderName : 'Name'"
@@ -91,7 +92,6 @@ const isOrgPage = computed(() =>
 const isEventPage = computed(() =>
   isCurrentRoutePathSubpageOf("events", routeName.value.toString())
 );
-
 const pathToSidebarTypeMap = [
   { path: "search", type: SidebarType.SEARCH },
   { path: "home", type: SidebarType.HOME },
@@ -103,7 +103,7 @@ const pathToSidebarTypeMap = [
   },
   {
     path: "events",
-    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENT_FILTER,
+    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENTS_PAGE,
   },
 ];
 
@@ -113,7 +113,7 @@ watch([isOrgPage, isEventPage], () => {
     : SidebarType.ORGANIZATION_FILTER;
   pathToSidebarTypeMap[3].type = isEventPage.value
     ? SidebarType.EVENT_PAGE
-    : SidebarType.EVENT_FILTER;
+    : SidebarType.EVENTS_PAGE;
 });
 
 const sidebarType = computed(() => {
@@ -138,7 +138,7 @@ for (const key in Topic) {
 
 const filters = {
   daysAhead: {
-    sidebarType: [SidebarType.EVENT_FILTER],
+    sidebarType: [SidebarType.EVENTS_PAGE],
     title: "Days ahead",
     name: "daysAhead",
     type: "radio",
@@ -160,7 +160,7 @@ const filters = {
     ],
   },
   eventType: {
-    sidebarType: [SidebarType.EVENT_FILTER],
+    sidebarType: [SidebarType.EVENTS_PAGE],
     title: "Event type",
     name: "eventType",
     type: "checkbox",
@@ -179,7 +179,7 @@ const filters = {
     ],
   },
   locationType: {
-    sidebarType: [SidebarType.EVENT_FILTER],
+    sidebarType: [SidebarType.EVENTS_PAGE],
     title: "Location",
     name: "locationType",
     type: "checkbox",
@@ -197,7 +197,7 @@ const filters = {
     ],
   },
   eventLocationSearch: {
-    sidebarType: [SidebarType.EVENT_FILTER],
+    sidebarType: [SidebarType.EVENTS_PAGE],
     title: "",
     name: "eventLocationSearch",
     type: "search",
@@ -211,7 +211,7 @@ const filters = {
     placeholder: "i18n.components.sidebar_left.location_search_placeholder",
   },
   organizationSearch: {
-    sidebarType: [SidebarType.EVENT_FILTER],
+    sidebarType: [SidebarType.EVENTS_PAGE],
     title: "Organization",
     name: "organizationSearch",
     type: "search",
@@ -219,7 +219,7 @@ const filters = {
   },
   topic: {
     sidebarType: [
-      SidebarType.EVENT_FILTER,
+      SidebarType.EVENTS_PAGE,
       SidebarType.ORGANIZATION_FILTER,
       SidebarType.RESOURCES_FILTER,
       SidebarType.SEARCH,
@@ -286,6 +286,8 @@ function handleFocusOut(event: FocusEvent) {
     collapseSidebar(true);
   }
 }
+
+console.log("SidebarLeft mounted", sidebarType.value);
 
 onMounted(() => {
   window.addEventListener("resize", setSidebarContentScrollable);

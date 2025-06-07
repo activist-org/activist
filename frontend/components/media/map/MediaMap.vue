@@ -9,11 +9,12 @@
 <script setup lang="ts">
 import type { LayerSpecification } from "maplibre-gl";
 
-import { useMap } from "@/composables/useMap";
+import { useClusterMap } from "~/composables/map/useClusterMap";
+import { useMap } from "~/composables/map/useMap";
+import { usePointerMap } from "~/composables/map/usePointerMap";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import { useClusterMap } from "~/composables/useClusterMap";
-import { useRouting } from "~/composables/useRoutingMap";
+import { useRouting } from "~/composables/map/useRoutingMap";
 import {
   MapType,
   type ClusterProperties,

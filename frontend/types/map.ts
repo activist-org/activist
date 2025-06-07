@@ -13,11 +13,6 @@ export enum ColorByEventType {
   LEARN = "#2176AE",
 }
 
-export const colorByType = {
-  learn: ColorByEventType.LEARN,
-  action: ColorByEventType.ACTION,
-};
-
 export interface RouteProfile {
   profile: string;
   api: string;
