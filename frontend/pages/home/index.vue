@@ -13,11 +13,10 @@
     >
       <ComboboxTopics class="pb-3 lg:pb-4" />
     </HeaderAppPage>
-    <MediaMap
+    <MediaMapEvents
       v-if="events.length"
       class="h-[calc(50vh-1rem)] w-full"
       :events="events"
-      :type="MapType.CLUSTER"
     />
     <!-- <div class="space-y-6 pb-6">
       <div
@@ -38,10 +37,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { MapType } from "~/types/map";
-
 const eventStore = useEventStore();
 await eventStore.fetchAll();
-
 const { events } = eventStore;
 </script>
