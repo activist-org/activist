@@ -150,7 +150,6 @@ export const useEventStore = defineStore("event", {
         async () =>
           (await fetchWithoutToken(`/events/events`, {})) as EventsResponseBody
       );
-
       if (status.value === "success") {
         const events = data.value!.results.map((event: EventResponse) => {
           return {
@@ -175,7 +174,6 @@ export const useEventStore = defineStore("event", {
             texts: event.texts[0],
           };
         });
-
         this.events = events;
       }
 
