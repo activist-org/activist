@@ -109,7 +109,7 @@ def test_image_list_view(client: APIClient) -> None:
     images = ImageFactory.create_batch(3)
     filenames = [image.file_object.name for image in images]
 
-    response = client.get("/v1/content/images/")
+    response = client.get("/v1/content/images")
 
     assert response.status_code == 200
     assert response.json()["count"] == 3
@@ -137,7 +137,7 @@ def test_image_create_single_file_view(client: APIClient) -> None:
 
     data = create_organization_and_image()
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     assert response.status_code == 201, (
         f"Expected status code 201, but got {response.status_code}."
@@ -207,7 +207,7 @@ def test_image_create_multiple_files_view(client: APIClient) -> None:
 
     data = {"organization_id": str(org.id), "file_object": files}
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     # Assert that the response is a 201 status code.
     assert response.status_code == 201
@@ -238,7 +238,7 @@ def test_image_create_missing_file(client: APIClient) -> None:
 
     org = OrganizationFactory()
     data = {"organization_id": str(org.id)}  # no file_object provided
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     assert response.status_code == 400
     assert "fileObject" in response.json()
@@ -271,7 +271,7 @@ def test_image_create_corrupted_file(client: APIClient) -> None:
 
     data = {"organization_id": str(org.id), "file_object": file}
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     assert response.status_code == 400
     assert (
@@ -303,7 +303,7 @@ def test_image_create_large_file(client: APIClient) -> None:
 
     data = {"organization_id": str(org.id), "file_object": file}
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     assert response.status_code == 400
 
@@ -332,7 +332,7 @@ def test_image_destroy_view(client: APIClient) -> None:
 
     data = create_organization_and_image()
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
     response_data = response.json()
     assert len(response_data) == 1, "Expected one image in response"
     file_id = response_data[0]["id"]
@@ -351,7 +351,7 @@ def test_image_destroy_view(client: APIClient) -> None:
 
     # Delete the image from the database and the file from the file system.
     # The signal to delete the file from the filesystem is triggered in the Image model.
-    response = client.delete(f"/v1/content/images/{file_id}/")
+    response = client.delete(f"/v1/content/images/{file_id}")
 
     # Assert file is deleted from filesystem and the database.
     assert response.status_code == 204
@@ -374,5 +374,5 @@ def test_destroy_non_existent_file_view(client: APIClient) -> None:
 
     non_existent_file_uuid = uuid.uuid4()  # Generates a random UUID
 
-    response = client.delete(f"/v1/content/images/{non_existent_file_uuid}/")
+    response = client.delete(f"/v1/content/images/{non_existent_file_uuid}")
     assert response.status_code == 404

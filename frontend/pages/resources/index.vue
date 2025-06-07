@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 const { data: resources } = await useFetch(
-  `${BASE_BACKEND_URL}/content/resources/`,
+  `${BASE_BACKEND_URL}/content/resources`,
   {
     method: "GET",
   }

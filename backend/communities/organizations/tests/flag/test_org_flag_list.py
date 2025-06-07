@@ -11,6 +11,6 @@ def test_org_flag_list():
     """
     client = APIClient()
 
-    response = client.get(path="/v1/communities/organization_flag/")
+    response = client.get(path="/v1/communities/organization_flag")
 
     assert response.status_code == 200

@@ -54,7 +54,7 @@ export function useFileManager(entityId?: string) {
 
     try {
       const response = await fetch(
-        `${BASE_BACKEND_URL as string}/communities/organizations/${entityId}/images/`,
+        `${BASE_BACKEND_URL as string}/communities/organizations/${entityId}/images`,
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("accessToken")}`,
@@ -87,7 +87,7 @@ export function useFileManager(entityId?: string) {
 
     try {
       const response = await fetch(
-        `${BASE_BACKEND_URL as string}/content/images/${id}/`,
+        `${BASE_BACKEND_URL as string}/content/images/${id}`,
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("accessToken")}`,
@@ -125,7 +125,7 @@ export function useFileManager(entityId?: string) {
 
     try {
       const response = await fetch(
-        `${BASE_BACKEND_URL as string}/content/images/`,
+        `${BASE_BACKEND_URL as string}/content/images`,
         {
           method: "POST",
           body: formData,
@@ -164,7 +164,7 @@ export function useFileManager(entityId?: string) {
 
     try {
       return await fetch(
-        `${BASE_BACKEND_URL as string}/content/images/${imageId}/`,
+        `${BASE_BACKEND_URL as string}/content/images/${imageId}`,
         {
           method: "DELETE",
           headers: {

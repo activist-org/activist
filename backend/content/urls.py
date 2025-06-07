@@ -10,7 +10,7 @@ from content import views
 
 app_name = "content"
 
-router = DefaultRouter()
+router = DefaultRouter(trailing_slash=False)
 
 # MARK: Main Tables
 
