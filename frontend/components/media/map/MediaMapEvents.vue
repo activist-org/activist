@@ -143,11 +143,11 @@ const pointers: PointerCluster[] = events.map((event) => {
 });
 const clusterProperties: ClusterProperties = {
   cluster: {
-    value_1: {
+    learn: {
       logic: ["+", ["case", ["==", ["get", "type"], "learn"], 1, 0]],
       color: colorByType.learn,
     },
-    value_2: {
+    action: {
       color: colorByType.action,
       logic: ["+", ["case", ["==", ["get", "type"], "action"], 1, 0]],
     },

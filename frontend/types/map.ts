@@ -53,7 +53,7 @@ export interface ClusterProperties {
   getMultipleDonutProps: (values: GeoJsonProperties) => DonutProperties;
   getPointerColor: (values: GeoJsonProperties) => string;
   cluster: {
-    [key: `value_${number}`]: {
+    [key: string]: {
       logic: unknown;
       color: string;
     };
