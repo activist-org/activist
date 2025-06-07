@@ -72,7 +72,7 @@ def test_sign_up(client: Client) -> None:
 
     # 1. Password strength fails.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": username,
             "password": weak_password,
@@ -86,7 +86,7 @@ def test_sign_up(client: Client) -> None:
 
     # 2. Password confirmation fails.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": username,
             "password": strong_password,
@@ -100,7 +100,7 @@ def test_sign_up(client: Client) -> None:
 
     # 3. User is created successfully.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": username,
             "password": strong_password,
@@ -121,7 +121,7 @@ def test_sign_up(client: Client) -> None:
 
     # 4. User already exists.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": username,
             "password": strong_password,
@@ -135,7 +135,7 @@ def test_sign_up(client: Client) -> None:
 
     # 5. User is created without an email.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": second_username,
             "password": strong_password,
@@ -172,7 +172,7 @@ def test_sign_in(client: Client) -> None:
 
     # 1. User that signed up with email, that has not confirmed their email.
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": user.username, "password": plaintext_password},
     )
     assert response.status_code == 400
@@ -181,27 +181,27 @@ def test_sign_in(client: Client) -> None:
     user.is_confirmed = True
     user.save()
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"email": user.email, "password": plaintext_password},
     )
     assert response.status_code == 200
     # Sign in via username.
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": user.username, "password": plaintext_password},
     )
     assert response.status_code == 200
 
     # 3. User exists but password is incorrect.
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"email": user.email, "password": "Strong_But_Incorrect?!123"},
     )
     assert response.status_code == 400
 
     # 4. User does not exists and tries to sign in.
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"email": "unknown_user@example.com", "password": "Password@123!?"},
     )
     assert response.status_code == 400
@@ -230,7 +230,7 @@ def test_pwreset(client: Client) -> None:
     # 1. User exists and password reset is successful.
     user = UserFactory(plaintext_password=old_password)
     response = client.get(
-        path="/v1/auth/pwreset/",
+        path="/v1/auth/pwreset",
         data={"email": user.email},
     )
     assert response.status_code == 200
@@ -238,7 +238,7 @@ def test_pwreset(client: Client) -> None:
 
     # 2. Password reset with invalid email.
     response = client.get(
-        path="/v1/auth/pwreset/", data={"email": "invalid_email@example.com"}
+        path="/v1/auth/pwreset", data={"email": "invalid_email@example.com"}
     )
     assert response.status_code == 404
 
@@ -246,7 +246,7 @@ def test_pwreset(client: Client) -> None:
     user.verification_code = uuid.uuid4()
     user.save()
     response = client.post(
-        path=f"/v1/auth/pwreset/?code={user.verification_code}",
+        path=f"/v1/auth/pwreset?code={user.verification_code}",
         data={"password": new_password},
     )
     assert response.status_code == 200
@@ -255,7 +255,7 @@ def test_pwreset(client: Client) -> None:
 
     # 4. Password reset with invalid verification code.
     response = client.post(
-        path="/v1/auth/pwreset/invalid_code/",
+        path="/v1/auth/pwreset/invalid_code",
         data={"password": new_password},
     )
     assert response.status_code == 404
@@ -339,11 +339,11 @@ def test_delete_user(client: Client) -> None:
     user.save()
 
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": user.username, "password": user.password},
     )
 
     if response.status_code == 200:
-        delete_response = client.delete(path="/v1/auth/delete/", data={"pk": user.id})
+        delete_response = client.delete(path="/v1/auth/delete", data={"pk": user.id})
 
         assert delete_response.status_code == 200

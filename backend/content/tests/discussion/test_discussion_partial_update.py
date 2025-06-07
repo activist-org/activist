@@ -25,7 +25,7 @@ def test_discussion_partial_update():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_pass},
     )
 
@@ -39,7 +39,7 @@ def test_discussion_partial_update():
     # Authorized owner partially updates the discussion.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.patch(
-        path=f"/v1/content/discussions/{discussion_thread.id}/",
+        path=f"/v1/content/discussions/{discussion_thread.id}",
         data={"title": "new_title"},
     )
 
@@ -49,7 +49,7 @@ def test_discussion_partial_update():
     unowned_discussion_thread = DiscussionFactory()
 
     response = client.patch(
-        path=f"/v1/content/discussions/{unowned_discussion_thread.id}/",
+        path=f"/v1/content/discussions/{unowned_discussion_thread.id}",
         data={"title": "new_title"},
     )
 
