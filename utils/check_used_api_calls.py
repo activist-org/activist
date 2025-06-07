@@ -12,7 +12,7 @@ import re
 from typing import Pattern
 
 API_PATTERNS = [
-    re.compile(r"\$\{BASE_BACKEND_URL(?: as string)?\}/\S+"),
+    re.compile(r"\$\{BASE_BACKEND_URL\}/\S+"),
     re.compile(r"localhost:8000/\S+"),
     re.compile(r"127.0.0.1:8000/\S+"),
 ]
@@ -72,7 +72,6 @@ def search_for_api_calls_in_directory(dir_path: str, exclude: None | list[str]) 
         for file in files:
             if file.endswith((".vue", ".js", ".ts")):
                 file_path = os.path.join(root, file)
-                print(f"Searching for API calls in {file_path}")
                 results = search_for_api_calls(
                     file_path=file_path, api_pattern=API_PATTERNS
                 )
@@ -112,8 +111,6 @@ EXCLUDE_DIRS = [
     "dist",
     "public",
     "build",
-    "test",
-    "tests",
     "types",
     "test-e2e",
     ".nuxt",
