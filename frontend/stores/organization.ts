@@ -66,7 +66,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organizations/`,
+        `${BASE_BACKEND_URL}/communities/organizations`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -193,7 +193,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/communities/organizations/${org.id}/`,
+        BASE_BACKEND_URL + `/communities/organizations/${org.id}`,
         {
           method: "PUT",
           body: {
@@ -207,7 +207,7 @@ export const useOrganizationStore = defineStore("organization", {
       );
 
       const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}/`,
+        BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}`,
         {
           method: "PUT",
           body: {
@@ -249,7 +249,7 @@ export const useOrganizationStore = defineStore("organization", {
       // 'update()' in the viewset 'class OrganizationSocialLinkViewSet' handles this
       // by using the org.id from the end of the URL.
       const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organization_social_links/${org.id}/`,
+        `${BASE_BACKEND_URL}/communities/organization_social_links/${org.id}`,
         {
           method: "PUT",
           // Send entire formData array/dict in order to make a single API request.
@@ -294,7 +294,7 @@ export const useOrganizationStore = defineStore("organization", {
       const token = localStorage.getItem("accessToken");
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organization_faqs/${org.id}/`,
+        `${BASE_BACKEND_URL}/communities/organization_faqs/${org.id}`,
         {
           method: "PUT",
           body: JSON.stringify({
