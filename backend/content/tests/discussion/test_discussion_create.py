@@ -23,7 +23,7 @@ def test_discussion_create():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_pass},
     )
 
@@ -34,7 +34,7 @@ def test_discussion_create():
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
-        path="/v1/content/discussions/",
+        path="/v1/content/discussions",
         data={"title": discussion_thread.title, "category": discussion_thread.category},
     )
 

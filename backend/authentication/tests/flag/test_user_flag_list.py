@@ -11,6 +11,6 @@ def test_user_flag_list():
     """
     client = APIClient()
 
-    response = client.get(path="/v1/auth/user_flag/")
+    response = client.get(path="/v1/auth/user_flag")
 
     assert response.status_code == 200

@@ -13,7 +13,7 @@ afterEach(() => {
 });
 
 const signInMock = vi.fn();
-registerEndpoint("http://localhost:8000/v1/auth/sign_in/", {
+registerEndpoint("http://localhost:8000/v1/auth/sign_in", {
   method: "POST",
   handler: signInMock,
 });
