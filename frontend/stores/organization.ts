@@ -106,7 +106,7 @@ export const useOrganizationStore = defineStore("organization", {
       const { data, status } = await useAsyncData<OrganizationResponse>(
         async () =>
           (await fetchWithoutToken(
-            `/communities/organizations/${id}/`,
+            `/communities/organizations/${id}`,
             {}
           )) as OrganizationResponse
       );
@@ -144,7 +144,7 @@ export const useOrganizationStore = defineStore("organization", {
       const { data, status } = await useAsyncData<OrganizationsResponseBody>(
         async () =>
           (await fetchWithoutToken(
-            `/communities/organizations/`,
+            `/communities/organizations`,
             {}
           )) as OrganizationsResponseBody
       );

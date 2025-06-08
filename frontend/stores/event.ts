@@ -111,10 +111,7 @@ export const useEventStore = defineStore("event", {
 
       const { data, status } = await useAsyncData<EventResponse>(
         async () =>
-          (await fetchWithoutToken(
-            `/events/events/${id}/`,
-            {}
-          )) as EventResponse
+          (await fetchWithoutToken(`/events/events/${id}`, {})) as EventResponse
       );
 
       if (status.value === "success") {
@@ -151,7 +148,7 @@ export const useEventStore = defineStore("event", {
 
       const { data, status } = await useAsyncData<EventsResponseBody>(
         async () =>
-          (await fetchWithoutToken(`/events/events/`, {})) as EventsResponseBody
+          (await fetchWithoutToken(`/events/events`, {})) as EventsResponseBody
       );
 
       if (status.value === "success") {

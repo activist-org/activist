@@ -110,7 +110,7 @@ export const useGroupStore = defineStore("group", {
       const { data, status } = await useAsyncData<GroupResponse>(
         async () =>
           (await fetchWithoutToken(
-            `/communities/groups/${id}/`,
+            `/communities/groups/${id}`,
             {}
           )) as GroupResponse
       );
@@ -144,7 +144,7 @@ export const useGroupStore = defineStore("group", {
       const { data, status } = await useAsyncData<GroupsResponseBody>(
         async () =>
           (await fetchWithoutToken(
-            `/communities/groups/`,
+            `/communities/groups`,
             {}
           )) as GroupsResponseBody
       );
