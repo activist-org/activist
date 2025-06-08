@@ -9,6 +9,7 @@ from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventFaq,
     EventFlag,
     EventText,
     Format,
@@ -20,6 +21,7 @@ from events.models import (
 admin.site.register(Event)
 admin.site.register(Format)
 admin.site.register(Role)
+admin.site.register(EventFaq)
 
 # MARK: Bridge Tables
 
