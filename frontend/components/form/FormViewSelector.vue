@@ -2,7 +2,7 @@
 <template>
   <RadioGroup
     v-model="value"
-    class="flex h-11 w-full items-center justify-around divide-primary-text"
+    class="flex h-11 w-full justify-around divide-primary-text"
     :aria-label="$t('i18n.components.form_view_selector.title_aria_label')"
   >
     <RadioGroupOption
@@ -12,15 +12,20 @@
       class="flex flex-1 items-center justify-center gap-2"
       :name="option.label || ''"
       :value="option.value"
-      as="button"
     >
       {{ console.log(option, checked) }}
+      <div
+      v-if="option.isIcon"
+        class="h-full flex-1"
+        :class="checked ? 'style-menu-option-cta' : 'style-menu-option'"
+        :aria-label="$t(option.aria_label)"
+      >
       <Icon
-        v-if="option.isIcon"
         :name="option.content as string"
         class="h-6 w-6"
         :aria-hidden="true"
       />
+      </div>
       {{ !option.isIcon ? option.content : "" }}
     </RadioGroupOption>
   </RadioGroup>
@@ -45,9 +50,16 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "update:modelValue", value: typeof props.modelValue): void;
 }>();
+console.log("FormViewSelector", props.modelValue, props.options);
 
 const value = computed({
-  get: () => props.modelValue,
-  set: (val) => emit("update:modelValue", val),
+  get: () =>{
+    console.log("FormViewSelector get", props.modelValue);
+    return props.modelValue
+    },
+  set: (val) => {
+    console.log("FormViewSelector set", val);
+    emit("update:modelValue", val)
+  },
 });
 </script>
