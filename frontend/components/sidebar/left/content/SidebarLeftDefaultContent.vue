@@ -1,4 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+// TODO: REDO COMPONENT
 <template>
   <div
     class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-2 text-primary-text transition-all duration-500"
@@ -162,7 +163,7 @@ const sidebarTypeToDisplay = computed(() => props.sidebarType);
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
-
+console.log("aca estoy");
 const { openModal: openModalUploadImages } =
   useModalHandlers("ModalUploadImages");
 

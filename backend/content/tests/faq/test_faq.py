@@ -129,7 +129,7 @@ def test_organization_faq_list_view(client: APIClient) -> None:
     num_faqs = 3
     OrganizationFaqFactory.create_batch(num_faqs, org=org)
 
-    response = client.get(f"/v1/communities/organizations/{org.id}")
+    response = client.get(f"/v1/communities/organizations/{org.id}/")
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()["faqEntries"]) == num_faqs
@@ -145,7 +145,7 @@ def test_group_faq_list_view(client: APIClient) -> None:
     num_faqs = 3
     GroupFaqFactory.create_batch(num_faqs, group=group)
 
-    response = client.get(f"/v1/communities/groups/{group.id}")
+    response = client.get(f"/v1/communities/groups/{group.id}/")
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()["faqEntries"]) == num_faqs
@@ -161,7 +161,7 @@ def test_event_faq_list_view(client: APIClient) -> None:
     num_faqs = 3
     EventFaqFactory.create_batch(num_faqs, event=event)
 
-    response = client.get(f"/v1/events/events/{event.id}")
+    response = client.get(f"/v1/events/events/{event.id}/")
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()["faqEntries"]) == num_faqs
@@ -192,7 +192,7 @@ def test_organization_faq_create_view(client: APIClient) -> None:
     }
 
     response = client.put(
-        f"/v1/communities/organization_faqs/{org.id}",
+        f"/v1/communities/organization_faqs/{org.id}/",
         formData,
         content_type="application/json",
     )
@@ -225,7 +225,7 @@ def test_group_faq_create_view(client: APIClient) -> None:
     }
 
     response = client.put(
-        f"/v1/communities/group_faqs/{group.id}",
+        f"/v1/communities/group_faqs/{group.id}/",
         formData,
         content_type="application/json",
     )
@@ -258,7 +258,7 @@ def test_event_faq_create_view(client: APIClient) -> None:
     }
 
     response = client.put(
-        f"/v1/events/event_faqs/{event.id}",
+        f"/v1/events/event_faqs/{event.id}/",
         formData,
         content_type="application/json",
     )

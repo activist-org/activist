@@ -15,6 +15,6 @@ def test_user_flag_retrieve():
 
     flagged_user = UserFlagFactory()
 
-    response = client.get(path=f"/v1/auth/user_flag/{flagged_user.id}")
+    response = client.get(path=f"/v1/auth/user_flag/{flagged_user.id}/")
 
     assert response.status_code == 200

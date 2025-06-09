@@ -116,7 +116,7 @@ const pathToSidebarTypeMap = [
   },
   {
     path: "events",
-    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENT_FILTER,
+    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENTS_PAGE,
   },
 ];
 
@@ -126,7 +126,7 @@ watch([isOrgPage, isEventPage], () => {
     : SidebarType.ORGANIZATION_FILTER;
   pathToSidebarTypeMap[3].type = isEventPage.value
     ? SidebarType.EVENT_PAGE
-    : SidebarType.EVENT_FILTER;
+    : SidebarType.EVENTS_PAGE;
 });
 
 const sidebarType = computed(() => {

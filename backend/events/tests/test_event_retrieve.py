@@ -17,6 +17,6 @@ def test_event_retrieve(client: Client) -> None:
     """
     event = EventFactory()
 
-    response = client.get(path=f"/v1/events/events/{event.id}")
+    response = client.get(path=f"/v1/events/events/{event.id}/")
 
     assert response.status_code == 200
