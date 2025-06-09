@@ -6,7 +6,11 @@ components
     class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-2 text-primary-text transition-all duration-500"
   >
     <div class="flex flex-col items-center">
-      <FormViewSelector :model-value="viewType" :options="options" />
+      <FormViewSelector
+        @update:modelValue="($e) => (viewType = $e as ViewType)"
+        :model-value="viewType"
+        :options="options"
+      />
     </div>
   </div>
 </template>

@@ -13,8 +13,7 @@
       :name="option.label || ''"
       :value="option.value"
     >
-      {{ console.log(option, checked) }}
-      <div
+      <button
       v-if="option.isIcon"
         class="h-full flex-1"
         :class="checked ? 'style-menu-option-cta' : 'style-menu-option'"
@@ -25,7 +24,7 @@
         class="h-6 w-6"
         :aria-hidden="true"
       />
-      </div>
+      </button>
       {{ !option.isIcon ? option.content : "" }}
     </RadioGroupOption>
   </RadioGroup>
@@ -50,16 +49,9 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "update:modelValue", value: typeof props.modelValue): void;
 }>();
-console.log("FormViewSelector", props.modelValue, props.options);
 
 const value = computed({
-  get: () =>{
-    console.log("FormViewSelector get", props.modelValue);
-    return props.modelValue
-    },
-  set: (val) => {
-    console.log("FormViewSelector set", val);
-    emit("update:modelValue", val)
-  },
+  get: () => props.modelValue,
+  set: (val) => emit("update:modelValue", val),
 });
 </script>
