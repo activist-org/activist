@@ -7,7 +7,7 @@ components
   >
     <div class="flex flex-col items-center">
       <FormViewSelector
-        @update:modelValue="($e) => (viewType = $e as ViewType)"
+        @update:modelValue="updateViewType"
         :model-value="viewType"
         :options="options"
       />
@@ -42,5 +42,20 @@ const options = [
     isIcon: true,
   },
 ];
+const route = useRoute();
+const router = useRouter();
+const updateViewType = (value: string | number | boolean | Record<string, unknown> | undefined) => {
+  if (typeof value === 'string' && Object.values(ViewType).includes(value as ViewType)) {
+    viewType.value = value as ViewType;
+    router.push({
+      query: {
+        ...route.query,
+        view: value,
+      },
+    });
+  } else {
+    console.warn("Invalid view type:", value);
+  }
+};
 const viewType = ref(ViewType.MAP);
 </script>
