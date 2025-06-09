@@ -53,9 +53,13 @@ const updateViewType = (value: string | number | boolean | Record<string, unknow
         view: value,
       },
     });
-  } else {
-    console.warn("Invalid view type:", value);
+    return
   }
+    console.warn("Invalid view type:", value);
 };
 const viewType = ref(ViewType.MAP);
+const q = route.query.view;
+  if (typeof q === 'string' && Object.values(ViewType).includes(q as ViewType)) {
+    viewType.value = q as ViewType;
+  }
 </script>
