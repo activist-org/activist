@@ -7,7 +7,6 @@ import json
 from typing import Any, Dict, List, Optional, Sequence, Type
 from uuid import UUID
 
-from backend import communities as c
 from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
@@ -21,6 +20,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from communities.groups.models import Group
+from communities.organizations.models import Organization
 from content.models import Location
 from core.paginator import CustomPagination
 from events.models import Event, EventFaq, EventFlag, EventSocialLink, EventText
@@ -360,11 +361,11 @@ class EventCalendarViewSet(viewsets.ModelViewSet[EventText]):
         if event_id:
             events.append(Event.objects.get(id=event_id))
         elif org_id and group_id:
-            org = c.Organizations.objects.get(id=org_id)
-            group = c.Groups.objects.get(id=org_id)
+            org = Organization.objects.get(id=org_id)
+            group = Group.objects.get(id=org_id)
             events = Event.objects.filter(orgs = org, group_id = group)
         elif org_id:
-            org = c.Organizations.objects.get(id=org_id)
+            org = Organization.objects.get(id=org_id)
             events = Event.objects.filter(orgs=org)
         cal = Calendar()
         cal.add("prodid", "-//Activist//EN")
