@@ -357,6 +357,4 @@ const sendEmail = async () => {
     isSending.value = false;
   }
 };
-
-toast.success("Your message has been sent!");
 </script>
