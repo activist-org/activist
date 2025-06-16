@@ -357,4 +357,6 @@ const sendEmail = async () => {
     isSending.value = false;
   }
 };
+
+//initial draft.
 </script>
