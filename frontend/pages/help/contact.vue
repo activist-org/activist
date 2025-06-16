@@ -279,9 +279,8 @@ const mail = useMail();
 const emailSent = ref(false);
 
 const validateEmail = () => {
-  if (!email.value.match(/.*@\w+\.\w+/)) {
-    emailValidated.value = false;
-  }
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  emailValidated.value = pattern.test(email.value);
 };
 
 const validateSubject = () => {
@@ -338,19 +337,26 @@ watch([message, subject, email, name], () => {
   }
 });
 
+const isSending = ref(false);
+
 const sendEmail = async () => {
-  if (
-    name.value.trim().length > 0 &&
-    email.value.match(/.*@\w+\.\w+/) &&
-    subject.value.trim().length > 0 &&
-    message.value.trim().length > 0
-  ) {
+  if (buttonDisabled.value || isSending.value) return;
+
+  isSending.value = true;
+  try {
     await mail.send({
       from: "contact@activist.org",
       subject: `activist contact form: ${subject.value}`,
-      text: message.value,
+      text: `From: ${name.value} <${email.value}>\n\n${message.value}`,
     });
     emailSent.value = true;
+  } catch (e) {
+    console.error("Email failed to send", e);
+    // Optionally show user-friendly error
+  } finally {
+    isSending.value = false;
   }
 };
+
+toast.success("Your message has been sent!");
 </script>
