@@ -69,7 +69,7 @@ exclude = ["^.*/tests/.*\\.py$", "^.*/test_.*\\.py$", "^.*/.*_tests\\.py$"]
 module = ["authentication.*", "content.*", "communities.*", "events.*"]
 # follow_imports = "skip"  # enable django-stubs
 # TODO: Remove once all mypy django-stubs errors are fixed.
-ignore_errors = true
+# ignore_errors = true
 
 
 [tool.django-stubs]

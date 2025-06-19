@@ -11,6 +11,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.validators import validate_image_file_extension
 from django.db import models
 from django.db.models.signals import post_delete
+# from django.db.models.manager import RelatedManager
 from django.dispatch import receiver
 
 from utils.models import ISO_CHOICES
@@ -177,10 +178,10 @@ class Resource(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
 
-    flags = models.ManyToManyField(
-        "authentication.UserModel",
-        through="ResourceFlag",
-    )
+    flags: Any = models.ManyToManyField(
+    "authentication.UserModel",
+    through="ResourceFlag",
+)
 
     def __str__(self) -> str:
         return self.name
