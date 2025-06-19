@@ -1,0 +1,13 @@
+{
+  "name": "activist",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Leon-Xie123/activist.git",
+  "author": "Celine Tan <ctltan36@hotmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.17"
+  },
+  "scripts": {}
+}
