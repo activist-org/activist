@@ -9,9 +9,9 @@
         >
           <div class="w-min md:w-min">
             <BtnAction
-              @click="writePreviewSelector()"
+              @click="writePreviewSelector('Write')"
               class="w-small mt-1 flex"
-              :cta="!isMarkdownPreview"
+              :cta="isMarkdownPreview === 'Write'"
               label="i18n.components.card_discussion_input.write"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.write_aria_label"
@@ -19,9 +19,9 @@
           </div>
           <div class="w-min md:w-min">
             <BtnAction
-              @click="writePreviewSelector()"
+              @click="writePreviewSelector('Preview')"
               class="w-small mt-1 flex"
-              :cta="isMarkdownPreview"
+              :cta="isMarkdownPreview === 'Preview'"
               label="i18n.components.card_discussion_input.preview"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
@@ -90,7 +90,6 @@
       </div>
       <div class="w-full md:w-full">
         <textarea
-          v-if="!isMarkdownPreview"
           v-model="markdown"
           @input="
             (event) =>
@@ -98,9 +97,13 @@
           "
           ref="textarea"
           class="focus-brand prose block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text dark:prose-invert"
+          v-show="isMarkdown && isMarkdownPreview === 'Write'"
           rows="1"
         />
-        <editor-content v-else :editor="writeEditor" />
+        <editor-content
+          v-show="isMarkdownPreview === 'Preview'"
+          :editor="writeEditor"
+        />
       </div>
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
@@ -172,15 +175,17 @@ const props = defineProps<{
 const i18n = useI18n();
 const markdown = ref("");
 
-const isMarkdownPreview = ref(false);
+const isMarkdownPreview = ref("Write");
 const isMarkdown = ref(true);
 const textarea = ref<HTMLTextAreaElement | null>(null);
 
+// https://stackoverflow.com/questions/65997180/automatic-resizing-of-textarea-after-loading-data-in-vue
+// Potential Improvement
 const autoResize = () => {
   const el = textarea.value;
   if (!el) return;
   el.style.height = "auto";
-  el.style.height = `${el.scrollHeight}px`;
+  el.style.height = `${el.scrollHeight - 4}px`;
 };
 
 watch(markdown, () => {
@@ -224,11 +229,24 @@ const updateTheVariable = (value: any) => {
 
 const toggleIsMarkdown = () => {
   isMarkdown.value = !isMarkdown.value;
-  writeEditor.value?.setEditable(true);
+
+  if (isMarkdownPreview.value === "Write") {
+    isMarkdownPreview.value = "Preview";
+    writeEditor.value?.commands.setContent(markdown.value);
+  }
+
+  if (isMarkdown.value) {
+    writeEditor.value?.setEditable(false);
+  } else {
+    writeEditor.value?.setEditable(true);
+  }
+
+  markdown.value = writeEditor.value?.storage.markdown.getMarkdown();
+  autoResize();
 };
 
-const writePreviewSelector = () => {
-  isMarkdownPreview.value = !isMarkdownPreview.value;
+const writePreviewSelector = (buttonString: string) => {
+  isMarkdownPreview.value = buttonString;
   writeEditor.value?.setEditable(!isMarkdownPreview.value);
   writeEditor.value?.commands.setContent(markdown.value);
 };
