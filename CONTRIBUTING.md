@@ -680,7 +680,7 @@ Once the above steps are finished you should be able to use tab to navigate web 
 
 <a id="internationalization-"></a>
 
-# Internationalization [`⇧`](#contents)
+## Internationalization [`⇧`](#contents)
 
 activist uses [i18n-check](https://github.com/activist-org/i18n-check) to validate our internationalization key-value pairs. The basic commands to check the i18n keys and values are:
 
