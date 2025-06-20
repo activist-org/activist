@@ -4,6 +4,7 @@ Models for the communities app.
 """
 
 from uuid import uuid4
+from typing import Any
 
 from django.db import models
 
@@ -52,7 +53,7 @@ class Organization(models.Model):
 
     resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
-    flags = models.ManyToManyField(
+    flags: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="OrganizationFlag",
     )

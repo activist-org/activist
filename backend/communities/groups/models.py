@@ -4,6 +4,7 @@ Models for the communities app.
 """
 
 from uuid import uuid4
+from typing import Any
 
 from django.db import models
 
@@ -49,7 +50,7 @@ class Group(models.Model):
     events = models.ManyToManyField("events.Event", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
 
-    flags = models.ManyToManyField("authentication.UserModel", through="GroupFlag")
+    flags: Any = models.ManyToManyField("authentication.UserModel", through="GroupFlag")
 
     def __str__(self) -> str:
         return self.name
