@@ -7,7 +7,7 @@ components
   >
     <div class="flex flex-col items-center">
       <FormViewSelector
-        @update:modelValue="($e) => (viewType = $e as ViewType)"
+        @update:modelValue="updateViewType"
         :model-value="viewType"
         :options="options"
       />
@@ -30,7 +30,7 @@ const options = [
     value: ViewType.MAP,
     key: "map",
     content: IconMap.PIN_MAP_FILL,
-    aria_label: "i18n.components.sidebar_left_content_events.view_type_card",
+    aria_label: "i18n.components.sidebar_left_content_events.view_type_map",
     isIcon: true,
   },
   {
@@ -44,8 +44,13 @@ const options = [
 ];
 const route = useRoute();
 const router = useRouter();
-const updateViewType = (value: string | number | boolean | Record<string, unknown> | undefined) => {
-  if (typeof value === 'string' && Object.values(ViewType).includes(value as ViewType)) {
+const updateViewType = (
+  value: string | number | boolean | Record<string, unknown> | undefined
+) => {
+  if (
+    typeof value === "string" &&
+    Object.values(ViewType).includes(value as ViewType)
+  ) {
     viewType.value = value as ViewType;
     router.push({
       query: {
@@ -53,13 +58,13 @@ const updateViewType = (value: string | number | boolean | Record<string, unknow
         view: value,
       },
     });
-    return
+    return;
   }
-    console.warn("Invalid view type:", value);
+  console.warn("Invalid view type:", value);
 };
 const viewType = ref(ViewType.MAP);
 const q = route.query.view;
-  if (typeof q === 'string' && Object.values(ViewType).includes(q as ViewType)) {
-    viewType.value = q as ViewType;
-  }
+if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
+  viewType.value = q as ViewType;
+}
 </script>

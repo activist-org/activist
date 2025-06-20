@@ -9,12 +9,12 @@
 <script setup lang="ts">
 import type { LayerSpecification } from "maplibre-gl";
 
-import { useClusterMap } from "~/composables/map/useClusterMap";
-import { useMap } from "~/composables/map/useMap";
-import { usePointerMap } from "~/composables/map/usePointerMap";
+import { useClusterMap } from "~/composables/useClusterMap";
+import { useMap } from "~/composables/useMap";
+import { usePointerMap } from "~/composables/usePointerMap";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import { useRouting } from "~/composables/map/useRoutingMap";
+import { useRouting } from "~/composables/useRoutingMap";
 import {
   MapType,
   type ClusterProperties,
@@ -29,6 +29,7 @@ const props = defineProps<{
   pointers?: PointerCluster[];
   clusterProperties?: ClusterProperties;
   clusterTooltipCreate?: (pointer: unknown) => PopupContent;
+  pointerTooltipCreate?: (pointer: Pointer) => PopupContent;
 }>();
 
 const { createMap, isWebglSupported, addDefaultControls } = useMap();
@@ -110,7 +111,8 @@ onMounted(() => {
         pointers || [],
         isTouchDevice,
         props.clusterProperties as ClusterProperties,
-        props?.clusterTooltipCreate as (pointer: unknown) => PopupContent
+        props?.clusterTooltipCreate as (pointer: unknown) => PopupContent,
+        props?.pointerTooltipCreate as (pointer: unknown) => PopupContent
       );
     }
   }

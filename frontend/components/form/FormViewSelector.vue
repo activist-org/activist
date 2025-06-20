@@ -14,16 +14,16 @@
       :value="option.value"
     >
       <button
-      v-if="option.isIcon"
+        v-if="option.isIcon"
         class="h-full flex-1"
         :class="checked ? 'style-menu-option-cta' : 'style-menu-option'"
         :aria-label="$t(option.aria_label)"
       >
-      <Icon
-        :name="option.content as string"
-        class="h-6 w-6"
-        :aria-hidden="true"
-      />
+        <Icon
+          :name="option.content as string"
+          class="h-6 w-6"
+          :aria-hidden="true"
+        />
       </button>
       {{ !option.isIcon ? option.content : "" }}
     </RadioGroupOption>

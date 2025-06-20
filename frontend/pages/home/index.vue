@@ -36,8 +36,3 @@
     </div> -->
   </div>
 </template>
-<script setup lang="ts">
-const eventStore = useEventStore();
-await eventStore.fetchAll();
-const { events } = eventStore;
-</script>

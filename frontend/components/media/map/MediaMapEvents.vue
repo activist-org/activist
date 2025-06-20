@@ -6,6 +6,7 @@
     :type="MapType.CLUSTER"
     :clusterProperties="clusterProperties"
     :clusterTooltipCreate="buildExpandedTooltipCluster"
+    :pointerTooltipCreate="buildExpandedTooltipPointer"
   />
 </template>
 <script setup lang="ts">
@@ -28,10 +29,15 @@ const props = defineProps<{
 }>();
 const { events } = props;
 const i18n = useI18n();
-const buildExpandedTooltipPointer = (event: Event) => {
+const buildExpandedTooltipPointer = (pointer: unknown) => {
   const root = document.createElement("div");
   root.className = "w-[220px] cursor-pointer font-sans";
-
+  const event = pointer as {
+    id: string;
+    name: string;
+    type: EventType;
+    location: string;
+  };
   let tooltipClass = "";
   if (event.type === "learn") {
     tooltipClass =
@@ -62,14 +68,13 @@ const buildExpandedTooltipPointer = (event: Event) => {
 
               <div class="flex items-start text-xs text-black mb-1.5 font-semibold space-x-2">
                 <img src="${locationIcon}"/>
-                <span>${event.offlineLocation?.displayName.split(",").slice(0, 3).join(", ")}</span>
+                <span>${event.location}</span>
               </div>
             </div>
           </div>
         </a>
       `;
-
-  return root;
+  return root as PopupContent;
 };
 const buildExpandedTooltipCluster = (pointer: unknown) => {
   const opts = pointer as { learn: number; action: number };
@@ -85,7 +90,7 @@ const buildExpandedTooltipCluster = (pointer: unknown) => {
   }
 
   const eventsInThisArea = i18n.t(
-    "i18n.components.media_map_events.events_in_this_areaa"
+    "i18n.components.media_map_events.events_in_this_area"
   );
   let clusterTooltipHTML = `
       <div class="${tooltipClass}">
@@ -131,7 +136,6 @@ const pointers: PointerCluster[] = events.map((event) => {
       id: "",
       bbox: ["0", "0", "0", "0"],
     },
-    popup: buildExpandedTooltipPointer(event),
     createPopupCluster: buildExpandedTooltipCluster,
     properties: {
       id: event.id,

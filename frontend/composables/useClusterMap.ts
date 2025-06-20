@@ -119,11 +119,11 @@ export const useClusterMap = () => {
     markersOnScreen: { [key: string]: maplibregl.Marker } = {},
     directions: MapLibreGlDirections,
     popupCreate: (props: GeoJsonProperties) => PopupContent,
-    clusterProperties: ClusterProperties
+    clusterProperties: ClusterProperties,
+    pointerTooltipCreate: (props: GeoJsonProperties) => PopupContent
   ) => {
     const newMarkers: { [key: string]: maplibregl.Marker } = {};
     const features = map.querySourceFeatures("pointers");
-    console.log("Querying features for pointers:", features);
     // Add this at the top of your updateMarkers function.
     const currentZoom = map.getZoom();
 
@@ -132,7 +132,6 @@ export const useClusterMap = () => {
       if (geometry.type === "Point") {
         const coords = geometry.coordinates as [number, number];
         const props = features[i].properties;
-        console.log("Processing feature:", props, coords);
         if (props.cluster) {
           // Cluster handling with zoom-based declustering.
           const id = props.cluster_id;
@@ -150,6 +149,7 @@ export const useClusterMap = () => {
                 const coords = (leaf.geometry as Point).coordinates;
                 const leafCoords = coords as [number, number];
                 if (!markersOnScreen[markerId]) {
+                  const popup = pointerTooltipCreate(leafProps);
                   const marker = createPointerMarker(
                     {
                       id: leafProps.id,
@@ -161,7 +161,7 @@ export const useClusterMap = () => {
                         id: markerId,
                         displayName: leafProps.name || "",
                       },
-                      popup: leafProps.popup as HTMLElement,
+                      popup: popup as HTMLElement,
                     },
                     directions
                   ).setLngLat(leafCoords);
@@ -180,8 +180,7 @@ export const useClusterMap = () => {
             if (!marker) {
               const multipleDonutProps =
                 clusterProperties?.getMultipleDonutProps(props);
-              console.log("Multiple donut props:", multipleDonutProps);
-              console.log(multipleDonutProps, id, props, coords);
+
               const el = createDonutChart(multipleDonutProps, id);
               const popUpContent = popupCreate(props);
               const popUp = new maplibregl.Popup({
@@ -230,6 +229,7 @@ export const useClusterMap = () => {
             const element = document.getElementById(`cluster-${props.id}`);
             element?.remove();
             const color = clusterProperties?.getPointerColor(props);
+            const popup = pointerTooltipCreate(props);
             const marker = createPointerMarker(
               {
                 id: props.id,
@@ -241,7 +241,7 @@ export const useClusterMap = () => {
                   bbox: ["0", "0", "0", "0"], // Placeholder, adjust as needed
                   displayName: props.name || "",
                 },
-                popup: props.popup as HTMLElement,
+                popup: popup as HTMLElement,
               },
               directions
             ).setLngLat(coords);
@@ -271,7 +271,8 @@ export const useClusterMap = () => {
     pointers: PointerCluster[],
     isTouchDevice: boolean,
     clusterProperties: ClusterProperties,
-    clusterTooltipCreate: (value: unknown) => PopupContent
+    clusterTooltipCreate: (value: unknown) => PopupContent,
+    pointerTooltipCreate: (value: unknown) => PopupContent
   ) => {
     const selectedRoute = setSelectedRoute();
     map.on("load", () => {
@@ -289,7 +290,6 @@ export const useClusterMap = () => {
       });
 
       // MARK: Process Events
-
       const features: Feature<Point, GeoJsonProperties>[] = pointers.map(
         (pointer) => ({
           type: "Feature",
@@ -431,7 +431,8 @@ export const useClusterMap = () => {
           markersOnScreen,
           directions,
           clusterTooltipCreate,
-          clusterProperties
+          clusterProperties,
+          pointerTooltipCreate
         );
         markersOnScreen = newMarkersOnScreen;
       });
@@ -443,7 +444,8 @@ export const useClusterMap = () => {
           markersOnScreen,
           directions,
           clusterTooltipCreate,
-          clusterProperties
+          clusterProperties,
+          pointerTooltipCreate
         );
         markersOnScreen = newMarkersOnScreen;
       });
@@ -454,7 +456,8 @@ export const useClusterMap = () => {
           markersOnScreen,
           directions,
           clusterTooltipCreate,
-          clusterProperties
+          clusterProperties,
+          pointerTooltipCreate
         );
         markersOnScreen = newMarkersOnScreen;
       });
