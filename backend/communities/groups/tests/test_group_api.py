@@ -15,7 +15,7 @@ from communities.organizations.factories import OrganizationFactory
 from content.factories import EntityLocationFactory
 
 # Endpoint used for these tests:
-GROUPS_URL = "/v1/communities/groups"
+GROUPS_URL = "/v1/communities/groups/"
 
 
 class UserDict(TypedDict):
@@ -37,7 +37,7 @@ def login_user(user_data: UserDict) -> dict[Any, Any]:
     """
     client = APIClient()
     response = client.post(
-        "/v1/auth/sign_in",
+        "/v1/auth/sign_in/",
         {
             "username": user_data["user"].username,
             "password": user_data["plaintext_password"],
@@ -189,7 +189,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     # MARK: Detail GET
 
-    response = client.get(f"{GROUPS_URL}/{new_group.id}")
+    response = client.get(f"{GROUPS_URL}{new_group.id}/")
     assert response.status_code == 200
     assert response.data["group_name"] == new_group.group_name
 
@@ -197,7 +197,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     updated_payload = {"group_name": "updated_group_name"}
     response = client.put(
-        f"{GROUPS_URL}/{new_group.id}",
+        f"{GROUPS_URL}{new_group.id}/",
         data=updated_payload,
         format="json",
     )
@@ -205,7 +205,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
     response = client.put(
-        f"{GROUPS_URL}/{new_group.id}",
+        f"{GROUPS_URL}{new_group.id}/",
         data=updated_payload,
         format="json",
     )
@@ -217,10 +217,10 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{GROUPS_URL}/{new_group.id}")
+    response = client.delete(f"{GROUPS_URL}{new_group.id}/")
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
-    response = client.delete(f"{GROUPS_URL}/{new_group.id}")
+    response = client.delete(f"{GROUPS_URL}{new_group.id}/")
 
     assert response.status_code == 200

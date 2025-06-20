@@ -15,6 +15,6 @@ def test_disc_entry_retrieve():
 
     entry_instance = DiscussionEntryFactory()
 
-    response = client.get(path=f"/v1/content/discussion_entries/{entry_instance.id}")
+    response = client.get(path=f"/v1/content/discussion_entries/{entry_instance.id}/")
 
     assert response.status_code == 200

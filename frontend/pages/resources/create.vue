@@ -126,7 +126,7 @@ const formData = ref({
 });
 
 const submit = async () => {
-  await useFetch(`${BASE_BACKEND_URL}/v1/content/resources`, {
+  await useFetch(`${BASE_BACKEND_URL}/v1/content/resources/`, {
     method: "POST",
     body: JSON.stringify({
       name: formData.value.name,

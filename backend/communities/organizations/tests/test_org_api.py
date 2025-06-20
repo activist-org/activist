@@ -14,7 +14,7 @@ from communities.organizations.models import Organization, OrganizationApplicati
 from content.factories import EntityLocationFactory
 
 # Endpoint used for these tests:
-ORGS_URL = "/v1/communities/organizations"
+ORGS_URL = "/v1/communities/organizations/"
 
 
 class UserDict(TypedDict):
@@ -36,7 +36,7 @@ def login_user(user_data: UserDict) -> dict:
     """
     client = APIClient()
     response = client.post(
-        "/v1/auth/sign_in",
+        "/v1/auth/sign_in/",
         {
             "username": user_data["user"].username,
             "password": user_data["plaintext_password"],
@@ -188,7 +188,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
 
     # MARK: Detail GET
 
-    response = client.get(f"{ORGS_URL}/{new_org.id}")
+    response = client.get(f"{ORGS_URL}{new_org.id}/")
     assert response.status_code == 200
     assert response.data["org_name"] == new_org.org_name
 
@@ -196,7 +196,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
 
     updated_payload = {"org_name": "updated_org_name"}
     response = client.put(
-        f"{ORGS_URL}/{new_org.id}",
+        f"{ORGS_URL}{new_org.id}/",
         data=updated_payload,
         format="json",
     )
@@ -204,7 +204,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
     response = client.put(
-        f"{ORGS_URL}/{new_org.id}",
+        f"{ORGS_URL}{new_org.id}/",
         data=updated_payload,
         format="json",
     )
@@ -216,10 +216,10 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{ORGS_URL}/{new_org.id}")
+    response = client.delete(f"{ORGS_URL}{new_org.id}/")
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
-    response = client.delete(f"{ORGS_URL}/{new_org.id}")
+    response = client.delete(f"{ORGS_URL}{new_org.id}/")
 
     assert response.status_code == 200

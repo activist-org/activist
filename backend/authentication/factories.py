@@ -104,10 +104,6 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class UserFlagFactory(factory.django.DjangoModelFactory):
-    """
-    Factory to create an instance of UserFlag model.
-    """
-
     class Meta:
         model = UserFlag
 

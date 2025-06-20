@@ -22,7 +22,7 @@ def test_user_flag_create():
     )
 
     error_response = client.post(
-        path="/v1/auth/user_flag",
+        path="/v1/auth/user_flag/",
         data={"user": flagged_user.id, "created_by": user.id},
     )
 
@@ -32,7 +32,7 @@ def test_user_flag_create():
     assert error_response_body["detail"] == "You are not allowed flag this user."
 
     login = client.post(
-        path="/v1/auth/sign_in",
+        path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_password},
     )
 
@@ -44,7 +44,7 @@ def test_user_flag_create():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     response = client.post(
-        path="/v1/auth/user_flag",
+        path="/v1/auth/user_flag/",
         data={"user": flagged_user.id, "created_by": user.id},
     )
 

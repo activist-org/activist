@@ -12,6 +12,6 @@ def test_event_flag_retrieve():
 
     flag = EventFlagFactory()
 
-    response = client.get(path=f"/v1/events/event_flag/{flag.id}")
+    response = client.get(path=f"/v1/events/event_flag/{flag.id}/")
 
     assert response.status_code == 200

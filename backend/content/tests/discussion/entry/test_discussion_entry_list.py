@@ -11,6 +11,6 @@ def test_disc_entry_list():
     """
     client = APIClient()
 
-    response = client.get(path="/v1/content/discussion_entries")
+    response = client.get(path="/v1/content/discussion_entries/")
 
     assert response.status_code == 200

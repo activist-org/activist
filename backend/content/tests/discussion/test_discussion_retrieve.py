@@ -10,6 +10,6 @@ pytestmark = pytest.mark.django_db
 def test_discussion_retrieve(client: Client):
     thread = DiscussionFactory()
 
-    response = client.get(path=f"/v1/content/discussions/{thread.id}")
+    response = client.get(path=f"/v1/content/discussions/{thread.id}/")
 
     assert response.status_code == 200

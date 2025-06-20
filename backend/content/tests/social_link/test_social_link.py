@@ -118,7 +118,7 @@ def test_organization_social_link_list_view(client: APIClient) -> None:
     num_links = 3
     OrganizationSocialLinkFactory.create_batch(num_links, org=org)
 
-    response = client.get(f"/v1/communities/organizations/{org.id}")
+    response = client.get(f"/v1/communities/organizations/{org.id}/")
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()["socialLinks"]) == num_links
@@ -134,7 +134,7 @@ def test_group_social_link_list_view(client: APIClient) -> None:
     num_links = 3
     GroupSocialLinkFactory.create_batch(num_links, group=group)
 
-    response = client.get(f"/v1/communities/groups/{group.id}")
+    response = client.get(f"/v1/communities/groups/{group.id}/")
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()["socialLinks"]) == num_links
@@ -150,7 +150,7 @@ def test_event_social_link_list_view(client: APIClient) -> None:
     num_links = 3
     EventSocialLinkFactory.create_batch(num_links, event=event)
 
-    response = client.get(f"/v1/events/events/{event.id}")
+    response = client.get(f"/v1/events/events/{event.id}/")
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()["socialLinks"]) == num_links
@@ -173,7 +173,7 @@ def test_organization_social_link_create_view(client: APIClient) -> None:
     formData = [{"link": "https://example.com", "label": "Example", "order": 1}]
 
     response = client.put(
-        f"/v1/communities/organization_social_links/{org.id}",
+        f"/v1/communities/organization_social_links/{org.id}/",
         formData,
         content_type="application/json",
     )
@@ -199,7 +199,7 @@ def test_group_social_link_create_view(client: APIClient) -> None:
     formData = [{"link": "https://example.com", "label": "Example", "order": 1}]
 
     response = client.put(
-        f"/v1/communities/group_social_links/{group.id}",
+        f"/v1/communities/group_social_links/{group.id}/",
         formData,
         content_type="application/json",
     )
@@ -225,7 +225,7 @@ def test_event_social_link_create_view(client: APIClient) -> None:
     formData = [{"link": "https://example.com", "label": "Example", "order": 1}]
 
     response = client.put(
-        f"/v1/events/event_social_links/{event.id}",
+        f"/v1/events/event_social_links/{event.id}/",
         formData,
         content_type="application/json",
     )

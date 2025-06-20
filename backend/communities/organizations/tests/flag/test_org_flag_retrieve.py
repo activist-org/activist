@@ -15,6 +15,6 @@ def test_org_flag_retrieve():
 
     flag = OrganizationFlagFactory()
 
-    response = client.get(path=f"/v1/communities/organization_flag/{flag.id}")
+    response = client.get(path=f"/v1/communities/organization_flag/{flag.id}/")
 
     assert response.status_code == 200

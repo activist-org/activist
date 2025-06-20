@@ -13,11 +13,6 @@
     >
       <ComboboxTopics class="pb-3 lg:pb-4" />
     </HeaderAppPage>
-    <MediaMapEvents
-      v-if="events.length"
-      class="h-[calc(50vh-1rem)] w-full"
-      :events="events"
-    />
     <!-- <div class="space-y-6 pb-6">
       <div
         class="flex flex-col space-y-6 lg:mr-6 lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:space-x-6 lg:space-y-0"

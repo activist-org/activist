@@ -28,7 +28,7 @@ def test_disc_entry_update():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in",
+        path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_pass},
     )
 
@@ -40,7 +40,7 @@ def test_disc_entry_update():
     # Authorized owner updates the entry.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(
-        path=f"/v1/content/discussion_entries/{entry_instance.id}",
+        path=f"/v1/content/discussion_entries/{entry_instance.id}/",
         data={"discussion": discussion_thread.id},
     )
 
@@ -49,7 +49,7 @@ def test_disc_entry_update():
     # Authorized non-owner updates the entry.
     unowned_instance = DiscussionEntryFactory()
     response = client.put(
-        path=f"/v1/content/discussion_entries/{unowned_instance.id}",
+        path=f"/v1/content/discussion_entries/{unowned_instance.id}/",
         data={"discussion": discussion_thread.id},
     )
     assert response.status_code == 403

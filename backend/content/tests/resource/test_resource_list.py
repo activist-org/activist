@@ -11,6 +11,6 @@ def test_resource_list():
     """
     client = APIClient()
 
-    response = client.get(path="/v1/content/resources")
+    response = client.get(path="/v1/content/resources/")
 
     assert response.status_code == 200

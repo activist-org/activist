@@ -15,6 +15,6 @@ def test_group_flag_retrieve():
 
     flag = GroupFlagFactory()
 
-    response = client.get(path=f"/v1/communities/group_flag/{flag.id}")
+    response = client.get(path=f"/v1/communities/group_flag/{flag.id}/")
 
     assert response.status_code == 200

@@ -23,6 +23,6 @@ def test_group_list(client: Client) -> None:
     None
         This test does not return any value, it only checks the response status code.
     """
-    response = client.get(path="/v1/communities/groups")
+    response = client.get(path="/v1/communities/groups/")
 
     assert response.status_code == 200

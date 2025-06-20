@@ -26,7 +26,7 @@ def test_group_flag_delete():
 
     # Login to get token.
     login = client.post(
-        path="/v1/auth/sign_in",
+        path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_pass},
     )
 
@@ -36,6 +36,6 @@ def test_group_flag_delete():
     token = login_body["token"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/communities/group_flag/{flag.id}")
+    response = client.delete(path=f"/v1/communities/group_flag/{flag.id}/")
 
     assert response.status_code == 204

@@ -29,7 +29,7 @@ def test_resource_partial_update():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in",
+        path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_pass},
     )
 
@@ -48,13 +48,13 @@ def test_resource_partial_update():
 
     # Authorized owner tries to update the resource.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.patch(path=f"/v1/content/resources/{resource.id}", data=payload)
+    response = client.patch(path=f"/v1/content/resources/{resource.id}/", data=payload)
 
     assert response.status_code == 200
 
     # Authorized non-owner tries to update the resource.
     error_response = client.patch(
-        path=f"/v1/content/resources/{unowned_resource.id}", data=payload
+        path=f"/v1/content/resources/{unowned_resource.id}/", data=payload
     )
     assert error_response.status_code == 403
 
