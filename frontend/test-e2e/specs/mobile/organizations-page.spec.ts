@@ -1,8 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { expect, test } from "playwright/test";
+import { expect, test, chromium } from "playwright/test";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/organizations");
+let browser: any;
+let context: any;
+let page: any;
+
+test.beforeEach(async ({ browser }) => {
+  browser = await chromium.launch({headless: false });
+    context = await browser.newContext();
+    page = await context.newPage();
+  await page.goto("http://localhost:3000/organizations");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     /organizations/i
   );
@@ -10,6 +17,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Organizations Page", { tag: "@mobile" }, () => {
   test("Share button opens in mobile share sheet", async ({ page }) => {
+    await page.goto("http://localhost:3000/organizations");
     const shareButton = page
       .getByRole("link", {
         name: /Navigate to the page for this organization/i,
