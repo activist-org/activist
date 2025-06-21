@@ -190,3 +190,7 @@ wheel==0.45.1
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
+django-ical==1.9.2
+    # via django
+icalendar==6.3.1
+    # via django-ical

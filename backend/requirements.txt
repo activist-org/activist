@@ -94,3 +94,7 @@ urllib3==2.3.0
     # via
     #   requests
     #   types-requests
+django-ical==1.9.2
+    # via django
+icalendar==6.3.1
+    # via django-ical
