@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
+    # SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Serializers for the content app.
 """
@@ -164,7 +164,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
-    def create(self, validated_data: Dict[str, Any]) -> List[Image]:
+    def create(self, validated_data: Dict[str, Any]) -> Any:
         """
         Create an Image instance with privacy-enhanced processing.
 
