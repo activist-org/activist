@@ -25,7 +25,7 @@ def test_resource_create():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in",
+        path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_pass},
     )
 
@@ -50,6 +50,6 @@ def test_resource_create():
 
     # Authorized user creates resource.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.post(path="/v1/content/resources", data=payload)
+    response = client.post(path="/v1/content/resources/", data=payload)
 
     assert response.status_code == 201

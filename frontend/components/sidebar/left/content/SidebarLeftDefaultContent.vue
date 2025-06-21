@@ -1,4 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+// TODO: REDO COMPONENT
 <template>
   <div
     class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-2 text-primary-text transition-all duration-500"
@@ -34,7 +35,7 @@
             })
           "
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-          ariaLabel="i18n.components.sidebar_left_index.edit_aria_label"
+          ariaLabel="i18n.components.sidebar_left_default_content.edit_aria_label"
         >
           <Icon :name="IconMap.EDIT" size="1em" />
         </button>
@@ -70,7 +71,7 @@
             })
           "
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-          ariaLabel="i18n.components.sidebar_left_index.edit_aria_label"
+          ariaLabel="i18n.components.sidebar_left_default_content.edit_aria_label"
         >
           <Icon :name="IconMap.EDIT" size="1em" />
         </button>
@@ -105,7 +106,7 @@
             })
           "
           class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-          ariaLabel="i18n.components.sidebar_left_index.edit_aria_label"
+          ariaLabel="i18n.components.sidebar_left_default_content.edit_aria_label"
         >
           <Icon :name="IconMap.EDIT" size="1em" />
         </button>
@@ -162,7 +163,7 @@ const sidebarTypeToDisplay = computed(() => props.sidebarType);
 
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
-
+console.log("aca estoy");
 const { openModal: openModalUploadImages } =
   useModalHandlers("ModalUploadImages");
 

@@ -2,28 +2,30 @@
 <template>
   <RadioGroup
     v-model="value"
-    class="flex h-11 w-full items-center divide-x-2 divide-primary-text"
+    class="flex h-11 w-full justify-around divide-primary-text"
     :aria-label="$t('i18n.components.form_view_selector.title_aria_label')"
   >
     <RadioGroupOption
-      v-for="option in viewOptions"
-      :key="option"
+      v-for="option in options"
+      :key="option.key"
       v-slot="{ checked }"
-      :name="option"
-      :value="option"
-      as="template"
+      class="flex flex-1 items-center justify-center gap-2"
+      :name="option.label || ''"
+      :value="option.value"
     >
       <button
-        class="h-full flex-1 border-y-2 border-primary-text first:rounded-l-xl first:border-l-2 last:rounded-r-xl last:!border-r-2"
-        :class="checked ? 'bg-menu-selection' : 'bg-layer-0'"
-        :aria-label="$t(viewAriaLabelsDict[option])"
+        v-if="option.isIcon"
+        class="h-full flex-1"
+        :class="checked ? 'style-menu-option-cta' : 'style-menu-option'"
+        :aria-label="$t(option.aria_label)"
       >
         <Icon
-          class="h-full w-auto p-2"
-          :class="checked ? 'text-primary-text' : 'text-distinct-text'"
-          :name="viewTypeIcons[option]"
+          :name="option.content as string"
+          class="h-6 w-6"
+          :aria-hidden="true"
         />
       </button>
+      {{ !option.isIcon ? option.content : "" }}
     </RadioGroupOption>
   </RadioGroup>
 </template>
@@ -31,58 +33,25 @@
 <script setup lang="ts">
 import { RadioGroup, RadioGroupOption } from "@headlessui/vue";
 
-import { ViewType } from "~/types/view-types";
+type Option = {
+  value: string | number | boolean | Record<string, unknown> | undefined;
+  key: string;
+  content: HTMLElement | string;
+  aria_label: string;
+  label?: string;
+  isIcon?: boolean;
+};
+const props = defineProps<{
+  modelValue: string | number | boolean | Record<string, unknown> | undefined;
+  options: Option[];
+}>();
 
-const props = defineProps({
-  modelValue: {
-    type: String as PropType<ViewType>,
-    required: true,
-  },
-  option1: {
-    type: String as PropType<ViewType>,
-    required: true,
-  },
-  option2: {
-    type: String as PropType<ViewType>,
-    required: true,
-  },
-  option3: {
-    type: String as PropType<ViewType>,
-    required: false,
-  },
-});
-
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+  (e: "update:modelValue", value: typeof props.modelValue): void;
+}>();
 
 const value = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(value: ViewType) {
-    emit("update:modelValue", value);
-  },
+  get: () => props.modelValue,
+  set: (val) => emit("update:modelValue", val),
 });
-
-const viewOptions = computed(() => {
-  const options = [props.option1, props.option2];
-  if (props.option3) {
-    options.push(props.option3);
-  }
-  return options;
-});
-
-// Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
-const viewAriaLabelsDict = {
-  map: "i18n.components.form_view_selector.view_as_map_aria_label",
-  list: "i18n.components.form_view_selector.view_as_list_aria_label",
-  calendar: "i18n.components.form_view_selector.view_as_calendar_aria_label",
-  grid: "i18n.components.form_view_selector.view_as_grid_aria_label",
-};
-
-const viewTypeIcons: Record<ViewType, string> = {
-  [ViewType.MAP]: "bi-pin-map-fill",
-  [ViewType.LIST]: "bi-list-ul",
-  [ViewType.GRID]: "bi-grid-3x2-gap-fill",
-  [ViewType.CALENDAR]: "bi-calendar-date",
-};
 </script>

@@ -27,7 +27,7 @@ from communities.views import StatusViewSet
 
 app_name = "communities"
 
-router = DefaultRouter(trailing_slash=False)
+router = DefaultRouter()
 
 # MARK: Main Tables
 
@@ -79,8 +79,8 @@ router.register(
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("groups", GroupAPIView.as_view()),
-    path("groups/<uuid:id>", GroupDetailAPIView.as_view()),
-    path("organizations", OrganizationAPIView.as_view()),
-    path("organizations/<uuid:id>", OrganizationDetailAPIView.as_view()),
+    path("groups/", GroupAPIView.as_view()),
+    path("groups/<uuid:id>/", GroupDetailAPIView.as_view()),
+    path("organizations/", OrganizationAPIView.as_view()),
+    path("organizations/<uuid:id>/", OrganizationDetailAPIView.as_view()),
 ]

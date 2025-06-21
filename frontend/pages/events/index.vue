@@ -13,9 +13,9 @@
       </div>
     </HeaderAppPage>
     <div v-if="events.length > 0">
-      <div v-for="event in events" class="space-y-6 pb-6 pt-3 md:pt-4">
-        <CardSearchResultEvent :isPrivate="false" :event="event" />
-      </div>
+      <EventsList v-if="viewType === ViewType.LIST" :events="events" />
+      <EventsMap v-else-if="viewType === ViewType.MAP" :events="events" />
+      <EmptyState v-else pageType="events" :permission="false" />
     </div>
     <EmptyState v-else pageType="events" :permission="false" />
   </div>
@@ -24,6 +24,20 @@
 <script setup lang="ts">
 import type { Event } from "~/types/events/event";
 
+import { ViewType } from "~/types/view-types";
+
+const viewType = ref<ViewType>(ViewType.MAP);
+const route = useRoute();
+
+watchEffect(() => {
+  const q = route.query.view;
+  if (
+    typeof q === "string" &&
+    Object.values(ViewType).includes(q as ViewType)
+  ) {
+    viewType.value = q as ViewType;
+  }
+});
 defineProps<{
   events: Event[];
 }>();

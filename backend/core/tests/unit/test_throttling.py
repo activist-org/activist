@@ -21,7 +21,7 @@ def test_anon_throttle():
     client = APIClient()
 
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"] = "3/min"
-    endpoint = "/v1/communities/organizations"
+    endpoint = "/v1/communities/organizations/"
 
     for i in range(3):
         print(f"Request {i + 1}")
@@ -57,13 +57,13 @@ def test_auth_throttle():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in",
+        path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_password},
     )
     token = login_response.json()["token"]
 
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["user"] = "5/min"
-    endpoint = "/v1/communities/organizations"
+    endpoint = "/v1/communities/organizations/"
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     for i in range(5):

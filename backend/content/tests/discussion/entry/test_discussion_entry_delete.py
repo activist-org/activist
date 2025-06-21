@@ -25,7 +25,7 @@ def test_disc_entry_delete():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in",
+        path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_pass},
     )
 
@@ -38,7 +38,7 @@ def test_disc_entry_delete():
     # Check of authorized owner deleting the discussion entry.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
-        path=f"/v1/content/discussion_entries/{discussion_entry.id}"
+        path=f"/v1/content/discussion_entries/{discussion_entry.id}/"
     )
 
     assert response.status_code == 204
@@ -47,7 +47,7 @@ def test_disc_entry_delete():
     unowned_entry = DiscussionEntryFactory()
 
     error_response = client.delete(
-        path=f"/v1/content/discussion_entries/{unowned_entry.id}"
+        path=f"/v1/content/discussion_entries/{unowned_entry.id}/"
     )
 
     assert error_response.status_code == 403

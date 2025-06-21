@@ -72,7 +72,7 @@ export const useEventStore = defineStore("event", {
       const token = localStorage.getItem("accessToken");
 
       const responseEvent = await useFetch(
-        `${BASE_BACKEND_URL}/events/events`,
+        `${BASE_BACKEND_URL}/events/events/`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -111,7 +111,10 @@ export const useEventStore = defineStore("event", {
 
       const { data, status } = await useAsyncData<EventResponse>(
         async () =>
-          (await fetchWithoutToken(`/events/events/${id}`, {})) as EventResponse
+          (await fetchWithoutToken(
+            `/events/events/${id}/`,
+            {}
+          )) as EventResponse
       );
 
       if (status.value === "success") {
@@ -148,9 +151,8 @@ export const useEventStore = defineStore("event", {
 
       const { data, status } = await useAsyncData<EventsResponseBody>(
         async () =>
-          (await fetchWithoutToken(`/events/events`, {})) as EventsResponseBody
+          (await fetchWithoutToken(`/events/events/`, {})) as EventsResponseBody
       );
-
       if (status.value === "success") {
         const events = data.value!.results.map((event: EventResponse) => {
           return {
@@ -175,7 +177,6 @@ export const useEventStore = defineStore("event", {
             texts: event.texts[0],
           };
         });
-
         this.events = events;
       }
 
@@ -190,7 +191,7 @@ export const useEventStore = defineStore("event", {
       const token = localStorage.getItem("accessToken");
 
       const responseEvent = await $fetch(
-        BASE_BACKEND_URL + `/events/events/${event.id}`,
+        BASE_BACKEND_URL + `/events/events/${event.id}/`,
         {
           method: "PUT",
           body: {
@@ -204,7 +205,7 @@ export const useEventStore = defineStore("event", {
       );
 
       const responseEventTexts = await $fetch(
-        BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}`,
+        BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}/`,
         {
           method: "PUT",
           body: {
@@ -246,7 +247,7 @@ export const useEventStore = defineStore("event", {
       // 'update()' in the viewset 'class EventSocialLinkViewSet' handles this
       // by using the event.id from the end of the URL.
       const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_social_links/${event.id}`,
+        `${BASE_BACKEND_URL}/events/event_social_links/${event.id}/`,
         {
           method: "PUT",
           // Send entire formData array/dict in order to make a single API request.
@@ -291,7 +292,7 @@ export const useEventStore = defineStore("event", {
       const token = localStorage.getItem("accessToken");
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_faqs/${event.id}`,
+        `${BASE_BACKEND_URL}/events/event_faqs/${event.id}/`,
         {
           method: "PUT",
           body: JSON.stringify({
