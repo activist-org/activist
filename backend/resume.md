@@ -26,9 +26,7 @@ error: Need type annotation for "flags"  [var-annotated]
 **Cause :** `mypy` ne peut pas inférer le type des champs `ManyToManyField` dynamiques, même avec `django-stubs`.
 
 **Solution :** ajout explicite de l'annotation `Any` pour le champ `flags` :
-:
-        """
-        Create an Image instance with privacy-enhanced processing.
+
 ```python
 from typing import Any
 ...
@@ -69,6 +67,42 @@ def create(self, validated_data: Dict[str, Any]) -> Any:
 ```
 
 Un refactoring ultérieur pourrait envisager une méthode `create_many()` pour gérer proprement ce cas.
+
+---
+
+## ✅ Correction 3 : `EventSerializer.validate()` – Comparaison de dates
+
+**Fichier concerné :**
+
+* `events/serializers.py`
+
+**Problèmes :**
+
+```bash
+error: Unsupported operand types for > ("datetime" and "int")  [operator]
+error: Unsupported operand types for < ("datetime" and "None")  [operator]
+```
+
+**Cause :**
+La méthode `validate()` effectue des comparaisons avec `>` entre des objets potentiellement typés `datetime`, `str`, `None`, `int`. Cela crée des erreurs de typage pour `mypy`, car il ne peut pas déterminer les types précis dans tous les cas.
+
+**Solution :**
+Utilisation de `isinstance(..., datetime)` pour s'assurer que les opérandes sont comparables avant d'utiliser `>` ou `<` :
+
+```python
+from datetime import datetime
+...
+if isinstance(start_dt, datetime) and isinstance(end_dt, datetime):
+    if start_dt > end_dt:
+        raise serializers.ValidationError(...)
+
+...
+if isinstance(creation_dt, datetime) and isinstance(deletion_dt, datetime):
+    if creation_dt > deletion_dt:
+        raise serializers.ValidationError(...)
+```
+
+Cette modification rend le code plus robuste, plus clair, et compatible avec l'analyse stricte de `mypy`.
 
 ---
 
