@@ -113,8 +113,9 @@
             :modelValue="isMarkdown"
             value="yes"
           />
-          <!-- {{ $t("i18n.components.card_discussion_input.markdown_support") }} -->
-          Enable Markdown support
+          {{
+            $t("i18n.components.card_discussion_input.enable_markdown_support")
+          }}
           <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
         </p>
         <div class="flex items-center space-x-3">
