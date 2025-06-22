@@ -33,8 +33,8 @@
         :discussionEntries="[event.discussion?.entries]"
         :organizations="event.orgs"
       />
-    </div>
-    <EmptyState v-else pageType="discussions" :permission="false" /> -->
+    </div> -->
+    <!-- <EmptyState v-else pageType="discussions" :permission="false" /> -->
   </div>
 </template>
 
