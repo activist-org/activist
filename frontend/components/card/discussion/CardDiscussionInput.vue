@@ -236,6 +236,10 @@ const toggleIsMarkdown = () => {
     writeEditor.value?.commands.setContent(markdown.value);
   }
 
+  if (isMarkdown.value && isMarkdownPreview.value === "Preview") {
+    isMarkdownPreview.value = "Write";
+  }
+
   if (isMarkdown.value) {
     writeEditor.value?.setEditable(false);
   } else {
