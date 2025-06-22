@@ -86,7 +86,7 @@ console.log("Creating map with layers:");
 onMounted(() => {
   console.log("Creating map with layers:");
   if (!isWebglSupported()) {
-    alert(i18n.t("i18n.components.media._global.maplibre_gl_alert"));
+    alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
     const map = createMap(mapLayers);
     addDefaultControls(map);
