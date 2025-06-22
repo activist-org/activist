@@ -149,7 +149,7 @@ rpds-py==0.22.3
     #   -r requirements.txt
     #   jsonschema
     #   referencing
-ruff==0.9.1
+ruff==0.11.10
     # via -r requirements-dev.in
 six==1.17.0
     # via python-dateutil

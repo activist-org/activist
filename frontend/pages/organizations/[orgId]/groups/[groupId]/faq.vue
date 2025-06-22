@@ -11,7 +11,7 @@
     </Head>
     <HeaderAppPageGroup
       :header="group.name + ' ' + $t('i18n._global.faq')"
-      :tagline="$t('i18n.pages.organizations._global.faq_tagline')"
+      :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
@@ -27,9 +27,9 @@
         /> -->
       </div>
     </HeaderAppPageGroup>
-    <div v-if="group.faqEntries" class="py-4">
+    <div v-if="group.faqEntries!.length > 0" class="py-4">
       <div v-for="f in group.faqEntries" class="mb-4">
-        <CardFAQEntry :faqEntry="f" />
+        <CardFAQEntry :pageType="'group'" :faqEntry="f" />
       </div>
     </div>
     <EmptyState v-else pageType="faq" :permission="false" />

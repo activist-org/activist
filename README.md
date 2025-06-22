@@ -197,20 +197,20 @@ git remote add upstream https://github.com/activist-org/activist.git
 
 5. Start your docker images with the following:
 
-   ```bash
-   # --build only necessary with new dependencies or backend model changes
-   docker compose --env-file .env.dev up --build
+    ```bash
+    # --build only necessary with new dependencies or backend model changes
+    docker compose --env-file .env.dev up --build
 
-   # And to stop the containers when you're done working:
-   # docker compose --env-file .env.dev down
-   ```
+    # And to stop the containers when you're done working:
+    # docker compose --env-file .env.dev down
+    ```
 
    Sometimes changes to the database can cause the database population to fail in your environment. If this happens, you can destroy the deployment and rebuild it:
 
-   ```bash
-   # Destroy your current docker-compose deployment:
-   docker-compose rm -f -v --env-file .env.dev
-   ```
+    ```bash
+    # Destroy your current docker-compose deployment:
+    docker-compose rm -f -v --env-file .env.dev
+    ```
 
 6. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
@@ -223,13 +223,16 @@ git remote add upstream https://github.com/activist-org/activist.git
 
 9. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
 
-   ```bash
-   # In the project root:
-   pre-commit install
-   ```
+    ```bash
+    # In the project root:
+    pre-commit install
+
+    # Then test the pre-commit hooks to see how it works:
+    pre-commit run --all-files
+    ```
 
 > [!NOTE]
-> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements-dev.txt](backend/requirements-dev.txt) file.
 >
 > ```bash
 > pip install pre-commit

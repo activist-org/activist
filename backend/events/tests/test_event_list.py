@@ -9,6 +9,6 @@ def test_event_list(client: Client) -> None:
     """
     List Events.
     """
-    response = client.get(path="/v1/events/events/")
+    response = client.get(path="/v1/events/events")
 
     assert response.status_code == 200

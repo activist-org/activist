@@ -25,9 +25,13 @@
       <div class="flex flex-col space-y-3 text-primary-text">
         <div class="flex flex-col space-y-2">
           <label for="input" class="responsive-h2">{{
-            $t("i18n.components.modal.edit._global.join_organization_link")
+            $t(
+              "i18n.components.modal_edit_text_organization.join_organization_link"
+            )
           }}</label>
-          <p>{{ $t("i18n.components.modal.edit._global.remember_https") }}</p>
+          <p>
+            {{ $t("i18n.components.modal.edit.text._global.remember_https") }}
+          </p>
           <input
             v-model="formData.getInvolvedUrl"
             id="textarea"

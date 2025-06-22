@@ -35,12 +35,23 @@
           @keydown.enter="openModalSharePage()"
           class="w-max"
           :cta="true"
-          label="shareButtonLabel"
+          :label="shareButtonLabel"
           :hideLabelOnMobile="false"
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
           ariaLabel="i18n._global.share_event_aria_label"
+        />
+        <BtnAction
+          @click="downloadCalendarEntry"
+          @keydown.enter="downloadCalendarEntry"
+          class="w-max"
+          :cta="true"
+          label="i18n.pages.events.about.subscribe_to_event"
+          fontSize="sm"
+          :leftIcon="IconMap.DATE"
+          iconSize="1.25em"
+          ariaLabel="i18n._global.subscribe_to_event_aria_label"
         />
         <ModalSharePage :cta="true" :event="event" />
       </div>
@@ -67,6 +78,8 @@
           :eventNames="[event.name]"
           :eventTypes="[event.type]"
           :eventLocations="[event.offlineLocation]"
+          :ids="[event.id]"
+          :type="MapType.POINT"
         />
       </div>
       <CardAboutEvent :event="event" />
@@ -84,6 +97,7 @@ import type { Event } from "~/types/events/event";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
+import { MapType } from "~/types/map";
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
@@ -108,6 +122,8 @@ function updateShareBtnLabel() {
     shareButtonLabel.value = "i18n._global.share_event";
   }
 }
+
+const downloadCalendarEntry = () => {};
 
 onMounted(() => {
   window.addEventListener("resize", updateShareBtnLabel);

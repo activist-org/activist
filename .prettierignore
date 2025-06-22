@@ -1,6 +1,7 @@
 node_modules/
 .nuxt/
 .output/
+venv/
 
 dist/
 playwright-report/

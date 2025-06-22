@@ -14,10 +14,10 @@ def test_discussion_partial_update():
     """
     client = APIClient()
 
-    test_user = "test_user"
+    test_username = "test_user"
     test_pass = "test_pass"
     user = UserFactory(
-        username=test_user,
+        username=test_username,
         plaintext_password=test_pass,
         verified=True,
         is_confirmed=True,
@@ -25,8 +25,8 @@ def test_discussion_partial_update():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
-        data={"username": test_user, "password": test_pass},
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_pass},
     )
 
     assert login_response.status_code == 200
@@ -39,7 +39,7 @@ def test_discussion_partial_update():
     # Authorized owner partially updates the discussion.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.patch(
-        path=f"/v1/content/discussions/{discussion_thread.id}/",
+        path=f"/v1/content/discussions/{discussion_thread.id}",
         data={"title": "new_title"},
     )
 
@@ -49,11 +49,11 @@ def test_discussion_partial_update():
     unowned_discussion_thread = DiscussionFactory()
 
     response = client.patch(
-        path=f"/v1/content/discussions/{unowned_discussion_thread.id}/",
+        path=f"/v1/content/discussions/{unowned_discussion_thread.id}",
         data={"title": "new_title"},
     )
 
     assert response.status_code == 403
 
     body = response.json()
-    assert body["error"] == "You are not allowed to update this discussion."
+    assert body["detail"] == "You are not allowed to update this discussion."

@@ -12,11 +12,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 
-from authentication.models import (
-    Support,
-    SupportEntityType,
-    UserModel,
-)
+from authentication.models import Support, SupportEntityType, UserFlag, UserModel
 
 # MARK: Main Tables
 
@@ -160,5 +156,14 @@ class UserAdmin(BaseUserAdmin[UserModel]):
     filter_horizontal = []
 
 
+class UserFlagAdmin(admin.ModelAdmin[UserFlag]):
+    """
+    Admin table for displaying User flags.
+    """
+
+    list_display = ["user", "created_by", "created_on"]
+
+
 # Register the new UserAdmin.
 admin.site.register(UserModel, UserAdmin)
+admin.site.register(UserFlag, UserFlagAdmin)

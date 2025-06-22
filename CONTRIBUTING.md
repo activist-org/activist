@@ -26,6 +26,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Localization](#localization-)
 - [Documentation](#documentation-)
 - [Accessibility](#accessibility-)
+- [Internationalization](#internationalization-)
 - [Design](#design-)
 - [Troubleshooting](#troubleshooting-)
 
@@ -36,10 +37,10 @@ If you have questions or would like to communicate with the team, please [join u
 Thank you for your interest in contributing to activist.org! We look forward to welcoming you to the community and working with you to build a global platform for political action :) The following are some suggested steps for people interested in joining our community:
 
 - Please join the [public Matrix chat](https://matrix.to/#/#activist_community:matrix.org) to connect with the community
-  - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
-  - activist would suggest that you use the [Element](https://element.io/) client
-  - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
-  - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
+    - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
+    - activist would suggest that you use the [Element](https://element.io/) client
+    - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
+    - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
 - Read through this contributing guide and the [style guide](STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
@@ -84,9 +85,9 @@ activist is very open to contributions from people in the early stages of their 
 <p>
 
 - [Mozilla Developer Network Learning Area](https://developer.mozilla.org/en-US/docs/Learn)
-  - Doing MDN sections for HTML, CSS and JavaScript is the best ways to get into web development!
+    - Doing MDN sections for HTML, CSS and JavaScript is the best ways to get into web development!
 - [Open Source Guides](https://opensource.guide/)
-   - Guides from GitHub about open-source software including how to start and much more!
+    - Guides from GitHub about open-source software including how to start and much more!
 
 </p>
 </details>
@@ -213,13 +214,13 @@ git remote add upstream https://github.com/activist-org/activist.git
 
 5. Start your docker images with the following:
 
-   ```bash
-   # --build only necessary with new dependencies or backend model changes.
-   docker compose --env-file .env.dev up --build
+    ```bash
+    # --build only necessary with new dependencies or backend model changes.
+    docker compose --env-file .env.dev up --build
 
-   # And to stop the containers when you're done working:
-   docker compose --env-file .env.dev down
-   ```
+    # And to stop the containers when you're done working:
+    docker compose --env-file .env.dev down
+    ```
 
 6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
@@ -392,6 +393,7 @@ Please check the formatting of your code using Prettier and run the static type 
 
 ```bash
 # Within ./frontend:
+yarn install  # necessary for non-Linux users as node_modules are set via Docker
 yarn format
 yarn lint
 ```
@@ -569,13 +571,16 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
 
 3. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
 
-   ```bash
-   # In the project root:
-   pre-commit install
-   ```
+    ```bash
+    # In the project root:
+    pre-commit install
+
+    # Then test the pre-commit hooks to see how it works:
+    pre-commit run --all-files
+    ```
 
 > [!NOTE]
-> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements-dev.txt](backend/requirements-dev.txt) file.
 >
 > ```bash
 > pip install pre-commit
@@ -672,6 +677,28 @@ Tab focusing sadly doesn't work out of the box for many browsers. Chrome works g
 - Select `Press Tab to highlight each item on a webpage`
 
 Once the above steps are finished you should be able to use tab to navigate web pages :)
+
+<a id="internationalization-"></a>
+
+## Internationalization [`⇧`](#contents)
+
+activist uses [i18n-check](https://github.com/activist-org/i18n-check) to validate our internationalization key-value pairs. The basic commands to check the i18n keys and values are:
+
+```bash
+# Note: You need to have installed the backend/requirements-dev.txt file in your virtual environment.
+i18n-check -a  # run all checks
+i18n-check -ki  # run key identifiers check
+i18n-check -ik  # run invalid keys check
+i18n-check -uk  # run unused keys check
+i18n-check -nsk  # run non-source keys check
+i18n-check -rk  # run repeat keys check
+i18n-check -rv  # run repeat values check
+i18n-check -nk  # run nested keys check
+```
+
+You can also run individual checks. Please see the [documentation for i18n-check](https://i18n-check.readthedocs.io/en/latest/) to learn more.
+
+If you do need to edit the directories and files skipped by certain checks, then these edits can be made in the [.i18n-check.yaml](./.i18n-check.yaml) file. If you're having issues using `i18n-check`, please feel free to contact the team for support!
 
 <a id="design-"></a>
 

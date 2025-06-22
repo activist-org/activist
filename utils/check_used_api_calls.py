@@ -12,7 +12,7 @@ import re
 from typing import Pattern
 
 API_PATTERNS = [
-    re.compile(r"\$\{BASE_BACKEND_URL\}/\S+"),
+    re.compile(r"\$\{BASE_BACKEND_URL(?: as string)?\}/\S+"),
     re.compile(r"localhost:8000/\S+"),
     re.compile(r"127.0.0.1:8000/\S+"),
 ]
@@ -102,8 +102,6 @@ def print_results(results: list[str]) -> None:
 
             print(f"- {key}{' ' * spacing} : {', '.join(vals)}")
 
-    print()
-
 
 BASE_DIR = pathlib.Path(__file__).parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
@@ -113,8 +111,6 @@ EXCLUDE_DIRS = [
     "dist",
     "public",
     "build",
-    "test",
-    "tests",
     "types",
     "test-e2e",
     ".nuxt",
