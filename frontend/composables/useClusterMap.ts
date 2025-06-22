@@ -33,7 +33,7 @@ export const useClusterMap = () => {
       throw new Error("Cluster properties are missing.");
     }
     const offsets = [];
-    const counts = props.map((item: { value: number }) => item.value as number);
+    const counts = props.map((item) => item.value as number);
     let total = 0;
     for (let i = 0; i < counts.length; i++) {
       offsets.push(total);
@@ -304,6 +304,7 @@ export const useClusterMap = () => {
         })
       );
       const logic: { [key: string]: unknown } = {};
+
       // Add a clustered GeoJSON source for events.
       Object.keys(clusterProperties.cluster).forEach(
         (key) => (logic[key] = clusterProperties.cluster[key].logic)

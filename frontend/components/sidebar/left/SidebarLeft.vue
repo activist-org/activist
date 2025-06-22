@@ -201,21 +201,21 @@ const filters = {
     title: "",
     name: "eventLocationSearch",
     type: "search",
-    placeholder: "i18n.components._global.location_search_placeholde",
+    placeholder: "i18n.components.sidebar_left.location_search_placeholder",
   },
   locationSearch: {
     sidebarType: [SidebarType.ORGANIZATION_FILTER, SidebarType.SEARCH],
     title: "Location",
     name: "locationSearch",
     type: "search",
-    placeholder: "i18n.components._global.location_search_placeholde",
+    placeholder: "i18n.components.sidebar_left.location_search_placeholder",
   },
   organizationSearch: {
     sidebarType: [SidebarType.EVENTS_PAGE],
     title: "Organization",
     name: "organizationSearch",
     type: "search",
-    placeholder: "i18n.components._global.orgs_search_placeholder",
+    placeholder: "i18n.components.sidebar_left.orgs_search_placeholder",
   },
   topic: {
     sidebarType: [

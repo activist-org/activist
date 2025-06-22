@@ -82,8 +82,9 @@ const mapLayers: LayerSpecification[] = [
 ];
 
 // MARK: Map Creation
-
+console.log("Creating map with layers:");
 onMounted(() => {
+  console.log("Creating map with layers:");
   if (!isWebglSupported()) {
     alert(i18n.t("i18n.components.media._global.maplibre_gl_alert"));
   } else {
