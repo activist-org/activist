@@ -16,73 +16,6 @@
           class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
         >
           <BtnShareIcon
-            type="vueSocials"
-            social-component="STelegram"
-            :iconName="IconMap.TELEGRAM"
-            :text="$t('i18n.components.modal_share_page.telegram')"
-            iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('telegram')"
-          />
-
-          <BtnShareIcon
-            type="vueSocials"
-            social-component="SMastodon"
-            :iconName="IconMap.MASTODON"
-            :text="$t('i18n.components.modal_share_page.mastodon')"
-            iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('mastodon')"
-          />
-
-          <BtnShareIcon
-            type="vueSocials"
-            social-component="STwitter"
-            :iconName="IconMap.TWITTER"
-            text="@activist_org"
-            iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('twitter')"
-          />
-
-          <BtnShareIcon
-            type="vueSocials"
-            social-component="SEmail"
-            :iconName="IconMap.ENVELOPE"
-            text="Email"
-            iconSize="1.5em"
-            :share-options="shareOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('email')"
-          />
-
-          <BtnShareIcon
-            type="vueSocials"
-            social-component="SFacebook"
-            :iconName="IconMap.FACEBOOK"
-            :text="$t('i18n.components.modal_share_page.facebook')"
-            iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('facebook')"
-          />
-
-          <BtnShareIcon
             type="redirect"
             :iconName="IconMap.SIGNAL"
             :text="$t('i18n.components.modal_share_page.signal')"
@@ -100,32 +33,16 @@
 
           <BtnShareIcon
             type="vueSocials"
-            social-component="SFacebookMessenger"
-            :iconName="IconMap.MESSENGER"
-            :text="$t('i18n.components.modal_share_page.messenger')"
+            social-component="SMastodon"
+            :iconName="IconMap.MASTODON"
+            :text="$t('i18n.components.modal_share_page.mastodon')"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
             :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('messenger')"
-          />
-
-          <BtnShareIcon
-            type="redirect"
-            :iconName="IconMap.INSTAGRAM"
-            :text="$t('i18n.components._global.instagram')"
-            iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :urlLink="getCurrentUrl()"
-            :name="getCurrentName()"
-            redirect-link="https://instagram.com"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('instagram')"
+            :reason-for-suggesting="getSuggestedMessage('mastodon')"
           />
 
           <BtnShareIcon
@@ -145,6 +62,31 @@
           />
 
           <BtnShareIcon
+            type="vueSocials"
+            social-component="STelegram"
+            :iconName="IconMap.TELEGRAM"
+            :text="$t('i18n.components.modal_share_page.telegram')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+            :suggested="true"
+            :reason-for-suggesting="getSuggestedMessage('telegram')"
+          />
+
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="SEmail"
+            :iconName="IconMap.ENVELOPE"
+            text="Email"
+            iconSize="1.5em"
+            :share-options="shareOptions"
+            :suggested="true"
+            :reason-for-suggesting="getSuggestedMessage('email')"
+          />
+
+          <BtnShareIcon
             type="redirect"
             :iconName="IconMap.LINK"
             :text="$t('i18n.components.modal_share_page.copy_link')"
@@ -157,6 +99,64 @@
             :name="getCurrentName()"
             :suggested="true"
             :reason-for-suggesting="getSuggestedMessage('copyLink')"
+          />
+
+          <BtnShareIcon
+            type="redirect"
+            :iconName="IconMap.INSTAGRAM"
+            :text="$t('i18n.components._global.instagram')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+            :urlLink="getCurrentUrl()"
+            :name="getCurrentName()"
+            redirect-link="https://instagram.com"
+            :suggested="true"
+            :reason-for-suggesting="getSuggestedMessage('instagram')"
+          />
+
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="SFacebookMessenger"
+            :iconName="IconMap.MESSENGER"
+            :text="$t('i18n.components.modal_share_page.messenger')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+            :suggested="true"
+            :reason-for-suggesting="getSuggestedMessage('messenger')"
+          />
+
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="SFacebook"
+            :iconName="IconMap.FACEBOOK"
+            :text="$t('i18n.components.modal_share_page.facebook')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+            :suggested="true"
+            :reason-for-suggesting="getSuggestedMessage('facebook')"
+          />
+
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="STwitter"
+            :iconName="IconMap.TWITTER"
+            text="@activist_org"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
+            :suggested="true"
+            :reason-for-suggesting="getSuggestedMessage('twitter')"
           />
         </div>
       </div>
