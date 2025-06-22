@@ -120,7 +120,7 @@ const props = defineProps({
   },
   reasonForSuggesting: {
     type: String,
-    required: false,
+    default: "",
   },
 });
 

@@ -75,7 +75,7 @@ defineProps<{
   type: "icon" | "meta-tag";
   reasonForSuggesting: {
     type: string;
-    required: false;
+    default: "";
   };
 }>();
 
