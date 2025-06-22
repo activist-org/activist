@@ -18,7 +18,7 @@
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
         label="i18n._global.share"
-        :rightIcon="IconMap.SHARE"
+        :leftIcon="IconMap.SHARE"
         fontSize="lg"
         :ariaLabel="
           $t(
