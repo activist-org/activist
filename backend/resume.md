@@ -266,3 +266,38 @@ def delete(self, request: Request) -> Response:
 Cela harmonise le typage de l’ensemble des vues basées sur `ModelViewSet` et renforce la clarté du contrat d’interface.
 
 
+## ✅ Correction 9 : `GroupFaqViewSet.update()` – lookup `id`
+
+**Fichier concerné :**
+
+* `communities/groups/views.py`
+
+**Problème :**
+
+```bash
+error: Incompatible type for lookup 'id': (got "Any | None", expected "UUID | str")  [misc]
+
+```
+
+Cause :
+La méthode update() accède à data.get("id") pour effectuer une requête, mais mypy ne peut garantir que ce champ est bien du type UUID | str.
+
+Solution :
+Utilisation de cast(UUID | str, ...) pour expliciter le type et satisfaire mypy :
+
+
+```python
+from typing import cast
+from uuid import UUID
+
+faq_id = cast(UUID | str, data.get("id"))
+faq = GroupFaq.objects.filter(id=faq_id).first()
+```
+
+Ce correctif est strictement typé, sans effet secondaire à l’exécution, et conforme aux attentes du typage statique.
+
+
+
+
+
+
