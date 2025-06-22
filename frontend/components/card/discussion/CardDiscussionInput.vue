@@ -90,6 +90,7 @@
       </div>
       <div class="w-full md:w-full">
         <textarea
+          v-show="isMarkdown && isMarkdownPreview === 'Write'"
           v-model="markdown"
           @input="
             (event) =>
@@ -97,7 +98,6 @@
           "
           ref="textarea"
           class="focus-brand prose block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text dark:prose-invert"
-          v-show="isMarkdown && isMarkdownPreview === 'Write'"
           rows="1"
         />
         <editor-content
@@ -223,7 +223,7 @@ const writeEditor = useEditor({
   },
 });
 
-const updateTheVariable = (value: any) => {
+const updateTheVariable = (value: string) => {
   markdown.value = value;
 };
 
