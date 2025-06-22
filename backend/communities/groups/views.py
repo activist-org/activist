@@ -230,7 +230,7 @@ class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
     pagination_class = CustomPagination
     http_method_names = ["get", "post", "delete"]
 
-    def create(self, request: Request):
+    def create(self, request: Request) -> Response:
         if request.user.is_authenticated:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -243,13 +243,13 @@ class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
             status=status.HTTP_401_UNAUTHORIZED,
         )
 
-    def list(self, request: Request):
+    def list(self, request: Request) -> Response:
         query = self.queryset.filter()
         serializer = self.get_serializer(query, many=True)
 
         return self.get_paginated_response(self.paginate_queryset(serializer.data))
 
-    def retrieve(self, request: Request, pk: str | None):
+    def retrieve(self, request: Request, pk: str | None) -> Response:
         if pk is not None:
             query = self.queryset.filter(id=pk).first()
 
@@ -262,7 +262,7 @@ class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request: Request):
+    def delete(self, request: Request) -> Response:
         item = self.get_object()
         if request.user.is_staff:
             self.perform_destroy(item)
