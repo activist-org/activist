@@ -287,6 +287,8 @@ function handleFocusOut(event: FocusEvent) {
   }
 }
 
+console.log("SidebarLeft mounted", sidebarType.value);
+
 onMounted(() => {
   window.addEventListener("resize", setSidebarContentScrollable);
   setSidebarContentScrollable();

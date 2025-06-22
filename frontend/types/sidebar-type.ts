@@ -2,6 +2,7 @@
 export enum SidebarType {
   HOME = "home",
   EVENT_FILTER = "filter events",
+  EVENTS_PAGE = "events page",
   EVENT_PAGE = "event page",
   GROUP_PAGE = "group page",
   MISC = "misc",
