@@ -50,7 +50,7 @@ def test_group_faq_update() -> None:
 
     # Login to get token.
     login = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
 
@@ -82,7 +82,7 @@ def test_group_faq_update() -> None:
     test_uuid = uuid4()
 
     response = client.put(
-        path=f"/v1/communities/group_faqs/{test_uuid}/",
+        path=f"/v1/communities/group_faqs/{test_uuid}",
         data={
             "id": test_id,
             "question": test_question,

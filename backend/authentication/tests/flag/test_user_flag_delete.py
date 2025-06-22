@@ -2,15 +2,14 @@
 import pytest
 from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory
-from communities.groups.factories import GroupFlagFactory
+from authentication.factories import UserFactory, UserFlagFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_group_flag_delete():
+def test_user_flag_delete():
     """
-    Test to delete a flag of a group.
+    Test to delete a flag of a user.
     """
     client = APIClient()
 
@@ -22,7 +21,7 @@ def test_group_flag_delete():
     user.is_staff = True
     user.save()
 
-    flag = GroupFlagFactory()
+    flagged_user = UserFlagFactory()
 
     # Login to get token.
     login = client.post(
@@ -36,6 +35,6 @@ def test_group_flag_delete():
     token = login_body["token"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/communities/group_flag/{flag.id}")
+    response = client.delete(path=f"/v1/auth/user_flag/{flagged_user.id}")
 
     assert response.status_code == 204

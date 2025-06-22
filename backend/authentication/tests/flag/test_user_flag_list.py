@@ -5,12 +5,12 @@ from rest_framework.test import APIClient
 pytestmark = pytest.mark.django_db
 
 
-def test_disc_entry_list():
+def test_user_flag_list():
     """
-    Test to retrieve the list of discussion entries.
+    Test to list all user flags.
     """
     client = APIClient()
 
-    response = client.get(path="/v1/content/discussion_entries")
+    response = client.get(path="/v1/auth/user_flag")
 
     assert response.status_code == 200

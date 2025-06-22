@@ -16,7 +16,7 @@ from events.views import (
 )
 
 app_name = "events"
-router = DefaultRouter()
+router = DefaultRouter(trailing_slash=False)
 
 # MARK: Bridge Tables
 
@@ -37,6 +37,6 @@ router.register(prefix=r"event_flag", viewset=EventFlagViewSet, basename="event-
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("events/", EventAPIView.as_view()),
-    path("events/<uuid:id>/", EventDetailAPIView.as_view()),
+    path("events", EventAPIView.as_view()),
+    path("events/<uuid:id>", EventDetailAPIView.as_view()),
 ]

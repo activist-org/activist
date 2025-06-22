@@ -21,7 +21,7 @@ def test_event_delete(client: Client) -> None:
 
     # Login to get token.
     login = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
 
@@ -33,7 +33,7 @@ def test_event_delete(client: Client) -> None:
     event = EventFactory.create()
 
     response = client.delete(
-        path=f"/v1/events/events/{event.id}/",
+        path=f"/v1/events/events/{event.id}",
         headers={"Authorization": f"Token {token}"},
     )
 

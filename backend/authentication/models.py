@@ -208,5 +208,25 @@ class UserModel(AbstractUser, PermissionsMixin):
     tasks = models.ManyToManyField("content.Task", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
 
+    flags = models.ManyToManyField(
+        "self",
+        through="authentication.UserFlag",
+    )
+
     def __str__(self) -> str:
         return self.username
+
+
+class UserFlag(models.Model):
+    """
+    Model for users who are flagged.
+    """
+
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    user = models.ForeignKey(
+        "authentication.UserModel",
+        on_delete=models.CASCADE,
+        related_name="flagged_user",
+    )
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)

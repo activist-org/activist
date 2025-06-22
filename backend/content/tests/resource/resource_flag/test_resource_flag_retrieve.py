@@ -20,7 +20,7 @@ def test_resource_flag_retrieve():
 
     # Login to get token.
     login = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
 
@@ -33,6 +33,6 @@ def test_resource_flag_retrieve():
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
-    response = client.get(path=f"/v1/content/resource_flag/{flag.id}/")
+    response = client.get(path=f"/v1/content/resource_flag/{flag.id}")
 
     assert response.status_code == 200

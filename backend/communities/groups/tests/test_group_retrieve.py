@@ -33,7 +33,7 @@ def test_group_retrieve(client: Client) -> None:
     1. Group ID exists in the database.
     """
     response = client.get(
-        path=f"/v1/communities/groups/{group_id}/",
+        path=f"/v1/communities/groups/{group_id}",
     )
 
     assert response.status_code == 200
