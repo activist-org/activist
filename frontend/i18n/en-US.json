@@ -270,8 +270,6 @@
   "i18n.components.media_map.maplibre_gl_alert": "Your browser does not support our mapping service MapLibre GL, so we won't be able to display maps.",
   "i18n.components.modal_base.close_modal_aria_label": "Close the larger version of this image",
   "i18n.components.modal_command_palette.jump_to": "Jump to",
-  "i18n.components.modal_edit_faq_entry.answer": "Answer",
-  "i18n.components.modal_edit_faq_entry.question": "Question",
   "i18n.components.modal_edit_social_links.add_link": "Add link",
   "i18n.components.modal_edit_social_links.add_link_aria_label": "Add a new social link",
   "i18n.components.modal_edit_social_links.new_link_label": "New link label",
