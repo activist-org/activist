@@ -5,6 +5,7 @@ export enum LOCALE_NAME {
   SPANISH = "Español",
   FRENCH = "Français",
   PORTUGUESE = "Português",
+  ARABIC = "العربية",
 }
 
 export enum LOCALE_CODE {
@@ -13,6 +14,7 @@ export enum LOCALE_CODE {
   SPANISH = "es",
   FRENCH = "fr",
   PORTUGUESE = "pt",
+  ARABIC = "ar",
 }
 
 export interface Locale {
@@ -54,6 +56,12 @@ export const locales: Locale[] = [
     language: "pt",
     name: LOCALE_NAME.PORTUGUESE,
     file: "../pt.json",
+  },
+  {
+    code: LOCALE_CODE.ARABIC,
+    language: "ar",
+    name: LOCALE_NAME.ARABIC,
+    file: "../ar.json",
   },
 ];
 
