@@ -109,7 +109,6 @@
   "i18n.components.card_discussion_input.enable_markdown_support": "Enable Markdown support",
   "i18n.components.card_discussion_input.leave_comment": "Leave a public comment",
   "i18n.components.card_discussion_input.leave_comment_high_risk": "You are a member of a high risk organization. Please be careful what you write.",
-  "i18n.components.card_discussion_input.markdown_support": "This editor supports Markdown",
   "i18n.components.card_discussion_input.preview": "Preview",
   "i18n.components.card_discussion_input.preview_aria_label": "Preview the text that will be sent",
   "i18n.components.card_discussion_input.write": "Write",
