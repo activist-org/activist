@@ -236,4 +236,33 @@ serializer = self.get_serializer(page, many=True)
 ```
 
 ---
+---
+
+## ✅ Correction 8 : `GroupFlagViewSet` – Typage des méthodes exposées
+
+**Fichier concerné :**
+
+* `communities/groups/views.py`
+
+**Problèmes :**
+
+```bash
+error: Function is missing a return type annotation  [no-untyped-def]
+```
+
+**Cause :**
+Le contrôleur `GroupFlagViewSet` expose des méthodes `create()`, `list()`, `retrieve()` et `delete()` sans annotation explicite du type de retour, ce qui enfreint les règles strictes de `mypy`.
+
+**Solution :**
+Ajout du type de retour `-> Response` pour chacune de ces méthodes :
+
+```python
+def create(self, request: Request) -> Response:
+def list(self, request: Request) -> Response:
+def retrieve(self, request: Request, pk: str | None) -> Response:
+def delete(self, request: Request) -> Response:
+```
+
+Cela harmonise le typage de l’ensemble des vues basées sur `ModelViewSet` et renforce la clarté du contrat d’interface.
+
 
