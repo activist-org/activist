@@ -46,7 +46,7 @@ def test_group_social_link_update(client: Client) -> None:
 
     # Login to get token.
     login = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
 
@@ -58,12 +58,14 @@ def test_group_social_link_update(client: Client) -> None:
     token = login_response["token"]
 
     response = client.put(
-        path=f"/v1/communities/group_social_links/{group.id}/",
-        data={
-            "link": test_link,
-            "label": test_label,
-            "order": test_order,
-        },
+        path=f"/v1/communities/group_social_links/{group.id}",
+        data=[
+            {
+                "link": test_link,
+                "label": test_label,
+                "order": test_order,
+            }
+        ],
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
@@ -75,12 +77,14 @@ def test_group_social_link_update(client: Client) -> None:
     test_uuid = uuid4()
 
     response = client.put(
-        path=f"/v1/communities/group_social_links/{test_uuid}/",
-        data={
-            "link": test_link,
-            "label": test_label,
-            "order": test_order,
-        },
+        path=f"/v1/communities/group_social_links/{test_uuid}",
+        data=[
+            {
+                "link": test_link,
+                "label": test_label,
+                "order": test_order,
+            }
+        ],
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )

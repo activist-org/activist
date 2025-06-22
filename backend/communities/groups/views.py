@@ -5,7 +5,7 @@ API views for group management.
 """
 
 import json
-from typing import Any, Dict, List, Sequence, Type
+from typing import List
 from uuid import UUID
 
 from django.db import transaction
@@ -13,8 +13,10 @@ from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
+    SAFE_METHODS,
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
 )
@@ -38,6 +40,7 @@ from communities.groups.serializers import (
 )
 from content.models import Location
 from core.paginator import CustomPagination
+from core.permissions import IsAdminStaffCreatorOrReadOnly
 
 # MARK: Group
 
@@ -49,16 +52,20 @@ class GroupAPIView(GenericAPIView[Group]):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    def get_permissions(self) -> Sequence[Any]:
-        if self.request.method == "POST":
-            return [IsAuthenticated()]
-        return [IsAuthenticatedOrReadOnly()]
+    def get_permissions(self):
+        if self.request.method in SAFE_METHODS:
+            self.permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    def get_serializer_class(self) -> Type[GroupSerializer | GroupPOSTSerializer]:
-        if self.request.method == "POST":
-            return GroupPOSTSerializer
+        else:
+            self.permission_classes = (IsAuthenticated,)
 
-        return GroupSerializer
+        return super().get_permissions()
+
+    def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
+        if self.request.method in SAFE_METHODS:
+            return GroupSerializer
+
+        return GroupPOSTSerializer
 
     @extend_schema(
         responses={200: GroupSerializer(many=True)},
@@ -78,14 +85,12 @@ class GroupAPIView(GenericAPIView[Group]):
         request=GroupPOSTSerializer,
         responses={
             201: GroupPOSTSerializer,
-            400: OpenApiResponse(response={"error": "Failed to create group."}),
+            400: OpenApiResponse(response={"detail": "Failed to create group."}),
         },
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer: GroupPOSTSerializer | GroupSerializer = serializer_class(
-            data=request.data
-        )
+        serializer: GroupPOSTSerializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         location_dict = serializer.validated_data["location"]
@@ -97,7 +102,8 @@ class GroupAPIView(GenericAPIView[Group]):
         except (IntegrityError, OperationalError):
             Location.objects.filter(id=location.id).delete()
             return Response(
-                {"error": "Failed to create group."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Failed to create group."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -107,59 +113,62 @@ class GroupDetailAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     authentication_classes = (TokenAuthentication,)
-    permissions_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
 
     @extend_schema(
         responses={
             200: GroupSerializer,
-            400: OpenApiResponse(response={"error": "Group ID is required"}),
-            404: OpenApiResponse(response={"error": "Failed to retrieve the Group"}),
+            400: OpenApiResponse(response={"detail": "Group ID is required"}),
+            404: OpenApiResponse(response={"detail": "Failed to retrieve the group."}),
         }
     )
     def get(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Group ID is required"},
+                {"detail": "Group ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
             group = Group.objects.get(id=id)
-            serializer = GroupSerializer(group)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
+            self.check_object_permissions(request, group)
         except Group.DoesNotExist:
             return Response(
-                {"error": "Failed to retrieve the Group"},
+                {"detail": "Failed to retrieve the group."},
                 status=status.HTTP_404_NOT_FOUND,
             )
+        except PermissionDenied as e:
+            return Response({"detail": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = GroupSerializer(group)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(
         responses={
             200: GroupSerializer,
-            400: OpenApiResponse(response={"error": "Group ID is required"}),
-            404: OpenApiResponse(response={"error": "Group not found"}),
+            400: OpenApiResponse(response={"detail": "Group ID is required."}),
+            401: OpenApiResponse(
+                response={"detail": "You are not authorized to update this group."}
+            ),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to perform this action."}
+            ),
+            404: OpenApiResponse(response={"detail": "Group not found."}),
         }
     )
     def put(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Group ID is required"},
+                {"detail": "Group ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
             group = Group.objects.get(id=id)
-
+            self.check_object_permissions(request, group)
         except Group.DoesNotExist:
             return Response(
-                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        if request.user != group.created_by and not request.user.is_staff:
-            return Response(
-                {"error": "You are not authorized to update this group"},
-                status=status.HTTP_401_UNAUTHORIZED,
+                {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         serializer = self.serializer_class(group, data=request.data, partial=True)
@@ -171,35 +180,37 @@ class GroupDetailAPIView(GenericAPIView[Group]):
     @extend_schema(
         responses={
             200: OpenApiResponse(response={"message": "Group deleted successfully."}),
-            400: OpenApiResponse(response={"error": "Group ID is required"}),
+            400: OpenApiResponse(response={"detail": "Group ID is required."}),
             401: OpenApiResponse(
-                response={"error": "You are not authorized to delete this group"}
+                response={"detail": "You are not authorized to delete this group."}
             ),
-            404: OpenApiResponse(response={"error": "Group not found"}),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to perform this action."}
+            ),
+            404: OpenApiResponse(response={"detail": "Group not found."}),
         }
     )
     def delete(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Group ID is required"},
+                {"detail": "Group ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
             group = Group.objects.select_related("created_by").get(id=id)
+            self.check_object_permissions(request, group)
 
         except Group.DoesNotExist:
             return Response(
-                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != group.created_by and not request.user.is_staff:
-            return Response(
-                {"error": "You are not authorized to delete this group"},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
+        group.delete()
 
-        return Response({"message": "Group deleted successfully."}, status.HTTP_200_OK)
+        return Response(
+            {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
+        )
 
 
 class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
@@ -218,7 +229,7 @@ class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(
-            {"error": "You are not allowed to flag this group."},
+            {"detail": "You are not allowed to flag this group."},
             status=status.HTTP_401_UNAUTHORIZED,
         )
 
@@ -234,7 +245,7 @@ class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
 
         else:
             return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
             )
 
         serializer = self.get_serializer(query)
@@ -249,7 +260,7 @@ class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
 
         else:
             return Response(
-                {"error": "You are not authorized to delete this flag."},
+                {"detail": "You are not authorized to delete this flag."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -265,23 +276,38 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
         group = Group.objects.filter(id=pk).first()
         if not group:
             return Response(
-                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         data = request.data
         if isinstance(data, str):
-            data = json.loads(data)
+            try:
+                data = json.loads(data)
+
+            except json.JSONDecodeError:
+                return Response(
+                    {"detail": "Invalid JSON format."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        if not isinstance(data, list):
+            return Response(
+                {"detail": "Expected a list of social links."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                # Delete all existing social links for this group.
                 GroupSocialLink.objects.filter(group=group).delete()
 
-                # Create new social links from the submitted data.
-                social_links: List[Dict[str, str]] = []
+                social_links: List[GroupSocialLink] = []
                 for link_data in data:
                     if isinstance(link_data, dict):
+                        if not all(k in link_data for k in ("link", "label")):
+                            raise ValueError(
+                                "Each social link must have 'link' and 'label'."
+                            )
+
                         social_link = GroupSocialLink.objects.create(
                             group=group,
                             order=link_data.get("order"),
@@ -289,14 +315,23 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                             label=link_data.get("label"),
                         )
                         social_links.append(social_link)
+                    else:
+                        raise ValueError(
+                            "Each item in the social links list must be a dictionary."
+                        )
 
             serializer = self.get_serializer(social_links, many=True)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
+        except ValueError as ve:
+            return Response(
+                {"detail": f"Invalid data for social links: {str(ve)}."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         except Exception as e:
             return Response(
-                {"error": f"Failed to update social links: {str(e)}"},
+                {"detail": f"Failed to update social links: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -309,7 +344,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         group = Group.objects.filter(id=pk).first()
         if not group:
             return Response(
-                {"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         data = request.data
@@ -322,7 +357,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
                 faq = GroupFaq.objects.filter(id=data.get("id")).first()
                 if not faq:
                     return Response(
-                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+                        {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
                     )
                 faq.question = data.get("question", faq.question)
                 faq.answer = data.get("answer", faq.answer)
@@ -334,7 +369,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
 
         except Exception as e:
             return Response(
-                {"error": f"Failed to update faqs: {str(e)}"},
+                {"detail": f"Failed to update faqs: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

@@ -22,14 +22,14 @@ def test_org_update(client: Client) -> None:
     Un-authorized user updating org info.
     """
     response = client.put(
-        path=f"{ORGS_URL}/{org.id}/",
+        path=f"{ORGS_URL}/{org.id}",
         data={"orgName": "new_org", "name": "test_org"},
     )
 
     assert response.status_code == 401
     response_body = response.json()
     assert (
-        response_body["error"] == "You are not authorized to update this organization"
+        response_body["detail"] == "You are not authorized to update this organization."
     )
 
     """
@@ -42,7 +42,7 @@ def test_org_update(client: Client) -> None:
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={
             "username": test_username,
             "password": test_password,
@@ -58,7 +58,7 @@ def test_org_update(client: Client) -> None:
     org.created_by = user
 
     response = client.put(
-        path=f"{ORGS_URL}/{bad_org_id}/",
+        path=f"{ORGS_URL}/{bad_org_id}",
         data={"orgName": "new_org", "name": "test_org"},
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",
@@ -67,7 +67,7 @@ def test_org_update(client: Client) -> None:
     assert response.status_code == 404
 
     response_body = response.json()
-    assert response_body["error"] == "Organization not found"
+    assert response_body["detail"] == "Organization not found."
 
     """
     Authorized User updating Org info.
@@ -79,7 +79,7 @@ def test_org_update(client: Client) -> None:
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={
             "username": test_username,
             "password": test_password,
@@ -94,7 +94,7 @@ def test_org_update(client: Client) -> None:
     org.created_by = user
 
     response = client.put(
-        path=f"{ORGS_URL}/{org.id}/",
+        path=f"{ORGS_URL}/{org.id}",
         data={"orgName": "new_org", "name": "test_org"},
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",

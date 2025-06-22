@@ -70,7 +70,7 @@ export const useGroupStore = defineStore("group", {
       const token = localStorage.getItem("accessToken");
 
       const responseGroup = await useFetch(
-        `${BASE_BACKEND_URL}/communities/groups/`,
+        `${BASE_BACKEND_URL}/communities/groups`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -110,7 +110,7 @@ export const useGroupStore = defineStore("group", {
       const { data, status } = await useAsyncData<GroupResponse>(
         async () =>
           (await fetchWithoutToken(
-            `/communities/groups/${id}/`,
+            `/communities/groups/${id}`,
             {}
           )) as GroupResponse
       );
@@ -144,7 +144,7 @@ export const useGroupStore = defineStore("group", {
       const { data, status } = await useAsyncData<GroupsResponseBody>(
         async () =>
           (await fetchWithoutToken(
-            `/communities/groups/`,
+            `/communities/groups`,
             {}
           )) as GroupsResponseBody
       );
@@ -186,7 +186,7 @@ export const useGroupStore = defineStore("group", {
       const token = localStorage.getItem("accessToken");
 
       const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/communities/groups/${group.id}/`,
+        BASE_BACKEND_URL + `/communities/groups/${group.id}`,
         {
           method: "PUT",
           body: {
@@ -200,7 +200,7 @@ export const useGroupStore = defineStore("group", {
       );
 
       const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL + `/communities/group_texts/${group.texts.id}/`,
+        BASE_BACKEND_URL + `/communities/group_texts/${group.texts.id}`,
         {
           method: "PUT",
           body: {
@@ -242,7 +242,7 @@ export const useGroupStore = defineStore("group", {
       // 'update()' in the viewset 'class GroupSocialLinkViewSet' handles this
       // by using the group.id from the end of the URL.
       const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL}/communities/group_social_links/${group.id}/`,
+        `${BASE_BACKEND_URL}/communities/group_social_links/${group.id}`,
         {
           method: "PUT",
           // Send entire formData array/dict in order to make a single API request.
@@ -287,7 +287,7 @@ export const useGroupStore = defineStore("group", {
       const token = localStorage.getItem("accessToken");
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/group_faqs/${group.id}/`,
+        `${BASE_BACKEND_URL}/communities/group_faqs/${group.id}`,
         {
           method: "PUT",
           body: JSON.stringify({

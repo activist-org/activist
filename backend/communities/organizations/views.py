@@ -102,7 +102,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         except (IntegrityError, OperationalError):
             Location.objects.filter(id=location.id).delete()
             return Response(
-                {"error": "Failed to create organization"},
+                {"detail": "Failed to create organization."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -125,7 +125,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization ID required",
-                        value={"error": "Organization ID is required"},
+                        value={"detail": "Organization ID is required."},
                         media_type="application/json",
                     )
                 ],
@@ -136,7 +136,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization not found",
-                        value={"error": "Failed to retrieve the organization"},
+                        value={"detail": "Failed to retrieve the organization."},
                         media_type="application/json",
                     )
                 ],
@@ -146,7 +146,7 @@ class OrganizationDetailAPIView(APIView):
     def get(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Organization ID is required"},
+                {"detail": "Organization ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -157,7 +157,7 @@ class OrganizationDetailAPIView(APIView):
 
         except Organization.DoesNotExist:
             return Response(
-                {"error": "Failed to retrieve the organization"},
+                {"detail": "Failed to retrieve the organization."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -170,7 +170,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization ID required",
-                        value={"error": "Organization ID is required"},
+                        value={"detail": "Organization ID is required."},
                         media_type="application/json",
                     )
                 ],
@@ -181,7 +181,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization not found",
-                        value={"error": "Organization not found"},
+                        value={"detail": "Organization not found."},
                         media_type="application/json",
                     )
                 ],
@@ -191,7 +191,7 @@ class OrganizationDetailAPIView(APIView):
     def put(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Organization ID is required"},
+                {"detail": "Organization ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -200,12 +200,12 @@ class OrganizationDetailAPIView(APIView):
 
         except Organization.DoesNotExist:
             return Response(
-                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
-                {"error": "You are not authorized to update this organization"},
+                {"detail": "You are not authorized to update this organization."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
@@ -235,7 +235,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization ID required",
-                        value={"error": "Organization ID is required"},
+                        value={"detail": "Organization ID is required."},
                         media_type="application/json",
                     )
                 ],
@@ -247,7 +247,7 @@ class OrganizationDetailAPIView(APIView):
                     OpenApiExample(
                         name="Unauthorized",
                         value={
-                            "error": "You are not authorized to delete this organization"
+                            "detail": "You are not authorized to delete this organization."
                         },
                         media_type="application/json",
                     )
@@ -259,7 +259,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization not found",
-                        value={"error": "Organization not found"},
+                        value={"detail": "Organization not found."},
                         media_type="application/json",
                     )
                 ],
@@ -269,7 +269,7 @@ class OrganizationDetailAPIView(APIView):
     def delete(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Organization ID is required"},
+                {"detail": "Organization ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -278,12 +278,12 @@ class OrganizationDetailAPIView(APIView):
 
         except Organization.DoesNotExist:
             return Response(
-                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
-                {"error": "You are not authorized to delete this organization"},
+                {"detail": "You are not authorized to delete this organization."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
@@ -315,7 +315,7 @@ class OrganizationFlagViewSet(viewsets.ModelViewSet[OrganizationFlag]):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(
-            {"error": "You are not allowed to flag this organization"},
+            {"detail": "You are not allowed to flag this organization."},
             status=status.HTTP_401_UNAUTHORIZED,
         )
 
@@ -331,7 +331,7 @@ class OrganizationFlagViewSet(viewsets.ModelViewSet[OrganizationFlag]):
 
         else:
             return Response(
-                {"error": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
             )
 
         serializer = self.get_serializer(query)
@@ -346,7 +346,7 @@ class OrganizationFlagViewSet(viewsets.ModelViewSet[OrganizationFlag]):
 
         else:
             return Response(
-                {"error": "You are not allowed to delete this flag report."},
+                {"detail": "You are not allowed to delete this flag report."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -362,7 +362,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
         org = Organization.objects.filter(id=pk).first()
         if not org:
             return Response(
-                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         data = request.data
@@ -393,7 +393,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
 
         except Exception as e:
             return Response(
-                {"error": f"Failed to update social links: {str(e)}"},
+                {"detail": f"Failed to update social links: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -406,7 +406,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         org = Organization.objects.filter(id=pk).first()
         if not org:
             return Response(
-                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         data = request.data
@@ -419,7 +419,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
                 faq = OrganizationFaq.objects.filter(id=data.get("id")).first()
                 if not faq:
                     return Response(
-                        {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
+                        {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
                     )
                 faq.question = data.get("question", faq.question)
                 faq.answer = data.get("answer", faq.answer)
@@ -431,7 +431,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
 
         except Exception as e:
             return Response(
-                {"error": f"Failed to update faqs: {str(e)}"},
+                {"detail": f"Failed to update faqs: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

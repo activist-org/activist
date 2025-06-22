@@ -3,15 +3,11 @@ import pytest
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
-from communities.groups.factories import GroupFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_group_flag_create():
-    """
-    Test to create a flag for a group.
-    """
+def test_user_flag_create():
     client = APIClient()
 
     test_username = "test_user"
@@ -21,21 +17,20 @@ def test_group_flag_create():
     user.verified = True
     user.save()
 
-    group = GroupFactory()
+    flagged_user = UserFactory(
+        username="flagged_user", is_confirmed=True, verified=True
+    )
 
     error_response = client.post(
-        path="/v1/communities/group_flag",
-        data={"group": group.id, "created_by": user.id},
+        path="/v1/auth/user_flag",
+        data={"user": flagged_user.id, "created_by": user.id},
     )
 
     assert error_response.status_code == 401
 
     error_response_body = error_response.json()
-    assert (
-        error_response_body["detail"] == "Authentication credentials were not provided."
-    )
+    assert error_response_body["detail"] == "You are not allowed flag this user."
 
-    # Login to get token.
     login = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
@@ -47,9 +42,10 @@ def test_group_flag_create():
     token = login_body["token"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+
     response = client.post(
-        path="/v1/communities/group_flag",
-        data={"group": group.id, "created_by": user.id},
+        path="/v1/auth/user_flag",
+        data={"user": flagged_user.id, "created_by": user.id},
     )
 
     assert response.status_code == 201

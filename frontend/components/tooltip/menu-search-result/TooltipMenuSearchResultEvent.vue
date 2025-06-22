@@ -30,6 +30,17 @@
         fontSize="lg"
         ariaLabel="i18n._global.share_event_aria_label"
       />
+      <BtnAction
+        @click="downloadCalendarEntry"
+        @keydown.enter="downloadCalendarEntry"
+        class="flex max-h-[40px] w-full items-center"
+        :cta="true"
+        label="i18n._global.subscribe"
+        :hideLabelOnMobile="false"
+        :rightIcon="IconMap.DATE"
+        fontSize="lg"
+        ariaLabel="i18n._global.subscribe_to_event_aria_label"
+      />
       <ModalSharePage
         @closeModal="handleCloseModal"
         :cta="true"
@@ -51,6 +62,8 @@ defineProps<{
 
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
+
+const downloadCalendarEntry = () => {};
 
 const modals = useModals();
 const modalName = "ModalSharePage";

@@ -29,7 +29,7 @@ def test_resource_update():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_pass},
     )
 
@@ -50,15 +50,15 @@ def test_resource_update():
 
     # Authorized owner tries to update the resources.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.put(path=f"/v1/content/resources/{resource.id}/", data=payload)
+    response = client.put(path=f"/v1/content/resources/{resource.id}", data=payload)
 
     assert response.status_code == 200
 
     # Authorized non-owner tries to update the resources.
     error_response = client.put(
-        path=f"/v1/content/resources/{unowned_resource.id}/", data=payload
+        path=f"/v1/content/resources/{unowned_resource.id}", data=payload
     )
     assert error_response.status_code == 403
 
     error_body = error_response.json()
-    assert error_body["error"] == "You are not allowed to update this resource."
+    assert error_body["detail"] == "You are not allowed to update this resource."

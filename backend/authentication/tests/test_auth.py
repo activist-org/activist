@@ -9,8 +9,8 @@ from uuid import UUID
 
 import pytest
 from django.core import mail
-from django.test import Client
 from faker import Faker
+from rest_framework.test import APIClient
 
 from authentication.factories import (
     SupportEntityTypeFactory,
@@ -40,7 +40,7 @@ def test_str_methods() -> None:
     assert str(user) == user.username
 
 
-def test_sign_up(client: Client) -> None:
+def test_sign_up(client: APIClient) -> None:
     """
     Test the sign-up function.
 
@@ -72,7 +72,7 @@ def test_sign_up(client: Client) -> None:
 
     # 1. Password strength fails.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": username,
             "password": weak_password,
@@ -86,7 +86,7 @@ def test_sign_up(client: Client) -> None:
 
     # 2. Password confirmation fails.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": username,
             "password": strong_password,
@@ -100,7 +100,7 @@ def test_sign_up(client: Client) -> None:
 
     # 3. User is created successfully.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": username,
             "password": strong_password,
@@ -121,7 +121,7 @@ def test_sign_up(client: Client) -> None:
 
     # 4. User already exists.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": username,
             "password": strong_password,
@@ -135,7 +135,7 @@ def test_sign_up(client: Client) -> None:
 
     # 5. User is created without an email.
     response = client.post(
-        path="/v1/auth/sign_up/",
+        path="/v1/auth/sign_up",
         data={
             "username": second_username,
             "password": strong_password,
@@ -152,7 +152,7 @@ def test_sign_up(client: Client) -> None:
     assert user.verification_code is None
 
 
-def test_sign_in(client: Client) -> None:
+def test_sign_in(client: APIClient) -> None:
     """
     Test sign in view.
 
@@ -164,7 +164,7 @@ def test_sign_in(client: Client) -> None:
 
     Parameters
     ----------
-    client : Client
+    client : APIClient
         An authenticated client.
     """
     plaintext_password = "Activist@123!?"
@@ -172,7 +172,7 @@ def test_sign_in(client: Client) -> None:
 
     # 1. User that signed up with email, that has not confirmed their email.
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": user.username, "password": plaintext_password},
     )
     assert response.status_code == 400
@@ -181,33 +181,33 @@ def test_sign_in(client: Client) -> None:
     user.is_confirmed = True
     user.save()
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"email": user.email, "password": plaintext_password},
     )
     assert response.status_code == 200
     # Sign in via username.
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": user.username, "password": plaintext_password},
     )
     assert response.status_code == 200
 
     # 3. User exists but password is incorrect.
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"email": user.email, "password": "Strong_But_Incorrect?!123"},
     )
     assert response.status_code == 400
 
     # 4. User does not exists and tries to sign in.
     response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"email": "unknown_user@example.com", "password": "Password@123!?"},
     )
     assert response.status_code == 400
 
 
-def test_pwreset(client: Client) -> None:
+def test_pwreset(client: APIClient) -> None:
     """
     Test password reset view.
 
@@ -219,7 +219,7 @@ def test_pwreset(client: Client) -> None:
 
     Parameters
     ----------
-    client : Client
+    client : APIClient
         An authenticated client.
     """
 
@@ -230,7 +230,7 @@ def test_pwreset(client: Client) -> None:
     # 1. User exists and password reset is successful.
     user = UserFactory(plaintext_password=old_password)
     response = client.get(
-        path="/v1/auth/pwreset/",
+        path="/v1/auth/pwreset",
         data={"email": user.email},
     )
     assert response.status_code == 200
@@ -238,7 +238,7 @@ def test_pwreset(client: Client) -> None:
 
     # 2. Password reset with invalid email.
     response = client.get(
-        path="/v1/auth/pwreset/", data={"email": "invalid_email@example.com"}
+        path="/v1/auth/pwreset", data={"email": "invalid_email@example.com"}
     )
     assert response.status_code == 404
 
@@ -246,7 +246,7 @@ def test_pwreset(client: Client) -> None:
     user.verification_code = uuid.uuid4()
     user.save()
     response = client.post(
-        path=f"/v1/auth/pwreset/?code={user.verification_code}",
+        path=f"/v1/auth/pwreset?code={user.verification_code}",
         data={"password": new_password},
     )
     assert response.status_code == 200
@@ -255,7 +255,7 @@ def test_pwreset(client: Client) -> None:
 
     # 4. Password reset with invalid verification code.
     response = client.post(
-        path="/v1/auth/pwreset/invalid_code/",
+        path="/v1/auth/pwreset/invalid_code",
         data={"password": new_password},
     )
     assert response.status_code == 404
@@ -323,27 +323,35 @@ def test_create_user_and_superuser():
         )
 
 
-def test_delete_user(client: Client) -> None:
+def test_delete_user() -> None:
     """
     Test the deletion of existing user records from the database.
 
     Parameters
     ----------
-    client : Client
+    client : APIClient
         An authenticated client.
     """
+    client = APIClient()
     test_username = "test_user_123"
     test_pass = "Activist@123!?"
     user = UserFactory(username=test_username, plaintext_password=test_pass)
     user.is_confirmed = True
     user.save()
 
-    response = client.post(
-        path="/v1/auth/sign_in/",
-        data={"username": user.username, "password": user.password},
+    # User Login
+    login = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_pass},
     )
 
-    if response.status_code == 200:
-        delete_response = client.delete(path="/v1/auth/delete/", data={"pk": user.id})
+    assert login.status_code == 200
 
-        assert delete_response.status_code == 200
+    login_body = login.json()
+    token = login_body["token"]
+
+    # User deletes themselves.
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    response = client.delete(path="/v1/auth/delete")
+
+    assert response.status_code == 204
