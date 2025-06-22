@@ -5,7 +5,7 @@ API views for group management.
 """
 
 import json
-from typing import List
+from typing import List, Type, Tuple, Sequence
 from uuid import UUID
 
 from django.db import transaction
@@ -19,9 +19,13 @@ from rest_framework.permissions import (
     SAFE_METHODS,
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
+    _SupportsHasPermission
 )
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.permissions import BasePermission
+
+from collections.abc import Sequence
 
 from communities.groups.models import (
     Group,
@@ -50,9 +54,15 @@ class GroupAPIView(GenericAPIView[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes: Tuple[Type[BasePermission], ...] = (IsAuthenticatedOrReadOnly,)
+   
 
-    def get_permissions(self):
+
+    # def get_permissions(self) -> List[BasePermission]:
+    def get_permissions(self) -> Sequence[_SupportsHasPermission]:
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
         if self.request.method in SAFE_METHODS:
             self.permission_classes = (IsAuthenticatedOrReadOnly,)
 
@@ -61,7 +71,7 @@ class GroupAPIView(GenericAPIView[Group]):
 
         return super().get_permissions()
 
-    def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
+    def get_serializer_class(self) -> Type[GroupSerializer | GroupPOSTSerializer]:
         if self.request.method in SAFE_METHODS:
             return GroupSerializer
 
@@ -90,7 +100,7 @@ class GroupAPIView(GenericAPIView[Group]):
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer: GroupPOSTSerializer = serializer_class(data=request.data)
+        serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         location_dict = serializer.validated_data["location"]
