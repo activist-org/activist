@@ -5,6 +5,7 @@ API views for group management.
 """
 
 import json
+import logging
 from typing import List
 from uuid import UUID
 
@@ -41,6 +42,8 @@ from communities.groups.serializers import (
 from content.models import Location
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
+
+logger = logging.getLogger("django")
 
 # MARK: Group
 
@@ -339,69 +342,51 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
 class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
     queryset = GroupFaq.objects.all()
     serializer_class = GroupFaqSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def create(self, request: Request) -> Response:
-        group = Group.objects.filter(id=request.data.get("group_id")).first()
-        if not group:
+        try:
+            group = Group.objects.get(id=request.data.get("group_id"))
+        except Group.DoesNotExist:
             return Response(
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
 
-        try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                serializer = self.get_serializer(GroupFaq, data=data, partial=True)
-                serializer.is_valid(raise_exception=True)
-                faq = {
-                    "order": serializer.validated_data.get("order", 0),
-                    "primary": serializer.validated_data.get("primary", False),
-                    "iso": serializer.validated_data.get("iso", "en"),
-                    "question": serializer.validated_data.get("question"),
-                    "answer": serializer.validated_data.get("answer"),
-                }
-                group.faqs.create(**faq)
-
+        if request.user != group.created_by:
             return Response(
-                {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+                {"detail": "You are not authorized to create FAQs for this group."},
+                status=status.HTTP_403_FORBIDDEN,
             )
 
-        except Exception as e:
-            return Response(
-                {"error": f"Failed to create faq: {str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        group.faqs.create(**serializer.validated_data)
+
+        return Response(
+            {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+        )
 
     def update(self, request: Request, pk: UUID | str) -> Response:
-        faq = GroupFaq.objects.filter(id=pk).first()
-        if not faq:
+        try:
+            faq = GroupFaq.objects.get(id=pk)
+        except GroupFaq.DoesNotExist:
             return Response(
                 {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
             )
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
 
-        try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                serializer = self.get_serializer(faq, data=data, partial=True)
-                serializer.is_valid(raise_exception=True)
-                faq.question = serializer.validated_data.get("question")
-                faq.answer = serializer.validated_data.get("answer")
-                faq.save()
-
+        if request.user != faq.group.created_by:
             return Response(
-                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
             )
 
-        except Exception as e:
-            return Response(
-                {"detail": f"Failed to update faqs: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+        )
 
 
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):

@@ -4,7 +4,7 @@ Test cases for the group social link methods.
 """
 
 import pytest
-from django.test import Client
+from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from communities.groups.factories import (
@@ -17,7 +17,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_group_faq_create(client: Client) -> None:
+def test_group_faq_create() -> None:
     """
     Test Group FAQ updates.
 
@@ -31,6 +31,7 @@ def test_group_faq_create(client: Client) -> None:
     None
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
+    client = APIClient()
     test_username = "test_user"
     test_password = "test_password"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -39,8 +40,7 @@ def test_group_faq_create(client: Client) -> None:
     user.is_staff = True
     user.save()
 
-    group = GroupFactory()
-    group.created_by = user
+    group = GroupFactory(created_by=user)
 
     faqs = GroupFaqFactory()
     test_question = faqs.question
@@ -60,6 +60,7 @@ def test_group_faq_create(client: Client) -> None:
     login_body = login_response.json()
     token = login_body["token"]
 
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
         path="/v1/communities/group_faqs/",
         data={
@@ -70,11 +71,18 @@ def test_group_faq_create(client: Client) -> None:
             "order": test_order,
             "groupId": group.id,
         },
-        headers={"Authorization": f"Token {token}"},
-        content_type="application/json",
+        format="json",
     )
 
     assert response.status_code == 201
+
+    # MARK: Update Success with Group ID
+
+    # TODO: Test that should be added:
+    # * Test with user that is not a the creator of the group. -> 403
+    # assert response == 403
+    # Test unauthenticated user
+    # assert response == 401
 
     # MARK: Update Failure
 
@@ -86,8 +94,7 @@ def test_group_faq_create(client: Client) -> None:
             "order": test_order,
             "groupId": group.id,
         },
-        headers={"Authorization": f"Token {token}"},
-        content_type="application/json",
+        format="json",
     )
 
     assert response.status_code == 400

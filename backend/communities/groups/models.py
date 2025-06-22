@@ -110,13 +110,11 @@ class GroupFaq(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
-    question = models.TextField(max_length=500)
-    answer = models.TextField(max_length=500)
+    question = models.TextField(max_length=500, blank=False)
+    answer = models.TextField(max_length=500, blank=False)
     order = models.IntegerField()
     last_updated = models.DateTimeField(auto_now=True)
-    group = models.ForeignKey(
-        Group, on_delete=models.CASCADE, null=True, related_name="faqs"
-    )
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="faqs")
 
     def __str__(self) -> str:
         return self.question

@@ -177,7 +177,7 @@ class Command(BaseCommand):
                         user_org_group.texts.set([group_texts])
                         user_org_group.social_links.set(group_social_links)
                         for _ in range(num_faq_entries_per_entity):
-                            user_org_group_faq = GroupFaqFactory()
+                            user_org_group_faq = GroupFaqFactory(group=user_org_group)
                             user_org_group.faqs.add(user_org_group_faq)
 
                     for _ in range(num_faq_entries_per_entity):
