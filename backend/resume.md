@@ -1,3 +1,8 @@
+Voici la **mise à jour complète du document `pull_request_notes.md`**, incluant la dernière correction sur les vues de l’authentification.
+
+---
+
+````markdown
 # 📌 Pull Request Notes – mypy + django-stubs corrections
 
 ## 🗂️ Contexte général
@@ -21,7 +26,7 @@ L'objectif est de corriger les erreurs levées lorsque l'option `ignore_errors =
 
 ```bash
 error: Need type annotation for "flags"  [var-annotated]
-```
+````
 
 **Cause :** `mypy` ne peut pas inférer le type des champs `ManyToManyField` dynamiques, même avec `django-stubs`.
 
@@ -29,7 +34,7 @@ error: Need type annotation for "flags"  [var-annotated]
 
 ```python
 from typing import Any
-...
+
 flags: Any = models.ManyToManyField(
     "authentication.UserModel",
     through="ResourceFlag",  # ou EventFlag, etc. selon le fichier
@@ -60,7 +65,7 @@ Annotation du type de retour en `Any` pour lever l'erreur tout en préservant le
 
 ```python
 from typing import Any
-...
+
 def create(self, validated_data: Dict[str, Any]) -> Any:
     ...
     return images
@@ -91,19 +96,73 @@ Utilisation de `isinstance(..., datetime)` pour s'assurer que les opérandes son
 
 ```python
 from datetime import datetime
-...
+
 if isinstance(start_dt, datetime) and isinstance(end_dt, datetime):
     if start_dt > end_dt:
         raise serializers.ValidationError(...)
 
-...
 if isinstance(creation_dt, datetime) and isinstance(deletion_dt, datetime):
     if creation_dt > deletion_dt:
         raise serializers.ValidationError(...)
 ```
 
-Cette modification rend le code plus robuste, plus clair, et compatible avec l'analyse stricte de `mypy`.
+---
+
+## ✅ Correction 4 : `UserFlagViewSets` – Typage des vues de l’API
+
+**Fichier concerné :**
+
+* `authentication/views.py`
+
+**Problème :**
+
+```bash
+error: Function is missing a return type annotation  [no-untyped-def]
+```
+
+**Cause :**
+`mypy` exige que toutes les méthodes exposées aient une annotation de type explicite lorsqu’on utilise un mode strict (`strict = true`).
+
+**Solution :**
+Ajout du type `-> Response` à chaque méthode concernée :
+
+```python
+def create(self, request: Request) -> Response:
+def list(self, request: Request) -> Response:
+def retrieve(self, request: Request, pk: str | None) -> Response:
+def delete(self, request: Request) -> Response:
+```
 
 ---
 
-✅ Document à compléter au fur et à mesure des corrections suivantes (serializers, views, etc.).
+## ✅ Correction 5 : `OpenApiTypes` – Import ignoré
+
+**Fichier concerné :**
+
+* `authentication/views.py`
+
+**Problème :**
+
+```bash
+error: Module "drf_spectacular.utils" does not explicitly export attribute "OpenApiTypes"  [attr-defined]
+```
+
+**Cause :**
+`drf-spectacular` expose `OpenApiTypes` de manière non déclarée dans ses stubs, ce qui déclenche une erreur `mypy`.
+
+**Solution :**
+Isolation de l’import avec un `# type: ignore[attr-defined]` :
+
+```python
+from drf_spectacular.utils import OpenApiTypes  # type: ignore[attr-defined]
+```
+
+---
+
+✅ **Document à compléter au fil des prochaines corrections.**
+Il servira de support au moment de la création de la Pull Request officielle.
+
+```
+
+Souhaites-tu que je te propose aussi un nom de fichier et un emplacement dans le projet pour le sauvegarder ?
+```
