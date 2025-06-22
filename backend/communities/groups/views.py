@@ -5,7 +5,7 @@ API views for group management.
 """
 
 import json
-from typing import List, Type, Tuple, Sequence
+from typing import List, Type, Tuple, Sequence, cast
 from uuid import UUID
 
 from django.db import transaction
@@ -364,7 +364,9 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                faq = GroupFaq.objects.filter(id=data.get("id")).first()
+
+                faq_id = cast(UUID | str, data.get("id"))
+                faq = GroupFaq.objects.filter(id=faq_id).first()
                 if not faq:
                     return Response(
                         {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
