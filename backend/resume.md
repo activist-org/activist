@@ -159,10 +159,81 @@ from drf_spectacular.utils import OpenApiTypes  # type: ignore[attr-defined]
 
 ---
 
-✅ **Document à compléter au fil des prochaines corrections.**
-Il servira de support au moment de la création de la Pull Request officielle.
 
+## ✅ Correction 6 : `EventFaqViewSet.update()` – lookup `id`
+
+**Fichier concerné :**
+
+* `events/views.py`
+
+**Problème :**
+
+```bash
+error: Incompatible type for lookup 'id': (got "Any | None", expected "UUID | str")  [misc]
 ```
 
-Souhaites-tu que je te propose aussi un nom de fichier et un emplacement dans le projet pour le sauvegarder ?
+**Cause :**
+La méthode `update()` récupère un `id` via `data.get("id")`, dont le type est incertain (`Any | None`), ce que `mypy` refuse comme argument pour `id=...`.
+
+**Solution :**
+Utilisation de `cast(UUID | str, ...)` pour expliciter le type et satisfaire `mypy` :
+
+```python
+from typing import cast
+
+faq_id = cast(UUID | str, data.get("id"))
+faq = EventFaq.objects.filter(id=faq_id).first()
 ```
+
+Cela rend le code plus clair, sans altérer son comportement, tout en assurant une compatibilité avec l’analyse stricte des types.
+
+---
+## ✅ Correction 7 : `GroupAPIView` – Typage et conformité des vues
+
+**Fichier concerné :**
+
+* `communities/groups/views.py`
+
+**Problèmes rencontrés :**
+
+```bash
+error: Function is missing a return type annotation  [no-untyped-def]
+error: Incompatible types in assignment (expression has type "tuple[type[IsAuthenticated]]", variable has type "tuple[type[IsAuthenticatedOrReadOnly]]")  [assignment]
+error: Incompatible return value type (got "Sequence[_SupportsHasPermission]", expected "list[BasePermission]")  [return-value]
+error: Incompatible return value type (got "type[GroupSerializer]", expected "GroupSerializer | GroupPOSTSerializer")  [return-value]
+error: "GroupSerializer" not callable  [operator]
+```
+
+**Solutions appliquées :**
+
+- Annotation du champ `permission_classes` :
+
+```python
+permission_classes: Tuple[Type[BasePermission], ...] = (IsAuthenticatedOrReadOnly,)
+```
+
+- Annotation correcte de la méthode `get_permissions()` :
+
+```python
+from rest_framework.permissions import _SupportsHasPermission
+from collections.abc import Sequence
+
+def get_permissions(self) -> Sequence[_SupportsHasPermission]:
+    ...
+```
+
+- Correction de `get_serializer_class()` pour retourner les bons types :
+
+```python
+def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
+    ...
+```
+
+- Ajout de l’appel constructeur pour éviter l’erreur `"not callable"` :
+
+```python
+serializer = self.get_serializer(page, many=True)
+```
+
+---
+
