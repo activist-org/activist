@@ -16,12 +16,12 @@
     <MetaTagSocialMedia
       class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
       :iconName="iconName"
-      :text="suggested ? text + '*' : text"
+      :text="text"
       :iconSize="iconSize"
     />
     <p
-      v-if="suggested"
-      class="mt-0.5 text-xs italic text-gray-500 dark:text-gray-400"
+      v-if="reasonForSuggesting"
+      class="mt-0.5 text-xs italic text-distinct-text"
       role="note"
     >
       {{ reasonForSuggesting }}
@@ -40,10 +40,9 @@
       v-if="!contentCopied"
       class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
       :iconName="iconName"
-      :text="suggested ? text + '*' : text"
+      :text="text"
       :iconSize="iconSize"
     />
-
     <MetaTagSocialMedia
       v-if="contentCopied"
       class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
@@ -51,10 +50,9 @@
       :text="$t('i18n.components.btn_share_icon.url_copied')"
       :iconSize="iconSize"
     />
-
     <p
-      v-if="suggested"
-      class="mt-0.5 text-xs italic text-gray-500 dark:text-gray-400"
+      v-if="reasonForSuggesting"
+      class="mt-0.5 text-xs italic text-distinct-text"
       role="note"
     >
       {{ reasonForSuggesting }}
@@ -74,7 +72,6 @@ import {
   STwitter,
 } from "vue-socials";
 import { toast } from "vue-sonner";
-import { boolean } from "zod";
 
 import { IconMap } from "~/types/icon-map";
 
@@ -121,14 +118,9 @@ const props = defineProps({
     type: String,
     default: null,
   },
-  suggested: {
-    type: boolean,
-    default: false,
-  },
-
   reasonForSuggesting: {
     type: String,
-    default: "",
+    required: false,
   },
 });
 

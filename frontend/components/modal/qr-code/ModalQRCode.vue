@@ -133,15 +133,6 @@ const props = defineProps<{
   event?: Event;
   resource?: Resource;
   user?: User;
-  suggested: {
-    type: boolean;
-    default: false;
-  };
-
-  reasonForSuggesting: {
-    type: string;
-    default: "";
-  };
 }>();
 
 const aboveMediumBP = useBreakpoint("md");

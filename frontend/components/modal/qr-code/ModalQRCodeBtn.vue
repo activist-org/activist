@@ -24,16 +24,24 @@
       />
     </div>
   </button>
-  <MetaTagSocialMedia
-    v-else
-    @click="openModal()"
-    @keydown.enter="openModal()"
-    class="focus-brand dark:hover:distinct-text text-primary-text hover:text-distinct-text"
-    :iconName="IconMap.QR_CODE"
-    :text="$t('i18n.components.modal_qr_code_btn.qr_code')"
-    iconSize="1.5em"
-    tabindex="0"
-  />
+  <div v-else>
+    <MetaTagSocialMedia
+      @click="openModal()"
+      @keydown.enter="openModal()"
+      class="focus-brand dark:hover:distinct-text text-primary-text hover:text-distinct-text"
+      :iconName="IconMap.QR_CODE"
+      :text="$t('i18n.components.modal_qr_code_btn.qr_code')"
+      iconSize="1.5em"
+      tabindex="0"
+    />
+    <p
+      v-if="reasonForSuggesting"
+      class="mt-0.5 text-xs italic text-distinct-text"
+      role="note"
+    >
+      {{ reasonForSuggesting }}
+    </p>
+  </div>
   <ModalQRCode
     v-if="organization"
     @closeModal="handleCloseModal"
@@ -65,6 +73,10 @@ defineProps<{
   resource?: Resource;
   user?: User;
   type: "icon" | "meta-tag";
+  reasonForSuggesting: {
+    type: string;
+    required: false;
+  };
 }>();
 
 const modals = useModals();

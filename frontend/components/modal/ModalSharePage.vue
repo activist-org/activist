@@ -10,10 +10,10 @@
       </DialogTitle>
       <div class="pt-6">
         <p class="responsive-h4 font-bold">
-          {{ $t("i18n.components.modal_share_page.online") }}
+          {{ $t("i18n.components.modal_share_page.suggested") }}
         </p>
         <div
-          class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
+          class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8"
         >
           <BtnShareIcon
             type="redirect"
@@ -27,8 +27,9 @@
             :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
             redirect-link="https://signal.me/#p"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('signal')"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_signal')
+            "
           />
 
           <BtnShareIcon
@@ -41,8 +42,9 @@
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('mastodon')"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_mastodon')
+            "
           />
 
           <BtnShareIcon
@@ -57,22 +59,50 @@
             :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
             redirect-link="https://matrix.to/#/#activist_community:matrix.org"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('matrix')"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_matrix')
+            "
           />
 
-          <BtnShareIcon
-            type="vueSocials"
-            social-component="STelegram"
-            :iconName="IconMap.TELEGRAM"
-            :text="$t('i18n.components.modal_share_page.telegram')"
-            iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('telegram')"
+          <ModalQRCodeBtn
+            v-if="organization"
+            :organization="organization"
+            type="meta-tag"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_qr_code')
+            "
+          />
+          <ModalQRCodeBtn
+            v-if="group"
+            :group="group"
+            type="meta-tag"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_qr_code')
+            "
+          />
+          <ModalQRCodeBtn
+            v-if="event"
+            :event="event"
+            type="meta-tag"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_qr_code')
+            "
+          />
+          <ModalQRCodeBtn
+            v-if="resource"
+            :resource="resource"
+            type="meta-tag"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_qr_code')
+            "
+          />
+          <ModalQRCodeBtn
+            v-if="user"
+            :user="user"
+            type="meta-tag"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_qr_code')
+            "
           />
 
           <BtnShareIcon
@@ -82,8 +112,9 @@
             text="Email"
             iconSize="1.5em"
             :share-options="shareOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('email')"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_email')
+            "
           />
 
           <BtnShareIcon
@@ -97,8 +128,29 @@
             :native-behavior-options="nativeBehaviorOptions"
             :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('copyLink')"
+            :reason-for-suggesting="
+              $t('i18n.components.modal_share_page.suggested_link')
+            "
+          />
+        </div>
+      </div>
+      <div class="pt-12">
+        <p class="responsive-h4 font-bold">
+          {{ $t("i18n.components.modal_share_page.other") }}
+        </p>
+        <div
+          class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
+        >
+          <BtnShareIcon
+            type="vueSocials"
+            social-component="STelegram"
+            :iconName="IconMap.TELEGRAM"
+            :text="$t('i18n.components.modal_share_page.telegram')"
+            iconSize="1.5em"
+            :window-features="windowFeatures"
+            :share-options="shareOptions"
+            :use-native-behavior="useNativeBehavior"
+            :native-behavior-options="nativeBehaviorOptions"
           />
 
           <BtnShareIcon
@@ -113,8 +165,6 @@
             :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
             redirect-link="https://instagram.com"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('instagram')"
           />
 
           <BtnShareIcon
@@ -127,8 +177,6 @@
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('messenger')"
           />
 
           <BtnShareIcon
@@ -141,61 +189,18 @@
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('facebook')"
           />
 
           <BtnShareIcon
             type="vueSocials"
             social-component="STwitter"
             :iconName="IconMap.TWITTER"
-            text="@activist_org"
+            :text="$t('i18n.components.modal_share_page.twitter')"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
-            :suggested="true"
-            :reason-for-suggesting="getSuggestedMessage('twitter')"
-          />
-        </div>
-      </div>
-      <div class="pt-6">
-        <p class="responsive-h4 font-bold">
-          {{ $t("i18n.components.modal_share_page.offline") }}
-        </p>
-        <div
-          class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
-        >
-          <ModalQRCodeBtn
-            v-if="organization"
-            :organization="organization"
-            type="meta-tag"
-            :suggested="true"
-          />
-          <ModalQRCodeBtn
-            v-if="group"
-            :group="group"
-            type="meta-tag"
-            :suggested="true"
-          />
-          <ModalQRCodeBtn
-            v-if="event"
-            :event="event"
-            type="meta-tag"
-            :suggested="true"
-          />
-          <ModalQRCodeBtn
-            v-if="resource"
-            :resource="resource"
-            type="meta-tag"
-            :suggested="true"
-          />
-          <ModalQRCodeBtn
-            v-if="user"
-            :user="user"
-            type="meta-tag"
-            :suggested="true"
           />
         </div>
       </div>
@@ -304,23 +309,4 @@ const nativeBehaviorOptions = {
 };
 
 const windowFeatures = {};
-
-function getSuggestedMessage(name: string) {
-  const lowercaseName = name.toLowerCase();
-  return reasonForSuggesting[lowercaseName] || "";
-}
-
-const reasonForSuggesting = {
-  twitter: "Massive reach, active audience.",
-  telegram: "Secure, Popular for groups.",
-  mastodon: "Decentralized, privacy-focused.",
-  email: "Direct, formal communication",
-  facebook: "High visibility, event-focused.",
-  signal: "Encrypted, private messaging",
-  messenger: "Fast, integrated with facebook",
-  instagram: "Visual sharing, high engagement.",
-  matrix: "Decentralized, cross-platform chat.",
-  copyLink: "Quick sharing of URLs.",
-  qrCode: "Scan and go",
-};
 </script>
