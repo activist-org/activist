@@ -98,7 +98,7 @@
           "
           ref="textarea"
           class="focus-brand prose block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text dark:prose-invert"
-          rows="1"
+          rows="3"
         />
         <editor-content
           v-show="isMarkdownPreview === 'Preview'"
@@ -180,8 +180,8 @@ const isMarkdownPreview = ref("Write");
 const isMarkdown = ref(true);
 const textarea = ref<HTMLTextAreaElement | null>(null);
 
+// Note: We want to have it not just be one line when the user switches back to Markdown mode.
 // https://stackoverflow.com/questions/65997180/automatic-resizing-of-textarea-after-loading-data-in-vue
-// Potential Improvement
 const autoResize = () => {
   const el = textarea.value;
   if (!el) return;
@@ -234,6 +234,10 @@ const toggleIsMarkdown = () => {
   if (isMarkdownPreview.value === "Write") {
     isMarkdownPreview.value = "Preview";
     writeEditor.value?.commands.setContent(markdown.value);
+  }
+
+  if (isMarkdown.value && isMarkdownPreview.value === "Preview") {
+    isMarkdownPreview.value = "Write";
   }
 
   if (isMarkdown.value) {
