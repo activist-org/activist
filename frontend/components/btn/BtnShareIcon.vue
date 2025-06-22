@@ -16,10 +16,14 @@
     <MetaTagSocialMedia
       class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
       :iconName="iconName"
-      :text="suggested ? text + '*': text"
+      :text="suggested ? text + '*' : text"
       :iconSize="iconSize"
     />
-    <p v-if="suggested" class="mt-0.5 text-xs italic text-gray-500 dark:text-gray-400" role="note">
+    <p
+      v-if="suggested"
+      class="mt-0.5 text-xs italic text-gray-500 dark:text-gray-400"
+      role="note"
+    >
       {{ reasonForSuggesting }}
     </p>
   </component>
@@ -32,12 +36,11 @@
     tabindex="0"
     role="button"
   >
-
     <MetaTagSocialMedia
       v-if="!contentCopied"
       class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
       :iconName="iconName"
-      :text="suggested? text + '*' : text"
+      :text="suggested ? text + '*' : text"
       :iconSize="iconSize"
     />
 
@@ -49,10 +52,13 @@
       :iconSize="iconSize"
     />
 
-    <p v-if="suggested" class="mt-0.5 text-xs italic text-gray-500 dark:text-gray-400" role="note">
+    <p
+      v-if="suggested"
+      class="mt-0.5 text-xs italic text-gray-500 dark:text-gray-400"
+      role="note"
+    >
       {{ reasonForSuggesting }}
     </p>
-
   </div>
 </template>
 
@@ -117,13 +123,13 @@ const props = defineProps({
   },
   suggested: {
     type: boolean,
-    default: false
+    default: false,
   },
 
   reasonForSuggesting: {
     type: String,
-    default: ""
-  }
+    default: "",
+  },
 });
 
 const { t } = useI18n();

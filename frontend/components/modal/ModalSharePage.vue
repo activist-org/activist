@@ -12,7 +12,9 @@
         <p class="responsive-h4 font-bold">
           {{ $t("i18n.components.modal_share_page.online") }}
         </p>
-        <div class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6">
+        <div
+          class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
+        >
           <BtnShareIcon
             type="vueSocials"
             social-component="STelegram"
@@ -54,7 +56,7 @@
             :suggested="true"
             :reason-for-suggesting="getSuggestedMessage('twitter')"
           />
-          
+
           <BtnShareIcon
             type="vueSocials"
             social-component="SEmail"
@@ -162,18 +164,44 @@
         <p class="responsive-h4 font-bold">
           {{ $t("i18n.components.modal_share_page.offline") }}
         </p>
-        <div class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6">
-          <ModalQRCodeBtn v-if="organization" :organization="organization" type="meta-tag" :suggested="true"/>
-          <ModalQRCodeBtn v-if="group" :group="group" type="meta-tag" :suggested="true"/>
-          <ModalQRCodeBtn v-if="event" :event="event" type="meta-tag" :suggested="true"/>
-          <ModalQRCodeBtn v-if="resource" :resource="resource" type="meta-tag" :suggested="true"/>
-          <ModalQRCodeBtn v-if="user" :user="user" type="meta-tag" :suggested="true"/>
+        <div
+          class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
+        >
+          <ModalQRCodeBtn
+            v-if="organization"
+            :organization="organization"
+            type="meta-tag"
+            :suggested="true"
+          />
+          <ModalQRCodeBtn
+            v-if="group"
+            :group="group"
+            type="meta-tag"
+            :suggested="true"
+          />
+          <ModalQRCodeBtn
+            v-if="event"
+            :event="event"
+            type="meta-tag"
+            :suggested="true"
+          />
+          <ModalQRCodeBtn
+            v-if="resource"
+            :resource="resource"
+            type="meta-tag"
+            :suggested="true"
+          />
+          <ModalQRCodeBtn
+            v-if="user"
+            :user="user"
+            type="meta-tag"
+            :suggested="true"
+          />
         </div>
       </div>
     </div>
   </ModalBase>
 </template>
-
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
@@ -277,7 +305,7 @@ const nativeBehaviorOptions = {
 
 const windowFeatures = {};
 
-function getSuggestedMessage(name: string){
+function getSuggestedMessage(name: string) {
   const lowercaseName = name.toLowerCase();
   return reasonForSuggesting[lowercaseName] || "";
 }
@@ -293,6 +321,6 @@ const reasonForSuggesting = {
   instagram: "Visual sharing, high engagement.",
   matrix: "Decentralized, cross-platform chat.",
   copyLink: "Quick sharing of URLs.",
-  qrCode: "Scan and go"
-}
+  qrCode: "Scan and go",
+};
 </script>
