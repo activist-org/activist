@@ -2,7 +2,12 @@
 <template>
   <div class="card-style px-5 py-5">
     <div class="relative w-full flex-col">
-      <ModalQRCodeBtn v-if="event" :event="event" type="icon" />
+      <ModalQRCodeBtn
+        v-if="event"
+        :event="event"
+        type="icon"
+        reason-for-suggesting=""
+      />
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="responsive-h3 text-left font-display">

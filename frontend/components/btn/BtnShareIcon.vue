@@ -118,10 +118,7 @@ const props = defineProps({
     type: String,
     default: null,
   },
-  reasonForSuggesting: {
-    type: String,
-    default: "",
-  },
+  reasonForSuggesting: String,
 });
 
 const { t } = useI18n();

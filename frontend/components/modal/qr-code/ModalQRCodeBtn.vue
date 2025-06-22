@@ -73,10 +73,7 @@ defineProps<{
   resource?: Resource;
   user?: User;
   type: "icon" | "meta-tag";
-  reasonForSuggesting: {
-    type: string;
-    default: "";
-  };
+  reasonForSuggesting: string;
 }>();
 
 const modals = useModals();

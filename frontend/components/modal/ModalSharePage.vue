@@ -151,6 +151,7 @@
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
+            reason-for-suggesting=""
           />
 
           <BtnShareIcon
@@ -165,6 +166,7 @@
             :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
             redirect-link="https://instagram.com"
+            reason-for-suggesting=""
           />
 
           <BtnShareIcon
@@ -177,6 +179,7 @@
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
+            reason-for-suggesting=""
           />
 
           <BtnShareIcon
@@ -189,6 +192,7 @@
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
+            reason-for-suggesting=""
           />
 
           <BtnShareIcon
@@ -201,6 +205,7 @@
             :share-options="shareOptions"
             :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
+            reason-for-suggesting=""
           />
         </div>
       </div>
