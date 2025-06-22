@@ -12,11 +12,11 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from drf_spectacular.utils import OpenApiTypes # type: ignore[attr-defined]
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiParameter,
     OpenApiResponse,
-    OpenApiTypes,
     extend_schema,
 )
 from rest_framework import status, viewsets
