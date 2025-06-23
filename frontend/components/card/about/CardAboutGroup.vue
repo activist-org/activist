@@ -1,7 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardAbout>
-    <ModalQRCodeBtn v-if="group && !expandText" :group="group" type="icon" />
+    <ModalQRCodeBtn
+      v-if="group && !expandText"
+      :group="group"
+      type="icon"
+      reason-for-suggesting=""
+    />
     <button
       v-if="expandText"
       @click="
