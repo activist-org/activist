@@ -16,7 +16,7 @@ certifi==2025.6.15
     # via requests
 charset-normalizer==3.4.2
     # via requests
-django==5.2.3
+django==5.2.1
     # via
     #   -r requirements.in
     #   django-cors-headers
