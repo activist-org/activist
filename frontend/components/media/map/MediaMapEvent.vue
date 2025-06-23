@@ -6,6 +6,7 @@
     :type="MapType.POINT"
   />
 </template>
+
 <script setup lang="ts">
 import type { Event, EventType } from "~/types/events/event";
 
@@ -31,8 +32,8 @@ const buildExpandedTooltip = () => {
       "overflow-hidden bg-white rounded-sm border-l-8 border-l-[#BA3D3B]";
   }
   const url = "";
-  const organization = "Organization"; // Replace with actual organization name
-  const datetime = "Date and Time"; // Replace with actual date and time
+  const organization = "Organization"; // replace with actual organization name
+  const datetime = "Date and Time"; // replace with actual date and time
 
   root.innerHTML = `
       <a href="${url}" class="no-underline">

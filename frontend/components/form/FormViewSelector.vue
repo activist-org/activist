@@ -41,6 +41,7 @@ type Option = {
   label?: string;
   isIcon?: boolean;
 };
+
 const props = defineProps<{
   modelValue: string | number | boolean | Record<string, unknown> | undefined;
   options: Option[];

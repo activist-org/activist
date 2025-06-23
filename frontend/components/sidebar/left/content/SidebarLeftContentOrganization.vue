@@ -22,7 +22,7 @@
             })
           "
         />
-        <!-- Change this button to use a button component not make one here -->
+        <!-- Change this button to use a button component not make one here. -->
         <button
           v-if="
             showButton &&

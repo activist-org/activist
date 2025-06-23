@@ -9,11 +9,11 @@
 <script setup lang="ts">
 import type { LayerSpecification } from "maplibre-gl";
 
+import "maplibre-gl/dist/maplibre-gl.css";
+
 import { useClusterMap } from "~/composables/useClusterMap";
 import { useMap } from "~/composables/useMap";
 import { usePointerMap } from "~/composables/usePointerMap";
-import "maplibre-gl/dist/maplibre-gl.css";
-
 import { useRouting } from "~/composables/useRoutingMap";
 import {
   MapType,
@@ -82,9 +82,7 @@ const mapLayers: LayerSpecification[] = [
 ];
 
 // MARK: Map Creation
-console.log("Creating map with layers:");
 onMounted(() => {
-  console.log("Creating map with layers:");
   if (!isWebglSupported()) {
     alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
   } else {

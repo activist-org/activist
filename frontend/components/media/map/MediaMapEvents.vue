@@ -9,6 +9,7 @@
     :pointerTooltipCreate="buildExpandedTooltipPointer"
   />
 </template>
+
 <script setup lang="ts">
 import type { GeoJsonProperties } from "geojson";
 
@@ -21,14 +22,18 @@ import {
   type PopupContent,
 } from "~/types/map";
 import { colorByType } from "~/utils/mapUtils";
-const organizationIcon = `/icons/map/tooltip_organization.png`;
-const calendarIcon = `/icons/map/tooltip_datetime.png`;
-const locationIcon = `/icons/map/tooltip_location.png`;
+
 const props = defineProps<{
   events: Event[];
 }>();
+
+const organizationIcon = `/icons/map/tooltip_organization.png`;
+const calendarIcon = `/icons/map/tooltip_datetime.png`;
+const locationIcon = `/icons/map/tooltip_location.png`;
+
 const { events } = props;
 const i18n = useI18n();
+
 const buildExpandedTooltipPointer = (pointer: unknown) => {
   const root = document.createElement("div");
   root.className = "w-[220px] cursor-pointer font-sans";
@@ -47,8 +52,8 @@ const buildExpandedTooltipPointer = (pointer: unknown) => {
       "overflow-hidden bg-white rounded-sm border-l-8 border-l-[#BA3D3B]";
   }
   const url = "";
-  const organization = "Organization"; // Replace with actual organization name
-  const datetime = "Date and Time"; // Replace with actual date and time
+  const organization = "Organization"; // replace with actual organization name
+  const datetime = "Date and Time"; // replace with actual date and time
 
   root.innerHTML = `
         <a href="${url}" class="no-underline">
@@ -76,6 +81,7 @@ const buildExpandedTooltipPointer = (pointer: unknown) => {
       `;
   return root as PopupContent;
 };
+
 const buildExpandedTooltipCluster = (pointer: unknown) => {
   const opts = pointer as { learn: number; action: number };
   const root = document.createElement("div");
@@ -160,14 +166,14 @@ const clusterProperties: ClusterProperties = {
     if (!props) {
       return "";
     }
-    // This function is used to get the pointer color when there is only one in the cluster
+    // This function is used to get the pointer color when there is only one in the cluster.
     return colorByType[props.type as EventType];
   },
   getIndividualDonutProps: (props: GeoJsonProperties) => {
     if (!props) {
       return [];
     }
-    // This function is used to get the individual donut props when there is only one in the cluster
+    // This function is used to get the individual donut props when there is only one in the cluster.
     return [
       { value: +(props.type === "learn"), color: colorByType.learn as string },
       {
