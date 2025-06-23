@@ -294,9 +294,46 @@ faq_id = cast(UUID | str, data.get("id"))
 faq = GroupFaq.objects.filter(id=faq_id).first()
 ```
 
-Ce correctif est strictement typé, sans effet secondaire à l’exécution, et conforme aux attentes du typage statique.
 
+## ✅ Correction 10 : `OrganizationFaqViewSet` – Typage et lookup d’identifiant
 
+**Fichier concerné :**
+
+* `communities/organizations/views.py`
+
+**Problèmes corrigés :**
+
+```bash
+error: Function is missing a return type annotation  [no-untyped-def]
+error: Incompatible type for lookup 'id': (got "Any | None", expected "UUID | str")  [misc]
+```
+
+**Causes :**
+
+* Les méthodes `retrieve()` et `delete()` n’étaient pas annotées en `-> Response`, ce qui déclenchait une erreur stricte.
+* Dans la méthode `update()`, l'identifiant `data.get("id")` était de type incertain (`Any | None`) et causait un conflit de typage avec `id=...` attendu comme `UUID | str`.
+
+**Solutions :**
+
+* Ajout des annotations manquantes :
+
+```python
+def retrieve(self, request: Request, pk: str | None) -> Response:
+def delete(self, request: Request) -> Response:
+```
+
+* Conversion explicite de `data.get("id")` avec `cast()` :
+
+```python
+from typing import cast
+
+faq_id = cast(UUID | str, data.get("id"))
+faq = OrganizationFaq.objects.filter(id=faq_id).first()
+```
+
+---
+
+Tu peux maintenant considérer que toutes les erreurs `mypy` bloquantes de ce lot sont **corrigées proprement** ✅
 
 
 
