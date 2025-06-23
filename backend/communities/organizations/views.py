@@ -5,7 +5,7 @@ API views for organization management.
 """
 
 import json
-from typing import Dict, List
+from typing import Dict, List, cast
 from uuid import UUID
 
 from django.db import transaction
@@ -325,7 +325,7 @@ class OrganizationFlagViewSet(viewsets.ModelViewSet[OrganizationFlag]):
 
         return self.get_paginated_response(self.paginate_queryset(serializer.data))
 
-    def retrieve(self, request: Request, pk: str | None):
+    def retrieve(self, request: Request, pk: str | None) -> Response:
         if pk is not None:
             query = self.queryset.filter(id=pk).first()
 
@@ -338,7 +338,7 @@ class OrganizationFlagViewSet(viewsets.ModelViewSet[OrganizationFlag]):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request: Request):
+    def delete(self, request: Request) -> Response:
         item = self.get_object()
         if request.user.is_staff:
             self.perform_destroy(item)
@@ -416,7 +416,10 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                faq = OrganizationFaq.objects.filter(id=data.get("id")).first()
+
+                faq_id = cast(UUID | str, data.get("id"))
+                faq = OrganizationFaq.objects.filter(id=faq_id).first()
+                # faq = OrganizationFaq.objects.filter(id=data.get("id")).first()
                 if not faq:
                     return Response(
                         {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
