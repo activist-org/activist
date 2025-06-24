@@ -1,15 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div
-    class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-2 text-primary-text transition-all duration-500"
-  >
-    <div class="flex flex-col items-center">
-      <FormViewSelector
-        @update:modelValue="updateViewType"
-        :model-value="viewType"
-        :options="options"
-      />
-    </div>
+  <div class="flex flex-col items-center">
+    <FormViewSelector
+      @update:modelValue="updateViewType"
+      :model-value="viewType"
+      :options="options"
+    />
   </div>
 </template>
 
