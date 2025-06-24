@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { expect, test, chromium} from "playwright/test";
+import { expect, test, chromium, BrowserContext, Page} from "playwright/test";
 
-let browser: any;
-let context: any;
-let page: any;
+//let browser: Browser;
+let context: BrowserContext;
+let page: Page;
 
 test.beforeEach(async ({ browser }) => {
   browser = await chromium.launch({headless: false });

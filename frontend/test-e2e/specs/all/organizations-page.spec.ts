@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { expect, test, chromium } from "playwright/test";
+import { expect, test, chromium, BrowserContext, Page } from "playwright/test";
 
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 
-let browser: any;
-let context: any;
-let page: any;
+//let browser: Browser;
+let context: BrowserContext;
+let page: Page;
 //testing for organization page and "share organization" button
-test.beforeEach(async ({ browser }) => {
+test.beforeEach(async ({browser}) => {
   browser = await chromium.launch({headless: false });
   context = await browser.newContext();
   page = await context.newPage();

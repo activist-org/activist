@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
