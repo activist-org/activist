@@ -52,7 +52,12 @@
       />
       <!-- TODO: We need to edit the v-else-if once more filters are enabled. -->
       <SidebarLeftFilter
-        v-else-if="!sidebar.collapsed || !sidebar.collapsedSwitch"
+        v-else-if="
+          ['EVENTS_PAGE', 'ORGANIZATIONS_PAGE', 'RESOURCES_PAGE'].includes(
+            sidebarType
+          ) &&
+          (!sidebar.collapsed || !sidebar.collapsedSwitch)
+        "
         class="my-3"
         :sidebarType="sidebarType"
       />
