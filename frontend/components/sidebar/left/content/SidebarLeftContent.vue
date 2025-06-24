@@ -18,11 +18,6 @@
       :logo-url="logoUrl"
       :name="props.name"
     />
-    <SidebarLeftContentEvents
-      v-else-if="sidebarTypeToDisplay === SidebarType.EVENTS_PAGE"
-      :logo-url="logoUrl"
-      :name="props.name"
-    />
   </div>
 </template>
 
@@ -34,8 +29,7 @@ const props = defineProps<{
   sidebarType:
     | SidebarType.ORGANIZATION_PAGE
     | SidebarType.EVENT_PAGE
-    | SidebarType.GROUP_PAGE
-    | SidebarType.EVENTS_PAGE;
+    | SidebarType.GROUP_PAGE;
   logoUrl?: string;
 }>();
 const logoUrl = ref(props.logoUrl);

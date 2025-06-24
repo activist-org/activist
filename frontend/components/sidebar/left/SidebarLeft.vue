@@ -43,30 +43,36 @@
         v-if="
           sidebarType === SidebarType.ORGANIZATION_PAGE ||
           sidebarType === SidebarType.EVENT_PAGE ||
-          sidebarType === SidebarType.GROUP_PAGE ||
-          sidebarType === SidebarType.EVENTS_PAGE
+          sidebarType === SidebarType.GROUP_PAGE
         "
         class="my-3"
         :name="placeholderName ? placeholderName : 'Name'"
         :sidebarType="sidebarType"
         :logoUrl="placeholderLogo"
       />
-      <SidebarLeftFilters
-        v-else
-        :class="{
-          'mx-3 py-4': !sidebar.collapsed || sidebar.collapsedSwitch == false,
-          'mx-2 py-3': sidebar.collapsed && sidebar.collapsedSwitch == true,
-        }"
-        :filters="getFiltersByPageType"
+      <!-- TODO: We need to edit the v-else-if once more filters are enabled. -->
+      <SidebarLeftFilter
+        v-else-if="!sidebar.collapsed || !sidebar.collapsedSwitch"
+        class="my-3"
+        :sidebarType="sidebarType"
       />
+      <div v-else class="w-full px-1 pt-2">
+        <div
+          :class="{
+            'style-cta elem-shadow-sm my-0 flex items-center justify-center rounded-md !opacity-100':
+              sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+          }"
+        >
+          <Icon class="mt-[0.125em]" :name="IconMap.FILTER" size="2em" />
+        </div>
+      </div>
     </div>
     <SidebarLeftFooter :sidebarContentScrollable="sidebarContentScrollable" />
   </aside>
 </template>
 
 <script setup lang="ts">
-import type { Filters } from "~/types/filters";
-
+import { IconMap } from "~/types/icon-map";
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
 import { Topic } from "~/types/topics";
@@ -99,7 +105,7 @@ const pathToSidebarTypeMap = [
     path: "organizations",
     type: isOrgPage.value
       ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.ORGANIZATION_FILTER,
+      : SidebarType.ORGANIZATIONS_PAGE,
   },
   {
     path: "events",
@@ -110,7 +116,7 @@ const pathToSidebarTypeMap = [
 watch([isOrgPage, isEventPage], () => {
   pathToSidebarTypeMap[2].type = isOrgPage.value
     ? SidebarType.ORGANIZATION_PAGE
-    : SidebarType.ORGANIZATION_FILTER;
+    : SidebarType.ORGANIZATIONS_PAGE;
   pathToSidebarTypeMap[3].type = isEventPage.value
     ? SidebarType.EVENT_PAGE
     : SidebarType.EVENTS_PAGE;
@@ -136,115 +142,115 @@ for (const key in Topic) {
   }
 }
 
-const filters = {
-  daysAhead: {
-    sidebarType: [SidebarType.EVENTS_PAGE],
-    title: "Days ahead",
-    name: "daysAhead",
-    type: "radio",
-    style: "btn",
-    allowCustomValue: true,
-    items: [
-      {
-        label: "1",
-        value: "1",
-      },
-      {
-        label: "7",
-        value: "7",
-      },
-      {
-        label: "30",
-        value: "30",
-      },
-    ],
-  },
-  eventType: {
-    sidebarType: [SidebarType.EVENTS_PAGE],
-    title: "Event type",
-    name: "eventType",
-    type: "checkbox",
-    style: "btn",
-    items: [
-      {
-        label: "Learn",
-        value: "learn",
-        customColor: "learn-blue",
-      },
-      {
-        label: "Action",
-        value: "action",
-        customColor: "action-red",
-      },
-    ],
-  },
-  locationType: {
-    sidebarType: [SidebarType.EVENTS_PAGE],
-    title: "Location",
-    name: "locationType",
-    type: "checkbox",
-    style: "btn",
-    searchInput: true,
-    items: [
-      {
-        label: "In person",
-        value: "in-person",
-      },
-      {
-        label: "Online",
-        value: "online",
-      },
-    ],
-  },
-  eventLocationSearch: {
-    sidebarType: [SidebarType.EVENTS_PAGE],
-    title: "",
-    name: "eventLocationSearch",
-    type: "search",
-    placeholder: "i18n.components.sidebar_left.location_search_placeholder",
-  },
-  locationSearch: {
-    sidebarType: [SidebarType.ORGANIZATION_FILTER, SidebarType.SEARCH],
-    title: "Location",
-    name: "locationSearch",
-    type: "search",
-    placeholder: "i18n.components.sidebar_left.location_search_placeholder",
-  },
-  organizationSearch: {
-    sidebarType: [SidebarType.EVENTS_PAGE],
-    title: "Organization",
-    name: "organizationSearch",
-    type: "search",
-    placeholder: "i18n.components.sidebar_left.orgs_search_placeholder",
-  },
-  topic: {
-    sidebarType: [
-      SidebarType.EVENTS_PAGE,
-      SidebarType.ORGANIZATION_FILTER,
-      SidebarType.RESOURCES_FILTER,
-      SidebarType.SEARCH,
-    ],
-    title: "Topic",
-    type: "checkbox",
-    name: "topic",
-    style: "simple",
-    expandable: true,
-    items: topicsArray,
-  },
-};
+// const filters = {
+//   daysAhead: {
+//     sidebarType: [SidebarType.EVENTS_PAGE],
+//     title: "Days ahead",
+//     name: "daysAhead",
+//     type: "radio",
+//     style: "btn",
+//     allowCustomValue: true,
+//     items: [
+//       {
+//         label: "1",
+//         value: "1",
+//       },
+//       {
+//         label: "7",
+//         value: "7",
+//       },
+//       {
+//         label: "30",
+//         value: "30",
+//       },
+//     ],
+//   },
+//   eventType: {
+//     sidebarType: [SidebarType.EVENTS_PAGE],
+//     title: "Event type",
+//     name: "eventType",
+//     type: "checkbox",
+//     style: "btn",
+//     items: [
+//       {
+//         label: "Learn",
+//         value: "learn",
+//         customColor: "learn-blue",
+//       },
+//       {
+//         label: "Action",
+//         value: "action",
+//         customColor: "action-red",
+//       },
+//     ],
+//   },
+//   locationType: {
+//     sidebarType: [SidebarType.EVENTS_PAGE],
+//     title: "Location",
+//     name: "locationType",
+//     type: "checkbox",
+//     style: "btn",
+//     searchInput: true,
+//     items: [
+//       {
+//         label: "In person",
+//         value: "in-person",
+//       },
+//       {
+//         label: "Online",
+//         value: "online",
+//       },
+//     ],
+//   },
+//   eventLocationSearch: {
+//     sidebarType: [SidebarType.EVENTS_PAGE],
+//     title: "",
+//     name: "eventLocationSearch",
+//     type: "search",
+//     placeholder: "i18n.components.sidebar_left.location_search_placeholder",
+//   },
+//   locationSearch: {
+//     sidebarType: [SidebarType.ORGANIZATIONS_PAGE, SidebarType.SEARCH],
+//     title: "Location",
+//     name: "locationSearch",
+//     type: "search",
+//     placeholder: "i18n.components.sidebar_left.location_search_placeholder",
+//   },
+//   organizationSearch: {
+//     sidebarType: [SidebarType.EVENTS_PAGE],
+//     title: "Organization",
+//     name: "organizationSearch",
+//     type: "search",
+//     placeholder: "i18n.components.sidebar_left.orgs_search_placeholder",
+//   },
+//   topic: {
+//     sidebarType: [
+//       SidebarType.EVENTS_PAGE,
+//       SidebarType.ORGANIZATIONS_PAGE,
+//       SidebarType.RESOURCES_PAGE,
+//       SidebarType.SEARCH,
+//     ],
+//     title: "Topic",
+//     type: "checkbox",
+//     name: "topic",
+//     style: "simple",
+//     expandable: true,
+//     items: topicsArray,
+//   },
+// };
 
-const getFiltersByPageType = computed<Filters>(() => {
-  const filteredFilters: Filters = {};
-  for (const filter in filters) {
-    const f = filters[filter as keyof typeof filters];
-    if (!f.sidebarType.includes(sidebarType.value)) {
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-      delete filteredFilters[filter as keyof typeof filters];
-    }
-  }
+// const getFiltersByPageType = computed<Filters>(() => {
+//   const filteredFilters: Filters = {};
+//   for (const filter in filters) {
+//     const f = filters[filter as keyof typeof filters];
+//     if (!f.sidebarType.includes(sidebarType.value)) {
+//       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+//       delete filteredFilters[filter as keyof typeof filters];
+//     }
+//   }
 
-  return filteredFilters;
-});
+//   return filteredFilters;
+// });
 
 const content = ref();
 

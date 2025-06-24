@@ -1,8 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-// TODO: REFACTOR: This component is too big, split it up into smaller
-components
 <template>
-  >
   <div class="flex flex-col items-center">
     <div
       class="relative"

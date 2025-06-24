@@ -2,21 +2,25 @@
 <template>
   <RadioGroup
     v-model="value"
-    class="flex h-11 w-full justify-around divide-primary-text"
+    class="flex h-10 w-full px-1"
     :aria-label="$t('i18n.components.form_view_selector.title_aria_label')"
   >
     <RadioGroupOption
-      v-for="option in options"
+      v-for="(option, idx) in options"
       :key="option.key"
       v-slot="{ checked }"
-      class="flex flex-1 items-center justify-center gap-2"
+      class="flex flex-1"
       :name="option.label || ''"
       :value="option.value"
     >
       <button
-        v-if="option.isIcon"
-        class="h-full flex-1"
-        :class="checked ? 'style-menu-option-cta' : 'style-menu-option'"
+        class="flex-1 rounded-none"
+        :class="{
+          'style-menu-option-cta': checked,
+          'style-menu-option bg-layer-0': !checked,
+          'rounded-l-lg': idx === 0,
+          'rounded-r-lg': idx === options.length - 1,
+        }"
         :aria-label="$t(option.aria_label)"
       >
         <Icon
@@ -25,7 +29,6 @@
           :aria-hidden="true"
         />
       </button>
-      {{ !option.isIcon ? option.content : "" }}
     </RadioGroupOption>
   </RadioGroup>
 </template>
