@@ -6,7 +6,6 @@
     <SidebarLeftFilterEvents
       v-if="sidebarTypeToDisplay === SidebarType.EVENTS_PAGE"
       :logo-url="logoUrl"
-      :name="props.name"
     />
   </div>
 </template>
