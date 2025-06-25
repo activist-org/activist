@@ -238,7 +238,7 @@ class UserFlagViewSets(viewsets.ModelViewSet[UserFlag]):
     serializer_class = UserFlagSerializers
     http_method_names = ["get", "post", "delete"]
 
-    def create(self, request: Request) -> Response:
+    def create(self, request: Request) -> Response:      
         if request.user.is_authenticated:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)

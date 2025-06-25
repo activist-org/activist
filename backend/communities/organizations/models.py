@@ -53,6 +53,8 @@ class Organization(models.Model):
 
     resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
+
+    # Explicit type annotation required for mypy compatibily with django-stubs
     flags: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="OrganizationFlag",
