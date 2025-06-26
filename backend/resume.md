@@ -1,67 +1,67 @@
-Voici la **mise à jour complète du document `pull_request_notes.md`**, incluant la dernière correction sur les vues de l’authentification.
+
 
 ---
 
-````markdown
 # 📌 Pull Request Notes – mypy + django-stubs corrections
 
 ## 🗂️ Contexte général
 
-Cette contribution fait suite à l'issue [#1199](https://github.com/activist-org/activist/issues/1199) visant à activer progressivement la vérification des types statiques avec `mypy` et `django-stubs` dans les modules Django du projet activist.
+This contribution follows issue [#1199](https://github.com/activist-org/activist/issues/1199), which aims to progressively enable static type checking with `mypy` and `django-stubs` in the Django modules of the activist project.
 
-L'objectif est de corriger les erreurs levées lorsque l'option `ignore_errors = true` est temporairement désactivée dans `pyproject.toml`, afin d'avancer vers une configuration plus stricte et fiable.
+The goal is to fix the errors raised when the `ignore_errors = true` option is temporarily disabled in `pyproject.toml`, in order to move towards a stricter and more reliable configuration.
 
 ---
 
-## ✅ Correction 1 : Modèles – champs `flags`
+## ✅ Fix 1: Models – `flags` fields
 
-**Fichiers modifiés :**
+**Modified files:**
 
 * `content/models.py`
 * `events/models.py`
 * `communities/organizations/models.py`
 * `communities/groups/models.py`
 
-**Problème :**
+**Problem:**
 
 ```bash
 error: Need type annotation for "flags"  [var-annotated]
-````
+```
 
-**Cause :** `mypy` ne peut pas inférer le type des champs `ManyToManyField` dynamiques, même avec `django-stubs`.
+**Cause:** `mypy` cannot infer the type of dynamic `ManyToManyField` fields, even with `django-stubs`.
 
-**Solution :** ajout explicite de l'annotation `Any` pour le champ `flags` :
+**Solution:** Explicitly add the `Any` annotation for the `flags` field:
 
 ```python
 from typing import Any
 
 flags: Any = models.ManyToManyField(
     "authentication.UserModel",
-    through="ResourceFlag",  # ou EventFlag, etc. selon le fichier
+    through="ResourceFlag",  # or EventFlag, etc., depending on the file
 )
 ```
 
-Cette approche est classique dans les projets Django utilisant `mypy`, pour désactiver localement la vérification de type sur des champs dynamiques tout en restant compatible avec l'analyse statique globale.
+This approach is common in Django projects using `mypy`, to locally disable type checking on dynamic fields while remaining compatible with overall static analysis.
+
 
 ---
 
-## ✅ Correction 2 : `ImageSerializer.create()` – Typage du retour
+## ✅ Fix 2: `ImageSerializer.create()` – Return Type Annotation
 
-**Fichier concerné :**
+**Affected file:**
 
 * `content/serializers.py`
 
-**Problème :**
+**Problem:**
 
 ```bash
 error: Return type "list[Image]" of "create" incompatible with return type "Image" in supertype "ModelSerializer"  [override]
 ```
 
-**Cause :**
-La méthode `create()` a été surchargée pour gérer plusieurs fichiers envoyés dans une seule requête. Elle retourne une `list[Image]` au lieu d'une instance unique comme l'attend `ModelSerializer`.
+**Cause:**
+The `create()` method was overridden to handle multiple files sent in a single request. It returns a `list[Image]` instead of a single instance as expected by `ModelSerializer`.
 
-**Solution :**
-Annotation du type de retour en `Any` pour lever l'erreur tout en préservant le comportement existant :
+**Solution:**
+Annotate the return type as `Any` to resolve the error while preserving the existing behavior:
 
 ```python
 from typing import Any
@@ -71,28 +71,28 @@ def create(self, validated_data: Dict[str, Any]) -> Any:
     return images
 ```
 
-Un refactoring ultérieur pourrait envisager une méthode `create_many()` pour gérer proprement ce cas.
+A future refactor could consider implementing a `create_many()` method to handle this case more cleanly.
 
 ---
 
-## ✅ Correction 3 : `EventSerializer.validate()` – Comparaison de dates
+## ✅ Fix 3: `EventSerializer.validate()` – Date Comparison
 
-**Fichier concerné :**
+**Affected file:**
 
 * `events/serializers.py`
 
-**Problèmes :**
+**Problems:**
 
 ```bash
 error: Unsupported operand types for > ("datetime" and "int")  [operator]
 error: Unsupported operand types for < ("datetime" and "None")  [operator]
 ```
 
-**Cause :**
-La méthode `validate()` effectue des comparaisons avec `>` entre des objets potentiellement typés `datetime`, `str`, `None`, `int`. Cela crée des erreurs de typage pour `mypy`, car il ne peut pas déterminer les types précis dans tous les cas.
+**Cause:**
+The `validate()` method performs comparisons using `>` between objects potentially typed as `datetime`, `str`, `None`, or `int`. This causes type errors for `mypy`, as it cannot determine the precise types in all cases.
 
-**Solution :**
-Utilisation de `isinstance(..., datetime)` pour s'assurer que les opérandes sont comparables avant d'utiliser `>` ou `<` :
+**Solution:**
+Use `isinstance(..., datetime)` to ensure the operands are comparable before using `>` or `<`:
 
 ```python
 from datetime import datetime
@@ -108,23 +108,23 @@ if isinstance(creation_dt, datetime) and isinstance(deletion_dt, datetime):
 
 ---
 
-## ✅ Correction 4 : `UserFlagViewSets` – Typage des vues de l’API
+## ✅ Fix 4: `UserFlagViewSets` – API View Typing
 
-**Fichier concerné :**
+**Affected file:**
 
 * `authentication/views.py`
 
-**Problème :**
+**Problem:**
 
 ```bash
 error: Function is missing a return type annotation  [no-untyped-def]
 ```
 
-**Cause :**
-`mypy` exige que toutes les méthodes exposées aient une annotation de type explicite lorsqu’on utilise un mode strict (`strict = true`).
+**Cause:**
+`mypy` requires all exposed methods to have explicit type annotations when using strict mode (`strict = true`).
 
-**Solution :**
-Ajout du type `-> Response` à chaque méthode concernée :
+**Solution:**
+Add the `-> Response` type to each affected method:
 
 ```python
 def create(self, request: Request) -> Response:
@@ -135,48 +135,49 @@ def delete(self, request: Request) -> Response:
 
 ---
 
-## ✅ Correction 5 : `OpenApiTypes` – Import ignoré
+## ✅ Fix 5: `OpenApiTypes` – Ignored Import
 
-**Fichier concerné :**
+**Affected file:**
 
 * `authentication/views.py`
 
-**Problème :**
+**Problem:**
 
 ```bash
 error: Module "drf_spectacular.utils" does not explicitly export attribute "OpenApiTypes"  [attr-defined]
 ```
 
-**Cause :**
-`drf-spectacular` expose `OpenApiTypes` de manière non déclarée dans ses stubs, ce qui déclenche une erreur `mypy`.
+**Cause:**
+`drf-spectacular` exposes `OpenApiTypes` in a way that is not declared in its stubs, triggering a `mypy` error.
 
-**Solution :**
-Isolation de l’import avec un `# type: ignore[attr-defined]` :
+**Solution:**
+Isolate the import with a `# type: ignore[attr-defined]`:
 
 ```python
 from drf_spectacular.utils import OpenApiTypes  # type: ignore[attr-defined]
 ```
 
+
 ---
 
 
-## ✅ Correction 6 : `EventFaqViewSet.update()` – lookup `id`
+## ✅ Fix 6: `EventFaqViewSet.update()` – ID Lookup
 
-**Fichier concerné :**
+**Affected file:**
 
 * `events/views.py`
 
-**Problème :**
+**Problem:**
 
 ```bash
 error: Incompatible type for lookup 'id': (got "Any | None", expected "UUID | str")  [misc]
 ```
 
-**Cause :**
-La méthode `update()` récupère un `id` via `data.get("id")`, dont le type est incertain (`Any | None`), ce que `mypy` refuse comme argument pour `id=...`.
+**Cause:**
+The `update()` method retrieves an `id` via `data.get("id")`, whose type is uncertain (`Any | None`), which `mypy` rejects as an argument for `id=...`.
 
-**Solution :**
-Utilisation de `cast(UUID | str, ...)` pour expliciter le type et satisfaire `mypy` :
+**Solution:**
+Use `cast(UUID | str, ...)` to explicitly define the type and satisfy `mypy`:
 
 ```python
 from typing import cast
@@ -185,16 +186,16 @@ faq_id = cast(UUID | str, data.get("id"))
 faq = EventFaq.objects.filter(id=faq_id).first()
 ```
 
-Cela rend le code plus clair, sans altérer son comportement, tout en assurant une compatibilité avec l’analyse stricte des types.
+This makes the code clearer without altering its behavior, while ensuring compatibility with strict type checking.
 
 ---
-## ✅ Correction 7 : `GroupAPIView` – Typage et conformité des vues
+## ✅ Fix 7: `GroupAPIView` – Typing and View Compliance
 
-**Fichier concerné :**
+**Affected file:**
 
 * `communities/groups/views.py`
 
-**Problèmes rencontrés :**
+**Encountered problems:**
 
 ```bash
 error: Function is missing a return type annotation  [no-untyped-def]
@@ -204,15 +205,15 @@ error: Incompatible return value type (got "type[GroupSerializer]", expected "Gr
 error: "GroupSerializer" not callable  [operator]
 ```
 
-**Solutions appliquées :**
+**Applied solutions:**
 
-- Annotation du champ `permission_classes` :
+- Annotated the `permission_classes` field:
 
 ```python
 permission_classes: Tuple[Type[BasePermission], ...] = (IsAuthenticatedOrReadOnly,)
 ```
 
-- Annotation correcte de la méthode `get_permissions()` :
+- Correctly annotated the `get_permissions()` method:
 
 ```python
 from rest_framework.permissions import _SupportsHasPermission
@@ -222,39 +223,39 @@ def get_permissions(self) -> Sequence[_SupportsHasPermission]:
     ...
 ```
 
-- Correction de `get_serializer_class()` pour retourner les bons types :
+- Fixed `get_serializer_class()` to return the correct types:
 
 ```python
 def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
     ...
 ```
 
-- Ajout de l’appel constructeur pour éviter l’erreur `"not callable"` :
+- Added the constructor call to avoid the `"not callable"` error:
 
 ```python
 serializer = self.get_serializer(page, many=True)
 ```
 
 ---
----
 
-## ✅ Correction 8 : `GroupFlagViewSet` – Typage des méthodes exposées
 
-**Fichier concerné :**
+## ✅ Fix 8: `GroupFlagViewSet` – Typing of Exposed Methods
+
+**Affected file:**
 
 * `communities/groups/views.py`
 
-**Problèmes :**
+**Problems:**
 
 ```bash
 error: Function is missing a return type annotation  [no-untyped-def]
 ```
 
-**Cause :**
-Le contrôleur `GroupFlagViewSet` expose des méthodes `create()`, `list()`, `retrieve()` et `delete()` sans annotation explicite du type de retour, ce qui enfreint les règles strictes de `mypy`.
+**Cause:**
+The `GroupFlagViewSet` controller exposes the `create()`, `list()`, `retrieve()`, and `delete()` methods without explicit return type annotations, which violates `mypy` strict rules.
 
-**Solution :**
-Ajout du type de retour `-> Response` pour chacune de ces méthodes :
+**Solution:**
+Add the `-> Response` return type to each of these methods:
 
 ```python
 def create(self, request: Request) -> Response:
@@ -263,28 +264,26 @@ def retrieve(self, request: Request, pk: str | None) -> Response:
 def delete(self, request: Request) -> Response:
 ```
 
-Cela harmonise le typage de l’ensemble des vues basées sur `ModelViewSet` et renforce la clarté du contrat d’interface.
+This ensures consistent typing across all `ModelViewSet`-based views and improves the clarity of the interface contract.
 
 
-## ✅ Correction 9 : `GroupFaqViewSet.update()` – lookup `id`
+## ✅ Fix 9: `GroupFaqViewSet.update()` – ID Lookup
 
-**Fichier concerné :**
+**Affected file:**
 
 * `communities/groups/views.py`
 
-**Problème :**
+**Problem:**
 
 ```bash
 error: Incompatible type for lookup 'id': (got "Any | None", expected "UUID | str")  [misc]
-
 ```
 
-Cause :
-La méthode update() accède à data.get("id") pour effectuer une requête, mais mypy ne peut garantir que ce champ est bien du type UUID | str.
+**Cause:**
+The `update()` method accesses `data.get("id")` to perform a query, but `mypy` cannot guarantee that this field is of type `UUID | str`.
 
-Solution :
-Utilisation de cast(UUID | str, ...) pour expliciter le type et satisfaire mypy :
-
+**Solution:**
+Use `cast(UUID | str, ...)` to explicitly define the type and satisfy `mypy`:
 
 ```python
 from typing import cast
@@ -295,34 +294,34 @@ faq = GroupFaq.objects.filter(id=faq_id).first()
 ```
 
 
-## ✅ Correction 10 : `OrganizationFaqViewSet` – Typage et lookup d’identifiant
+## ✅ Fix 10: `OrganizationFaqViewSet` – Typing and ID Lookup
 
-**Fichier concerné :**
+**Affected file:**
 
 * `communities/organizations/views.py`
 
-**Problèmes corrigés :**
+**Fixed problems:**
 
 ```bash
 error: Function is missing a return type annotation  [no-untyped-def]
 error: Incompatible type for lookup 'id': (got "Any | None", expected "UUID | str")  [misc]
 ```
 
-**Causes :**
+**Causes:**
 
-* Les méthodes `retrieve()` et `delete()` n’étaient pas annotées en `-> Response`, ce qui déclenchait une erreur stricte.
-* Dans la méthode `update()`, l'identifiant `data.get("id")` était de type incertain (`Any | None`) et causait un conflit de typage avec `id=...` attendu comme `UUID | str`.
+* The `retrieve()` and `delete()` methods were not annotated with `-> Response`, triggering a strict error.
+* In the `update()` method, the `data.get("id")` identifier was of uncertain type (`Any | None`), causing a type conflict with `id=...` expected as `UUID | str`.
 
-**Solutions :**
+**Solutions:**
 
-* Ajout des annotations manquantes :
+* Added the missing annotations:
 
 ```python
 def retrieve(self, request: Request, pk: str | None) -> Response:
 def delete(self, request: Request) -> Response:
 ```
 
-* Conversion explicite de `data.get("id")` avec `cast()` :
+* Explicitly cast `data.get("id")` using `cast()`:
 
 ```python
 from typing import cast
@@ -333,7 +332,7 @@ faq = OrganizationFaq.objects.filter(id=faq_id).first()
 
 ---
 
-Tu peux maintenant considérer que toutes les erreurs `mypy` bloquantes de ce lot sont **corrigées proprement** ✅
+
 
 
 
