@@ -5,11 +5,13 @@ src-dir: frontend
 i18n-dir: frontend/i18n
 i18n-src: frontend/i18n/en-US.json
 
-file-types-to-check: [.ts, .vue]
+file-types-to-check: [.js, .ts, .vue]
 
 checks:
   # Global configurations are applied to all checks.
   global:
     active: True
-    directories-to-skip: [node_modules]
+    directories-to-skip: [.nuxt, .output, dist, node_modules]
     files-to-skip: []
+  key-identifiers:
+    directories-to-skip: [test, test-e2e, test-utils]

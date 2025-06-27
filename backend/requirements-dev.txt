@@ -68,7 +68,7 @@ filelock==3.18.0
     # via virtualenv
 gunicorn==23.0.0
     # via -r requirements.txt
-i18n-check==1.4.0
+i18n-check==1.4.1
     # via -r requirements-dev.in
 identify==2.6.12
     # via pre-commit
