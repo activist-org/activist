@@ -5,12 +5,12 @@
     :menuButtonIcon="IconMap.CIRCLE_PERSON"
     :menuButtonLabel="
       userIsSignedIn
-        ? $t('i18n._global.username')
+        ? $t('i18n.components.dropdown_user_options.username')
         : $t('i18n.components.dropdown_user_options.join_activist')
     "
     :isMenuButtonUppercase="false"
     :isMenuButtonBold="true"
-    menuButtonAriaLabel="i18n._global.username_aria_label"
+    menuButtonAriaLabel="i18n.components.dropdown_user_options.username_aria_label"
   >
     <DropdownItemsLayout
       :location="location"

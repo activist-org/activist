@@ -13,7 +13,7 @@ test.describe("Events Page", { tag: "@mobile" }, () => {
     const shareButton = page
       .getByRole("link", {
         name: getEnglishText(
-          "i18n._global.navigate_to_event_aria_label"
+          "i18n.components.card_search_result.navigate_to_event_aria_label"
         ),
       })
       .locator("xpath=following-sibling::div")

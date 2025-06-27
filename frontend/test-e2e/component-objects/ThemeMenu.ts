@@ -15,21 +15,21 @@ export const newThemeMenu = (parent: Page | Locator) => ({
 
   systemThemeOption: parent.getByRole("menuitem", {
     name: new RegExp(
-      getEnglishText("i18n._global.system_aria_label"),
+      getEnglishText("i18n.components.dropdown_theme.system_aria_label"),
       "i"
     ),
   }),
 
   lightThemeOption: parent.getByRole("menuitem", {
     name: new RegExp(
-      getEnglishText("i18n._global.light_aria_label"),
+      getEnglishText("i18n.components.dropdown_theme.light_aria_label"),
       "i"
     ),
   }),
 
   darkThemeOption: parent.getByRole("menuitem", {
     name: new RegExp(
-      getEnglishText("i18n._global.dark_aria_label"),
+      getEnglishText("i18n.components.dropdown_theme.dark_aria_label"),
       "i"
     ),
   }),

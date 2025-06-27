@@ -50,7 +50,7 @@
           <BtnShareIcon
             type="redirect"
             :iconName="IconMap.MATRIX"
-            :text="$t('i18n._global.matrix')"
+            :text="$t('i18n.components._global.matrix')"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"
@@ -157,7 +157,7 @@
           <BtnShareIcon
             type="redirect"
             :iconName="IconMap.INSTAGRAM"
-            :text="$t('i18n._global.instagram')"
+            :text="$t('i18n.components._global.instagram')"
             iconSize="1.5em"
             :window-features="windowFeatures"
             :share-options="shareOptions"

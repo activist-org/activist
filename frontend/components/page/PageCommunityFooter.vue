@@ -78,7 +78,7 @@
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
-          {{ $t("i18n._global.github") }}
+          {{ $t("i18n.components._global.github") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"

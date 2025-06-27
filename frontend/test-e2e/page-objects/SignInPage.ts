@@ -8,7 +8,7 @@ export const newSignInPage = (page: Page) => ({
     name: new RegExp(getEnglishText("i18n._global.sign_up_aria_label"), "i"),
   }),
   usernameInput: page.getByLabel(
-    getEnglishText("i18n._global.enter_user_name")
+    getEnglishText("i18n.pages.auth.sign_in.enter_user_name")
   ),
   passwordInput: page.getByLabel(getEnglishText("i18n._global.enter_password")),
   showPasswordToggle: page.locator("#sign-in-password-show-password"),

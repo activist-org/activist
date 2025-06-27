@@ -56,19 +56,19 @@ const labelsOpt = [
     optColorMode: "system",
     iconName: `${IconMap.COLOR_MODE_SYSTEM}`,
     label: "i18n.components.dropdown_theme.system",
-    ariaLabel: "i18n._global.system_aria_label",
+    ariaLabel: "i18n.components.dropdown_theme.system_aria_label",
   },
   {
     optColorMode: "light",
     iconName: `${IconMap.COLOR_MODE_LIGHT}`,
-    label: "i18n._global.light",
-    ariaLabel: "i18n._global.light_aria_label",
+    label: "i18n.components.dropdown_theme.light",
+    ariaLabel: "i18n.components.dropdown_theme.light_aria_label",
   },
   {
     optColorMode: "dark",
     iconName: `${IconMap.COLOR_MODE_DARK}`,
-    label: "i18n._global.dark",
-    ariaLabel: "i18n._global.dark_aria_label",
+    label: "i18n.components.dropdown_theme.dark",
+    ariaLabel: "i18n.components.dropdown_theme.dark_aria_label",
   },
 ];
 

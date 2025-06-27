@@ -30,7 +30,7 @@ import { getEnglishText } from "~/utils/i18n";
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    new RegExp(getEnglishText("i18n._global.header"), "i")
+    new RegExp(getEnglishText("i18n.components.landing_splash.header"), "i")
   );
 });
 

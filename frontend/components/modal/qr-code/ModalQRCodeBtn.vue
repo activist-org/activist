@@ -7,20 +7,20 @@
     @click="openModal()"
     @keydown.enter="openModal()"
     class="elem-on-card-style focus-brand absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md sm:h-16 sm:w-16"
-    :aria-label="$t('i18n.components.modal.qr_code.modalqrcode_btn.open_modal_aria_label')"
+    :aria-label="$t('i18n.components.modal_qr_code_btn.open_modal_aria_label')"
   >
     <div class="sm:hidden">
       <Icon
         :name="IconMap.QR_CODE"
         size="2em"
-        :alt="$t('i18n.components.modal.qr_code.modalqrcode_btn.img_alt_text')"
+        :alt="$t('i18n.components.modal_qr_code_btn.img_alt_text')"
       />
     </div>
     <div class="hidden sm:block">
       <Icon
         :name="IconMap.QR_CODE"
         size="3em"
-        :alt="$t('i18n.components.modal.qr_code.modalqrcode_btn.img_alt_text')"
+        :alt="$t('i18n.components.modal_qr_code_btn.img_alt_text')"
       />
     </div>
   </button>
@@ -30,7 +30,7 @@
       @keydown.enter="openModal()"
       class="focus-brand dark:hover:distinct-text text-primary-text hover:text-distinct-text"
       :iconName="IconMap.QR_CODE"
-      :text="$t('i18n.components.modal.qr_code.modalqrcode_btn.qr_code')"
+      :text="$t('i18n.components.modal_qr_code_btn.qr_code')"
       iconSize="1.5em"
       tabindex="0"
     />

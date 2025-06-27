@@ -10,12 +10,12 @@
         class="focus-brand hover:text-primary-text"
         href="https://github.com/activist-org/activist"
         target="_blank"
-        :aria-label="$t('i18n._global.github_aria_label')"
+        :aria-label="$t('i18n.components._global.github_aria_label')"
       >
         <MetaTagSocialMedia
           class="!gap-2"
           :iconName="IconMap.GITHUB"
-          :text="$t('i18n._global.github')"
+          :text="$t('i18n.components._global.github')"
           iconSize="1.1em"
           textUtilityClasses="sr-only sm:not-sr-only"
         />
@@ -24,12 +24,12 @@
         class="focus-brand hover:text-primary-text"
         href="https://matrix.to/#/#activist_community:matrix.org"
         target="_blank"
-        :aria-label="$t('i18n._global.matrix_aria_label')"
+        :aria-label="$t('i18n.components._global.matrix_aria_label')"
       >
         <MetaTagSocialMedia
           class="!gap-2"
           :iconName="IconMap.MATRIX"
-          :text="$t('i18n._global.matrix')"
+          :text="$t('i18n.components._global.matrix')"
           iconSize="1.061em"
           textUtilityClasses="sr-only sm:not-sr-only"
         />
@@ -38,12 +38,12 @@
         class="focus-brand hover:text-primary-text"
         href="https://instagram.com/activist_org"
         target="_blank"
-        :aria-label="$t('i18n._global.instagram_aria_label')"
+        :aria-label="$t('i18n.components._global.instagram_aria_label')"
       >
         <MetaTagSocialMedia
           class="!gap-2"
           :iconName="IconMap.INSTAGRAM"
-          :text="$t('i18n._global.instagram')"
+          :text="$t('i18n.components._global.instagram')"
           iconSize="1em"
           textUtilityClasses="sr-only sm:not-sr-only"
         />

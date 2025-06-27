@@ -6,7 +6,7 @@ import { getEnglishText } from "~/utils/i18n";
 export const newInfoMenu = (parent: Page | Locator) => ({
   toggleOpenButton: parent.getByRole("button", {
     name: new RegExp(
-      getEnglishText("i18n._global.info_aria_label"),
+      getEnglishText("i18n.components.dropdown_info.info_aria_label"),
       "i"
     ),
   }),

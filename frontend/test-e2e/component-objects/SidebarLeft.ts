@@ -23,7 +23,7 @@ export class SidebarLeft {
     this.lockToggle = this.root.getByRole("button", {
       name: new RegExp(
         getEnglishText(
-          "i18n._global.sidebar_collapse_aria_label"
+          "i18n.components.sidebar_left_header.sidebar_collapse_aria_label"
         ),
         "i"
       ),

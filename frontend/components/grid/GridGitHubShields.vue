@@ -12,7 +12,7 @@
           {{ $t("i18n.components.grid_git_hub_shields.visit_us") }}
         </div>
         <div class="text-2xl font-semibold leading-4">
-          {{ $t("i18n._global.github") }}
+          {{ $t("i18n.components._global.github") }}
         </div>
       </div>
     </ShieldGitHub>

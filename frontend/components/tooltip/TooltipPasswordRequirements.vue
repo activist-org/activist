@@ -4,7 +4,7 @@
     class="z-20 min-w-[200px] pb-4 pt-2 transition delay-150 ease-in-out md:min-w-[450px]"
   >
     <span class="mb-2 px-2">{{
-      $t("i18n._global.password_rules_message")
+      $t("i18n.components.tooltip_password_requirements.password_rules_message")
     }}</span>
     <div
       v-for="rule in rules"
@@ -23,10 +23,10 @@
         {{
           rule.isValid
             ? $t(
-                "i18n._global.password_passed_rule"
+                "i18n.components.tooltip_password_requirements.password_passed_rule"
               )
             : $t(
-                "i18n._global.password_failed_rule"
+                "i18n.components.tooltip_password_requirements.password_failed_rule"
               )
         }}
       </title>
@@ -59,6 +59,6 @@ const passwordRequirementsDict: { [key: string]: string } = {
   "number-of-chars":
     "i18n.components.tooltip_password_requirements.number_of_chars",
   "password-rules-message":
-    "i18n._global.password_rules_message",
+    "i18n.components.tooltip_password_requirements.password_rules_message",
 };
 </script>

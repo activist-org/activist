@@ -45,7 +45,7 @@ describe("sign-up", () => {
     await fireEvent.update(repeatPasswordInput, "ab");
 
     let icon = await screen.findByRole("img", {
-      name: getEnglishText("i18n._global.passwords_do_not_match"),
+      name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
     });
     expect(icon.style.color).toBe("#BA3D3B");
 
@@ -53,7 +53,7 @@ describe("sign-up", () => {
 
     await waitFor(() => {
       icon = screen.getByRole("img", {
-        name: getEnglishText("i18n._global.passwords_match"),
+        name: getEnglishText("i18n.pages.auth._global.passwords_match"),
       });
       expect(icon.style.color).toBe("#3BA55C");
     });
@@ -185,7 +185,7 @@ describe("sign-up", () => {
 
     await screen.findByText(
       getEnglishText(
-        "i18n._global.password_rules_message"
+        "i18n.components.tooltip_password_requirements.password_rules_message"
       )
     );
 
@@ -195,10 +195,10 @@ describe("sign-up", () => {
       const icon = await within(line).findByRole("img", {
         name: passed
           ? getEnglishText(
-              "i18n._global.password_passed_rule"
+              "i18n.components.tooltip_password_requirements.password_passed_rule"
             )
           : getEnglishText(
-              "i18n._global.password_failed_rule"
+              "i18n.components.tooltip_password_requirements.password_failed_rule"
             ),
       });
 

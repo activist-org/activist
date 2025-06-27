@@ -33,10 +33,9 @@ jobs:
           python -m pip install --upgrade uv
           uv venv
           . .venv/bin/activate
-          uv pip install -r requirements-dev.txt
+          uv pip install -r backend/requirements-dev.txt
           echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
       - name: Execute All i18n-check Key-Value Checks
         run: |
           i18n-check -a
-   

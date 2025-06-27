@@ -18,7 +18,7 @@
         imageAltText="i18n.pages.index.get_active_img_alt_text"
         btnText1="i18n.pages.index.learn_more"
         btnUrl1="https://docs.activist.org/activist"
-        btnAriaLabel1="i18n._global.get_active_aria_label"
+        btnAriaLabel1="i18n.pages.index.get_active_aria_label"
         btnId1="btn-get-active"
       />
       <LandingContent
@@ -30,7 +30,7 @@
         imageAltText="i18n.pages.index.get_organized_img_alt_text"
         btnText1="i18n.pages.index.learn_more"
         btnUrl1="https://docs.activist.org/activist"
-        btnAriaLabel1="i18n._global.get_organized_aria_label"
+        btnAriaLabel1="i18n.pages.index.get_organized_aria_label"
         btnId1="btn-get-organized"
       />
       <LandingContent
@@ -42,7 +42,7 @@
         imageAltText="i18n.pages.index.grow_organization_img_alt_text"
         btnText1="i18n.pages.index.learn_more"
         btnUrl1="https://docs.activist.org/activist"
-        btnAriaLabel1="i18n._global.grow_organization_aria_label"
+        btnAriaLabel1="i18n.pages.index.grow_organization_aria_label"
         btnId1="btn-grow-organization"
       />
       <LandingTechBanner />
@@ -55,7 +55,7 @@
         imageAltText="i18n._global.activist_icon_img_alt_text"
         btnText1="i18n.pages.index.learn_more"
         btnUrl1="https://docs.activist.org/activist"
-        btnAriaLabel1="i18n._global.activist_section_btn_aria_label"
+        btnAriaLabel1="i18n.pages.index.activist_section_btn_aria_label"
         btnId1="btn-activist"
       />
       <LandingContent
@@ -66,10 +66,10 @@
         imageAltText=""
         btnText1="i18n.pages.index.become_supporter"
         btnUrl1="https://docs.activist.org/activist/welcome/support-us"
-        btnAriaLabel1="i18n._global.our_supporters_btn_become_aria_label"
+        btnAriaLabel1="i18n.pages.index.our_supporters_btn_become_aria_label"
         btnText2="i18n.pages.index.view_all_supporters"
         btnUrl2="https://docs.activist.org/activist/organization/community/supporters"
-        btnAriaLabel2="i18n._global.our_supporters_btn_view_aria_label"
+        btnAriaLabel2="i18n.pages.index.our_supporters_btn_view_aria_label"
         subText="i18n.pages.index.our_supporters_sub_text"
         btnId1="btn-become-supporter"
         btnId2="btn-our-supporters"

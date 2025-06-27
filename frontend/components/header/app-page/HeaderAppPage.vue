@@ -15,7 +15,7 @@
             href="https://github.com/activist-org/activist"
             target="_blank"
           >
-            <p>{{ $t("i18n._global.github") }}</p>
+            <p>{{ $t("i18n.components._global.github") }}</p>
             <Icon
               class="mb-1"
               :name="IconMap.EXTERNAL_LINK"
@@ -29,7 +29,7 @@
             href="https://matrix.to/#/#activist_community:matrix.org"
             target="_blank"
           >
-            <p>{{ $t("i18n._global.matrix") }}</p>
+            <p>{{ $t("i18n.components._global.matrix") }}</p>
             <Icon
               class="mb-1"
               :name="IconMap.EXTERNAL_LINK"
