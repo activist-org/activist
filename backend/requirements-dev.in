@@ -18,3 +18,4 @@ pytest
 pytest-cov
 pytest-django
 ruff
+i18n-check
