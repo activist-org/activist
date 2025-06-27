@@ -28,7 +28,7 @@ describe("sign-in", () => {
     await render(SignIn);
 
     const usernameInput = screen.getByLabelText(
-      getEnglishText("i18n.pages.auth.sign_in.enter_user_name")
+      getEnglishText("i18n._global.enter_user_name")
     );
     await fireEvent.update(usernameInput, "admin");
 
@@ -62,7 +62,7 @@ describe("sign-in", () => {
     await render(SignIn);
 
     const usernameInput = screen.getByLabelText(
-      getEnglishText("i18n.pages.auth.sign_in.enter_user_name")
+      getEnglishText("i18n._global.enter_user_name")
     );
     await fireEvent.update(usernameInput, "admin");
 

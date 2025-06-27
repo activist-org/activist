@@ -7,7 +7,7 @@ export const newSignInMenu = (parent: Page | Locator) => ({
   toggleOpenButton: parent.locator("#user-options").getByRole("button", {
     name: new RegExp(
       getEnglishText(
-        "i18n.components.dropdown_user_options.username_aria_label"
+        "i18n._global.username_aria_label"
       ),
       "i"
     ),

@@ -8,7 +8,7 @@
         id="landing-splash-header"
         class="w-10/12 text-center font-display text-3xl font-bold leading-snug sm:text-4xl sm:leading-snug md:max-w-lg md:text-5xl md:leading-snug lg:font-bold xl:max-w-2xl xl:text-6xl xl:leading-snug"
       >
-        {{ $t("i18n.components.landing_splash.header") }}
+        {{ $t("i18n._global.header") }}
       </h1>
     </div>
     <div class="flex justify-center">
@@ -32,19 +32,19 @@
           id="view-organizations"
           class="w-full"
           :cta="true"
-          label="i18n.components.landing_splash.view_organizations"
+          label="i18n._global.view_organizations"
           linkTo="/organizations"
           fontSize="xl"
-          ariaLabel="i18n.components.landing_splash.view_organizations_aria_label"
+          ariaLabel="i18n._global.view_organizations_aria_label"
         />
         <BtnRouteInternal
           id="view-events"
           class="w-full"
           :cta="true"
-          label="i18n.components.landing_splash.view_events"
+          label="i18n._global.view_events"
           linkTo="/events"
           fontSize="xl"
-          ariaLabel="i18n.components.landing_splash.view_events_aria_label"
+          ariaLabel="i18n._global.view_events_aria_label"
         />
       </div>
       <BtnRouteExternal

@@ -24,7 +24,7 @@
         $t(
           !!passwordValue.length
             ? text
-            : "i18n.components.indicator_password_strength.invalid"
+            : "i18n._global.invalid"
         )
       }}
     </div>
@@ -48,23 +48,23 @@ const text = computed(() => passwordStrengthMap[score.value].text);
 const passwordStrengthMap: Record<number, { color: string; text: string }> = {
   0: {
     color: "bg-password-strength-very-weak",
-    text: "i18n.components.indicator_password_strength.very_weak",
+    text: "i18n._global.very_weak",
   },
   1: {
     color: "bg-password-strength-weak",
-    text: "i18n.components.indicator_password_strength.weak",
+    text: "i18n._global.weak",
   },
   2: {
     color: "bg-password-strength-medium",
-    text: "i18n.components.indicator_password_strength.medium",
+    text: "i18n._global.medium",
   },
   3: {
     color: "bg-password-strength-strong",
-    text: "i18n.components.indicator_password_strength.strong",
+    text: "i18n._global.strong",
   },
   4: {
     color: "bg-primary-text",
-    text: "i18n.components.indicator_password_strength.very_strong",
+    text: "i18n._global.very_strong",
   },
 };
 

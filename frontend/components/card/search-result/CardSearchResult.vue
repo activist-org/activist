@@ -264,7 +264,7 @@ const ariaLabel = computed<string>(() => {
     return i18n.t("i18n.components._global.navigate_to_group_aria_label");
   } else if (props.event) {
     return i18n.t(
-      "i18n.components.card_search_result.navigate_to_event_aria_label"
+      "i18n._global.navigate_to_event_aria_label"
     );
   } else if (props.resource) {
     return i18n.t(

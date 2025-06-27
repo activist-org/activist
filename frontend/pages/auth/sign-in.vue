@@ -8,7 +8,7 @@
           @keydown.enter.prevent="signInUser"
           id="sign-in-username"
           :value="userName"
-          :label="$t('i18n.pages.auth.sign_in.enter_user_name')"
+          :label="$t('i18n._global.enter_user_name')"
         />
       </div>
       <div>

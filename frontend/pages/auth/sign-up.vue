@@ -46,8 +46,8 @@
               <title id="sign-up-confirm-password-match" class="sr-only">
                 {{
                   doPasswordsMatch
-                    ? $t("i18n.pages.auth._global.passwords_match")
-                    : $t("i18n.pages.auth._global.passwords_do_not_match")
+                    ? $t("i18n._global.passwords_match")
+                    : $t("i18n._global.passwords_do_not_match")
                 }}
               </title>
             </span>

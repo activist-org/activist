@@ -6,7 +6,7 @@ import { getEnglishText } from "~/utils/i18n";
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    new RegExp(getEnglishText("i18n.components.landing_splash.header"), "i")
+    new RegExp(getEnglishText("i18n._global.header"), "i")
   );
 });
 
@@ -21,7 +21,7 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     const organizationsLink = page.getByRole("link", {
       name: new RegExp(
         getEnglishText(
-          "i18n.components.landing_splash.view_organizations_aria_label"
+          "i18n._global.view_organizations_aria_label"
         ),
         "i"
       ),
@@ -34,7 +34,7 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
   test("User can go to Events page", async ({ page }) => {
     const eventsLink = page.getByRole("link", {
       name: new RegExp(
-        getEnglishText("i18n.components.landing_splash.view_events_aria_label"),
+        getEnglishText("i18n._global.view_events_aria_label"),
         "i"
       ),
     });
@@ -47,7 +47,7 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     const links = [
       {
         name: new RegExp(
-          getEnglishText("i18n.pages.index.get_active_aria_label"),
+          getEnglishText("i18n._global.get_active_aria_label"),
           "i"
         ),
         url: "https://docs.activist.org/activist",
@@ -55,7 +55,7 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
 
       {
         name: new RegExp(
-          getEnglishText("i18n.pages.index.get_organized_aria_label"),
+          getEnglishText("i18n._global.get_organized_aria_label"),
           "i"
         ),
         url: "https://docs.activist.org/activist",
@@ -63,7 +63,7 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
 
       {
         name: new RegExp(
-          getEnglishText("i18n.pages.index.grow_organization_aria_label"),
+          getEnglishText("i18n._global.grow_organization_aria_label"),
           "i"
         ),
         url: "https://docs.activist.org/activist",
@@ -71,7 +71,7 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
 
       {
         name: new RegExp(
-          getEnglishText("i18n.pages.index.activist_section_btn_aria_label"),
+          getEnglishText("i18n._global.activist_section_btn_aria_label"),
           "i"
         ),
         url: "https://docs.activist.org/activist",
@@ -80,7 +80,7 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
       {
         name: new RegExp(
           getEnglishText(
-            "i18n.pages.index.our_supporters_btn_become_aria_label"
+            "i18n._global.our_supporters_btn_become_aria_label"
           ),
           "i"
         ),
@@ -89,7 +89,7 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
 
       {
         name: new RegExp(
-          getEnglishText("i18n.pages.index.our_supporters_btn_view_aria_label"),
+          getEnglishText("i18n._global.our_supporters_btn_view_aria_label"),
           "i"
         ),
         url: "https://docs.activist.org/activist/organization/community/supporters",

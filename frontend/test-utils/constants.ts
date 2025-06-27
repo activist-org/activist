@@ -3,16 +3,16 @@ import { getEnglishText } from "~/utils/i18n";
 
 export const PASSWORD_RATING = {
   INVALID: getEnglishText(
-    "i18n.components.indicator_password_strength.invalid"
+    "i18n._global.invalid"
   ),
   VERY_WEAK: getEnglishText(
-    "i18n.components.indicator_password_strength.very_weak"
+    "i18n._global.very_weak"
   ),
-  WEAK: getEnglishText("i18n.components.indicator_password_strength.weak"),
-  MEDIUM: getEnglishText("i18n.components.indicator_password_strength.medium"),
-  STRONG: getEnglishText("i18n.components.indicator_password_strength.strong"),
+  WEAK: getEnglishText("i18n._global.weak"),
+  MEDIUM: getEnglishText("i18n._global.medium"),
+  STRONG: getEnglishText("i18n._global.strong"),
   VERY_STRONG: getEnglishText(
-    "i18n.components.indicator_password_strength.very_strong"
+    "i18n._global.very_strong"
   ),
 };
 

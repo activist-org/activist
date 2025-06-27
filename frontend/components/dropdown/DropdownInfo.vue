@@ -3,9 +3,9 @@
   <DropdownBase
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_INFO"
-    :menuButtonLabel="$t('i18n.components.dropdown_info.info')"
+    :menuButtonLabel="$t('i18n._global.info')"
     :isMenuButtonUppercase="false"
-    menuButtonAriaLabel="i18n.components.dropdown_info.info_aria_label"
+    menuButtonAriaLabel="i18n._global.info_aria_label"
   >
     <DropdownItemsLayout :location="location" :options="infoOptions" />
   </DropdownBase>

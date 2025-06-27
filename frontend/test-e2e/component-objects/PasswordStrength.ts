@@ -7,27 +7,27 @@ import { getEnglishText } from "~/utils/i18n";
 
 export const PASSWORD_RATING = {
   INVALID: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.invalid"),
+    getEnglishText("i18n._global.invalid"),
     "i"
   ),
   VERY_WEAK: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.very_weak"),
+    getEnglishText("i18n._global.very_weak"),
     "i"
   ),
   WEAK: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.weak"),
+    getEnglishText("i18n._global.weak"),
     "i"
   ),
   MEDIUM: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.medium"),
+    getEnglishText("i18n._global.medium"),
     "i"
   ),
   STRONG: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.strong"),
+    getEnglishText("i18n._global.strong"),
     "i"
   ),
   VERY_STRONG: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.very_strong"),
+    getEnglishText("i18n._global.very_strong"),
     "i"
   ),
 };
