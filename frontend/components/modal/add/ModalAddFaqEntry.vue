@@ -23,9 +23,9 @@
       <BtnAction
         @click="handleSubmit"
         :cta="true"
-        label="i18n.components.modal.edit._global.update_texts"
-        fontSize="base"
-        ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
+        label="i18n._global.new_faq"
+        fontSize="sm"
+        ariaLabel="i18n._global.new_faq_aria_label"
       />
     </div>
   </ModalBase>
@@ -38,11 +38,10 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 import type { Event } from "~/types/events/event";
 
 const props = defineProps<{
-  faqEntry: FaqEntry;
   pageType: "organization" | "group" | "event" | "other";
 }>();
 
-const modalName = "ModalEditFaqEntry" + props.faqEntry.id;
+const modalName = "ModalAddFaqEntry";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsOrgId = useRoute().params.orgId;
@@ -62,11 +61,11 @@ let group: Group;
 let event: Event;
 
 const formData = ref<FaqEntry>({
-  id: props.faqEntry.id,
-  iso: props.faqEntry.iso,
-  order: props.faqEntry.order,
-  question: props.faqEntry.question,
-  answer: props.faqEntry.answer,
+  id: "",
+  iso: "en",
+  order: 0,
+  question: "",
+  answer: "",
 });
 
 if (props.pageType == "organization") {
@@ -84,14 +83,14 @@ if (props.pageType == "organization") {
 async function handleSubmit() {
   let updateResponse = false;
   if (props.pageType === "organization") {
-    updateResponse = await organizationStore.updateFaqEntry(
+    updateResponse = await organizationStore.createFaqEntry(
       organization,
       formData.value
     );
   } else if (props.pageType === "group") {
-    updateResponse = await groupStore.updateFaqEntry(group, formData.value);
+    updateResponse = await groupStore.createFaqEntry(group, formData.value);
   } else if (props.pageType === "event") {
-    updateResponse = await eventStore.updateFaqEntry(event, formData.value);
+    updateResponse = await eventStore.createFaqEntry(event, formData.value);
   }
 
   if (updateResponse) {

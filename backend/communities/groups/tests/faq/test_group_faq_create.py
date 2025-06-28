@@ -1,17 +1,15 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Test cases for the organization social link methods.
+Test cases for the group social link methods.
 """
 
-from uuid import uuid4
-
 import pytest
-from django.test import Client
+from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
-from communities.organizations.factories import (
-    OrganizationFactory,
-    OrganizationFaqFactory,
+from communities.groups.factories import (
+    GroupFactory,
+    GroupFaqFactory,
 )
 
 pytestmark = pytest.mark.django_db
@@ -19,9 +17,9 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_org_faq_update(client: Client) -> None:
+def test_group_faq_create() -> None:
     """
-    Test Organization FAQ updates.
+    Test Group FAQ updates.
 
     Parameters
     ----------
@@ -33,6 +31,7 @@ def test_org_faq_update(client: Client) -> None:
     None
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
+    client = APIClient()
     test_username = "test_user"
     test_password = "test_password"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -41,18 +40,16 @@ def test_org_faq_update(client: Client) -> None:
     user.is_staff = True
     user.save()
 
-    org = OrganizationFactory()
-    org.created_by = user
+    group = GroupFactory(created_by=user)
 
-    faqs = OrganizationFaqFactory()
-    test_id = faqs.id
+    faqs = GroupFaqFactory()
     test_question = faqs.question
     test_answer = faqs.answer
     test_order = faqs.order
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in",
+        path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_password},
     )
 
@@ -63,38 +60,41 @@ def test_org_faq_update(client: Client) -> None:
     login_body = login_response.json()
     token = login_body["token"]
 
-    response = client.put(
-        path=f"/v1/communities/organization_faqs/{test_id}/",
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    response = client.post(
+        path="/v1/communities/group_faqs/",
         data={
-            "id": test_id,
             "iso": "en",
             "primary": True,
             "question": test_question,
             "answer": test_answer,
             "order": test_order,
+            "groupId": group.id,
         },
-        headers={"Authorization": f"Token {token}"},
-        content_type="application/json",
+        format="json",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 201
+
+    # MARK: Update Success with Group ID
+
+    # TODO: Test that should be added:
+    # * Test with user that is not a the creator of the group. -> 403
+    # assert response == 403
+    # Test unauthenticated user
+    # assert response == 401
 
     # MARK: Update Failure
 
-    bad_uuid = uuid4()
-    response = client.put(
-        path=f"/v1/communities/organization_faqs/{bad_uuid}",
+    response = client.post(
+        path="/v1/communities/group_faqs/",
         data={
-            "id": test_id,
-            "question": test_question,
-            "answer": test_answer,
+            "question": "",
+            "answer": "",
             "order": test_order,
+            "groupId": group.id,
         },
-        headers={"Authorization": f"Token {token}"},
-        content_type="application/json",
+        format="json",
     )
 
-    assert response.status_code == 404
-
-    response_body = response.json()
-    assert response_body["error"] == "FAQ not found"
+    assert response.status_code == 400
