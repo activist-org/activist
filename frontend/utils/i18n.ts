@@ -11,6 +11,7 @@ type LocaleFile = Record<string, string>;
 
 const localeFiles: Record<LOCALE_CODE, LocaleFile> = {
   [LOCALE_CODE.ENGLISH]: enUS,
+  [LOCALE_CODE.ARABIC]: fr,
   [LOCALE_CODE.GERMAN]: de,
   [LOCALE_CODE.SPANISH]: es,
   [LOCALE_CODE.FRENCH]: fr,
