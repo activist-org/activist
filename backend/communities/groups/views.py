@@ -5,7 +5,8 @@ API views for group management.
 """
 
 import json
-from typing import List, Type, Tuple, Sequence, cast
+from collections.abc import Sequence
+from typing import List, Tuple, Type, cast
 from uuid import UUID
 
 from django.db import transaction
@@ -17,15 +18,13 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     SAFE_METHODS,
+    BasePermission,
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
-    _SupportsHasPermission
+    _SupportsHasPermission,
 )
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.permissions import BasePermission
-
-from collections.abc import Sequence
 
 from communities.groups.models import (
     Group,

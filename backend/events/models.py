@@ -3,8 +3,8 @@
 Models for the events app.
 """
 
-from uuid import uuid4
 from typing import Any
+from uuid import uuid4
 
 from django.db import models
 

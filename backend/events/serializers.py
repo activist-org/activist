@@ -3,8 +3,8 @@
 Serializers for the events app.
 """
 
-from typing import Any, Dict, Union
 from datetime import datetime
+from typing import Any, Dict, Union
 
 from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
