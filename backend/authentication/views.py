@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+# ruff: noqa: I001
 """
 API views for authentication management.
 """
@@ -18,7 +19,8 @@ from drf_spectacular.utils import (
     OpenApiResponse,
     extend_schema,
 )
-from drf_spectacular.utils import OpenApiTypes as OpenApiTypes # type: ignore[attr-defined] 
+from drf_spectacular.utils import OpenApiTypes  # type: ignore[attr-defined]
+
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
