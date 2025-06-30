@@ -16,9 +16,9 @@ from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiParameter,
     OpenApiResponse,
-    OpenApiTypes,  # type: ignore[attr-defined]
     extend_schema,
 )
+from drf_spectacular.utils import OpenApiTypes as OpenApiTypes # type: ignore[attr-defined] 
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
