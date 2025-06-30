@@ -5,7 +5,6 @@ API views for group management.
 """
 
 import json
-from collections.abc import Sequence
 from typing import List, Tuple, Type, cast
 from uuid import UUID
 
@@ -21,7 +20,6 @@ from rest_framework.permissions import (
     BasePermission,
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
-    _SupportsHasPermission,
 )
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -57,8 +55,7 @@ class GroupAPIView(GenericAPIView[Group]):
    
 
 
-    # def get_permissions(self) -> List[BasePermission]:
-    def get_permissions(self) -> Sequence[_SupportsHasPermission]:
+    def get_permissions(self) -> List[BasePermission]:
         """
         Instantiates and returns the list of permissions that this view requires.
         """
