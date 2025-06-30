@@ -201,7 +201,6 @@
   "i18n.components.footer.flex._global.activist_tagline": "Ein open-Source-Plattform für Aktivismus.",
   "i18n.components.footer.flex._global.copyright": "Lizenz: AGPL-3.0; CC BY-SA 4.0.",
   "i18n.components.footer.flex._global.powered_by_netlify": "Diese Website wird von Netlify betrieben.",
-  "i18n.components.form_radio_group.custom_numeric_value_placeholder": "Nummer eingeben",
   "i18n.components.friendly_captcha.captcha_disabled": "Captcha im Entwicklungsmodus deaktiviert",
   "i18n.components.friendly_captcha.captcha_disabled_aria_label": "Derzeit im Entwicklungsmodus, daher ist das Captcha deaktiviert",
   "i18n.components.grid_app_shields.app_store": "App Store",

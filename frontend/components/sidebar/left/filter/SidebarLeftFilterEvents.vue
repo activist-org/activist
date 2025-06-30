@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex w-full flex-col items-center">
-    <FormViewSelector
-      v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+    <FormSelectorRadio
+      v-if="!sidebar.collapsed || !sidebar.collapsedSwitch"
       @update:modelValue="updateViewType"
       :model-value="viewType"
       :options="options"

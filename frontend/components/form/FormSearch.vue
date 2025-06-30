@@ -28,6 +28,7 @@ import { IconMap } from "~/types/icon-map";
 export interface Props {
   placeholder?: string;
   modelValue?: [string, number];
+  id?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -36,5 +37,5 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(["update:modelValue"]);
 const { updateValue } = useFormInput(props, emit, true);
-const uuid = uuidv4();
+const uuid = props.id ?? uuidv4();
 </script>
