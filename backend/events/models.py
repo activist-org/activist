@@ -3,6 +3,7 @@
 Models for the events app.
 """
 
+from typing import Any
 from uuid import uuid4
 
 from django.db import models
@@ -28,6 +29,7 @@ class Event(models.Model):
         "communities.Organization", related_name="events", on_delete=models.CASCADE
     )
     name = models.CharField(max_length=255)
+    
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
@@ -61,7 +63,11 @@ class Event(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
-    flags = models.ManyToManyField("authentication.UserModel", through="EventFlag")
+    
+    # Explicit type annotation required for mypy compatibily with django-stubs
+    flags: Any = models.ManyToManyField(
+        "authentication.UserModel", 
+        through="EventFlag")
 
     def __str__(self) -> str:
         return self.name

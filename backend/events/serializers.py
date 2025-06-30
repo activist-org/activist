@@ -3,6 +3,7 @@
 Serializers for the events app.
 """
 
+from datetime import datetime
 from typing import Any, Dict, Union
 
 from django.utils.dateparse import parse_datetime
@@ -150,11 +151,13 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             start_dt = parse_datetime(start) if isinstance(start, str) else start
             end_dt = parse_datetime(end) if isinstance(end, str) else end
 
-            if end_dt and start_dt > end_dt:
-                raise serializers.ValidationError(
-                    _("The start time cannot be after the end time."),
-                    code="invalid_time_order",
-                )
+            
+            if isinstance(start_dt, datetime) and isinstance(end_dt, datetime):
+                if start_dt > end_dt:
+                    raise serializers.ValidationError(
+                        _("The start time cannot be after the end time."),
+                        code="invalid_time_order",
+                    )
 
         creation_date = data.get("creation_date")
         deletion_date = data.get("deletion_date")
@@ -172,11 +175,13 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 else deletion_date
             )
 
-            if deletion_dt and creation_dt > deletion_dt:
-                raise serializers.ValidationError(
-                    _("The creation date cannot be after the deletion date."),
-                    code="invalid_date_order",
-                )
+            if isinstance(creation_dt, datetime) and isinstance(deletion_dt, datetime):
+                if creation_dt > deletion_dt:
+                    raise serializers.ValidationError(
+                        _("The creation date cannot be after the deletion date."),
+                        code="invalid_date_order",
+            )
+
 
         terms_checked = data.get("terms_checked")
 
