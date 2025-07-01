@@ -29,7 +29,6 @@ class Event(models.Model):
         "communities.Organization", related_name="events", on_delete=models.CASCADE
     )
     name = models.CharField(max_length=255)
-
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.CASCADE, blank=True, null=True

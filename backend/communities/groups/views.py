@@ -307,7 +307,7 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                 social_links: List[GroupSocialLink] = []
                 for link_data in data:
                     if isinstance(link_data, dict):
-                        if not all(k in link_data for k in ("link", "label")):
+                        if any(k not in link_data for k in ("link", "label")):
                             raise ValueError(
                                 "Each social link must have 'link' and 'label'."
                             )
