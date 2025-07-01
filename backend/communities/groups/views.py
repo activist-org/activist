@@ -52,8 +52,6 @@ class GroupAPIView(GenericAPIView[Group]):
     pagination_class = CustomPagination
     authentication_classes = (TokenAuthentication,)
     permission_classes: Tuple[Type[BasePermission], ...] = (IsAuthenticatedOrReadOnly,)
-   
-
 
     def get_permissions(self) -> List[BasePermission]:
         """
@@ -360,13 +358,13 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-
                 faq_id = cast(UUID | str, data.get("id"))
                 faq = GroupFaq.objects.filter(id=faq_id).first()
                 if not faq:
                     return Response(
                         {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
                     )
+
                 faq.question = data.get("question", faq.question)
                 faq.answer = data.get("answer", faq.answer)
                 faq.save()

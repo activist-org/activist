@@ -50,7 +50,7 @@ class Group(models.Model):
     events = models.ManyToManyField("events.Event", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
 
-    # Explicit type annotation required for mypy compatibily with django-stubs
+    # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField("authentication.UserModel", through="GroupFlag")
 
     def __str__(self) -> str:

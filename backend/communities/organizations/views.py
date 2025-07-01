@@ -416,14 +416,13 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-
                 faq_id = cast(UUID | str, data.get("id"))
                 faq = OrganizationFaq.objects.filter(id=faq_id).first()
-                # faq = OrganizationFaq.objects.filter(id=data.get("id")).first()
                 if not faq:
                     return Response(
                         {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
                     )
+
                 faq.question = data.get("question", faq.question)
                 faq.answer = data.get("answer", faq.answer)
                 faq.save()

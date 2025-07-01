@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# ruff: noqa: I001
 """
 API views for authentication management.
 """
@@ -13,14 +12,13 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiParameter,
     OpenApiResponse,
     extend_schema,
 )
-from drf_spectacular.utils import OpenApiTypes  # type: ignore[attr-defined]
-
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -240,7 +238,7 @@ class UserFlagViewSets(viewsets.ModelViewSet[UserFlag]):
     serializer_class = UserFlagSerializers
     http_method_names = ["get", "post", "delete"]
 
-    def create(self, request: Request) -> Response:      
+    def create(self, request: Request) -> Response:
         if request.user.is_authenticated:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
