@@ -1,51 +1,90 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <form @submit.prevent="signUp" @enter="signUp" class="space-y-4">
-      <div class="col">
+    <Form
+      @submit="signUp"
+      id="sign-up"
+      :schema="signUpSchema"
+      class="space-y-4"
+    >
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage }"
+        name="userName"
+      >
         <FormTextInput
-          @input="userName = $event.target.value"
-          id="sign-up-username"
-          :value="userName"
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth._global.enter_a_user_name')"
           :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
         />
-      </div>
-      <div>
+      </FormItem>
+
+      <FormItem
+        v-slot="{
+          id,
+          value: passwordRef,
+          handleChange,
+          handleBlur,
+          errorMessage,
+        }"
+        name="password"
+      >
+        <div class="flex flex-col space-y-4">
+          <FormTextInputPassword
+            @input="handleChange"
+            @blur="handleBlur"
+            :id="id"
+            :hasError="!!errorMessage.value"
+            :label="$t('i18n._global.enter_password')"
+          />
+          <IndicatorPasswordStrength
+            id="sign-in-password-strength"
+            :passwordValue="passwordRef as Ref"
+          />
+          <TooltipPasswordRequirements
+            v-if="
+              checkRules((passwordRef.value || '') as string).some(
+                (rule) => !rule.isValid
+              )
+            "
+            :password="passwordRef as Ref"
+          />
+        </div>
+      </FormItem>
+
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage }"
+        name="confirmPassword"
+      >
         <FormTextInputPassword
-          @input="handlePasswordInput"
-          @blur="isPasswordFocused = false"
-          @focus="isPasswordFocused = true"
-          id="sign-up-password"
-          :value="password"
-          :label="$t('i18n._global.enter_password')"
-          :hasError="showPasswordError.border"
-        />
-      </div>
-      <IndicatorPasswordStrength :password-value="password" />
-      <TooltipPasswordRequirements
-        v-if="showPasswordError.tooltip"
-        :rules="rules"
-      />
-      <div>
-        <FormTextInputPassword
-          @input="confirmPassword = $event.target.value"
-          id="sign-up-confirm-password"
-          :value="confirmPassword"
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :hasError="!!errorMessage.value"
           :label="$t('i18n._global.repeat_password')"
         >
           <template #icons>
             <span>
               <Icon
-                :name="doPasswordsMatch ? IconMap.CHECK : IconMap.X_LG"
+                :name="
+                  errorMessage.value === 'The passwords did not match'
+                    ? IconMap.CHECK
+                    : IconMap.X_LG
+                "
                 size="1.2em"
-                :color="doPasswordsMatch ? '#3BA55C' : '#BA3D3B'"
+                :color="
+                  errorMessage.value === 'The passwords did not match'
+                    ? '#3BA55C'
+                    : '#BA3D3B'
+                "
                 aria-hidden="false"
                 aria-labelledby="sign-up-confirm-password-match"
               />
               <title id="sign-up-confirm-password-match" class="sr-only">
                 {{
-                  doPasswordsMatch
+                  errorMessage.value === "The passwords did not match"
                     ? $t("i18n.pages.auth._global.passwords_match")
                     : $t("i18n.pages.auth._global.passwords_do_not_match")
                 }}
@@ -53,15 +92,12 @@
             </span>
           </template>
         </FormTextInputPassword>
-      </div>
-      <div class="flex flex-col space-y-3">
+      </FormItem>
+
+      <FormItem v-slot="{ id, handleChange, handleBlur }" name="hasRead">
         <FriendlyCaptcha />
         <div class="flex flex-row items-center">
-          <FormCheckbox
-            @update:modelValue="hasRed = $event"
-            :modelValue="hasRed"
-            value="yes"
-          />
+          <FormCheckbox @input="handleChange" @blur="handleBlur" :id="id" />
           <p class="flex flex-wrap pl-2">
             {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
             <NuxtLink
@@ -73,59 +109,56 @@
             </NuxtLink>
           </p>
         </div>
-        <BtnAction
-          class="flex max-h-[48px] w-[116px] items-center justify-center truncate md:max-h-[40px] md:w-[96px]"
-          label="i18n._global.sign_up"
-          :cta="true"
-          fontSize="lg"
-          ariaLabel="i18n._global.sign_up_aria_label"
-        />
-      </div>
-      <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
-        <h6>{{ $t("i18n.pages.auth.sign_up.have_account") }}</h6>
-        <NuxtLink
-          :to="localePath('/auth/sign-in')"
-          class="link-text ml-2 font-extrabold"
-        >
-          {{ $t("i18n._global.sign_in") }}
-        </NuxtLink>
-      </div>
-    </form>
+      </FormItem>
+    </Form>
+
+    <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
+      <h6>{{ $t("i18n.pages.auth.sign_up.have_account") }}</h6>
+      <NuxtLink
+        :to="localePath('/auth/sign-in')"
+        class="link-text ml-2 font-extrabold"
+      >
+        {{ $t("i18n._global.sign_in") }}
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { z } from "zod";
+
 import { IconMap } from "~/types/icon-map";
 
 const localePath = useLocalePath();
+const { checkRules } = usePasswordRules();
 
-const userName = ref("");
-const password = ref("");
-const confirmPassword = ref("");
-const hasRed = ref(false);
-const isPasswordFocused = ref(false);
+const signUpSchema = z
+  .object({
+    userName: z.string().min(1, "i18n._global.required"),
+    password: z.string().min(12, "i18n._global.required"),
+    confirmPassword: z.string().min(12, "i18n._global.required"),
+    hasRead: z.boolean().refine((val) => val, {
+      message: "i18n._global.required",
+    }),
+  })
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "The passwords did not match",
+        path: ["confirmPassword"],
+      });
+    }
+    if (password && checkRules(password).some((rule) => !rule.isValid)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "A password rule is not correct",
+        path: ["password"],
+      });
+    }
+  });
 
-const { rules, isAllRulesValid, checkRules, isPasswordMatch } =
-  usePasswordRules();
-
-const doPasswordsMatch = computed<boolean>(() =>
-  isPasswordMatch(password.value, confirmPassword.value)
-);
-
-const showPasswordError = computed<{ border: boolean; tooltip: boolean }>(
-  () => {
-    const error = password.value.length > 0 && !isAllRulesValid.value;
-    return {
-      border: !isPasswordFocused.value && error,
-      tooltip: isPasswordFocused.value && error,
-    };
-  }
-);
-
-const handlePasswordInput = (event: Event & { target: HTMLInputElement }) => {
-  password.value = event.target.value;
-  checkRules(event);
+const signUp = () => {
+  // your sign up logic
 };
-
-const signUp = () => {};
 </script>
