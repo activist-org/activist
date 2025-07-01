@@ -221,6 +221,7 @@
   "i18n.components.friendly_captcha.captcha_disabled": "Captcha disabled in dev mode",
   "i18n.components.friendly_captcha.captcha_disabled_aria_label": "Currently in development mode, so the captcha is disabled",
   "i18n.components.grid_app_shields.app_store": "App Store",
+  "i18n._global.required": "Required",
   "i18n.components.grid_app_shields.download_on_the": "Download on the",
   "i18n.components.grid_app_shields.f_droid": "F-Droid",
   "i18n.components.grid_app_shields.get_it_on": "Get it on",

@@ -34,13 +34,15 @@
 <script setup lang="ts">
 import zxcvbn from "zxcvbn";
 
-const props = defineProps<{ passwordValue?: string }>();
+const props = defineProps<{
+  passwordValue?: string | Ref<string | undefined>;
+}>();
 
 const width = computed(() => (score.value + 1) * 20);
 const color = computed(() => passwordStrengthMap[score.value].color);
 const text = computed(() => passwordStrengthMap[score.value].text);
 const password = computed(() => unref(props.passwordValue));
-console.log(password);
+
 const passwordStrengthMap: Record<number, { color: string; text: string }> = {
   0: {
     color: "bg-password-strength-very-weak",

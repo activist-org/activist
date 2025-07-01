@@ -34,7 +34,7 @@
           />
           <IndicatorPasswordStrength
             id="sign-in-password-strength"
-            :passwordValue="value"
+            :passwordValue="value as Ref"
           />
         </div>
       </FormItem>
@@ -76,12 +76,8 @@
 import { z } from "zod";
 
 const signInSchema = z.object({
-  userName: z
-    .string()
-    .min(1, "i18n.pages.auth.sign_in.validation.user_name_required"),
-  password: z
-    .string()
-    .min(1, "i18n.pages.auth.sign_in.validation.password_required"),
+  userName: z.string().min(1, "i18n._global.required"),
+  password: z.string().min(1, "i18n._global.required"),
 });
 const localePath = useLocalePath();
 
