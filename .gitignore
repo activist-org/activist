@@ -72,9 +72,3 @@ backend/media/images/*
 
 # ZAP Security Reports
 zap-reports/
-
-# Playwright
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
