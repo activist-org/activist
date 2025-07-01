@@ -6,6 +6,7 @@
       id="sign-in"
       class="space-y-4"
       :schema="signInSchema"
+      submit-label="i18n._global.sign_in"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage }"
@@ -57,17 +58,17 @@
           :text="$t('i18n.pages.auth.sign_in.forgot_password_captcha_tooltip')"
         />
       </div>
-      <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">
-        <h6>{{ $t("i18n.pages.auth.sign_in.index.no_account") }}</h6>
-        <NuxtLink
-          id="sign-in-signup-link"
-          :to="localePath('/auth/sign-up')"
-          class="link-text ml-2 font-extrabold"
-        >
-          {{ $t("i18n._global.sign_up") }}
-        </NuxtLink>
-      </div>
     </Form>
+    <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">
+      <h6>{{ $t("i18n.pages.auth.sign_in.index.no_account") }}</h6>
+      <NuxtLink
+        id="sign-in-signup-link"
+        :to="localePath('/auth/sign-up')"
+        class="link-text ml-2 font-extrabold"
+      >
+        {{ $t("i18n._global.sign_up") }}
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
