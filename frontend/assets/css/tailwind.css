@@ -107,6 +107,10 @@
     @apply shadow-lg shadow-zinc-700;
   }
 
+  .error-text {
+    @apply text-action-red;
+  }
+
   .focus-brand {
     @apply rounded-sm focus:outline-none focus-visible:border-link-text focus-visible:ring-2 focus-visible:ring-link-text;
   }

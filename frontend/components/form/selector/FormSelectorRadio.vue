@@ -3,7 +3,7 @@
   <RadioGroup
     v-model="value"
     class="flex h-10 w-full px-1"
-    :aria-label="$t('i18n.components.form_view_selector.title_aria_label')"
+    :aria-label="$t('i18n.components.form_selector_radio.title_aria_label')"
   >
     <RadioGroupOption
       v-for="(option, idx) in options"
@@ -17,7 +17,7 @@
         class="flex-1 rounded-none"
         :class="{
           'style-menu-option-cta': checked,
-          'style-menu-option bg-layer-0': !checked,
+          'style-menu-option bg-layer-2': !checked,
           'rounded-l-lg': idx === 0,
           'rounded-r-lg': idx === options.length - 1,
         }"
