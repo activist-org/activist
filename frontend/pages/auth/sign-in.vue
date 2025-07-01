@@ -78,8 +78,8 @@ import { z } from "zod";
 const { t } = useI18n();
 
 const signInSchema = z.object({
-  userName: z.string().min(1, "i18n._global.required"),
-  password: z.string().min(1, "i18n._global.required"),
+  userName: z.string().min(1, t("i18n._global.required")),
+  password: z.string().min(1, t("i18n._global.required")),
 });
 const localePath = useLocalePath();
 
