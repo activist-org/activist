@@ -38,7 +38,6 @@ django==5.2.3
     #   djangorestframework
     #   drf-spectacular
 django-cors-headers==4.7.0
-    # via -r /Users/andrewtavis/coding/activist-org/activist/backend/requirements.txt
 django-stubs==5.2.1
     # via
     #   djangorestframework-stubs
@@ -49,11 +48,8 @@ djangorestframework==3.16.0
     # via
     #   drf-spectacular
 djangorestframework-camel-case==1.4.2
-    # via -r /Users/andrewtavis/coding/activist-org/activist/backend/requirements.txt
 djangorestframework-stubs==3.16.0
-    # via -r /Users/andrewtavis/coding/activist-org/activist/backend/requirements.txt
 drf-spectacular==0.28.0
-    # via -r /Users/andrewtavis/coding/activist-org/activist/backend/requirements.txt
 factory-boy==3.3.3
     # via -r backend/requirements-dev.in
 faker==37.4.0
@@ -61,7 +57,6 @@ faker==37.4.0
 filelock==3.18.0
     # via virtualenv
 gunicorn==23.0.0
-    # via -r /Users/andrewtavis/coding/activist-org/activist/backend/requirements.txt
 i18n-check==1.4.1
     # via -r backend/requirements-dev.in
 identify==2.6.12
@@ -95,7 +90,6 @@ packaging==25.0
 pathspec==0.12.1
     # via mypy
 pillow==11.3.0
-    # via -r /Users/andrewtavis/coding/activist-org/activist/backend/requirements.txt
 pip-tools==7.4.1
     # via -r backend/requirements-dev.in
 platformdirs==4.3.8
@@ -107,7 +101,6 @@ pluggy==1.6.0
 pre-commit==4.2.0
     # via -r backend/requirements-dev.in
 psycopg2-binary==2.9.10
-    # via -r /Users/andrewtavis/coding/activist-org/activist/backend/requirements.txt
 pygments==2.19.2
     # via pytest
 pyproject-hooks==1.2.0
@@ -124,7 +117,6 @@ pytest-cov==6.2.1
 pytest-django==4.11.1
     # via -r backend/requirements-dev.in
 python-dotenv==1.1.0
-    # via -r /Users/andrewtavis/coding/activist-org/activist/backend/requirements.txt
 pyyaml==6.0.2
     # via
     #   drf-spectacular
