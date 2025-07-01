@@ -9,7 +9,7 @@
         <BtnAction
           :id="submitId"
           class="flex items-center justify-center"
-          label="i18n.components.submit"
+          :label="labelForSubmit"
           :cta="true"
           fontSize="lg"
           ariaLabel="i18n.components.submit_aria_label"
@@ -30,7 +30,10 @@ const props = defineProps<{
   class?: string;
   id?: string;
   classButton?: string;
+  submitLabel?: string;
 }>();
+
+const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
 
 const id = props.id || "form-id";
 const submitId = props.id ? `${props.id}-submit` : "form-submit-id";
